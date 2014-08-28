@@ -12,12 +12,12 @@ module.exports = class SpriteBoss extends CocoClass
   subscriptions:
     'bus:player-joined': 'onPlayerJoined'
     'bus:player-left': 'onPlayerLeft'
-    'level-set-debug': 'onSetDebug'
-    'level-highlight-sprites': 'onHighlightSprites'
+    'level:set-debug': 'onSetDebug'
+    'sprite:highlight-sprites': 'onHighlightSprites'
     'surface:stage-mouse-down': 'onStageMouseDown'
-    'level-select-sprite': 'onSelectSprite'
-    'level-suppress-selection-sounds': 'onSuppressSelectionSounds'
-    'level-lock-select': 'onSetLockSelect'
+    'level:select-sprite': 'onSelectSprite'
+    'level:suppress-selection-sounds': 'onSuppressSelectionSounds'
+    'level:lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
@@ -198,7 +198,7 @@ module.exports = class SpriteBoss extends CocoClass
         sprite.setThang thang  # make sure Sprite has latest Thang
       else
         sprite = @addThangToSprites(thang)
-        Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
+        Backbone.Mediator.publish 'surface:new-thang-added', thang: thang, sprite: sprite
         updateCache = updateCache or sprite.imageObject.parent is @spriteLayers['Obstacle']
         sprite.playSounds()
     item.modifyStats() for item in itemsJustEquipped
@@ -224,7 +224,7 @@ module.exports = class SpriteBoss extends CocoClass
       for slot, itemID of thang.inventoryIDs
         item = @world.getThangByID itemID
         unless item.equipped
-          #console.log thang.id, 'equipping', item, 'in', thang.slot, 'Surface-side'
+          console.log thang.id, 'equipping', item, 'in', thang.slot, 'Surface-side, but it cannot equip?' unless item.equip
           item.equip()
           itemsJustEquipped.push item
     return itemsJustEquipped
@@ -297,7 +297,7 @@ module.exports = class SpriteBoss extends CocoClass
   selectSprite: (e, sprite=null, spellName=null, treemaThangSelected = null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
-    worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
+    worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e?.originalEvent
     if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected) and e?.originalEvent?.nativeEvent?.which isnt 3
       @camera.zoomTo(sprite?.imageObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     sprite = null if @options.choosing  # Don't select sprites while choosing
@@ -319,9 +319,9 @@ module.exports = class SpriteBoss extends CocoClass
     if alive and not @suppressSelectionSounds
       instance = sprite.playSound 'selected'
       if instance?.playState is 'playSucceeded'
-        Backbone.Mediator.publish 'thang-began-talking', thang: sprite?.thang
+        Backbone.Mediator.publish 'sprite:thang-began-talking', thang: sprite?.thang
         instance.addEventListener 'complete', ->
-          Backbone.Mediator.publish 'thang-finished-talking', thang: sprite?.thang
+          Backbone.Mediator.publish 'sprite:thang-finished-talking', thang: sprite?.thang
 
   onFlagColorSelected: (e) ->
     @removeSprite @flagCursorSprite if @flagCursorSprite

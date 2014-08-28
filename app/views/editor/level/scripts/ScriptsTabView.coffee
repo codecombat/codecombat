@@ -11,7 +11,8 @@ module.exports = class ScriptsTabView extends CocoView
   className: 'tab-pane'
 
   subscriptions:
-    'level-loaded': 'onLevelLoaded'
+    'editor:level-loaded': 'onLevelLoaded'
+    'editor:thangs-edited': 'onThangsEdited'
 
   constructor: (options) ->
     super options
@@ -53,7 +54,7 @@ module.exports = class ScriptsTabView extends CocoView
       @selectedScriptPath = null
       return
 
-    thangIDs = @getThangIDs()
+    @thangIDs = @getThangIDs()
     treemaOptions =
       world: @world
       filePath: "db/level/#{@level.get('original')}"
@@ -61,7 +62,7 @@ module.exports = class ScriptsTabView extends CocoView
       view: @
       schema: Level.schema.properties.scripts.items
       data: selected.data
-      thangIDs: thangIDs
+      thangIDs: @thangIDs
       dimensions: @dimensions
       supermodel: @supermodel
       readOnly: me.get('anonymous')
@@ -88,7 +89,11 @@ module.exports = class ScriptsTabView extends CocoView
     @selectedScriptPath = newPath
 
   getThangIDs: ->
+<<<<<<< HEAD
     (t.id for t in @level.get('thangs') ? [] when t.id isnt 'Interface')
+=======
+    (t.id for t in @level.get('thangs'))
+>>>>>>> master
 
   onNewScriptAdded: (scriptNode) =>
     return unless scriptNode
@@ -109,6 +114,11 @@ module.exports = class ScriptsTabView extends CocoView
 
   onScriptChanged: =>
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
+
+  onThangsEdited: (e) ->
+    # Update in-place so existing Treema nodes refer to the same array.
+    @thangIDs.splice(0, @thangIDs.length, @getThangIDs()...)
+
 
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'
@@ -133,7 +143,7 @@ class ScriptNode extends TreemaObjectNode
   onDeletePressed: (e) ->
     returnVal = super(e)
     if @callbacks.removeChild
-      @callbacks.removeChild() 
+      @callbacks.removeChild()
     returnVal
 
   onRightArrowPressed: ->
@@ -159,8 +169,13 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
+<<<<<<< HEAD
   buildValueForEditing: (valEl, data) -> 
     super(valEl, data)
+=======
+  buildValueForEditing: (valEl) ->
+    super(valEl)
+>>>>>>> master
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
     autocompleteValues = []

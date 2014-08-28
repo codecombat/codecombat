@@ -21,7 +21,6 @@ module.exports = class ThangTypeEditView extends RootView
   id: 'thang-type-edit-view'
   className: 'editor'
   template: template
-  startsLoading: true
   resolution: 4
   scale: 3
   mockThang:
@@ -45,7 +44,7 @@ module.exports = class ThangTypeEditView extends RootView
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
 
   subscriptions:
-    'save-new-version': 'saveNewThangType'
+    'editor:save-new-version': 'saveNewThangType'
 
   # init / render
 
@@ -57,6 +56,7 @@ module.exports = class ThangTypeEditView extends RootView
     @thangType.saveBackups = true
     @listenToOnce @thangType, 'sync', ->
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
+      @updateFileSize()
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   getRenderData: (context={}) ->
@@ -65,6 +65,7 @@ module.exports = class ThangTypeEditView extends RootView
     context.animations = @getAnimationNames()
     context.authorized = not me.get('anonymous')
     context.recentlyPlayedLevels = storage.load('recently-played-levels') ? ['items']
+    context.fileSizeString = @fileSizeString
     context
 
   getAnimationNames: ->
@@ -198,6 +199,16 @@ module.exports = class ThangTypeEditView extends RootView
     @treema.set('raw', @thangType.get('raw'))
     @updateSelectBox()
     @refreshAnimation()
+    @updateFileSize()
+
+  updateFileSize: ->
+    file = JSON.stringify(@thangType.attributes)
+    compressed = LZString.compress(file)
+    size = (file.length / 1024).toFixed(1) + "KB"
+    compressedSize = (compressed.length / 1024).toFixed(1) + "KB"
+    gzipCompressedSize = compressedSize * 1.65  # just based on comparing ogre barracks
+    @fileSizeString = "Size: #{size} (~#{compressedSize} gzipped)"
+    @$el.find('#thang-type-file-size').text @fileSizeString
 
   # animation select
 
@@ -439,7 +450,7 @@ module.exports = class ThangTypeEditView extends RootView
     level = _.string.slugify level
     if @childWindow and not @childWindow.closed
       # Reset the LevelView's world, but leave the rest of the state alone
-      @childWindow.Backbone.Mediator.publish 'level-reload-thang-type', thangType: @thangType
+      @childWindow.Backbone.Mediator.publish 'level:reload-thang-type', thangType: @thangType
     else
       # Create a new Window with a blank LevelView
       scratchLevelID = level + '?dev=true'

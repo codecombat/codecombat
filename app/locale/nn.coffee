@@ -126,6 +126,8 @@ module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "No
 #    level_difficulty: "Difficulty: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
+#    players: "players"
+#    hours_played: "hours played"
 
 #  contact:
 #    contact_us: "Contact CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "No
 
 #  play_level:
 #    done: "Done"
-#    grid: "Grid"
 #    customize_wizard: "Customize Wizard"
 #    home: "Home"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "No
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
 #  admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "No
 #    unknown: "Unknown error."
 
 #  resources:
+#    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
 #    level: "Level"
 #    social_network_apis: "Social Network APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "No
 #    patched_model: "Source Document"
 #    model: "Model"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "No
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

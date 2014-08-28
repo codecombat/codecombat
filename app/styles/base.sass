@@ -225,6 +225,14 @@ table.table
 .ui-slider-handle
   border: 1px solid black !important
 
+// Override jQuery UI widget images that we don't use
+.ui-widget-content, .ui-widget-header, .ui-widget-overlay, .ui-widget-shadow
+  background-image: none
+
+.ui-widget-content, .ui-state-default, .ui-widget-header
+  .ui-state-default, .ui-state-focus, .ui-state-active, .ui-state-highlight, .ui-state-error
+    background-image: none
+
 // Fonts
 
 .header-font

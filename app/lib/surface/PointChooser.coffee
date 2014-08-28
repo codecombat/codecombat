@@ -24,10 +24,9 @@ module.exports = class PointChooser extends CocoClass
     @shape.layerIndex = 100
 
   onMouseDown: (e) =>
-    console.log 'got stagemousedown', e, key.shift
     return unless key.shift
     @setPoint @options.camera.screenToWorld {x: e.stageX, y: e.stageY}
-    Backbone.Mediator.publish 'choose-point', point: @point
+    Backbone.Mediator.publish 'surface:choose-point', point: @point
 
   updateShape: ->
     sup = @options.camera.worldToSurface @point

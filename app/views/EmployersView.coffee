@@ -1,7 +1,6 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/employers'
 User = require 'models/User'
-UserRemark = require 'models/UserRemark'
 {me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupModal = require 'views/modal/EmployerSignupModal'
@@ -9,10 +8,6 @@ EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
   model: User
-
-class UserRemarksCollection extends CocoCollection
-  url: '/db/user.remark?project=contact,contactName,user'
-  model: UserRemark
 
 module.exports = class EmployersView extends RootView
   id: 'employers-view'
@@ -32,9 +27,12 @@ module.exports = class EmployersView extends RootView
 
   constructor: (options) ->
     super options
-    @getCandidates()
+    @candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
     @setFilterDefaults()
 
+  onLoaded: ->
+    super()
+    @setUpScrolling()
 
   afterRender: ->
     super()
@@ -53,6 +51,7 @@ module.exports = class EmployersView extends RootView
 
   swapFolderIcon: ->
     $('#folder-icon').toggleClass('glyphicon-folder-close').toggleClass('glyphicon-folder-open')
+
   onFilterChanged: ->
     @resetFilters()
     that = @
@@ -75,6 +74,7 @@ module.exports = class EmployersView extends RootView
 
   openSignupModal: ->
     @openModalView new EmployerSignupModal
+
   handleSelectAllChange: (e) ->
     checkedState = e.currentTarget.checked
     $('#filters :input').each ->
@@ -110,6 +110,7 @@ module.exports = class EmployersView extends RootView
 
 
     return filteredCandidates
+
   setFilterDefaults: ->
     @filters =
       phoneScreenFilter: [true, false]
@@ -129,18 +130,19 @@ module.exports = class EmployersView extends RootView
         return (_.filter candidates, (c) -> c.get('jobProfile').curated?[filterName] is filterValue).length
     else
       return Math.floor(Math.random() * 500)
+
   createFilterAlert: ->
     currentFilterSet = _.cloneDeep @filters
     currentSavedFilters = _.cloneDeep me.get('savedEmployerFilterAlerts') ? []
     currentSavedFilters.push currentFilterSet
     @patchEmployerFilterAlerts currentSavedFilters, @renderSavedFilters
-      
+
   deleteFilterAlert: (e) ->
     index = $(e.target).closest('tbody tr').data('filter-index')
     currentSavedFilters = me.get('savedEmployerFilterAlerts')
     currentSavedFilters.splice(index,1)
     @patchEmployerFilterAlerts currentSavedFilters, @renderSavedFilters
-    
+
   patchEmployerFilterAlerts: (newFilters, cb) ->
     me.set('savedEmployerFilterAlerts',newFilters)
     unless me.isValid()
@@ -149,7 +151,7 @@ module.exports = class EmployersView extends RootView
     else
       triggerErrorAlert = -> alert("There was an error saving your filter alert! Please notify team@codecombat.com.")
       res = me.save {"savedEmployerFilterAlerts": newFilters}, {patch: true, success: cb, error: triggerErrorAlert}
-      
+
   renderSavedFilters: =>
     savedFilters = me.get('savedEmployerFilterAlerts')
     unless savedFilters?.length then return $("#saved-filter-table").hide()
@@ -157,8 +159,7 @@ module.exports = class EmployersView extends RootView
     $("#saved-filter-table").find("tbody tr").remove()
     for filter, index in savedFilters
       $("#saved-filter-table tbody").append("""<tr data-filter-index="#{index}"><td>#{@generateFilterAlertDescription(filter)}</td><td class="deletion-col"><a>✗</a></td></tr> """)
-      
-  
+
   generateFilterAlertDescription: (filter) =>
     descriptionString = ""
     for key in _.keys(filter).sort()
@@ -168,7 +169,7 @@ module.exports = class EmployersView extends RootView
       descriptionString += value.join(", ")
     if descriptionString.length is 0 then descriptionString = "Any new candidate"
     return descriptionString
-    
+
   getActiveAndApprovedCandidates: =>
     candidates = _.filter @candidates.models, (c) -> c.get('jobProfile').active
     return _.filter candidates, (c) -> c.get('jobProfileApproved')
@@ -191,8 +192,6 @@ module.exports = class EmployersView extends RootView
       ctx.featuredCandidates = ctx.candidates
     ctx.candidatesInFilter = @candidatesInFilter
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
-    ctx.remarks = {}
-    ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
     ctx.moment = moment
     ctx._ = _
     ctx.numberOfCandidates = ctx.featuredCandidates.length
@@ -202,17 +201,7 @@ module.exports = class EmployersView extends RootView
     userPermissions = me.get('permissions') ? []
     _.contains userPermissions, 'employer'
 
-  getCandidates: ->
-    @candidates = new CandidatesCollection()
-    @candidates.fetch()
-    @remarks = new UserRemarksCollection()
-    @remarks.fetch()
-    # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
-    @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
-    @listenToOnce @remarks, 'all', @renderCandidatesAndSetupScrolling
-
-  renderCandidatesAndSetupScrolling: =>
-    @render()
+  setUpScrolling: =>
     $('.nano').nanoScroller()
     #if window.history?.state?.lastViewedCandidateID
     #  $('.nano').nanoScroller({scrollTo: $('#' + window.history.state.lastViewedCandidateID)})
@@ -340,9 +329,11 @@ module.exports = class EmployersView extends RootView
           8:
             '✓': filterSelectExactMatch
             '✗': filterSelectExactMatch
+
   logoutAccount: ->
     window.location.hash = ''
     super()
+
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
     if id and (@isEmployer() or me.isAdmin())

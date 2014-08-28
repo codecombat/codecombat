@@ -8,7 +8,6 @@ PatchesView = require 'views/editor/PatchesView'
 module.exports = class ArticleEditView extends RootView
   id: 'editor-article-edit-view'
   template: template
-  startsLoading: true
 
   events:
     'click #preview-button': 'openPreview'
@@ -16,34 +15,23 @@ module.exports = class ArticleEditView extends RootView
     'click #save-button': 'openSaveModal'
 
   subscriptions:
-    'save-new-version': 'saveNewArticle'
+    'editor:save-new-version': 'saveNewArticle'
 
   constructor: (options, @articleID) ->
     super options
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
-
-    @listenToOnce(@article, 'error',
-      () =>
-        @hideLoading()
-
-        # Hack: editor components appear after calling insertSubView.
-        # So we need to hide them first.
-        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
-
-        @insertSubView(new ErrorView())
-    )
-
-    @article.fetch()
-    @listenToOnce(@article, 'sync', @buildTreema)
+    @supermodel.loadModel @article, 'article'
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
-    
+
+  onLoaded: ->
+    super()
+    @buildTreema()
+
   buildTreema: ->
     return if @treema? or (not @article.loaded)
     unless @article.attributes.body
       @article.set('body', '')
-    @startsLoading = false
-    @render()
     data = $.extend(true, {}, @article.attributes)
     options =
       data: data
@@ -53,7 +41,6 @@ module.exports = class ArticleEditView extends RootView
       callbacks:
         change: @pushChangesToPreview
     @treema = @$el.find('#article-treema').treema(options)
-
     @treema.build()
 
   pushChangesToPreview: =>
@@ -73,7 +60,7 @@ module.exports = class ArticleEditView extends RootView
 
   afterRender: ->
     super()
-    return if @startsLoading
+    return unless @supermodel.finished()
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@article), @$el.find('.patches-view'))
     @patchesView.load()
@@ -111,4 +98,4 @@ module.exports = class ArticleEditView extends RootView
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView article: @article, @articleID
     @openModalView versionHistoryView
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}

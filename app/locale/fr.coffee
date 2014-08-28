@@ -126,6 +126,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_difficulty: "Difficulté: "
     play_as: "Jouer comme "
     spectate: "Spectateur"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Contacter CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play_level:
     done: "Fait"
-    grid: "Grille"
     customize_wizard: "Personnaliser le magicien"
     home: "Accueil"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     unknown: "Erreur inconnue."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "vos Sessions"
     level: "Niveau"
 #    social_network_apis: "Social Network APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    patched_model: "Source Document"
 #    model: "Model"
     system: "Système"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     source_document: "Document Source"
     document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
   delta:
     added: "Ajouté"

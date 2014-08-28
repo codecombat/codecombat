@@ -179,7 +179,7 @@ module.exports = class CocoView extends Backbone.View
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
-    Backbone.Mediator.publish 'modal-opened', {}
+    Backbone.Mediator.publish 'modal:opened', {}
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
@@ -193,7 +193,7 @@ module.exports = class CocoView extends Backbone.View
       @openModalView(wm)
     else
       @getRootView().listenToShortcuts(true)
-      Backbone.Mediator.publish 'modal-closed', {}
+      Backbone.Mediator.publish 'modal:closed', {}
 
   # Loading RootViews
 
@@ -268,7 +268,7 @@ module.exports = class CocoView extends Backbone.View
     view.parentKey = key
     @subviews[key] = view
     view
-    
+
   makeSubViewKey: (view) ->
     key = view.id or (view.constructor.name+classCount++)
     key = _.string.underscored(key)  # handy for autocomplete in dev console

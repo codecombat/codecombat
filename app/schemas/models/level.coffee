@@ -65,7 +65,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
 
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
-  channel: c.shortString(title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level-set-playing".')
+  channel: c.shortString(title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level:set-playing".')
   event: {type: 'object', title: 'Event', description: 'Event that will be broadcast when this button is pressed, like {playing: true}.'}
   buttonClass: c.shortString(title: 'Button Class', description: 'CSS class that will be added to the button, like "btn-primary".')
   i18n: {type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this button'}
@@ -108,10 +108,6 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
       sides: c.array {title: 'Sides', description: 'Which sides of the target element to point at.'}, {type: 'string', 'enum': ['left', 'right', 'top', 'bottom'], title: 'Side', description: 'A side of the target element to point at.'}
     lock: {title: 'Lock', description: 'Whether the interface should be locked so that the player\'s focus is on the script, or specific areas to lock.', type: ['boolean', 'array'], items: {type: 'string', enum: ['surface', 'editor', 'palette', 'hud', 'playback', 'playback-hover', 'level']}}
     letterbox: {type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.'}
-
-  goals: c.object {title: 'Goals (Old)', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'},
-    add: c.array {title: 'Add', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'}, {}
-    remove: c.array {title: 'Remove', description: 'Deprecated. Goals removed here have no effect. Adjust goals in the level settings instead.'}, {}
 
   playback: c.object {title: 'Playback', description: 'Control the playback of the level.'},
     playing: {type: 'boolean', title: 'Set Playing', description: 'Set whether playback is playing or paused.'}

@@ -1,30 +1,29 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/admin/clas'
+CocoCollection = require 'collections/CocoCollection'
+CocoModel = require 'models/CocoModel'
+
+class CLASubmission extends CocoModel
+  @className: 'CLA'
+  @schema: require 'schemas/models/cla_submission'
+  urlRoot: '/db/cla.submission'
+
+class CLACollection extends CocoCollection
+  url: '/db/cla.submissions'
+  model: CLASubmission
 
 module.exports = class CLAsView extends RootView
   id: 'admin-clas-view'
   template: template
-  startsLoading: true
 
   constructor: (options) ->
     super options
-    @getCLAs()
-
-  getCLAs: ->
-    CLACollection = Backbone.Collection.extend({
-      url: '/db/cla.submissions'
-    })
-    @clas = new CLACollection()
-    @clas.fetch()
-    @listenTo(@clas, 'sync', @onCLAsLoaded)
-
-  onCLAsLoaded: ->
-    @startsLoading = false
-    @render()
+    @clas = @supermodel.loadCollection(new CLACollection(), 'clas').model
 
   getRenderData: ->
     c = super()
     c.clas = []
-    unless @startsLoading
-      c.clas = _.uniq (_.sortBy (cla.attributes for cla in @clas.models), (m) -> m.githubUsername?.toLowerCase()), 'githubUsername'
+    if @supermodel.finished()
+      c.clas = _.uniq (_.sortBy (cla.attributes for cla in @clas.models), (m) ->
+        m.githubUsername?.toLowerCase()), 'githubUsername'
     c

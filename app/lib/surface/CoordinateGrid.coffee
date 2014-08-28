@@ -2,7 +2,7 @@ CocoClass = require 'lib/CocoClass'
 
 module.exports = class CoordinateGrid extends CocoClass
   subscriptions:
-    'level-toggle-grid': 'onToggleGrid'
+    'level:toggle-grid': 'onToggleGrid'
 
   shortcuts:
     'ctrl+g, ⌘+g': 'onToggleGrid'

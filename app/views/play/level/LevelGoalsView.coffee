@@ -14,7 +14,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:set-letterbox': 'onSetLetterbox'
     'surface:playback-restarted': 'onSurfacePlaybackRestarted'
     'surface:playback-ended': 'onSurfacePlaybackEnded'
 

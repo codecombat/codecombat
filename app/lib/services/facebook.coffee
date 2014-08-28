@@ -8,7 +8,7 @@ module.exports = initializeFacebook = ->
       cookie: true # enable cookies to allow the server to access the session
       xfbml: true # parse XFBML
 
-    Backbone.Mediator.publish 'fbapi-loaded'
+    Backbone.Mediator.publish 'auth:facebook-api-loaded', {}
 
     # This is fired for any auth related change, such as login, logout or session refresh.
     FB.Event.subscribe 'auth.authResponseChange', (response) ->
@@ -17,13 +17,12 @@ module.exports = initializeFacebook = ->
       if response.status is 'connected'
 
         # They have logged in to the app.
-        Backbone.Mediator.publish 'facebook-logged-in',
-          response: response
+        Backbone.Mediator.publish 'facebook-logged-in', response: response
 
       else if response.status is 'not_authorized'
         #
       else
-	      #
+        #
 
   # Load the SDK asynchronously
   ((d) ->

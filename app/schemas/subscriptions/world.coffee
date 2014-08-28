@@ -1,18 +1,30 @@
+c = require 'schemas/schemas'
+
 module.exports =
-  'god:user-code-problem':
-    {} # TODO schema
+  'world:won': c.object {},
+    replacedNoteChain: {type: 'array'}
 
-  'god:infinite-loop':
-    {} # TODO schema
+  'world:thang-died': c.object {required: ['thang', 'killer']},
+    replacedNoteChain: {type: 'array'}
+    thang: {type: 'object'}
+    killer: {type: 'object'}
 
-  'god:user-code-problem':
-    {} # TODO schema
+  'world:thang-touched-goal': c.object {required: ['actor', 'touched']},
+    replacedNoteChain: {type: 'array'}
+    thang: {type: 'object'}
+    actor: {type: 'object'}
+    touched: {type: 'object'}
 
-  'god:new-world-created':
-    {} # TODO schema
+  'world:thang-collected-item': c.object {required: ['actor', 'item']},
+    replacedNoteChain: {type: 'array'}
+    thang: {type: 'object'}
+    actor: {type: 'object'}
+    item: {type: 'object'}
 
-  'god:streaming-world-updated':
-    {} # TODO schema
+  'world:thang-finished-plans': c.object {required: ['thang']},
+    replacedNoteChain: {type: 'array'}
+    thang: {type: 'object'}
 
-  'god:world-load-progress-changed':
-    {} # TODO schema
+  'world:attacked-when-out-of-range': c.object {required: ['thang']},
+    replacedNoteChain: {type: 'array'}
+    thang: {type: 'object'}

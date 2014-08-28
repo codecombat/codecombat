@@ -9,7 +9,7 @@ module.exports = class ChooseHeroView extends CocoView
   template: template
 
   events:
-    'click #restart-level-confirm-button': -> Backbone.Mediator.publish 'restart-level'
+    'click #restart-level-confirm-button': -> Backbone.Mediator.publish 'level:restart', {}
 
   getRenderData: (context={}) ->
     context = super(context)

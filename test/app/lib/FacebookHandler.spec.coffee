@@ -62,7 +62,7 @@ describe 'lib/FacebookHandler.coffee', ->
     spyOn FB, 'api'
 
     new FacebookHandler()
-    Backbone.Mediator.publish 'facebook-logged-in', mockAuthEvent
+    Backbone.Mediator.publish 'auth:logged-in-with-facebook', mockAuthEvent
 
     expect(FB.api).toHaveBeenCalled()
     apiArgs = FB.api.calls.argsFor(0)

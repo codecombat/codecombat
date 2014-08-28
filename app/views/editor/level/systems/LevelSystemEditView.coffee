@@ -59,7 +59,6 @@ module.exports = class LevelSystemEditView extends CocoView
     # Make sure it validates first?
     for key, value of @systemSettingsTreema.data
       @levelSystem.set key, value unless key is 'js' # will compile code if needed
-    Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
     null
 
   buildConfigSchemaTreema: ->
@@ -77,7 +76,6 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelSystem.set 'configSchema', @configSchemaTreema.data
-    Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
 
   buildCodeEditor: ->
     @editor?.destroy()
@@ -94,21 +92,20 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onEditorChange: =>
     @levelSystem.set 'code', @editor.getValue()
-    Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
     null
 
   endEditing: (e) ->
-    Backbone.Mediator.publish 'level-system-editing-ended', levelSystem: @levelSystem
+    Backbone.Mediator.publish 'editor:level-system-editing-ended', system: @levelSystem
     null
 
   showVersionHistory: (e) ->
     systemVersionsModal = new SystemVersionsModal {}, @levelSystem.id
     @openModalView systemVersionsModal
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   startPatchingSystem: (e) ->
     @openModalView new SaveVersionModal({model: @levelSystem})
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   toggleWatchSystem: ->
     console.log 'toggle watch system?'

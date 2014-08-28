@@ -23,8 +23,8 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     super()
 
   subscriptions:
-    'gplus-logged-in':'onGPlusLogin'
-    'gapi-loaded':'onGPlusLoaded'
+    'auth:logged-in-with-gplus':'onGPlusLogin'
+    'auth:gplus-api-loaded':'onGPlusLoaded'
 
   onGPlusLoaded: ->
     session_state = null
@@ -88,7 +88,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     return unless @responsesComplete is 2
     return unless me.get('email') and me.get('gplusID')
 
-    Backbone.Mediator.publish('logging-in-with-gplus')
+    Backbone.Mediator.publish 'auth:logging-in-with-gplus', {}
     gplusID = me.get('gplusID')
     window.tracker?.trackEvent 'Google Login'
     window.tracker?.identify()

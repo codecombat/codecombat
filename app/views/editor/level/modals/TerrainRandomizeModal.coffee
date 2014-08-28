@@ -102,7 +102,7 @@ presets = {
         'width': [8, 12]
         'height': [8, 12]
         'numBarrels': [4,6]
-        'cluster': 'barrel' 
+        'cluster': 'barrel'
       }
       'cave': {
         'num':[1,1]
@@ -215,9 +215,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomizeThangs presetType, presetSize
-    Backbone.Mediator.publish('randomize:terrain-generated',
-      'thangs': @thangs
-    )
+    Backbone.Mediator.publish 'editor:random-terrain-generated', thangs: @thangs
     @hide()
 
   randomizeThangs: (presetName, presetSize) ->
@@ -272,29 +270,29 @@ module.exports = class TerrainRandomizeModal extends ModalView
           @addThang {
             'id': @getRandomThang(clusters[preset.borders].thangs)
             'pos': {
-              'x': i + preset.borderSize/2 
+              'x': i + preset.borderSize/2
               'y': presetSize.y - 3 * preset.borderSize/2
             }
             'margin': clusters[preset.borders].margin
-          } 
+          }
           if ( i / preset.borderSize ) % 2 and i isnt presetSize.x - thangSizes.borderSize.x
             @addThang {
               'id': @getRandomThang(clusters['torch'].thangs)
               'pos': {
-                'x': i + preset.borderSize 
+                'x': i + preset.borderSize
                 'y': presetSize.y - preset.borderSize
               }
               'margin': clusters['torch'].margin
-            } 
+            }
           else if ( i / preset.borderSize ) % 2 is 0 and i and _.random(100) < 30
             @addThang {
               'id': @getRandomThang(clusters['chains'].thangs)
               'pos': {
-                'x': i + preset.borderSize 
+                'x': i + preset.borderSize
                 'y': presetSize.y - preset.borderSize
               }
               'margin': clusters['chains'].margin
-            } 
+            }
 
     for i in _.range(0, presetSize.y, thangSizes.borderSize.y)
       for j in _.range(preset.borderThickness)
@@ -395,7 +393,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
               'pos': {
                 'x': thang.pos.x - preset.borderSize / 2
                 'y': thang.pos.y + preset.borderSize / 2
-              } 
+              }
               'margin': clusters['torch'].margin
             }
 
@@ -415,7 +413,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
 
     for t in _.range(0, roomThickness)
       for i in _.range(rect.y - rect.height/2 - t * preset.borderSize, rect.y + rect.height/2 + (t+1) * preset.borderSize, preset.borderSize)
-        # Left wall 
+        # Left wall
         @addThang {
           'id': @getRandomThang(clusters[room.cluster].thangs)
           'pos': {
@@ -425,7 +423,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
           'margin': clusters[room.cluster].margin
         }
 
-        # Right wall 
+        # Right wall
         @addThang {
           'id': @getRandomThang(clusters[room.cluster].thangs)
           'pos': {

@@ -42,6 +42,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
     return @checkExistence(req, res, args[0]) if args[1] is 'exists'
+    return @getPlayCountsBySlugs(req, res) if args[1] is 'play_counts'
     super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -277,5 +278,28 @@ LevelHandler = class LevelHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless doc?
         @sendSuccess(res, doc)
+
+  getPlayCountsBySlugs: (req, res) ->
+    # This is hella slow (4s on my box), so relying on some dumb caching for it.
+    # If we can't make this faster with indexing or something, we might want to maintain the counts another way.
+    levelIDs = req.query.ids or req.body.ids
+    @playCountCache ?= {}
+    @playCountCachedSince ?= new Date()
+    if (new Date()) - @playCountCachedSince > 86400 * 1000  # Dumb cache expiration
+      @playCountCache = {}
+      @playCountCacheSince = new Date()
+    cacheKey = levelIDs.join ','
+    if playCounts = @playCountCache[cacheKey]
+      return @sendSuccess res, playCounts
+    query = Session.aggregate [
+      {$match: {levelID: {$in: levelIDs}}},
+      {$group: {_id: "$levelID", playtime: {$sum: "$playtime"}, sessions: {$sum: 1}}},
+      {$sort: {sessions: -1}}
+    ]
+    query.exec (err, data) =>
+      if err? then return @sendDatabaseError res, err
+      @playCountCache[cacheKey] = data
+      @sendSuccess res, data
+
 
 module.exports = new LevelHandler()

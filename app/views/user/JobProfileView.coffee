@@ -32,7 +32,7 @@ module.exports = class JobProfileView extends UserView
   showBackground: false
 
   subscriptions:
-    'linkedin-loaded': 'onLinkedInLoaded'
+    'auth:linkedin-api-loaded': 'onLinkedInLoaded'
 
   events:
     'click #toggle-editing': 'toggleEditing'

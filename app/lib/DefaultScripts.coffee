@@ -11,7 +11,7 @@ module.exports = [
     scriptPrereqs: ["Introduction"]
   }
   {
-    channel: "level-set-playing"
+    channel: "level:set-playing"
     noteChain: []
     scriptPrereqs: ["Victory Playback"]
     id: "Victory Playback Started"

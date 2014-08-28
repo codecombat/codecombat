@@ -51,7 +51,7 @@ module.exports = class CastButtonView extends CocoView
     Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   onCastOptionsClick: (e) =>
-    Backbone.Mediator.publish 'tome:focus-editor'
+    Backbone.Mediator.publish 'tome:focus-editor', {}
     @castButtonGroup.removeClass 'open'
     @setAutocastDelay $(e.target).attr 'data-delay'
     false
@@ -63,7 +63,7 @@ module.exports = class CastButtonView extends CocoView
     return if e.preload
     @casting = true
     if @hasStartedCastingOnce  # Don't play this sound the first time
-      Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast', volume: 0.5
     @hasStartedCastingOnce = true
     @updateCastButton()
     @onWorldLoadProgressChanged progress: 0
@@ -76,7 +76,7 @@ module.exports = class CastButtonView extends CocoView
   onNewWorld: (e) ->
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
-      Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast-end', volume: 0.5
     @hasCastOnce = true
     @updateCastButton()
 

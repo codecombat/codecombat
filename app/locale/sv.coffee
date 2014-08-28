@@ -3,11 +3,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     loading: "Laddar..."
     saving: "Sparar..."
     sending: "Skickar..."
-#    send: "Send"
+    send: "Skicka"
     cancel: "Avbryt"
     save: "Spara"
-#    publish: "Publish"
-#    create: "Create"
+    publish: "Publisera"
+    create: "Skapa"
     delay_1_sec: "1 sekund"
     delay_3_sec: "3 sekunder"
     delay_5_sec: "5 sekunder"
@@ -19,21 +19,21 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "sekund"
+    seconds: "sekunder"
+    minute: "minut"
+    minutes: "minuter"
+    hour: "timme"
+    hours: "timmar"
+    day: "dag"
+    days: "dagar"
+    week: "vecka"
+    weeks: "veckor"
+    month: "månad"
+    months: "månader"
+    year: "år"
+    years: "år"
 
   modal:
     close: "Stäng"
@@ -44,14 +44,14 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   nav:
     play: "Spela"
-#    community: "Community"
+    community: "Community"
     editor: "Nivåredigerare"
     blog: "Blogg"
     forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "Konto"
+    profile: "Profil"
+    stats: "Stats"
+    code: "Kod"
     admin: "Admin"
     home: "Hem"
     contribute: "Bidra"
@@ -72,9 +72,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   login:
     sign_up: "Skapa konto"
     log_in: "Logga in"
-#    logging_in: "Logging In"
+    logging_in: "Loggar In"
     log_out: "Logga ut"
-    recover: "glömt lösenord"
+    recover: "Glömt lösenord"
 
   recover:
     recover_account_title: "Återskapa ditt konto"
@@ -89,7 +89,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     creating: "Skapar konto..."
     sign_up: "Skapa konto"
     log_in: "logga in med lösenord"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "Eller så kan du logga in genom facebook eller g+:"
 #    required: "You need to log in before you can go that way."
 
   home:
@@ -126,6 +126,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     level_difficulty: "Svårighetsgrad: "
     play_as: "Spela som "
     spectate: "Titta på"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Kontakta CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   play_level:
     done: "Klar"
-    grid: "Rutnät"
     customize_wizard: "Skräddarsy trollkarl"
     home: "Hem"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    unknown: "Unknown error."
 
 #  resources:
+#    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
 #    level: "Level"
 #    social_network_apis: "Social Network APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    patched_model: "Source Document"
 #    model: "Model"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

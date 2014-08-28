@@ -1,277 +1,111 @@
+c = require 'schemas/schemas'
+
 module.exports =
-  "tome:cast-spell":
-    title: "Cast Spell"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when a spell is cast"
-    type: ["object", "undefined"]
-    properties:
-      spell:
-        type: "object"
-      thang:
-        type: "object"
-      preload:
-        type: "boolean"
-      realTime:
-        type: "boolean"
-    required: []
-    additionalProperties: false
+  'tome:cast-spell': c.object {title: 'Cast Spell', description: 'Published when a spell is cast', required: []},
+    spell: {type: 'object'}
+    thang: {type: 'object'}
+    preload: {type: 'boolean'}
+    realTime: {type: 'boolean'}
 
-  "tome:cast-spells":
-    title: "Cast Spells"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when spells are cast"
-    type: ["object", "undefined"]
-    properties:
-      spells:
-        type: "object"
-      preload:
-        type: "boolean"
-      realTime:
-        type: "boolean"
-    required: []
-    additionalProperties: false
+  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime']},
+    spells: [type: 'object']
+    preload: [type: 'boolean']
+    realTime: [type: 'boolean']
 
-  "tome:manual-cast":
-    title: "Manually Cast Spells"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you wish to manually recast all spells"
-    type: "object"
-    properties:
-      realTime:
-        type: "boolean"
-    required: []
-    additionalProperties: false
+  'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
+    realTime: {type: 'boolean'}
 
-  "tome:spell-created":
-    title: "Spell Created"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published after a new spell has been created"
-    type: "object"
-    properties:
-      "spell": "object"
-    required: ["spell"]
-    additionalProperties: false
+  'tome:spell-created': c.object {title: 'Spell Created', description: 'Published after a new spell has been created', required: ['spell']},
+    spell: {type: 'object'}
 
-  "tome:spell-debug-property-hovered":
-    title: "Spell Debug Property Hovered"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you hover over a spell property"
-    type: "object"
-    properties:
-      "property": "string"
-      "owner": "string"
-    required: []
-    additionalProperties: false
+  'tome:spell-has-changed-significantly-calculation': c.object {title: 'Has Changed Significantly Calculation', description: 'Let anyone know that the spell has changed significantly.', required: ['hasChangedSignificantly']},
+    hasChangedSignificantly: {type: 'boolean'}
 
-  "tome:toggle-spell-list":
-    title: "Toggle Spell List"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you toggle the dropdown for a thang's spells"
-    type: "undefined"
-    additionalProperties: false
+  'tome:spell-debug-property-hovered': c.object {title: 'Spell Debug Property Hovered', description: 'Published when you hover over a spell property', required: []},
+    property: {type: 'string'}
+    owner: {type: 'string'}
 
-  "tome:reload-code":
-    title: "Reload Code"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you reset a spell to its original source"
-    type: "object"
-    properties:
-      "spell": "object"
-    required: ["spell"]
-    additionalProperties: false
+  'tome:spell-debug-value-request': c.object {title: 'Spell Debug Value Request', description: 'Published when the SpellDebugView wants to retrieve a debug value.', required: ['thangID', 'spellID', 'variableChain', 'frame']},
+    thangID: {type: 'string'}
+    spellID: {type: 'string'}
+    variableChain: c.array {}, {type: 'string'}
+    frame: {type: 'integer', minimum: 0}
 
-  "tome:palette-hovered":
-    title: "Palette Hovered"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you hover over a Thang in the spell palette"
-    type: "object"
-    properties:
-      "thang": "object"
-      "prop": "string"
-      "entry": "object"
-    required: ["thang", "prop", "entry"]
-    additionalProperties: false
+  'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
 
-  "tome:palette-pin-toggled":
-    title: "Palette Pin Toggled"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you pin or unpin the spell palette"
-    type: "object"
-    properties:
-      "entry": "object"
-      "pinned": "boolean"
-    required: ["entry", "pinned"]
-    additionalProperties: false
+  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: ['spell']},
+    spell: {type: 'object'}
 
-  "tome:palette-clicked":
-    title: "Palette Clicked"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you click on the spell palette"
-    type: "object"
-    properties:
-      "thang": "object"
-      "prop": "string"
-      "entry": "object"
-    required: ["thang", "prop", "entry"]
-    additionalProperties: false
+  'tome:palette-hovered': c.object {title: 'Palette Hovered', description: 'Published when you hover over a Thang in the spell palette', required: ['thang', 'prop', 'entry']},
+    thang: {type: 'object'}
+    prop: {type: 'string'}
+    entry: {type: 'object'}
 
-  "tome:spell-statement-index-updated":
-    title: "Spell Statement Index Updated"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when the spell index is updated"
-    type: "object"
-    properties:
-      "statementIndex": "object"
-      "ace": "object"
-    required: ["statementIndex", "ace"]
-    additionalProperties: false
+  'tome:palette-pin-toggled': c.object {title: 'Palette Pin Toggled', description: 'Published when you pin or unpin the spell palette', required: ['entry', 'pinned']},
+    entry: {type: 'object'}
+    pinned: {type: 'boolean'}
 
-  # TODO proposition: refactor 'tome' into spell events
-  "spell-beautify":
-    title: "Beautify"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you click the \"beautify\" button"
-    type: "object"
-    properties:
-      "spell": "object"
-    required: []
-    additionalProperties: false
+  'tome:palette-clicked': c.object {title: 'Palette Clicked', description: 'Published when you click on the spell palette', required: ['thang', 'prop', 'entry']},
+    thang: {type: 'object'}
+    prop: {type: 'string'}
+    entry: {type: 'object'}
 
-  "spell-step-forward":
-    title: "Step Forward"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you step forward in time"
-    type: "undefined"
-    additionalProperties: false
+  'tome:spell-statement-index-updated': c.object {title: 'Spell Statement Index Updated', description: 'Published when the spell index is updated', required: ['statementIndex', 'ace']},
+    statementIndex: {type: 'object'}
+    ace: {type: 'object'}
 
-  "spell-step-backward":
-    title: "Step Backward"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you step backward in time"
-    type: "undefined"
-    additionalProperties: false
+  'tome:spell-beautify': c.object {title: 'Beautify', description: 'Published when you click the \'beautify\' button', required: []},
+    spell: {type: 'object'}
 
-  "tome:spell-loaded":
-    title: "Spell Loaded"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when a spell is loaded"
-    type: "object"
-    properties:
-      "spell": "object"
-    required: ["spell"]
-    additionalProperties: false
+  'tome:spell-step-forward': c.object {title: 'Step Forward', description: 'Published when you step forward in time'}
 
-  "tome:spell-changed":
-    title: "Spell Changed"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when a spell is changed"
-    type: "object"
-    properties:
-      "spell": "object"
-    required: ["spell"]
-    additionalProperties: false
+  'tome:spell-step-backward': c.object {title: 'Step Backward', description: 'Published when you step backward in time'}
 
-  "tome:editing-began":
-    title: "Editing Began"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you have begun changing code"
-    type: "undefined"
-    additionalProperties: false
+  'tome:spell-loaded': c.object {title: 'Spell Loaded', description: 'Published when a spell is loaded', required: ['spell']},
+    spell: {type: 'object'}
 
-  "tome:editing-ended":
-    title: "Editing Ended"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you have stopped changing code"
-    type: "undefined"
-    additionalProperties: false
+  'tome:spell-changed': c.object {title: 'Spell Changed', description: 'Published when a spell is changed', required: ['spell']},
+    spell: {type: 'object'}
 
-  "tome:problems-updated":
-    title: "Problems Updated"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when problems have been updated"
-    type: "object"
-    properties:
-      "spell": "object"
-      "problems": "array"
-      "isCast": "boolean"
-    required: ["spell", "problems", "isCast"]
-    additionalProperties: false
+  'tome:editing-began': c.object {title: 'Editing Began', description: 'Published when you have begun changing code'}
 
-  "tome:thang-list-entry-popover-shown":
-    title: "Thang List Entry Popover Shown"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when we show the popover for a thang in the master list"
-    type: "object"
-    properties:
-      "entry": "object"
-    required: ["entry"]
-    additionalProperties: false
+  'tome:editing-ended': c.object {title: 'Editing Ended', description: 'Published when you have stopped changing code'}
 
-  "tome:spell-shown":
-    title: "Spell Shown"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when we show a spell"
-    type: "object"
-    properties:
-      "thang": "object"
-      "spell": "object"
-    required: ["thang", "spell"]
-    additionalProperties: false
+  'tome:problems-updated': c.object {title: 'Problems Updated', description: 'Published when problems have been updated', required: ['spell', 'problems', 'isCast']},
+    spell: {type: 'object'}
+    problems: {type: 'array'}
+    isCast: {type: 'boolean'}
 
-  'tome:change-language':
-    title: 'Tome Change Language'
-    $schema: 'http://json-schema.org/draft-04/schema#'
-    description: 'Published when the Tome should update its programming language.'
-    type: 'object'
-    additionalProperties: false
-    properties:
-      language:
-        type: 'string'
-    required: ['language']
+  'tome:thang-list-entry-popover-shown': c.object {title: 'Thang List Entry Popover Shown', description: 'Published when we show the popover for a thang in the master list', required: ['entry']},
+    entry: {type: 'object'}
 
-  'tome:spell-changed-language':
-    title: 'Spell Changed Language'
-    $schema: 'http://json-schema.org/draft-04/schema#'
-    description: 'Published when an individual spell has updated its code language.'
-    type: 'object'
-    additionalProperties: false
-    properties:
-      spell:
-        type: 'object'
-      language:
-        type: 'string'
-    required: ['spell']
+  'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
+    thang: {type: 'object'}
+    spell: {type: 'object'}
 
-  "tome:comment-my-code":
-    title: "Comment My Code"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when we comment out a chunk of your code"
-    type: "undefined"
-    additionalProperties: false
+  'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
+    language: {type: 'string'}
 
-  "tome:change-config":
-    title: "Change Config"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you change your tome settings"
-    type: "undefined"
-    additionalProperties: false
+  'tome:spell-changed-language': c.object {title: 'Spell Changed Language', description: 'Published when an individual spell has updated its code language', required: ['spell']},
+    spell: {type: 'object'}
+    language: {type: 'string'}
 
-  "tome:update-snippets":
-    title: "Update Snippets"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when we need to add Zatanna Snippets"
-    type: "object"
-    properties:
-      "propGroups": "object"
-      "allDocs": "object"
-      "language": "string"
-    required: ["propGroups", "allDocs"]
-    additionalProperties: false
+  'tome:comment-my-code': c.object {title: 'Comment My Code', description: 'Published when we comment out a chunk of your code'}
 
-  # TODO proposition: add tome to name
-  "focus-editor":
-    title: "Focus Editor"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published whenever we want to give focus back to the editor"
-    type: "undefined"
-    additionalProperties: false
+  'tome:change-config': c.object {title: 'Change Config', description: 'Published when you change your tome settings'}
+
+  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add Zatanna snippets', required: ['propGroups', 'allDocs']},
+    propGroups: {type: 'object'}
+    allDocs: {type: 'object'}
+    language: {type: 'string'}
+
+  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a Zatanna snippet', required: ['doc', 'language', 'formatted']},
+    doc: {type: 'object'}
+    language: {type: 'string'}
+    formatted: {type: 'object'}
+
+  'tome:focus-editor': c.object {title: 'Focus Editor', description: 'Published whenever we want to give focus back to the editor'}
+
+  'tome:toggle-maximize': c.object {title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen'}
+
+  'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}

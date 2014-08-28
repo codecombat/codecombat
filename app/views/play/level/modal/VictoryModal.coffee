@@ -39,7 +39,7 @@ module.exports = class VictoryModal extends ModalView
   loadExistingFeedback: ->
     url = "/db/level/#{@level.id}/feedback"
     @feedback = new LevelFeedback()
-    @feedback.url = -> url
+    @feedback.setURL url
     @feedback.fetch()
     @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
     @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
@@ -59,7 +59,7 @@ module.exports = class VictoryModal extends ModalView
 
   onPlayNextLevel: ->
     @saveReview() if @$el.find('.review textarea').val()
-    Backbone.Mediator.publish('play-next-level')
+    Backbone.Mediator.publish 'level:play-next-level', {}
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
@@ -95,13 +95,10 @@ module.exports = class VictoryModal extends ModalView
 
   afterInsert: ->
     super()
-    Backbone.Mediator.publish 'play-sound', trigger: 'victory'
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
     gapi?.plusone?.go? @$el[0]
     FB?.XFBML?.parse? @$el[0]
     twttr?.widgets?.load?()
-
-  onHidden: ->
-    Backbone.Mediator.publish 'level:victory-hidden'
 
   destroy: ->
     @saveReview() if @$el.find('.review textarea').val()

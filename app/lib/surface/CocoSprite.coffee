@@ -57,11 +57,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   currentAction: null  # related action that is right now playing
 
   subscriptions:
-    'level-sprite-dialogue': 'onDialogue'
-    'level-sprite-clear-dialogue': 'onClearDialogue'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:sprite-dialogue': 'onDialogue'
+    'level:sprite-clear-dialogue': 'onClearDialogue'
+    'level:set-letterbox': 'onSetLetterbox'
     'surface:ticked': 'onSurfaceTicked'
-    'level-sprite-move': 'onMove'
+    'sprite:move': 'onMove'
 
   constructor: (@thangType, options) ->
     super()
@@ -519,14 +519,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @imageObject.on 'pressmove', @onMouseEvent, @, false, 'sprite:dragged'
       @imageObject.on 'pressup',   @onMouseEvent, @, false, 'sprite:mouse-up'
 
-  onSetLetterbox: (e) ->
-    @letterboxOn = e.on
-
   onMouseEvent: (e, ourEventName) ->
     return if @letterboxOn or not @imageObject
     p = @imageObject
     p = p.parent while p.parent
-    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p.canvas
+    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas: p.canvas
     @trigger ourEventName, newEvent
     Backbone.Mediator.publish ourEventName, newEvent
 
@@ -680,13 +677,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     @dialogueSoundInstance?.stop()
     if @dialogueSoundInstance = @playSound sound, false
-      @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'dialogue-sound-completed'
+      @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
     @labels.dialogue?.setText null
     @dialogueSoundInstance?.stop()
     @notifySpeechUpdated {}
+
+  onSetLetterbox: (e) ->
+    @letterboxOn = e.on
 
   setNameLabel: (name) ->
     label = @addLabel 'name', Label.STYLE_NAME
@@ -750,7 +750,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       distance = @thang.pos.distance target.pos
       offset = Math.max(target.width, target.height, 2) / 2 + 3
       pos = Vector.add(@thang.pos, heading.multiply(distance - offset))
-    Backbone.Mediator.publish 'level-sprite-clear-dialogue', {}
+    Backbone.Mediator.publish 'level:sprite-clear-dialogue', {}
     @onClearDialogue()
     args = [pos]
     args.push(e.duration) if e.duration?

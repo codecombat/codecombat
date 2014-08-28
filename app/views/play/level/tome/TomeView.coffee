@@ -168,7 +168,7 @@ module.exports = class TomeView extends CocoView
     @spellList.$el.hide()
 
   onClick: (e) ->
-    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.popover').length
+    Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()
@@ -222,8 +222,8 @@ module.exports = class TomeView extends CocoView
     spell
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ['common', 'neutral', null])
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false, realTime: false
 
   updateLanguageForAllSpells: (e) ->
     spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()

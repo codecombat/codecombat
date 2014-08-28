@@ -52,19 +52,19 @@ module.exports = Surface = class Surface extends CocoClass
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
-    'level-set-playing': 'onSetPlaying'
-    'level-set-debug': 'onSetDebug'
-    'level-toggle-debug': 'onToggleDebug'
-    'level-toggle-pathfinding': 'onTogglePathFinding'
-    'level-set-time': 'onSetTime'
-    'level-set-surface-camera': 'onSetCamera'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'level:set-playing': 'onSetPlaying'
+    'level:set-debug': 'onSetDebug'
+    'level:toggle-debug': 'onToggleDebug'
+    'level:toggle-pathfinding': 'onTogglePathFinding'
+    'level:set-time': 'onSetTime'
+    'camera:set-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -127,7 +127,7 @@ module.exports = Surface = class Surface extends CocoClass
     @showLevel()
     @updateState true if @loaded
     @onFrameChanged()
-    Backbone.Mediator.publish 'surface:world-set-up'
+    Backbone.Mediator.publish 'surface:world-set-up', {world: @world}
 
   onTogglePathFinding: (e) ->
     e?.preventDefault?()
@@ -311,7 +311,6 @@ module.exports = Surface = class Surface extends CocoClass
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
     Backbone.Mediator.publish('surface:frame-changed',
-      type: 'frame-changed'
       selectedThang: @spriteBoss.selectedSprite?.thang
       progress: progress
       frame: @currentFrame
@@ -321,11 +320,11 @@ module.exports = Surface = class Surface extends CocoClass
     if @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
       @ended = true
       @setPaused true
-      Backbone.Mediator.publish 'surface:playback-ended'
+      Backbone.Mediator.publish 'surface:playback-ended', {}
     else if @currentFrame < @world.totalFrames and @ended
       @ended = false
       @setPaused false
-      Backbone.Mediator.publish 'surface:playback-restarted'
+      Backbone.Mediator.publish 'surface:playback-restarted', {}
 
     @lastFrame = @currentFrame
 
@@ -368,7 +367,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
+    Backbone.Mediator.publish 'level:set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
 
     @setWorld event.world
     @onFrameChanged(true)
@@ -450,11 +449,10 @@ module.exports = Surface = class Surface extends CocoClass
     @loaded = true
     @spriteBoss.createMarks()
     @spriteBoss.createIndieSprites @world.indieSprites, @options.wizards
-    Backbone.Mediator.publish 'registrar-echo-states'
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
-    Backbone.Mediator.publish 'level:started'
+    Backbone.Mediator.publish 'level:started', {}
 
   createOpponentWizard: (opponent) ->
     @spriteBoss.createOpponentWizard opponent
@@ -464,7 +462,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onToggleDebug: (e) ->
     e?.preventDefault?()
-    Backbone.Mediator.publish 'level-set-debug', {debug: not @debug}
+    Backbone.Mediator.publish 'level:set-debug', {debug: not @debug}
 
   onSetDebug: (e) ->
     return if e.debug is @debug
@@ -498,8 +496,8 @@ module.exports = Surface = class Surface extends CocoClass
     event =
       deltaX: e.deltaX
       deltaY: e.deltaY
-      screenPos: @mouseScreenPos
       canvas: @canvas
+    event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->

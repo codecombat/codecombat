@@ -14,8 +14,8 @@ module.exports = class SpellListEntryView extends CocoView
   subscriptions:
     'tome:problems-updated': 'onProblemsUpdated'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
     'god:new-world-created': 'onNewWorld'
 
   events:
@@ -88,7 +88,7 @@ module.exports = class SpellListEntryView extends CocoView
 
   onClick: (e) ->
     spellThang = @getPrimarySpellThang()
-    Backbone.Mediator.publish 'level-select-sprite', thangID: spellThang.thang.id, spellName: @spell.name
+    Backbone.Mediator.publish 'level:select-sprite', thangID: spellThang.thang.id, spellName: @spell.name
 
   onMouseEnterAvatar: (e) ->
     return unless @controlsEnabled and _.size(@spell.thangs) > 1
