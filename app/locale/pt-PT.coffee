@@ -126,8 +126,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     level_difficulty: "Dificuldade: "
     play_as: "Jogar Como"
     spectate: "Espectar"
-#    players: "players"
-#    hours_played: "hours played"
+    players: "jogadores"
+    hours_played: "horas jogadas"
 
   contact:
     contact_us: "Contacte o CodeCombat"
@@ -513,7 +513,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     toggle_grid: "Ativar/desativar a sobreposição da grelha."
     toggle_pathfinding: "Ativar/desativar a sobreposição do encontrador de caminho."
     beautify: "Embelezar o código ao estandardizar a formatação."
-#    maximize_editor: "Maximize/minimize code editor."
+    maximize_editor: "Maximizar/minimizar o editor de código."
     move_wizard: "Mover o seu Feiticeiro pelo nível."
 
   admin:
@@ -910,7 +910,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unknown: "Erro desconhecido."
 
   resources:
-#    sessions: "Sessions"
+    sessions: "Sessões"
     your_sessions: "As Suas Sessões"
     level: "Nível"
     social_network_apis: "APIs das Redes Sociais"
@@ -926,7 +926,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     patched_model: "Documento Fonte"
     model: "Modelo"
     system: "Sistema"
-#    systems: "Systems"
+    systems: "Sistemas"
     component: "Componente"
     components: "Componentes"
     thang: "Thang"
@@ -941,16 +941,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     source_document: "Documento Fonte"
     document: "Documento"
     sprite_sheet: "Folha de Sprite"
-#    employers: "Employers"
-#    candidates: "Candidates"
+    employers: "Empregadores"
+    candidates: "Candidatos"
     candidate_sessions: "Sessões de Candidatos"
     user_remark: "Observação do Utilizador"
-#    user_remarks: "User Remarks"
+    user_remarks: "Observações de Utilizador"
     versions: "Versões"
     items: "Itens"
-#    wizard: "Wizard"
-#    achievement: "Achievement"
-#    clas: "CLAs"
+    wizard: "Feiticeiro"
+    achievement: "Conquista"
+    clas: "CLAs"
 #    play_counts: "Play Counts"
 
   delta:

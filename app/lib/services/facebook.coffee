@@ -17,7 +17,7 @@ module.exports = initializeFacebook = ->
       if response.status is 'connected'
 
         # They have logged in to the app.
-        Backbone.Mediator.publish 'facebook-logged-in', response: response
+        Backbone.Mediator.publish 'auth:logged-in-with-facebook', response: response
 
       else if response.status is 'not_authorized'
         #
