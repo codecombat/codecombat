@@ -30,12 +30,8 @@ module.exports = class SettingsTabView extends CocoView
     schema = _.cloneDeep Level.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
-<<<<<<< HEAD
     schema.default = _.pick schema.default, (value, key) => key in @editableSettings
-    thangIDs = @getThangIDs()
-=======
     @thangIDs = @getThangIDs()
->>>>>>> master
     treemaOptions =
       filePath: "db/level/#{@level.get('original')}"
       supermodel: @supermodel
@@ -53,11 +49,7 @@ module.exports = class SettingsTabView extends CocoView
     @settingsTreema.open()
 
   getThangIDs: ->
-<<<<<<< HEAD
-    (t.id for t in @level.get('thangs') ? [] when t.id isnt 'Interface')
-=======
-    (t.id for t in @level.get('thangs'))
->>>>>>> master
+    (t.id for t in @level.get('thangs') ? [])
 
   onSettingsChanged: (e) =>
     $('.level-title').text @settingsTreema.data.name

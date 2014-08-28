@@ -529,8 +529,4 @@ class ThangNode extends TreemaObjectNode
     @buildValueForDisplaySimply valEl, s
 
   onEnterPressed: ->
-<<<<<<< HEAD
-    Backbone.Mediator.publish 'edit-level-thang', thangID: @getData().id
-=======
-    Backbone.Mediator.publish 'editor:edit-level-thang', thangID: @data.id
->>>>>>> master
+    Backbone.Mediator.publish 'editor:edit-level-thang', thangID: @getData().id

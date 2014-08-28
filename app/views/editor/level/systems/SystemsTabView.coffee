@@ -147,12 +147,8 @@ class LevelSystemNode extends TreemaObjectNode
 
   onEnterPressed: (e) ->
     super e
-<<<<<<< HEAD
     data = @getData()
-    Backbone.Mediator.publish 'edit-level-system', original: data.original, majorVersion: data.majorVersion
-=======
-    Backbone.Mediator.publish 'editor:edit-level-system', original: @data.original, majorVersion: @data.majorVersion
->>>>>>> master
+    Backbone.Mediator.publish 'editor:edit-level-system', original: data.original, majorVersion: data.majorVersion
 
   open: (depth) ->
     super depth

@@ -94,10 +94,3 @@ class LevelComponentNode extends TreemaObjectNode
         m.get('original') is data.original and m.get('version').major is data.majorVersion
       name = "#{comp.get('system')}.#{comp.get('name')} v#{comp.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name} (#{count})"
-<<<<<<< HEAD
-
-  onEnterPressed: ->
-    data = @getData()
-    Backbone.Mediator.publish 'edit-level-component', original: data.original, majorVersion: data.majorVersion
-=======
->>>>>>> master

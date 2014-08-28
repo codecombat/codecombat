@@ -89,11 +89,7 @@ module.exports = class ScriptsTabView extends CocoView
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-<<<<<<< HEAD
-    (t.id for t in @level.get('thangs') ? [] when t.id isnt 'Interface')
-=======
-    (t.id for t in @level.get('thangs'))
->>>>>>> master
+    (t.id for t in @level.get('thangs') ? [])
 
   onNewScriptAdded: (scriptNode) =>
     return unless scriptNode
@@ -169,13 +165,8 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-<<<<<<< HEAD
   buildValueForEditing: (valEl, data) -> 
     super(valEl, data)
-=======
-  buildValueForEditing: (valEl) ->
-    super(valEl)
->>>>>>> master
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
     autocompleteValues = []
