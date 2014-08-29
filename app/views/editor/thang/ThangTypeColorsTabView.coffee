@@ -14,7 +14,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     super options
     @supermodel.loadModel @thangType, 'thang'
     @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
-    @spriteBuilder = new SpriteBuilder(@thangType)
+    @spriteBuilder = new SpriteBuilder(@thangType) if @thangType.get('raw')
     f = =>
       @offset++
       @updateMovieClip()
@@ -54,7 +54,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @updateMovieClip()
 
   updateMovieClip: ->
-    return unless @currentColorGroupTreema
+    return unless @currentColorGroupTreema and @thangType.get('raw')
     actionDict = @thangType.getActions()
     animations = (a.animation for key, a of actionDict when a.animation)
     index = @offset % animations.length
@@ -74,6 +74,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @stage.addChild @movieClip
 
   updateContainer: ->
+    return unless @thangType.get('raw')
     actionDict = @thangType.getActions()
     idle = actionDict.idle
     @stage.removeChild(@container) if @container
