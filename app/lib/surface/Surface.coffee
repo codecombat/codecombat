@@ -483,11 +483,13 @@ module.exports = Surface = class Surface extends CocoClass
     worldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
     event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: worldPos
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
+    Backbone.Mediator.publish 'tome:focus-editor', {}
 
   onMouseUp: (e) =>
     return if @disabled
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+    Backbone.Mediator.publish 'tome:focus-editor', {}
 
   onMouseWheel: (e) =>
     # https://github.com/brandonaaron/jquery-mousewheel

@@ -66,6 +66,7 @@ module.exports =  # /app/lib/surface
   'surface:coordinate-selected': c.object {required: ['x', 'y']},
     x: {type: 'number'}
     y: {type: 'number'}
+    z: {type: 'number'}
 
   'surface:coordinates-shown': c.object {}
 
@@ -76,12 +77,14 @@ module.exports =  # /app/lib/surface
     point: c.object {required: ['x', 'y']},
       x: {type: 'number'}
       y: {type: 'number'}
+      z: {type: 'number'}
 
   'surface:choose-region': c.object {required: ['points']},
     points: c.array {minItems: 2, maxItems: 2},
       c.object {required: ['x', 'y']},
         x: {type: 'number'}
         y: {type: 'number'}
+        z: {type: 'number'}
 
   'surface:new-thang-added': c.object {required: ['thang', 'sprite']},
     thang: {type: 'object'}

@@ -53,6 +53,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     wop = @camera.screenToWorld x: e.x, y: e.y
     wop.x = Math.round wop.x
     wop.y = Math.round wop.y
+    Backbone.Mediator.publish 'tome:focus-editor', {}
     Backbone.Mediator.publish 'surface:coordinate-selected', wop
 
   onZoomUpdated: (e) ->

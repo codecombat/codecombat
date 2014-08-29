@@ -45,6 +45,13 @@ module.exports = class Mark extends CocoClass
         @mark.visible = true
     @
 
+  setLayer: (layer) ->
+    return if layer is @layer
+    wasOn = @on
+    @toggle false
+    @layer = layer
+    @toggle true if wasOn
+
   setSprite: (sprite) ->
     return if sprite is @sprite
     @sprite = sprite
@@ -131,7 +138,6 @@ module.exports = class Mark extends CocoClass
     @mark.graphics.endFill()
     @mark.regX = width / 2
     @mark.regY = height / 2
-    @mark.layerIndex = 10
     @mark.cache -1, -1, width + 2, height + 2 # not actually faster than simple ellipse draw
 
   buildRadius: (range) ->

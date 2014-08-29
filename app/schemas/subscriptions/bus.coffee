@@ -23,5 +23,5 @@ module.exports =
     bus: {$ref: 'bus'}
 
   'bus:player-states-changed': c.object {title: 'Player state changes', description: 'State of the players has changed'},
-    states: c.array {}, {type: 'object'}
+    states: {type: 'object', additionalProperties: {type: 'object'}}
     bus: {$ref: 'bus'}

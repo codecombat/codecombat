@@ -21,7 +21,6 @@ module.exports = class PointChooser extends CocoClass
     @shape.mouseEnabled = false
     @shape.graphics.setStrokeStyle(1, 'round').beginStroke('#000000').beginFill('#fedcba')
     @shape.graphics.drawCircle(0, 0, 4).endFill()
-    @shape.layerIndex = 100
 
   onMouseDown: (e) =>
     return unless key.shift

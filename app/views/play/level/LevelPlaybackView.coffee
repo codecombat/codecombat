@@ -234,7 +234,7 @@ module.exports = class LevelPlaybackView extends CocoView
     button.addClass(classes[2]) if e.volume >= 1.0
 
   onScrub: (e, options) ->
-    e?.preventDefault()
+    e?.preventDefault?()
     options.scrubDuration = 500
     Backbone.Mediator.publish('level:set-time', options)
 
@@ -347,7 +347,7 @@ module.exports = class LevelPlaybackView extends CocoView
   shouldIgnore: -> return @disabled or @realTime
 
   onTogglePlay: (e) ->
-    e?.preventDefault()
+    e?.preventDefault?()
     return if @shouldIgnore()
     button = $('#play-button')
     willPlay = button.hasClass('paused') or button.hasClass('ended')
