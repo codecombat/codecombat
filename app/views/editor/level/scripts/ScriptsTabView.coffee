@@ -113,7 +113,7 @@ module.exports = class ScriptsTabView extends CocoView
 
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
-    @thangIDs.splice(0, @thangIDs.length, @getThangIDs()...)
+    @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
 
 
 class ScriptsNode extends TreemaArrayNode

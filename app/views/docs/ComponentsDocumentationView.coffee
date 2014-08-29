@@ -1,17 +1,21 @@
-#RootView = require 'views/kinds/RootView'
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/docs/components'
+template = require 'templates/docs/components-documentation-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 
 class ComponentDocsCollection extends CocoCollection
-  url: '/db/level.component?project=name,description,dependencies,propertyDocumentation,code'
+  url: '/db/level.component?project=system,name,description,dependencies,propertyDocumentation,code'
   model: LevelComponent
+  comparator: 'system'
 
-module.exports = class ComponentDocumentationView extends CocoView
-  id: 'docs-components-view'
+module.exports = class ComponentsDocumentationView extends CocoView
+  id: 'components-documentation-view'
   template: template
   className: 'tab-pane'
+  collapsed: true
+
+  events:
+    'click #toggle-all-component-code': 'onToggleAllCode'
 
   constructor: (options) ->
     super(options)
@@ -24,3 +28,8 @@ module.exports = class ComponentDocumentationView extends CocoView
     c.marked = marked
     c.codeLanguage = me.get('aceConfig')?.language ? 'javascript'
     c
+
+  onToggleAllCode: (e) ->
+    @collapsed = not @collapsed
+    @$el.find('.collapse').collapse(if @collapsed then 'hide' else 'show')
+    @$el.find('#toggle-all-component-code').toggleClass 'active', not @collapsed
