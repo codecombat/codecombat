@@ -194,7 +194,7 @@ class EventPrereqNode extends TreemaNode.nodeMap.object
     statements = []
     for key, value of data
       continue if key is 'eventProps'
-      comparison = @schema.properties[key].title
+      comparison = @workingSchema.properties[key].title
       value = value.toString()
       statements.push("#{comparison} #{value}")
     statements = statements.join(', ')

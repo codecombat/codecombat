@@ -19,7 +19,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
 
   constructor: ->
     super(arguments...)
-    @schema.aceMode = 'ace/mode/markdown'
+    @workingSchema.aceMode = 'ace/mode/markdown'
 
   initEditor: (valEl) ->
     buttonRow = $('<div class="buttons"></div>')
@@ -224,7 +224,7 @@ codeLanguages =
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
-    (key for key in _.keys(codeLanguages) when not @data[key]? and not (key is 'javascript' and @schema.skipJavaScript))
+    (key for key in _.keys(codeLanguages) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
 
 class CodeLanguageTreema extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl, data) ->
@@ -235,25 +235,25 @@ class CodeLanguageTreema extends TreemaNode.nodeMap.string
 class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
-    @schema.aceTabSize = 4
+    @workingSchema.aceTabSize = 4
 
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
-    if not @schema.aceMode and mode = codeLanguages[@keyForParent]
+    if not @workingSchema.aceMode and mode = codeLanguages[@keyForParent]
       @editor.getSession().setMode mode
     valEl
 
 class CoffeeTreema extends CodeTreema
   constructor: ->
     super(arguments...)
-    @schema.aceMode = 'ace/mode/coffee'
-    @schema.aceTabSize = 2
+    @workingSchema.aceMode = 'ace/mode/coffee'
+    @workingSchema.aceTabSize = 2
 
 class JavaScriptTreema extends CodeTreema
   constructor: ->
     super(arguments...)
-    @schema.aceMode = 'ace/mode/javascript'
-    @schema.aceTabSize = 4
+    @workingSchema.aceMode = 'ace/mode/javascript'
+    @workingSchema.aceTabSize = 4
 
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
@@ -276,11 +276,11 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
       properties: {}
     }
     return i18nChildSchema unless @parent
-    unless @schema.props?
+    unless @workingSchema.props?
       console.warn 'i18n props array is empty! Filling with all parent properties by default'
-      @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt 'i18n')
+      @workingSchema.props = (prop for prop,_ of @parent.schema.properties when prop isnt 'i18n')
 
-    for i18nProperty in @schema.props
+    for i18nProperty in @workingSchema.props
       i18nChildSchema.properties[i18nProperty] = @parent.schema.properties[i18nProperty]
     return i18nChildSchema
     #this must be filled out in order for the i18n node to work
@@ -301,7 +301,7 @@ class LatestVersionReferenceNode extends TreemaNode
     super(arguments...)
 
     # to dynamically build the search url, inspect the links url that should be included
-    links = @schema.links or []
+    links = @workingSchema.links or []
     link = (l for l in links when l.rel is 'db')[0]
     return unless link
     parts = (p for p in link.href.split('/') when p.length)
@@ -358,7 +358,7 @@ class LatestVersionReferenceNode extends TreemaNode
   formatDocument: (docOrModel) ->
     return @modelToString(docOrModel) if docOrModel instanceof CocoModel
     return 'Unknown' unless @settings.supermodel?
-    m = CocoModel.getReferencedModel(@getData(), @schema)
+    m = CocoModel.getReferencedModel(@getData(), @workingSchema)
     data = @getData()
     m = @settings.supermodel.getModelByOriginalAndMajorVersion(m.constructor, data.original, data.majorVersion)
     if @instance and not m
@@ -423,7 +423,7 @@ LatestVersionReferenceNode.prototype.search = _.debounce(LatestVersionReferenceN
 class SlugPropsObject extends TreemaNode.nodeMap.object
   getPropertyKey: ->
     res = super(arguments...)
-    return res if @schema.properties?[res]?
+    return res if @workingSchema.properties?[res]?
     _.string.slugify(res)
 
 module.exports.setup = ->
