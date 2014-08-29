@@ -73,7 +73,7 @@ _.extend AchievementSchema.properties,
       kind: {enum: ['linear', 'logarithmic', 'quadratic'] }
       parameters:
         type: 'object'
-        default: { a: 1, b: 1, c: 1 }
+        default: { a: 1, b: 0, c: 0 }
         properties:
           a: {type: 'number' }
           b: {type: 'number' }

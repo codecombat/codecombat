@@ -117,7 +117,7 @@ describe '/db/article', ->
       request.get {uri: url + '?project=true', json: {}}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body.length).toBe(2)
-        expect(body[0].created).toBeUndefined()
+        expect(body[0].body).toBeUndefined()
         expect(body[0].version).toBeDefined()
 
         # custom projection
