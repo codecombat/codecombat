@@ -6,18 +6,18 @@ h4.home
 
 h4.title
   | #{worldName}
-  |  -
+  span.spl.spr -
   a(href=editorLink, data-i18n="nav.editor", title="Open " + worldName + " in the Level Editor") Editor
   if multiplayerSession
     - found = false
     - for (var i=0; i < multiplayerPlayers.length; i++) {
       if (multiplayerPlayers.at(i).id !== meID)
-        |  - vs #{multiplayerPlayers.at(i).get('name')}
+        span.spl.spr - vs #{multiplayerPlayers.at(i).get('name')}
         - found = true
         - break
     - }
     if !found
-      | - waiting...
+      span.spl.spr - waiting...
 
 
 

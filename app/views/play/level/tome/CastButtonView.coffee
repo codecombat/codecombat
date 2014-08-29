@@ -15,8 +15,8 @@ module.exports = class CastButtonView extends CocoView
     'tome:cast-spells': 'onCastSpells'
     'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
-    'realtime-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
-    'realtime-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
 
   constructor: (options) ->
     super options
@@ -51,7 +51,7 @@ module.exports = class CastButtonView extends CocoView
 
   onCastRealTimeButtonClick: (e) ->
     if @multiplayerSession
-      Backbone.Mediator.publish 'realtime-multiplayer:manual-cast', {}
+      Backbone.Mediator.publish 'real-time-multiplayer:manual-cast', {}
       # Wait for multiplayer session to be up and running
       @multiplayerSession.on 'change', (e) =>
         if @multiplayerSession.get('state') is 'running'
@@ -118,10 +118,10 @@ module.exports = class CastButtonView extends CocoView
     @castOptions.find('a').each ->
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
 
-  onJoinedRealTimeMultiplayerGame: (item) ->
-    @multiplayerSession = item
+  onJoinedRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = e.session
 
-  onLeftRealTimeMultiplayerGame: () ->
+  onLeftRealTimeMultiplayerGame: (e) ->
     if @multiplayerSession
       @multiplayerSession.off()
       @multiplayerSession = null

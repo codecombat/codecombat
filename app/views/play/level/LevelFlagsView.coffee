@@ -14,8 +14,8 @@ module.exports = class LevelFlagsView extends CocoView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'surface:remove-flag': 'onRemoveFlag'
-    'realtime-multiplayer:joined-game': 'onJoinedMultiplayerGame'
-    'realtime-multiplayer:left-game': 'onLeftMultiplayerGame'
+    'real-time-multiplayer:joined-game': 'onJoinedMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftMultiplayerGame'
 
   events:
     'click .green-flag': -> @onFlagSelected color: 'green', source: 'button'
@@ -78,11 +78,11 @@ module.exports = class LevelFlagsView extends CocoView
     return unless event.world.name is @world.name
     @world = @options.world = event.world
 
-  onJoinedMultiplayerGame: (item) ->
-    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + item.id + '/flagHistory')
+  onJoinedMultiplayerGame: (e) ->
+    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.session.id + '/flagHistory')
     @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
 
-  onLeftMultiplayerGame: () ->
+  onLeftMultiplayerGame: (e) ->
     @multiplayerState = null
     if @multiplayerSession
       @multiplayerSession.off()

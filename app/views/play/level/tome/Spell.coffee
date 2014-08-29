@@ -47,7 +47,7 @@ module.exports = class Spell
       @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
-    Backbone.Mediator.subscribe 'realtime-multiplayer:new-opponent-code', @onNewOpponentCode
+    Backbone.Mediator.subscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode
 
   destroy: ->
     @view?.destroy()

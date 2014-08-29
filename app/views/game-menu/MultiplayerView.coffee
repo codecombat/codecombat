@@ -37,8 +37,7 @@ module.exports = class MultiplayerView extends CocoView
   destroy: ->
     @multiplayerSessions?.off()
     @currentMultiplayerSession?.off()
-    for id in @playersCollections
-      @playersCollections[id].off()
+    collection.off() for id, collection of @playersCollections
     super()
 
   getRenderData: ->
@@ -65,7 +64,7 @@ module.exports = class MultiplayerView extends CocoView
     @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
     @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
     @$el.find('#created-multiplayer-session').toggle Boolean(@currentMultiplayerSession?)
-    @$el.find('#create-game-button').toggle Boolean(!(@currentMultiplayerSession?))
+    @$el.find('#create-game-button').toggle Boolean(not (@currentMultiplayerSession?))
 
   onClickLink: (e) ->
     e.target.select()
@@ -94,14 +93,12 @@ module.exports = class MultiplayerView extends CocoView
     @playersCollections[e.id].on 'add', @onPlayerAdded
     @playersCollections[e.id].on 'remove', @onPlayerRemoved
     # Check if we've already joined this multiplayer session
-    if not @currentMultiplayerSession and e.get('levelID') == @session.get('levelID')
-      for i in [0...@playersCollections[e.id].length]
-        player = @playersCollections[e.id].at(i)
-        if player.get('id') is me.id and player.get('team') is @session.get('team')
+    if not @currentMultiplayerSession and e.get('levelID') is @session.get('levelID')
+      @playersCollections[e.id].each (player) =>
+        if player.id is me.id and player.get('team') is @session.get('team')
           @currentMultiplayerSession = e
           @currentMultiplayerSession.on 'change', @onMultiplayerSessionChanged
-          Backbone.Mediator.publish 'realtime-multiplayer:joined-game', @currentMultiplayerSession
-          break
+          Backbone.Mediator.publish 'real-time-multiplayer:joined-game', session: @currentMultiplayerSession
     @render()
 
   onMultiplayerSessionRemoved: (e) =>
@@ -113,26 +110,26 @@ module.exports = class MultiplayerView extends CocoView
     @render()
 
   onPlayerAdded: (e) =>
-    # TODO: listeners not being unhooked, this should not be called if no @render.
-    @render() if @render
+    # TODO: listeners not being unhooked
+    @render?()
 
   onPlayerRemoved: (e) =>
-    # TODO: listeners not being unhooked, this should not be called if no @render.
-    @render() if @render
+    # TODO: listeners not being unhooked
+    @render?()
 
   onCreateGame: ->
     s = @multiplayerSessions.create {
       creator: @session.get('creator')
       creatorName: @session.get('creatorName')
       levelID: @session.get('levelID')
-      created: Date.now()
+      created: (new Date()).toISOString()
       state: 'creating'
     }
     @currentMultiplayerSession = @multiplayerSessions.get(s.id)
     @currentMultiplayerSession.on 'change', @onMultiplayerSessionChanged
     players = new RealTimeCollection('multiplayer_level_sessions/' + @currentMultiplayerSession.id + '/players')
     players.create {id: me.id, name: @session.get('creatorName'), team: @session.get('team')}
-    Backbone.Mediator.publish 'realtime-multiplayer:joined-game', @currentMultiplayerSession
+    Backbone.Mediator.publish 'real-time-multiplayer:joined-game', session: @currentMultiplayerSession
     @render()
 
   onJoinGame: (e) ->
@@ -144,7 +141,7 @@ module.exports = class MultiplayerView extends CocoView
       @playersCollections[item.id].create {id: me.id, name: @session.get('creatorName'), team: @session.get('team')}
     else
       console.error 'onJoinGame did not have a players collection', @currentMultiplayerSession
-    Backbone.Mediator.publish 'realtime-multiplayer:joined-game', @currentMultiplayerSession
+    Backbone.Mediator.publish 'real-time-multiplayer:joined-game', session: @currentMultiplayerSession
     if @playersCollections[item.id]?.length is 2
       @currentMultiplayerSession.set 'state', 'coding'
       # TODO: close multiplayer view?
@@ -166,7 +163,7 @@ module.exports = class MultiplayerView extends CocoView
             @multiplayerSessions.remove(cms)
           break
       console.error "Tried to leave a game we hadn't joined!" if @currentMultiplayerSession
-      Backbone.Mediator.publish 'realtime-multiplayer:left-game'
+      Backbone.Mediator.publish 'real-time-multiplayer:left-game', {}
     else
       console.error "Tried to leave a game with no currentMultiplayerSession"
     @render()

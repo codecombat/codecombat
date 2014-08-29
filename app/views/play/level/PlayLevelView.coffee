@@ -66,9 +66,9 @@ module.exports = class PlayLevelView extends RootView
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
-    'realtime-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
-    'realtime-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
-    'realtime-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
+    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -550,10 +550,10 @@ module.exports = class PlayLevelView extends RootView
 
   # Real-time Multiplayer ######################################################
 
-  onJoinedRealTimeMultiplayerGame: (item) ->
-    @multiplayerSession = item
+  onJoinedRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = e.session
 
-  onLeftRealTimeMultiplayerGame: () ->
+  onLeftRealTimeMultiplayerGame: (e) ->
     if @multiplayerSession
       @multiplayerSession.off()
       @multiplayerSession = null
@@ -592,7 +592,7 @@ module.exports = class PlayLevelView extends RootView
 
   onOpponentSubmitted: (opponentPlayer, myPlayer) =>
     # Save opponent's code
-    Backbone.Mediator.publish 'realtime-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code')}
+    Backbone.Mediator.publish 'real-time-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code')}
     # I'm ready to rumble
     myPlayer.set 'state', 'ready'
     if opponentPlayer.get('state') is 'ready'

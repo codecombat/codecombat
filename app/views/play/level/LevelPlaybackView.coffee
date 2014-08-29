@@ -25,7 +25,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'tome:cast-spells': 'onTomeCast'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
-    'realtime-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
+    'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
 
   events:
     'click #debug-toggle': 'onToggleDebug'

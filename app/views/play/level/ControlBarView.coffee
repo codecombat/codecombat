@@ -12,8 +12,8 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
-    'realtime-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
-    'realtime-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
 
   events:
     'click #docs-button': ->
@@ -85,14 +85,14 @@ module.exports = class ControlBarView extends CocoView
   showGameMenuModal: ->
     @openModalView new GameMenuModal level: @level, session: @session, playableTeams: @playableTeams
 
-  onJoinedRealTimeMultiplayerGame: (item) ->
-    @multiplayerSession = item
-    @multiplayerPlayers = new RealTimeCollection('multiplayer_level_sessions/' + item.id + '/players')
+  onJoinedRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = e.session
+    @multiplayerPlayers = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
     @multiplayerPlayers.on 'add', @onRealTimeMultiplayerPlayerAdded
     @multiplayerPlayers.on 'remove', @onRealTimeMultiplayerPlayerRemoved
     @render()
 
-  onLeftRealTimeMultiplayerGame: ->
+  onLeftRealTimeMultiplayerGame: (e) ->
     @multiplayerSession = null
     @multiplayerPlayers.off()
     @multiplayerPlayers = null
