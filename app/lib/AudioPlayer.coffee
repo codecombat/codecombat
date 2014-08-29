@@ -88,6 +88,7 @@ class AudioPlayer extends CocoClass
       @soundsToPlayWhenLoaded[name] = volume
 
   playSound: (name, volume=1, delay=0, pos=null) ->
+    return console.error 'Trying to play empty sound?' unless name
     audioOptions = {volume: (me.get('volume') ? 1) * volume, delay: delay}
     filename = if _.string.startsWith(name, '/file/') then name else '/file/' + name
     unless (filename of cache) and createjs.Sound.loadComplete filename
