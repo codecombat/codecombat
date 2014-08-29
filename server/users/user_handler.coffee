@@ -402,6 +402,7 @@ UserHandler = class UserHandler extends Handler
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
+      usersTotal += 1
       userObjectID = user.get('_id')
       userStringID = userObjectID.toHexString()
 
@@ -450,6 +451,7 @@ UserHandler = class UserHandler extends Handler
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
+      usersTotal += 1
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -478,6 +480,7 @@ UserHandler = class UserHandler extends Handler
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
+      usersTotal += 1
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -505,6 +508,7 @@ UserHandler = class UserHandler extends Handler
       userStream.on 'error', (err) -> log.error err
       userStream.on 'close', -> streamFinished = true
       userStream.on 'data',  (user) ->
+        usersTotal += 1
         userID = user.get('_id').toHexString()
 
         LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
@@ -513,7 +517,7 @@ UserHandler = class UserHandler extends Handler
 
     articleEdits: (done) ->
       Article = require '../articles/Article'
-      countEdits Article,  done
+      countEdits Article, done
 
     levelEdits: (done) ->
       Level = require '../levels/Level'
