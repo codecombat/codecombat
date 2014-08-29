@@ -533,6 +533,7 @@ module.exports = class PlayLevelView extends RootView
   onRealTimePlaybackEnded: (e) ->
     @$el.removeClass 'real-time'
     @onWindowResize()
+    @onRealTimeMultiplayerPlaybackEnded()
 
   destroy: ->
     @levelLoader?.destroy()
@@ -550,6 +551,11 @@ module.exports = class PlayLevelView extends RootView
 
   # Real-time Multiplayer ######################################################
 
+  onRealTimeMultiplayerPlaybackEnded: ->
+    if @multiplayerSession
+      players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
+      players.each (player) -> player.set 'state', 'coding' if player.id is me.id
+
   onJoinedRealTimeMultiplayerGame: (e) ->
     @multiplayerSession = e.session
 
@@ -564,9 +570,8 @@ module.exports = class PlayLevelView extends RootView
       return
     players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
     myPlayer = opponentPlayer = null
-    for i in [0...players.length]
-      player = players.at(i)
-      if player.get('id') is me.id
+    players.each (player) ->
+      if player.id is me.id
         myPlayer = player
       else
         opponentPlayer = player
