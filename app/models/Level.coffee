@@ -140,12 +140,32 @@ module.exports = class Level extends CocoModel
         continue unless lc = _.find levelComponents, {original: component.original}
         component.config ?= {}
         TreemaNode.utils.populateDefaults(component.config, lc.configSchema)
+        @lastType = 'component'
+        @lastOriginal = component.original
+        @walkDefaults component.config, lc.configSchema.properties
 
   fillInDefaultSystemConfiguration: (levelSystems) ->
     for system in levelSystems ? []
       system.config ?= {}
       TreemaNode.utils.populateDefaults(system.config, system.model.configSchema)
+      @lastType = 'system'
+      @lastOriginal = system.model.name
+      @walkDefaults system.config, system.model.configSchema.properties
 
+  walkDefaults: (config, properties) ->
+    # This function is redundant, but is the old implementation.
+    # Remove it and calls to it once we stop seeing these warnings.
+    return unless properties
+    for prop, schema of properties
+      if schema.default? and config[prop] is undefined
+        console.warn 'Setting default of', config, 'for', prop, 'to', schema.default, 'but this method is deprecated... check your config schema!', @lastType, @lastOriginal
+        config[prop] = schema.default
+      if schema.type is 'object' and config[prop]
+        @walkDefaults config[prop], schema.properties
+      else if schema.type is 'array' and config[prop]
+        for item in config[prop] or []
+          @walkDefaults item, schema.items
+          
   dimensions: ->
     width = 0
     height = 0
