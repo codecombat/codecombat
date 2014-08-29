@@ -17,7 +17,8 @@ SaveVersionModal = require 'views/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
-ComponentDocsView = require 'views/docs/ComponentDocumentationView'
+ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
+SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -41,6 +42,7 @@ module.exports = class LevelEditView extends RootView
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
     'click #pop-level-i18n-button': -> @level.populateI18N()
+    'click a[href="#editor-level-documentation"]': 'onClickDocumentationTab'
     'mouseup .nav-tabs > li a': 'toggleTab'
 
   constructor: (options, @levelID) ->
@@ -79,7 +81,8 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
-    @insertSubView new ComponentDocsView  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new ComponentsDocumentationView  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new SystemsDocumentationView  # Don't give it the supermodel, it'll pollute it!
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -164,3 +167,9 @@ module.exports = class LevelEditView extends RootView
       li.parent().find('li').hide()
       li.show()
     console.log li.hasClass('active')
+
+  onClickDocumentationTab: (e) ->
+    # It's either too late at night or something is going on with Bootstrap nested tabs, so we do the click instead of using .active.
+    return if @initializedDocs
+    @initializedDocs = true
+    @$el.find('a[href="#components-documentation-view"]').click()
