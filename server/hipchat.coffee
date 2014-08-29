@@ -12,5 +12,5 @@ module.exports.sendHipChatMessage = sendHipChatMessage = (message) ->
     messageFormat: 'html'
   url = "https://api.hipchat.com/v2/room/#{roomID}/notification?auth_token=#{key}"
   request.post {uri: url, json: form}, (err, res, body) ->
-    return log.error 'Error sending HipChat patch request:', err or body if err or /error/.test body
+    return log.error 'Error sending HipChat patch request:', err or body if err or /error/i.test body
     #log.info "Got HipChat patch response:", body

@@ -22,5 +22,5 @@ module.exports.addDelightedUser = addDelightedUser = (user) ->
       gender: user.get('gender')
       lastLevel: user.get('lastLevel')
   request.post {uri: "https://#{key}:@api.delightedapp.com/v1/people.json", form: form}, (err, res, body) ->
-    return log.error 'Error sending Delighted request:', err or body if err or /error/.test body
+    return log.error 'Error sending Delighted request:', err or body if err or /error/i.test body
     #log.info "Got DelightedApp response: #{body}"

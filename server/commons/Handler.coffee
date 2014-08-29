@@ -6,6 +6,7 @@ log = require 'winston'
 Patch = require '../patches/Patch'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
+hipchat = require '../hipchat'
 
 PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
 FETCH_LIMIT = 300
@@ -370,6 +371,8 @@ module.exports = class Handler
         parentDocument.makeNewMajorVersion(updatedObject, done)
 
   notifyWatchersOfChange: (editor, changedDocument, editPath) ->
+    docLink = "http://codecombat.com#{editPath}"
+    @sendChangedHipChatMessage creator: editor, target: changedDocument, docLink: docLink
     watchers = changedDocument.get('watchers') or []
     watchers = (w for w in watchers when not w.equals(editor.get('_id')))
     return unless watchers.length
@@ -390,9 +393,20 @@ module.exports = class Handler
         commit_message: changedDocument.get('commitMessage')
     sendwithus.api.send context, (err, result) ->
 
+  sendChangedHipChatMessage: (options) ->
+    message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage')}"
+    hipchat.sendHipChatMessage message
+
   makeNewInstance: (req) ->
     model = new @modelClass({})
-    model.set 'watchers', [req.user.get('_id')] if @modelClass.schema.is_patchable
+    if @modelClass.schema.is_patchable
+      watchers = [req.user.get('_id')]
+      if req.user.isAdmin()  # https://github.com/codecombat/codecombat/issues/1105
+        nick = mongoose.Types.ObjectId('512ef4805a67a8c507000001')
+        scott = mongoose.Types.ObjectId('5162fab9c92b4c751e000274')
+        watchers.push nick unless _.find watchers, (id) -> id.equals nick
+        watchers.push scott unless _.find watchers, (id) -> id.equals scott
+      model.set 'watchers', watchers
     model
 
   validateDocumentInput: (input) ->
