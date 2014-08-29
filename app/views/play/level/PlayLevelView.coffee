@@ -20,6 +20,7 @@ LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
+RealTimeCollection = require 'collections/RealTimeCollection'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
@@ -65,6 +66,9 @@ module.exports = class PlayLevelView extends RootView
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'realtime-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'realtime-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'realtime-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -543,3 +547,61 @@ module.exports = class PlayLevelView extends RootView
     delete window.nextLevelURL
     console.profileEnd?() if PROFILE_ME
     super()
+
+  # Real-time Multiplayer ######################################################
+
+  onJoinedRealTimeMultiplayerGame: (item) ->
+    @multiplayerSession = item
+
+  onLeftRealTimeMultiplayerGame: () ->
+    if @multiplayerSession
+      @multiplayerSession.off()
+      @multiplayerSession = null
+
+  onRealTimeMultiplayerCast: (e) ->
+    unless @multiplayerSession
+      console.error 'onRealTimeMultiplayerCast without a multiplayerSession'
+      return
+    players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
+    myPlayer = opponentPlayer = null
+    for i in [0...players.length]
+      player = players.at(i)
+      if player.get('id') is me.id
+        myPlayer = player
+      else
+        opponentPlayer = player
+    if myPlayer
+      console.info 'Submitting my code'
+      myPlayer.set 'code', @session.get('code')
+      myPlayer.set 'codeLanguage', @session.get('codeLanguage')
+      myPlayer.set 'state', 'submitted'
+    else
+      console.error 'Did not find my player in onRealTimeMultiplayerCast'
+    if opponentPlayer
+      # TODO: Shouldn't need nested opponentPlayer change listeners here
+      state = opponentPlayer.get('state')
+      console.info 'Other player is', state
+      if state in ['submitted', 'ready']
+        @onOpponentSubmitted(opponentPlayer, myPlayer)
+      else
+        # Wait for opponent to submit their code
+        opponentPlayer.on 'change', (e) =>
+          state = opponentPlayer.get('state')
+          if state in ['submitted', 'ready']
+            @onOpponentSubmitted(opponentPlayer, myPlayer)
+
+  onOpponentSubmitted: (opponentPlayer, myPlayer) =>
+    # Save opponent's code
+    Backbone.Mediator.publish 'realtime-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code')}
+    # I'm ready to rumble
+    myPlayer.set 'state', 'ready'
+    if opponentPlayer.get('state') is 'ready'
+      console.info 'All real-time multiplayer players are ready!'
+      @multiplayerSession.set 'state', 'running'
+    else
+      # Wait for opponent to be ready
+      opponentPlayer.on 'change', (e) =>
+        if opponentPlayer.get('state') is 'ready'
+          opponentPlayer.off()
+          console.info 'All real-time multiplayer players are ready!'
+          @multiplayerSession.set 'state', 'running'

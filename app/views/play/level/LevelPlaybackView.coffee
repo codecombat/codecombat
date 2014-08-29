@@ -25,6 +25,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'tome:cast-spells': 'onTomeCast'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
+    'realtime-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
@@ -161,6 +162,9 @@ module.exports = class LevelPlaybackView extends CocoView
 
   onTomeCast: (e) ->
     return unless e.realTime
+    @onRealTimeMultiplayerCast e
+
+  onRealTimeMultiplayerCast: (e) ->
     @realTime = true
     @togglePlaybackControls false
     Backbone.Mediator.publish 'playback:real-time-playback-started', {}
