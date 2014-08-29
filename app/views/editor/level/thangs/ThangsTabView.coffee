@@ -161,7 +161,7 @@ module.exports = class ThangsTabView extends CocoView
     thangsHeaderHeight = $('#thangs-header').height()
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
-    if data.thangs.length
+    if data.thangs?.length
       @$el.find('#randomize-button').hide()
 
   initSurface: ->
