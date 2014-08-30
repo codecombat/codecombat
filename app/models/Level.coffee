@@ -139,7 +139,7 @@ module.exports = class Level extends CocoModel
       for component in thang.components or []
         continue unless lc = _.find levelComponents, {original: component.original}
         component.config ?= {}
-        TreemaNode.utils.populateDefaults(component.config, lc.configSchema)
+        TreemaUtils.populateDefaults(component.config, lc.configSchema)
         @lastType = 'component'
         @lastOriginal = component.original
         @walkDefaults component.config, lc.configSchema.properties
@@ -147,7 +147,7 @@ module.exports = class Level extends CocoModel
   fillInDefaultSystemConfiguration: (levelSystems) ->
     for system in levelSystems ? []
       system.config ?= {}
-      TreemaNode.utils.populateDefaults(system.config, system.model.configSchema)
+      TreemaUtils.populateDefaults(system.config, system.model.configSchema)
       @lastType = 'system'
       @lastOriginal = system.model.name
       @walkDefaults system.config, system.model.configSchema.properties
@@ -165,7 +165,7 @@ module.exports = class Level extends CocoModel
       else if schema.type is 'array' and config[prop]
         for item in config[prop] or []
           @walkDefaults item, schema.items
-          
+
   dimensions: ->
     width = 0
     height = 0

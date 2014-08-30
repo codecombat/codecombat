@@ -104,6 +104,8 @@ module.exports = class ThangsTabView extends CocoView
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
     else
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
+      $('#all-thangs').collapse 'show'
+      $('#add-thangs-column').collapse 'show'
 
   undo: (e) ->
     if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
@@ -117,7 +119,7 @@ module.exports = class ThangsTabView extends CocoView
     $('.tab-content').mousedown @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
-    $(window).resize @onWindowResize
+    $(window).on 'resize', @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world
     @buildInterface() # refactor to not have this trigger when this view re-renders?
     if @thangsTreema.data.length
@@ -182,6 +184,7 @@ module.exports = class ThangsTabView extends CocoView
   destroy: ->
     @selectAddThangType null
     @surface.destroy()
+    $(window).off 'resize', @onWindowResize
     $(document).unbind 'contextmenu', @preventDefaultContextMenu
     @thangsTreema?.destroy()
     super()

@@ -18,6 +18,13 @@ module.exports = class ScriptsTabView extends CocoView
     super options
     @world = options.world
     @files = options.files
+    $(window).on 'resize', @onWindowResize
+
+  destroy: ->
+    @scriptTreema?.destroy()
+    @scriptTreemas?.destroy()
+    $(window).off 'resize', @onWindowResize
+    super()
 
   onLoaded: ->
   onLevelLoaded: (e) ->
@@ -116,10 +123,8 @@ module.exports = class ScriptsTabView extends CocoView
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
     
-  destroy: ->
-    @scriptTreema?.destroy()
-    @scriptTreemas?.destroy()
-    super()
+  onWindowResize: (e) =>
+    @$el.find('#scripts-treema').collapse('show') if $('body').width() > 800
 
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'
@@ -170,7 +175,7 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-  buildValueForEditing: (valEl, data) -> 
+  buildValueForEditing: (valEl, data) ->
     super(valEl, data)
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
