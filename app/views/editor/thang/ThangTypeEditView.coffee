@@ -59,6 +59,10 @@ module.exports = class ThangTypeEditView extends RootView
       @updateFileSize()
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
+  showLoading: ($el) ->
+    $el ?= @$el.find('.outer-content')
+    super($el)
+
   getRenderData: (context={}) ->
     context = super(context)
     context.thangType = @thangType
