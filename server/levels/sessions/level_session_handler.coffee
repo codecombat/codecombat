@@ -9,6 +9,7 @@ class LevelSessionHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'
+    return @getCodeLanguageCounts req, res if args[1] is 'code_language_counts'
     super(arguments...)
 
   formatEntity: (req, document) ->
@@ -32,5 +33,23 @@ class LevelSessionHandler extends Handler
     return true if req.method is 'GET' and document.get('totalScore')
     return true if ('employer' in req.user.get('permissions')) and (method ? req.method).toLowerCase() is 'get'
     super(arguments...)
+
+  getCodeLanguageCounts: (req, res) ->
+    if @codeLanguageCache and (new Date()) - @codeLanguageCountCachedSince > 86400 * 1000  # Dumb cache expiration
+      @codeLanguageCountCache = null
+      @codeLanguageCountCacheSince = null
+    if @codeLanguageCountCache
+      return @sendSuccess res, @codeLanguageCountCache
+    query = LevelSession.aggregate [
+      #{$match: {codeLanguage: {$exists: true}}}  # actually slows it down
+      {$group: {_id: "$codeLanguage", sessions: {$sum: 1}}}
+      {$sort: {sessions: -1}}
+    ]
+    query.exec (err, data) =>
+      if err? then return @sendDatabaseError res, err
+      @codeLanguageCountCache = data
+      @codeLanguageCountCachedSince = new Date()
+      @sendSuccess res, data
+
 
 module.exports = new LevelSessionHandler()

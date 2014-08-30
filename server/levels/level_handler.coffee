@@ -292,8 +292,8 @@ LevelHandler = class LevelHandler extends Handler
     if playCounts = @playCountCache[cacheKey]
       return @sendSuccess res, playCounts
     query = Session.aggregate [
-      {$match: {levelID: {$in: levelIDs}}},
-      {$group: {_id: "$levelID", playtime: {$sum: "$playtime"}, sessions: {$sum: 1}}},
+      {$match: {levelID: {$in: levelIDs}}}
+      {$group: {_id: "$levelID", playtime: {$sum: "$playtime"}, sessions: {$sum: 1}}}
       {$sort: {sessions: -1}}
     ]
     query.exec (err, data) =>
