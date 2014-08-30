@@ -42,6 +42,7 @@ Worker::removeEventListener = (what) ->
   if what is 'message'
     @onmessage = -> #This webworker api has only one event listener at a time.
 GLOBAL.tv4 = require('tv4').tv4
+GLOBAL.TreemaUtils = require './bower_components/treema/treema-utils.js'
 GLOBAL.marked = setOptions: ->
 store = {}
 GLOBAL.localStorage =
