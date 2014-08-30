@@ -14,7 +14,7 @@ module.exports = class LevelGuideModal extends ModalView
 
   constructor: (options) ->
     @firstOnly = options.firstOnly
-    @docs = options?.docs
+    @docs = options?.docs ? {}
     general = @docs.generalArticles or []
     specific = @docs.specificArticles or []
 
