@@ -68,10 +68,19 @@ module.exports = class LevelComponentEditView extends CocoView
     null
 
   buildConfigSchemaTreema: ->
+    configSchema = @levelComponent.get 'configSchema'
+    if configSchema.properties
+      # Alphabetize (#1297)
+      propertyNames = _.keys configSchema.properties
+      propertyNames.sort()
+      orderedProperties = {}
+      for prop in propertyNames
+        orderedProperties[prop] = configSchema.properties[prop]
+      configSchema.properties = orderedProperties
     treemaOptions =
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
-      data: @levelComponent.get 'configSchema'
+      data: configSchema
       readOnly: me.get('anonymous')
       callbacks: {change: @onConfigSchemaEdited}
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
