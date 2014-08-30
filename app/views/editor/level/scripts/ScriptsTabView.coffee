@@ -90,7 +90,7 @@ module.exports = class ScriptsTabView extends CocoView
 
     newPath = selected.getPath()
     return if newPath is @selectedScriptPath
-    @scriptTreema?.destroy()
+    #@scriptTreema?.destroy() # TODO: get this to work 
     @scriptTreema = @$el.find('#script-treema').treema treemaOptions
     @scriptTreema.build()
     @scriptTreema.childrenTreemas?.noteChain?.open()
