@@ -460,6 +460,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 
   options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
     music_label: "Muzyka"
     music_description: "Wł/Wył muzykę w tle."
     autorun_label: "Autostart"

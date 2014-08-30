@@ -460,6 +460,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 
   options:
     general_options: "Allgemeine Einstellungen"
+#    volume_label: "Volume"
     music_label: "Musik"
     music_description: "Schalte Hintergrundmusik an/aus."
 #    autorun_label: "Autorun"

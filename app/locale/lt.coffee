@@ -460,6 +460,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
