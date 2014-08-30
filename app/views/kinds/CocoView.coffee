@@ -65,6 +65,13 @@ module.exports = class CocoView extends Backbone.View
     @destroy = doNothing
     $.noty.closeAll()
 
+  destroyAceEditor: (editor) ->
+    # convenience method to make sure the ace editor is as destroyed as can be 
+    return unless editor
+    session = editor.getSession()
+    session.setMode ''
+    editor.destroy()
+
   afterInsert: ->
 
   willDisappear: ->

@@ -81,6 +81,10 @@ module.exports = class ComponentsTabView extends CocoView
   onLevelComponentEditingEnded: (e) ->
     @removeSubView @levelComponentEditView
     @levelComponentEditView = null
+    
+  destroy: ->
+    @componentsTreema?.destroy()
+    super()
 
 class LevelComponentNode extends TreemaObjectNode
   valueClass: 'treema-level-component'

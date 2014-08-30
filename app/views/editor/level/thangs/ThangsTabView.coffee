@@ -183,6 +183,7 @@ module.exports = class ThangsTabView extends CocoView
     @selectAddThangType null
     @surface.destroy()
     $(document).unbind 'contextmenu', @preventDefaultContextMenu
+    @thangsTreema?.destroy()
     super()
 
   onViewSwitched: (e) ->

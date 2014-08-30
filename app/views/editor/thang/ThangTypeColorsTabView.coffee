@@ -21,6 +21,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @interval = setInterval f, 1000
 
   destroy: ->
+    @colorGroups?.destroy()
     clearInterval @interval
     super()
 

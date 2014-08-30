@@ -92,6 +92,10 @@ module.exports = class ThangComponentConfigView extends CocoView
     @trigger 'changed', { component: @component, config: @config }
 
   data: -> @editThangTreema.data
+    
+  destroy: ->
+    @editThangTreema?.destroy()
+    super()
 
 class ComponentConfigNode extends TreemaObjectNode
   nodeDescription: 'Component Property'

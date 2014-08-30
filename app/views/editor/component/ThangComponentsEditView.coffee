@@ -342,7 +342,10 @@ module.exports = class ThangComponentsEditView extends CocoView
       @loadComponents(sparseComponents)
       @components = @components.concat(sparseComponents)
       @onComponentsChanged()
-
+      
+  destroy: ->
+    @componentsTreema?.destroy()
+    super()
 
 class ThangComponentsObjectNode extends TreemaObjectNode
   addNewChild: -> @addNewChildForKey('') # HACK to get the object adding to act more like adding to an array

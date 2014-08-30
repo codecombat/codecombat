@@ -60,6 +60,10 @@ module.exports = class SettingsTabView extends CocoView
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
+    
+  destroy: ->
+    @settingsTreema?.destroy()
+    super()
 
 
 class SettingsNode extends TreemaObjectNode

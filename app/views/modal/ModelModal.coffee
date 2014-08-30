@@ -69,3 +69,7 @@ module.exports = class ModelModal extends ModalView
     res.success (model, response, options) =>
       return if @destroyed
       @hide()
+
+  destroy: ->
+    @modelTreemas[model].destroy() for model of @modelTreemas
+    super()

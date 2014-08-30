@@ -83,6 +83,7 @@ module.exports = class ScriptsTabView extends CocoView
 
     newPath = selected.getPath()
     return if newPath is @selectedScriptPath
+    @scriptTreema?.destroy()
     @scriptTreema = @$el.find('#script-treema').treema treemaOptions
     @scriptTreema.build()
     @scriptTreema.childrenTreemas?.noteChain?.open()
@@ -114,7 +115,11 @@ module.exports = class ScriptsTabView extends CocoView
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
-
+    
+  destroy: ->
+    @scriptTreema?.destroy()
+    @scriptTreemas?.destroy()
+    super()
 
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'

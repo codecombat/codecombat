@@ -586,3 +586,7 @@ module.exports = class JobProfileView extends UserView
     session = _.find @sessions.models, (session) -> session.id is sessionID
     modal = new JobProfileCodeModal({session:session})
     @openModalView modal
+
+  destroy: ->
+    @remarkTreema?.destroy()
+    super()

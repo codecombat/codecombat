@@ -78,7 +78,7 @@ module.exports = class LevelSystemEditView extends CocoView
     @levelSystem.set 'configSchema', @configSchemaTreema.data
 
   buildCodeEditor: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
     editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
     @$el.find('#system-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
@@ -114,5 +114,7 @@ module.exports = class LevelSystemEditView extends CocoView
     button.find('> span').toggleClass('secret')
 
   destroy: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
+    @systemSettingsTreema?.destroy()
+    @configSchemaTreema?.destroy()
     super()
