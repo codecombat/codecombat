@@ -122,7 +122,7 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
-        format: 'javascript'
+        format: 'code'
 
   codeLanguage:
     type: 'string'
@@ -165,6 +165,7 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   submittedCodeLanguage:
     type: 'string'
@@ -175,6 +176,7 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   isRanking:
     type: 'boolean'

@@ -62,7 +62,7 @@ module.exports = class ThangType extends CocoModel
     options
 
   buildSpriteSheet: (options) ->
-    return false unless @isFullyLoaded()
+    return false unless @isFullyLoaded() and @get 'raw'
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
     if ss = @spriteSheets[key] then return ss

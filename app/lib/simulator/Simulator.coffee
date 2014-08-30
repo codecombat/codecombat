@@ -3,9 +3,7 @@ CocoClass = require 'lib/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
-
-Aether.addGlobal 'Vector', require 'lib/world/vector'
-Aether.addGlobal '_', _
+{createAetherOptions} = require 'lib/aether_utils'
 
 module.exports = class Simulator extends CocoClass
   constructor: (@options) ->
@@ -400,23 +398,7 @@ module.exports = class Simulator extends CocoClass
         aether.transpile ''
 
   createAether: (methodName, method, useProtectAPI, codeLanguage) ->
-    aetherOptions =
-      functionName: methodName
-      protectAPI: useProtectAPI
-      includeFlow: false
-      yieldConditionally: methodName is 'plan'
-      globals: ['Vector', '_']
-      problems:
-        jshint_W040: {level: 'ignore'}
-        jshint_W030: {level: 'ignore'}  # aether_NoEffect instead
-        aether_MissingThis: {level: 'error'}
-      #functionParameters: # TODOOOOO
-      executionLimit: 1 * 1000 * 1000
-      language: codeLanguage
-    if methodName is 'hear' then aetherOptions.functionParameters = ['speaker', 'message', 'data']
-    if methodName is 'makeBid' then aetherOptions.functionParameters = ['tileGroupLetter']
-    if methodName is 'findCentroids' then aetherOptions.functionParameters = ['centroids']
-    #console.log 'creating aether with options', aetherOptions
+    aetherOptions = createAetherOptions functionName: methodName, codeLanguage: codeLanguage, skipProtectAPI: not useProtectAPI
     return new Aether aetherOptions
 
 class SimulationTask
