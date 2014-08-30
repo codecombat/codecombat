@@ -3,9 +3,7 @@ template = require 'templates/play/level'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 utils = require 'lib/utils'
-
-# temp hard coded data
-World = require 'lib/world/world'
+storage = require 'lib/storage'
 
 # tools
 Surface = require 'lib/surface/Surface'
@@ -280,13 +278,22 @@ module.exports = class PlayLevelView extends RootView
     # Everything is now loaded
     return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
-    # Save latest level played in local storage
+    # Save latest level played.
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
       me.set('lastLevel', @levelID)
       me.save()
+    @saveRecentMatch() if @otherSession
     @levelLoader.destroy()
     @levelLoader = null
     @initSurface()
+
+  saveRecentMatch: ->
+    allRecentlyPlayedMatches = storage.load('recently-played-matches') ? {}
+    recentlyPlayedMatches = allRecentlyPlayedMatches[@levelID] ? []
+    allRecentlyPlayedMatches[@levelID] = recentlyPlayedMatches
+    recentlyPlayedMatches.unshift yourTeam: me.team, otherSessionID: @otherSession.id, opponentName: @otherSession.get('creatorName') unless _.find recentlyPlayedMatches, otherSessionID: @otherSession.id
+    recentlyPlayedMatches.splice(8)
+    storage.save 'recently-played-matches', allRecentlyPlayedMatches
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)

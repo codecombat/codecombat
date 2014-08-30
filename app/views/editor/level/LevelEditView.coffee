@@ -19,6 +19,7 @@ RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
 SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
+storage = require 'lib/storage'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -68,6 +69,7 @@ module.exports = class LevelEditView extends RootView
     context.level = @level
     context.authorized = me.isAdmin() or @level.hasWriteAccess(me)
     context.anonymous = me.get('anonymous')
+    context.recentlyPlayedOpponents = storage.load('recently-played-matches')?[@levelID] ? []
     context
 
   afterRender: ->
@@ -98,6 +100,7 @@ module.exports = class LevelEditView extends RootView
 
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
+    opponentSessionID = $(e.target).data('opponent')
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed
@@ -107,6 +110,7 @@ module.exports = class LevelEditView extends RootView
       # Create a new Window with a blank LevelView
       scratchLevelID = @level.get('slug') + '?dev=true'
       scratchLevelID += "&team=#{team}" if team
+      scratchLevelID += "&opponent=#{opponentSessionID}" if opponentSessionID
       if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else

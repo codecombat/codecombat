@@ -64,7 +64,9 @@ block header
               li.dropdown-header Play As Which Team?
               li
                 for team in ['humans', 'ogres']
-                  a.play-with-team-button(data-team=team)= team
+                  a.play-with-team-button(data-team=team)= team + ' vs. AI'
+                for match in recentlyPlayedOpponents
+                  a.play-with-team-button(data-team=match.yourTeam, data-opponent=match.opponentSessionID)= match.yourTeam + ' vs. ' + match.opponentName
         
         else
           li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button

@@ -243,6 +243,7 @@ module.exports = class LevelLoader extends CocoClass
     resource = null
     for resource in @spriteSheetsToBuild
       break if e.thangType is resource.thangType
+    return console.error 'Did not find spriteSheetToBuildResource for', e unless resource
     resource.spriteSheetKeys = (k for k in resource.spriteSheetKeys when k isnt e.key)
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
