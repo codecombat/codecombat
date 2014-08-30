@@ -275,6 +275,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   onSelectComponent: (e, nodes) =>
     @componentsTreema.$el.find('.dependent').removeClass('dependent')
+    @$el.find('.selected-component').removeClass('selected-component')
     return unless nodes.length is 1
 
     # find dependent components
@@ -302,6 +303,7 @@ module.exports = class ThangComponentsEditView extends CocoView
       continue unless subview instanceof ThangComponentConfigView
       if subview.component.get('original') is nodes[0].getData().original
         subview.$el[0].scrollIntoView()
+        subview.$el.addClass('selected-component')
         break
 
   onChangeExtantComponents: =>
