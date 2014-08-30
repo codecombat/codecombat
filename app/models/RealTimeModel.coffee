@@ -1,4 +1,4 @@
-module.exports = class RealTimeCollection extends Backbone.Firebase.Collection
+module.exports = class RealTimeModel extends Backbone.Firebase.Model
   constructor: (savePath) ->
     # TODO: Don't hard code this here
     # TODO: Use prod path in prod

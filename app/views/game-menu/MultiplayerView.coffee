@@ -26,13 +26,7 @@ module.exports = class MultiplayerView extends CocoView
     @session = options.session
     @playableTeams = options.playableTeams
     @listenTo @session, 'change:multiplayer', @updateLinkSection
-
-    # TODO: only request sessions for this level, !team, etc.
-    # TODO: don't hard code this path all over the place
-    @multiplayerSessions = new RealTimeCollection('multiplayer_level_sessions/')
-    @multiplayerSessions.on 'add', @onMultiplayerSessionAdded
-    @multiplayerSessions.on 'remove', @onMultiplayerSessionRemoved
-    @playersCollections = {}
+    @initMultiplayerSessions()
 
   destroy: ->
     @multiplayerSessions?.off()
@@ -83,22 +77,33 @@ module.exports = class MultiplayerView extends CocoView
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)
 
-
   # TODO: shouldn't have to open MultiplayerView to read existing multiplayerSession?
-  # TODO: No current game shown when: this view closed, opponent leaves your game, this view opened
+  # TODO: if someone leaves your game, it should go back to 'creating' state
 
-  onMultiplayerSessionAdded: (e) =>
+  initMultiplayerSessions: ->
+    @playersCollections = {}
+    # TODO: only request sessions for this level, !team, etc.
+    # TODO: don't hard code this path all over the place
+    @multiplayerSessions = new RealTimeCollection('multiplayer_level_sessions/')
+    @multiplayerSessions.on 'add', @onMultiplayerSessionAdded
+    @multiplayerSessions.on 'remove', @onMultiplayerSessionRemoved
+    @multiplayerSessions.each (ms) => @initMultiplayerSession ms
+
+  initMultiplayerSession: (ms) ->
     # TODO: double check these players events are needed on top of onMultiplayerSessionChanged
-    @playersCollections[e.id] = new RealTimeCollection('multiplayer_level_sessions/' + e.id + '/players')
-    @playersCollections[e.id].on 'add', @onPlayerAdded
-    @playersCollections[e.id].on 'remove', @onPlayerRemoved
-    # Check if we've already joined this multiplayer session
-    if not @currentMultiplayerSession and e.get('levelID') is @session.get('levelID')
-      @playersCollections[e.id].each (player) =>
+    @playersCollections[ms.id] = new RealTimeCollection('multiplayer_level_sessions/' + ms.id + '/players')
+    @playersCollections[ms.id].on 'add', @onPlayerAdded
+    @playersCollections[ms.id].on 'remove', @onPlayerRemoved
+    if not @currentMultiplayerSession and ms.get('levelID') is @session.get('levelID')
+      @playersCollections[ms.id].each (player) =>
         if player.id is me.id and player.get('team') is @session.get('team')
-          @currentMultiplayerSession = e
+          @currentMultiplayerSession = ms
           @currentMultiplayerSession.on 'change', @onMultiplayerSessionChanged
           Backbone.Mediator.publish 'real-time-multiplayer:joined-game', session: @currentMultiplayerSession
+    
+  onMultiplayerSessionAdded: (e) =>
+    console.log 'onMultiplayerSessionAdded', e
+    @initMultiplayerSession e
     @render()
 
   onMultiplayerSessionRemoved: (e) =>

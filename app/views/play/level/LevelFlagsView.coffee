@@ -15,7 +15,6 @@ module.exports = class LevelFlagsView extends CocoView
     'god:streaming-world-updated': 'onNewWorld'
     'surface:remove-flag': 'onRemoveFlag'
     'real-time-multiplayer:joined-game': 'onJoinedMultiplayerGame'
-    'real-time-multiplayer:left-game': 'onLeftMultiplayerGame'
 
   events:
     'click .green-flag': -> @onFlagSelected color: 'green', source: 'button'
@@ -43,7 +42,6 @@ module.exports = class LevelFlagsView extends CocoView
     @onFlagSelected color: null
     @realTime = false
     @$el.hide()
-    @multiplayerSession?.set 'state', 'coding'
 
   onFlagSelected: (e) ->
     return unless @realTime
@@ -83,10 +81,6 @@ module.exports = class LevelFlagsView extends CocoView
     @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
 
   onLeftMultiplayerGame: (e) ->
-    @multiplayerState = null
-    if @multiplayerSession
-      @multiplayerSession.off()
-      @multiplayerSession = null
     if @realTimeFlags
       @realTimeFlags.off()
       @realTimeFlags = null

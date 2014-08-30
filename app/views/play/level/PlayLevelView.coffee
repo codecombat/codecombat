@@ -20,6 +20,7 @@ LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
+RealTimeModel = require 'models/RealTimeModel'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
 # subviews
@@ -64,6 +65,7 @@ module.exports = class PlayLevelView extends RootView
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
@@ -526,6 +528,10 @@ module.exports = class PlayLevelView extends RootView
       AudioPlayer.preloadSoundReference sound
 
   # Real-time playback
+  onRealTimePlaybackWaiting: (e) ->
+    @$el.addClass('real-time').focus()
+    @onWindowResize()
+
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
     @onWindowResize()
@@ -553,11 +559,12 @@ module.exports = class PlayLevelView extends RootView
 
   onRealTimeMultiplayerPlaybackEnded: ->
     if @multiplayerSession
+      @multiplayerSession.set 'state', 'coding'
       players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
       players.each (player) -> player.set 'state', 'coding' if player.id is me.id
 
   onJoinedRealTimeMultiplayerGame: (e) ->
-    @multiplayerSession = e.session
+    @multiplayerSession = new RealTimeModel('multiplayer_level_sessions/' + e.session.id)
 
   onLeftRealTimeMultiplayerGame: (e) ->
     if @multiplayerSession

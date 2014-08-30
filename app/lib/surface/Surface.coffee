@@ -10,6 +10,7 @@ Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
 CountdownScreen = require './CountdownScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
+WaitingScreen = require './WaitingScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 CoordinateGrid = require './CoordinateGrid'
@@ -67,6 +68,7 @@ module.exports = Surface = class Surface extends CocoClass
     'level:set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
+    'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
@@ -101,6 +103,7 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @countdownScreen?.destroy()
     @playbackOverScreen?.destroy()
+    @waitingScreen?.destroy()
     @coordinateDisplay?.destroy()
     @coordinateGrid?.destroy()
     @stage.clear()
@@ -402,6 +405,7 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer
     @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer
+    @waitingScreen = new WaitingScreen camera: @camera, layer: @screenLayer
     @initCoordinates()
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
@@ -571,7 +575,11 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.update e
 
   # Real-time playback
+  onRealTimePlaybackWaiting: (e) ->
+    @onRealTimePlaybackStarted e
+
   onRealTimePlaybackStarted: (e) ->
+    return if @realTime
     @realTime = true
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle false
