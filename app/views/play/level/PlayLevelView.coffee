@@ -52,6 +52,7 @@ module.exports = class PlayLevelView extends RootView
     'level:focus-dom': 'onFocusDom'
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
+    'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
@@ -195,6 +196,18 @@ module.exports = class PlayLevelView extends RootView
     @world = @levelLoader.world
     @level = @levelLoader.level
     @otherSession = @levelLoader.opponentSession
+    @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
+    for percent in [1 .. 100]
+      @worldLoadFakeResources.push @supermodel.addSomethingResource "world_simulation_#{percent}%", 1
+
+  onWorldLoadProgressChanged: (e) ->
+    return unless @worldLoadFakeResources
+    @lastWorldLoadPercent ?= 0
+    worldLoadPercent = Math.floor 100 * e.progress
+    for percent in [@lastWorldLoadPercent + 1 .. worldLoadPercent] by 1
+      @worldLoadFakeResources[percent - 1].markLoaded()
+    @lastWorldLoadPercent = worldLoadPercent
+    @worldFakeLoadResources = null if worldLoadPercent is 100  # Done, don't need to watch progress any more.
 
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
