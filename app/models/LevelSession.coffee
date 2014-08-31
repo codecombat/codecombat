@@ -1,16 +1,49 @@
 CocoModel = require './CocoModel'
+VCS = require 'lib/VCS'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
   @schema: require 'schemas/models/level_session'
   urlRoot: '/db/level.session'
 
+  maxRevCount: 100
+
+  onManualCast: ->
+    @saveCode null, @get 'code'
+
+  subscriptions:
+    'tome:manual-cast': 'onManualCast' # User explicitly clicked.
+
   initialize: ->
     super()
+    @saveCodeDebounced = _.debounce @saveCode, 60000
     @on 'sync', (e) =>
       state = @get('state') or {}
       state.scripts ?= {}
-      @set('state', state)
+      @set 'state', state
+      @vcs = new VCS @maxRevCount, @get('vcs')
+    @vcs = new VCS @maxRevCount
+    @on "change:code", @saveCodeDebounced
+
+  saveCode: (obj, value) ->
+    @vcs.save value
+    @set 'vcs', @vcs.serialize()
+
+  getHeadRevisions: ->
+    @vcs.heads
+
+  getRevisions: ->
+    @vcs.revs
+
+  getWorkingRevision: ->
+    @vcs.workingRev
+
+  getRevision: (timestamp) ->
+    @vcs.getRevByTime timestamp
+
+  loadRevision: (revision) ->
+    @vcs.load revision
+    @set 'vcs', @vcs.serialize()
 
   updatePermissions: ->
     permissions = @get 'permissions'
@@ -36,6 +69,10 @@ module.exports = class LevelSession extends CocoModel
       spell = item[1]
       return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
+
+  save: (attrs, options) ->
+    super(attrs, options)
+    @vcs = new VCS @maxRevCount, @get('vcs')
 
   isMultiplayer: ->
     @get('team')? # Only multiplayer level sessions have teams defined

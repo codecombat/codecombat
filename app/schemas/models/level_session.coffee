@@ -124,6 +124,58 @@ _.extend LevelSessionSchema.properties,
         type: 'string'
         format: 'code'
 
+  vcs:
+    title: 'Version Control System for User Code'
+    description: 'Stores past revisions of user code.'
+    type: 'object'
+    properties:
+      workingRevision:
+        title: 'Current working revision'
+        description: 'The revision a user is currently working from. Uses the date as unique id for reference.'
+        type: 'date'
+      revisions:
+        title: 'Revisions'
+        description: 'all revisions sorted by age in increasing order (newest to oldest)'
+        type: 'array'
+        items:
+          title: "Revision"
+          description: 'One revision including code/diff and metadata.'
+          type: 'object'
+          properties:
+            saveName:
+              title: 'Save Name (TAG)'
+              description: 'If this revision is saved(Tagged), the name is stored here.'
+              type: 'string'
+            timestamp:
+              title: 'Creation time.'
+              description: "At what time this element has been created. It is the revision node's unique id at the same time"
+              type: 'date'
+            previous:
+              title: 'Previous Item'
+              description: 'The timestamp (id) of the previous item'
+              type: 'string'
+            code:
+              title: 'Code'
+              description: 'The code of this item. Either this or the delta to the previous item must be set'
+              type: 'object'
+              additionalProperties:
+                type: 'object'
+                additionalProperties:
+                  type: 'string'
+                  format: 'javascript'
+            diff:
+              title: 'Diff'
+              description: 'The delta to the previous item.'
+              type: 'object'
+              additionalProperties:
+                type: 'object'
+                additionalProperties:
+                  type: 'array'
+            newBranch:
+              title: 'Start of Branch'
+              description: 'Indicates if this node is the start of a new branch (diff line ends here)'
+              type: 'boolean'
+
   codeLanguage:
     type: 'string'
 
