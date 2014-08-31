@@ -40,30 +40,25 @@ module.exports = class DiplomatView extends ContributeClassView
     'en-GB': []        # English (UK), English (UK)
     'en-AU': []        # English (AU), English (AU)
     ru: ['fess89', 'ser-storchak', 'Mr A', 'a1ip', 'iulianR', 'EagleTA', 'kisik21', 'Shpionus', 'kerradus', 'ImmortalJoker']             # русский язык, Russian
-    de: ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich', 'bahuma20', 'djsmith85', 'greyhusky']             # Deutsch, German
-    'de-DE': []        # Deutsch (Deutschland), German (Germany)
-    'de-AT': []        # Deutsch (Österreich), German (Austria)
-    'de-CH': []        # Deutsch (Schweiz), German (Switzerland)
-    es: []             # español, Spanish
+    'de-DE': ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich', 'bahuma20', 'domenukk', 'dkundel']        # Deutsch (Deutschland), German (Germany)
+    'de-AT': ['djsmith85']        # Deutsch (Österreich), German (Austria)
+    'de-CH': ['greyhusky']        # Deutsch (Schweiz), German (Switzerland)
     'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza', '2xG', ]       # español (América Latina), Spanish (Latin America)
     'es-ES': ['Matthew Burt', 'DanielRodriguezRivero', 'Anon', 'Pouyio', '3rr3s3v3n', 'OviiiOne', 'Vindurrin']        # español (ES), Spanish (Spain)
-    zh: ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng', 'yfdyh000', 'julycoolwind', 'Vic020', 'onion7878', 'BonnieBBS', '1c7', 'benojan', 'ZephyrSails']             # 中文, Chinese
-    'zh-HANS': []      # 简体中文, Chinese (Simplified)
-    'zh-HANT': []      # 繁体中文, Chinese (Traditional)
+    'zh-HANS': ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng', 'yfdyh000', 'julycoolwind', 'Vic020', 'onion7878', 'BonnieBBS', '1c7', 'ZephyrSails']      # 简体中文, Chinese (Simplified)
+    'zh-HANT': ['gintau', 'Adam23']      # 繁体中文, Chinese (Traditional)
     'zh-WUU-HANS': []  # 吴语, Wuu (Simplified)
-    'zh-WUU-HANT': []  # 吳語, Wuu (Traditional)
+    'zh-WUU-HANT': ['benojan']  # 吳語, Wuu (Traditional)
     fr: ['Xeonarno', 'Elfisen', 'Armaldio', 'MartinDelille', 'pstweb', 'veritable', 'jaybi', 'xavismeh', 'Anon', 'Feugy', 'dc55028', 'ChrisLightman', 'Oaugereau']             # français, French
     ja: ['g1itch', 'kengos', 'treby']             # 日本語, Japanese
     ar: ['ahmed80dz', '5y']             # العربية, Arabic
-    pt: []             # português, Portuguese
     'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso', 'Bia41']        # português do Brasil, Portuguese (Brazil)
     'pt-PT': ['Matthew Burt', 'ReiDuKuduro', 'Imperadeiro98', 'batista', 'ProgramadorLucas', 'gutierri']        # Português (Portugal), Portuguese (Portugal)
     pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk']             # język polski, Polish
     it: ['flauta', 'AlessioPaternoster']             # italiano, Italian
     tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'wakeup', 'gediz', 'ilisyus']             # Türkçe, Turkish
-    nl: ['Glen De Cauwsemaecker', 'Guido Zuidhof', 'Ruben Vereecken', 'Jasper D\'haene']             # Nederlands, Dutch
-    'nl-BE': []        # Nederlands (België), Dutch (Belgium)
-    'nl-NL': []        # Nederlands (Nederland), Dutch (Netherlands)
+    'nl-BE': ['Glen De Cauwsemaecker', 'Ruben Vereecken']        # Nederlands (België), Dutch (Belgium)
+    'nl-NL': ['Jasper D\'haene', 'Guido Zuidhof']        # Nederlands (Nederland), Dutch (Netherlands)
     fa: ['Reza Habibi (Rehb)']             # فارسی, Persian
     cs: ['vanous']             # čeština, Czech
     sv: ['iamhj']             # Svenska, Swedish
