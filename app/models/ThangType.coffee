@@ -292,6 +292,9 @@ module.exports = class ThangType extends CocoModel
         value = config[stat]
         continue unless value?
         stats[stat] = @formatStatDisplay stat, setTo: value
+        if stat is 'attackDamage'
+          dps = (value / (config.cooldown or 0.5)).toFixed(1)
+          stats[stat].display += " (#{dps} DPS)"
       if config.programmableSnippets
         props = props.concat config.programmableSnippets
     props: props, stats: stats
