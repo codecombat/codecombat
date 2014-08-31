@@ -38,16 +38,16 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session) ->
     levelThang.components ?= []
-    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
-
     # Empty out placeholder Components and store their values if we're the hero placeholder.
     placeholders = {}
     if levelThang.id is 'Hero Placeholder'
-      for thangComponent in levelThang.components ? []
+      for thangComponent in levelThang.components
         placeholders[thangComponent.original] = thangComponent
-      levelThang.components = []
+      levelThang.components = []  # We have stored the placeholder values, so we can inherit everything else.
       heroThangType = session?.get('heroConfig')?.thangType
       levelThang.thangType = heroThangType if heroThangType
+
+    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
 
     configs = {}
     for thangComponent in levelThang.components
@@ -79,6 +79,7 @@ module.exports = class Level extends CocoModel
 
     if levelThang.id is 'Hero Placeholder' and equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
       inventory = session?.get('heroConfig')?.inventory
+      equips.config ?= {}
       equips.config.inventory = $.extend true, {}, inventory if inventory
 
 

@@ -13,6 +13,7 @@ module.exports = class GameMenuModal extends ModalView
   template: template
   modalWidthPercent: 95
   id: 'game-menu-modal'
+  instant: true
 
   constructor: (options) ->
     super options
@@ -28,6 +29,7 @@ module.exports = class GameMenuModal extends ModalView
 
   afterRender: ->
     super()
+    @$el.toggleClas
     @insertSubView new submenuView @options for submenuView in submenuViews
     (if @options.showDevBits then @subviews.inventory_view else @subviews.choose_hero_view).$el.addClass 'active'
 

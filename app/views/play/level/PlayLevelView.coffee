@@ -64,6 +64,7 @@ module.exports = class PlayLevelView extends RootView
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'level:inventory-changed': 'onInventoryChanged'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -349,7 +350,7 @@ module.exports = class PlayLevelView extends RootView
     @setLevel e.level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
-      Backbone.Mediator.publish 'tome:cast-spell'  # a bit hacky
+      Backbone.Mediator.publish 'tome:cast-spell', {}  # a bit hacky
 
   onLevelReloadThangType: (e) ->
     tt = e.thangType
@@ -358,7 +359,17 @@ module.exports = class PlayLevelView extends RootView
         for key, val of tt.attributes
           model.attributes[key] = val
         break
-    Backbone.Mediator.publish 'tome:cast-spell'
+    Backbone.Mediator.publish 'tome:cast-spell', {}
+
+  onInventoryChanged: (e) ->
+    # Doesn't work because the new inventory ThangTypes may not be loaded.
+    #@setLevel @level, @supermodel
+    #Backbone.Mediator.publish 'tome:cast-spell', {}
+    # We'll just make a new PlayLevelView instead
+    Backbone.Mediator.publish 'router:navigate', {
+      route: window.location.pathname,
+      viewClass: PlayLevelView,
+      viewArgs: [{supermodel: @supermodel}, @levelID]}
 
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)

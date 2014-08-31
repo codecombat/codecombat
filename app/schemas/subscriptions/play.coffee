@@ -152,3 +152,5 @@ module.exports =
     timedOut: {type: 'boolean'}
 
   'level:edit-wizard-settings': c.object {}
+
+  'level:inventory-changed': c.object {}

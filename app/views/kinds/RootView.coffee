@@ -25,7 +25,7 @@ module.exports = class RootView extends CocoView
     'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
-    'click .auth-button': 'onClickAuthbutton'
+    'click .auth-button': 'onClickAuthButton'
     'click a': 'toggleModal'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
@@ -50,7 +50,7 @@ module.exports = class RootView extends CocoView
     subview = new WizardSettingsModal {}
     @openModalView subview
 
-  onClickAuthbutton: ->
+  onClickAuthButton: ->
     AuthModal = require 'views/modal/AuthModal'
     @openModalView new AuthModal {}
 

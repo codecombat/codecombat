@@ -66,15 +66,21 @@ module.exports = class LevelLoader extends CocoClass
     session = new LevelSession().setURL url
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
-    @listenToOnce @session, 'sync', ->
-      @session.url = -> '/db/level.session/' + @id
-      @loadDependenciesForSession(@session)
+    if @session.loaded
+      @loadDependenciesForSession @session
+    else
+      @listenToOnce @session, 'sync', ->
+        @session.url = -> '/db/level.session/' + @id
+        @loadDependenciesForSession @session
 
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
-      @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
+      if @opponentSession.loaded
+        @loadDependenciesForSession @opponentSession
+      else
+        @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
     return if @levelID is 'sky-span'  # TODO

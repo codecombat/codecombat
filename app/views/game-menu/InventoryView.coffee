@@ -240,8 +240,10 @@ module.exports = class InventoryView extends CocoView
   onHidden: ->
     inventory = @getCurrentEquipmentConfig()
     heroConfig = @options.session.get('heroConfig') ? {}
-    unless _.isEqual inventory, heroConfig.inventory
-      heroConfig.inventory = inventory
-      heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # Temp: assign Tharin as the hero
-      @options.session.set 'heroConfig', heroConfig
-      @options.session.patch()
+    return if _.isEqual inventory, heroConfig.inventory
+    heroConfig.inventory = inventory
+    heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # Temp: assign Tharin as the hero
+    @options.session.set 'heroConfig', heroConfig
+    @options.session.patch success: ->
+      _.defer ->
+        Backbone.Mediator.publish 'level:inventory-changed', {}

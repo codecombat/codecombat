@@ -20,7 +20,7 @@ module.exports = class EmployersView extends RootView
     'change #select_all_checkbox': 'handleSelectAllChange'
     'click .get-started-button': 'openSignupModal'
     'click .navbar-brand': 'restoreBodyColor'
-    'click #login-link': 'onClickAuthbutton'
+    'click #login-link': 'onClickAuthButton'
     'click #filter-link': 'swapFolderIcon'
     'click #create-alert-button': 'createFilterAlert'
     'click .deletion-col': 'deleteFilterAlert'

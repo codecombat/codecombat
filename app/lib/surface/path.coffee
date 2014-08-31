@@ -143,7 +143,7 @@ module.exports.Trailmaster = class Trailmaster
     i = 0
     sprites = []
     sprite = @sprites[thang.id]
-    return sprites unless sprite?
+    return sprites unless sprite?.actions
     lastPos = @camera.surfaceToWorld x: sprite.imageObject.x, y: sprite.imageObject.y
     minDistance = Math.pow(CLONE_INTERVAL * Camera.MPP, 2)
     actions = @world.actionsForThang(thang.id)
