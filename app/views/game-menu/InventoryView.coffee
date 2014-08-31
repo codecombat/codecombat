@@ -25,7 +25,7 @@ module.exports = class InventoryView extends CocoView
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or {}
-    @items.url = '/db/thang.type?view=items&project=name,description,components,original'
+    @items.url = '/db/thang.type?view=items&project=name,description,components,original,rasterIcon'
     @supermodel.loadCollection(@items, 'items')
 
   onLoaded: ->
@@ -201,7 +201,7 @@ module.exports = class InventoryView extends CocoView
   showSelectedSlotItem: (item) ->
     if not @selectedEquippedItemView
       @selectedEquippedItemView = new ItemView({
-        item: item, includes: {name: true, stats: true}})
+        item: item, includes: {name: true, stats: true, props: true}})
       @insertSubView(@selectedEquippedItemView, @$el.find('#selected-equipped-item .item-view-stub'))
 
     else
@@ -215,7 +215,7 @@ module.exports = class InventoryView extends CocoView
   showSelectedAvailableItem: (item) ->
     if not @selectedAvailableItemView
       @selectedAvailableItemView = new ItemView({
-        item: item, includes: {name: true, stats: true}})
+        item: item, includes: {name: true, stats: true, props: true}})
       @insertSubView(@selectedAvailableItemView, @$el.find('#selected-available-item .item-view-stub'))
 
     else

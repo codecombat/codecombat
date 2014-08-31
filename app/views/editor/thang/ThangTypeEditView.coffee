@@ -88,6 +88,7 @@ module.exports = class ThangTypeEditView extends RootView
     @insertSubView(new ThangTypeColorsTabView(@thangType))
     @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
     @showReadOnly() if me.get('anonymous')
+    @updatePortrait()
 
   initComponents: =>
     options =

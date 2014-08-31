@@ -200,6 +200,7 @@ module.exports = class ThangType extends CocoModel
     $('<img />').attr('src', src)
 
   getPortraitSource: (spriteOptionsOrKey, size=100) ->
+    return @getPortraitURL() if @get 'rasterIcon'
     stage = @getPortraitStage(spriteOptionsOrKey, size)
     stage?.toDataURL()
 
@@ -274,43 +275,42 @@ module.exports = class ThangType extends CocoModel
     return itemComponentRef?.config?.slots or []
 
   getFrontFacingStats: ->
-    stats = []
-    for component in @get('components') or []
+    components = @get('components') or []
+    unless itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
+      console.warn @get('name'), 'is not an item, but you are asking for its stats.'
+      return props: [], stats: {}
+    props = itemConfig.programmableProperties ? []
+    props = props.concat itemConfig.moreProgrammableProperties ? []
+    stats = {}
+    for stat, modifiers of itemConfig.stats ? {}
+      stats[stat] = @formatStatDisplay stat, modifiers
+    for stat in itemConfig.extraHUDProperties ? []
+      stats[stat] = null  # Find it in the other Components.
+    for component in components
       continue unless config = component.config
-      if config.attackDamage
-        stats.push { name: 'Attack Damage', value: config.attackDamage }
-      if config.attackRange
-        stats.push { name: 'Attack Range', value: "#{config.attackRange}m" }
-      if config.cooldown
-        stats.push { name: 'Cooldown', value: "#{config.cooldown}s" }
-      if config.maxSpeed
-        stats.push { name: 'Speed', value: "#{config.maxSpeed}m/s" }
-      if config.maxAcceleration
-        stats.push { name: 'Acceleration', value: "#{config.maxAcceleration}m/s^2" }
-      if config.stats
-        for stat, value of config.stats
-          if value.factor
-            value = "x#{value.factor}"
-          if value.addend and value.addend > 0
-            value = "+#{value.addend}"
-          if value.addend and value.addend < 0
-            value = "#{value.addend}"
-          if value.setTo
-            value = "=#{value.setTo}"
-          if stat is 'maxHealth'
-            stats.push { name: 'Health', value: value }
-          if stat is 'healthReplenishRate'
-            stats.push { name: 'Regen', value: value }
-      if config.programmableProperties
-        props = config.programmableProperties
-        if props.length
-          stats.push { name: 'Allows', value: props.join(', ') }
-      if config.visualRange
-        value = config.visualRange
-        if value is 9001 then value is "Infinite"
-        stats.push { name: 'Visual Range', value: "#{value}m"}
+      for stat, value of stats when not value?
+        value = config[stat]
+        continue unless value?
+        stats[stat] = @formatStatDisplay stat, setTo: value
       if config.programmableSnippets
-        snippets = config.programmableSnippets
-        if snippets.length
-          stats.push { name: 'Snippets', value: snippets.join(', ') }
-    stats
+        props = props.concat config.programmableSnippets
+    props: props, stats: stats
+
+  formatStatDisplay: (name, modifiers) ->
+    name = {maxHealth: 'Health', maxSpeed: 'Speed', healthReplenishRate: 'Regeneration'}[name] ? name
+    name = _.string.humanize name
+    format = ''
+    format = 'm' if /(range|radius|distance)$/i.test name
+    format ||= 's' if /cooldown$/i.test name
+    format ||= 'm/s' if /speed$/i.test name
+    format ||= '/s' if /(regeneration| rate)$/i.test name
+    value = modifiers.setTo
+    value = value.join ', ' if _.isArray value
+    display = []
+    display.push "#{value}#{format}" if value?
+    display.push "+#{modifiers.addend}#{format}" if modifiers.addend > 0
+    display.push "#{modifiers.addend}#{format}" if modifiers.addend < 0
+    display.push "x#{modifiers.factor}" if modifiers.factor? and modifiers.factor isnt 1
+    display = display.join ', '
+    display = display.replace /9001m?/, 'Infinity'
+    name: name, display: display
