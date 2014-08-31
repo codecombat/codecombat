@@ -39,54 +39,54 @@ module.exports = class DiplomatView extends ContributeClassView
     'en-US': []        # English (US), English (US)
     'en-GB': []        # English (UK), English (UK)
     'en-AU': []        # English (AU), English (AU)
-    ru: ['fess89', 'ser-storchak', 'Mr A', 'a1ip']             # русский язык, Russian
-    de: ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich']             # Deutsch, German
+    ru: ['fess89', 'ser-storchak', 'Mr A', 'a1ip', 'iulianR', 'EagleTA', 'kisik21', 'Shpionus', 'kerradus', 'ImmortalJoker']             # русский язык, Russian
+    de: ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich', 'bahuma20', 'djsmith85', 'greyhusky']             # Deutsch, German
     'de-DE': []        # Deutsch (Deutschland), German (Germany)
     'de-AT': []        # Deutsch (Österreich), German (Austria)
     'de-CH': []        # Deutsch (Schweiz), German (Switzerland)
     es: []             # español, Spanish
-    'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza']       # español (América Latina), Spanish (Latin America)
-    'es-ES': ['Matthew Burt', 'DanielRodriguezRivero', 'Anon', 'Pouyio']        # español (ES), Spanish (Spain)
-    zh: ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng']             # 中文, Chinese
+    'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza', '2xG', ]       # español (América Latina), Spanish (Latin America)
+    'es-ES': ['Matthew Burt', 'DanielRodriguezRivero', 'Anon', 'Pouyio', '3rr3s3v3n', 'OviiiOne', 'Vindurrin']        # español (ES), Spanish (Spain)
+    zh: ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng', 'yfdyh000', 'julycoolwind', 'Vic020', 'onion7878', 'BonnieBBS', '1c7', 'benojan', 'ZephyrSails']             # 中文, Chinese
     'zh-HANS': []      # 简体中文, Chinese (Simplified)
     'zh-HANT': []      # 繁体中文, Chinese (Traditional)
     'zh-WUU-HANS': []  # 吴语, Wuu (Simplified)
     'zh-WUU-HANT': []  # 吳語, Wuu (Traditional)
-    fr: ['Xeonarno', 'Elfisen', 'Armaldio', 'MartinDelille', 'pstweb', 'veritable', 'jaybi', 'xavismeh', 'Anon', 'Feugy']             # français, French
+    fr: ['Xeonarno', 'Elfisen', 'Armaldio', 'MartinDelille', 'pstweb', 'veritable', 'jaybi', 'xavismeh', 'Anon', 'Feugy', 'dc55028', 'ChrisLightman', 'Oaugereau']             # français, French
     ja: ['g1itch', 'kengos', 'treby']             # 日本語, Japanese
-    ar: []             # العربية, Arabic
+    ar: ['ahmed80dz', '5y']             # العربية, Arabic
     pt: []             # português, Portuguese
-    'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso']        # português do Brasil, Portuguese (Brazil)
-    'pt-PT': ['Matthew Burt', 'ReiDuKuduro', 'Imperadeiro98']        # Português (Portugal), Portuguese (Portugal)
-    pl: ['Anon', 'Kacper Ciepielewski']             # język polski, Polish
-    it: ['flauta']             # italiano, Italian
-    tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'wakeup']             # Türkçe, Turkish
+    'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso', 'Bia41']        # português do Brasil, Portuguese (Brazil)
+    'pt-PT': ['Matthew Burt', 'ReiDuKuduro', 'Imperadeiro98', 'batista', 'ProgramadorLucas', 'gutierri']        # Português (Portugal), Portuguese (Portugal)
+    pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk']             # język polski, Polish
+    it: ['flauta', 'AlessioPaternoster']             # italiano, Italian
+    tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'wakeup', 'gediz', 'ilisyus']             # Türkçe, Turkish
     nl: ['Glen De Cauwsemaecker', 'Guido Zuidhof', 'Ruben Vereecken', 'Jasper D\'haene']             # Nederlands, Dutch
     'nl-BE': []        # Nederlands (België), Dutch (Belgium)
     'nl-NL': []        # Nederlands (Nederland), Dutch (Netherlands)
     fa: ['Reza Habibi (Rehb)']             # فارسی, Persian
     cs: ['vanous']             # čeština, Czech
-    sv: []             # Svenska, Swedish
-    id: []             # Bahasa Indonesia, Indonesian
+    sv: ['iamhj']             # Svenska, Swedish
+    id: ['mlewisno-oberlin']             # Bahasa Indonesia, Indonesian
     el: ['Stergios']             # ελληνικά, Greek
     ro: []             # limba română, Romanian
     vi: ['An Nguyen Hoang Thien']             # Tiếng Việt, Vietnamese
-    hu: ['ferpeter', 'csuvsaregal', 'atlantisguru', 'Anon']             # magyar, Hungarian
+    hu: ['ferpeter', 'csuvsaregal', 'atlantisguru', 'Anon', 'kinez', 'bbeasmile']             # magyar, Hungarian
     th: ['Kamolchanok Jittrepit']             # ไทย, Thai
-    da: ['Einar Rasmussen', 'sorsjen', 'Randi Hillerøe', 'Anon']             # dansk, Danish
-    ko: []             # 한국어, Korean
+    da: ['Einar Rasmussen', 'sorsjen', 'Randi Hillerøe', 'Anon', 'Silwing', 'Rahazan', 'marc-portier']             # dansk, Danish
+    ko: ['Melondonut']             # 한국어, Korean
     sk: ['Anon']             # slovenčina, Slovak
     sl: []             # slovenščina, Slovene
     fi: []             # suomi, Finnish
     bg: []             # български език, Bulgarian
-    no: ['bardeh']             # Norsk, Norwegian
+    no: ['bardeh', 'torehaug']             # Norsk, Norwegian
     nn: []             # Norwegian (Nynorsk), Norwegian Nynorsk
     nb: []             # Norsk Bokmål, Norwegian (Bokmål)
-    he: []             # עברית, Hebrew
+    he: ['OverProgram', 'monetita']             # עברית, Hebrew
     lt: []             # lietuvių kalba, Lithuanian
     sr: []             # српски, Serbian
-    uk: ['fess89']             # українська мова, Ukrainian
+    uk: ['fess89', 'ImmortalJoker', 'gorodsb', 'endrilian', 'OlenaGapak']             # українська мова, Ukrainian
     hi: []             # मानक हिन्दी, Hindi
     ur: []             # اُردُو, Urdu
     ms: []             # Bahasa Melayu, Bahasa Malaysia
-    ca: []             # Català, Catalan
+    ca: ['ArniMcFrag']             # Català, Catalan
