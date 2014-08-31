@@ -13,6 +13,7 @@ LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
+{isID} = require '../lib/utils'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 candidateProperties = [
@@ -187,6 +188,7 @@ UserHandler = class UserHandler extends Handler
     return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
+    return @searchForUser(req, res) if args[1] is 'admin_search'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -388,6 +390,25 @@ UserHandler = class UserHandler extends Handler
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
 
+  searchForUser: (req, res) ->
+    # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    search = req.body.search
+    query = email: {$exists: true}, $or: [
+      {emailLower: search}
+      {nameLower: search}
+    ]
+    query.$or.push {_id: mongoose.Types.ObjectId(search) if isID search}
+    if search.length > 5
+      searchParts = search.split(/[.+@]/)
+      if searchParts.length > 1
+        query.$or.push {emailLower: {$regex: '^' + searchParts[0]}}
+    projection = name: 1, email: 1, dateCreated: 1
+    User.find(query).select(projection).lean().exec (err, users) =>
+      return @sendDatabaseError res, err if err
+      @sendSuccess res, users
+
+
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]
     return done(new Error 'Could not resolve statKey for model') unless statKey?
@@ -578,7 +599,7 @@ UserHandler = class UserHandler extends Handler
     thangTypeTranslationPatches: (done) ->
       countPatchesByUsersInMemory {'target.collection': 'thang_type'}, isTranslationPatch, User.statsMapping.translations['thang.type'], done
 
-      
+
   recalculateStats: (statName, done) =>
     done new Error 'Recalculation handler not found' unless statName of @statRecalculators
     @statRecalculators[statName] done

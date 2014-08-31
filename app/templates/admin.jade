@@ -2,17 +2,23 @@ extends /templates/base
 
 block content
   
-  h3 Espionage mode
-    h5 Please enter the email/username of the person you want to spy on
-    .form
-      .form-group
-        label.control-label Email 
-        input#user-email
-      .form-group
-        label.control-label Username 
-        input#user-username
-      
-    button.btn.btn-primary.btn-large#enter-espionage-mode 007
+  .form-horizontal
+    .form-group
+      label.control-label.col-sm-2(for="espionage-name-or-email") Espionage
+      .col-sm-4
+        input.form-control#espionage-name-or-email(placeholder="Email or username", type="text")
+      .col-sm-1
+        button.btn.btn-primary.btn-large#enter-espionage-mode 007
+      label.control-label.col-sm-5(for="espionage-name-or-email")
+        em you are currently  #{me.get('name')} at #{me.get('email')}
+    .form-group
+      label.control-label.col-sm-2(for="user-search") User Search
+      .col-sm-4
+        input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
+      .col-sm-1
+        button.btn.btn-primary.btn-large#user-search-button Search
+  #user-search-result
+
   
   h3(data-i18n="admin.av_title") Admin Views
 
