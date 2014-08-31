@@ -14,7 +14,7 @@ class LevelSessionHandler extends Handler
 
   formatEntity: (req, document) ->
     documentObject = super(req, document)
-    if req.user.isAdmin() or req.user.id is document.creator or ('employer' in req.user.get('permissions'))
+    if req.user.isAdmin() or req.user.id is document.creator or ('employer' in (req.user.get('permissions') ? []))
       return documentObject
     else
       return _.omit documentObject, @privateProperties
@@ -31,7 +31,7 @@ class LevelSessionHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.method is 'GET' and document.get('totalScore')
-    return true if ('employer' in req.user.get('permissions')) and (method ? req.method).toLowerCase() is 'get'
+    return true if ('employer' in (req.user.get('permissions') ? [])) and (method ? req.method).toLowerCase() is 'get'
     super(arguments...)
 
   getCodeLanguageCounts: (req, res) ->

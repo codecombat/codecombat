@@ -578,6 +578,7 @@ module.exports = Surface = class Surface extends CocoClass
     @playing = false  # Will start when countdown is done.
 
   onRealTimePlaybackEnded: (e) ->
+    return unless @realTime
     @realTime = false
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle true
