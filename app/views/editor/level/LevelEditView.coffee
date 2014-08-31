@@ -19,6 +19,7 @@ RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
 SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
+LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'lib/storage'
 
 module.exports = class LevelEditView extends RootView
@@ -76,15 +77,16 @@ module.exports = class LevelEditView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
-      Backbone.Mediator.publish 'editor:view-switched', {}
+      Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
     @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
-    @insertSubView new ComponentsDocumentationView  # Don't give it the supermodel, it'll pollute it!
-    @insertSubView new SystemsDocumentationView  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new LevelFeedbackView level: @level
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')

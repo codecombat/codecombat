@@ -13,17 +13,20 @@ module.exports = class RelatedAchievementsView extends CocoView
   events:
     'click #new-achievement-button': 'makeNewAchievement'
 
+  subscriptions:
+    'editor:view-switched': 'onViewSwitched'
+
   constructor: (options) ->
     super options
     @level = options.level
     @relatedID = @level.get('original')
     @achievements = new RelatedAchievementsCollection @relatedID
-    @supermodel.loadCollection @achievements, 'achievements'
 
-  onLoaded: ->
-    console.debug 'related achievements loaded'
-    @achievements.loading = false
-    super()
+  loadAchievements: ->
+    return if @loadingAchievements
+    @supermodel.loadCollection @achievements, 'achievements'
+    @loadingAchievements = true
+    @render()
 
   getRenderData: ->
     c = super()
@@ -38,3 +41,8 @@ module.exports = class RelatedAchievementsView extends CocoView
     modal = new NewAchievementModal model: Achievement, modelLabel: 'Achievement', level: @level
     modal.once 'model-created', @onNewAchievementSaved
     @openModalView modal
+
+  onViewSwitched: (e) ->
+    # Lazily load.
+    return unless e.targetURL is '#related-achievements-view'
+    @loadAchievements()

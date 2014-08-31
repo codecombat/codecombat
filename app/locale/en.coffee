@@ -953,6 +953,7 @@
     achievement: "Achievement"
     clas: "CLAs"
     play_counts: "Play Counts"
+    feedback: "Feedback"
 
   delta:
     added: "Added"

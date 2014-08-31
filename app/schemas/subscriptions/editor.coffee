@@ -5,7 +5,8 @@ module.exports =
     major: {type: 'boolean'}
     commitMessage: {type: 'string'}
 
-  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'}
+  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'},
+    targetURL: {type: 'string'}
 
   'editor:level-component-editing-ended': c.object {required: ['component']},
     component: {type: 'object'}

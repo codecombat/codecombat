@@ -17,10 +17,19 @@ module.exports = class ComponentsDocumentationView extends CocoView
   events:
     'click #toggle-all-component-code': 'onToggleAllCode'
 
+  subscriptions:
+    'editor:view-switched': 'onViewSwitched'
+
   constructor: (options) ->
     super(options)
     @componentDocs = new ComponentDocsCollection()
+    @loadDocs() unless options.lazy
+
+  loadDocs: ->
+    return if @loadingDocs
     @supermodel.loadCollection @componentDocs, 'components'
+    @loadingDocs = true
+    @render()
 
   getRenderData: ->
     c = super()
@@ -33,3 +42,7 @@ module.exports = class ComponentsDocumentationView extends CocoView
     @collapsed = not @collapsed
     @$el.find('.collapse').collapse(if @collapsed then 'hide' else 'show')
     @$el.find('#toggle-all-component-code').toggleClass 'active', not @collapsed
+
+  onViewSwitched: (e) ->
+    return unless e.targetURL is '#editor-level-documentation'
+    @loadDocs()

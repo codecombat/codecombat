@@ -37,6 +37,9 @@ block header
           a(href="#related-achievements-view", data-toggle="tab") Achievements
         li
           a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+        li
+          a(href="#level-feedback-view", data-toggle="tab")
+            .glyphicon.glyphicon-star
       .navbar-header
         span.navbar-brand #{level.attributes.name}
 
@@ -136,6 +139,8 @@ block outer_content
         div.tab-content
           div.tab-pane#components-documentation-view
           div.tab-pane#systems-documentation-view
+
+      div.tab-pane#level-feedback-view
 
     div#error-view
 
