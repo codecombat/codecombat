@@ -66,7 +66,6 @@ module.exports = class RootView extends CocoView
     #location.hash = ''
     #location.hash = hash
     @renderScrollbar()
-    #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
   getRenderData: ->
     c = super()

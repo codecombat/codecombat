@@ -45,6 +45,9 @@ a.disabled
     padding: 4px 20px 0px 20px
     margin-left: -20px
 
+  .navbar-nav
+    float: right
+
   .navbuttontext, .fancy-select .trigger
     font-size: 20px
     font-weight: 400
@@ -190,32 +193,38 @@ a.disabled
         color: #ebebeb
         padding: 8px 20px
 
+  .navbar-toggle
+    display: none
 
-#mobile-nav
-  display: none
 @media only screen and (max-width: 800px)
   #top-nav
-    display: none
-  #mobile-nav
     display: inline
-    a.navbar-brand
-      padding: 4px 20px 0px 20px
-  
     button.navbar-toggle
       background: #483a2d
       border: 2px solid #2f261d
-    span.icon-bar
-      background: #F9E612
-    
-    ul li
-      font-family: 'Bangers', cursive
-      font-weight: normal
-      color: #fff
-      font-size: 25px
-      margin-top: 5px
-      margin-bottom: 5px
-    .header-font
-      color: #fff
-    .footer-link-text
-      width: 100%
-      display: ineline
+      display: inline-block
+  
+      span.icon-bar
+        background: #F9E612
+
+    a.navbar-brand
+      padding: 4px 20px 0px 20px
+      margin-left: 0
+
+    .navbar-nav
+      float: none
+      margin: 0 0 20px 0
+      overflow: visible
+
+      .dropdown-menu
+        background-color: white
+        position: absolute
+
+      .btn, .fancy-select
+        margin-bottom: 10px
+
+      .btn, .fancy-select
+        float: none
+
+      .fancy-select .options
+        right: auto

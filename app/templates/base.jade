@@ -1,33 +1,19 @@
 body
   #fb-root
   block header
-    .nav.navbar.navbar-fixed-top#mobile-nav
+    .nav.navbar.navbar-fixed-top#top-nav
       .content.clearfix
         .navbar-header
-          button.navbar-toggle(type="button" data-toggle="collapse" data-target="#collapsible-navbar")
+          button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-nav.collapse")
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          
-          a.navbar-brand(href='/')
-            img(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-        .collapse.navbar-collapse#collapsible-navbar
-          ul.nav.navbar-nav
-            li.play
-              a.header-font(href='/play', data-i18n="nav.play") Levels
-            li
-              a.header-font(href='/community', data-i18n="nav.community") Community
-      
-    .nav.navbar.navbar-fixed-top#top-nav
-      .content.clearfix
-        .navbar-header
+
           a.navbar-brand(href='/')
             img(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
 
-        select.language-dropdown
-
-        ul(class='navbar-link-text').nav.navbar-nav.pull-right
+        ul(class='navbar-link-text').nav.navbar-nav.navbar-collapse.collapse
           li.play
             a.header-font(href='/play', data-i18n="nav.play") Levels
           li
@@ -65,6 +51,8 @@ body
                 span(data-i18n="login.log_in") Log In
                 span.spr.spl /
                 span(data-i18n="login.sign_up") Create Account
+          li
+            select.language-dropdown
 
   block outer_content
     #outer-content-wrapper(class=showBackground ? 'show-background' : '')
