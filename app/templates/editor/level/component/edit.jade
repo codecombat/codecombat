@@ -13,6 +13,10 @@ nav.navbar.navbar-default(role='navigation')
     span.navbar-brand= editTitle
 
   ul.nav.navbar-nav.navbar-right
+    if !component.hasWriteAccess()
+      li#patch-component-button
+        a(data-i18n="[title]common.submit_patch")
+          span.glyphicon-floppy-disk.glyphicon
     li.dropdown
       a(data-toggle='dropdown')
         span.glyphicon-chevron-down.glyphicon
@@ -27,10 +31,6 @@ nav.navbar.navbar-default(role='navigation')
             span.unwatch.secret
               span.glyphicon.glyphicon-eye-close
               span.spl Unwatch
-  
-        if !component.hasWriteAccess()
-          li#patch-component-button
-            a(data-i18n="common.submit_patch") Submit Patch
         if !me.get('anonymous')
           li#create-new-component-button
             a(data-i18n="editor.level_component_b_new") Create New Component

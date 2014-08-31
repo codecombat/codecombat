@@ -42,6 +42,7 @@ module.exports = class LevelComponentEditView extends CocoView
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelComponent), @$el.find('.patches-view'))
     @$el.find('#component-watch-button').find('> span').toggleClass('secret') if @levelComponent.watching()
+    @updatePatchButton()
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
@@ -65,7 +66,7 @@ module.exports = class LevelComponentEditView extends CocoView
     # Make sure it validates first?
     for key, value of @componentSettingsTreema.data
       @levelComponent.set key, value unless key is 'js' # will compile code if needed
-    null
+    @updatePatchButton()
 
   buildConfigSchemaTreema: ->
     configSchema = @levelComponent.get 'configSchema'
@@ -91,6 +92,7 @@ module.exports = class LevelComponentEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelComponent.set 'configSchema', @configSchemaTreema.data
+    @updatePatchButton()
 
   buildCodeEditor: ->
     @destroyAceEditor(@editor)
@@ -108,7 +110,10 @@ module.exports = class LevelComponentEditView extends CocoView
   onEditorChange: =>
     return if @destroyed
     @levelComponent.set 'code', @editor.getValue()
-    null
+    @updatePatchButton()
+
+  updatePatchButton: ->
+    @$el.find('#patch-component-button').toggle Boolean @levelComponent.hasLocalChanges()
 
   endEditing: (e) ->
     Backbone.Mediator.publish 'editor:level-component-editing-ended', component: @levelComponent

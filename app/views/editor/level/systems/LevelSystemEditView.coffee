@@ -37,6 +37,7 @@ module.exports = class LevelSystemEditView extends CocoView
     @buildConfigSchemaTreema()
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelSystem), @$el.find('.patches-view'))
+    @updatePatchButton()
 
   buildSettingsTreema: ->
     data = _.pick @levelSystem.attributes, (value, key) => key in @editableSettings
@@ -59,7 +60,7 @@ module.exports = class LevelSystemEditView extends CocoView
     # Make sure it validates first?
     for key, value of @systemSettingsTreema.data
       @levelSystem.set key, value unless key is 'js' # will compile code if needed
-    null
+    @updatePatchButton()
 
   buildConfigSchemaTreema: ->
     treemaOptions =
@@ -76,6 +77,7 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelSystem.set 'configSchema', @configSchemaTreema.data
+    @updatePatchButton()
 
   buildCodeEditor: ->
     @destroyAceEditor(@editor)
@@ -92,7 +94,10 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onEditorChange: =>
     @levelSystem.set 'code', @editor.getValue()
-    null
+    @updatePatchButton()
+
+  updatePatchButton: ->
+    @$el.find('#patch-system-button').toggle Boolean @levelSystem.hasLocalChanges()
 
   endEditing: (e) ->
     Backbone.Mediator.publish 'editor:level-system-editing-ended', system: @levelSystem

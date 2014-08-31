@@ -11,6 +11,10 @@ nav.navbar.navbar-default(role='navigation')
       a(href="#system-patches" data-toggle="tab" data-i18n="resources.patches")#system-patches-tab Patches
 
   ul.nav.navbar-nav.navbar-right
+    if !me.isAdmin()
+      li#patch-system-button
+        a(data-i18n="[title]common.submit_patch")
+          span.glyphicon-floppy-disk.glyphicon
     li.dropdown
       a(data-toggle='dropdown')
         span.glyphicon-chevron-down.glyphicon
@@ -24,8 +28,6 @@ nav.navbar.navbar-default(role='navigation')
             span.unwatch.secret
               span.glyphicon.glyphicon-eye-close
               span.spl Unwatch
-        li#patch-system-button
-          a(data-i18n="common.submit_patch") Submit Patch
         if me.isAdmin()
           li#create-new-system
             a(data-i18n="editor.level_system_btn_new") Create New System
