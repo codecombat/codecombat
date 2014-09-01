@@ -13,10 +13,7 @@ module.exports = class User extends CocoModel
     CocoModel.pollAchievements() # Check for achievements on login
     super arguments...
 
-  isAdmin: ->
-    permissions = @attributes['permissions'] or []
-    return 'admin' in permissions
-
+  isAdmin: -> 'admin' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
 

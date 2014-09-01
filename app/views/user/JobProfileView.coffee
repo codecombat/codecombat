@@ -72,7 +72,7 @@ module.exports = class JobProfileView extends UserView
   finishInit: ->
     return unless @userID
     @uploadFilePath = "db/user/#{@userID}"
-    
+
     if @user?.get('firstName')
       jobProfile = @user.get('jobProfile')
       jobProfile ?= {}
@@ -81,7 +81,7 @@ module.exports = class JobProfileView extends UserView
         @user.set('jobProfile', jobProfile)
 
     @highlightedContainers = []
-    if me.isAdmin() or 'employer' in me.get('permissions')
+    if me.isAdmin() or 'employer' in me.get('permissions', true)
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
@@ -235,7 +235,7 @@ module.exports = class JobProfileView extends UserView
     context.rawProfile = @user.get('jobProfile') or {}
     context.user = @user
     context.myProfile = @isMe()
-    context.allowedToViewJobProfile = @user and (me.isAdmin() or 'employer' in me.get('permissions') or (context.myProfile && !me.get('anonymous')))
+    context.allowedToViewJobProfile = @user and (me.isAdmin() or 'employer' in me.get('permissions', true) or (context.myProfile && !me.get('anonymous')))
     context.allowedToEditJobProfile = @user and (me.isAdmin() or (context.myProfile && !me.get('anonymous')))
     context.profileApproved = @user?.get 'jobProfileApproved'
     context.progress = @progress ? @updateProgress()

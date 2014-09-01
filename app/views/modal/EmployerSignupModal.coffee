@@ -57,7 +57,7 @@ module.exports = class EmployerSignupModal extends ModalView
   getRenderData: ->
     context = super()
     context.userIsAuthorized = @authorizedWithLinkedIn
-    context.userHasSignedContract = 'employer' in me.get('permissions')
+    context.userHasSignedContract = 'employer' in me.get('permissions', true)
     context.userIsAnonymous = context.me.get('anonymous')
     context.sentMoreInfoEmail = @sentMoreInfoEmail
     context

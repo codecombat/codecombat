@@ -30,7 +30,7 @@ module.exports = class ThangComponentConfigView extends CocoView
   afterRender: ->
     super()
     @buildTreema()
-    
+
   setConfig: (config) ->
     @handlingChange = true
     @editThangTreema.set('/', config)
@@ -51,7 +51,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     schema = $.extend true, {}, @component.get('configSchema')
     schema.default ?= {}
     _.merge schema.default, @additionalDefaults if @additionalDefaults
-    
+
     if @level?.get('type') is 'hero'
       schema.required = []
     treemaOptions =
@@ -77,6 +77,7 @@ module.exports = class ThangComponentConfigView extends CocoView
         'seconds': nodes.SecondsNode
         'speed': nodes.SpeedNode
         'acceleration': nodes.AccelerationNode
+        'thang-type': nodes.ThangTypeNode
         'item-thang-type': nodes.ItemThangTypeNode
 
     @editThangTreema = @$el.find('.treema').treema treemaOptions
@@ -92,7 +93,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     @trigger 'changed', { component: @component, config: @config }
 
   data: -> @editThangTreema.data
-    
+
   destroy: ->
     @editThangTreema?.destroy()
     super()

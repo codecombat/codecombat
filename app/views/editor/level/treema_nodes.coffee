@@ -200,6 +200,9 @@ module.exports.AccelerationNode = class AccelerationNode extends TreemaNode.node
 
 module.exports.ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.string
   valueClass: 'treema-thang-type'
+  @thangTypes: null
+  @thangTypesCollection: null
+
   constructor: (args...) ->
     super args...
     data = @getData()
@@ -223,63 +226,68 @@ module.exports.ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.st
     else
       @data = null
 
-module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode extends TreemaNode.nodeMap.string
-  valueClass: 'treema-item-thang-type'
-  @items: null
-  @itemsCollection: null
+module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.string
+  valueClass: 'treema-thang-type'
+  @thangTypesCollection: null  # Lives in ThangTypeNode parent class
+  @thangTypes: null  # Lives in ThangTypeNode or subclasses
 
   constructor: ->
     super(arguments...)
-    @getItems() 
-    unless ItemThangTypeNode.itemsCollection.loaded
-      ItemThangTypeNode.itemsCollection.once('sync', @refreshDisplay, @)
-     
+    @getThangTypes()
+    unless ThangTypeNode.thangTypesCollection.loaded
+      ThangTypeNode.thangTypesCollection.once('sync', @refreshDisplay, @)
+
   buildValueForDisplay: (valEl, data) ->
-    @buildValueForDisplaySimply(valEl, @getCurrentItem() or '')
+    @buildValueForDisplaySimply(valEl, @getCurrentThangType() or '')
     valEl
-    
+
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
-    if ItemThangTypeNode.items
-      source = (item.name for item in ItemThangTypeNode.items when @keyForParent in item.slots)
-      input = valEl.find('input').autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
-    input.val(@getCurrentItem() or '')
+    input = valEl.find 'input'
+    if @constructor.thangTypes
+      source = (thangType.name for thangType in @constructor.thangTypes when @filterThangType thangType)
+      input.autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
+    input.val(@getCurrentThangType() or '')
     valEl
-    
-  getCurrentItem: ->
-    window.itemData = @getData()
-    window.items = ItemThangTypeNode.items
-    return null unless ItemThangTypeNode.items
-    original = @getData()
-    return null unless original
-    item = _.find ItemThangTypeNode.items, { original: original }
-    item?.name or '...'
-    
-  getItems: ->
-    return if ItemThangTypeNode.itemsCollection
-    ItemThangTypeNode.itemsCollection = new CocoCollection([], {
+
+  filterThangType: (thangType) -> true
+
+  getCurrentThangType: ->
+    return null unless @constructor.thangTypes
+    return null unless original = @getData()
+    thangType = _.find @constructor.thangTypes, { original: original }
+    thangType?.name or '...'
+
+  getThangTypes: ->
+    return if ThangTypeNode.thangTypesCollection
+    ThangTypeNode.thangTypesCollection = new CocoCollection([], {
       url: '/db/thang.type'
       project:['name', 'components', 'original']
       model: ThangType
     })
-    res = ItemThangTypeNode.itemsCollection.fetch()
-    ItemThangTypeNode.itemsCollection.once 'sync', => @processItems(ItemThangTypeNode.itemsCollection)
-    
-  processItems: (itemCollection) ->
-    ItemThangTypeNode.items = []
-    for itemThang in itemCollection.models
-      itemComponent = _.find itemThang.get('components'), {original: LevelComponent.ItemID}
-      continue unless itemComponent
-      slots = itemComponent.config?.slots
-      continue unless slots?.length
-      ItemThangTypeNode.items.push {
-        name: itemThang.get('name')
-        original: itemThang.get('original')
-        slots: slots
-      }
+    res = ThangTypeNode.thangTypesCollection.fetch()
+    ThangTypeNode.thangTypesCollection.once 'sync', => @processThangTypes(ThangTypeNode.thangTypesCollection)
+
+  processThangTypes: (thangTypeCollection) ->
+    @constructor.thangTypes = []
+    @processThangType thangType for thangType in thangTypeCollection.models
+
+  processThangType: (thangType) ->
+    @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original')
 
   saveChanges: ->
     thangTypeName = @$el.find('input').val()
-    item = _.find(ItemThangTypeNode.items, {name: thangTypeName})
-    return @remove() unless item
-    @data = item.original
+    thangType = _.find(@constructor.thangTypes, {name: thangTypeName})
+    return @remove() unless thangType
+    @data = thangType.original
+
+module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode extends ThangTypeNode
+  valueClass: 'treema-item-thang-type'
+
+  filterThangType: (thangType) ->
+    @keyForParent in thangType.slots
+
+  processThangType: (thangType) ->
+    return unless itemComponent = _.find thangType.get('components'), {original: LevelComponent.ItemID}
+    return unless itemComponent.config?.slots?.length
+    @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config.slots

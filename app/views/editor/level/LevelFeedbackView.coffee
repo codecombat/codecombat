@@ -33,16 +33,16 @@ module.exports = class LevelFeedbackView extends CocoView
 
   getRenderData: (context={}) ->
     context = super(context)
+    context.moment = moment
+    context.allFeedback = []
+    context.averageRating = 0
+    context.totalRatings = 0
     if @allFeedback
       context.allFeedback = (m.attributes for m in @allFeedback.models when @allFeedback.models.length < 20 or m.get('review'))
-      context.averageRating = _.reduce((m.get('rating') for m in @allFeedback.models), (acc, x) -> acc + (x ? 5)) / (@allFeedback.models.length or 1)
+      context.averageRating = _.reduce((m.get('rating') for m in @allFeedback.models), (acc, x) -> acc + (x ? 5)) / (@allFeedback.models.length)
       context.totalRatings = @allFeedback.models.length
     else
-      context.allFeedback = []
-      context.averageRating = 0
-      context.totalRatings = 0
       context.loading = true
-    context.moment = moment
     context
 
   onViewSwitched: (e) ->
