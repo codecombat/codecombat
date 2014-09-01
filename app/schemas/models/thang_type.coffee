@@ -1,7 +1,7 @@
 c = require './../schemas'
 ThangComponentSchema = require './thang_component'
 
-ThangTypeSchema = c.object()
+ThangTypeSchema = c.object default: {kind: 'Misc'}
 c.extendNamedProperties ThangTypeSchema  # name first
 
 ShapeObjectSchema = c.object {title: 'Shape'},
@@ -144,7 +144,7 @@ _.extend ThangTypeSchema.properties,
 
 ThangTypeSchema.required = ['kind']
 
-ThangTypeSchema.default = 
+ThangTypeSchema.default =
   raw: {}
 
 ThangTypeSchema.definitions =

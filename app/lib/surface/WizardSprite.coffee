@@ -199,6 +199,7 @@ module.exports = class WizardSprite extends IndieSprite
       wizard.beginMoveTween()
 
   endMoveTween: =>
+    return if @destroyed
     @thang.action = if @editing then 'cast' else 'idle'
     @thang.actionActivated = @thang.action is 'cast'
     @reachedTarget = true

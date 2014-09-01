@@ -318,7 +318,6 @@ module.exports = class ThangsTabView extends CocoView
     physicalConfig = {pos: {x: 10, y: 10, z: 1}}
     if physicalOriginal = _.find(defaultComponents ? [], original: componentOriginals['physics.Physical'])
       physicalConfig.pos.z = physicalOriginal.config?.pos?.z ? 1  # Get the z right
-    console.log physicalOriginal, defaultComponents, componentOriginals['physics.Physical'], physicalConfig
     [
       {original: componentOriginals['existence.Exists'], majorVersion: 0, config: {}}
       {original: componentOriginals['physics.Physical'], majorVersion: 0, config: physicalConfig}
