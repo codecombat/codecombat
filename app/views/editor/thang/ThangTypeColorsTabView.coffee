@@ -67,11 +67,12 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
     @movieClip = @spriteBuilder.buildMovieClip animation
-    larger = Math.min(400 / @movieClip.nominalBounds.width, 400 / @movieClip.nominalBounds.height)
+    bounds = @movieClip.frameBounds?[0] ? @movieClip.nominalBounds
+    larger = Math.min(400 / bounds.width, 400 / bounds.height)
     @movieClip.scaleX = larger
     @movieClip.scaleY = larger
-    @movieClip.regX = @movieClip.nominalBounds.x
-    @movieClip.regY = @movieClip.nominalBounds.y
+    @movieClip.regX = bounds.x
+    @movieClip.regY = bounds.y
     @stage.addChild @movieClip
 
   updateContainer: ->
