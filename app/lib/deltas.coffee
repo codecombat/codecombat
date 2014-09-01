@@ -89,7 +89,7 @@ expandFlattenedDelta = (delta, left, schema) ->
   delta
 
 module.exports.makeJSONDiffer = ->
-  hasher = (obj) -> obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj))
+  hasher = (obj) -> if obj? then obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj)) else 'null'
   jsondiffpatch.create({objectHash: hasher})
 
 module.exports.getConflicts = (headDeltas, pendingDeltas) ->
@@ -175,5 +175,3 @@ prunePath = (delta, path) ->
     prunePath delta[path[0]], path.slice(1) unless delta[path[0]] is undefined
     keys = (k for k in _.keys(delta[path[0]]) when k isnt '_t')
     delete delta[path[0]] if keys.length is 0
-
-

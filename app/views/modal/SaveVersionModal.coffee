@@ -37,7 +37,7 @@ module.exports = class SaveVersionModal extends ModalView
         deltaView = new DeltaView({model: @model})
         @insertSubView(deltaView, changeEl)
       catch e
-        console.error 'Couldn\'t create delta view:', e
+        console.error 'Couldn\'t create delta view:', e, e.stack
     @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
 
   onSubmitForm: (e) ->
