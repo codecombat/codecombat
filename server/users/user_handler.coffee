@@ -224,7 +224,7 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
     projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
     LevelSession.find(query).select(projection).exec (err, documents) =>
@@ -280,7 +280,7 @@ UserHandler = class UserHandler extends Handler
     return @sendMethodNotAllowed res unless req.method is 'POST'
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
-    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
+    isAuthorized ||= ('employer' in (req.user.get('permissions') ? [])) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
     return @sendUnauthorizedError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
@@ -303,7 +303,7 @@ UserHandler = class UserHandler extends Handler
     if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
       return errors.badInput(res, 'You need to have a more complete profile to sign up for this service.')
     @modelClass.findById(req.user.id).exec (err, user) =>
-      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in user.get('permissions')
+      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in (user.get('permissions') ? [])
         return errors.conflict(res, 'You already have signed the agreement!')
       #TODO: Search for the current position
       employerAt = _.filter(profileData.positions.values, 'isCurrent')[0]?.company.name ? 'Not available'
@@ -322,7 +322,7 @@ UserHandler = class UserHandler extends Handler
         res.end()
 
   getCandidates: (req, res) ->
-    authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     months = if req.user.isAdmin() then 12 else 2
     since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.updated': {$gt: since}}

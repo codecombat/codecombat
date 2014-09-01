@@ -159,5 +159,5 @@ module.exports = class Spell
     return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
-    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions'))
+    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
     false

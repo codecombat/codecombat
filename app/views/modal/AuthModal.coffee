@@ -75,7 +75,7 @@ module.exports = class AuthModal extends ModalView
     userObject.name = @suggestedName if @suggestedName
     for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
       userObject[key] ?= val
-    subscribe = @$el.find('#signup-subscribe').prop('checked')
+    subscribe = @$el.find('#subscribe').prop('checked')
     userObject.emails ?= {}
     userObject.emails.generalNews ?= {}
     userObject.emails.generalNews.enabled = subscribe

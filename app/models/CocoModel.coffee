@@ -51,16 +51,16 @@ class CocoModel extends Backbone.Model
     @loadFromBackup()
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
-    
+
   attributesWithDefaults: undefined
-    
+
   get: (attribute, withDefault=false) ->
     if withDefault
       if @attributesWithDefaults is undefined then @buildAttributesWithDefaults()
       return @attributesWithDefaults[attribute]
     else
       super(attribute)
-      
+
   set: ->
     delete @attributesWithDefaults
     inFlux = @loading or not @loaded
@@ -180,13 +180,13 @@ class CocoModel extends Backbone.Model
     clone
 
   isPublished: ->
-    for permission in @get('permissions') or []
+    for permission in (@get('permissions', true) ? [])
       return true if permission.target is 'public' and permission.access is 'read'
     false
 
   publish: ->
     if @isPublished() then throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.')
-    @set 'permissions', (@get('permissions') or []).concat({access: 'read', target: 'public'})
+    @set 'permissions', @get('permissions', true).concat({access: 'read', target: 'public'})
 
   @isObjectID: (s) ->
     s.length is 24 and s.match(/[a-f0-9]/gi)?.length is 24
@@ -195,10 +195,9 @@ class CocoModel extends Backbone.Model
     # actor is a User object
     actor ?= me
     return true if actor.isAdmin()
-    if @get('permissions')?
-      for permission in @get('permissions')
-        if permission.target is 'public' or actor.get('_id') is permission.target
-          return true if permission.access in ['owner', 'read']
+    for permission in (@get('permissions', true) ? [])
+      if permission.target is 'public' or actor.get('_id') is permission.target
+        return true if permission.access in ['owner', 'read']
 
     return false
 
@@ -206,16 +205,14 @@ class CocoModel extends Backbone.Model
     # actor is a User object
     actor ?= me
     return true if actor.isAdmin()
-    if @get('permissions')?
-      for permission in @get('permissions')
-        if permission.target is 'public' or actor.get('_id') is permission.target
-          return true if permission.access in ['owner', 'write']
+    for permission in (@get('permissions', true) ? [])
+      if permission.target is 'public' or actor.get('_id') is permission.target
+        return true if permission.access in ['owner', 'write']
 
     return false
 
   getOwner: ->
-    return null unless permissions = @get 'permissions'
-    ownerPermission = _.find permissions, access: 'owner'
+    ownerPermission = _.find @get('permissions', true), access: 'owner'
     ownerPermission?.target
 
   getDelta: ->
