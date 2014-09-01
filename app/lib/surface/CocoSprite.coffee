@@ -136,7 +136,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     width = @thang.width * Camera.PPM
     height = @thang.height * Camera.PPM * @options.camera.y2x
     depth = @thang.depth * Camera.PPM * @options.camera.z2y * @options.camera.y2x
-    makeColor = (brightnessFactor) => (Math.round(c * brightnessFactor) for c in (healthColors[@thang.team] ? [180, 180, 180]))
+    brightnessFuzzFactor = 1 + 0.1 * (Math.random() - 0.5)
+    makeColor = (brightnessFactor) => (Math.round(c * brightnessFuzzFactor * brightnessFactor) for c in (healthColors[@thang.team] ? [180, 180, 180]))
     topColor = "rgba(#{makeColor(0.85).join(', ')},1)"
     mainColor = "rgba(#{makeColor(0.75).join(', ')},1)"
     ellipse = @thang.shape in ['ellipsoid', 'disc']

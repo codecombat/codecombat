@@ -428,15 +428,18 @@ module.exports = Surface = class Surface extends CocoClass
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
+    else if $('#editor-level-thangs-tab-view')
+      newWidth = $('#canvas-wrapper').width()
+      newHeight = newWidth / aspectRatio
     else
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
-    @canvas.width newWidth
-    @canvas.height newHeight
     return unless newWidth > 0 and newHeight > 0
-    #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
-    #  newWidth = Math.min 924, newWidth
-    #  newHeight = Math.min 589, newHeight
+    ##if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
+    ##  newWidth = Math.min 924, newWidth
+    ##  newHeight = Math.min 589, newHeight
+    #@canvas.width newWidth
+    #@canvas.height newHeight
     @canvas.attr width: newWidth, height: newHeight
     @stage.scaleX *= newWidth / oldWidth
     @stage.scaleY *= newHeight / oldHeight
