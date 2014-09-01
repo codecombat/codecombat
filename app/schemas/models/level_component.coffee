@@ -143,7 +143,7 @@ _.extend LevelComponentSchema.properties,
     format: 'hidden'
   dependencies: c.array {title: 'Dependencies', description: 'An array of Components upon which this Component depends.', uniqueItems: true}, DependencySchema
   propertyDocumentation: c.array {title: 'Property Documentation', description: 'An array of documentation entries for each notable property this Component will add to its Thang which other Components might want to also use.'}, PropertyDocumentationSchema
-  configSchema: _.extend metaschema, {title: 'Configuration Schema', description: 'A schema for validating the arguments that can be passed to this Component as configuration.', default: {type: 'object', additionalProperties: false}}
+  configSchema: _.extend metaschema, {title: 'Configuration Schema', description: 'A schema for validating the arguments that can be passed to this Component as configuration.', default: {type: 'object'}}
   official:
     type: 'boolean'
     title: 'Official'

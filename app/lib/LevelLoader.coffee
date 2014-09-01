@@ -116,7 +116,7 @@ module.exports = class LevelLoader extends CocoClass
     flagThang = thangType: '53fa25f25bc220000052c2be', id: 'Placeholder Flag', components: []
     for thang in (@level.get('thangs') or []).concat [flagThang]
       thangIDs.push thang.thangType
-      @loadItemThangsEquippedByLevelThang(thang)
+      @loadThangsRequiredByLevelThang(thang)
       for comp in thang.components or []
         componentVersions.push _.pick(comp, ['original', 'majorVersion'])
 
@@ -160,23 +160,27 @@ module.exports = class LevelLoader extends CocoClass
 
     @worldNecessities = @worldNecessities.concat worldNecessities
 
-  loadItemThangsEquippedByLevelThang: (levelThang) ->
-    @loadItemThangsFromComponentList levelThang.components
+  loadThangsRequiredByLevelThang: (levelThang) ->
+    @loadThangsRequiredFromComponentList levelThang.components
 
-  loadItemThangsEquippedByThangType: (thangType) ->
-    @loadItemThangsFromComponentList thangType.get('components')
+  loadThangsRequiredByThangType: (thangType) ->
+    @loadThangsRequiredFromComponentList thangType.get('components')
 
-  loadItemThangsFromComponentList: (components) ->
-    equipsThangComponent = _.find components, (c) -> c.original is LevelComponent.EquipsID
-    inventory = equipsThangComponent?.config?.inventory
-    for itemThangType in _.values inventory
-      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
+  loadThangsRequiredFromComponentList: (components) ->
+    requiredThangTypes = []
+    for component in components when component.config
+      if component.original is LevelComponent.EquipsID
+        requiredThangTypes.push itemThangType for itemThangType in _.values (component.config.inventory ? {})
+      else if component.config.requiredThangTypes
+        requiredThangTypes = requiredThangTypes.concat component.config.requiredThangTypes
+    for thangType in requiredThangTypes
+      url = "/db/thang.type/#{thangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
     for thangType in thangNames.models
       @loadDefaultComponentsForThangType(thangType)
-      @loadItemThangsEquippedByThangType(thangType)
+      @loadThangsRequiredByThangType(thangType)
 
   loadDefaultComponentsForThangType: (thangType) ->
     return unless components = thangType.get('components')
@@ -188,7 +192,7 @@ module.exports = class LevelLoader extends CocoClass
     index = @worldNecessities.indexOf(resource)
     if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
-      @loadItemThangsEquippedByThangType(resource.model)
+      @loadThangsRequiredByThangType(resource.model)
 
     return unless index >= 0
     @worldNecessities.splice(index, 1)

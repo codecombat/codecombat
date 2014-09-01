@@ -82,7 +82,7 @@ module.exports = class JobProfileTreemaView extends CocoView
       {name: 'Provide your name.', weight: 1, fn: modified 'name'}
       {name: 'Choose your city.', weight: 1, fn: modified 'city'}
       {name: 'Pick your country.', weight: 0, fn: exists 'country'}
-      {name: 'List at least five skills.', weight: 2, fn: -> jobProfile.skills.length >= 5}
+      {name: 'List at least five skills.', weight: 2, fn: -> jobProfile.skills?.length >= 5}
       {name: 'Write a short description to summarize yourself at a glance.', weight: 2, fn: modified 'shortDescription'}
       {name: 'Fill in your main description to sell yourself and describe the work you\'re looking for.', weight: 3, fn: modified 'longDescription'}
       {name: 'List your work experience.', weight: 3, fn: listStarted 'work', ['role', 'employer']}
@@ -95,7 +95,7 @@ module.exports = class JobProfileTreemaView extends CocoView
   getData: ->
     return {} unless me.get('jobProfile') or @hasEditedProfile
     _.pick @jobProfileTreema.data, (value, key) => key in @editableSettings
-      
+
   destroy: ->
     @jobProfileTreema?.destroy()
     super()
