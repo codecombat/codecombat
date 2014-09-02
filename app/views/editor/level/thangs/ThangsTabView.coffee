@@ -394,7 +394,7 @@ module.exports = class ThangsTabView extends CocoView
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
-    
+
     # update selection, since the thangs have been remade
     if @selectedExtantThang
       @selectedExtantSprite = @surface.spriteBoss.sprites[@selectedExtantThang.id]
@@ -419,14 +419,14 @@ module.exports = class ThangsTabView extends CocoView
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if @level.get('type') isnt 'hero' or @thangsTreema.get "id=#{thangID}"
+        return if @level.get('type', true) isnt 'hero' or @thangsTreema.get "id=#{thangID}"
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
-    else if @level.get('type') is 'hero'
+    else if @level.get('type', true) is 'hero'
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []
