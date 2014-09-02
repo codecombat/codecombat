@@ -408,6 +408,11 @@ module.exports = class ThangsTabView extends CocoView
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
+    
+    # update selection, since the thangs have been remade
+    if @selectedExtantThang
+      @selectedExtantSprite = @surface.spriteBoss.sprites[@selectedExtantThang.id]
+      @selectedExtantThang = @selectedExtantSprite.thang
     Backbone.Mediator.publish 'editor:thangs-edited', thangs: @world.thangs
 
   onTreemaThangSelected: (e, selectedTreemas) =>
