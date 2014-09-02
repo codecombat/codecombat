@@ -56,3 +56,6 @@ module.exports =
 
   'editor:thang-type-kind-changed': c.object {required: ['kind']},
     kind: {type: 'string'}
+
+  'editor:thang-type-color-groups-changed': c.object {required: ['colorGroups']},
+    colorGroups: {type: 'object'}

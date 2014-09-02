@@ -136,6 +136,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   onColorGroupsChanged: =>
     @thangType.set('colorGroups', @colorGroups.data)
+    Backbone.Mediator.publish 'editor:thang-type-color-groups-changed', colorGroups: @colorGroups.data
 
   onColorGroupSelected: (e, selected) =>
     @$el.find('#color-group-settings').toggle selected.length > 0
