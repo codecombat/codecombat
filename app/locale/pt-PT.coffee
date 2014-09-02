@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_multiplayer_description: "... onde programa frente-a-frente contra outros jogadores."
     campaign_player_created: "Criados por Jogadores"
     campaign_player_created_description: "... onde combate contra a criatividade dos seus colegas <a href=\"/contribute#artisan\">Feiticeiros Artesãos</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificuldade: "
     play_as: "Jogar Como"
     spectate: "Espectar"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     achievement: "Conquista"
     clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
   delta:
     added: "Adicionados/as"

@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     campaign_multiplayer_description: "... i dene du Chopf a Chopf geg anderi Spieler spielsch."
     campaign_player_created: "Vo Spieler erstellti Level"
     campaign_player_created_description: "... i dene du gege d Kreativität vome <a href=\"/contribute#artisan\">Handwerker Zauberer</a> kämpfsch."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Schwierigkeit: "
     play_as: "Spiel als"
     spectate: "Zueluege"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

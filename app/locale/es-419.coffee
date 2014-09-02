@@ -123,6 +123,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     campaign_multiplayer_description: "... en las que programas cara-a-cara contra otros jugadores."
     campaign_player_created: "Creados-Por-Jugadores"
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificultad: "
     play_as: "Jugar Como "
     spectate: "Observar"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

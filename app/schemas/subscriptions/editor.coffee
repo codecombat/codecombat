@@ -43,5 +43,19 @@ module.exports =
   'level:reload-thang-type': c.object {required: ['thangType']},
     thangType: {type: 'object'}
 
-  'editor:random-terrain-generated': c.object {required: ['thangs']},
+  'editor:random-terrain-generated': c.object {required: ['thangs', 'terrain']},
     thangs: c.array {}, {type: 'object'}
+    terrain: c.terrainString
+
+  'editor:terrain-changed': c.object {required: ['terrain']},
+    terrain:
+      oneOf: [
+        c.terrainString
+        {type: ['null', 'undefined']}
+      ]
+
+  'editor:thang-type-kind-changed': c.object {required: ['kind']},
+    kind: {type: 'string'}
+
+  'editor:thang-type-color-groups-changed': c.object {required: ['colorGroups']},
+    colorGroups: {type: 'object'}

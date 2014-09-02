@@ -13,12 +13,13 @@ module.exports = class SettingsTabView extends CocoView
   # not thangs or scripts or the backend stuff
   editableSettings: [
     'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
-    'type', 'showsGuide', 'banner', 'employerDescription'
+    'type', 'terrain', 'showsGuide', 'banner', 'employerDescription'
   ]
 
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
     'editor:thangs-edited': 'onThangsEdited'
+    'editor:random-terrain-generated': 'onRandomTerrainGenerated'
 
   constructor: (options) ->
     super options
@@ -47,6 +48,7 @@ module.exports = class SettingsTabView extends CocoView
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
     @settingsTreema.build()
     @settingsTreema.open()
+    @lastTerrain = data.terrain
 
   getThangIDs: ->
     (t.id for t in @level.get('thangs') ? [])
@@ -56,11 +58,17 @@ module.exports = class SettingsTabView extends CocoView
     for key in @editableSettings
       continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
+    if (terrain = @settingsTreema.data.terrain) isnt @lastTerrain
+      @lastTerrain = terrain
+      Backbone.Mediator.publish 'editor:terrain-changed', terrain: terrain
 
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
-    
+
+  onRandomTerrainGenerated: (e) ->
+    @settingsTreema.set '/terrain', e.terrain
+
   destroy: ->
     @settingsTreema?.destroy()
     super()

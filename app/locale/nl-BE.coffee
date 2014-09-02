@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
     campaign_player_created: "Door-spelers-gemaakt"
     campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Moeilijkheidsgraad: "
     play_as: "Speel als "
     spectate: "Toeschouwen"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

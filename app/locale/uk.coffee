@@ -123,6 +123,8 @@ module.exports = nativeDescription: "українська мова", englishDesc
     campaign_multiplayer_description: "... в яких ви програмуєте віч-на-віч із іншими гравцями."
     campaign_player_created: "Рівні, створені гравцями"
     campaign_player_created_description: "... у яких ви змагаєтесь у креативності із вашими друзями-<a href=\"/contribute#artisan\">Архітекторами</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Складність: "
     play_as: "Грати як"
     spectate: "Спостерігати"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

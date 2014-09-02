@@ -25,7 +25,7 @@ module.exports =
     viewClass: {type: 'function'}
     viewArgs: {type: 'array'}
 
-  'achievements:new': c.object {required: 'earnedAchievements'},
+  'achievements:new': c.object {required: ['earnedAchievements']},
     earnedAchievements: {type: 'object'}
 
   'ladder:game-submitted': c.object {required: ['session', 'level']},

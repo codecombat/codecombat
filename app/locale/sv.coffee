@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     campaign_multiplayer_description: "... i vilken du tävlar i kodande mot andra spelare"
     campaign_player_created: "Spelarskapade"
     campaign_player_created_description: "... i vilken du tävlar mot kreativiteten hos  andra <a href=\"/contribute#artisan\">Hantverkare</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Svårighetsgrad: "
     play_as: "Spela som "
     spectate: "Titta på"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

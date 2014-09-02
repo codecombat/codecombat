@@ -35,7 +35,6 @@ module.exports = class LevelLoader extends CocoClass
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
-    @loadSession()
     @loadLevel()
     @loadAudio()
     @playJingle()
@@ -44,14 +43,19 @@ module.exports = class LevelLoader extends CocoClass
     else
       @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
-  playJingle: ->
-    return if @headless
-    # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
-    # Add the timeout to fix this weird behavior.
-    f = ->
-      jingles = ['ident_1', 'ident_2']
-      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
-    setTimeout f, 500
+  # Supermodel (Level) Loading
+
+  loadLevel: ->
+    @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
+    if @level.loaded
+      @onLevelLoaded()
+    else
+      @level = @supermodel.loadModel(@level, 'level').model
+      @listenToOnce @level, 'sync', @onLevelLoaded
+
+  onLevelLoaded: ->
+    @loadSession()
+    @populateLevel()
 
   # Session Loading
 
@@ -83,29 +87,19 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
-    return if @levelID is 'sky-span'  # TODO
-    # TODO: I think this runs afoul of https://github.com/codecombat/codecombat/issues/1108
-    # TODO: this shouldn't happen when it's not a hero level, but we don't have level loaded yet,
-    # and the sessions are being created with default hero config regardless of whether it's a hero level.
-    if heroConfig = session.get('heroConfig')
-      url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
+    return unless @level.get('type', true) is 'hero'
+    heroConfig = session.get('heroConfig')
+    unless heroConfig
+      heroConfig = {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # Temp: assign Tharin as the hero
+      session.set 'heroConfig', heroConfig
+    url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
+    @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+
+    for itemThangType in _.values(heroConfig.inventory)
+      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
-      for itemThangType in _.values(heroConfig.inventory)
-        url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
-        @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-  # Supermodel (Level) Loading
-
-  loadLevel: ->
-    @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
-    if @level.loaded
-      @populateLevel()
-    else
-      @level = @supermodel.loadModel(@level, 'level').model
-      @listenToOnce @level, 'sync', @onLevelLoaded
-
-  onLevelLoaded: ->
-    @populateLevel()
+  # Grabbing the rest of the required data for the level
 
   populateLevel: ->
     thangIDs = []
@@ -167,6 +161,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadThangsRequiredFromComponentList thangType.get('components')
 
   loadThangsRequiredFromComponentList: (components) ->
+    return unless components
     requiredThangTypes = []
     for component in components when component.config
       if component.original is LevelComponent.EquipsID
@@ -330,6 +325,15 @@ module.exports = class LevelLoader extends CocoClass
     console.log 'World has been initialized from level loader.'
 
   # Initial Sound Loading
+
+  playJingle: ->
+    return if @headless
+    # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
+    # Add the timeout to fix this weird behavior.
+    f = ->
+      jingles = ['ident_1', 'ident_2']
+      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
+    setTimeout f, 500
 
   loadAudio: ->
     return if @headless

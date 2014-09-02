@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
     campaign_player_created: "Tạo người chơi"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Khó: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

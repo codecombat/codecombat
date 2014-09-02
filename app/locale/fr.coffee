@@ -123,6 +123,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_multiplayer_description: "... dans laquelle vous coderez en face à face contre d'autres joueurs."
     campaign_player_created: "Niveaux créés par les joueurs"
     campaign_player_created_description: "... Dans laquelle vous serez confrontés à la créativité des votres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Difficulté: "
     play_as: "Jouer comme "
     spectate: "Spectateur"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
   delta:
     added: "Ajouté"

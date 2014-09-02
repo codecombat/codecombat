@@ -44,6 +44,7 @@ module.exports = class ThangTypeEditView extends RootView
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
 
   subscriptions:
+    'editor:thang-type-color-groups-changed': 'onColorGroupsChanged'
     'editor:save-new-version': 'saveNewThangType'
 
   # init / render
@@ -101,6 +102,11 @@ module.exports = class ThangTypeEditView extends RootView
 
   onComponentsChanged: (components) =>
     @thangType.set 'components', components
+
+  onColorGroupsChanged: (e) ->
+    @temporarilyIgnoringChanges = true
+    @treema.set 'colorGroups', e.colorGroups
+    @temporarilyIgnoringChanges = false
 
   makeDot: (color) ->
     circle = new createjs.Shape()
@@ -380,8 +386,10 @@ module.exports = class ThangTypeEditView extends RootView
     el = @$el.find('#thang-type-treema')
     @treema = @$el.find('#thang-type-treema').treema(options)
     @treema.build()
+    @lastKind = data.kind
 
   pushChangesToPreview: =>
+    return if @temporarilyIgnoringChanges
     # TODO: This doesn't delete old Treema keys you deleted
     for key, value of @treema.data
       @thangType.set(key, value)
@@ -389,6 +397,11 @@ module.exports = class ThangTypeEditView extends RootView
     @refreshAnimation()
     @updateDots()
     @updatePortrait()
+    if (kind = @treema.data.kind) isnt @lastKind
+      @lastKind = kind
+      Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
+      if kind in ['Doodad', 'Floor', 'Wall'] and not @treema.data.terrains
+        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor']  # So editors know to set them.
 
   onSelectNode: (e, selected) =>
     selected = selected[0]

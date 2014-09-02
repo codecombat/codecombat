@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     campaign_multiplayer_description: "... nelle quali programmi faccia a faccia contro altri giocatori."
     campaign_player_created: "Creati dai giocatori"
     campaign_player_created_description: "... nei quali affronterai la creatività dei tuoi compagni <a href=\"/contribute#artisan\">Stregoni Artigiani</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Difficoltà: "
     play_as: "Gioca come "
     spectate: "Spettatore"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"
