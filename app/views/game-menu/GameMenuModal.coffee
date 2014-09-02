@@ -18,6 +18,7 @@ module.exports = class GameMenuModal extends ModalView
   constructor: (options) ->
     super options
     @options.showDevBits = me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
+    @options.showInventory = @options.level.get('type', true) is 'hero'
 
   events:
     'change input.select': 'onSelectionChanged'
@@ -25,13 +26,14 @@ module.exports = class GameMenuModal extends ModalView
   getRenderData: (context={}) ->
     context = super(context)
     context.showDevBits = @options.showDevBits
+    context.showInventory = @options.showInventory
     context
 
   afterRender: ->
     super()
     @$el.toggleClas
     @insertSubView new submenuView @options for submenuView in submenuViews
-    (if @options.showDevBits then @subviews.inventory_view else @subviews.choose_hero_view).$el.addClass 'active'
+    (if @options.showInventory then @subviews.inventory_view else @subviews.choose_hero_view).$el.addClass 'active'
 
   onHidden: ->
     subview.onHidden?() for subviewKey, subview of @subviews
