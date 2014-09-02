@@ -26,11 +26,11 @@ module.exports = class AchievementPopup extends CocoView
     nextLevelXP = User.expForLevel(nextLevel)
     totalExpNeeded = nextLevelXP - currentLevelExp
     expFunction = @achievement.getExpFunction()
-    currentXP = me.get 'points'
+    currentXP = me.get 'points', true
     if @achievement.isRepeatable()
       achievedXP = expFunction(@earnedAchievement.get('previouslyAchievedAmount')) * @achievement.get('worth') if @achievement.isRepeatable()
     else
-      achievedXP = @achievement.get 'worth'
+      achievedXP = @achievement.get 'worth', true
     previousXP = currentXP - achievedXP
     leveledUp = currentXP - achievedXP < currentLevelExp
     #console.debug 'Leveled up' if leveledUp

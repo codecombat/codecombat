@@ -18,7 +18,6 @@ module.exports = class NewAchievementModal extends NewModelModal
   getRenderData: ->
     c = super()
     c.level = @level
-    console.debug 'level', c.level
     c
 
   onAchievementSubmitted: (e) ->
