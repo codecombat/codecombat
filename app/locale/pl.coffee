@@ -123,6 +123,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     campaign_multiplayer_description: "... w których konkurujesz z innymi graczami."
     campaign_player_created: "Stworzone przez graczy"
     campaign_player_created_description: "... w których walczysz przeciwko dziełom <a href=\"/contribute#artisan\">Czarodziejów Rękodzielnictwa</a>"
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Poziom trudności: "
     play_as: "Graj jako "
     spectate: "Oglądaj"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

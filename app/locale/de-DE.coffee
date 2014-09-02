@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_multiplayer_description: "... in der Du Kopf-an-Kopf gegen andere Spieler programmierst."
     campaign_player_created: "Von Spielern erstellt"
     campaign_player_created_description: "... in welchem Du gegen die Kreativität eines <a href=\"/contribute#artisan\">Artisan Zauberers</a> kämpfst."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Schwierigkeit: "
     play_as: "Spiele als "
     spectate: "Zuschauen"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
   delta:
     added: "hinzugefügt"

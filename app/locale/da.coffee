@@ -123,6 +123,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     campaign_multiplayer_description: "... hvor du koder ansigt-til-ansigt imod andre spillere."
     campaign_player_created: "Spillerkreerede"
     campaign_player_created_description: "... hvor du kæmper mod dine med-<a href=\"/contribute#artisan\">Kunsthåndværker-troldmænd</a>s kreativitet."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Sværhedsgrad: "
     play_as: "Spil Som "
     spectate: "Observér"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     campaign_multiplayer_description: "Diğer oyuncularla kafa kafaya verip kodlamak için..."
     campaign_player_created: "Oyuncuların Oluşturdukları"
     campaign_player_created_description: "<a href=\"/contribute#artisan\">Zanaatkâr Büyücüler</a>in yaratıcılıklarına karşı mücadele etmek için..."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Zorluk: "
     play_as: "Olarak Oyna"
     spectate: "İzleyici olarak katıl"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

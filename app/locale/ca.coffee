@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     campaign_multiplayer_description: "... on programes cara a cara contra altres jugadors."
     campaign_player_created: "Creats pel Jugador"
     campaign_player_created_description: "... on lluites contra la creativitat dels teus companys <a href=\"/contribute#artisan\">Artisan Wizards</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificultat: "
     play_as: "Jugar com"
     spectate: "Spectate"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

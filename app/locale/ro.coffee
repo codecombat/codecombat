@@ -123,6 +123,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     campaign_multiplayer_description: "... în care te lupți cap-la-cap contra alti jucători."
     campaign_player_created: "Create de jucători"
     campaign_player_created_description: "... în care ai ocazia să testezi creativitatea colegilor tai <a href=\"/contribute#artisan\">Artisan Wizards</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificultate: "
     play_as: "Alege-ți echipa"
     spectate: "Spectator"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

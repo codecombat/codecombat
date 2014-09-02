@@ -123,6 +123,8 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     campaign_multiplayer_description: "... جایی که کد رو به رو شدن با بقیه بازیکنان رو مینویسید."
     campaign_player_created: "ایجاد بازیکن"
     campaign_player_created_description: "... جایی که در مقابل خلاقیت نیرو هاتون قرار میگیرید <a href=\"/contribute#artisan\">جادوگران آرتیزان</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "سختی: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -953,6 +955,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"
