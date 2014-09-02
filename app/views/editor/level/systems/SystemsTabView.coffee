@@ -1,5 +1,5 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/level/systems_tab'
+template = require 'templates/editor/level/systems-tab-view'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 LevelSystemEditView = require './LevelSystemEditView'
@@ -8,7 +8,7 @@ AddLevelSystemModal = require './AddLevelSystemModal'
 {ThangTypeNode} = require './../treema_nodes'
 
 module.exports = class SystemsTabView extends CocoView
-  id: 'editor-level-systems-tab-view'
+  id: 'systems-tab-view'
   template: template
   className: 'tab-pane'
 
@@ -49,7 +49,6 @@ module.exports = class SystemsTabView extends CocoView
       insertedDefaults = true
     systems = @getSortedByName systems
     treemaOptions =
-      # TODO: somehow get rid of the + button, or repurpose it to open the AddLevelSystemModal instead
       supermodel: @supermodel
       schema: Level.schema.properties.systems
       data: systems
@@ -153,8 +152,6 @@ class LevelSystemNode extends TreemaObjectNode
 
   grabDBComponent: ->
     data = @getData()
-    unless _.isString data.original
-      return alert('Press the "Add System" button at the bottom instead of the "+". Sorry.')
     @system = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, data.original, data.majorVersion)
     console.error 'Couldn\'t find system for', data.original, data.majorVersion, 'from models', @settings.supermodel.models unless @system
 
