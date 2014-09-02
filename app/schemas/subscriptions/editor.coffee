@@ -45,3 +45,6 @@ module.exports =
 
   'editor:random-terrain-generated': c.object {required: ['thangs']},
     thangs: c.array {}, {type: 'object'}
+
+  'editor:thang-type-kind-changed': c.object {required: ['kind']},
+    kind: {type: 'string'}

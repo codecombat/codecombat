@@ -12,6 +12,28 @@ nodes = require '../level/treema_nodes'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 
+LC = (componentName, config) -> original: LevelComponent[componentName + 'ID'], majorVersion: 0, config: config
+DEFAULT_COMPONENTS =
+  Unit: [LC('Equips')]
+  Floor: [
+    LC('Exists', stateless: true)
+    LC('Physical', width: 20, height: 17, depth: 2, shape: 'sheet', pos: {x: 10, y: 8.5, z: 1})
+    LC('Land')
+  ]
+  Wall: [
+    LC('Exists', stateless: true)
+    LC('Physical', width: 4, height: 4, depth: 12, shape: 'box', pos: {x: 2, y: 2, z: 6})
+    LC('Collides', collisionType: 'static', collisionCategory: 'obstacles', mass: 1000, fixedRotation: true, restitution: 1)
+  ]
+  Doodad: [
+    LC('Exists', stateless: true)
+    LC('Physical')
+    LC('Collides', collisionType: 'static', fixedRotation: true)
+  ]
+  Misc: [LC('Exists'), LC('Physical')]
+  Mark: []
+  Item: [LC('Item')]
+
 class ItemThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type?view=items&project=original,name,version,slug,kind,components'
   model: ThangType
@@ -19,6 +41,9 @@ class ItemThangTypeSearchCollection extends CocoCollection
 module.exports = class ThangComponentsEditView extends CocoView
   id: 'thang-components-edit-view'
   template: template
+
+  subscriptions:
+    'editor:thang-type-kind-changed': 'onThangTypeKindChanged'
 
   events:
     'click #add-components-button': 'onAddComponentsButtonClicked'
@@ -33,11 +58,11 @@ module.exports = class ThangComponentsEditView extends CocoView
     @world = options.world
     @level = options.level
     @loadComponents(@components)
-    
+
   setThangType: (@thangType) ->
     return unless componentRefs = @thangType?.get('components')
     @loadComponents(componentRefs)
-    
+
   loadComponents: (components) ->
     for componentRef in components
       # just to handle if ever somehow the same component is loaded twice, through bad data and alike
@@ -73,7 +98,7 @@ module.exports = class ThangComponentsEditView extends CocoView
         type: 'object'
         default: defaultValue
         additionalProperties: Level.schema.properties.thangs.items.properties.components.items
-      }, 
+      },
       data: $.extend true, {}, components
       callbacks: {select: @onSelectComponent, change: @onComponentsTreemaChanged}
       nodeClasses:
@@ -256,7 +281,7 @@ module.exports = class ThangComponentsEditView extends CocoView
         thangComponent.config = e.config
         foundComponent = true
         break
-        
+
     if not foundComponent
       @components.push({
         original: e.component.get('original')
@@ -269,7 +294,7 @@ module.exports = class ThangComponentsEditView extends CocoView
         if subview.component.get('original') is e.component.get('original')
           _.defer -> subview.setIsDefaultComponent(false)
           break
-      
+
     @updateComponentsList()
     @reportChanges()
 
@@ -344,18 +369,24 @@ module.exports = class ThangComponentsEditView extends CocoView
       @loadComponents(sparseComponents)
       @components = @components.concat(sparseComponents)
       @onComponentsChanged()
-      
+
+  onThangTypeKindChanged: (e) ->
+    return unless defaultComponents = DEFAULT_COMPONENTS[e.kind]
+    for component in defaultComponents when not _.find(@components, original: component.original)
+      @components.push component
+      @onComponentsAdded()
+
   destroy: ->
     @componentsTreema?.destroy()
     super()
 
 class ThangComponentsObjectNode extends TreemaObjectNode
   addNewChild: -> @addNewChildForKey('') # HACK to get the object adding to act more like adding to an array
-  
+
   getChildren: ->
     children = super(arguments...)
     children.sort(@sortFunction)
-  
+
   sortFunction: (a, b) =>
     a = a.value ? a.defaultData
     b = b.value ? b.defaultData
