@@ -3,6 +3,10 @@ template = require 'templates/editor/level/modal/terrain_randomize'
 CocoModel = require 'models/CocoModel'
 
 clusters = {
+  'hero': {
+    'thangs': ['Hero Placeholder']
+    'margin': 1
+  }
   'rocks': {
     'thangs': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
     'margin': 1
@@ -97,6 +101,14 @@ presets = {
         'thickness': [2,2]
         'cluster': 'dungeon_wall'
       }
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
       'Barrels': {
         'num': [1,1]
         'width': [8, 12]
@@ -130,6 +142,14 @@ presets = {
         'thickness': [2,2]
         'cluster': 'indoor_wall'
       }
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
       'furniture': {
         'num':[1,2]
         'width': 15
@@ -148,6 +168,14 @@ presets = {
     'borderThickness':3
     'floors':'grass_floor'
     'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
       'house': {
         'num':[1,2] #min-max
         'width': 15

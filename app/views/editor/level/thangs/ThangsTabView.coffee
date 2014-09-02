@@ -259,7 +259,7 @@ module.exports = class ThangsTabView extends CocoView
       # We alt-clicked, so create a clone addThang
       @selectAddThangType e.thang.spriteName, @selectedExtantThang
     else if @justAdded()
-      console.log 'Skipping double insert due to extra selection event, since we just added', (new Date() - @lastAddTime), 'ms ago.'
+      # Skip double insert due to extra selection event
       null
     else if e.thang and not (@addThangSprite and @addThangType.get('name') in overlappableThangTypeNames)
       # We clicked on a Thang (or its Treema), so select the Thang
@@ -426,7 +426,11 @@ module.exports = class ThangsTabView extends CocoView
   addThang: (thangType, pos, batchInsert=false) ->
     @$el.find('#randomize-button').hide()
     if batchInsert
-      thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
+      if thangType.get('name') is 'Hero Placeholder'
+        thangID = 'Hero Placeholder'
+        return if @level.get('type') isnt 'hero' or @thangsTreema.get "id=#{thangID}"
+      else
+        thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
