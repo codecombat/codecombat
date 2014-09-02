@@ -212,6 +212,7 @@ LevelSchema = c.object {
     thangs: []
     systems: []
     victory: {}
+    type: 'hero'
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,

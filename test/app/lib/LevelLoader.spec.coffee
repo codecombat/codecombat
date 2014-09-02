@@ -112,12 +112,14 @@ describe 'LevelLoader', ->
       requests = jasmine.Ajax.requests.all()
       urls = (r.url for r in requests)
       expect('/db/level.component/jumps/version/0' in urls).toBeTruthy()
-      
+
     it 'is idempotent', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
 
       # first load Tharin by the 'normal' session load
-      responses = { '/db/level_session/id': sessionWithTharinWithHelmet }
+      responses = '/db/level/id': levelWithOgreWithMace
+      jasmine.Ajax.requests.sendResponses(responses)
+      responses = '/db/level_session/id': sessionWithTharinWithHelmet
       jasmine.Ajax.requests.sendResponses(responses)
       numRequestsBefore = jasmine.Ajax.requests.count()
 
@@ -126,21 +128,21 @@ describe 'LevelLoader', ->
       levelLoader.loadDependenciesForSession(session)
       levelLoader.loadDependenciesForSession(session)
       levelLoader.loadDependenciesForSession(session)
-      numRequestsAfter = jasmine.Ajax.requests.count() 
-      expect(numRequestsBefore).toBe(numRequestsAfter)
-      
+      numRequestsAfter = jasmine.Ajax.requests.count()
+      expect(numRequestsAfter).toBe(numRequestsBefore)
+
   it 'loads thangs for items that the level thangs have in their Equips component configs', ->
     new LevelLoader({supermodel:supermodel = new SuperModel(), sessionID: 'id', levelID: 'id'})
-    
-    responses = { 
-      '/db/level/id': levelWithOgreWithMace 
+
+    responses = {
+      '/db/level/id': levelWithOgreWithMace
     }
 
     jasmine.Ajax.requests.sendResponses(responses)
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
     expect('/db/thang.type/mace/version?project=name,components,original' in urls).toBeTruthy()
-  
+
   it 'loads components which are inherited by level thangs from thang type default components', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
 
@@ -152,7 +154,7 @@ describe 'LevelLoader', ->
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
     expect('/db/level.component/physical/version/0' in urls).toBeTruthy()
-  
+
   it 'loads item thang types which are inherited by level thangs from thang type default equips component configs', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
 
@@ -164,7 +166,7 @@ describe 'LevelLoader', ->
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
     expect('/db/thang.type/wand/version?project=name,components,original' in urls).toBeTruthy()
-  
+
   it 'loads components for item thang types which are inherited by level thangs from thang type default equips component configs', ->
     new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
 
