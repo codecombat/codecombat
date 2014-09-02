@@ -52,9 +52,7 @@ module.exports = class CandidatesView extends RootView
     ctx._ = _
     ctx
 
-  isEmployer: ->
-    userPermissions = me.get('permissions') ? []
-    _.contains userPermissions, "employer"
+  isEmployer: -> 'employer' in me.get('permissions', true)
 
   setUpScrolling: ->
     $(".nano").nanoScroller()
@@ -64,9 +62,9 @@ module.exports = class CandidatesView extends RootView
       $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
+    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get('permissions', true))
       @openModalView new EmployerSignupModal
-      window.location.hash = ""
+      window.location.hash = ''
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html

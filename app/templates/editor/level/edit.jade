@@ -36,7 +36,10 @@ block header
         li
           a(href="#related-achievements-view", data-toggle="tab") Achievements
         li
-          a(href="#docs-components-view", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+          a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
+        li
+          a(href="#level-feedback-view", data-toggle="tab")
+            .glyphicon.glyphicon-star
       .navbar-header
         span.navbar-brand #{level.attributes.name}
 
@@ -46,7 +49,7 @@ block header
             span.glyphicon-arrow-left.glyphicon
         li#redo-button(title="Redo (Ctrl+Shift+Z)")
             a
-              span.glyphicon-repeat.glyphicon
+              span.glyphicon-arrow-right.glyphicon
         if authorized
           li#commit-level-start-button
             a
@@ -64,7 +67,9 @@ block header
               li.dropdown-header Play As Which Team?
               li
                 for team in ['humans', 'ogres']
-                  a.play-with-team-button(data-team=team)= team
+                  a.play-with-team-button(data-team=team)= team + ' vs. AI'
+                for match in recentlyPlayedOpponents
+                  a.play-with-team-button(data-team=match.yourTeam, data-opponent=match.opponentSessionID)= match.yourTeam + ' vs. ' + match.opponentName
         
         else
           li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button
@@ -125,7 +130,17 @@ block outer_content
 
       div.tab-pane#related-achievements-view
 
-      div.tab-pane#docs-components-view
+      div.tab-pane#editor-level-documentation
+        ul.nav.nav-pills.nav-justified
+          li
+            a(href="#components-documentation-view", data-toggle="pill", data-i18n="resources.components") Components
+          li
+            a(href="#systems-documentation-view", data-toggle="pill", data-i18n="resources.systems") Systems
+        div.tab-content
+          div.tab-pane#components-documentation-view
+          div.tab-pane#systems-documentation-view
+
+      div.tab-pane#level-feedback-view
 
     div#error-view
 

@@ -123,6 +123,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     campaign_multiplayer_description: "..."
     campaign_player_created: "תוצרי השחקנים"
     campaign_player_created_description: "... שבהם תילחם נגד היצירתיות של <a href=\"/contribute#artisan\">בעלי-המלאכה</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "רמת קושי: "
     play_as: "שחק בתור "
     spectate: "צופה"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

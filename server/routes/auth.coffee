@@ -32,23 +32,14 @@ module.exports.setup = (app) ->
 
   app.post '/auth/spy', (req, res, next) ->
     if req?.user?.isAdmin()
-
-      username = req.body.usernameLower
-      emailLower = req.body.emailLower
-      if emailLower
-        query = {'emailLower': emailLower}
-      else if username
-        query = {'nameLower': username}
-      else
-        return errors.badInput res, 'You need to supply one of emailLower or username'
-
+      target = req.body.nameOrEmailLower
+      return errors.badInput res, 'Specify a username or email to espionage.' unless target
+      query = $or: [{nameLower: target}, {emailLower: target}]
       User.findOne query, (err, user) ->
         if err? then return errors.serverError res, 'There was an error finding the specified user'
-
         unless user then return errors.badInput res, 'The specified user couldn\'t be found'
-
         req.logIn user, (err) ->
-          if err? then return errors.serverError res, 'There was an error logging in with the specified'
+          if err? then return errors.serverError res, 'There was an error logging in with the specified user'
           res.send(UserHandler.formatEntity(req, user))
           return res.end()
     else
@@ -117,7 +108,7 @@ module.exports.setup = (app) ->
     )
   )
 
-  app.get '/auth/unsubscribe', (req, res) ->  
+  app.get '/auth/unsubscribe', (req, res) ->
     req.query.email = decodeURIComponent(req.query.email)
     email = req.query.email
     unless req.query.email
@@ -132,7 +123,7 @@ module.exports.setup = (app) ->
           return errors.serverError res, 'Database failure.' if err
           res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.levelName} #{session.team} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
           res.end()
-    
+
     User.findOne({emailLower: req.query.email.toLowerCase()}).exec (err, user) ->
       if not user
         return errors.notFound res, "No user found with email '#{req.query.email}'"
@@ -147,7 +138,7 @@ module.exports.setup = (app) ->
       else if req.query.employerNotes
         emails.employerNotes ?= {}
         emails.employerNotes.enabled = false
-        
+
         msg = "Unsubscribed #{req.query.email} from employer emails."
       else
         msg = "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go!"

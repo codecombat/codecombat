@@ -42,6 +42,7 @@ module.exports = class LevelComponentEditView extends CocoView
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelComponent), @$el.find('.patches-view'))
     @$el.find('#component-watch-button').find('> span').toggleClass('secret') if @levelComponent.watching()
+    @updatePatchButton()
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
@@ -49,6 +50,7 @@ module.exports = class LevelComponentEditView extends CocoView
     schema = _.cloneDeep LevelComponent.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
+    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
       supermodel: @supermodel
@@ -64,13 +66,22 @@ module.exports = class LevelComponentEditView extends CocoView
     # Make sure it validates first?
     for key, value of @componentSettingsTreema.data
       @levelComponent.set key, value unless key is 'js' # will compile code if needed
-    null
+    @updatePatchButton()
 
   buildConfigSchemaTreema: ->
+    configSchema = @levelComponent.get 'configSchema'
+    if configSchema.properties
+      # Alphabetize (#1297)
+      propertyNames = _.keys configSchema.properties
+      propertyNames.sort()
+      orderedProperties = {}
+      for prop in propertyNames
+        orderedProperties[prop] = configSchema.properties[prop]
+      configSchema.properties = orderedProperties
     treemaOptions =
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
-      data: @levelComponent.get 'configSchema'
+      data: configSchema
       readOnly: me.get('anonymous')
       callbacks: {change: @onConfigSchemaEdited}
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
@@ -81,9 +92,10 @@ module.exports = class LevelComponentEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelComponent.set 'configSchema', @configSchemaTreema.data
+    @updatePatchButton()
 
   buildCodeEditor: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
     editorEl = $('<div></div>').text(@levelComponent.get('code')).addClass('inner-editor')
     @$el.find('#component-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
@@ -98,7 +110,10 @@ module.exports = class LevelComponentEditView extends CocoView
   onEditorChange: =>
     return if @destroyed
     @levelComponent.set 'code', @editor.getValue()
-    null
+    @updatePatchButton()
+
+  updatePatchButton: ->
+    @$el.find('#patch-component-button').toggle Boolean @levelComponent.hasLocalChanges()
 
   endEditing: (e) ->
     Backbone.Mediator.publish 'editor:level-component-editing-ended', component: @levelComponent
@@ -119,5 +134,7 @@ module.exports = class LevelComponentEditView extends CocoView
     button.find('> span').toggleClass('secret')
 
   destroy: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
+    @componentSettingsTreema?.destroy()
+    @configSchemaTreema?.destroy()
     super()

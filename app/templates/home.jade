@@ -6,51 +6,81 @@ block content
 
   .code-languages
     .primary-code-languages.row
-      .col-md-6
+      .col-sm-6
         .code-language#javascript(data-code-language='javascript')
           .code-wizard
           h2 JavaScript
           p(data-i18n="home.javascript_blurb") The language of the web. Great for writing websites, web apps, HTML5 games, and servers.
+          - var playCount = codeLanguageCountMap.javascript
+          if playCount
+            div.language-play-count
+              span.spr= playCount
+              span(data-i18n="resources.sessions") sessions
 
-      .col-md-6
+      .col-sm-6
         .code-language.beta#python(data-code-language='python')
           .code-wizard
           .code-language-beta
           h2 Python
           p(data-i18n="home.python_blurb") Simple yet powerful, Python is a great general purpose programming language.
+          - var playCount = codeLanguageCountMap.python
+          if playCount
+            div.language-play-count
+              span.spr= playCount
+              span(data-i18n="resources.sessions") sessions
 
     .secondary-code-languages.row
-      .col-md-3
+      .col-sm-3
         .code-language.beta#coffeescript(data-code-language='coffeescript')
           .code-language-logo
           .code-wizard
           .code-language-beta
           h3 CoffeeScript
           p(data-i18n="home.coffeescript_blurb") Nicer JavaScript syntax.
+          - var playCount = codeLanguageCountMap.coffeescript
+          if playCount
+            div.language-play-count
+              span.spr= playCount
+              span(data-i18n="resources.sessions") sessions
 
-      .col-md-3
+      .col-sm-3
         .code-language.beta#clojure(data-code-language='clojure')
           .code-language-logo
           .code-wizard
           .code-language-beta
           h3 Clojure
           p(data-i18n="home.clojure_blurb") A modern Lisp.
+          - var playCount = codeLanguageCountMap.clojure
+          if playCount
+            div.language-play-count
+              span.spr= playCount
+              span(data-i18n="resources.sessions") sessions
 
-      .col-md-3
+      .col-sm-3
         .code-language.beta#lua(data-code-language='lua')
           .code-language-logo
           .code-wizard
           .code-language-beta
           h3 Lua
           p(data-i18n="home.lua_blurb") Game scripting language.
+          - var playCount = codeLanguageCountMap.lua
+          if playCount
+            div.language-play-count
+              span.spr= playCount
+              span(data-i18n="resources.sessions") sessions
 
-      .col-md-3
+      .col-sm-3
         .code-language.beta#io(data-code-language='io', title="Careful: Io is still quite buggy")
           .code-language-logo
           .code-wizard
           .code-language-beta
           h3 Io
           p(data-i18n="home.io_blurb") Simple but obscure.
+          - var playCount = codeLanguageCountMap.io
+          if playCount
+            div.language-play-count
+              span.spr= playCount
+              span(data-i18n="resources.sessions") sessions
 
   .alert.alert-danger.lt-ie10
     strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 9 or older. Sorry!

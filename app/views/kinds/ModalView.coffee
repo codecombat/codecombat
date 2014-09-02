@@ -6,6 +6,7 @@ module.exports = class ModalView extends CocoView
   closesOnClickOutside: true
   modalWidthPercent: null
   plain: false
+  instant: false
 
   events:
     'click a': 'toggleModal'
@@ -17,7 +18,7 @@ module.exports = class ModalView extends CocoView
 
   constructor: (options) ->
     options ?= {}
-    @className = @className.replace ' fade', '' if options.instant
+    @className = @className.replace ' fade', '' if options.instant or @instant
     @closeButton = options.closeButton if options.closeButton?
     @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
     super options
@@ -35,7 +36,7 @@ module.exports = class ModalView extends CocoView
     if Backbone.history.fragment is "employers"
       $(@$el).find(".background-wrapper").each ->
         $(this).addClass("employer-modal-background-wrapper").removeClass("background-wrapper")
-        
+
     if @modalWidthPercent
       @$el.find('.modal-dialog').css width: "#{@modalWidthPercent}%"
     @$el.on 'hide.bs.modal', =>

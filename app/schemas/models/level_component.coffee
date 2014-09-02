@@ -16,7 +16,7 @@ systems = [
 PropertyDocumentationSchema = c.object {
   title: 'Property Documentation'
   description: 'Documentation entry for a property this Component will add to its Thang which other Components might want to also use.'
-  'default':
+  default:
     name: 'foo'
     type: 'object'
     description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
@@ -88,9 +88,6 @@ PropertyDocumentationSchema = c.object {
 DependencySchema = c.object {
   title: 'Component Dependency'
   description: 'A Component upon which this Component depends.'
-  'default':
-    #original: ?
-    majorVersion: 0
   required: ['original', 'majorVersion']
   format: 'latest-version-reference'
   links: [{rel: 'db', href: '/db/level.component/{(original)}/version/{(majorVersion)}'}]
@@ -106,7 +103,7 @@ LevelComponentSchema = c.object {
   title: 'Component'
   description: 'A Component which can affect Thang behavior.'
   required: ['system', 'name', 'description', 'code', 'dependencies', 'propertyDocumentation', 'codeLanguage']
-  'default':
+  default:
     system: 'ai'
     name: 'AttacksSelf'
     description: 'This Component makes the Thang attack itself.'
@@ -114,6 +111,7 @@ LevelComponentSchema = c.object {
     codeLanguage: 'coffeescript'
     dependencies: []  # TODO: should depend on something by default
     propertyDocumentation: []
+    configSchema: {}
 }
 c.extendNamedProperties LevelComponentSchema  # let's have the name be the first property
 LevelComponentSchema.properties.name.pattern = c.classNamePattern
@@ -123,13 +121,11 @@ _.extend LevelComponentSchema.properties,
     description: 'The short name of the System this Component belongs to, like \"ai\".'
     type: 'string'
     'enum': systems
-    'default': 'ai'
   description:
     title: 'Description'
     description: 'A short explanation of what this Component does.'
     type: 'string'
     maxLength: 2000
-    'default': 'This Component makes the Thang attack itself.'
   codeLanguage:
     type: 'string'
     title: 'Language'
@@ -138,7 +134,6 @@ _.extend LevelComponentSchema.properties,
   code:
     title: 'Code'
     description: 'The code for this Component, as a CoffeeScript class. TODO: add link to documentation for how to write these.'
-    'default': attackSelfCode
     type: 'string'
     format: 'coffee'
   js:
@@ -146,14 +141,13 @@ _.extend LevelComponentSchema.properties,
     description: 'The transpiled JavaScript code for this Component'
     type: 'string'
     format: 'hidden'
-  dependencies: c.array {title: 'Dependencies', description: 'An array of Components upon which this Component depends.', 'default': [], uniqueItems: true}, DependencySchema
-  propertyDocumentation: c.array {title: 'Property Documentation', description: 'An array of documentation entries for each notable property this Component will add to its Thang which other Components might want to also use.', 'default': []}, PropertyDocumentationSchema
-  configSchema: _.extend metaschema, {title: 'Configuration Schema', description: 'A schema for validating the arguments that can be passed to this Component as configuration.', default: {type: 'object', additionalProperties: false}}
+  dependencies: c.array {title: 'Dependencies', description: 'An array of Components upon which this Component depends.', uniqueItems: true}, DependencySchema
+  propertyDocumentation: c.array {title: 'Property Documentation', description: 'An array of documentation entries for each notable property this Component will add to its Thang which other Components might want to also use.'}, PropertyDocumentationSchema
+  configSchema: _.extend metaschema, {title: 'Configuration Schema', description: 'A schema for validating the arguments that can be passed to this Component as configuration.', default: {type: 'object'}}
   official:
     type: 'boolean'
     title: 'Official'
     description: 'Whether this is an official CodeCombat Component.'
-    'default': false
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema

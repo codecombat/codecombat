@@ -59,6 +59,10 @@ module.exports = class ThangTypeEditView extends RootView
       @updateFileSize()
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
+  showLoading: ($el) ->
+    $el ?= @$el.find('.outer-content')
+    super($el)
+
   getRenderData: (context={}) ->
     context = super(context)
     context.thangType = @thangType
@@ -69,7 +73,7 @@ module.exports = class ThangTypeEditView extends RootView
     context
 
   getAnimationNames: ->
-    raw = _.keys(@thangType.get('raw').animations)
+    raw = _.keys(@thangType.get('raw', true).animations)
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
@@ -84,6 +88,7 @@ module.exports = class ThangTypeEditView extends RootView
     @insertSubView(new ThangTypeColorsTabView(@thangType))
     @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
     @showReadOnly() if me.get('anonymous')
+    @updatePortrait()
 
   initComponents: =>
     options =
@@ -375,6 +380,7 @@ module.exports = class ThangTypeEditView extends RootView
     el = @$el.find('#thang-type-treema')
     @treema = @$el.find('#thang-type-treema').treema(options)
     @treema.build()
+    @lastKind = data.kind
 
   pushChangesToPreview: =>
     # TODO: This doesn't delete old Treema keys you deleted
@@ -384,6 +390,11 @@ module.exports = class ThangTypeEditView extends RootView
     @refreshAnimation()
     @updateDots()
     @updatePortrait()
+    if (kind = @treema.data.kind) isnt @lastKind
+      @lastKind = kind
+      Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
+      if kind in ['Doodad', 'Floor', 'Wall'] and not @treema.data.terrains
+        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor']  # So editors know to set them.
 
   onSelectNode: (e, selected) =>
     selected = selected[0]

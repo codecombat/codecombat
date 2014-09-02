@@ -72,8 +72,16 @@ module.exports = class JobProfileView extends UserView
   finishInit: ->
     return unless @userID
     @uploadFilePath = "db/user/#{@userID}"
+
+    if @user?.get('firstName')
+      jobProfile = @user.get('jobProfile')
+      jobProfile ?= {}
+      if not jobProfile.name
+        jobProfile.name = (@user.get('firstName') + ' ' + @user.get('lastName')).trim()
+        @user.set('jobProfile', jobProfile)
+
     @highlightedContainers = []
-    if me.isAdmin() or 'employer' in me.get('permissions')
+    if me.isAdmin() or 'employer' in me.get('permissions', true)
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
@@ -223,19 +231,11 @@ module.exports = class JobProfileView extends UserView
     context = super()
     context.userID = @userID
     context.linkedInAuthorized = @authorizedWithLinkedIn
-    context.jobProfileSchema = me.schema().properties.jobProfile
-    if @user and not jobProfile = @user.get 'jobProfile'
-      jobProfile = {}
-      for prop, schema of context.jobProfileSchema.properties
-        jobProfile[prop] = _.clone schema.default if schema.default?
-      for prop in context.jobProfileSchema.required
-        jobProfile[prop] ?= {string: '', boolean: false, number: 0, integer: 0, array: []}[context.jobProfileSchema.properties[prop].type]
-      @user.set 'jobProfile', jobProfile
-    jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user?.get('firstName')
-    context.profile = jobProfile
+    context.profile = @user.get('jobProfile', true)
+    context.rawProfile = @user.get('jobProfile') or {}
     context.user = @user
     context.myProfile = @isMe()
-    context.allowedToViewJobProfile = @user and (me.isAdmin() or 'employer' in me.get('permissions') or (context.myProfile && !me.get('anonymous')))
+    context.allowedToViewJobProfile = @user and (me.isAdmin() or 'employer' in me.get('permissions', true) or (context.myProfile && !me.get('anonymous')))
     context.allowedToEditJobProfile = @user and (me.isAdmin() or (context.myProfile && !me.get('anonymous')))
     context.profileApproved = @user?.get 'jobProfileApproved'
     context.progress = @progress ? @updateProgress()
@@ -244,7 +244,7 @@ module.exports = class JobProfileView extends UserView
     context.marked = marked
     context.moment = moment
     context.iconForLink = @iconForLink
-    if links = jobProfile?.links
+    if links = context.profile.links
       links = ($.extend(true, {}, link) for link in links)
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
@@ -290,8 +290,8 @@ module.exports = class JobProfileView extends UserView
         aceUseWrapMode: true
         callbacks: {change: @onRemarkChanged}
       @remarkTreema = @$el.find('#remark-treema').treema treemaOptions
-      @remarkTreema.build()
-      @remarkTreema.open(3)
+      @remarkTreema?.build()
+      @remarkTreema?.open(3)
 
   onRemarkChanged: (e) =>
     return unless @remarkTreema.isValid()
@@ -440,7 +440,8 @@ module.exports = class JobProfileView extends UserView
       $(@).remove() if isEmpty @
     resetOnce = false  # We have to clear out arrays if we're going to redo them
     serialized = form.serializeArray()
-    jobProfile = @user.get 'jobProfile'
+    jobProfile = @user.get('jobProfile') or {}
+    jobProfile[prop] ?= [] for prop in ['links', 'skills', 'work', 'education', 'projects']
     rootPropertiesSeen = {}
     for field in serialized
       keyChain = @extractFieldKeyChain field.name
@@ -449,6 +450,7 @@ module.exports = class JobProfileView extends UserView
       for key, i in keyChain
         rootPropertiesSeen[key] = true unless i
         break if i is keyChain.length - 1
+        parent[key] ?= {}
         child = parent[key]
         if _.isArray(child) and not resetOnce
           child = parent[key] = []
@@ -467,6 +469,7 @@ module.exports = class JobProfileView extends UserView
     if section.hasClass('projects-container') and not section.find('.array-item').length
       jobProfile.projects = []
     section.addClass 'saving'
+    @user.set('jobProfile', jobProfile)
     @saveEdits true
 
   extractFieldKeyChain: (key) ->
@@ -583,3 +586,7 @@ module.exports = class JobProfileView extends UserView
     session = _.find @sessions.models, (session) -> session.id is sessionID
     modal = new JobProfileCodeModal({session:session})
     @openModalView modal
+
+  destroy: ->
+    @remarkTreema?.destroy()
+    super()

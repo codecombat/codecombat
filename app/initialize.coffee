@@ -68,9 +68,9 @@ setUpDefinitions = ->
 
 setUpMoment = ->
   {me} = require 'lib/auth'
-  moment.lang me.lang(), {}
-  me.on 'change', (me) ->
-    moment.lang me.lang(), {} if me._previousAttributes.preferredLanguage isnt me.get 'preferredLanguage'
+  moment.lang me.get('preferredLanguage', true), {}
+  me.on 'change:preferredLanguage', (me) ->
+    moment.lang me.get('preferredLanguage', true), {}
 
 initializeServices = ->
   services = [

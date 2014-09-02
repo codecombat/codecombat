@@ -20,6 +20,8 @@ GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
 path = require 'path'
 GLOBAL.testing = true
+GLOBAL.tv4 = require 'tv4' # required for TreemaUtils to work
+# _.str = require 'underscore.string'
 
 models_path = [
   '../../server/articles/Article'

@@ -9,15 +9,12 @@ class CocoModel extends Backbone.Model
   notyErrors: true
   @schema: null
 
-  getMe: -> @me or @me = require('lib/auth').me
-
   initialize: (attributes, options) ->
     super(arguments...)
     options ?= {}
     @setProjection options.project
     if not @constructor.className
       console.error("#{@} needs a className set.")
-    @addSchemaDefaults()
     @on 'sync', @onLoaded, @
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
@@ -55,12 +52,32 @@ class CocoModel extends Backbone.Model
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
+  attributesWithDefaults: undefined
+
+  get: (attribute, withDefault=false) ->
+    if withDefault
+      if @attributesWithDefaults is undefined then @buildAttributesWithDefaults()
+      return @attributesWithDefaults[attribute]
+    else
+      super(attribute)
+
   set: ->
+    delete @attributesWithDefaults
     inFlux = @loading or not @loaded
     @markToRevert() unless inFlux or @_revertAttributes
     res = super(arguments...)
     @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
     res
+
+  buildAttributesWithDefaults: ->
+    t0 = new Date()
+    clone = $.extend true, {}, @attributes
+    thisTV4 = tv4.freshApi()
+    thisTV4.addSchema('#', @schema())
+    thisTV4.addSchema('metaschema', require('schemas/metaschema'))
+    TreemaNode.utils.populateDefaults(clone, @schema(), thisTV4)
+    @attributesWithDefaults = clone
+    console.debug "Populated defaults for #{@attributes.name or @type()} in #{new Date() - t0}ms"
 
   loadFromBackup: ->
     return unless @saveBackups
@@ -142,6 +159,7 @@ class CocoModel extends Backbone.Model
       @_revertAttributes = $.extend(true, {}, @attributes)
 
   revert: ->
+    @clear({silent: true})
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
     @clearBackup()
 
@@ -162,59 +180,39 @@ class CocoModel extends Backbone.Model
     clone
 
   isPublished: ->
-    for permission in @get('permissions') or []
+    for permission in (@get('permissions', true) ? [])
       return true if permission.target is 'public' and permission.access is 'read'
     false
 
   publish: ->
     if @isPublished() then throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.')
-    @set 'permissions', (@get('permissions') or []).concat({access: 'read', target: 'public'})
-
-  addSchemaDefaults: ->
-    return if @addedSchemaDefaults
-    @addedSchemaDefaults = true
-    for prop, defaultValue of @constructor.schema.default or {}
-      continue if @get(prop)?
-      #console.log 'setting', prop, 'to', defaultValue, 'from attributes.default'
-      @set prop, defaultValue
-    for prop, sch of @constructor.schema.properties or {}
-      continue if @get(prop)?
-      continue if prop is 'emails' # hack, defaults are handled through User.coffee's email-specific methods.
-      #console.log 'setting', prop, 'to', sch.default, 'from sch.default' if sch.default?
-      @set prop, sch.default if sch.default?
-    if @loaded
-      @loadFromBackup()
+    @set 'permissions', @get('permissions', true).concat({access: 'read', target: 'public'})
 
   @isObjectID: (s) ->
     s.length is 24 and s.match(/[a-f0-9]/gi)?.length is 24
 
   hasReadAccess: (actor) ->
     # actor is a User object
-
-    actor ?= @getMe()
+    actor ?= me
     return true if actor.isAdmin()
-    if @get('permissions')?
-      for permission in @get('permissions')
-        if permission.target is 'public' or actor.get('_id') is permission.target
-          return true if permission.access in ['owner', 'read']
+    for permission in (@get('permissions', true) ? [])
+      if permission.target is 'public' or actor.get('_id') is permission.target
+        return true if permission.access in ['owner', 'read']
 
     return false
 
   hasWriteAccess: (actor) ->
     # actor is a User object
-
-    actor ?= @getMe()
+    actor ?= me
     return true if actor.isAdmin()
-    if @get('permissions')?
-      for permission in @get('permissions')
-        if permission.target is 'public' or actor.get('_id') is permission.target
-          return true if permission.access in ['owner', 'write']
+    for permission in (@get('permissions', true) ? [])
+      if permission.target is 'public' or actor.get('_id') is permission.target
+        return true if permission.access in ['owner', 'write']
 
     return false
 
   getOwner: ->
-    return null unless permissions = @get 'permissions'
-    ownerPermission = _.find permissions, access: 'owner'
+    ownerPermission = _.find @get('permissions', true), access: 'owner'
     ownerPermission?.target
 
   getDelta: ->

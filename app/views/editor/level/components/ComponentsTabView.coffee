@@ -1,5 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/components_tab'
+ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 LevelComponentEditView = require './LevelComponentEditView'
 LevelComponentNewView = require './NewLevelComponentModal'
@@ -25,7 +26,15 @@ module.exports = class ComponentsTabView extends CocoView
   refreshLevelThangsTreema: (thangsData) ->
     presentComponents = {}
     for thang in thangsData
+      componentMap = {}
+      thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
+      for component in thangType.get('components') ? []
+        componentMap[component.original] = component
+        
       for component in thang.components
+        componentMap[component.original] = component
+
+      for component in _.values(componentMap)
         haveThisComponent = (presentComponents[component.original + '.' + (component.majorVersion ? 0)] ?= [])
         haveThisComponent.push thang.id if haveThisComponent.length < 100  # for performance when adding many Thangs
     return if _.isEqual presentComponents, @presentComponents
@@ -72,16 +81,20 @@ module.exports = class ComponentsTabView extends CocoView
   onLevelComponentEditingEnded: (e) ->
     @removeSubView @levelComponentEditView
     @levelComponentEditView = null
+    
+  destroy: ->
+    @componentsTreema?.destroy()
+    super()
 
 class LevelComponentNode extends TreemaObjectNode
   valueClass: 'treema-level-component'
   collection: false
-  buildValueForDisplay: (valEl) ->
-    count = if @data.count is 1 then @data.thangs[0] else ((if @data.count >= 100 then '100+' else @data.count) + ' Thangs')
-    if @data.original.match ':'
-      name = 'Old: ' + @data.original.replace('systems/', '')
+  buildValueForDisplay: (valEl, data) ->
+    count = if data.count is 1 then data.thangs[0] else ((if data.count >= 100 then '100+' else data.count) + ' Thangs')
+    if data.original.match ':'
+      name = 'Old: ' + data.original.replace('systems/', '')
     else
       comp = _.find @settings.supermodel.getModels(LevelComponent), (m) =>
-        m.get('original') is @data.original and m.get('version').major is @data.majorVersion
+        m.get('original') is data.original and m.get('version').major is data.majorVersion
       name = "#{comp.get('system')}.#{comp.get('name')} v#{comp.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name} (#{count})"

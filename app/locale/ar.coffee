@@ -123,6 +123,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 #    level_difficulty: "Difficulty: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

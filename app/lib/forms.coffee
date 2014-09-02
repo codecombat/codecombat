@@ -31,7 +31,7 @@ module.exports.applyErrorsToForm = (el, errors, warning=false) ->
 module.exports.setErrorToField = setErrorToField = (el, message, warning=false) ->
   formGroup = el.closest('.form-group')
   unless formGroup.length
-    return console.error "#{el} did not contain a form group"
+    return console.error el, " did not contain a form group, so couldn't show message:", message
 
   kind = if warning then 'warning' else 'error'
   formGroup.addClass "has-#{kind}"
@@ -40,7 +40,7 @@ module.exports.setErrorToField = setErrorToField = (el, message, warning=false) 
 module.exports.setErrorToProperty = setErrorToProperty = (el, property, message, warning=false) ->
   input = $("[name='#{property}']", el)
   unless input.length
-    return console.error "#{property} not found in #{el}"
+    return console.error "#{property} not found in", el, "so couldn't show message:", message
 
   setErrorToField input, message, warning
 

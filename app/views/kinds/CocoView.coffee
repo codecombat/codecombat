@@ -17,7 +17,7 @@ module.exports = class CocoView extends Backbone.View
 
   events:
     'click .retry-loading-resource': 'onRetryResource'
-    'click .retry-loading-request': 'onRetryRequest'
+    'click .skip-loading-resource': 'onSkipResource'
 
   subscriptions: {}
   shortcuts: {}
@@ -64,6 +64,13 @@ module.exports = class CocoView extends Backbone.View
     @off = doNothing
     @destroy = doNothing
     $.noty.closeAll()
+
+  destroyAceEditor: (editor) ->
+    # convenience method to make sure the ace editor is as destroyed as can be 
+    return unless editor
+    session = editor.getSession()
+    session.setMode ''
+    editor.destroy()
 
   afterInsert: ->
 
@@ -146,6 +153,13 @@ module.exports = class CocoView extends Backbone.View
     # different views may respond to this call, and not all have the resource to reload
     return unless res and res.isFailed
     res.load()
+    @$el.find('.progress').show()
+    $(e.target).closest('.loading-error-alert').remove()
+    
+  onSkipResource: (e) ->
+    res = @supermodel.getResource($(e.target).data('resource-index'))
+    return unless res and res.isFailed
+    res.markLoaded()
     @$el.find('.progress').show()
     $(e.target).closest('.loading-error-alert').remove()
 

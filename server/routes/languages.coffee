@@ -26,6 +26,11 @@ module.exports.languageCodesLower = languageCodesLower = (code.toLowerCase() for
 # Keep keys lower-case for matching and values with second subtag uppercase like i18next expects
 languageAliases =
   'en': 'en-US'
+  'de': 'de-DE'
+  'es': 'es-ES'
+  'zh': 'zh-HANS'
+  'pt': 'pt-PT'
+  'nl': 'nl-NL'
 
   'zh-cn': 'zh-HANS'
   'zh-hans-cn': 'zh-HANS'
@@ -38,6 +43,7 @@ languageAliases =
   'zh-hant-hk': 'zh-HANT'
   'zh-mo': 'zh-HANT'
   'zh-hant-mo': 'zh-HANT'
+
 
 module.exports.languageCodeFromAcceptedLanguages = languageCodeFromAcceptedLanguages = (acceptedLanguages) ->
   for lang in acceptedLanguages ? []

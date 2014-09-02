@@ -80,13 +80,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @age = 0
     @stillLoading = true
     if @thangType.isFullyLoaded()
-      @setupSprite()
+      @setUpSprite()
     else
       @thangType.setProjection null
       @thangType.fetch() unless @thangType.loading
-      @listenToOnce(@thangType, 'sync', @setupSprite)
+      @listenToOnce(@thangType, 'sync', @setUpSprite)
+      @setUpPlaceholder()
 
-  setupSprite: ->
+  setUpSprite: ->
     for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
       AudioPlayer.preloadSoundReference sound for sound in sounds
     if @thangType.get('raster')
@@ -97,7 +98,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       result = @buildSpriteSheet()
       if _.isString result # async build
-        @listenToOnce @thangType, 'build-complete', @setupSprite
+        @listenToOnce @thangType, 'build-complete', @setUpSprite
+        @setUpPlaceholder()
       else
         @stillLoading = false
         @actions = @thangType.getActions()
@@ -106,6 +108,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         @queueAction 'idle'
 
   finishSetup: ->
+    @placeholder = null
     @updateBaseScale()
     @scaleFactorX = @thang.scaleFactorX if @thang?.scaleFactorX?
     @scaleFactorX = @thang.scaleFactor if @thang?.scaleFactor?
@@ -126,6 +129,29 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject.regX = -reg.x
     @imageObject.regY = -reg.y
     @finishSetup()
+
+  setUpPlaceholder: ->
+    return if @placeholder or not @thang
+    shape = new createjs.Shape()
+    width = @thang.width * Camera.PPM
+    height = @thang.height * Camera.PPM * @options.camera.y2x
+    depth = @thang.depth * Camera.PPM * @options.camera.z2y * @options.camera.y2x
+    brightnessFuzzFactor = 1 + 0.1 * (Math.random() - 0.5)
+    makeColor = (brightnessFactor) => (Math.round(c * brightnessFuzzFactor * brightnessFactor) for c in (healthColors[@thang.team] ? [180, 180, 180]))
+    topColor = "rgba(#{makeColor(0.85).join(', ')},1)"
+    mainColor = "rgba(#{makeColor(0.75).join(', ')},1)"
+    ellipse = @thang.shape in ['ellipsoid', 'disc']
+    fn = if ellipse then 'drawEllipse' else 'drawRect'
+    shape.graphics.beginFill(mainColor)[fn](-width / 2, -height / 2, width, height).endFill()
+    if ellipse
+      shape.graphics.moveTo(-width / 2, 0).beginFill(mainColor).lineTo(-width / 2, -depth).lineTo(width / 2, -depth).lineTo(width / 2, 0).lineTo(-width / 2, 0).endFill()
+    else
+      shape.graphics.moveTo(-width / 2, 0).beginFill(mainColor).lineTo(-width / 2, -depth).lineTo(width / 2, -depth).lineTo(width / 2, 0).lineTo(-width / 2, 0).endFill()
+    shape.graphics.beginFill(topColor)[fn](-width / 2, -height / 2 - depth, width, height).endFill()
+    shape.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
+    @setImageObject shape
+    @updatePosition true
+    @placeholder = shape
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
@@ -311,15 +337,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       p1.z += bobOffset
     x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
 
-  updatePosition: (log) ->
-    return if @stillLoading
+  updatePosition: (whileLoading=false) ->
+    return if @stillLoading and not whileLoading
     return unless @thang?.pos and @options.camera?
     wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
     return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo and not @thang.bobHeight
     sup = @options.camera.worldToSurface wop
     [@imageObject.x, @imageObject.y] = [sup.x, sup.y]
-    @lastPos = p1.copy?() or _.clone(p1)
+    @lastPos = p1.copy?() or _.clone(p1) unless whileLoading
     @hasMoved = true
     if @thangType.get('name') is 'Flag' and not @notOfThisWorld
       # Let the pending flags know we're here (but not this call stack, they need to delete themselves, and we may be iterating sprites).

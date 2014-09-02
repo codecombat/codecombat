@@ -26,13 +26,16 @@ module.exports = class LevelSessionCodeView extends CocoView
     
   afterRender: ->
     super()
+    editors = []
     @$el.find('.code').each (index, codeEl) ->
       height = parseInt($(codeEl).data('height'))
       $(codeEl).height(height)
       editor = ace.edit codeEl
       editor.setReadOnly true
+      editors.push editor
       aceSession = editor.getSession()
       aceSession.setMode 'ace/mode/javascript'
+    @editors = editors
     
   organizeCode: ->
     team = @session.get('team') or 'humans'
@@ -48,3 +51,7 @@ module.exports = class LevelSessionCodeView extends CocoView
         height: height
       }
     filteredSpells 
+    
+  destroy: ->
+    for editor in @editors
+      @editors

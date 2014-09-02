@@ -3,14 +3,14 @@
     .editable-icon.glyphicon.glyphicon-pencil
   img.profile-photo(src=me.getPhotoURL(230))
   .form-group
-    input#player-name.profile-caption(name="playerName", type="text", value=me.get('name') || 'Anoner')
+    input#player-name.profile-caption(name="playerName", type="text", value=me.get('name', true))
 
 .form
   h3(data-i18n="options.general_options") General Options
 
   .form-group.slider-group
     label(for="option-volume")
-      span(data-i18n="options.volume") Volume
+      span(data-i18n="options.volume_label") Volume
       span.spr :
       span#option-volume-value= (me.get('volume') * 100).toFixed(0) + '%'
     #option-volume.slider
@@ -18,7 +18,7 @@
   .form-group.checkbox
     label(for="option-music")
       input#option-music(name="option-music", type="checkbox", checked=music)
-      span(data-i18n="options.music") Music
+      span(data-i18n="options.music_label") Music
     span.help-block(data-i18n="options.music_description") Turn background music on/off.
 
   .form-group.select-group

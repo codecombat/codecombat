@@ -13,6 +13,7 @@ LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
+{isID} = require '../lib/utils'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 candidateProperties = [
@@ -161,7 +162,7 @@ UserHandler = class UserHandler extends Handler
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
-    return @sendBadInputError(res, 'Existing users cannot create new ones.') unless req.user.get('anonymous')
+    return @sendBadInputError(res, 'Existing users cannot create new ones.') if req.user.get('anonymous') is false
     req.body._id = req.user._id if req.user.get('anonymous')
     @put(req, res)
 
@@ -187,6 +188,7 @@ UserHandler = class UserHandler extends Handler
     return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
+    return @searchForUser(req, res) if args[1] is 'admin_search'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -222,7 +224,7 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
     projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
     LevelSession.find(query).select(projection).exec (err, documents) =>
@@ -278,7 +280,7 @@ UserHandler = class UserHandler extends Handler
     return @sendMethodNotAllowed res unless req.method is 'POST'
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
-    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
+    isAuthorized ||= ('employer' in (req.user.get('permissions') ? [])) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
     return @sendUnauthorizedError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
@@ -301,7 +303,7 @@ UserHandler = class UserHandler extends Handler
     if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
       return errors.badInput(res, 'You need to have a more complete profile to sign up for this service.')
     @modelClass.findById(req.user.id).exec (err, user) =>
-      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in user.get('permissions')
+      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in (user.get('permissions') ? [])
         return errors.conflict(res, 'You already have signed the agreement!')
       #TODO: Search for the current position
       employerAt = _.filter(profileData.positions.values, 'isCurrent')[0]?.company.name ? 'Not available'
@@ -320,7 +322,7 @@ UserHandler = class UserHandler extends Handler
         res.end()
 
   getCandidates: (req, res) ->
-    authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     months = if req.user.isAdmin() then 12 else 2
     since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.updated': {$gt: since}}
@@ -388,6 +390,25 @@ UserHandler = class UserHandler extends Handler
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
 
+  searchForUser: (req, res) ->
+    # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    search = req.body.search
+    query = email: {$exists: true}, $or: [
+      {emailLower: search}
+      {nameLower: search}
+    ]
+    query.$or.push {_id: mongoose.Types.ObjectId(search) if isID search}
+    if search.length > 5
+      searchParts = search.split(/[.+@]/)
+      if searchParts.length > 1
+        query.$or.push {emailLower: {$regex: '^' + searchParts[0]}}
+    projection = name: 1, email: 1, dateCreated: 1
+    User.find(query).select(projection).lean().exec (err, users) =>
+      return @sendDatabaseError res, err if err
+      @sendSuccess res, users
+
+
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]
     return done(new Error 'Could not resolve statKey for model') unless statKey?
@@ -402,6 +423,7 @@ UserHandler = class UserHandler extends Handler
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
+      usersTotal += 1
       userObjectID = user.get('_id')
       userStringID = userObjectID.toHexString()
 
@@ -450,6 +472,7 @@ UserHandler = class UserHandler extends Handler
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
+      usersTotal += 1
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -478,6 +501,7 @@ UserHandler = class UserHandler extends Handler
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
+      usersTotal += 1
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -505,6 +529,7 @@ UserHandler = class UserHandler extends Handler
       userStream.on 'error', (err) -> log.error err
       userStream.on 'close', -> streamFinished = true
       userStream.on 'data',  (user) ->
+        usersTotal += 1
         userID = user.get('_id').toHexString()
 
         LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
@@ -513,7 +538,7 @@ UserHandler = class UserHandler extends Handler
 
     articleEdits: (done) ->
       Article = require '../articles/Article'
-      countEdits Article,  done
+      countEdits Article, done
 
     levelEdits: (done) ->
       Level = require '../levels/Level'
@@ -574,7 +599,7 @@ UserHandler = class UserHandler extends Handler
     thangTypeTranslationPatches: (done) ->
       countPatchesByUsersInMemory {'target.collection': 'thang_type'}, isTranslationPatch, User.statsMapping.translations['thang.type'], done
 
-      
+
   recalculateStats: (statName, done) =>
     done new Error 'Recalculation handler not found' unless statName of @statRecalculators
     @statRecalculators[statName] done

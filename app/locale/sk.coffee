@@ -123,6 +123,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
     campaign_player_created: "Hráčmi vytvorené úrovne"
     campaign_player_created_description: "... v ktorých sa popasuješ s kreativitou svojich <a href=\"/contribute#artisan\">kúzelníckych súdruhov</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Obtiažnosť."
     play_as: "Hraj ako"
     spectate: "Sleduj"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

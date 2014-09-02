@@ -1,4 +1,4 @@
-JobProfileView = require 'views/account/JobProfileView'
+JobProfileView = require 'views/user/JobProfileView'
 
 responses =
   '/db/user/joe/nameToID':'512ef4805a67a8c507000001'

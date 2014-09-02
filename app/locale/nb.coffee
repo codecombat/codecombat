@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     campaign_multiplayer_description: "... hvor du spiller direkte mot andre spillere."
     campaign_player_created: "Spiller-Lagde"
     campaign_player_created_description: "... hvor du kjemper mot kreativiteten til en av dine medspillende <a href=\"/contribute#artisan\">Artisan Trollmenn</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Vanskelighetsgrad: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

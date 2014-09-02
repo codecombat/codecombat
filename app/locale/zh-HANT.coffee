@@ -123,6 +123,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     campaign_multiplayer_description: "...在這裡你可以和其他玩家進行對戰。"
     campaign_player_created: "玩家建立的關卡"
     campaign_player_created_description: "...挑戰同伴的創意 <a href=\"/contribute#artisan\">技術指導</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "難度"
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

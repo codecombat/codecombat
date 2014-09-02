@@ -5,7 +5,8 @@ module.exports =
     major: {type: 'boolean'}
     commitMessage: {type: 'string'}
 
-  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'}
+  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'},
+    targetURL: {type: 'string'}
 
   'editor:level-component-editing-ended': c.object {required: ['component']},
     component: {type: 'object'}
@@ -42,5 +43,16 @@ module.exports =
   'level:reload-thang-type': c.object {required: ['thangType']},
     thangType: {type: 'object'}
 
-  'editor:random-terrain-generated': c.object {required: ['thangs']},
+  'editor:random-terrain-generated': c.object {required: ['thangs', 'terrain']},
     thangs: c.array {}, {type: 'object'}
+    terrain: c.terrainString
+
+  'editor:terrain-changed': c.object {required: ['terrain']},
+    terrain:
+      oneOf: [
+        c.terrainString
+        {type: ['null', 'undefined']}
+      ]
+
+  'editor:thang-type-kind-changed': c.object {required: ['kind']},
+    kind: {type: 'string'}

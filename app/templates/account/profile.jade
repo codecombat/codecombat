@@ -117,7 +117,7 @@ block content
                   button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
   
               .editable-section#basic-info-container
-                - var editableDefaults = editing && profile.city == jobProfileSchema.properties.city.default
+                - var editableDefaults = editing && !rawProfile.city
                 div(class="editable-display" + (editableDefaults ? " edit-example-text" : ""), title="Click to edit your basic info")
                   .editable-icon.glyphicon.glyphicon-pencil
                   if editableDefaults
@@ -224,7 +224,7 @@ block content
               #short-description-container.editable-section
                 .editable-display(title="Click to write your tagline")
                   .editable-icon.glyphicon.glyphicon-pencil
-                  if editing && (!profile.shortDescription || profile.shortDescription == jobProfileSchema.properties.shortDescription.default)
+                  if editing && !rawProfile.shortDescription
                     h3.edit-label(data-i18n="account_profile.short_description_header") Write a short description of yourself
                     p.edit-example-text(data-i18n="account_profile.short_description_blurb") Add a tagline to help an employer quickly learn more about you.
   
@@ -269,7 +269,7 @@ block content
               #long-description-container.editable-section
                 .editable-display(title="Click to start writing your longer description")
                   .editable-icon.glyphicon.glyphicon-pencil
-                  - var modified = profile.longDescription && profile.longDescription != jobProfileSchema.properties.longDescription.default
+                  - var modified = rawProfile.longDescription
                   if editing && !modified
                     h3.edit-label(data-i18n="account_profile.long_description_header") Describe your desired position
                     p.edit-example-text(data-i18n="account_profile.long_description_blurb") Tell employers how awesome you are and what role you want.

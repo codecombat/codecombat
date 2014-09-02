@@ -3,17 +3,21 @@ template = require 'templates/editor/level/modal/terrain_randomize'
 CocoModel = require 'models/CocoModel'
 
 clusters = {
+  'hero': {
+    'thangs': ['Hero Placeholder']
+    'margin': 1
+  }
   'rocks': {
     'thangs': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
     'margin': 1
   }
   'trees': {
     'thangs': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
-    'margin': 0
+    'margin': 0.5
     }
   'shrubs': {
     'thangs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
-    'margin': 0
+    'margin': 0.5
     }
   'houses': {
     'thangs': ['House 1', 'House 2', 'House 3', 'House 4']
@@ -83,6 +87,7 @@ clusters = {
 
 presets = {
   'dungeon': {
+    'terrainName': 'Dungeon'
     'type':'dungeon'
     'borders':'dungeon_wall'
     'borderNoise':0
@@ -96,6 +101,14 @@ presets = {
         'height': [8, 16]
         'thickness': [2,2]
         'cluster': 'dungeon_wall'
+      }
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
       }
       'Barrels': {
         'num': [1,1]
@@ -116,6 +129,7 @@ presets = {
     }
   }
   'indoor': {
+    'terrainName': 'Indoor'
     'type':'indoor'
     'borders':'indoor_wall'
     'borderNoise':0
@@ -130,6 +144,14 @@ presets = {
         'thickness': [2,2]
         'cluster': 'indoor_wall'
       }
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
       'furniture': {
         'num':[1,2]
         'width': 15
@@ -141,6 +163,7 @@ presets = {
     }
   }
   'grassy': {
+    'terrainName': 'Grass'
     'type':'grassy'
     'borders':'trees'
     'borderNoise':1
@@ -148,6 +171,14 @@ presets = {
     'borderThickness':3
     'floors':'grass_floor'
     'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
       'house': {
         'num':[1,2] #min-max
         'width': 15
@@ -195,8 +226,8 @@ thangSizes = {
   'borderSize': {
     'x':4
     'y':4
-  }
-}
+  }}
+
 
 module.exports = class TerrainRandomizeModal extends ModalView
   id: 'terrain-randomize-modal'
@@ -215,7 +246,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomizeThangs presetType, presetSize
-    Backbone.Mediator.publish 'editor:random-terrain-generated', thangs: @thangs
+    Backbone.Mediator.publish 'editor:random-terrain-generated', thangs: @thangs, terrain: presets[presetType].terrainName
     @hide()
 
   randomizeThangs: (presetName, presetSize) ->
@@ -280,7 +311,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
               'id': @getRandomThang(clusters['torch'].thangs)
               'pos': {
                 'x': i + preset.borderSize
-                'y': presetSize.y - preset.borderSize
+                'y': presetSize.y - preset.borderSize / 2
               }
               'margin': clusters['torch'].margin
             }
@@ -289,7 +320,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
               'id': @getRandomThang(clusters['chains'].thangs)
               'pos': {
                 'x': i + preset.borderSize
-                'y': presetSize.y - preset.borderSize
+                'y': presetSize.y - preset.borderSize / 2
               }
               'margin': clusters['chains'].margin
             }
@@ -346,53 +377,57 @@ module.exports = class TerrainRandomizeModal extends ModalView
               continue
 
   buildRoom: (preset, presetSize, room) ->
+    grid = preset.borderSize
     while true
       rect = {
-        'width':presetSize.sizeFactor * (room.width[0] + preset.borderSize * _.random(0, (room.width[1] - room.width[0])/preset.borderSize))
-        'height':presetSize.sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize))
+        'width':presetSize.sizeFactor * (room.width[0] + grid * _.random(0, (room.width[1] - room.width[0])/grid))
+        'height':presetSize.sizeFactor * (room.height[0] + grid * _.random(0, (room.height[1] - room.height[0])/grid))
       }
+      # This logic isn't quite right--it makes the rooms bigger than intended--but it's snapping correctly, which is fine for now.
+      rect.width = Math.round((rect.width - grid) / (2 * grid)) * 2 * grid + grid
+      rect.height = Math.round((rect.height - grid) / (2 * grid)) * 2 * grid + grid
       roomThickness = _.random(room.thickness[0], room.thickness[1])
-      rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+1.5), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+1.5))
-      rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+2.5), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+3.5))
+      rect.x = _.random(rect.width/2 + grid * (roomThickness+1.5), presetSize.x - rect.width/2 - grid * (roomThickness+1.5))
+      rect.y = _.random(rect.height/2 + grid * (roomThickness+2.5), presetSize.y - rect.height/2 - grid * (roomThickness+3.5))
       # Snap room walls to the wall grid.
-      rect.x = Math.round((rect.x - preset.borderSize / 2) / preset.borderSize) * preset.borderSize + preset.borderSize / 2
-      rect.y = Math.round((rect.y - preset.borderSize / 2) / preset.borderSize) * preset.borderSize + preset.borderSize / 2
+      rect.x = Math.round((rect.x - grid / 2) / grid) * grid
+      rect.y = Math.round((rect.y - grid / 2) / grid) * grid
       break if @addRect {
         'x': rect.x
         'y': rect.y
-        'width': rect.width + 2.5 * roomThickness * preset.borderSize
-        'height': rect.height + 2.5 * roomThickness * preset.borderSize
+        'width': rect.width + 2.5 * roomThickness * grid
+        'height': rect.height + 2.5 * roomThickness * grid
       }
 
-    xRange = _.range(rect.x - rect.width/2 + preset.borderSize, rect.x + rect.width/2, preset.borderSize)
+    xRange = _.range(rect.x - rect.width/2 + grid, rect.x + rect.width/2, grid)
     topDoor = _.random(1) > 0.5
     topDoorX = xRange[_.random(0, xRange.length-1)]
     bottomDoor = if not topDoor then true else _.random(1) > 0.5
     bottomDoorX = xRange[_.random(0, xRange.length-1)]
 
     for t in _.range(0, roomThickness+1)
-      for i in _.range(rect.x - rect.width/2 - (t-1) * preset.borderSize, rect.x + rect.width/2 + t * preset.borderSize, preset.borderSize)
+      for i in _.range(rect.x - rect.width/2 - (t-1) * grid, rect.x + rect.width/2 + t * grid, grid)
         # Bottom wall
         thang = {
           'id': @getRandomThang(clusters[room.cluster].thangs)
           'pos': {
             'x': i
-            'y': rect.y - rect.height/2 - t * preset.borderSize
+            'y': rect.y - rect.height/2 - t * grid
           }
           'margin': clusters[room.cluster].margin
         }
         if i is bottomDoorX and bottomDoor
           thang.id = @getRandomThang(clusters['doors'].thangs)
-          thang.pos.y -= preset.borderSize/3
+          thang.pos.y -= grid/3
         @addThang thang unless i is bottomDoorX and t isnt roomThickness and bottomDoor
 
-        if t is roomThickness and i isnt rect.x - rect.width/2 - (t-1) * preset.borderSize and preset.type is 'dungeon'
-          if ( i isnt bottomDoorX and i isnt bottomDoorX + preset.borderSize ) or not bottomDoor
+        if t is roomThickness and i isnt rect.x - rect.width/2 - (t-1) * grid and preset.type is 'dungeon'
+          if ( i isnt bottomDoorX and i isnt bottomDoorX + grid ) or not bottomDoor
             @addThang {
               'id': @getRandomThang(clusters['torch'].thangs)
               'pos': {
-                'x': thang.pos.x - preset.borderSize / 2
-                'y': thang.pos.y + preset.borderSize / 2
+                'x': thang.pos.x - grid / 2
+                'y': thang.pos.y + grid
               }
               'margin': clusters['torch'].margin
             }
@@ -402,22 +437,22 @@ module.exports = class TerrainRandomizeModal extends ModalView
           'id': @getRandomThang(clusters[room.cluster].thangs)
           'pos': {
             'x': i
-            'y': rect.y + rect.height/2 + t * preset.borderSize
+            'y': rect.y + rect.height/2 + t * grid
           }
           'margin': clusters[room.cluster].margin
         }
         if i is topDoorX and topDoor
           thang.id = @getRandomThang(clusters['doors'].thangs)
-          thang.pos.y -= preset.borderSize
+          thang.pos.y -= grid
         @addThang thang unless i is topDoorX and t isnt roomThickness and topDoor
 
     for t in _.range(0, roomThickness)
-      for i in _.range(rect.y - rect.height/2 - t * preset.borderSize, rect.y + rect.height/2 + (t+1) * preset.borderSize, preset.borderSize)
+      for i in _.range(rect.y - rect.height/2 - t * grid, rect.y + rect.height/2 + (t+1) * grid, grid)
         # Left wall
         @addThang {
           'id': @getRandomThang(clusters[room.cluster].thangs)
           'pos': {
-            'x': rect.x - rect.width/2 - t * preset.borderSize
+            'x': rect.x - rect.width/2 - t * grid
             'y': i
           }
           'margin': clusters[room.cluster].margin
@@ -427,7 +462,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
         @addThang {
           'id': @getRandomThang(clusters[room.cluster].thangs)
           'pos': {
-            'x': rect.x + rect.width/2 + t * preset.borderSize
+            'x': rect.x + rect.width/2 + t * grid
             'y': i
           }
           'margin': clusters[room.cluster].margin

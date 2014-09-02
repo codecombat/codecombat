@@ -1,5 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/common/ladder_submission'
+{createAetherOptions} = require 'lib/aether_utils'
 
 module.exports = class LadderSubmissionView extends CocoView
   className: 'ladder-submission-view'
@@ -72,29 +73,15 @@ module.exports = class LadderSubmissionView extends CocoView
 
   transpileSession: ->
     submittedCode = @session.get('code')
-    language = @session.get('codeLanguage') or 'javascript'
-    @session.set('submittedCodeLanguage', language)
+    codeLanguage = @session.get('codeLanguage') or 'javascript'
+    @session.set('submittedCodeLanguage', codeLanguage)
     @session.save()  # TODO: maybe actually use a callback to make sure this works?
     transpiledCode = {}
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
         unless _.contains(@session.get('teamSpells')[@session.get('team')], thang + '/' + spellID) then continue
-        #DRY this
-        aetherOptions =
-          problems: {}
-          language: language
-          functionName: spellID
-          functionParameters: []
-          yieldConditionally: spellID is 'plan'
-          globals: ['Vector', '_']
-          protectAPI: true
-          includeFlow: false
-          executionLimit: 1 * 1000 * 1000
-        if spellID is 'hear' then aetherOptions.functionParameters = ['speaker', 'message', 'data']
-        if spellID is 'makeBid' then aetherOptions.functionParameters = ['tileGroupLetter']
-        if spellID is 'findCentroids' then aetherOptions.functionParameters = ['centroids']
-
+        aetherOptions = createAetherOptions functionName: spellID, codeLanguage: codeLanguage
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell
     transpiledCode

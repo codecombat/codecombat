@@ -25,7 +25,7 @@ module.exports = class RootView extends CocoView
     'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
-    'click .auth-button': 'onClickAuthbutton'
+    'click .auth-button': 'onClickAuthButton'
     'click a': 'toggleModal'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
@@ -50,7 +50,7 @@ module.exports = class RootView extends CocoView
     subview = new WizardSettingsModal {}
     @openModalView subview
 
-  onClickAuthbutton: ->
+  onClickAuthButton: ->
     AuthModal = require 'views/modal/AuthModal'
     @openModalView new AuthModal {}
 
@@ -66,7 +66,6 @@ module.exports = class RootView extends CocoView
     #location.hash = ''
     #location.hash = hash
     @renderScrollbar()
-    #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
   getRenderData: ->
     c = super()
@@ -89,7 +88,7 @@ module.exports = class RootView extends CocoView
     if $select.hasClass('fancified')
       $select.parent().find('.options, .trigger').remove()
       $select.unwrap().removeClass('fancified')
-    preferred = me.lang()
+    preferred = me.get('preferredLanguage', true)
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->

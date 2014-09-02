@@ -82,7 +82,7 @@ module.exports = class WizardSprite extends IndieSprite
     shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
     @options.colorConfig = $.extend(true, {}, newColorConfig)
     if shouldUpdate
-      @setupSprite()
+      @setUpSprite()
       @playAction(@currentAction) if @currentAction
 
   onSpriteSelected: (e) ->
@@ -199,14 +199,15 @@ module.exports = class WizardSprite extends IndieSprite
       wizard.beginMoveTween()
 
   endMoveTween: =>
+    return if @destroyed
     @thang.action = if @editing then 'cast' else 'idle'
     @thang.actionActivated = @thang.action is 'cast'
     @reachedTarget = true
     @faceTarget()
     @update true
 
-  updatePosition: ->
-    return unless @options.camera
+  updatePosition: (whileLoading=false) ->
+    return if whileLoading or not @options.camera
     @thang.pos = @getCurrentPosition()
     @faceTarget()
     sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2

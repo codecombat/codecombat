@@ -15,6 +15,7 @@ module.exports = class HomeView extends RootView
   constructor: ->
     super(arguments...)
     ThangType.loadUniversalWizard()
+    @getCodeLanguageCounts()
 
   getRenderData: ->
     c = super()
@@ -28,6 +29,7 @@ module.exports = class HomeView extends RootView
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
     c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
+    c.codeLanguageCountMap = @codeLanguageCountMap
     c
 
   afterRender: ->
@@ -68,3 +70,19 @@ module.exports = class HomeView extends RootView
     lastButton = @$el.find('#multiplayer .game-mode-wrapper').delay(1000).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
     $('#page-container').animate {scrollTop: firstButton.offset().top - 100, easing: 'easeInOutCubic'}, 500
     @updateLanguageLogos codeLanguage
+
+  getCodeLanguageCounts: ->
+    @codeLanguageCountMap = {}
+    success = (codeLanguageCounts) =>
+      return if @destroyed
+      for codeLanguage in codeLanguageCounts
+        @codeLanguageCountMap[codeLanguage._id] = codeLanguage.sessions
+      @codeLanguageCountMap.javascript += @codeLanguageCountMap[null]
+      @render() if @supermodel.finished()
+
+    codeLanguageCountsRequest = @supermodel.addRequestResource 'play_counts', {
+      url: '/db/level.session/-/code_language_counts'
+      method: 'POST'
+      success: success
+    }, 0
+    codeLanguageCountsRequest.load()

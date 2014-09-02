@@ -234,3 +234,7 @@ module.exports = class AccountSettingsView extends RootView
       $(@).data 'saved-value', $(@).val()
     $('#settings-panes input:checkbox').each ->
       $(@).data 'saved-value', JSON.stringify $(@)[0].checked
+
+  destroy: ->
+    @pictureTreema?.destroy()
+    super()

@@ -123,6 +123,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     campaign_multiplayer_description: "... у којима кодираш 1 на 1 мечеве против осталих играча."
     campaign_player_created: "Направљено од стране играча"
     campaign_player_created_description: "... у којима се бориш против креативности својих колега."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Тежина: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

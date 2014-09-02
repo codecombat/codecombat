@@ -123,6 +123,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     campaign_multiplayer_description: "...ve které programujete proti jiným hráčům."
     campaign_player_created: "Uživatelsky vytvořené úrovně"
     campaign_player_created_description: "...ve kterých bojujete proti kreativitě ostatních <a href=\"/contribute#artisan\">Zdatných Kouzelníků</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Obtížnost: "
 #    play_as: "Play As"
 #    spectate: "Spectate"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

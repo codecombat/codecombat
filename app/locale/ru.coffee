@@ -123,6 +123,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_multiplayer_description: "... в которых вы соревнуетесь в программировании с другими игроками."
     campaign_player_created: "Уровни игроков"
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Сложность: "
     play_as: "Играть за "
     spectate: "Наблюдать"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
   delta:
     added: "Добавлено"

@@ -37,12 +37,14 @@ module.exports = class LevelSystemEditView extends CocoView
     @buildConfigSchemaTreema()
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelSystem), @$el.find('.patches-view'))
+    @updatePatchButton()
 
   buildSettingsTreema: ->
     data = _.pick @levelSystem.attributes, (value, key) => key in @editableSettings
     schema = _.cloneDeep LevelSystem.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
+    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
       supermodel: @supermodel
@@ -58,7 +60,7 @@ module.exports = class LevelSystemEditView extends CocoView
     # Make sure it validates first?
     for key, value of @systemSettingsTreema.data
       @levelSystem.set key, value unless key is 'js' # will compile code if needed
-    null
+    @updatePatchButton()
 
   buildConfigSchemaTreema: ->
     treemaOptions =
@@ -75,9 +77,10 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelSystem.set 'configSchema', @configSchemaTreema.data
+    @updatePatchButton()
 
   buildCodeEditor: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
     editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
     @$el.find('#system-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
@@ -91,7 +94,10 @@ module.exports = class LevelSystemEditView extends CocoView
 
   onEditorChange: =>
     @levelSystem.set 'code', @editor.getValue()
-    null
+    @updatePatchButton()
+
+  updatePatchButton: ->
+    @$el.find('#patch-system-button').toggle Boolean @levelSystem.hasLocalChanges()
 
   endEditing: (e) ->
     Backbone.Mediator.publish 'editor:level-system-editing-ended', system: @levelSystem
@@ -113,5 +119,7 @@ module.exports = class LevelSystemEditView extends CocoView
     button.find('> span').toggleClass('secret')
 
   destroy: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
+    @systemSettingsTreema?.destroy()
+    @configSchemaTreema?.destroy()
     super()

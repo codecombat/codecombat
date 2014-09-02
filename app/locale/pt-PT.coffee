@@ -123,6 +123,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_multiplayer_description: "... onde programa frente-a-frente contra outros jogadores."
     campaign_player_created: "Criados por Jogadores"
     campaign_player_created_description: "... onde combate contra a criatividade dos seus colegas <a href=\"/contribute#artisan\">Feiticeiros Artesãos</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificuldade: "
     play_as: "Jogar Como"
     spectate: "Espectar"
@@ -383,7 +385,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_go_home: "Ir para o Início"
     victory_review: "Conte-nos mais!"
     victory_hour_of_code_done: "Terminou?"
-    victory_hour_of_code_done_yes: "Sim, terminei a minha Hora de Código™!"
+    victory_hour_of_code_done_yes: "Sim, terminei a minha Hora do Código™!"
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions"
     tome_read_only_spells: "Feitiços Apenas de Leitura"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   options:
     general_options: "Opções Gerais"
+#    volume_label: "Volume"
     music_label: "Música"
     music_description: "Ative ou desative a música de fundo."
     autorun_label: "Executar Automaticamente"
@@ -655,7 +658,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     why_ending: "E vejam só, é gratuito. "
     why_ending_url: "Comece a enfeitiçar agora!"
     george_description: "CEO, homem de negócios, designer da web, designer de jogos e campeão dos programadores iniciantes de todo o lado."
-    scott_description: "Programador extraordinário, arquiteto de software, feiticeiro da cozinha e mestre das finanças. O Scott é sensato."
+    scott_description: "Programador extraordinário, arquiteto de software, feiticeiro da cozinha e mestre das finanças. O Scott é o sensato."
     nick_description: "Feiticeiro da programção, mago da motivação excêntrico e experimentador de pernas para o ar. O Nick pode fazer qualquer coisa e escolhe construir o CodeCombat."
     jeremy_description: "Mago do suporte ao cliente, testador do uso e organizador da comunidade; provavelmente já falou com o Jeremy."
     michael_description: "Programador, administrador do sistema e técnico de graduação prodígio, o Michael é a pessoa que mantém os nossos servidores online."
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     achievement: "Conquista"
     clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
   delta:
     added: "Adicionados/as"

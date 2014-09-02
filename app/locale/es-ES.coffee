@@ -123,6 +123,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
     campaign_player_created: "Creaciones de los Jugadores"
     campaign_player_created_description: "... en las que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisa\">Magos Artesanos</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificultad: "
     play_as: "Jugar como"
     spectate: "Observar"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
   delta:
     added: "Añadido"
