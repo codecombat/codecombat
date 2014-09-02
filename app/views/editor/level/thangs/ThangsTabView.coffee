@@ -15,11 +15,6 @@ ComponentsCollection = require 'collections/ComponentsCollection'
 MOVE_MARGIN = 0.15
 MOVE_SPEED = 13
 
-# Essential component original ids
-componentOriginals =
-  'existence.Exists': '524b4150ff92f1f4f8000024'
-  'physics.Physical': '524b75ad7fc0f6d519000001'
-
 # Let us place these on top of other Thangs
 overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle']
 
@@ -229,8 +224,7 @@ module.exports = class ThangsTabView extends CocoView
     @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
-    physicalOriginal = componentOriginals['physics.Physical']
-    path = "id=#{@selectedExtantThang.id}/components/original=#{physicalOriginal}"  # TODO: hack
+    path = "id=#{@selectedExtantThang.id}/components/original=#{LevelComponent.PhysicalID}"
     physical = @thangsTreema.get path
     return if not physical or (physical.config.pos.x is pos.x and physical.config.pos.y is pos.y)
     @thangsTreema.set path + '/config/pos', x: pos.x, y: pos.y, z: pos.z
@@ -319,11 +313,11 @@ module.exports = class ThangsTabView extends CocoView
 
   createEssentialComponents: (defaultComponents) ->
     physicalConfig = {pos: {x: 10, y: 10, z: 1}}
-    if physicalOriginal = _.find(defaultComponents ? [], original: componentOriginals['physics.Physical'])
+    if physicalOriginal = _.find(defaultComponents ? [], original: LevelComponent.PhysicalID)
       physicalConfig.pos.z = physicalOriginal.config?.pos?.z ? 1  # Get the z right
     [
-      {original: componentOriginals['existence.Exists'], majorVersion: 0, config: {}}
-      {original: componentOriginals['physics.Physical'], majorVersion: 0, config: physicalConfig}
+      {original: LevelComponent.ExistsID, majorVersion: 0, config: {}}
+      {original: LevelComponent.PhysicalID, majorVersion: 0, config: physicalConfig}
     ]
 
   createAddThang: ->

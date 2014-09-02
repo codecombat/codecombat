@@ -380,6 +380,7 @@ module.exports = class ThangTypeEditView extends RootView
     el = @$el.find('#thang-type-treema')
     @treema = @$el.find('#thang-type-treema').treema(options)
     @treema.build()
+    @lastKind = data.kind
 
   pushChangesToPreview: =>
     # TODO: This doesn't delete old Treema keys you deleted
@@ -389,6 +390,9 @@ module.exports = class ThangTypeEditView extends RootView
     @refreshAnimation()
     @updateDots()
     @updatePortrait()
+    if (kind = @treema.data.kind) isnt @lastKind
+      @lastKind = kind
+      Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
 
   onSelectNode: (e, selected) =>
     selected = selected[0]
