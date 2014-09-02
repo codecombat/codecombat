@@ -2,19 +2,24 @@
    
 #thangs-tab-view
   $extantThangsWidth: 300px
-  
   position: absolute
   top: 0
   bottom: 0
   overflow: hidden
   left: 0
   right: 0
+  margin: -15px
   
+  #thangs-container-toggle, #thangs-palette-toggle
+    top: 5px
+
   #thangs-container-toggle
-    left: 0
+    left: 5px
+    box-shadow: 1px 1px 5px black
   
   #thangs-palette-toggle
-    right: 0
+    right: 5px
+    box-shadow: -1px 1px 5px black
     
   .toggle
     position: absolute
@@ -50,7 +55,7 @@
       margin: 0
       outline: thin
       border: none
-      border-top: 1px solid black
+      padding-top: 0
     
     .treema-children .treema-row *
       cursor: pointer !important
