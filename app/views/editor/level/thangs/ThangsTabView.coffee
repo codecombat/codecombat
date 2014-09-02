@@ -412,7 +412,7 @@ module.exports = class ThangsTabView extends CocoView
     # update selection, since the thangs have been remade
     if @selectedExtantThang
       @selectedExtantSprite = @surface.spriteBoss.sprites[@selectedExtantThang.id]
-      @selectedExtantThang = @selectedExtantSprite.thang
+      @selectedExtantThang = @selectedExtantSprite?.thang
     Backbone.Mediator.publish 'editor:thangs-edited', thangs: @world.thangs
 
   onTreemaThangSelected: (e, selectedTreemas) =>

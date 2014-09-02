@@ -12,12 +12,12 @@ module.exports = class Level extends CocoModel
     o = @denormalize supermodel, session
 
     # Figure out Components
-    o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
+    o.levelComponents = $.extend true, [], (lc.attributes for lc in supermodel.getModels LevelComponent)
     @sortThangComponents o.thangs, o.levelComponents, 'Level Thang'
     @fillInDefaultComponentConfiguration o.thangs, o.levelComponents
 
     # Figure out Systems
-    systemModels = _.cloneDeep (ls.attributes for ls in supermodel.getModels LevelSystem)
+    systemModels = $.extend true, [], (ls.attributes for ls in supermodel.getModels LevelSystem)
     o.systems = @sortSystems o.systems, systemModels
     @fillInDefaultSystemConfiguration o.systems
 
@@ -93,7 +93,7 @@ module.exports = class Level extends CocoModel
         system2 = _.find levelSystems, {original: d.original}
         visit system2
       #console.log 'sorted systems adding', systemModel.name
-      sorted.push {model: systemModel, config: _.cloneDeep system.config}
+      sorted.push {model: systemModel, config: $.extend true, {}, system.config}
       originalsSeen[system.original] = true
     visit system for system in levelSystems ? []
     sorted
@@ -140,7 +140,7 @@ module.exports = class Level extends CocoModel
       for component in thang.components or []
         continue unless lc = _.find levelComponents, {original: component.original}
         component.config ?= {}
-        TreemaUtils.populateDefaults(component.config, lc.configSchema)
+        TreemaUtils.populateDefaults(component.config, lc.configSchema, tv4)
         @lastType = 'component'
         @lastOriginal = component.original
         @walkDefaults component.config, lc.configSchema.properties
@@ -148,7 +148,7 @@ module.exports = class Level extends CocoModel
   fillInDefaultSystemConfiguration: (levelSystems) ->
     for system in levelSystems ? []
       system.config ?= {}
-      TreemaUtils.populateDefaults(system.config, system.model.configSchema)
+      TreemaUtils.populateDefaults(system.config, system.model.configSchema, tv4)
       @lastType = 'system'
       @lastOriginal = system.model.name
       @walkDefaults system.config, system.model.configSchema.properties
