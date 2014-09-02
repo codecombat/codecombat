@@ -213,6 +213,10 @@ LevelSchema = c.object {
     systems: []
     victory: {}
     type: 'hero'
+    goals: [
+      {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
+      {id: 'humans-survive', name: 'Humans must survive.', saveThangs: ['humans'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
+    ]
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,

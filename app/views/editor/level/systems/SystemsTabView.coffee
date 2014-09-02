@@ -121,7 +121,7 @@ module.exports = class SystemsTabView extends CocoView
       {original: '528114e60268d018e300001a', majorVersion: 0}  # UI
       {original: '528114040268d018e3000011', majorVersion: 0}  # Physics
     ]
-    
+
   destroy: ->
     @systemsTreema?.destroy()
     super()
@@ -146,8 +146,9 @@ class LevelSystemNode extends TreemaObjectNode
 
   buildValueForDisplay: (valEl, data) ->
     return super valEl unless data.original and @system
-    name = "#{@system.get('name')} v#{@system.get('version').major}"
-    @buildValueForDisplaySimply valEl, "#{name}"
+    name = @system.get 'name'
+    name += " v#{@system.get('version').major}" if @system.get('version').major
+    @buildValueForDisplaySimply valEl, name
 
   onEnterPressed: (e) ->
     super e
