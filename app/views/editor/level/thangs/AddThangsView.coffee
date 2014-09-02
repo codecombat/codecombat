@@ -1,5 +1,5 @@
 CocoView = require 'views/kinds/CocoView'
-add_thangs_template = require 'templates/editor/level/add_thangs'
+add_thangs_template = require 'templates/editor/level/add-thangs-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 
@@ -11,8 +11,8 @@ class ThangTypeSearchCollection extends CocoCollection
     @url += "&term=#{term}" if term
 
 module.exports = class AddThangsView extends CocoView
-  id: 'add-thangs-column'
-  className: 'add-thangs-palette thangs-column'
+  id: 'add-thangs-view'
+  className: 'add-thangs-palette hide'
   template: add_thangs_template
 
   events:

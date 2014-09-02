@@ -1,0 +1,85 @@
+@import "../../bootstrap/mixins"
+   
+#thangs-tab-view
+  $extantThangsWidth: 300px
+  
+  position: absolute
+  top: 0
+  bottom: 0
+  overflow: hidden
+  left: 0
+  right: 0
+  
+  #thangs-container-toggle
+    left: 0
+  
+  #thangs-palette-toggle
+    right: 0
+    
+  .toggle
+    position: absolute
+    z-index: 12
+    padding: 8px
+      
+  .thangs-container
+    background: white
+    width: $extantThangsWidth
+    position: absolute
+    left: 0
+    top: 0
+    bottom: 0
+    z-index: 11
+    padding: 5px
+    border: 1px solid black
+
+    h3
+      text-align: right
+      margin: 0
+      
+    .editor-nano-container
+      height: 90%
+      position: relative
+      top: 20px
+    #thangs-treema
+      position: absolute
+      top: 37px
+      left: 0
+      right: 0
+      bottom: 0
+      overflow: scroll
+      margin: 0
+      outline: thin
+      border: none
+      border-top: 1px solid black
+    
+    .treema-children .treema-row *
+      cursor: pointer !important
+
+  .world-container
+    margin-left: 0
+    margin-right: 0
+    box-sizing: border-box
+
+  .world-container
+    position: relative
+
+    #canvas-wrapper
+      width: 100%
+      position: relative
+      text-align: center
+      
+      #randomize-button
+        position: absolute
+        top: 45%
+        height: 40px
+
+
+  
+    // Below snatched from play/level.sass; should refactor?
+  
+    canvas#surface
+      background-color: #ddd
+      width: 100%
+      display: block
+      z-index: 1
+      border: 1px solid black

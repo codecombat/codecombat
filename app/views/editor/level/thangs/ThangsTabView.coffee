@@ -1,6 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 AddThangsView = require './AddThangsView'
-thangs_template = require 'templates/editor/level/thangs_tab'
+thangs_template = require 'templates/editor/level/thangs-tab-view'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
@@ -23,7 +23,7 @@ class ThangTypeSearchCollection extends CocoCollection
   model: ThangType
 
 module.exports = class ThangsTabView extends CocoView
-  id: 'editor-level-thangs-tab-view'
+  id: 'thangs-tab-view'
   className: 'tab-pane active'
   template: thangs_template
 
@@ -48,7 +48,7 @@ module.exports = class ThangsTabView extends CocoView
     'click #delete': 'onDeleteClicked'
     'click #duplicate': 'onDuplicateClicked'
     'click #thangs-container-toggle': 'toggleThangsContainer'
-#    'click #thangs-palette-toggle': 'toggleThangsPalette'
+    'click #thangs-palette-toggle': 'toggleThangsPalette'
 #    'click .add-thang-palette-icon': 'toggleThangsPalette'
 
   shortcuts:
@@ -94,17 +94,6 @@ module.exports = class ThangsTabView extends CocoView
     context.thangTypes = thangTypes
     context.groups = groups
     context
-
-  onWindowResize: (e) ->
-    $('#thangs-list').height('100%')
-    thangsHeaderHeight = $('#thangs-header').height()
-    oldHeight = $('#thangs-list').height()
-    if $(document).width() < 1050
-      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
-    else
-      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
-      $('#all-thangs').collapse 'show'
-      $('#add-thangs-column').collapse 'show'
 
   undo: (e) ->
     if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
@@ -279,7 +268,7 @@ module.exports = class ThangsTabView extends CocoView
 
   selectAddThang: (e, forceDeselect=false) =>
     return if e? and $(e.target).closest('#thang-search').length # Ignore if you're trying to search thangs
-    return unless (e? and $(e.target).closest('#editor-level-thangs-tab-view').length) or key.isPressed('esc') or forceDeselect
+    return unless (e? and $(e.target).closest('#thangs-tab-view').length) or key.isPressed('esc') or forceDeselect
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
     target = target.closest('.add-thang-palette-icon')
@@ -458,7 +447,8 @@ module.exports = class ThangsTabView extends CocoView
       thangData = @thangsTreema.get "id=#{e.thangID}"
     @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel  # supermodel needed for checkForMissingSystems
     @insertSubView @editThangView
-    @$el.find('.thangs-column').hide()
+    @$el.find('>').hide()
+    @editThangView.$el.show()
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   onLevelThangEdited: (e) ->
@@ -469,7 +459,7 @@ module.exports = class ThangsTabView extends CocoView
     @removeSubView @editThangView
     @editThangView = null
     @onThangsChanged()
-    @$el.find('.thangs-column').show()
+    @$el.find('>').show()
 
   preventDefaultContextMenu: (e) ->
     return unless $(e.target).closest('#canvas-wrapper').length
@@ -493,11 +483,10 @@ module.exports = class ThangsTabView extends CocoView
     @selectAddThangType @selectedExtantThang.spriteName, @selectedExtantThang
 
   toggleThangsContainer: (e) ->
-    $('#all-thangs').toggle()
+    $('#all-thangs').toggleClass('hide')
 
   toggleThangsPalette: (e) ->
-    $('#add-thangs-column').toggle()
-    @onWindowResize e
+    $('#add-thangs-view').toggleClass('hide')
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
@@ -526,11 +515,8 @@ class ThangNode extends TreemaObjectNode
     s = "#{data.thangType}"
     if isObjectID s
       unless name = ThangNode.thangNameMap[s]
-        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s and m.get('kind')
+        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
         name = ThangNode.thangNameMap[s] = thangType.get 'name'
-        ThangNode.thangKindMap[s] = thangType.get 'kind'
-      kind = ThangNode.thangKindMap[s]
-      @$el.addClass "treema-#{kind}"
       s = name
     s += ' - ' + data.id if data.id isnt s
     if pos

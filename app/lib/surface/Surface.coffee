@@ -428,7 +428,7 @@ module.exports = Surface = class Surface extends CocoClass
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
-    else if $('#editor-level-thangs-tab-view')
+    else if $('#thangs-tab-view')
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     else
