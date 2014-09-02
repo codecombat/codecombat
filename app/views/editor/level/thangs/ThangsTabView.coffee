@@ -38,6 +38,7 @@ module.exports = class ThangsTabView extends CocoView
     'editor:view-switched': 'onViewSwitched'
     'sprite:dragged': 'onSpriteDragged'
     'sprite:mouse-up': 'onSpriteMouseUp'
+    'sprite:mouse-down': 'onSpriteMouseDown'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-up': 'onStageMouseUp'
     'editor:random-terrain-generated': 'onRandomTerrainGenerated'
@@ -192,6 +193,7 @@ module.exports = class ThangsTabView extends CocoView
     @surface?.spriteBoss?.selectSprite null, null
 
   onSpriteMouseDown: (e) ->
+    @dragged = false
     # Sprite clicks happen after stage clicks, but we need to know whether a sprite is being clicked.
     # clearTimeout @backgroundAddClickTimeout
     # if e.originalEvent.nativeEvent.button == 2
@@ -206,6 +208,7 @@ module.exports = class ThangsTabView extends CocoView
 
   onSpriteDragged: (e) ->
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
+    @dragged = true
     @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
     wop = @surface.camera.screenToWorld x: stageX, y: stageY
@@ -230,7 +233,7 @@ module.exports = class ThangsTabView extends CocoView
     @thangsTreema.set path + '/config/pos', x: pos.x, y: pos.y, z: pos.z
 
   onSpriteDoubleClicked: (e) ->
-    return unless e.thang
+    return unless e.thang and not @dragged
     @editThang thangID: e.thang.id
 
   onRandomTerrainGenerated: (e) ->
