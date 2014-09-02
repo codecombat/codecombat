@@ -20,6 +20,9 @@ componentOriginals =
   'existence.Exists': '524b4150ff92f1f4f8000024'
   'physics.Physical': '524b75ad7fc0f6d519000001'
 
+# Let us place these on top of other Thangs
+overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle']
+
 class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type?project=original,name,version,slug,kind,components'
   model: ThangType
@@ -190,7 +193,7 @@ module.exports = class ThangsTabView extends CocoView
     super()
 
   onViewSwitched: (e) ->
-    @selectAddThang()
+    @selectAddThang null, true
     @surface?.spriteBoss?.selectSprite null, null
 
   onSpriteMouseDown: (e) ->
@@ -255,9 +258,12 @@ module.exports = class ThangsTabView extends CocoView
     if e.thang and (key.alt or key.meta)
       # We alt-clicked, so create a clone addThang
       @selectAddThangType e.thang.spriteName, @selectedExtantThang
-    else if e.thang and not (@addThangSprite and @addThangType is 'Blood Torch Test')  # TODO: figure out which Thangs can be placed on other Thangs
+    else if @justAdded()
+      console.log 'Skipping double insert due to extra selection event, since we just added', (new Date() - @lastAddTime), 'ms ago.'
+      null
+    else if e.thang and not (@addThangSprite and @addThangType.get('name') in overlappableThangTypeNames)
       # We clicked on a Thang (or its Treema), so select the Thang
-      @selectAddThang null
+      @selectAddThang null, true
       @selectedExtantThangClickTime = new Date()
       treemaThang = _.find @thangsTreema.childrenTreemas, (treema) => treema.data.id is @selectedExtantThang.id
       if treemaThang
@@ -270,16 +276,13 @@ module.exports = class ThangsTabView extends CocoView
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
+      @lastAddTime = new Date()
 
-    # Commented out this bit so the extant thangs treema editor can select invisible thangs like arrows.
-    # Couldn't spot any bugs... But if there are any, better come up with a better solution.
-#    else
-#      # We clicked on the background, so deselect anything selected
-#      @thangsTreema.deselectAll()
+  justAdded: -> @lastAddTime and (new Date() - @lastAddTime) < 150
 
-  selectAddThang: (e) =>
+  selectAddThang: (e, forceDeselect=false) =>
     return if e? and $(e.target).closest('#thang-search').length # Ignore if you're trying to search thangs
-    return unless e? and $(e.target).closest('#editor-level-thangs-tab-view').length or key.isPressed('esc')
+    return unless (e? and $(e.target).closest('#editor-level-thangs-tab-view').length) or key.isPressed('esc') or forceDeselect
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
     target = target.closest('.add-thang-palette-icon')
@@ -428,7 +431,6 @@ module.exports = class ThangsTabView extends CocoView
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
-      @selectAddThang null
     else if @level.get('type') is 'hero'
       components = []  # Load them all from default ThangType Components
     else

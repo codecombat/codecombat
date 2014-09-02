@@ -167,6 +167,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadThangsRequiredFromComponentList thangType.get('components')
 
   loadThangsRequiredFromComponentList: (components) ->
+    return unless components
     requiredThangTypes = []
     for component in components when component.config
       if component.original is LevelComponent.EquipsID
