@@ -17,6 +17,7 @@ module.exports = class SystemsTabView extends CocoView
     'editor:edit-level-system': 'editLevelSystem'
     'editor:level-system-editing-ended': 'onLevelSystemEditingEnded'
     'editor:level-loaded': 'onLevelLoaded'
+    'editor:terrain-changed': 'onTerrainChanged'
 
   events:
     'click #add-system-button': 'addLevelSystem'
@@ -103,6 +104,20 @@ module.exports = class SystemsTabView extends CocoView
     @removeSubView @levelSystemEditView
     @levelSystemEditView = null
 
+  onTerrainChanged: (e) ->
+    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor']
+    return unless AI = @systemsTreema.get 'original=528110f30268d018e3000001'
+    return if AI.config?.findsPaths is defaultPathfinding
+    AI.config ?= {}
+    AI.config.findsPaths = defaultPathfinding
+    @systemsTreema.set 'original=528110f30268d018e3000001', AI
+    noty {
+      text: "AI System defaulted pathfinding to #{defaultPathfinding} for terrain #{e.terrain}."
+      layout: 'topCenter'
+      timeout: 5000
+      type: 'information'
+    }
+
   buildDefaultSystems: ->
     [
       {original: '528112c00268d018e3000008', majorVersion: 0}  # Event
@@ -120,6 +135,9 @@ module.exports = class SystemsTabView extends CocoView
       {original: '528111b30268d018e3000004', majorVersion: 0}  # Alliance
       {original: '528114e60268d018e300001a', majorVersion: 0}  # UI
       {original: '528114040268d018e3000011', majorVersion: 0}  # Physics
+      {original: '52ae4f02a4dcd4415200000b', majorVersion: 0}  # Display
+      {original: '52e953e81b2028d102000004', majorVersion: 0}  # Effect
+      {original: '52f1354370fb890000000005', majorVersion: 0}  # Magic
     ]
 
   destroy: ->

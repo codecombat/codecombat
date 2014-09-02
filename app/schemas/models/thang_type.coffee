@@ -106,6 +106,7 @@ _.extend ThangTypeSchema.properties,
     containers: c.object {title: 'Containers', additionalProperties: ContainerObjectSchema}
     animations: c.object {title: 'Animations', additionalProperties: RawAnimationObjectSchema}
   kind: c.shortString {enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item'], default: 'Misc', title: 'Kind'}
+  terrains: c.array {title: 'Terrains', description: 'If specified, limits this ThangType to levels with matching terrains.', uniqueItems: true}, c.terrainString
 
   actions: c.object {title: 'Actions', additionalProperties: {$ref: '#/definitions/action'}}
   soundTriggers: c.object {title: 'Sound Triggers', additionalProperties: c.array({}, {$ref: '#/definitions/sound'})},

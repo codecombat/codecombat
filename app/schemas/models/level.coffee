@@ -245,6 +245,7 @@ _.extend LevelSchema.properties,
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
   type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero'])
+  terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
 
 c.extendBasicProperties LevelSchema, 'level'

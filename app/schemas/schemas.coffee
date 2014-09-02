@@ -200,3 +200,5 @@ me.activity = me.object {description: 'Stats on an activity'},
   first: me.date()
   last: me.date()
   count: {type: 'integer', minimum: 0}
+
+me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor'], title: 'Terrain', description: 'Which terrain type this is.'}

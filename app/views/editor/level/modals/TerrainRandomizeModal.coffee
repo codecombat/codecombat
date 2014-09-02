@@ -87,6 +87,7 @@ clusters = {
 
 presets = {
   'dungeon': {
+    'terrainName': 'Dungeon'
     'type':'dungeon'
     'borders':'dungeon_wall'
     'borderNoise':0
@@ -128,6 +129,7 @@ presets = {
     }
   }
   'indoor': {
+    'terrainName': 'Indoor'
     'type':'indoor'
     'borders':'indoor_wall'
     'borderNoise':0
@@ -161,6 +163,7 @@ presets = {
     }
   }
   'grassy': {
+    'terrainName': 'Grass'
     'type':'grassy'
     'borders':'trees'
     'borderNoise':1
@@ -223,8 +226,8 @@ thangSizes = {
   'borderSize': {
     'x':4
     'y':4
-  }
-}
+  }}
+
 
 module.exports = class TerrainRandomizeModal extends ModalView
   id: 'terrain-randomize-modal'
@@ -243,7 +246,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomizeThangs presetType, presetSize
-    Backbone.Mediator.publish 'editor:random-terrain-generated', thangs: @thangs
+    Backbone.Mediator.publish 'editor:random-terrain-generated', thangs: @thangs, terrain: presets[presetType].terrainName
     @hide()
 
   randomizeThangs: (presetName, presetSize) ->
