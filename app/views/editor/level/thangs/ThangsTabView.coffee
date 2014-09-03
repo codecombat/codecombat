@@ -163,6 +163,8 @@ module.exports = class ThangsTabView extends CocoView
     @thangsTreema = @$el.find('#thangs-treema').treema treemaOptions
     @thangsTreema.build()
     @thangsTreema.open()
+    @openSmallerFolders(@thangsTreema)
+    
     @onThangsChanged()  # Initialize the World with Thangs
     @initSurface()
     thangsHeaderHeight = $('#thangs-header').height()
@@ -170,6 +172,14 @@ module.exports = class ThangsTabView extends CocoView
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
     if data?.length
       @$el.find('.generate-terrain-button').hide()
+      
+  openSmallerFolders: (folderTreema) ->
+    children = _.values folderTreema.childrenTreemas
+    for child in children
+      continue if child.data.thangType
+      if _.keys(child.data).length < 5
+        child.open()
+        @openSmallerFolders(child)      
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -583,7 +593,13 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
     trackedActionDescription
     
   buildValueForDisplay: (valEl, data) ->
-    @buildValueForDisplaySimply valEl, @countThangs(data)
+    el = $("<span><strong>#{@keyForParent}</strong> <span class='text-muted'>(#{@countThangs(data)})</span></span>")
+    
+    # Kind of like having the portraits on the individual thang rows, rather than the parent folder row
+    # but keeping this logic here in case we want to have it the other way.
+#    if thangType = @nameToThangType(@keyForParent)
+#      el.prepend($("<img class='img-circle' src='#{thangType.getPortraitURL()}' />"))
+    valEl.append(el)
     
   countThangs: (data) ->
     return 0 if data.thangType and data.id
@@ -595,12 +611,6 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
         num += @countThangs(value)
     num
   
-  build: ->
-    res = super(arguments...)
-    if thangType = @nameToThangType(@keyForParent)
-      @$el.prepend($("<img src='#{thangType.getPortraitURL()}' />"))
-    res
-
   nameToThangType: (name) ->
     if not ThangsFolderNode.nameToThangTypeMap
       thangTypes = @settings.supermodel.getModels(ThangType)
@@ -616,12 +626,16 @@ class ThangNode extends TreemaObjectNode
   @thangKindMap: {}
   buildValueForDisplay: (valEl, data) ->
     pos = _.find(data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
-    s = ''
+    s = data.id
     if pos
       s += " (#{Math.round(pos.x)}, #{Math.round(pos.y)})"
     else
       s += ' (non-physical)'
     @buildValueForDisplaySimply valEl, s
+
+    thangType = @settings.supermodel.getModelByOriginal(ThangType, data.thangType)
+    if thangType
+      valEl.prepend($("<img class='img-circle' src='#{thangType.getPortraitURL()}' />"))
 
   onEnterPressed: ->
     Backbone.Mediator.publish 'editor:edit-level-thang', thangID: @getData().id
