@@ -154,7 +154,10 @@ class CocoModel extends Backbone.Model
 
   markToRevert: ->
     if @type() is 'ThangType'
-      @_revertAttributes = _.clone @attributes  # No deep clones for these!
+      # Don't deep clone the raw vector data, but do deep clone everything else.
+      @_revertAttributes = _.clone @attributes
+      for smallProp, value of @attributes when value and smallProp isnt 'raw'
+        @_revertAttributes[smallProp] = _.cloneDeep value
     else
       @_revertAttributes = $.extend(true, {}, @attributes)
 
