@@ -1,13 +1,24 @@
 h4.home
-  
-  a(href=homeLink || "/") 
+
+  a(href=homeLink || "/")
     i.icon-home.icon-white
     span(data-i18n="play_level.home") Home
 
 h4.title
   | #{worldName}
-  |  - 
+  span.spl.spr -
   a(href=editorLink, data-i18n="nav.editor", title="Open " + worldName + " in the Level Editor") Editor
+  if multiplayerSession
+    - found = false
+    - for (var i=0; i < multiplayerPlayers.length; i++) {
+      if (multiplayerPlayers.at(i).id !== meID)
+        span.spl.spr - vs #{multiplayerPlayers.at(i).get('name')}
+        - found = true
+        - break
+    - }
+    if !found
+      span.spl.spr - waiting...
+
 
 
 button.btn.btn-xs.btn-warning.banner#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.stop") Stop

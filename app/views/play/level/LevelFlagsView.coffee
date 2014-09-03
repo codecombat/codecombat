@@ -1,6 +1,7 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/level-flags-view'
 {me} = require 'lib/auth'
+RealTimeCollection = require 'collections/RealTimeCollection'
 
 module.exports = class LevelFlagsView extends CocoView
   id: 'level-flags-view'
@@ -13,6 +14,7 @@ module.exports = class LevelFlagsView extends CocoView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'surface:remove-flag': 'onRemoveFlag'
+    'real-time-multiplayer:joined-game': 'onJoinedMultiplayerGame'
 
   events:
     'click .green-flag': -> @onFlagSelected color: 'green', source: 'button'
@@ -55,6 +57,7 @@ module.exports = class LevelFlagsView extends CocoView
     flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: @world.dt * @world.frames.length, active: true
     @flags[@flagColor] = flag
     @flagHistory.push flag
+    @realTimeFlags?.create flag
     Backbone.Mediator.publish 'level:flag-updated', flag
     #console.log 'trying to place flag at', @world.age, 'and think it will happen by', flag.time
 
@@ -72,3 +75,26 @@ module.exports = class LevelFlagsView extends CocoView
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @world = @options.world = event.world
+
+  onJoinedMultiplayerGame: (e) ->
+    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.session.id + '/flagHistory')
+    @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
+
+  onLeftMultiplayerGame: (e) ->
+    if @realTimeFlags
+      @realTimeFlags.off()
+      @realTimeFlags = null
+
+  onRealTimeMultiplayerFlagAdded: (e) =>
+    if e.get('player') != me.id
+      # TODO: what is @flags used for?
+      # Build local flag from Backbone.Model flag
+      flag =
+        player: e.get('player')
+        team: e.get('team')
+        color: e.get('color')
+        pos: e.get('pos')
+        time: e.get('time')
+        active: e.get('active')
+      @flagHistory.push flag
+      Backbone.Mediator.publish 'level:flag-updated', flag

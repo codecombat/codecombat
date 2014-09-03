@@ -5,24 +5,86 @@ if !ladderGame
         input#multiplayer(name="multiplayer", type="checkbox", checked=multiplayer)
         span(data-i18n="multiplayer.multiplayer_toggle") Enable multiplayer
       span.help-block(data-i18n="multiplayer.multiplayer_toggle_description") Allow others to join your game.
-    
+
   hr
 
   div#link-area
     p(data-i18n="multiplayer.multiplayer_link_description") Give this link to anyone to have them join you.
-    
+
     textarea.well#multiplayer-join-link(readonly=true)= joinLink
-    
+
     p
       strong(data-i18n="multiplayer.multiplayer_hint_label") Hint:
       span(data-i18n="multiplayer.multiplayer_hint")  Click the link to select all, then press ⌘-C or Ctrl-C to copy the link.
-  
+
     p(data-i18n="multiplayer.multiplayer_coming_soon") More multiplayer features to come!
 
 if ladderGame
   if me.get('anonymous')
     p(data-i18n="multiplayer.multiplayer_sign_in_leaderboard") Sign in or create an account and get your solution on the leaderboard.
   else if readyToRank
+    button#create-game-button Create Game
+
+    hr
+
+    div#created-multiplayer-session
+      h3 Your Game
+      if currentMultiplayerSession
+        div
+          span(style="margin:10px")= currentMultiplayerSession.get('levelID')
+          span(style="margin:10px")= currentMultiplayerSession.get('creatorName')
+          span(style="margin:10px")= currentMultiplayerSession.get('state')
+          span(style="margin:10px")= currentMultiplayerSession.id
+          button#leave-game-button(data-item=item) Leave Game
+        div
+          - var players = playersCollections[currentMultiplayerSession.id]
+          span(style="margin:10px") Players:
+          - for (var i=0; i < players.length; i++) {
+            - var name = players.at(i).get('name')
+            - var team = players.at(i).get('team')
+            span(style="margin:10px")= name
+            span(style="margin:10px")= team
+          - }
+      else
+        div Click something above to create a game.
+
+    hr
+
+    div#open-games
+      h3 Open Games
+      // TODO: do not let you join ones with same-team opponent
+      - var noOpenGames = true
+      if multiplayerSessions
+        - for (var i=0; i < multiplayerSessions.length; i++) {
+          if levelID === multiplayerSessions[i].get('levelID') && multiplayerSessions[i].get('state') === 'creating'
+            - var id = multiplayerSessions[i].get('id')
+            - var players = playersCollections[id]
+            if players && players.length < 2
+              - noOpenGames = false
+              - var creatorName = multiplayerSessions[i].get('creatorName')
+              - var creator = multiplayerSessions[i].get('creator')
+              - var state = multiplayerSessions[i].get('state')
+              - var item = multiplayerSessions[i]
+              div
+                button#join-game-button(data-item=item) Join Game
+                span(style="margin:10px")= levelID
+                span(style="margin:10px")= creatorName
+                span(style="margin:10px")= state
+                span(style="margin:10px")= id
+              div
+                span(style="margin:10px") Players:
+                - for (var j=0; j < players.length; j++) {
+                  - var name = players.at(j).get('name')
+                  - var team = players.at(j).get('team')
+                  span(style="margin:10px")= name
+                  span(style="margin:10px")= team
+                - }
+        - }
+      if noOpenGames
+        div No games available.
+
+    hr
+
     .ladder-submission-view
   else
     a.btn.btn-primary(href="/play/ladder/#{levelSlug}#my-matches", data-i18n="multiplayer.victory_go_ladder") Return to Ladder

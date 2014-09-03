@@ -39,7 +39,7 @@ module.exports =  # /app/lib/surface
   'sprite:speech-updated': c.object {required: ['sprite', 'thang']},
     sprite: {type: 'object'}
     thang: {type: ['object', 'null']}
-    blurb: {type: ['string', 'null']}
+    blurb: {type: ['string', 'null', 'undefined']}
     message: {type: 'string'}
     mood: {type: 'string'}
     responses: {type: ['array', 'null', 'undefined']}
@@ -47,7 +47,7 @@ module.exports =  # /app/lib/surface
     sound: {type: ['null', 'undefined', 'object']}
 
   'level:sprite-dialogue': c.object {required: ['spriteID', 'message']},
-    blurb: {type: ['string', 'null']}
+    blurb: {type: ['string', 'null', 'undefined']}
     message: {type: 'string'}
     mood: {type: 'string'}
     responses: {type: ['array', 'null', 'undefined']}

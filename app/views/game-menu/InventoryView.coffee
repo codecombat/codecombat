@@ -240,7 +240,7 @@ module.exports = class InventoryView extends CocoView
   onHidden: ->
     inventory = @getCurrentEquipmentConfig()
     heroConfig = @options.session.get('heroConfig') ? {}
-    return if _.isEqual inventory, heroConfig.inventory
+    return if _.isEqual inventory, (heroConfig.inventory ? {})
     heroConfig.inventory = inventory
     heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # Temp: assign Tharin as the hero
     @options.session.set 'heroConfig', heroConfig

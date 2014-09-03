@@ -18,6 +18,8 @@ LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
+RealTimeModel = require 'models/RealTimeModel'
+RealTimeCollection = require 'collections/RealTimeCollection'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
@@ -62,8 +64,12 @@ module.exports = class PlayLevelView extends RootView
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
     'level:inventory-changed': 'onInventoryChanged'
 
   events:
@@ -553,6 +559,10 @@ module.exports = class PlayLevelView extends RootView
       AudioPlayer.preloadSoundReference sound
 
   # Real-time playback
+  onRealTimePlaybackWaiting: (e) ->
+    @$el.addClass('real-time').focus()
+    @onWindowResize()
+
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
     @onWindowResize()
@@ -560,6 +570,7 @@ module.exports = class PlayLevelView extends RootView
   onRealTimePlaybackEnded: (e) ->
     @$el.removeClass 'real-time'
     @onWindowResize()
+    @onRealTimeMultiplayerPlaybackEnded()
 
   destroy: ->
     @levelLoader?.destroy()
@@ -575,3 +586,66 @@ module.exports = class PlayLevelView extends RootView
     delete window.nextLevelURL
     console.profileEnd?() if PROFILE_ME
     super()
+
+  # Real-time Multiplayer ######################################################
+
+  onRealTimeMultiplayerPlaybackEnded: ->
+    if @multiplayerSession
+      @multiplayerSession.set 'state', 'coding'
+      players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
+      players.each (player) -> player.set 'state', 'coding' if player.id is me.id
+
+  onJoinedRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = new RealTimeModel('multiplayer_level_sessions/' + e.session.id)
+
+  onLeftRealTimeMultiplayerGame: (e) ->
+    if @multiplayerSession
+      @multiplayerSession.off()
+      @multiplayerSession = null
+
+  onRealTimeMultiplayerCast: (e) ->
+    unless @multiplayerSession
+      console.error 'onRealTimeMultiplayerCast without a multiplayerSession'
+      return
+    players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
+    myPlayer = opponentPlayer = null
+    players.each (player) ->
+      if player.id is me.id
+        myPlayer = player
+      else
+        opponentPlayer = player
+    if myPlayer
+      console.info 'Submitting my code'
+      myPlayer.set 'code', @session.get('code')
+      myPlayer.set 'codeLanguage', @session.get('codeLanguage')
+      myPlayer.set 'state', 'submitted'
+    else
+      console.error 'Did not find my player in onRealTimeMultiplayerCast'
+    if opponentPlayer
+      # TODO: Shouldn't need nested opponentPlayer change listeners here
+      state = opponentPlayer.get('state')
+      console.info 'Other player is', state
+      if state in ['submitted', 'ready']
+        @onOpponentSubmitted(opponentPlayer, myPlayer)
+      else
+        # Wait for opponent to submit their code
+        opponentPlayer.on 'change', (e) =>
+          state = opponentPlayer.get('state')
+          if state in ['submitted', 'ready']
+            @onOpponentSubmitted(opponentPlayer, myPlayer)
+
+  onOpponentSubmitted: (opponentPlayer, myPlayer) =>
+    # Save opponent's code
+    Backbone.Mediator.publish 'real-time-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code')}
+    # I'm ready to rumble
+    myPlayer.set 'state', 'ready'
+    if opponentPlayer.get('state') is 'ready'
+      console.info 'All real-time multiplayer players are ready!'
+      @multiplayerSession.set 'state', 'running'
+    else
+      # Wait for opponent to be ready
+      opponentPlayer.on 'change', (e) =>
+        if opponentPlayer.get('state') is 'ready'
+          opponentPlayer.off()
+          console.info 'All real-time multiplayer players are ready!'
+          @multiplayerSession.set 'state', 'running'

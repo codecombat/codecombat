@@ -7,6 +7,7 @@ channelSchemas =
   'editor': require './schemas/subscriptions/editor'
   'errors': require './schemas/subscriptions/errors'
   'misc': require './schemas/subscriptions/misc'
+  'multiplayer': require './schemas/subscriptions/multiplayer'
   'play': require './schemas/subscriptions/play'
   'surface': require './schemas/subscriptions/surface'
   'tome': require './schemas/subscriptions/tome'
