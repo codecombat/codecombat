@@ -557,7 +557,7 @@
     grassy: "Grassy"
     fork_title: "Fork New Version"
     fork_creating: "Creating Fork..."
-    randomize: "Randomize"
+    generate_terrain: "Generate Terrain"
     more: "More"
     wiki: "Wiki"
     live_chat: "Live Chat"

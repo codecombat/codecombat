@@ -152,7 +152,7 @@ module.exports = class ThangsTabView extends CocoView
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
     if data.thangs?.length
-      @$el.find('#randomize-button').hide()
+      @$el.find('.generate-terrain-button').hide()
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -415,7 +415,7 @@ module.exports = class ThangsTabView extends CocoView
     @thangsBatch = []
 
   addThang: (thangType, pos, batchInsert=false) ->
-    @$el.find('#randomize-button').hide()
+    @$el.find('.generate-terrain-button').hide()
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'

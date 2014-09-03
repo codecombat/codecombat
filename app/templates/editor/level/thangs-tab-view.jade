@@ -1,6 +1,6 @@
-button.toggle.btn#thangs-container-toggle
+button.btn#thangs-container-toggle
   span.icon-list
-button.toggle.btn#thangs-palette-toggle
+button.btn#thangs-palette-toggle
   span.icon-plus
 .thangs-container.hide#all-thangs
   h3(data-i18n="editor.level_tab_thangs_title") Current Thangs
@@ -8,7 +8,7 @@ button.toggle.btn#thangs-palette-toggle
 
 .world-container
   #canvas-wrapper
-    button.btn.btn-primary(id="randomize-button", data-toggle="coco-modal", data-target="editor/level/modals/TerrainRandomizeModal", data-i18n="editor.randomize", title="Randomize Terrain") Randomize
+    button.generate-terrain-button.btn.btn-info.btn-lg(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", title="Generate Terrain") Generate Terrain
     ul.dropdown-menu#contextmenu
       li#delete
         a(data-i18n="editor.delete") Delete
