@@ -1,6 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 AddThangsView = require './AddThangsView'
-thangs_template = require 'templates/editor/level/thangs_tab'
+thangs_template = require 'templates/editor/level/thangs-tab-view'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
@@ -23,7 +23,7 @@ class ThangTypeSearchCollection extends CocoCollection
   model: ThangType
 
 module.exports = class ThangsTabView extends CocoView
-  id: 'editor-level-thangs-tab-view'
+  id: 'thangs-tab-view'
   className: 'tab-pane active'
   template: thangs_template
 
@@ -48,7 +48,7 @@ module.exports = class ThangsTabView extends CocoView
     'click #delete': 'onDeleteClicked'
     'click #duplicate': 'onDuplicateClicked'
     'click #thangs-container-toggle': 'toggleThangsContainer'
-#    'click #thangs-palette-toggle': 'toggleThangsPalette'
+    'click #thangs-palette-toggle': 'toggleThangsPalette'
 #    'click .add-thang-palette-icon': 'toggleThangsPalette'
 
   shortcuts:
@@ -94,17 +94,6 @@ module.exports = class ThangsTabView extends CocoView
     context.thangTypes = thangTypes
     context.groups = groups
     context
-
-  onWindowResize: (e) ->
-    $('#thangs-list').height('100%')
-    thangsHeaderHeight = $('#thangs-header').height()
-    oldHeight = $('#thangs-list').height()
-    if $(document).width() < 1050
-      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
-    else
-      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
-      $('#all-thangs').collapse 'show'
-      $('#add-thangs-column').collapse 'show'
 
   undo: (e) ->
     if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
@@ -163,7 +152,7 @@ module.exports = class ThangsTabView extends CocoView
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
     if data.thangs?.length
-      @$el.find('#randomize-button').hide()
+      @$el.find('.generate-terrain-button').hide()
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -178,7 +167,17 @@ module.exports = class ThangsTabView extends CocoView
     }
     @surface.playing = false
     @surface.setWorld @world
-    @surface.camera.zoomTo({x: 262, y: -164}, 1.66, 0)
+    @centerCamera()
+
+  centerCamera: ->
+    [width, height] = @world.size()
+    width = Math.max width, 80
+    height = Math.max height, 68
+    {left, top, right, bottom} = @world.getBounds()
+    center = x: left + width / 2, y: bottom + height / 2
+    sup = @surface.camera.worldToSurface center
+    zoom = 0.94 * 92.4 / width  # Zoom 1.0 lets us see 92.4 meters.
+    @surface.camera.zoomTo(sup, zoom, 0)
 
   destroy: ->
     @selectAddThangType null
@@ -240,8 +239,17 @@ module.exports = class ThangsTabView extends CocoView
     @thangsBatch = []
     nonRandomThangs = (thang for thang in @thangsTreema.get('') when not /Random/.test thang.id)
     @thangsTreema.set '', nonRandomThangs
+
+    listening = {}
     for thang in e.thangs
       @selectAddThangType thang.id
+
+      # kind of a hack to get the walls to show up correctly when they load.
+      # might also fix other thangs who need to show up looking a certain way based on thang type components
+      unless @addThangType.isFullyLoaded() or listening[@addThangType.cid]
+        listening[@addThangType.cid] = true
+        @listenToOnce @addThangType, 'build-complete', @onThangsChanged
+          
       @addThang @addThangType, thang.pos, true
     @batchInsert()
     @selectAddThangType null
@@ -279,7 +287,7 @@ module.exports = class ThangsTabView extends CocoView
 
   selectAddThang: (e, forceDeselect=false) =>
     return if e? and $(e.target).closest('#thang-search').length # Ignore if you're trying to search thangs
-    return unless (e? and $(e.target).closest('#editor-level-thangs-tab-view').length) or key.isPressed('esc') or forceDeselect
+    return unless (e? and $(e.target).closest('#thangs-tab-view').length) or key.isPressed('esc') or forceDeselect
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
     target = target.closest('.add-thang-palette-icon')
@@ -397,7 +405,7 @@ module.exports = class ThangsTabView extends CocoView
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
     return if @editThangView
-    serializedLevel = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel, null, true
     try
       @world.loadFromLevel serializedLevel, false
     catch error
@@ -405,7 +413,7 @@ module.exports = class ThangsTabView extends CocoView
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
-    
+
     # update selection, since the thangs have been remade
     if @selectedExtantThang
       @selectedExtantSprite = @surface.spriteBoss.sprites[@selectedExtantThang.id]
@@ -426,18 +434,18 @@ module.exports = class ThangsTabView extends CocoView
     @thangsBatch = []
 
   addThang: (thangType, pos, batchInsert=false) ->
-    @$el.find('#randomize-button').hide()
+    @$el.find('.generate-terrain-button').hide()
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if @level.get('type') isnt 'hero' or @thangsTreema.get "id=#{thangID}"
+        return if @level.get('type', true) isnt 'hero' or @thangsTreema.get "id=#{thangID}"
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
-    else if @level.get('type') is 'hero'
+    else if @level.get('type', true) is 'hero'
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []
@@ -458,7 +466,8 @@ module.exports = class ThangsTabView extends CocoView
       thangData = @thangsTreema.get "id=#{e.thangID}"
     @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel  # supermodel needed for checkForMissingSystems
     @insertSubView @editThangView
-    @$el.find('.thangs-column').hide()
+    @$el.find('>').hide()
+    @editThangView.$el.show()
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   onLevelThangEdited: (e) ->
@@ -469,7 +478,7 @@ module.exports = class ThangsTabView extends CocoView
     @removeSubView @editThangView
     @editThangView = null
     @onThangsChanged()
-    @$el.find('.thangs-column').show()
+    @$el.find('>').show()
 
   preventDefaultContextMenu: (e) ->
     return unless $(e.target).closest('#canvas-wrapper').length
@@ -493,11 +502,10 @@ module.exports = class ThangsTabView extends CocoView
     @selectAddThangType @selectedExtantThang.spriteName, @selectedExtantThang
 
   toggleThangsContainer: (e) ->
-    $('#all-thangs').toggle()
+    $('#all-thangs').toggleClass('hide')
 
   toggleThangsPalette: (e) ->
-    $('#add-thangs-column').toggle()
-    @onWindowResize e
+    $('#add-thangs-view').toggleClass('hide')
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
@@ -526,11 +534,8 @@ class ThangNode extends TreemaObjectNode
     s = "#{data.thangType}"
     if isObjectID s
       unless name = ThangNode.thangNameMap[s]
-        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s and m.get('kind')
+        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
         name = ThangNode.thangNameMap[s] = thangType.get 'name'
-        ThangNode.thangKindMap[s] = thangType.get 'kind'
-      kind = ThangNode.thangKindMap[s]
-      @$el.addClass "treema-#{kind}"
       s = name
     s += ' - ' + data.id if data.id isnt s
     if pos

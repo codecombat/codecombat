@@ -135,11 +135,10 @@ module.exports = class LevelEditView extends RootView
     @$el.find('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
 
   getCurrentView: ->
-    tabText = _.string.underscored $('li.active')[0]?.textContent
-    currentView = @subviews["editor_level_#{tabText}_tab_view"]
-    if tabText is 'patches' then currentView = @patchesView
-    if tabText is 'documentation' then currentView = @subviews.docs_components_view
-    currentView
+    currentViewID = @$el.find('.tab-pane.active').attr('id')
+    return @patchesView if currentViewID is 'editor-level-patches'
+    currentViewID = 'components-documentation-view' if currentViewID is 'editor-level-documentation'
+    return @subviews[_.string.underscored(currentViewID)]
 
   startPatchingLevel: (e) ->
     @openModalView new SaveVersionModal({model: @level})

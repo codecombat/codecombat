@@ -24,7 +24,7 @@ module.exports = class LevelThangEditView extends CocoView
     options ?= {}
     super options
     @world = options.world
-    @thangData = options.thangData ? {}
+    @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
     @oldID = @thangData.id
 
@@ -42,8 +42,8 @@ module.exports = class LevelThangEditView extends CocoView
       supermodel: @supermodel
       level: @level
       world: @world
-      
-    if @level.get('type') is 'hero' then options.thangType = thangType
+
+    if @level.get('type', true) is 'hero' then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -59,7 +59,7 @@ module.exports = class LevelThangEditView extends CocoView
 
   saveThang: (e) ->
     # Make sure it validates first?
-    Backbone.Mediator.publish 'editor:level-thang-edited', thangData: @thangData, thangID: @oldID
+    Backbone.Mediator.publish 'editor:level-thang-edited', thangData: $.extend(true, {}, @thangData), thangID: @oldID
 
   navigateToAllThangs: ->
     Backbone.Mediator.publish 'editor:level-thang-done-editing', {}

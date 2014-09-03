@@ -1,5 +1,5 @@
 ModalView = require 'views/kinds/ModalView'
-template = require 'templates/editor/level/modal/terrain_randomize'
+template = require 'templates/editor/level/modal/generate-terrain-modal'
 CocoModel = require 'models/CocoModel'
 
 clusters = {
@@ -229,11 +229,14 @@ thangSizes = {
   }}
 
 
-module.exports = class TerrainRandomizeModal extends ModalView
-  id: 'terrain-randomize-modal'
+module.exports = class GenerateTerrainModal extends ModalView
+  id: 'generate-terrain-modal'
   template: template
+  plain: true
+  modalWidthPercent: 90
+  
   events:
-    'click .choose-option': 'onRandomize'
+    'click .choose-option': 'onGenerate'
 
   onRevertModel: (e) ->
     id = $(e.target).val()
@@ -241,25 +244,25 @@ module.exports = class TerrainRandomizeModal extends ModalView
     $(e.target).closest('tr').remove()
     @reloadOnClose = true
 
-  onRandomize: (e) ->
+  onGenerate: (e) ->
     target = $(e.target)
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
-    @randomizeThangs presetType, presetSize
+    @generateThangs presetType, presetSize
     Backbone.Mediator.publish 'editor:random-terrain-generated', thangs: @thangs, terrain: presets[presetType].terrainName
     @hide()
 
-  randomizeThangs: (presetName, presetSize) ->
+  generateThangs: (presetName, presetSize) ->
     @falseCount = 0
     preset = presets[presetName]
     presetSize = presetSizes[presetSize]
     @thangs = []
     @rects = []
-    @randomizeFloor preset, presetSize
-    @randomizeBorder preset, presetSize, preset.borderNoise
-    @randomizeDecorations preset, presetSize
+    @generateFloor preset, presetSize
+    @generateBorder preset, presetSize, preset.borderNoise
+    @generateDecorations preset, presetSize
 
-  randomizeFloor: (preset, presetSize) ->
+  generateFloor: (preset, presetSize) ->
     for i in _.range(0, presetSize.x, thangSizes.floorSize.x)
       for j in _.range(0, presetSize.y, thangSizes.floorSize.y)
         @thangs.push {
@@ -271,7 +274,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
           'margin': clusters[preset.floors].margin
         }
 
-  randomizeBorder: (preset, presetSize, noiseFactor=1) ->
+  generateBorder: (preset, presetSize, noiseFactor=1) ->
     for i in _.range(0, presetSize.x, thangSizes.borderSize.x)
       for j in _.range(preset.borderThickness)
         # Bottom wall
@@ -349,7 +352,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
         }
           continue
 
-  randomizeDecorations: (preset, presetSize)->
+  generateDecorations: (preset, presetSize)->
     for name, decoration of preset.decorations
       for num in _.range(presetSize.sizeFactor * _.random(decoration.num[0], decoration.num[1]))
         if @['build'+name] isnt undefined

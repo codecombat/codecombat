@@ -38,8 +38,8 @@ module.exports =
     time: {type: 'number', minimum: 0}
     ratio: {type: 'number', minimum: 0, maximum: 1}
     ratioOffset: {type: 'number'}
-    frameOffset: {type: 'integer'}
-    scrubDuration: {type: 'integer', minimum: 0}
+    frameOffset: {type: 'number'}
+    scrubDuration: {type: 'number', minimum: 0}
 
   'level:select-sprite': c.object {},
     thangID: {type: ['string', 'null', 'undefined']}

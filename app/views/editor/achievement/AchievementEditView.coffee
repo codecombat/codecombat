@@ -15,9 +15,6 @@ module.exports = class AchievementEditView extends RootView
     'click #recalculate-button': 'confirmRecalculation'
     'click #delete-button': 'confirmDeletion'
 
-  subscriptions:
-    'save-new': 'saveAchievement'
-
   constructor: (options, @achievementID) ->
     super options
     @achievement = new Achievement(_id: @achievementID)
