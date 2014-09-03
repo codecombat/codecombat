@@ -30,7 +30,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session) ->
     o = $.extend true, {}, @attributes
-    if @get('type', true) is 'hero'
+    if o.thangs and @get('type', true) is 'hero'
       # TOOD: figure out if/when/how we are doing this for non-Hero levels that aren't expecting denormalization.
       for levelThang in o.thangs
         @denormalizeThang(levelThang, supermodel, session)
