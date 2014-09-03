@@ -26,7 +26,7 @@ module.exports = class LevelThangEditView extends CocoView
     @world = options.world
     @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
-    @oldID = @thangData.id
+    @oldPath = options.oldPath
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -57,12 +57,8 @@ module.exports = class LevelThangEditView extends CocoView
     window.input = input
     @hideLoading()
 
-  saveThang: (e) ->
-    # Make sure it validates first?
-    Backbone.Mediator.publish 'editor:level-thang-edited', thangData: $.extend(true, {}, @thangData), thangID: @oldID
-
   navigateToAllThangs: ->
-    Backbone.Mediator.publish 'editor:level-thang-done-editing', {}
+    Backbone.Mediator.publish 'editor:level-thang-done-editing', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}
 
   toggleNameEdit: ->
     link = @$el.find '#thang-name-link'
@@ -73,7 +69,6 @@ module.exports = class LevelThangEditView extends CocoView
     link.find('span, input').toggle()
     input.select() unless wasEditing
     @thangData.id = span.text()
-    @saveThang()
 
   toggleTypeEdit: ->
     link = @$el.find '#thang-type-link'
@@ -87,8 +82,6 @@ module.exports = class LevelThangEditView extends CocoView
     thangType = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is thangTypeName
     if thangType and wasEditing
       @thangData.thangType = thangType.get('original')
-    @saveThang()
 
   onComponentsChanged: (components) =>
     @thangData.components = components
-    @saveThang()

@@ -33,7 +33,6 @@ module.exports = class ThangsTabView extends CocoView
     'surface:mouse-over': 'onSurfaceMouseOver'
     'surface:mouse-out': 'onSurfaceMouseOut'
     'editor:edit-level-thang': 'editThang'
-    'editor:level-thang-edited': 'onLevelThangEdited'
     'editor:level-thang-done-editing': 'onLevelThangDoneEditing'
     'editor:view-switched': 'onViewSwitched'
     'sprite:dragged': 'onSpriteDragged'
@@ -110,7 +109,7 @@ module.exports = class ThangsTabView extends CocoView
     $(window).on 'resize', @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world
     @buildInterface() # refactor to not have this trigger when this view re-renders?
-    if @thangsTreema.data.length
+    if _.keys(@thangsTreema.data).length
       @$el.find('#canvas-overlay').css('display', 'none')
 
   onFilterExtantThangs: (e) ->
@@ -128,10 +127,24 @@ module.exports = class ThangsTabView extends CocoView
   buildInterface: (e) ->
     @level = e.level if e
 
-    data = $.extend(true, {}, @level.attributes)
+    data = $.extend(true, [], @level.attributes.thangs ? [])
+    thangsObject = @groupThangs(data)
+
+    schema = {
+      type: 'object'
+      format: 'thangs-folder'
+      additionalProperties: {
+        anyOf: [
+          Level.schema.properties.thangs.items
+          { $ref: '#' }
+        ]
+      }
+    }
+
     treemaOptions =
-      schema: Level.schema.properties.thangs
-      data: data.thangs
+      schema: schema
+      data: thangsObject
+      skipValidation: true
       supermodel: @supermodel
       callbacks:
         change: @onThangsChanged
@@ -140,7 +153,7 @@ module.exports = class ThangsTabView extends CocoView
       readOnly: true
       nodeClasses:
         thang: ThangNode
-        array: ThangsNode
+        'thangs-folder': ThangsFolderNode
       world: @world
 
     @thangsTreema = @$el.find('#thangs-treema').treema treemaOptions
@@ -151,7 +164,7 @@ module.exports = class ThangsTabView extends CocoView
     thangsHeaderHeight = $('#thangs-header').height()
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
-    if data.thangs?.length
+    if data?.length
       @$el.find('.generate-terrain-button').hide()
 
   initSurface: ->
@@ -226,7 +239,9 @@ module.exports = class ThangsTabView extends CocoView
     @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
-    path = "id=#{@selectedExtantThang.id}/components/original=#{LevelComponent.PhysicalID}"
+    
+    thang = _.find(@level.get('thangs') ? [], {id: @selectedExtantThang.id})
+    path = "#{@pathForThang(thang)}/components/original=#{LevelComponent.PhysicalID}"
     physical = @thangsTreema.get path
     return if not physical or (physical.config.pos.x is pos.x and physical.config.pos.y is pos.y)
     @thangsTreema.set path + '/config/pos', x: pos.x, y: pos.y, z: pos.z
@@ -237,8 +252,9 @@ module.exports = class ThangsTabView extends CocoView
 
   onRandomTerrainGenerated: (e) ->
     @thangsBatch = []
-    nonRandomThangs = (thang for thang in @thangsTreema.get('') when not /Random/.test thang.id)
-    @thangsTreema.set '', nonRandomThangs
+    @hush = true
+    nonRandomThangs = (thang for thang in @flattenThangs(@thangsTreema.data) when not /Random/.test thang.id)
+    @thangsTreema.set '', @groupThangs(nonRandomThangs)
 
     listening = {}
     for thang in e.thangs
@@ -251,7 +267,8 @@ module.exports = class ThangsTabView extends CocoView
         @listenToOnce @addThangType, 'build-complete', @onThangsChanged
           
       @addThang @addThangType, thang.pos, true
-    @batchInsert()
+    @hush = false
+    @onThangsChanged()
     @selectAddThangType null
 
 
@@ -270,14 +287,8 @@ module.exports = class ThangsTabView extends CocoView
       # We clicked on a Thang (or its Treema), so select the Thang
       @selectAddThang null, true
       @selectedExtantThangClickTime = new Date()
-      treemaThang = _.find @thangsTreema.childrenTreemas, (treema) => treema.data.id is @selectedExtantThang.id
-      if treemaThang
-        # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
-        # also covers selecting from Treema
-        @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
-        if not treemaThang.isSelected()
-          treemaThang.select()
-          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop)
+      # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
+      @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
@@ -398,12 +409,52 @@ module.exports = class ThangsTabView extends CocoView
 
   deleteSelectedExtantThang: (e) =>
     return if $(e.target).hasClass 'treema-node'
-    @thangsTreema.onDeletePressed e
-    @onTreemaThangSelected null, @thangsTreema.getSelectedTreemas()
+    thang = @getThangByID(@selectedExtantThang.id)
+    @thangsTreema.delete(@pathForThang(thang))
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
+  
+  groupThangs: (thangs) ->
+    # array of thangs -> foldered thangs
+    grouped = {}
+    for thang in thangs
+      path = @folderForThang(thang)
+      obj = grouped
+      for key in path
+        obj[key] ?= {}
+        obj = obj[key]
+      obj[thang.id] = thang
+    grouped
+    
+  folderForThang: (thang) ->
+    thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
+    [thangType.get('kind')]
+    
+  pathForThang: (thang) ->
+    folder = @folderForThang(thang)
+    folder.push thang.id
+    folder.join('/')
+  
+  flattenThangs: (thangs) ->
+    # foldered thangs -> array of thangs 
+    flattened = []
+    for key, value of thangs
+      if value.id and value.thangType
+        flattened.push value
+      else
+        flattened = flattened.concat @flattenThangs(value)
+    flattened
+    
+  populateFoldersForThang: (thang) ->
+    thangFolder = @folderForThang(thang)
+    prefix = ''
+    for segment in thangFolder
+      if prefix then prefix += '/'
+      prefix += segment
+      if not @thangsTreema.get(prefix) then @thangsTreema.set(prefix, {})
 
-  onThangsChanged: (e) =>
-    @level.set 'thangs', @thangsTreema.data
+  onThangsChanged: =>
+    return if @hush
+    @level.set 'thangs', @flattenThangs(@thangsTreema.data)
     return if @editThangView
     serializedLevel = @level.serialize @supermodel, null, true
     try
@@ -428,23 +479,21 @@ module.exports = class ThangsTabView extends CocoView
   onTreemaThangDoubleClicked: (e, treema) =>
     id = treema?.data?.id
     @editThang thangID: id if id
-
-  batchInsert: ->
-    @thangsTreema.set '', @thangsTreema.get('').concat(@thangsBatch)
-    @thangsBatch = []
+    
+  getThangByID: (id) -> _.find(@level.get('thangs') ? [], {id: id})
 
   addThang: (thangType, pos, batchInsert=false) ->
     @$el.find('.generate-terrain-button').hide()
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if @level.get('type', true) isnt 'hero' or @thangsTreema.get "id=#{thangID}"
+        return if @level.get('type', true) isnt 'hero' or @getThangByID(thangID)
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
-      thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
+      thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
-      components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
+      components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
     else if @level.get('type', true) is 'hero'
       components = []  # Load them all from default ThangType Components
     else
@@ -455,28 +504,29 @@ module.exports = class ThangsTabView extends CocoView
     thang = thangType: thangType.get('original'), id: thangID, components: components
     if batchInsert
       @thangsBatch.push thang
-    else
-      @thangsTreema.insert '', thang
+    @populateFoldersForThang(thang)
+    @thangsTreema.set(@pathForThang(thang), thang)
 
   editThang: (e) ->
     if e.target  # click event
       thangData = $(e.target).data 'thang-data'
     else  # Mediator event
-      window.thangsTreema = @thangsTreema
-      thangData = @thangsTreema.get "id=#{e.thangID}"
-    @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel  # supermodel needed for checkForMissingSystems
+      thangData = @getThangByID(e.thangID)
+    @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel, oldPath: @pathForThang(thangData)  # supermodel needed for checkForMissingSystems
     @insertSubView @editThangView
     @$el.find('>').hide()
     @editThangView.$el.show()
     Backbone.Mediator.publish 'editor:view-switched', {}
 
-  onLevelThangEdited: (e) ->
-    newThang = e.thangData
-    @thangsTreema.set "id=#{e.thangID}", newThang
-
   onLevelThangDoneEditing: (e) ->
     @removeSubView @editThangView
     @editThangView = null
+    newThang = e.thangData
+    @hush = true
+    @thangsTreema.delete e.oldPath
+    @populateFoldersForThang(newThang)
+    @thangsTreema.set(@pathForThang(newThang), newThang)
+    @hush = false
     @onThangsChanged()
     @$el.find('>').show()
 
@@ -507,10 +557,10 @@ module.exports = class ThangsTabView extends CocoView
   toggleThangsPalette: (e) ->
     $('#add-thangs-view').toggleClass('hide')
 
-class ThangsNode extends TreemaNode.nodeMap.array
-  valueClass: 'treema-array-replacement'
+class ThangsFolderNode extends TreemaNode.nodeMap.object
+  valueClass: 'treema-thangs-folder'
   nodeDescription: 'Thang'
-
+  
   getTrackedActionDescription: (trackedAction) ->
     trackedActionDescription = super(trackedAction)
     if trackedActionDescription is 'Edit ' + @nodeDescription
@@ -518,11 +568,9 @@ class ThangsNode extends TreemaNode.nodeMap.array
       if path[path.length-1] is 'pos'
         trackedActionDescription = 'Move Thang'
     trackedActionDescription
-
-  getChildren: ->
-    children = super(arguments...)
-    # TODO: add some filtering to only work with certain types of units at a time
-    return children
+    
+  buildValueForDisplay: (valEl, data) ->
+    @buildValueForDisplaySimply valEl, _.keys(data).length
 
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
@@ -531,13 +579,7 @@ class ThangNode extends TreemaObjectNode
   @thangKindMap: {}
   buildValueForDisplay: (valEl, data) ->
     pos = _.find(data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
-    s = "#{data.thangType}"
-    if isObjectID s
-      unless name = ThangNode.thangNameMap[s]
-        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
-        name = ThangNode.thangNameMap[s] = thangType.get 'name'
-      s = name
-    s += ' - ' + data.id if data.id isnt s
+    s = ''
     if pos
       s += " (#{Math.round(pos.x)}, #{Math.round(pos.y)})"
     else
