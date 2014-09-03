@@ -239,8 +239,17 @@ module.exports = class ThangsTabView extends CocoView
     @thangsBatch = []
     nonRandomThangs = (thang for thang in @thangsTreema.get('') when not /Random/.test thang.id)
     @thangsTreema.set '', nonRandomThangs
+
+    listening = {}
     for thang in e.thangs
       @selectAddThangType thang.id
+
+      # kind of a hack to get the walls to show up correctly when they load.
+      # might also fix other thangs who need to show up looking a certain way based on thang type components
+      unless @addThangType.isFullyLoaded() or listening[@addThangType.cid]
+        listening[@addThangType.cid] = true
+        @listenToOnce @addThangType, 'build-complete', @onThangsChanged
+          
       @addThang @addThangType, thang.pos, true
     @batchInsert()
     @selectAddThangType null
@@ -394,6 +403,7 @@ module.exports = class ThangsTabView extends CocoView
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
 
   onThangsChanged: (e) =>
+    console.log 'on thangs changed'
     @level.set 'thangs', @thangsTreema.data
     return if @editThangView
     serializedLevel = @level.serialize @supermodel
