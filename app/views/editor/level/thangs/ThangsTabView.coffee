@@ -167,7 +167,17 @@ module.exports = class ThangsTabView extends CocoView
     }
     @surface.playing = false
     @surface.setWorld @world
-    @surface.camera.zoomTo({x: 262, y: -164}, 1.66, 0)
+    @centerCamera()
+
+  centerCamera: ->
+    [width, height] = @world.size()
+    width = Math.max width, 80
+    height = Math.max height, 68
+    {left, top, right, bottom} = @world.getBounds()
+    center = x: left + width / 2, y: bottom + height / 2
+    sup = @surface.camera.worldToSurface center
+    zoom = 0.94 * 92.4 / width  # Zoom 1.0 lets us see 92.4 meters.
+    @surface.camera.zoomTo(sup, zoom, 0)
 
   destroy: ->
     @selectAddThangType null
