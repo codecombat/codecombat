@@ -135,7 +135,11 @@ module.exports = class ThangsTabView extends CocoView
       format: 'thangs-folder'
       additionalProperties: {
         anyOf: [
-          Level.schema.properties.thangs.items
+          {
+            type: 'object'
+            format: 'thang'
+            required: ['thangType', 'id', 'index']
+          }
           { $ref: '#' }
         ]
       }
@@ -416,13 +420,14 @@ module.exports = class ThangsTabView extends CocoView
   groupThangs: (thangs) ->
     # array of thangs -> foldered thangs
     grouped = {}
-    for thang in thangs
+    for thang, index in thangs
       path = @folderForThang(thang)
       obj = grouped
       for key in path
         obj[key] ?= {}
         obj = obj[key]
       obj[thang.id] = thang
+      thang.index = index
     grouped
     
   folderForThang: (thang) ->
@@ -454,7 +459,14 @@ module.exports = class ThangsTabView extends CocoView
 
   onThangsChanged: =>
     return if @hush
-    @level.set 'thangs', @flattenThangs(@thangsTreema.data)
+
+    # keep the thangs in the same order as before, roughly
+    thangs = @flattenThangs(@thangsTreema.data)
+    thangs = $.extend true, [], thangs
+    thangs = _.sortBy thangs, 'index'
+    delete thang.index for thang in thangs
+
+    @level.set 'thangs', thangs
     return if @editThangView
     serializedLevel = @level.serialize @supermodel, null, true
     try
