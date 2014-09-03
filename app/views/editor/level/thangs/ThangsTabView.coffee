@@ -403,7 +403,6 @@ module.exports = class ThangsTabView extends CocoView
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
 
   onThangsChanged: (e) =>
-    console.log 'on thangs changed'
     @level.set 'thangs', @thangsTreema.data
     return if @editThangView
     serializedLevel = @level.serialize @supermodel
