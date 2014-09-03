@@ -1,12 +1,12 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/level/component/edit'
+template = require 'templates/editor/level/component/level-component-edit-view'
 LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 
 module.exports = class LevelComponentEditView extends CocoView
-  id: 'editor-level-component-edit-view'
+  id: 'level-component-edit-view'
   template: template
   editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
@@ -69,7 +69,7 @@ module.exports = class LevelComponentEditView extends CocoView
     @updatePatchButton()
 
   buildConfigSchemaTreema: ->
-    configSchema = @levelComponent.get 'configSchema'
+    configSchema = $.extend true, {}, @levelComponent.get 'configSchema'
     if configSchema.properties
       # Alphabetize (#1297)
       propertyNames = _.keys configSchema.properties

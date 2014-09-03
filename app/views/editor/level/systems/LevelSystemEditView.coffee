@@ -1,12 +1,12 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/level/system/edit'
+template = require 'templates/editor/level/system/level-system-edit-view'
 LevelSystem = require 'models/LevelSystem'
 SystemVersionsModal = require 'views/editor/level/systems/SystemVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 
 module.exports = class LevelSystemEditView extends CocoView
-  id: 'editor-level-system-edit-view'
+  id: 'level-system-edit-view'
   template: template
   editableSettings: ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
@@ -66,7 +66,7 @@ module.exports = class LevelSystemEditView extends CocoView
     treemaOptions =
       supermodel: @supermodel
       schema: LevelSystem.schema.properties.configSchema
-      data: @levelSystem.get 'configSchema'
+      data: $.extend true, {}, @levelSystem.get 'configSchema'
       callbacks: {change: @onConfigSchemaEdited}
     treemaOptions.readOnly = me.get('anonymous')
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
