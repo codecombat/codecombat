@@ -61,11 +61,11 @@ class CocoModel extends Backbone.Model
     else
       super(attribute)
 
-  set: ->
+  set: (attributes, options) ->
     delete @attributesWithDefaults
     inFlux = @loading or not @loaded
-    @markToRevert() unless inFlux or @_revertAttributes
-    res = super(arguments...)
+    @markToRevert() unless inFlux or @_revertAttributes or @project or options?.silent
+    res = super attributes, options
     @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
     res
 

@@ -120,7 +120,7 @@ module.exports = class SuperModel extends Backbone.Model
       cachedModel = @getModelByURL(model.getURL())
       if cachedModel
         clone = $.extend true, {}, model.attributes
-        cachedModel.set(clone, {silent: true})
+        cachedModel.set(clone, {silent: true, fromMerge: true})
         console.debug "Updated cached model <#{cachedModel.get('name') or cachedModel.getURL()}> with new data"
       else
         @registerModel(model)
