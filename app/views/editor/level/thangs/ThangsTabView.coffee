@@ -138,7 +138,7 @@ module.exports = class ThangsTabView extends CocoView
           {
             type: 'object'
             format: 'thang'
-            required: ['thangType', 'id', 'index']
+            required: ['thangType', 'id']
           }
           { $ref: '#' }
         ]
@@ -432,7 +432,7 @@ module.exports = class ThangsTabView extends CocoView
     
   folderForThang: (thang) ->
     thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
-    [thangType.get('kind')]
+    [thangType.get('kind'), thangType.get('name')]
     
   pathForThang: (thang) ->
     folder = @folderForThang(thang)
@@ -572,6 +572,7 @@ module.exports = class ThangsTabView extends CocoView
 class ThangsFolderNode extends TreemaNode.nodeMap.object
   valueClass: 'treema-thangs-folder'
   nodeDescription: 'Thang'
+  @nameToThangTypeMap: null
   
   getTrackedActionDescription: (trackedAction) ->
     trackedActionDescription = super(trackedAction)
@@ -582,7 +583,31 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
     trackedActionDescription
     
   buildValueForDisplay: (valEl, data) ->
-    @buildValueForDisplaySimply valEl, _.keys(data).length
+    @buildValueForDisplaySimply valEl, @countThangs(data)
+    
+  countThangs: (data) ->
+    return 0 if data.thangType and data.id
+    num = 0
+    for key, value of data
+      if value.thangType and value.id
+        num += 1
+      else
+        num += @countThangs(value)
+    num
+  
+  build: ->
+    res = super(arguments...)
+    if thangType = @nameToThangType(@keyForParent)
+      @$el.prepend($("<img src='#{thangType.getPortraitURL()}' />"))
+    res
+
+  nameToThangType: (name) ->
+    if not ThangsFolderNode.nameToThangTypeMap
+      thangTypes = @settings.supermodel.getModels(ThangType)
+      map = {}
+      map[thangType.get('name')] = thangType for thangType in thangTypes
+      ThangsFolderNode.nameToThangTypeMap = map
+    ThangsFolderNode.nameToThangTypeMap[name]
 
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
