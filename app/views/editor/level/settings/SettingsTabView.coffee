@@ -61,6 +61,15 @@ module.exports = class SettingsTabView extends CocoView
     if (terrain = @settingsTreema.data.terrain) isnt @lastTerrain
       @lastTerrain = terrain
       Backbone.Mediator.publish 'editor:terrain-changed', terrain: terrain
+    for goal, index in @settingsTreema.data.goals ? []
+      continue if goal.id
+      goalIndex = index
+      goalID = "goal-#{goalIndex}"
+      goalID = "goal-#{++goalIndex}" while _.find @settingsTreema.get("goals"), id: goalID
+      @settingsTreema.disableTracking()
+      @settingsTreema.set "/goals/#{index}/id", goalID
+      @settingsTreema.set "/goals/#{index}/name", _.string.humanize goalID
+      @settingsTreema.enableTracking()
 
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
