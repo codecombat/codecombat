@@ -405,7 +405,7 @@ module.exports = class ThangsTabView extends CocoView
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
     return if @editThangView
-    serializedLevel = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel, null, true
     try
       @world.loadFromLevel serializedLevel, false
     catch error

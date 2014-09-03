@@ -8,13 +8,13 @@ module.exports = class Level extends CocoModel
   @schema: require 'schemas/models/level'
   urlRoot: '/db/level'
 
-  serialize: (supermodel, session) ->
-    o = @denormalize supermodel, session
+  serialize: (supermodel, session, cached=false) ->
+    o = @denormalize supermodel, session # hot spot to optimize
 
     # Figure out Components
-    o.levelComponents = $.extend true, [], (lc.attributes for lc in supermodel.getModels LevelComponent)
+    o.levelComponents = if cached then @getCachedLevelComponents(supermodel) else $.extend true, [], (lc.attributes for lc in supermodel.getModels LevelComponent)
     @sortThangComponents o.thangs, o.levelComponents, 'Level Thang'
-    @fillInDefaultComponentConfiguration o.thangs, o.levelComponents
+    @fillInDefaultComponentConfiguration o.thangs, o.levelComponents # hot spot to optimize
 
     # Figure out Systems
     systemModels = $.extend true, [], (ls.attributes for ls in supermodel.getModels LevelSystem)
@@ -22,12 +22,28 @@ module.exports = class Level extends CocoModel
     @fillInDefaultSystemConfiguration o.systems
 
     # Figure out ThangTypes' Components
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType)
+    tmap = {}
+    tmap[t.thangType] = true for t in o.thangs
+    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or tt.isFullyLoaded())
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
-
+    
     o
-
+    
+  cachedLevelComponents: null
+  
+  getCachedLevelComponents: (supermodel) ->
+    @cachedLevelComponents ?= {}
+    levelComponents = supermodel.getModels LevelComponent
+    newLevelComponents = []
+    for levelComponent in levelComponents
+      if levelComponent.hasLocalChanges()
+        newLevelComponents.push $.extend(true, {}, levelComponent.attributes)
+        continue
+      @cachedLevelComponents[levelComponent.id] ?= @cachedLevelComponents[levelComponent.id] = $.extend(true, {}, levelComponent.attributes)
+      newLevelComponents.push(@cachedLevelComponents[levelComponent.id])
+    newLevelComponents
+    
   denormalize: (supermodel, session) ->
     o = $.extend true, {}, @attributes
     if o.thangs and @get('type', true) is 'hero'
