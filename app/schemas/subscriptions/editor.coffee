@@ -5,7 +5,8 @@ module.exports =
     major: {type: 'boolean'}
     commitMessage: {type: 'string'}
 
-  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'}
+  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'},
+    targetURL: {type: 'string'}
 
   'editor:level-component-editing-ended': c.object {required: ['component']},
     component: {type: 'object'}
@@ -23,11 +24,9 @@ module.exports =
   'editor:edit-level-thang': c.object {required: ['thangID']},
     thangID: {type: 'string'}
 
-  'editor:level-thang-edited': c.object {required: ['thangID', 'thangData']},
-    thangID: {type: 'string'}
+  'editor:level-thang-done-editing': c.object {required: ['thangData', 'oldPath']},
     thangData: {type: 'object'}
-
-  'editor:level-thang-done-editing': c.object {}
+    oldPath: {type: 'string'}
 
   'editor:thangs-edited': c.object {required: ['thangs']},
     thangs: c.array {}, {type: 'object'}
@@ -42,5 +41,19 @@ module.exports =
   'level:reload-thang-type': c.object {required: ['thangType']},
     thangType: {type: 'object'}
 
-  'editor:random-terrain-generated': c.object {required: ['thangs']},
+  'editor:random-terrain-generated': c.object {required: ['thangs', 'terrain']},
     thangs: c.array {}, {type: 'object'}
+    terrain: c.terrainString
+
+  'editor:terrain-changed': c.object {required: ['terrain']},
+    terrain:
+      oneOf: [
+        c.terrainString
+        {type: ['null', 'undefined']}
+      ]
+
+  'editor:thang-type-kind-changed': c.object {required: ['kind']},
+    kind: {type: 'string'}
+
+  'editor:thang-type-color-groups-changed': c.object {required: ['colorGroups']},
+    colorGroups: {type: 'object'}

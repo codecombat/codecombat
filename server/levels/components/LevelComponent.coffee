@@ -13,10 +13,4 @@ LevelComponentSchema.plugin plugins.VersionedPlugin
 LevelComponentSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'description', 'system']}
 LevelComponentSchema.plugin plugins.PatchablePlugin
 
-LevelComponentSchema.pre 'init', (next) ->
-  return next() unless jsonschema.properties?
-  for prop, sch of jsonschema.properties
-    @set(prop, _.cloneDeep sch.default) if sch.default?
-  next()
-
 module.exports = LevelComponent = mongoose.model('level.component', LevelComponentSchema)

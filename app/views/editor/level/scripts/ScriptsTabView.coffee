@@ -18,6 +18,13 @@ module.exports = class ScriptsTabView extends CocoView
     super options
     @world = options.world
     @files = options.files
+    $(window).on 'resize', @onWindowResize
+
+  destroy: ->
+    @scriptTreema?.destroy()
+    @scriptTreemas?.destroy()
+    $(window).off 'resize', @onWindowResize
+    super()
 
   onLoaded: ->
   onLevelLoaded: (e) ->
@@ -83,13 +90,14 @@ module.exports = class ScriptsTabView extends CocoView
 
     newPath = selected.getPath()
     return if newPath is @selectedScriptPath
+    #@scriptTreema?.destroy() # TODO: get this to work 
     @scriptTreema = @$el.find('#script-treema').treema treemaOptions
     @scriptTreema.build()
     @scriptTreema.childrenTreemas?.noteChain?.open()
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-    (t.id for t in @level.get('thangs'))
+    (t.id for t in @level.get('thangs') ? [])
 
   onNewScriptAdded: (scriptNode) =>
     return unless scriptNode
@@ -114,7 +122,9 @@ module.exports = class ScriptsTabView extends CocoView
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
-
+    
+  onWindowResize: (e) =>
+    @$el.find('#scripts-treema').collapse('show') if $('body').width() > 800
 
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'
@@ -127,8 +137,8 @@ class ScriptsNode extends TreemaArrayNode
 class ScriptNode extends TreemaObjectNode
   valueClass: 'treema-script'
   collection: false
-  buildValueForDisplay: (valEl) ->
-    val = @data.id or @data.channel
+  buildValueForDisplay: (valEl, data) ->
+    val = data.id or data.channel
     s = "#{val}"
     @buildValueForDisplaySimply valEl, s
 
@@ -158,15 +168,15 @@ class PropertiesNode extends TreemaObjectNode
 class EventPropsNode extends TreemaNode.nodeMap.string
   valueClass: 'treema-event-props'
 
-  arrayToString: -> (@data or []).join('.')
+  arrayToString: -> (@getData() or []).join('.')
 
-  buildValueForDisplay: (valEl) ->
+  buildValueForDisplay: (valEl, data) ->
     joined = @arrayToString()
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
     autocompleteValues = []
@@ -188,13 +198,13 @@ class EventPrereqsNode extends TreemaNode.nodeMap.array
     newTreema.childrenTreemas.eventProps?.edit()
 
 class EventPrereqNode extends TreemaNode.nodeMap.object
-  buildValueForDisplay: (valEl) ->
-    eventProp = (@data.eventProps or []).join('.')
+  buildValueForDisplay: (valEl, data) ->
+    eventProp = (data.eventProps or []).join('.')
     eventProp = '(unset)' unless eventProp.length
     statements = []
-    for key, value of @data
+    for key, value of data
       continue if key is 'eventProps'
-      comparison = @schema.properties[key].title
+      comparison = @workingSchema.properties[key].title
       value = value.toString()
       statements.push("#{comparison} #{value}")
     statements = statements.join(', ')
@@ -202,8 +212,8 @@ class EventPrereqNode extends TreemaNode.nodeMap.object
     @buildValueForDisplaySimply valEl, s
 
 class ChannelNode extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     autocompleteValues = ({label: val?.title or key, value: key} for key, val of Backbone.Mediator.channelSchemas)
     valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true)
     valEl

@@ -6,71 +6,71 @@ block modal-header-content
 block modal-body-content
   dl.dl-horizontal
     dt(title=shift + "+" + enter)
-      code ⇧+#{enter}
+      kbd ⇧+#{enter}
     dd(data-i18n="keyboard_shortcuts.cast_spell") Cast current spell.
   dl.dl-horizontal
     dt(title=ctrlName + "+" + shift + "+" + enter)
-      code #{ctrl}+⇧+#{enter}
+      kbd #{ctrl}+⇧+#{enter}
     dd(data-i18n="keyboard_shortcuts.run_real_time") Run in real time.
   dl.dl-horizontal
     dt(title=shift + "+" + space)
-      code ⇧+#{space}
+      kbd ⇧+#{space}
     dd(data-i18n="keyboard_shortcuts.continue_script") Continue past current script.
   dl.dl-horizontal
     dt(title=escapeKey)
-      code Esc
+      kbd Esc
     dd(data-i18n="keyboard_shortcuts.skip_scripts") Skip past all skippable scripts.
   dl.dl-horizontal
     dt(title=ctrlName + "+P")
-      code #{ctrl}+P
+      kbd #{ctrl}+P
     dd(data-i18n="keyboard_shortcuts.toggle_playback") Toggle play/pause.
   dl.dl-horizontal
     dt(title=ctrlName + "+[, " + ctrlName + "+]")
-      code #{ctrl}+[
+      kbd #{ctrl}+[
       | , 
-      code #{ctrl}+]
+      kbd #{ctrl}+]
     dd(data-i18n="keyboard_shortcuts.scrub_playback") Scrub back and forward through time.
   dl.dl-horizontal
     dt(title=ctrlName + "+[, " + ctrlName + "+]")
-      code #{ctrl}+⇧+[
+      kbd #{ctrl}+⇧+[
       | ,
-      code #{ctrl}+⇧+]
+      kbd #{ctrl}+⇧+]
     dd(data-i18n="keyboard_shortcuts.single_scrub_playback") Scrub back and forward through time by a single frame.
   dl.dl-horizontal
     dt(title=ctrlName + "+" + altName + "+[, " + ctrlName + "+" + altName + "+]")
-      code #{ctrl}+#{alt}+[
+      kbd #{ctrl}+#{alt}+[
       | , 
-      code #{ctrl}+#{alt}+]
+      kbd #{ctrl}+#{alt}+]
     dd(data-i18n="keyboard_shortcuts.scrub_execution") Scrub through current spell execution.
   dl.dl-horizontal
     dt(title=ctrlName + "+\\")
-      code #{ctrl}+\
+      kbd #{ctrl}+\
     dd(data-i18n="keyboard_shortcuts.toggle_debug") Toggle debug display.
   dl.dl-horizontal
     dt(title=ctrlName + "+G")
-      code #{ctrl}+G
+      kbd #{ctrl}+G
     dd(data-i18n="keyboard_shortcuts.toggle_grid") Toggle grid overlay.
   dl.dl-horizontal
     dt(title=ctrlName + "+O")
-      code #{ctrl}+O
+      kbd #{ctrl}+O
     dd(data-i18n="keyboard_shortcuts.toggle_pathfinding") Toggle pathfinding overlay.
   dl.dl-horizontal
     dt(title=ctrlName + "+" + shift + "+B")
-      code #{ctrl}+⇧+B
+      kbd #{ctrl}+⇧+B
     dd(data-i18n="keyboard_shortcuts.beautify") Beautify your code by standardizing its formatting.
   dl.dl-horizontal
     dt(title=ctrlName + "+" + shift + "+M")
-      code #{ctrl}+⇧+M
+      kbd #{ctrl}+⇧+M
     dd(data-i18n="keyboard_shortcuts.maximize_editor") Maximize/minimize code editor.
   dl.dl-horizontal
     dt(title="Arrow keys")
-      code ←
+      kbd ←
       | , 
-      code →
+      kbd →
       | , 
-      code ↑
+      kbd ↑
       | , 
-      code ↓
+      kbd ↓
     dd(data-i18n="keyboard_shortcuts.move_wizard") Move your Wizard around the level.
 
 block modal-footer-content

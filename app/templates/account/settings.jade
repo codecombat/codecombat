@@ -32,7 +32,7 @@ block content
           .form
             - var name = me.get('name') || '';
             - var email = me.get('email');
-            - var admin = me.get('permissions').indexOf('admin') != -1;
+            - var admin = me.get('permissions', true).indexOf('admin') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
               input#name.form-control(name="name", type="text", value="#{name}")

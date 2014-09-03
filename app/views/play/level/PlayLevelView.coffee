@@ -3,9 +3,7 @@ template = require 'templates/play/level'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 utils = require 'lib/utils'
-
-# temp hard coded data
-World = require 'lib/world/world'
+storage = require 'lib/storage'
 
 # tools
 Surface = require 'lib/surface/Surface'
@@ -54,6 +52,7 @@ module.exports = class PlayLevelView extends RootView
     'level:focus-dom': 'onFocusDom'
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
+    'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
@@ -71,6 +70,7 @@ module.exports = class PlayLevelView extends RootView
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
+    'level:inventory-changed': 'onInventoryChanged'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -90,7 +90,7 @@ module.exports = class PlayLevelView extends RootView
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
 
-    $(window).on('resize', @onWindowResize)
+    $(window).on 'resize', @onWindowResize
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -161,7 +161,7 @@ module.exports = class PlayLevelView extends RootView
   getRenderData: ->
     c = super()
     c.world = @world
-    if me.get('hourOfCode') and me.lang() is 'en-US'
+    if me.get('hourOfCode') and me.get('preferredLanguage', true) is 'en-US'
       # Show the Hour of Code footer explanation until it's been more than a day
       elapsed = (new Date() - new Date(me.get('dateCreated')))
       c.explainHourOfCode = elapsed < 86400 * 1000
@@ -201,6 +201,18 @@ module.exports = class PlayLevelView extends RootView
     @world = @levelLoader.world
     @level = @levelLoader.level
     @otherSession = @levelLoader.opponentSession
+    @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
+    for percent in [1 .. 100]
+      @worldLoadFakeResources.push @supermodel.addSomethingResource "world_simulation_#{percent}%", 1
+
+  onWorldLoadProgressChanged: (e) ->
+    return unless @worldLoadFakeResources
+    @lastWorldLoadPercent ?= 0
+    worldLoadPercent = Math.floor 100 * e.progress
+    for percent in [@lastWorldLoadPercent + 1 .. worldLoadPercent] by 1
+      @worldLoadFakeResources[percent - 1].markLoaded()
+    @lastWorldLoadPercent = worldLoadPercent
+    @worldFakeLoadResources = null if worldLoadPercent is 100  # Done, don't need to watch progress any more.
 
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
@@ -273,13 +285,22 @@ module.exports = class PlayLevelView extends RootView
     # Everything is now loaded
     return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
-    # Save latest level played in local storage
+    # Save latest level played.
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
       me.set('lastLevel', @levelID)
       me.save()
+    @saveRecentMatch() if @otherSession
     @levelLoader.destroy()
     @levelLoader = null
     @initSurface()
+
+  saveRecentMatch: ->
+    allRecentlyPlayedMatches = storage.load('recently-played-matches') ? {}
+    recentlyPlayedMatches = allRecentlyPlayedMatches[@levelID] ? []
+    allRecentlyPlayedMatches[@levelID] = recentlyPlayedMatches
+    recentlyPlayedMatches.unshift yourTeam: me.team, otherSessionID: @otherSession.id, opponentName: @otherSession.get('creatorName') unless _.find recentlyPlayedMatches, otherSessionID: @otherSession.id
+    recentlyPlayedMatches.splice(8)
+    storage.save 'recently-played-matches', allRecentlyPlayedMatches
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -335,7 +356,7 @@ module.exports = class PlayLevelView extends RootView
     @setLevel e.level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
-      Backbone.Mediator.publish 'tome:cast-spell'  # a bit hacky
+      Backbone.Mediator.publish 'tome:cast-spell', {}  # a bit hacky
 
   onLevelReloadThangType: (e) ->
     tt = e.thangType
@@ -344,7 +365,17 @@ module.exports = class PlayLevelView extends RootView
         for key, val of tt.attributes
           model.attributes[key] = val
         break
-    Backbone.Mediator.publish 'tome:cast-spell'
+    Backbone.Mediator.publish 'tome:cast-spell', {}
+
+  onInventoryChanged: (e) ->
+    # Doesn't work because the new inventory ThangTypes may not be loaded.
+    #@setLevel @level, @supermodel
+    #Backbone.Mediator.publish 'tome:cast-spell', {}
+    # We'll just make a new PlayLevelView instead
+    Backbone.Mediator.publish 'router:navigate', {
+      route: window.location.pathname,
+      viewClass: PlayLevelView,
+      viewArgs: [{supermodel: @supermodel}, @levelID]}
 
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
@@ -547,6 +578,7 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
+    $(window).off 'resize', @onWindowResize
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
     @bus?.destroy()

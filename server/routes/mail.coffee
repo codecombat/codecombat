@@ -139,7 +139,7 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
         log.error "Error sending candidate update reminder email: #{err} with result #{result}" if err
         sendEmailCallback null
 ### End Approved Candidate Update Reminder Task ###
-  
+
 ### Unapproved Candidate Finish Reminder Task ###
 unapprovedCandidateFinishProfileTask = ->
   mailTaskName = "unapprovedCandidateFinishProfileTask"
@@ -187,13 +187,13 @@ findAllUnapprovedCandidatesWithinTimeRange = (cb) ->
   User.find(findParameters).select(selection).lean().exec cb
 
 ignoredCandidateFilter = (candidate, cb) ->
-  findParameters = 
+  findParameters =
     "user": candidate._id
     "contactName": "Ignore"
   UserRemark.count findParameters, (err, results) ->
     if err? then return true
     return cb Boolean(results.length)
-    
+
 unapprovedCandidateFilter = (candidate, sentEmailFilterCallback) ->
   if candidate.emails?.anyNotes?.enabled is false or candidate.emails?.recruitNotes?.enabled is false
     return sentEmailFilterCallback true
@@ -234,7 +234,7 @@ sendReminderEmailToUnapprovedCandidate = (candidate, sendEmailCallback) ->
       log.error "Error sending candidate finish profile reminder email: #{err} with result #{result}" if err
       sendEmailCallback null
 ### End Unapproved Candidate Finish Reminder Task ###
-  
+
 ### Internal Candidate Update Reminder Email ###
 internalCandidateUpdateTask = ->
   mailTaskName = "internalCandidateUpdateTask"
@@ -408,7 +408,7 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
         cb null
 
 ### End Employer New Candidates Available Email ###
-  
+
 ### Task Emails ###
 emailUserRemarkTaskRemindersTask = ->
   mailTaskName = "emailUserRemarkTaskRemindersTask"
@@ -428,7 +428,7 @@ emailUserRemarkTaskReminders = (cb) ->
   asyncContext =
     "currentTime": currentTime
     "mailTaskName": @mailTaskName
-  
+
   async.waterfall [
     findAllIncompleteUserRemarkTasksDue.bind(asyncContext)
     processRemarksIntoTasks.bind(asyncContext)
@@ -437,9 +437,9 @@ emailUserRemarkTaskReminders = (cb) ->
     (tasksToRemind, cb) ->
       async.each tasksToRemind, sendUserRemarkTaskEmail.bind(asyncContext), cb
   ], cb
-  
+
 findAllIncompleteUserRemarkTasksDue = (cb) ->
-  findParameters = 
+  findParameters =
     tasks:
       $exists: true
       $elemMatch:
@@ -449,12 +449,12 @@ findAllIncompleteUserRemarkTasksDue = (cb) ->
           $ne: 'Completed'
   selection = "contact user tasks"
   UserRemark.find(findParameters).select(selection).lean().exec cb
-  
+
 processRemarksIntoTasks = (remarks, cb) ->
   tasks = []
   for remark in remarks
       for task in remark.tasks
-        taskObject = 
+        taskObject =
           date: task.date
           action: task.action
           contact: remark.contact
@@ -476,7 +476,7 @@ taskReminderAlreadySentThisWeekFilter = (task, cb) ->
   MailSent.count findParameters, (err, count) ->
     if err? then return cb true
     return cb Boolean(count)
-  
+
 sendUserRemarkTaskEmail = (task, cb) ->
   mailTaskName = @mailTaskName
   User.findOne("_id":task.contact).select("email").lean().exec (err, contact) ->
@@ -548,8 +548,8 @@ isRequestFromDesignatedCronHandler = (req, res) ->
 
 handleLadderUpdate = (req, res) ->
   log.info('Going to see about sending ladder update emails.')
-  requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
-  return unless requestIsFromDesignatedCronHandler or DEBUGGING
+  requestIsFromDesignatedCronHandler = DEBUGGING or isRequestFromDesignatedCronHandler req, res
+  return unless requestIsFromDesignatedCronHandler
 
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
@@ -564,7 +564,7 @@ handleLadderUpdate = (req, res) ->
       endTime = startTime + 15 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
-    selectString = 'creator team levelName levelID totalScore matches submitted submitDate scoreHistory'
+    selectString = 'creator team levelName levelID totalScore matches submitted submitDate scoreHistory level.original'
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()
@@ -600,7 +600,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
     defeat = _.last defeats
     victory = _.last victories
 
-    sendEmail = (defeatContext, victoryContext) ->
+    sendEmail = (defeatContext, victoryContext, levelVersionsContext) ->
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.ladder_update_email
@@ -621,6 +621,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
           score_history_graph_url: getScoreHistoryGraphURL session, daysAgo
           defeat: defeatContext
           victory: victoryContext
+          levelVersions: levelVersionsContext
       log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} losses since #{daysAgo} day(s) ago."
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
@@ -639,7 +640,9 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
           log.error "Couldn't find victorious opponent: #{err}"
           victoriousOpponent = null
         defeatContext = {opponent_name: victoriousOpponent?.name ? 'Anoner', url: urlForMatch(defeat)} if defeat
-        sendEmail defeatContext, victoryContext
+
+        Level.find({original: session.level.original, created: {$gt: session.submitDate}}).select('created commitMessage version').sort('-created').lean().exec (err, levelVersions) ->
+          sendEmail defeatContext, victoryContext, (if levelVersions.length then levelVersions else null)
 
       if defeat
         User.findOne({_id: defeat.opponents[0].userID}).select('name').lean().exec onFetchedVictoriousOpponent

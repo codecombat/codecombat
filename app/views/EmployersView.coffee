@@ -20,7 +20,7 @@ module.exports = class EmployersView extends RootView
     'change #select_all_checkbox': 'handleSelectAllChange'
     'click .get-started-button': 'openSignupModal'
     'click .navbar-brand': 'restoreBodyColor'
-    'click #login-link': 'onClickAuthbutton'
+    'click #login-link': 'onClickAuthButton'
     'click #filter-link': 'swapFolderIcon'
     'click #create-alert-button': 'createFilterAlert'
     'click .deletion-col': 'deleteFilterAlert'
@@ -197,9 +197,7 @@ module.exports = class EmployersView extends RootView
     ctx.numberOfCandidates = ctx.featuredCandidates.length
     ctx
 
-  isEmployer: ->
-    userPermissions = me.get('permissions') ? []
-    _.contains userPermissions, 'employer'
+  isEmployer: -> 'employer' in me.get('permissions', true)
 
   setUpScrolling: =>
     $('.nano').nanoScroller()
@@ -209,7 +207,7 @@ module.exports = class EmployersView extends RootView
     #  $('.nano').nanoScroller({scrollTo: $(window.location.hash)})
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions')) and not me.isAdmin()
+    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions', true)) and not me.isAdmin()
       @openModalView new EmployerSignupModal
       window.location.hash = ''
 

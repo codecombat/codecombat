@@ -14,13 +14,6 @@ LevelSessionSchema = new mongoose.Schema({
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
 
-LevelSessionSchema.pre 'init', (next) ->
-  # TODO: refactor this into a set of common plugins for all models?
-  return next() unless jsonschema.properties?
-  for prop, sch of jsonschema.properties
-    @set(prop, _.cloneDeep(sch.default)) if sch.default?
-  next()
-
 previous = {}
 
 LevelSessionSchema.post 'init', (doc) ->

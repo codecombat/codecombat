@@ -19,6 +19,8 @@ RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
 SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
+LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
+storage = require 'lib/storage'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -68,21 +70,23 @@ module.exports = class LevelEditView extends RootView
     context.level = @level
     context.authorized = me.isAdmin() or @level.hasWriteAccess(me)
     context.anonymous = me.get('anonymous')
+    context.recentlyPlayedOpponents = storage.load('recently-played-matches')?[@levelID] ? []
     context
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
-      Backbone.Mediator.publish 'editor:view-switched', {}
+      Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
     @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
-    @insertSubView new ComponentsDocumentationView  # Don't give it the supermodel, it'll pollute it!
-    @insertSubView new SystemsDocumentationView  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
+    @insertSubView new LevelFeedbackView level: @level
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -98,6 +102,7 @@ module.exports = class LevelEditView extends RootView
 
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
+    opponentSessionID = $(e.target).data('opponent')
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed
@@ -107,6 +112,7 @@ module.exports = class LevelEditView extends RootView
       # Create a new Window with a blank LevelView
       scratchLevelID = @level.get('slug') + '?dev=true'
       scratchLevelID += "&team=#{team}" if team
+      scratchLevelID += "&opponent=#{opponentSessionID}" if opponentSessionID
       if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else
@@ -129,11 +135,10 @@ module.exports = class LevelEditView extends RootView
     @$el.find('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
 
   getCurrentView: ->
-    tabText = _.string.underscored $('li.active')[0]?.textContent
-    currentView = @subviews["editor_level_#{tabText}_tab_view"]
-    if tabText is 'patches' then currentView = @patchesView
-    if tabText is 'documentation' then currentView = @subviews.docs_components_view
-    currentView
+    currentViewID = @$el.find('.tab-pane.active').attr('id')
+    return @patchesView if currentViewID is 'editor-level-patches'
+    currentViewID = 'components-documentation-view' if currentViewID is 'editor-level-documentation'
+    return @subviews[_.string.underscored(currentViewID)]
 
   startPatchingLevel: (e) ->
     @openModalView new SaveVersionModal({model: @level})

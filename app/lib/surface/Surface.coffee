@@ -432,15 +432,18 @@ module.exports = Surface = class Surface extends CocoClass
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
+    else if $('#thangs-tab-view')
+      newWidth = $('#canvas-wrapper').width()
+      newHeight = newWidth / aspectRatio
     else
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
-    @canvas.width newWidth
-    @canvas.height newHeight
     return unless newWidth > 0 and newHeight > 0
-    #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
-    #  newWidth = Math.min 924, newWidth
-    #  newHeight = Math.min 589, newHeight
+    ##if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
+    ##  newWidth = Math.min 924, newWidth
+    ##  newHeight = Math.min 589, newHeight
+    #@canvas.width newWidth
+    #@canvas.height newHeight
     @canvas.attr width: newWidth, height: newHeight
     @stage.scaleX *= newWidth / oldWidth
     @stage.scaleY *= newHeight / oldHeight
@@ -483,7 +486,10 @@ module.exports = Surface = class Surface extends CocoClass
 
   onMouseDown: (e) =>
     return if @disabled
-    onBackground = not @stage.hitTest e.stageX, e.stageY
+    newPos = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
+    # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
+    onBackground = not @stage._getObjectsUnderPoint(newPos.x, newPos.y, null, true)
+    
     worldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
     event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: worldPos
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
@@ -586,6 +592,7 @@ module.exports = Surface = class Surface extends CocoClass
     @playing = false  # Will start when countdown is done.
 
   onRealTimePlaybackEnded: (e) ->
+    return unless @realTime
     @realTime = false
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle true

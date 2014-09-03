@@ -15,9 +15,6 @@ module.exports = class AchievementEditView extends RootView
     'click #recalculate-button': 'confirmRecalculation'
     'click #delete-button': 'confirmDeletion'
 
-  subscriptions:
-    'save-new': 'saveAchievement'
-
   constructor: (options, @achievementID) ->
     super options
     @achievement = new Achievement(_id: @achievementID)
@@ -41,6 +38,7 @@ module.exports = class AchievementEditView extends RootView
         change: @pushChangesToPreview
     @treema = @$el.find('#achievement-treema').treema(options)
     @treema.build()
+    @pushChangesToPreview()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -54,6 +52,7 @@ module.exports = class AchievementEditView extends RootView
     @pushChangesToPreview()
 
   pushChangesToPreview: =>
+    return unless @treema
     @$el.find('#achievement-view').empty()
     for key, value of @treema.data
       @achievement.set key, value

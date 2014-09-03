@@ -123,6 +123,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     campaign_multiplayer_description: "... 이곳에서 당신은 다른 인간 플레이어들과 직접 결투할 수 있습니다."
     campaign_player_created: "사용자 직접 제작"
     campaign_player_created_description: "... 당신 동료가 고안한 레벨에 도전하세요 <a href=\"/contributeartisan\">마법사 장인</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "난이도: "
     play_as: "Play As "
     spectate: "관중모드"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

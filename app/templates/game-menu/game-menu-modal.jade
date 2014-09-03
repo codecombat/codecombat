@@ -8,8 +8,9 @@ block modal-body-content
     - if (!showDevBits) {  // Not done yet.
     -   submenus.splice(4, 1);
     -   submenus.splice(2, 1);
-    -   submenus.splice(0, 1);
     - }
+    - if (!showInventory)
+    -   submenus.splice(0, 1);
     ul.nav.nav-tabs
       for submenu, index in submenus
         li(class=index ? "" : "active")
@@ -19,10 +20,6 @@ block modal-body-content
     .tab-content
       for submenu, index in submenus
         .tab-pane(id=submenu + '-view')
-          h3= submenu + submenu + submenu
-          p
-            | Lorem ipsum dolor sit amet, charetra varius quam sit amet vulputate.
-            | Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero.
   .clearfix
 
 block modal-footer

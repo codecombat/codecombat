@@ -123,6 +123,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
     campaign_player_created: "Játékosok pályái"
     campaign_player_created_description: "...melyekben <a href=\"/contribute#artisan\">Művészi Varázsló</a> társaid ellen kűzdhetsz."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Nehézség: "
     play_as: "Játssz mint"
 #    spectate: "Spectate"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
 #  options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

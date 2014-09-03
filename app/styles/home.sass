@@ -7,24 +7,6 @@
     text-align: center
     margin-top: 0
     
-  #front-screenshot
-    margin: 15px 0 40px 150px
-
-  #trailer-wrapper
-    position: relative
-    margin: 0 auto 40px
-    width: 950px
-    iframe
-      display: block
-      margin: 0 auto
-      position: relative
-      top: 8px
-    img
-      position: absolute
-      left: 0
-      top: 0
-      pointer-events: none
-
   .game-mode-wrapper
     position: relative
     margin-bottom: 60px
@@ -97,6 +79,12 @@
         .code-wizard
           opacity: 0.5
 
+    .language-play-count
+      text-transform: lowercase
+      position: absolute
+      left: 0
+      top: 0
+
     .code-language
       cursor: pointer
       text-align: center
@@ -145,6 +133,8 @@
         background: transparent url(/images/pages/home/language_js.png) no-repeat
         padding-right: 150px
 
+        .language-play-count
+          right: -100px
         .code-wizard
           left: 120px
 
@@ -152,6 +142,8 @@
         background: transparent url(/images/pages/home/language_python.png) no-repeat
         padding-left: 150px
 
+        .language-play-count
+          left: 125px
         .code-wizard
           right: 120px
 
@@ -176,6 +168,10 @@
 
       .col-md-3
         padding: 0px
+
+      .language-play-count
+        left: 15px
+        top: -15px
 
       .code-language
         background: transparent url(/images/pages/home/language_background_small.png) no-repeat
@@ -230,29 +226,27 @@
   #home-view
     #site-slogan
       font-size: 30px
-    #trailer-wrapper 
-      display: none
-    #front-screenshot
-      display: none
-    #mobile-trailer-wrapper
-      display: inline-block
-      
-      width: 100%
-      iframe
-        display: block
-        margin: 0 auto
+      margin-bottom: 30px
+    .code-languages
+      .col-sm-6, .col-sm-3
+        margin-top: 30px
+        .code-language
+          margin: 0px auto
     .game-mode-wrapper
       width: 100%
       img
         width: 100%
       .play-text
         position: absolute
-        right: 45px
-        bottom: 0px
+        right: 15px
+        bottom: -15px
         color: $yellow
         font-size: 50px
         font-family: Bangers
         @include transition(color .10s linear)
+      .code-language-logo
+        right: 0px
+        top: 5px
      
   h1
     text-align: center

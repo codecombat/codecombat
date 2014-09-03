@@ -123,6 +123,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     campaign_multiplayer_description: "... nas quais você programará cara-a-cara contra outros jogadores."
     campaign_player_created: "Criados por Jogadores"
     campaign_player_created_description: "... nos quais você batalhará contra a criatividade dos seus companheiros <a href=\"/contribute#artisan\">feiticeiros Artesãos</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "Dificuldade: "
     play_as: "Jogar Como "
     spectate: "Assistir"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 
   options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

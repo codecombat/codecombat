@@ -17,10 +17,19 @@ module.exports = class SystemsDocumentationView extends CocoView
   events:
     'click #toggle-all-system-code': 'onToggleAllCode'
 
+  subscriptions:
+    'editor:view-switched': 'onViewSwitched'
+
   constructor: (options) ->
     super(options)
     @systemDocs = new SystemDocsCollection()
+    @loadDocs() unless options.lazy
+
+  loadDocs: ->
+    return if @loadingDocs
     @supermodel.loadCollection @systemDocs, 'systems'
+    @loadingDocs = true
+    @render()
 
   getRenderData: ->
     c = super()
@@ -33,3 +42,7 @@ module.exports = class SystemsDocumentationView extends CocoView
     @collapsed = not @collapsed
     @$el.find('.collapse').collapse(if @collapsed then 'hide' else 'show')
     @$el.find('#toggle-all-system-code').toggleClass 'active', not @collapsed
+
+  onViewSwitched: (e) ->
+    return unless e.targetURL is '#editor-level-documentation'
+    @loadDocs()

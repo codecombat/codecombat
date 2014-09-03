@@ -18,11 +18,14 @@ LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion'], link
   majorVersion:
     type: 'integer'
     minimum: 0
-    default: 0
 
 LevelSessionSchema = c.object
   title: 'Session'
   description: 'A single session for a given level.'
+  default:
+    codeLanguage: 'javascript'
+    submittedCodeLanguage: 'javascript'
+    playtime: 0
 
 _.extend LevelSessionSchema.properties,
   # denormalization
@@ -119,16 +122,14 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
-        format: 'javascript'
+        format: 'code'
 
   codeLanguage:
     type: 'string'
-    default: 'javascript'
 
   playtime:
     type: 'number'
     title: 'Playtime'
-    default: 0
     description: 'The total playtime on this session'
 
   teamSpells:
@@ -164,10 +165,10 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   submittedCodeLanguage:
     type: 'string'
-    default: 'javascript'
 
   transpiledCode:
     type: 'object'
@@ -175,6 +176,7 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   isRanking:
     type: 'boolean'

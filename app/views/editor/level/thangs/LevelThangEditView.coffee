@@ -24,9 +24,9 @@ module.exports = class LevelThangEditView extends CocoView
     options ?= {}
     super options
     @world = options.world
-    @thangData = options.thangData ? {}
+    @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
-    @oldID = @thangData.id
+    @oldPath = options.oldPath
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -36,11 +36,14 @@ module.exports = class LevelThangEditView extends CocoView
   onLoaded: -> @render()
   afterRender: ->
     super()
+    thangType = @supermodel.getModelByOriginal(ThangType, @thangData.thangType)
     options =
       components: @thangData.components
       supermodel: @supermodel
       level: @level
       world: @world
+
+    if @level.get('type', true) is 'hero' then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -54,12 +57,8 @@ module.exports = class LevelThangEditView extends CocoView
     window.input = input
     @hideLoading()
 
-  saveThang: (e) ->
-    # Make sure it validates first?
-    Backbone.Mediator.publish 'editor:level-thang-edited', thangData: @thangData, thangID: @oldID
-
   navigateToAllThangs: ->
-    Backbone.Mediator.publish 'editor:level-thang-done-editing', {}
+    Backbone.Mediator.publish 'editor:level-thang-done-editing', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}
 
   toggleNameEdit: ->
     link = @$el.find '#thang-name-link'
@@ -70,7 +69,6 @@ module.exports = class LevelThangEditView extends CocoView
     link.find('span, input').toggle()
     input.select() unless wasEditing
     @thangData.id = span.text()
-    @saveThang()
 
   toggleTypeEdit: ->
     link = @$el.find '#thang-type-link'
@@ -84,8 +82,6 @@ module.exports = class LevelThangEditView extends CocoView
     thangType = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is thangTypeName
     if thangType and wasEditing
       @thangData.thangType = thangType.get('original')
-    @saveThang()
 
   onComponentsChanged: (components) =>
     @thangData.components = components
-    @saveThang()

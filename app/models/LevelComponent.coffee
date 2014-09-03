@@ -3,10 +3,14 @@ CocoModel = require './CocoModel'
 module.exports = class LevelComponent extends CocoModel
   @className: 'LevelComponent'
   @schema: require 'schemas/models/level_component'
-  
+
   @EquipsID: '53e217d253457600003e3ebb'
   @ItemID: '53e12043b82921000051cdf9'
   @AttacksID: '524b7ba57fc0f6d519000016'
+  @PhysicalID: '524b75ad7fc0f6d519000001'
+  @ExistsID: '524b4150ff92f1f4f8000024'
+  @LandID: '524b7aff7fc0f6d519000006'
+  @CollidesID: '524b7b857fc0f6d519000012'
   urlRoot: '/db/level.component'
 
   set: (key, val, options) ->

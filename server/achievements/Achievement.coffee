@@ -4,6 +4,7 @@ log = require 'winston'
 utils = require '../../app/lib/utils'
 plugins = require('../plugins/plugins')
 AchievablePlugin = require '../plugins/achievements'
+TreemaUtils = require '../../bower_components/treema/treema-utils.js'
 
 # `pre` and `post` are not called for update operations executed directly on the database,
 # including `Model.update`,`.findByIdAndUpdate`,`.findOneAndUpdate`, `.findOneAndRemove`,and `.findByIdAndRemove`.order
@@ -25,9 +26,9 @@ AchievementSchema.methods.stringifyQuery = ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != 'string'
 
 AchievementSchema.methods.getExpFunction = ->
-  kind = @get('function')?.kind or jsonschema.properties.function.default.kind
-  parameters = @get('function')?.parameters or jsonschema.properties.function.default.parameters
-  return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
+  func = @get('function') ? {}
+  TreemaUtils.populateDefaults(func, jsonschema.properties.function)
+  return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
 
 AchievementSchema.methods.isRecalculable = -> @get('recalculable') isnt false
 

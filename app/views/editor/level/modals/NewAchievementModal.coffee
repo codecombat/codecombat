@@ -8,6 +8,9 @@ module.exports = class NewAchievementModal extends NewModelModal
   template: template
   plain: false
 
+  events:
+    'click #save-new-achievement-link': 'onAchievementSubmitted'
+
   constructor: (options) ->
     super options
     @level = options.level
@@ -15,8 +18,12 @@ module.exports = class NewAchievementModal extends NewModelModal
   getRenderData: ->
     c = super()
     c.level = @level
-    console.debug 'level', c.level
     c
+
+  onAchievementSubmitted: (e) ->
+    slug = _.string.slugify @$el.find('#name').val()
+    url = "/editor/achievement/#{slug}"
+    window.open url, '_blank'
 
   createQuery: ->
     checked = @$el.find('[name=queryOptions]:checked')

@@ -123,6 +123,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     campaign_multiplayer_description: "……徠箇搭爾好搭別人代碼捉跤。"
     campaign_player_created: "造玩家"
     campaign_player_created_description: "……徠箇搭爾好搭爾夥計造起來個賭打 <a href=\"/contribute#artisan\">技術相幫</a>."
+#    campaign_classic_algorithms: "Classic Algorithms"
+#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
     level_difficulty: "難度："
     play_as: "Play As"
     spectate: "望別人攪遊戲"
@@ -460,6 +462,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
   options:
 #    general_options: "General Options"
+#    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -952,6 +955,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
+#    feedback: "Feedback"
 
 #  delta:
 #    added: "Added"

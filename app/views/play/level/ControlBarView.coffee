@@ -99,7 +99,7 @@ module.exports = class ControlBarView extends CocoView
     @render()
 
   onRealTimeMultiplayerPlayerAdded: (e) =>
-    @render()
+    @render() unless @destroyed
 
   onRealTimeMultiplayerPlayerRemoved: (e) =>
-    @render()
+    @render() unless @destroyed

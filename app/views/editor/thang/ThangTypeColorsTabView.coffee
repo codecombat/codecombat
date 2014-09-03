@@ -14,13 +14,14 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     super options
     @supermodel.loadModel @thangType, 'thang'
     @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
-    @spriteBuilder = new SpriteBuilder(@thangType)
+    @spriteBuilder = new SpriteBuilder(@thangType) if @thangType.get('raw')
     f = =>
       @offset++
       @updateMovieClip()
     @interval = setInterval f, 1000
 
   destroy: ->
+    @colorGroups?.destroy()
     clearInterval @interval
     super()
 
@@ -54,7 +55,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @updateMovieClip()
 
   updateMovieClip: ->
-    return unless @currentColorGroupTreema
+    return unless @currentColorGroupTreema and @thangType.get('raw')
     actionDict = @thangType.getActions()
     animations = (a.animation for key, a of actionDict when a.animation)
     index = @offset % animations.length
@@ -66,14 +67,16 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
     @movieClip = @spriteBuilder.buildMovieClip animation
-    larger = Math.min(400 / @movieClip.nominalBounds.width, 400 / @movieClip.nominalBounds.height)
+    bounds = @movieClip.frameBounds?[0] ? @movieClip.nominalBounds
+    larger = Math.min(400 / bounds.width, 400 / bounds.height)
     @movieClip.scaleX = larger
     @movieClip.scaleY = larger
-    @movieClip.regX = @movieClip.nominalBounds.x
-    @movieClip.regY = @movieClip.nominalBounds.y
+    @movieClip.regX = bounds.x
+    @movieClip.regY = bounds.y
     @stage.addChild @movieClip
 
   updateContainer: ->
+    return unless @thangType.get('raw')
     actionDict = @thangType.getActions()
     idle = actionDict.idle
     @stage.removeChild(@container) if @container
@@ -133,6 +136,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
 
   onColorGroupsChanged: =>
     @thangType.set('colorGroups', @colorGroups.data)
+    Backbone.Mediator.publish 'editor:thang-type-color-groups-changed', colorGroups: @colorGroups.data
 
   onColorGroupSelected: (e, selected) =>
     @$el.find('#color-group-settings').toggle selected.length > 0

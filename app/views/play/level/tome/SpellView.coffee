@@ -80,6 +80,7 @@ module.exports = class SpellView extends CocoView
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
     aceConfig = me.get('aceConfig') ? {}
+    @destroyAceEditor(@ace)
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
@@ -710,5 +711,6 @@ module.exports = class SpellView extends CocoView
     @ace?.destroy()
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
+    @destroyAceEditor(@ace)
     @debugView?.destroy()
     super()

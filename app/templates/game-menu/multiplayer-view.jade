@@ -52,6 +52,7 @@ if ladderGame
 
     div#open-games
       h3 Open Games
+      // TODO: do not let you join ones with same-team opponent
       - var noOpenGames = true
       if multiplayerSessions
         - for (var i=0; i < multiplayerSessions.length; i++) {

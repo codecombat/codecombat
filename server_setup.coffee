@@ -13,6 +13,7 @@ logging = require './server/commons/logging'
 config = require './server_config'
 auth = require './server/routes/auth'
 UserHandler = require './server/users/user_handler'
+global.tv4 = require 'tv4' # required for TreemaUtils to work
 
 productionLogging = (tokens, req, res) ->
   status = res.statusCode

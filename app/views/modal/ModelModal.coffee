@@ -59,7 +59,7 @@ module.exports = class ModelModal extends ModalView
       model.set key, val
     for key, val of model.attributes when treema.get(key) is undefined and not _.string.startsWith key, '_'
       console.log 'Deleting', key, 'which was', val, 'but man, that ain\'t going to work, now is it?'
-      model.unset key
+      #model.unset key
     if errors = model.validate()
       return console.warn model, 'failed validation with errors:', errors
     return unless res = model.patch()
@@ -69,3 +69,7 @@ module.exports = class ModelModal extends ModalView
     res.success (model, response, options) =>
       return if @destroyed
       @hide()
+
+  destroy: ->
+    @modelTreemas[model].destroy() for model of @modelTreemas
+    super()

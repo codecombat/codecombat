@@ -9,29 +9,13 @@ module.exports = class User extends CocoModel
   urlRoot: '/db/user'
   notyErrors: false
 
-  defaults:
-    points: 0
-
-  initialize: ->
-    super()
-    @migrateEmails()
-
   onLoaded:  ->
     CocoModel.pollAchievements() # Check for achievements on login
     super arguments...
 
-  isAdmin: ->
-    permissions = @attributes['permissions'] or []
-    return 'admin' in permissions
-
-  isAnonymous: ->
-    @get 'anonymous'
-
-  displayName: ->
-    @get('name') or 'Anoner'
-
-  lang: ->
-    @get('preferredLanguage') or 'en-US'
+  isAdmin: -> 'admin' in @get('permissions', true)
+  isAnonymous: -> @get('anonymous', true)
+  displayName: -> @get('name', true)
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
@@ -57,32 +41,12 @@ module.exports = class User extends CocoModel
         done response.name
 
   getEnabledEmails: ->
-    @migrateEmails()
-    emails = _.clone(@get('emails')) or {}
-    emails = _.defaults emails, @schema().properties.emails.default
-    (emailName for emailName, emailDoc of emails when emailDoc.enabled)
+    (emailName for emailName, emailDoc of @get('emails', true) when emailDoc.enabled)
 
   setEmailSubscription: (name, enabled) ->
     newSubs = _.clone(@get('emails')) or {}
     (newSubs[name] ?= {}).enabled = enabled
     @set 'emails', newSubs
-
-  emailMap:
-    announcement: 'generalNews'
-    developer: 'archmageNews'
-    tester: 'adventurerNews'
-    level_creator: 'artisanNews'
-    article_editor: 'scribeNews'
-    translator: 'diplomatNews'
-    support: 'ambassadorNews'
-    notification: 'anyNotes'
-
-  migrateEmails: ->
-    return if @attributes.emails or not @attributes.emailSubscriptions
-    oldSubs = @get('emailSubscriptions') or []
-    newSubs = {}
-    newSubs[newSubName] = {enabled: oldSubName in oldSubs} for oldSubName, newSubName of @emailMap
-    @set('emails', newSubs)
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
