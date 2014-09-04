@@ -87,7 +87,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 250
+    @onResize = _.debounce @onResize, 500  # At least as much as $level-resize-transition-time.
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -489,7 +489,7 @@ module.exports = Surface = class Surface extends CocoClass
     newPos = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
     # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
     onBackground = not @stage._getObjectsUnderPoint(newPos.x, newPos.y, null, true)
-    
+
     worldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
     event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: worldPos
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
