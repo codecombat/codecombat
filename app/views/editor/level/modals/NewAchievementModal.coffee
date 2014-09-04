@@ -28,22 +28,13 @@ module.exports = class NewAchievementModal extends NewModelModal
   createQuery: ->
     checked = @$el.find('[name=queryOptions]:checked')
     checkedValues = ($(check).val() for check in checked)
-    subQueries = []
+    query = {}
     for id in checkedValues
       switch id
         when 'misc-level-completion'
-          subQueries.push state: complete: true
-        else # It's a goal
-          q = state: goalStates: {}
-          q.state.goalStates[id] = {}
-          q.state.goalStates[id].status = 'success'
-          subQueries.push q
-    unless subQueries.length
-      query = {}
-    else if subQueries.length is 1
-      query = subQueries[0]
-    else
-      query = $or: subQueries
+          query['state.complete'] = true
+        else
+          query["state.goalStates.#{id}.status"] = 'success'
     query['level.original'] = @level.get 'original'
     query
 

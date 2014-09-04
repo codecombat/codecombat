@@ -42,3 +42,14 @@ module.exports = class LevelSession extends CocoModel
 
   completed: ->
     @get('state')?.complete || false
+
+  shouldAvoidCorruptData: (attrs) ->
+    return false unless me.team is 'humans'
+    if _.string.startsWith (attrs?.code ? @get('code'))?.anya?.makeBid ? '', 'var __interceptThis'
+      noty text: "Not saving session--it's trying to overwrite Anya's code with transpiled output. Please let us know and help us reproduce this bug!", layout: 'topCenter', type: 'error', killer: false, timeout: 120000
+      return true
+    false
+
+  save: (attrs, options) ->
+    return if @shouldAvoidCorruptData attrs
+    super attrs, options
