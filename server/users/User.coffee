@@ -130,7 +130,7 @@ UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
   @findById id, (err, user) ->
     log.error err if err?
     err = new Error "Could't find user with id '#{id}'" unless user or err
-    return done err if err?
+    return done() if err?
     user.incrementStat statName, done, inc=1
 
 UserSchema.methods.incrementStat = (statName, done, inc=1) ->

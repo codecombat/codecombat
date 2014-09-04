@@ -1,7 +1,7 @@
 @import "../../bootstrap/mixins"
    
 #thangs-tab-view
-  $extantThangsWidth: 300px
+  $extantThangsWidth: 250px
   position: absolute
   top: 0
   bottom: 0
@@ -45,7 +45,7 @@
       top: 20px
     #thangs-treema
       position: absolute
-      top: 37px
+      top: 45px
       left: 0
       right: 0
       bottom: 0
@@ -54,10 +54,41 @@
       outline: thin
       border: none
       padding-top: 0
+      
+    .treema-schema-select
+      display: none
     
     .treema-children .treema-row *
       cursor: pointer !important
-
+      
+    .treema-key
+      display: none
+      
+    h6
+      margin: 0
+      line-height: 20px
+      
+    .treema-thangs-folder
+      margin-top: 2px
+      color: #253341
+      
+    .treema-thang
+      color: #253341
+      position: relative
+      left: -20px
+      
+    .treema-node
+      border: none
+    
+    img
+      float: left
+      width: 18px
+      margin-right: 5px
+      margin-left: 5px
+      position: relative
+      border: 1px solid gray
+      //top: 2px
+      
   .world-container
     margin-left: 0
     margin-right: 0

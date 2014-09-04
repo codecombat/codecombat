@@ -45,6 +45,7 @@ module.exports = class Spell
       @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
+    Backbone.Mediator.subscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode
 
   destroy: ->
     @view?.destroy()
@@ -161,3 +162,13 @@ module.exports = class Spell
     # Players without permissions can't view the raw code.
     return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
     false
+
+  onNewOpponentCode: (e) =>
+    return unless @spellKey
+    if e.codeLanguage and e.code
+      spellkeyComponents = @spellKey.split '/'
+      if e.code[spellkeyComponents[0]]?[spellkeyComponents[1]]
+        @source = e.code[spellkeyComponents[0]][spellkeyComponents[1]]
+        @updateLanguageAether e.codeLanguage
+    else
+      console.error 'Spell onNewOpponentCode did not recieve code', e

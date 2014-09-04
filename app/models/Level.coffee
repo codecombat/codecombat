@@ -23,7 +23,7 @@ module.exports = class Level extends CocoModel
 
     # Figure out ThangTypes' Components
     tmap = {}
-    tmap[t.thangType] = true for t in o.thangs
+    tmap[t.thangType] = true for t in o.thangs ? []
     o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or tt.isFullyLoaded())
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents

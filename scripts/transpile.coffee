@@ -2,7 +2,7 @@ do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.mixin _.str.exports()
-Aether = require 'aether'
+GLOBAL.Aether = Aether = require 'aether'
 async = require 'async'
 
 serverSetup = require '../server_setup'

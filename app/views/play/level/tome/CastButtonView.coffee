@@ -15,6 +15,8 @@ module.exports = class CastButtonView extends CocoView
     'tome:cast-spells': 'onCastSpells'
     'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
+    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
 
   constructor: (options) ->
     super options
@@ -48,7 +50,16 @@ module.exports = class CastButtonView extends CocoView
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastRealTimeButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    if @multiplayerSession
+      Backbone.Mediator.publish 'real-time-multiplayer:manual-cast', {}
+      # Wait for multiplayer session to be up and running
+      @multiplayerSession.on 'change', (e) =>
+        if @multiplayerSession.get('state') is 'running'
+          # Real-time multiplayer session is ready to go, so resume normal cast
+          @multiplayerSession.off()
+          Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    else
+      Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   onCastOptionsClick: (e) =>
     Backbone.Mediator.publish 'tome:focus-editor', {}
@@ -106,3 +117,11 @@ module.exports = class CastButtonView extends CocoView
     spell.view?.setAutocastDelay delay for spellKey, spell of @spells
     @castOptions.find('a').each ->
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
+
+  onJoinedRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = e.session
+
+  onLeftRealTimeMultiplayerGame: (e) ->
+    if @multiplayerSession
+      @multiplayerSession.off()
+      @multiplayerSession = null

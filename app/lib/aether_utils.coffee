@@ -1,4 +1,4 @@
-Aether.addGlobal 'Vector', require 'lib/world/vector'
+Aether.addGlobal 'Vector', require './world/vector'
 Aether.addGlobal '_', _
 
 module.exports.createAetherOptions = (options) ->

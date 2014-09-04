@@ -1,8 +1,10 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/control_bar'
+{me} = require 'lib/auth'
 
 LevelGuideModal = require './modal/LevelGuideModal'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
+RealTimeCollection = require 'collections/RealTimeCollection'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -10,6 +12,8 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
+    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
+    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
 
   events:
     'click #docs-button': ->
@@ -55,6 +59,9 @@ module.exports = class ControlBarView extends CocoView
     else
       c.homeLink = '/'
     c.editorLink = "/editor/level/#{@level.get('slug')}"
+    c.multiplayerSession = @multiplayerSession if @multiplayerSession
+    c.multiplayerPlayers = @multiplayerPlayers if @multiplayerPlayers
+    c.meID = me.id
     c
 
   afterRender: ->
@@ -77,3 +84,22 @@ module.exports = class ControlBarView extends CocoView
 
   showGameMenuModal: ->
     @openModalView new GameMenuModal level: @level, session: @session, playableTeams: @playableTeams
+
+  onJoinedRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = e.session
+    @multiplayerPlayers = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
+    @multiplayerPlayers.on 'add', @onRealTimeMultiplayerPlayerAdded
+    @multiplayerPlayers.on 'remove', @onRealTimeMultiplayerPlayerRemoved
+    @render()
+
+  onLeftRealTimeMultiplayerGame: (e) ->
+    @multiplayerSession = null
+    @multiplayerPlayers.off()
+    @multiplayerPlayers = null
+    @render()
+
+  onRealTimeMultiplayerPlayerAdded: (e) =>
+    @render() unless @destroyed
+
+  onRealTimeMultiplayerPlayerRemoved: (e) =>
+    @render() unless @destroyed

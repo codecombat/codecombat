@@ -24,11 +24,9 @@ module.exports =
   'editor:edit-level-thang': c.object {required: ['thangID']},
     thangID: {type: 'string'}
 
-  'editor:level-thang-edited': c.object {required: ['thangID', 'thangData']},
-    thangID: {type: 'string'}
+  'editor:level-thang-done-editing': c.object {required: ['thangData', 'oldPath']},
     thangData: {type: 'object'}
-
-  'editor:level-thang-done-editing': c.object {}
+    oldPath: {type: 'string'}
 
   'editor:thangs-edited': c.object {required: ['thangs']},
     thangs: c.array {}, {type: 'object'}
