@@ -668,7 +668,7 @@ module.exports = class SpellView extends CocoView
     @ace.setValue pretty
 
   onMaximizeToggled: (e) ->
-    @ace.resize true
+    _.delay (=> @ace?.resize true), 500  # Wait $level-resize-transition-time.
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get('aceConfig') ? {}

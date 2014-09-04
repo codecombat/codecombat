@@ -3,6 +3,7 @@ extends /templates/modal/modal_base
 block modal-header
 
 block modal-body-content
+  .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
   .tabbable.tabs-left
     - var submenus = ["inventory", "choose-hero", "save-load", "options", "guide", "multiplayer"]
     - if (!showDevBits) {  // Not done yet.

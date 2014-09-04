@@ -171,4 +171,4 @@ module.exports = class Spell
         @source = e.code[spellkeyComponents[0]][spellkeyComponents[1]]
         @updateLanguageAether e.codeLanguage
     else
-      console.error 'Spell onNewOpponentCode did not recieve code', e
+      console.error 'Spell onNewOpponentCode did not receive code', e

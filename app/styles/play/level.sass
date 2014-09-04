@@ -6,6 +6,8 @@ body.is-playing
   .footer
     background-color: black
 
+$level-resize-transition-time: 0.5s
+
 #level-view
   margin: 0 auto
   @include user-select(none)
@@ -49,13 +51,13 @@ body.is-playing
     width: 55%
     position: relative
     overflow: hidden
-    @include transition(0.5s ease-out)
+    @include transition($level-resize-transition-time ease-out)
     
   canvas#surface
     background-color: #333
     display: block
     z-index: 1
-    @include transition(0.5s ease-out)
+    @include transition($level-resize-transition-time ease-out)
 
     &.flag-color-selected
       cursor: crosshair
@@ -73,7 +75,7 @@ body.is-playing
     right: 0
     top: 0px
     bottom: 0
-    @include transition(width 0.5s ease-in-out, right 0.5s ease-in-out)
+    @include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
     
   #pointer
     position: absolute
