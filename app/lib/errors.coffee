@@ -10,7 +10,7 @@ module.exports.parseServerError = (text) ->
   error
 
 module.exports.genericFailure = (jqxhr) ->
-  Backbone.Mediator.publish('server-error', {response: jqxhr})
+  Backbone.Mediator.publish('errors:server-error', {response: jqxhr})
   return connectionFailure() if not jqxhr.status
 
   error = module.exports.parseServerError(jqxhr.responseText)
