@@ -217,7 +217,7 @@ module.exports = class SpectateLevelView extends RootView
   initScriptManager: ->
     if @world.scripts
       nonVictoryPlaybackScripts = _.reject @world.scripts, (script) ->
-        script.id.indexOf('Set Camera Boundaries and Goals') == -1
+        script.id.indexOf('Set Camera Boundaries') is -1
     else
       console.log 'World scripts don\'t exist!'
       nonVictoryPlaybackScripts = []
