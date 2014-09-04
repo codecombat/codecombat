@@ -83,14 +83,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   signup:
     create_account_title: "Создать аккаунт, чтобы сохранить прогресс"
     description: "Это бесплатно. Нужна лишь пара вещей, и вы сможете продолжить путешествие:"
-    email_announcements: "Получать оповещения на email"
+    email_announcements: "Получать оповещения по email"
     coppa: "Вы старше 13 лет или живёте не в США "
     coppa_why: "(почему?)"
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
     social_signup: "Или вы можете зарегистрироваться через Facebook или G+:"
-    required: "Войдите для того чтобы продолжить."
+    required: "Войдите для того, чтобы продолжить."
 
   home:
     slogan: "Научитесь программировать, играя в игру"
@@ -123,13 +123,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_multiplayer_description: "... в которых вы соревнуетесь в программировании с другими игроками."
     campaign_player_created: "Уровни игроков"
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "Классические принципы"
+    campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
     level_difficulty: "Сложность: "
     play_as: "Играть за "
     spectate: "Наблюдать"
-#    players: "players"
-#    hours_played: "hours played"
+    players: "игроки"
+    hours_played: "часов сыграно"
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -142,7 +142,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     forum_suffix: "."
     send: "Отправить отзыв"
     contact_candidate: "Связаться с кандидатом"
-    recruitment_reminder: "Используйте эту форму, чтобы обратиться к кандидатам, если вы заинтересованы в интервью. Помните, что CodeCombat взимает 18% от первого года зарплаты. Плата производится по найму сотрудника и подлежит возмещению в течение 90 дней, если работник не остаётся на рабочем месте. Работники с частичной занятостью, удалённые и работающие по контракту свободны, как стажёры."
+    recruitment_reminder: "Используйте эту форму, чтобы обратиться к кандидатам, если вы заинтересованы в интервью. Помните, что CodeCombat взимает 18% от первого года зарплаты. Плата производится по найму сотрудника и подлежит возмещению в течение 90 дней, если работник не остаётся на рабочем месте. Работники с частичной занятостью, работаюие удалённо и по контракту свободны, как стажёры."
 
   diplomat_suggestion:
     title: "Помогите перевести CodeCombat!"
