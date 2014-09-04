@@ -24,14 +24,14 @@ module.exports = class Level extends CocoModel
     # Figure out ThangTypes' Components
     tmap = {}
     tmap[t.thangType] = true for t in o.thangs ? []
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or tt.isFullyLoaded())
+    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or tt.get('components'))
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
-    
+
     o
-    
+
   cachedLevelComponents: null
-  
+
   getCachedLevelComponents: (supermodel) ->
     @cachedLevelComponents ?= {}
     levelComponents = supermodel.getModels LevelComponent
@@ -43,7 +43,7 @@ module.exports = class Level extends CocoModel
       @cachedLevelComponents[levelComponent.id] ?= @cachedLevelComponents[levelComponent.id] = $.extend(true, {}, levelComponent.attributes)
       newLevelComponents.push(@cachedLevelComponents[levelComponent.id])
     newLevelComponents
-    
+
   denormalize: (supermodel, session) ->
     o = $.extend true, {}, @attributes
     if o.thangs and @get('type', true) is 'hero'
