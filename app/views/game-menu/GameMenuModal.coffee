@@ -34,6 +34,7 @@ module.exports = class GameMenuModal extends ModalView
     @$el.toggleClas
     @insertSubView new submenuView @options for submenuView in submenuViews
     (if @options.showInventory then @subviews.inventory_view else @subviews.choose_hero_view).$el.addClass 'active'
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
 
   onHidden: ->
     subview.onHidden?() for subviewKey, subview of @subviews

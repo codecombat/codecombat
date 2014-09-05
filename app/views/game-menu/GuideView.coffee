@@ -14,3 +14,4 @@ module.exports = class GuideView extends CocoView
 
   afterRender: ->
     super()
+    #Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'guide-open', volume: 1  # no, only when the tab is activated

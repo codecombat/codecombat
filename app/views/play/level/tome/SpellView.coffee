@@ -348,6 +348,7 @@ module.exports = class SpellView extends CocoView
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'code-change', volume: 0.5
       @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw, (hasChanged) =>
         if not @spellThang or hasChanged
           callback() for callback in onSignificantChange  # Do these first

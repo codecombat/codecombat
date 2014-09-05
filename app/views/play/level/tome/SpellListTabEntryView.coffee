@@ -89,6 +89,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onDropdownClick: (e) ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:toggle-spell-list', {}
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-list-open', volume: 1
 
   onCodeReload: (e) ->
     return unless @controlsEnabled
