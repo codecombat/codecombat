@@ -38,13 +38,15 @@ block content
         | If you're going to get addicted to some game, 
         | get addicted to this one and become one of the wizards of the tech age.
 
-      h2 
+      h2(data-i18n="about.press_title")
         | Bloggers/Press
 
       p
-        | Want to write about us? Feel free to download and use all of the resources included in our 
-        a(href="https://s3.amazonaws.com/CodeCombatMisc/press_packet.zip") press packet. 
-        | All logos and images may be used without contacting us directly.
+        span.spr(data-i18n="about.press_paragraph_1_prefix")
+          | Want to write about us? Feel free to download and use all of the resources included in our
+        a(href="https://s3.amazonaws.com/CodeCombatMisc/press_packet.zip", data-i18n="about.press_paragraph_1_link") press packet
+        span(data-i18n="about.press_paragraph_1_suffix")
+          | . All logos and images may be used without contacting us directly.
     
 
     ul.col-sm-6.team-column
@@ -53,7 +55,7 @@ block content
     
         li.row
 
-          h2 Team
+          h2(data-i18n="about.team") Team
     
           img(src="/images/pages/about/george_small.png").img-thumbnail
   
