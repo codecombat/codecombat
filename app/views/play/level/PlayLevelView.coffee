@@ -619,6 +619,7 @@ module.exports = class PlayLevelView extends RootView
       myPlayer.set 'code', @session.get('code')
       myPlayer.set 'codeLanguage', @session.get('codeLanguage')
       myPlayer.set 'state', 'submitted'
+      myPlayer.set 'team', me.team
     else
       console.error 'Did not find my player in onRealTimeMultiplayerCast'
     if opponentPlayer
@@ -636,7 +637,7 @@ module.exports = class PlayLevelView extends RootView
 
   onOpponentSubmitted: (opponentPlayer, myPlayer) =>
     # Save opponent's code
-    Backbone.Mediator.publish 'real-time-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code')}
+    Backbone.Mediator.publish 'real-time-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code'), team: opponentPlayer.get('team')}
     # I'm ready to rumble
     myPlayer.set 'state', 'ready'
     if opponentPlayer.get('state') is 'ready'
