@@ -543,7 +543,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    find_us: "Find us on these sites"
 #    contribute_to_the_project: "Contribute to the project"
 
-  editor:
+#  editor:
 #    main_title: "CodeCombat Editors"
 #    article_title: "Article Editor"
 #    thang_title: "Thang Editor"
@@ -641,7 +641,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    hard: "Hard"
 #    player: "Player"
 
-  about:
+#  about:
 #    why_codecombat: "Why CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
