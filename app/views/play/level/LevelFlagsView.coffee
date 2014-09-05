@@ -3,6 +3,8 @@ template = require 'templates/play/level/level-flags-view'
 {me} = require 'lib/auth'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
+multiplayerFlagDelay = 0.5  # Long, static second delay for now; should be more than enough.
+
 module.exports = class LevelFlagsView extends CocoView
   id: 'level-flags-view'
   template: template
@@ -54,7 +56,9 @@ module.exports = class LevelFlagsView extends CocoView
   onStageMouseDown: (e) ->
     return unless @flagColor and @realTime
     pos = x: e.worldPos.x, y: e.worldPos.y
-    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: @world.dt * @world.frames.length, active: true
+    delay = if @realTimeFlags then multiplayerFlagDelay else 0
+    now = @world.dt * @world.frames.length
+    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: now + delay, active: true
     @flags[@flagColor] = flag
     @flagHistory.push flag
     @realTimeFlags?.create flag
@@ -67,7 +71,9 @@ module.exports = class LevelFlagsView extends CocoView
 
   onRemoveFlag: (e) ->
     delete @flags[e.color]
-    flag = player: me.id, team: me.team, color: e.color, time: @world.dt * @world.frames.length, active: false
+    delay = if @realTimeFlags then multiplayerFlagDelay else 0
+    now = @world.dt * @world.frames.length
+    flag = player: me.id, team: me.team, color: e.color, time: now + delay, active: false
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
     #console.log e.color, 'deleted at time', flag.time
@@ -79,6 +85,7 @@ module.exports = class LevelFlagsView extends CocoView
   onJoinedMultiplayerGame: (e) ->
     @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.session.id + '/flagHistory')
     @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
+    @realTimeFlags.on 'remove', @onRealTimeMultiplayerFlagRemoved
 
   onLeftMultiplayerGame: (e) ->
     if @realTimeFlags
@@ -98,3 +105,5 @@ module.exports = class LevelFlagsView extends CocoView
         active: e.get('active')
       @flagHistory.push flag
       Backbone.Mediator.publish 'level:flag-updated', flag
+
+  onRealTimeMultiplayerFlagRemoved: (e) =>

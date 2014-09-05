@@ -164,11 +164,11 @@ module.exports = class Spell
     false
 
   onNewOpponentCode: (e) =>
-    return unless @spellKey
+    return unless @spellKey and @canWrite e.team
     if e.codeLanguage and e.code
-      spellkeyComponents = @spellKey.split '/'
-      if e.code[spellkeyComponents[0]]?[spellkeyComponents[1]]
-        @source = e.code[spellkeyComponents[0]][spellkeyComponents[1]]
+      [thangSlug, methodSlug] = @spellKey.split '/'
+      if opponentCode = e.code[thangSlug]?[methodSlug]
+        @source = opponentCode
         @updateLanguageAether e.codeLanguage
     else
       console.error 'Spell onNewOpponentCode did not receive code', e

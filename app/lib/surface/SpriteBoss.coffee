@@ -334,7 +334,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   onFlagUpdated: (e) ->
     return unless e.active
-    pendingFlag = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Pending Flag ' + Math.random(), color: e.color, team: me.team, isCursor: false, pos: e.pos)
+    pendingFlag = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Pending Flag ' + Math.random(), color: e.color, team: e.team, isCursor: false, pos: e.pos)
     @addSprite pendingFlag, pendingFlag.thang.id, @spriteLayers['Floating']
     @pendingFlags.push pendingFlag
 

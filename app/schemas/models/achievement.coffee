@@ -2,8 +2,7 @@ c = require './../schemas'
 
 # TODO add these: http://docs.mongodb.org/manual/reference/operator/query/
 MongoQueryOperatorSchema =
-  title: 'MongoDB Query operator'
-  id: 'mongoQueryOperator'
+  title: 'Query Operator'
   type: 'object'
   properties:
     '$gt': type: 'number'
@@ -13,25 +12,22 @@ MongoQueryOperatorSchema =
     '$lte': type: 'number'
     '$ne': type: ['number', 'string']
     '$nin': type: 'array'
-  additionalProperties: true # TODO set to false when the schema's done
+    '$exists': type: 'boolean'
+  additionalProperties: false
 
 MongoFindQuerySchema =
-  title: 'MongoDB Query'
-  id: 'mongoFindQuery'
+  title: 'Query'
   type: 'object'
   patternProperties:
-    #'^[-a-zA-Z0-9_]*$':
-    '^[-a-zA-Z0-9\.]*$':
-      oneOf: [
-        #{$ref: '#/definitions/' + MongoQueryOperatorSchema.id},
+    '^[-a-zA-Z0-9.]*$':
+      anyOf: [
+        {$ref: '#/definitions/mongoQueryOperator'},
         {type: 'string'}
         {type: 'object'}
         {type: 'boolean'}
       ]
-  additionalProperties: true # TODO make Treema accept new pattern matched keys
+  additionalProperties: false
   definitions: {}
-
-MongoFindQuerySchema.definitions[MongoQueryOperatorSchema.id] = MongoQueryOperatorSchema
 
 AchievementSchema = c.object()
 c.extendNamedProperties AchievementSchema
@@ -48,7 +44,7 @@ AchievementSchema.default =
 _.extend AchievementSchema.properties,
   query:
     #type:'object'
-    $ref: '#/definitions/' + MongoFindQuerySchema.id
+    $ref: '#/definitions/mongoFindQuery'
   worth: c.float
   collection: {type: 'string'}
   description: c.shortString()
@@ -93,6 +89,7 @@ _.extend AchievementSchema, # Let's have these on the bottom
   additionalProperties: false
 
 AchievementSchema.definitions = {}
-AchievementSchema.definitions[MongoFindQuerySchema.id] = MongoFindQuerySchema
+AchievementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
+AchievementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
 
 module.exports = AchievementSchema

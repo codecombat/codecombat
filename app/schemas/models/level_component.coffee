@@ -148,10 +148,7 @@ _.extend LevelComponentSchema.properties,
     type: 'boolean'
     title: 'Official'
     description: 'Whether this is an official CodeCombat Component.'
-  searchStrings: {
-    type: 'array'
-    items: { type: 'string' }
-  }
+  searchStrings: {type: 'string'}
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema

@@ -180,5 +180,5 @@ module.exports =  # /app/lib/surface
 
   'surface:remove-selected-flag': c.object {}
 
-  'surface:remove-flag': c.object {required: 'color'},
+  'surface:remove-flag': c.object {required: ['color']},
     color: {type: 'string'}
