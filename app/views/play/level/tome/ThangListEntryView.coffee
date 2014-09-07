@@ -80,10 +80,13 @@ module.exports = class ThangListEntryView extends CocoView
     score += 9001 * _.size(s.thangs)
     score
 
-  onClick: (e) ->
-    return unless @controlsEnabled
+  select: ->
     @sortSpells()
     Backbone.Mediator.publish 'level:select-sprite', thangID: @thang.id, spellName: @spells[0]?.name
+
+  onClick: (e) ->
+    return unless @controlsEnabled
+    @select()
 
   onMouseEnter: (e) ->
     return unless @controlsEnabled and @spells.length

@@ -11,7 +11,8 @@ module.exports = class ThangListView extends CocoView
   id: 'thang-list-view'
   template: template
 
-  subscriptions: {}
+  subscriptions:
+    'tome:select-primary-sprite': 'onSelectPrimarySprite'
 
   constructor: (options) ->
     super options
@@ -88,6 +89,9 @@ module.exports = class ThangListView extends CocoView
     @thangs = @options.thangs = thangs
     @sortThangs()
     @addThangListEntries()
+
+  onSelectPrimarySprite: (e) ->
+    @entries[0]?.select()
 
   destroy: ->
     entry.destroy() for entry in @entries

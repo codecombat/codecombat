@@ -109,3 +109,5 @@ module.exports =
   'tome:toggle-maximize': c.object {title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen'}
 
   'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}
+
+  'tome:select-primary-sprite': c.object {title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.'}

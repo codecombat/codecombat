@@ -77,8 +77,8 @@ module.exports = Surface = class Surface extends CocoClass
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
     'ctrl+o, ⌘+o': 'onTogglePathFinding'
 
-    
-    
+
+
   #- Initialization
 
   constructor: (@world, @canvas, givenOptions) ->
@@ -136,7 +136,7 @@ module.exports = Surface = class Surface extends CocoClass
 
 
   #- Setting the world
-    
+
   setWorld: (@world) ->
     @worldLoaded = true
     lastFrame = Math.min(@getCurrentFrame(), @world.frames.length - 1)
@@ -227,10 +227,10 @@ module.exports = Surface = class Surface extends CocoClass
     ++@totalFramesDrawn
     @stage.update e
 
-    
-  
+
+
   #- Setting play/pause and progress
-    
+
   setProgress: (progress, scrubDuration=500) ->
     progress = Math.max(Math.min(progress, 1), 0.0)
 
@@ -309,7 +309,7 @@ module.exports = Surface = class Surface extends CocoClass
 
 
   #- Changes and events that only need to happen when the frame has changed
-    
+
   onFrameChanged: (force) ->
     @currentFrame = Math.min(@currentFrame, @world.frames.length)
     @debugDisplay?.updateFrame @currentFrame
@@ -335,8 +335,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   getProgress: -> @currentFrame / @world.frames.length
 
-    
-  
+
+
   #- Subscription callbacks
 
   onToggleDebug: (e) ->
@@ -484,7 +484,7 @@ module.exports = Surface = class Surface extends CocoClass
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
 
-    
+
   #- Canvas callbacks
 
   onResize: (e) =>
@@ -509,7 +509,8 @@ module.exports = Surface = class Surface extends CocoClass
     ##  newHeight = Math.min 589, newHeight
     #@canvas.width newWidth
     #@canvas.height newHeight
-    @canvas.attr width: newWidth, height: newHeight
+    scaleFactor = if application.isIPadApp then 2 else 1  # Retina
+    @canvas.attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
     @stage.scaleX *= newWidth / oldWidth
     @stage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
@@ -517,7 +518,7 @@ module.exports = Surface = class Surface extends CocoClass
 
 
   #- Real-time playback
-  
+
   onRealTimePlaybackWaiting: (e) ->
     @onRealTimePlaybackStarted e
 
@@ -539,8 +540,8 @@ module.exports = Surface = class Surface extends CocoClass
     @canvas.toggleClass 'flag-color-selected', Boolean(e.color)
     e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
 
-    
-    
+
+
   #- Paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 
   updatePaths: ->
@@ -561,9 +562,9 @@ module.exports = Surface = class Surface extends CocoClass
     return if not @paths
     @paths.parent.removeChild @paths
     @paths = null
-    
-    
-    
+
+
+
   #- Screenshot
 
   screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
@@ -578,10 +579,10 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.uncache()
     imageData
 
-    
-    
+
+
   #- Path finding debugging
-  
+
   onTogglePathFinding: (e) ->
     e?.preventDefault?()
     @hidePathFinding()
@@ -640,11 +641,11 @@ module.exports = Surface = class Surface extends CocoClass
     .lineTo(v2.x, v2.y)
     .endStroke()
     container.addChild shape
-    
-    
-    
+
+
+
   #- Teardown
-    
+
   destroy: ->
     @camera?.destroy()
     createjs.Ticker.removeEventListener('tick', @tick)
@@ -672,4 +673,3 @@ module.exports = Surface = class Surface extends CocoClass
     clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
     clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     super()
-

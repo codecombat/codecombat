@@ -66,7 +66,7 @@ module.exports = class CocoView extends Backbone.View
     $.noty.closeAll()
 
   destroyAceEditor: (editor) ->
-    # convenience method to make sure the ace editor is as destroyed as can be 
+    # convenience method to make sure the ace editor is as destroyed as can be
     return unless editor
     session = editor.getSession()
     session.setMode ''
@@ -155,7 +155,7 @@ module.exports = class CocoView extends Backbone.View
     res.load()
     @$el.find('.progress').show()
     $(e.target).closest('.loading-error-alert').remove()
-    
+
   onSkipResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
     return unless res and res.isFailed
@@ -318,6 +318,10 @@ module.exports = class CocoView extends Backbone.View
 
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1
+
+  isIPadApp: ->
+    return @_isIPadApp if @_isIPadApp?
+    return @_isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('iPad') isnt -1
 
   initSlider: ($el, startValue, changeCallback) ->
     slider = $el.slider({animate: 'fast'})

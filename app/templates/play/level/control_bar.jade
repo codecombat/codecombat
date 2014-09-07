@@ -2,11 +2,11 @@ h4.home
 
   a(href=homeLink || "/")
     i.icon-home.icon-white
-    span(data-i18n="play_level.home") Home
+    span(data-i18n="play_level.home").home-text Home
 
 h4.title
   | #{worldName}
-  span.spl.spr -
+  span.spl.spr.editor-dash -
   a(href=editorLink, data-i18n="nav.editor", title="Open " + worldName + " in the Level Editor") Editor
   if multiplayerSession
     - found = false

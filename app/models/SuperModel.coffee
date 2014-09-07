@@ -195,6 +195,7 @@ module.exports = class SuperModel extends Backbone.Model
     @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
+    Backbone.Mediator.publish 'supermodel:load-progress-changed', progress: @progress
 
   setMaxProgress: (@maxProgress) ->
   resetProgress: -> @progress = 0
