@@ -567,6 +567,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     level_tab_settings: "Ayarlar"
     level_tab_components: "Bileşenler"
     level_tab_systems: "Sistemler"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Geçerli Şartlar"
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Başlama Şartları"

@@ -567,6 +567,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     level_tab_settings: "Configurações"
     level_tab_components: "Componentes"
     level_tab_systems: "Sistemas"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Thangs Atuais"
     level_tab_thangs_all: "Todos"
     level_tab_thangs_conditions: "Condições Iniciais"

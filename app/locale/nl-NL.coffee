@@ -567,6 +567,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     level_tab_settings: "Instellingen"
     level_tab_components: "Componenten"
     level_tab_systems: "Systemen"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Huidige Elementen"
     level_tab_thangs_all: "Alles"
     level_tab_thangs_conditions: "Start Condities"

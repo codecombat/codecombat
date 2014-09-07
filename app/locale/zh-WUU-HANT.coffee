@@ -567,6 +567,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     level_tab_settings: "設定"
     level_tab_components: "組件"
     level_tab_systems: "系統"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "能界所有物事"
     level_tab_thangs_all: "所有"
     level_tab_thangs_conditions: "發動條件"

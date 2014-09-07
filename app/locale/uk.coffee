@@ -567,6 +567,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     level_tab_settings: "Налаштування"
     level_tab_components: "Компоненти"
     level_tab_systems: "Системи"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Поточні об'єкти"
     level_tab_thangs_all: "Усі"
     level_tab_thangs_conditions: "Початковий статус"

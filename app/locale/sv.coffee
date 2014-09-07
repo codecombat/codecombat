@@ -567,6 +567,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     level_tab_settings: "Inställningar"
     level_tab_components: "Komponenter"
     level_tab_systems: "System"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Nuvarande enheter"
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Startvillkor"

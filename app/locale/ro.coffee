@@ -567,6 +567,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     level_tab_settings: "Setări"
     level_tab_components: "Componente"
     level_tab_systems: "Sisteme"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Thangs actuali"
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Condiți inițiale"

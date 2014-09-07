@@ -567,6 +567,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    level_tab_settings: "Settings"
 #    level_tab_components: "Components"
 #    level_tab_systems: "Systems"
+#    level_tab_docs: "Documentation"
 #    level_tab_thangs_title: "Current Thangs"
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"

@@ -567,6 +567,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     level_tab_settings: "설정"
     level_tab_components: "요소들"
     level_tab_systems: "시스템"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "현재 Thangs"
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "컨디션 시작"

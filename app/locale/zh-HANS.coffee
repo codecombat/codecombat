@@ -567,6 +567,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_tab_settings: "设定"
     level_tab_components: "组件"
     level_tab_systems: "系统"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "目前所有物体"
     level_tab_thangs_all: "所有"
     level_tab_thangs_conditions: "启动条件"

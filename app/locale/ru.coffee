@@ -567,6 +567,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_tab_settings: "Настройки"
     level_tab_components: "Компоненты"
     level_tab_systems: "Системы"
+#    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Текущие объекты"
     level_tab_thangs_all: "Все"
     level_tab_thangs_conditions: "Начальные условия"
