@@ -96,7 +96,9 @@ class CocoModel extends Backbone.Model
   schema: -> return @constructor.schema
 
   getValidationErrors: ->
-    errors = tv4.validateMultiple(@attributes, @constructor.schema or {}).errors
+    # Since Backbone unset only sets things to undefined instead of deleting them, we ignore undefined properties.
+    definedAttributes = _.pick @attributes, (v) -> v isnt undefined
+    errors = tv4.validateMultiple(definedAttributes, @constructor.schema or {}).errors
     return errors if errors?.length
 
   validate: ->
