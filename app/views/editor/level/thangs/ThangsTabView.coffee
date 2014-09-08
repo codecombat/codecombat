@@ -384,7 +384,7 @@ module.exports = class ThangsTabView extends CocoView
     return unless @addThangSprite
     wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
-    #@adjustThangPos @addThangSprite, @addThangSprite.thang, wop  # TODO: this and onSpriteDragged both conflictin'
+    @adjustThangPos @addThangSprite, @addThangSprite.thang, wop  # TODO: this and onSpriteDragged both conflictin'
     null
 
   onSurfaceMouseOver: (e) ->
