@@ -110,7 +110,7 @@ class CocoModel extends Backbone.Model
   save: (attrs, options) ->
     options ?= {}
     options.headers ?= {}
-    options.headers['X-Current-Path'] = document.location.pathname
+    options.headers['X-Current-Path'] = document.location?.pathname ? 'unknown'
     success = options.success
     error = options.error
     options.success = (model, res) =>
