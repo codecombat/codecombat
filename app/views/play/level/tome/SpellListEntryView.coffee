@@ -103,7 +103,7 @@ module.exports = class SpellListEntryView extends CocoView
     return if @thangsView
     spellThang = @getPrimarySpellThang()
     return unless spellThang
-    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: spellTHang.thang, spell: @spell, supermodel: @supermodel
+    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: spellThang.thang, spell: @spell, supermodel: @supermodel
     @thangsView.render()
     @$el.append @thangsView.el
     @thangsView.$el.mouseenter (e) => @onMouseEnterAvatar()
