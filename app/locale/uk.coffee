@@ -79,6 +79,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
   recover:
     recover_account_title: "Відновити акаунт"
     send_password: "Надіслати пароль відновлення"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Створити акаунт, щоб зберегти прогрес"

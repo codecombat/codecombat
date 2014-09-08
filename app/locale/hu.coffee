@@ -79,6 +79,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   recover:
     recover_account_title: "Meglévő fiók visszaállítása"
 #    send_password: "Send Recovery Password"
+#    recovery_sent: "Recovery email sent."
 
   signup:
 #    create_account_title: "Create Account to Save Progress"

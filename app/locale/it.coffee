@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   recover:
     recover_account_title: "Recupera account"
     send_password: "Invia password di recupero"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Crea un account per salvare le partite"

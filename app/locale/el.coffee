@@ -79,6 +79,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
   recover:
     recover_account_title: "Κάντε ανάκτηση του λογαριασμού σας"
     send_password: "Αποστολή κωδικού ανάκτησης"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Δημιουργία λογαριασμού για αποθήκευση της προόδου"

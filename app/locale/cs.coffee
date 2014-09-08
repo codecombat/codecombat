@@ -79,6 +79,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   recover:
     recover_account_title: "Obnovení účtu"
     send_password: "Zaslat nové heslo"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Vytvořit účet k uložení úrovně"

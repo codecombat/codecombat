@@ -79,6 +79,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   recover:
     recover_account_title: "genskab konto"
     send_password: "Send kodeord"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Opret en konto for at gemme dit fremskridt"

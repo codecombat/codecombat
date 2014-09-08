@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   recover:
     recover_account_title: "Återskapa ditt konto"
     send_password: "Skicka återskapningslösenord"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Skapa ett konto för att spara dina framsteg"

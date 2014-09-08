@@ -79,6 +79,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   recover:
     recover_account_title: "パスワードを忘れた場合"
     send_password: "送信する"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "進行状況保存用のアカウント作成"

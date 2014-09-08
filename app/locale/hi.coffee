@@ -79,6 +79,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #  recover:
 #    recover_account_title: "Recover Account"
 #    send_password: "Send Recovery Password"
+#    recovery_sent: "Recovery email sent."
 
 #  signup:
 #    create_account_title: "Create Account to Save Progress"

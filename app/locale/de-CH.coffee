@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
   recover:
     recover_account_title: "Account wiederherstelle"
     send_password: "Recovery Password sende"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Erstell en Account zum din Fortschritt speichere"

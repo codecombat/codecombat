@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   recover:
     recover_account_title: "Khôi phục tài khoản"
     send_password: "Gởi mật mã khôi phục"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Tạo tài khoản để lưu tiến trình"

@@ -79,6 +79,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
   recover:
     recover_account_title: "بازیابی حساب کاربری"
     send_password: "ارسال رمز عبور بازیابی شده"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "ایجاد حساب کاربری برای ذخیره سازی پیشرفت ها"

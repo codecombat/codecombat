@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   recover:
     recover_account_title: "Recuperar Compte"
     send_password: "Enviar contrasenya oblidada"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Crear un compte per tal de guardar els progressos"

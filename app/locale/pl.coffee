@@ -79,6 +79,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   recover:
     recover_account_title: "Odzyskaj konto"
     send_password: "Wyślij hasło tymczasowe"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Stwórz konto, aby zapisać postępy"
@@ -203,8 +204,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     password_mismatch: "Hasła róznią się od siebie"
     password_repeat: "Powtórz swoje hasło."
     job_profile: "Profil zatrudnienia"
-#    job_profile_approved: "Twój profil zatrudnienia został zaakceptowany przez CodeCombat. Pracodawcy będą mogli go widzieć dopóki nie oznaczysz go jako nieaktywny lub nie będzie on zmieniany przez 4 tygodnie."
-#    job_profile_explanation: "Witaj! Wypełnij to, a będziemy w kontakcie w sprawie znalezienie dla Ciebe pracy twórcy oprogramowania."
+    job_profile_approved: "Twój profil zatrudnienia został zaakceptowany przez CodeCombat. Pracodawcy będą mogli go widzieć dopóki nie oznaczysz go jako nieaktywny lub nie będzie on zmieniany przez 4 tygodnie."
+    job_profile_explanation: "Witaj! Wypełnij to, a będziemy w kontakcie w sprawie znalezienie dla Ciebe pracy twórcy oprogramowania."
     sample_profile: "Zobacz przykładowy profil"
     view_profile: "Zobacz swój profil"
 

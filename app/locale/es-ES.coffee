@@ -79,6 +79,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   recover:
     recover_account_title: "Recuperar Cuenta"
     send_password: "Enviar recuperación de contraseña"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Crea una cuenta para guardar tu progreso"
@@ -450,13 +451,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     guide_caption: "Documentos y pistas"
     multiplayer_caption: "Juega con amigos!"
 
-  inventario:
-    temp: "Temp"
+#  inventory:
+#    temp: "Temp"
 
 #  choose_hero:
 #    temp: "Temp"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Salvado"
     granularity_change_history: "Historia"
 
@@ -891,7 +892,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     blurb_5: "(Habra dos ganadores por puesto, dos en el primer puesto, dos en el segundo, etc.)"
     rank: "Rango"
     prizes: "Premios"
-    Total_value: "Valor Total"
+    total_value: "Valor Total"
     in_cash: "en dinero"
     custom_wizard: "Personaliza tu Mago de CodeCombat"
     custom_avatar: "Personaliza tu avatar de CoceCombat"

@@ -37,5 +37,5 @@ module.exports = class RecoverModal extends ModalView
 
   successfullyRecovered: =>
     @disableModalInProgress(@$el)
-    @$el.find('.modal-body:visible').text('Recovery email sent.')
+    @$el.find('.modal-body:visible').text($.i18n.t('recover.recovery_sent'))
     @$el.find('.modal-footer').remove()

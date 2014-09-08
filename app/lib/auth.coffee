@@ -38,6 +38,7 @@ module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) -
   })
 
 module.exports.loginUser = (userObject, failure=genericFailure) ->
+  console.log 'logging in as', userObject.email
   jqxhr = $.post('/auth/login',
     {
       username: userObject.email,

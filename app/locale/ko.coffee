@@ -79,6 +79,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   recover:
     recover_account_title: "계정 복구"
     send_password: "복구 비밀번호 전송"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "진행 상황을 저장하기 위해서 새 계정을 생성합니다"

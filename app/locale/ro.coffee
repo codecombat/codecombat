@@ -79,6 +79,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   recover:
     recover_account_title: "Recuperează Cont"
     send_password: "Trimite parolă de recuperare"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Crează cont pentru a salva progresul"

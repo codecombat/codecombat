@@ -79,6 +79,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #  recover:
 #    recover_account_title: "Recover Account"
 #    send_password: "Send Recovery Password"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "สร้างบัญชีใหม่เพื่อบันทึกความก้าวหน้า"

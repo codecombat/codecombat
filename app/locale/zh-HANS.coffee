@@ -79,6 +79,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   recover:
     recover_account_title: "找回账户"
     send_password: "发送重置链接"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "创建一个账户来保存进度"

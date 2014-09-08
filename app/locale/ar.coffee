@@ -79,6 +79,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
   recover:
     recover_account_title: "إستعادة حساب"
     send_password: "إرسال كلمة سرّ الإستعادة"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "إنشاء حساب لحفظ التقدّم"
@@ -142,7 +143,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     forum_suffix: "بدلا من ذلك."
     send: "إرسال تعليقات"
     contact_candidate: "الاتصال المرشح"
-#   recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
+#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
     title: "مساعدة في ترجمة CodeCombat!"
@@ -151,7 +152,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     missing_translations: "حتى يمكننا ترجمة كلّ شيء إلى اللّغة العربيّة، سترى الإنجليزيّة عندما تكون العربيّة غير متوفر."
     learn_more: "معرفة المزيد عن كونك دبلوماسي"
     subscribe_as_diplomat: "الاشتراك كدبلوماسي"
-
 
   wizard_settings:
     title: "إعدادات الساحر"

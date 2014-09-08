@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   recover:
     recover_account_title: "Dapatkan Kembali Akaun"
     send_password: "Hantar kembali kata-laluan"
+#    recovery_sent: "Recovery email sent."
 
   signup:
 #    create_account_title: "Create Account to Save Progress"

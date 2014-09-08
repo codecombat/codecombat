@@ -79,6 +79,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   recover:
     recover_account_title: "שחזר סיסמה"
     send_password: "שלח סיסמה חדשה"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "הירשם כדי לשמור את התקדמותך"

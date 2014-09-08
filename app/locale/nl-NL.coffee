@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   recover:
     recover_account_title: "Herstel Account"
     send_password: "Verzend nieuw wachtwoord"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Maak een account aan om je vooruitgang op te slaan"

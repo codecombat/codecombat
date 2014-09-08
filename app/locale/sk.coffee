@@ -79,6 +79,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   recover:
     recover_account_title: "Obnov účet"
     send_password: "Zašli záchranné heslo"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "Vytvor si účet, nech si uložíš progres"

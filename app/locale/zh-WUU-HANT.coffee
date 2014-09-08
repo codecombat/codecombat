@@ -79,6 +79,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
   recover:
     recover_account_title: "賬號尋轉"
     send_password: "發轉設鏈接畀我"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "做新賬號來存進度"

@@ -79,6 +79,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   recover:
     recover_account_title: "Hesabı Kurtar"
     send_password: "Kurtarma Parolası Gönder"
+#    recovery_sent: "Recovery email sent."
 
   signup:
     create_account_title: "İlerlemenizi Kaydetmek için Hesap Oluşturun"

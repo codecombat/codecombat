@@ -53,6 +53,7 @@ module.exports = class SpellPaletteView extends CocoView
     @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language
 
   createPalette: ->
+    Backbone.Mediator.publish 'tome:palette-cleared', {thang: thang}
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
     excludedDocs = {}
@@ -135,7 +136,7 @@ module.exports = class SpellPaletteView extends CocoView
     if thisName = {coffeescript: '@', lua: 'self', clojure: 'self'}[@options.language]
       if @entryGroupNames.this
         @entryGroupNames.this = thisName
-    null
+    Backbone.Mediator.publish 'tome:palette-updated', entries: @entries
 
   addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
