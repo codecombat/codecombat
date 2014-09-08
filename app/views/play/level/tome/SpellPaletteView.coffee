@@ -53,7 +53,7 @@ module.exports = class SpellPaletteView extends CocoView
     @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language
 
   createPalette: ->
-    Backbone.Mediator.publish 'tome:palette-cleared', {thang: thang}
+    Backbone.Mediator.publish 'tome:palette-cleared', {thang: @thang}
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
     excludedDocs = {}
