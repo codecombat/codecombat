@@ -210,3 +210,56 @@ html.fullscreen-editor
       width: 95%
       height: 100%
       right: 0
+
+body.ipad #level-view
+  // Full-width Surface, preserving aspect ratio.
+  height: 1024px * (589 / 924)
+  overflow: hidden
+
+  #code-area, .footer, #thang-hud
+    display: none
+
+  #control-bar-view
+    position: absolute
+    background: transparent
+    z-index: 1
+
+    .home
+      i
+        @include opacity(1)
+      .home-text
+        display: none
+
+    .title
+      left: 20%
+      width: 60%
+      text-align: center
+      color: white
+
+      a, .editor-dash
+        display: none
+
+  #level-chat-view
+    bottom: 40px
+
+  #playback-view
+    background-color: transparent
+    z-index: 3
+    bottom: 30px
+    margin-bottom: -30px
+
+    button
+      background-color: #333
+
+    .scrubber .progress
+      background-color: rgba(255, 255, 255, 0.4)
+
+  #canvas-wrapper, #control-bar-view, #playback-view, #thang-hud
+    width: 100%
+
+  #canvas-wrapper
+    height: 653px
+
+    canvas#surface
+      margin: 0 auto
+      overflow: hidden

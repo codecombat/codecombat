@@ -164,7 +164,7 @@ module.exports = class ThangsTabView extends CocoView
     @thangsTreema.build()
     @thangsTreema.open()
     @openSmallerFolders(@thangsTreema)
-    
+
     @onThangsChanged()  # Initialize the World with Thangs
     @initSurface()
     thangsHeaderHeight = $('#thangs-header').height()
@@ -172,14 +172,14 @@ module.exports = class ThangsTabView extends CocoView
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
     if data?.length
       @$el.find('.generate-terrain-button').hide()
-      
+
   openSmallerFolders: (folderTreema) ->
     children = _.values folderTreema.childrenTreemas
     for child in children
       continue if child.data.thangType
       if _.keys(child.data).length < 5
         child.open()
-        @openSmallerFolders(child)      
+        @openSmallerFolders(child)
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -253,7 +253,7 @@ module.exports = class ThangsTabView extends CocoView
     @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
-    
+
     thang = _.find(@level.get('thangs') ? [], {id: @selectedExtantThang.id})
     path = "#{@pathForThang(thang)}/components/original=#{LevelComponent.PhysicalID}"
     physical = @thangsTreema.get path
@@ -279,7 +279,7 @@ module.exports = class ThangsTabView extends CocoView
       unless @addThangType.isFullyLoaded() or listening[@addThangType.cid]
         listening[@addThangType.cid] = true
         @listenToOnce @addThangType, 'build-complete', @onThangsChanged
-          
+
       @addThang @addThangType, thang.pos, true
     @hush = false
     @onThangsChanged()
@@ -384,7 +384,7 @@ module.exports = class ThangsTabView extends CocoView
     return unless @addThangSprite
     wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
-    @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
+    #@adjustThangPos @addThangSprite, @addThangSprite.thang, wop  # TODO: this and onSpriteDragged both conflictin'
     null
 
   onSurfaceMouseOver: (e) ->
@@ -426,7 +426,7 @@ module.exports = class ThangsTabView extends CocoView
     thang = @getThangByID(@selectedExtantThang.id)
     @thangsTreema.delete(@pathForThang(thang))
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
-  
+
   groupThangs: (thangs) ->
     # array of thangs -> foldered thangs
     grouped = {}
@@ -439,18 +439,18 @@ module.exports = class ThangsTabView extends CocoView
       obj[thang.id] = thang
       thang.index = index
     grouped
-    
+
   folderForThang: (thang) ->
     thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
     [thangType.get('kind'), thangType.get('name')]
-    
+
   pathForThang: (thang) ->
     folder = @folderForThang(thang)
     folder.push thang.id
     folder.join('/')
-  
+
   flattenThangs: (thangs) ->
-    # foldered thangs -> array of thangs 
+    # foldered thangs -> array of thangs
     flattened = []
     for key, value of thangs
       if value.id and value.thangType
@@ -458,7 +458,7 @@ module.exports = class ThangsTabView extends CocoView
       else
         flattened = flattened.concat @flattenThangs(value)
     flattened
-    
+
   populateFoldersForThang: (thang) ->
     thangFolder = @folderForThang(thang)
     prefix = ''
@@ -501,7 +501,7 @@ module.exports = class ThangsTabView extends CocoView
   onTreemaThangDoubleClicked: (e, treema) =>
     id = treema?.data?.id
     @editThang thangID: id if id
-    
+
   getThangByID: (id) -> _.find(@level.get('thangs') ? [], {id: id})
 
   addThang: (thangType, pos, batchInsert=false) ->
@@ -583,7 +583,7 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
   valueClass: 'treema-thangs-folder'
   nodeDescription: 'Thang'
   @nameToThangTypeMap: null
-  
+
   getTrackedActionDescription: (trackedAction) ->
     trackedActionDescription = super(trackedAction)
     if trackedActionDescription is 'Edit ' + @nodeDescription
@@ -591,16 +591,16 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
       if path[path.length-1] is 'pos'
         trackedActionDescription = 'Move Thang'
     trackedActionDescription
-    
+
   buildValueForDisplay: (valEl, data) ->
     el = $("<span><strong>#{@keyForParent}</strong> <span class='text-muted'>(#{@countThangs(data)})</span></span>")
-    
+
     # Kind of like having the portraits on the individual thang rows, rather than the parent folder row
     # but keeping this logic here in case we want to have it the other way.
 #    if thangType = @nameToThangType(@keyForParent)
 #      el.prepend($("<img class='img-circle' src='#{thangType.getPortraitURL()}' />"))
     valEl.append(el)
-    
+
   countThangs: (data) ->
     return 0 if data.thangType and data.id
     num = 0
@@ -610,7 +610,7 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
       else
         num += @countThangs(value)
     num
-  
+
   nameToThangType: (name) ->
     if not ThangsFolderNode.nameToThangTypeMap
       thangTypes = @settings.supermodel.getModels(ThangType)

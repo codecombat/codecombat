@@ -328,6 +328,9 @@ module.exports.thangNames = thangNames =
     'Curie'
     'Clause'
     'Vanders'
+    'Kanada'
+    'Artephius'
+    'Paracelsus'
   ]
   'Librarian': [
     'Hushbaum'

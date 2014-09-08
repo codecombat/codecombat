@@ -134,6 +134,7 @@ module.exports = class RootView extends CocoView
             d.msRequestFullscreen or
             (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
       req?.call d
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'full-screen-start', volume: 1 if req
     else
       nah = document.exitFullscreen or
             document.mozCancelFullScreen or
@@ -141,4 +142,5 @@ module.exports = class RootView extends CocoView
             document.msExitFullscreen or
             document.webkitExitFullscreen
       nah?.call document
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'full-screen-end', volume: 1 if nah
     return

@@ -36,6 +36,13 @@ module.exports =
   'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: ['spell']},
     spell: {type: 'object'}
 
+  'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
+    thangID: {type: 'string'}
+
+  'tome:palette-updated': c.object {title: 'Palette Updated', description: 'Published when the spell palette has just been updated.'},
+    thangID: {type: 'string'}
+    entryGroups: {type: 'object', additionalProperties: {type: 'array', items: {type: 'object'}}}
+
   'tome:palette-hovered': c.object {title: 'Palette Hovered', description: 'Published when you hover over a Thang in the spell palette', required: ['thang', 'prop', 'entry']},
     thang: {type: 'object'}
     prop: {type: 'string'}
@@ -109,3 +116,5 @@ module.exports =
   'tome:toggle-maximize': c.object {title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen'}
 
   'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}
+
+  'tome:select-primary-sprite': c.object {title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.'}

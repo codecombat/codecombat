@@ -53,6 +53,7 @@ module.exports = class SpellPaletteView extends CocoView
     @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language
 
   createPalette: ->
+    Backbone.Mediator.publish 'tome:palette-cleared', {thangID: @thang.id}
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
     excludedDocs = {}
@@ -128,14 +129,18 @@ module.exports = class SpellPaletteView extends CocoView
       @defaultGroupSlug = _.string.slugify defaultGroup
     @entryGroupSlugs = {}
     @entryGroupNames = {}
+    iOSEntryGroups = {}
     for group, entries of @entryGroups
       @entryGroups[group] = _.groupBy entries, (entry, i) -> Math.floor i / N_ROWS
       @entryGroupSlugs[group] = _.string.slugify group
       @entryGroupNames[group] = group
+      iOSEntryGroups[group] = (entry.doc for entry in entries)
     if thisName = {coffeescript: '@', lua: 'self', clojure: 'self'}[@options.language]
       if @entryGroupNames.this
         @entryGroupNames.this = thisName
-    null
+        iOSEntryGroups[thisName] = iOSEntryGroups.this
+        delete iOSEntryGroups.this
+    Backbone.Mediator.publish 'tome:palette-updated', entryGroups: iOSEntryGroups
 
   addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])

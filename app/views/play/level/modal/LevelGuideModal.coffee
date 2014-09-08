@@ -46,9 +46,11 @@ module.exports = class LevelGuideModal extends ModalView
       @$el.find('.nav-tabs li:first').addClass('active')
       @$el.find('.tab-content .tab-pane:first').addClass('active')
       @$el.find('.nav-tabs a').click(@clickTab)
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'guide-open', volume: 1
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'guide-tab-switch', volume: 1
 
   afterInsert: ->
     super()

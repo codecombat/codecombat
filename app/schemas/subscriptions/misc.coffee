@@ -4,6 +4,10 @@ module.exports =
   'application:idle-changed': c.object {},
     idle: {type: 'boolean'}
 
+  'application:error': c.object {},
+    message: {type: 'string'}
+    stack: {type: 'string'}
+
   'audio-player:loaded': c.object {required: ['sender']},
     sender: {type: 'object'}
 
@@ -31,3 +35,6 @@ module.exports =
   'ladder:game-submitted': c.object {required: ['session', 'level']},
     session: {type: 'object'}
     level: {type: 'object'}
+
+  'supermodel:load-progress-changed': c.object {required: ['progress']},
+    progress: {type: 'number', minimum: 0, maximum: 1}

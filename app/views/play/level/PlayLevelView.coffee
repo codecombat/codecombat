@@ -131,6 +131,7 @@ module.exports = class PlayLevelView extends RootView
   updateProgress: (progress) ->
     super(progress)
     return if @seenDocs
+    return if @isIPadApp()
     return unless @levelLoader.session.loaded and @levelLoader.level.loaded
     return unless showFrequency = @levelLoader.level.get('showsGuide')
     session = @levelLoader.session
@@ -173,10 +174,11 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @loadingView = new LevelLoadingView {}
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
+    $('body').bind('touchmove', false) if @isIPadApp()
 
   afterInsert: ->
     super()
-    @showWizardSettingsModal() if not me.get('name')
+    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp()
 
   # Partially Loaded Setup ####################################################
 
@@ -259,7 +261,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
-    #Backbone.Mediator.publish('level:set-debug', debug: true) if me.displayName() is 'Nick'
+    Backbone.Mediator.publish('level:set-debug', debug: true) if @isIPadApp()  # if me.displayName() is 'Nick'
 
   initVolume: ->
     volume = me.get('volume')
@@ -343,6 +345,8 @@ module.exports = class PlayLevelView extends RootView
     if state.selected
       # TODO: Should also restore selected spell here by saving spellName
       Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
+    else if @isIPadApp()
+      Backbone.Mediator.publish 'tome:select-primary-sprite', {}
     if state.playing?
       Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 

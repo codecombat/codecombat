@@ -37,6 +37,8 @@ preload = (arrayOfImages) ->
 Application = initialize: ->
   Router = require('Router')
   @isProduction = -> document.location.href.search('codecombat.com') isnt -1
+  @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('iPad') isnt -1
+  $('body').addClass 'ipad' if @isIPadApp
   @tracker = new Tracker()
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
