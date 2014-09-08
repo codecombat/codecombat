@@ -37,11 +37,11 @@ module.exports =
     spell: {type: 'object'}
 
   'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
-    thang: {type: 'object'}
+    thangID: {type: 'string'}
 
   'tome:palette-updated': c.object {title: 'Palette Updated', description: 'Published when the spell palette has just been updated.'},
-    thang: {type: 'object'}
-    entries: {type: 'array'}
+    thangID: {type: 'string'}
+    entryGroups: {type: 'object', additionalProperties: {type: 'array', items: {type: 'object'}}}
 
   'tome:palette-hovered': c.object {title: 'Palette Hovered', description: 'Published when you hover over a Thang in the spell palette', required: ['thang', 'prop', 'entry']},
     thang: {type: 'object'}
