@@ -143,7 +143,7 @@ _.extend ThangTypeSchema.properties,
       description: 'Snap to this many meters in the y-direction.'
   components: c.array {title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on 'original', not whole thing
 
-ThangTypeSchema.required = ['kind']
+ThangTypeSchema.required = []
 
 ThangTypeSchema.default =
   raw: {}
