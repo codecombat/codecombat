@@ -65,7 +65,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     save_version_title: "إحفض نسخة جديدة"
     new_major_version: "نسخة مهمّة جديدة"
     cla_prefix: "لحفظ التغييرات، أولا يجب أن توافق على "
-   cla_url: "اتفاقيّة ترخيص المساهم"
+    cla_url: "اتفاقيّة ترخيص المساهم"
     cla_suffix: "."
     cla_agree: "أوافق"
 
@@ -121,7 +121,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     campaign_dev_description: "... فيها تتعلم واجهة بينما  تفعل شيئا أصعب قليلا."
     campaign_multiplayer: "ساحات متعددة اللاّعبين"
     campaign_multiplayer_description: "... فيها تبرمج وجه لوجه ضد لاعبين آخرين."
-      campaign_player_created: "أنشئ اللاّعب"
+    campaign_player_created: "أنشئ اللاّعب"
     campaign_player_created_description: "... فيها تقاتل ضد الإبداع الخاص بـزميلك<a href=\"/contribute#artisan\"> الحرفيّ الساحر</a>."
     campaign_classic_algorithms: "الخوارزميات التقليديّة"
     campaign_classic_algorithms_description: "... فيها تتعلّم خوارزميّات الأكثر شعبيّة في علوم الحاسب الآلي."
