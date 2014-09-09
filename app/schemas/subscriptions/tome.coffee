@@ -41,7 +41,7 @@ module.exports =
 
   'tome:palette-updated': c.object {title: 'Palette Updated', description: 'Published when the spell palette has just been updated.'},
     thangID: {type: 'string'}
-    entryGroups: {type: 'object', additionalProperties: {type: 'array', items: {type: 'object'}}}
+    entryGroups: {type: 'object', additionalProperties: {type: 'string'}}
 
   'tome:palette-hovered': c.object {title: 'Palette Hovered', description: 'Published when you hover over a Thang in the spell palette', required: ['thang', 'prop', 'entry']},
     thang: {type: 'object'}
