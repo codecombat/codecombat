@@ -140,7 +140,7 @@ module.exports = class SpellPaletteView extends CocoView
         @entryGroupNames.this = thisName
         iOSEntryGroups[thisName] = iOSEntryGroups.this
         delete iOSEntryGroups.this
-    Backbone.Mediator.publish 'tome:palette-updated', entryGroups: iOSEntryGroups
+    Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: JSON.stringify(iOSEntryGroups)  # TODO: make it sort these by granting items if it's a hero level
 
   addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
