@@ -739,7 +739,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    introduction_desc_ending: "We hope you'll join our party!"
 #    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
     alert_account_message_intro: "Hey du!"
-     alert_account_message: "Um Klassen-Emails abonnieren zu können, musst du dich zuerst anmelden."
+    alert_account_message: "Um Klassen-Emails abonnieren zu können, musst du dich zuerst anmelden."
 #    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
     class_attributes: "Klassenattribute"
