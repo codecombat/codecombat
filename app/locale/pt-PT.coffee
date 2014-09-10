@@ -79,7 +79,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   recover:
     recover_account_title: "Recuperar Conta"
     send_password: "Enviar Password de Recuperação"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "E-mail de recuperação enviado."
 
   signup:
     create_account_title: "Criar Conta para Guardar Progresso"
@@ -568,7 +568,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     level_tab_settings: "Configurações"
     level_tab_components: "Componentes"
     level_tab_systems: "Sistemas"
-#    level_tab_docs: "Documentation"
+    level_tab_docs: "Documentação"
     level_tab_thangs_title: "Thangs Atuais"
     level_tab_thangs_all: "Todos"
     level_tab_thangs_conditions: "Condições Iniciais"
@@ -652,10 +652,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     why_paragraph_2_italic_caps: "NÃO MÃE, TENHO DE ACABAR O NÍVEL!"
     why_paragraph_2_suffix: "É por isso que o CodeCombat é um jogo multijogador, e não um jogo que não passa de um curso com lições. Nós não vamos parar enquanto não puder parar--mas desta vez, isso é uma coisa boa."
     why_paragraph_3: "Se vai ficar viciado em algum jogo, vicie-se neste e torne-se num dos feiticeiros da idade da tecnologia."
-#    press_title: "Bloggers/Press"
-#    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
-#    press_paragraph_1_link: "press packet"
-#    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
+    press_title: "Bloggers/Imprensa"
+    press_paragraph_1_prefix: "Quer escrever sobre nós? Sinta-se à vontade para descarregar e usar todos os recursos incluídos no nosso"
+    press_paragraph_1_link: "pacote de imprensa"
+    press_paragraph_1_suffix: ". Todos os logótipos e imagens podem ser usados sem nos contactar diretamente."
     team: "Equipa"
     george_title: "CEO"
     george_blurb: "Homem de Negócios"
