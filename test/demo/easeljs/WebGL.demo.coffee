@@ -472,8 +472,37 @@ class WebGLDemoView extends RootView
     createjs.Ticker.addEventListener "tick", listener
 
     # 20% CPU
+  
+  testGiantCanvas: ->
+    builder = new createjs.SpriteSheetBuilder()
+    
+    # mess with these
+    builder.maxWidth = 4096
+    builder.maxHeight = 4096
+    scale = 3.9
+    duplicates = 100
+    
+    frames = []
 
+    createClass = (frame) ->
+      class Stub
+        constructor: ->
+          sprite = new createjs.Sprite(sheet, frame)
+          sprite.stop()
+          return sprite
 
+    for name, klass of librarianLib
+      continue if name is 'Librarian_SideWalk_JSCC'
+      instance = new klass()
+      builder.addFrame(instance, instance.nominalBounds, scale) for i in _.range(duplicates)
+      librarianLib[name] = createClass(frames.length)
+      frames.push frames.length
+
+    sheet = builder.build()
+    $('body').attr('class', '').empty().css('background', 'white').append($(sheet._images))
+    for image, index in sheet._images
+      console.log "Sheet ##{index}: #{$(image).attr('width')}x#{$(image).attr('height')}"
+    
   afterRender: ->
 #    @testMovieClipWithRasterizedSpriteChildren()
 #    @testMovieClipWithEmptyObjectChildren()
@@ -485,7 +514,8 @@ class WebGLDemoView extends RootView
 #    @testAnimateManyRasteredWaterfalls()
 #    @testManualMovieClipUpdating()
 #    @testManyWaterfallsWithManualAnimation()
-    @testLibrarianHorde()
+#    @testLibrarianHorde()
+    @testGiantCanvas()
 
 module.exports = ->
   v = new WebGLDemoView()

@@ -341,6 +341,7 @@ module.exports = class LevelPlaybackView extends CocoView
         Backbone.Mediator.publish 'level:set-playing', {playing: false}
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'playback-scrub-start', volume: 0.5
 
+
       stop: (event, ui) =>
         return if @shouldIgnore()
         @actualProgress = ui.value / @sliderIncrements
@@ -352,6 +353,7 @@ module.exports = class LevelPlaybackView extends CocoView
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
         else
           Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'playback-scrub-end', volume: 0.5
+
     )
 
   getScrubRatio: ->

@@ -44,11 +44,10 @@ module.exports = class SpellPaletteEntryView extends CocoView
       content: @docFormatter.formatPopover()
       container: 'body'
       template: @overridePopoverTemplate
-    )
-    window.element = @$el
-    @$el.on 'show.bs.popover', =>
+    ).on 'show.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-palette-entry-open', volume: 1
+      soundIndex = Math.floor(Math.random() * 4)
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-{soundIndex}", volume: 0.75
 
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
@@ -65,6 +64,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
       @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
       $('.spell-palette-popover.popover .close').remove()
       @$el.popover 'hide'
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-palette-entry-unpin', volume: 1
     else
       @popoverPinned = true
       @$el.popover 'show'

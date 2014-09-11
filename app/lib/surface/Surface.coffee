@@ -457,12 +457,12 @@ module.exports = Surface = class Surface extends CocoClass
 
   onMouseDown: (e) =>
     return if @disabled
-    newPos = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
+    cap = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
     # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
-    onBackground = not @stage._getObjectsUnderPoint(newPos.x, newPos.y, null, true)
+    onBackground = not @stage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
 
-    worldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
-    event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: worldPos
+    wop = @camera.screenToWorld x: e.stageX, y: e.stageY
+    event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
 

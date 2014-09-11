@@ -78,7 +78,8 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
       trigger: 'hover'
       content: docFormatter.formatPopover()
       container: @$el.parent()
-    )
+    ).on 'show.bs.popover', =>
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-tab-entry-open", volume: 0.75
 
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super

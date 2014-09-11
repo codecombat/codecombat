@@ -31,7 +31,7 @@ module.exports = class LevelLoadingView extends CocoView
     loadingDetails.css 'top', -loadingDetails.outerHeight(true)
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'loading-view-unveil', volume: 1
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'loading-view-unveil', volume: 0.5
     _.delay @onUnveilEnded, duration * 1000
 
   onUnveilEnded: =>
