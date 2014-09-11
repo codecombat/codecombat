@@ -13,7 +13,7 @@ module.exports = class NewModelModal extends ModalView
 
   constructor: (options) ->
     super options
-    @model = options.model
+    @modelClass = options.model
     @modelLabel = options.modelLabel
     @properties = options.properties
     $('#name').ready @focusOnName
@@ -25,10 +25,10 @@ module.exports = class NewModelModal extends ModalView
     c
 
   makeNewModel: ->
-    model = new @model
+    model = new @modelClass
     name = @$el.find('#name').val()
     model.set('name', name)
-    if @model.schema().properties.permissions
+    if model.schema().properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
     model.set(key, prop) for key, prop of @properties if @properties?
     model
