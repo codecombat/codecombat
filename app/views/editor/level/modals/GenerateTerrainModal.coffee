@@ -234,7 +234,7 @@ module.exports = class GenerateTerrainModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 90
-  
+
   events:
     'click .choose-option': 'onGenerate'
 

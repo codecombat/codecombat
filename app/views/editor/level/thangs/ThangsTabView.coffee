@@ -237,11 +237,15 @@ module.exports = class ThangsTabView extends CocoView
     @dragged = true
     @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
-    wop = @surface.camera.screenToWorld x: stageX, y: stageY
+    cap = @surface.camera.screenToCanvas x: stageX, y: stageY
+    wop = @surface.camera.canvasToWorld cap
     wop.z = @selectedExtantThang.depth / 2
     @adjustThangPos @selectedExtantSprite, @selectedExtantThang, wop
     [w, h] = [@surface.camera.canvasWidth, @surface.camera.canvasHeight]
-    @calculateMovement(stageX / w, stageY / h, w / h)
+    sidebarWidths = ((if @$el.find(id).hasClass('hide') then 0 else (@$el.find(id).outerWidth() / @surface.camera.canvasScaleFactorX)) for id in ['#all-thangs', '#add-thangs-view'])
+    w -= sidebarWidth for sidebarWidth in sidebarWidths
+    cap.x -= sidebarWidths[0]
+    @calculateMovement(cap.x / w, cap.y / h, w / h)
 
   onSpriteMouseUp: (e) ->
     clearTimeout @backgroundAddClickTimeout
@@ -384,7 +388,7 @@ module.exports = class ThangsTabView extends CocoView
     return unless @addThangSprite
     wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
-    @adjustThangPos @addThangSprite, @addThangSprite.thang, wop  # TODO: this and onSpriteDragged both conflictin'
+    @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
     null
 
   onSurfaceMouseOver: (e) ->
