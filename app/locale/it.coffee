@@ -19,7 +19,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    unwatch: "Unwatch"
     submit_patch: "Invia Patch"
 
-#  units:
+  units:
     second: "secondo"
     seconds: "secondi"
     minute: "minuto"
@@ -210,7 +210,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    view_profile: "View Your Profile"
 
   account_profile:
-   settings: "Impostazioni"
+    settings: "Impostazioni"
     edit_profile: "Modifica Profilo"
 #    done_editing: "Done Editing"
     profile_for_prefix: "Profilo di "
@@ -368,7 +368,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     restart: "Ricomincia"
     goals: "Obiettivi"
 #    success: "Success!"
-     incomplete: "Incompleto"
+    incomplete: "Incompleto"
     timed_out: "Tempo Scaduto"
 #   failing: "Failing"
     action_timeline: "Barra temporale delle azioni"
@@ -401,7 +401,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     spell_saved: "Magia Salvata"
     skip_tutorial: "Salta (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
-     loading_ready: "Pronto!"
+    loading_ready: "Pronto!"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -438,18 +438,18 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    infinite_loop_comment_out: "Comment Out My Code"
 
   game_menu:
-     inventory_tab: "Inventario"
-     choose_hero_tab: "Ricomincia Livello"
-     save_load_tab: "Salva/Carico"
-     options_tab: "Opzioni"
-     guide_tab: "Guida"
+    inventory_tab: "Inventario"
+    choose_hero_tab: "Ricomincia Livello"
+    save_load_tab: "Salva/Carico"
+    options_tab: "Opzioni"
+    guide_tab: "Guida"
     multiplayer_tab: "Multigiocatore"
 #    inventory_caption: "Equip your hero"
-     choose_hero_caption: "Scegli eroe, lingua"
+    choose_hero_caption: "Scegli eroe, lingua"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
-     multiplayer_caption: "Gioca con i tuoi amici!"
+    multiplayer_caption: "Gioca con i tuoi amici!"
 
 #  inventory:
 #    temp: "Temp"
@@ -457,13 +457,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #  choose_hero:
 #    temp: "Temp"
 
-#  save_load:
-     granularity_saved_games: "Salvato"
+  save_load:
+    granularity_saved_games: "Salvato"
 #    granularity_change_history: "History"
 
-#  options:
+  options:
 #    general_options: "General Options"
-     volume_label: "Volume"
+    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
@@ -491,20 +491,20 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   multiplayer:
     multiplayer_title: "Impostazioni multigiocatore"
-     multiplayer_toggle: "Abilita multiplayer"
-     multiplayer_toggle_description: "Permetti ad altri giocatori di unirsi alla partita."
+    multiplayer_toggle: "Abilita multiplayer"
+    multiplayer_toggle_description: "Permetti ad altri giocatori di unirsi alla partita."
     multiplayer_link_description: "Dai questo link a chi vuoi che si unisca a te."
     multiplayer_hint_label: "Suggerimento:"
     multiplayer_hint: " Clicca il link per selezionare tutto, quindi premi CMD-C o Ctrl-C per copiare il link."
     multiplayer_coming_soon: "Ulteriori aggiunte per il multigiocatore in arrivo!"
 #    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
-     space: "Spazio"
-     enter: "Invio"
-     escape: "Esc"
-     shift: "Maiusc"
+    space: "Spazio"
+    enter: "Invio"
+    escape: "Esc"
+    shift: "Maiusc"
 #    cast_spell: "Cast current spell."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
@@ -517,7 +517,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
-     maximize_editor: "Ingrandisci/rimpicciolisci l'editor di programmazione."
+    maximize_editor: "Ingrandisci/rimpicciolisci l'editor di programmazione."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -766,7 +766,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    artisan_join_step1: "Read the documentation."
     artisan_join_step2: "Crea un nuovo livello ed esplora quelli già esistenti."
 #    artisan_join_step3: "Find us in our public HipChat room for help."
-     artisan_join_step4: "Posta il tuo livello sul forum per ricevere del feedback."
+    artisan_join_step4: "Posta il tuo livello sul forum per ricevere del feedback."
     more_about_artisan: "Leggi di più su cosa vuol dire diventare un creativo Artigiano"
 #    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
 #    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
@@ -784,7 +784,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     scribe_introduction_url_mozilla: "Rete di sviluppo di Mozilla"
 #    scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
 #    scribe_attribute_1: "Skill in words is pretty much all you need. Not only grammar and spelling, but able to convey complicated ideas to others."
-     contact_us_url: "Contattaci"
+    contact_us_url: "Contattaci"
 #    scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
     more_about_scribe: "Leggi di più su cosa vuol dire diventare un diligente Scrivano"
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
@@ -794,7 +794,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     diplomat_introduction_suf: "è che c'è un notevole interesse per CodeCombat negli altri paesi, in particolare in Brasile! Stiamo costruendo un corpo di traduttori per trasformare liste di parole in altre parole, per rendere CodeCombat accessibile il più possibile in tutto il mondo. Se ti piace l'idea di sbirciare nei contenuti futuri e di portare questi livelli ai tuoi connazionali il più presto possibile, questa categoria potrebbe essere la tua."
     diplomat_attribute_1: "Competenza in inglese e nella lingua in cui vorresti tradurre. Per trasferire idee complesse è importante avere una solida capacità in entrambe!"
 #    diplomat_join_pref_github: "Find your language locale file "
-     diplomat_github_url: "su GitHub"
+    diplomat_github_url: "su GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
     more_about_diplomat: "Leggi di più su cosa vuol dire diventare un grande Diplomatico"
     diplomat_subscribe_desc: "Ricevi messaggi email sullo sviluppo i18n e i livelli da tradurre."
@@ -829,8 +829,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     ambassador_title_description: "(Supporto)"
 
   ladder:
-     please_login: "Per favore esegui il log in first prima di giocare una partita classificata ."
-     my_matches: "Le mie partite"
+    please_login: "Per favore esegui il log in first prima di giocare una partita classificata ."
+    my_matches: "Le mie partite"
     simulate: "Simula"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
