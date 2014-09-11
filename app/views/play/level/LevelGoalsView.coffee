@@ -28,7 +28,7 @@ module.exports = class LevelGoalsView extends CocoView
       @updatePlacement()
 
   onNewGoalStates: (e) ->
-    firstRun = @previousGoalStatus?
+    firstRun = not @previousGoalStatus?
     @previousGoalStatus ?= {}
     @$el.find('.goal-status').addClass 'secret'
     classToShow = null
@@ -63,8 +63,9 @@ module.exports = class LevelGoalsView extends CocoView
       goals.push goal
       if not firstRun and state.status is 'success' and @previousGoalStatus[goal.id] isnt 'success'
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'goal-success', volume: 1
-      else if not firstRun and state.status is 'incomplete' and @previousGoalStatus[goal.id] is 'success'
+      else if not firstRun and state.status isnt 'success' and @previousGoalStatus[goal.id] is 'success'
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'goal-incomplete-again', volume: 1
+      @previousGoalStatus[goal.id] = state.status
     @$el.removeClass('secret') if goals.length > 0
 
   onSurfacePlaybackRestarted: ->
@@ -91,8 +92,19 @@ module.exports = class LevelGoalsView extends CocoView
     sound = if expand then 'goals-expand' else 'goals-collapse'
     top = if expand then -10 else 26 - @$el.outerHeight()
     @$el.css 'top', top
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: 1 if @expanded?
+    if @soundTimeout
+      # Don't play the sound we were going to play after all; the transition has reversed.
+      clearTimeout @soundTimeout
+      @soundTimeout = null
+    else if @expanded?
+      # Play it when the transition ends, not when it begins.
+      @soundTimeout = _.delay @playToggleSound, 500, sound
     @expanded = expand
+
+  playToggleSound: (sound) =>
+    return if @destroyed
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: sound, volume: 1
+    @soundTimeout = null
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on
