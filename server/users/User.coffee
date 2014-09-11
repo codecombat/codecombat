@@ -124,7 +124,7 @@ UserSchema.statics.statsMapping =
     'level.component': 'stats.levelComponentMiscPatches'
     'level.system': 'stats.levelSystemMiscPatches'
     'thang.type': 'stats.thangTypeMiscPatches'
-    
+
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
   id = mongoose.Types.ObjectId id if _.isString id
   @findById id, (err, user) ->
@@ -184,8 +184,9 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.digest('hex')
 
 UserSchema.statics.privateProperties = [
-  'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement'
+  'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
+  'emailSubscriptions', 'emails', 'activity'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
