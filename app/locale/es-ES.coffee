@@ -896,7 +896,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     in_cash: "en dinero"
     custom_wizard: "Personaliza tu Mago de CodeCombat"
     custom_avatar: "Personaliza tu avatar de CoceCombat"
-    heap: "Por seis meses de acceso "Startup""
+    heap: "Por seis meses de acceso \"Startup\""
     credits: "creditos"
     one_month_coupon: "cupon: elige entre Rails o HTML"
     one_month_discount: "descuento del 30%: elige entre Rails o HTML"
@@ -970,7 +970,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Sin Cambios"
 
-#  user:
+  user:
     stats: "Estadisticas"
     singleplayer_title: "Niveles Individuales"
     multiplayer_title: "Niveles Multijugador"
@@ -985,7 +985,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     favorite_prefix: "Favorite language is "
     favorite_postfix: "."
 
-#  achievements:
+  achievements:
     last_earned: "Ganado la ultima vez"
     amount_achieved: "Cantidad"
     achievement: "Logro"
@@ -1001,6 +1001,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     left_xp_infix: " hasta el nivel"
     left_xp_postfix: ""
 
-#  account:
+  account:
     recently_played: "Jugado Recientemente"
     no_recent_games: "No he jugado juegos en las ultimas dos semanas."
