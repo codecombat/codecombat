@@ -33,7 +33,12 @@ module.exports = class ThangType extends CocoModel
   isFullyLoaded: ->
     # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
     return @get('actions') or @get('raster') # needs one of these two things
-
+  
+  loadRasterImage: ->
+    return unless raster = @get('raster')
+    @rasterImage = $("<img src='/file/#{raster}' />")
+    @rasterImage.on('load', => @trigger('raster-image-loaded'))
+    
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()

@@ -79,13 +79,13 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @handledDisplayEvents = {}
     @age = 0
     @stillLoading = true
-    if @thangType.isFullyLoaded()
-      @setUpSprite()
-    else
-      @thangType.setProjection null
-      @thangType.fetch() unless @thangType.loading
-      @listenToOnce(@thangType, 'sync', @setUpSprite)
-      @setUpPlaceholder()
+#    if @thangType.isFullyLoaded()
+#      @setUpSprite()
+#    else
+#      @thangType.setProjection null
+#      @thangType.fetch() unless @thangType.loading
+#      @listenToOnce(@thangType, 'sync', @setUpSprite)
+#      @setUpPlaceholder()
 
   setUpSprite: ->
     for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
