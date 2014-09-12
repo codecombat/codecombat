@@ -33,7 +33,7 @@ module.exports = class AddThangsView extends CocoView
       models = @supermodel.getModels(ThangType)
 
     thangTypes = _.uniq models, false, (thangType) -> thangType.get('original')
-    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') is 'Mark'
+    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') in ['Mark', 'Item']
     groupMap = {}
     for thangType in thangTypes
       kind = thangType.get('kind')
@@ -48,6 +48,10 @@ module.exports = class AddThangsView extends CocoView
         name: groupName
         thangs: someThangTypes
       groups.push group
+
+    groups = _.sortBy groups, (group) ->
+      index = ['Wall', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf group.name
+      if index is -1 then 9001 else index
 
     context.thangTypes = thangTypes
     context.groups = groups
