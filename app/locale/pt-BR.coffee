@@ -1002,5 +1002,5 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     left_xp_postfix: ""
 
 #  account:
-#    recently_played: "Recently Played"
-#    no_recent_games: "No games played during the past two weeks."
+    recently_played: "Jogos Recentes"
+    no_recent_games: "Não foram feitos jogos durante duas semanas."
