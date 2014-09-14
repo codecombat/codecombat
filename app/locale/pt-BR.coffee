@@ -548,7 +548,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     main_title: "Editores do CodeCombat"
     article_title: "Editor de Artigo"
     thang_title: "Editor de Thang"
-    level_title: "Editor de Niível"
+    level_title: "Editor de Nível"
 #    achievement_title: "Achievement Editor"
     back: "Voltar"
     revert: "Reverter"
