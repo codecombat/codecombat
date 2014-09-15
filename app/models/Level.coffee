@@ -54,9 +54,15 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session) ->
     levelThang.components ?= []
+    isHero = levelThang.id is 'Hero Placeholder'
+
     # Empty out placeholder Components and store their values if we're the hero placeholder.
-    placeholders = {}
-    if levelThang.id is 'Hero Placeholder'
+    if isHero
+      placeholders = {}
+      placeholdersUsed = {}
+      placeholderThangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+      for defaultPlaceholderComponent in placeholderThangType.get('components')
+        placeholders[defaultPlaceholderComponent.original] = defaultPlaceholderComponent
       for thangComponent in levelThang.components
         placeholders[thangComponent.original] = thangComponent
       levelThang.components = []  # We have stored the placeholder values, so we can inherit everything else.
@@ -80,7 +86,8 @@ module.exports = class Level extends CocoModel
         levelThangComponent = $.extend true, {}, defaultThangComponent
         levelThang.components.push levelThangComponent
 
-      if placeholderComponent = placeholders[defaultThangComponent.original]
+      if isHero and placeholderComponent = placeholders[defaultThangComponent.original]
+        placeholdersUsed[placeholderComponent.original] = true
         placeholderConfig = placeholderComponent.config ? {}
         if placeholderConfig.pos  # Pull in Physical pos x and y
           levelThangComponent.config.pos ?= {}
@@ -93,10 +100,13 @@ module.exports = class Level extends CocoModel
           copy = $.extend true, {}, placeholderConfig
           levelThangComponent.config = _.merge copy, levelThangComponent.config
 
-    if levelThang.id is 'Hero Placeholder' and equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
-      inventory = session?.get('heroConfig')?.inventory
-      equips.config ?= {}
-      equips.config.inventory = $.extend true, {}, inventory if inventory
+    if isHero
+      if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
+        inventory = session?.get('heroConfig')?.inventory
+        equips.config ?= {}
+        equips.config.inventory = $.extend true, {}, inventory if inventory
+      for original, placeholderComponent of placeholders when not placeholdersUsed[original]
+        levelThang.components.push placeholderComponent
 
 
   sortSystems: (levelSystems, systemModels) ->
