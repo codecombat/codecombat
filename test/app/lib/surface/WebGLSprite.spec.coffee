@@ -10,7 +10,7 @@ describe 'WebGLSprite', ->
   webGLSprite = null
   
   showMe = ->
-    canvas = $('<canvas width="600" height="400"></canvas>').css('position', 'absolute').css('index', 1000)#.css('background', 'white')
+    canvas = $('<canvas width="600" height="400"></canvas>').css('position', 'absolute').css('index', 1000).css('background', 'white')
     $('body').append(canvas)
     stage = new createjs.SpriteStage(canvas[0])
     stage.addChild(webGLSprite)
@@ -102,4 +102,4 @@ describe 'WebGLSprite', ->
       expect(webGLSprite.baseMovieClip.currentFrame).toBe(expectedFrame)
       for child in webGLSprite.childSpriteContainers
         expect(child.movieClip.currentFrame).toBe(expectedFrame)
-      showMe()
+
