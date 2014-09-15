@@ -11,6 +11,7 @@ module.exports = class LevelComponent extends CocoModel
   @ExistsID: '524b4150ff92f1f4f8000024'
   @LandID: '524b7aff7fc0f6d519000006'
   @CollidesID: '524b7b857fc0f6d519000012'
+  @PlansID: '524b7b517fc0f6d51900000d'
   urlRoot: '/db/level.component'
 
   set: (key, val, options) ->

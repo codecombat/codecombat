@@ -39,8 +39,8 @@ module.exports = class CastButtonView extends CocoView
     @castButton = $('.cast-button', @$el)
     @castButtonGroup = $('.cast-button-group', @$el)
     @castOptions = $('.autocast-delays', @$el)
-    delay = me.get('autocastDelay')
-    delay ?= 90019001
+    #delay = me.get('autocastDelay')  # No more autocast
+    delay = 90019001
     @setAutocastDelay delay
 
   attachTo: (spellView) ->
@@ -60,12 +60,6 @@ module.exports = class CastButtonView extends CocoView
           Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     else
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
-
-  onCastOptionsClick: (e) =>
-    Backbone.Mediator.publish 'tome:focus-editor', {}
-    @castButtonGroup.removeClass 'open'
-    @setAutocastDelay $(e.target).attr 'data-delay'
-    false
 
   onSpellChanged: (e) ->
     @updateCastButton()
@@ -111,6 +105,7 @@ module.exports = class CastButtonView extends CocoView
   setAutocastDelay: (delay) ->
     #console.log 'Set autocast delay to', delay
     return unless delay
+    delay = 90019001  # No more autocast
     @autocastDelay = delay = parseInt delay
     me.set('autocastDelay', delay)
     me.patch()

@@ -2,7 +2,7 @@
 <variables>
 	<global>
 		<native>繁体中文</native>
-		<description>Simplified Chinese</description>
+		<description>Traditional Chinese</description>
 		<tips>Before we start the installation, here are some tips:</tips>
 		<exit>Press any key to exit...</exit>
 	</global>
