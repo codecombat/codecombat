@@ -142,7 +142,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     forum_page: "il nostro forum"
     forum_suffix: " invece."
     send: "Invia feedback"
-#   contact_candidate: "Contact Candidate"
+#    contact_candidate: "Contact Candidate"
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
@@ -370,7 +370,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    success: "Success!"
     incomplete: "Incompleto"
     timed_out: "Tempo Scaduto"
-#   failing: "Failing"
+#    failing: "Failing"
     action_timeline: "Barra temporale delle azioni"
     click_to_select: "Clicca un'unità per selezionarla."
     reload_title: "Ricarica tutto il codice?"
@@ -521,11 +521,17 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
+#    av_espionage: "Espionage"
+#    av_espionage_placeholder: "Email or username"
+#    av_usersearch: "User Search"
+#    av_usersearch_placeholder: "Email, username, name, whatever"
+#    av_usersearch_search: "Search"
     av_title: "Vista amministratore"
     av_entities_sub_title: "Entità"
     av_entities_users_url: "Utenti"
     av_entities_active_instances_url: "Istanze attive"
 #    av_entities_employer_list_url: "Employer List"
+#    av_entities_candidates_list_url: "Candidate List"
     av_other_sub_title: "Altro"
     av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "Lista utenti"
@@ -542,6 +548,12 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_blog: "Read the CodeCombat blog on Sett"
+#    social_discource: "Join the discussion on our Discourse forum"
+#    social_facebook: "Like CodeCombat on Facebook"
+#    social_twitter: "Follow CodeCombat on Twitter"
+#    social_gplus: "Join CodeCombat on Google+"
+#    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
 #    contribute_to_the_project: "Contribute to the project"
 
   editor:

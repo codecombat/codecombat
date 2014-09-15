@@ -521,11 +521,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     move_wizard: "Mover o seu Feiticeiro pelo nível."
 
   admin:
+#    av_espionage: "Espionage"
+#    av_espionage_placeholder: "Email or username"
+#    av_usersearch: "User Search"
+#    av_usersearch_placeholder: "Email, username, name, whatever"
+#    av_usersearch_search: "Search"
     av_title: "Vistas de Administrador"
     av_entities_sub_title: "Entidades"
     av_entities_users_url: "Utilizadores"
     av_entities_active_instances_url: "Activar Instâncias"
     av_entities_employer_list_url: "Lista de Empregadores"
+#    av_entities_candidates_list_url: "Candidate List"
     av_other_sub_title: "Outro"
     av_other_debug_base_url: "Base (para depurar base.jade)"
     u_title: "Lista de Utilizadores"
@@ -542,6 +548,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     article_editor_prefix: "Vê um erro em alguns dos nossos documentos? Quer escrever algumas instruções para as suas criações? Confira o"
     article_editor_suffix: "e ajude os jogadores do CodeCombat a obter o máximo do tempo de jogo deles."
     find_us: "Encontre-nos nestes sítios"
+#    social_blog: "Read the CodeCombat blog on Sett"
+#    social_discource: "Join the discussion on our Discourse forum"
+#    social_facebook: "Like CodeCombat on Facebook"
+#    social_twitter: "Follow CodeCombat on Twitter"
+#    social_gplus: "Join CodeCombat on Google+"
+#    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
     contribute_to_the_project: "Contribua para o projeto"
 
   editor:
