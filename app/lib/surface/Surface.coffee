@@ -488,7 +488,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Canvas callbacks
 
   onResize: (e) =>
-    return if @destroyed
+    return if @destroyed or @options.choosing
     oldWidth = parseInt @canvas.attr('width'), 10
     oldHeight = parseInt @canvas.attr('height'), 10
     aspectRatio = oldWidth / oldHeight
