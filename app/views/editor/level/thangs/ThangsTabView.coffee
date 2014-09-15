@@ -452,6 +452,7 @@ module.exports = class ThangsTabView extends CocoView
 
   deleteSelectedExtantThang: (e) =>
     return if $(e.target).hasClass 'treema-node'
+    return unless @selectedExtantThang
     thang = @getThangByID(@selectedExtantThang.id)
     @thangsTreema.delete(@pathForThang(thang))
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
