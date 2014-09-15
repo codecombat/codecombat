@@ -521,11 +521,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     move_wizard: "在关卡中移动你的巫师角色。"
 
   admin:
+#    av_espionage: "Espionage"
+#    av_espionage_placeholder: "Email or username"
+#    av_usersearch: "User Search"
+#    av_usersearch_placeholder: "Email, username, name, whatever"
+#    av_usersearch_search: "Search"
     av_title: "管理员视图"
     av_entities_sub_title: "实体"
     av_entities_users_url: "用户"
     av_entities_active_instances_url: "活动实例"
 #    av_entities_employer_list_url: "Employer List"
+#    av_entities_candidates_list_url: "Candidate List"
     av_other_sub_title: "其他"
     av_other_debug_base_url: "Base（用于调试 base.jade）"
     u_title: "用户列表"
@@ -542,6 +548,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     article_editor_prefix: "你在游戏中发现了错误了吗？想要自己设计一些指令吗？来看看我们的"
     article_editor_suffix: "来帮助玩家从游戏中学到更多的知识。"
     find_us: "通过这些站点联系我们"
+#    social_blog: "Read the CodeCombat blog on Sett"
+#    social_discource: "Join the discussion on our Discourse forum"
+#    social_facebook: "Like CodeCombat on Facebook"
+#    social_twitter: "Follow CodeCombat on Twitter"
+#    social_gplus: "Join CodeCombat on Google+"
+#    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
     contribute_to_the_project: "为项目做贡献"
 
   editor:

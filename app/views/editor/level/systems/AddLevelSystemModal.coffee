@@ -49,5 +49,5 @@ module.exports = class AddLevelSystemModal extends ModalView
         original: s.get('original') ? id
         majorVersion: s.get('version').major ? 0
       @extantSystems.push levelSystem
-      Backbone.Mediator.publish 'level-system-added', system: levelSystem
+      Backbone.Mediator.publish 'editor:level-system-added', system: levelSystem
     @renderAvailableSystems()
