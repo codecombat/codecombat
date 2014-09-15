@@ -39,6 +39,7 @@ module.exports = class ThangsTabView extends CocoView
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:mouse-down': 'onSpriteMouseDown'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
+    'surface:stage-mouse-down': 'onStageMouseDown'
     'surface:stage-mouse-up': 'onStageMouseUp'
     'editor:random-terrain-generated': 'onRandomTerrainGenerated'
 
@@ -225,8 +226,18 @@ module.exports = class ThangsTabView extends CocoView
     # if e.originalEvent.nativeEvent.button == 2
     #   @onSpriteContextMenu e
 
+  onStageMouseDown: (e) ->
+    return unless @addThangSprite?.thangType.get('kind') is 'Wall'
+    @surface.camera.dragDisabled = true
+    @paintingWalls = true
+
   onStageMouseUp: (e) ->
-    if @addThangSprite
+    if @paintingWalls
+      # We need to stop painting walls, but we may also stop in onExtantThangSelected.
+      _.defer =>
+        @paintingWalls = false
+        @surface.camera.dragDisabled = false
+    else if @addThangSprite
       @surface.camera.lock()
       # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
@@ -295,7 +306,10 @@ module.exports = class ThangsTabView extends CocoView
     @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
-    if e.thang and (key.alt or key.meta)
+    if @paintingWalls
+      @paintingWalls = false
+      @surface.camera.dragDisabled = false
+    else if e.thang and (key.alt or key.meta)
       # We alt-clicked, so create a clone addThang
       @selectAddThangType e.thang.spriteName, @selectedExtantThang
     else if @justAdded()
@@ -389,6 +403,15 @@ module.exports = class ThangsTabView extends CocoView
     wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
     @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
+    if @paintingWalls
+      unless _.find @surface.spriteBoss.spriteArray, ((sprite) =>
+        sprite.thangType.get('kind') is 'Wall' and
+        Math.abs(sprite.thang.pos.x - @addThangSprite.thang.pos.x) < 2 and
+        Math.abs(sprite.thang.pos.y - @addThangSprite.thang.pos.y) < 2 and
+        sprite isnt @addThangSprite
+      )
+        @addThang @addThangType, @addThangSprite.thang.pos
+        @lastAddTime = new Date()
     null
 
   onSurfaceMouseOver: (e) ->
