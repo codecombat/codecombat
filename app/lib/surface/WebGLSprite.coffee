@@ -1,6 +1,8 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 module.exports = class WebGLSprite extends createjs.SpriteContainer
+  childSpriteContainers: null
+  
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix) ->
     @initialize(@spriteSheet)
     
@@ -11,6 +13,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     @currentAnimation = actionName
     action = @thangType.getActions()[actionName]
     if action.animation
+      @childSpriteContainers = []
       @baseMovieClip = @buildMovieClip(action.animation)
       @mirrorMovieClip(@baseMovieClip, @)
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
@@ -29,16 +32,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     return
   
   mirrorMovieClip: (movieClip, spriteContainer) ->
-    movieClips = []
     spriteContainer.children = movieClip.children
-    for child, index in spriteContainer.children
-      if child instanceof createjs.MovieClip
-        movieClips.push(child)
-        childMovieClip = child
-        childSpriteContainer = new createjs.SpriteContainer(@spriteSheet)
-        spriteContainer.children[index] = childSpriteContainer
-        movieClips = movieClips.concat(@mirrorMovieClip(childMovieClip, childSpriteContainer))
-    return movieClips
 
   buildMovieClip: (animationName, mode, startPosition, loops) ->
     raw = @thangType.get('raw')
@@ -57,8 +51,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       tween = createjs.Tween
       for func in tweenData
         args = $.extend(true, [], (func.a))
-        args = @dereferenceArgs(args, locals)
-        if args is false
+        if @dereferenceArgs(args, locals) is false
           console.log 'could not dereference args', args
           stopped = true
           break
@@ -88,6 +81,10 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
+      childSpriteContainer = new createjs.SpriteContainer(@spriteSheet)
+      childSpriteContainer.movieClip = animation
+      childSpriteContainer.children = animation.children
+      @childSpriteContainers.push(childSpriteContainer)
     return map
 
   dereferenceArgs: (args, locals) ->
@@ -136,6 +133,13 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       @baseMovieClip.gotoAndStop(newFrame)
       
     @currentFrame = newFrame
+
+    if @childSpriteContainers
+      for childSpriteContainer in @childSpriteContainers
+        movieClip = childSpriteContainer.movieClip
+        index = movieClip.parent.getChildIndex(movieClip)
+        movieClip.gotoAndStop(newFrame)
+        movieClip.parent[index] = childSpriteContainer
 
   getBounds: ->
     @baseMovieClip.getBounds()

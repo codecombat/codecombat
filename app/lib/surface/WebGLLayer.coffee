@@ -66,7 +66,7 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
       if action.container
         containersToRender[action.container] = true
       else if action.animation
-        animationContainers = thangType.get('raw').animations[action.animation].containers
+        animationContainers = @getContainersForAnimation(thangType, action.animation)
         containersToRender[container.gn] = true for container in animationContainers
     
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
@@ -76,6 +76,11 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
       frame = spriteSheetBuilder.addFrame(container)
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
+  getContainersForAnimation: (thangType, animation) ->
+    containers = thangType.get('raw').animations[animation].containers
+    for animation in thangType.get('raw').animations[animation].animations
+      containers = containers.concat(@getContainersForAnimation(thangType, animation.gn))
+    return containers
       
   renderSpriteSheet: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     actionObjects = _.values(thangType.getActions())
@@ -141,14 +146,4 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
-    spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
-      
-#  renderForSprite: (cocoSprite) ->
-#    rawData = cocoSprite.thangType.get('raw')
-#    groupKey = @renderGroupingKey(cocoSprite.thangType, cocoSprite.options.colorConfig)
-#    spriteBuilder = new SpriteBuilder(cocoSprite.thangType, cocoSprite.options)
-#    for animation in raw.animations ? []
-#      for shape in shapes
-#        shape = @spriteBuilder.buildShapeFromStore(shape.gn)
-#        key = groupKey = ':' + shape.gn
-#        frame = @spriteBuilder.addFrame(groupKey)
+    spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false) 
