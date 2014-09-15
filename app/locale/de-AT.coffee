@@ -521,11 +521,17 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
+    av_espionage: "Spionage"
+    av_espionage_placeholder: "Email oder Benutzername"
+    av_usersearch: "Benutzersuche"
+    av_usersearch_placeholder: "Email, Benutzename, Name, Was auch immer"
+    av_usersearch_search: "Suchen"
     av_title: "Administrator Übersicht"
     av_entities_sub_title: "Entitäten"
     av_entities_users_url: "Benutzer"
     av_entities_active_instances_url: "Aktive Instanzen"
     av_entities_employer_list_url: "Arbeitgeberliste"
+    av_entities_candidates_list_url: "Kandidatenliste"
     av_other_sub_title: "Sonstige"
     av_other_debug_base_url: "Base (um base.jade zu debuggen)"
     u_title: "Benutzerliste"
@@ -542,6 +548,12 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
     find_us: "Finde uns auf diesen Seiten"
+    social_blog: "Lese den CodeCombat Blog auf Sett"
+    social_discource: "Schließe dich den Diskussionen in unserem Discourse Forum an"
+    social_facebook: "Like CodeCombat auf Facebook"
+    social_twitter: "Folge CodeCombat auf Twitter"
+    social_gplus: "Schließe dich CodeCombat bei Google+ an"
+    social_hipchat: "Chatte mit uns in unserem öffentlichen CodeCombat HipChat Raum"
 #    contribute_to_the_project: "Contribute to the project"
 
   editor:
