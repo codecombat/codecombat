@@ -532,7 +532,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     lg_title: "Últimos Jogos"
 #    clas: "CLAs"
 
-#  community:
+  community:
     main_title: "Comunidade CodeCombat"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
     level_editor_prefix: "Use o CodeCombat"
@@ -961,7 +961,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 
-#  delta:
+  delta:
 #    added: "Added"
 #    modified: "Modified"
 #    deleted: "Deleted"
@@ -970,7 +970,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Sem Alterações"
 
-#  user:
+  user:
     stats: "Estatísticas"
     singleplayer_title: "Níveis Jogador Único"
     multiplayer_title: "Níveis Multijogador"
@@ -985,7 +985,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     favorite_prefix: "Linguagem favorita é "
     favorite_postfix: "."
 
-#  achievements:
+  achievements:
     last_earned: "Últimos Ganhos"
 #    amount_achieved: "Amount"
 #    achievement: "Achievement"
@@ -1001,6 +1001,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    left_xp_infix: " until level "
     left_xp_postfix: ""
 
-#  account:
+  account:
     recently_played: "Jogos Recentes"
     no_recent_games: "Não foram feitos jogos durante duas semanas."
