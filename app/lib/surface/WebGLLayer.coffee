@@ -11,7 +11,6 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
   
   constructor: ->
     super(arguments...)
-    @spriteSheetBuilder = new createjs.SpriteSheetBuilder()
     @actionRenderState = {}
     @toRenderBundles = []
     @initialize(arguments...)

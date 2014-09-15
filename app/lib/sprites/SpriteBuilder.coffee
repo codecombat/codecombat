@@ -77,7 +77,7 @@ module.exports = class SpriteBuilder
   buildMovieClipAnimations: (localAnimations) ->
     map = {}
     for localAnimation in localAnimations
-      animation = @buildMovieClip(localAnimation.gn, localAnimation.a)
+      animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
     map
