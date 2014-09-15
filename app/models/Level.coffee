@@ -128,19 +128,27 @@ module.exports = class Level extends CocoModel
     # Here we have to sort the Components by their dependencies.
     # It's a bit tricky though, because we don't have either soft dependencies or priority levels.
     # Example: Programmable must come last, since it has to override any Component-provided methods that any other Component might have created. Can't enumerate all soft dependencies.
+    # Example: Plans needs to come after everything except Programmable, since other Components that add plannable methods need to have done so by the time Plans is attached.
     # Example: Collides doesn't depend on Allied, but if both exist, Collides must come after Allied. Soft dependency example. Can't just figure out a proper priority to take care of it.
     # Decision? Just special case the sort logic in here until we have more examples than these two and decide how best to handle most of the cases then, since we don't really know the whole of the problem yet.
     # TODO: anything that depends on Programmable will break right now.
 
     for thang in thangs ? []
+      programmableLevelComponent = null
+      plansLevelComponent = null
       sorted = []
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
         console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
         return unless lc
-        if lc.name is 'Programmable'
+        if lc.name is 'Plans'
+          # Plans always comes second-to-last, behind Programmable
+          plansLevelComponent = c
+          visit c2 for c2 in _.without thang.components, c, programmableLevelComponent
+        else if lc.name is 'Programmable'
           # Programmable always comes last
+          programmableLevelComponent = c
           visit c2 for c2 in _.without thang.components, c
         else
           for d in lc.dependencies or []
