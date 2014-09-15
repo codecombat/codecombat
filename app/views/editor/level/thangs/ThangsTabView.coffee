@@ -235,8 +235,7 @@ module.exports = class ThangsTabView extends CocoView
     if @paintingWalls
       # We need to stop painting walls, but we may also stop in onExtantThangSelected.
       _.defer =>
-        @paintingWalls = false
-        @surface.camera.dragDisabled = false
+        @paintingWalls = @paintedWalls = @surface.camera.dragDisabled = false
     else if @addThangSprite
       @surface.camera.lock()
       # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
@@ -306,9 +305,11 @@ module.exports = class ThangsTabView extends CocoView
     @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
-    if @paintingWalls
-      @paintingWalls = false
-      @surface.camera.dragDisabled = false
+    paintedAWall = @paintedWalls
+    @paintingWalls = @paintedWalls = @surface.camera.dragDisabled = false
+    if paintedAWall
+      # Skip adding a wall now, because we already dragged to add one
+      null
     else if e.thang and (key.alt or key.meta)
       # We alt-clicked, so create a clone addThang
       @selectAddThangType e.thang.spriteName, @selectedExtantThang
@@ -412,6 +413,7 @@ module.exports = class ThangsTabView extends CocoView
       )
         @addThang @addThangType, @addThangSprite.thang.pos
         @lastAddTime = new Date()
+        @paintedWalls = true
     null
 
   onSurfaceMouseOver: (e) ->
