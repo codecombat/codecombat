@@ -139,7 +139,7 @@ module.exports = class GoalManager extends CocoClass
         @initGoalState(state, [[], keepFrom.keepFromLocation?.who], 'arrived')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
-      @initGoalState(state, [goal.collectThangs?.who, goal.keepFromCollectingThangs?.who], 'collected')
+      @initGoalState(state, [goal.collectThangs?.targets, goal.keepFromCollectingThangs?.targets], 'collected')
       @goalStates[goal.id] = state
 
   onThangDied: (e, frameNumber) ->
@@ -185,7 +185,7 @@ module.exports = class GoalManager extends CocoClass
   checkCollected: (goalID, who, targets, thang, itemID, frameNumber) ->
     return unless itemID in targets
     return unless thang.id in who or thang.team in who
-    @updateGoalState(goalID, thang.id, 'collected', frameNumber)
+    @updateGoalState(goalID, itemID, 'collected', frameNumber)
 
   wrapUpGoalStates: (finalFrame) ->
     for goalID, state of @goalStates
