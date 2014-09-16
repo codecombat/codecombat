@@ -35,9 +35,14 @@ module.exports = class ThangType extends CocoModel
     return @get('actions') or @get('raster') # needs one of these two things
   
   loadRasterImage: ->
+    return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
     @rasterImage = $("<img src='/file/#{raster}' />")
-    @rasterImage.on('load', => @trigger('raster-image-loaded'))
+    @loadingRaster = true
+    @rasterImage.one('load', =>
+      @loadingRaster = false
+      @loadedRaster = true
+      @trigger('raster-image-loaded', @))
     
   getActions: ->
     return {} unless @isFullyLoaded()

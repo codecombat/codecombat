@@ -1,19 +1,31 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+CocoClass = require 'lib/CocoClass'
+WebGLSprite = require './WebGLSprite'
 
-module.exports = class WebGLLayer extends createjs.SpriteContainer
-  
+module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
+
+  _.extend(WebGLLayer.prototype, Backbone.Events)
+
   actionRenderState: null
   needToRerender: false
   toRenderBundles: null
   willRender: false
+  buildAutomatically: true
+  buildAsync: true
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
   defaultActions: ['idle', 'die', 'move', 'move_back', 'move_side', 'move_fore', 'attack']
+  numThingsLoading: 0
+  cocoSprites: null
+  spriteSheet: null
+  spriteContainer: null
   
   constructor: ->
     super(arguments...)
+    @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
+    @spriteContainer = new createjs.SpriteContainer(@spriteSheet)
     @actionRenderState = {}
     @toRenderBundles = []
-    @initialize(arguments...)
+    @cocoSprites = []
     
   setDefaultActions: (@defaultActions) ->
     
@@ -25,24 +37,54 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
     key
     
   addCocoSprite: (cocoSprite) ->
-    # build the animations for it
+    @cocoSprites.push cocoSprite
+    @loadThangType(cocoSprite.thangType)
+    @addDefaultActionsToRender(cocoSprite)
+    @setImageObjectToCocoSprite(cocoSprite)
+    # TODO: actually add it as a child
+
+  loadThangType: (thangType) ->
+    if not thangType.isFullyLoaded()
+      thangType.setProjection null
+      thangType.fetch() unless thangType.loading
+      @numThingsLoading++
+      @listenToOnce(thangType, 'sync', @somethingLoaded)
+    else if thangType.get('raster') and not thangType.loadedRaster
+      thangType.loadRasterImage()
+      @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
+      @numThingsLoading++
+
+  somethingLoaded: (thangType) ->
+    @numThingsLoading--
+    @loadThangType(thangType) # might need to load the raster image object
+    for cocoSprite in @cocoSprites
+      if cocoSprite.thangType is thangType
+        @addDefaultActionsToRender(cocoSprite)
+    @renderNewSpriteSheet()
+
+  addDefaultActionsToRender: (cocoSprite) ->
     if cocoSprite.thangType.get('raster')
       @upsertActionToRender(cocoSprite.thangType)
     else
       for action in _.values(cocoSprite.thangType.getActions())
         continue unless action.name in @defaultActions
         @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
-      
+
   upsertActionToRender: (thangType, actionName, colorConfig) ->
     groupKey = @renderGroupingKey(thangType, actionName, colorConfig)
     return if @actionRenderState[groupKey] isnt undefined
     @actionRenderState[groupKey] = 'need-to-render'
     @toRenderBundles.push({thangType: thangType, actionName: actionName, colorConfig: colorConfig})
-    return if @willRender
-#    @willRender = _.defer => @renderNewSpriteSheet()
+    return if @willRender or not @buildAutomatically
+    @willRender = _.defer => @renderNewSpriteSheet()
     
   renderNewSpriteSheet: ->
     @willRender = false
+    return if @numThingsLoading
+    @_renderNewSpriteSheet()
+    
+  _renderNewSpriteSheet: (async) ->
+    async ?= @buildAsync
     builder = new createjs.SpriteSheetBuilder()
     groups = _.groupBy(@toRenderBundles, ((bundle) -> @renderGroupingKey(bundle.thangType, '', bundle.colorConfig)), @)
     for bundleGrouping in _.values(groups)
@@ -57,7 +99,20 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
           @renderSpriteSheet(args...)
       else
         @renderRasterImage(thangType, builder)
-    builder.build()
+        
+    if not _.size(groups)
+      emptiness = new createjs.Container()
+      emptiness.setBounds(0, 0, 1, 1)
+      builder.addFrame(emptiness)
+
+    if async
+      builder.buildAsync()
+      builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
+    else
+      builder.build()
+
+  onBuildSpriteSheetComplete: (e, builder) ->
+    console.log 'done?', builder.spriteSheet
         
   renderContainers: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     containersToRender = {}
@@ -146,4 +201,26 @@ module.exports = class WebGLLayer extends createjs.SpriteContainer
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
-    spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false) 
+    spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
+
+  setImageObjectToCocoSprite: (cocoSprite) ->
+    if not cocoSprite.thangType.isFullyLoaded()
+      # just give a placeholder
+      sprite = new createjs.Sprite(@spriteSheet)
+    
+    else if cocoSprite.thangType.get('raster')
+      sprite = new createjs.Sprite(@spriteSheet)
+      reg = cocoSprite.getOffset 'registration'
+      sprite.regX = -reg.x
+      sprite.regY = -reg.y
+      sprite.gotoAndStop(@renderGroupingKey(cocoSprite.thangType))
+      
+    else
+      prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.colorConfig) + '.'
+      sprite = new WebGLSprite(@spriteSheet, cocoSprite.thangType, prefix)      
+
+    sprite.sprite = cocoSprite
+    sprite.layerPriority = cocoSprite.thang?.layerPriority ? cocoSprite.thangType.get 'layerPriority'
+    sprite.name = cocoSprite.thang?.spriteName or cocoSprite.thangType.get 'name'
+    cocoSprite.addHealthBar()
+    cocoSprite.setImageObject(sprite)

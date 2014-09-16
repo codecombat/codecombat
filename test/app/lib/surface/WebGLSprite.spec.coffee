@@ -18,7 +18,7 @@ describe 'WebGLSprite', ->
     ticks = 0
     listener = {
       handleEvent: ->
-#        return if ticks >= 100
+        return if ticks >= 100
         webGLSprite.tick(arguments[0].delta)
         stage.update()
         ticks += 1
@@ -28,6 +28,8 @@ describe 'WebGLSprite', ->
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
       layer = new WebGLLayer()
+      layer.buildAutomatically = false
+      layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()
       ogreMunchkinThangType.set('renderStrategy', 'container')
       actions = ogreMunchkinThangType.getActions()
@@ -42,6 +44,8 @@ describe 'WebGLSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
       window.webGLSprite = webGLSprite = new WebGLSprite(sheet, ogreMunchkinThangType, prefix)
+      webGLSprite.x = 200
+      webGLSprite.y = 200
     
     afterEach ->
       ogreMunchkinThangType.revert()
@@ -58,7 +62,7 @@ describe 'WebGLSprite', ->
       expect(webGLSprite.paused).toBe(true)
       
     it 'has a tick function which moves the animation forward', ->
-      webGLSprite.gotoAndPlay('move_fore')
+      webGLSprite.gotoAndPlay('attack')
       webGLSprite.tick(100) # one hundred milliseconds
       expect(webGLSprite.baseMovieClip.currentFrame).toBe(webGLSprite.framerate*100/1000)
       
@@ -83,6 +87,8 @@ describe 'WebGLSprite', ->
   describe 'with Ogre Fangrider ThangType', ->
     beforeEach ->
       layer = new WebGLLayer()
+      layer.buildAutomatically = false
+      layer.buildAsync = false
       ogreFangriderThangType.markToRevert()
       ogreFangriderThangType.set('renderStrategy', 'container')
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
@@ -91,15 +97,46 @@ describe 'WebGLSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreFangriderThangType, null, colorConfig) + '.'
       window.webGLSprite = webGLSprite = new WebGLSprite(sheet, ogreFangriderThangType, prefix)
+      webGLSprite.x = 300
+      webGLSprite.y = 300
   
     afterEach ->
       ogreFangriderThangType.revert()
   
-    it 'has gotoAndPlay, gotoAndStop, and paused like a MovieClip or Sprite', ->
-      webGLSprite.gotoAndPlay('move_fore')
+    it 'synchronizes animations with child movie clips properly', ->
+      webGLSprite.gotoAndPlay('die')
       webGLSprite.tick(100) # one hundred milliseconds
       expectedFrame = webGLSprite.framerate*100/1000
-      expect(webGLSprite.baseMovieClip.currentFrame).toBe(expectedFrame)
+      expect(webGLSprite.currentFrame).toBe(expectedFrame)
       for child in webGLSprite.childSpriteContainers
         expect(child.movieClip.currentFrame).toBe(expectedFrame)
 
+  describe 'with Ogre Munchkin ThangType and renderStrategy=spriteSheet', ->
+    beforeEach ->
+      layer = new WebGLLayer()
+      layer.buildAutomatically = false
+      layer.buildAsync = false
+      ogreMunchkinThangType.markToRevert()
+      ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+      actions = ogreMunchkinThangType.getActions()
+
+      # couple extra actions for doing some tests
+      actions.littledance = {animation:'enemy_small_move_side',framerate:1, frames:'0,6,2,6,2,8,0'}
+      actions.onestep = {animation:'enemy_small_move_side', loops: false}
+
+      colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
+      sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
+      layer.addCocoSprite(sprite)
+      sheet = layer.renderNewSpriteSheet()
+      prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
+      window.webGLSprite = webGLSprite = new WebGLSprite(sheet, ogreMunchkinThangType, prefix)
+      webGLSprite.x = 200
+      webGLSprite.y = 200
+
+    afterEach ->
+      ogreMunchkinThangType.revert()
+
+    it 'has the same interface as for when the ThangType uses the container renderStrategy', ->
+      webGLSprite.gotoAndPlay('move_fore')
+      webGLSprite.gotoAndStop('attack')
+      showMe()
