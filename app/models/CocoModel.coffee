@@ -126,7 +126,10 @@ class CocoModel extends Backbone.Model
       return unless @notyErrors
       errorMessage = "Error saving #{@get('name') ? @type()}"
       console.error errorMessage, res.responseJSON
-      noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
+      try
+        noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
+      catch notyError
+        console.error "Couldn't even show noty error for", error, "because", notyError
     @trigger 'save', @
     return super attrs, options
 
