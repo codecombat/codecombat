@@ -78,20 +78,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @handledDisplayEvents = {}
     @age = 0
     @stillLoading = true
-<<<<<<< HEAD
     if @thangType.isFullyLoaded() then @onThangTypeLoaded() else @listenToOnce(@thangType, 'sync', @onThangTypeLoaded)
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
-=======
-    @setNameLabel @thang.id if @thang?.showsName and not @thang.health <= 0
-    if @thangType.isFullyLoaded()
-      @setUpSprite()
-    else
-      @thangType.setProjection null
-      @thangType.fetch() unless @thangType.loading
-      @listenToOnce(@thangType, 'sync', @setUpSprite)
-      @setUpPlaceholder()
->>>>>>> master
 
   onThangTypeLoaded: ->
     @stillLoading = false
