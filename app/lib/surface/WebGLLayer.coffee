@@ -21,6 +21,7 @@ module.exports = class WebGLLayer extends CocoClass
   spriteContainer: null
   
   constructor: (@layerOptions) ->
+    @layerOptions ?= {}
     super()
     @initializing = true
     @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
@@ -131,7 +132,7 @@ module.exports = class WebGLLayer extends CocoClass
       index = parent.getChildIndex(oldLayer)
       parent.removeChildAt(index)
       parent.addChildAt(@spriteContainer, index)
-    @layerOptions.camera.updateZoom(true)
+    @layerOptions.camera?.updateZoom(true)
     @spriteContainer.updateLayerOrder()
     @trigger 'new-spritesheet'
 

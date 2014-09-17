@@ -23,20 +23,6 @@ describe 'SpriteBoss', ->
     
     world = new World()
     world.thangs = [
-      
-      # four cardinal ogres
-      {id: 'Ogre N', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 2 }
-      {id: 'Ogre W', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 2 }
-      {id: 'Ogre E', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5, scaleFactorY: 3, scaleFactorX: 3 }
-      {id: 'Ogre S', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
-
-      # ogres overlapping
-      {id: 'Ogre 1', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-14, y:0}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-      {id: 'Ogre 2', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-13.5, y:1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-      {id: 'Ogre 3', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-13, y:2}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-      {id: 'Ogre 4', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-12.5, y:3}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-
-      {id: 'Fangrider 1', spriteName: 'Ogre Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
       {id: 'Tree 1', spriteName: 'Tree 1', exists: true, pos: {x:4, y:0}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
     ]
     world.thangMap = {}
@@ -62,8 +48,27 @@ describe 'SpriteBoss', ->
     defaultLayer.buildAsync = false # cause faster
     spriteBoss.update(true)
 
-    defaultLayer.once 'new-spritesheet', -> done()
-#    showMe()
+    defaultLayer.once 'new-spritesheet', ->
+      world.thangs = world.thangs.concat [
+        # four cardinal ogres
+        {id: 'Ogre N', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 2 }
+        {id: 'Ogre W', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 2 }
+        {id: 'Ogre E', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5, scaleFactorY: 3, scaleFactorX: 3 }
+        {id: 'Ogre S', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
+
+        # ogres overlapping
+        {id: 'Ogre 1', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-14, y:0}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Ogre 2', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-13.5, y:1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Ogre 3', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-13, y:2}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Ogre 4', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-12.5, y:3}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+
+        {id: 'Fangrider 1', spriteName: 'Ogre Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
+      ]
+      world.thangMap[thang.id] = thang for thang in world.thangs
+      spriteBoss.update(true)
+      defaultLayer.once 'new-spritesheet', ->
+        done()
+#        showMe()
 
   beforeEach (done) -> init(done)
 
@@ -118,3 +123,8 @@ describe 'SpriteBoss', ->
     expect(i1).toBeGreaterThan(i2)
     expect(i2).toBeGreaterThan(i3)
     expect(i3).toBeGreaterThan(i4)
+
+  it 'only contains children Sprites and SpriteContainers whose spritesheet matches the Layer', ->
+    defaultLayerContainer = spriteBoss.spriteLayers.Default.spriteContainer
+    for c in defaultLayerContainer.children
+      expect(c.spriteSheet).toBe(defaultLayerContainer.spriteSheet)
