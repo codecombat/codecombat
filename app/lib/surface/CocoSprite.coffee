@@ -79,6 +79,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @handledDisplayEvents = {}
     @age = 0
     @stillLoading = true
+    @setNameLabel @thang.id if @thang?.showsName
     if @thangType.isFullyLoaded()
       @setUpSprite()
     else

@@ -186,7 +186,7 @@ module.exports = class Level extends CocoModel
         unless isPhysical
           originalComponent = $.extend true, {}, component
         component.config ?= {}
-        TreemaUtils.populateDefaults(component.config, lc.configSchema, tv4)
+        TreemaUtils.populateDefaults(component.config, lc.configSchema ? {}, tv4)
         @lastType = 'component'
         @lastOriginal = component.original
         unless isPhysical

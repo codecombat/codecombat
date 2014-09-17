@@ -102,7 +102,7 @@ DependencySchema = c.object {
 LevelComponentSchema = c.object {
   title: 'Component'
   description: 'A Component which can affect Thang behavior.'
-  required: ['system', 'name', 'description', 'code', 'dependencies', 'propertyDocumentation', 'codeLanguage']
+  required: ['system', 'name', 'code']
   default:
     system: 'ai'
     name: 'AttacksSelf'
