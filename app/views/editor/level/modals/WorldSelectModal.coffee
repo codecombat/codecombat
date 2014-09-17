@@ -31,11 +31,11 @@ module.exports = class WorldSelectModal extends ModalView
   getRenderData: (c={}) =>
     c = super(c)
     c.selectingPoint = @dataType is 'point'
+    c.flexibleRegion = @dataType is 'region'
     c
 
   afterInsert: ->
     super()
-    window.e = @$el
     @initSurface()
 
   # surface setup
@@ -54,7 +54,6 @@ module.exports = class WorldSelectModal extends ModalView
       thangTypes: @supermodel.getModels(ThangType)
       showInvisible: true
     }
-    window.s = @surface
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x: 262, y: -164}, 1.66, 0)

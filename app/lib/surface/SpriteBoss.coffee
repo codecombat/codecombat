@@ -185,12 +185,17 @@ module.exports = class SpriteBoss extends CocoClass
     @adjustSpriteExistence() if frameChanged
     sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
+<<<<<<< HEAD
     @spriteLayers['Default'].spriteContainer.updateLayerOrder()
     @cache()
+=======
+    @spriteLayers['Default'].updateLayerOrder()
+    @cacheObstacles()
+>>>>>>> master
 
   adjustSpriteExistence: ->
     # Add anything new, remove anything old, update everything current
-    updateCache = false
+    updatedObstacles = []
     itemsJustEquipped = []
     for thang in @world.thangs when thang.exists and thang.pos
       itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang
@@ -199,16 +204,16 @@ module.exports = class SpriteBoss extends CocoClass
       else
         sprite = @addThangToSprites(thang)
         Backbone.Mediator.publish 'surface:new-thang-added', thang: thang, sprite: sprite
-        updateCache = updateCache or sprite.imageObject.parent is @spriteLayers['Obstacle']
+        updatedObstacles.push sprite if sprite.imageObject.parent is @spriteLayers['Obstacle']
         sprite.playSounds()
     item.modifyStats() for item in itemsJustEquipped
     for thangID, sprite of @sprites
       missing = not (sprite.notOfThisWorld or @world.thangMap[thangID]?.exists)
       isObstacle = sprite.imageObject.parent is @spriteLayers['Obstacle']
-      updateCache = updateCache or (isObstacle and (missing or sprite.hasMoved))
+      updatedObstacles.push sprite if isObstacle and (missing or sprite.hasMoved)
       sprite.hasMoved = false
       @removeSprite sprite if missing
-    @cache true if updateCache and @cached
+    @cacheObstacles updatedObstacles if updatedObstacles.length and @cachedObstacles
 
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @sprites[@willSelectThang[0]]
@@ -229,8 +234,31 @@ module.exports = class SpriteBoss extends CocoClass
           itemsJustEquipped.push item
     return itemsJustEquipped
 
+<<<<<<< HEAD
   cache: (update=false) ->
     # TODO: remove caching
+=======
+  cacheObstacles: (updatedObstacles=null) ->
+    return if @cachedObstacles and not updatedObstacles
+    wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    return if _.any (s.stillLoading for s in wallSprites)
+    walls = (sprite.thang for sprite in wallSprites)
+    @world.calculateBounds()
+    wallGrid = new Grid walls, @world.size()...
+    if updatedObstacles
+      possiblyUpdatedWallSprites = (sprite for sprite in wallSprites when _.find updatedObstacles, (w2) -> sprite is w2 or (Math.abs(sprite.thang.pos.x - w2.thang.pos.x) + Math.abs(sprite.thang.pos.y - w2.thang.pos.y)) <= 16)
+    else
+      possiblyUpdatedWallSprites = wallSprites
+    #console.log 'updating up to', possiblyUpdatedWallSprites.length, 'of', wallSprites.length, 'wall sprites from updatedObstacles', updatedObstacles
+    for wallSprite in possiblyUpdatedWallSprites
+      wallSprite.updateActionDirection wallGrid
+      wallSprite.updateScale()
+      wallSprite.updatePosition()
+    #console.log @wallGrid.toString()
+    @spriteLayers['Obstacle'].uncache() if @spriteLayers['Obstacle'].cacheID  # might have changed sizes
+    @spriteLayers['Obstacle'].cache()
+    @cachedObstacles = true
+>>>>>>> master
 
   spriteFor: (thangID) -> @sprites[thangID]
 

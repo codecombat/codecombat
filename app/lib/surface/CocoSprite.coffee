@@ -78,9 +78,20 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @handledDisplayEvents = {}
     @age = 0
     @stillLoading = true
+<<<<<<< HEAD
     if @thangType.isFullyLoaded() then @onThangTypeLoaded() else @listenToOnce(@thangType, 'sync', @onThangTypeLoaded)
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
+=======
+    @setNameLabel @thang.id if @thang?.showsName and not @thang.health <= 0
+    if @thangType.isFullyLoaded()
+      @setUpSprite()
+    else
+      @thangType.setProjection null
+      @thangType.fetch() unless @thangType.loading
+      @listenToOnce(@thangType, 'sync', @setUpSprite)
+      @setUpPlaceholder()
+>>>>>>> master
 
   onThangTypeLoaded: ->
     @stillLoading = false
@@ -438,6 +449,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotation = @getRotation()
     if relatedActions['111111111111']  # has grid-surrounding-wall-based actions
       if @wallGrid
+        @hadWallGrid = true
         action = ''
         tileSize = 4
         [gx, gy] = [@thang.pos.x, @thang.pos.y]
@@ -464,6 +476,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
             break
         #console.log 'returning', matchedAction, 'for', @thang.id, 'at', gx, gy
         return relatedActions[matchedAction]
+      else if @hadWallGrid
+        return null
       else
         keys = _.keys relatedActions
         index = Math.max 0, Math.floor((179 + rotation) / 360 * keys.length)
@@ -477,13 +491,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     relatedActions[direction]
 
   updateStats: ->
+    return unless @thang and @thang.health isnt @lastHealth
+    @lastHealth = @thang.health
     if bar = @healthBar
-      return if @thang.health is @lastHealth
-      @lastHealth = @thang.health
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
       bar.scaleX = healthPct / bar.baseScale
       healthOffset = @getOffset 'aboveHead'
       [bar.x, bar.y] = [healthOffset.x - bar.width / 2, healthOffset.y]
+    if @thang.showsName
+      @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
 
   configureMouse: ->
     @imageObject.cursor = 'pointer' if @thang?.isSelectable
