@@ -62,7 +62,7 @@ class CocoModel extends Backbone.Model
       super(attribute)
 
   set: (attributes, options) ->
-    delete @attributesWithDefaults
+    delete @attributesWithDefaults unless attributes is 'thangs'  # unless attributes is 'thangs': performance optimization for Levels keeping their cache.
     inFlux = @loading or not @loaded
     @markToRevert() unless inFlux or @_revertAttributes or @project or options?.fromMerge
     res = super attributes, options
@@ -125,11 +125,12 @@ class CocoModel extends Backbone.Model
       error(@, res) if error
       return unless @notyErrors
       errorMessage = "Error saving #{@get('name') ? @type()}"
-      console.error errorMessage, res.responseJSON
+      console.log 'going to log an error message'
+      console.warn errorMessage, res.responseJSON
       try
         noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
       catch notyError
-        console.error "Couldn't even show noty error for", error, "because", notyError
+        console.warn "Couldn't even show noty error for", error, "because", notyError
     @trigger 'save', @
     return super attrs, options
 

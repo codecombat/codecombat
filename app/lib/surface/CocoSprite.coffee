@@ -488,6 +488,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotation = @getRotation()
     if relatedActions['111111111111']  # has grid-surrounding-wall-based actions
       if @wallGrid
+        @hadWallGrid = true
         action = ''
         tileSize = 4
         [gx, gy] = [@thang.pos.x, @thang.pos.y]
@@ -514,6 +515,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
             break
         #console.log 'returning', matchedAction, 'for', @thang.id, 'at', gx, gy
         return relatedActions[matchedAction]
+      else if @hadWallGrid
+        return null
       else
         keys = _.keys relatedActions
         index = Math.max 0, Math.floor((179 + rotation) / 360 * keys.length)
