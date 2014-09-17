@@ -41,6 +41,7 @@ module.exports = class WebGLLayer extends CocoClass
     key
     
   addCocoSprite: (cocoSprite) ->
+    cocoSprite.options.resolutionFactor = @resolutionFactor
     @cocoSprites.push cocoSprite
     @loadThangType(cocoSprite.thangType)
     @addDefaultActionsToRender(cocoSprite)
@@ -150,7 +151,7 @@ module.exports = class WebGLLayer extends CocoClass
     for containerGlobalName in _.keys(containersToRender)
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
       container = spriteBuilder.buildContainerFromStore(containerGlobalName)
-      frame = spriteSheetBuilder.addFrame(container)
+      frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor)
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
   getContainersForAnimation: (thangType, animation) ->
@@ -239,7 +240,7 @@ module.exports = class WebGLLayer extends CocoClass
       
     else
       prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.colorConfig) + '.'
-      sprite = new WebGLSprite(@spriteSheet, cocoSprite.thangType, prefix)      
+      sprite = new WebGLSprite(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
 
     sprite.sprite = cocoSprite
     sprite.layerPriority = cocoSprite.thang?.layerPriority ? cocoSprite.thangType.get 'layerPriority'

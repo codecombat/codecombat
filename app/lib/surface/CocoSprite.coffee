@@ -302,8 +302,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updateBaseScale: ->
     scale = 1
-    scale = @thangType.get('scale') or 1 if @isRaster
-    scale /= @options.resolutionFactor unless @isRaster
+    useRawScale = @isRaster or @thangType.get('renderStrategy') is 'container'
+    scale = @thangType.get('scale') or 1 if useRawScale
+    scale /= @options.resolutionFactor unless useRawScale
     @baseScaleX = @baseScaleY = scale
     @baseScaleX *= -1 if @getActionProp 'flipX'
     @baseScaleY *= -1 if @getActionProp 'flipY'

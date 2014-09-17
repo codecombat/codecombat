@@ -3,7 +3,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 module.exports = class WebGLSprite extends createjs.SpriteContainer
   childMovieClips: null
   
-  constructor: (@spriteSheet, @thangType, @spriteSheetPrefix) ->
+  constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->
     @initialize(@spriteSheet)
     if @thangType.get('renderStrategy') isnt 'container'
       @singleChildSprite = new createjs.Sprite(@spriteSheet)
@@ -42,7 +42,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
       
       if @singleChildSprite
-        scale = SPRITE_RESOLUTION_FACTOR * (action.scale ? @thangType.get('scale') ? 1)
+        scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
         @regX = -reg.x * scale
         @regY = -reg.y * scale
         func = if @paused then 'gotoAndStop' else 'gotoAndPlay'
@@ -69,7 +69,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         
     if action.container
       if @singleChildSprite
-        scale = SPRITE_RESOLUTION_FACTOR * (action.scale ? @thangType.get('scale') ? 1)
+        scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
         @regX = -reg.x * scale
         @regY = -reg.y * scale
         animationName = @spriteSheetPrefix + actionName
@@ -123,12 +123,15 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
   buildMovieClipContainers: (localContainers) ->
     map = {}
     for localContainer in localContainers
-      container = new createjs.Sprite(@spriteSheet)
-      container.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
-      container.setTransform(localContainer.t...)
-      container._off = localContainer.o if localContainer.o?
-      container.alpha = localContainer.al if localContainer.al?
-      map[localContainer.bn] = container
+      outerContainer = new createjs.SpriteContainer(@spriteSheet)
+      innerContainer = new createjs.Sprite(@spriteSheet)
+      innerContainer.scaleX = innerContainer.scaleY = 1 / @resolutionFactor
+      innerContainer.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
+      outerContainer.addChild(innerContainer)
+      outerContainer.setTransform(localContainer.t...)
+      outerContainer._off = localContainer.o if localContainer.o?
+      outerContainer.alpha = localContainer.al if localContainer.al?
+      map[localContainer.bn] = outerContainer
     return map
 
   buildMovieClipAnimations: (localAnimations) ->
