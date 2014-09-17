@@ -33,6 +33,7 @@ module.exports = class ThangsTabView extends CocoView
     'surface:mouse-over': 'onSurfaceMouseOver'
     'surface:mouse-out': 'onSurfaceMouseOut'
     'editor:edit-level-thang': 'editThang'
+    'editor:level-thang-edited': 'onLevelThangEdited'
     'editor:level-thang-done-editing': 'onLevelThangDoneEditing'
     'editor:view-switched': 'onViewSwitched'
     'sprite:dragged': 'onSpriteDragged'
@@ -573,14 +574,19 @@ module.exports = class ThangsTabView extends CocoView
   onLevelThangDoneEditing: (e) ->
     @removeSubView @editThangView
     @editThangView = null
-    newThang = e.thangData
+    @updateEditedThang e.thangData, e.oldPath
+    @$el.find('>').show()
+
+  onLevelThangEdited: (e) ->
+    @updateEditedThang e.thangData, e.oldPath
+
+  updateEditedThang: (newThang, oldPath) ->
     @hush = true
-    @thangsTreema.delete e.oldPath
+    @thangsTreema.delete oldPath
     @populateFoldersForThang(newThang)
     @thangsTreema.set(@pathForThang(newThang), newThang)
     @hush = false
     @onThangsChanged()
-    @$el.find('>').show()
 
   preventDefaultContextMenu: (e) ->
     return unless $(e.target).closest('#canvas-wrapper').length
