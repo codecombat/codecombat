@@ -92,7 +92,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @actions = @thangType.getActions()
       @createMarks()
-      @queueAction 'idle'
 
     @updateBaseScale()
     @scaleFactorX = @thang.scaleFactorX if @thang?.scaleFactorX?
@@ -102,11 +101,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   setImageObject: (newImageObject) ->
     if @imageObject
-      @imageObject.removeAllEventListeners()
+      @imageObject.destroy?()
       if parent = @imageObject.parent
         parent.removeChild @imageObject
         parent.addChild newImageObject
         parent.updateLayerOrder()
+
+    # get the cocosprite to update things
+    for prop in ['lastPos', 'currentRootAction']
+      delete @[prop]
+
     @imageObject = newImageObject
     @configureMouse()
     @imageObject.on 'animationend', @playNextAction
@@ -536,6 +540,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     pos
 
   createMarks: ->
+    return # TODO: get marks working again
     return unless @options.camera
     if @thang
       allProps = []

@@ -19,9 +19,9 @@ describe 'WebGLSprite', ->
     listener = {
       handleEvent: ->
         return if ticks >= 100
+        ticks += 1
         webGLSprite.tick(arguments[0].delta)
         stage.update()
-        ticks += 1
     }
     createjs.Ticker.addEventListener "tick", listener
     
@@ -57,10 +57,6 @@ describe 'WebGLSprite', ->
       webGLSprite.gotoAndStop('move_fore')
       expect(webGLSprite.paused).toBe(true)
   
-    it 'is paused when the action is a single frame', ->
-      webGLSprite.gotoAndPlay('idle')
-      expect(webGLSprite.paused).toBe(true)
-      
     it 'has a tick function which moves the animation forward', ->
       webGLSprite.gotoAndPlay('attack')
       webGLSprite.tick(100) # one hundred milliseconds
@@ -108,8 +104,21 @@ describe 'WebGLSprite', ->
       webGLSprite.tick(100) # one hundred milliseconds
       expectedFrame = webGLSprite.framerate*100/1000
       expect(webGLSprite.currentFrame).toBe(expectedFrame)
-      for child in webGLSprite.childSpriteContainers
-        expect(child.movieClip.currentFrame).toBe(expectedFrame)
+      for movieClip in webGLSprite.childMovieClips
+        expect(movieClip.currentFrame).toBe(expectedFrame)
+
+    it 'does not include shapes from the original animation', ->
+      webGLSprite.gotoAndPlay('attack')
+      webGLSprite.tick(230)
+      for child in webGLSprite.children
+        expect(_.isString(child)).toBe(false)
+
+    it 'maintains the right number of shapes', ->
+      webGLSprite.gotoAndPlay('idle')
+      lengths = []
+      for i in _.range(10)
+        webGLSprite.tick(10)
+        expect(webGLSprite.children.length).toBe(20)
 
   describe 'with Ogre Munchkin ThangType and renderStrategy=spriteSheet', ->
     beforeEach ->
@@ -138,5 +147,4 @@ describe 'WebGLSprite', ->
 
     it 'has the same interface as for when the ThangType uses the container renderStrategy', ->
       webGLSprite.gotoAndPlay('move_fore')
-      webGLSprite.gotoAndStop('attack')
-      showMe()
+      webGLSprite.gotoAndStop('attack') 

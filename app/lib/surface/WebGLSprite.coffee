@@ -1,13 +1,23 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 module.exports = class WebGLSprite extends createjs.SpriteContainer
-  childSpriteContainers: null
+  childMovieClips: null
   
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix) ->
     @initialize(@spriteSheet)
     if @thangType.get('renderStrategy') isnt 'container'
       @singleChildSprite = new createjs.Sprite(@spriteSheet)
       @addChild(@singleChildSprite)
+    @addEventListener 'tick', @handleTick
+      
+  handleTick: (e) =>
+    if @lastTimeStamp
+      @tick(e.timeStamp - @lastTimeStamp)
+    @lastTimeStamp = e.timeStamp
+    
+  destroy: ->
+    @handleTick = undefined
+    @removeAllEventListeners()
       
   play: ->
     @singleChildSprite?.play()
@@ -22,12 +32,15 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
   
   goto: (actionName, @paused=true) ->
     @currentAnimation = actionName
+    @baseMovieClip = @framerate = null
+    
     action = @thangType.getActions()[actionName]
     randomStart = actionName.startsWith('move')
+    reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
+
     if action.animation
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
-      reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
-
+      
       if @singleChildSprite
         scale = SPRITE_RESOLUTION_FACTOR * (action.scale ? @thangType.get('scale') ? 1)
         @regX = -reg.x * scale
@@ -38,35 +51,41 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @singleChildSprite.framerate = action.framerate or 20
         
         if randomStart and frames = @spriteSheet.getAnimation(animationName)?.frames
-          start = Math.floor(Math.random() * frames.length)
-          @singleChildSprite.currentAnimationFrame = start
+          @singleChildSprite.currentAnimationFrame = Math.floor(Math.random() * frames.length)
 
       else
-        @childSpriteContainers = []
-        @baseMovieClip = @buildMovieClip(action.animation)
-        @mirrorMovieClip(@baseMovieClip, @)
-        @frames = action.frames
-        @currentFrame = 0
-        if @frames
-          @frames = (parseInt(f) for f in @frames.split(','))
-
-        if @frames and @frames.length is 1
-          @baseMovieClip.gotoAndStop(@frames[0])
-          @paused = true
-        @loop = action.loops isnt false
-        @goesTo = action.goesTo
-        @animLength = if @frames then @frames.length else @baseMovieClip.frameBounds.length
         @regX = -reg.x
         @regY = -reg.y
+        @childMovieClips = []
+        @baseMovieClip = @buildMovieClip(action.animation)
+        @children = @baseMovieClip.children
+        @frames = action.frames
+        @frames = (parseInt(f) for f in @frames.split(',')) if @frames
+        @animLength = if @frames then @frames.length else @baseMovieClip.frameBounds.length
+        @currentFrame = if randomStart then Math.floor(Math.random() * @animLength) else 0 
+        @baseMovieClip.gotoAndStop(@currentFrame)
+        @loop = action.loops isnt false
+        @goesTo = action.goesTo
         
-        if randomStart
-          @currentFrame = Math.floor(Math.random() * @animLength)
+    if action.container
+      if @singleChildSprite
+        scale = SPRITE_RESOLUTION_FACTOR * (action.scale ? @thangType.get('scale') ? 1)
+        @regX = -reg.x * scale
+        @regY = -reg.y * scale
+        animationName = @spriteSheetPrefix + actionName
+        @singleChildSprite.gotoAndStop(animationName)
 
+      else
+        @regX = -reg.x
+        @regY = -reg.y
+        @childMovieClips = []
+        containerName = @spriteSheetPrefix + action.container
+        sprite = new createjs.Sprite(@spriteSheet)
+        sprite.gotoAndStop(containerName)
+        @children = [sprite]
+      
     return
   
-  mirrorMovieClip: (movieClip, spriteContainer) ->
-    spriteContainer.children = movieClip.children
-
   buildMovieClip: (animationName, mode, startPosition, loops) ->
     raw = @thangType.get('raw')
     animData = raw.animations[animationName]
@@ -77,8 +96,8 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     _.extend locals, @buildMovieClipAnimations(animData.animations)
     
     toSkip = {}
-    toSkip[shape.bn] for shape in animData.shapes
-    toSkip[graphic.bn] for graphic in animData.graphics
+    toSkip[shape.bn] = true for shape in animData.shapes
+    toSkip[graphic.bn] = true for graphic in animData.graphics
 
     anim = new createjs.MovieClip()
     anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true)
@@ -89,7 +108,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       for func in tweenData
         args = $.extend(true, [], (func.a))
         if @dereferenceArgs(args, locals, toSkip) is false
-          console.log 'could not dereference args', args
+          console.debug 'Did not dereference args:', args
           stopped = true
           break
         tween = tween[func.n](args...)
@@ -118,10 +137,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
-      childSpriteContainer = new createjs.SpriteContainer(@spriteSheet)
-      childSpriteContainer.movieClip = animation
-      childSpriteContainer.children = animation.children
-      @childSpriteContainers.push(childSpriteContainer)
+      @childMovieClips.push(animation)
     return map
 
   dereferenceArgs: (args, locals, toSkip) ->
@@ -140,8 +156,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     return args
 
   tick: (delta) ->
-    return unless @framerate and not @paused
-    return if @singleChildSprite # this gets moved forward automatically
+    return unless @baseMovieClip and @framerate and not @paused
     newFrame = @currentFrame + @framerate * delta / 1000
     
     if newFrame > @animLength
@@ -149,7 +164,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @gotoAndPlay(@goesTo)
         return
       else if not @loop
-        @paused = false
+        @paused = true
         newFrame = @animLength - 1
         @dispatchEvent('animationend')
       else
@@ -172,13 +187,14 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
       
     @currentFrame = newFrame
 
-    if @childSpriteContainers
-      for childSpriteContainer in @childSpriteContainers
-        movieClip = childSpriteContainer.movieClip
-        continue unless movieClip.parent
-        index = movieClip.parent.getChildIndex(movieClip)
-        movieClip.gotoAndStop(newFrame)
-        movieClip.parent[index] = childSpriteContainer
-
+    # So, originally I thought I'd have to swap in MovieClips for parallel 
+    # SpriteContainers between each frame, but turns out that's not the case.
+    # The WebGL rendering system treats the MovieClip like a SpriteContainer,
+    # which makes things simpler for me...
+    
+    # For some reason, though, gotoAndStop doesn't seem to advance the children
+    # so I gotta do that manually.
+    movieClip.gotoAndStop(newFrame) for movieClip in @childMovieClips
+  
   getBounds: ->
     @baseMovieClip.getBounds()

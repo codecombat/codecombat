@@ -1,6 +1,6 @@
 CocoClass = require 'lib/CocoClass'
 {me} = require 'lib/auth'
-Layer = require './Layer'
+Layer = require './WebGLLayer'
 IndieSprite = require 'lib/surface/IndieSprite'
 WizardSprite = require 'lib/surface/WizardSprite'
 FlagSprite = require 'lib/surface/FlagSprite'
@@ -66,7 +66,7 @@ module.exports = class SpriteBoss extends CocoClass
       ['Floating', 10]
     ]
       @spriteLayers[name] = new Layer name: name, layerPriority: priority, transform: Layer.TRANSFORM_CHILD, camera: @camera
-    @surfaceLayer.addChild _.values(@spriteLayers)...
+    @surfaceLayer.addChild (spriteLayer.spriteContainer for spriteLayer in _.values(@spriteLayers))...
 
   layerForChild: (child, sprite) ->
     unless child.layerPriority?
@@ -77,7 +77,7 @@ module.exports = class SpriteBoss extends CocoClass
     child.layerPriority ?= 0
     return @spriteLayers['Default'] unless child.layerPriority
     layer = _.findLast @spriteLayers, (layer, name) ->
-      layer.layerPriority <= child.layerPriority
+      layer.spriteContainer.layerPriority <= child.layerPriority
     layer ?= @spriteLayers['Land'] if child.layerPriority < -40
     layer ? @spriteLayers['Default']
 
@@ -86,19 +86,19 @@ module.exports = class SpriteBoss extends CocoClass
     console.error 'Sprite collision! Already have:', id if @sprites[id]
     @sprites[id] = sprite
     @spriteArray.push sprite
-    sprite.imageObject.layerPriority ?= sprite.thang?.layerPriority
     layer ?= @spriteLayers['Obstacle'] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
     layer ?= @layerForChild sprite.imageObject, sprite
-    layer.addChild sprite.imageObject
-    layer.updateLayerOrder()
+    layer.addCocoSprite sprite
+    layer.spriteContainer.updateLayerOrder()
     sprite
 
   createMarks: ->
+    return # TODO: get these marks working again
     @targetMark = new Mark name: 'target', camera: @camera, layer: @spriteLayers['Ground'], thangType: 'target'
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers['Ground'], thangType: 'selection'
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers['Floating'], spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
+    _.extend options, camera: @camera, resolutionFactor: SPRITE_RESOLUTION_FACTOR, groundLayer: @spriteLayers['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers['Floating'], spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites
@@ -185,7 +185,7 @@ module.exports = class SpriteBoss extends CocoClass
     @adjustSpriteExistence() if frameChanged
     sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
-    @spriteLayers['Default'].updateLayerOrder()
+    @spriteLayers['Default'].spriteContainer.updateLayerOrder()
     @cache()
 
   adjustSpriteExistence: ->
@@ -230,24 +230,7 @@ module.exports = class SpriteBoss extends CocoClass
     return itemsJustEquipped
 
   cache: (update=false) ->
-    return if @cached and not update
-    wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
-    return if _.any (s.stillLoading for s in wallSprites)
-    walls = (sprite.thang for sprite in wallSprites)
-    @world.calculateBounds()
-    wallGrid = new Grid walls, @world.size()...
-    for wallSprite in wallSprites
-      wallSprite.updateActionDirection wallGrid
-      wallSprite.updateScale()
-      wallSprite.updatePosition()
-    #console.log @wallGrid.toString()
-    @spriteLayers['Obstacle'].uncache() if @spriteLayers['Obstacle'].cacheID  # might have changed sizes
-    @spriteLayers['Obstacle'].cache()
-    # test performance of doing land layer, too, to see if it's faster
-#    @spriteLayers['Land'].uncache() if @spriteLayers['Land'].cacheID  # might have changed sizes
-#    @spriteLayers['Land'].cache()
-    # I don't notice much difference - Scott
-    @cached = true
+    # TODO: remove caching
 
   spriteFor: (thangID) -> @sprites[thangID]
 

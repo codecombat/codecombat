@@ -1,8 +1,9 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'lib/CocoClass'
 WebGLSprite = require './WebGLSprite'
+{SpriteContainerLayer} = require 'lib/surface/Layer'
 
-module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
+module.exports = class WebGLLayer extends CocoClass
 
   _.extend(WebGLLayer.prototype, Backbone.Events)
 
@@ -19,13 +20,15 @@ module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
   spriteSheet: null
   spriteContainer: null
   
-  constructor: ->
-    super(arguments...)
+  constructor: (@layerOptions) ->
+    super()
+    @initializing = true
     @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
-    @spriteContainer = new createjs.SpriteContainer(@spriteSheet)
+    @spriteContainer = new SpriteContainerLayer(@spriteSheet, @layerOptions)
     @actionRenderState = {}
     @toRenderBundles = []
     @cocoSprites = []
+    @initializing = false
     
   setDefaultActions: (@defaultActions) ->
     
@@ -63,6 +66,7 @@ module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
     @renderNewSpriteSheet()
 
   addDefaultActionsToRender: (cocoSprite) ->
+    needToRender = false
     if cocoSprite.thangType.get('raster')
       @upsertActionToRender(cocoSprite.thangType)
     else
@@ -72,11 +76,12 @@ module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
     groupKey = @renderGroupingKey(thangType, actionName, colorConfig)
-    return if @actionRenderState[groupKey] isnt undefined
+    return false if @actionRenderState[groupKey] isnt undefined
     @actionRenderState[groupKey] = 'need-to-render'
     @toRenderBundles.push({thangType: thangType, actionName: actionName, colorConfig: colorConfig})
-    return if @willRender or not @buildAutomatically
+    return true if @willRender or not @buildAutomatically
     @willRender = _.defer => @renderNewSpriteSheet()
+    return true
     
   renderNewSpriteSheet: ->
     @willRender = false
@@ -109,11 +114,27 @@ module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
       builder.buildAsync()
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
     else
-      builder.build()
+      sheet = builder.build()
+      @onBuildSpriteSheetComplete(null, builder)
+      return sheet
 
   onBuildSpriteSheetComplete: (e, builder) ->
-    console.log 'done?', builder.spriteSheet
-        
+    return if @initializing
+    @spriteSheet = builder.spriteSheet
+    oldLayer = @spriteContainer 
+    @spriteContainer = new SpriteContainerLayer(@spriteSheet, @layerOptions)
+    for cocoSprite in @cocoSprites
+      @setImageObjectToCocoSprite(cocoSprite)
+    for prop in ['scaleX', 'scaleY', 'regX', 'regY']
+      @spriteContainer[prop] = oldLayer[prop]
+    if parent = oldLayer.parent
+      index = parent.getChildIndex(oldLayer)
+      parent.removeChildAt(index)
+      parent.addChildAt(@spriteContainer, index)
+    @layerOptions.camera.updateZoom(true)
+    @spriteContainer.updateLayerOrder()
+    @trigger 'new-spritesheet'
+
   renderContainers: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     containersToRender = {}
     for actionName in actionNames
@@ -224,3 +245,5 @@ module.exports = class WebGLLayer extends CocoClass # createjs.SpriteContainer
     sprite.name = cocoSprite.thang?.spriteName or cocoSprite.thangType.get 'name'
     cocoSprite.addHealthBar()
     cocoSprite.setImageObject(sprite)
+    cocoSprite.update(true)
+    @spriteContainer.addChild(sprite)
