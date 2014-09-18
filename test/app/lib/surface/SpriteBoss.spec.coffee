@@ -133,8 +133,8 @@ describe 'SpriteBoss', ->
     expect(spriteBoss.sprites['Ogre S'].imageObject.y).toBeCloseTo(60)
     
   it 'scales sprites according to thang scaleFactorX and scaleFactorY', ->
-    expect(spriteBoss.sprites['Ogre N'].imageObject.scaleX).toBe(spriteBoss.sprites['Ogre N'].baseScaleX * 2)
-    expect(spriteBoss.sprites['Ogre W'].imageObject.scaleY).toBe(spriteBoss.sprites['Ogre N'].baseScaleY * 2)
+    expect(spriteBoss.sprites['Ogre N'].imageObject.scaleX).toBe(spriteBoss.sprites['Ogre N'].baseScaleX * 1.5)
+    expect(spriteBoss.sprites['Ogre W'].imageObject.scaleY).toBe(spriteBoss.sprites['Ogre N'].baseScaleY * 1.5)
 
   it 'sets alpha based on thang alpha', ->
     expect(spriteBoss.sprites['Ogre E'].imageObject.alpha).toBe(0.5)
