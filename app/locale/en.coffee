@@ -131,6 +131,19 @@
     spectate: "Spectate"
     players: "players"
     hours_played: "hours played"
+    items: "Items"
+    heroes: "Heroes"
+    achievements: "Achievements"
+    account: "Account"
+    settings: "Settings"
+
+  items:
+    armor: "Armor"
+    hands: "Hands"
+    accessories: "Accessories"
+    books: "Books"
+    minions: "Minions"
+    misc: "Misc"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -878,7 +891,6 @@
     tutorial_play_first: "Play the Tutorial first."
     simple_ai: "Simple AI"
     warmup: "Warmup"
-    vs: "VS"
     friends_playing: "Friends Playing"
     log_in_for_friends: "Log in to play with your friends!"
     social_connect_blurb: "Connect and play against your friends!"

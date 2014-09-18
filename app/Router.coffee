@@ -14,7 +14,8 @@ module.exports = class CocoRouter extends Backbone.Router
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
 
   routes:
-    '': go('HomeView')
+    '': go('HomeView')  # This will go somewhere deprecated when FrontView is done.
+    'front': go('FrontView')  # This will become '' when it is done.
 
     'about': go('AboutView')
 
@@ -73,7 +74,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'multiplayer': go('MultiplayerView')
 
-    'play': go('play/MainPlayView')
+    'play': go('play/MainPlayView')  # This will become 'play-old' or something.
+    'play-hero': go('play/WorldMapView')  # This will become 'play' when it is done.
     'play/ladder/:levelID': go('play/ladder/LadderView')
     'play/ladder': go('play/ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
