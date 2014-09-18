@@ -74,14 +74,7 @@ layerProperties = {
   
   onZoomUpdated: (e) ->
     return unless e.camera is @camera
-    # TODO: move this to the new SpriteStage, because it's what needs to be transformed.
-    # This is a bit of a hack to get it to work for the time being.
-    if @parent and @transformStyle is layerClassProperties.TRANSFORM_CHILD
-      @parent.scaleX = @parent.scaleY = e.zoom
-      @parent.regX = e.surfaceViewport.x
-      @parent.regY = e.surfaceViewport.y
-      
-    if @transformStyle in [layerClassProperties.TRANSFORM_SURFACE, layerClassProperties.TRANSFORM_SURFACE_TEXT]
+    if @transformStyle in [layerClassProperties.TRANSFORM_SURFACE, layerClassProperties.TRANSFORM_SURFACE_TEXT, layerClassProperties.TRANSFORM_CHILD]
       change = @scaleX / e.zoom
       @scaleX = @scaleY = e.zoom
       @regX = e.surfaceViewport.x

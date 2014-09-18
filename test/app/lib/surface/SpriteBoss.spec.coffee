@@ -45,7 +45,7 @@ describe 'SpriteBoss', ->
     thangTypes = [treeThangType, ogreMunchkinThangType, ogreFangriderThangType, fullRenderOgreMunchkinThangType, fullRenderTreeThangType]
     
     # Build the Stage and SpriteBoss.
-    window.stage = stage = new createjs.Stage(canvas[0])
+    window.stage = stage = new createjs.SpriteStage(canvas[0])
     options = {
       camera: camera
       surfaceLayer: stage
@@ -76,7 +76,7 @@ describe 'SpriteBoss', ->
         {id: 'Ogre S', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
 
         # Set ogres side by side with different render strategies
-        {id: 'FROgre', spriteName: 'Full Render Ogre', exists: true, pos: {x:-10, y:-8}, action: 'idle', health: 10, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'FROgre', spriteName: 'Full Render Ogre', exists: true, pos: {x:-10, y:-8}, action: 'idle', health: 10, maxHealth: 10, rotation: 0, acts: true, alpha: 0.5 }
         {id: 'NotFROgre', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:-8}, action: 'idle', health: 10, maxHealth: 10, rotation: 0, acts: true }
 
         # A line of ogres overlapping to test child ordering
@@ -94,8 +94,7 @@ describe 'SpriteBoss', ->
       spriteBoss.update(true)
       defaultLayer.once 'new-spritesheet', ->
         done()
-        
-        showMe() # Uncomment to display this world when you run any of these tests.
+#        showMe() # Uncomment to display this world when you run any of these tests.
 
   beforeEach (done) -> init(done)
 
