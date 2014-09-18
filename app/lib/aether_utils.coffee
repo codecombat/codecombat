@@ -10,6 +10,7 @@ module.exports.createAetherOptions = (options) ->
     protectAPI: not options.skipProtectAPI
     includeFlow: false
     yieldConditionally: options.functionName is 'plan'
+    simpleLoops: true
     globals: ['Vector', '_']
     problems:
       jshint_W040: {level: 'ignore'}
