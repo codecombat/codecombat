@@ -82,6 +82,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         containerName = @spriteSheetPrefix + action.container
         sprite = new createjs.Sprite(@spriteSheet)
         sprite.gotoAndStop(containerName)
+        sprite.scaleX = sprite.scaleY = 1 / @resolutionFactor
         @children = [sprite]
       
     return

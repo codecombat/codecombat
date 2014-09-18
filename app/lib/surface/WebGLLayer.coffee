@@ -42,6 +42,7 @@ module.exports = class WebGLLayer extends CocoClass
     
   addCocoSprite: (cocoSprite) ->
     cocoSprite.options.resolutionFactor = @resolutionFactor
+    cocoSprite.updateBaseScale()
     @cocoSprites.push cocoSprite
     @loadThangType(cocoSprite.thangType)
     @addDefaultActionsToRender(cocoSprite)
@@ -122,6 +123,13 @@ module.exports = class WebGLLayer extends CocoClass
 
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing
+    
+    if builder.spriteSheet._images.length > 1
+      @resolutionFactor *= 0.9
+      console.debug('Sprite sheet is too large... re-rendering at', @resolutionFactor.toFixed(2))
+      @_renderNewSpriteSheet()
+      return
+    
     @spriteSheet = builder.spriteSheet
     oldLayer = @spriteContainer 
     @spriteContainer = new SpriteContainerLayer(@spriteSheet, @layerOptions)
@@ -135,6 +143,10 @@ module.exports = class WebGLLayer extends CocoClass
       parent.addChildAt(@spriteContainer, index)
     @layerOptions.camera?.updateZoom(true)
     @spriteContainer.updateLayerOrder()
+    for cocoSprite in @cocoSprites
+      cocoSprite.options.resolutionFactor = @resolutionFactor
+      cocoSprite.updateBaseScale()
+      cocoSprite.updateScale()
     @trigger 'new-spritesheet'
 
   renderContainers: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
