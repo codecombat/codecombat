@@ -177,7 +177,7 @@ block content
               if !editing && !myProfile
                 button#contact-candidate.btn.btn-large.btn-inverse.flat-button
                   span(data-i18n="account_profile.contact") Contact
-                  |  #{profile.name.split(' ')[0]}
+                  |  #{(profile.name || user.get('name') || 'Anonymous').split(' ')[0]}
               if me.isAdmin()
                 select#admin-contact.form-control
                   for contact in adminContacts

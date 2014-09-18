@@ -176,7 +176,7 @@ module.exports = class CocoView extends Backbone.View
     target = elem.data('target')
     Modal = require 'views/'+target
     e.stopPropagation()
-    @openModalView new Modal
+    @openModalView new Modal supermodel: @supermodal
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once

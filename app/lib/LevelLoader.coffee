@@ -202,7 +202,7 @@ module.exports = class LevelLoader extends CocoClass
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
     nameModelMap = _.zipObject nameModelTuples
-    @spriteSheetsToBuild = []
+    @spriteSheetsToBuild ?= []
 
     for thangTypeName in thangsToLoad
       thangType = nameModelMap[thangTypeName]
@@ -230,7 +230,7 @@ module.exports = class LevelLoader extends CocoClass
 
   buildLoop: =>
     someLeft = false
-    for spriteSheetResource, i in @spriteSheetsToBuild
+    for spriteSheetResource, i in @spriteSheetsToBuild ? []
       continue if spriteSheetResource.spriteSheetKeys
       someLeft = true
       thangType = spriteSheetResource.thangType

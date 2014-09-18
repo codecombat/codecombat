@@ -16,7 +16,7 @@ MOVE_MARGIN = 0.15
 MOVE_SPEED = 13
 
 # Let us place these on top of other Thangs
-overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle']
+overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle', 'Electrowall']
 
 class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type?project=original,name,version,slug,kind,components'
@@ -33,12 +33,14 @@ module.exports = class ThangsTabView extends CocoView
     'surface:mouse-over': 'onSurfaceMouseOver'
     'surface:mouse-out': 'onSurfaceMouseOut'
     'editor:edit-level-thang': 'editThang'
+    'editor:level-thang-edited': 'onLevelThangEdited'
     'editor:level-thang-done-editing': 'onLevelThangDoneEditing'
     'editor:view-switched': 'onViewSwitched'
     'sprite:dragged': 'onSpriteDragged'
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:mouse-down': 'onSpriteMouseDown'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
+    'surface:stage-mouse-down': 'onStageMouseDown'
     'surface:stage-mouse-up': 'onStageMouseUp'
     'editor:random-terrain-generated': 'onRandomTerrainGenerated'
 
@@ -225,8 +227,17 @@ module.exports = class ThangsTabView extends CocoView
     # if e.originalEvent.nativeEvent.button == 2
     #   @onSpriteContextMenu e
 
+  onStageMouseDown: (e) ->
+    return unless @addThangSprite?.thangType.get('kind') is 'Wall'
+    @surface.camera.dragDisabled = true
+    @paintingWalls = true
+
   onStageMouseUp: (e) ->
-    if @addThangSprite
+    if @paintingWalls
+      # We need to stop painting walls, but we may also stop in onExtantThangSelected.
+      _.defer =>
+        @paintingWalls = @paintedWalls = @surface.camera.dragDisabled = false
+    else if @addThangSprite
       @surface.camera.lock()
       # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
@@ -295,7 +306,12 @@ module.exports = class ThangsTabView extends CocoView
     @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
-    if e.thang and (key.alt or key.meta)
+    paintedAWall = @paintedWalls
+    @paintingWalls = @paintedWalls = @surface.camera.dragDisabled = false
+    if paintedAWall
+      # Skip adding a wall now, because we already dragged to add one
+      null
+    else if e.thang and (key.alt or key.meta)
       # We alt-clicked, so create a clone addThang
       @selectAddThangType e.thang.spriteName, @selectedExtantThang
     else if @justAdded()
@@ -389,6 +405,16 @@ module.exports = class ThangsTabView extends CocoView
     wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
     @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
+    if @paintingWalls
+      unless _.find @surface.spriteBoss.spriteArray, ((sprite) =>
+        sprite.thangType.get('kind') is 'Wall' and
+        Math.abs(sprite.thang.pos.x - @addThangSprite.thang.pos.x) < 2 and
+        Math.abs(sprite.thang.pos.y - @addThangSprite.thang.pos.y) < 2 and
+        sprite isnt @addThangSprite
+      )
+        @addThang @addThangType, @addThangSprite.thang.pos
+        @lastAddTime = new Date()
+        @paintedWalls = true
     null
 
   onSurfaceMouseOver: (e) ->
@@ -427,6 +453,7 @@ module.exports = class ThangsTabView extends CocoView
 
   deleteSelectedExtantThang: (e) =>
     return if $(e.target).hasClass 'treema-node'
+    return unless @selectedExtantThang
     thang = @getThangByID(@selectedExtantThang.id)
     @thangsTreema.delete(@pathForThang(thang))
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
@@ -547,14 +574,19 @@ module.exports = class ThangsTabView extends CocoView
   onLevelThangDoneEditing: (e) ->
     @removeSubView @editThangView
     @editThangView = null
-    newThang = e.thangData
+    @updateEditedThang e.thangData, e.oldPath
+    @$el.find('>').show()
+
+  onLevelThangEdited: (e) ->
+    @updateEditedThang e.thangData, e.oldPath
+
+  updateEditedThang: (newThang, oldPath) ->
     @hush = true
-    @thangsTreema.delete e.oldPath
+    @thangsTreema.delete oldPath
     @populateFoldersForThang(newThang)
     @thangsTreema.set(@pathForThang(newThang), newThang)
     @hush = false
     @onThangsChanged()
-    @$el.find('>').show()
 
   preventDefaultContextMenu: (e) ->
     return unless $(e.target).closest('#canvas-wrapper').length

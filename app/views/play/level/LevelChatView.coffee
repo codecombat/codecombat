@@ -27,7 +27,10 @@ module.exports = class LevelChatView extends CocoView
 
   updateMultiplayerVisibility: ->
     return unless @$el?
-    @$el.toggle Boolean @session.get('multiplayer')
+    try
+      @$el.toggle Boolean @session.get('multiplayer')
+    catch e
+      console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
 
   afterRender: ->
     @chatTables = $('table', @$el)

@@ -170,14 +170,31 @@ module.exports = class Level extends CocoModel
       thang.components = sorted
 
   fillInDefaultComponentConfiguration: (thangs, levelComponents) ->
+    # This is slow, so I inserted some optimizations to speed it up by caching the eventual defaults of commonly-used Components.
+    @defaultComponentConfigurations ?= {}
+    cached = 0
+    missed = 0
+    cachedConfigs = 0
     for thang in thangs ? []
       for component in thang.components or []
+        isPhysical = component.original is LevelComponent.PhysicalID
+        if not isPhysical and defaultConfiguration = _.find @defaultComponentConfigurations[component.original], ((d) -> _.isEqual component, d.originalComponent)
+          component.config = defaultConfiguration.defaultedConfig
+          ++cached
+          continue
         continue unless lc = _.find levelComponents, {original: component.original}
+        unless isPhysical
+          originalComponent = $.extend true, {}, component
         component.config ?= {}
-        TreemaUtils.populateDefaults(component.config, lc.configSchema, tv4)
+        TreemaUtils.populateDefaults(component.config, lc.configSchema ? {}, tv4)
         @lastType = 'component'
         @lastOriginal = component.original
-        @walkDefaults component.config, lc.configSchema.properties
+        unless isPhysical
+          @defaultComponentConfigurations[component.original] ?= []
+          @defaultComponentConfigurations[component.original].push originalComponent: originalComponent, defaultedConfig: component.config
+          ++cachedConfigs
+        ++missed
+    #console.log 'cached', cached, 'missed', missed
 
   fillInDefaultSystemConfiguration: (levelSystems) ->
     for system in levelSystems ? []
@@ -185,21 +202,6 @@ module.exports = class Level extends CocoModel
       TreemaUtils.populateDefaults(system.config, system.model.configSchema, tv4)
       @lastType = 'system'
       @lastOriginal = system.model.name
-      @walkDefaults system.config, system.model.configSchema.properties
-
-  walkDefaults: (config, properties) ->
-    # This function is redundant, but is the old implementation.
-    # Remove it and calls to it once we stop seeing these warnings.
-    return unless properties
-    for prop, schema of properties
-      if schema.default? and config[prop] is undefined
-        console.warn 'Setting default of', config, 'for', prop, 'to', schema.default, 'but this method is deprecated... check your config schema!', @lastType, @lastOriginal
-        config[prop] = schema.default
-      if schema.type is 'object' and config[prop]
-        @walkDefaults config[prop], schema.properties
-      else if schema.type is 'array' and config[prop]
-        for item in config[prop] or []
-          @walkDefaults item, schema.items
 
   dimensions: ->
     width = 0

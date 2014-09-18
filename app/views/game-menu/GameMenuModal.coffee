@@ -41,6 +41,7 @@ module.exports = class GameMenuModal extends ModalView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-tab-switch', volume: 1
 
   onHidden: ->
+    super()
     subview.onHidden?() for subviewKey, subview of @subviews
     me.patch()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1

@@ -26,7 +26,7 @@ module.exports = class NewLevelComponentModal extends ModalView
     component = new LevelComponent()
     component.set 'system', system
     component.set 'name', name
-    component.set 'code', component.get('code').replace(/AttacksSelf/g, name)
+    component.set 'code', component.get('code', true).replace(/AttacksSelf/g, name)
     component.set 'permissions', [{access: 'owner', target: me.id}]  # Private until saved in a published Level
     res = component.save()
     return unless res

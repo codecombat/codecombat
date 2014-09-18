@@ -7,6 +7,7 @@ module.exports = class ModalView extends CocoView
   modalWidthPercent: null
   plain: false
   instant: false
+  template: require 'templates/modal/modal_base'
 
   events:
     'click a': 'toggleModal'
@@ -26,6 +27,8 @@ module.exports = class ModalView extends CocoView
   getRenderData: (context={}) ->
     context = super(context)
     context.closeButton = @closeButton
+    context.headerContent = @options.headerContent
+    context.bodyContent = @options.bodyContent
     context
 
   subscriptions:

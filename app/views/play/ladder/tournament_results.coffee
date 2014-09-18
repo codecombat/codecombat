@@ -1,4 +1,4 @@
-module.exports = results = greed: {}
+module.exports = results = greed: {}, 'criss-cross': {}
 
 results.greed.humans = [
   {team: 'humans', rank: 1, sessionID: '5381e3537585483905a829c1', name: 'Wizard Dude', playtime: 63184, wins: 363, losses: 0, score: 363}
@@ -549,4 +549,200 @@ results.greed.ogres = [
   {team: 'ogres', rank: 268, sessionID: '537a73a6e488a7380545affd', name: 'Galvan', playtime: 514, wins: 0, losses: 378, score: -378}
   {team: 'ogres', rank: 269, sessionID: '537b96b16c13497e05de82a8', name: 'Krris', playtime: 2618, wins: 0, losses: 379, score: -379}
   {team: 'ogres', rank: 270, sessionID: '537bc1b81db8c8ac063a3b7b', name: 'jpiasetz', playtime: 14565, wins: 0, losses: 380, score: -380}
+]
+
+results['criss-cross'].humans = [
+  {team: 'humans', rank: 1, sessionID: '53f63c00f7bc7336054f14f5', codeLanguage: 'javascript', name: 'mdz', score: 89.27983686}
+  {team: 'humans', rank: 2, sessionID: '53f5fdb054e4f234059ff58d', codeLanguage: 'javascript', name: 'Nafaya', score: 84.77623255}
+  {team: 'humans', rank: 3, sessionID: '53f4c7f454e4f234059e97a0', codeLanguage: 'javascript', name: 'nino48', score: 84.62650458}
+  {team: 'humans', rank: 4, sessionID: '53f66c3af7bc7336054f4b93', codeLanguage: 'javascript', name: 'Cracker', score: 82.04044463}
+  {team: 'humans', rank: 5, sessionID: '53f3b7751171a83405504419', codeLanguage: 'javascript', name: 'c11ris', score: 68.68840693}
+  {team: 'humans', rank: 6, sessionID: '5400515cff5d7535058f274e', codeLanguage: 'javascript', name: 'fireantik', score: 67.38125522}
+  {team: 'humans', rank: 7, sessionID: '53f6924ff7bc7336054f6007', codeLanguage: 'javascript', name: 'Alexei2', score: 66.05333713}
+  {team: 'humans', rank: 8, sessionID: '53f4c91c54e4f234059e9824', codeLanguage: 'javascript', name: 'Mortimer Blackwood', score: 65.94607122}
+  {team: 'humans', rank: 9, sessionID: '53a35c928dd4b200006b0573', codeLanguage: 'python', name: 'Nick', score: 63.06756959}
+  {team: 'humans', rank: 10, sessionID: '53f6c36ffda22e3305c025cb', codeLanguage: 'javascript', name: 'lichens', score: 60.19465423}
+  {team: 'humans', rank: 11, sessionID: '53f397aae7a7643005c042f7', codeLanguage: 'javascript', name: 'qwe', score: 60.03001559}
+  {team: 'humans', rank: 12, sessionID: '53f45a49fda22e3305bd9009', codeLanguage: 'javascript', name: 'paulgator', score: 59.8852267}
+  {team: 'humans', rank: 13, sessionID: '5406519efcbd8f33059c4ea8', codeLanguage: 'javascript', name: 'shadowfire', score: 59.61113289}
+  {team: 'humans', rank: 14, sessionID: '53ac4b7123798d3605a87f9f', codeLanguage: 'javascript', name: 'DollarAkshay', score: 56.10811426}
+  {team: 'humans', rank: 15, sessionID: '53f7d4dbbc7e716d14e80de6', codeLanguage: 'javascript', name: 'cholesky', score: 55.27757899}
+  {team: 'humans', rank: 16, sessionID: '53f39df01171a834055013df', codeLanguage: 'javascript', name: 'Wizard Dude', score: 55.22843626}
+  {team: 'humans', rank: 17, sessionID: '53b2ba14102a853605e48f39', codeLanguage: 'javascript', name: 'nemoyatpeace', score: 54.3862373}
+  {team: 'humans', rank: 18, sessionID: '53f6be67fda22e3305c02523', codeLanguage: 'javascript', name: 'Ibyoki', score: 54.28563847}
+  {team: 'humans', rank: 19, sessionID: '53f554c6d822c23505b7b48d', codeLanguage: 'javascript', name: 'Valiant', score: 53.70432642}
+  {team: 'humans', rank: 20, sessionID: '53ba3f1194abf748058eb864', codeLanguage: 'javascript', name: 'Jex', score: 51.53868217}
+  {team: 'humans', rank: 21, sessionID: '53f3956e7c1c003605e8ab74', codeLanguage: 'javascript', name: 'piThrower', score: 51.38189056}
+  {team: 'humans', rank: 22, sessionID: '53d02fbc7b4eee430a5f238a', codeLanguage: 'javascript', name: 'dcm', score: 51.079906}
+  {team: 'humans', rank: 23, sessionID: '53f5b34154e4f234059fcc34', codeLanguage: 'javascript', name: 'zbanana', score: 50.4276462}
+  {team: 'humans', rank: 24, sessionID: '53f401c2e7a7643005c1358d', codeLanguage: 'javascript', name: 'Jerigan', score: 49.98484298}
+  {team: 'humans', rank: 25, sessionID: '53fbcdd07c3dc73405009ca5', codeLanguage: 'javascript', name: 'ojannen', score: 49.70746541}
+  {team: 'humans', rank: 26, sessionID: '53f59a2fd822c23505b80aff', codeLanguage: 'javascript', name: 'gorunir', score: 48.68311327}
+  {team: 'humans', rank: 27, sessionID: '53f3a5b3e7a7643005c05d11', codeLanguage: 'javascript', name: 'Tilorian', score: 47.32564935}
+  {team: 'humans', rank: 28, sessionID: '53f38b90e7a7643005c0150d', codeLanguage: 'javascript', name: 'MyWizard', score: 46.616599}
+  {team: 'humans', rank: 29, sessionID: '53f3dbf3e7a7643005c0dd43', codeLanguage: 'javascript', name: 'Terebijoke', score: 45.40772291}
+  {team: 'humans', rank: 30, sessionID: '53c22de027d0244a057ecbd8', codeLanguage: 'javascript', name: 'JavaCaster1', score: 45.08075025}
+  {team: 'humans', rank: 31, sessionID: '53f8f7de67ab263605e41dc6', codeLanguage: 'javascript', name: 'Moojo', score: 43.91409757}
+  {team: 'humans', rank: 32, sessionID: '53f49f28d822c23505b6ccdb', codeLanguage: 'clojure', name: 'jChuck', score: 43.69648547}
+  {team: 'humans', rank: 33, sessionID: '53f3ecaa8165533205fb46a2', codeLanguage: 'javascript', name: 'MCS', score: 43.65500921}
+  {team: 'humans', rank: 34, sessionID: '53f51289fda22e3305beac6a', codeLanguage: 'javascript', name: 'anykey', score: 43.52308768}
+  {team: 'humans', rank: 35, sessionID: '53f3a645e7a7643005c05dd8', codeLanguage: 'javascript', name: 'Nazywam', score: 42.76690262}
+  {team: 'humans', rank: 36, sessionID: '53f3b7a6e7a7643005c08b17', codeLanguage: 'javascript', name: 'Lunt', score: 42.5117331}
+  {team: 'humans', rank: 37, sessionID: '53fb57b85cfd700d099b733e', codeLanguage: 'python', name: 'other019', score: 42.46817345}
+  {team: 'humans', rank: 38, sessionID: '53fb51c83baef834054b5f87', codeLanguage: 'python', name: 'KiPu', score: 42.37172766}
+  {team: 'humans', rank: 39, sessionID: '53f7b114c5baa2f41501231a', codeLanguage: 'javascript', name: 'Pop-up', score: 42.10472537}
+  {team: 'humans', rank: 40, sessionID: '53f3866b7c1c003605e886cf', codeLanguage: 'javascript', name: 'Plak87', score: 40.75472545}
+  {team: 'humans', rank: 41, sessionID: '53f4c876f7bc7336054d84cf', codeLanguage: 'javascript', name: 'chriswen', score: 40.2773747}
+  {team: 'humans', rank: 42, sessionID: '53fad79467ab263605e5daff', codeLanguage: 'python', name: 'JLeow00', score: 40.23592348}
+  {team: 'humans', rank: 43, sessionID: '53f3909e7c1c003605e8a089', codeLanguage: 'javascript', name: 'juckele', score: 39.71481956}
+  {team: 'humans', rank: 44, sessionID: '53f387abe7a7643005c01095', codeLanguage: 'python', name: 'parseval', score: 39.40974773}
+  {team: 'humans', rank: 45, sessionID: '53f387b47c1c003605e8878a', codeLanguage: 'javascript', name: 'NicRio', score: 39.06434886}
+  {team: 'humans', rank: 46, sessionID: '53f6377154e4f23405a05ce6', codeLanguage: 'javascript', name: 'Moji', score: 38.60381239}
+  {team: 'humans', rank: 47, sessionID: '54022fd6973a642e10f08679', codeLanguage: 'javascript', name: 'droidwarrior', score: 38.12258027}
+  {team: 'humans', rank: 48, sessionID: '53f47e87fda22e3305bdbc2d', codeLanguage: 'javascript', name: 'Santinell', score: 37.77333035}
+  {team: 'humans', rank: 49, sessionID: '53fcfddf10bddbd805b1606a', codeLanguage: 'javascript', name: '[i].Lashes', score: 37.10129461}
+  {team: 'humans', rank: 50, sessionID: '54034c2a0557f27b0c33577a', codeLanguage: 'javascript', name: 'Finwe', score: 36.33095077}
+  {team: 'humans', rank: 51, sessionID: '53f490dcd822c23505b6c346', codeLanguage: 'python', name: 'AlienHunter3010', score: 35.57859105}
+  {team: 'humans', rank: 52, sessionID: '53f3e780e7a7643005c0ecd5', codeLanguage: 'javascript', name: 'Plloi', score: 34.79515433}
+  {team: 'humans', rank: 53, sessionID: '53fe1d04450764220abe3ff4', codeLanguage: 'javascript', name: 'Ehrks', score: 34.79168316}
+  {team: 'humans', rank: 54, sessionID: '53f3927fe7a7643005c03438', codeLanguage: 'javascript', name: 'taz', score: 34.2703216}
+  {team: 'humans', rank: 55, sessionID: '53f37d707c1c003605e87b1a', codeLanguage: 'javascript', name: 'zero_degrees', score: 33.64927149}
+  {team: 'humans', rank: 56, sessionID: '53f47bbdd822c23505b6a40a', codeLanguage: 'javascript', name: 'liorst1', score: 33.60823861}
+  {team: 'humans', rank: 57, sessionID: '541413a75117a4d10e468fe5', codeLanguage: 'python', name: 'Ever', score: 33.5904028}
+  {team: 'humans', rank: 58, sessionID: '53f671acfda22e3305c009a2', codeLanguage: 'python', name: 'Gnu', score: 33.42381407}
+  {team: 'humans', rank: 59, sessionID: '53fdb707a1a2c92409fd3fae', codeLanguage: 'javascript', name: 'gyuri', score: 32.56147128}
+  {team: 'humans', rank: 60, sessionID: '53dee08059839b35051fb52f', codeLanguage: 'javascript', name: 'Lanner', score: 31.89927824}
+  {team: 'humans', rank: 61, sessionID: '53f566b3f7bc7336054e3f4f', codeLanguage: 'javascript', name: 'redWizzard', score: 31.71795432}
+  {team: 'humans', rank: 62, sessionID: '53f38d58e7a7643005c0205e', codeLanguage: 'javascript', name: 'Maixck', score: 31.13482773}
+  {team: 'humans', rank: 63, sessionID: '5416ada992fc490115ce300c', codeLanguage: 'javascript', name: 'DanielAwesome', score: 30.0249466}
+  {team: 'humans', rank: 64, sessionID: '53f3f08d1171a8340550b8e3', codeLanguage: 'python', name: 'Handsome2734', score: 29.61969526}
+  {team: 'humans', rank: 65, sessionID: '540d9481a6128791125a1765', codeLanguage: 'javascript', name: 'Thom VB', score: 29.59295282}
+  {team: 'humans', rank: 66, sessionID: '5415d931fed2785a13ccac3b', codeLanguage: 'python', name: 'RedPill', score: 28.6484878}
+  {team: 'humans', rank: 67, sessionID: '53f3969f7c1c003605e8aeda', codeLanguage: 'python', name: 'Icatpasdu', score: 28.59919383}
+  {team: 'humans', rank: 68, sessionID: '53f422abe7a7643005c17609', codeLanguage: 'python', name: 'akhtyamovpavel', score: 28.53107357}
+  {team: 'humans', rank: 69, sessionID: '53a341aeaa66a7afbe3d1175', codeLanguage: 'javascript', name: 'Scott', score: 28.13105798}
+  {team: 'humans', rank: 70, sessionID: '5408bee18d0b993805d6e2ed', codeLanguage: 'python', name: 'Juan13', score: 27.72431383}
+  {team: 'humans', rank: 71, sessionID: '53f3827c8165533205fa7e53', codeLanguage: 'coffeescript', name: 'Anomander', score: 27.48633158}
+  {team: 'humans', rank: 72, sessionID: '53f4e25cf7bc7336054dcb1e', codeLanguage: 'javascript', name: 'Eterm', score: 27.44590315}
+  {team: 'humans', rank: 73, sessionID: '53f3e09f1171a83405509857', codeLanguage: 'javascript', name: 'stuntman_fx', score: 27.31894123}
+  {team: 'humans', rank: 74, sessionID: '54022bcd0557f27b0c32a26a', codeLanguage: 'javascript', name: 'matom', score: 26.92817056}
+  {team: 'humans', rank: 75, sessionID: '540eaeae25c82d2b06e84e6e', codeLanguage: 'python', name: 'JamiePilgrim', score: 26.66085117}
+  {team: 'humans', rank: 76, sessionID: '53f39bef8165533205faaf1c', codeLanguage: 'python', name: 'Gybseaa', score: 25.67104323}
+  {team: 'humans', rank: 77, sessionID: '53f5266dfda22e3305bec4d4', codeLanguage: 'python', name: 'sdetfaewtgswrf', score: 25.11200369}
+  {team: 'humans', rank: 78, sessionID: '53f3bade7c1c003605e912e8', codeLanguage: 'javascript', name: 'Tyler', score: 24.45104378}
+  {team: 'humans', rank: 79, sessionID: '54145e81e8c6b8ed0ec3c0de', codeLanguage: 'javascript', name: 'yuvi', score: 23.35851543}
+  {team: 'humans', rank: 80, sessionID: '53f37c861171a834054fd63f', codeLanguage: 'python', name: 'pbd', score: 21.95799255}
+  {team: 'humans', rank: 81, sessionID: '53f67052f7bc7336054f4d9f', codeLanguage: 'python', name: 'Napillo', score: 21.59848035}
+  {team: 'humans', rank: 82, sessionID: '53f5a34ed822c23505b80e62', codeLanguage: 'javascript', name: 'Sailor', score: 19.88903243}
+  {team: 'humans', rank: 83, sessionID: '53f60815fda22e3305bf8d14', codeLanguage: 'javascript', name: 'Gordon2012', score: 19.3703958}
+  {team: 'humans', rank: 84, sessionID: '53f3a49ce7a7643005c05c28', codeLanguage: 'clojure', name: 'Oze', score: 19.15746715}
+  {team: 'humans', rank: 85, sessionID: '53f3cee5e7a7643005c0cd04', codeLanguage: 'javascript', name: 'Frewdicket', score: 18.32983195}
+  {team: 'humans', rank: 86, sessionID: '53f3dfe07c1c003605e9560b', codeLanguage: 'python', name: 'Wizardioo', score: 17.24637409}
+  {team: 'humans', rank: 87, sessionID: '53f73786d822c23505b99bdc', codeLanguage: 'javascript', name: 'WOUN', score: 16.09512312}
+  {team: 'humans', rank: 88, sessionID: '53fb3c3567ab263605e64525', codeLanguage: 'javascript', name: 'Uyjen', score: 15.41176492}
+  {team: 'humans', rank: 89, sessionID: '5412232591cb5534055f9df1', codeLanguage: 'javascript', name: 'alltom', score: 14.93217724}
+  {team: 'humans', rank: 90, sessionID: '53a35877367e5794b2f5d430', codeLanguage: 'javascript', name: 'Michael S.', score: 14.69737904}
+  {team: 'humans', rank: 91, sessionID: '53f3959a7c1c003605e8ab90', codeLanguage: 'javascript', name: 'Xyphex', score: 14.60922258}
+  {team: 'humans', rank: 92, sessionID: '53fdfc25bfe0d7f308a6c2f8', codeLanguage: 'javascript', name: 'BEFOR', score: 14.09951331}
+  {team: 'humans', rank: 93, sessionID: '53f39293e7a7643005c03596', codeLanguage: 'python', name: 'melondonkey', score: 13.66123744}
+  {team: 'humans', rank: 94, sessionID: '53f5865efda22e3305bf2296', codeLanguage: 'python', name: 'hax0r00110', score: 13.27129663}
+  {team: 'humans', rank: 95, sessionID: '53fb87786c1ea23605924fc5', codeLanguage: 'lua', name: 'Joker78', score: 12.82530944}
+  {team: 'humans', rank: 96, sessionID: '54127ddcb2f1cc3605cf7454', codeLanguage: 'javascript', name: 'yakotaki', score: 12.80841814}
+  {team: 'humans', rank: 97, sessionID: '54172c214580e6bb21433b96', codeLanguage: 'javascript', name: 'VictorMGB', score: 11.79712559}
+  {team: 'humans', rank: 98, sessionID: '5410b0520e98527205cf23b8', codeLanguage: 'python', name: 'SliceNDiceSpud', score: 11.7339923}
+  {team: 'humans', rank: 99, sessionID: '53fd248cb14343450634feda', codeLanguage: 'python', name: 'Galvan', score: 11.2788073}
+  {team: 'humans', rank: 100, sessionID: '53ff3dcf919148a7074c9608', codeLanguage: 'clojure', name: 'jjjjj', score: 10.28409032}
+  {team: 'humans', rank: 101, sessionID: '53b4a6862082f23505b849f7', codeLanguage: 'javascript', name: 'Anonymous', score: 10.10879041}
+  {team: 'humans', rank: 102, sessionID: '5415de2dc6f5ec4e13326a22', codeLanguage: 'javascript', name: 'Anonymous', score: 10.08833109}
+  {team: 'humans', rank: 103, sessionID: '53f803b0bc7e716d14e82fde', codeLanguage: 'javascript', name: 'Aaryan', score: 10.0045068}
+  {team: 'humans', rank: 104, sessionID: '53f848714d9388fa15d1a457', codeLanguage: 'python', name: 'null000llun', score: 9.753414719}
+  {team: 'humans', rank: 105, sessionID: '53fc7b9a7c3dc7340500f09a', codeLanguage: 'javascript', name: 'Hackrylix', score: 9.704839891}
+  {team: 'humans', rank: 106, sessionID: '53f9aa35549ae742068f9f7e', codeLanguage: 'javascript', name: 'AlexTelon', score: 9.357260227}
+  {team: 'humans', rank: 107, sessionID: '53f72633fda22e3305c06b56', codeLanguage: 'javascript', name: 'eellson', score: 8.949914084}
+  {team: 'humans', rank: 108, sessionID: '54049a2011058b421307e0e1', codeLanguage: 'javascript', name: 'ugly loaf', score: 8.813606154}
+  {team: 'humans', rank: 109, sessionID: '53f98c823baef834054a0544', codeLanguage: 'javascript', name: 'Gamagori-sama', score: 8.52660922}
+  {team: 'humans', rank: 110, sessionID: '54019e1e49086dee0ddaf200', codeLanguage: 'javascript', name: 'akonand', score: 7.542416738}
+  {team: 'humans', rank: 111, sessionID: '53f39b918165533205faaed6', codeLanguage: 'python', name: 'roshan360', score: 6.740957014}
+  {team: 'humans', rank: 112, sessionID: '54046519e2b6e64a1832659d', codeLanguage: 'javascript', name: 'Val-per', score: 6.444447281}
+  {team: 'humans', rank: 113, sessionID: '53fe8cee95fba83305f4592d', codeLanguage: 'javascript', name: 'Bendalf0', score: 6.003282371}
+  {team: 'humans', rank: 114, sessionID: '53a39f1a573d6d3505b187de', codeLanguage: 'javascript', name: '┬─┬ノ( º _ ºノ)', score: 5.650008807}
+  {team: 'humans', rank: 115, sessionID: '540efacbba536e450767b2e8', codeLanguage: 'javascript', name: 'cole3', score: 5.314407805}
+  {team: 'humans', rank: 116, sessionID: '540fb13d098c622109a769e5', codeLanguage: 'python', name: 'Crunchy Meatball', score: 5.107994897}
+  {team: 'humans', rank: 117, sessionID: '53b36e22bb61aa3405d50f18', codeLanguage: 'javascript', name: 'sjarvie', score: 4.846878355}
+]
+
+results['criss-cross'].ogres = [
+  {team: 'ogres', rank: 1, sessionID: '5404bc1a2c6432b618fdbc41', codeLanguage: 'javascript', name: 'HighSea', score: 86.69028832}
+  {team: 'ogres', rank: 2, sessionID: '53f3ba2d1171a834055046f2', codeLanguage: 'javascript', name: 'matthewd', score: 82.94918281}
+  {team: 'ogres', rank: 3, sessionID: '53f397528165533205faabbf', codeLanguage: 'clojure', name: 'Driphter', score: 78.85897022}
+  {team: 'ogres', rank: 4, sessionID: '53f3ac981171a83405503789', codeLanguage: 'javascript', name: 'Forsaken', score: 78.63231082}
+  {team: 'ogres', rank: 5, sessionID: '53f4d91d54e4f234059ea96c', codeLanguage: 'javascript', name: 'Tehvudgaw', score: 76.79927673}
+  {team: 'ogres', rank: 6, sessionID: '53fe21d197d25d030aae69c8', codeLanguage: 'javascript', name: 'Blash', score: 74.05348884}
+  {team: 'ogres', rank: 7, sessionID: '53f8f7c967ab263605e41dbf', codeLanguage: 'javascript', name: 'Aldo', score: 73.47433531}
+  {team: 'ogres', rank: 8, sessionID: '53f94a206c1ea23605902730', codeLanguage: 'javascript', name: 'ThatOtherPerson', score: 69.82052272}
+  {team: 'ogres', rank: 9, sessionID: '54171cd74580e6bb2143312d', codeLanguage: 'javascript', name: 'Tech', score: 68.94907702}
+  {team: 'ogres', rank: 10, sessionID: '53f86f3cbc7e716d14e8a15c', codeLanguage: 'python', name: 'CookieMonster', score: 66.97949263}
+  {team: 'ogres', rank: 11, sessionID: '53f49a36d822c23505b6cb63', codeLanguage: 'python', name: 'odoacre', score: 65.53452876}
+  {team: 'ogres', rank: 12, sessionID: '53f6f84654e4f23405a1070e', codeLanguage: 'javascript', name: 'Arkhaix', score: 62.24714335}
+  {team: 'ogres', rank: 13, sessionID: '53f3b0257c1c003605e8ee11', codeLanguage: 'python', name: 'Buddy7', score: 61.63398791}
+  {team: 'ogres', rank: 14, sessionID: '53f39dce7c1c003605e8bdab', codeLanguage: 'javascript', name: 'CryZe', score: 61.00336334}
+  {team: 'ogres', rank: 15, sessionID: '53f38d7f7c1c003605e893b7', codeLanguage: 'javascript', name: 'Interimo', score: 57.77153143}
+  {team: 'ogres', rank: 16, sessionID: '53ced120f5ef3848053b9033', codeLanguage: 'javascript', name: 'chess', score: 55.44106174}
+  {team: 'ogres', rank: 17, sessionID: '53f39bde1171a83405500eab', codeLanguage: 'javascript', name: 'MyWizardlyName', score: 52.78486678}
+  {team: 'ogres', rank: 18, sessionID: '53f7e3e0b8a67b731487de15', codeLanguage: 'python', name: 'nineties', score: 52.48111694}
+  {team: 'ogres', rank: 19, sessionID: '540f6761098c622109a74a7d', codeLanguage: 'javascript', name: 'snake-345', score: 50.92666589}
+  {team: 'ogres', rank: 20, sessionID: '53f3f1468165533205fb63e1', codeLanguage: 'javascript', name: 'jmmk', score: 48.92922599}
+  {team: 'ogres', rank: 21, sessionID: '53f39896e7a7643005c0443d', codeLanguage: 'javascript', name: 'aggressiveFloor', score: 48.14095491}
+  {team: 'ogres', rank: 22, sessionID: '53f389d48165533205fa8599', codeLanguage: 'javascript', name: 'RustyDoorknobs', score: 47.26139895}
+  {team: 'ogres', rank: 23, sessionID: '53f44cfafda22e3305bd815c', codeLanguage: 'python', name: 'PugachAG', score: 47.04215583}
+  {team: 'ogres', rank: 24, sessionID: '53f3f12b1171a8340550c098', codeLanguage: 'python', name: 'lanzafame', score: 46.62859491}
+  {team: 'ogres', rank: 25, sessionID: '540725e9fedc2a55092aedf5', codeLanguage: 'python', name: 'Snooze', score: 44.8836671}
+  {team: 'ogres', rank: 26, sessionID: '53b36ac7bb61aa3405d50df3', codeLanguage: 'javascript', name: 'differentmatt', score: 44.48371038}
+  {team: 'ogres', rank: 27, sessionID: '53ffbc9c4fa75bc805dc8fd7', codeLanguage: 'javascript', name: 'kwksilver', score: 43.89457566}
+  {team: 'ogres', rank: 28, sessionID: '53f86ac64d9388fa15d1cb81', codeLanguage: 'javascript', name: 'Burhub', score: 43.15569365}
+  {team: 'ogres', rank: 29, sessionID: '5407b788e2007791053bb498', codeLanguage: 'javascript', name: 'SocioDude', score: 43.15346459}
+  {team: 'ogres', rank: 30, sessionID: '53f46bbb54e4f234059e118f', codeLanguage: 'javascript', name: 'Diruna', score: 43.14092027}
+  {team: 'ogres', rank: 31, sessionID: '53fad85d6c1ea2360591b7bc', codeLanguage: 'python', name: 'XY00', score: 42.82746659}
+  {team: 'ogres', rank: 32, sessionID: '53f4d3ef54e4f234059ea632', codeLanguage: 'javascript', name: 'Kefir', score: 42.12141876}
+  {team: 'ogres', rank: 33, sessionID: '5402249e42fb9c380ad1ee81', codeLanguage: 'python', name: 'mattmatt', score: 41.89852019}
+  {team: 'ogres', rank: 34, sessionID: '53f4c47e54e4f234059e95bb', codeLanguage: 'javascript', name: 'Trefader', score: 41.30414337}
+  {team: 'ogres', rank: 35, sessionID: '53fa70243baef834054ab75a', codeLanguage: 'javascript', name: 'haydennedyah', score: 41.22021639}
+  {team: 'ogres', rank: 36, sessionID: '53fdc936bfe0d7f308a6911c', codeLanguage: 'python', name: 'Luogbelnu', score: 40.96555677}
+  {team: 'ogres', rank: 37, sessionID: '53ffc7e4a1e10bbd05ae2e1b', codeLanguage: 'python', name: 'bob0the0mighty', score: 40.41223631}
+  {team: 'ogres', rank: 38, sessionID: '53f5d0f2fda22e3305bf67ed', codeLanguage: 'javascript', name: 'lifeline', score: 39.0406456}
+  {team: 'ogres', rank: 39, sessionID: '53f379ca7c1c003605e8793d', codeLanguage: 'coffeescript', name: 'Makaze', score: 38.88913774}
+  {team: 'ogres', rank: 40, sessionID: '53f39b577c1c003605e8b97a', codeLanguage: 'javascript', name: 'Braleigh', score: 38.19984465}
+  {team: 'ogres', rank: 41, sessionID: '53f4b841fda22e3305be136a', codeLanguage: 'python', name: 'qeinar', score: 38.13867335}
+  {team: 'ogres', rank: 42, sessionID: '53fbf5e7547f52350547a66f', codeLanguage: 'javascript', name: 'Ziroby', score: 37.48383317}
+  {team: 'ogres', rank: 43, sessionID: '54161f1dc6f5ec4e13328bd8', codeLanguage: 'javascript', name: 'MrCrepe', score: 37.3907791}
+  {team: 'ogres', rank: 44, sessionID: '53f4e5efd822c23505b74ecd', codeLanguage: 'javascript', name: 'Ryan Matte', score: 36.780337}
+  {team: 'ogres', rank: 45, sessionID: '541721b34580e6bb21433509', codeLanguage: 'javascript', name: 'Ryemane', score: 36.40478416}
+  {team: 'ogres', rank: 46, sessionID: '53f4f349d822c23505b758a0', codeLanguage: 'python', name: 'ChadM', score: 34.0284634}
+  {team: 'ogres', rank: 47, sessionID: '540d00a18b7031c212067cfe', codeLanguage: 'javascript', name: 'mch82', score: 33.45805275}
+  {team: 'ogres', rank: 48, sessionID: '53f37d318165533205fa7af0', codeLanguage: 'python', name: 'Mateo', score: 33.31751134}
+  {team: 'ogres', rank: 49, sessionID: '53f57005fda22e3305befc0d', codeLanguage: 'python', name: 'liewjianwei7', score: 32.86449352}
+  {team: 'ogres', rank: 50, sessionID: '540a44e6a8fb9e2908864a95', codeLanguage: 'python', name: 'NupTup', score: 31.54057431}
+  {team: 'ogres', rank: 51, sessionID: '53ff7b1e620719340501eb62', codeLanguage: 'javascript', name: 'korrident', score: 30.36103457}
+  {team: 'ogres', rank: 52, sessionID: '5413faed64e0ac4609bc0506', codeLanguage: 'javascript', name: 'Vhr', score: 29.57257834}
+  {team: 'ogres', rank: 53, sessionID: '53fe610581b81d3505175aa4', codeLanguage: 'javascript', name: 'Anonymous', score: 26.11692793}
+  {team: 'ogres', rank: 54, sessionID: '53f4320a1171a8340551357c', codeLanguage: 'python', name: 'igemon', score: 25.57886325}
+  {team: 'ogres', rank: 55, sessionID: '53f44441f7bc7336054cec4c', codeLanguage: 'python', name: 'Willybe', score: 25.31132405}
+  {team: 'ogres', rank: 56, sessionID: '54092dfb4236843405e684e6', codeLanguage: 'javascript', name: 'Noidificus', score: 25.24067489}
+  {team: 'ogres', rank: 57, sessionID: '5408aac5901c3f7007b60799', codeLanguage: 'javascript', name: 'Robert7', score: 25.15177276}
+  {team: 'ogres', rank: 58, sessionID: '53f5364a54e4f234059f3d3b', codeLanguage: 'javascript', name: 'Bage', score: 24.80093885}
+  {team: 'ogres', rank: 59, sessionID: '53fc1b22547f52350547be8a', codeLanguage: 'javascript', name: 'Christian S.', score: 24.51828741}
+  {team: 'ogres', rank: 60, sessionID: '53f3efd17c1c003605e97769', codeLanguage: 'javascript', name: 'Dodrithard', score: 24.25374686}
+  {team: 'ogres', rank: 61, sessionID: '53f4e550fda22e3305be7032', codeLanguage: 'javascript', name: 'Saikarsis', score: 24.03641464}
+  {team: 'ogres', rank: 62, sessionID: '53f64591d822c23505b8b536', codeLanguage: 'javascript', name: 'SurferIX', score: 22.50107203}
+  {team: 'ogres', rank: 63, sessionID: '53f89788bc7e716d14e8e536', codeLanguage: 'javascript', name: 'Ezrael', score: 22.06693778}
+  {team: 'ogres', rank: 64, sessionID: '53f39c91e7a7643005c04751', codeLanguage: 'javascript', name: 'ksj00', score: 16.40406633}
+  {team: 'ogres', rank: 65, sessionID: '53f396f41171a834055008e0', codeLanguage: 'javascript', name: 'no_login_found', score: 14.50374011}
+  {team: 'ogres', rank: 66, sessionID: '53f6ac1fd822c23505b91f29', codeLanguage: 'javascript', name: 'soccer66', score: 13.95564768}
+  {team: 'ogres', rank: 67, sessionID: '53f394978165533205faa44a', codeLanguage: 'javascript', name: 'skeltoac', score: 13.77314387}
+  {team: 'ogres', rank: 68, sessionID: '53fdeef0a1a2c92409fd7dd1', codeLanguage: 'javascript', name: 'Luke Lunsford', score: 12.31318938}
+  {team: 'ogres', rank: 69, sessionID: '53ed2e5c5d4d593305f9d006', codeLanguage: 'python', name: 'Sir Giroto', score: 11.90012214}
+  {team: 'ogres', rank: 70, sessionID: '53a3a012573d6d3505b1882b', codeLanguage: 'javascript', name: 'Quantanaray', score: 11.7169867}
+  {team: 'ogres', rank: 71, sessionID: '5414d693e4fb6fc61274e974', codeLanguage: 'javascript', name: 'XxDavidxX', score: 11.32103184}
+  {team: 'ogres', rank: 72, sessionID: '53f4847afda22e3305bdbea5', codeLanguage: 'javascript', name: 'CodeMinion', score: 9.706964015}
+  {team: 'ogres', rank: 73, sessionID: '53fba49c3baef834054b98c6', codeLanguage: 'javascript', name: 'Moises Banales', score: 8.991630973}
 ]
