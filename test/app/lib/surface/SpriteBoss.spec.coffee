@@ -24,6 +24,7 @@ describe 'SpriteBoss', ->
     world = new World()
     world.thangs = [
       {id: 'Tree 1', spriteName: 'Tree 1', exists: true, pos: {x:4, y:0}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Tree Will Disappear', spriteName: 'Tree 1', exists: true, pos: {x:2, y:0}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
     ]
     world.thangMap = {}
     world.thangMap[thang.id] = thang for thang in world.thangs
@@ -64,6 +65,7 @@ describe 'SpriteBoss', ->
 
         {id: 'Fangrider 1', spriteName: 'Ogre Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
       ]
+      _.find(world.thangs, {id: 'Tree Will Disappear'}).exists = false
       world.thangMap[thang.id] = thang for thang in world.thangs
       spriteBoss.update(true)
       defaultLayer.once 'new-spritesheet', ->

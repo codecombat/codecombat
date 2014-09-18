@@ -42,12 +42,20 @@ module.exports = class WebGLLayer extends CocoClass
     
   addCocoSprite: (cocoSprite) ->
     cocoSprite.options.resolutionFactor = @resolutionFactor
+    if cocoSprite.layer
+      console.warn 'CocoSprite being re-added to a layer?'
+    
+    cocoSprite.layer = @
     cocoSprite.updateBaseScale()
     @cocoSprites.push cocoSprite
     @loadThangType(cocoSprite.thangType)
     @addDefaultActionsToRender(cocoSprite)
     @setImageObjectToCocoSprite(cocoSprite)
     # TODO: actually add it as a child
+  
+  removeCocoSprite: (cocoSprite) ->
+    cocoSprite.imageObject.parent.removeChild cocoSprite.imageObject
+    @cocoSprites = _.without @cocoSprites, cocoSprite
 
   loadThangType: (thangType) ->
     if not thangType.isFullyLoaded()

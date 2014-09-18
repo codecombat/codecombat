@@ -170,7 +170,7 @@ module.exports = class SpriteBoss extends CocoClass
     sprite
 
   removeSprite: (sprite) ->
-    sprite.imageObject.parent.removeChild sprite.imageObject
+    sprite.layer.removeCocoSprite(sprite)
     thang = sprite.thang
     delete @sprites[sprite.thang.id]
     @spriteArray.splice @spriteArray.indexOf(sprite), 1
