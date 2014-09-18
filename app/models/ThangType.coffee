@@ -43,6 +43,10 @@ module.exports = class ThangType extends CocoModel
       @loadingRaster = false
       @loadedRaster = true
       @trigger('raster-image-loaded', @))
+    @rasterImage.one('error', =>
+      @loadingRaster = false
+      @trigger('raster-image-load-errored', @)
+    )
     
   getActions: ->
     return {} unless @isFullyLoaded()
