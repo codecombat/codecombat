@@ -49,6 +49,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         animationName = @spriteSheetPrefix + actionName
         if not (animationName in @spriteSheet.getAnimations())
           @singleChildSprite.gotoAndStop(0)
+          @notifyActionNeedsRender(action)
           return
         @singleChildSprite[func](animationName)
         @singleChildSprite.framerate = action.framerate or 20
@@ -63,6 +64,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @baseMovieClip = @buildMovieClip(action.animation)
         if not @baseMovieClip
           @children = []
+          @notifyActionNeedsRender(action)
           return
         @children = @baseMovieClip.children
         @frames = action.frames
@@ -81,6 +83,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         animationName = @spriteSheetPrefix + actionName
         if not (animationName in @spriteSheet.getAnimations())
           @singleChildSprite.gotoAndStop(0)
+          @notifyActionNeedsRender(action)
           return
         @singleChildSprite.gotoAndStop(animationName)
 
@@ -91,6 +94,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         containerName = @spriteSheetPrefix + action.container
         if not (containerName in @spriteSheet.getAnimations())
           @children = []
+          @notifyActionNeedsRender(action)
           return
         sprite = new createjs.Sprite(@spriteSheet)
         sprite.gotoAndStop(containerName)
@@ -98,6 +102,9 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @children = [sprite]
       
     return
+    
+  notifyActionNeedsRender: (action) ->
+    @sprite.trigger('action-needs-render', @sprite, action)
   
   buildMovieClip: (animationName, mode, startPosition, loops) ->
     raw = @thangType.get('raw')

@@ -56,7 +56,7 @@ describe 'WebGLLayer', ->
     animations = sheet.getAnimations()
     expect(animations.length).toBe(1)
     expect(animations[0]).toBe(key)
-    expect(sheet.getNumFrames()).toBe(1)
+    expect(sheet.getNumFrames()).toBe(2) # one idle frame, and the emptiness frame
 
   it 'renders a raster image onto a sheet', (done) ->
     bootsThangType = new ThangType(require 'test/app/fixtures/leather-boots.thang.type')

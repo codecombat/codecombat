@@ -59,10 +59,11 @@ describe 'SpriteBoss', ->
     
     defaultLayer = spriteBoss.spriteLayers.Default
     defaultLayer.buildAsync = false # cause faster
-    
-    # Don't have the layer automatically draw for move_fore, instead have it notified from WebGLSprites that
-    # this animation or its containers are needed.
-    defaultLayer.setDefaultActions(_.without defaultLayer.defaultActions, 'move_fore')
+
+    # Sort of an implicit test. By default, all the default actions are always rendered,
+    # but I want to make sure the system can dynamically hear about actions it needs to render for
+    # as they are used.
+    defaultLayer.setDefaultActions(['idle'])
     
     # Render the simple world with just trees
     spriteBoss.update(true)

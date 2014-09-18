@@ -47,6 +47,7 @@ module.exports = class WebGLLayer extends CocoClass
     
     cocoSprite.layer = @
     cocoSprite.updateBaseScale()
+    @listenTo(cocoSprite, 'action-needs-render', @onActionNeedsRender)
     @cocoSprites.push cocoSprite
     @loadThangType(cocoSprite.thangType)
     @addDefaultActionsToRender(cocoSprite)
@@ -54,8 +55,12 @@ module.exports = class WebGLLayer extends CocoClass
     # TODO: actually add it as a child
   
   removeCocoSprite: (cocoSprite) ->
+    @stopListening(cocoSprite)
     cocoSprite.imageObject.parent.removeChild cocoSprite.imageObject
     @cocoSprites = _.without @cocoSprites, cocoSprite
+
+  onActionNeedsRender: (cocoSprite, action) ->
+    @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
 
   loadThangType: (thangType) ->
     if not thangType.isFullyLoaded()
