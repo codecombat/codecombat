@@ -5,7 +5,7 @@ LevelSystem = require 'models/LevelSystem'
 LevelSystemEditView = require './LevelSystemEditView'
 NewLevelSystemModal = require './NewLevelSystemModal'
 AddLevelSystemModal = require './AddLevelSystemModal'
-{ThangTypeNode} = require './../treema_nodes'
+nodes = require '../treema_nodes'
 
 module.exports = class SystemsTabView extends CocoView
   id: 'systems-tab-view'
@@ -48,18 +48,41 @@ module.exports = class SystemsTabView extends CocoView
       systems = @buildDefaultSystems()
       insertedDefaults = true
     systems = @getSortedByName systems
+    thangs = if @level? then @level.get('thangs') else []
+    thangIDs = _.filter(_.pluck(thangs, 'id'))
+    teams = _.filter(_.pluck(thangs, 'team'))
+    superteams = _.filter(_.pluck(thangs, 'superteam'))
+    superteams = _.union(teams, superteams)
     treemaOptions =
       supermodel: @supermodel
       schema: Level.schema.properties.systems
       data: systems
       readOnly: me.get('anonymous')
+      world: @options.world
+      view: @
+      thangIDs: thangIDs
+      teams: teams
+      superteams: superteams
       callbacks:
         change: @onSystemsChanged
         select: @onSystemSelected
       nodeClasses:
         'level-system': LevelSystemNode
         'level-system-configuration': LevelSystemConfigurationNode
-        'thang-type': ThangTypeNode  # Not until we actually want CocoSprite IndieSprites
+        'point2d': nodes.WorldPointNode
+        'viewport': nodes.WorldViewportNode
+        'bounds': nodes.WorldBoundsNode
+        'radians': nodes.RadiansNode
+        'team': nodes.TeamNode
+        'superteam': nodes.SuperteamNode
+        'meters': nodes.MetersNode
+        'kilograms': nodes.KilogramsNode
+        'seconds': nodes.SecondsNode
+        'speed': nodes.SpeedNode
+        'acceleration': nodes.AccelerationNode
+        'thang-type': nodes.ThangTypeNode
+        'item-thang-type': nodes.ItemThangTypeNode
+
     @systemsTreema = @$el.find('#systems-treema').treema treemaOptions
     @systemsTreema.build()
     @systemsTreema.open()
