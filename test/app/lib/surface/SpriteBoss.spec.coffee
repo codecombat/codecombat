@@ -11,6 +11,7 @@ describe 'SpriteBoss', ->
   spriteBoss = null
   canvas = null
   stage = null
+  midRenderExpectations = [] # bit of a hack to move tests which happen mid-initialization into a separate test
   
   # This suite just creates and renders the stage once, and then has each of the tests
   # check the resulting data for the whole thing, without changing anything.
@@ -61,10 +62,16 @@ describe 'SpriteBoss', ->
     
     # Don't have the layer automatically draw for move_fore, instead have it notified from WebGLSprites that
     # this animation or its containers are needed.
-#    defaultLayer.setDefaultActions(_.without defaultLayer.defaultActions, 'move_fore')
+    defaultLayer.setDefaultActions(_.without defaultLayer.defaultActions, 'move_fore')
     
     # Render the simple world with just trees
     spriteBoss.update(true)
+    
+    # Test that the unrendered, static sprites aren't showing anything
+    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children.length,0,'static container action'])
+    midRenderExpectations.push([spriteBoss.sprites['Tree 2'].imageObject.children[0].currentFrame,0,'static spriteSheet action'])
+    midRenderExpectations.push([spriteBoss.sprites['Tree 2'].imageObject.children[0].paused,true,'static spriteSheet action'])
+
     defaultLayer.once 'new-spritesheet', ->
       
       # Now make the world a little more complicated.
@@ -76,8 +83,8 @@ describe 'SpriteBoss', ->
         {id: 'Ogre S', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
 
         # Set ogres side by side with different render strategies
-        {id: 'FROgre', spriteName: 'Full Render Ogre', exists: true, pos: {x:-10, y:-8}, action: 'idle', health: 10, maxHealth: 10, rotation: 0, acts: true, alpha: 0.5 }
-        {id: 'NotFROgre', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:-8}, action: 'idle', health: 10, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'FROgre', spriteName: 'Full Render Ogre', exists: true, pos: {x:-10, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
+        {id: 'NotFROgre', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true }
 
         # A line of ogres overlapping to test child ordering
         {id: 'Ogre 1', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-14, y:0}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
@@ -89,10 +96,18 @@ describe 'SpriteBoss', ->
         {id: 'Fangrider 1', spriteName: 'Ogre Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
       ]
       
-      _.find(world.thangs, {id: 'Tree Will Disappear'}).exists = false      
+      _.find(world.thangs, {id: 'Tree Will Disappear'}).exists = false
       world.thangMap[thang.id] = thang for thang in world.thangs
       spriteBoss.update(true)
+
+      # Test that the unrendered, animated sprites aren't showing anything
+      midRenderExpectations.push([spriteBoss.sprites['NotFROgre'].imageObject.children.length,0,'animated container action'])
+      midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].currentFrame,0,'animated spriteSheet action'])
+      midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].paused,true,'animated spriteSheet action'])
+      
       defaultLayer.once 'new-spritesheet', ->
+        expect(spriteBoss.sprites['Ogre 1'].imageObject.children.length).toBeGreaterThan(0)
+#        expect(spriteBoss.sprites['FROgre'].imageObject.children[0].currentFrame).toBeGreaterThan(0)
         done()
 #        showMe() # Uncomment to display this world when you run any of these tests.
 
@@ -113,6 +128,12 @@ describe 'SpriteBoss', ->
     createjs.Ticker.addEventListener "tick", listener
     $('body').append($('<div style="position: absolute; top: 295px; left: 395px; height: 10px; width: 10px; background: red;"></div>'))
 
+  it 'does not display anything for sprites whose animations or containers have not been rendered yet', ->
+    for expectation in midRenderExpectations
+      if expectation[0] isnt expectation[1]
+        console.error('This type of action display failed:', expectation[2])
+      expect(expectation[0]).toBe(expectation[1])
+    
   it 'rotates and animates sprites according to thang rotation', ->
     expect(spriteBoss.sprites['Ogre N'].imageObject.currentAnimation).toBe('move_fore')
     expect(spriteBoss.sprites['Ogre E'].imageObject.currentAnimation).toBe('move_side')

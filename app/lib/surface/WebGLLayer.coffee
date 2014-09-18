@@ -103,6 +103,13 @@ module.exports = class WebGLLayer extends CocoClass
     async ?= @buildAsync
     builder = new createjs.SpriteSheetBuilder()
     groups = _.groupBy(@toRenderBundles, ((bundle) -> @renderGroupingKey(bundle.thangType, '', bundle.colorConfig)), @)
+
+    # Always have an empty frame be the first frame.
+    # Then if you go to a frame that DNE, it doesn't show up.
+    emptiness = new createjs.Container()
+    emptiness.setBounds(0, 0, 1, 1)
+    builder.addFrame(emptiness)
+
     for bundleGrouping in _.values(groups)
       thangType = bundleGrouping[0].thangType
       colorConfig = bundleGrouping[0].colorConfig
@@ -116,11 +123,6 @@ module.exports = class WebGLLayer extends CocoClass
       else
         @renderRasterImage(thangType, builder)
         
-    if not _.size(groups)
-      emptiness = new createjs.Container()
-      emptiness.setBounds(0, 0, 1, 1)
-      builder.addFrame(emptiness)
-
     if async
       builder.buildAsync()
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
