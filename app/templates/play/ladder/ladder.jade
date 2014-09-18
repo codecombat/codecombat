@@ -48,7 +48,7 @@ block content
   if level.get('name') == 'Criss-Cross'
     .tournament-blurb
       h2
-        span(data-i18n="ladder.tournament_ends") Tournament ends
+        span(data-i18n="ladder.tournament_ended") Tournament ended
         |  #{tournamentTimeLeft}
       p
         span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
@@ -745,11 +745,15 @@ block content
           thead
             tr
               th(data-i18n="ladder_prizes.rank") Rank
+              if level.get('name') == 'Criss-Cross'
+                th
               th Human
               if level.get('name') == 'Greed'
                 th Human wins/losses/ties
               else
                 th Human score
+              if level.get('name') == 'Criss-Cross'
+                th
               th Ogre
               if level.get('name') == 'Greed'
                 th Ogre wins/losses/ties
@@ -761,6 +765,8 @@ block content
               - var ogre = winners.ogres[index]
               tr 
                 td= human.rank
+                if level.get('name') == 'Criss-Cross'
+                  td.code-language-cell(style="background-image: url(/images/common/code_languages/" + human.codeLanguage + "_icon.png)" title=_.string.capitalize(human.codeLanguage))
                 td= human.name
                 if level.get('name') == 'Greed'
                   td
@@ -773,6 +779,8 @@ block content
                   td
                     span= Math.round(100 * human.score)
                 if ogre
+                  if level.get('name') == 'Criss-Cross'
+                    td.code-language-cell(style="background-image: url(/images/common/code_languages/" + ogre.codeLanguage + "_icon.png)" title=_.string.capitalize(ogre.codeLanguage))
                   td= ogre.name
                   if level.get('name') == 'Greed'
                     td

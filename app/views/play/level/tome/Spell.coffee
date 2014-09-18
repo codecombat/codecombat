@@ -14,6 +14,7 @@ module.exports = class Spell
     @session = options.session
     @otherSession = options.otherSession
     @spectateView = options.spectateView
+    @spectateOpponentCodeLanguage = options.spectateOpponentCodeLanguage
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
@@ -27,7 +28,7 @@ module.exports = class Spell
     if @canWrite()
       @setLanguage options.language
     else if @isEnemySpell()
-      @setLanguage options.otherSession.get 'submittedCodeLanguage'
+      @setLanguage @otherSession?.get('submittedCodeLanguage') ? @spectateOpponentCodeLanguage
     else
       @setLanguage 'javascript'
     @useTranspiledCode = @shouldUseTranspiledCode()
@@ -150,7 +151,7 @@ module.exports = class Spell
 
   isEnemySpell: ->
     return false unless @permissions.readwrite.length
-    return false unless @otherSession
+    return false unless @otherSession or @spectateView
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
     teamSpells and not _.contains(teamSpells[team], @spellKey)
