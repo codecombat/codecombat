@@ -107,8 +107,6 @@ describe 'SpriteBoss', ->
       midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].paused,true,'animated spriteSheet action'])
       
       defaultLayer.once 'new-spritesheet', ->
-        expect(spriteBoss.sprites['Ogre 1'].imageObject.children.length).toBeGreaterThan(0)
-#        expect(spriteBoss.sprites['FROgre'].imageObject.children[0].currentFrame).toBeGreaterThan(0)
         done()
 #        showMe() # Uncomment to display this world when you run any of these tests.
 
