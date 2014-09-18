@@ -147,7 +147,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     for localContainer in localContainers
       outerContainer = new createjs.SpriteContainer(@spriteSheet)
       innerContainer = new createjs.Sprite(@spriteSheet)
-      innerContainer.scaleX = innerContainer.scaleY = 1 / @resolutionFactor
+      innerContainer.scaleX = innerContainer.scaleY = 1 / (@resolutionFactor * (@thangType.get('scale') or 1))
       animationName = @spriteSheetPrefix + localContainer.gn
       return false if not (animationName in @spriteSheet.getAnimations())
       innerContainer.gotoAndStop(animationName)

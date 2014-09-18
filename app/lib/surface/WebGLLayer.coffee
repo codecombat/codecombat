@@ -179,7 +179,7 @@ module.exports = class WebGLLayer extends CocoClass
     for containerGlobalName in _.keys(containersToRender)
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
       container = spriteBuilder.buildContainerFromStore(containerGlobalName)
-      frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor)
+      frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
   getContainersForAnimation: (thangType, animation) ->
