@@ -34,7 +34,6 @@ layerProperties = {
     @layerPriority = options.layerPriority ? 0
     @transformStyle = options.transform ? layerClassProperties.TRANSFORM_CHILD
     @camera = options.camera
-    console.debug @toString(), 'needs a camera.' unless @camera
     @updateLayerOrder = _.bind(@updateLayerOrder, @) 
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions

@@ -3,6 +3,7 @@ CocoSprite = require 'lib/surface/CocoSprite'
 ThangType = require 'models/ThangType'
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
+SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 describe 'WebGLLayer', ->
   layer = null
@@ -118,3 +119,49 @@ describe 'WebGLLayer', ->
     thangType2.trigger('raster-image-loaded', thangType2)
     expect(layer.numThingsLoading).toBe(0)
     expect(layer._renderNewSpriteSheet).toHaveBeenCalled()
+
+  it 'recycles *containers* from previous sprite sheets, rather than building repeatedly from raw vector data', ->
+    treeThangType.set('renderStrategy', 'container')
+    sprite = new CocoSprite(treeThangType)
+    layer.addCocoSprite(sprite)
+    spyOn(SpriteBuilder.prototype, 'buildContainerFromStore').and.callThrough()
+    for i in _.range(2)
+      sheet = layer.renderNewSpriteSheet()
+    expect(SpriteBuilder.prototype.buildContainerFromStore.calls.count()).toBe(1)
+
+  it '*does not* recycle *containers* from previous sprite sheets when the resolutionFactor has changed', ->
+    treeThangType.set('renderStrategy', 'container')
+    sprite = new CocoSprite(treeThangType)
+    layer.addCocoSprite(sprite)
+    spyOn(SpriteBuilder.prototype, 'buildContainerFromStore').and.callThrough()
+    for i in _.range(2)
+      layer.resolutionFactor *= 1.1
+      sheet = layer.renderNewSpriteSheet()
+    expect(SpriteBuilder.prototype.buildContainerFromStore.calls.count()).toBe(2)
+
+  it 'recycles *animations* from previous sprite sheets, rather than building repeatedly from raw vector data', ->
+    ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+    sprite = new CocoSprite(ogreMunchkinThangType)
+    layer.addCocoSprite(sprite)
+    numFrameses = []
+    spyOn(SpriteBuilder.prototype, 'buildMovieClip').and.callThrough()
+    for i in _.range(2)
+      sheet = layer.renderNewSpriteSheet()
+      numFrameses.push(sheet.getNumFrames())
+
+    # this process should not have created any new frames
+    expect(numFrameses[0]).toBe(numFrameses[1])
+
+    # one movie clip made for each raw animation: move (3), attack, die
+    expect(SpriteBuilder.prototype.buildMovieClip.calls.count()).toBe(5)
+
+  it '*does not* recycles *animations* from previous sprite sheets when the resolutionFactor has changed', ->
+    ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+    sprite = new CocoSprite(ogreMunchkinThangType)
+    layer.addCocoSprite(sprite)
+    spyOn(SpriteBuilder.prototype, 'buildMovieClip').and.callThrough()
+    for i in _.range(2)
+      layer.resolutionFactor *= 1.1
+      sheet = layer.renderNewSpriteSheet()
+
+    expect(SpriteBuilder.prototype.buildMovieClip.calls.count()).toBe(10)

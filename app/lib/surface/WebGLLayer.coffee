@@ -146,6 +146,7 @@ module.exports = class WebGLLayer extends CocoClass
       return
     
     @spriteSheet = builder.spriteSheet
+    @spriteSheet.resolutionFactor = @resolutionFactor
     oldLayer = @spriteContainer 
     @spriteContainer = new SpriteContainerLayer(@spriteSheet, @layerOptions)
     for cocoSprite in @cocoSprites
@@ -178,8 +179,13 @@ module.exports = class WebGLLayer extends CocoClass
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
     for containerGlobalName in _.keys(containersToRender)
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
-      container = spriteBuilder.buildContainerFromStore(containerGlobalName)
-      frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
+      if @spriteSheet?.resolutionFactor is @resolutionFactor and containerKey in @spriteSheet.getAnimations()
+        container = new createjs.Sprite(@spriteSheet)
+        container.gotoAndStop(containerKey)
+        frame = spriteSheetBuilder.addFrame(container)
+      else
+        container = spriteBuilder.buildContainerFromStore(containerGlobalName)
+        frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
   getContainersForAnimation: (thangType, animation) ->
@@ -202,6 +208,22 @@ module.exports = class WebGLLayer extends CocoClass
     for animationName, actions of animationGroups
       renderAll = _.any actions, (action) -> action.frames is undefined
       scale = actions[0].scale or thangType.get('scale') or 1
+      
+      actionKeys = (@renderGroupingKey(thangType, action.name, colorConfig) for action in actions)
+      if @spriteSheet?.resolutionFactor is @resolutionFactor and _.all(actionKeys, (key) => key in @spriteSheet.getAnimations())
+        framesNeeded = _.uniq(_.flatten((@spriteSheet.getAnimation(key)).frames for key in actionKeys))
+        framesMap = {}
+        for frame in framesNeeded
+          sprite = new createjs.Sprite(@spriteSheet)
+          sprite.gotoAndStop(frame)
+          framesMap[frame] = spriteSheetBuilder.addFrame(sprite)
+        for key, index in actionKeys
+          action = actions[index]
+          frames = (framesMap[f] for f in @spriteSheet.getAnimation(key).frames)
+          next = @nextForAction(action)
+          spriteSheetBuilder.addAnimation(key, frames, next)
+        continue
+      
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
       
       if renderAll
@@ -223,11 +245,7 @@ module.exports = class WebGLLayer extends CocoClass
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
           frames = _.values(framesMap).sort()
-          
-        next = true
-        next = action.goesTo if action.goesTo
-        next = false if action.loops is false
-
+        next = @nextForAction(action)
         spriteSheetBuilder.addAnimation(name, frames, next) 
         
     containerActions = []
@@ -245,6 +263,12 @@ module.exports = class WebGLLayer extends CocoClass
         name = @renderGroupingKey(thangType, action.name, colorConfig)
         spriteSheetBuilder.addAnimation(name, [frame], false)      
     
+  nextForAction: (action) ->
+    next = true
+    next = action.goesTo if action.goesTo
+    next = false if action.loops is false
+    return next
+        
   renderRasterImage: (thangType, spriteSheetBuilder) ->
     unless thangType.rasterImage
       console.error("Cannot render the WebGLLayer SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
