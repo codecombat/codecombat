@@ -147,6 +147,7 @@ module.exports = class WebGLLayer extends CocoClass
       cocoSprite.options.resolutionFactor = @resolutionFactor
       cocoSprite.updateBaseScale()
       cocoSprite.updateScale()
+      cocoSprite.updateRotation()
     @trigger 'new-spritesheet'
 
   renderContainers: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
