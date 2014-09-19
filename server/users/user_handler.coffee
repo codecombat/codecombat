@@ -193,7 +193,7 @@ UserHandler = class UserHandler extends Handler
     super(arguments...)
 
   agreeToCLA: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user
+    return @sendForbiddenError(res) unless req.user
     doc =
       user: req.user._id+''
       email: req.user.get 'email'
@@ -224,7 +224,7 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
+    return @sendForbiddenError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
     projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
     LevelSession.find(query).select(projection).exec (err, documents) =>
@@ -281,7 +281,7 @@ UserHandler = class UserHandler extends Handler
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
     isAuthorized ||= ('employer' in (req.user.get('permissions') ? [])) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
-    return @sendUnauthorizedError res unless isAuthorized
+    return @sendForbiddenError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
       user.update {activity: activity}, (err) =>
@@ -356,7 +356,7 @@ UserHandler = class UserHandler extends Handler
     true
 
   getEmployers: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     query = {employerAt: {$exists: true, $ne: ''}}
     selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
     User.find(query).select(selection).lean().exec (err, documents) =>
@@ -379,7 +379,7 @@ UserHandler = class UserHandler extends Handler
     hash.digest('hex')
 
   getRemark: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     query = user: userID
     projection = null
     if req.query.project
@@ -392,7 +392,7 @@ UserHandler = class UserHandler extends Handler
 
   searchForUser: (req, res) ->
     # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     search = req.body.search
     query = email: {$exists: true}, $or: [
       {emailLower: search}

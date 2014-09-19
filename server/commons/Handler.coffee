@@ -55,7 +55,6 @@ module.exports = class Handler
     props
 
   # sending functions
-  sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
   sendForbiddenError: (res) -> errors.forbidden(res)
   sendNotFoundError: (res, message) -> errors.notFound(res, message)
   sendMethodNotAllowed: (res, message) -> errors.badMethod(res, @allowedMethods, message)
@@ -86,7 +85,7 @@ module.exports = class Handler
 
   # generic handlers
   get: (req, res) ->
-    @sendUnauthorizedError(res) if not @hasAccess(req)
+    @sendForbiddenError(res) if not @hasAccess(req)
 
     specialParameters = ['term', 'project', 'conditions']
 
@@ -150,16 +149,16 @@ module.exports = class Handler
         @sendSuccess(res, documents)
     # regular users are only allowed text searches for now, without any additional filters or sorting
     else
-      return @sendUnauthorizedError(res)
+      return @sendForbiddenError(res)
 
   getById: (req, res, id) ->
     # return @sendNotFoundError(res) # for testing
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
 
     @getDocumentForIdOrSlug id, (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
       @sendSuccess(res, @formatEntity(req, document))
 
   getByRelationship: (req, res, args...) ->
@@ -211,7 +210,7 @@ module.exports = class Handler
 
   setWatching: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, document) =>
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document, 'get')
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, document, 'get')
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
       watchers = document.get('watchers') or []
@@ -263,7 +262,7 @@ module.exports = class Handler
       args.push projection
     @modelClass.findOne(args...).sort(sort).exec (err, doc) =>
       return @sendNotFoundError(res) unless doc?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, doc)
       res.send(doc)
       res.end()
 
@@ -273,12 +272,12 @@ module.exports = class Handler
   put: (req, res, id) ->
     return @postNewVersion(req, res) if @modelClass.schema.uses_coco_versions
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     @getDocumentForIdOrSlug req.body._id or id, (err, document) =>
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
       @doWaterfallChecks req, document, (err, document) =>
         return @sendError(res, err.code, err.res) if err
         @saveChangesToDocument req, document, (err) =>
@@ -295,7 +294,7 @@ module.exports = class Handler
 
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     document = @makeNewInstance(req)
     @saveChangesToDocument req, document, (err) =>
       return @sendBadInputError(res, err.errors) if err?.valid is false
@@ -314,7 +313,7 @@ module.exports = class Handler
   postFirstVersion: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     document = @makeNewInstance(req)
     document.set('original', document._id)
     document.set('creator', req.user._id)
@@ -337,12 +336,12 @@ module.exports = class Handler
     """
     return @sendBadInputError(res, 'This entity is not versioned') unless @modelClass.schema.uses_coco_versions
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
-    return @sendUnauthorizedError(res) unless @hasAccess(req)
+    return @sendForbiddenError(res) unless @hasAccess(req)
     @getDocumentForIdOrSlug req.body._id, (err, parentDocument) =>
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, parentDocument)
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, parentDocument)
       editableProperties = @getEditableProperties req, parentDocument
       updatedObject = parentDocument.toObject()
       for prop in editableProperties
