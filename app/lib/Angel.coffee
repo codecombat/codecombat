@@ -143,6 +143,9 @@ module.exports = class Angel extends CocoClass
     @deserializationQueue = []
     @running = false
     _.remove @shared.busyAngels, @
+    clearTimeout @condemnTimeout
+    clearInterval @purgatoryTimer
+    @condemnTimeout = @purgatoryTimer = null
     @doWork()
 
   finalizePreload: ->
