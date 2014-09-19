@@ -308,5 +308,8 @@ LevelHandler = class LevelHandler extends Handler
       @playCountCache[cacheKey] = data
       @sendSuccess res, data
 
+  hasAccessToDocument: (req, document, method=null) ->
+    return true if method == null or method == 'get'
+    super(req, document, method)
 
 module.exports = new LevelHandler()
