@@ -3,9 +3,9 @@ Camera = require 'lib/surface/Camera'
 World = require 'lib/world/world'
 ThangType = require 'models/ThangType'
 
-treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
-ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
-ogreFangriderThangType = new ThangType(require 'test/app/fixtures/ogre-fangrider.thang.type')
+treeData = require 'test/app/fixtures/tree1.thang.type'
+munchkinData = require 'test/app/fixtures/ogre-munchkin-m.thang.type'
+fangriderData = require 'test/app/fixtures/ogre-fangrider.thang.type'
 
 describe 'SpriteBoss', ->
   spriteBoss = null
@@ -26,24 +26,23 @@ describe 'SpriteBoss', ->
     world = new World()
     world.thangs = [
       # Set trees side by side with different render strategies
-      {id: 'Tree 1', spriteName: 'Tree 1', exists: true, pos: {x:10, y:-8}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
-      {id: 'Tree 2', spriteName: 'Full Render Tree', exists: true, pos: {x:8, y:-8}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Segmented Tree', spriteName: 'Segmented Tree', exists: true, pos: {x:10, y:-8}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Singular Tree', spriteName: 'Singular Tree', exists: true, pos: {x:8, y:-8}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
       
       # Include a tree whose existence will change so we can test removing sprites
-      {id: 'Tree Will Disappear', spriteName: 'Tree 1', exists: true, pos: {x:0, y:0}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Disappearing Tree', spriteName: 'Singular Tree', exists: true, pos: {x:0, y:0}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
     ]
     world.thangMap = {}
     world.thangMap[thang.id] = thang for thang in world.thangs
     
     # Set up thang types. Mix renderStrategies.
-    fullRenderOgreMunchkinThangType = ogreMunchkinThangType.clone()
-    fullRenderOgreMunchkinThangType.set({name:'Full Render Ogre', slug:'full-render-ogre'})
-    fullRenderTreeThangType = treeThangType.clone()
-    fullRenderTreeThangType.set({name:'Full Render Tree', slug:'full-render-tree'})
-    ogreMunchkinThangType.set('renderStrategy', 'container')
-    ogreFangriderThangType.set('renderStrategy', 'container')
-    treeThangType.set('renderStrategy', 'container')
-    thangTypes = [treeThangType, ogreMunchkinThangType, ogreFangriderThangType, fullRenderOgreMunchkinThangType, fullRenderTreeThangType]
+    fangrider = new ThangType($.extend({}, fangriderData, {spriteType:'segmented', name:'Fangrider', slug:'fangrider'}))
+    segmentedMunchkin = new ThangType($.extend({}, munchkinData, {spriteType:'segmented', name:'Segmented Munchkin', slug:'segmented-munchkin'}))
+    singularMunchkin = new ThangType($.extend({}, munchkinData, {spriteType:'singular', name:'Singular Munchkin', slug:'singular-munchkin'}))
+    segmentedTree = new ThangType($.extend({}, treeData, {spriteType:'segmented', name:'Segmented Tree', slug: 'segmented-tree'}))
+    singularTree = new ThangType($.extend({}, treeData, {spriteType:'singular', name:'Singular Tree', slug: 'singular-tree'}))
+    
+    thangTypes = [fangrider, segmentedMunchkin, singularMunchkin, segmentedTree, singularTree]
     
     # Build the Stage and SpriteBoss.
     window.stage = stage = new createjs.SpriteStage(canvas[0])
@@ -69,49 +68,49 @@ describe 'SpriteBoss', ->
     spriteBoss.update(true)
     
     # Test that the unrendered, static sprites aren't showing anything
-    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children.length,1,'static container action'])
-    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children[0].currentFrame,0,'static container action'])
-    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children[0].paused,true,'static container action'])
-    midRenderExpectations.push([spriteBoss.sprites['Tree 2'].imageObject.children[0].currentFrame,0,'static spriteSheet action'])
-    midRenderExpectations.push([spriteBoss.sprites['Tree 2'].imageObject.children[0].paused,true,'static spriteSheet action'])
+    midRenderExpectations.push([spriteBoss.sprites['Segmented Tree'].imageObject.children.length,1,'static segmented action'])
+    midRenderExpectations.push([spriteBoss.sprites['Segmented Tree'].imageObject.children[0].currentFrame,0,'static segmented action'])
+    midRenderExpectations.push([spriteBoss.sprites['Segmented Tree'].imageObject.children[0].paused,true,'static segmented action'])
+    midRenderExpectations.push([spriteBoss.sprites['Singular Tree'].imageObject.currentFrame,0,'static singular action'])
+    midRenderExpectations.push([spriteBoss.sprites['Singular Tree'].imageObject.paused,true,'static singular action'])
 
     defaultLayer.once 'new-spritesheet', ->
       
       # Now make the world a little more complicated.
       world.thangs = world.thangs.concat [
         # four cardinal ogres, to test movement rotation and placement around a center point.
-        {id: 'Ogre N', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5 }
-        {id: 'Ogre W', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5 }
-        {id: 'Ogre E', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5 }
-        {id: 'Ogre S', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
+        {id: 'Ogre N', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5 }
+        {id: 'Ogre W', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5 }
+        {id: 'Ogre E', spriteName: 'Segmented Munchkin', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5 }
+        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
 
         # Set ogres side by side with different render strategies
-        {id: 'FROgre', spriteName: 'Full Render Ogre', exists: true, pos: {x:-10, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
-        {id: 'NotFROgre', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-8, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true }
+        {id: 'Singular Ogre', spriteName: 'Singular Munchkin', exists: true, pos: {x:-10, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
+        {id: 'Segmented Ogre', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-8, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true }
 
         # A line of ogres overlapping to test child ordering
-        {id: 'Ogre 1', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-14, y:0}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-        {id: 'Ogre 2', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-13.5, y:1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-        {id: 'Ogre 3', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-13, y:2}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-        {id: 'Ogre 4', spriteName: 'Ogre Munchkin M', exists: true, pos: {x:-12.5, y:3}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 1', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-14, y:0}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 2', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-13.5, y:1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 3', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-13, y:2}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 4', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-12.5, y:3}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
         
         # Throw in a ThangType that contains nested MovieClips
-        {id: 'Fangrider 1', spriteName: 'Ogre Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
+        {id: 'Fangrider', spriteName: 'Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
       ]
       
-      _.find(world.thangs, {id: 'Tree Will Disappear'}).exists = false
+      _.find(world.thangs, {id: 'Disappearing Tree'}).exists = false
       world.thangMap[thang.id] = thang for thang in world.thangs
       spriteBoss.update(true)
 
       # Test that the unrendered, animated sprites aren't showing anything
-      midRenderExpectations.push([spriteBoss.sprites['NotFROgre'].imageObject.children.length,10,'animated container action'])
-      for child in spriteBoss.sprites['NotFROgre'].imageObject.children
-        midRenderExpectations.push([child.children[0].currentFrame, 0, 'animated container action'])
-      midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].currentFrame,0,'animated spriteSheet action'])
-      midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].paused,true,'animated spriteSheet action'])
+      midRenderExpectations.push([spriteBoss.sprites['Segmented Ogre'].imageObject.children.length,10,'animated segmented action'])
+      for child in spriteBoss.sprites['Segmented Ogre'].imageObject.children
+        midRenderExpectations.push([child.children[0].currentFrame, 0, 'animated segmented action'])
+      midRenderExpectations.push([spriteBoss.sprites['Singular Ogre'].imageObject.currentFrame,0,'animated singular action'])
+      midRenderExpectations.push([spriteBoss.sprites['Singular Ogre'].imageObject.paused,true,'animated singular action'])
       
       defaultLayer.once 'new-spritesheet', ->
-        showMe() # Uncomment to display this world when you run any of these tests.
+#        showMe() # Uncomment to display this world when you run any of these tests.
         done()
 
   beforeEach (done) -> init(done)
@@ -166,10 +165,10 @@ describe 'SpriteBoss', ->
   it 'orders sprites in the layer based on thang pos.y\'s', ->
     container = spriteBoss.spriteLayers.Default.spriteContainer
     l = spriteBoss.spriteLayers.Default.spriteContainer.children
-    i1 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Ogre 1'))
-    i2 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Ogre 2'))
-    i3 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Ogre 3'))
-    i4 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Ogre 4'))
+    i1 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 1'))
+    i2 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 2'))
+    i3 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 3'))
+    i4 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 4'))
     expect(i1).toBeGreaterThan(i2)
     expect(i2).toBeGreaterThan(i3)
     expect(i3).toBeGreaterThan(i4)

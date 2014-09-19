@@ -12,8 +12,8 @@ describe 'WebGLLayer', ->
     layer.buildAutomatically = false
     layer.buildAsync = false
   
-  it 'creates containers for animated actions if set to renderStrategy=container', ->
-    ogreMunchkinThangType.set('renderStrategy', 'container')
+  it 'creates containers for animated actions if set to spriteType=segmented', ->
+    ogreMunchkinThangType.set('spriteType', 'segmented')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
     sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
     layer.addCocoSprite(sprite)
@@ -21,16 +21,16 @@ describe 'WebGLLayer', ->
     key = layer.renderGroupingKey(ogreMunchkinThangType, 'head', colorConfig)
     expect(key in sheet.getAnimations()).toBe(true)
 
-  it 'creates the container for static actions if set to renderStrategy=container', ->
-    treeThangType.set('renderStrategy', 'container')
+  it 'creates the container for static actions if set to spriteType=segmented', ->
+    treeThangType.set('spriteType', 'segmented')
     sprite = new CocoSprite(treeThangType)
     layer.addCocoSprite(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(treeThangType, 'Tree_4')
     expect(key in sheet.getAnimations()).toBe(true)
 
-  it 'creates animations for animated actions if set to renderStrategy=spriteSheet', ->
-    ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+  it 'creates animations for animated actions if set to spriteType=singular', ->
+    ogreMunchkinThangType.set('spriteType', 'singular')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
     sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
     layer.addCocoSprite(sprite)
@@ -38,17 +38,17 @@ describe 'WebGLLayer', ->
     key = layer.renderGroupingKey(ogreMunchkinThangType, 'idle', colorConfig)
     expect(key in sheet.getAnimations()).toBe(true)
 
-  it 'creates animations for static actions if set to renderStrategy=spriteSheet', ->
-    treeThangType.set('renderStrategy', 'spriteSheet')
+  it 'creates animations for static actions if set to spriteType=singular', ->
+    treeThangType.set('spriteType', 'singular')
     sprite = new CocoSprite(treeThangType)
     layer.addCocoSprite(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(treeThangType, 'idle')
     expect(key in sheet.getAnimations()).toBe(true)
     
-  it 'only renders frames used by actions when renderStrategy=spriteSheet', ->
+  it 'only renders frames used by actions when spriteType=singular', ->
     layer.setDefaultActions(['idle']) # uses the move side animation
-    ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+    ogreMunchkinThangType.set('spriteType', 'singular')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
     sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
     layer.addCocoSprite(sprite)
@@ -121,7 +121,7 @@ describe 'WebGLLayer', ->
     expect(layer._renderNewSpriteSheet).toHaveBeenCalled()
 
   it 'recycles *containers* from previous sprite sheets, rather than building repeatedly from raw vector data', ->
-    treeThangType.set('renderStrategy', 'container')
+    treeThangType.set('spriteType', 'segmented')
     sprite = new CocoSprite(treeThangType)
     layer.addCocoSprite(sprite)
     spyOn(SpriteBuilder.prototype, 'buildContainerFromStore').and.callThrough()
@@ -130,7 +130,7 @@ describe 'WebGLLayer', ->
     expect(SpriteBuilder.prototype.buildContainerFromStore.calls.count()).toBe(1)
 
   it '*does not* recycle *containers* from previous sprite sheets when the resolutionFactor has changed', ->
-    treeThangType.set('renderStrategy', 'container')
+    treeThangType.set('spriteType', 'segmented')
     sprite = new CocoSprite(treeThangType)
     layer.addCocoSprite(sprite)
     spyOn(SpriteBuilder.prototype, 'buildContainerFromStore').and.callThrough()
@@ -140,7 +140,7 @@ describe 'WebGLLayer', ->
     expect(SpriteBuilder.prototype.buildContainerFromStore.calls.count()).toBe(2)
 
   it 'recycles *animations* from previous sprite sheets, rather than building repeatedly from raw vector data', ->
-    ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+    ogreMunchkinThangType.set('spriteType', 'singular')
     sprite = new CocoSprite(ogreMunchkinThangType)
     layer.addCocoSprite(sprite)
     numFrameses = []
@@ -156,7 +156,7 @@ describe 'WebGLLayer', ->
     expect(SpriteBuilder.prototype.buildMovieClip.calls.count()).toBe(5)
 
   it '*does not* recycles *animations* from previous sprite sheets when the resolutionFactor has changed', ->
-    ogreMunchkinThangType.set('renderStrategy', 'spriteSheet')
+    ogreMunchkinThangType.set('spriteType', 'singular')
     sprite = new CocoSprite(ogreMunchkinThangType)
     layer.addCocoSprite(sprite)
     spyOn(SpriteBuilder.prototype, 'buildMovieClip').and.callThrough()

@@ -1,9 +1,10 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'lib/CocoClass'
-WebGLSprite = require './WebGLSprite'
+SegmentedSprite = require './SegmentedSprite'
+SingularSprite = require './SingularSprite'
 {SpriteContainerLayer} = require 'lib/surface/Layer'
 
-NEVER_RENDER_ANYTHING = true # set to true to test placeholders
+NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
 module.exports = class WebGLLayer extends CocoClass
 
@@ -124,7 +125,7 @@ module.exports = class WebGLLayer extends CocoClass
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
       if thangType.get('raw')
-        if thangType.get('renderStrategy') is 'container'
+        if thangType.get('spriteType') is 'segmented'
           @renderContainers(args...)
         else
           @renderSpriteSheet(args...)
@@ -305,8 +306,9 @@ module.exports = class WebGLLayer extends CocoClass
       sprite.gotoAndStop(@renderGroupingKey(cocoSprite.thangType))
       
     else
+      SpriteClass = if cocoSprite.thangType.get('spriteType') is 'segmented' then SegmentedSprite else SingularSprite
       prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.colorConfig) + '.'
-      sprite = new WebGLSprite(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
+      sprite = new SpriteClass(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
 
     sprite.sprite = cocoSprite
     sprite.layerPriority = cocoSprite.thang?.layerPriority ? cocoSprite.thangType.get 'layerPriority'
