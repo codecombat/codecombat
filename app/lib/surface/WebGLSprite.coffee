@@ -33,6 +33,7 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
   goto: (actionName, @paused=true) ->
     @currentAnimation = actionName
     @baseMovieClip = @framerate = null
+    @actionNotSupported = false
     
     action = @thangType.getActions()[actionName]
     randomStart = actionName.startsWith('move')
@@ -47,13 +48,21 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @regY = -reg.y * scale
         func = if @paused then 'gotoAndStop' else 'gotoAndPlay'
         animationName = @spriteSheetPrefix + actionName
-        if not (animationName in @spriteSheet.getAnimations())
-          @singleChildSprite.gotoAndStop(0)
-          @notifyActionNeedsRender(action)
-          return
         @singleChildSprite[func](animationName)
+        if @singleChildSprite.currentFrame is 0
+          @regX = -reg.x
+          @regY = -reg.y
+          @singleChildSprite.stop()
+          @notifyActionNeedsRender(action)
+          bounds = @thangType.get('raw').animations[action.animation].bounds
+          @singleChildSprite.x = bounds[0]
+          @singleChildSprite.y = bounds[1]
+          console.log 'bounds?', bounds
+          @singleChildSprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+          @singleChildSprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+          return
+          
         @singleChildSprite.framerate = action.framerate or 20
-        
         if randomStart and frames = @spriteSheet.getAnimation(animationName)?.frames
           @singleChildSprite.currentAnimationFrame = Math.floor(Math.random() * frames.length)
 
@@ -62,10 +71,6 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @regY = -reg.y
         @childMovieClips = []
         @baseMovieClip = @buildMovieClip(action.animation)
-        if not @baseMovieClip
-          @children = []
-          @notifyActionNeedsRender(action)
-          return
         @children = @baseMovieClip.children
         @frames = action.frames
         @frames = (parseInt(f) for f in @frames.split(',')) if @frames
@@ -74,31 +79,41 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
         @baseMovieClip.gotoAndStop(@currentFrame)
         @loop = action.loops isnt false
         @goesTo = action.goesTo
+        @notifyActionNeedsRender(action) if @actionNotSupported
         
     if action.container
+      scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
+
       if @singleChildSprite
-        scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
         @regX = -reg.x * scale
         @regY = -reg.y * scale
         animationName = @spriteSheetPrefix + actionName
-        if not (animationName in @spriteSheet.getAnimations())
-          @singleChildSprite.gotoAndStop(0)
-          @notifyActionNeedsRender(action)
-          return
         @singleChildSprite.gotoAndStop(animationName)
+        if @singleChildSprite.currentFrame is 0
+          @notifyActionNeedsRender(action)
+          bounds = @thangType.get('raw').containers[action.container].b
+          @singleChildSprite.x = bounds[0]
+          @singleChildSprite.y = bounds[1]
+          @singleChildSprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * 2)
+          @singleChildSprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * 2)
+          return
 
       else
         @regX = -reg.x
         @regY = -reg.y
         @childMovieClips = []
         containerName = @spriteSheetPrefix + action.container
-        if not (containerName in @spriteSheet.getAnimations())
-          @children = []
-          @notifyActionNeedsRender(action)
-          return
         sprite = new createjs.Sprite(@spriteSheet)
         sprite.gotoAndStop(containerName)
-        sprite.scaleX = sprite.scaleY = 1 / @resolutionFactor
+        if sprite.currentFrame is 0
+          @notifyActionNeedsRender(action)
+          bounds = @thangType.get('raw').containers[action.container].b
+          sprite.x = bounds[0]
+          sprite.y = bounds[1]
+          sprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * 2 * scale)
+          sprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * 2 * scale)
+        else
+          sprite.scaleX = sprite.scaleY = 1 / scale
         @children = [sprite]
       
     return
@@ -112,10 +127,8 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     movieClip = new createjs.MovieClip()
 
     locals = {}
-    _.extend locals, containers = @buildMovieClipContainers(animData.containers)
-    return false if not containers
-    _.extend locals, animations = @buildMovieClipAnimations(animData.animations)
-    return false if not animations
+    _.extend locals, @buildMovieClipContainers(animData.containers)
+    _.extend locals, @buildMovieClipAnimations(animData.animations)
     
     toSkip = {}
     toSkip[shape.bn] = true for shape in animData.shapes
@@ -147,10 +160,16 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     for localContainer in localContainers
       outerContainer = new createjs.SpriteContainer(@spriteSheet)
       innerContainer = new createjs.Sprite(@spriteSheet)
-      innerContainer.scaleX = innerContainer.scaleY = 1 / (@resolutionFactor * (@thangType.get('scale') or 1))
-      animationName = @spriteSheetPrefix + localContainer.gn
-      return false if not (animationName in @spriteSheet.getAnimations())
-      innerContainer.gotoAndStop(animationName)
+      innerContainer.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
+      if innerContainer.currentFrame is 0
+        @actionNotSupported = true
+        bounds = @thangType.get('raw').containers[localContainer.gn].b
+        innerContainer.x = bounds[0]
+        innerContainer.y = bounds[1]
+        innerContainer.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        innerContainer.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+      else
+        innerContainer.scaleX = innerContainer.scaleY = 1 / (@resolutionFactor * (@thangType.get('scale') or 1))
       outerContainer.addChild(innerContainer)
       outerContainer.setTransform(localContainer.t...)
       outerContainer._off = localContainer.o if localContainer.o?
@@ -162,7 +181,6 @@ module.exports = class WebGLSprite extends createjs.SpriteContainer
     map = {}
     for localAnimation in localAnimations
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
-      return false if not animation
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
       @childMovieClips.push(animation)

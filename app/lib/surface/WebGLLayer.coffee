@@ -3,6 +3,8 @@ CocoClass = require 'lib/CocoClass'
 WebGLSprite = require './WebGLSprite'
 {SpriteContainerLayer} = require 'lib/surface/Layer'
 
+NEVER_RENDER_ANYTHING = true # set to true to test placeholders
+
 module.exports = class WebGLLayer extends CocoClass
 
   _.extend(WebGLLayer.prototype, Backbone.Events)
@@ -109,12 +111,13 @@ module.exports = class WebGLLayer extends CocoClass
     builder = new createjs.SpriteSheetBuilder()
     groups = _.groupBy(@toRenderBundles, ((bundle) -> @renderGroupingKey(bundle.thangType, '', bundle.colorConfig)), @)
 
-    # Always have an empty frame be the first frame.
-    # Then if you go to a frame that DNE, it doesn't show up.
-    emptiness = new createjs.Container()
-    emptiness.setBounds(0, 0, 1, 1)
-    builder.addFrame(emptiness)
+    # The first frame is always the 'loading', ie placeholder, image.
+    placeholder = @createPlaceholder()
+    dimension = @resolutionFactor*SPRITE_PLACEHOLDER_RADIUS*2
+    placeholder.setBounds(0, 0, dimension, dimension)
+    builder.addFrame(placeholder)
 
+    groups = {} if NEVER_RENDER_ANYTHING
     for bundleGrouping in _.values(groups)
       thangType = bundleGrouping[0].thangType
       colorConfig = bundleGrouping[0].colorConfig
@@ -135,6 +138,17 @@ module.exports = class WebGLLayer extends CocoClass
       sheet = builder.build()
       @onBuildSpriteSheetComplete(null, builder)
       return sheet
+      
+  createPlaceholder: ->
+    # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor, 
+    # and different colors for different layers.
+    g = new createjs.Graphics()
+    g.setStrokeStyle(5)
+    g.beginStroke(createjs.Graphics.getRGB(64,64,64))
+    g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
+    radius = @resolutionFactor*SPRITE_PLACEHOLDER_RADIUS
+    g.drawCircle(radius, radius, radius)
+    new createjs.Shape(g)
 
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing

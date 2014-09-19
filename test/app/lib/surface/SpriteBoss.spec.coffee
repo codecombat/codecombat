@@ -69,7 +69,9 @@ describe 'SpriteBoss', ->
     spriteBoss.update(true)
     
     # Test that the unrendered, static sprites aren't showing anything
-    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children.length,0,'static container action'])
+    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children.length,1,'static container action'])
+    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children[0].currentFrame,0,'static container action'])
+    midRenderExpectations.push([spriteBoss.sprites['Tree 1'].imageObject.children[0].paused,true,'static container action'])
     midRenderExpectations.push([spriteBoss.sprites['Tree 2'].imageObject.children[0].currentFrame,0,'static spriteSheet action'])
     midRenderExpectations.push([spriteBoss.sprites['Tree 2'].imageObject.children[0].paused,true,'static spriteSheet action'])
 
@@ -102,13 +104,15 @@ describe 'SpriteBoss', ->
       spriteBoss.update(true)
 
       # Test that the unrendered, animated sprites aren't showing anything
-      midRenderExpectations.push([spriteBoss.sprites['NotFROgre'].imageObject.children.length,0,'animated container action'])
+      midRenderExpectations.push([spriteBoss.sprites['NotFROgre'].imageObject.children.length,10,'animated container action'])
+      for child in spriteBoss.sprites['NotFROgre'].imageObject.children
+        midRenderExpectations.push([child.children[0].currentFrame, 0, 'animated container action'])
       midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].currentFrame,0,'animated spriteSheet action'])
       midRenderExpectations.push([spriteBoss.sprites['FROgre'].imageObject.children[0].paused,true,'animated spriteSheet action'])
       
       defaultLayer.once 'new-spritesheet', ->
+        showMe() # Uncomment to display this world when you run any of these tests.
         done()
-#        showMe() # Uncomment to display this world when you run any of these tests.
 
   beforeEach (done) -> init(done)
 

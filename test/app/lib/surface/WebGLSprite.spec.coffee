@@ -56,6 +56,7 @@ describe 'WebGLSprite', ->
       expect(webGLSprite.paused).toBe(false)
       webGLSprite.gotoAndStop('move_fore')
       expect(webGLSprite.paused).toBe(true)
+      showMe()
   
     it 'has a tick function which moves the animation forward', ->
       webGLSprite.gotoAndPlay('attack')
