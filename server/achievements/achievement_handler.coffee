@@ -16,7 +16,7 @@ class AchievementHandler extends Handler
   get: (req, res) ->
     # /db/achievement?related=<ID>
     if req.query.related
-      return @sendUnauthorizedError(res) if not @hasAccess(req)
+      return @sendForbiddenError(res) if not @hasAccess(req)
       Achievement.find {related: req.query.related}, (err, docs) =>
         return @sendDatabaseError(res, err) if err
         docs = (@formatEntity(req, doc) for doc in docs)
@@ -25,7 +25,7 @@ class AchievementHandler extends Handler
       super req, res
 
   delete: (req, res, slugOrID) ->
-    return @sendUnauthorizedError res unless req.user?.isAdmin()
+    return @sendForbiddenError res unless req.user?.isAdmin()
     @getDocumentForIdOrSlug slugOrID, (err, document) => # Check first
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?

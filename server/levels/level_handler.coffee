@@ -50,7 +50,7 @@ LevelHandler = class LevelHandler extends Handler
     @getDocumentForIdOrSlug id, (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level, 'get')
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, level, 'get')
       callback err, level
 
   getSession: (req, res, id) ->
