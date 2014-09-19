@@ -6,9 +6,9 @@ SingularSprite = require './SingularSprite'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
-module.exports = class WebGLLayer extends CocoClass
+module.exports = class LayerAdapter extends CocoClass
 
-  _.extend(WebGLLayer.prototype, Backbone.Events)
+  _.extend(LayerAdapter.prototype, Backbone.Events)
 
   actionRenderState: null
   needToRerender: false
@@ -286,7 +286,7 @@ module.exports = class WebGLLayer extends CocoClass
         
   renderRasterImage: (thangType, spriteSheetBuilder) ->
     unless thangType.rasterImage
-      console.error("Cannot render the WebGLLayer SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
+      console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
     
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1

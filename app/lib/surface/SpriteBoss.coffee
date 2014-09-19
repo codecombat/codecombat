@@ -1,6 +1,6 @@
 CocoClass = require 'lib/CocoClass'
 {me} = require 'lib/auth'
-Layer = require './WebGLLayer'
+Layer = require './LayerAdapter'
 IndieSprite = require 'lib/surface/IndieSprite'
 WizardSprite = require 'lib/surface/WizardSprite'
 FlagSprite = require 'lib/surface/FlagSprite'

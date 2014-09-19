@@ -1,14 +1,14 @@
-WebGLLayer = require 'lib/surface/WebGLLayer'
+LayerAdapter = require 'lib/surface/LayerAdapter'
 CocoSprite = require 'lib/surface/CocoSprite'
 ThangType = require 'models/ThangType'
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
-describe 'WebGLLayer', ->
+describe 'LayerAdapter', ->
   layer = null
   beforeEach ->
-    layer = new WebGLLayer()
+    layer = new LayerAdapter()
     layer.buildAutomatically = false
     layer.buildAsync = false
   

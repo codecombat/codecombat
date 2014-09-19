@@ -1,4 +1,4 @@
-WebGLLayer = require 'lib/surface/WebGLLayer'
+LayerAdapter = require 'lib/surface/LayerAdapter'
 SingularSprite = require 'lib/surface/SingularSprite'
 CocoSprite = require 'lib/surface/CocoSprite'
 ThangType = require 'models/ThangType'
@@ -24,7 +24,7 @@ describe 'SingularSprite', ->
 
   describe 'with Ogre Munchkin ThangType and spriteType=spriteSheet', ->
     beforeEach ->
-      layer = new WebGLLayer()
+      layer = new LayerAdapter()
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()

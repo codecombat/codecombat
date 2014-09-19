@@ -1,4 +1,4 @@
-WebGLLayer = require 'lib/surface/WebGLLayer'
+LayerAdapter = require 'lib/surface/LayerAdapter'
 SegmentedSprite = require 'lib/surface/SegmentedSprite'
 CocoSprite = require 'lib/surface/CocoSprite'
 ThangType = require 'models/ThangType'
@@ -26,7 +26,7 @@ describe 'SegmentedSprite', ->
     
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
-      layer = new WebGLLayer()
+      layer = new LayerAdapter()
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()
@@ -82,7 +82,7 @@ describe 'SegmentedSprite', ->
 
   describe 'with Ogre Fangrider ThangType', ->
     beforeEach ->
-      layer = new WebGLLayer()
+      layer = new LayerAdapter()
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreFangriderThangType.markToRevert()
