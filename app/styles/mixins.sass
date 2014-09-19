@@ -38,3 +38,17 @@
     background-image: none
     @include opacity(0.65)
     @include box-shadow(none)
+
+// keyframes mixin from https://gist.github.com/ericam/1607696
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @-o-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
