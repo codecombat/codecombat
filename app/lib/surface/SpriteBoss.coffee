@@ -1,6 +1,6 @@
 CocoClass = require 'lib/CocoClass'
 {me} = require 'lib/auth'
-Layer = require './LayerAdapter'
+LayerAdapter = require './LayerAdapter'
 IndieSprite = require 'lib/surface/IndieSprite'
 WizardSprite = require 'lib/surface/WizardSprite'
 FlagSprite = require 'lib/surface/FlagSprite'
@@ -65,8 +65,8 @@ module.exports = class SpriteBoss extends CocoClass
       ['Default', 0]
       ['Floating', 10]
     ]
-      @spriteLayers[name] = new Layer name: name, layerPriority: priority, transform: Layer.TRANSFORM_CHILD, camera: @camera
-    @surfaceLayer.addChild (spriteLayer.spriteContainer for spriteLayer in _.values(@spriteLayers))...
+      @spriteLayers[name] = new LayerAdapter name: name, webGL: true, layerPriority: priority, transform: LayerAdapter.TRANSFORM_CHILD, camera: @camera
+    @surfaceLayer.addChild (spriteLayer.container for spriteLayer in _.values(@spriteLayers))...
 
   layerForChild: (child, sprite) ->
     unless child.layerPriority?
@@ -77,7 +77,7 @@ module.exports = class SpriteBoss extends CocoClass
     child.layerPriority ?= 0
     return @spriteLayers['Default'] unless child.layerPriority
     layer = _.findLast @spriteLayers, (layer, name) ->
-      layer.spriteContainer.layerPriority <= child.layerPriority
+      layer.layerPriority <= child.layerPriority
     layer ?= @spriteLayers['Land'] if child.layerPriority < -40
     layer ? @spriteLayers['Default']
 
@@ -89,7 +89,7 @@ module.exports = class SpriteBoss extends CocoClass
     layer ?= @spriteLayers['Obstacle'] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
     layer ?= @layerForChild sprite.imageObject, sprite
     layer.addCocoSprite sprite
-    layer.spriteContainer.updateLayerOrder()
+    layer.updateLayerOrder()
     sprite
 
   createMarks: ->
@@ -185,7 +185,7 @@ module.exports = class SpriteBoss extends CocoClass
     @adjustSpriteExistence() if frameChanged
     sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
-    @spriteLayers['Default'].spriteContainer.updateLayerOrder()
+    @spriteLayers['Default'].updateLayerOrder()
     @cache()
 
   adjustSpriteExistence: ->

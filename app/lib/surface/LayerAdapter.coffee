@@ -1,15 +1,41 @@
+###
+  * SpriteStage (WebGL Canvas)
+  ** Land texture
+  ** Ground-based selection/target marks, range radii
+  ** Walls/obstacles
+  ** Paths and target pieces (and ghosts?)
+  ** Normal Thangs, bots, wizards (z-indexing based on World-determined sprite.thang.pos.z/y, mainly, instead of sprite-map-determined sprite.z, which we rename to... something)
+  ** Above-thang marks (blood, highlight) and health bars
+  
+  * Stage (Regular Canvas)
+  ** Camera border
+  ** surfaceTextLayer (speech, names)
+  ** screenLayer
+  *** Letterbox
+  **** Letterbox top and bottom
+  *** FPS display, maybe grid axis labels, coordinate hover
+  
+  ** Grid lines--somewhere--we will figure it out, do not really need it at first
+###
+
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoClass = require 'lib/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
-{SpriteContainerLayer} = require 'lib/surface/Layer'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
-module.exports = class LayerAdapter extends CocoClass
+module.exports = LayerAdapter = class LayerAdapter extends CocoClass
+  
+  # Intermediary between a Surface Stage and a top-level static normal Container or hot-swapped WebGL SpriteContainer.
+  # It handles zooming in different ways and, if webGL, creating and assigning spriteSheets.
 
-  _.extend(LayerAdapter.prototype, Backbone.Events)
+  @TRANSFORM_CHILD: 'child'  # Layer transform is managed by its parents
+  @TRANSFORM_SURFACE: 'surface'  # Layer moves/scales/zooms with the Surface of the World
+  @TRANSFORM_SURFACE_TEXT: 'surface_text'  # Layer moves with the Surface but is size-independent
+  @TRANSFORM_SCREEN: 'screen'  # Layer stays fixed to the screen (different from child?)
 
+  # WebGL properties
   actionRenderState: null
   needToRerender: false
   toRenderBundles: null
@@ -21,28 +47,105 @@ module.exports = class LayerAdapter extends CocoClass
   numThingsLoading: 0
   cocoSprites: null
   spriteSheet: null
-  spriteContainer: null
-  
-  constructor: (@layerOptions) ->
-    @layerOptions ?= {}
+  container: null
+
+  subscriptions:
+    'camera:zoom-updated': 'onZoomUpdated'
+
+  constructor: (options) ->
     super()
-    @initializing = true
-    @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
-    @spriteContainer = new SpriteContainerLayer(@spriteSheet, @layerOptions)
-    @actionRenderState = {}
-    @toRenderBundles = []
-    @cocoSprites = []
-    @initializing = false
+    options ?= {}
+    @name = options.name ? 'Unnamed'
+    @layerPriority = options.layerPriority ? 0
+    @transformStyle = options.transform ? LayerAdapter.TRANSFORM_CHILD
+    @camera = options.camera
+    @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
+
+    @webGL = !!options.webGL
+    if @webGL
+      @initializing = true
+      @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
+      @container = new createjs.SpriteContainer(@spriteSheet)
+      @actionRenderState = {}
+      @toRenderBundles = []
+      @cocoSprites = []
+      @initializing = false
+
+    else
+      @container = new createjs.Container()
+
+  toString: -> "<Layer #{@layerPriority}: #{@name}>"
+
+  #- Layer ordering
     
-  setDefaultActions: (@defaultActions) ->
+  updateLayerOrder: ->
+    @container.sortChildren @layerOrderComparator
+
+  layerOrderComparator: (a, b) ->
+    # Optimize
+    alp = a.layerPriority or 0
+    blp = b.layerPriority or 0
+    return alp - blp if alp isnt blp
+    # TODO: remove this z stuff
+    az = a.z or 1000
+    bz = b.z or 1000
+    if aSprite = a.sprite
+      if aThang = aSprite.thang
+        aPos = aThang.pos
+        if aThang.health < 0
+          --az
+    if bSprite = b.sprite
+      if bThang = bSprite.thang
+        bPos = bThang.pos
+        if bThang.health < 0
+          --bz
+    if az is bz
+      return 0 unless aPos and bPos
+      return (bPos.y - aPos.y) or (bPos.x - aPos.x)
+    return az - bz
     
-  renderGroupingKey: (thangType, grouping, colorConfig) ->
-    key = thangType.get('slug')
-    if colorConfig?.team
-      key += "(#{colorConfig.team.hue},#{colorConfig.team.saturation},#{colorConfig.team.lightness})"
-    key += '.'+grouping if grouping
-    key
-    
+  #- Zoom updating
+
+  onZoomUpdated: (e) ->
+    return unless e.camera is @camera
+    if @transformStyle in [LayerAdapter.TRANSFORM_SURFACE, LayerAdapter.TRANSFORM_SURFACE_TEXT, LayerAdapter.TRANSFORM_CHILD]
+      change = @container.scaleX / e.zoom
+      @container.scaleX = @container.scaleY = e.zoom
+      @container.regX = e.surfaceViewport.x
+      @container.regY = e.surfaceViewport.y
+      if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
+        for child in @container.children
+          child.scaleX *= change
+          child.scaleY *= change
+
+  #- Caching
+
+  cache: ->
+    return if @webGL
+    return unless @children.length 
+    bounds = @container.getBounds()
+    return unless bounds
+    @container.cache bounds.x, bounds.y, bounds.width, bounds.height, 2
+
+  #- Container-like child functions
+
+  addChild: (children...) ->
+    container.addChild children...
+    if @transformStyle is ContainerLayer.TRANSFORM_SURFACE_TEXT
+      for child in children
+        child.scaleX /= @scaleX
+        child.scaleY /= @scaleY
+
+  removeChild: (children...) ->
+    container.removeChild children...
+    # TODO: Do we actually need to scale children that were removed?
+    if @transformStyle is ContainerLayer.TRANSFORM_SURFACE_TEXT
+      for child in children
+        child.scaleX *= @scaleX
+        child.scaleY *= @scaleY
+
+  #- Adding, removing children for WebGL layers.
+        
   addCocoSprite: (cocoSprite) ->
     cocoSprite.options.resolutionFactor = @resolutionFactor
     if cocoSprite.layer
@@ -55,16 +158,15 @@ module.exports = class LayerAdapter extends CocoClass
     @loadThangType(cocoSprite.thangType)
     @addDefaultActionsToRender(cocoSprite)
     @setImageObjectToCocoSprite(cocoSprite)
-    # TODO: actually add it as a child
-  
+    @updateLayerOrder()
+
   removeCocoSprite: (cocoSprite) ->
     @stopListening(cocoSprite)
     cocoSprite.imageObject.parent.removeChild cocoSprite.imageObject
     @cocoSprites = _.without @cocoSprites, cocoSprite
 
-  onActionNeedsRender: (cocoSprite, action) ->
-    @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
-
+  #- Loading network resources dynamically
+    
   loadThangType: (thangType) ->
     if not thangType.isFullyLoaded()
       thangType.setProjection null
@@ -84,6 +186,11 @@ module.exports = class LayerAdapter extends CocoClass
         @addDefaultActionsToRender(cocoSprite)
     @renderNewSpriteSheet()
 
+  #- Adding to the list of things we need to render
+    
+  onActionNeedsRender: (cocoSprite, action) ->
+    @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
+
   addDefaultActionsToRender: (cocoSprite) ->
     needToRender = false
     if cocoSprite.thangType.get('raster')
@@ -101,6 +208,8 @@ module.exports = class LayerAdapter extends CocoClass
     return true if @willRender or not @buildAutomatically
     @willRender = _.defer => @renderNewSpriteSheet()
     return true
+    
+  #- Rendering sprite sheets
     
   renderNewSpriteSheet: ->
     @willRender = false
@@ -126,11 +235,11 @@ module.exports = class LayerAdapter extends CocoClass
       args = [thangType, colorConfig, actionNames, builder]
       if thangType.get('raw')
         if thangType.get('spriteType') is 'segmented'
-          @renderContainers(args...)
+          @renderSegmentedThangType(args...)
         else
-          @renderSpriteSheet(args...)
+          @renderSingularThangType(args...)
       else
-        @renderRasterImage(thangType, builder)
+        @renderRasterThangType(thangType, builder)
         
     if async
       builder.buildAsync()
@@ -140,17 +249,6 @@ module.exports = class LayerAdapter extends CocoClass
       @onBuildSpriteSheetComplete(null, builder)
       return sheet
       
-  createPlaceholder: ->
-    # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor, 
-    # and different colors for different layers.
-    g = new createjs.Graphics()
-    g.setStrokeStyle(5)
-    g.beginStroke(createjs.Graphics.getRGB(64,64,64))
-    g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
-    radius = @resolutionFactor*SPRITE_PLACEHOLDER_RADIUS
-    g.drawCircle(radius, radius, radius)
-    new createjs.Shape(g)
-
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing
     
@@ -162,18 +260,18 @@ module.exports = class LayerAdapter extends CocoClass
     
     @spriteSheet = builder.spriteSheet
     @spriteSheet.resolutionFactor = @resolutionFactor
-    oldLayer = @spriteContainer 
-    @spriteContainer = new SpriteContainerLayer(@spriteSheet, @layerOptions)
+    oldLayer = @container 
+    @container = new createjs.SpriteContainer(@spriteSheet)
     for cocoSprite in @cocoSprites
       @setImageObjectToCocoSprite(cocoSprite)
     for prop in ['scaleX', 'scaleY', 'regX', 'regY']
-      @spriteContainer[prop] = oldLayer[prop]
+      @container[prop] = oldLayer[prop]
     if parent = oldLayer.parent
       index = parent.getChildIndex(oldLayer)
       parent.removeChildAt(index)
-      parent.addChildAt(@spriteContainer, index)
-    @layerOptions.camera?.updateZoom(true)
-    @spriteContainer.updateLayerOrder()
+      parent.addChildAt(@container, index)
+    @camera?.updateZoom(true)
+    @updateLayerOrder()
     for cocoSprite in @cocoSprites
       cocoSprite.options.resolutionFactor = @resolutionFactor
       cocoSprite.updateBaseScale()
@@ -181,7 +279,22 @@ module.exports = class LayerAdapter extends CocoClass
       cocoSprite.updateRotation()
     @trigger 'new-spritesheet'
 
-  renderContainers: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+  #- Placeholder
+    
+  createPlaceholder: ->
+    # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor, 
+    # and different colors for different layers.
+    g = new createjs.Graphics()
+    g.setStrokeStyle(5)
+    g.beginStroke(createjs.Graphics.getRGB(64,64,64))
+    g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
+    radius = @resolutionFactor*SPRITE_PLACEHOLDER_RADIUS
+    g.drawCircle(radius, radius, radius)
+    new createjs.Shape(g)
+    
+  #- Rendering containers for segmented thang types
+
+  renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     containersToRender = {}
     for actionName in actionNames
       action = _.find(thangType.getActions(), {name: actionName})
@@ -208,8 +321,10 @@ module.exports = class LayerAdapter extends CocoClass
     for animation in thangType.get('raw').animations[animation].animations
       containers = containers.concat(@getContainersForAnimation(thangType, animation.gn))
     return containers
+    
+  #- Rendering sprite sheets for singular thang types
       
-  renderSpriteSheet: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+  renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     actionObjects = _.values(thangType.getActions())
     animationActions = []
     for a in actionObjects
@@ -283,8 +398,10 @@ module.exports = class LayerAdapter extends CocoClass
     next = action.goesTo if action.goesTo
     next = false if action.loops is false
     return next
+    
+  #- Rendering frames for raster thang types
         
-  renderRasterImage: (thangType, spriteSheetBuilder) ->
+  renderRasterThangType: (thangType, spriteSheetBuilder) ->
     unless thangType.rasterImage
       console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
     
@@ -292,6 +409,8 @@ module.exports = class LayerAdapter extends CocoClass
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
+    
+  #- Distributing new Segmented/Singular/RasterSprites to CocoSprites
 
   setImageObjectToCocoSprite: (cocoSprite) ->
     if not cocoSprite.thangType.isFullyLoaded()
@@ -316,4 +435,15 @@ module.exports = class LayerAdapter extends CocoClass
     cocoSprite.addHealthBar()
     cocoSprite.setImageObject(sprite)
     cocoSprite.update(true)
-    @spriteContainer.addChild(sprite)
+    @container.addChild(sprite)
+
+  renderGroupingKey: (thangType, grouping, colorConfig) ->
+    key = thangType.get('slug')
+    if colorConfig?.team
+      key += "(#{colorConfig.team.hue},#{colorConfig.team.saturation},#{colorConfig.team.lightness})"
+    key += '.'+grouping if grouping
+    key
+
+  destroy: ->
+    child.destroy?() for child in @container.children
+    super()

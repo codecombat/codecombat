@@ -105,7 +105,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       if parent = @imageObject.parent
         parent.removeChild @imageObject
         parent.addChild newImageObject
-        parent.updateLayerOrder()
 
     # get the cocosprite to update things
     for prop in ['lastPos', 'currentRootAction']

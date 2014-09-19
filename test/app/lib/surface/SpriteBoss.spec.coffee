@@ -62,7 +62,7 @@ describe 'SpriteBoss', ->
     # Sort of an implicit test. By default, all the default actions are always rendered,
     # but I want to make sure the system can dynamically hear about actions it needs to render for
     # as they are used.
-    defaultLayer.setDefaultActions(['idle'])
+    defaultLayer.defaultActions = ['idle']
     
     # Render the simple world with just trees
     spriteBoss.update(true)
@@ -163,8 +163,8 @@ describe 'SpriteBoss', ->
     expect(spriteBoss.sprites['Ogre E'].imageObject.alpha).toBe(0.5)
     
   it 'orders sprites in the layer based on thang pos.y\'s', ->
-    container = spriteBoss.spriteLayers.Default.spriteContainer
-    l = spriteBoss.spriteLayers.Default.spriteContainer.children
+    container = spriteBoss.spriteLayers.Default.container
+    l = container.children
     i1 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 1'))
     i2 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 2'))
     i3 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 3'))
@@ -174,6 +174,6 @@ describe 'SpriteBoss', ->
     expect(i3).toBeGreaterThan(i4)
 
   it 'only contains children Sprites and SpriteContainers whose spritesheet matches the Layer', ->
-    defaultLayerContainer = spriteBoss.spriteLayers.Default.spriteContainer
+    defaultLayerContainer = spriteBoss.spriteLayers.Default.container
     for c in defaultLayerContainer.children
       expect(c.spriteSheet).toBe(defaultLayerContainer.spriteSheet)

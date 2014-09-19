@@ -8,7 +8,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 describe 'LayerAdapter', ->
   layer = null
   beforeEach ->
-    layer = new LayerAdapter()
+    layer = new LayerAdapter({webGL:true})
     layer.buildAutomatically = false
     layer.buildAsync = false
   
@@ -47,7 +47,7 @@ describe 'LayerAdapter', ->
     expect(key in sheet.getAnimations()).toBe(true)
     
   it 'only renders frames used by actions when spriteType=singular', ->
-    layer.setDefaultActions(['idle']) # uses the move side animation
+    layer.defaultActions = ['idle'] # uses the move side animation
     ogreMunchkinThangType.set('spriteType', 'singular')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
     sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})

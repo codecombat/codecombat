@@ -24,7 +24,7 @@ describe 'SingularSprite', ->
 
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter()
+      layer = new LayerAdapter({webGL:true})
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()

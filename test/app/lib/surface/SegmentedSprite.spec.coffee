@@ -26,7 +26,7 @@ describe 'SegmentedSprite', ->
     
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter()
+      layer = new LayerAdapter({webGL:true})
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()
@@ -82,7 +82,7 @@ describe 'SegmentedSprite', ->
 
   describe 'with Ogre Fangrider ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter()
+      layer = new LayerAdapter({webGL:true})
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreFangriderThangType.markToRevert()
