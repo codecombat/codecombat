@@ -309,7 +309,7 @@ LevelHandler = class LevelHandler extends Handler
       @sendSuccess res, data
 
   hasAccessToDocument: (req, document, method=null) ->
-    return true if method == null or method == 'get'
+    return true if method is null or method is 'get'
     super(req, document, method)
 
 module.exports = new LevelHandler()
