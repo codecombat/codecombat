@@ -22,7 +22,7 @@ describe 'SingularSprite', ->
     }
     createjs.Ticker.addEventListener "tick", listener
 
-  describe 'with Ogre Munchkin ThangType and spriteType=spriteSheet', ->
+  describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
       layer = new LayerAdapter()
       layer.buildAutomatically = false
@@ -43,6 +43,6 @@ describe 'SingularSprite', ->
     afterEach ->
       ogreMunchkinThangType.revert()
 
-    it 'has the same interface as for when the ThangType uses the container spriteType', ->
+    it 'has the same interface as Sprite for animation', ->
       singularSprite.gotoAndPlay('move_fore')
       singularSprite.gotoAndStop('attack') 
