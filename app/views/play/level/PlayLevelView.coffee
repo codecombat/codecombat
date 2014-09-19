@@ -383,6 +383,7 @@ module.exports = class PlayLevelView extends RootView
 
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
+    clearInterval(@pointerInterval)
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -505,7 +506,7 @@ module.exports = class PlayLevelView extends RootView
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75
+    #Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75  # Never mind, this is currently so annoying
     setTimeout((=>
       pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
 

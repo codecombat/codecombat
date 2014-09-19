@@ -12,7 +12,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
-module.exports = class MainPlayView extends RootView
+module.exports = class WorldMapView extends RootView
   id: 'world-map-view'
   template: template
 
@@ -31,6 +31,10 @@ module.exports = class MainPlayView extends RootView
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
+
+  destroy: ->
+    $(window).off 'resize', @onWindowResize
+    super()
 
   getLevelPlayCounts: ->
     success = (levelPlayCounts) =>
