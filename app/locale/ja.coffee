@@ -97,7 +97,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイして学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)"
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。"
-    play: "ゲームスタート"
+    play: "ゲームスタート" # The big play button that just starts playing a level
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです"
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
     campaign: "キャンペーンモード"

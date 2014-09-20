@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     slogan: "Học mã bằng chơi Games"
     no_ie: "Codecombat không chạy trong Internet Explorer 9 hoặc cũ hơn. Xin lỗi!"
     no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!"
-    play: "Chơi"
+    play: "Chơi" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"

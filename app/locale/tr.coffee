@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     slogan: "Oyun oynayarak kodlamayı öğrenin"
     no_ie: "CodeCombat maalesef Internet Explorer 9 veya daha eski sürümlerde çalışmaz."
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir."
-    play: "Oyna"
+    play: "Oyna" # The big play button that just starts playing a level
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!"
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
     campaign: "Senaryo Modu"

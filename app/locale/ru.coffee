@@ -97,7 +97,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     slogan: "Научитесь программировать, играя в игру"
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!"
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!"
-    play: "Играть"
+    play: "Играть" # The big play button that just starts playing a level
     old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!"
     old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
     campaign: "Кампания"

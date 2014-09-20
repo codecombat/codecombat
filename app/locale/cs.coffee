@@ -97,7 +97,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     slogan: "Naučte se programování tu při hraní více-hráčové programovací hry."
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 9 nebo starším."
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!"
-    play: "Hrát"
+    play: "Hrát" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"

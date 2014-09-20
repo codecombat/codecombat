@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     slogan: "Belajar Kod bDengan Permainan"
     no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 9 dan terdahulu. Maaf!"
     no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet dan tidak akan berfungsi!"
-    play: "Mula"
+    play: "Mula" # The big play button that just starts playing a level
     old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!"
     old_browser_suffix: "Anda boleh mencuba, tapi mungkin ia tidak akan berfungsi."
 #    campaign: "Campaign"

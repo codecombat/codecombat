@@ -97,7 +97,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     slogan: "Aprenda a programar enquanto se diverte com um jogo."
     no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!"
     no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!"
-    play: "Jogar"
+    play: "Jogar" # The big play button that just starts playing a level
     old_browser: "Ops, seu navegador é muito antigo para rodar o CodeCombat. Desculpe!"
     old_browser_suffix: "Você pode tentar de qualquer forma, mas provavelmente não irá funcionar."
     campaign: "Campanha"

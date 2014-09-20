@@ -97,7 +97,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     slogan: "Научи да пишеш код играјући игру"
     no_ie: "CodeCombat не ради у IE8 и старијим верзијама. Жао нам је!"
     no_mobile: "CodeCombat није дизајниран за мобилне уређаје и може да се деси да не ради!"
-    play: "Играј"
+    play: "Играј" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
