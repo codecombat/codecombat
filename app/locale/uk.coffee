@@ -97,7 +97,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     slogan: "Навчіться програмувати, граючи у гру"
     no_ie: "На жаль, CodeCombat не працює в IE8 чи більш старих версіях!"
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!"
-    play: "Грати"
+    play: "Грати" # The big play button that just starts playing a level
     old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat"
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
     campaign: "Кампанія"

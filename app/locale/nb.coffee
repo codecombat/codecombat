@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     slogan: "Lær å Kode ved å Spille et Spill"
     no_ie: "CodeCombat kjører ikke på IE8 eller eldre. Beklager!"
     no_mobile: "CodeCombat ble ikke designet for mobile enheter, og vil muligens ikke virke!"
-    play: "Spill"
+    play: "Spill" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"

@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     slogan: "Μάθε να προγραμμάτιζεις με JavaScript μέσω ενός παιχνιδιού"
     no_ie: "Το CodeCombat δεν παίζει με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση. Συγνώμη!"
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!"
-    play: "Παίξε"
+    play: "Παίξε" # The big play button that just starts playing a level
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξετε το CodeCombat. Συγνώμη!"
     old_browser_suffix: "Μπορείτε να δοκιμάσετε, αλλά πιθανών να μην λειτουργήσει."
     campaign: "Εκστρατεία"

@@ -97,7 +97,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     slogan: "גם לשחק וגם ללמוד לתכנת"
     no_ie: "המשחק לא עובד באקפלורר 9 וישן יותר. סליחה!"
     no_mobile: "המשחק לא עוצב לטלפונים ואולי לא יעבוד"
-    play: "שחק"
+    play: "שחק" # The big play button that just starts playing a level
     old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!"
     old_browser_suffix: "אתה יכול לנסות בכול מקרה אבל זה כנראה לא יעבוד."
     campaign: "מסע"

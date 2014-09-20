@@ -6,7 +6,7 @@ enSource = fs.readFileSync(path.join(__dirname, '../app/locale/en.coffee'), enco
 commentsMap = {}
 
 categorySplitPattern = /^[\s\n]*(?=[^:\n]+:\s*$)/gm
-categoryCapturePattern = /^[\s\n]*([^:\n]+):\s*$/gm
+categoryCapturePattern = /^([^:\n]+):\s*\n/
 commentPattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm
 
 splitByCategories = enSource.split(categorySplitPattern)

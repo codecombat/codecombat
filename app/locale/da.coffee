@@ -97,7 +97,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     slogan: "Lær at Kode ved at Spille et Spil"
     no_ie: "CodeCombat kan desværre ikke køre i Internet Explorer 9 eller ældre. Beklager!"
     no_mobile: "CodeCombat er ikke designet til mobile enheder og vil måske ikke virke!"
-    play: "Spil"
+    play: "Spil" # The big play button that just starts playing a level
     old_browser: "Åh åh, din browser er for gammel til at køre CodeCombat. Beklager!"
     old_browser_suffix: "Du kan godt prøve alligevel, men det vil nok ikke virke."
     campaign: "Kampagne"

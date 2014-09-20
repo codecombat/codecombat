@@ -97,7 +97,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     slogan: "쉽고 간단한 게임 배우기"
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 9에서는 동작하지 않습니다."
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다."
-    play: "시작"
+    play: "시작" # The big play button that just starts playing a level
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다."
     old_browser_suffix: "시도해볼 수는 있겠지만..안될 수도 있습니다."
     campaign: "캠페인"

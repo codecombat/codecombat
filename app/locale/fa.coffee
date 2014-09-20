@@ -97,7 +97,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     slogan: "کد نویسیا با بازی بیاموزید"
     no_ie: "متاسفیم اما بازی بر روی مرورگر های اینترنت اکسپلورر نسخه ۹ به قبل اجرا نمی شود"
     no_mobile: "این بازی برای دستگاه های موبایل طراحی نشده است و بر روی آن ها اجرا نمی شود"
-    play: "شروع بازی"
+    play: "شروع بازی" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"

@@ -97,7 +97,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     slogan: "Tanulj meg nyelven programozni, miközben játszol!"
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 9, vagy korábbi verzióit. Bocsi!"
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen."
-    play: "Játssz!"
+    play: "Játssz!" # The big play button that just starts playing a level
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!"
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
     campaign: "Kampány"

@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     slogan: "Lern, wiemer JavaScript programmiert indem du es Spiel spielsch!"
     no_ie: "CodeCombat funktioniert uf InternetExplorer 9 und älter nid. Sorry!"
     no_mobile: "CodeCombat isch nid für mobili Grät entwicklet worde und funktioniert vilicht nid!"
-    play: "Spiele"
+    play: "Spiele" # The big play button that just starts playing a level
     old_browser: "Uh oh, din Browser isch z alt zum CodeCombat spiele. Sorry!"
     old_browser_suffix: "Du chasches gliich probiere, aber es funktioniert worschinli nid."
     campaign: "Kampagne"
