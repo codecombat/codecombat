@@ -6,12 +6,15 @@ InventoryView = require 'views/game-menu/InventoryView'
 module.exports = class PlayLevelModal extends ModalView
   className: 'modal fade play-modal'
   template: template
-  modalWidthPercent: 90
   id: 'play-level-modal'
-  #instant: true
 
-  #events:
-  #  'change input.select': 'onSelectionChanged'
+  events:
+    'click #choose-inventory-button': 'onClickChooseInventory'
+    'click #choose-hero-button': 'onClickChooseHero'
+    'click #play-level-button': 'onClickPlayLevel'
+
+  subscriptions:
+    'options:hero-changed': 'onHeroChanged'
 
   constructor: (options) ->
     super options
@@ -28,15 +31,25 @@ module.exports = class PlayLevelModal extends ModalView
     super()
     return unless @supermodel.finished()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
-    @addChooseHeroView()
-    @addInventoryView()
+    @insertSubView @chooseHeroView = new ChooseHeroView @options
+    @insertSubView @inventoryView = new InventoryView @options
+    @inventoryView.$el.addClass 'secret'
 
   onHidden: ->
     super()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
-  addChooseHeroView: ->
-    @insertSubView new ChooseHeroView @options
+  onClickChooseInventory: (e) ->
+    @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').addClass 'secret'
+    @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').removeClass 'secret'
 
-  addInventoryView: ->
-    @insertSubView new InventoryView @options
+  onClickChooseHero: (e) ->
+    @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').removeClass 'secret'
+    @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').addClass 'secret'
+
+  onClickPlayLevel: (e) ->
+    console.log 'should play!'
+
+  onHeroChanged: (e) ->
+    @$el.find('#choose-inventory-button').prop 'disabled', Boolean e.locked
+    @hero = e.hero

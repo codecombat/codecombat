@@ -25,7 +25,7 @@ module.exports = class InventoryView extends CocoView
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or {}
-    @items.url = '/db/thang.type?view=items&project=name,description,components,original,rasterIcon'
+    @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
     @supermodel.loadCollection(@items, 'items')
 
   onLoaded: ->

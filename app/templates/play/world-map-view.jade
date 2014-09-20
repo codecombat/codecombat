@@ -29,7 +29,7 @@
               span(data-i18n="play.hours_played") hours played
           .campaign-label(style="color: #{campaign.color}")= campaign.name
 
-.game-controls
+.game-controls.header-font
   if me.isAdmin()
     button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")

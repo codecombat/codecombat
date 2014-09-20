@@ -136,6 +136,10 @@
     achievements: "Achievements"
     account: "Account"
     settings: "Settings"
+    next: "Next"
+    previous: "Previous"
+    play: "Play"
+    choose_inventory: "Equip Items"
 
   items:
     armor: "Armor"
@@ -465,10 +469,16 @@
     multiplayer_caption: "Play with friends!"
 
   inventory:
-    temp: "Temp"
+    choose_inventory: "Equip Items"
 
   choose_hero:
-    temp: "Temp"
+    choose_hero: "Choose Your Hero"
+    programming_language: "Programming Language"
+    programming_language_description: "Which programming language do you want to use?"
+    status: "Status"
+    weapons: "Weapons"
+    health: "Health"
+    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Saved"
@@ -979,6 +989,7 @@
     user_remarks: "User Remarks"
     versions: "Versions"
     items: "Items"
+    heroes: "Heroes"
     wizard: "Wizard"
     achievement: "Achievement"
     clas: "CLAs"

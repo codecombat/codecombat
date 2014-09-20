@@ -84,7 +84,9 @@ module.exports = class WorldMapView extends RootView
     console.log "    x: #{(100 * x).toFixed(2)}\n    y: #{(100 * y).toFixed(2)}\n"
 
   onClickLevel: (e) ->
-    playLevelModal = new PlayLevelModal supermodel: @options.supermodel, levelID: $(e.target).data('level-id'), levelPath: $(e.target).data('level-path'), levelName: $(e.target).data('level-name')
+    e.preventDefault()
+    return if $(e.target).attr('disabled')
+    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: $(e.target).data('level-id'), levelPath: $(e.target).data('level-path'), levelName: $(e.target).data('level-name')
     @openModalView playLevelModal
 
   onMouseEnterLevel: (e) ->

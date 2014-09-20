@@ -7,6 +7,16 @@ buildQueue = []
 module.exports = class ThangType extends CocoModel
   @className: 'ThangType'
   @schema: require 'schemas/models/thang_type'
+  @heroes:
+    captain: '529ec584c423d4e83b000014'
+    knight: '529ffbf1cf1818f2be000001'
+    librarian: '52fbf74b7e01835453bd8d8e'
+    equestrian: '52e95b4222efc8e70900175d'
+    'potion-master': '52e9adf7427172ae56002172'
+    thoktar: '52a00542cf1818f2be000006'
+    'robot-walker': '5301696ad82649ec2c0c9b0d'
+    'michael-heasell': '53e126a4e06b897606d38bef'
+    'ian-elliott': '53e12be0d042f23505c3023b'
   urlRoot: '/db/thang.type'
   building: {}
 

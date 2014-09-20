@@ -1,11 +1,16 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  h3(data-i18n="play.todotodotodo") Play the Level Man: #{levelName} at #{levelPath}/#{levelID}
+  h1#choose-hero-header(data-i18n="choose_hero.choose_hero") Choose Your Hero
+  h1#choose-inventory-header.secret(data-i18n="inventory.choose_inventory") Equip Items
 
 block modal-body-content
-  p TODO: show dat hero selection view
-
   #choose-hero-view
 
   #inventory-view
+
+block modal-footer-content
+  button#choose-inventory-button.btn.btn-lg.btn-success(data-i18n="play.next") Next
+  button#choose-hero-button.btn.btn-lg.btn-primary.secret.pull-left(data-i18n="play.previous") Previous
+  button#play-level-button.btn.btn-lg.btn-success.secret(data-i18n="play.play") Play
+  
