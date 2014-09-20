@@ -131,23 +131,23 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     spectate: "Espectar"
     players: "jogadores"
     hours_played: "horas jogadas"
-#    items: "Items"
-#    heroes: "Heroes"
-#    achievements: "Achievements"
-#    account: "Account"
-#    settings: "Settings"
-#    next: "Next"
-#    previous: "Previous"
-#    play: "Play"
-#    choose_inventory: "Equip Items"
+    items: "Itens"
+    heroes: "Heróis"
+    achievements: "Conquistas"
+    account: "Conta"
+    settings: "Definições"
+    next: "Seguinte"
+    previous: "Anterior"
+    play: "Jogar"
+    choose_inventory: "Equipar Itens"
 
-#  items:
-#    armor: "Armor"
-#    hands: "Hands"
-#    accessories: "Accessories"
-#    books: "Books"
-#    minions: "Minions"
-#    misc: "Misc"
+  items:
+    armor: "Armadura"
+    hands: "Mãos"
+    accessories: "Acessórios"
+    books: "Livros"
+    minions: "Minions"
+    misc: "Vários"
 
   contact:
     contact_us: "Contacte o CodeCombat"
@@ -468,17 +468,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     guide_caption: "Documentos e dicas"
     multiplayer_caption: "Jogue com amigos!"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
+  inventory:
+    choose_inventory: "Equipar Itens"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    status: "Status"
-#    weapons: "Weapons"
-#    health: "Health"
-#    speed: "Speed"
+  choose_hero:
+    choose_hero: "Escolha o Seu Herói"
+    programming_language: "Linguagem de Programação"
+    programming_language_description: "Que linguagem de programação quer usar?"
+    status: "Estado"
+    weapons: "Armas"
+    health: "Vida"
+    speed: "Velocidade"
 
   save_load:
     granularity_saved_games: "Guardados"
@@ -989,11 +989,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     user_remarks: "Observações de Utilizador"
     versions: "Versões"
     items: "Itens"
-#    heroes: "Heroes"
+    heroes: "Heróis"
     wizard: "Feiticeiro"
     achievement: "Conquista"
     clas: "CLAs"
-#    play_counts: "Play Counts"
+    play_counts: "Número de Jogos"
     feedback: "Feedback"
 
   delta:
