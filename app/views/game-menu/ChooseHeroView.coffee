@@ -50,15 +50,18 @@ module.exports = class ChooseHeroView extends CocoView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    @$el.find('.hero-item:first-child, .hero-indicator:first-child').addClass('active')
     heroes = @heroes.models
     @$el.find('.hero-indicator').each ->
       heroID = $(@).data('hero-id')
       hero = _.find heroes, (hero) -> hero.get('original') is heroID
       $(@).css('background-image', "url(#{hero.getPortraitURL()})").tooltip()
+      _.defer => $(@).addClass 'initialized'
     @canvasWidth = 313  # @$el.find('canvas').width() # unreliable, whatever
     @canvasHeight = @$el.find('canvas').height()
-    @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[0]
+    heroConfig = @options.session.get('heroConfig') ? me.get('heroConfig') ? {}
+    heroIndex = Math.max 0, _.findIndex(heroes, ((hero) -> hero.get('original') is heroConfig.thangType))
+    @$el.find(".hero-item:nth-child(#{heroIndex + 1}), .hero-indicator:nth-child(#{heroIndex + 1})").addClass('active')
+    @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[heroIndex]
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'
@@ -70,8 +73,10 @@ module.exports = class ChooseHeroView extends CocoView
       size = 100 - (50 / 3) * distance
       $(@).css width: size, height: size, top: -(100 - size) / 2
     heroInfo = temporaryHeroInfo[hero.get('slug')]
+    locked = heroInfo.status is 'Locked'
     hero = @loadHero hero, heroIndex
-    Backbone.Mediator.publish 'options:hero-changed', hero: hero, locked: heroInfo.status is 'Locked'
+    @selectedHero = hero unless locked
+    $('#choose-inventory-button').prop 'disabled', locked
 
   loadHero: (hero, heroIndex) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
@@ -102,6 +107,10 @@ module.exports = class ChooseHeroView extends CocoView
     else
       @listenToOnce fullHero, 'sync', onLoaded
     fullHero
+
+  onHidden: ->
+
+
 
 temporaryHeroInfo =
   captain:

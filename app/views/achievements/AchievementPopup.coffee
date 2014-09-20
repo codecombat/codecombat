@@ -66,14 +66,14 @@ module.exports = class AchievementPopup extends CocoView
     super()
     @container.prepend @$el
     if @popup
-      @$el.animate
-        left: 0
-      @$el.on 'click', (e) =>
-        @$el.animate
-          left: 600
-        , =>
+      hide = =>
+        return if @destroyed
+        @$el.animate {left: 600}, =>
           @$el.remove()
           @destroy()
+      @$el.animate left: 0
+      @$el.on 'click', hide
+      _.delay hide, 10000 unless $('#editor-achievement-edit-view').length
 
   getContainer: ->
     unless @container

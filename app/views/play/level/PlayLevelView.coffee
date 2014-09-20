@@ -70,7 +70,7 @@ module.exports = class PlayLevelView extends RootView
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
-    'level:inventory-changed': 'onInventoryChanged'
+    'level:hero-config-changed': 'onHeroConfigChanged'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -371,7 +371,7 @@ module.exports = class PlayLevelView extends RootView
         break
     Backbone.Mediator.publish 'tome:cast-spell', {}
 
-  onInventoryChanged: (e) ->
+  onHeroConfigChanged: (e) ->
     # Doesn't work because the new inventory ThangTypes may not be loaded.
     #@setLevel @level, @supermodel
     #Backbone.Mediator.publish 'tome:cast-spell', {}

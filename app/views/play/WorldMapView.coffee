@@ -552,10 +552,10 @@ hero = [
     y: 53.1
   }
   {
-    name: 'Lowest Kithmen'
+    name: 'Lowly Kithmen'
     type: 'hero'
     difficulty: 1
-    id: 'lowest-kithguards'
+    id: 'lowly-kithmen'
     image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
     description: 'Use your glasses to seek out and attack the Kithmen.'
     x: 39.4

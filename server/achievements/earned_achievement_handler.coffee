@@ -115,9 +115,9 @@ class EarnedAchievementHandler extends Handler
                   earned.previouslyAchievedAmount = 0
 
                   expFunction = achievement.getExpFunction()
-                  newPoints = expFunction(earned.achievedAmount) * achievement.get('worth')
+                  newPoints = expFunction(earned.achievedAmount) * achievement.get('worth') ? 10
                 else
-                  newPoints = achievement.get 'worth'
+                  newPoints = achievement.get('worth') ? 10
 
                 earned.earnedPoints = newPoints
                 newTotalPoints += newPoints

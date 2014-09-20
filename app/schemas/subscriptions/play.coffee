@@ -155,4 +155,4 @@ module.exports =
 
   'level:edit-wizard-settings': c.object {}
 
-  'level:inventory-changed': c.object {}
+  'level:hero-config-changed': c.object {}

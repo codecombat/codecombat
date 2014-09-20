@@ -24,7 +24,7 @@ module.exports = class InventoryView extends CocoView
   initialize: (options) ->
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
-    @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or {}
+    @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
     @supermodel.loadCollection(@items, 'items')
 
@@ -234,16 +234,6 @@ module.exports = class InventoryView extends CocoView
       continue unless slotItemID
       item = _.find @items.models, {id:slotItemID}
       config[slotName] = item.get('original')
-
     config
 
   onHidden: ->
-    inventory = @getCurrentEquipmentConfig()
-    heroConfig = @options.session.get('heroConfig') ? {}
-    return if _.isEqual inventory, (heroConfig.inventory ? {})
-    heroConfig.inventory = inventory
-    heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # Temp: assign Tharin as the hero
-    @options.session.set 'heroConfig', heroConfig
-    @options.session.patch success: ->
-      _.defer ->
-        Backbone.Mediator.publish 'level:inventory-changed', {}

@@ -38,7 +38,3 @@ module.exports =
 
   'supermodel:load-progress-changed': c.object {required: ['progress']},
     progress: {type: 'number', minimum: 0, maximum: 1}
-
-  'options:hero-changed': c.object {required: ['hero']},
-    hero: {type: 'object'}
-    locked: {type: 'boolean'}
