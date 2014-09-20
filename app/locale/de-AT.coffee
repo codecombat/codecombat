@@ -131,6 +131,23 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     spectate: "Zuschauen"
     players: "Spieler"
     hours_played: "Stunden gespielt"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    play: "Play"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Kontaktiere CodeCombat"
@@ -452,10 +469,16 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     multiplayer_caption: "Spiele mit Freunden!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Gespeichert"
@@ -878,7 +901,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     tutorial_play_first: "Spiele zuerst das Tutorial."
     simple_ai: "Einfache KI"
     warmup: "Aufwärmen"
-    vs: "VS"
     friends_playing: "spielende Freunde"
     log_in_for_friends: "Melde dich an um mit deinen Freunden zu spielen!"
     social_connect_blurb: "Verbinde und spiele gegen deine Freunde!"
@@ -967,6 +989,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     user_remarks: "Benutzerkommentare"
     versions: "Versionen"
     items: "Gegenstände"
+#    heroes: "Heroes"
     wizard: "Zauberer"
     achievement: "Achievement"
     clas: "CLAs"

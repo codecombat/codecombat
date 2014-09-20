@@ -131,6 +131,23 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     spectate: "Spectator"
     players: "jucători"
     hours_played: "ore jucate"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    play: "Play"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -452,10 +469,16 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     multiplayer_caption: "Joaca cu prieteni!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +901,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tutorial_play_first: "Joacă Tutorial-ul mai întâi."
     simple_ai: "AI simplu"
     warmup: "Încălzire"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +989,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

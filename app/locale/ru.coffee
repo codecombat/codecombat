@@ -131,6 +131,23 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать"
     players: "игроки"
     hours_played: "часов сыграно"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    play: "Play"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -452,10 +469,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +901,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tutorial_play_first: "Сначала пройдите обучение."
     simple_ai: "Простой ИИ"
     warmup: "Разминка"
-    vs: "против"
     friends_playing: "Друзья в игре"
     log_in_for_friends: "Войти, чтобы поиграть с друзьями!"
     social_connect_blurb: "Свяжите учетную запись и  играйте против друзей!"
@@ -967,6 +989,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    user_remarks: "User Remarks"
     versions: "Версии"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

@@ -131,6 +131,23 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     spectate: "Observar"
     players: "jugadores"
     hours_played: "horas jugadas"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    play: "Play"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contacta con CodeCombat"
@@ -452,10 +469,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     multiplayer_caption: "Juega con amigos!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Salvado"
@@ -878,7 +901,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tutorial_play_first: "Prueba el Tutorial primero."
     simple_ai: "IA sencilla"
     warmup: "calentamiento"
-    vs: "VS"
     friends_playing: "Amigos jugando"
     log_in_for_friends: "¡Inicia sesión para jugar con tus amigos!"
     social_connect_blurb: "¡Conectate y juega contra tus amigos!"
@@ -967,6 +989,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    user_remarks: "User Remarks"
     versions: "Versiones"
     items: "Objetos"
+#    heroes: "Heroes"
     wizard: "Mago"
     achievement: "Logro"
 #    clas: "CLAs"

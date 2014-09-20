@@ -131,6 +131,23 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     spectate: "관중모드"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    play: "Play"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "코드컴뱃에 전할 말"
@@ -452,10 +469,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +901,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tutorial_play_first: "튜토리얼을 먼저 플레이해보세요."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
     log_in_for_friends: "로그인하시고 친구들과 게임을 즐기세요!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +989,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

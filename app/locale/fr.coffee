@@ -131,6 +131,23 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     spectate: "Spectateur"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    play: "Play"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contacter CodeCombat"
@@ -452,10 +469,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +901,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tutorial_play_first: "Jouer au Tutoriel d'abord."
     simple_ai: "IA simple"
     warmup: "Préchauffe"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
     log_in_for_friends: "Connectez vous pour jouer avec vos amis!"
     social_connect_blurb: "Connectez vous pour jouer contre vos amis!"
@@ -967,6 +989,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
