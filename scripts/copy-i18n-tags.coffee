@@ -2,14 +2,14 @@ fs = require 'fs'
 path = require 'path'
 en = require('../app/locale/en').translation
 
-en_source = fs.readFileSync(path.join(__dirname, '../app/locale/en.coffee'), encoding='utf8')
-comments_map = {}
+enSource = fs.readFileSync(path.join(__dirname, '../app/locale/en.coffee'), encoding='utf8')
+commentsMap = {}
 
-comment_pattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm
+commentPattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm
 
 comment = []
-while (comment = comment_pattern.exec en_source)?
-    comments_map[comment[1]] = comment[2]
+while (comment = commentPattern.exec enSource)?
+  commentsMap[comment[1]] = comment[2]
 
 dir = fs.readdirSync 'app/locale'
 for file in dir when not (file in ['locale.coffee', 'en.coffee'])
@@ -28,7 +28,7 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
       tag = (cat[enTag] ?= enString)
       tag = tag.replace /"/g, '\\"'
       comment = ""
-      comment = " \##{comments_map[enTag]}" if comments_map[enTag]?
+      comment = " \##{commentsMap[enTag]}" if commentsMap[enTag]?
 
       lines.push "#{if tagMissing then '#' else ''}    #{enTag}: \"#{tag}\"#{comment}"
   newContents = lines.join('\n') + '\n'
