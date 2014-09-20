@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     delay_5_sec: "5 segons"
     manual: "Manual"
     fork: "Fork"
-    play: "Jugar"
+    play: "Jugar" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    page_not_found: "Page not found"
 
   nav:
-    play: "Nivells"
+    play: "Nivells" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

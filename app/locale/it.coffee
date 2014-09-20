@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     delay_5_sec: "5 secondi"
     manual: "Manuale"
     fork: "Fork"
-    play: "Gioca"
+    play: "Gioca" # When used as an action verb, like "Play next level"
     retry: "Riprova"
     watch: "Guarda"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     page_not_found: "Pagina non trovata"
 
   nav:
-    play: "Livelli"
+    play: "Livelli" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

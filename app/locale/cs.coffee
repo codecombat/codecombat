@@ -13,7 +13,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     delay_5_sec: "5 vteřin"
     manual: "Ručně"
     fork: "Klonovat"
-    play: "Přehrát"
+    play: "Přehrát" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     page_not_found: "Stránka nenalezena"
 
   nav:
-    play: "Úrovně"
+    play: "Úrovně" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

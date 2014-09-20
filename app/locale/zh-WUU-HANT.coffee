@@ -13,7 +13,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     delay_5_sec: "5 秒"
     manual: "手動"
     fork: "派生"
-    play: "開來"
+    play: "開來" # When used as an action verb, like "Play next level"
     retry: "轉試"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     page_not_found: "頁面尋弗着"
 
   nav:
-    play: "遊戲開來"
+    play: "遊戲開來" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "編寫器"
     blog: "部落格"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

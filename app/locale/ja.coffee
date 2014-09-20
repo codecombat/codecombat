@@ -13,7 +13,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     delay_5_sec: "5秒"
     manual: "手動"
 #    fork: "Fork"
-    play: "ゲームスタート"
+    play: "ゲームスタート" # When used as an action verb, like "Play next level"
     retry: "リトライ"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     page_not_found: "ページが見つかりません"
 
   nav:
-    play: "ゲームスタート"
+    play: "ゲームスタート" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "レベルエディタ"
     blog: "ブログ"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

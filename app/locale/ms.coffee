@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    delay_5_sec: "5 seconds"
     manual: "Panduan"
 #    fork: "Fork"
-    play: "Mula"
+    play: "Mula" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     page_not_found: "Halaman tidak ditemui"
 
   nav:
-    play: "Mula"
+    play: "Mula" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
 #    editor: "Editor"
 #    blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

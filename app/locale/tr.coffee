@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     delay_5_sec: "5 saniye"
     manual: "El ile"
     fork: "Çatalla"
-    play: "Oyna"
+    play: "Oyna" # When used as an action verb, like "Play next level"
     retry: "Yeniden Dene"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     page_not_found: "Sayfa bulunamadı"
 
   nav:
-    play: "Oyna"
+    play: "Oyna" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Düzenleyici"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

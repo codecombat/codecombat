@@ -13,7 +13,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     delay_5_sec: "5 секунд"
     manual: "Інструкція"
     fork: "Форк"
-    play: "Грати"
+    play: "Грати" # When used as an action verb, like "Play next level"
     retry: "Повтор"
     watch: "Стежити"
     unwatch: "Нестежити"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     page_not_found: "Сторінку не знайдено"
 
   nav:
-    play: "Грати"
+    play: "Грати" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Редактор"
     blog: "Блог"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

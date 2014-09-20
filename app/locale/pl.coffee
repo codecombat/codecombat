@@ -13,7 +13,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     delay_5_sec: "5 sekund"
     manual: "Ręcznie"
     fork: "Fork"
-    play: "Graj"
+    play: "Graj" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     page_not_found: "Strona nie istnieje"
 
   nav:
-    play: "Graj"
+    play: "Graj" # The top nav bar entry where players choose which levels to play
     community: "Społeczność"
     editor: "Edytor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

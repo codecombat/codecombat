@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     delay_5_sec: "5 sekunder"
     manual: "Manuellt"
     fork: "Förgrena"
-    play: "Spela"
+    play: "Spela" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     page_not_found: "Sidan kan inte hittas"
 
   nav:
-    play: "Spela"
+    play: "Spela" # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Nivåredigerare"
     blog: "Blogg"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

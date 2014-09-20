@@ -13,7 +13,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     delay_5_sec: "5 secunde"
     manual: "Manual"
     fork: "Fork"
-    play: "Joacă"
+    play: "Joacă" # When used as an action verb, like "Play next level"
     retry: "Reîncearca"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     page_not_found: "Pagina nu a fost gasită"
 
   nav:
-    play: "Nivele"
+    play: "Nivele" # The top nav bar entry where players choose which levels to play
     community: "Communitate"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

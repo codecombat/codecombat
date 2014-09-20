@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     delay_5_sec: "5 δευτερόλεπτα"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play"
+#    play: "Play" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     page_not_found: "Η σελίδα δεν βρέθηκε"
 
   nav:
-    play: "Επίπεδα"
+    play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
     editor: "Συγγραφέας"
     blog: "Μπλόγκ"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

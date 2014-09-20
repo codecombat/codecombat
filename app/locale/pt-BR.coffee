@@ -13,7 +13,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     delay_5_sec: "5 segundos"
     manual: "Manual"
     fork: "Fork"
-    play: "Jogar"
+    play: "Jogar" # When used as an action verb, like "Play next level"
     retry: "Tente novamente"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     page_not_found: "Página não encontrada"
 
   nav:
-    play: "Jogar"
+    play: "Jogar" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

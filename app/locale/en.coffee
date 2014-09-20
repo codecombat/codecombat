@@ -13,7 +13,7 @@
     delay_5_sec: "5 seconds"
     manual: "Manual"
     fork: "Fork"
-    play: "Play"
+    play: "Play"  # When used as an action verb, like "Play next level"
     retry: "Retry"
     watch: "Watch"
     unwatch: "Unwatch"
@@ -43,7 +43,7 @@
     page_not_found: "Page not found"
 
   nav:
-    play: "Levels"
+    play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-    play: "Play"
+    play: "Play"  # The big play button that just starts playing a level
     old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
     old_browser_suffix: "You can try anyway, but it probably won't work."
     campaign: "Campaign"
@@ -138,7 +138,6 @@
     settings: "Settings"
     next: "Next"
     previous: "Previous"
-    play: "Play"
     choose_inventory: "Equip Items"
 
   items:

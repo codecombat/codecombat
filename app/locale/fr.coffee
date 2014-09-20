@@ -13,7 +13,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     delay_5_sec: "5 secondes"
     manual: "Manuel"
     fork: "Fork"
-    play: "Jouer"
+    play: "Jouer" # When used as an action verb, like "Play next level"
     retry: "Reessayer"
     watch: "Regarder"
     unwatch: "Ne plus regarder"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     page_not_found: "Page non trouvée"
 
   nav:
-    play: "Jouer"
+    play: "Jouer" # The top nav bar entry where players choose which levels to play
     community: "Communauté"
     editor: "Éditeur"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

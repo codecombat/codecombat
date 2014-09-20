@@ -13,7 +13,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     delay_5_sec: "5 sekúnd"
     manual: "Manuál"
 #    fork: "Fork"
-    play: "Hraj"
+    play: "Hraj" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     page_not_found: "Stránka nenájdená"
 
   nav:
-    play: "Hraj"
+    play: "Hraj" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

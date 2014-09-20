@@ -13,7 +13,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     delay_5_sec: "5 ثواني"
     manual: "يدوي"
     fork: "إنسخ"
-    play: "إلعب"
+    play: "إلعب" # When used as an action verb, like "Play next level"
     retry: "إعادة"
     watch: "مشاهدة"
     unwatch: "إنهاء المشاهدة"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     page_not_found: "الصفحة غير موجودة"
 
   nav:
-    play: "إلعب"
+    play: "إلعب" # The top nav bar entry where players choose which levels to play
     community: "مجتمع"
     editor: "محرّر"
     blog: "مدوّنة"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

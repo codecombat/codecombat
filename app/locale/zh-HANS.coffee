@@ -13,7 +13,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     delay_5_sec: "5 秒"
     manual: "手动"
     fork: "派生"
-    play: "开始"
+    play: "开始" # When used as an action verb, like "Play next level"
     retry: "重试"
     watch: "关注"
     unwatch: "取消关注"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   nav:
-    play: "开始游戏"
+    play: "开始游戏" # The top nav bar entry where players choose which levels to play
     community: "社区"
     editor: "编辑器"
     blog: "博客"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

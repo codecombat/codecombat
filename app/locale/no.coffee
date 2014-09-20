@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     delay_5_sec: "5 sekunder"
     manual: "Manuelt"
 #    fork: "Fork"
-    play: "Spill"
+    play: "Spill" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     page_not_found: "Finner ikke siden"
 
   nav:
-    play: "Spill"
+    play: "Spill" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blogg"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

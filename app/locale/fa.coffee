@@ -13,7 +13,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     delay_5_sec: "5 ثانیه"
     manual: "دستی"
 #    fork: "Fork"
-    play: "سطوح"
+    play: "سطوح" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     page_not_found: "صفحه پیدا نشد"
 
   nav:
-    play: "سطوح"
+    play: "سطوح" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "ویرایشگر"
     blog: "بلاگ"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

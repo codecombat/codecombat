@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     delay_5_sec: "5 secondes"
     manual: "Handleiding"
     fork: "Fork"
-    play: "Spelen"
+    play: "Spelen" # When used as an action verb, like "Play next level"
     retry: "Probeer opnieuw"
     watch: "Volgen"
     unwatch: "Ontvolgen"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     page_not_found: "Pagina niet gevonden"
 
   nav:
-    play: "Levels"
+    play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

@@ -13,7 +13,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     delay_5_sec: "5 segundos"
     manual: "Manual"
     fork: "Bifurcar"
-    play: "Jugar"
+    play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
     watch: "Mirar"
     unwatch: "Pasar"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     page_not_found: "Página no encontrada"
 
   nav:
-    play: "Jugar"
+    play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

@@ -13,7 +13,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     delay_5_sec: "5 секунди"
     manual: "Упутство"
 #    fork: "Fork"
-    play: "Нивои"
+    play: "Нивои" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     page_not_found: "Страница није нађена"
 
   nav:
-    play: "Нивои"
+    play: "Нивои" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Уређивач"
     blog: "Блог"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

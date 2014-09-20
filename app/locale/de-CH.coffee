@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     delay_5_sec: "5 sekunde"
     manual: "Aleitig"
 #    fork: "Fork"
-    play: "Spiele"
+    play: "Spiele" # When used as an action verb, like "Play next level"
     retry: "nomol versuche"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     page_not_found: "Siite nid gfunde"
 
   nav:
-    play: "Levels"
+    play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

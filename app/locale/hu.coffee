@@ -13,7 +13,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     delay_5_sec: "5 másodperc"
     manual: "Kézi"
 #    fork: "Fork"
-    play: "Játék"
+    play: "Játék" # When used as an action verb, like "Play next level"
     retry: "Próbáld újra!"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     page_not_found: "Az oldal nem található"
 
   nav:
-    play: "Játék"
+    play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
     editor: "Szerkesztő"
     blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

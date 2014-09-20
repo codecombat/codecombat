@@ -13,7 +13,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     delay_5_sec: "5 วินาที"
 #    manual: "Manual"
 #    fork: "Fork"
-    play: "เล่น"
+    play: "เล่น" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     page_not_found: "ขออภัย ไม่พบหน้าเว็บที่คุณต้องการ"
 
   nav:
-    play: "เล่น"
+    play: "เล่น" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "บล็อก"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

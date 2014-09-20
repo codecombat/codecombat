@@ -13,7 +13,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     delay_5_sec: "5 секунд"
     manual: "Вручную"
     fork: "Форк"
-    play: "Играть"
+    play: "Играть" # When used as an action verb, like "Play next level"
     retry: "Повторить"
     watch: "Следить"
     unwatch: "Не следить"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     page_not_found: "Страница не найдена"
 
   nav:
-    play: "Уровни"
+    play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     editor: "Редактор"
     blog: "Блог"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

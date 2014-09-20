@@ -13,7 +13,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     delay_5_sec: "5초"
     manual: "수동"
     fork: "Fork"
-    play: "시작"
+    play: "시작" # When used as an action verb, like "Play next level"
     retry: "재시도"
     watch: "보기"
     unwatch: "보기 해제"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     page_not_found: "페이지를 찾을 수 없습니다"
 
   nav:
-    play: "레벨"
+    play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
     editor: "에디터"
     blog: "블로그"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

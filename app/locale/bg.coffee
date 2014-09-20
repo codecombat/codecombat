@@ -13,7 +13,7 @@ module.exports = nativeDescription: "български език", englishDescri
     delay_5_sec: "5 секунди"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play"
+#    play: "Play" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "български език", englishDescri
     page_not_found: "Страницата не е намерена"
 
   nav:
-    play: "Нива"
+    play: "Нива" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Редактор"
     blog: "Блог"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "български език", englishDescri
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

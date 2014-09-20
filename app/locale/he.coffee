@@ -13,7 +13,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     delay_5_sec: "חמש שניות"
     manual: "מדריך"
     fork: "קילשון"
-    play: "שחק"
+    play: "שחק" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     page_not_found: "העמוד לא נמצא"
 
   nav:
-    play: "שלבים"
+    play: "שלבים" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "עורך"
     blog: "בלוג"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:

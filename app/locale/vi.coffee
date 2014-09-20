@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
 #    fork: "Fork"
-    play: "Các cấp độ"
+    play: "Các cấp độ" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     page_not_found: "không tìm thấy trang"
 
   nav:
-    play: "Các cấp độ"
+    play: "Các cấp độ" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Chỉnh sửa"
 #    blog: "Blog"
@@ -138,7 +138,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    settings: "Settings"
 #    next: "Next"
 #    previous: "Previous"
-#    play: "Play"
 #    choose_inventory: "Equip Items"
 
 #  items:
