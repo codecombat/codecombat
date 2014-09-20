@@ -13,6 +13,7 @@ module.exports = class ChooseHeroView extends CocoView
   events:
     'click #restart-level-confirm-button': -> Backbone.Mediator.publish 'level:restart', {}
     'slide.bs.carousel #hero-carousel': 'onHeroChanged'
+    'change #option-code-language': 'onCodeLanguageChanged'
 
   shortcuts:
     'left': -> @$el.find('#hero-carousel').carousel('prev')
@@ -36,7 +37,7 @@ module.exports = class ChooseHeroView extends CocoView
     context = super(context)
     context.heroes = @heroes.models
     context.level = @options.level
-    context.languages = [
+    context.codeLanguages = [
       {id: 'python', name: 'Python'}
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript'}
@@ -44,6 +45,7 @@ module.exports = class ChooseHeroView extends CocoView
       {id: 'lua', name: 'Lua (Experimental)'}
       {id: 'io', name: 'Io (Experimental)'}
     ]
+    context.codeLanguage = @codeLanguage = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     context.heroInfo = temporaryHeroInfo
     context
 
@@ -110,7 +112,9 @@ module.exports = class ChooseHeroView extends CocoView
 
   onHidden: ->
 
-
+  onCodeLanguageChanged: (e) ->
+    @codeLanguage = @$el.find('#option-code-language').val()
+    @codeLanguageChanged = true
 
 temporaryHeroInfo =
   captain:

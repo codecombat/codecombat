@@ -46,11 +46,11 @@ module.exports = class PlayLevelModal extends ModalView
   onHidden: ->
     unless @navigatingToPlay
       skipSessionSave = not @options.session.get('levelName')?  # Has to have been already started.
-      @updateHeroConfig null, skipSessionSave
+      @updateConfig null, skipSessionSave
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
     super()
 
-  updateHeroConfig: (callback, skipSessionSave) ->
+  updateConfig: (callback, skipSessionSave) ->
     sessionHeroConfig = @options.session.get('heroConfig') ? {}
     lastHeroConfig = me.get('heroConfig') ? {}
     thangType = @subviews.choose_hero_view.selectedHero.get 'original'
@@ -62,6 +62,13 @@ module.exports = class PlayLevelModal extends ModalView
       patchMe ||= not _.isEqual val, lastHeroConfig[key]
       sessionHeroConfig[key] = val
       lastHeroConfig[key] = val
+    if (codeLanguage = @subviews.choose_hero_view.codeLanguage) and @subviews.choose_hero_view.codeLanguageChanged
+      patchSession ||= codeLanguage isnt @options.session.get('codeLanguage')
+      patchMe ||= codeLanguage isnt me.get('aceConfig')?.language
+      @options.session.set 'codeLanguage', codeLanguage
+      aceConfig = me.get('aceConfig', true) ? {}
+      aceConfig.language = codeLanguage
+      me.set 'aceConfig', aceConfig
     if patchMe
       me.set 'heroConfig', lastHeroConfig
       me.patch()
@@ -81,7 +88,7 @@ module.exports = class PlayLevelModal extends ModalView
 
   onClickPlayLevel: (e) ->
     @showLoading()
-    @updateHeroConfig =>
+    @updateConfig =>
       @navigatingToPlay = true
       Backbone.Mediator.publish 'router:navigate', {
         route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}",

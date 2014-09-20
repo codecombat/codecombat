@@ -38,8 +38,8 @@
   .form-group.select-group
     label.control-label(for="option-code-language", data-i18n="choose_hero.programming_language") Programming Language
     select#option-code-language(name="code-language")
-      for option in languages
-        option(value=option.id, selected=(me.get('aceConfig', true).language === option.id))= option.name
+      for option in codeLanguages
+        option(value=option.id, selected=codeLanguage === option.id)= option.name
     span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
 
 if level

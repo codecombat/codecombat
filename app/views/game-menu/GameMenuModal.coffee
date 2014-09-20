@@ -43,11 +43,11 @@ module.exports = class GameMenuModal extends ModalView
   onHidden: ->
     super()
     subview.onHidden?() for subviewKey, subview of @subviews
-    patchingMe = @updateHeroConfig()
-    me.patch() unless patchingMe  # Might need to patch for options menu
+    patchingMe = @updateConfig()
+    me.patch() unless patchingMe  # Might need to patch for options menu, too
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
-  updateHeroConfig: ->
+  updateConfig: ->
     sessionHeroConfig = @options.session.get('heroConfig') ? {}
     lastHeroConfig = me.get('heroConfig') ? {}
     thangType = @subviews.choose_hero_view.selectedHero.get 'original'
@@ -59,6 +59,13 @@ module.exports = class GameMenuModal extends ModalView
       patchMe ||= not _.isEqual val, lastHeroConfig[key]
       sessionHeroConfig[key] = val
       lastHeroConfig[key] = val
+    if (codeLanguage = @subviews.choose_hero_view.codeLanguage) and @subviews.choose_hero_view.codeLanguageChanged
+      patchSession ||= codeLanguage isnt @options.session.get('codeLanguage')
+      patchMe ||= codeLanguage isnt me.get('aceConfig')?.language
+      @options.session.set 'codeLanguage', codeLanguage
+      aceConfig = me.get('aceConfig', true) ? {}
+      aceConfig.language = codeLanguage
+      me.set 'aceConfig', aceConfig
     if patchSession
       @options.session.set 'heroConfig', sessionHeroConfig
       @options.session.patch success: ->
