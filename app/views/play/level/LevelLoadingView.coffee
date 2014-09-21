@@ -5,7 +5,11 @@ module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
   template: template
 
+  events:
+    'click .start-level-button': 'onClickStartLevel'
+
   onLoaded: ->
+
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
@@ -19,12 +23,12 @@ module.exports = class LevelLoadingView extends CocoView
     ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')
     @$el.find('#tip-wrapper .tip').addClass('ready').text ready
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
+    @$el.find('.start-level-button').removeClass 'secret'
+
+  onClickStartLevel: (e) ->
+    @unveil()
 
   unveil: ->
-    _.delay @reallyUnveil, 1000
-
-  reallyUnveil: =>
-    return if @destroyed
     @$el.addClass 'unveiled'
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'

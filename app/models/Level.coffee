@@ -108,7 +108,6 @@ module.exports = class Level extends CocoModel
       for original, placeholderComponent of placeholders when not placeholdersUsed[original]
         levelThang.components.push placeholderComponent
 
-
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
     visit = (system) ->

@@ -418,6 +418,7 @@
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
+    loading_start: "Start Level"
     tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
     tip_toggle_play: "Toggle play/paused with Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

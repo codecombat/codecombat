@@ -60,7 +60,6 @@ module.exports = class PlayLevelView extends RootView
     'level:reload-thang-type': 'onLevelReloadThangType'
     'level:play-next-level': 'onPlayNextLevel'
     'level:edit-wizard-settings': 'showWizardSettingsModal'
-    'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
@@ -323,12 +322,12 @@ module.exports = class PlayLevelView extends RootView
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
-    @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->
     @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null
+    @restoreSessionState()
     unless @isEditorPreview
       @loadEndTime = new Date()
       loadDuration = @loadEndTime - @loadStartTime
@@ -336,7 +335,7 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
-  onSurfaceSetUpNewWorld: ->
+  restoreSessionState: ->
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState

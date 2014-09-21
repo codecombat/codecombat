@@ -24,6 +24,7 @@ module.exports = class God extends CocoClass
     @angelsShare =
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
+      spectate: options.spectate
       godNick: @nick
       workQueue: []
       firstWorld: true

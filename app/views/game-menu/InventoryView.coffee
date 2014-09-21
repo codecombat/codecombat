@@ -310,7 +310,7 @@ module.exports = class InventoryView extends CocoView
     necessaryGear = gearByLevel[@options.levelID]
     for slot, item of necessaryGear ? {}
       @equipment[slot] ?= gear[item]
-    @allowedItems = _.values gear if necessaryGear  # If it's one of these levels, don't show the extra items.
+    @allowedItems = _.union(_.values(gear), _.values(@equipment)) if necessaryGear  # If it's one of these levels, don't show the extra items.
 
   onHeroSelectionUpdated: (e) ->
     @selectedHero = e.hero

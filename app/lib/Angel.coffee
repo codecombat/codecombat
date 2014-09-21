@@ -92,7 +92,7 @@ module.exports = class Angel extends CocoClass
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
       when 'world-load-progress-changed'
         Backbone.Mediator.publish 'god:world-load-progress-changed', progress: event.data.progress
-        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or @shared.firstWorld
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 
       # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.

@@ -146,7 +146,6 @@ module.exports = Surface = class Surface extends CocoClass
     @showLevel()
     @updateState true if @loaded
     @onFrameChanged()
-    Backbone.Mediator.publish 'surface:world-set-up', {world: @world}
 
   showLevel: ->
     return if @destroyed

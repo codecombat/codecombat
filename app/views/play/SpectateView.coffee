@@ -44,7 +44,6 @@ module.exports = class SpectateLevelView extends RootView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
@@ -84,7 +83,7 @@ module.exports = class SpectateLevelView extends RootView
       opponentSessionID: @sessionTwo
       spectateMode: true
       team: @getQueryVariable('team')
-    @god = new God maxAngels: 1
+    @god = new God maxAngels: 1, spectate: true
 
   getRenderData: ->
     c = super()
@@ -161,12 +160,14 @@ module.exports = class SpectateLevelView extends RootView
       @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
-    @loadingView?.unveil()
+    go = => @loadingView?.unveil()
+    _.delay go, 1000
 
   onLoadingViewUnveiled: (e) ->
     # Don't remove it; we want its decoration around on large screens.
     #@removeSubView @loadingView
     #@loadingView = null
+    Backbone.Mediator.publish 'level:set-playing', playing: true
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -229,13 +230,6 @@ module.exports = class SpectateLevelView extends RootView
     volume = 1.0 unless volume?
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
-  onSurfaceSetUpNewWorld: ->
-    return if @alreadyLoadedState
-    @alreadyLoadedState = true
-    state = @originalSessionState
-    if state.playing?
-      Backbone.Mediator.publish 'level:set-playing', playing: state.playing
-
   register: -> return
 
   onSessionWillSave: (e) ->
@@ -259,6 +253,7 @@ module.exports = class SpectateLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
+    @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
     if @world.frames.length is @world.totalFrames  # Finished loading
