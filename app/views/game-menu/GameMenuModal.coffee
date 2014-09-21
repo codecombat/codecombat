@@ -23,6 +23,7 @@ module.exports = class GameMenuModal extends ModalView
     super options
     @options.showDevBits = me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
     @options.showInventory = @options.level.get('type', true) is 'hero'
+    @options.levelID = @options.level.get('slug')
 
   getRenderData: (context={}) ->
     context = super(context)

@@ -69,13 +69,13 @@ module.exports = class Level extends CocoModel
       heroThangType = session?.get('heroConfig')?.thangType
       levelThang.thangType = heroThangType if heroThangType
 
-    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType, (m) -> m.get('components')?)
 
     configs = {}
     for thangComponent in levelThang.components
       configs[thangComponent.original] = thangComponent
 
-    for defaultThangComponent in thangType.get('components') or []
+    for defaultThangComponent in thangType?.get('components') or []
       if levelThangComponent = configs[defaultThangComponent.original]
         # Take the ThangType default Components and merge level-specific Component config into it
         copy = $.extend true, {}, defaultThangComponent.config

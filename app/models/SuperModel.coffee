@@ -84,9 +84,9 @@ module.exports = class SuperModel extends Backbone.Model
     modelURL = modelURL() if _.isFunction(modelURL)
     return @models[modelURL] or null
 
-  getModelByOriginal: (ModelClass, original) ->
+  getModelByOriginal: (ModelClass, original, filter=null) ->
     _.find @models, (m) ->
-      m.get('original') is original and m.constructor.className is ModelClass.className
+      m.get('original') is original and m.constructor.className is ModelClass.className and (not filter or filter(m))
 
   getModelByOriginalAndMajorVersion: (ModelClass, original, majorVersion=0) ->
     _.find @models, (m) ->
