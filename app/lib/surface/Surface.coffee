@@ -34,7 +34,7 @@ module.exports = Surface = class Surface extends CocoClass
   currentFrame: 0
   lastFrame: null
   totalFramesDrawn: 0
-  playing: true  # play vs. pause
+  playing: false  # play vs. pause
   dead: false  # if we kill it for some reason
   imagesLoaded: false
   worldLoaded: false

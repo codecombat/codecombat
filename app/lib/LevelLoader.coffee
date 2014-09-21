@@ -56,6 +56,7 @@ module.exports = class LevelLoader extends CocoClass
   onLevelLoaded: ->
     @loadSession()
     @populateLevel()
+    Backbone.Mediator.publish 'level:loaded', level: @level, team: @team ? 'humans'
 
   # Session Loading
 

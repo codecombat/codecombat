@@ -160,7 +160,9 @@ module.exports = class SpectateLevelView extends RootView
       @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
-    go = => @loadingView?.unveil()
+    go = =>
+      @loadingView?.startUnveiling()
+      @loadingView?.unveil()
     _.delay go, 1000
 
   onLoadingViewUnveiled: (e) ->

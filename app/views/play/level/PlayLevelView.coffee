@@ -62,6 +62,7 @@ module.exports = class PlayLevelView extends RootView
     'level:edit-wizard-settings': 'showWizardSettingsModal'
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
+    'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
     'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -323,11 +324,13 @@ module.exports = class PlayLevelView extends RootView
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
 
+  onLoadingViewUnveiling: (e) ->
+    @restoreSessionState()
+
   onLoadingViewUnveiled: (e) ->
     @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null
-    @restoreSessionState()
     unless @isEditorPreview
       @loadEndTime = new Date()
       loadDuration = @loadEndTime - @loadStartTime
