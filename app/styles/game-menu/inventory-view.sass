@@ -77,11 +77,12 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
         height: 100%
         background-size: cover
         border: 2px solid #888
+        @include opacity(0.75)
 
       &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
         // My spooging of the other placeholders had them dimmed; these didn't.
         .placeholder
-          @include opacity(0.5)
+          @include opacity(0.35)
           border-color: black
       &.selected
         &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
@@ -151,16 +152,18 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     border: 2px solid #ccc
     padding: 4px
     background-color: white
-    
 
-    h3
-      margin-bottom: 5px
-      
-  .list-group-item.active
-    background-color: #e0f0f5
-    
-  .list-group-item.equipped
-    display: none
+  .list-group-item
+    padding: 8px 0
+    img
+      width: 50px
+      height: 50px
+      margin-right: 5px
+
+    &.active
+      background-color: #e0f0f5
+    &.equipped
+      display: none
     
   .item-view
     cursor: pointer
@@ -187,7 +190,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       height: -webkit-calc(50% - $selectedItemMargin / 2)
       height: calc(50% - $selectedItemMargin / 2)
       width: 100%
-      padding: 20px 10px 10px 10px
+      padding: 10px 5px 10px 10px
       
       img
         margin-top: 21px
@@ -199,6 +202,10 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
     #selected-equipped-item
       margin-bottom: $selectedItemMargin
+      padding-bottom: 20px
+
+    #selected-available-item
+      padding-top: 15px
       
     #swap-button
       position: absolute
