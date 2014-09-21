@@ -1,26 +1,125 @@
-$selected-area-height: 150px
 @import "../bootstrap/mixins"
+
+$totalWidth: 706px - 2 * 20px
+// We get 666px to play with from our parent modals.
+$inventoryHeight: 530px
+$equippedWidth: 450px
+$itemSlotMargin: 5px
+$itemSlotSize: ($equippedWidth - 6 * 2 * $itemSlotMargin) / 6
+$itemSlotSizeWithMargin: $itemSlotSize + 2 * $itemSlotMargin
+$heroContainerBottomMargin: 10px
+$heroContainerWidth: 4 * $itemSlotSizeWithMargin
+$heroContainerHeight: $inventoryHeight - 2 * $itemSlotSizeWithMargin - $heroContainerBottomMargin
+$selectedAreaHeight: 150px
+$stashMargin: 20px
+$stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
 #inventory-view
   position: relative
-  height: 600px
+  height: $inventoryHeight
   +user-select(none)
   
   h3
     margin: 0
+
+  .draggable-item
+    width: $itemSlotSize
+    height: $itemSlotSize
   
   #equipped
-    width: 75%
+    width: $equippedWidth
     position: absolute
     left: 0
     top: 0
-    bottom: $selected-area-height + 10
+    bottom: 0
+    //bottom: $selectedAreaHeight + 10
     right: 0
     overflow: scroll
+
+    .item-slot-row
+      //background-color: rgba(35, 112, 124, 0.5)
+      height: $itemSlotSizeWithMargin
+      clear: both
+      margin: 0px auto
+
+      &.row-4
+        width: 4 * $itemSlotSizeWithMargin
+
+    .item-slot-column
+      //background-color: rgba(112, 124, 35, 0.5)
+      width: $itemSlotSizeWithMargin
+      height: 4 * $itemSlotSizeWithMargin
+      float: left
+      margin-top: 30px
+      
+    .item-slot
+      width: $itemSlotSize
+      height: $itemSlotSize
+      margin: $itemSlotMargin
+      background-color: white
+      float: left
+      position: relative
+      cursor: pointer
+      
+      &.selected
+        .placeholder, .item-container .item-view img
+          border-color: #28f
+          @include box-shadow(0 0 10px #28f)
+
+      &.droppable
+        outline: 2px solid blue
+
+      &.droppable-hover
+        outline: 4px solid blue
+
+      .placeholder
+        width: 100%
+        height: 100%
+        background-size: cover
+        border: 2px solid #888
+
+      &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
+        // My spooging of the other placeholders had them dimmed; these didn't.
+        .placeholder
+          @include opacity(0.5)
+          border-color: black
+      &.selected
+        &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
+          .placeholder
+            border-color: #28f
+
+      .item-container
+        position: absolute
+        left: 0
+        top: 0
+
+        .item-view
+          img
+            width: $itemSlotSize
+            height: $itemSlotSize
+            border: 2px solid black
+            background-color: white
+
+          .item-info
+            display: none
     
     .item-slot.disabled
       opacity: 0.5
-    
+
+    .hero-container
+      //background-color: rgba(31, 0, 200, 0.25)
+      float: left
+
+      .equipped-hero-canvas
+        width: $heroContainerWidth
+        height: $heroContainerHeight
+
+    hr.slot-row-separator
+      clear: both
+      margin-top: 0
+      margin-bottom: $heroContainerBottomMargin / 2 - 1
+      border-top: 1px solid #aaa
+
     .panel
       text-align: center
       width: 31.3%
@@ -41,13 +140,18 @@ $selected-area-height: 150px
       font-size: 12px
 
   #available-equipment
-    width: 25%
+    width: $stashWidth
     position: absolute
     right: 0
     top: 0 
-    bottom: $selected-area-height + 10
+    bottom: 0
+    //bottom: $selectedAreaHeight + 10
     overflow: scroll
+    border: 2px solid #ccc
+    padding: 4px
+    background-color: white
     
+
     h3
       margin-bottom: 5px
       
@@ -62,7 +166,7 @@ $selected-area-height: 150px
     
   #selected-items
     position: absolute
-    height: $selected-area-height
+    height: $selectedAreaHeight
     left: 0
     right: 0
     bottom: 0
@@ -93,12 +197,12 @@ $selected-area-height: 150px
     #selected-available-item
       right: 0
 
-  $swap-item-height: 40px
+  $swapItemHeight: 40px
     
   #swap-button
     position: relative
-    top: ($selected-area-height / 2) - ($swap-item-height / 2)
-    height: $swap-item-height
+    top: ($selectedAreaHeight / 2) - ($swapItemHeight / 2)
+    height: $swapItemHeight
     font-size: 24px
     line-height: 24px
     display: inline-block

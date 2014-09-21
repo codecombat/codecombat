@@ -1,26 +1,64 @@
 div#equipped
-  h3 Equipped
-  - for (var i=0; i < slots.length; i += 3) {
-    div
-      - for (var j=i; j < slots.length && j < i + 3; j++) {
-        - var slot = slots[j];
-        div.panel.panel-default.item-slot(data-slot=slot)
-          .panel-heading
-            .panel-title.slot-name= slot
-          .panel-body.slot-item
-            if equipment[slot]
-              - var item = equipment[slot]
-              .replace-me(data-item-id=item.id)
-      - }
-      .clearfix
-  - }
+  .item-slot-row
+    for slot in ['left-ring', 'neck', 'eyes', 'head', 'wrists', 'right-ring']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].id)
+
+  .item-slot-column.pull-left
+    for slot in ['torso', 'gloves', 'left-hand', 'minion']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].id)
+
+  .hero-container
+    //(data-hero-id=hero.get('original'))
+    canvas.equipped-hero-canvas
+
+  .item-slot-column.pull-right
+    for slot in ['waist', 'feet', 'right-hand', 'pet']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].id)
+
+  hr.slot-row-separator
+
+  .item-slot-row.row-4
+    for slot in ['programming-book', 'spellbook', 'misc-0', 'misc-1']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].id)
+  
+
+  //- for (var i=0; i < slots.length; i += 3) {
+  //  div
+  //    - for (var j=i; j < slots.length && j < i + 3; j++) {
+  //      - var slot = slots[j];
+  //      div.panel.panel-default.item-slot(data-slot=slot)
+  //        .panel-heading
+  //          .panel-title.slot-name= slot
+  //        .panel-body.slot-item
+  //          if equipment[slot]
+  //            - var item = equipment[slot]
+  //            .replace-me(data-item-id=item.id)
+  //    - }
+  //    .clearfix
+  //- }
     
 div#available-equipment
-  h3 Stash
+  h4#stash-description
   for item in items
     .list-group-item(class=item.classes, data-item-id=item.id)
       
-div#selected-items
+div#selected-items.secret
   #selected-equipped-item.well
     .item-view-stub
   #selected-available-item.well

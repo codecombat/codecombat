@@ -4,6 +4,7 @@ template = require 'templates/game-menu/choose-hero-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+AudioPlayer = require 'lib/AudioPlayer'
 
 module.exports = class ChooseHeroView extends CocoView
   id: 'choose-hero-view'
@@ -16,8 +17,8 @@ module.exports = class ChooseHeroView extends CocoView
     'change #option-code-language': 'onCodeLanguageChanged'
 
   shortcuts:
-    'left': -> @$el.find('#hero-carousel').carousel('prev')
-    'right': -> @$el.find('#hero-carousel').carousel('next')
+    'left': -> @$el.find('#hero-carousel').carousel('prev') unless @$el.hasClass 'secret'
+    'right': -> @$el.find('#hero-carousel').carousel('next') unless @$el.hasClass 'secret'
 
   constructor: (options) ->
     super options
@@ -78,12 +79,14 @@ module.exports = class ChooseHeroView extends CocoView
     locked = heroInfo.status is 'Locked'
     hero = @loadHero hero, heroIndex
     @selectedHero = hero unless locked
+    Backbone.Mediator.publish 'level:hero-selection-updated', hero: @selectedHero
     $('#choose-inventory-button').prop 'disabled', locked
 
   loadHero: (hero, heroIndex) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
     if stage = @stages[heroIndex]
       createjs.Ticker.addEventListener 'tick', stage
+      @playSelectionSound hero
       return hero
     fullHero = new ThangType()
     fullHero.setURL "/db/thang.type/#{hero.get('original')}/version"
@@ -93,28 +96,47 @@ module.exports = class ChooseHeroView extends CocoView
       canvas.prop width: @canvasWidth, height: @canvasHeight
       builder = new SpriteBuilder(fullHero)
       movieClip = builder.buildMovieClip(fullHero.get('actions').attack?.animation ? fullHero.get('actions').idle.animation)
-      movieClip.scaleX = movieClip.scaleY = canvas.prop('height') / 170  # Tallest hero so far is 160px tall at normal resolution
+      movieClip.scaleX = movieClip.scaleY = canvas.prop('height') / 120  # Average hero height is ~110px tall at normal resolution
+      if fullHero.get('name') in ['Knight', 'Robot Walker']  # These are too big, so shrink them.
+        movieClip.scaleX *= 0.7
+        movieClip.scaleY *= 0.7
       movieClip.regX = -fullHero.get('positions').registration.x
       movieClip.regY = -fullHero.get('positions').registration.y
       movieClip.x = canvas.prop('width') * 0.5
-      movieClip.y = canvas.prop('height') * 0.85  # This is where the feet go.
+      movieClip.y = canvas.prop('height') * 0.925  # This is where the feet go.
       stage = new createjs.Stage(canvas[0])
       stage.addChild movieClip
       stage.update()
       createjs.Ticker.addEventListener 'tick', stage
       movieClip.gotoAndPlay 0
       @stages[heroIndex] = stage
+      @playSelectionSound hero
     if fullHero.loaded
       _.defer onLoaded
     else
       @listenToOnce fullHero, 'sync', onLoaded
     fullHero
 
-  onHidden: ->
+  playSelectionSound: (hero) ->
+    return if @$el.hasClass 'secret'
+    @currentSoundInstance?.stop()
+    return unless sounds = hero.get('soundTriggers')?.selected
+    return unless sound = sounds[Math.floor Math.random() * sounds.length]
+    name = AudioPlayer.nameForSoundReference sound
+    AudioPlayer.preloadSoundReference sound
+    @currentSoundInstance = AudioPlayer.playSound name, 1
+    @currentSoundInstance
 
   onCodeLanguageChanged: (e) ->
     @codeLanguage = @$el.find('#option-code-language').val()
     @codeLanguageChanged = true
+
+  onShown: ->
+    # Called when we switch tabs to this within the modal
+
+  onHidden: ->
+    # Called when the modal itself is dismissed
+
 
 temporaryHeroInfo =
   captain:

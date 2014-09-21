@@ -15,6 +15,9 @@ module.exports = class PlayLevelModal extends ModalView
     'click #choose-hero-button': 'onClickChooseHero'
     'click #play-level-button': 'onClickPlayLevel'
 
+  shortcuts:
+    'enter': 'onEnterPressed'
+
   constructor: (options) ->
     super options
     @options.showDevBits = true
@@ -42,6 +45,7 @@ module.exports = class PlayLevelModal extends ModalView
     @insertSubView @chooseHeroView = new ChooseHeroView @options
     @insertSubView @inventoryView = new InventoryView @options
     @inventoryView.$el.addClass 'secret'
+    @chooseHeroView.onShown()
 
   onHidden: ->
     unless @navigatingToPlay
@@ -81,10 +85,13 @@ module.exports = class PlayLevelModal extends ModalView
   onClickChooseInventory: (e) ->
     @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').addClass 'secret'
     @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').removeClass 'secret'
+    @inventoryView.selectedHero = @chooseHeroView.selectedHero
+    @inventoryView.onShown()
 
   onClickChooseHero: (e) ->
     @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').removeClass 'secret'
     @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').addClass 'secret'
+    @chooseHeroView.onShown()
 
   onClickPlayLevel: (e) ->
     @showLoading()
@@ -94,3 +101,6 @@ module.exports = class PlayLevelModal extends ModalView
         route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}",
         viewClass: PlayLevelView,
         viewArgs: [{supermodel: @supermodel}, @options.levelID]}
+
+  onEnterPressed: (e) ->
+    (if @chooseHeroView.$el.hasClass('secret') then @onClickPlayLevel else @onClickChooseInventory).apply @

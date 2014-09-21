@@ -100,9 +100,9 @@ module.exports = class MultiplayerView extends CocoView
           @currentMultiplayerSession = ms
           @currentMultiplayerSession.on 'change', @onMultiplayerSessionChanged
           Backbone.Mediator.publish 'real-time-multiplayer:joined-game', session: @currentMultiplayerSession
-    
+
   onMultiplayerSessionAdded: (e) =>
-    console.log 'onMultiplayerSessionAdded', e
+    #console.log 'onMultiplayerSessionAdded', e
     @initMultiplayerSession e
     @render()
 
