@@ -109,6 +109,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     .hero-container
       //background-color: rgba(31, 0, 200, 0.25)
       float: left
+      position: relative
 
       .equipped-hero-canvas
         width: $heroContainerWidth
@@ -165,44 +166,48 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     cursor: pointer
     
   #selected-items
+    $selectedItemsContainerMargin: 20px
+    $selectedItemMargin: 10px
+    $selectedItemImageSize: 75px
+    $swapItemHeight: 40px
+    $swapItemWidth: 60px
+
     position: absolute
-    height: $selectedAreaHeight
-    left: 0
-    right: 0
-    bottom: 0
+    top: $selectedItemsContainerMargin
+    right: $selectedItemsContainerMargin
+    bottom: $selectedItemsContainerMargin + $heroContainerBottomMargin
+    left: $selectedItemsContainerMargin
     text-align: center
 
     #selected-equipped-item, #selected-available-item
       text-align: left
-      position: absolute
-      bottom: 0
-      top: 0
       overflow: scroll
-      padding: 10px
-      height: 100%
-      width: 49%
-      display: flex
-      align-items: center
+      margin: 0
+      height: 48.4%
+      height: -webkit-calc(50% - $selectedItemMargin / 2)
+      height: calc(50% - $selectedItemMargin / 2)
+      width: 100%
+      padding: 20px 10px 10px 10px
       
       img
-        width: 100px
-        height: 100px
+        margin-top: 21px
+        width: $selectedItemImageSize
+        height: $selectedItemImageSize
         
       .item-info
-        margin-left: 110px
-      
-    #selected-equipped-item
-      left: 0
-    
-    #selected-available-item
-      right: 0
+        margin-left: $selectedItemImageSize + 10px
 
-  $swapItemHeight: 40px
-    
-  #swap-button
-    position: relative
-    top: ($selectedAreaHeight / 2) - ($swapItemHeight / 2)
-    height: $swapItemHeight
-    font-size: 24px
-    line-height: 24px
-    display: inline-block
+    #selected-equipped-item
+      margin-bottom: $selectedItemMargin
+      
+    #swap-button
+      position: absolute
+      top: 50%
+      left: 50%
+      margin-top: -($swapItemHeight / 2)
+      margin-left: -($swapItemWidth / 2)
+      width: $swapItemWidth
+      height: $swapItemHeight
+      font-size: 24px
+      line-height: 24px
+      display: inline-block

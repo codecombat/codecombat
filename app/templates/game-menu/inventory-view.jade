@@ -1,4 +1,4 @@
-div#equipped
+#equipped
   .item-slot-row
     for slot in ['left-ring', 'neck', 'eyes', 'head', 'wrists', 'right-ring']
       .item-slot(data-slot=slot)
@@ -18,6 +18,13 @@ div#equipped
   .hero-container
     //(data-hero-id=hero.get('original'))
     canvas.equipped-hero-canvas
+    #selected-items
+      #selected-equipped-item.well
+        .item-view-stub
+      #selected-available-item.well
+        .item-view-stub
+      button#swap-button.btn.btn-danger
+        span.glyphicon.glyphicon-transfer
 
   .item-slot-column.pull-right
     for slot in ['waist', 'feet', 'right-hand', 'pet']
@@ -52,16 +59,9 @@ div#equipped
   //    - }
   //    .clearfix
   //- }
-    
-div#available-equipment
+
+#available-equipment
   h4#stash-description
   for item in items
     .list-group-item(class=item.classes, data-item-id=item.id)
       
-div#selected-items.secret
-  #selected-equipped-item.well
-    .item-view-stub
-  #selected-available-item.well
-    .item-view-stub
-  button#swap-button.btn.btn-danger
-    span.glyphicon.glyphicon-transfer

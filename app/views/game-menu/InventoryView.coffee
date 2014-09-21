@@ -103,6 +103,7 @@ module.exports = class InventoryView extends CocoView
           hoverClass: 'droppable-hover'
           tolerance: 'pointer'
 
+    @$el.find('#selected-items').hide()  # Hide until one is selected
     @delegateEvents()
 
   afterInsert: ->
@@ -120,13 +121,17 @@ module.exports = class InventoryView extends CocoView
     wasActive = slot.hasClass('selected')
     @unselectAllSlots()
     @unselectAllAvailableEquipment() if slot.hasClass('disabled')
-    @selectSlot(slot) unless wasActive  # and not $(e.target).closest('.item-view')[0]
+    if wasActive
+      @hideSelectedSlotItem()
+    else
+      @selectSlot(slot)
     @onSelectionChanged()
 
   onAvailableItemClick: (e) ->
     itemContainer = $(e.target).closest('.list-group-item')
+    wasActive = itemContainer.hasClass 'active'
     @unselectAllAvailableEquipment()
-    @selectAvailableItem(itemContainer)
+    @selectAvailableItem(itemContainer) unless wasActive
     @onSelectionChanged()
 
   onAvailableItemDoubleClick: (e) ->
@@ -242,28 +247,30 @@ module.exports = class InventoryView extends CocoView
       @selectedEquippedItemView = new ItemView({
         item: item, includes: {name: true, stats: true, props: true}})
       @insertSubView(@selectedEquippedItemView, @$el.find('#selected-equipped-item .item-view-stub'))
-
     else
       @selectedEquippedItemView.$el.show()
       @selectedEquippedItemView.item = item
       @selectedEquippedItemView.render()
+    @$el.find('#selected-items').show()
 
   hideSelectedSlotItem: ->
     @selectedEquippedItemView?.$el.hide()
+    @$el.find('#selected-items').hide() unless @selectedEquippedItemView?.$el?.is(':visible')
 
   showSelectedAvailableItem: (item) ->
     if not @selectedAvailableItemView
       @selectedAvailableItemView = new ItemView({
         item: item, includes: {name: true, stats: true, props: true}})
       @insertSubView(@selectedAvailableItemView, @$el.find('#selected-available-item .item-view-stub'))
-
     else
       @selectedAvailableItemView.$el.show()
       @selectedAvailableItemView.item = item
       @selectedAvailableItemView.render()
+    @$el.find('#selected-items').show()
 
   hideSelectedAvailableItem: ->
     @selectedAvailableItemView?.$el.hide()
+    @$el.find('#selected-items').hide() unless @selectedEquippedItemView?.$el?.is(':visible')
 
   getCurrentEquipmentConfig: ->
     config = {}
