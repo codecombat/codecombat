@@ -53,8 +53,10 @@ module.exports = class ControlBarView extends CocoView
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.get('type') is 'ladder'
     c.spectateGame = @spectateGame
-    if @level.get('type') in ['ladder', 'ladder-tutorial']
+    if @level.get('type', true) in ['ladder', 'ladder-tutorial']
       c.homeLink = '/play/ladder/' + @level.get('slug').replace /\-tutorial$/, ''
+    else if @level.get('type', true) is 'hero'
+      c.homeLink = '/play-hero'
     else
       c.homeLink = '/'
     c.editorLink = "/editor/level/#{@level.get('slug')}"

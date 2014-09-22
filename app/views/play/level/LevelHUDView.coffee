@@ -146,7 +146,11 @@ module.exports = class LevelHUDView extends CocoView
   createProperties: ->
     props = @$el.find('.thang-props')
     props.find(':not(.thang-name)').remove()
-    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
+    if @thang.id is 'Hero Placeholder'
+      name = {knight: 'Tharin', captain: 'Anya'}[@thang.type] ? 'Hero'
+    else
+      name = if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id
+    props.find('.thang-name').text name
     propNames = _.without @thang.hudProperties ? [], 'action'
     nColumns = Math.ceil propNames.length / 5
     columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])

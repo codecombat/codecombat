@@ -8,15 +8,15 @@ module.exports = class CastButtonView extends CocoView
 
   events:
     'click .cast-button': 'onCastButtonClick'
-    'click .cast-real-time-button': 'onCastRealTimeButtonClick'
+    'click .submit-button': 'onCastRealTimeButtonClick'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
     'tome:cast-spells': 'onCastSpells'
-    'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'goal-manager:new-goal-states': 'onNewGoalStates'
 
   constructor: (options) ->
     super options
@@ -37,11 +37,11 @@ module.exports = class CastButtonView extends CocoView
   afterRender: ->
     super()
     @castButton = $('.cast-button', @$el)
-    @castButtonGroup = $('.cast-button-group', @$el)
     @castOptions = $('.autocast-delays', @$el)
     #delay = me.get('autocastDelay')  # No more autocast
     delay = 90019001
     @setAutocastDelay delay
+    @$el.find('.submit-button').hide() if @options.levelID is 'dungeons-of-kithgard'
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
@@ -71,12 +71,6 @@ module.exports = class CastButtonView extends CocoView
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast', volume: 0.5
     @hasStartedCastingOnce = true
     @updateCastButton()
-    @onWorldLoadProgressChanged progress: 0
-
-  onWorldLoadProgressChanged: (e) ->
-    return # trying out showing progress on the canvas instead
-    overlay = @castButtonGroup.find '.button-progress-overlay'
-    overlay.css 'width', e.progress * @castButton.outerWidth() + 1
 
   onNewWorld: (e) ->
     @casting = false
@@ -85,6 +79,12 @@ module.exports = class CastButtonView extends CocoView
     @hasCastOnce = true
     @updateCastButton()
 
+  onNewGoalStates: (e) ->
+    @winnable = e.overallStatus is 'success'
+    @$el.toggleClass 'winnable', @winnable
+    if @winnable
+      @$el.find('.submit-button').show()  # In case we hid it, like on the first level.
+
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
 
@@ -92,13 +92,13 @@ module.exports = class CastButtonView extends CocoView
       spell.hasChangedSignificantly spell.getSource(), null, callback
     , (castable) =>
       Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
-      @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
+      @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
       if @casting
-        s = $.i18n.t('play_level.tome_cast_button_casting', defaultValue: 'Casting')
+        s = $.i18n.t('play_level.tome_cast_button_running')
       else if castable
-        s = $.i18n.t('play_level.tome_cast_button_castable', defaultValue: 'Cast Spell') + ' ' + @castShortcut
+        s = $.i18n.t('play_level.tome_cast_button_run') + ' ' + @castShortcut
       else
-        s = $.i18n.t('play_level.tome_cast_button_cast', defaultValue: 'Spell Cast')
+        s = $.i18n.t('play_level.tome_cast_button_ran')
       @castButton.text s
       @castButton.prop 'disabled', not castable
 

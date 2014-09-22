@@ -587,7 +587,7 @@ hero = [
     difficulty: 1
     id: 'kithgard-gates'
     image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
-    description: 'Board up Kithguard and escape into the forest.'
+    description: 'Escape the Kithgard dungeons and don\'t let the guardians get you.'
     x: 47.38
     y: 70.55
   }

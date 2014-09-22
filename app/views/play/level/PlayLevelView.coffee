@@ -430,7 +430,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show()
+    $('#level-done-button').show() unless @level.get('type', true) is 'hero'
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
     return if @victorySeen
@@ -584,8 +584,12 @@ module.exports = class PlayLevelView extends RootView
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
-    if @world.frames.length is @world.totalFrames  # Finished loading
+    finishedLoading = @world.frames.length is @world.totalFrames
+    if finishedLoading
       @lastWorldFramesLoaded = 0
+      if @waitingForSubmissionComplete
+        @onSubmissionComplete()
+        @waitingForSubmissionComplete = false
     else
       @lastWorldFramesLoaded = @world.frames.length
     for [spriteName, message] in @world.thangDialogueSounds startFrame
@@ -605,7 +609,15 @@ module.exports = class PlayLevelView extends RootView
   onRealTimePlaybackEnded: (e) ->
     @$el.removeClass 'real-time'
     @onWindowResize()
+    if @world.frames.length is @world.totalFrames
+      _.delay @onSubmissionComplete, 750  # Wait for transition to end.
+    else
+      @waitingForSubmissionComplete = true
     @onRealTimeMultiplayerPlaybackEnded()
+
+  onSubmissionComplete: =>
+    return if @destroyed
+    @showVictory() if @goalManager.checkOverallStatus() is 'success'
 
   destroy: ->
     @levelLoader?.destroy()
@@ -613,7 +625,7 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
-    @ambientSound.stop()
+    @ambientSound?.stop()
     $(window).off 'resize', @onWindowResize
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
