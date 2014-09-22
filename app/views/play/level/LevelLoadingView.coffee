@@ -23,10 +23,17 @@ module.exports = class LevelLoadingView extends CocoView
 
   onLevelLoaded: (e) ->
     @level = e.level
-    goalList = @$el.find('.level-loading-goals').removeClass('secret').find('ul')
+    goalContainer = @$el.find('.level-loading-goals')
+    goalList = goalContainer.find('ul')
+    goalCount = 0
     for goalID, goal of @level.get('goals') when (not goal.team or goal.team is e.team) and not goal.hiddenGoal
       name = utils.i18n goal, 'name'
       goalList.append $('<li class="list-group-item header-font">' + name + '</li>')
+      ++goalCount
+    if goalCount
+      goalContainer.removeClass('secret')
+      if goalCount is 1
+        goalContainer.find('.panel-heading').text $.i18n.t 'play_level.goal'  # Not plural
 
   showReady: ->
     return if @shownReady

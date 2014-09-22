@@ -8,6 +8,7 @@ multiplayerFlagDelay = 0.5  # Long, static second delay for now; should be more 
 module.exports = class LevelFlagsView extends CocoView
   id: 'level-flags-view'
   template: template
+  className: 'secret'
 
   subscriptions:
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
