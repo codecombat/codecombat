@@ -74,7 +74,10 @@ module.exports.setup = (app) ->
 
   sendSelf = (req, res) ->
     res.setHeader('Content-Type', 'text/json')
-    res.send(UserHandler.formatEntity(req, req.user))
+    if req.query.callback
+      res.jsonp UserHandler.formatEntity(req, req.user, true)
+    else
+      res.send UserHandler.formatEntity(req, req.user, false)
     res.end()
 
   app.post('/auth/logout', (req, res) ->

@@ -30,13 +30,13 @@ UserHandler = class UserHandler extends Handler
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
-  formatEntity: (req, document) =>
+  formatEntity: (req, document, publicOnly=false) =>
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
-    includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
+    includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id)))
     delete obj[prop] for prop in @privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
+    includeCandidate = not publicOnly and (includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj))
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
