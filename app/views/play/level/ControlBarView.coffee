@@ -32,7 +32,6 @@ module.exports = class ControlBarView extends CocoView
     @worldName = options.worldName
     @session = options.session
     @level = options.level
-    @playableTeams = options.playableTeams
     @spectateGame = options.spectateGame ? false
     super options
 
@@ -83,7 +82,7 @@ module.exports = class ControlBarView extends CocoView
     @guideHighlightInterval = null
 
   showGameMenuModal: ->
-    @openModalView new GameMenuModal level: @level, session: @session, playableTeams: @playableTeams
+    @openModalView new GameMenuModal level: @level, session: @session
 
   onJoinedRealTimeMultiplayerGame: (e) ->
     @multiplayerSession = e.session

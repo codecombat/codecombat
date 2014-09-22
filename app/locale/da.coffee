@@ -13,7 +13,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     delay_5_sec: "5 sekunder"
     manual: "Manual"
     fork: "Forgren"
-    play: "Spil"
+    play: "Spil" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     page_not_found: "Siden blev ikke fundet"
 
   nav:
-    play: "Spil"
+    play: "Spil" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     slogan: "Lær at Kode ved at Spille et Spil"
     no_ie: "CodeCombat kan desværre ikke køre i Internet Explorer 9 eller ældre. Beklager!"
     no_mobile: "CodeCombat er ikke designet til mobile enheder og vil måske ikke virke!"
-    play: "Spil"
+    play: "Spil" # The big play button that just starts playing a level
     old_browser: "Åh åh, din browser er for gammel til at køre CodeCombat. Beklager!"
     old_browser_suffix: "Du kan godt prøve alligevel, men det vil nok ikke virke."
     campaign: "Kampagne"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     spectate: "Observér"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Kontakt CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

@@ -1,5 +1,6 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
 
 $forestMapWidth: 2500
 $forestMapHeight: 1536
@@ -12,7 +13,18 @@ $levelDotShadowWidth: 0.8 * $levelDotWidth
 $levelDotShadowHeight: 0.8 * $levelDotHeight
 $levelClickRadius: 40px
 $gameControlSize: 80px
-$gameControlMargin: 40px
+$gameControlMargin: 30px
+
++keyframes(levelStartedPulse)
+  from
+    @include box-shadow(0px 0px 4px #333)
+    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+  50%
+    @include box-shadow(0px 0px 22px skyblue)
+    margin-bottom: -$levelDotHeight / 3 + ($levelDotHoverZ + $levelDotZ) / 2
+  to
+    @include box-shadow(0px 0px 4px #333)
+    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
 
 #world-map-view
   width: 100%
@@ -20,7 +32,6 @@ $gameControlMargin: 40px
   background-color: $forestMapSeaBackground
 
   .map
-    //background: white url("/images/pages/play/map_forest.jpg") no-repeat center center
     position: relative
 
     .map-background
@@ -44,11 +55,25 @@ $gameControlMargin: 40px
       &.disabled
         opacity: 0.7
 
-      &.first
+      &.next
         width: 2 * $levelDotWidth
         height: 2 * $levelDotHeight
         margin-left: -0.5 * 2 * $levelDotWidth
         margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotZ
+
+      &.started, &.next
+        border: 3px solid lightgreen
+        @include box-shadow(0px 0px 35px skyblue)
+
+        // Would be cool, but kills performance, since we have to re-render all the time.
+        //&:not(:hover)
+        //  -webkit-animation-name: levelStartedPulse
+        //  -webkit-animation-duration: 3s
+        //  -webkit-animation-iteration-count: infinite
+
+      &.complete
+        border: 3px solid gold
+        @include box-shadow(0px 0px 35px skyblue)
 
     .level-shadow
       z-index: 1
@@ -57,10 +82,10 @@ $gameControlMargin: 40px
       margin-left: -0.5 * $levelDotShadowWidth
       margin-bottom: -$levelDotShadowHeight / 3
       background-color: black
-      box-shadow: 0px 0px 10px black
+      @include box-shadow(0px 0px 10px black)
       @include opacity(0.75)
 
-      &.first
+      &.next
         width: 2 * $levelDotShadowWidth
         height: 2 * $levelDotShadowHeight
         margin-left: -0.5 * 2 * $levelDotShadowWidth
@@ -68,6 +93,10 @@ $gameControlMargin: 40px
 
     .level:hover
       margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
+      @include box-shadow(0px 0px 35px skyblue)
+
+      &.next
+        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotHoverZ
 
     .level
       a
@@ -77,7 +106,7 @@ $gameControlMargin: 40px
         margin-top: -0.5 * $levelClickRadius
         border-radius: $levelClickRadius
 
-      &.first a
+      &.next a
         padding: 2 * $levelClickRadius
         margin-left: 2 * -0.5 * $levelClickRadius
         margin-top: 2 * -0.5 * $levelClickRadius
@@ -122,6 +151,7 @@ $gameControlMargin: 40px
     position: absolute
     right: 1%
     bottom: 1%
+    z-index: 3
 
     button.btn
       &:not(:first-child)
@@ -131,15 +161,15 @@ $gameControlMargin: 40px
       background: url(/images/pages/play/menu_icons.png) no-repeat
       background-size: cover
       @include transition(0.5s ease)
-      box-shadow: 0 0 0 #bbf
+      @include box-shadow(2px 2px 4px black)
       border: 0
       border-radius: 12px
       
       &:hover
-        box-shadow: 0 0 12px #bbf
+        @include box-shadow(0 0 12px #bbf)
 
       &:active
-        box-shadow: 0 0 20px white
+        @include box-shadow(0 0 20px white)
       
       &.heroes
         background-position-x: -1 * $gameControlSize
@@ -149,3 +179,6 @@ $gameControlMargin: 40px
         background-position-x: -3 * $gameControlSize
       &.settings
         background-position-x: -4 * $gameControlSize
+
+    .tooltip
+      font-size: 24px

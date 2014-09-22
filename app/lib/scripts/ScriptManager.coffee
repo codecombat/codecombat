@@ -28,7 +28,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   subscriptions:
     'script:end-current-script': 'onEndNoteGroup'
-    'level:started': -> @setWorldLoading(false)
+    'level:loading-view-unveiling': -> @setWorldLoading(false)
     'level:restarted': 'onLevelRestarted'
     'level:shift-space-pressed': 'onEndNoteGroup'
     'level:escape-pressed': 'onEndAll'

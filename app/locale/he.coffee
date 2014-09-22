@@ -13,7 +13,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     delay_5_sec: "חמש שניות"
     manual: "מדריך"
     fork: "קילשון"
-    play: "שחק"
+    play: "שחק" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     page_not_found: "העמוד לא נמצא"
 
   nav:
-    play: "שלבים"
+    play: "שלבים" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "עורך"
     blog: "בלוג"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     slogan: "גם לשחק וגם ללמוד לתכנת"
     no_ie: "המשחק לא עובד באקפלורר 9 וישן יותר. סליחה!"
     no_mobile: "המשחק לא עוצב לטלפונים ואולי לא יעבוד"
-    play: "שחק"
+    play: "שחק" # The big play button that just starts playing a level
     old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!"
     old_browser_suffix: "אתה יכול לנסות בכול מקרה אבל זה כנראה לא יעבוד."
     campaign: "מסע"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     spectate: "צופה"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "צור קשר"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

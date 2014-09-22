@@ -13,7 +13,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     delay_5_sec: "5 secunde"
     manual: "Manual"
     fork: "Fork"
-    play: "Joacă"
+    play: "Joacă" # When used as an action verb, like "Play next level"
     retry: "Reîncearca"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     page_not_found: "Pagina nu a fost gasită"
 
   nav:
-    play: "Nivele"
+    play: "Nivele" # The top nav bar entry where players choose which levels to play
     community: "Communitate"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     slogan: "Învață sa scrii cod jucându-te"
     no_ie: "CodeCombat nu merge pe Internet Explorer 9 sau mai vechi. Scuze!"
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargă!"
-    play: "Joacă"
+    play: "Joacă" # The big play button that just starts playing a level
     old_browser: "Mda , browser-ul tău este prea vechi pentru CodeCombat. Scuze!"
     old_browser_suffix: "Poți să încerci oricum ,dar probabil nu o să meargă."
     campaign: "Campanie"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     spectate: "Spectator"
     players: "jucători"
     hours_played: "ore jucate"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     multiplayer_caption: "Joaca cu prieteni!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tutorial_play_first: "Joacă Tutorial-ul mai întâi."
     simple_ai: "AI simplu"
     warmup: "Încălzire"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

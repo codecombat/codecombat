@@ -1,19 +1,19 @@
-module.exports = nativeDescription: "ελληνικά", englishDescription: "Greek", translation:
+module.exports = nativeDescription: "Ελληνικά", englishDescription: "Greek", translation:
   common:
     loading: "Φορτώνει..."
-    saving: "Γίνεται αποθήκευση"
-    sending: "Αποστολή ..."
-#    send: "Send"
+    saving: "Αποθήκευση..."
+    sending: "Αποστολή..."
+    send: "Στείλε"
     cancel: "Ακύρωση"
     save: "Αποθήκευση"
-    publish: "Δημοσιοποίηση"
+    publish: "Δημοσίευση"
     create: "Δημιουργία"
     delay_1_sec: "1 δευτερόλεπτο"
     delay_3_sec: "3 δευτερόλεπτα"
     delay_5_sec: "5 δευτερόλεπτα"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play"
+#    play: "Play" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,23 +43,23 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     page_not_found: "Η σελίδα δεν βρέθηκε"
 
   nav:
-    play: "Επίπεδα"
-#    community: "Community"
-#    editor: "Editor"
+    play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
+    community: "Κοινότητα"
+    editor: "Συγγραφέας"
     blog: "Μπλόγκ"
     forum: "Φόρουμ"
     account: "Λογαριασμός"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    profile: "Προφίλ"
+    stats: "Στατιστικά"
+    code: "Κώδικας"
     admin: "Διαχειριστής"
     home: "Αρχική"
-    contribute: "Συμβάλλω"
-    legal: "Νόμιμο"
+    contribute: "Συνεισφέρω"
+    legal: "Νόμικά"
     about: "Σχετικά με"
-    contact: "Επικοίνωνω"
-    twitter_follow: "Follow"
-#    employers: "Employers"
+    contact: "Επικοινωνία"
+    twitter_follow: "Ακολούθησε"
+    employers: "Εργοδότες"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     slogan: "Μάθε να προγραμμάτιζεις με JavaScript μέσω ενός παιχνιδιού"
     no_ie: "Το CodeCombat δεν παίζει με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση. Συγνώμη!"
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!"
-    play: "Παίξε"
+    play: "Παίξε" # The big play button that just starts playing a level
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξετε το CodeCombat. Συγνώμη!"
     old_browser_suffix: "Μπορείτε να δοκιμάσετε, αλλά πιθανών να μην λειτουργήσει."
     campaign: "Εκστρατεία"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Επικοινωνήστε μαζί μας"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

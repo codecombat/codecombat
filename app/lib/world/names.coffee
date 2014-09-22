@@ -318,7 +318,7 @@ module.exports.thangNames = thangNames =
   'Griffin Rider': [
     'Aeoldan'
     'Bestarius'
-
+    'Letholdus'
   ]
   'Potion Master': [
     'Snake'
@@ -373,4 +373,6 @@ module.exports.thangNames = thangNames =
     'Lia'
     'Hardcastle'
     'Leona'
+    'Jarin'
+    'Helena'
   ]

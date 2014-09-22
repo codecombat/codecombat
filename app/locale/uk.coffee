@@ -13,7 +13,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     delay_5_sec: "5 секунд"
     manual: "Інструкція"
     fork: "Форк"
-    play: "Грати"
+    play: "Грати" # When used as an action verb, like "Play next level"
     retry: "Повтор"
     watch: "Стежити"
     unwatch: "Нестежити"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     page_not_found: "Сторінку не знайдено"
 
   nav:
-    play: "Грати"
+    play: "Грати" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Редактор"
     blog: "Блог"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     slogan: "Навчіться програмувати, граючи у гру"
     no_ie: "На жаль, CodeCombat не працює в IE8 чи більш старих версіях!"
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!"
-    play: "Грати"
+    play: "Грати" # The big play button that just starts playing a level
     old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat"
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
     campaign: "Кампанія"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "українська мова", englishDesc
     spectate: "Спостерігати"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Зв'язатися з CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

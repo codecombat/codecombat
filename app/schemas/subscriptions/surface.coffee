@@ -121,9 +121,6 @@ module.exports =  # /app/lib/surface
   'sprite:dragged': spriteMouseEventSchema
   'sprite:mouse-up': spriteMouseEventSchema
 
-  'surface:world-set-up': c.object {},
-    world: {type: 'object'}
-
   'surface:frame-changed': c.object {required: ['frame', 'world', 'progress']},
     frame: {type: 'number', minimum: 0}
     world: {type: 'object'}

@@ -82,7 +82,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
-    @insertSubView new SystemsTabView supermodel: @supermodel
+    @insertSubView new SystemsTabView supermodel: @supermodel, world: @world
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!

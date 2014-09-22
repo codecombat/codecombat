@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     delay_5_sec: "5 secondi"
     manual: "Manuale"
     fork: "Fork"
-    play: "Gioca"
+    play: "Gioca" # When used as an action verb, like "Play next level"
     retry: "Riprova"
     watch: "Guarda"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     page_not_found: "Pagina non trovata"
 
   nav:
-    play: "Livelli"
+    play: "Livelli" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     slogan: "Impara a programmare giocando"
     no_ie: "CodeCombat non supporta Internet Explorer 9 o browser precedenti. Ci dispiace!"
     no_mobile: "CodeCombat non è stato progettato per dispositivi mobile e potrebbe non funzionare!"
-    play: "Gioca"
+    play: "Gioca" # The big play button that just starts playing a level
     old_browser: "Accidenti, il tuo browser è troppo vecchio per giocare a CodeCombat. Mi spiace!"
     old_browser_suffix: "Puoi provare lo stesso, ma probabilmente non funzionerà."
     campaign: "Campagna"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     spectate: "Spettatore"
     players: "giocatori"
     hours_played: "ore di gioco"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contatta CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     multiplayer_caption: "Gioca con i tuoi amici!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Salvato"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tutorial_play_first: "Prima di tutto gioca al Tutorial."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

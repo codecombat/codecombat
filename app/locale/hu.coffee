@@ -13,7 +13,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     delay_5_sec: "5 másodperc"
     manual: "Kézi"
 #    fork: "Fork"
-    play: "Játék"
+    play: "Játék" # When used as an action verb, like "Play next level"
     retry: "Próbáld újra!"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     page_not_found: "Az oldal nem található"
 
   nav:
-    play: "Játék"
+    play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
     editor: "Szerkesztő"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     slogan: "Tanulj meg nyelven programozni, miközben játszol!"
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 9, vagy korábbi verzióit. Bocsi!"
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen."
-    play: "Játssz!"
+    play: "Játssz!" # The big play button that just starts playing a level
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!"
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
     campaign: "Kampány"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Lépj kapcsolatba velünk"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

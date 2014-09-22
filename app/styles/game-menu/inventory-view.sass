@@ -1,26 +1,127 @@
-$selected-area-height: 150px
 @import "../bootstrap/mixins"
+
+$totalWidth: 706px - 2 * 20px
+// We get 666px to play with from our parent modals.
+$inventoryHeight: 530px
+$equippedWidth: 450px
+$itemSlotMargin: 5px
+$itemSlotSize: ($equippedWidth - 6 * 2 * $itemSlotMargin) / 6
+$itemSlotSizeWithMargin: $itemSlotSize + 2 * $itemSlotMargin
+$heroContainerBottomMargin: 10px
+$heroContainerWidth: 4 * $itemSlotSizeWithMargin
+$heroContainerHeight: $inventoryHeight - 2 * $itemSlotSizeWithMargin - $heroContainerBottomMargin
+$selectedAreaHeight: 150px
+$stashMargin: 20px
+$stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
 #inventory-view
   position: relative
-  height: 600px
+  height: $inventoryHeight
   +user-select(none)
   
   h3
     margin: 0
+
+  .draggable-item
+    width: $itemSlotSize
+    height: $itemSlotSize
   
   #equipped
-    width: 75%
+    width: $equippedWidth
     position: absolute
     left: 0
     top: 0
-    bottom: $selected-area-height + 10
+    bottom: 0
+    //bottom: $selectedAreaHeight + 10
     right: 0
     overflow: scroll
+
+    .item-slot-row
+      //background-color: rgba(35, 112, 124, 0.5)
+      height: $itemSlotSizeWithMargin
+      clear: both
+      margin: 0px auto
+
+      &.row-4
+        width: 4 * $itemSlotSizeWithMargin
+
+    .item-slot-column
+      //background-color: rgba(112, 124, 35, 0.5)
+      width: $itemSlotSizeWithMargin
+      height: 4 * $itemSlotSizeWithMargin
+      float: left
+      margin-top: 30px
+      
+    .item-slot
+      width: $itemSlotSize
+      height: $itemSlotSize
+      margin: $itemSlotMargin
+      background-color: white
+      float: left
+      position: relative
+      cursor: pointer
+      
+      &.selected
+        .placeholder, .item-container .item-view img
+          border-color: #28f
+          @include box-shadow(0 0 10px #28f)
+
+      &.droppable
+        outline: 2px solid blue
+
+      &.droppable-hover
+        outline: 4px solid blue
+
+      .placeholder
+        width: 100%
+        height: 100%
+        background-size: cover
+        border: 2px solid #888
+        @include opacity(0.75)
+
+      &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
+        // My spooging of the other placeholders had them dimmed; these didn't.
+        .placeholder
+          @include opacity(0.35)
+          border-color: black
+      &.selected
+        &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
+          .placeholder
+            border-color: #28f
+
+      .item-container
+        position: absolute
+        left: 0
+        top: 0
+
+        .item-view
+          img
+            width: $itemSlotSize
+            height: $itemSlotSize
+            border: 2px solid black
+            background-color: white
+
+          .item-info
+            display: none
     
     .item-slot.disabled
       opacity: 0.5
-    
+
+    .hero-container
+      //background-color: rgba(31, 0, 200, 0.25)
+      float: left
+      position: relative
+
+      .equipped-hero-canvas
+        width: $heroContainerWidth
+        height: $heroContainerHeight
+
+    hr.slot-row-separator
+      clear: both
+      margin-top: 0
+      margin-bottom: $heroContainerBottomMargin / 2 - 1
+      border-top: 1px solid #aaa
+
     .panel
       text-align: center
       width: 31.3%
@@ -41,64 +142,78 @@ $selected-area-height: 150px
       font-size: 12px
 
   #available-equipment
-    width: 25%
+    width: $stashWidth
     position: absolute
     right: 0
     top: 0 
-    bottom: $selected-area-height + 10
+    bottom: 0
     overflow: scroll
-    
-    h3
-      margin-bottom: 5px
-      
-  .list-group-item.active
-    background-color: #e0f0f5
-    
-  .list-group-item.equipped
-    display: none
+    border: 2px solid #ccc
+    padding: 4px
+    background-color: white
+
+  .list-group-item
+    padding: 8px 0
+    img
+      width: 50px
+      height: 50px
+      margin-right: 5px
+
+    &.active
+      background-color: #e0f0f5
+    &.equipped
+      display: none
     
   .item-view
     cursor: pointer
     
   #selected-items
+    $selectedItemsContainerMargin: 20px
+    $selectedItemMargin: 10px
+    $selectedItemImageSize: 75px
+    $swapItemHeight: 40px
+    $swapItemWidth: 60px
+
     position: absolute
-    height: $selected-area-height
-    left: 0
-    right: 0
-    bottom: 0
+    top: $selectedItemsContainerMargin
+    right: $selectedItemsContainerMargin
+    bottom: $selectedItemsContainerMargin + $heroContainerBottomMargin
+    left: $selectedItemsContainerMargin
     text-align: center
 
     #selected-equipped-item, #selected-available-item
       text-align: left
-      position: absolute
-      bottom: 0
-      top: 0
       overflow: scroll
-      padding: 10px
-      height: 100%
-      width: 49%
-      display: flex
-      align-items: center
+      margin: 0
+      height: 48.4%
+      height: -webkit-calc(50% - $selectedItemMargin / 2)
+      height: calc(50% - $selectedItemMargin / 2)
+      width: 100%
+      padding: 10px 5px 10px 10px
       
       img
-        width: 100px
-        height: 100px
+        margin-top: 21px
+        width: $selectedItemImageSize
+        height: $selectedItemImageSize
         
       .item-info
-        margin-left: 110px
-      
-    #selected-equipped-item
-      left: 0
-    
-    #selected-available-item
-      right: 0
+        margin-left: $selectedItemImageSize + 10px
 
-  $swap-item-height: 40px
-    
-  #swap-button
-    position: relative
-    top: ($selected-area-height / 2) - ($swap-item-height / 2)
-    height: $swap-item-height
-    font-size: 24px
-    line-height: 24px
-    display: inline-block
+    #selected-equipped-item
+      margin-bottom: $selectedItemMargin
+      padding-bottom: 20px
+
+    #selected-available-item
+      padding-top: 15px
+      
+    #swap-button
+      position: absolute
+      top: 50%
+      left: 50%
+      margin-top: -($swapItemHeight / 2)
+      margin-left: -($swapItemWidth / 2)
+      width: $swapItemWidth
+      height: $swapItemHeight
+      font-size: 24px
+      line-height: 24px
+      display: inline-block

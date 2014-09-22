@@ -44,7 +44,6 @@ module.exports = class SpectateLevelView extends RootView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
@@ -84,7 +83,7 @@ module.exports = class SpectateLevelView extends RootView
       opponentSessionID: @sessionTwo
       spectateMode: true
       team: @getQueryVariable('team')
-    @god = new God maxAngels: 1
+    @god = new God maxAngels: 1, spectate: true
 
   getRenderData: ->
     c = super()
@@ -99,9 +98,9 @@ module.exports = class SpectateLevelView extends RootView
     $('body').addClass('is-playing')
 
   onLoaded: ->
-    _.defer => @onLevelLoaded()
+    _.defer => @onLevelLoaderLoaded()
 
-  onLevelLoaded: ->
+  onLevelLoaderLoaded: ->
     @grabLevelLoaderData()
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
@@ -120,18 +119,19 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if me.id isnt @session.get 'creator'
-      @surface.createOpponentWizard
-        id: @session.get('creator')
-        name: @session.get('creatorName')
-        team: @session.get('team')
-        levelSlug: @level.get('slug')
+    if @level.get('type', true) isnt 'hero'
+      if me.id isnt @session.get 'creator'
+        @surface.createOpponentWizard
+          id: @session.get('creator')
+          name: @session.get('creatorName')
+          team: @session.get('team')
+          levelSlug: @level.get('slug')
 
-    @surface.createOpponentWizard
-      id: @otherSession.get('creator')
-      name: @otherSession.get('creatorName')
-      team: @otherSession.get('team')
-      levelSlug: @level.get('slug')
+      @surface.createOpponentWizard
+        id: @otherSession.get('creator')
+        name: @otherSession.get('creatorName')
+        team: @otherSession.get('team')
+        levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -161,12 +161,16 @@ module.exports = class SpectateLevelView extends RootView
       @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
-    @loadingView?.unveil()
+    go = =>
+      @loadingView?.startUnveiling()
+      @loadingView?.unveil()
+    _.delay go, 1000
 
   onLoadingViewUnveiled: (e) ->
     # Don't remove it; we want its decoration around on large screens.
     #@removeSubView @loadingView
     #@loadingView = null
+    Backbone.Mediator.publish 'level:set-playing', playing: true
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -183,7 +187,7 @@ module.exports = class SpectateLevelView extends RootView
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage')
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage'), level: @level
     @insertSubView new PlaybackView {}
 
     @insertSubView new GoldView {}
@@ -202,7 +206,7 @@ module.exports = class SpectateLevelView extends RootView
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) isnt 'hero')
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -229,13 +233,6 @@ module.exports = class SpectateLevelView extends RootView
     volume = 1.0 unless volume?
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
-  onSurfaceSetUpNewWorld: ->
-    return if @alreadyLoadedState
-    @alreadyLoadedState = true
-    state = @originalSessionState
-    if state.playing?
-      Backbone.Mediator.publish 'level:set-playing', playing: state.playing
-
   register: -> return
 
   onSessionWillSave: (e) ->
@@ -259,6 +256,7 @@ module.exports = class SpectateLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
+    @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
     if @world.frames.length is @world.totalFrames  # Finished loading

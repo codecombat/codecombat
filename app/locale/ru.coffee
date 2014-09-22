@@ -13,7 +13,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     delay_5_sec: "5 секунд"
     manual: "Вручную"
     fork: "Форк"
-    play: "Играть"
+    play: "Играть" # When used as an action verb, like "Play next level"
     retry: "Повторить"
     watch: "Следить"
     unwatch: "Не следить"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     page_not_found: "Страница не найдена"
 
   nav:
-    play: "Уровни"
+    play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     editor: "Редактор"
     blog: "Блог"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     slogan: "Научитесь программировать, играя в игру"
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!"
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!"
-    play: "Играть"
+    play: "Играть" # The big play button that just starts playing a level
     old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!"
     old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
     campaign: "Кампания"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать"
     players: "игроки"
     hours_played: "часов сыграно"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tutorial_play_first: "Сначала пройдите обучение."
     simple_ai: "Простой ИИ"
     warmup: "Разминка"
-    vs: "против"
     friends_playing: "Друзья в игре"
     log_in_for_friends: "Войти, чтобы поиграть с друзьями!"
     social_connect_blurb: "Свяжите учетную запись и  играйте против друзей!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    user_remarks: "User Remarks"
     versions: "Версии"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

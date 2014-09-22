@@ -24,7 +24,6 @@ module.exports = class MultiplayerView extends CocoView
     super(options)
     @level = options.level
     @session = options.session
-    @playableTeams = options.playableTeams
     @listenTo @session, 'change:multiplayer', @updateLinkSection
     @initMultiplayerSessions()
 
@@ -40,7 +39,6 @@ module.exports = class MultiplayerView extends CocoView
     c.multiplayer = @session.get 'multiplayer'
     c.team = @session.get 'team'
     c.levelSlug = @level?.get 'slug'
-    c.playableTeams = @playableTeams
     # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
     if @level?.get('type') is 'ladder'
       c.ladderGame = true
@@ -100,9 +98,9 @@ module.exports = class MultiplayerView extends CocoView
           @currentMultiplayerSession = ms
           @currentMultiplayerSession.on 'change', @onMultiplayerSessionChanged
           Backbone.Mediator.publish 'real-time-multiplayer:joined-game', session: @currentMultiplayerSession
-    
+
   onMultiplayerSessionAdded: (e) =>
-    console.log 'onMultiplayerSessionAdded', e
+    #console.log 'onMultiplayerSessionAdded', e
     @initMultiplayerSession e
     @render()
 

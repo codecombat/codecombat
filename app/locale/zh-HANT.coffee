@@ -13,7 +13,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     delay_5_sec: "5 秒"
     manual: "手動發動"
     fork: "Fork"
-    play: "播放"
+    play: "播放" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     page_not_found: "找不到網頁"
 
   nav:
-    play: "開始遊戲"
+    play: "開始遊戲" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "編輯"
     blog: "官方部落格"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     slogan: "通過玩遊戲學習編程"
     no_ie: "抱歉！Internet Explorer 9 等舊的瀏覽器打不開此網站"
     no_mobile: "CodeCombat 不是針對手機設備設計的，所以可能會出問題！"
-    play: "開始遊戲"
+    play: "開始遊戲" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "聯繫我們"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

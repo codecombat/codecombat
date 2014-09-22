@@ -192,7 +192,7 @@ block content
                         span= session.levelName
                         if session.team
                           span.spl - #{session.team}
-                      if session.codeLanguage != 'javascript'
+                      if session.codeLanguage && session.codeLanguage != 'javascript'
                         span.spl - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
               if !editing && !sessions.length
                 h3(data-i18n="account_profile.player_code") Player Code

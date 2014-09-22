@@ -11,7 +11,7 @@
               li.list-group-item= component.get('system') + '.' + component.get('name')
               ul
                 // .list-group for different layout
-                each doc in component.attributes.propertyDocumentation
+                each doc in (component.attributes.propertyDocumentation ? component.attributes.propertyDocumentation : [])
                   a(href="##{component.get('name')}#{doc.name}")
                     li.list-group-item
                       | #{doc.name}
@@ -24,7 +24,7 @@
             div(class="panel-body")
               | #{component.get('description')}
             ul
-              each doc in component.attributes.propertyDocumentation
+              each doc in (component.attributes.propertyDocumentation ? component.attributes.propertyDocumentation : [])
                 li.list-group-item(id="#{component.get('name')}#{doc.name}")
                   | #{doc.name}
                   ul.special-list

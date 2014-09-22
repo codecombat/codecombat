@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     delay_5_sec: "5 sekunder"
     manual: "Manuellt"
     fork: "Förgrena"
-    play: "Spela"
+    play: "Spela" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     page_not_found: "Sidan kan inte hittas"
 
   nav:
-    play: "Spela"
+    play: "Spela" # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Nivåredigerare"
     blog: "Blogg"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     slogan: "Lär dig att koda genom att spela ett spel."
     no_ie: "CodeCombat fungerar tyvärr inte i IE8 eller äldre."
     no_mobile: "CodeCombat är inte designat för mobila enhter och fungerar kanske inte!"
-    play: "Spela"
+    play: "Spela" # The big play button that just starts playing a level
     old_browser: "Oj då, din webbläsare är för gammal för att köra CodeCombat. Förlåt!"
     old_browser_suffix: "Du kan försöka ändå, men det kommer nog inte fungera."
     campaign: "Kampanj"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     spectate: "Titta på"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Kontakta CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tutorial_play_first: "Spela tutorial först."
     simple_ai: "Enkelt AI"
     warmup: "Uppvärmning"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

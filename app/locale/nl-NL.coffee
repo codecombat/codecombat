@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     delay_5_sec: "5 secondes"
     manual: "Handleiding"
     fork: "Fork"
-    play: "Spelen"
+    play: "Spelen" # When used as an action verb, like "Play next level"
     retry: "Probeer opnieuw"
     watch: "Volgen"
     unwatch: "Ontvolgen"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     page_not_found: "Pagina niet gevonden"
 
   nav:
-    play: "Levels"
+    play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     slogan: "Leer programmeren door het spelen van een spel"
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!"
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!"
-    play: "Speel"
+    play: "Speel" # The big play button that just starts playing a level
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!"
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
     campaign: "Campagne"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     spectate: "Toeschouwen"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contact opnemen met CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tutorial_play_first: "Speel eerst de Tutorial."
     simple_ai: "Simpele AI"
     warmup: "Opwarming"
-    vs: "tegen"
     friends_playing: "Spelende Vrienden"
 #    log_in_for_friends: "Log in to play with your friends!"
     social_connect_blurb: "Koppel je sociaal netwerk om tegen je vrienden te spelen!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

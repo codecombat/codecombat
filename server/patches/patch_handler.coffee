@@ -42,13 +42,13 @@ PatchHandler = class PatchHandler extends Handler
       targetModel.findOne(query).sort(sort).exec (err, target) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless target?
-        return @sendUnauthorizedError(res) unless targetHandler.hasAccessToDocument(req, target, 'get')
+        return @sendForbiddenError(res) unless targetHandler.hasAccessToDocument(req, target, 'get')
 
         if newStatus in ['rejected', 'accepted']
-          return @sendUnauthorizedError(res) unless targetHandler.hasAccessToDocument(req, target, 'put')
+          return @sendForbiddenError(res) unless targetHandler.hasAccessToDocument(req, target, 'put')
 
         if newStatus is 'withdrawn'
-          return @sendUnauthorizedError(res) unless req.user.get('_id').equals patch.get('creator')
+          return @sendForbiddenError(res) unless req.user.get('_id').equals patch.get('creator')
 
         patch.set 'status', newStatus
 

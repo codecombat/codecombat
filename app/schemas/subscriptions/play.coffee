@@ -77,6 +77,16 @@ module.exports =
 
   'level:next-game-pressed': c.object {}
 
+  'level:loaded': c.object {required: ['level']},
+    level: {type: 'object'}
+    team: {type: ['string', 'null', 'undefined']}
+
+  'level:session-loaded': c.object {required: ['level', 'session']},
+    level: {type: 'object'}
+    session: {type: 'object'}
+
+  'level:loading-view-unveiling': c.object {}
+
   'level:loading-view-unveiled': c.object {required: ['view']},
     view: {type: 'object'}
 
@@ -155,4 +165,7 @@ module.exports =
 
   'level:edit-wizard-settings': c.object {}
 
-  'level:inventory-changed': c.object {}
+  'level:hero-config-changed': c.object {}
+
+  'level:hero-selection-updated': c.object {required: ['hero']},
+    hero: {type: 'object'}

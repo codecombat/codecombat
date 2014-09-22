@@ -13,7 +13,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     delay_5_sec: "5 segundos"
     manual: "Manual"
     fork: "Bifurcar"
-    play: "Jugar"
+    play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
     watch: "Mirar"
     unwatch: "Pasar"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     page_not_found: "Página no encontrada"
 
   nav:
-    play: "Jugar"
+    play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     slogan: "Aprende a programar jugando"
     no_ie: "CodeCombat no funciona en Internet Explorer 9 o anteriores. ¡Lo sentimos!"
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y puede que no funcione!"
-    play: "Jugar"
+    play: "Jugar" # The big play button that just starts playing a level
     old_browser: "Ay, su navegador es demasiado viejo para ejecutar CodeCombat. ¡Lo sentimos!"
     old_browser_suffix: "Lo puede intentar de todos modos, pero probablemente no va a funcionar."
     campaign: "Campaña"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     spectate: "Observar"
     players: "jugadores"
     hours_played: "horas jugadas"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contacta con CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     multiplayer_caption: "Juega con amigos!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Salvado"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tutorial_play_first: "Prueba el Tutorial primero."
     simple_ai: "IA sencilla"
     warmup: "calentamiento"
-    vs: "VS"
     friends_playing: "Amigos jugando"
     log_in_for_friends: "¡Inicia sesión para jugar con tus amigos!"
     social_connect_blurb: "¡Conectate y juega contra tus amigos!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    user_remarks: "User Remarks"
     versions: "Versiones"
     items: "Objetos"
+#    heroes: "Heroes"
     wizard: "Mago"
     achievement: "Logro"
 #    clas: "CLAs"

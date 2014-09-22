@@ -13,7 +13,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     delay_5_sec: "5 秒"
     manual: "手動"
     fork: "派生"
-    play: "開來"
+    play: "開來" # When used as an action verb, like "Play next level"
     retry: "轉試"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     page_not_found: "頁面尋弗着"
 
   nav:
-    play: "遊戲開來"
+    play: "遊戲開來" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "編寫器"
     blog: "部落格"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     slogan: "打遊戲來學編程"
     no_ie: "對弗住！箇網站叻 Internet Explorer 9 箇粒老個瀏覽器嘸處用。"
     no_mobile: "CodeCombat 勿是照手機設備設計個，怪得嘸數达弗到頂讚個享受！"
-    play: "遊戲開打"
+    play: "遊戲開打" # The big play button that just starts playing a level
     old_browser: "啊耶, 爾個瀏覽器忒老哉, 嘸處運行 CodeCombat。對弗住險！"
     old_browser_suffix: "爾試叻好試多遍，不過嘸大用場個。"
     campaign: "打仗模式"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     spectate: "望別人攪遊戲"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "搭我裏聯繫"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tutorial_play_first: "先教程攪遍。"
     simple_ai: "省力腦子"
     warmup: "熱身"
-    vs: "對打"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

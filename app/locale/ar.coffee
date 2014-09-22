@@ -13,7 +13,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     delay_5_sec: "5 ثواني"
     manual: "يدوي"
     fork: "إنسخ"
-    play: "إلعب"
+    play: "إلعب" # When used as an action verb, like "Play next level"
     retry: "إعادة"
     watch: "مشاهدة"
     unwatch: "إنهاء المشاهدة"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     page_not_found: "الصفحة غير موجودة"
 
   nav:
-    play: "إلعب"
+    play: "إلعب" # The top nav bar entry where players choose which levels to play
     community: "مجتمع"
     editor: "محرّر"
     blog: "مدوّنة"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     slogan: "تعلّم البرمجة من لعب لعبة"
     no_ie: "CodeCombat لا يعمل في Internet Explorer 9 أو أقل. آسف!"
     no_mobile: "لم يصمم CodeCombat للهواتف النقالة وقد لا يعمل!"
-    play: "إلعب"
+    play: "إلعب" # The big play button that just starts playing a level
     old_browser: "اه أوه، متصفحك قديم جدا لتشغيل CodeCombat. آسف!"
     old_browser_suffix: "يمكنك محاولة على أي حال، لكنه ربما لن يعمل."
     campaign: "حملة"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     spectate: "مشاهد"
     players: "لاعبين"
     hours_played: "ساعات اللّعب"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "الاتّصال بـ CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

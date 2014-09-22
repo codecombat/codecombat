@@ -13,7 +13,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     delay_5_sec: "5초"
     manual: "수동"
     fork: "Fork"
-    play: "시작"
+    play: "시작" # When used as an action verb, like "Play next level"
     retry: "재시도"
     watch: "보기"
     unwatch: "보기 해제"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     page_not_found: "페이지를 찾을 수 없습니다"
 
   nav:
-    play: "레벨"
+    play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
     editor: "에디터"
     blog: "블로그"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     slogan: "쉽고 간단한 게임 배우기"
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 9에서는 동작하지 않습니다."
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다."
-    play: "시작"
+    play: "시작" # The big play button that just starts playing a level
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다."
     old_browser_suffix: "시도해볼 수는 있겠지만..안될 수도 있습니다."
     campaign: "캠페인"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     spectate: "관중모드"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "코드컴뱃에 전할 말"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tutorial_play_first: "튜토리얼을 먼저 플레이해보세요."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
     log_in_for_friends: "로그인하시고 친구들과 게임을 즐기세요!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

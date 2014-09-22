@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     delay_5_sec: "5 segundos"
     manual: "Manual"
     fork: "Bifurcar"
-    play: "Jogar"
+    play: "Jogar" # When used as an action verb, like "Play next level"
     retry: "Tentar Novamente"
     watch: "Vigiar"
     unwatch: "Desvigiar"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     page_not_found: "Página não encontrada"
 
   nav:
-    play: "Níveis"
+    play: "Níveis" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     slogan: "Aprenda a Programar ao Jogar um Jogo"
     no_ie: "O CodeCombat não funciona no Internet Explorer 9 ou anterior. Desculpe!"
     no_mobile: "O CodeCombat não foi feito para dispositivos móveis e pode não funcionar!"
-    play: "Jogar"
+    play: "Jogar" # The big play button that just starts playing a level
     old_browser: "Ups, o seu navegador é demasiado antigo para que o CodeCombat funcione. Desculpe!"
     old_browser_suffix: "Mesmo assim pode tentar, mas provavelmente não irá funcionar."
     campaign: "Campanha"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     spectate: "Espectar"
     players: "jogadores"
     hours_played: "horas jogadas"
+    items: "Itens"
+    heroes: "Heróis"
+    achievements: "Conquistas"
+    account: "Conta"
+    settings: "Definições"
+    next: "Seguinte"
+    previous: "Anterior"
+    choose_inventory: "Equipar Itens"
+
+  items:
+    armor: "Armadura"
+    hands: "Mãos"
+    accessories: "Acessórios"
+    books: "Livros"
+    minions: "Minions"
+    misc: "Vários"
 
   contact:
     contact_us: "Contacte o CodeCombat"
@@ -451,11 +467,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     guide_caption: "Documentos e dicas"
     multiplayer_caption: "Jogue com amigos!"
 
-#  inventory:
-#    temp: "Temp"
+  inventory:
+    choose_inventory: "Equipar Itens"
 
-#  choose_hero:
-#    temp: "Temp"
+  choose_hero:
+    choose_hero: "Escolha o Seu Herói"
+    programming_language: "Linguagem de Programação"
+    programming_language_description: "Que linguagem de programação quer usar?"
+    status: "Estado"
+    weapons: "Armas"
+    health: "Vida"
+    speed: "Velocidade"
 
   save_load:
     granularity_saved_games: "Guardados"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tutorial_play_first: "Joga o Tutorial primeiro."
     simple_ai: "Inteligência Artificial Simples"
     warmup: "Aquecimento"
-    vs: "VS"
     friends_playing: "Amigos a Jogar"
     log_in_for_friends: "Inicie sessão para jogar com os seus amigos!"
     social_connect_blurb: "Conecte-se e jogue contra os seus amigos!"
@@ -967,10 +988,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     user_remarks: "Observações de Utilizador"
     versions: "Versões"
     items: "Itens"
+    heroes: "Heróis"
     wizard: "Feiticeiro"
     achievement: "Conquista"
     clas: "CLAs"
-#    play_counts: "Play Counts"
+    play_counts: "Número de Jogos"
     feedback: "Feedback"
 
   delta:

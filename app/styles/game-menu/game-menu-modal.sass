@@ -1,13 +1,35 @@
+@import "app/styles/mixins"
+
 #game-menu-modal
   
   .close
+    // We have to style this indendently because it's not in the header (we don't have a header).
     position: absolute
-    top: 10px
-    right: 20px
+    top: -5px
+    right: 0
+    padding: 15px
+    font-size: 28px
+    background-color: transparent
+    z-index: 1
+
+    @include opacity(0.60)
+
+    &:hover
+      @include opacity(1)
+
+  // Make room for an overlaid close button in the lower right (we don't have a footer).
+  .overlaid-close-button
+    position: absolute
+    right: 35px
+    bottom: 20px
   
+  #inventory-view #available-equipment
+    bottom: 60px
+
   .modal-dialog
     margin-top: 0
-  
+    width: 963px
+
   .nav-tabs
     h2
       margin: 0
@@ -58,3 +80,4 @@
       &, &:hover, &:focus
         border-color: #ddd transparent #ddd #ddd
         *border-right-color: #fff
+

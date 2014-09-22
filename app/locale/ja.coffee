@@ -13,7 +13,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     delay_5_sec: "5秒"
     manual: "手動"
 #    fork: "Fork"
-    play: "ゲームスタート"
+    play: "ゲームスタート" # When used as an action verb, like "Play next level"
     retry: "リトライ"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     page_not_found: "ページが見つかりません"
 
   nav:
-    play: "ゲームスタート"
+    play: "ゲームスタート" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "レベルエディタ"
     blog: "ブログ"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイして学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)"
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。"
-    play: "ゲームスタート"
+    play: "ゲームスタート" # The big play button that just starts playing a level
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです"
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
     campaign: "キャンペーンモード"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "お問い合わせ"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

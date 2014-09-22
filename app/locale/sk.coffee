@@ -13,7 +13,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     delay_5_sec: "5 sekúnd"
     manual: "Manuál"
 #    fork: "Fork"
-    play: "Hraj"
+    play: "Hraj" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     page_not_found: "Stránka nenájdená"
 
   nav:
-    play: "Hraj"
+    play: "Hraj" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     slogan: "Nauč sa programovať pomocou hry"
     no_ie: "CodeCombat nefunguje v prehliadači Internet Explorer 9 a jeho starších verziách. Ospravedlňujeme sa."
     no_mobile: "CodeCombat nebol navrhnutý pre mobilné zariadenia a nemusí na nich fungovať správne!"
-    play: "Hraj"
+    play: "Hraj" # The big play button that just starts playing a level
     old_browser: "Ajaj, prehliadač je príliš starý. CodeCombat na ňom nepôjde. Je nám to ľúto!"
     old_browser_suffix: "Skúsiť sa to dá, ale asi to nepôjde."
     campaign: "Ťaženie"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     spectate: "Sleduj"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Kontaktujte nás"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

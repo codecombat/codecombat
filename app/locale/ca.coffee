@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     delay_5_sec: "5 segons"
     manual: "Manual"
     fork: "Fork"
-    play: "Jugar"
+    play: "Jugar" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    page_not_found: "Page not found"
 
   nav:
-    play: "Nivells"
+    play: "Nivells" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     slogan: "Aprén a programar tot Jugant"
     no_ie: "CodeCombat no funciona en Internet Explorer 9 o versions anteriors. Perdó!"
     no_mobile: "CodeCombat no ha estat dissenyat per dispositius mòbils i per tant no funcionarà!"
-    play: "Jugar"
+    play: "Jugar" # The big play button that just starts playing a level
     old_browser: "Uh oh, el teu navegador és massa antic per fer funcionar CodeCombat. Perdó!"
     old_browser_suffix: "Pots probar-ho igualment, però el més segur és que no funcioni."
     campaign: "Campanya"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contacta CodeCombat"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

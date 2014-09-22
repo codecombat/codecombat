@@ -13,7 +13,7 @@
     delay_5_sec: "5 seconds"
     manual: "Manual"
     fork: "Fork"
-    play: "Play"
+    play: "Play"  # When used as an action verb, like "Play next level"
     retry: "Retry"
     watch: "Watch"
     unwatch: "Unwatch"
@@ -43,7 +43,7 @@
     page_not_found: "Page not found"
 
   nav:
-    play: "Levels"
+    play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@
     slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-    play: "Play"
+    play: "Play"  # The big play button that just starts playing a level
     old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
     old_browser_suffix: "You can try anyway, but it probably won't work."
     campaign: "Campaign"
@@ -136,6 +136,9 @@
     achievements: "Achievements"
     account: "Account"
     settings: "Settings"
+    next: "Next"
+    previous: "Previous"
+    choose_inventory: "Equip Items"
 
   items:
     armor: "Armor"
@@ -415,6 +418,7 @@
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
+    loading_start: "Start Level"
     tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
     tip_toggle_play: "Toggle play/paused with Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -465,10 +469,16 @@
     multiplayer_caption: "Play with friends!"
 
   inventory:
-    temp: "Temp"
+    choose_inventory: "Equip Items"
 
   choose_hero:
-    temp: "Temp"
+    choose_hero: "Choose Your Hero"
+    programming_language: "Programming Language"
+    programming_language_description: "Which programming language do you want to use?"
+    status: "Status"
+    weapons: "Weapons"
+    health: "Health"
+    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Saved"
@@ -979,6 +989,7 @@
     user_remarks: "User Remarks"
     versions: "Versions"
     items: "Items"
+    heroes: "Heroes"
     wizard: "Wizard"
     achievement: "Achievement"
     clas: "CLAs"

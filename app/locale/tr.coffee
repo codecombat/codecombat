@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     delay_5_sec: "5 saniye"
     manual: "El ile"
     fork: "Çatalla"
-    play: "Oyna"
+    play: "Oyna" # When used as an action verb, like "Play next level"
     retry: "Yeniden Dene"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     page_not_found: "Sayfa bulunamadı"
 
   nav:
-    play: "Oyna"
+    play: "Oyna" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Düzenleyici"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     slogan: "Oyun oynayarak kodlamayı öğrenin"
     no_ie: "CodeCombat maalesef Internet Explorer 9 veya daha eski sürümlerde çalışmaz."
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir."
-    play: "Oyna"
+    play: "Oyna" # The big play button that just starts playing a level
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!"
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
     campaign: "Senaryo Modu"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     spectate: "İzleyici olarak katıl"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "CodeCombat ile İletişim"
@@ -452,10 +468,16 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +900,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +988,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

@@ -56,13 +56,14 @@ module.exports = class LevelLoader extends CocoClass
   onLevelLoaded: ->
     @loadSession()
     @populateLevel()
+    Backbone.Mediator.publish 'level:loaded', level: @level, team: @team ? 'humans'
 
   # Session Loading
 
   loadSession: ->
     return if @headless
     if @sessionID
-      url = "/db/level_session/#{@sessionID}"
+      url = "/db/level.session/#{@sessionID}"
     else
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
@@ -71,14 +72,15 @@ module.exports = class LevelLoader extends CocoClass
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @session.loaded
+      @session.setURL '/db/level.session/' + @session.id
       @loadDependenciesForSession @session
     else
       @listenToOnce @session, 'sync', ->
-        @session.url = -> '/db/level.session/' + @id
+        @session.setURL '/db/level.session/' + @session.id
         @loadDependenciesForSession @session
 
     if @opponentSessionID
-      opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
+      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
       if @opponentSession.loaded
@@ -89,15 +91,18 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     return unless @level.get('type', true) is 'hero'
     heroConfig = session.get('heroConfig')
-    unless heroConfig
-      heroConfig = {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # Temp: assign Tharin as the hero
-      session.set 'heroConfig', heroConfig
+    heroConfig ?= me.get('heroConfig')
+    heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If we got here not from PlayLevelModal (like level editor preview), assign Tharin as the hero.
+    session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
     @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
     for itemThangType in _.values(heroConfig.inventory)
       url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+
+    if session is @session
+      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
 
   # Grabbing the rest of the required data for the level
 
