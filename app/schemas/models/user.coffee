@@ -17,6 +17,7 @@ UserSchema = c.object
     simulatedBy: 0
     simulatedFor: 0
     jobProfile: {}
+    lastIP: '0.0.0.0'
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
