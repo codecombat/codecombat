@@ -8,7 +8,7 @@
             .replace-me(data-item-id=equipment[slot].get('original'))
 
   .item-slot-column.pull-left
-    for slot in ['torso', 'gloves', 'left-hand', 'minion']
+    for slot in ['minion', 'torso', 'gloves', 'left-hand']
       .item-slot(data-slot=slot)
         .placeholder
         .item-container
@@ -26,7 +26,7 @@
         span.glyphicon.glyphicon-transfer
 
   .item-slot-column.pull-right
-    for slot in ['waist', 'feet', 'right-hand', 'pet']
+    for slot in ['pet', 'waist', 'feet', 'right-hand']
       .item-slot(data-slot=slot)
         .placeholder
         .item-container

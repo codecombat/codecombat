@@ -81,6 +81,10 @@ module.exports =
     level: {type: 'object'}
     team: {type: ['string', 'null', 'undefined']}
 
+  'level:session-loaded': c.object {required: ['level', 'session']},
+    level: {type: 'object'}
+    session: {type: 'object'}
+
   'level:loading-view-unveiling': c.object {}
 
   'level:loading-view-unveiled': c.object {required: ['view']},

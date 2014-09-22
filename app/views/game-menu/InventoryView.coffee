@@ -29,6 +29,7 @@ module.exports = class InventoryView extends CocoView
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
+    @equipment = $.extend true, {}, @equipment
     @assignLevelEquipment()
     @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
     @supermodel.loadCollection(@items, 'items')
@@ -88,6 +89,7 @@ module.exports = class InventoryView extends CocoView
           cursorAt: {left: 35.5, top: 35.5}
           helper: -> dragHelper
           revertDuration: 200
+          distance: 10
           scroll: false
           zIndex: 100
         itemView.$el.on 'dragstart', =>
@@ -137,6 +139,8 @@ module.exports = class InventoryView extends CocoView
     @onSelectionChanged()
 
   onAvailableItemDoubleClick: (e) ->
+    @selectAvailableItem $(e.target).closest('.list-group-item')
+    @onSelectionChanged()
     slot = @getSelectedSlot()
     slot = @$el.find('.item-slot:not(.disabled):first') if not slot.length
     @unequipItemFromSlot(slot)

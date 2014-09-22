@@ -183,6 +183,7 @@ module.exports = class TomeView extends CocoView
     @thangList?.$el.show()
 
   onSpriteSelected: (e) ->
+    return if @spellView and @options.level.get('type', true) is 'hero'  # Never deselect the hero in the Tome.
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()

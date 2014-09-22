@@ -98,9 +98,9 @@ module.exports = class SpectateLevelView extends RootView
     $('body').addClass('is-playing')
 
   onLoaded: ->
-    _.defer => @onLevelLoaded()
+    _.defer => @onLevelLoaderLoaded()
 
-  onLevelLoaded: ->
+  onLevelLoaderLoaded: ->
     @grabLevelLoaderData()
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
@@ -119,18 +119,19 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if me.id isnt @session.get 'creator'
-      @surface.createOpponentWizard
-        id: @session.get('creator')
-        name: @session.get('creatorName')
-        team: @session.get('team')
-        levelSlug: @level.get('slug')
+    if @level.get('type', true) isnt 'hero'
+      if me.id isnt @session.get 'creator'
+        @surface.createOpponentWizard
+          id: @session.get('creator')
+          name: @session.get('creatorName')
+          team: @session.get('team')
+          levelSlug: @level.get('slug')
 
-    @surface.createOpponentWizard
-      id: @otherSession.get('creator')
-      name: @otherSession.get('creatorName')
-      team: @otherSession.get('team')
-      levelSlug: @level.get('slug')
+      @surface.createOpponentWizard
+        id: @otherSession.get('creator')
+        name: @otherSession.get('creatorName')
+        team: @otherSession.get('team')
+        levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -186,7 +187,7 @@ module.exports = class SpectateLevelView extends RootView
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage')
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage'), level: @level
     @insertSubView new PlaybackView {}
 
     @insertSubView new GoldView {}
@@ -205,7 +206,7 @@ module.exports = class SpectateLevelView extends RootView
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) isnt 'hero')
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)

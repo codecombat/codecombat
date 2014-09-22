@@ -11,7 +11,6 @@ submenuViews = [
 
 module.exports = class GameMenuModal extends ModalView
   template: template
-  modalWidthPercent: 95
   id: 'game-menu-modal'
   instant: true
 
@@ -52,7 +51,7 @@ module.exports = class GameMenuModal extends ModalView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
   updateConfig: ->
-    sessionHeroConfig = @options.session.get('heroConfig') ? {}
+    sessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
     lastHeroConfig = me.get('heroConfig') ? {}
     thangType = @subviews.choose_hero_view.selectedHero.get 'original'
     inventory = @subviews.inventory_view.getCurrentEquipmentConfig()
@@ -72,8 +71,11 @@ module.exports = class GameMenuModal extends ModalView
       me.set 'aceConfig', aceConfig
     if patchSession
       @options.session.set 'heroConfig', sessionHeroConfig
-      @options.session.patch success: ->
+      success = ->
         _.defer -> Backbone.Mediator.publish 'level:hero-config-changed', {}
+      error = (model, res) ->
+        console.error 'error patching session', model, res, res.responseJSON, res.status, res.statusText
+      @options.session.patch success: success, error: error
     if patchMe
       me.set 'heroConfig', lastHeroConfig
       me.patch()

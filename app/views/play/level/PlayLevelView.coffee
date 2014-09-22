@@ -33,6 +33,7 @@ LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
+GameMenuModal = require 'views/game-menu/GameMenuModal'
 
 PROFILE_ME = false
 
@@ -64,6 +65,8 @@ module.exports = class PlayLevelView extends RootView
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'level:loaded': 'onLevelLoaded'
+    'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
@@ -171,14 +174,13 @@ module.exports = class PlayLevelView extends RootView
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LevelLoadingView {}
+    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil, level: @level  # May not have @level loaded yet
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
     $('body').bind('touchmove', false) if @isIPadApp()
 
   afterInsert: ->
     super()
-    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp()
 
   # Partially Loaded Setup ####################################################
 
@@ -252,7 +254,7 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
     @insertSubView new LevelPlaybackView session: @session
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView world: @world
@@ -260,7 +262,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
     Backbone.Mediator.publish('level:set-debug', debug: true) if @isIPadApp()  # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -280,10 +282,19 @@ module.exports = class PlayLevelView extends RootView
 
   # Load Completed Setup ######################################################
 
-  onLoaded: ->
-    _.defer => @onLevelLoaded()
+  onLevelLoaded: (e) ->
+    # Just the level has been loaded by the level loader
+    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and e.level.get('type', true) isnt 'hero'
 
-  onLevelLoaded: ->
+  onSessionLoaded: (e) ->
+    # Just the level and session have been loaded by the level loader
+    if e.level.get('type', true) is 'hero' and not _.size e.session.get('heroConfig')?.inventory ? {}
+      @openModalView new GameMenuModal level: e.level, session: e.session
+
+  onLoaded: ->
+    _.defer => @onLevelLoaderLoaded()
+
+  onLevelLoaderLoaded: ->
     # Everything is now loaded
     return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
@@ -306,7 +317,7 @@ module.exports = class PlayLevelView extends RootView
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: @level.get('type', true) isnt 'hero')
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -320,9 +331,12 @@ module.exports = class PlayLevelView extends RootView
     if window.currentModal and not window.currentModal.destroyed
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
-    if @otherSession
+    if @otherSession and @level.get('type', true) isnt 'hero'
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
+    if @isEditorPreview
+      @loadingView.startUnveiling()
+      @loadingView.unveil()
 
   onLoadingViewUnveiling: (e) ->
     @restoreSessionState()
@@ -342,13 +356,13 @@ module.exports = class PlayLevelView extends RootView
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if state.frame and @level.get('type') isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
+    if state.frame and @level.get('type', true) isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
       Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
-    if state.selected
+    if @level.get('type', true) is 'hero'
+      Backbone.Mediator.publish 'tome:select-primary-sprite', {}
+    else if state.selected
       # TODO: Should also restore selected spell here by saving spellName
       Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
-    else if @isIPadApp()
-      Backbone.Mediator.publish 'tome:select-primary-sprite', {}
     if state.playing?
       Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
@@ -378,10 +392,12 @@ module.exports = class PlayLevelView extends RootView
     #@setLevel @level, @supermodel
     #Backbone.Mediator.publish 'tome:cast-spell', {}
     # We'll just make a new PlayLevelView instead
+    console.log 'Hero config changed; reload the level.'
     Backbone.Mediator.publish 'router:navigate', {
       route: window.location.pathname,
       viewClass: PlayLevelView,
-      viewArgs: [{supermodel: @supermodel}, @levelID]}
+      viewArgs: [{supermodel: @supermodel, autoUnveil: true}, @levelID]
+    }
 
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
