@@ -295,6 +295,7 @@ module.exports = class InventoryView extends CocoView
       'simple-boots': '53e237bf53457600003e3f05'
       'longsword': '53e218d853457600003e3ebe'
       'leather-tunic': '53e22eac53457600003e3efc'
+      'leather-boots': '53e2384453457600003e3f07'
       'programmaticon-i': '53e4108204c00d4607a89f78'
       'crude-glasses': '53e238df53457600003e3f0b'
       'builders-hammer': '53f4e6e3d822c23505b74f42'
@@ -304,14 +305,14 @@ module.exports = class InventoryView extends CocoView
       'shadow-guard': {feet: 'simple-boots'}
       'true-names': {feet: 'simple-boots', 'right-hand': 'longsword'}
       'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic'}
-      'the-first-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
-      'the-second-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
-      'new-sight': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
-      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'a-bolt-in-the-dark': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'the-first-kithmaze': {feet: 'leather-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
+      'the-second-kithmaze': {feet: 'leather-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
+      'new-sight': {feet: 'leather-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
+      'lowly-kithmen': {feet: 'leather-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'a-bolt-in-the-dark': {feet: 'leather-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'the-final-kithmaze': {feet: 'leather-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'kithgard-gates': {feet: 'leather-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'defence-of-plainswood': {feet: 'leather-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
     necessaryGear = gearByLevel[@options.levelID]
     for slot, item of necessaryGear ? {}
       @equipment[slot] ?= gear[item]
