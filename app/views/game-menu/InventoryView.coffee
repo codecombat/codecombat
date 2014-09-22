@@ -40,6 +40,7 @@ module.exports = class InventoryView extends CocoView
 
   onLoaded: ->
     @items.models = _.filter(@items.models, (item) => item.get('original') in @allowedItems) if @allowedItems
+    item.notInLevel = true for item in @items.models
     super()
 
   getRenderData: (context={}) ->

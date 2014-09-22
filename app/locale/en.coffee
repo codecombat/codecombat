@@ -383,6 +383,7 @@
     guide: "Guide"
     restart: "Restart"
     goals: "Goals"
+    goal: "Goal"
     success: "Success!"
     incomplete: "Incomplete"
     timed_out: "Ran out of time"

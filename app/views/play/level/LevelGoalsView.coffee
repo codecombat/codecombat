@@ -11,6 +11,9 @@ stateIconMap =
 module.exports = class LevelGoalsView extends CocoView
   id: 'goals-view'
   template: template
+  className: 'secret expanded'
+  playbackEnded: false
+  mouseEntered: false
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
@@ -67,6 +70,7 @@ module.exports = class LevelGoalsView extends CocoView
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'goal-incomplete-again', volume: 1
       @previousGoalStatus[goal.id] = state.status
     @$el.removeClass('secret') if goals.length > 0
+    @updatePlacement()
 
   onSurfacePlaybackRestarted: ->
     @playbackEnded = false
@@ -76,14 +80,6 @@ module.exports = class LevelGoalsView extends CocoView
   onSurfacePlaybackEnded: ->
     @playbackEnded = true
     @$el.addClass 'brighter'
-    @updatePlacement()
-
-  render: ->
-    super()
-    @$el.addClass('secret').addClass('expanded')
-
-  afterRender: ->
-    super()
     @updatePlacement()
 
   updatePlacement: ->

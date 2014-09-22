@@ -34,7 +34,7 @@ module.exports = Surface = class Surface extends CocoClass
   currentFrame: 0
   lastFrame: null
   totalFramesDrawn: 0
-  playing: false  # play vs. pause
+  playing: false  # play vs. pause -- match default button state in playback.jade
   dead: false  # if we kill it for some reason
   imagesLoaded: false
   worldLoaded: false
@@ -204,6 +204,7 @@ module.exports = Surface = class Surface extends CocoClass
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then 'over' else 'out'), {})
       @mouseInBounds = mib
+      @mouseIsDown = false
 
   restoreWorldState: ->
     frame = @world.getFrame(@getCurrentFrame())
@@ -218,6 +219,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
+    if @playing and @heroSprite and not @mouseIsDown and @camera.newTarget isnt @heroSprite.imageObject and @camera.target isnt @heroSprite.imageObject
+      @camera.zoomTo @heroSprite.imageObject, @camera.zoom, 750
     @camera.updateZoom()
     @spriteBoss.update frameChanged
     @dimmer?.setSprites @spriteBoss.sprites
@@ -464,12 +467,14 @@ module.exports = Surface = class Surface extends CocoClass
     event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
+    @mouseIsDown = true
 
   onMouseUp: (e) =>
     return if @disabled
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
     Backbone.Mediator.publish 'tome:focus-editor', {}
+    @mouseIsDown = false
 
   onMouseWheel: (e) =>
     # https://github.com/brandonaaron/jquery-mousewheel
@@ -481,7 +486,6 @@ module.exports = Surface = class Surface extends CocoClass
       canvas: @canvas
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
-
 
 
   #- Canvas callbacks
@@ -514,6 +518,10 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
 
+
+  #- Camera focus on hero
+  focusOnHero: ->
+    @heroSprite = @spriteBoss.spriteFor 'Hero Placeholder'
 
 
   #- Real-time playback

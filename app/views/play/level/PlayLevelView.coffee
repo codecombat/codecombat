@@ -351,6 +351,17 @@ module.exports = class PlayLevelView extends RootView
       console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
       application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
+    @playAmbientSound()
+
+  playAmbientSound: ->
+    return if @ambientSound
+    return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-grass'}[@level.get('terrain')]
+    src = "/file/interface/#{file}#{AudioPlayer.ext}"
+    unless AudioPlayer.getStatus(src)?.loaded
+      AudioPlayer.preloadSound src
+      Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
+      return
+    @ambientSound = createjs.Sound.play src, loop: -1
 
   restoreSessionState: ->
     return if @alreadyLoadedState
@@ -360,6 +371,7 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
     if @level.get('type', true) is 'hero'
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
+      @surface.focusOnHero()
     else if state.selected
       # TODO: Should also restore selected spell here by saving spellName
       Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
@@ -601,6 +613,7 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
+    @ambientSound.stop()
     $(window).off 'resize', @onWindowResize
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)

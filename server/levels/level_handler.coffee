@@ -27,6 +27,7 @@ LevelHandler = class LevelHandler extends Handler
     'showsGuide'
     'banner'
     'employerDescription'
+    'terrain'
   ]
 
   postEditableProperties: ['name']

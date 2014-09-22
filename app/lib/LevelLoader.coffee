@@ -94,7 +94,7 @@ module.exports = class LevelLoader extends CocoClass
     heroConfig ?= me.get('heroConfig')
     heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If we got here not from PlayLevelModal (like level editor preview), assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
-    url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
+    url = "/db/thang.type/#{heroConfig.thangType}/version"
     @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
     for itemThangType in _.values(heroConfig.inventory)
