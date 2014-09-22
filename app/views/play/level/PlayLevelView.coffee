@@ -360,6 +360,7 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
     if @level.get('type', true) is 'hero'
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
+      @surface.focusOnHero()
     else if state.selected
       # TODO: Should also restore selected spell here by saving spellName
       Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null

@@ -1,5 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/level_loading'
+utils = require 'lib/utils'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -24,7 +25,8 @@ module.exports = class LevelLoadingView extends CocoView
     @level = e.level
     goalList = @$el.find('.level-loading-goals').removeClass('secret').find('ul')
     for goalID, goal of @level.get('goals') when (not goal.team or goal.team is e.team) and not goal.hiddenGoal
-      goalList.append $('<li class="list-group-item header-font">' + goal.name + '</li>')
+      name = utils.i18n goal, 'name'
+      goalList.append $('<li class="list-group-item header-font">' + name + '</li>')
 
   showReady: ->
     return if @shownReady
