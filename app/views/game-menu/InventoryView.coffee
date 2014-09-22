@@ -140,7 +140,7 @@ module.exports = class InventoryView extends CocoView
     @onSelectionChanged()
 
   onAvailableItemDoubleClick: (e) ->
-    @selectAvailableItem $(e.target).closest('.list-group-item')
+    @selectAvailableItem $(e.target).closest('.list-group-item') if e
     @onSelectionChanged()
     slot = @getSelectedSlot()
     slot = @$el.find('.item-slot:not(.disabled):first') if not slot.length
