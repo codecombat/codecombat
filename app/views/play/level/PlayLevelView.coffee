@@ -369,16 +369,19 @@ module.exports = class PlayLevelView extends RootView
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if state.frame and @level.get('type', true) isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
-      Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
     if @level.get('type', true) is 'hero'
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
       @surface.focusOnHero()
-    else if state.selected
-      # TODO: Should also restore selected spell here by saving spellName
-      Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
-    if state.playing?
-      Backbone.Mediator.publish 'level:set-playing', playing: state.playing
+      Backbone.Mediator.publish 'level:set-time', time: 0
+      Backbone.Mediator.publish 'level:set-playing', playing: true
+    else
+      if state.frame and @level.get('type', true) isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
+        Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
+      if state.selected
+        # TODO: Should also restore selected spell here by saving spellName
+        Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
+      if state.playing?
+        Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
   # callbacks
 
