@@ -10,10 +10,10 @@
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
       div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.id] || "")
       .level-info-container(data-level-id=level.id)
-        if level.image
-          img.level-image(src="#{level.image}", alt="#{level.name}")
-        else
-          img.level-image(src="/images/generic-icon.png", alt="#{level.name}")
+        //if level.image
+        //  img.level-image(src="#{level.image}", alt="#{level.name}")
+        //else
+        //  img.level-image(src="/images/generic-icon.png", alt="#{level.name}")
         div(class="level-info " + (levelStatusMap[level.id] || ""))
           h3= level.name + (level.disabled ? " (Coming soon!)" : "")
           .level-description= level.description
@@ -21,7 +21,7 @@
           each i in Array(level.difficulty)
             i.icon-star
           - var playCount = levelPlayCountMap[level.id]
-          if playCount
+          if playCount && playCount > 20
             div
               span.spr #{playCount.sessions}
               span(data-i18n="play.players") players

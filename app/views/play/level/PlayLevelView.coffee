@@ -329,7 +329,7 @@ module.exports = class PlayLevelView extends RootView
   onLevelStarted: ->
     return unless @surface?
     @loadingView.showReady()
-    if window.currentModal and not window.currentModal.destroyed
+    if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
     if @otherSession and @level.get('type', true) isnt 'hero'

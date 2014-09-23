@@ -574,7 +574,7 @@ hero = [
   {
     name: 'The Final Kithmaze'
     type: 'hero'
-    difficulty: 2
+    difficulty: 1
     id: 'the-final-kithmaze'
     image: '/file/db/level/526bda3fe79aefde2a003e36/mobile_artillery_icon.png'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'

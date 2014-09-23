@@ -100,11 +100,11 @@ module.exports = class SpellView extends CocoView
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    @zatanna = new Zatanna @ace,
-
-      liveCompletion: aceConfig.liveCompletion ? true
-      completers:
-        keywords: false
+    # TODO: restore Zatanna when it totally stops the this.this.moveRight()(); problem
+    #@zatanna = new Zatanna @ace,
+    #  liveCompletion: aceConfig.liveCompletion ? true
+    #  completers:
+    #    keywords: false
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -192,6 +192,7 @@ module.exports = class SpellView extends CocoView
     @ace.clearSelection()
 
   addZatannaSnippets: (e) ->
+    return unless @zatanna
     snippetEntries = []
     for owner, props of e.propGroups
       for prop in props
@@ -250,6 +251,7 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
 
   createDebugView: ->
+    return if @options.level.get('type', true) is 'hero'  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -258,7 +260,7 @@ module.exports = class SpellView extends CocoView
     @$el.append @toolbarView.render().$el
 
   onMouseOut: (e) ->
-    @debugView.onMouseOut e
+    @debugView?.onMouseOut e
 
   getSource: ->
     @ace.getValue()  # could also do @firepad.getText()
@@ -269,7 +271,7 @@ module.exports = class SpellView extends CocoView
     @thang = thang
     @spellThang = @spell.thangs[@thang.id]
     @createDebugView() unless @debugView
-    @debugView.thang = @thang
+    @debugView?.thang = @thang
     @toolbarView?.toggleFlow false
     @updateAether false, false
     # @addZatannaSnippets()
@@ -589,7 +591,7 @@ module.exports = class SpellView extends CocoView
         @decoratedGutter[row] = ''
     if not executed.length or (@spell.name is 'plan' and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
-      @debugView.setVariableStates {}
+      @debugView?.setVariableStates {}
       return
     lastExecuted = _.last executed
     @toolbarView?.toggleFlow true
@@ -606,7 +608,7 @@ module.exports = class SpellView extends CocoView
         marked[start.row] = true
         markerType = 'fullLine'
       else
-        @debugView.setVariableStates state.variables
+        @debugView?.setVariableStates state.variables
         gotVariableStates = true
         markerType = 'text'
       markerRange = new Range start.row, start.col, end.row, end.col
@@ -618,7 +620,7 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter[start.row] isnt ''
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
-    @debugView.setVariableStates {} unless gotVariableStates
+    @debugView?.setVariableStates {} unless gotVariableStates
     null
 
   highlightComments: ->
@@ -676,12 +678,12 @@ module.exports = class SpellView extends CocoView
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    @zatanna.set 'liveCompletion', (aceConfig.liveCompletion ? false)
+    @zatanna?.set 'liveCompletion', (aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
     @aceSession.setMode @editModes[e.language]
-    # @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
+    # @zatanna?.set 'language', @editModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
