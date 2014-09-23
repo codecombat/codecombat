@@ -5,6 +5,7 @@ ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
 ogreFangriderThangType = new ThangType(require 'test/app/fixtures/ogre-fangrider.thang.type')
+treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 
 describe 'SegmentedSprite', ->
   segmentedSprite = null
@@ -27,6 +28,107 @@ describe 'SegmentedSprite', ->
     }
     createjs.Ticker.addEventListener "tick", listener
     
+  describe 'with Tree ThangType', ->
+    beforeEach ->
+      layer = new LayerAdapter({webGL:true})
+      layer.buildAutomatically = false
+      layer.buildAsync = false
+      treeThangType.markToRevert()
+      treeThangType.set('spriteType', 'segmented')
+      sprite = new CocoSprite(treeThangType)
+      layer.addCocoSprite(sprite)
+      sheet = layer.renderNewSpriteSheet()
+      prefix = layer.renderGroupingKey(treeThangType) + '.'
+      window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, treeThangType, prefix)
+      segmentedSprite.x = 100
+      segmentedSprite.y = 200
+
+    it 'scales rendered containers to the size of the source container', ->
+      # build a movie clip, put it on top of the segmented sprite and make sure
+      # they both 'hit' at the same time.
+
+      segmentedSprite.gotoAndStop('idle')
+      builder = new SpriteBuilder(treeThangType)
+      container = builder.buildContainerFromStore('Tree_4')
+      container.x = 100
+      container.y = 200
+      container.regX = 59
+      container.regY = 100
+      showMe()
+      stage.addChild(container)
+      stage.update()
+      t = new Date()
+      tests = hits = 0
+      for x in _.range(30, 190, 20)
+        for y in _.range(90, 250, 20)
+          tests += 1
+          objects = stage.getObjectsUnderPoint(x, y)
+          if objects.length
+            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
+            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
+            hits+= 1 if hasSprite and hasShape
+            g = new createjs.Graphics()
+            g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
+            g.drawCircle(0, 0, 2)
+            s = new createjs.Shape(g)
+            s.x = x
+            s.y = y
+            stage.addChild(s)
+          else
+            hits += 1
+
+      expect(hits / tests).toBeGreaterThan(0.98) # not perfect, but pretty close.
+      expect(segmentedSprite.baseScaleX).toBe(0.3)
+      expect(segmentedSprite.baseScaleY).toBe(0.3)
+#      $('canvas').remove()
+
+    it 'scales placeholder containers to the size of the source container', ->
+      # build a movie clip, put it on top of the segmented sprite and make sure
+      # they both 'hit' at the same time.
+
+      segmentedSprite.usePlaceholders = true
+      segmentedSprite.gotoAndStop('idle')
+      builder = new SpriteBuilder(treeThangType)
+      container = builder.buildContainerFromStore('Tree_4')
+      container.x = 100
+      container.y = 200
+      container.regX = 59
+      container.regY = 100
+      showMe()
+      stage.addChild(container)
+      stage.update()
+      t = new Date()
+      tests = hits = 0
+      for x in _.range(30, 190, 20)
+        for y in _.range(90, 250, 20)
+          tests += 1
+          objects = stage.getObjectsUnderPoint(x, y)
+          if objects.length
+            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
+            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
+            hits+= 1 if hasSprite and hasShape
+            g = new createjs.Graphics()
+            g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
+            g.drawCircle(0, 0, 2)
+            s = new createjs.Shape(g)
+            s.x = x
+            s.y = y
+            stage.addChild(s)
+          else
+            hits += 1
+
+      expect(hits / tests).toBeGreaterThan(0.84) # the circle is rather out of the tree bounds, so accuracy is low
+      expect(segmentedSprite.baseScaleX).toBe(0.3)
+      expect(segmentedSprite.baseScaleY).toBe(0.3)
+      $('canvas').remove()
+
+    it 'propagates events from the single segment through the segmented sprite', ->
+      fired = {}
+      segmentedSprite.on('click', -> fired.didIt = true)
+      segmentedSprite.gotoAndStop('idle')
+      segmentedSprite.children[0].dispatchEvent('click')
+      expect(fired.didIt).toBe(true)
+
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
       layer = new LayerAdapter({webGL:true})

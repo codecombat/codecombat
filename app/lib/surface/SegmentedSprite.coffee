@@ -19,6 +19,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   gotoAndStop: (actionName) -> @goto(actionName, true)
   
   goto: (actionName, @paused=true) ->
+    @removeAllChildren()
     @currentAnimation = actionName
     @baseMovieClip = @framerate = null
     @actionNotSupported = false
@@ -31,10 +32,10 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
     @regX = -reg.x
     @regY = -reg.y
+    @baseScaleY = @baseScaleX = action.scale ? @thangType.get('scale') ? 1
 
     if action.animation
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
-      @baseScaleY = @baseScaleX = action.scale ? @thangType.get('scale') ? 1
       @childMovieClips = []
       @baseMovieClip = @buildMovieClip(action.animation)
       @children = @baseMovieClip.children
@@ -54,16 +55,19 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       containerName = @spriteSheetPrefix + action.container
       sprite = new createjs.Sprite(@spriteSheet)
       sprite.gotoAndStop(containerName)
-      if sprite.currentFrame is 0
+      @listenToEventsFor(sprite)
+      if sprite.currentFrame is 0 or @usePlaceholders
+        sprite.gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').containers[action.container].b
         sprite.x = bounds[0]
         sprite.y = bounds[1]
-        sprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * 2 * scale)
-        sprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * 2 * scale)
+        sprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        sprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
       else
         sprite.scaleX = sprite.scaleY = 1 / scale
-      @children = [sprite]
+      @children = []
+      @addChild(sprite)
 
     return
     
@@ -168,7 +172,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @lastTimeStamp = e.timeStamp
 
   tick: (delta) ->
-    return if @paused
+    return if @paused or not @baseMovieClip
     newFrame = @currentFrame + @framerate * delta / 1000
 
     if newFrame > @animLength

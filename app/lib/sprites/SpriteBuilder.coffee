@@ -107,7 +107,7 @@ module.exports = class SpriteBuilder
     shape
 
   buildContainerFromStore: (containerKey) ->
-    console.error 'Yo we don\'t have no', containerKey unless containerKey
+    console.error 'Yo we don\'t have no containerKey' unless containerKey
     contData = @containerStore[containerKey]
     cont = new createjs.Container()
     cont.initialize()
