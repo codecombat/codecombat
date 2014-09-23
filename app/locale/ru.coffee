@@ -383,6 +383,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     guide: "Руководство"
     restart: "Перезапустить"
     goals: "Цели"
+#    goal: "Goal"
     success: "Успешно!"
     incomplete: "Не завершено"
     timed_out: "Время истекло"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_minion_spells: "Заклинания ваших миньонов"
     tome_read_only_spells: "Заклинания только для чтения"
     tome_other_units: "Другие юниты"
-    tome_cast_button_castable: "Читать заклинание"
-    tome_cast_button_casting: "Заклинание читается"
-    tome_cast_button_cast: "Заклинание прочитано"
+    tome_cast_button_castable: "Читать заклинание" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Заклинание читается" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Заклинание прочитано" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Клик по карте вставит координаты в редактор заклинаний."
     tip_toggle_play: "Переключайте воспроизведение/паузу комбинацией Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ и Ctrl+] - перемотка назад и вперёд."

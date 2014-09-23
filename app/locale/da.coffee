@@ -383,6 +383,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     guide: "Guide"
     restart: "Start forfra"
     goals: "Mål"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
     tome_other_units: "Andre enheder"
-    tome_cast_button_castable: "Kast Trylleformular"
-#    tome_cast_button_casting: "Casting"
-#    tome_cast_button_cast: "Spell Cast"
+    tome_cast_button_castable: "Kast Trylleformular" # Temporary, if tome_cast_button_run isn't translated.
+#    tome_cast_button_casting: "Casting" # Temporary, if tome_cast_button_running isn't translated.
+#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Vælg en trylleformular"
     tome_select_a_thang: "Vælg nogen til at "
     tome_available_spells: "Tilgængelige trylleformularer"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     skip_tutorial: "Spring over (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

@@ -383,6 +383,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     guide: "ガイド"
     restart: "再始動"
     goals: "目標"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tome_minion_spells: "操作できるキャラクターの呪文"
     tome_read_only_spells: "読込専用の呪文"
     tome_other_units: "その他のユニット"
-    tome_cast_button_castable: "キャスト"
-    tome_cast_button_casting: "キャスト中"
-    tome_cast_button_cast: "呪文をキャスト"
+    tome_cast_button_castable: "キャスト" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "キャスト中" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "呪文をキャスト" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "呪文を選択"
     tome_select_a_thang: "誰かを選択: "
     tome_available_spells: "利用できる呪文"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     skip_tutorial: "スキップ (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

@@ -383,6 +383,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     guide: "Guide"
     restart: "Relancer"
     goals: "Objectifs"
+#    goal: "Goal"
     success: "Succès"
     incomplete: "Imcoplet"
     timed_out: "Plus de temps"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_minion_spells: "Les sorts de vos soldats"
     tome_read_only_spells: "Sorts en lecture-seule"
     tome_other_units: "Autres unités"
-    tome_cast_button_castable: "Jeter le sort"
-    tome_cast_button_casting: "Sort en court"
-    tome_cast_button_cast: "Sort jeté"
+    tome_cast_button_castable: "Jeter le sort" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Sort en court" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Sort jeté" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Choisissez un sort"
     tome_select_a_thang: "Sélectionnez une unité pour"
     tome_available_spells: "Sorts diponibles"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     skip_tutorial: "Passer (esc)"
     keyboard_shortcuts: "Raccourcis Clavier"
     loading_ready: "Pret!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Maj+Clic un point pour insérer les coordonnées dans l'éditeur ."
     tip_toggle_play: "Jouer/Pause avec Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

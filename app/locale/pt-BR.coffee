@@ -383,6 +383,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     guide: "Guia"
     restart: "Reiniciar"
     goals: "Objetivos"
+#    goal: "Goal"
     success: "Sucesso!"
     incomplete: "Incompleto"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_minion_spells: "Magias dos seus subordinados"
     tome_read_only_spells: "Magias não editáveis"
     tome_other_units: "Outras Unidades"
-    tome_cast_button_castable: "Lançar"
-    tome_cast_button_casting: "Conjurando"
-    tome_cast_button_cast: "Feitiço"
+    tome_cast_button_castable: "Lançar" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Conjurando" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Feitiço" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecione um Feitiço"
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     skip_tutorial: "Pular (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Pronto!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

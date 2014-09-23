@@ -383,6 +383,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    guide: "Guide"
 #    restart: "Restart"
 #    goals: "Goals"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
 #    tome_other_units: "Other Units"
-#    tome_cast_button_castable: "Cast Spell"
-#    tome_cast_button_casting: "Casting"
-#    tome_cast_button_cast: "Spell Cast"
+#    tome_cast_button_castable: "Cast Spell" # Temporary, if tome_cast_button_run isn't translated.
+#    tome_cast_button_casting: "Casting" # Temporary, if tome_cast_button_running isn't translated.
+#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

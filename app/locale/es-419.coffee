@@ -383,6 +383,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     guide: "Guia"
     restart: "Reiniciar"
     goals: "Objetivos"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     tome_minion_spells: "Hechizos de tus Secuaces"
     tome_read_only_spells: "Hechizos de Sólo Lectura"
     tome_other_units: "Otras Unidades"
-    tome_cast_button_castable: "Invocable"
-    tome_cast_button_casting: "Invocando"
-    tome_cast_button_cast: "Invocar"
+    tome_cast_button_castable: "Invocable" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Invocando" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Invocar" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecciona un Hechizo"
     tome_select_a_thang: "Selecciona Alguien para "
     tome_available_spells: "Hechizos Disponibles"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     skip_tutorial: "Saltar (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "¡Listo!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Clic un punto en el mapa para insertarlo en el editor de hechizos."
     tip_toggle_play: "Activa jugar/pausa con Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido."

@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     guide: "Handleiding"
     restart: "Herstarten"
     goals: "Doelen"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     tome_minion_spells: "Jouw Minions' Spreuken"
     tome_read_only_spells: "Read-Only Spreuken"
     tome_other_units: "Andere Eenheden"
-    tome_cast_button_castable: "Uitvoeren"
-    tome_cast_button_casting: "Aan het uitvoeren"
-    tome_cast_button_cast: "Spreuk uitvoeren"
+    tome_cast_button_castable: "Uitvoeren" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Aan het uitvoeren" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Spreuk uitvoeren" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecteer een Spreuk"
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     skip_tutorial: "Overslaan (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Klaar!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Klik een punt op de kaart om het toe te voegen aan je spreuk editor."
     tip_toggle_play: "Verwissel speel/pauze met Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ en Ctrl+] om terug te spoelen en vooruit te spoelen."

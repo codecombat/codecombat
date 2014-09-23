@@ -383,6 +383,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     guide: "指南"
     restart: "重新开始"
     goals: "目标"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_minion_spells: "助手的咒语"
     tome_read_only_spells: "只读的咒语"
     tome_other_units: "其他单元"
-    tome_cast_button_castable: "发动"
-    tome_cast_button_casting: "发动中"
-    tome_cast_button_cast: "发动咒语"
+    tome_cast_button_castable: "发动" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "发动中" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "发动咒语" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "选择一个法术"
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skip_tutorial: "跳过（esc）"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "载入完成!"
+#    loading_start: "Start Level"
     tip_insert_positions: "使用Shift+左键来插入拼写编辑器。"
     tip_toggle_play: "用 Ctrl+P 来暂停或继续"
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进."

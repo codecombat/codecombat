@@ -383,6 +383,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     guide: "Segítség"
     restart: "Előlről"
     goals: "Célok"
+#    goal: "Goal"
     success: "Sikerült!"
     incomplete: "Hiányos"
     timed_out: "Kifutottál az időből"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_minion_spells: "Egységeid varázslatai"
     tome_read_only_spells: "Csak olvasható varázslatok"
     tome_other_units: "Egyéb egységek"
-    tome_cast_button_castable: "Bocsáss rá varázslatot!"
-    tome_cast_button_casting: "Varázslat folyamatban"
-    tome_cast_button_cast: "Varázslat végrehajtva."
+    tome_cast_button_castable: "Bocsáss rá varázslatot!" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Varázslat folyamatban" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Varázslat végrehajtva." # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Válassz egy varázslatot"
     tome_select_a_thang: "Válassz ki valakit "
     tome_available_spells: "Elérhető varázslatok"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     guide: "Aleitig"
     restart: "Neu starte"
     goals: "Ziel"
+#    goal: "Goal"
     success: "Erfolg!"
     incomplete: "Unvollständig"
     timed_out: "Ziit abglaufe"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tome_minion_spells: "Zaubersprüch vo dine Minions"
     tome_read_only_spells: "Read-Only Zaubersprüch"
     tome_other_units: "Anderi Einheite"
-    tome_cast_button_castable: "Zauber beschwöre"
-    tome_cast_button_casting: "Wird beschwore"
-#    tome_cast_button_cast: "Spell Cast"
+    tome_cast_button_castable: "Zauber beschwöre" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Wird beschwore" # Temporary, if tome_cast_button_running isn't translated.
+#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Wähl en Zauberspruch us"
     tome_select_a_thang: "Wähl öpper us für"
     tome_available_spells: "Verfüegbari Zaubersprüch"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     skip_tutorial: "Überspringe (esc)"
     keyboard_shortcuts: "Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Klick uf en Punkt uf de Charte zums in Zauberspruch-Editor ifüege."
     tip_toggle_play: "Play/Pausiert mit Ctrl+P ischalte."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
