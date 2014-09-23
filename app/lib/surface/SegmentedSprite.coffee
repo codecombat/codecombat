@@ -25,12 +25,16 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 
     action = @thangType.getActions()[actionName]
     randomStart = actionName.startsWith('move')
+    
+    # because the resulting segmented image is set to the size of the movie clip, you can use
+    # the raw registration data without scaling it.
     reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
+    @regX = -reg.x
+    @regY = -reg.y
 
     if action.animation
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
-      @regX = -reg.x
-      @regY = -reg.y
+      @baseScaleY = @baseScaleX = action.scale ? @thangType.get('scale') ? 1
       @childMovieClips = []
       @baseMovieClip = @buildMovieClip(action.animation)
       @children = @baseMovieClip.children
@@ -42,11 +46,10 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @loop = action.loops isnt false
       @goesTo = action.goesTo
       @notifyActionNeedsRender(action) if @actionNotSupported
+      @updateBaseMovieClip()
 
     else if action.container
       scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
-      @regX = -reg.x
-      @regY = -reg.y
       @childMovieClips = []
       containerName = @spriteSheetPrefix + action.container
       sprite = new createjs.Sprite(@spriteSheet)
@@ -63,6 +66,10 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @children = [sprite]
 
     return
+    
+  updateBaseMovieClip: ->
+    return unless @baseMovieClip
+    @baseMovieClip[prop] = @[prop] for prop in ['x', 'y', 'regX', 'regY']
 
   notifyActionNeedsRender: (action) ->
     @sprite?.trigger('action-needs-render', @sprite, action)
@@ -107,7 +114,9 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       outerContainer = new createjs.SpriteContainer(@spriteSheet)
       innerContainer = new createjs.Sprite(@spriteSheet)
       innerContainer.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
-      if innerContainer.currentFrame is 0
+      @listenToEventsFor(innerContainer)
+      if innerContainer.currentFrame is 0 or @usePlaceholders
+        innerContainer.gotoAndStop(0)
         @actionNotSupported = true
         bounds = @thangType.get('raw').containers[localContainer.gn].b
         innerContainer.x = bounds[0]
@@ -122,6 +131,12 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       outerContainer.alpha = localContainer.al if localContainer.al?
       map[localContainer.bn] = outerContainer
     return map
+
+  listenToEventsFor: (displayObject) ->
+    for event in ['mousedown', 'click', 'dblclick', 'pressmove', 'pressup']
+      displayObject.on event, @onMouseEvent, @
+   
+  onMouseEvent: (e) -> @dispatchEvent(e)
 
   buildMovieClipAnimations: (localAnimations) ->
     map = {}

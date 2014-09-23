@@ -2,17 +2,20 @@ LayerAdapter = require 'lib/surface/LayerAdapter'
 SegmentedSprite = require 'lib/surface/SegmentedSprite'
 CocoSprite = require 'lib/surface/CocoSprite'
 ThangType = require 'models/ThangType'
+SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
 ogreFangriderThangType = new ThangType(require 'test/app/fixtures/ogre-fangrider.thang.type')
 
 describe 'SegmentedSprite', ->
   segmentedSprite = null
+  stage = null
   
   showMe = ->
     canvas = $('<canvas width="600" height="400"></canvas>').css('position', 'absolute').css('index', 1000).css('background', 'white')
     $('body').append(canvas)
-    stage = new createjs.SpriteStage(canvas[0])
+    stage = new createjs.Stage(canvas[0]) # this is not a SpriteStage because some tests require adding MovieClips
     stage.addChild(segmentedSprite)
+    window.stage = stage
   
     ticks = 0
     listener = {
@@ -36,6 +39,7 @@ describe 'SegmentedSprite', ->
       # couple extra actions for doing some tests
       actions.littledance = {animation:'enemy_small_move_side',framerate:1, frames:'0,6,2,6,2,8,0'}
       actions.onestep = {animation:'enemy_small_move_side', loops: false}
+      actions.head = {container:'head'}
       
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
       sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
@@ -43,7 +47,7 @@ describe 'SegmentedSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreMunchkinThangType, prefix)
-      segmentedSprite.x = 200
+      segmentedSprite.x = 100
       segmentedSprite.y = 200
     
     afterEach ->
@@ -79,6 +83,75 @@ describe 'SegmentedSprite', ->
       segmentedSprite.on('animationend', -> fired = true)
       segmentedSprite.tick(1000)
       expect(fired).toBe(true)
+
+    it 'scales rendered animations like a MovieClip', ->
+      # build a movie clip, put it on top of the segmented sprite and make sure
+      # they both 'hit' at the same time.
+
+      segmentedSprite.gotoAndStop('idle')
+      builder = new SpriteBuilder(ogreMunchkinThangType)
+      movieClip = builder.buildMovieClip('enemy_small_move_side')
+      movieClip.x = 100
+      movieClip.y = 200
+      movieClip.regX = 285
+      movieClip.regY = 300
+      movieClip.stop()
+      showMe()
+      stage.addChild(movieClip)
+      stage.update()
+      t = new Date()
+      tests = hits = 0
+      for x in _.range(50, 160, 20)
+        for y in _.range(50, 220, 20)
+          tests += 1
+          objects = stage.getObjectsUnderPoint(x, y)
+          if objects.length
+            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
+            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
+            hits+= 1 if hasSprite and hasShape
+          else
+            hits += 1
+
+      expect(hits / tests).toBeGreaterThan(0.98) # not perfect, but pretty close.
+      expect(segmentedSprite.baseScaleX).toBe(0.3)
+      expect(segmentedSprite.baseScaleY).toBe(0.3)
+      $('canvas').remove()
+
+    it 'scales placeholder animations like a MovieClip', ->
+      segmentedSprite.usePlaceholders = true
+      segmentedSprite.gotoAndStop('idle')
+      builder = new SpriteBuilder(ogreMunchkinThangType)
+      movieClip = builder.buildMovieClip('enemy_small_move_side')
+      movieClip.x = 100
+      movieClip.y = 200
+      movieClip.regX = 285
+      movieClip.regY = 300
+      movieClip.stop()
+      showMe()
+      stage.addChild(movieClip)
+      stage.update()
+      t = new Date()
+      tests = hits = 0
+      for x in _.range(50, 160, 20)
+        for y in _.range(50, 220, 20)
+          tests += 1
+          objects = stage.getObjectsUnderPoint(x, y)
+          if objects.length
+            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
+            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
+            hits+= 1 if hasSprite and hasShape
+          else
+            hits += 1
+
+      expect(hits / tests).toBeGreaterThan(0.96) # not as perfect, but still, close!
+      $('canvas').remove()
+      
+    it 'propagates events from the segments through the segmented sprite', ->
+      fired = {}
+      segmentedSprite.on('click', -> fired.didIt = true)
+      segmentedSprite.gotoAndStop('idle')
+      segmentedSprite.children[0].children[0].dispatchEvent('click')
+      expect(fired.didIt).toBe(true)
 
   describe 'with Ogre Fangrider ThangType', ->
     beforeEach ->
