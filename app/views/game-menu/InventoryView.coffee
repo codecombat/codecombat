@@ -140,7 +140,7 @@ module.exports = class InventoryView extends CocoView
     @onSelectionChanged()
 
   onAvailableItemDoubleClick: (e) ->
-    @selectAvailableItem $(e.target).closest('.list-group-item')
+    @selectAvailableItem $(e.target).closest('.list-group-item') if e
     @onSelectionChanged()
     slot = @getSelectedSlot()
     slot = @$el.find('.item-slot:not(.disabled):first') if not slot.length
@@ -295,6 +295,7 @@ module.exports = class InventoryView extends CocoView
       'simple-boots': '53e237bf53457600003e3f05'
       'longsword': '53e218d853457600003e3ebe'
       'leather-tunic': '53e22eac53457600003e3efc'
+      #'leather-boots': '53e2384453457600003e3f07'
       'programmaticon-i': '53e4108204c00d4607a89f78'
       'crude-glasses': '53e238df53457600003e3f0b'
       'builders-hammer': '53f4e6e3d822c23505b74f42'

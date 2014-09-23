@@ -51,7 +51,7 @@ AchievablePlugin = (schema, options) ->
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
 
-          worth = achievement.get('worth')
+          worth = achievement.get('worth') ? 10
           earnedPoints = 0
           wrapUp = ->
             # Update user's experience points

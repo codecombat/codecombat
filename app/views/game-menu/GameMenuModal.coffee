@@ -53,10 +53,12 @@ module.exports = class GameMenuModal extends ModalView
   updateConfig: ->
     sessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
     lastHeroConfig = me.get('heroConfig') ? {}
-    thangType = @subviews.choose_hero_view.selectedHero.get 'original'
+    thangType = @subviews.choose_hero_view.selectedHero?.get 'original'
     inventory = @subviews.inventory_view.getCurrentEquipmentConfig()
     patchSession = patchMe = false
-    props = thangType: thangType, inventory: inventory
+    props = {}
+    props.thangType = thangType if thangType
+    props.inventory = inventory if _.size inventory
     for key, val of props when val
       patchSession ||= not _.isEqual val, sessionHeroConfig[key]
       patchMe ||= not _.isEqual val, lastHeroConfig[key]
@@ -69,6 +71,7 @@ module.exports = class GameMenuModal extends ModalView
       aceConfig = me.get('aceConfig', true) ? {}
       aceConfig.language = codeLanguage
       me.set 'aceConfig', aceConfig
+    console.log 'update config from game menu modal; props:', props, 'patch session?', patchSession, 'patch me?', patchMe
     if patchSession
       @options.session.set 'heroConfig', sessionHeroConfig
       success = ->

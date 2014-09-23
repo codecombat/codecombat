@@ -24,8 +24,6 @@ module.exports = class ControlBarView extends CocoView
 
     'click #game-menu-button': 'showGameMenuModal'
 
-    'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
-
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
 
   constructor: (options) ->

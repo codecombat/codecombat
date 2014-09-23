@@ -295,7 +295,7 @@ module.exports = class ThangType extends CocoModel
     for stat, modifiers of itemConfig.stats ? {}
       stats[stat] = @formatStatDisplay stat, modifiers
     for stat in itemConfig.extraHUDProperties ? []
-      stats[stat] = null  # Find it in the other Components.
+      stats[stat] ?= null  # Find it in the other Components.
     for component in components
       continue unless config = component.config
       for stat, value of stats when not value?
@@ -307,6 +307,8 @@ module.exports = class ThangType extends CocoModel
           stats[stat].display += " (#{dps} DPS)"
       if config.programmableSnippets
         props = props.concat config.programmableSnippets
+    for stat, value of stats when not value?
+      stats[stat] = name: stat, display: '???'
     props: props, stats: stats
 
   formatStatDisplay: (name, modifiers) ->

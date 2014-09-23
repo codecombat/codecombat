@@ -89,6 +89,8 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    if session is @session
+      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
     return unless @level.get('type', true) is 'hero'
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig')
@@ -101,8 +103,6 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
-    if session is @session
-      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
 
   # Grabbing the rest of the required data for the level
 
