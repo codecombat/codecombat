@@ -362,7 +362,8 @@ module.exports = class PlayLevelView extends RootView
       AudioPlayer.preloadSound src
       Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
       return
-    @ambientSound = createjs.Sound.play src, loop: -1
+    @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
+    createjs.Tween.get(@ambientSound).to({volume: 1.0}, 10000)
 
   restoreSessionState: ->
     return if @alreadyLoadedState
@@ -618,7 +619,7 @@ module.exports = class PlayLevelView extends RootView
 
   onSubmissionComplete: =>
     return if @destroyed
-    @showVictory() if @goalManager.checkOverallStatus() is 'success'
+    Backbone.Mediator.publish 'level:show-victory', showModal: true if @goalManager.checkOverallStatus() is 'success'
 
   destroy: ->
     @levelLoader?.destroy()
@@ -626,7 +627,9 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
-    @ambientSound?.stop()
+    if ambientSound = @ambientSound
+      # Doesn't seem to work; stops immediately.
+      createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     $(window).off 'resize', @onWindowResize
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
