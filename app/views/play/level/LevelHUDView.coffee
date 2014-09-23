@@ -199,7 +199,12 @@ module.exports = class LevelHUDView extends CocoView
         group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
-    @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
+    if @speaker is 'Hero Placeholder'
+      # Doesn't work if it fires from a script; we don't really know who we are then.
+      name = {knight: 'Tharin', captain: 'Anya'}[@speakerSprite?.thang?.id] ? 'Hero'
+    else
+      name = @speaker
+    @bubble.append($("<h3>#{name}</h3>"))
     @animator = new DialogueAnimator(message, @bubble)
     @messageInterval = setInterval(@addMoreMessage, 1000 / 30)  # 30 FPS
 

@@ -23,6 +23,7 @@ module.exports = class GameMenuModal extends ModalView
     @options.showDevBits = me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
     @options.showInventory = @options.level.get('type', true) is 'hero'
     @options.levelID = @options.level.get('slug')
+    @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -51,7 +52,7 @@ module.exports = class GameMenuModal extends ModalView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
   updateConfig: ->
-    sessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
+    sessionHeroConfig = @options.startingSessionHeroConfig
     lastHeroConfig = me.get('heroConfig') ? {}
     thangType = @subviews.choose_hero_view.selectedHero?.get 'original'
     inventory = @subviews.inventory_view.getCurrentEquipmentConfig()

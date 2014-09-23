@@ -17,7 +17,10 @@ block modal-footer-content
     a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_go_ladder") Return to Ladder
   else if hasNextLevel
     button.btn.btn-success.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
-  a.btn.btn-primary(href="/play-hero", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
+  else if level.get('type', true) === 'hero'
+    a.btn.btn-success(href="/play-hero", data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
+  else
+    a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
   if me.get('anonymous')
     p.sign-up-poke
       button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/SignupModal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress

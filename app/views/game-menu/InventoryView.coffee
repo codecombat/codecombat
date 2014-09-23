@@ -39,7 +39,6 @@ module.exports = class InventoryView extends CocoView
     super()
 
   onLoaded: ->
-    @items.models = _.filter(@items.models, (item) => item.get('original') in @allowedItems) if @allowedItems
     item.notInLevel = true for item in @items.models
     super()
 
@@ -51,6 +50,8 @@ module.exports = class InventoryView extends CocoView
     for item in @items.models
       item.classes = item.getAllowedSlots()
       item.classes.push 'equipped' if item.get('original') in context.equipped
+      item.classes.push 'restricted' if @allowedItems and not (item.get('original') in @allowedItems)
+    @items.models.sort (a, b) -> ('restricted' in a.classes) - ('restricted' in b.classes)
 
     context.slots = @slots
     context.equipment = _.clone @equipment
@@ -82,6 +83,7 @@ module.exports = class InventoryView extends CocoView
       itemView.render()
       $(availableItemEl).append(itemView.$el)
       @registerSubView(itemView)
+      continue if $(availableItemEl).hasClass 'restricted'
       dragHelper = itemView.$el.find('img').clone().addClass('draggable-item')
       do (dragHelper, itemView) =>
         itemView.$el.draggable
@@ -134,13 +136,17 @@ module.exports = class InventoryView extends CocoView
 
   onAvailableItemClick: (e) ->
     itemContainer = $(e.target).closest('.list-group-item')
+    return if itemContainer.hasClass 'restricted'
     wasActive = itemContainer.hasClass 'active'
     @unselectAllAvailableEquipment()
     @selectAvailableItem(itemContainer) unless wasActive
     @onSelectionChanged()
 
   onAvailableItemDoubleClick: (e) ->
-    @selectAvailableItem $(e.target).closest('.list-group-item') if e
+    if e
+      itemContainer = $(e.target).closest('.list-group-item')
+      return if itemContainer.hasClass 'restricted'
+      @selectAvailableItem itemContainer
     @onSelectionChanged()
     slot = @getSelectedSlot()
     slot = @$el.find('.item-slot:not(.disabled):first') if not slot.length
@@ -316,7 +322,13 @@ module.exports = class InventoryView extends CocoView
     necessaryGear = gearByLevel[@options.levelID]
     for slot, item of necessaryGear ? {}
       @equipment[slot] ?= gear[item]
-    @allowedItems = _.union(_.values(gear), _.values(@equipment)) if necessaryGear  # If it's one of these levels, don't show the extra items.
+
+    # Restrict available items to those that would be available by this item.
+    @allowedItems = []
+    for level, items of gearByLevel
+      for slot, item of items
+        @allowedItems.push gear[item] unless gear[item] in @allowedItems
+      break if level is @options.levelID
 
   onHeroSelectionUpdated: (e) ->
     @selectedHero = e.hero
