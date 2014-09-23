@@ -34,6 +34,9 @@ module.exports = class VictoryModal extends ModalView
     @session = options.session
     @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
     @loadExistingFeedback()
+    if @level.get('type', true) is 'hero'
+      @closeButton = false
+      @closesOnClickOutside = false
     super options
 
   loadExistingFeedback: ->
