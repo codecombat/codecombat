@@ -383,6 +383,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     guide: "가이드"
     restart: "재시작"
     goals: "목표"
+#    goal: "Goal"
     success: "성공!"
     incomplete: "목표 미완료"
     timed_out: "제한 시간 초과"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_minion_spells: "미니언의 마법"
     tome_read_only_spells: "읽기 전용 마법"
     tome_other_units: "다른 유닛들"
-    tome_cast_button_castable: "마법 캐스팅"
-    tome_cast_button_casting: "캐스팅 중"
-    tome_cast_button_cast: "마법 캐스팅"
+    tome_cast_button_castable: "마법 캐스팅" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "캐스팅 중" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "마법 캐스팅" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "마법을 선택 하세요"
     tome_select_a_thang: "누군가를 선택하세요. "
     tome_available_spells: "사용 가능한 마법"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     skip_tutorial: "넘기기 (esc)"
     keyboard_shortcuts: "단축키"
     loading_ready: "준비!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

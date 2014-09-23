@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     guide: "Rehber"
     restart: "Yeniden başlat"
     goals: "Hedefler"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_minion_spells: "Minyonlarınızın Büyüleri"
     tome_read_only_spells: "Salt Okunur Büyüler"
     tome_other_units: "Diğer Birimler"
-    tome_cast_button_castable: "Fırlatılabilir"
-    tome_cast_button_casting: "Fırlatılıyor"
-    tome_cast_button_cast: "Fırlat"
+    tome_cast_button_castable: "Fırlatılabilir" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Fırlatılıyor" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Fırlat" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Bir Büyü Seç"
     tome_select_a_thang: "Birini seç..."
     tome_available_spells: "Kullanılabilir Büyüler"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     skip_tutorial: "Atla (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Hazır!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

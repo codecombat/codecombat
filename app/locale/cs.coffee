@@ -383,6 +383,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     guide: "Průvodce"
     restart: "Restartovat"
     goals: "Cíl"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tome_minion_spells: "Vaše oblíbená kouzla"
     tome_read_only_spells: "Kouzla jen pro čtení"
     tome_other_units: "Ostatní jednotky"
-    tome_cast_button_castable: "Spustit"
-    tome_cast_button_casting: "Spouštění"
-    tome_cast_button_cast: "Spustit Kouzlo"
+    tome_cast_button_castable: "Spustit" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Spouštění" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Spustit Kouzlo" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Zvolte Kouzlo"
     tome_select_a_thang: "Zvolte někoho pro "
     tome_available_spells: "Dostupná kouzla"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

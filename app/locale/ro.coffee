@@ -383,6 +383,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     guide: "Ghid"
     restart: "Restart"
     goals: "Obiective"
+#    goal: "Goal"
     success: "Success!"
     incomplete: "Incomplet"
     timed_out: "Ai ramas fara timp"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tome_minion_spells: "Vrăjile Minion-ilor tăi"
     tome_read_only_spells: "Vrăji Read-Only"
     tome_other_units: "Alte unități"
-    tome_cast_button_castable: "Aplică Vraja"
-    tome_cast_button_casting: "Se încarcă"
-    tome_cast_button_cast: "Aplică Vraja"
+    tome_cast_button_castable: "Aplică Vraja" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Se încarcă" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Aplică Vraja" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Alege o vrajă"
     tome_select_a_thang: "Alege pe cineva pentru "
     tome_available_spells: "Vrăjile disponibile"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     skip_tutorial: "Sari peste (esc)"
     keyboard_shortcuts: "Scurtături Keyboard"
     loading_ready: "Gata!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Click oriunde pe harta pentru a insera punctul în editorul de vrăji."
     tip_toggle_play: "Pune sau scoate pauza cu Ctrl+P."
     tip_scrub_shortcut: "Înapoi și derulare rapidă cu Ctrl+[ and Ctrl+]."

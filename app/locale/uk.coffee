@@ -383,6 +383,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     guide: "Посібник"
     restart: "Перезавантажити"
     goals: "Цілі"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "українська мова", englishDesc
     tome_minion_spells: "Закляття ваших міньонів"
     tome_read_only_spells: "Закляття тільки для читання"
     tome_other_units: "Інші юніти"
-    tome_cast_button_castable: "Читати закляття"
-    tome_cast_button_casting: "Закляття читається"
-    tome_cast_button_cast: "Закляття прочитано"
+    tome_cast_button_castable: "Читати закляття" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Закляття читається" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Закляття прочитано" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Оберіть закляття"
     tome_select_a_thang: "Оберіть когось для "
     tome_available_spells: "Доступні закляття"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     skip_tutorial: "Пропустити (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Готово!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Натиснути точку на карті, щоб вставити його у редактор заклинань."
     tip_toggle_play: "Перемикач грати/пауза командою Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ і Ctrl+] для перемотування та швидкого перемотування вперед."

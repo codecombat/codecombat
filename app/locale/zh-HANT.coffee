@@ -383,6 +383,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     guide: "指南"
     restart: "重新開始"
     goals: "目標"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tome_minion_spells: "助手的咒語"
     tome_read_only_spells: "唯讀的咒語"
     tome_other_units: "其他單位"
-    tome_cast_button_castable: "發動"
-    tome_cast_button_casting: "發動中"
-    tome_cast_button_cast: "咒語"
+    tome_cast_button_castable: "發動" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "發動中" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "咒語" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "選擇一個法術"
     tome_select_a_thang: "選擇一個人物來施放"
     tome_available_spells: "可用的法術"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

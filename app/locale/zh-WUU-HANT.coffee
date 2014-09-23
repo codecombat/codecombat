@@ -383,6 +383,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     guide: "指南"
     restart: "轉來"
     goals: "目標"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tome_minion_spells: "下手個咒語"
     tome_read_only_spells: "只讀個咒語"
     tome_other_units: "各許單元"
-    tome_cast_button_castable: "發動"
-    tome_cast_button_casting: "徠搭發動"
-    tome_cast_button_cast: "發動咒語"
+    tome_cast_button_castable: "發動" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "徠搭發動" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "發動咒語" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "揀一個法術"
     tome_select_a_thang: "揀人來 "
     tome_available_spells: "好用個法術"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     skip_tutorial: "跳過去（Esc）"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "讀取下落！"
+#    loading_start: "Start Level"
     tip_insert_positions: "用Shift+濟鍵來嵌進拼寫編寫器。"
     tip_toggle_play: "用 Ctrl+P 暫停/繼續"
     tip_scrub_shortcut: "用 Ctrl+[ 搭 Ctrl+] 倒退搭快進。"

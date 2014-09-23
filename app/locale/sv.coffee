@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     guide: "Guide"
     restart: "Börja om"
     goals: "Mål"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_minion_spells: "Dina soldaters förmågor"
     tome_read_only_spells: "Skrivskyddade förmågor"
     tome_other_units: "Andra enheter"
-    tome_cast_button_castable: "Använd besvärjelse"
-    tome_cast_button_casting: "Besvärjer"
-    tome_cast_button_cast: "Besvärjelse använd"
+    tome_cast_button_castable: "Använd besvärjelse" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Besvärjer" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Besvärjelse använd" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Välj en förmåga"
     tome_select_a_thang: "Välj någon för "
     tome_available_spells: "Tillgängliga förmågor"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     skip_tutorial: "Hoppa över (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

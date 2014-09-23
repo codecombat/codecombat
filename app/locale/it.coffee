@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     guide: "Guida"
     restart: "Ricomincia"
     goals: "Obiettivi"
+#    goal: "Goal"
 #    success: "Success!"
     incomplete: "Incompleto"
     timed_out: "Tempo Scaduto"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tome_minion_spells: "Incantesimi dei tuoi seguaci"
     tome_read_only_spells: "Incantesimi in sola lettura"
     tome_other_units: "Altre unità"
-    tome_cast_button_castable: "Lancia"
-    tome_cast_button_casting: "Lanciando"
-    tome_cast_button_cast: "Incantesimi"
+    tome_cast_button_castable: "Lancia" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Lanciando" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Incantesimi" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Seleziona un incantesimo"
     tome_select_a_thang: "Seleziona qualcuno per "
     tome_available_spells: "Incantesimi disponibili"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     skip_tutorial: "Salta (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Pronto!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

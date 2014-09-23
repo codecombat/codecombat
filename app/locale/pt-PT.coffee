@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     guide: "Guia"
     restart: "Reiniciar"
     goals: "Objetivos"
+#    goal: "Goal"
     success: "Successo!"
     incomplete: "Incompletos"
     timed_out: "Ficou sem tempo"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_minion_spells: "Feitiços dos Seus Minions"
     tome_read_only_spells: "Feitiços Apenas de Leitura"
     tome_other_units: "Outras Unidades"
-    tome_cast_button_castable: "Lançar Feitiço"
-    tome_cast_button_casting: "A Lançar"
-    tome_cast_button_cast: "Feitiço Lançado"
+    tome_cast_button_castable: "Lançar Feitiço" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "A Lançar" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Feitiço Lançado" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecione um Feitiço"
     tome_select_a_thang: "Selecione Alguém para "
     tome_available_spells: "Feitiços Disponíveis"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atalhos do Teclado"
     loading_ready: "Pronto!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Pressione Shift e Clique num ponto do mapa para inseri-lo no editor de feitiços."
     tip_toggle_play: "Alterne entre Jogar e Pausar com Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ rebobina e Ctrl+] avança."

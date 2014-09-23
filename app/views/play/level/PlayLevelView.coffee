@@ -612,6 +612,7 @@ module.exports = class PlayLevelView extends RootView
     @onWindowResize()
 
   onRealTimePlaybackEnded: (e) ->
+    return unless @$el.hasClass 'real-time'
     @$el.removeClass 'real-time'
     @onWindowResize()
     if @world.frames.length is @world.totalFrames

@@ -383,6 +383,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     guide: "Przewodnik"
     restart: "Zacznij od nowa"
     goals: "Cele"
+#    goal: "Goal"
     success: "Sukces!"
     incomplete: "Niekompletne"
     timed_out: "Czas minął"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     tome_minion_spells: "Czary twojego podopiecznego"
     tome_read_only_spells: "Czary tylko do odczytu"
     tome_other_units: "Inne jednostki"
-    tome_cast_button_castable: "Rzuć czar"
-    tome_cast_button_casting: "Rzucam czar"
-    tome_cast_button_cast: "Rzucenie czaru"
+    tome_cast_button_castable: "Rzuć czar" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Rzucam czar" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Rzucenie czaru" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Wybierz czar"
     tome_select_a_thang: "Wybierz kogoś do "
     tome_available_spells: "Dostępne czary"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     skip_tutorial: "Pomiń (esc)"
     keyboard_shortcuts: "Skróty klawiszowe"
     loading_ready: "Gotowy!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Kliknij punkt na mapie, by umieścić go w edytorze zaklęć."
     tip_toggle_play: "Włącz/zatrzymaj grę naciskając Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ i Ctrl+] przesuwają czas."

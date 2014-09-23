@@ -383,6 +383,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     guide: "Οδηγός"
 #    restart: "Restart"
     goals: "Στόχοι"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tome_minion_spells: "Ξόρκια για τα τσιράκια σας"
     tome_read_only_spells: "Ξορκια μονο για αναγνωση"
     tome_other_units: "Άλλες μονάδες"
-    tome_cast_button_castable: "Μαγεψε"
-#    tome_cast_button_casting: "Casting"
-#    tome_cast_button_cast: "Spell Cast"
+    tome_cast_button_castable: "Μαγεψε" # Temporary, if tome_cast_button_run isn't translated.
+#    tome_cast_button_casting: "Casting" # Temporary, if tome_cast_button_running isn't translated.
+#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

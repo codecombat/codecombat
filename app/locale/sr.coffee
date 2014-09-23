@@ -383,6 +383,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     guide: "Водич"
     restart: "Поновно учитавање"
     goals: "Циљеви"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -407,9 +408,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_minion_spells: "Чини твојих поданика"
     tome_read_only_spells: "Чини које се могу само гледати"
     tome_other_units: "Остале јединице"
-    tome_cast_button_castable: "Баци"
-    tome_cast_button_casting: "Бацање"
-    tome_cast_button_cast: "Баци чини"
+    tome_cast_button_castable: "Баци" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Бацање" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Баци чини" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Изабери чин"
     tome_select_a_thang: "Изабери неког за "
     tome_available_spells: "Доступне чини"
@@ -418,6 +423,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."

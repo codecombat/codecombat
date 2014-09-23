@@ -61,6 +61,7 @@ module.exports = class TomeView extends CocoView
   afterRender: ->
     super()
     @worker = @createWorker()
+    #programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.spriteName isnt 'Hero Placeholder'
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
