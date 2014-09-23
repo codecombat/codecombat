@@ -200,6 +200,7 @@ module.exports = class LevelHUDView extends CocoView
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     if @speaker is 'Hero Placeholder'
+      # Doesn't work if it fires from a script; we don't really know who we are then.
       name = {knight: 'Tharin', captain: 'Anya'}[@speakerSprite?.thang?.id] ? 'Hero'
     else
       name = @speaker
