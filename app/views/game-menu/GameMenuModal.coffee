@@ -58,8 +58,10 @@ module.exports = class GameMenuModal extends ModalView
     inventory = @subviews.inventory_view.getCurrentEquipmentConfig()
     patchSession = patchMe = false
     props = {}
-    props.thangType = thangType if thangType
-    props.inventory = inventory if _.size inventory
+    if thangType or not sessionHeroConfig.thangType
+      props.thangType = thangType ? '529ffbf1cf1818f2be000001'  # Default to Tharin if it somehow doesn't get set.
+    if _.size(inventory) or not sessionHeroConfig.inventory
+      props.inventory = inventory
     for key, val of props when val
       patchSession ||= not _.isEqual val, sessionHeroConfig[key]
       patchMe ||= not _.isEqual val, lastHeroConfig[key]

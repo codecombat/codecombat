@@ -37,7 +37,8 @@ module.exports = class Spell
     @source = @originalSource
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
-      @source = sessionSource
+      if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it
+        @source = sessionSource
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
       @view = new SpellView {spell: @, session: @session, worker: @worker}
@@ -55,6 +56,7 @@ module.exports = class Spell
     @worker = null
 
   setLanguage: (@language) ->
+    console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[language] ? @languages.javascript
 
   addThang: (thang) ->
