@@ -45,6 +45,7 @@
 
 #available-equipment
   h4#stash-description
-  for item in items
-    .list-group-item(class=item.classes, data-item-id=item.get('original'))
+  ul.list-group
+    for item in items
+      li.list-group-item(class=item.classes, data-item-id=item.get('original'))
       
