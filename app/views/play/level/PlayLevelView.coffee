@@ -45,7 +45,7 @@ module.exports = class PlayLevelView extends RootView
   isEditorPreview: false
 
   subscriptions:
-    'level:set-volume': (e) -> createjs.Sound.setVolume(e.volume)
+    'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
     'level:show-victory': 'onShowVictory'
     'level:restart': 'onRestartLevel'
     'level:highlight-dom': 'onHighlightDom'
