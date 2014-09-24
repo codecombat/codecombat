@@ -34,25 +34,37 @@
   .btn
     padding: 3px 10px
     height: 40px
+    font-size: 22px
 
   .submit-button
     margin-left: 20px
+    min-width: 150px
   
   .cast-button
     margin-left: 10px
+    min-width: 150px
     @include opacity(0.77)
   
     &:hover, &.castable
       @include opacity(1)
   
-  &:not(.winnable) .cast-button.castable
-    font-weight: bold
-    -webkit-animation-name: castablePulse
-    -webkit-animation-duration: 3s
-    -webkit-animation-iteration-count: infinite
+  &:not(.winnable)
 
-  &.winnable .submit-button
-    font-weight: bold
-    -webkit-animation-name: winnablePulse
-    -webkit-animation-duration: 3s
-    -webkit-animation-iteration-count: infinite
+    .cast-button.castable
+      font-weight: bold
+      -webkit-animation-name: castablePulse
+      -webkit-animation-duration: 3s
+      -webkit-animation-iteration-count: infinite
+
+    .submit-button
+      font-size: 16px
+
+  &.winnable
+    .submit-button
+      font-weight: bold
+      -webkit-animation-name: winnablePulse
+      -webkit-animation-duration: 3s
+      -webkit-animation-iteration-count: infinite
+
+    .cast-button
+      font-size: 16px

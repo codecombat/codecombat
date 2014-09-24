@@ -1,6 +1,6 @@
 c = require 'schemas/schemas'
 
-goalStatesSchema = 
+goalStatesSchema =
   type: 'object'
   additionalProperties:
     type: 'object'
@@ -41,6 +41,8 @@ module.exports =
 
   'god:goals-calculated': c.object {required: ['goalStates']},
     goalStates: goalStatesSchema
+    preload: {type: 'boolean'}
+    overallStatus: {type: ['string', 'null'], enum: ['success', 'failure', 'incomplete', null]}
 
   'god:world-load-progress-changed': c.object {required: ['progress']},
     progress: {type: 'number', minimum: 0, maximum: 1}
