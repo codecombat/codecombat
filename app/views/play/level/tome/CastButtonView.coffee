@@ -104,7 +104,8 @@ module.exports = class CastButtonView extends CocoView
       else if castable
         s = $.i18n.t('play_level.tome_cast_button_run')
         s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Run' and me.get('preferredLanguage').split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.
-        s += ' ' + @castShortcut
+        unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']  # Hide for first few.
+          s += ' ' + @castShortcut
       else
         s = $.i18n.t('play_level.tome_cast_button_ran')
         s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Ran' and me.get('preferredLanguage').split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.
