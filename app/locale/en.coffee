@@ -400,6 +400,7 @@
     victory_rate_the_level: "Rate the level: "
     victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Play Next Level"
+    victory_play_continue: "Continue"
     victory_go_home: "Go Home"
     victory_review: "Tell us more!"
     victory_hour_of_code_done: "Are You Done?"

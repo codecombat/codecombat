@@ -17,7 +17,6 @@ UserSchema = c.object
     simulatedBy: 0
     simulatedFor: 0
     jobProfile: {}
-    lastIP: '0.0.0.0'
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
@@ -91,6 +90,7 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
+  lastIP: {type: 'string'}
 
   emailLower: c.shortString()
   nameLower: c.shortString()
