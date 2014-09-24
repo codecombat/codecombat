@@ -72,6 +72,7 @@ module.exports = class WorldMapView extends RootView
     super()
     @onWindowResize()
     _.defer => @$el.find('.game-controls button').tooltip()  # Have to defer or i18n doesn't take effect.
+    @$el.find('.level').tooltip()
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models

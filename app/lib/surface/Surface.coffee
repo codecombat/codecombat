@@ -536,6 +536,9 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle false
     @playing = false  # Will start when countdown is done.
+    if @heroSprite
+      @previousCameraZoom = @camera.zoom
+      @camera.zoomTo @heroSprite.imageObject, 4, 3000
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime
@@ -543,6 +546,8 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle true
     @canvas.removeClass 'flag-color-selected'
+    if @previousCameraZoom
+      @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
   onFlagColorSelected: (e) ->
     @canvas.toggleClass 'flag-color-selected', Boolean(e.color)
