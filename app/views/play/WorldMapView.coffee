@@ -21,9 +21,9 @@ module.exports = class WorldMapView extends RootView
     'click .map-background': 'onClickMap'
     'click .level a': 'onClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
-    #'mouseenter .level a': 'onMouseEnterLevel'
-    #'mouseleave .level a': 'onMouseLeaveLevel'
-    #'mousemove .map': 'onMouseMoveMap'
+    'mouseenter .level a': 'onMouseEnterLevel'
+    'mouseleave .level a': 'onMouseLeaveLevel'
+    'mousemove .map': 'onMouseMoveMap'
 
   constructor: (options) ->
     super options
@@ -66,13 +66,15 @@ module.exports = class WorldMapView extends RootView
         level.y ?= 10 + 80 * Math.random()
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
+    context.isIPadApp = application.isIPadApp
     context
 
   afterRender: ->
     super()
     @onWindowResize()
-    _.defer => @$el.find('.game-controls button').tooltip()  # Have to defer or i18n doesn't take effect.
-    @$el.find('.level').tooltip()
+    unless application.isIPadApp
+      _.defer => @$el.find('.game-controls button').tooltip()  # Have to defer or i18n doesn't take effect.
+      @$el.find('.level').tooltip()
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
@@ -91,27 +93,35 @@ module.exports = class WorldMapView extends RootView
     e.stopPropagation()
     @$levelInfo?.hide()
     return if $(e.target).attr('disabled')
+    if application.isIPadApp
+      levelID = $(e.target).parents('.level').data('level-id')
+      @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
+      @adjustLevelInfoPosition e
+    else
+      @startLevel $(e.target).parents('.level')
+
+  onClickStartLevel: (e) ->
+    @startLevel $(e.target).parents('.level-info-container')
+
+  startLevel: (levelElement) ->
+    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name')
+    @openModalView playLevelModal
+    @$levelInfo?.hide()
+
+  onMouseEnterLevel: (e) ->
+    return if application.isIPadApp
     levelID = $(e.target).parents('.level').data('level-id')
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
     @adjustLevelInfoPosition e
 
-  onClickStartLevel: (e) ->
-    container = $(e.target).parents('.level-info-container')
-    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: container.data('level-id'), levelPath: container.data('level-path'), levelName: container.data('level-name')
-    @openModalView playLevelModal
-    @$levelInfo?.hide()
+  onMouseLeaveLevel: (e) ->
+    return if application.isIPadApp
+    levelID = $(e.target).parents('.level').data('level-id')
+    @$el.find(".level-info-container[data-level-id='#{levelID}']").hide()
 
-  #onMouseEnterLevel: (e) ->
-  #  levelID = $(e.target).parents('.level').data('level-id')
-  #  @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
-  #  @adjustLevelInfoPosition e
-  #
-  #onMouseLeaveLevel: (e) ->
-  #  levelID = $(e.target).parents('.level').data('level-id')
-  #  @$el.find(".level-info-container[data-level-id='#{levelID}']").hide()
-  #
-  #onMouseMoveMap: (e) ->
-  #  @adjustLevelInfoPosition e
+  onMouseMoveMap: (e) ->
+    return if application.isIPadApp
+    @adjustLevelInfoPosition e
 
   adjustLevelInfoPosition: (e) ->
     return unless @$levelInfo
