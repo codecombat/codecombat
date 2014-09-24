@@ -50,7 +50,7 @@ module.exports = class WorldSelectModal extends ModalView
       grid: true
       navigateToSelection: false
       choosing: @dataType
-      coords: false
+      coords: true
       thangTypes: @supermodel.getModels(ThangType)
       showInvisible: true
     }
