@@ -420,6 +420,7 @@
     tome_select_spell: "Select a Spell"
     tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
+    tome_your_skills: "Your Skills"
     hud_continue: "Continue (shift+space)"
     spell_saved: "Spell Saved"
     skip_tutorial: "Skip (esc)"

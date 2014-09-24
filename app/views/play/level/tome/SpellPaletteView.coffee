@@ -123,7 +123,8 @@ module.exports = class SpellPaletteView extends CocoView
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
       @entryGroups = _.groupBy @entries, groupForEntry
     else
-      defaultGroup = $.i18n.t('play_level.tome_available_spells', defaultValue: 'Available Spells')
+      i18nKey = if @options.level.get('type', true) is 'hero' then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
+      defaultGroup = $.i18n.t i18nKey
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
       @defaultGroupSlug = _.string.slugify defaultGroup
