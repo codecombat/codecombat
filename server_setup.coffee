@@ -95,10 +95,9 @@ exports.setupMiddleware = (app) ->
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->
     if req.user
+      sendMain(req, res)
       req.user.set('lastIP', req.connection.remoteAddress)
-      req.user.save (err) =>
-        # ignore save error
-        sendMain(req, res)
+      req.user.save
     else
       user = auth.makeNewUser(req)
       makeNext = (req, res) -> -> sendMain(req, res)
