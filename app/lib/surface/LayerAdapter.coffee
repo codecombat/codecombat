@@ -154,13 +154,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       console.warn 'CocoSprite being re-added to a layer?'
     
     cocoSprite.layer = @
-    cocoSprite.updateBaseScale()
     @listenTo(cocoSprite, 'action-needs-render', @onActionNeedsRender)
     @cocoSprites.push cocoSprite
     @loadThangType(cocoSprite.thangType)
     @addDefaultActionsToRender(cocoSprite)
     @setImageObjectToCocoSprite(cocoSprite)
     @updateLayerOrder()
+    cocoSprite.addHealthBar()
 
   removeCocoSprite: (cocoSprite) ->
     @stopListening(cocoSprite)
@@ -288,7 +288,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @updateLayerOrder()
     for cocoSprite in @cocoSprites
       cocoSprite.options.resolutionFactor = @resolutionFactor
-      cocoSprite.updateBaseScale()
       cocoSprite.updateScale()
       cocoSprite.updateRotation()
     @trigger 'new-spritesheet'
@@ -444,9 +443,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite = new SpriteClass(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
 
     sprite.sprite = cocoSprite
+    sprite.camera = @camera
     sprite.layerPriority = cocoSprite.thang?.layerPriority ? cocoSprite.thangType.get 'layerPriority'
     sprite.name = cocoSprite.thang?.spriteName or cocoSprite.thangType.get 'name'
-    cocoSprite.addHealthBar()
     cocoSprite.setImageObject(sprite)
     cocoSprite.update(true)
     @container.addChild(sprite)

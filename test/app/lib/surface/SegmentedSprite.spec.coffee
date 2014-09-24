@@ -6,6 +6,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
 ogreFangriderThangType = new ThangType(require 'test/app/fixtures/ogre-fangrider.thang.type')
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
+scaleTestUtils = require './scale-testing-utils'
 
 describe 'SegmentedSprite', ->
   segmentedSprite = null
@@ -16,6 +17,10 @@ describe 'SegmentedSprite', ->
     $('body').append(canvas)
     stage = new createjs.Stage(canvas[0]) # this is not a SpriteStage because some tests require adding MovieClips
     stage.addChild(segmentedSprite)
+    scale = 3
+    stage.scaleX = stage.scaleY = scale
+    stage.regX = -300 / scale
+    stage.regY = -200 / scale
     window.stage = stage
   
     ticks = 0
@@ -40,8 +45,6 @@ describe 'SegmentedSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(treeThangType) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, treeThangType, prefix)
-      segmentedSprite.x = 100
-      segmentedSprite.y = 200
 
     it 'scales rendered containers to the size of the source container', ->
       # build a movie clip, put it on top of the segmented sprite and make sure
@@ -50,37 +53,15 @@ describe 'SegmentedSprite', ->
       segmentedSprite.gotoAndStop('idle')
       builder = new SpriteBuilder(treeThangType)
       container = builder.buildContainerFromStore('Tree_4')
-      container.x = 100
-      container.y = 200
+      container.scaleX = container.scaleY = 0.3
       container.regX = 59
       container.regY = 100
       showMe()
       stage.addChild(container)
       stage.update()
-      t = new Date()
-      tests = hits = 0
-      for x in _.range(30, 190, 20)
-        for y in _.range(90, 250, 20)
-          tests += 1
-          objects = stage.getObjectsUnderPoint(x, y)
-          if objects.length
-            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
-            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
-            hits+= 1 if hasSprite and hasShape
-            g = new createjs.Graphics()
-            g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
-            g.drawCircle(0, 0, 2)
-            s = new createjs.Shape(g)
-            s.x = x
-            s.y = y
-            stage.addChild(s)
-          else
-            hits += 1
-
-      expect(hits / tests).toBeGreaterThan(0.98) # not perfect, but pretty close.
-      expect(segmentedSprite.baseScaleX).toBe(0.3)
-      expect(segmentedSprite.baseScaleY).toBe(0.3)
-#      $('canvas').remove()
+      hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-15, -30, 35, 40))
+      expect(hitRate).toBeGreaterThan(0.92)
+      $('canvas').remove()
 
     it 'scales placeholder containers to the size of the source container', ->
       # build a movie clip, put it on top of the segmented sprite and make sure
@@ -90,36 +71,14 @@ describe 'SegmentedSprite', ->
       segmentedSprite.gotoAndStop('idle')
       builder = new SpriteBuilder(treeThangType)
       container = builder.buildContainerFromStore('Tree_4')
-      container.x = 100
-      container.y = 200
+      container.scaleX = container.scaleY = 0.3
       container.regX = 59
       container.regY = 100
       showMe()
       stage.addChild(container)
       stage.update()
-      t = new Date()
-      tests = hits = 0
-      for x in _.range(30, 190, 20)
-        for y in _.range(90, 250, 20)
-          tests += 1
-          objects = stage.getObjectsUnderPoint(x, y)
-          if objects.length
-            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
-            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
-            hits+= 1 if hasSprite and hasShape
-            g = new createjs.Graphics()
-            g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
-            g.drawCircle(0, 0, 2)
-            s = new createjs.Shape(g)
-            s.x = x
-            s.y = y
-            stage.addChild(s)
-          else
-            hits += 1
-
-      expect(hits / tests).toBeGreaterThan(0.84) # the circle is rather out of the tree bounds, so accuracy is low
-      expect(segmentedSprite.baseScaleX).toBe(0.3)
-      expect(segmentedSprite.baseScaleY).toBe(0.3)
+      hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-15, -30, 35, 40))
+      expect(hitRate).toBeGreaterThan(0.73)
       $('canvas').remove()
 
     it 'propagates events from the single segment through the segmented sprite', ->
@@ -149,8 +108,6 @@ describe 'SegmentedSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreMunchkinThangType, prefix)
-      segmentedSprite.x = 100
-      segmentedSprite.y = 200
     
     afterEach ->
       ogreMunchkinThangType.revert()
@@ -193,28 +150,16 @@ describe 'SegmentedSprite', ->
       segmentedSprite.gotoAndStop('idle')
       builder = new SpriteBuilder(ogreMunchkinThangType)
       movieClip = builder.buildMovieClip('enemy_small_move_side')
-      movieClip.x = 100
-      movieClip.y = 200
+      movieClip.scaleX = movieClip.scaleY = 0.3
       movieClip.regX = 285
       movieClip.regY = 300
       movieClip.stop()
       showMe()
       stage.addChild(movieClip)
+      
       stage.update()
-      t = new Date()
-      tests = hits = 0
-      for x in _.range(50, 160, 20)
-        for y in _.range(50, 220, 20)
-          tests += 1
-          objects = stage.getObjectsUnderPoint(x, y)
-          if objects.length
-            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
-            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
-            hits+= 1 if hasSprite and hasShape
-          else
-            hits += 1
-
-      expect(hits / tests).toBeGreaterThan(0.98) # not perfect, but pretty close.
+      hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-10, -30, 25, 35))
+      expect(hitRate).toBeGreaterThan(0.91)
       expect(segmentedSprite.baseScaleX).toBe(0.3)
       expect(segmentedSprite.baseScaleY).toBe(0.3)
       $('canvas').remove()
@@ -224,28 +169,15 @@ describe 'SegmentedSprite', ->
       segmentedSprite.gotoAndStop('idle')
       builder = new SpriteBuilder(ogreMunchkinThangType)
       movieClip = builder.buildMovieClip('enemy_small_move_side')
-      movieClip.x = 100
-      movieClip.y = 200
+      movieClip.scaleX = movieClip.scaleY = 0.3
       movieClip.regX = 285
       movieClip.regY = 300
       movieClip.stop()
       showMe()
       stage.addChild(movieClip)
       stage.update()
-      t = new Date()
-      tests = hits = 0
-      for x in _.range(50, 160, 20)
-        for y in _.range(50, 220, 20)
-          tests += 1
-          objects = stage.getObjectsUnderPoint(x, y)
-          if objects.length
-            hasSprite = _.any objects, (o) -> o instanceof createjs.Sprite
-            hasShape = _.any objects, (o) -> o instanceof createjs.Shape
-            hits+= 1 if hasSprite and hasShape
-          else
-            hits += 1
-
-      expect(hits / tests).toBeGreaterThan(0.96) # not as perfect, but still, close!
+      hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-10, -30, 25, 35))
+      expect(hitRate).toBeGreaterThan(0.96)
       $('canvas').remove()
       
     it 'propagates events from the segments through the segmented sprite', ->
@@ -268,8 +200,6 @@ describe 'SegmentedSprite', ->
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreFangriderThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreFangriderThangType, prefix)
-      segmentedSprite.x = 300
-      segmentedSprite.y = 300
   
     afterEach ->
       ogreFangriderThangType.revert()

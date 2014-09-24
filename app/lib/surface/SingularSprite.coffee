@@ -1,5 +1,7 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
+floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle']
+
 module.exports = class WebGLSprite extends createjs.Sprite
   childMovieClips: null
   
@@ -24,11 +26,6 @@ module.exports = class WebGLSprite extends createjs.Sprite
     if action.animation
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
       
-      scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
-      @regX = -reg.x * scale
-      @regY = -reg.y * scale
-      @scaleX = @baseScaleX = 1 / scale
-      @scaleY = @baseScaleY = 1 / scale
       func = if @paused then '_gotoAndStop' else '_gotoAndPlay'
       animationName = @spriteSheetPrefix + actionName
       @[func](animationName)
@@ -36,37 +33,44 @@ module.exports = class WebGLSprite extends createjs.Sprite
         @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').animations[action.animation].bounds
-        @scaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
-        @scaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
-        @regX = (- reg.x - bounds[0]) / @scaleX
-        @regY = (- reg.y - bounds[1]) / @scaleY
-        return
-        
-      @framerate = action.framerate or 20
-      if randomStart and frames = @spriteSheet.getAnimation(animationName)?.frames
-        @currentAnimationFrame = Math.floor(Math.random() * frames.length)
+        actionScale = (action.scale ? @thangType.get('scale') ? 1)
+        @scaleX = actionScale * bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        @scaleY = actionScale * bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        @regX = (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor) * ((-reg.x - bounds[0]) / bounds[2])
+        @regY = (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor) * ((-reg.y - bounds[1]) / bounds[3])
+      else
+        scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
+        @regX = -reg.x * scale
+        @regY = -reg.y * scale
+        @scaleX = @scaleY = 1 / @resolutionFactor
+        @framerate = action.framerate or 20
+        if randomStart and frames = @spriteSheet.getAnimation(animationName)?.frames
+          @currentAnimationFrame = Math.floor(Math.random() * frames.length)
 
     if action.container
-      scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
-      @regX = -reg.x * scale
-      @regY = -reg.y * scale
-      @scaleX = @scaleY = @baseScaleX = @baseScaleY = 1 / scale
       animationName = @spriteSheetPrefix + actionName
       @_gotoAndStop(animationName)
       if @currentFrame is 0 or @usePlaceholders
         @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').containers[action.container].b
-        @scaleX = @baseScaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
-        @scaleY = @baseScaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
-        @regX = (bounds[0] - reg.x) / @scaleX
-        @regY = (bounds[1] - reg.y) / @scaleY
-        # I don't think you can properly position the placeholder without either
-        # tying regX/Y to scaleX/Y or having this be a container within a container.
-        # This means if the placeholder has its scale changed from outside, the
-        # registration positioning will be off. Hopefully this won't matter.
-        return
+        actionScale = (action.scale ? @thangType.get('scale') ? 1)
+        @scaleX = actionScale * bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        @scaleY = actionScale * bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        @regX = (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor) * ((-reg.x - bounds[0]) / bounds[2])
+        @regY = (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor) * ((-reg.y - bounds[1]) / bounds[3])
+      else
+        scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
+        @regX = -reg.x * scale
+        @regY = -reg.y * scale
+        @scaleX = @scaleY = 1 / @resolutionFactor
 
+    if @camera and @thangType.get('name') in floors
+      @baseScaleY *= @options.camera.y2x
+    @scaleX *= -1 if action.flipX
+    @scaleY *= -1 if action.flipY
+    @baseScaleX = @scaleX
+    @baseScaleY = @scaleY
     @currentAnimation = actionName
     return
     

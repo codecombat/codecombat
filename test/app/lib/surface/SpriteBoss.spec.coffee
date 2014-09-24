@@ -79,10 +79,10 @@ describe 'SpriteBoss', ->
       # Now make the world a little more complicated.
       world.thangs = world.thangs.concat [
         # four cardinal ogres, to test movement rotation and placement around a center point.
-        {id: 'Ogre N', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5 }
-        {id: 'Ogre W', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5 }
-        {id: 'Ogre E', spriteName: 'Segmented Munchkin', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5 }
-        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:-8}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI/2, acts: true }
+        {id: 'Ogre N', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5, hudProperties: ['health'] }
+        {id: 'Ogre W', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-8, y:0}, action: 'move', health: 8, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5, hudProperties: ['health'] }
+        {id: 'Ogre E', spriteName: 'Segmented Munchkin', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5, hudProperties: ['health'] }
+        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:-8}, action: 'move', health: 2, maxHealth: 10, rotation: Math.PI/2, acts: true, hudProperties: ['health'] }
 
         # Set ogres side by side with different render strategies
         {id: 'Singular Ogre', spriteName: 'Singular Munchkin', exists: true, pos: {x:-10, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
@@ -124,7 +124,6 @@ describe 'SpriteBoss', ->
       handleEvent: ->
         return if ticks >= 100
         ticks += 1
-        console.log 'update'
         if ticks % 20 is 0
           spriteBoss.update(true)
         stage.update()

@@ -41,8 +41,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   rotation: 0
 
   # Scale numbers
-  baseScaleX: 1 # scale + flip (for current action) / resolutionFactor.
-  baseScaleY: 1 # These numbers rarely change, so keep them around.
   scaleFactorX: 1 # Current scale adjustment. This can change rapidly.
   scaleFactorY: 1
   targetScaleFactorX: 1 # What the scaleFactor is going toward during a tween.
@@ -92,7 +90,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @actions = @thangType.getActions()
       @createMarks()
 
-    @updateBaseScale()
     @scaleFactorX = @thang.scaleFactorX if @thang?.scaleFactorX?
     @scaleFactorX = @thang.scaleFactor if @thang?.scaleFactor?
     @scaleFactorY = @thang.scaleFactorY if @thang?.scaleFactorY?
@@ -140,7 +137,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @currentAction = action
     return @hide() unless action.animation or action.container or action.relatedActions
     @show()
-    @updateBaseScale()
     return @updateActionDirection() unless action.animation or action.container
     m = if action.container then 'gotoAndStop' else 'gotoAndPlay'
     @imageObject[m]?(action.name)
@@ -183,7 +179,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updateLabels()
 
   showAreaOfEffects: ->
-    # TODO: add back area of effects
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
       continue unless event.startsWith 'aoe-'
@@ -277,19 +272,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       # Let the pending flags know we're here (but not this call stack, they need to delete themselves, and we may be iterating sprites).
       _.defer => Backbone.Mediator.publish 'surface:flag-appeared', sprite: @
 
-  updateBaseScale: ->
-    scale = 1
-    useRawScale = @isRaster or @thangType.get('spriteType') is 'container'
-    scale = @thangType.get('scale') or 1 if useRawScale
-    scale /= @options.resolutionFactor unless useRawScale
-    @baseScaleX = @baseScaleY = scale
-    @baseScaleX *= -1 if @getActionProp 'flipX'
-    @baseScaleY *= -1 if @getActionProp 'flipY'
-    # temp, until these are re-exported with perspective
-    floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle']
-    if @options.camera and @thangType.get('name') in floors
-      @baseScaleY *= @options.camera.y2x
-
   updateScale: ->
     return unless @imageObject
     if @thangType.get('matchWorldDimensions') and @thang
@@ -324,8 +306,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
 
 #    console.error 'No thang for', @ unless @thang
-    @imageObject.scaleX = @baseScaleX * @scaleFactorX * scaleX
-    @imageObject.scaleY = @baseScaleY * @scaleFactorY * scaleY
+    @imageObject.scaleX = @imageObject.baseScaleX * @scaleFactorX * scaleX
+    @imageObject.scaleY = @imageObject.baseScaleY * @scaleFactorY * scaleY
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
@@ -461,9 +443,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @lastHealth = @thang.health
     if bar = @healthBar
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
-      bar.scaleX = healthPct / bar.baseScale
-      healthOffset = @getOffset 'aboveHead'
-      [bar.x, bar.y] = [healthOffset.x - bar.width / 2, healthOffset.y]
+      bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
 
@@ -486,15 +466,23 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     Backbone.Mediator.publish ourEventName, newEvent
 
   addHealthBar: ->
-    # TODO: Put back in health bars
-#    return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
-#    healthColor = healthColors[@thang?.team] ? healthColors['neutral']
-#    healthOffset = @getOffset 'aboveHead'
-#    bar = @healthBar = createProgressBar(healthColor, healthOffset)
-#    bar.name = 'health bar'
-#    bar.cache 0, -bar.height * bar.baseScale / 2, bar.width * bar.baseScale, bar.height * bar.baseScale
-#    @options.floatingLayer.addChild bar
-#    @updateHealthBar()
+    return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
+    team = @thang?.team or 'neutral'
+    key = "#{team}-health-bar"
+
+    unless key in @options.floatingLayer.spriteSheet.getAnimations()
+      healthColor = healthColors[team]
+      bar = createProgressBar(healthColor)
+      @options.floatingLayer.addCustomGraphic(key, bar, bar.bounds)
+
+    @healthBar = new createjs.Sprite(@options.floatingLayer.spriteSheet)
+    @healthBar.gotoAndStop(key)
+    offset = @getOffset 'aboveHead'
+    @healthBar.scaleX = @healthBar.scaleY = 1 / @options.floatingLayer.resolutionFactor
+    @healthBar.name = 'health bar'
+    @options.floatingLayer.addChild @healthBar
+    @updateHealthBar()
+    @lastHealth = null
 
   getActionProp: (prop, subProp, def=null) ->
     # Get a property or sub-property from an action, falling back to ThangType
@@ -768,8 +756,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updateHealthBar: ->
     return unless @healthBar
-    @healthBar.x = @imageObject.x
-    @healthBar.y = @imageObject.y
+    bounds = @healthBar.getBounds()
+    offset = @getOffset 'aboveHead'
+    @healthBar.x = @imageObject.x - (-offset.x + bounds.width / 2 / @options.floatingLayer.resolutionFactor)
+    @healthBar.y = @imageObject.y - (-offset.y + bounds.height / 2 / @options.floatingLayer.resolutionFactor)
 
   destroy: ->
     mark.destroy() for name, mark of @marks

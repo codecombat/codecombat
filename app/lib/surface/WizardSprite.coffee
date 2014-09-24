@@ -46,7 +46,6 @@ module.exports = class WizardSprite extends IndieSprite
     thang
 
   finishSetup: ->
-    @updateBaseScale()
     @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
     @updateScale()
     @updateRotation()

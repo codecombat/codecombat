@@ -30,27 +30,30 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     # because the resulting segmented image is set to the size of the movie clip, you can use
     # the raw registration data without scaling it.
     reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
-    @regX = -reg.x
-    @regY = -reg.y
-    @baseScaleY = @baseScaleX = action.scale ? @thangType.get('scale') ? 1
-
+    
     if action.animation
+      @regX = -reg.x
+      @regY = -reg.y
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
       @childMovieClips = []
       @baseMovieClip = @buildMovieClip(action.animation)
-      @children = @baseMovieClip.children
       @frames = action.frames
       @frames = (parseInt(f) for f in @frames.split(',')) if @frames
       @animLength = if @frames then @frames.length else @baseMovieClip.frameBounds.length
       @currentFrame = if randomStart then Math.floor(Math.random() * @animLength) else 0
       @baseMovieClip.gotoAndStop(@currentFrame)
+      movieClip.gotoAndStop(@currentFrame) for movieClip in @childMovieClips
+      @takeChildrenFromMovieClip()
       @loop = action.loops isnt false
       @goesTo = action.goesTo
       @notifyActionNeedsRender(action) if @actionNotSupported
-      @updateBaseMovieClip()
-
+      @scaleX = @scaleY = action.scale ? @thangType.get('scale') ? 1
+      
     else if action.container
-      scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
+      # All transformations will be done to the child sprite
+      @regX = @regY = 0
+      @scaleX = @scaleY = 1
+
       @childMovieClips = []
       containerName = @spriteSheetPrefix + action.container
       sprite = new createjs.Sprite(@spriteSheet)
@@ -60,21 +63,25 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         sprite.gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').containers[action.container].b
-        sprite.x = bounds[0]
-        sprite.y = bounds[1]
-        sprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
-        sprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        actionScale = (action.scale ? @thangType.get('scale') ? 1)
+        sprite.scaleX = actionScale * bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        sprite.scaleY = actionScale * bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        sprite.regX = (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor) * ((-reg.x - bounds[0]) / bounds[2])
+        sprite.regY = (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor) * ((-reg.y - bounds[1]) / bounds[3])
       else
-        sprite.scaleX = sprite.scaleY = 1 / scale
+        scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
+        sprite.regX = -reg.x * scale
+        sprite.regY = -reg.y * scale
+        sprite.scaleX = sprite.scaleY = 1 / @resolutionFactor
       @children = []
       @addChild(sprite)
 
+    @scaleX *= -1 if action.flipX
+    @scaleY *= -1 if action.flipY
+    @baseScaleX = @scaleX
+    @baseScaleY = @scaleY
     return
     
-  updateBaseMovieClip: ->
-    return unless @baseMovieClip
-    @baseMovieClip[prop] = @[prop] for prop in ['x', 'y', 'regX', 'regY']
-
   notifyActionNeedsRender: (action) ->
     @sprite?.trigger('action-needs-render', @sprite, action)
 
@@ -202,15 +209,32 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @baseMovieClip.gotoAndStop(newFrame)
 
     @currentFrame = newFrame
+    @children = []
 
-    # So, originally I thought I'd have to swap in MovieClips for parallel 
-    # SpriteContainers between each frame, but turns out that's not the case.
-    # The WebGL rendering system treats the MovieClip like a SpriteContainer,
-    # which makes things simpler for me...
-
-    # For some reason, though, gotoAndStop doesn't seem to advance the children
-    # so I gotta do that manually.
     movieClip.gotoAndStop(newFrame) for movieClip in @childMovieClips
+    @takeChildrenFromMovieClip()
+        
+  takeChildrenFromMovieClip: ->
+    i = 0
+    while i < @baseMovieClip.children.length
+      child = @baseMovieClip.children[i]
+      if child instanceof createjs.MovieClip
+        newChild = new createjs.SpriteContainer(@spriteSheet)
+        j = 0
+        while j < child.children.length
+          grandChild = child.children[j]
+          if grandChild instanceof createjs.MovieClip
+            console.error('MovieClip Segmentedsprites not currently working at this depth!')
+            continue
+          newChild.addChild(grandChild)
+          for prop in ['regX', 'regY', 'rotation', 'scaleX', 'scaleY', 'skewX', 'skewY', 'x', 'y']
+            newChild[prop] = child[prop]
+        @addChild(newChild)
+        @alreadyLogged = true
+        i += 1
+      else
+        @addChild(child)
+    
 
   getBounds: ->
     @baseMovieClip.getBounds()
