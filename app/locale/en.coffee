@@ -378,7 +378,6 @@
     done: "Done"
     customize_wizard: "Customize Wizard"
     home: "Home"
-    stop: "Stop"
     skip: "Skip"
     game_menu: "Game Menu"
     guide: "Guide"
