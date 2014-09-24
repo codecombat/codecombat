@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   versions:
     save_version_title: "Guardar Nova Versão"
     new_major_version: "Nova Versão Principal"
-    cla_prefix: "Para guardar as alterações, precisas de concordar com o nosso"
+    cla_prefix: "Para guardares as alterações, precisas de concordar com o nosso"
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "EU CONCORDO"
