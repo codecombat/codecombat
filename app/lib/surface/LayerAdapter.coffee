@@ -208,7 +208,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     return true if @willRender or not @buildAutomatically
     @willRender = _.defer => @renderNewSpriteSheet()
     return true
-    
+
   #- Rendering sprite sheets
     
   renderNewSpriteSheet: ->
@@ -223,10 +223,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     # The first frame is always the 'loading', ie placeholder, image.
     placeholder = @createPlaceholder()
-    dimension = @resolutionFactor*SPRITE_PLACEHOLDER_RADIUS*2
+    dimension = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
     placeholder.setBounds(0, 0, dimension, dimension)
     builder.addFrame(placeholder)
-
+    
     groups = {} if NEVER_RENDER_ANYTHING
     for bundleGrouping in _.values(groups)
       thangType = bundleGrouping[0].thangType
@@ -288,7 +288,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     g.setStrokeStyle(5)
     g.beginStroke(createjs.Graphics.getRGB(64,64,64))
     g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
-    radius = @resolutionFactor*SPRITE_PLACEHOLDER_RADIUS
+    radius = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH / 2
     g.drawCircle(radius, radius, radius)
     new createjs.Shape(g)
     

@@ -62,8 +62,8 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         bounds = @thangType.get('raw').containers[action.container].b
         sprite.x = bounds[0]
         sprite.y = bounds[1]
-        sprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
-        sprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        sprite.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        sprite.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
       else
         sprite.scaleX = sprite.scaleY = 1 / scale
       @children = []
@@ -125,8 +125,8 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         bounds = @thangType.get('raw').containers[localContainer.gn].b
         innerContainer.x = bounds[0]
         innerContainer.y = bounds[1]
-        innerContainer.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
-        innerContainer.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        innerContainer.scaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        innerContainer.scaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
       else
         innerContainer.scaleX = innerContainer.scaleY = 1 / (@resolutionFactor * (@thangType.get('scale') or 1))
       outerContainer.addChild(innerContainer)

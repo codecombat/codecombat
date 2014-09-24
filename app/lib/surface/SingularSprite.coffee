@@ -36,8 +36,8 @@ module.exports = class WebGLSprite extends createjs.Sprite
         @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').animations[action.animation].bounds
-        @scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
-        @scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        @scaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        @scaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
         @regX = (- reg.x - bounds[0]) / @scaleX
         @regY = (- reg.y - bounds[1]) / @scaleY
         return
@@ -57,8 +57,8 @@ module.exports = class WebGLSprite extends createjs.Sprite
         @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').containers[action.container].b
-        @scaleX = @baseScaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
-        @scaleY = @baseScaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        @scaleX = @baseScaleX = bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
+        @scaleY = @baseScaleY = bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
         @regX = (bounds[0] - reg.x) / @scaleX
         @regY = (bounds[1] - reg.y) / @scaleY
         # I don't think you can properly position the placeholder without either
