@@ -27,19 +27,19 @@ module.exports = class WebGLSprite extends createjs.Sprite
       scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
       @regX = -reg.x * scale
       @regY = -reg.y * scale
+      @scaleX = @baseScaleX = 1 / scale
+      @scaleY = @baseScaleY = 1 / scale
       func = if @paused then '_gotoAndStop' else '_gotoAndPlay'
       animationName = @spriteSheetPrefix + actionName
       @[func](animationName)
-      if @currentFrame is 0
-        @stop()
-        @regX = -reg.x
-        @regY = -reg.y
+      if @currentFrame is 0 or @usePlaceholders
+        @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').animations[action.animation].bounds
-        @x = bounds[0]
-        @y = bounds[1]
         @scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
         @scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        @regX = (- reg.x - bounds[0]) / @scaleX
+        @regY = (- reg.y - bounds[1]) / @scaleY
         return
         
       @framerate = action.framerate or 20
@@ -48,22 +48,27 @@ module.exports = class WebGLSprite extends createjs.Sprite
 
     if action.container
       scale = @resolutionFactor * (action.scale ? @thangType.get('scale') ? 1)
-
       @regX = -reg.x * scale
       @regY = -reg.y * scale
+      @scaleX = @scaleY = @baseScaleX = @baseScaleY = 1 / scale
       animationName = @spriteSheetPrefix + actionName
       @_gotoAndStop(animationName)
-      if @currentFrame is 0
+      if @currentFrame is 0 or @usePlaceholders
+        @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
         bounds = @thangType.get('raw').containers[action.container].b
-        @x = bounds[0]
-        @y = bounds[1]
-        @scaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * 2)
-        @scaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * 2)
+        @scaleX = @baseScaleX = bounds[2] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        @scaleY = @baseScaleY = bounds[3] / (SPRITE_PLACEHOLDER_RADIUS * @resolutionFactor * 2)
+        @regX = (bounds[0] - reg.x) / @scaleX
+        @regY = (bounds[1] - reg.y) / @scaleY
+        # I don't think you can properly position the placeholder without either
+        # tying regX/Y to scaleX/Y or having this be a container within a container.
+        # This means if the placeholder has its scale changed from outside, the
+        # registration positioning will be off. Hopefully this won't matter.
         return
 
     @currentAnimation = actionName
     return
     
   notifyActionNeedsRender: (action) ->
-    @sprite.trigger('action-needs-render', @sprite, action) 
+    @sprite?.trigger('action-needs-render', @sprite, action) 
