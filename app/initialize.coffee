@@ -20,6 +20,7 @@ definitionSchemas =
   'misc': require './schemas/definitions/misc'
 
 init = ->
+  setupConsoleLogging()
   watchForErrors()
   setUpIOSLogging()
   path = document.location.pathname
@@ -85,6 +86,11 @@ initializeServices = ->
   for service in services
     service = require service
     service()
+
+setupConsoleLogging = ->
+  unless console.debug
+    # Needed for IE10 and earlier
+    console.debug = console.log
 
 watchForErrors = ->
   currentErrors = 0
