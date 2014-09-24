@@ -41,7 +41,6 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteArray = []  # Mirror @sprites, but faster for when we just need to iterate
     @selfWizardSprite = null
     @createLayers()
-    @spriteSheetCache = {}
     @pendingFlags = []
 
   destroy: ->
@@ -98,7 +97,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers['Ground'], thangType: 'selection'
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: SPRITE_RESOLUTION_FACTOR, groundLayer: @spriteLayers['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers['Floating'], spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
+    _.extend options, camera: @camera, resolutionFactor: SPRITE_RESOLUTION_FACTOR, groundLayer: @spriteLayers['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers['Floating'], showInvisible: @options.showInvisible
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites
@@ -186,7 +185,6 @@ module.exports = class SpriteBoss extends CocoClass
     sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
     @spriteLayers['Default'].updateLayerOrder()
-    @cache()
 
   adjustSpriteExistence: ->
     # Add anything new, remove anything old, update everything current
@@ -208,7 +206,6 @@ module.exports = class SpriteBoss extends CocoClass
       updatedObstacles.push sprite if isObstacle and (missing or sprite.hasMoved)
       sprite.hasMoved = false
       @removeSprite sprite if missing
-    @cacheObstacles updatedObstacles if updatedObstacles.length and @cachedObstacles
 
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @sprites[@willSelectThang[0]]
@@ -228,9 +225,6 @@ module.exports = class SpriteBoss extends CocoClass
           item.equip()
           itemsJustEquipped.push item
     return itemsJustEquipped
-
-  cache: (update=false) ->
-    # TODO: remove caching
 
   spriteFor: (thangID) -> @sprites[thangID]
 

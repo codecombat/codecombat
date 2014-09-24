@@ -30,7 +30,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     floatingLayer: null
     thang: null
     camera: null
-    spriteSheetCache: null
     showInvisible: false
     async: true
 
@@ -114,28 +113,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @configureMouse()
     @imageObject.on 'animationend', @playNextAction
 
-
-  # TODO: figure out how to do placeholders again
-#  setUpPlaceholder: ->
-#    return if @placeholder or not @thang
-#    shape = new createjs.Shape()
-#    width = @thang.width * Camera.PPM
-#    height = @thang.height * Camera.PPM * @options.camera.y2x
-#    depth = @thang.depth * Camera.PPM * @options.camera.z2y * @options.camera.y2x
-#    brightnessFuzzFactor = 1 + 0.1 * (Math.random() - 0.5)
-#    makeColor = (brightnessFactor) => (Math.round(c * brightnessFuzzFactor * brightnessFactor) for c in (healthColors[@thang.team] ? [180, 180, 180]))
-#    topColor = "rgba(#{makeColor(0.85).join(', ')},1)"
-#    mainColor = "rgba(#{makeColor(0.75).join(', ')},1)"
-#    ellipse = @thang.shape in ['ellipsoid', 'disc']
-#    fn = if ellipse then 'drawEllipse' else 'drawRect'
-#    shape.graphics.beginFill(mainColor)[fn](-width / 2, -height / 2, width, height).endFill()
-#    shape.graphics.moveTo(-width / 2, 0).beginFill(mainColor).lineTo(-width / 2, -depth).lineTo(width / 2, -depth).lineTo(width / 2, 0).lineTo(-width / 2, 0).endFill()
-#    shape.graphics.beginFill(topColor)[fn](-width / 2, -height / 2 - depth, width, height).endFill()
-#    shape.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
-#    @setImageObject shape
-#    @updatePosition true
-#    @placeholder = shape
-
   ##################################################
   # QUEUEING AND PLAYING ACTIONS
 
@@ -207,43 +184,50 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   showAreaOfEffects: ->
     # TODO: add back area of effects
-#    return unless @thang?.currentEvents
-#    for event in @thang.currentEvents
-#      continue unless event.startsWith 'aoe-'
-#      continue if @handledDisplayEvents[event]
-#
-#      @handledDisplayEvents[event] = true
-#      args = JSON.parse(event[4...])
-#      pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
-#      circle = new createjs.Shape()
-#      radius = args[2] * Camera.PPM
-#      if args.length is 4
-#        circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
-#      else
-#        startAngle = args[4]
-#        endAngle = args[5]
-#        circle.graphics.beginFill(args[3])
-#          .lineTo(0, 0)
-#          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
-#          .arc(0, 0, radius, startAngle, endAngle)
-#          .lineTo(0, 0)
-#      circle.x = pos.x
-#      circle.y = pos.y
-#      circle.scaleY = @options.camera.y2x * 0.7
-#      circle.scaleX = 0.7
-#      circle.alpha = 0.2
-#      circle
-#      @options.groundLayer.addChild circle
-#      createjs.Tween.get(circle)
-#        .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
-#        .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
-#        .call =>
-#          return if @destroyed
-#          @options.groundLayer.removeChild circle
-#          delete @handledDisplayEvents[event]
+    return unless @thang?.currentEvents
+    for event in @thang.currentEvents
+      continue unless event.startsWith 'aoe-'
+      continue if @handledDisplayEvents[event]
+      @handledDisplayEvents[event] = true
+      args = JSON.parse(event[4...])
+      key = 'aoe-' + JSON.stringify(args[2..])
+      
+      unless key in @options.groundLayer.spriteSheet.getAnimations()
+        args = JSON.parse(event[4...])
+        circle = new createjs.Shape()
+        radius = args[2] * Camera.PPM
+        if args.length is 4
+          circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
+        else
+          startAngle = args[4]
+          endAngle = args[5]
+          circle.graphics.beginFill(args[3])
+            .lineTo(0, 0)
+            .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
+            .arc(0, 0, radius, startAngle, endAngle)
+            .lineTo(0, 0)
+        @options.groundLayer.addCustomGraphic(key, circle, [-radius, -radius, radius*2, radius*2])
+
+      circle = new createjs.Sprite(@options.groundLayer.spriteSheet)
+      circle.gotoAndStop(key)
+      pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
+      circle.x = pos.x
+      circle.y = pos.y
+      resFactor = @options.groundLayer.resolutionFactor
+      circle.scaleY = @options.camera.y2x * 0.7 / resFactor
+      circle.scaleX = 0.7 / resFactor
+      circle.alpha = 0.2
+      @options.groundLayer.addChild circle
+      createjs.Tween.get(circle)
+        .to({alpha: 0.6, scaleY: @options.camera.y2x / resFactor, scaleX: 1 / resFactor}, 100, createjs.Ease.circOut)
+        .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
+        .call =>
+          return if @destroyed
+          @options.groundLayer.removeChild circle
+          delete @handledDisplayEvents[event]
 
   showTextEvents: ->
-    # TODO: Add back text events
+    # TODO: Add back text events, once this has been integrated with the Surface
 #    return unless @thang?.currentEvents
 #    for event in @thang.currentEvents
 #      continue unless event.startsWith 'text-'
@@ -266,12 +250,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 #        .call =>
 #          return if @destroyed
 #          @options.floatingLayer.removeChild label
-
-  cache: ->
-    return # TODO: get rid of caching
-    bounds = @imageObject.getBounds()
-    @imageObject.cache 0, 0, bounds.width, bounds.height
-    #console.log 'just cached', @thang.id, 'which was at', @imageObject.x, @imageObject.y, bounds.width, bounds.height, 'with scale', Math.max(@imageObject.scaleX, @imageObject.scaleY)
 
   getBobOffset: ->
     return 0 unless @thang.bobHeight

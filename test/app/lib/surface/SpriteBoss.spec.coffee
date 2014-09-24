@@ -95,7 +95,7 @@ describe 'SpriteBoss', ->
         {id: 'Dying Ogre 4', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-12.5, y:3}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
         
         # Throw in a ThangType that contains nested MovieClips
-        {id: 'Fangrider', spriteName: 'Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true }
+        {id: 'Fangrider', spriteName: 'Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true, currentEvents: ['aoe-' + JSON.stringify([0, 0, 8, '#00F'])] }
       ]
       
       _.find(world.thangs, {id: 'Disappearing Tree'}).exists = false
@@ -110,7 +110,7 @@ describe 'SpriteBoss', ->
       midRenderExpectations.push([spriteBoss.sprites['Singular Ogre'].imageObject.paused,true,'animated singular action'])
       
       defaultLayer.once 'new-spritesheet', ->
-#        showMe() # Uncomment to display this world when you run any of these tests.
+        showMe() # Uncomment to display this world when you run any of these tests.
         done()
 
   beforeEach (done) -> init(done)
@@ -125,6 +125,8 @@ describe 'SpriteBoss', ->
         return if ticks >= 100
         ticks += 1
         console.log 'update'
+        if ticks % 20 is 0
+          spriteBoss.update(true)
         stage.update()
     }
     createjs.Ticker.addEventListener "tick", listener

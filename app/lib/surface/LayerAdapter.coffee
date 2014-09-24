@@ -48,6 +48,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   cocoSprites: null
   spriteSheet: null
   container: null
+  customGraphics: null
 
   subscriptions:
     'camera:zoom-updated': 'onZoomUpdated'
@@ -56,6 +57,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     super()
     options ?= {}
     @name = options.name ? 'Unnamed'
+    @customGraphics = {}
     @layerPriority = options.layerPriority ? 0
     @transformStyle = options.transform ? LayerAdapter.TRANSFORM_CHILD
     @camera = options.camera
@@ -130,16 +132,16 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Container-like child functions
 
   addChild: (children...) ->
-    container.addChild children...
-    if @transformStyle is ContainerLayer.TRANSFORM_SURFACE_TEXT
+    @container.addChild children...
+    if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
       for child in children
         child.scaleX /= @scaleX
         child.scaleY /= @scaleY
 
   removeChild: (children...) ->
-    container.removeChild children...
+    @container.removeChild children...
     # TODO: Do we actually need to scale children that were removed?
-    if @transformStyle is ContainerLayer.TRANSFORM_SURFACE_TEXT
+    if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
       for child in children
         child.scaleX *= @scaleX
         child.scaleY *= @scaleY
@@ -209,6 +211,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @willRender = _.defer => @renderNewSpriteSheet()
     return true
 
+  addCustomGraphic: (key, graphic, bounds) ->
+    return false if @customGraphics[key]
+    @customGraphics[key] = { graphic: graphic, bounds: new createjs.Rectangle(bounds...) }
+    return true if @willRender or not @buildAutomatically
+    @_renderNewSpriteSheet(false)
+
   #- Rendering sprite sheets
     
   renderNewSpriteSheet: ->
@@ -227,6 +235,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     placeholder.setBounds(0, 0, dimension, dimension)
     builder.addFrame(placeholder)
     
+    # Add custom graphics
+    for key, graphic of @customGraphics
+      frame = builder.addFrame(graphic.graphic, graphic.bounds, @resolutionFactor)
+      builder.addAnimation(key, [frame], false)
+      
+    # Render ThangTypes
     groups = {} if NEVER_RENDER_ANYTHING
     for bundleGrouping in _.values(groups)
       thangType = bundleGrouping[0].thangType
@@ -246,7 +260,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
     else
       sheet = builder.build()
-      @onBuildSpriteSheetComplete(null, builder)
+      @onBuildSpriteSheetComplete({async:async}, builder)
       return sheet
       
   onBuildSpriteSheetComplete: (e, builder) ->
@@ -255,7 +269,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if builder.spriteSheet._images.length > 1
       @resolutionFactor *= 0.9
       console.debug('Sprite sheet is too large... re-rendering at', @resolutionFactor.toFixed(2))
-      @_renderNewSpriteSheet()
+      @_renderNewSpriteSheet(e.async)
       return
     
     @spriteSheet = builder.spriteSheet
