@@ -15,7 +15,7 @@ EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
 
-serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
+serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]

@@ -90,6 +90,7 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
+  lastIP: {type: 'string'}
 
   emailLower: c.shortString()
   nameLower: c.shortString()

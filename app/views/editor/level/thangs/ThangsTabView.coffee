@@ -188,6 +188,7 @@ module.exports = class ThangsTabView extends CocoView
     @surface = new Surface @world, surfaceCanvas, {
       wizards: false
       paths: false
+      coords: true
       grid: true
       navigateToSelection: false
       thangTypes: @supermodel.getModels(ThangType)

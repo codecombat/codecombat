@@ -17,6 +17,7 @@ module.exports = class CastButtonView extends CocoView
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'goal-manager:new-goal-states': 'onNewGoalStates'
+    'god:goals-calculated': 'onGoalsCalculated'
 
   constructor: (options) ->
     super options
@@ -84,6 +85,10 @@ module.exports = class CastButtonView extends CocoView
     @$el.toggleClass 'winnable', @winnable
     if @winnable
       @$el.find('.submit-button').show()  # In case we hid it, like on the first level.
+
+  onGoalsCalculated: (e) ->
+    return unless e.preload
+    @onNewGoalStates e
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded

@@ -61,6 +61,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @avatar.render()
 
   buildDocs: ->
+    return if @spell.name is 'plan'  # Too confusing for beginners
     @docsBuilt = true
     lcs = @supermodel.getModels LevelComponent
     found = false

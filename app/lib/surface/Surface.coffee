@@ -47,7 +47,7 @@ module.exports = Surface = class Surface extends CocoClass
     grid: false
     navigateToSelection: true
     choosing: false # 'point', 'region', 'ratio-region'
-    coords: true
+    coords: null  # use world defaults, or set to false/true to override
     playJingle: false
     showInvisible: false
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
@@ -123,7 +123,8 @@ module.exports = Surface = class Surface extends CocoClass
   initCoordinates: ->
     @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
     @coordinateGrid.showGrid() if @world.showGrid or @options.grid
-    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if @world.showCoordinates or @options.coords
+    showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
+    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if showCoordinates
 
   hookUpChooseControls: ->
     chooserOptions = stage: @stage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
@@ -535,6 +536,9 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle false
     @playing = false  # Will start when countdown is done.
+    if @heroSprite
+      @previousCameraZoom = @camera.zoom
+      @camera.zoomTo @heroSprite.imageObject, 4, 3000
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime
@@ -542,6 +546,8 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle true
     @canvas.removeClass 'flag-color-selected'
+    if @previousCameraZoom
+      @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
   onFlagColorSelected: (e) ->
     @canvas.toggleClass 'flag-color-selected', Boolean(e.color)

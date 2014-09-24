@@ -49,11 +49,14 @@ module.exports = class LevelLoadingView extends CocoView
 
   startUnveiling: (e) ->
     Backbone.Mediator.publish 'level:loading-view-unveiling', {}
+    _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
 
-  onClickStartLevel: (e) ->
+  onClickStartLevel: (e) =>
+    return if @destroyed
     @unveil()
 
   unveil: ->
+    return if @$el.hasClass 'unveiled'
     @$el.addClass 'unveiled'
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'
