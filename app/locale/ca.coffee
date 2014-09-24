@@ -19,7 +19,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  units:
+  units:
     second: "segon"
     seconds: "segons"
     minute: "minut"
@@ -140,7 +140,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     previous: "Anterior"
 #    choose_inventory: "Equip Items"
 
-#  items:
+  items:
     armor: "Armadura"
     hands: "Mans"
     accessories: "Accessoris"
@@ -169,7 +169,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  wizard_settings:
+  wizard_settings:
 #    title: "Wizard Settings"
 #    customize_avatar: "Customize Your Avatar"
 #    active: "Active"
@@ -185,7 +185,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    saturation: "Saturation"
 #    lightness: "Lightness"
 
-#  account_settings:
+  account_settings:
     title: "Configuració de la compta"
     not_logged_in: "Inicia sessió o crea una compta per a canviar la configuració."
     autosave: "Els canvis es guarden automàticament"
@@ -225,7 +225,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    sample_profile: "See a sample profile"
     view_profile: "Mira el teu perfil"
 
-#  account_profile:
+  account_profile:
     settings: "Configuració"
     edit_profile: "Modifica el perfil"
 #    done_editing: "Done Editing"
