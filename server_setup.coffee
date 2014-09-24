@@ -97,7 +97,7 @@ setupFallbackRouteToIndex = (app) ->
     if req.user
       sendMain(req, res)
       req.user.set('lastIP', req.connection.remoteAddress)
-      req.user.save
+      req.user.save()
     else
       user = auth.makeNewUser(req)
       makeNext = (req, res) -> -> sendMain(req, res)
