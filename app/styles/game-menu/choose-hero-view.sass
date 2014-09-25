@@ -31,10 +31,14 @@ $heroCanvasHeight: 330px
           width: $maxHeroPortraitSize
           height: $maxHeroPortraitSize
           margin: 0px 3px
-          background-size: contain
           border: 2px solid black
           border-radius: 2px
           position: relative
+
+          .hero-avatar
+            width: 100%
+            height: 100%
+            background-size: contain
   
           &.initialized
             @include transition(0.5s ease)
@@ -43,7 +47,15 @@ $heroCanvasHeight: 330px
             border-color: gold
 
           &.locked
-            @include opacity(0.6)
+            .hero-avatar
+              @include filter(contrast(0%) brightness(50%))
+
+            .lock-indicator
+              position: absolute
+              width: 50%
+              left: 25%
+              top: 25%
+              @include filter(invert(100%))
             
     .hero-item
 

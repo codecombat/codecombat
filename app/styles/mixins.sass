@@ -52,3 +52,8 @@
   @keyframes #{$name}
     @content
 
+@mixin filter($filters)
+  -webkit-filter: $filters
+  -moz-filter: $filters
+  -o-filter: $filters
+  filter: $filters

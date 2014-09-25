@@ -56,7 +56,7 @@ module.exports = class ChooseHeroView extends CocoView
     @$el.find('.hero-indicator').each ->
       heroID = $(@).data('hero-id')
       hero = _.find heroes, (hero) -> hero.get('original') is heroID
-      $(@).css('background-image', "url(#{hero.getPortraitURL()})").tooltip()
+      $(@).find('.hero-avatar').css('background-image', "url(#{hero.getPortraitURL()})").tooltip()
       _.defer => $(@).addClass 'initialized'
     @canvasWidth = 313  # @$el.find('canvas').width() # unreliable, whatever
     @canvasHeight = @$el.find('canvas').height()
@@ -99,6 +99,7 @@ module.exports = class ChooseHeroView extends CocoView
 
   loadHero: (hero, heroIndex, preloading=false) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
+    createjs.Ticker.setFPS 30  # In case we paused it from being inactive somewhere else
     if stage = @stages[heroIndex]
       unless preloading
         _.defer -> createjs.Ticker.addEventListener 'tick', stage  # Deferred, otherwise it won't start updating for some reason.
