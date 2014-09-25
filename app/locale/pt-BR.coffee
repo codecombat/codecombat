@@ -13,7 +13,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     delay_5_sec: "5 segundos"
     manual: "Manual"
     fork: "Fork"
-    play: "Jogar"
+    play: "Jogar" # When used as an action verb, like "Play next level"
     retry: "Tente novamente"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     page_not_found: "Página não encontrada"
 
   nav:
-    play: "Jogar"
+    play: "Jogar" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     slogan: "Aprenda a programar enquanto se diverte com um jogo."
     no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!"
     no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!"
-    play: "Jogar"
+    play: "Jogar" # The big play button that just starts playing a level
     old_browser: "Ops, seu navegador é muito antigo para rodar o CodeCombat. Desculpe!"
     old_browser_suffix: "Você pode tentar de qualquer forma, mas provavelmente não irá funcionar."
     campaign: "Campanha"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     spectate: "Assistir"
     players: "jogadores"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contate-nos"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     done: "Pronto"
     customize_wizard: "Personalize o feiticeiro"
     home: "Início"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Guia"
     restart: "Reiniciar"
     goals: "Objetivos"
+#    goal: "Goal"
     success: "Sucesso!"
     incomplete: "Incompleto"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     victory_rate_the_level: "Avalie o estágio: "
     victory_return_to_ladder: "Retornar para a Ladder"
     victory_play_next_level: "Jogar o próximo estágio"
+#    victory_play_continue: "Continue"
     victory_go_home: "Ir à página inicial"
     victory_review: "Diga-nos mais!"
     victory_hour_of_code_done: "Terminou?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_minion_spells: "Magias dos seus subordinados"
     tome_read_only_spells: "Magias não editáveis"
     tome_other_units: "Outras Unidades"
-    tome_cast_button_castable: "Lançar"
-    tome_cast_button_casting: "Conjurando"
-    tome_cast_button_cast: "Feitiço"
+    tome_cast_button_castable: "Lançar" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Conjurando" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Feitiço" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecione um Feitiço"
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Continue (tecle Shift+Space)"
     spell_saved: "Feitiço Salvo"
     skip_tutorial: "Pular (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Pronto!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tutorial_play_first: "Jogue o Tutorial primeiro."
     simple_ai: "IA Simples"
     warmup: "Aquecimento"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

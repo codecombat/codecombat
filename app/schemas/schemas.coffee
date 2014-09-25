@@ -202,3 +202,10 @@ me.activity = me.object {description: 'Stats on an activity'},
   count: {type: 'integer', minimum: 0}
 
 me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor'], title: 'Terrain', description: 'Which terrain type this is.'}
+
+me.HeroConfigSchema = me.object {description: 'Which hero the player is using, equipped with what inventory.'},
+  inventory:
+    type: 'object'
+    description: 'The inventory of the hero: slots to item ThangTypes.'
+    additionalProperties: me.objectId(description: 'An item ThangType.')
+  thangType: me.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type')

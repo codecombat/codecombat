@@ -24,7 +24,7 @@ module.exports = class Level extends CocoModel
     # Figure out ThangTypes' Components
     tmap = {}
     tmap[t.thangType] = true for t in o.thangs ? []
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or tt.get('components'))
+    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType when tmap[tt.get('original')] or (tt.get('components') and not tt.notInLevel))
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 
@@ -69,13 +69,13 @@ module.exports = class Level extends CocoModel
       heroThangType = session?.get('heroConfig')?.thangType
       levelThang.thangType = heroThangType if heroThangType
 
-    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType, (m) -> m.get('components')?)
 
     configs = {}
     for thangComponent in levelThang.components
       configs[thangComponent.original] = thangComponent
 
-    for defaultThangComponent in thangType.get('components') or []
+    for defaultThangComponent in thangType?.get('components') or []
       if levelThangComponent = configs[defaultThangComponent.original]
         # Take the ThangType default Components and merge level-specific Component config into it
         copy = $.extend true, {}, defaultThangComponent.config
@@ -107,7 +107,6 @@ module.exports = class Level extends CocoModel
         equips.config.inventory = $.extend true, {}, inventory if inventory
       for original, placeholderComponent of placeholders when not placeholdersUsed[original]
         levelThang.components.push placeholderComponent
-
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]

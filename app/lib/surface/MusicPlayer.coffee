@@ -12,6 +12,8 @@ module.exports = class MusicPlayer extends CocoClass
   subscriptions:
     'music-player:play-music': 'onPlayMusic'
     'audio-player:loaded': 'onAudioLoaded'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   constructor: ->
     super arguments...
@@ -61,6 +63,17 @@ module.exports = class MusicPlayer extends CocoClass
     return unless @currentMusic
     createjs.Tween.removeTweens(@currentMusic)
     @currentMusic.volume = if me.get('music') then MUSIC_VOLUME else 0.0
+
+  onRealTimePlaybackStarted: (e) ->
+    @previousMusic = @currentMusic
+    trackNumber = _.random 0, 2
+    Backbone.Mediator.publish 'music-player:play-music', file: "/music/music_real_time_#{trackNumber}", play: true
+
+  onRealTimePlaybackEnded: (e) ->
+    @fadeOutCurrentMusic()
+    if @previousMusic
+      @currentMusic = @previousMusic
+      @restartCurrentMusic()
 
   destroy: ->
     me.off 'change:music', @onMusicSettingChanged, @

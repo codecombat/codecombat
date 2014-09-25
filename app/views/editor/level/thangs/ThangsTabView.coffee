@@ -16,7 +16,7 @@ MOVE_MARGIN = 0.15
 MOVE_SPEED = 13
 
 # Let us place these on top of other Thangs
-overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle', 'Electrowall']
+overlappableThangTypeNames = ['Torch', 'Chains', 'Bird', 'Cloud 1', 'Cloud 2', 'Cloud 3', 'Waterfall', 'Obstacle', 'Electrowall', 'Spike Walls']
 
 class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type?project=original,name,version,slug,kind,components'
@@ -188,6 +188,7 @@ module.exports = class ThangsTabView extends CocoView
     @surface = new Surface @world, surfaceCanvas, {
       wizards: false
       paths: false
+      coords: true
       grid: true
       navigateToSelection: false
       thangTypes: @supermodel.getModels(ThangType)

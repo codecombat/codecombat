@@ -13,7 +13,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     delay_5_sec: "5 секунд"
     manual: "Інструкція"
     fork: "Форк"
-    play: "Грати"
+    play: "Грати" # When used as an action verb, like "Play next level"
     retry: "Повтор"
     watch: "Стежити"
     unwatch: "Нестежити"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     page_not_found: "Сторінку не знайдено"
 
   nav:
-    play: "Грати"
+    play: "Грати" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Редактор"
     blog: "Блог"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     slogan: "Навчіться програмувати, граючи у гру"
     no_ie: "На жаль, CodeCombat не працює в IE8 чи більш старих версіях!"
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!"
-    play: "Грати"
+    play: "Грати" # The big play button that just starts playing a level
     old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat"
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
     campaign: "Кампанія"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "українська мова", englishDesc
     spectate: "Спостерігати"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Зв'язатися з CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "українська мова", englishDesc
     done: "Готово"
     customize_wizard: "Налаштування персонажа"
     home: "На головну"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Посібник"
     restart: "Перезавантажити"
     goals: "Цілі"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     victory_rate_the_level: "Оцінити рівень: "
     victory_return_to_ladder: "Повернутись до таблиці рівнів"
     victory_play_next_level: "Наступний рівень"
+#    victory_play_continue: "Continue"
     victory_go_home: "На головну"
     victory_review: "Розкажіть нам більше!"
     victory_hour_of_code_done: "Ви закінчили?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "українська мова", englishDesc
     tome_minion_spells: "Закляття ваших міньонів"
     tome_read_only_spells: "Закляття тільки для читання"
     tome_other_units: "Інші юніти"
-    tome_cast_button_castable: "Читати закляття"
-    tome_cast_button_casting: "Закляття читається"
-    tome_cast_button_cast: "Закляття прочитано"
+    tome_cast_button_castable: "Читати закляття" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Закляття читається" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Закляття прочитано" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Оберіть закляття"
     tome_select_a_thang: "Оберіть когось для "
     tome_available_spells: "Доступні закляття"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Продовжити (натисніть shift-space)"
     spell_saved: "Закляття збережено"
     skip_tutorial: "Пропустити (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Готово!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Натиснути точку на карті, щоб вставити його у редактор заклинань."
     tip_toggle_play: "Перемикач грати/пауза командою Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ і Ctrl+] для перемотування та швидкого перемотування вперед."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
     tip_talk_is_cheap: "Розмови нічого не варті. Покажи мені код. - Лінус Торвальдс"
     tip_first_language: "Найбільш катастрофічною річчю яку ви коли-небудь вчили є Ваша перша мова програмування. - Алан Кей"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Зараз:"
     time_total: "Найбільше:"
     time_goto: "Перейти до:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

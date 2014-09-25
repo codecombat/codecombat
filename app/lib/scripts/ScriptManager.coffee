@@ -28,7 +28,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   subscriptions:
     'script:end-current-script': 'onEndNoteGroup'
-    'level:started': -> @setWorldLoading(false)
+    'level:loading-view-unveiling': -> @setWorldLoading(false)
     'level:restarted': 'onLevelRestarted'
     'level:shift-space-pressed': 'onEndNoteGroup'
     'level:escape-pressed': 'onEndAll'
@@ -256,7 +256,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
-    Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
+    Backbone.Mediator.publish 'playback:real-time-playback-ended', {} unless @session.get('heroConfig')  # Only old levels need this, to stop interfering with old victory coolcams.
     Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES

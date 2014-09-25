@@ -13,7 +13,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     delay_5_sec: "5 vteřin"
     manual: "Ručně"
     fork: "Klonovat"
-    play: "Přehrát"
+    play: "Přehrát" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     page_not_found: "Stránka nenalezena"
 
   nav:
-    play: "Úrovně"
+    play: "Úrovně" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     slogan: "Naučte se programování tu při hraní více-hráčové programovací hry."
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 9 nebo starším."
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!"
-    play: "Hrát"
+    play: "Hrát" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Konktujte CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     done: "Hotovo"
     customize_wizard: "Upravit Kouzelníka"
     home: "Domů"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Průvodce"
     restart: "Restartovat"
     goals: "Cíl"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_rate_the_level: "Ohodnoťte tuto úroveň: "
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Hrát další úroveň"
+#    victory_play_continue: "Continue"
     victory_go_home: "Přejít domů"
     victory_review: "Připomínky!"
     victory_hour_of_code_done: "Skončili jste?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tome_minion_spells: "Vaše oblíbená kouzla"
     tome_read_only_spells: "Kouzla jen pro čtení"
     tome_other_units: "Ostatní jednotky"
-    tome_cast_button_castable: "Spustit"
-    tome_cast_button_casting: "Spouštění"
-    tome_cast_button_cast: "Spustit Kouzlo"
+    tome_cast_button_castable: "Spustit" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Spouštění" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Spustit Kouzlo" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Zvolte Kouzlo"
     tome_select_a_thang: "Zvolte někoho pro "
     tome_available_spells: "Dostupná kouzla"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Pokračovat (stiskněte shift-mezera)"
     spell_saved: "Kouzlo uloženo"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

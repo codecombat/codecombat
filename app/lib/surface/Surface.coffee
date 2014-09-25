@@ -19,6 +19,8 @@ PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
 
+resizeDelay = 500  # At least as much as $level-resize-transition-time.
+
 module.exports = Surface = class Surface extends CocoClass
   stage: null
 
@@ -34,7 +36,7 @@ module.exports = Surface = class Surface extends CocoClass
   currentFrame: 0
   lastFrame: null
   totalFramesDrawn: 0
-  playing: true  # play vs. pause
+  playing: false  # play vs. pause -- match default button state in playback.jade
   dead: false  # if we kill it for some reason
   imagesLoaded: false
   worldLoaded: false
@@ -47,7 +49,7 @@ module.exports = Surface = class Surface extends CocoClass
     grid: false
     navigateToSelection: true
     choosing: false # 'point', 'region', 'ratio-region'
-    coords: true
+    coords: null  # use world defaults, or set to false/true to override
     playJingle: false
     showInvisible: false
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
@@ -88,7 +90,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 500  # At least as much as $level-resize-transition-time.
+    @onResize = _.debounce @onResize, resizeDelay
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -127,7 +129,8 @@ module.exports = Surface = class Surface extends CocoClass
   initCoordinates: ->
     @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
     @coordinateGrid.showGrid() if @world.showGrid or @options.grid
-    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if @world.showCoordinates or @options.coords
+    showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
+    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if showCoordinates
 
   hookUpChooseControls: ->
     chooserOptions = stage: @normalStage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
@@ -150,7 +153,6 @@ module.exports = Surface = class Surface extends CocoClass
     @showLevel()
     @updateState true if @loaded
     @onFrameChanged()
-    Backbone.Mediator.publish 'surface:world-set-up', {world: @world}
 
   showLevel: ->
     return if @destroyed
@@ -209,6 +211,7 @@ module.exports = Surface = class Surface extends CocoClass
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then 'over' else 'out'), {})
       @mouseInBounds = mib
+      @mouseIsDown = false
 
   restoreWorldState: ->
     frame = @world.getFrame(@getCurrentFrame())
@@ -223,6 +226,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
+    if @playing and @heroSprite and not @mouseIsDown and @camera.newTarget isnt @heroSprite.imageObject and @camera.target isnt @heroSprite.imageObject
+      @camera.zoomTo @heroSprite.imageObject, @camera.zoom, 750
     @camera.updateZoom()
     @spriteBoss.update frameChanged
     @dimmer?.setSprites @spriteBoss.sprites
@@ -250,7 +255,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.round(progress * @world.frames.length), @world.frames.length)
+    @scrubbingTo = Math.min(Math.round(progress * (@world.frames.length - 1)), @world.frames.length - 1)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -315,7 +320,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Changes and events that only need to happen when the frame has changed
 
   onFrameChanged: (force) ->
-    @currentFrame = Math.min(@currentFrame, @world.frames.length)
+    @currentFrame = Math.min(@currentFrame, @world.frames.length - 1)
     @debugDisplay?.updateFrame @currentFrame
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
@@ -337,7 +342,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     @lastFrame = @currentFrame
 
-  getProgress: -> @currentFrame / @world.frames.length
+  getProgress: -> @currentFrame / Math.max(1, @world.frames.length - 1)
 
 
 
@@ -417,7 +422,8 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
     @frameBeforeCast = @currentFrame
-    @setProgress 0
+    # This is where I wanted to trigger a rewind, but it turned out to be pretty complicated, since the new world gets updated everywhere, and you don't want to rewind through that.
+    @setProgress 0, 0
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
@@ -434,9 +440,9 @@ module.exports = Surface = class Surface extends CocoClass
     @setWorld event.world
     @onFrameChanged(true)
     fastForwardBuffer = 2
-    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
-      @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
+      @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
       lag = (@world.frames.length - 1) * @world.dt - @world.age
       intendedLag = @world.realTimeBufferMax + @world.dt
@@ -469,12 +475,14 @@ module.exports = Surface = class Surface extends CocoClass
     event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
+    @mouseIsDown = true
 
   onMouseUp: (e) =>
     return if @disabled
     onBackground = not @webGLStage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
     Backbone.Mediator.publish 'tome:focus-editor', {}
+    @mouseIsDown = false
 
   onMouseWheel: (e) =>
     # https://github.com/brandonaaron/jquery-mousewheel
@@ -486,7 +494,6 @@ module.exports = Surface = class Surface extends CocoClass
       canvas: @webGLCanvas
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
-
 
 
   #- Canvas callbacks
@@ -520,6 +527,10 @@ module.exports = Surface = class Surface extends CocoClass
     @camera.onResize newWidth, newHeight
 
 
+  #- Camera focus on hero
+  focusOnHero: ->
+    @heroSprite = @spriteBoss.spriteFor 'Hero Placeholder'
+
 
   #- Real-time playback
 
@@ -532,13 +543,23 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle false
     @playing = false  # Will start when countdown is done.
+    if @heroSprite
+      @previousCameraZoom = @camera.zoom
+      @camera.zoomTo @heroSprite.imageObject, 4, 3000
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime
     @realTime = false
     @onResize()
+    _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
     @spriteBoss.selfWizardSprite?.toggle true
+<<<<<<< HEAD
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
+=======
+    @canvas.removeClass 'flag-color-selected'
+    if @previousCameraZoom
+      @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
+>>>>>>> master
 
   onFlagColorSelected: (e) ->
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)

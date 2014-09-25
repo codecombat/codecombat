@@ -1,7 +1,7 @@
-img(src=item.getPortraitURL()).img-thumbnail
+img(src=item.getPortraitURL())
 div.item-info
   if includes.name
-    strong= item.get('name')
+    h4= item.get('name')
   if includes.stats || (includes.props && props.length)
     ul.list-unstyled
       if includes.stats

@@ -13,7 +13,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     delay_5_sec: "5 secondes"
     manual: "Manuel"
     fork: "Fork"
-    play: "Jouer"
+    play: "Jouer" # When used as an action verb, like "Play next level"
     retry: "Reessayer"
     watch: "Regarder"
     unwatch: "Ne plus regarder"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     page_not_found: "Page non trouvée"
 
   nav:
-    play: "Jouer"
+    play: "Jouer" # The top nav bar entry where players choose which levels to play
     community: "Communauté"
     editor: "Éditeur"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     slogan: "Apprenez à coder tout en jouant"
     no_ie: "CodeCombat ne fonctionnera pas sous Internet Explorer 9 ou moins. Désolé !"
     no_mobile: "CodeCombat n'a pas été créé pour les plateformes mobiles donc il est possible qu'il ne fonctionne pas correctement ! "
-    play: "Jouer"
+    play: "Jouer" # The big play button that just starts playing a level
     old_browser: "Oh oh, votre navigateur est trop vieux pour executer CodeCombat. Désolé!"
     old_browser_suffix: "Vous pouvez essayer quand même, mais celà ne marchera probablement pas."
     campaign: "Campagne"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     spectate: "Spectateur"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contacter CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     done: "Fait"
     customize_wizard: "Personnaliser le magicien"
     home: "Accueil"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Guide"
     restart: "Relancer"
     goals: "Objectifs"
+#    goal: "Goal"
     success: "Succès"
     incomplete: "Imcoplet"
     timed_out: "Plus de temps"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_rate_the_level: "Notez ce niveau: "
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Jouer au prochain niveau"
+#    victory_play_continue: "Continue"
     victory_go_home: "Retourner à l'accueil"
     victory_review: "Dites-nous en plus!"
     victory_hour_of_code_done: "Déjà fini ?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_minion_spells: "Les sorts de vos soldats"
     tome_read_only_spells: "Sorts en lecture-seule"
     tome_other_units: "Autres unités"
-    tome_cast_button_castable: "Jeter le sort"
-    tome_cast_button_casting: "Sort en court"
-    tome_cast_button_cast: "Sort jeté"
+    tome_cast_button_castable: "Jeter le sort" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Sort en court" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Sort jeté" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Choisissez un sort"
     tome_select_a_thang: "Sélectionnez une unité pour"
     tome_available_spells: "Sorts diponibles"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Continuer (appuie sur shift ou espace)"
     spell_saved: "Sort enregistré"
     skip_tutorial: "Passer (esc)"
     keyboard_shortcuts: "Raccourcis Clavier"
     loading_ready: "Pret!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Maj+Clic un point pour insérer les coordonnées dans l'éditeur ."
     tip_toggle_play: "Jouer/Pause avec Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Maintenant:"
     time_total: "Max:"
     time_goto: "Allez a:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tutorial_play_first: "Jouer au Tutoriel d'abord."
     simple_ai: "IA simple"
     warmup: "Préchauffe"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
     log_in_for_friends: "Connectez vous pour jouer avec vos amis!"
     social_connect_blurb: "Connectez vous pour jouer contre vos amis!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

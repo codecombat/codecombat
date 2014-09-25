@@ -20,7 +20,7 @@ class LevelSessionHandler extends Handler
       return _.omit documentObject, @privateProperties
 
   getActiveSessions: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     start = new Date()
     start = new Date(start.getTime() - TIMEOUT)
     query = @modelClass.find({'changed': {$gt: start}})

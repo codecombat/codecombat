@@ -33,6 +33,7 @@ LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
+GameMenuModal = require 'views/game-menu/GameMenuModal'
 
 PROFILE_ME = false
 
@@ -44,7 +45,7 @@ module.exports = class PlayLevelView extends RootView
   isEditorPreview: false
 
   subscriptions:
-    'level:set-volume': (e) -> createjs.Sound.setVolume(e.volume)
+    'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
     'level:show-victory': 'onShowVictory'
     'level:restart': 'onRestartLevel'
     'level:highlight-dom': 'onHighlightDom'
@@ -60,20 +61,23 @@ module.exports = class PlayLevelView extends RootView
     'level:reload-thang-type': 'onLevelReloadThangType'
     'level:play-next-level': 'onPlayNextLevel'
     'level:edit-wizard-settings': 'showWizardSettingsModal'
-    'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
+    'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'level:loaded': 'onLevelLoaded'
+    'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
-    'level:inventory-changed': 'onInventoryChanged'
+    'level:hero-config-changed': 'onHeroConfigChanged'
 
   events:
     'click #level-done-button': 'onDonePressed'
+    'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
 
   shortcuts:
@@ -171,14 +175,13 @@ module.exports = class PlayLevelView extends RootView
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LevelLoadingView {}
+    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil, level: @level  # May not have @level loaded yet
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
     $('body').bind('touchmove', false) if @isIPadApp()
 
   afterInsert: ->
     super()
-    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp()
 
   # Partially Loaded Setup ####################################################
 
@@ -202,6 +205,8 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
+    @$el.addClass 'hero' if @level.get('type', true) is 'hero'
+    @$el.addClass 'flags' if @level.get('slug') is 'sky-span'  # TODO: figure out when the player has flags.
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -252,15 +257,15 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
     @insertSubView new LevelPlaybackView session: @session
     @insertSubView new GoalsView {}
-    @insertSubView new LevelFlagsView world: @world
+    @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span'  # TODO: figure out when flags are available
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
     Backbone.Mediator.publish('level:set-debug', debug: true) if @isIPadApp()  # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -280,10 +285,19 @@ module.exports = class PlayLevelView extends RootView
 
   # Load Completed Setup ######################################################
 
-  onLoaded: ->
-    _.defer => @onLevelLoaded()
+  onLevelLoaded: (e) ->
+    # Just the level has been loaded by the level loader
+    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and e.level.get('type', true) isnt 'hero'
 
-  onLevelLoaded: ->
+  onSessionLoaded: (e) ->
+    # Just the level and session have been loaded by the level loader
+    if e.level.get('type', true) is 'hero' and not _.size e.session.get('heroConfig')?.inventory ? {}
+      @openModalView new GameMenuModal level: e.level, session: e.session
+
+  onLoaded: ->
+    _.defer => @onLevelLoaderLoaded()
+
+  onLevelLoaderLoaded: ->
     # Everything is now loaded
     return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
@@ -305,9 +319,14 @@ module.exports = class PlayLevelView extends RootView
     storage.save 'recently-played-matches', allRecentlyPlayedMatches
 
   initSurface: ->
+<<<<<<< HEAD
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
     @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
+=======
+    surfaceCanvas = $('canvas#surface', @$el)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: @level.get('type', true) isnt 'hero')
+>>>>>>> master
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -318,13 +337,18 @@ module.exports = class PlayLevelView extends RootView
   onLevelStarted: ->
     return unless @surface?
     @loadingView.showReady()
-    if window.currentModal and not window.currentModal.destroyed
+    if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
-    if @otherSession
+    if @otherSession and @level.get('type', true) isnt 'hero'
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
-    @loadingView?.unveil()
+    if @isEditorPreview
+      @loadingView.startUnveiling()
+      @loadingView.unveil()
+
+  onLoadingViewUnveiling: (e) ->
+    @restoreSessionState()
 
   onLoadingViewUnveiled: (e) ->
     @loadingView.$el.remove()
@@ -336,20 +360,36 @@ module.exports = class PlayLevelView extends RootView
       console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
       application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
+    @playAmbientSound()
 
-  onSurfaceSetUpNewWorld: ->
+  playAmbientSound: ->
+    return if @ambientSound
+    return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-grass'}[@level.get('terrain')]
+    src = "/file/interface/#{file}#{AudioPlayer.ext}"
+    unless AudioPlayer.getStatus(src)?.loaded
+      AudioPlayer.preloadSound src
+      Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
+      return
+    @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
+    createjs.Tween.get(@ambientSound).to({volume: 1.0}, 10000)
+
+  restoreSessionState: ->
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if state.frame and @level.get('type') isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
-      Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
-    if state.selected
-      # TODO: Should also restore selected spell here by saving spellName
-      Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
-    else if @isIPadApp()
+    if @level.get('type', true) is 'hero'
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
-    if state.playing?
-      Backbone.Mediator.publish 'level:set-playing', playing: state.playing
+      @surface.focusOnHero()
+      Backbone.Mediator.publish 'level:set-time', time: 0
+      Backbone.Mediator.publish 'level:set-playing', playing: true
+    else
+      if state.frame and @level.get('type', true) isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
+        Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
+      if state.selected
+        # TODO: Should also restore selected spell here by saving spellName
+        Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
+      if state.playing?
+        Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
   # callbacks
 
@@ -372,18 +412,21 @@ module.exports = class PlayLevelView extends RootView
         break
     Backbone.Mediator.publish 'tome:cast-spell', {}
 
-  onInventoryChanged: (e) ->
+  onHeroConfigChanged: (e) ->
     # Doesn't work because the new inventory ThangTypes may not be loaded.
     #@setLevel @level, @supermodel
     #Backbone.Mediator.publish 'tome:cast-spell', {}
     # We'll just make a new PlayLevelView instead
+    console.log 'Hero config changed; reload the level.'
     Backbone.Mediator.publish 'router:navigate', {
       route: window.location.pathname,
       viewClass: PlayLevelView,
-      viewArgs: [{supermodel: @supermodel}, @levelID]}
+      viewArgs: [{supermodel: @supermodel, autoUnveil: true}, @levelID]
+    }
 
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
+    clearInterval(@pointerInterval)
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -400,7 +443,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show()
+    $('#level-done-button').show() unless @level.get('type', true) is 'hero'
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
     return if @victorySeen
@@ -506,7 +549,7 @@ module.exports = class PlayLevelView extends RootView
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75
+    #Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75  # Never mind, this is currently so annoying
     setTimeout((=>
       pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
 
@@ -554,8 +597,12 @@ module.exports = class PlayLevelView extends RootView
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
-    if @world.frames.length is @world.totalFrames  # Finished loading
+    finishedLoading = @world.frames.length is @world.totalFrames
+    if finishedLoading
       @lastWorldFramesLoaded = 0
+      if @waitingForSubmissionComplete
+        @onSubmissionComplete()
+        @waitingForSubmissionComplete = false
     else
       @lastWorldFramesLoaded = @world.frames.length
     for [spriteName, message] in @world.thangDialogueSounds startFrame
@@ -573,9 +620,18 @@ module.exports = class PlayLevelView extends RootView
     @onWindowResize()
 
   onRealTimePlaybackEnded: (e) ->
+    return unless @$el.hasClass 'real-time'
     @$el.removeClass 'real-time'
     @onWindowResize()
+    if @world.frames.length is @world.totalFrames
+      _.delay @onSubmissionComplete, 750  # Wait for transition to end.
+    else
+      @waitingForSubmissionComplete = true
     @onRealTimeMultiplayerPlaybackEnded()
+
+  onSubmissionComplete: =>
+    return if @destroyed
+    Backbone.Mediator.publish 'level:show-victory', showModal: true if @goalManager.checkOverallStatus() is 'success'
 
   destroy: ->
     @levelLoader?.destroy()
@@ -583,6 +639,9 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
+    if ambientSound = @ambientSound
+      # Doesn't seem to work; stops immediately.
+      createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     $(window).off 'resize', @onWindowResize
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)

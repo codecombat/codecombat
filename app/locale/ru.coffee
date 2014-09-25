@@ -13,7 +13,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     delay_5_sec: "5 секунд"
     manual: "Вручную"
     fork: "Форк"
-    play: "Играть"
+    play: "Играть" # When used as an action verb, like "Play next level"
     retry: "Повторить"
     watch: "Следить"
     unwatch: "Не следить"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     page_not_found: "Страница не найдена"
 
   nav:
-    play: "Уровни"
+    play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     editor: "Редактор"
     blog: "Блог"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     slogan: "Научитесь программировать, играя в игру"
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!"
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!"
-    play: "Играть"
+    play: "Играть" # The big play button that just starts playing a level
     old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!"
     old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
     campaign: "Кампания"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать"
     players: "игроки"
     hours_played: "часов сыграно"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     done: "Готово"
     customize_wizard: "Настройки волшебника"
     home: "На главную"
-#    stop: "Stop"
+#    skip: "Skip"
     game_menu: "Меню игры"
     guide: "Руководство"
     restart: "Перезапустить"
     goals: "Цели"
+#    goal: "Goal"
     success: "Успешно!"
     incomplete: "Не завершено"
     timed_out: "Время истекло"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_rate_the_level: "Оцените уровень:"
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_next_level: "Следующий уровень"
+#    victory_play_continue: "Continue"
     victory_go_home: "На главную"
     victory_review: "Расскажите нам больше!"
     victory_hour_of_code_done: "Вы закончили?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_minion_spells: "Заклинания ваших миньонов"
     tome_read_only_spells: "Заклинания только для чтения"
     tome_other_units: "Другие юниты"
-    tome_cast_button_castable: "Читать заклинание"
-    tome_cast_button_casting: "Заклинание читается"
-    tome_cast_button_cast: "Заклинание прочитано"
+    tome_cast_button_castable: "Читать заклинание" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Заклинание читается" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Заклинание прочитано" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Продолжить (Shift+Пробел)"
     spell_saved: "Заклинание сохранено"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Клик по карте вставит координаты в редактор заклинаний."
     tip_toggle_play: "Переключайте воспроизведение/паузу комбинацией Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ и Ctrl+] - перемотка назад и вперёд."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_talk_is_cheap: "Слова ничего не стоят. Покажи мне код. - Linus Torvalds"
     tip_first_language: "Наиболее катастрофическая вещь, которую вы можете выучить - ваш первый язык программирования. - Alan Kay"
     tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tutorial_play_first: "Сначала пройдите обучение."
     simple_ai: "Простой ИИ"
     warmup: "Разминка"
-    vs: "против"
     friends_playing: "Друзья в игре"
     log_in_for_friends: "Войти, чтобы поиграть с друзьями!"
     social_connect_blurb: "Свяжите учетную запись и  играйте против друзей!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    user_remarks: "User Remarks"
     versions: "Версии"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

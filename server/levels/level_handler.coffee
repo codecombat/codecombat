@@ -27,6 +27,7 @@ LevelHandler = class LevelHandler extends Handler
     'showsGuide'
     'banner'
     'employerDescription'
+    'terrain'
   ]
 
   postEditableProperties: ['name']
@@ -50,7 +51,7 @@ LevelHandler = class LevelHandler extends Handler
     @getDocumentForIdOrSlug id, (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level, 'get')
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, level, 'get')
       callback err, level
 
   getSession: (req, res, id) ->
@@ -308,5 +309,8 @@ LevelHandler = class LevelHandler extends Handler
       @playCountCache[cacheKey] = data
       @sendSuccess res, data
 
+  hasAccessToDocument: (req, document, method=null) ->
+    return true if method is null or method is 'get'
+    super(req, document, method)
 
 module.exports = new LevelHandler()

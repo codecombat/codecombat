@@ -13,7 +13,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     delay_5_sec: "5 segundos"
     manual: "Manual"
     fork: "Bifurcar"
-    play: "Jugar"
+    play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
     watch: "Mirar"
     unwatch: "Pasar"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     page_not_found: "Página no encontrada"
 
   nav:
-    play: "Jugar"
+    play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     slogan: "Aprende a programar jugando"
     no_ie: "CodeCombat no funciona en Internet Explorer 9 o anteriores. ¡Lo sentimos!"
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y puede que no funcione!"
-    play: "Jugar"
+    play: "Jugar" # The big play button that just starts playing a level
     old_browser: "Ay, su navegador es demasiado viejo para ejecutar CodeCombat. ¡Lo sentimos!"
     old_browser_suffix: "Lo puede intentar de todos modos, pero probablemente no va a funcionar."
     campaign: "Campaña"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     spectate: "Observar"
     players: "jugadores"
     hours_played: "horas jugadas"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contacta con CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     done: "Hecho"
     customize_wizard: "Personalizar Mago"
     home: "Inicio"
-    stop: "Parar"
+#    skip: "Skip"
     game_menu: "Menu del Juego"
     guide: "Guía"
     restart: "Reiniciar"
     goals: "Objetivos"
+#    goal: "Goal"
     success: "Exito!"
     incomplete: "Incompleto"
     timed_out: "Te has quedado sin tiempo"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_rate_the_level: "Puntúa este nivel: "
     victory_return_to_ladder: "Volver a Clasificación"
     victory_play_next_level: "Jugar el siguiente nivel"
+#    victory_play_continue: "Continue"
     victory_go_home: "Ir a Inicio"
     victory_review: "¡Cuéntanos más!"
     victory_hour_of_code_done: "¿Ya terminaste?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_minion_spells: "Los hechizos de tus súbditos"
     tome_read_only_spells: "Hechizos de solo lectura"
     tome_other_units: "Otras unidades"
-    tome_cast_button_castable: "Invocable"
-    tome_cast_button_casting: "Invocando"
-    tome_cast_button_cast: "Invocar"
+    tome_cast_button_castable: "Invocable" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Invocando" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Invocar" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecciona un Hechizo"
     tome_select_a_thang: "Selecciona a alguien para "
     tome_available_spells: "Hechizos disponibles"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Continuar (pulsa Shift+Space)"
     spell_saved: "Hechizo guardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
     loading_ready: "¡Listo!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Clic en un punto del mapa para insertarlo en el editor de hechizos."
     tip_toggle_play: "Alterna entre jugar/pausa con Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avanza hacia adelante."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_talk_is_cheap: "Hablar es fácil. Enséñame el código. - Linus Torvalds"
     tip_first_language: "La cosa más desastrosa que puedes aprender es tu primer lenguaje de programación. - Alan Kay"
     tip_hardware_problem: "P: Cuantos programadores hacen falta para cambiar una bombilla?  R: Ninguno, es un problema de hardware."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Ahora:"
     time_total: "Máx:"
     time_goto: "Ir a:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     multiplayer_caption: "Juega con amigos!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
   save_load:
     granularity_saved_games: "Salvado"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tutorial_play_first: "Prueba el Tutorial primero."
     simple_ai: "IA sencilla"
     warmup: "calentamiento"
-    vs: "VS"
     friends_playing: "Amigos jugando"
     log_in_for_friends: "¡Inicia sesión para jugar con tus amigos!"
     social_connect_blurb: "¡Conectate y juega contra tus amigos!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    user_remarks: "User Remarks"
     versions: "Versiones"
     items: "Objetos"
+#    heroes: "Heroes"
     wizard: "Mago"
     achievement: "Logro"
 #    clas: "CLAs"

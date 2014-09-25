@@ -1,0 +1,182 @@
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+$forestMapWidth: 2500
+$forestMapHeight: 1536
+$forestMapSeaBackground: #71bad0
+$levelDotWidth: 2%
+$levelDotHeight: $levelDotWidth * $forestMapWidth / $forestMapHeight
+$levelDotZ: $levelDotHeight * 0.25
+$levelDotHoverZ: $levelDotZ * 2
+$levelDotShadowWidth: 0.8 * $levelDotWidth
+$levelDotShadowHeight: 0.8 * $levelDotHeight
+$levelClickRadius: 40px
+$gameControlSize: 80px
+$gameControlMargin: 30px
+
++keyframes(levelStartedPulse)
+  from
+    @include box-shadow(0px 0px 4px #333)
+    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+  50%
+    @include box-shadow(0px 0px 22px skyblue)
+    margin-bottom: -$levelDotHeight / 3 + ($levelDotHoverZ + $levelDotZ) / 2
+  to
+    @include box-shadow(0px 0px 4px #333)
+    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+
+#world-map-view
+  width: 100%
+  height: 100%
+  background-color: $forestMapSeaBackground
+
+  .map
+    position: relative
+
+    .map-background
+      width: 100%
+      height: 100%
+
+    .level, .level-shadow
+      position: absolute
+      border-radius: 100%
+      transform: scaleY(0.75)
+
+    .level
+      z-index: 2
+      width: $levelDotWidth
+      height: $levelDotHeight
+      margin-left: -0.5 * $levelDotWidth
+      margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+      border: 2px groove white
+      @include transition(margin-bottom 0.5s ease)
+
+      &.disabled
+        opacity: 0.7
+
+      &.next
+        width: 2 * $levelDotWidth
+        height: 2 * $levelDotHeight
+        margin-left: -0.5 * 2 * $levelDotWidth
+        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotZ
+
+      &.started, &.next
+        border: 3px solid lightgreen
+        @include box-shadow(0px 0px 35px skyblue)
+
+        // Would be cool, but kills performance, since we have to re-render all the time.
+        //&:not(:hover)
+        //  -webkit-animation-name: levelStartedPulse
+        //  -webkit-animation-duration: 3s
+        //  -webkit-animation-iteration-count: infinite
+
+      &.complete
+        border: 3px solid gold
+        @include box-shadow(0px 0px 35px skyblue)
+
+    .level-shadow
+      z-index: 1
+      width: $levelDotShadowWidth
+      height: $levelDotShadowHeight
+      margin-left: -0.5 * $levelDotShadowWidth
+      margin-bottom: -$levelDotShadowHeight / 3
+      background-color: black
+      @include box-shadow(0px 0px 10px black)
+      @include opacity(0.75)
+
+      &.next
+        width: 2 * $levelDotShadowWidth
+        height: 2 * $levelDotShadowHeight
+        margin-left: -0.5 * 2 * $levelDotShadowWidth
+        margin-bottom: -2 * $levelDotShadowHeight / 3
+
+    .level:hover
+      margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
+      @include box-shadow(0px 0px 35px skyblue)
+
+      &.next
+        margin-bottom: -2 * $levelDotHeight / 3 + 2 * $levelDotHoverZ
+
+    .level
+      a
+        display: block
+        padding: $levelClickRadius
+        margin-left: -0.5 * $levelClickRadius
+        margin-top: -0.5 * $levelClickRadius
+        border-radius: $levelClickRadius
+
+      &.next a
+        padding: 2 * $levelClickRadius
+        margin-left: 2 * -0.5 * $levelClickRadius
+        margin-top: 2 * -0.5 * $levelClickRadius
+        border-radius: 2 * $levelClickRadius
+
+    .level-info-container
+      display: none
+      position: absolute
+      z-index: 3
+      padding: 10px
+      border-image: url(/images/level/popover_background.png) 18 fill round
+      border-width: 15px
+
+      .level-info.complete h3:after
+        content: " - Complete!"
+        color: green
+    
+      .level-info.started h3:after
+        content: " - Started"
+        color: desaturate(green, 50%)
+    
+      .level-info
+        h3
+          margin-top: 0
+          margin-bottom: 0px
+
+        .level-description
+          color: black
+          text-shadow: 0 1px 0 white
+
+        .campaign-label
+          text-shadow: 0 1px 0 white
+
+      .start-level
+        display: block
+        margin: 10px auto 0 auto
+        width: 200px
+          
+  .game-controls
+    position: absolute
+    right: 1%
+    bottom: 1%
+    z-index: 3
+
+    button.btn
+      &:not(:first-child)
+        margin-left: $gameControlMargin
+      width: $gameControlSize
+      height: $gameControlSize
+      background: url(/images/pages/play/menu_icons.png) no-repeat
+      background-size: cover
+      @include transition(0.5s ease)
+      @include box-shadow(2px 2px 4px black)
+      border: 0
+      border-radius: 12px
+      
+      &:hover
+        @include box-shadow(0 0 12px #bbf)
+
+      &:active
+        @include box-shadow(0 0 20px white)
+      
+      &.heroes
+        background-position-x: -1 * $gameControlSize
+      &.achievements
+        background-position-x: -2 * $gameControlSize
+      &.account
+        background-position-x: -3 * $gameControlSize
+      &.settings
+        background-position-x: -4 * $gameControlSize
+
+    .tooltip
+      font-size: 24px

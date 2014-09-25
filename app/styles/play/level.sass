@@ -23,14 +23,16 @@ $level-resize-transition-time: 0.5s
       width: 100%
       button, h4
         display: none
-      #stop-real-time-playback-button
-        display: block
-    #playback-view
-      $flags-width: 200px
-      width: 90%
-      width: -webkit-calc(100% - $flags-width)
-      width: calc(100% - $flags-width)
-      left: $flags-width
+    &:not(.flags)
+      #playback-view
+        width: 100%
+    &.flags
+      #playback-view
+        $flags-width: 200px
+        width: 90%
+        width: -webkit-calc(100% - $flags-width)
+        width: calc(100% - $flags-width)
+        left: $flags-width
     #code-area, #thang-hud, #goals-view
       display: none
       visibility: hidden
@@ -40,6 +42,8 @@ $level-resize-transition-time: 0.5s
       left: 20%
       width: 60%
       text-align: center
+    #stop-real-time-playback-button
+      display: block
 
     .level-content
       margin: 0px auto
@@ -133,7 +137,7 @@ $level-resize-transition-time: 0.5s
 
   .gradient
     position: absolute
-    z-index: 10
+    z-index: 5
 
   #code-area-gradient
     top: 0px
@@ -209,6 +213,14 @@ $level-resize-transition-time: 0.5s
     bottom: 0
     top: 0
     z-index: 19
+
+  #stop-real-time-playback-button
+    display: none
+    position: absolute
+    bottom: 40px
+    right: 15px
+    font-size: 30px
+
 
 html.fullscreen-editor
   #level-view

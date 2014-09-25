@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     delay_5_sec: "5 saniye"
     manual: "El ile"
     fork: "Çatalla"
-    play: "Oyna"
+    play: "Oyna" # When used as an action verb, like "Play next level"
     retry: "Yeniden Dene"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     page_not_found: "Sayfa bulunamadı"
 
   nav:
-    play: "Oyna"
+    play: "Oyna" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Düzenleyici"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     slogan: "Oyun oynayarak kodlamayı öğrenin"
     no_ie: "CodeCombat maalesef Internet Explorer 9 veya daha eski sürümlerde çalışmaz."
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir."
-    play: "Oyna"
+    play: "Oyna" # The big play button that just starts playing a level
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!"
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
     campaign: "Senaryo Modu"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     spectate: "İzleyici olarak katıl"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "CodeCombat ile İletişim"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     done: "Tamamdır"
     customize_wizard: "Sihirbazı Düzenle"
     home: "Anasayfa"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Rehber"
     restart: "Yeniden başlat"
     goals: "Hedefler"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     victory_rate_the_level: "Seviyeyi oyla:"
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Sonraki Seviyeyi Oyna: "
+#    victory_play_continue: "Continue"
     victory_go_home: "Anasayfaya Git"
     victory_review: "Daha detaylı bilgi verebilirsiniz!"
     victory_hour_of_code_done: "Bitirdiniz mi?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_minion_spells: "Minyonlarınızın Büyüleri"
     tome_read_only_spells: "Salt Okunur Büyüler"
     tome_other_units: "Diğer Birimler"
-    tome_cast_button_castable: "Fırlatılabilir"
-    tome_cast_button_casting: "Fırlatılıyor"
-    tome_cast_button_cast: "Fırlat"
+    tome_cast_button_castable: "Fırlatılabilir" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Fırlatılıyor" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Fırlat" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Bir Büyü Seç"
     tome_select_a_thang: "Birini seç..."
     tome_available_spells: "Kullanılabilir Büyüler"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Devam (ÜstKarakter+Boşluk)"
     spell_saved: "Büyü Kaydedildi"
     skip_tutorial: "Atla (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Hazır!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Şimdi:"
     time_total: "Max:"
     time_goto: "Git:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

@@ -14,6 +14,7 @@ module.exports = class Spell
     @session = options.session
     @otherSession = options.otherSession
     @spectateView = options.spectateView
+    @spectateOpponentCodeLanguage = options.spectateOpponentCodeLanguage
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
@@ -27,7 +28,7 @@ module.exports = class Spell
     if @canWrite()
       @setLanguage options.language
     else if @isEnemySpell()
-      @setLanguage options.otherSession.get 'submittedCodeLanguage'
+      @setLanguage @otherSession?.get('submittedCodeLanguage') ? @spectateOpponentCodeLanguage
     else
       @setLanguage 'javascript'
     @useTranspiledCode = @shouldUseTranspiledCode()
@@ -36,12 +37,13 @@ module.exports = class Spell
     @source = @originalSource
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
-      @source = sessionSource
+      if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it
+        @source = sessionSource
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, session: @session, worker: @worker}
+      @view = new SpellView {spell: @, level: options.level, session: @session, worker: @worker}
       @view.render()  # Get it ready and code loaded in advance
-      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
+      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
       @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
@@ -54,6 +56,7 @@ module.exports = class Spell
     @worker = null
 
   setLanguage: (@language) ->
+    #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[language] ? @languages.javascript
 
   addThang: (thang) ->
@@ -150,7 +153,7 @@ module.exports = class Spell
 
   isEnemySpell: ->
     return false unless @permissions.readwrite.length
-    return false unless @otherSession
+    return false unless @otherSession or @spectateView
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
     teamSpells and not _.contains(teamSpells[team], @spellKey)

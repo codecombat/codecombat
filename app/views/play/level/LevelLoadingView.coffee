@@ -1,17 +1,39 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/level_loading'
+utils = require 'lib/utils'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
   template: template
 
-  onLoaded: ->
+  events:
+    'mousedown .start-level-button': 'startUnveiling'  # Split into two for animation smoothness.
+    'click .start-level-button': 'onClickStartLevel'
+
+  subscriptions:
+    'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
+
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
     tip = _.sample(tips)
     $(tip).removeClass('to-remove')
     @$el.find('.to-remove').remove()
+    @onLevelLoaded level: @options.level if @options.level?.get('goals')  # If Level was already loaded.
+
+  onLevelLoaded: (e) ->
+    @level = e.level
+    goalContainer = @$el.find('.level-loading-goals')
+    goalList = goalContainer.find('ul')
+    goalCount = 0
+    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is e.team) and not goal.hiddenGoal
+      name = utils.i18n goal, 'name'
+      goalList.append $('<li class="list-group-item header-font">' + name + '</li>')
+      ++goalCount
+    if goalCount
+      goalContainer.removeClass('secret')
+      if goalCount is 1
+        goalContainer.find('.panel-heading').text $.i18n.t 'play_level.goal'  # Not plural
 
   showReady: ->
     return if @shownReady
@@ -19,12 +41,22 @@ module.exports = class LevelLoadingView extends CocoView
     ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')
     @$el.find('#tip-wrapper .tip').addClass('ready').text ready
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
+    if @options.autoUnveil
+      @startUnveiling()
+      @unveil()
+    else
+      @$el.find('.start-level-button').removeClass 'secret'
+
+  startUnveiling: (e) ->
+    Backbone.Mediator.publish 'level:loading-view-unveiling', {}
+    _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
+
+  onClickStartLevel: (e) =>
+    return if @destroyed
+    @unveil()
 
   unveil: ->
-    _.delay @reallyUnveil, 1000
-
-  reallyUnveil: =>
-    return if @destroyed
+    return if @$el.hasClass 'unveiled'
     @$el.addClass 'unveiled'
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'

@@ -1,29 +1,55 @@
-div#equipped
-  h3 Equipped
-  - for (var i=0; i < slots.length; i += 3) {
-    div
-      - for (var j=i; j < slots.length && j < i + 3; j++) {
-        - var slot = slots[j];
-        div.panel.panel-default.item-slot(data-slot=slot)
-          .panel-heading
-            .panel-title.slot-name= slot
-          .panel-body.slot-item
-            if equipment[slot]
-              - var item = equipment[slot]
-              .replace-me(data-item-id=item.id)
-      - }
-      .clearfix
-  - }
-    
-div#available-equipment
-  h3 Stash
-  for item in items
-    .list-group-item(class=item.classes, data-item-id=item.id)
+#equipped
+  .item-slot-row
+    for slot in ['left-ring', 'neck', 'eyes', 'head', 'wrists', 'right-ring']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].get('original'))
+
+  .item-slot-column.pull-left
+    for slot in ['minion', 'torso', 'gloves', 'left-hand']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].get('original'))
+
+  .hero-container
+    canvas.equipped-hero-canvas
+    #selected-items
+      #selected-equipped-item.well
+        h3(data-i18n="inventory.equipped") Equipped
+        .item-view-stub
+      #selected-available-item.well
+        h3(data-i18n="inventory.equipped") Available
+        .item-view-stub
+
+  .item-slot-column.pull-right
+    for slot in ['pet', 'waist', 'feet', 'right-hand']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].get('original'))
+
+  hr.slot-row-separator
+
+  .item-slot-row.row-4
+    for slot in ['programming-book', 'spellbook', 'misc-0', 'misc-1']
+      .item-slot(data-slot=slot)
+        .placeholder
+        .item-container
+          if equipment[slot]
+            .replace-me(data-item-id=equipment[slot].get('original'))
+
+#available-equipment
+  h4#unlocked-description
+  ul.list-group
+    for item in unlockedItems
+      li.list-group-item(class=item.classes, data-item-id=item.get('original'))
+  h4#locked-description
+  ul.list-group
+    for item in lockedItems
+      li.list-group-item(class=item.classes, data-item-id=item.get('original'))
       
-div#selected-items
-  #selected-equipped-item.well
-    .item-view-stub
-  #selected-available-item.well
-    .item-view-stub
-  button#swap-button.btn.btn-danger
-    span.glyphicon.glyphicon-transfer

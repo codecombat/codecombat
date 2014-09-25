@@ -11,9 +11,6 @@ module.exports = class ThangListView extends CocoView
   id: 'thang-list-view'
   template: template
 
-  subscriptions:
-    'tome:select-primary-sprite': 'onSelectPrimarySprite'
-
   constructor: (options) ->
     super options
     @spells = options.spells
@@ -75,6 +72,9 @@ module.exports = class ThangListView extends CocoView
       return entry.spells[0]
     null
 
+  selectPrimarySprite: ->
+    @entries[0]?.select()
+
   adjustThangs: (spells, thangs) ->
     # TODO: it would be nice to not have to do this any more, like if we migrate to the hero levels.
     # Recreating all the ThangListEntryViews and their ThangAvatarViews is pretty slow.
@@ -89,9 +89,6 @@ module.exports = class ThangListView extends CocoView
     @thangs = @options.thangs = thangs
     @sortThangs()
     @addThangListEntries()
-
-  onSelectPrimarySprite: (e) ->
-    @entries[0]?.select()
 
   destroy: ->
     entry.destroy() for entry in @entries

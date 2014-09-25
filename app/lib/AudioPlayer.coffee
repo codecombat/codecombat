@@ -108,7 +108,7 @@ class AudioPlayer extends CocoClass
   # TODO: load Interface sounds somehow, somewhere, somewhen
 
   preloadSoundReference: (sound) ->
-    name = @nameForSoundReference sound
+    return unless name = @nameForSoundReference sound
     filename = '/file/' + name
     @preloadSound filename, name
     filename

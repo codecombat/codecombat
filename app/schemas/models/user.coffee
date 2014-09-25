@@ -45,7 +45,7 @@ visa = c.shortString
   title: 'US Work Status'
   description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)'
   enum: ['Authorized to work in the US', 'Need visa sponsorship']
-  
+
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   firstName: c.shortString({title: 'First Name'})
@@ -64,6 +64,7 @@ _.extend UserSchema.properties,
   music: { type: 'boolean' }
   autocastDelay: { type: 'integer' }
   lastLevel: { type: 'string' }
+  heroConfig: c.HeroConfigSchema
 
   emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
   emails: c.object {title: 'Email Settings', default: generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true} },
@@ -89,6 +90,7 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
+  lastIP: {type: 'string'}
 
   emailLower: c.shortString()
   nameLower: c.shortString()
@@ -114,7 +116,7 @@ _.extend UserSchema.properties,
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
-    
+
   jobProfile: c.object {title: 'Job Profile', default: { active: false, lookingFor: 'Full-time', jobTitle: 'Software Developer', city: 'Defaultsville, CA', country: 'USA', skills: ['javascript'], shortDescription: 'Programmer seeking to build great software.', longDescription: '* I write great code.\n* You need great code?\n* Great!' }},
     lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], description: 'What kind of developer position do you want?'}
     jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"' }

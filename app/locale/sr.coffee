@@ -13,7 +13,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     delay_5_sec: "5 секунди"
     manual: "Упутство"
 #    fork: "Fork"
-    play: "Нивои"
+    play: "Нивои" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     page_not_found: "Страница није нађена"
 
   nav:
-    play: "Нивои"
+    play: "Нивои" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Уређивач"
     blog: "Блог"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     slogan: "Научи да пишеш код играјући игру"
     no_ie: "CodeCombat не ради у IE8 и старијим верзијама. Жао нам је!"
     no_mobile: "CodeCombat није дизајниран за мобилне уређаје и може да се деси да не ради!"
-    play: "Играј"
+    play: "Играј" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Контактирај CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     done: "Урађено"
     customize_wizard: "Прилагоди Чаробњака"
     home: "Почетна"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Водич"
     restart: "Поновно учитавање"
     goals: "Циљеви"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     victory_rate_the_level: "Оцени ниво: "
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Играј следећи ниво"
+#    victory_play_continue: "Continue"
     victory_go_home: "Иди на почетну"
     victory_review: "Реци нам више!"
     victory_hour_of_code_done: "Јеси ли завршио?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_minion_spells: "Чини твојих поданика"
     tome_read_only_spells: "Чини које се могу само гледати"
     tome_other_units: "Остале јединице"
-    tome_cast_button_castable: "Баци"
-    tome_cast_button_casting: "Бацање"
-    tome_cast_button_cast: "Баци чини"
+    tome_cast_button_castable: "Баци" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Бацање" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Баци чини" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Изабери чин"
     tome_select_a_thang: "Изабери неког за "
     tome_available_spells: "Доступне чини"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Настави (притисни ентер)"
 #    spell_saved: "Spell Saved"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

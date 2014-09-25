@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     delay_5_sec: "5 secondes"
     manual: "Handleiding"
     fork: "Fork"
-    play: "Spelen"
+    play: "Spelen" # When used as an action verb, like "Play next level"
     retry: "Probeer opnieuw"
     watch: "Volgen"
     unwatch: "Ontvolgen"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     page_not_found: "Pagina niet gevonden"
 
   nav:
-    play: "Levels"
+    play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     slogan: "Leer programmeren door het spelen van een spel"
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!"
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!"
-    play: "Speel"
+    play: "Speel" # The big play button that just starts playing a level
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!"
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
     campaign: "Campagne"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     spectate: "Toeschouwen"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contact opnemen met CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     done: "Klaar"
     customize_wizard: "Pas Tovenaar aan"
     home: "Home"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Handleiding"
     restart: "Herstarten"
     goals: "Doelen"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_rate_the_level: "Beoordeel het level: "
     victory_return_to_ladder: "Keer terug naar de ladder"
     victory_play_next_level: "Speel Volgend Level"
+#    victory_play_continue: "Continue"
     victory_go_home: "Ga naar Home"
     victory_review: "Vertel ons meer!"
     victory_hour_of_code_done: "Ben Je Klaar?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_minion_spells: "Jouw Minions' Spreuken"
     tome_read_only_spells: "Read-Only Spreuken"
     tome_other_units: "Andere Eenheden"
-    tome_cast_button_castable: "Uitvoeren"
-    tome_cast_button_casting: "Aan het uitvoeren"
-    tome_cast_button_cast: "Spreuk uitvoeren"
+    tome_cast_button_castable: "Uitvoeren" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Aan het uitvoeren" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Spreuk uitvoeren" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Selecteer een Spreuk"
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Ga verder (druk shift-spatie)"
     spell_saved: "Spreuk Opgeslagen"
     skip_tutorial: "Overslaan (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Klaar!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Klik een punt op de kaart om het toe te voegen aan je spreuk editor."
     tip_toggle_play: "Verwissel speel/pauze met Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ en Ctrl+] om terug te spoelen en vooruit te spoelen."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_talk_is_cheap: "Je kunt het goed uitleggen, maar toon me de code. - Linus Torvalds"
     tip_first_language: "Het ergste dat je kan leren is je eerste programmeertaal. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tutorial_play_first: "Speel eerst de Tutorial."
     simple_ai: "Simpele AI"
     warmup: "Opwarming"
-    vs: "tegen"
     friends_playing: "Spelende Vrienden"
 #    log_in_for_friends: "Log in to play with your friends!"
     social_connect_blurb: "Koppel je sociaal netwerk om tegen je vrienden te spelen!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

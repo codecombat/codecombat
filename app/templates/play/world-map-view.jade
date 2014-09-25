@@ -1,0 +1,36 @@
+.map
+  img.map-background(src="/images/pages/play/map_forest.jpg", alt="")
+
+  - var seenNext = false;
+  each campaign in campaigns
+    each level in campaign.levels
+      - var next = !seenNext && levelStatusMap[level.id] != "complete";
+      - seenNext = seenNext || next;
+      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{campaign.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name)
+        a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+      div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.id] || "")
+      .level-info-container(data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+        div(class="level-info " + (levelStatusMap[level.id] || ""))
+          h3= level.name + (level.disabled ? " (Coming soon!)" : "")
+          .level-description= level.description
+          span(data-i18n="play.level_difficulty") Difficulty: 
+          each i in Array(level.difficulty)
+            i.icon-star
+          - var playCount = levelPlayCountMap[level.id]
+          if playCount && playCount > 20
+            div
+              span.spr #{playCount.sessions}
+              span(data-i18n="play.players") players
+              span.spr , #{Math.round(playCount.playtime / 3600)}
+              span(data-i18n="play.hours_played") hours played
+          .campaign-label(style="color: #{campaign.color}")= campaign.name
+        if isIPadApp
+          button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
+
+.game-controls.header-font
+  if me.isAdmin()
+    button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+  button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+  button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+  button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
+  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")

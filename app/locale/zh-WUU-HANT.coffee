@@ -13,7 +13,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     delay_5_sec: "5 秒"
     manual: "手動"
     fork: "派生"
-    play: "開來"
+    play: "開來" # When used as an action verb, like "Play next level"
     retry: "轉試"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     page_not_found: "頁面尋弗着"
 
   nav:
-    play: "遊戲開來"
+    play: "遊戲開來" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "編寫器"
     blog: "部落格"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     slogan: "打遊戲來學編程"
     no_ie: "對弗住！箇網站叻 Internet Explorer 9 箇粒老個瀏覽器嘸處用。"
     no_mobile: "CodeCombat 勿是照手機設備設計個，怪得嘸數达弗到頂讚個享受！"
-    play: "遊戲開打"
+    play: "遊戲開打" # The big play button that just starts playing a level
     old_browser: "啊耶, 爾個瀏覽器忒老哉, 嘸處運行 CodeCombat。對弗住險！"
     old_browser_suffix: "爾試叻好試多遍，不過嘸大用場個。"
     campaign: "打仗模式"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     spectate: "望別人攪遊戲"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "搭我裏聯繫"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     done: "妝下落"
     customize_wizard: "自設定獻路人"
     home: "主頁"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "指南"
     restart: "轉來"
     goals: "目標"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_rate_the_level: "箇關評價："
     victory_return_to_ladder: "走轉"
     victory_play_next_level: "下關"
+#    victory_play_continue: "Continue"
     victory_go_home: "轉到主頁"
     victory_review: "搭我裏反應！"
     victory_hour_of_code_done: "爾妝下落爻噃？"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tome_minion_spells: "下手個咒語"
     tome_read_only_spells: "只讀個咒語"
     tome_other_units: "各許單元"
-    tome_cast_button_castable: "發動"
-    tome_cast_button_casting: "徠搭發動"
-    tome_cast_button_cast: "發動咒語"
+    tome_cast_button_castable: "發動" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "徠搭發動" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "發動咒語" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "揀一個法術"
     tome_select_a_thang: "揀人來 "
     tome_available_spells: "好用個法術"
+#    tome_your_skills: "Your Skills"
     hud_continue: "接落去（捺 Shift-空格）"
     spell_saved: "咒語存起爻"
     skip_tutorial: "跳過去（Esc）"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "讀取下落！"
+#    loading_start: "Start Level"
     tip_insert_positions: "用Shift+濟鍵來嵌進拼寫編寫器。"
     tip_toggle_play: "用 Ctrl+P 暫停/繼續"
     tip_scrub_shortcut: "用 Ctrl+[ 搭 Ctrl+] 倒退搭快進。"
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tip_talk_is_cheap: "甮七講八講，代碼摜出望爻。- 林納斯·托華兹"
     tip_first_language: "爾經歷着最䁨嗰事幹是爾個頭一門編程語言。 - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "瑲朞:"
     time_total: "頂大:"
     time_goto: "轉到:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tutorial_play_first: "先教程攪遍。"
     simple_ai: "省力腦子"
     warmup: "熱身"
-    vs: "對打"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

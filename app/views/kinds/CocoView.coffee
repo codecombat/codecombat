@@ -176,7 +176,7 @@ module.exports = class CocoView extends Backbone.View
     target = elem.data('target')
     Modal = require 'views/'+target
     e.stopPropagation()
-    @openModalView new Modal
+    @openModalView new Modal supermodel: @supermodal
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once
@@ -313,8 +313,8 @@ module.exports = class CocoView extends Backbone.View
     return mobileRELong.test(ua) or mobileREShort.test(ua.substr(0, 4))
 
   isIE: ->
-    ua = navigator.userAgent or navigator.vendor or window.opera
-    return ua.search('MSIE') != -1
+    # http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
+    navigator.userAgent.indexOf('MSIE') > 0 or !!navigator.userAgent.match(/Trident.*rv\:11\./)
 
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1

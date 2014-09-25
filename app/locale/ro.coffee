@@ -13,7 +13,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     delay_5_sec: "5 secunde"
     manual: "Manual"
     fork: "Fork"
-    play: "Joacă"
+    play: "Joacă" # When used as an action verb, like "Play next level"
     retry: "Reîncearca"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     page_not_found: "Pagina nu a fost gasită"
 
   nav:
-    play: "Nivele"
+    play: "Nivele" # The top nav bar entry where players choose which levels to play
     community: "Communitate"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     slogan: "Învață sa scrii cod jucându-te"
     no_ie: "CodeCombat nu merge pe Internet Explorer 9 sau mai vechi. Scuze!"
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargă!"
-    play: "Joacă"
+    play: "Joacă" # The big play button that just starts playing a level
     old_browser: "Mda , browser-ul tău este prea vechi pentru CodeCombat. Scuze!"
     old_browser_suffix: "Poți să încerci oricum ,dar probabil nu o să meargă."
     campaign: "Campanie"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     spectate: "Spectator"
     players: "jucători"
     hours_played: "ore jucate"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     done: "Gata"
     customize_wizard: "Personalizează Wizard-ul"
     home: "Acasă"
-    stop: "Stop"
+#    skip: "Skip"
     game_menu: "Meniul Jocului"
     guide: "Ghid"
     restart: "Restart"
     goals: "Obiective"
+#    goal: "Goal"
     success: "Success!"
     incomplete: "Incomplet"
     timed_out: "Ai ramas fara timp"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_rate_the_level: "Apreciază nivelul: "
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
     victory_play_next_level: "Joacă nivelul următor"
+#    victory_play_continue: "Continue"
     victory_go_home: "Acasă"
     victory_review: "Spune-ne mai multe!"
     victory_hour_of_code_done: "Ai terminat?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tome_minion_spells: "Vrăjile Minion-ilor tăi"
     tome_read_only_spells: "Vrăji Read-Only"
     tome_other_units: "Alte unități"
-    tome_cast_button_castable: "Aplică Vraja"
-    tome_cast_button_casting: "Se încarcă"
-    tome_cast_button_cast: "Aplică Vraja"
+    tome_cast_button_castable: "Aplică Vraja" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Se încarcă" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Aplică Vraja" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Alege o vrajă"
     tome_select_a_thang: "Alege pe cineva pentru "
     tome_available_spells: "Vrăjile disponibile"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Continuă (apasă shift-space)"
     spell_saved: "Vrajă salvată"
     skip_tutorial: "Sari peste (esc)"
     keyboard_shortcuts: "Scurtături Keyboard"
     loading_ready: "Gata!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Click oriunde pe harta pentru a insera punctul în editorul de vrăji."
     tip_toggle_play: "Pune sau scoate pauza cu Ctrl+P."
     tip_scrub_shortcut: "Înapoi și derulare rapidă cu Ctrl+[ and Ctrl+]."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     multiplayer_caption: "Joaca cu prieteni!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tutorial_play_first: "Joacă Tutorial-ul mai întâi."
     simple_ai: "AI simplu"
     warmup: "Încălzire"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

@@ -9,7 +9,7 @@ class LevelSessionsCollection extends CocoCollection
   model: LevelSession
 
   constructor: (userID) ->
-    @url = "/db/user/#{userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,submittedCodeLanguage,totalScore&order=-1"
+    @url = "/db/user/#{userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,codeLanguage,submittedCodeLanguage,totalScore&order=-1"
     super()
 
 module.exports = class MainUserView extends UserView
@@ -30,7 +30,9 @@ module.exports = class MainUserView extends UserView
           multiPlayerSessions.push levelSession
         else
           singlePlayerSessions.push levelSession
-        languageCounts[levelSession.get 'submittedCodeLanguage'] = (languageCounts[levelSession.get 'submittedCodeLanguage'] or 0) + 1
+        language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
+        if language
+          languageCounts[language] = (languageCounts[language] or 0) + 1
       mostUsedCount = 0
       favoriteLanguage = null
       for language, count of languageCounts

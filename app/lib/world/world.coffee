@@ -68,6 +68,7 @@ module.exports = class World
 
   setThang: (thang) ->
     for old, i in @thangs
+      console.error 'world trying to set', thang, 'over', old unless old? and thang?
       if old.id is thang.id
         @thangs[i] = thang
     @thangMap[thang.id] = thang
@@ -91,11 +92,11 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     console.log 'Warning: loadFrames called on empty World (no thangs).' unless @thangs.length
     continueLaterFn = =>
-      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
+      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
       return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
     t1 = now()
@@ -116,13 +117,15 @@ module.exports = class World
         for error in (@unhandledRuntimeErrors ? [])
           return unless errorCallback error  # errorCallback tells us whether the error is recoverable
         @unhandledRuntimeErrors = []
-    @finishLoadingFrames loadProgressCallback, loadedCallback
+    @finishLoadingFrames loadProgressCallback, loadedCallback, preloadedCallback
 
-  finishLoadingFrames: (loadProgressCallback, loadedCallback) ->
+  finishLoadingFrames: (loadProgressCallback, loadedCallback, preloadedCallback) ->
     unless @debugging
       @ended = true
       system.finish @thangs for system in @systems
-    unless @preloading
+    if @preloading
+      preloadedCallback()
+    else
       loadProgressCallback? 1
       loadedCallback()
 

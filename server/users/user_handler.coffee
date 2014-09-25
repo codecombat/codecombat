@@ -15,7 +15,7 @@ EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
 
-serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
+serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]
@@ -30,13 +30,13 @@ UserHandler = class UserHandler extends Handler
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
-  formatEntity: (req, document) =>
+  formatEntity: (req, document, publicOnly=false) =>
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
-    includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
+    includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id)))
     delete obj[prop] for prop in @privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
+    includeCandidate = not publicOnly and (includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj))
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -193,7 +193,7 @@ UserHandler = class UserHandler extends Handler
     super(arguments...)
 
   agreeToCLA: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user
+    return @sendForbiddenError(res) unless req.user
     doc =
       user: req.user._id+''
       email: req.user.get 'email'
@@ -224,8 +224,8 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
-    query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
+    return @sendForbiddenError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
+    query = creator: userID, levelID: {$in: ['criss-cross', 'gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
     projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
@@ -281,7 +281,7 @@ UserHandler = class UserHandler extends Handler
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
     isAuthorized ||= ('employer' in (req.user.get('permissions') ? [])) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
-    return @sendUnauthorizedError res unless isAuthorized
+    return @sendForbiddenError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
       user.update {activity: activity}, (err) =>
@@ -356,7 +356,7 @@ UserHandler = class UserHandler extends Handler
     true
 
   getEmployers: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     query = {employerAt: {$exists: true, $ne: ''}}
     selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
     User.find(query).select(selection).lean().exec (err, documents) =>
@@ -379,7 +379,7 @@ UserHandler = class UserHandler extends Handler
     hash.digest('hex')
 
   getRemark: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     query = user: userID
     projection = null
     if req.query.project
@@ -392,7 +392,7 @@ UserHandler = class UserHandler extends Handler
 
   searchForUser: (req, res) ->
     # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user.isAdmin()
     search = req.body.search
     query = email: {$exists: true}, $or: [
       {emailLower: search}

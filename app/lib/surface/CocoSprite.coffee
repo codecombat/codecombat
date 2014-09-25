@@ -81,7 +81,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   onThangTypeLoaded: ->
     @stillLoading = false
     for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
-      AudioPlayer.preloadSoundReference sound for sound in sounds
+      AudioPlayer.preloadSoundReference sound for sound in sounds when sound
     if @thangType.get('raster')
       @actions = {}
       @isRaster = true

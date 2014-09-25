@@ -52,6 +52,7 @@ module.exports = class TomeView extends CocoView
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
     'tome:comment-my-code': 'onCommentMyCode'
+    'tome:select-primary-sprite': 'onSelectPrimarySprite'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -60,10 +61,11 @@ module.exports = class TomeView extends CocoView
   afterRender: ->
     super()
     @worker = @createWorker()
+    #programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.spriteName isnt 'Hero Placeholder'
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
-    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
+    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel unless @options.level.get('type', true) is 'hero'
     @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
@@ -77,7 +79,7 @@ module.exports = class TomeView extends CocoView
     thangs = _.filter e.world.thangs, 'inThangList'
     programmableThangs = _.filter thangs, 'isProgrammable'
     @createSpells programmableThangs, e.world
-    @thangList.adjustThangs @spells, thangs
+    @thangList?.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
 
   onCommentMyCode: (e) ->
@@ -133,7 +135,9 @@ module.exports = class TomeView extends CocoView
             worker: @worker
             language: language
             spectateView: @options.spectateView
+            spectateOpponentCodeLanguage: @options.spectateOpponentCodeLanguage
             levelID: @options.levelID
+            level: @options.level
 
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -182,6 +186,7 @@ module.exports = class TomeView extends CocoView
     @thangList?.$el.show()
 
   onSpriteSelected: (e) ->
+    return if @spellView and @options.level.get('type', true) is 'hero'  # Never deselect the hero in the Tome.
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
@@ -198,7 +203,7 @@ module.exports = class TomeView extends CocoView
       @$el.find('#' + @spellView.id).after(@spellView.el).remove()
       @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
       @castButton.attachTo @spellView
-      @thangList.$el.hide()
+      @thangList?.$el.hide()
       Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     @spellList.setThangAndSpell thang, spell
     @spellView?.setThang thang
@@ -207,7 +212,7 @@ module.exports = class TomeView extends CocoView
 
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
-    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session
+    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell   # TODO: know when palette should have been disabled but didn't exist
 
   spellFor: (thang, spellName) ->
@@ -216,9 +221,11 @@ module.exports = class TomeView extends CocoView
     selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
     if spellName
       spell = _.find selectedThangSpells, {name: spellName}
-    else
+    else if @thangList
       spell = @thangList.topSpellForThang thang
       #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
+    else
+      spell = _.find selectedThangSpells, (spell) -> true  # Just grab one
     spell
 
   reloadAllCode: ->
@@ -228,6 +235,12 @@ module.exports = class TomeView extends CocoView
   updateLanguageForAllSpells: (e) ->
     spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()
     @cast()
+
+  onSelectPrimarySprite: (e) ->
+    if @thangList
+      @thangList.selectPrimarySprite()
+    else
+      Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder'
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells

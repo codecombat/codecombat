@@ -104,7 +104,7 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
       target: c.shortString(title: 'Target', description: 'Target highlight element DOM selector string.')
       delay: {type: 'integer', minimum: 0, title: 'Delay', description: 'Show the highlight after this many milliseconds. Doesn\'t affect the dim shade cutout highlight method.'}
       offset: _.extend _.cloneDeep(PointSchema), {title: 'Offset', description: 'Pointing arrow tip offset in pixels from the default target.', format: null}
-      rotation: {type: 'number', minimum: 0, title: 'Rotation', description: 'Rotation of the pointing arrow, in radians. PI / 2 points left, PI points up, etc.'}
+      rotation: {type: 'number', minimum: 0, title: 'Rotation', description: 'Rotation of the pointing arrow, in radians. PI / 2 points left, PI points up, etc.', format: 'radians'}
       sides: c.array {title: 'Sides', description: 'Which sides of the target element to point at.'}, {type: 'string', 'enum': ['left', 'right', 'top', 'bottom'], title: 'Side', description: 'A side of the target element to point at.'}
     lock: {title: 'Lock', description: 'Whether the interface should be locked so that the player\'s focus is on the script, or specific areas to lock.', type: ['boolean', 'array'], items: {type: 'string', enum: ['surface', 'editor', 'palette', 'hud', 'playback', 'playback-hover', 'level']}}
     letterbox: {type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.'}

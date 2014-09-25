@@ -146,7 +146,11 @@ module.exports = class LevelHUDView extends CocoView
   createProperties: ->
     props = @$el.find('.thang-props')
     props.find(':not(.thang-name)').remove()
-    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
+    if @thang.id is 'Hero Placeholder'
+      name = {knight: 'Tharin', captain: 'Anya'}[@thang.type] ? 'Hero'
+    else
+      name = if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id
+    props.find('.thang-name').text name
     propNames = _.without @thang.hudProperties ? [], 'action'
     nColumns = Math.ceil propNames.length / 5
     columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
@@ -195,7 +199,12 @@ module.exports = class LevelHUDView extends CocoView
         group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
-    @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
+    if @speaker is 'Hero Placeholder'
+      # Doesn't work if it fires from a script; we don't really know who we are then.
+      name = {knight: 'Tharin', captain: 'Anya'}[@speakerSprite?.thang?.id] ? 'Hero'
+    else
+      name = @speaker
+    @bubble.append($("<h3>#{name}</h3>"))
     @animator = new DialogueAnimator(message, @bubble)
     @messageInterval = setInterval(@addMoreMessage, 1000 / 30)  # 30 FPS
 

@@ -13,7 +13,7 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play"
+#    play: "Play" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    page_not_found: "Page not found"
 
 #  nav:
-#    play: "Levels"
+#    play: "Levels" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
 #    editor: "Editor"
 #    blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    slogan: "Learn to Code by Playing a Game"
 #    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
+#    play: "Play" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
 #  contact:
 #    contact_us: "Contact CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    done: "Done"
 #    customize_wizard: "Customize Wizard"
 #    home: "Home"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
 #    guide: "Guide"
 #    restart: "Restart"
 #    goals: "Goals"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    victory_rate_the_level: "Rate the level: "
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_next_level: "Play Next Level"
+#    victory_play_continue: "Continue"
 #    victory_go_home: "Go Home"
 #    victory_review: "Tell us more!"
 #    victory_hour_of_code_done: "Are You Done?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
 #    tome_other_units: "Other Units"
-#    tome_cast_button_castable: "Cast Spell"
-#    tome_cast_button_casting: "Casting"
-#    tome_cast_button_cast: "Spell Cast"
+#    tome_cast_button_castable: "Cast Spell" # Temporary, if tome_cast_button_run isn't translated.
+#    tome_cast_button_casting: "Casting" # Temporary, if tome_cast_button_running isn't translated.
+#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
+#    tome_your_skills: "Your Skills"
 #    hud_continue: "Continue (shift+space)"
 #    spell_saved: "Spell Saved"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "English (AU)", englishDescription: "English
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

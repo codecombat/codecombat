@@ -1,3 +1,103 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+$maxHeroPortraitSize: 100px
+$minHeroPortraitSize: 50px
+
+$heroCanvasHeight: 330px
+
 #choose-hero-view
-  h3
-    text-decoration: underline
+
+  #hero-carousel
+    margin: 0 auto 20px auto
+
+    .carousel-indicator-container
+      height: $maxHeroPortraitSize
+      text-align: center
+      width: 100%
+      margin-bottom: 10px
+      margin-top: 10px
+      position: relative
+      z-index: 1
+  
+      .carousel-indicators
+        position: static
+        height: $maxHeroPortraitSize
+        width: 100%
+        margin-left: 0
+        background-repeat: no-repeat
+  
+        .hero-indicator
+          width: $maxHeroPortraitSize
+          height: $maxHeroPortraitSize
+          margin: 0px 3px
+          border: 2px solid black
+          border-radius: 2px
+          position: relative
+
+          .hero-avatar
+            width: 100%
+            height: 100%
+            background-size: contain
+  
+          &.initialized
+            @include transition(0.5s ease)
+
+          &.active
+            border-color: gold
+
+          &.locked
+            .hero-avatar
+              @include filter(contrast(50%) brightness(65%))
+
+            .lock-indicator
+              position: absolute
+              width: 40%
+              left: 30%
+              top: 30%
+              @include filter(invert(90%))
+            
+    .hero-item
+
+      &.locked
+        @include opacity(0.6)
+  
+      canvas, .hero-stats
+        width: 45%
+        height: $heroCanvasHeight
+        float: left
+  
+      canvas
+        margin-left: 5%
+  
+      .hero-stats
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6)
+        font-size: 24px
+  
+    .carousel-control.left
+      border-top-left-radius: 10px
+      border-bottom-left-radius: 10px
+  
+    .carousel-control.right
+      border-top-right-radius: 10px
+      border-bottom-right-radius: 10px
+  
+    .carousel-control
+      height: 75%
+      top: 25%
+      width: 10%
+
+  .select-group
+    display: block
+    min-height: 20px
+    margin-top: 10px
+    margin-bottom: 10px
+    padding-left: 20px
+    vertical-align: middle
+
+    label
+      margin-right: 20px
+      margin-bottom: 0
+
+    select
+      font-size: 18px

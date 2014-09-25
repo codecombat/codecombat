@@ -43,17 +43,17 @@ block content
       ul.nav.nav-pills
         li.active
           a(href="#featured-candidates", data-toggle="tab")
-            span(data-i18n="employers.featured_developers") Featured Developers
+            span.spr(data-i18n="employers.featured_developers") Featured Developers
             | (#{featuredCandidates.length})
         if otherCandidates.length
           li
             a(href="#other-candidates", data-toggle="tab")
-              span(data-i18n="employers.other_developers") Other Developers
+              span.spr(data-i18n="employers.other_developers") Other Developers
               | (#{otherCandidates.length})
         if me.isAdmin() && inactiveCandidates.length
           li
             a(href="#inactive-candidates", data-toggle="tab")
-              span(data-i18n="employers.inactive_developers") Inactive Developers
+              span.spr(data-i18n="employers.inactive_developers") Inactive Developers
               | (#{inactiveCandidates.length})
       div.tab-content
         for area, tabIndex in [{id: "featured-candidates", candidates: featuredCandidates}, {id: "other-candidates", candidates: otherCandidates}, {id: "inactive-candidates", candidates: inactiveCandidates}]
@@ -74,7 +74,7 @@ block content
                     th ✓?
               tbody
                 for candidate, index in area.candidates
-                  - var profile = candidate.get('jobProfile');
+                  - var profile = candidate.get('jobProfile', true);
                   - var authorized = candidate.id;  // If we have the id, then we are authorized.
                   - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
                   - var expired = profileAge > 2 * 30.4;

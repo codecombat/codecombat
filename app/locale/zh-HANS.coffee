@@ -13,7 +13,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     delay_5_sec: "5 秒"
     manual: "手动"
     fork: "派生"
-    play: "开始"
+    play: "开始" # When used as an action verb, like "Play next level"
     retry: "重试"
     watch: "关注"
     unwatch: "取消关注"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   nav:
-    play: "开始游戏"
+    play: "开始游戏" # The top nav bar entry where players choose which levels to play
     community: "社区"
     editor: "编辑器"
     blog: "博客"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     slogan: "通过游戏学习编程"
     no_ie: "抱歉！ Internet Explorer 9 等旧式预览器无法使用本网站。"
     no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到最好的体验！"
-    play: "开始游戏"
+    play: "开始游戏" # The big play button that just starts playing a level
     old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!"
     old_browser_suffix: "你可以继续重试下去，但八成不起作用，更新浏览器吧亲～"
     campaign: "战役模式"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     spectate: "旁观他人的游戏"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "联系我们"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     done: "完成"
     customize_wizard: "自定义向导"
     home: "主页"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "指南"
     restart: "重新开始"
     goals: "目标"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_rate_the_level: "评估关卡："
     victory_return_to_ladder: "返回"
     victory_play_next_level: "下一关"
+#    victory_play_continue: "Continue"
     victory_go_home: "返回主页"
     victory_review: "给我们反馈！"
     victory_hour_of_code_done: "你完成了吗?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_minion_spells: "助手的咒语"
     tome_read_only_spells: "只读的咒语"
     tome_other_units: "其他单元"
-    tome_cast_button_castable: "发动"
-    tome_cast_button_casting: "发动中"
-    tome_cast_button_cast: "发动咒语"
+    tome_cast_button_castable: "发动" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "发动中" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "发动咒语" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "选择一个法术"
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
+#    tome_your_skills: "Your Skills"
     hud_continue: "继续（按 Shift-空格）"
     spell_saved: "咒语已保存"
     skip_tutorial: "跳过（esc）"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "载入完成!"
+#    loading_start: "Start Level"
     tip_insert_positions: "使用Shift+左键来插入拼写编辑器。"
     tip_toggle_play: "用 Ctrl+P 来暂停或继续"
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_talk_is_cheap: "多说无用, 亮出你的代码. - Linus Torvalds"
     tip_first_language: "你所经历过最可怕的事情是你的第一门编程语言。 - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tutorial_play_first: "先玩一次教程."
     simple_ai: "简单电脑"
     warmup: "热身"
-    vs: "对决"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

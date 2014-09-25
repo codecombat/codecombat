@@ -74,7 +74,10 @@ module.exports.setup = (app) ->
 
   sendSelf = (req, res) ->
     res.setHeader('Content-Type', 'text/json')
-    res.send(UserHandler.formatEntity(req, req.user))
+    if req.query.callback
+      res.jsonp UserHandler.formatEntity(req, req.user, true)
+    else
+      res.send UserHandler.formatEntity(req, req.user, false)
     res.end()
 
   app.post('/auth/logout', (req, res) ->
@@ -183,6 +186,7 @@ module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
   user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  user.set 'lastIP', req.connection.remoteAddress
 
 createMailOptions = (receiver, password) ->
   # TODO: use email templates here

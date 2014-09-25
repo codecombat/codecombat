@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     delay_5_sec: "5 sekunder"
     manual: "Manuellt"
     fork: "Förgrena"
-    play: "Spela"
+    play: "Spela" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     page_not_found: "Sidan kan inte hittas"
 
   nav:
-    play: "Spela"
+    play: "Spela" # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Nivåredigerare"
     blog: "Blogg"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     slogan: "Lär dig att koda genom att spela ett spel."
     no_ie: "CodeCombat fungerar tyvärr inte i IE8 eller äldre."
     no_mobile: "CodeCombat är inte designat för mobila enhter och fungerar kanske inte!"
-    play: "Spela"
+    play: "Spela" # The big play button that just starts playing a level
     old_browser: "Oj då, din webbläsare är för gammal för att köra CodeCombat. Förlåt!"
     old_browser_suffix: "Du kan försöka ändå, men det kommer nog inte fungera."
     campaign: "Kampanj"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     spectate: "Titta på"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Kontakta CodeCombat"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     done: "Klar"
     customize_wizard: "Skräddarsy trollkarl"
     home: "Hem"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Guide"
     restart: "Börja om"
     goals: "Mål"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_rate_the_level: "Betygsätt nivån: "
     victory_return_to_ladder: "Gå tillbaka till stegen"
     victory_play_next_level: "Spela nästa nivå"
+#    victory_play_continue: "Continue"
     victory_go_home: "Gå hem"
     victory_review: "Berätta mer!"
     victory_hour_of_code_done: "Är du klar?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_minion_spells: "Dina soldaters förmågor"
     tome_read_only_spells: "Skrivskyddade förmågor"
     tome_other_units: "Andra enheter"
-    tome_cast_button_castable: "Använd besvärjelse"
-    tome_cast_button_casting: "Besvärjer"
-    tome_cast_button_cast: "Besvärjelse använd"
+    tome_cast_button_castable: "Använd besvärjelse" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Besvärjer" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Besvärjelse använd" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Välj en förmåga"
     tome_select_a_thang: "Välj någon för "
     tome_available_spells: "Tillgängliga förmågor"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Fortsätt (skift+mellanslag)"
     spell_saved: "Besvärjelse sparad"
     skip_tutorial: "Hoppa över (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tutorial_play_first: "Spela tutorial först."
     simple_ai: "Enkelt AI"
     warmup: "Uppvärmning"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

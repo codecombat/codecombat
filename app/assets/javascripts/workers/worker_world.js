@@ -65,7 +65,12 @@ self.console = console;
 
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
 
-var restricted = ["XMLHttpRequest", "importScripts", "Worker"];
+var restricted = ["XMLHttpRequest", "Worker"];
+if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
+    !self.navigator.userAgent.match(/Trident.*rv\:11\./)) {
+  // Can't restrict 'importScripts' in IE11, skip for all IE versions
+  restricted.push("importScripts");
+}
 for(var i = 0; i < restricted.length; ++i) {
   // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
   Object.defineProperty(self, restricted[i], {
@@ -363,7 +368,7 @@ self.runWorld = function runWorld(args) {
   for(var key in replacedLoDash)
     _[key] = replacedLoDash[key];
   self.postMessage({type: 'start-load-frames'});
-  self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
+  self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress, self.onWorldPreloaded);
 };
 
 self.serializeFramesSoFar = function serializeFramesSoFar() {
@@ -378,8 +383,9 @@ self.onWorldLoaded = function onWorldLoaded() {
   if(self.world.ended)
     self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
+  var overallStatus = self.goalManager.checkOverallStatus();
   if(self.world.ended)
-    self.postMessage({type: 'end-load-frames', goalStates: goalStates});
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus});
   var t1 = new Date();
   var diff = t1 - self.t0;
   if (self.world.headless)
@@ -414,6 +420,13 @@ self.onWorldLoaded = function onWorldLoaded() {
     self.world.destroy();
     self.world = null;
   }
+};
+
+self.onWorldPreloaded = function onWorldPreloaded() {
+  self.goalManager.worldGenerationEnded();
+  var goalStates = self.goalManager.getGoalStates();
+  var overallStatus = self.goalManager.checkOverallStatus();
+  self.postMessage({type: 'end-preload-frames', goalStates: goalStates, overallStatus: overallStatus});
 };
 
 self.onWorldError = function onWorldError(error) {

@@ -66,7 +66,11 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates  # Work ends here if we're headless.
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus  # Work ends here if we're headless.
+      when 'end-preload-frames'
+        clearTimeout @condemnTimeout
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus, true
+
 
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
@@ -92,7 +96,7 @@ module.exports = class Angel extends CocoClass
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
       when 'world-load-progress-changed'
         Backbone.Mediator.publish 'god:world-load-progress-changed', progress: event.data.progress
-        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or @shared.firstWorld
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 
       # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.
@@ -105,9 +109,9 @@ module.exports = class Angel extends CocoClass
       else
         @log 'Received unsupported message:', event.data
 
-  beholdGoalStates: (goalStates) ->
+  beholdGoalStates: (goalStates, overallStatus, preload=false) ->
     return if @aborting
-    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates
+    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus
     @finishWork() if @shared.headless
 
   beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
@@ -143,6 +147,9 @@ module.exports = class Angel extends CocoClass
     @deserializationQueue = []
     @running = false
     _.remove @shared.busyAngels, @
+    clearTimeout @condemnTimeout
+    clearInterval @purgatoryTimer
+    @condemnTimeout = @purgatoryTimer = null
     @doWork()
 
   finalizePreload: ->

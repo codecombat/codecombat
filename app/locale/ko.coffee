@@ -13,7 +13,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     delay_5_sec: "5초"
     manual: "수동"
     fork: "Fork"
-    play: "시작"
+    play: "시작" # When used as an action verb, like "Play next level"
     retry: "재시도"
     watch: "보기"
     unwatch: "보기 해제"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     page_not_found: "페이지를 찾을 수 없습니다"
 
   nav:
-    play: "레벨"
+    play: "레벨" # The top nav bar entry where players choose which levels to play
     community: "커뮤니티"
     editor: "에디터"
     blog: "블로그"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     slogan: "쉽고 간단한 게임 배우기"
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 9에서는 동작하지 않습니다."
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다."
-    play: "시작"
+    play: "시작" # The big play button that just starts playing a level
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다."
     old_browser_suffix: "시도해볼 수는 있겠지만..안될 수도 있습니다."
     campaign: "캠페인"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     spectate: "관중모드"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "코드컴뱃에 전할 말"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     done: "완료"
     customize_wizard: "사용자 정의 마법사"
     home: "홈"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "가이드"
     restart: "재시작"
     goals: "목표"
+#    goal: "Goal"
     success: "성공!"
     incomplete: "목표 미완료"
     timed_out: "제한 시간 초과"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_rate_the_level: "이번 레벨 평가: "
     victory_return_to_ladder: "레더로 돌아가기"
     victory_play_next_level: "다음 레벨 플레이 하기"
+#    victory_play_continue: "Continue"
     victory_go_home: "홈으로"
     victory_review: "리뷰를 남겨주세요"
     victory_hour_of_code_done: "정말 종료합니까?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_minion_spells: "미니언의 마법"
     tome_read_only_spells: "읽기 전용 마법"
     tome_other_units: "다른 유닛들"
-    tome_cast_button_castable: "마법 캐스팅"
-    tome_cast_button_casting: "캐스팅 중"
-    tome_cast_button_cast: "마법 캐스팅"
+    tome_cast_button_castable: "마법 캐스팅" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "캐스팅 중" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "마법 캐스팅" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "마법을 선택 하세요"
     tome_select_a_thang: "누군가를 선택하세요. "
     tome_available_spells: "사용 가능한 마법"
+#    tome_your_skills: "Your Skills"
     hud_continue: "계속진행 (shift+space)"
     spell_saved: "마법 저장 완료"
     skip_tutorial: "넘기기 (esc)"
     keyboard_shortcuts: "단축키"
     loading_ready: "준비!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tip_talk_is_cheap: "떠드는 건 가치가 없어요. 코드를 보여줘봐요. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tutorial_play_first: "튜토리얼을 먼저 플레이해보세요."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-    vs: "VS"
 #    friends_playing: "Friends Playing"
     log_in_for_friends: "로그인하시고 친구들과 게임을 즐기세요!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

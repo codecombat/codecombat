@@ -1,0 +1,17 @@
+extends /templates/modal/modal_base
+
+block modal-header-content
+  h3(data-i18n="play.items") Items
+
+block modal-body-content
+  ul.nav.nav-tabs
+    for slotGroup, index in slotGroupsArray
+      li(class=index ? "" : "active")
+        a(href="#slot-group-" + slotGroup, data-toggle="tab")
+          span= slotGroupsNames[index]
+  .tab-content
+    for slotGroup, index in slotGroupsArray
+      .tab-pane(id="slot-group-" + slotGroup, class=index ? "" : "active")
+        h3 buy some #{slotGroupsNames[index]} yo:
+        for item in slotGroups[slotGroup]
+          .replace-me(data-item-id=item.id)

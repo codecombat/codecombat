@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     delay_5_sec: "5 sekunde"
     manual: "Aleitig"
 #    fork: "Fork"
-    play: "Spiele"
+    play: "Spiele" # When used as an action verb, like "Play next level"
     retry: "nomol versuche"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     page_not_found: "Siite nid gfunde"
 
   nav:
-    play: "Levels"
+    play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Community"
     editor: "Editor"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     slogan: "Lern, wiemer JavaScript programmiert indem du es Spiel spielsch!"
     no_ie: "CodeCombat funktioniert uf InternetExplorer 9 und älter nid. Sorry!"
     no_mobile: "CodeCombat isch nid für mobili Grät entwicklet worde und funktioniert vilicht nid!"
-    play: "Spiele"
+    play: "Spiele" # The big play button that just starts playing a level
     old_browser: "Uh oh, din Browser isch z alt zum CodeCombat spiele. Sorry!"
     old_browser_suffix: "Du chasches gliich probiere, aber es funktioniert worschinli nid."
     campaign: "Kampagne"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     spectate: "Zueluege"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "CodeCombat kontaktiere"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     done: "Fertig"
     customize_wizard: "Zauberer apasse"
     home: "Home"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Aleitig"
     restart: "Neu starte"
     goals: "Ziel"
+#    goal: "Goal"
     success: "Erfolg!"
     incomplete: "Unvollständig"
     timed_out: "Ziit abglaufe"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     victory_rate_the_level: "Bewerte das Level: "
     victory_return_to_ladder: "Zrugg zum letzte Level"
     victory_play_next_level: "Spiel s nögste Level"
+#    victory_play_continue: "Continue"
 #    victory_go_home: "Go Home"
     victory_review: "Verzell üs meh!"
     victory_hour_of_code_done: "Bisch fertig?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tome_minion_spells: "Zaubersprüch vo dine Minions"
     tome_read_only_spells: "Read-Only Zaubersprüch"
     tome_other_units: "Anderi Einheite"
-    tome_cast_button_castable: "Zauber beschwöre"
-    tome_cast_button_casting: "Wird beschwore"
-#    tome_cast_button_cast: "Spell Cast"
+    tome_cast_button_castable: "Zauber beschwöre" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Wird beschwore" # Temporary, if tome_cast_button_running isn't translated.
+#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Wähl en Zauberspruch us"
     tome_select_a_thang: "Wähl öpper us für"
     tome_available_spells: "Verfüegbari Zaubersprüch"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Wiiter (shift+space)"
     spell_saved: "Zauberspruch gspeicheret"
     skip_tutorial: "Überspringe (esc)"
     keyboard_shortcuts: "Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
     tip_insert_positions: "Shift+Klick uf en Punkt uf de Charte zums in Zauberspruch-Editor ifüege."
     tip_toggle_play: "Play/Pausiert mit Ctrl+P ischalte."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tip_talk_is_cheap: "Rede isch billig. Zeig mir de Code. - Linus Torvalds"
     tip_first_language: "S Katastrophalste wo du chasch lerne, isch dini erst Programmiersproch. - Alan Kay"
     tip_hardware_problem: "Q: Wie viel Programmierer bruuchts zum e Glüehbire uswechsle?  A: Keine, da isch es Hardware Problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Jetzt:"
     time_total: "Max:"
     time_goto: "Goh zu:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

@@ -13,7 +13,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     delay_5_sec: "5秒"
     manual: "手動"
 #    fork: "Fork"
-    play: "ゲームスタート"
+    play: "ゲームスタート" # When used as an action verb, like "Play next level"
     retry: "リトライ"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     page_not_found: "ページが見つかりません"
 
   nav:
-    play: "ゲームスタート"
+    play: "ゲームスタート" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "レベルエディタ"
     blog: "ブログ"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイして学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)"
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。"
-    play: "ゲームスタート"
+    play: "ゲームスタート" # The big play button that just starts playing a level
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです"
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
     campaign: "キャンペーンモード"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "お問い合わせ"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     done: "完了"
     customize_wizard: "魔法使いの設定"
     home: "ホーム"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "ガイド"
     restart: "再始動"
     goals: "目標"
+#    goal: "Goal"
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_rate_the_level: "このレベルの評価: "
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "次のレベル"
+#    victory_play_continue: "Continue"
     victory_go_home: "ホームに戻る"
     victory_review: "フィードバック"
     victory_hour_of_code_done: "完了してよろしいですか?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tome_minion_spells: "操作できるキャラクターの呪文"
     tome_read_only_spells: "読込専用の呪文"
     tome_other_units: "その他のユニット"
-    tome_cast_button_castable: "キャスト"
-    tome_cast_button_casting: "キャスト中"
-    tome_cast_button_cast: "呪文をキャスト"
+    tome_cast_button_castable: "キャスト" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "キャスト中" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "呪文をキャスト" # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "呪文を選択"
     tome_select_a_thang: "誰かを選択: "
     tome_available_spells: "利用できる呪文"
+#    tome_your_skills: "Your Skills"
     hud_continue: "続く　（Shift+Spaceキー）"
     spell_saved: "呪文を保存しました"
     skip_tutorial: "スキップ (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

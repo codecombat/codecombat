@@ -13,7 +13,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     delay_5_sec: "5 másodperc"
     manual: "Kézi"
 #    fork: "Fork"
-    play: "Játék"
+    play: "Játék" # When used as an action verb, like "Play next level"
     retry: "Próbáld újra!"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     page_not_found: "Az oldal nem található"
 
   nav:
-    play: "Játék"
+    play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
     editor: "Szerkesztő"
     blog: "Blog"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     slogan: "Tanulj meg nyelven programozni, miközben játszol!"
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 9, vagy korábbi verzióit. Bocsi!"
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen."
-    play: "Játssz!"
+    play: "Játssz!" # The big play button that just starts playing a level
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!"
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
     campaign: "Kampány"
@@ -131,6 +131,22 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    spectate: "Spectate"
 #    players: "players"
 #    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+
+#  items:
+#    armor: "Armor"
+#    hands: "Hands"
+#    accessories: "Accessories"
+#    books: "Books"
+#    minions: "Minions"
+#    misc: "Misc"
 
   contact:
     contact_us: "Lépj kapcsolatba velünk"
@@ -362,11 +378,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     done: "Kész"
     customize_wizard: "Varázsló testreszabása"
     home: "Kezdőlap"
-#    stop: "Stop"
+#    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Segítség"
     restart: "Előlről"
     goals: "Célok"
+#    goal: "Goal"
     success: "Sikerült!"
     incomplete: "Hiányos"
     timed_out: "Kifutottál az időből"
@@ -383,6 +400,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_rate_the_level: "Értékeld a pályát: "
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Következő pálya"
+#    victory_play_continue: "Continue"
     victory_go_home: "Vissza a kezdőoldalra"
     victory_review: "Mondd el a véleményedet!"
     victory_hour_of_code_done: "Készen vagy?"
@@ -391,17 +409,23 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_minion_spells: "Egységeid varázslatai"
     tome_read_only_spells: "Csak olvasható varázslatok"
     tome_other_units: "Egyéb egységek"
-    tome_cast_button_castable: "Bocsáss rá varázslatot!"
-    tome_cast_button_casting: "Varázslat folyamatban"
-    tome_cast_button_cast: "Varázslat végrehajtva."
+    tome_cast_button_castable: "Bocsáss rá varázslatot!" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Varázslat folyamatban" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Varázslat végrehajtva." # Temporary, if tome_cast_button_ran isn't translated.
+#    tome_cast_button_run: "Run"
+#    tome_cast_button_running: "Running"
+#    tome_cast_button_ran: "Ran"
+#    tome_submit_button: "Submit"
     tome_select_spell: "Válassz egy varázslatot"
     tome_select_a_thang: "Válassz ki valakit "
     tome_available_spells: "Elérhető varázslatok"
+#    tome_your_skills: "Your Skills"
     hud_continue: "Folytatás (shift+space)"
     spell_saved: "Varázslat elmentve."
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
+#    loading_start: "Start Level"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -430,6 +454,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_talk_is_cheap: "Dumálni könnyű. Mutasd a kódot!. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     time_current: "Most:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -452,10 +479,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    multiplayer_caption: "Play with friends!"
 
 #  inventory:
-#    temp: "Temp"
+#    choose_inventory: "Equip Items"
 
 #  choose_hero:
-#    temp: "Temp"
+#    choose_hero: "Choose Your Hero"
+#    programming_language: "Programming Language"
+#    programming_language_description: "Which programming language do you want to use?"
+#    status: "Status"
+#    weapons: "Weapons"
+#    health: "Health"
+#    speed: "Speed"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -878,7 +911,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tutorial_play_first: "Play the Tutorial first."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
-#    vs: "VS"
 #    friends_playing: "Friends Playing"
 #    log_in_for_friends: "Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
@@ -967,6 +999,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    heroes: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
