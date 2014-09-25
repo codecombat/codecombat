@@ -334,7 +334,7 @@ module.exports = class LevelPlaybackView extends CocoView
       start: (event, ui) =>
         return if @shouldIgnore()
         @slideCount = 0
-        @wasPlaying = @playing
+        @wasPlaying = @playing and not $('#play-button').hasClass('ended')
         Backbone.Mediator.publish 'level:set-playing', {playing: false}
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'playback-scrub-start', volume: 0.5
 
