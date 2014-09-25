@@ -151,7 +151,7 @@ $gameControlMargin: 30px
     bottom: 1%
     z-index: 3
 
-    button.btn
+    .btn
       &:not(:first-child)
         margin-left: $gameControlMargin
       width: $gameControlSize
@@ -188,9 +188,24 @@ $gameControlMargin: 30px
     z-index: 3
 
     a
-      font-size: 20px
+      font-size: 24px
       color: #eee
       text-decoration: underline
 
       &:hover
         color: white
+        text-shadow: 1px 1px 0px black
+
+  .user-status
+    position: absolute
+    bottom: 1%
+    left: 50%
+    width: 400px
+    margin-left: -200px
+    text-align: center
+    font-size: 24px
+    color: white
+    text-shadow: 1px 1px 0px black
+
+    button
+      margin-left: 10px
