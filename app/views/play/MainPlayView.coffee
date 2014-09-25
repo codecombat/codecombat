@@ -54,11 +54,6 @@ module.exports = class MainPlayView extends RootView
     context.levelPlayCountMap = @levelPlayCountMap
     context
 
-  afterRender: ->
-    super()
-    @$el.find('.modal').on 'shown.bs.modal', ->
-      $('input:visible:first', @).focus()
-
 
 tutorials = [
   {
@@ -327,7 +322,7 @@ playerCreated = [
 ]
 
 campaigns = [
-  {id: 'beginner', name: 'Beginner Campaign', description: '... in which you learn the wizardry of programming.', levels: tutorials}
+  {id: 'old_beginner', name: 'Old Beginner Campaign', description: '... in which you learn the wizardry of programming.', levels: tutorials}
   {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: arenas}
   {id: 'dev', name: 'Random Harder Levels', description: '... in which you learn the interface while doing something a little harder.', levels: experienced}
   {id: 'classic' ,name: 'Classic Algorithms', description: '... in which you learn the most popular algorithms in Computer Science.', levels: classicAlgorithms}

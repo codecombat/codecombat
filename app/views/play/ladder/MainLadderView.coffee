@@ -54,11 +54,6 @@ module.exports = class LadderHomeView extends RootView
     context.campaigns = campaigns
     context
 
-  afterRender: ->
-    super()
-    @$el.find('.modal').on 'shown.bs.modal', ->
-      $('input:visible:first', @).focus()
-
 
 arenas = [
   {
