@@ -46,7 +46,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
     editor: "Συγγραφέας"
-    blog: "Μπλόγκ"
+    blog: "Ιστολόγιο"
     forum: "Φόρουμ"
     account: "Λογαριασμός"
     profile: "Προφίλ"
@@ -55,35 +55,35 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     admin: "Διαχειριστής"
     home: "Αρχική"
     contribute: "Συνεισφέρω"
-    legal: "Νόμικά"
-    about: "Σχετικά με"
+    legal: "Νομικά"
+    about: "Περί"
     contact: "Επικοινωνία"
     twitter_follow: "Ακολούθησε"
     employers: "Εργοδότες"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "Αποθήκευση Νέας Έκδοσης"
+    new_major_version: "Δημιουργία Νέας Έκδοσης"
+    cla_prefix: "Για να αποθηκευτούν οι αλλαγές, χρειάζεται πρώτα να συμφωνήσεις με την "
+    cla_url: "Άδεια Χρήσης Συντελεστή (CLA)"
+    cla_suffix: "."
+    cla_agree: "ΣΥΜΦΩΝΩ"
 
   login:
-    sign_up: "Δημιούργησε Λογαριασμό"
+    sign_up: "Δημιουργία Λογαριασμού"
     log_in: "Σύνδεση"
-#    logging_in: "Logging In"
+    logging_in: "Σύνδεση σε εξέλιξη"
     log_out: "Αποσύνδεση"
     recover: "Κάντε ανάκτηση του λογαριασμού σας"
 
   recover:
     recover_account_title: "Κάντε ανάκτηση του λογαριασμού σας"
     send_password: "Αποστολή κωδικού ανάκτησης"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Το μήνυμα ανάκτησης εστάλη."
 
   signup:
     create_account_title: "Δημιουργία λογαριασμού για αποθήκευση της προόδου"
-    description: "Είναι δωρεάν. Απλώς χρειάζεται να έχεις έναν λογαριασμό και θα είσαι έτοιμος να παίξεις:"
+    description: "Είναι δωρεάν. Απλώς χρειάζεται να έχεις έναν λογαριασμό και να είσαι έτοιμος να παίξεις:"
     email_announcements: "Λαμβάνετε ανακοινώσεις μέσω e-mail"
     coppa: "13+ ή Εκτός Αμερικής "
     coppa_why: "(Γιατί;)"
@@ -94,22 +94,22 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Μάθε να προγραμμάτιζεις με JavaScript μέσω ενός παιχνιδιού"
-    no_ie: "Το CodeCombat δεν παίζει με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση. Συγνώμη!"
+    slogan: "Μάθε να προγραμμάτιζεις με JavaScript παίζοντας"
+    no_ie: "Το CodeCombat δεν είναι συμβατό με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση. Συγνώμη!"
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!"
     play: "Παίξε" # The big play button that just starts playing a level
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξετε το CodeCombat. Συγνώμη!"
-    old_browser_suffix: "Μπορείτε να δοκιμάσετε, αλλά πιθανών να μην λειτουργήσει."
+    old_browser_suffix: "Μπορείτε να δοκιμάσετε, αλλά είναι πιθανό να μην λειτουργήσει."
     campaign: "Εκστρατεία"
     for_beginners: "Για αρχάριους"
-#    multiplayer: "Multiplayer"
+    multiplayer: "Πολλαπλοί παίχτες"
     for_developers: "Για προγραμματιστές"
-#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
-#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
-#    coffeescript_blurb: "Nicer JavaScript syntax."
-#    clojure_blurb: "A modern Lisp."
-#    lua_blurb: "Game scripting language."
-#    io_blurb: "Simple but obscure."
+    javascript_blurb: "Η γλώσσα του ιστού. Κατάλληλη για την ανάπτυξη ιστοσελίδων, δικτυακών εφαρμογών, παιχνιδιών HTML5, και εξυπηρετητών."
+    python_blurb: "Απλή αλλά ρωμαλέα, η Python είναι μια εξαιρετική γλώσσα προγραμματισμού γενικής χρήσης."
+    coffeescript_blurb: "Βελτιώνει το συντακτικό της JavaScript."
+    clojure_blurb: "Μια μοντέρνα Lisp."
+    lua_blurb: "Γλώσσα σεναρίου για παιχνίδια."
+    io_blurb: "Απλή μα μυστηριώδης."
 
   play:
     choose_your_level: "Διάλεξε την πίστα σου"
@@ -150,13 +150,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   contact:
     contact_us: "Επικοινωνήστε μαζί μας"
-    welcome: "Καλό να ακούσω από εσάς! Χρησιμοποιήστε αυτή τη φόρμα για να μας στείλετε email. "
+    welcome: "Καλό είναι να έχουμε νέα από εσάς! Χρησιμοποιήστε αυτή τη φόρμα για να μας στείλετε email. "
     contribute_prefix: "Αν σας ενδιαφέρει να βοηθήσετε, ελέγξτε την "
     contribute_page: "σελίδα συνεισφοράς"
     contribute_suffix: "!"
     forum_prefix: "Για οτιδήποτε δημόσιο, δοκίμασε "
     forum_page: "το φόρουμ μας"
-#    forum_suffix: " instead."
+    forum_suffix: "."
     send: "Αποστολή σχολίων"
 #    contact_candidate: "Contact Candidate"
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
@@ -164,9 +164,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   diplomat_suggestion:
     title: "Βοηθήστε στην μετάφραση CodeCombat!"
     sub_heading: "Χρειαζόμαστε τις γλωσσικές σας δεξιότητες."
-    pitch_body: "Αναπτύσσουμε το CodeCombat στα αγγλικά, αλλά ήδη έχουμε παίκτες από όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα αγγλικά, αλλά δεν μιλούν αγγλικά, οπότε αν μπορείτε να μιλήσετε και τις δύο, παρακαλούμε να Αναπτύσσουμε CodeCombat στα αγγλικά, αλλά ήδη έχουμε παίκτες σε όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα Ελληνικά, αλλά δεν μιλούν αγγλικά, οπότε αν μπορείτε να μιλήσετε και τις δύο γλώσσες, παρακαλούμε να σκεφτείτε την εγγραφή ως ένας Διπλωμάτης και βοηθήστε να μεταφραστεί τόσο η ιστοσελίδα CodeCombat και όλα τα επίπεδα στην Ελληνική γλώσσα."
+    pitch_body: "Αναπτύσσουμε το CodeCombat στα αγγλικά, αλλά ήδη έχουμε παίκτες από όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα ελληνικά, αλλά δεν μιλούν αγγλικά. Εάν έχετε ευχέρεια και στις δύο γλώσσες, αγγλική κι ελληνική, παρακαλούμε να εγγραφείτε ως Διπλωμάτης και να συμβάλετε στην απόδοση της ιστοσελίδας CodeCombat και όλων των επιπέδων στην ελληνική γλώσσα."
     missing_translations: "Μέχρι να μπορούν να μεταφράσουν τα πάντα σε Ελληνικά, θα δείτε την αγγλική γλώσσα όπου τα Ελληνικά  δεν είναι διαθέσιμα."
-    learn_more: "Μάθετε περισσότερα σχετικά με το να είστε ένας Διπλωμάτης"
+    learn_more: "Μάθετε πώς να γίνετε  Διπλωμάτης"
     subscribe_as_diplomat: "Εγγραφή ως Διπλωμάτης"
 
   wizard_settings:
@@ -211,7 +211,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
     contributor_emails: "Contributor Class Emails"
-    contribute_prefix: "Αναζητούμε για ανθρώπους που θέλουν να  "
+    contribute_prefix: "Αναζητούμε ανθρώπους που θέλουν να  "
     contribute_page: "Σελίδα συνεισφοράς"
     contribute_suffix: " μάθε περισσότερα"
     email_toggle: "Επέλεξα όλα"
@@ -865,7 +865,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     artisan_title: "Τεχνίτης"
     artisan_title_description: "(Δημιουργός επιπέδων)"
     adventurer_title: "Εξερευνητής"
-    adventurer_title_description: "(Δοκιματής επιπέδων)"
+    adventurer_title_description: "(Δοκιμαστής επιπέδων)"
     scribe_title: "Γραφέας"
     scribe_title_description: "(Συντάκτης άρθρων)"
     diplomat_title: "Διπλωμάτης"
