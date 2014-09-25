@@ -43,7 +43,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   buildAutomatically: true
   buildAsync: true
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
-  defaultActions: ['idle', 'die', 'move', 'move_back', 'move_side', 'move_fore', 'attack']
+  defaultActions: ['idle', 'die', 'move', 'move', 'attack']
   numThingsLoading: 0
   cocoSprites: null
   spriteSheet: null
@@ -165,7 +165,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   removeCocoSprite: (cocoSprite) ->
     @stopListening(cocoSprite)
-    cocoSprite.imageObject.parent.removeChild cocoSprite.imageObject
+    @container.removeChild cocoSprite.imageObject
     @cocoSprites = _.without @cocoSprites, cocoSprite
 
   #- Loading network resources dynamically
@@ -200,7 +200,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @upsertActionToRender(cocoSprite.thangType)
     else
       for action in _.values(cocoSprite.thangType.getActions())
-        continue unless action.name in @defaultActions
+        continue unless _.any @defaultActions, (prefix) -> action.name.startsWith(prefix)
         @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
@@ -284,6 +284,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     oldLayer = @container 
     @container = new createjs.SpriteContainer(@spriteSheet)
     for cocoSprite in @cocoSprites
+      console.log 'zombie sprite found on layer', @name if cocoSprite.destroyed
+      continue if cocoSprite.destroyed
       @setImageObjectToCocoSprite(cocoSprite)
     for prop in ['scaleX', 'scaleY', 'regX', 'regY']
       @container[prop] = oldLayer[prop]
@@ -436,6 +438,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if not cocoSprite.thangType.isFullyLoaded()
       # just give a placeholder
       sprite = new createjs.Sprite(@spriteSheet)
+      sprite.placeholder = true
     
     else if cocoSprite.thangType.get('raster')
       sprite = new createjs.Sprite(@spriteSheet)
@@ -445,7 +448,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.gotoAndStop(@renderGroupingKey(cocoSprite.thangType))
       
     else
-      SpriteClass = if cocoSprite.thangType.get('spriteType') is 'segmented' then SegmentedSprite else SingularSprite
+      SpriteClass = if (cocoSprite.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
       prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.colorConfig) + '.'
       sprite = new SpriteClass(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
 

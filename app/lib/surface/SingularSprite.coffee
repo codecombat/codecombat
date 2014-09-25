@@ -66,7 +66,7 @@ module.exports = class SingularSprite extends createjs.Sprite
         @scaleX = @scaleY = 1 / @resolutionFactor
 
     if @camera and @thangType.get('name') in floors
-      @baseScaleY *= @options.camera.y2x
+      @baseScaleY *= @camera.y2x
     @scaleX *= -1 if action.flipX
     @scaleY *= -1 if action.flipY
     @baseScaleX = @scaleX

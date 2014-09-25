@@ -93,6 +93,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @scaleFactorX = @thang.scaleFactor if @thang?.scaleFactor?
     @scaleFactorY = @thang.scaleFactorY if @thang?.scaleFactorY?
     @scaleFactorY = @thang.scaleFactor if @thang?.scaleFactor?
+    @updateAction() unless @currentAction
 
   setImageObject: (newImageObject) ->
     if @imageObject
@@ -108,6 +109,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject = newImageObject
     @configureMouse()
     @imageObject.on 'animationend', @playNextAction
+    @playAction(@currentAction) if @currentAction and not @stillLoading
     @trigger 'new-image-object', @imageObject
 
   ##################################################
@@ -115,7 +117,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   queueAction: (action) ->
     # The normal way to have an action play
-    return unless @thangType.isFullyLoaded()
     action = @actions[action] if _.isString(action)
     action ?= @actions.idle
     @actionQueue = []
@@ -362,7 +363,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   ##################################################
   updateAction: ->
-    return if @isRaster
+    return if @isRaster or @actionLocked
     action = @determineAction()
     isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
@@ -390,6 +391,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # wallGrid is only needed for wall grid face updates; should refactor if this works
     return unless action = @getActionDirection()
     @playAction(action) if action isnt @currentAction
+  
+  lockAction: -> (@actionLocked=true)
 
   getActionDirection: (rootAction=null) ->
     rootAction ?= @currentRootAction

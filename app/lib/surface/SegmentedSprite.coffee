@@ -13,7 +13,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   
   # CreateJS.Sprite-like interface
     
-  play: -> @paused = false
+  play: -> @paused = false unless @baseMovieClip and @animLength > 1
   stop: -> @paused = true
   gotoAndPlay: (actionName) -> @goto(actionName, false)
   gotoAndStop: (actionName) -> @goto(actionName, true)
@@ -21,7 +21,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   goto: (actionName, @paused=true) ->
     @removeAllChildren()
     @currentAnimation = actionName
-    @baseMovieClip = @framerate = null
+    @baseMovieClip = @framerate = @animLength = null
     @actionNotSupported = false
 
     action = @thangType.getActions()[actionName]
@@ -39,7 +39,8 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @baseMovieClip = @buildMovieClip(action.animation)
       @frames = action.frames
       @frames = (parseInt(f) for f in @frames.split(',')) if @frames
-      @animLength = if @frames then @frames.length else @baseMovieClip.frameBounds.length
+      @animLength = if @frames then @frames.length else @baseMovieClip.timeline.duration
+      @paused = true if @animLength is 1
       @currentFrame = if randomStart then Math.floor(Math.random() * @animLength) else 0
       @baseMovieClip.gotoAndStop(@currentFrame)
       movieClip.gotoAndStop(@currentFrame) for movieClip in @childMovieClips
@@ -88,6 +89,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   buildMovieClip: (animationName, mode, startPosition, loops) ->
     raw = @thangType.get('raw')
     animData = raw.animations[animationName]
+    @lastAnimData = animData
     movieClip = new createjs.MovieClip()
 
     locals = {}
@@ -107,7 +109,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       for func in tweenData
         args = $.extend(true, [], (func.a))
         if @dereferenceArgs(args, locals, toSkip) is false
-          console.debug 'Did not dereference args:', args
+#          console.debug 'Did not dereference args:', args
           stopped = true
           break
         tween = tween[func.n](args...)
@@ -236,5 +238,5 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         @addChild(child)
     
 
-  getBounds: ->
-    @baseMovieClip.getBounds()
+#  _getBounds: createjs.SpriteContainer.prototype.getBounds
+#  getBounds: -> @baseMovieClip?.getBounds() or @children[0]?.getBounds() or @_getBounds()

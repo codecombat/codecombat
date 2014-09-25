@@ -24,7 +24,9 @@ module.exports = class Mark extends CocoClass
   destroy: ->
     createjs.Tween.removeTweens @mark if @mark
     @mark?.parent?.removeChild @mark
-    @markSprite?.destroy()
+    if @markSprite
+      @layer.removeCocoSprite(@markSprite)
+      @markSprite.destroy()
     @sprite = null
     super()
 

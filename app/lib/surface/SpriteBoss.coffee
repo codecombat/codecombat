@@ -33,7 +33,7 @@ module.exports = class SpriteBoss extends CocoClass
     @dragged = 0
     @options ?= {}
     @camera = @options.camera
-    @surfaceLayer = @options.surfaceLayer
+    @webGLStage = @options.webGLStage
     @surfaceTextLayer = @options.surfaceTextLayer
     @world = options.world
     @options.thangTypes ?= []
@@ -65,7 +65,7 @@ module.exports = class SpriteBoss extends CocoClass
       ['Floating', 10]
     ]
       @spriteLayers[name] = new LayerAdapter name: name, webGL: true, layerPriority: priority, transform: LayerAdapter.TRANSFORM_CHILD, camera: @camera
-    @surfaceLayer.addChild (spriteLayer.container for spriteLayer in _.values(@spriteLayers))...
+    @webGLStage.addChild (spriteLayer.container for spriteLayer in _.values(@spriteLayers))...
 
   layerForChild: (child, sprite) ->
     unless child.layerPriority?
@@ -185,6 +185,7 @@ module.exports = class SpriteBoss extends CocoClass
     sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
     @spriteLayers['Default'].updateLayerOrder()
+    @cacheObstacles()
 
   adjustSpriteExistence: ->
     # Add anything new, remove anything old, update everything current
@@ -206,6 +207,7 @@ module.exports = class SpriteBoss extends CocoClass
       updatedObstacles.push sprite if isObstacle and (missing or sprite.hasMoved)
       sprite.hasMoved = false
       @removeSprite sprite if missing
+    @cacheObstacles updatedObstacles if updatedObstacles.length and @cachedObstacles
 
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @sprites[@willSelectThang[0]]
@@ -226,6 +228,26 @@ module.exports = class SpriteBoss extends CocoClass
           itemsJustEquipped.push item
     return itemsJustEquipped
 
+  cacheObstacles: (updatedObstacles=null) ->
+    return if @cachedObstacles and not updatedObstacles
+    wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    return if _.any (s.stillLoading for s in wallSprites)
+    walls = (sprite.thang for sprite in wallSprites)
+    @world.calculateBounds()
+    wallGrid = new Grid walls, @world.size()...
+    if updatedObstacles
+      possiblyUpdatedWallSprites = (sprite for sprite in wallSprites when _.find updatedObstacles, (w2) -> sprite is w2 or (Math.abs(sprite.thang.pos.x - w2.thang.pos.x) + Math.abs(sprite.thang.pos.y - w2.thang.pos.y)) <= 16)
+    else
+      possiblyUpdatedWallSprites = wallSprites
+    #console.log 'updating up to', possiblyUpdatedWallSprites.length, 'of', wallSprites.length, 'wall sprites from updatedObstacles', updatedObstacles
+    for wallSprite in possiblyUpdatedWallSprites
+      wallSprite.updateActionDirection wallGrid
+      wallSprite.lockAction()
+      wallSprite.updateScale()
+      wallSprite.updatePosition()
+    #console.log @wallGrid.toString()
+    @cachedObstacles = true
+    
   spriteFor: (thangID) -> @sprites[thangID]
 
   onNewWorld: (e) ->
