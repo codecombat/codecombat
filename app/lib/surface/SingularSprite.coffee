@@ -2,7 +2,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle']
 
-module.exports = class WebGLSprite extends createjs.Sprite
+module.exports = class SingularSprite extends createjs.Sprite
   childMovieClips: null
   
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->

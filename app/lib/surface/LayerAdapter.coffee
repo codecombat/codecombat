@@ -57,6 +57,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     super()
     options ?= {}
     @name = options.name ? 'Unnamed'
+    @defaultSpriteType = if @name is 'Default' then 'segmented' else 'singular'
     @customGraphics = {}
     @layerPriority = options.layerPriority ? 0
     @transformStyle = options.transform ? LayerAdapter.TRANSFORM_CHILD
@@ -248,7 +249,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
       if thangType.get('raw')
-        if thangType.get('spriteType') is 'segmented'
+        if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented'
           @renderSegmentedThangType(args...)
         else
           @renderSingularThangType(args...)

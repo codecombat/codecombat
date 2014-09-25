@@ -32,6 +32,8 @@ module.exports = class Mark extends CocoClass
 
   onLayerMadeSpriteSheet: ->
     return unless @mark
+    return @update() if @markSprite
+    # need to update the mark display object manually...
     @mark = null
     @build()
     @layer.addChild @mark
@@ -43,10 +45,16 @@ module.exports = class Mark extends CocoClass
     @on = to
     delete @toggleTo
     if @on
-      @layer.addChild @mark
-      @layer.updateLayerOrder()
+      if @markSprite
+        @layer.addCocoSprite(@markSprite)
+      else
+        @layer.addChild @mark
+        @layer.updateLayerOrder()
     else
-      @layer.removeChild @mark
+      if @markSprite
+        @layer.removeCocoSprite(@markSprite)
+      else
+        @layer.removeChild @mark
       if @highlightTween
         @highlightDelay = @highlightTween = null
         createjs.Tween.removeTweens @mark
@@ -221,10 +229,11 @@ module.exports = class Mark extends CocoClass
     return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
     CocoSprite = require './CocoSprite'
     # don't bother with making these render async for now, but maybe later for fun and more complexity of code
-    markSprite = new CocoSprite @thangType, {async: false}
+    markSprite = new CocoSprite @thangType
     markSprite.queueAction 'idle'
     @mark = markSprite.imageObject
     @markSprite = markSprite
+    @listenTo @markSprite, 'new-image-object', (@mark) ->
 
   loadThangType: ->
     name = @thangType

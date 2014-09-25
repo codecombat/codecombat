@@ -31,7 +31,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     thang: null
     camera: null
     showInvisible: false
-    async: true
 
   possessed: false
   flipped: false
@@ -109,6 +108,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject = newImageObject
     @configureMouse()
     @imageObject.on 'animationend', @playNextAction
+    @trigger 'new-image-object', @imageObject
 
   ##################################################
   # QUEUEING AND PLAYING ACTIONS
@@ -513,24 +513,26 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   createMarks: ->
     return unless @options.camera
     if @thang
-      allProps = []
-      allProps = allProps.concat (@thang.hudProperties ? [])
-      allProps = allProps.concat (@thang.programmableProperties ? [])
-      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+      # TODO: Add back ranges
+#      allProps = []
+#      allProps = allProps.concat (@thang.hudProperties ? [])
+#      allProps = allProps.concat (@thang.programmableProperties ? [])
+#      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+#
+#      for property in allProps
+#        if m = property.match /.*(Range|Distance|Radius)$/
+#          if @thang[m[0]]? and @thang[m[0]] < 9001
+#            @ranges.push
+#              name: m[0]
+#              radius: @thang[m[0]]
+#
+#      @ranges = _.sortBy @ranges, 'radius'
+#      @ranges.reverse()
+#
+#      @addMark range.name for range in @ranges
 
-      for property in allProps
-        if m = property.match /.*(Range|Distance|Radius)$/
-          if @thang[m[0]]? and @thang[m[0]] < 9001
-            @ranges.push
-              name: m[0]
-              radius: @thang[m[0]]
-
-      @ranges = _.sortBy @ranges, 'radius'
-      @ranges.reverse()
-
-      @addMark range.name for range in @ranges
-
-      @addMark('bounds').toggle true if @thang?.drawsBounds
+      # TODO: add back bounds
+#      @addMark('bounds').toggle true if @thang?.drawsBounds
       @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
 
   updateMarks: ->
@@ -550,30 +552,29 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
 
   updateEffectMarks: ->
-    # TODO: get effect marks working again
-#    return if _.isEqual @thang.effectNames, @previousEffectNames
-#    return if @stopped
-#    for effect in @thang.effectNames
-#      mark = @addMark effect, @options.floatingLayer, effect
-#      mark.statusEffect = true
-#      mark.toggle 'on'
-#      mark.show()
-#
-#    if @previousEffectNames
-#      for effect in @previousEffectNames
-#        continue if effect in @thang.effectNames
-#        mark = @marks[effect]
-#        mark.toggle false
-#
-#    if @thang.effectNames.length > 1 and not @effectInterval
-#      @rotateEffect()
-#      @effectInterval = setInterval @rotateEffect, 1500
-#
-#    else if @effectInterval and @thang.effectNames.length <= 1
-#      clearInterval @effectInterval
-#      @effectInterval = null
-#
-#    @previousEffectNames = @thang.effectNames
+    return if _.isEqual @thang.effectNames, @previousEffectNames
+    return if @stopped
+    for effect in @thang.effectNames
+      mark = @addMark effect, @options.floatingLayer, effect
+      mark.statusEffect = true
+      mark.toggle 'on'
+      mark.show()
+
+    if @previousEffectNames
+      for effect in @previousEffectNames
+        continue if effect in @thang.effectNames
+        mark = @marks[effect]
+        mark.toggle false
+
+    if @thang.effectNames.length > 1 and not @effectInterval
+      @rotateEffect()
+      @effectInterval = setInterval @rotateEffect, 1500
+
+    else if @effectInterval and @thang.effectNames.length <= 1
+      clearInterval @effectInterval
+      @effectInterval = null
+
+    @previousEffectNames = @thang.effectNames
 
   rotateEffect: =>
     effects = (m.name for m in _.values(@marks) when m.on and m.statusEffect and m.mark)

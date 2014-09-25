@@ -6,6 +6,7 @@ ThangType = require 'models/ThangType'
 treeData = require 'test/app/fixtures/tree1.thang.type'
 munchkinData = require 'test/app/fixtures/ogre-munchkin-m.thang.type'
 fangriderData = require 'test/app/fixtures/ogre-fangrider.thang.type'
+curseData = require 'test/app/fixtures/curse.thang.type'
 
 describe 'SpriteBoss', ->
   spriteBoss = null
@@ -82,7 +83,7 @@ describe 'SpriteBoss', ->
         {id: 'Ogre N', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:0, y:8, z: 1}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5, hudProperties: ['health'] }
         {id: 'Ogre W', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-8, y:0, z: 1}, action: 'move', health: 8, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5, hudProperties: ['health'] }
         {id: 'Ogre E', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:8, y:0, z: 1}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5, hudProperties: ['health'] }
-        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:0, y:-8, z: 1}, action: 'move', health: 2, maxHealth: 10, rotation: Math.PI/2, acts: true, hudProperties: ['health'] }
+        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:0, y:-8, z: 1}, action: 'move', health: 2, maxHealth: 10, rotation: Math.PI/2, acts: true, hudProperties: ['health'], effectNames: ['curse'] }
 
         # Set ogres side by side with different render strategies
         {id: 'Singular Ogre', spriteName: 'Singular Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-10, y:-8, z: 1}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
@@ -101,6 +102,7 @@ describe 'SpriteBoss', ->
       _.find(world.thangs, {id: 'Disappearing Tree'}).exists = false
       world.thangMap[thang.id] = thang for thang in world.thangs
       spriteBoss.update(true)
+      jasmine.Ajax.requests.sendResponses({'/db/thang.type/curse': curseData})
 
       # Test that the unrendered, animated sprites aren't showing anything
       midRenderExpectations.push([spriteBoss.sprites['Segmented Ogre'].imageObject.children.length,10,'animated segmented action'])
