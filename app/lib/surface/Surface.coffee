@@ -314,7 +314,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Changes and events that only need to happen when the frame has changed
 
   onFrameChanged: (force) ->
-    @currentFrame = Math.min(@currentFrame, @world.frames.length)
+    @currentFrame = Math.min(@currentFrame, @world.frames.length - 1)
     @debugDisplay?.updateFrame @currentFrame
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
@@ -416,7 +416,8 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
     @frameBeforeCast = @currentFrame
-    @setProgress 0
+    # This is where I wanted to trigger a rewind, but it turned out to be pretty complicated, since the new world gets updated everywhere, and you don't want to rewind through that.
+    @setProgress 0, 0
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
@@ -435,7 +436,7 @@ module.exports = Surface = class Surface extends CocoClass
     fastForwardBuffer = 2
     if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
-      @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
+      @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
       lag = (@world.frames.length - 1) * @world.dt - @world.age
       intendedLag = @world.realTimeBufferMax + @world.dt
