@@ -19,6 +19,8 @@ PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
 
+resizeDelay = 500  # At least as much as $level-resize-transition-time.
+
 module.exports = Surface = class Surface extends CocoClass
   stage: null
 
@@ -88,7 +90,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 500  # At least as much as $level-resize-transition-time.
+    @onResize = _.debounce @onResize, resizeDelay
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -249,7 +251,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.round(progress * @world.frames.length), @world.frames.length)
+    @scrubbingTo = Math.min(Math.round(progress * (@world.frames.length - 1)), @world.frames.length - 1)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -314,7 +316,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Changes and events that only need to happen when the frame has changed
 
   onFrameChanged: (force) ->
-    @currentFrame = Math.min(@currentFrame, @world.frames.length)
+    @currentFrame = Math.min(@currentFrame, @world.frames.length - 1)
     @debugDisplay?.updateFrame @currentFrame
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
@@ -336,7 +338,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     @lastFrame = @currentFrame
 
-  getProgress: -> @currentFrame / @world.frames.length
+  getProgress: -> @currentFrame / Math.max(1, @world.frames.length - 1)
 
 
 
@@ -416,7 +418,8 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
     @frameBeforeCast = @currentFrame
-    @setProgress 0
+    # This is where I wanted to trigger a rewind, but it turned out to be pretty complicated, since the new world gets updated everywhere, and you don't want to rewind through that.
+    @setProgress 0, 0
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
@@ -433,9 +436,9 @@ module.exports = Surface = class Surface extends CocoClass
     @setWorld event.world
     @onFrameChanged(true)
     fastForwardBuffer = 2
-    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
-      @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
+      @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
       lag = (@world.frames.length - 1) * @world.dt - @world.age
       intendedLag = @world.realTimeBufferMax + @world.dt
@@ -544,6 +547,7 @@ module.exports = Surface = class Surface extends CocoClass
     return unless @realTime
     @realTime = false
     @onResize()
+    _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
     @spriteBoss.selfWizardSprite?.toggle true
     @canvas.removeClass 'flag-color-selected'
     if @previousCameraZoom

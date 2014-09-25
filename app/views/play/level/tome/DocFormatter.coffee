@@ -110,7 +110,7 @@ module.exports = class DocFormatter
     if @doc.type is 'number' and not isNaN v
       if v == Math.round v
         return v
-      return v.toFixed 2
+      return v?.toFixed(2) ? 'null'
     if _.isString v
       return "\"#{v}\""
     if v?.id

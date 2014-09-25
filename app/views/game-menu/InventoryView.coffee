@@ -14,10 +14,9 @@ module.exports = class InventoryView extends CocoView
 
   events:
     'click .item-slot': 'onItemSlotClick'
-    'click #available-equipment .list-group-item': 'onAvailableItemClick'
-    'dblclick #available-equipment .list-group-item': 'onAvailableItemDoubleClick'
+    'click #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemClick'
+    'dblclick #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemDoubleClick'
     'dblclick .item-slot .item-view': 'onEquippedItemDoubleClick'
-    'click #swap-button': 'onClickSwapButton'
 
   subscriptions:
     'level:hero-selection-updated': 'onHeroSelectionUpdated'
@@ -47,11 +46,15 @@ module.exports = class InventoryView extends CocoView
     context.equipped = _.values(@equipment)
     context.items = @items.models
 
+    context.unlockedItems = []
+    context.lockedItems = []
     for item in @items.models
       item.classes = item.getAllowedSlots()
       item.classes.push 'equipped' if item.get('original') in context.equipped
-      item.classes.push 'restricted' if @allowedItems and not (item.get('original') in @allowedItems)
-    @items.models.sort (a, b) -> ('restricted' in a.classes) - ('restricted' in b.classes)
+      locked = @allowedItems and not (item.get('original') in @allowedItems)
+      item.classes.push 'locked' if locked
+      (if locked then context.lockedItems else context.unlockedItems).push item
+    @items.models.sort (a, b) -> ('locked' in a.classes) - ('locked' in b.classes)
 
     context.slots = @slots
     context.equipment = _.clone @equipment
@@ -83,7 +86,7 @@ module.exports = class InventoryView extends CocoView
       itemView.render()
       $(availableItemEl).append(itemView.$el)
       @registerSubView(itemView)
-      continue if $(availableItemEl).hasClass 'restricted'
+      continue if $(availableItemEl).hasClass 'locked'
       dragHelper = itemView.$el.find('img').clone().addClass('draggable-item')
       do (dragHelper, itemView) =>
         itemView.$el.draggable
@@ -136,7 +139,7 @@ module.exports = class InventoryView extends CocoView
 
   onAvailableItemClick: (e) ->
     itemContainer = $(e.target).closest('.list-group-item')
-    return if itemContainer.hasClass 'restricted'
+    return if itemContainer.hasClass 'locked'
     wasActive = itemContainer.hasClass 'active'
     @unselectAllAvailableEquipment()
     @selectAvailableItem(itemContainer) unless wasActive
@@ -145,7 +148,7 @@ module.exports = class InventoryView extends CocoView
   onAvailableItemDoubleClick: (e) ->
     if e
       itemContainer = $(e.target).closest('.list-group-item')
-      return if itemContainer.hasClass 'restricted'
+      return if itemContainer.hasClass 'locked'
       @selectAvailableItem itemContainer
     @onSelectionChanged()
     slot = @getSelectedSlot()
@@ -158,17 +161,6 @@ module.exports = class InventoryView extends CocoView
     @unselectAllAvailableEquipment()
     slot = $(e.target).closest('.item-slot')
     @selectAvailableItem(@unequipItemFromSlot(slot))
-    @onSelectionChanged()
-
-  onClickSwapButton: ->
-    slot = @getSelectedSlot()
-    selectedItemContainer = @$el.find('#available-equipment .list-group-item.active')
-    return unless slot[0] or selectedItemContainer[0]
-    slot = @$el.find('.item-slot:not(.disabled):first') if not slot.length
-    itemContainer = @unequipItemFromSlot(slot)
-    @equipSelectedItemToSlot(slot)
-    @selectAvailableItem(itemContainer)
-    @selectSlot(slot)
     @onSelectionChanged()
 
   getSelectedSlot: ->
@@ -221,35 +213,33 @@ module.exports = class InventoryView extends CocoView
 
     if selectedSlot.length
       @$el.find('#available-equipment .list-group-item').hide()
-      count = @$el.find("#available-equipment .list-group-item.#{selectedSlot.data('slot')}").show().length
-      @$el.find('#stash-description').text "#{count} #{selectedSlot.data('slot')} items owned"
-
+      unlockedCount = @$el.find("#available-equipment .list-group-item.#{selectedSlot.data('slot')}:not(.locked)").show().length
+      lockedCount = @$el.find("#available-equipment .list-group-item.#{selectedSlot.data('slot')}.locked").show().length
+      @$el.find('#unlocked-description').text("#{unlockedCount} #{selectedSlot.data('slot')} items owned").toggle unlockedCount > 0
+      @$el.find('#locked-description').text("#{lockedCount} #{selectedSlot.data('slot')} items locked").toggle lockedCount > 0
       selectedSlotItemID = selectedSlot.find('.item-view').data('item-id')
       if selectedSlotItemID
-        item = _.find @items.models, {id:selectedSlotItemID}
+        item = _.find @items.models, {id: selectedSlotItemID}
         @showSelectedSlotItem(item)
-
       else
         @hideSelectedSlotItem()
-
     else
-      count = @$el.find('#available-equipment .list-group-item').show().length
-      @$el.find('#stash-description').text "#{count} items owned"
-    @$el.find('#available-equipment .list-group-item.equipped').hide()
+      unlockedCount = @$el.find('#available-equipment .list-group-item:not(.locked)').show().length
+      lockedCount = @$el.find('#available-equipment .list-group-item.locked').show().length
+      @$el.find('#unlocked-description').text("#{unlockedCount} items owned").toggle unlockedCount > 0
+      @$el.find('#locked-description').text("#{lockedCount} items locked").toggle lockedCount > 0
+    #@$el.find('#available-equipment .list-group-item.equipped').hide()
 
     @$el.find('.item-slot').removeClass('disabled')
     if selectedItem.length
       item = _.find @items.models, {id:selectedItem.find('.item-view').data('item-id')}
-
       # update which slots are enabled
       allowedSlots = item.getAllowedSlots()
       for slotEl in @$el.find('.item-slot')
         slotName = $(slotEl).data('slot')
         if slotName not in allowedSlots
           $(slotEl).addClass('disabled')
-
       @showSelectedAvailableItem(item)
-
     else
       @hideSelectedAvailableItem()
 
@@ -265,9 +255,10 @@ module.exports = class InventoryView extends CocoView
       @selectedEquippedItemView.item = item
       @selectedEquippedItemView.render()
     @$el.find('#selected-items').show()
+    @$el.find('#selected-equipped-item').show()
 
   hideSelectedSlotItem: ->
-    @selectedEquippedItemView?.$el.hide()
+    @selectedEquippedItemView?.$el.hide().parent().hide()
     @$el.find('#selected-items').hide() unless @selectedEquippedItemView?.$el?.is(':visible')
 
   showSelectedAvailableItem: (item) ->
@@ -280,9 +271,10 @@ module.exports = class InventoryView extends CocoView
       @selectedAvailableItemView.item = item
       @selectedAvailableItemView.render()
     @$el.find('#selected-items').show()
+    @$el.find('#selected-available-item').show()
 
   hideSelectedAvailableItem: ->
-    @selectedAvailableItemView?.$el.hide()
+    @selectedAvailableItemView?.$el.hide().parent().hide()
     @$el.find('#selected-items').hide() unless @selectedEquippedItemView?.$el?.is(':visible')
 
   getCurrentEquipmentConfig: ->
@@ -296,7 +288,7 @@ module.exports = class InventoryView extends CocoView
     config
 
   assignLevelEquipment: ->
-    # This is temporary, until we have a more general way of awarding items and configuring needed/restricted items per level.
+    # This is temporary, until we have a more general way of awarding items and configuring needed/locked items per level.
     gear =
       'simple-boots': '53e237bf53457600003e3f05'
       'longsword': '53e218d853457600003e3ebe'
@@ -319,7 +311,7 @@ module.exports = class InventoryView extends CocoView
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-    necessaryGear = gearByLevel[@options.levelID]
+    return unless necessaryGear = gearByLevel[@options.levelID]
     for slot, item of necessaryGear ? {}
       @equipment[slot] ?= gear[item]
 

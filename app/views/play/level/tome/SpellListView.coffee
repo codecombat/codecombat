@@ -61,7 +61,7 @@ module.exports = class SpellListView extends CocoView
       theseThangs = _.keys(spell.thangs)
       changedThangs = not lastThangs or not _.isEqual theseThangs, lastThangs
       lastThangs = theseThangs
-      newEntries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel
+      newEntries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel, includeSpellList: @spells.length > 1
       @entries.push entry
     for entry in newEntries
       @$el.append entry.el

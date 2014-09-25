@@ -106,8 +106,8 @@ _.extend UserSchema.properties,
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  aceConfig: c.object { default: { language: 'javascript', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['javascript', 'coffeescript', 'python', 'clojure', 'lua', 'io']}
+  aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'io']}
     keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }

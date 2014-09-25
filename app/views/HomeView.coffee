@@ -28,7 +28,7 @@ module.exports = class HomeView extends RootView
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
-    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
+    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'python'
     c.codeLanguageCountMap = @codeLanguageCountMap
     c
 
@@ -48,7 +48,7 @@ module.exports = class HomeView extends RootView
         href = href.join('/')
         playLink.attr('href', href)
 
-    codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
+    codeLanguage = (me.get('aceConfig') ? {}).language or 'python'
     @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
     @updateLanguageLogos codeLanguage
 
@@ -61,7 +61,7 @@ module.exports = class HomeView extends RootView
     @$el.find('.code-language').removeClass 'selected-language'
     target.addClass 'selected-language'
     aceConfig = me.get('aceConfig') ? {}
-    return if (aceConfig.language or 'javascript') is codeLanguage
+    return if (aceConfig.language or 'python') is codeLanguage
     aceConfig.language = codeLanguage
     me.set 'aceConfig', aceConfig
     me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once

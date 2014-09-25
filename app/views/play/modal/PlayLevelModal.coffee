@@ -3,6 +3,7 @@ template = require 'templates/play/modal/play-level-modal'
 ChooseHeroView = require 'views/game-menu/ChooseHeroView'
 InventoryView = require 'views/game-menu/InventoryView'
 PlayLevelView = require 'views/play/level/PlayLevelView'
+LadderView = require 'views/play/ladder/LadderView'
 LevelSession = require 'models/LevelSession'
 
 module.exports = class PlayLevelModal extends ModalView
@@ -97,10 +98,12 @@ module.exports = class PlayLevelModal extends ModalView
     @showLoading()
     @updateConfig =>
       @navigatingToPlay = true
+      viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
       Backbone.Mediator.publish 'router:navigate', {
-        route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}",
-        viewClass: PlayLevelView,
-        viewArgs: [{supermodel: @supermodel}, @options.levelID]}
+        route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
+        viewClass: viewClass
+        viewArgs: [{supermodel: @supermodel}, @options.levelID]
+      }
 
   onEnterPressed: (e) ->
     (if @chooseHeroView.$el.hasClass('secret') then @onClickPlayLevel else @onClickChooseInventory).apply @

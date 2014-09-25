@@ -4,6 +4,9 @@
       for hero, index in heroes
         - var info = heroInfo[hero.get('slug')]
         li(data-hero-id=hero.get('original'), title=hero.get('name'), data-slide-to=index, data-target="#hero-carousel", class="hero-indicator" + (info.status == "Locked" ? " locked" : ""))
+          .hero-avatar
+          if info.status == "Locked"
+            img.lock-indicator(src="/images/pages/game-menu/lock.png")
 
   .carousel-inner
     for hero in heroes

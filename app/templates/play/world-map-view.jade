@@ -24,7 +24,8 @@
               span.spr , #{Math.round(playCount.playtime / 3600)}
               span(data-i18n="play.hours_played") hours played
           .campaign-label(style="color: #{campaign.color}")= campaign.name
-        button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
+        if isIPadApp
+          button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
 
 .game-controls.header-font
   if me.isAdmin()

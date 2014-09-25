@@ -43,7 +43,7 @@ module.exports = class Spell
     if @canRead()  # We can avoid creating these views if we'll never use them.
       @view = new SpellView {spell: @, level: options.level, session: @session, worker: @worker}
       @view.render()  # Get it ready and code loaded in advance
-      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
+      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
       @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
@@ -56,7 +56,7 @@ module.exports = class Spell
     @worker = null
 
   setLanguage: (@language) ->
-    console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
+    #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[language] ? @languages.javascript
 
   addThang: (thang) ->

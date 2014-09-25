@@ -121,6 +121,7 @@ class CocoModel extends Backbone.Model
       @markToRevert() if @_revertAttributes
       @clearBackup()
       CocoModel.pollAchievements()
+      options.success = options.error = null  # So the callbacks can be garbage-collected.
     options.error = (model, res) =>
       error(@, res) if error
       return unless @notyErrors
@@ -131,6 +132,7 @@ class CocoModel extends Backbone.Model
         noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
       catch notyError
         console.warn "Couldn't even show noty error for", error, "because", notyError
+      options.success = options.error = null  # So the callbacks can be garbage-collected.
     @trigger 'save', @
     return super attrs, options
 
