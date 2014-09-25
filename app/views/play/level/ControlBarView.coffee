@@ -26,6 +26,8 @@ module.exports = class ControlBarView extends CocoView
 
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
 
+    'click .home a': 'onClickHome'
+
   constructor: (options) ->
     @worldName = options.worldName
     @session = options.session
@@ -51,12 +53,18 @@ module.exports = class ControlBarView extends CocoView
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.get('type') is 'ladder'
     c.spectateGame = @spectateGame
+    @homeViewArgs = [{supermodel: @supermodel}]
     if @level.get('type', true) in ['ladder', 'ladder-tutorial']
-      c.homeLink = '/play/ladder/' + @level.get('slug').replace /\-tutorial$/, ''
+      levelID = @level.get('slug').replace /\-tutorial$/, ''
+      @homeLink = c.homeLink = '/play/ladder/' + levelID
+      @homeViewClass = require 'views/play/ladder/LadderView'
+      @homeViewArgs.push levelID
     else if @level.get('type', true) is 'hero'
-      c.homeLink = '/play-hero'
+      @homeLink = c.homeLink = '/play-hero'
+      @homeViewClass = require 'views/play/WorldMapView'
     else
-      c.homeLink = '/'
+      @homeLink = c.homeLink = '/'
+      @homeViewClass = require 'views/HomeView'
     c.editorLink = "/editor/level/#{@level.get('slug')}"
     c.multiplayerSession = @multiplayerSession if @multiplayerSession
     c.multiplayerPlayers = @multiplayerPlayers if @multiplayerPlayers
@@ -83,6 +91,11 @@ module.exports = class ControlBarView extends CocoView
 
   showGameMenuModal: ->
     @openModalView new GameMenuModal level: @level, session: @session
+
+  onClickHome: (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
 
   onJoinedRealTimeMultiplayerGame: (e) ->
     @multiplayerSession = e.session
