@@ -4,11 +4,13 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   childMovieClips: null
 
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->
+    @spriteSheet.mcPool ?= {}
     @initialize(@spriteSheet)
     @addEventListener 'tick', @handleTick
 
   destroy: ->
     @handleTick = undefined
+    @baseMovieClip.inUse = false if @baseMovieClip
     @removeAllEventListeners()
   
   # CreateJS.Sprite-like interface
@@ -21,7 +23,10 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
   goto: (actionName, @paused=true) ->
     @removeAllChildren()
     @currentAnimation = actionName
-    @baseMovieClip = @framerate = @animLength = null
+    @baseMovieClip.inUse = false if @baseMovieClip
+    if @childMovieClips
+      mc.inUse = false for mc in @childMovieClips
+    @childMovieClips = @baseMovieClip = @framerate = @animLength = null
     @actionNotSupported = false
 
     action = @thangType.getActions()[actionName]
@@ -37,6 +42,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @framerate = (action.framerate ? 20) * (action.speed ? 1)
       @childMovieClips = []
       @baseMovieClip = @buildMovieClip(action.animation)
+      @baseMovieClip.inUse = true
       @frames = action.frames
       @frames = (parseInt(f) for f in @frames.split(',')) if @frames
       @animLength = if @frames then @frames.length else @baseMovieClip.timeline.duration
@@ -87,6 +93,13 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @sprite?.trigger('action-needs-render', @sprite, action)
 
   buildMovieClip: (animationName, mode, startPosition, loops) ->
+    key = JSON.stringify([@spriteSheetPrefix].concat(arguments))
+    @spriteSheet.mcPool[key] ?= []
+    for mc in @spriteSheet.mcPool[key]
+      if not mc.inUse
+        mc.gotoAndStop(mc.currentFrame+0.01) # just to make sure it has its children back
+        return mc
+    
     raw = @thangType.get('raw')
     animData = raw.animations[animationName]
     @lastAnimData = animData
@@ -119,6 +132,8 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds
       anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
+    
+    @spriteSheet.mcPool[key].push(anim)
     return anim
 
   buildMovieClipContainers: (localContainers) ->
@@ -155,6 +170,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     map = {}
     for localAnimation in localAnimations
       animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
+      animation.inUse = true
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
       @childMovieClips.push(animation)
