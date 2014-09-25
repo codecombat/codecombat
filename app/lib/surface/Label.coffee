@@ -35,8 +35,9 @@ module.exports = class Label extends CocoClass
     true
 
   build: ->
-    @layer.removeChild @background if @background
-    @layer.removeChild @label if @label
+    if @layer and not @layer.destroyed
+      @layer.removeChild @background if @background
+      @layer.removeChild @label if @label
     @label = null
     @background = null
     return unless @text  # null or '' should both be skipped
