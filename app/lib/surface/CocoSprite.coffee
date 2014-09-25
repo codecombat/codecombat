@@ -24,7 +24,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ranges: null
 
   options:
-    resolutionFactor: SPRITE_RESOLUTION_FACTOR
     groundLayer: null
     textLayer: null
     floatingLayer: null
@@ -501,7 +500,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     pos = x: pos.x, y: pos.y
     if not @isRaster
       scale = @getActionProp 'scale', null, 1
-      scale *= @options.resolutionFactor if prop is 'registration'
+      scale *= @imageObject.parent.resolutionFactor if prop is 'registration'
       pos.x *= scale
       pos.y *= scale
     if @thang and prop isnt 'registration'
