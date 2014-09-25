@@ -60,7 +60,7 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = require 'views/play/ladder/LadderView'
       @homeViewArgs.push levelID
     else if @level.get('type', true) is 'hero'
-      @homeLink = c.homeLink = '/play-hero'
+      @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
     else
       @homeLink = c.homeLink = '/'
