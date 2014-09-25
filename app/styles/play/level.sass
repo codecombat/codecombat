@@ -23,12 +23,16 @@ $level-resize-transition-time: 0.5s
       width: 100%
       button, h4
         display: none
-    #playback-view
-      $flags-width: 200px
-      width: 90%
-      width: -webkit-calc(100% - $flags-width)
-      width: calc(100% - $flags-width)
-      left: $flags-width
+    &:not(.flags)
+      #playback-view
+        width: 100%
+    &.flags
+      #playback-view
+        $flags-width: 200px
+        width: 90%
+        width: -webkit-calc(100% - $flags-width)
+        width: calc(100% - $flags-width)
+        left: $flags-width
     #code-area, #thang-hud, #goals-view
       display: none
       visibility: hidden
