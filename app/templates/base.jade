@@ -14,10 +14,6 @@ body
             img(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
 
         ul(class='navbar-link-text').nav.navbar-nav.navbar-collapse.collapse
-          li.play
-            a.header-font(href='/play', data-i18n="nav.play") Levels
-          li
-            a.header-font(href='/community', data-i18n="nav.community") Community
           if me.get('anonymous') === false
             li.dropdown
               button.btn.btn-primary.navbuttontext.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
@@ -71,6 +67,7 @@ body
             a(href='/employers', title='Home', tabindex=-1, data-i18n="nav.employers") Employers
           else
             a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
+          a(href='/play/ladder', title='Multiplayer', tabindex=-1) Multiplayer
           a(href='/contribute', title='Contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
           a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
           a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
