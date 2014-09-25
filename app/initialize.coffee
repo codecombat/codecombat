@@ -51,6 +51,8 @@ handleNormalUrls = ->
       # Remove leading slashes and hash bangs (backward compatablility)
       url = href.replace(/^\//,'').replace('\#\!\/','')
 
+      $('.popover').popover 'hide'
+
       # Instruct Backbone to trigger routing events
       app.router.navigate url, { trigger: true }
 
