@@ -100,25 +100,29 @@
       // Can't do this transition because handle then jitters, but would be good for streaming.
       //@include transition(width .2s linear)
 
-      &.disabled
+      &.disabled, &.ui-slider-disabled
         cursor: default
+
+        .progress-bar .scrubber-handle
+          cursor: default
 
       .progress-bar
         @include transition(width .0s linear)
         position: relative
-        pointer-events: none
         // Remove gradient background in favor of solid fill
         background-color: #67A4C8
         //background-image: none  // gradient looks kind of cool though; keep it in
 
         .scrubber-handle
+          cursor: pointer
           position: absolute
-          pointer-events: none
           right: -16px
           top: -9px
           background: transparent url(/images/level/playback_thumb.png)
           width: 32px
           height: 32px
+          // z: above the gradient line bordering the playback bar
+          z-index: 6
 
       .ui-slider-handle
         height: 100%

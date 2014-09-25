@@ -249,7 +249,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.round(progress * @world.frames.length), @world.frames.length)
+    @scrubbingTo = Math.min(Math.round(progress * (@world.frames.length - 1)), @world.frames.length - 1)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -433,7 +433,7 @@ module.exports = Surface = class Surface extends CocoClass
     @setWorld event.world
     @onFrameChanged(true)
     fastForwardBuffer = 2
-    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
       @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
     else if @realTime
