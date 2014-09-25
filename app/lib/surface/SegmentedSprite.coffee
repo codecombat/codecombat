@@ -182,6 +182,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 
   tick: (delta) ->
     return if @paused or not @baseMovieClip
+    return @paused = true if @animLength is 1
     newFrame = @currentFrame + @framerate * delta / 1000
 
     if newFrame > @animLength
@@ -194,6 +195,8 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         @dispatchEvent('animationend')
       else
         newFrame = newFrame % @animLength
+
+    return if @currentFrame is newFrame
 
     if @frames
       prevFrame = Math.floor(newFrame)
