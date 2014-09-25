@@ -109,7 +109,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    coffeescript_blurb: "Nicer JavaScript syntax."
 #    clojure_blurb: "A modern Lisp."
 #    lua_blurb: "Game scripting language."
-    io_blurb: "Sensill però obscur."
+    io_blurb: "Senzill però obscur."
 
   play:
     choose_your_level: "Escull el teu nivell"
