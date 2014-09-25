@@ -1,20 +1,23 @@
 img(src="/images/level/code_editor_tab_background.png").spell-tab-image-hidden.hidden
 
-.btn.btn-small.spell-list-button(title="See all spells you can edit")
-  i.icon-chevron-down
+if includeSpellList
+  .btn.btn-small.spell-list-button(data-i18n="[title]play_level.tome_see_all_methods", title="See all methods you can edit")
+    i.icon-chevron-down
 .thang-avatar-placeholder
 
 code #{methodSignature}
 
 .spell-tool-buttons
-  .btn.btn-small.fullscreen-code(title=maximizeShortcutVerbose)
-    i.icon-fullscreen
-    i.icon-resize-small
+  if levelType !== 'hero'
+   .btn.btn-small.fullscreen-code(title=maximizeShortcutVerbose)
+     i.icon-fullscreen
+     i.icon-resize-small
       
-  .btn.btn-small.reload-code(title="Reload original code for " + spell.name)
+  .btn.btn-small.reload-code(data-i18n="[title]play_level.tome_reload_method", title="Reload original code for this method")
     i.icon-repeat
   
-  .btn.btn-small.beautify-code(title=beautifyShortcutVerbose)
-    i.icon-magnet
+  if codeLanguage === 'javascript'
+    .btn.btn-small.beautify-code(title=beautifyShortcutVerbose)
+      i.icon-magnet
 
   .clearfix

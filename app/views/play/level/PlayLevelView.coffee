@@ -45,7 +45,7 @@ module.exports = class PlayLevelView extends RootView
   isEditorPreview: false
 
   subscriptions:
-    'level:set-volume': (e) -> createjs.Sound.setVolume(e.volume)
+    'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
     'level:show-victory': 'onShowVictory'
     'level:restart': 'onRestartLevel'
     'level:highlight-dom': 'onHighlightDom'
@@ -205,6 +205,8 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
+    @$el.addClass 'hero' if @level.get('type', true) is 'hero'
+    @$el.addClass 'flags' if @level.get('slug') is 'sky-span'  # TODO: figure out when the player has flags.
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -258,7 +260,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
     @insertSubView new LevelPlaybackView session: @session
     @insertSubView new GoalsView {}
-    @insertSubView new LevelFlagsView world: @world
+    @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span'  # TODO: figure out when flags are available
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
@@ -329,7 +331,7 @@ module.exports = class PlayLevelView extends RootView
   onLevelStarted: ->
     return unless @surface?
     @loadingView.showReady()
-    if window.currentModal and not window.currentModal.destroyed
+    if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
     if @otherSession and @level.get('type', true) isnt 'hero'
@@ -612,6 +614,7 @@ module.exports = class PlayLevelView extends RootView
     @onWindowResize()
 
   onRealTimePlaybackEnded: (e) ->
+    return unless @$el.hasClass 'real-time'
     @$el.removeClass 'real-time'
     @onWindowResize()
     if @world.frames.length is @world.totalFrames

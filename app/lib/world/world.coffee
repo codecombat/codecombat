@@ -92,12 +92,13 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     console.log 'Warning: loadFrames called on empty World (no thangs).' unless @thangs.length
     continueLaterFn = =>
-      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
+      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
+      @realTimeSpeedFactor ?= 1
       return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
     t1 = now()
     @t0 ?= t1
@@ -117,13 +118,15 @@ module.exports = class World
         for error in (@unhandledRuntimeErrors ? [])
           return unless errorCallback error  # errorCallback tells us whether the error is recoverable
         @unhandledRuntimeErrors = []
-    @finishLoadingFrames loadProgressCallback, loadedCallback
+    @finishLoadingFrames loadProgressCallback, loadedCallback, preloadedCallback
 
-  finishLoadingFrames: (loadProgressCallback, loadedCallback) ->
+  finishLoadingFrames: (loadProgressCallback, loadedCallback, preloadedCallback) ->
     unless @debugging
       @ended = true
       system.finish @thangs for system in @systems
-    unless @preloading
+    if @preloading
+      preloadedCallback()
+    else
       loadProgressCallback? 1
       loadedCallback()
 
@@ -134,18 +137,18 @@ module.exports = class World
 
   shouldDelayRealTimeSimulation: (t) ->
     return false unless @realTime
-    timeSinceStart = t - @worldLoadStartTime
+    timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     timeLoaded = @frames.length * @dt * 1000
     timeBuffered = timeLoaded - timeSinceStart
-    timeBuffered > REAL_TIME_BUFFER_MAX
+    timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
     return false if @frames.length * @dt is @lastRealTimeUpdate
     timeLoaded = @frames.length * @dt * 1000
-    timeSinceStart = t - @worldLoadStartTime
+    timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
-    remainingBuffer < REAL_TIME_BUFFER_MIN
+    remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
@@ -190,6 +193,8 @@ module.exports = class World
     @flagHistory.push flagEvent
 
   loadFromLevel: (level, willSimulate=true) ->
+    if level.slug in ['the-first-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze']
+      @realTimeSpeedFactor = 3
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
     @loadSystemsFromLevel level

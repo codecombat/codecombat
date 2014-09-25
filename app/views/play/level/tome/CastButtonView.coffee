@@ -17,6 +17,7 @@ module.exports = class CastButtonView extends CocoView
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'goal-manager:new-goal-states': 'onNewGoalStates'
+    'god:goals-calculated': 'onGoalsCalculated'
 
   constructor: (options) ->
     super options
@@ -85,6 +86,10 @@ module.exports = class CastButtonView extends CocoView
     if @winnable
       @$el.find('.submit-button').show()  # In case we hid it, like on the first level.
 
+  onGoalsCalculated: (e) ->
+    return unless e.preload
+    @onNewGoalStates e
+
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
 
@@ -99,7 +104,8 @@ module.exports = class CastButtonView extends CocoView
       else if castable
         s = $.i18n.t('play_level.tome_cast_button_run')
         s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Run' and me.get('preferredLanguage').split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.
-        s += ' ' + @castShortcut
+        unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']  # Hide for first few.
+          s += ' ' + @castShortcut
       else
         s = $.i18n.t('play_level.tome_cast_button_ran')
         s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Ran' and me.get('preferredLanguage').split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.

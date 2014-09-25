@@ -94,7 +94,7 @@ module.exports = class LevelLoader extends CocoClass
     return unless @level.get('type', true) is 'hero'
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig')
-    heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If we got here not from PlayLevelModal (like level editor preview), assign Tharin as the hero.
+    heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
     if heroResource = @maybeLoadURL(url, ThangType, 'thang')

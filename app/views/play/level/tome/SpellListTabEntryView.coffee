@@ -33,6 +33,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     shift = $.i18n.t 'keyboard_shortcuts.shift'
     context.beautifyShortcutVerbose = "#{ctrl}+#{shift}+B: #{$.i18n.t 'keyboard_shortcuts.beautify'}"
     context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
+    context.includeSpellList = @options.includeSpellList
+    context.codeLanguage = @options.codeLanguage
+    context.levelType = @options.level.get 'type', true
     context
 
   afterRender: ->
@@ -61,6 +64,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @avatar.render()
 
   buildDocs: ->
+    return if @spell.name is 'plan'  # Too confusing for beginners
     @docsBuilt = true
     lcs = @supermodel.getModels LevelComponent
     found = false
@@ -70,7 +74,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
           found = true
           break
     return unless found
-    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.language, selectedMethod: true
+    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.codeLanguage, selectedMethod: true
     @$el.find('code').popover(
       animation: true
       html: true
@@ -121,11 +125,12 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onSpellChangedLanguage: (e) ->
     return unless e.spell is @spell
-    @options.language = e.language
+    @options.codeLanguage = e.language
     @$el.find('code').popover 'destroy'
     @render()
     @docsBuilt = false
     @buildDocs() if @thang
+    @updateReloadButton()
 
   toggleControls: (e, enabled) ->
     # Don't call super; do it differently

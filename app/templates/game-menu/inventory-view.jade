@@ -19,11 +19,11 @@
     canvas.equipped-hero-canvas
     #selected-items
       #selected-equipped-item.well
+        h3(data-i18n="inventory.equipped") Equipped
         .item-view-stub
       #selected-available-item.well
+        h3(data-i18n="inventory.equipped") Available
         .item-view-stub
-      button#swap-button.btn.btn-danger
-        span.glyphicon.glyphicon-transfer
 
   .item-slot-column.pull-right
     for slot in ['pet', 'waist', 'feet', 'right-hand']
@@ -44,7 +44,12 @@
             .replace-me(data-item-id=equipment[slot].get('original'))
 
 #available-equipment
-  h4#stash-description
-  for item in items
-    .list-group-item(class=item.classes, data-item-id=item.get('original'))
+  h4#unlocked-description
+  ul.list-group
+    for item in unlockedItems
+      li.list-group-item(class=item.classes, data-item-id=item.get('original'))
+  h4#locked-description
+  ul.list-group
+    for item in lockedItems
+      li.list-group-item(class=item.classes, data-item-id=item.get('original'))
       

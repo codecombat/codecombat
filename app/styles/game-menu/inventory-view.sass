@@ -1,4 +1,4 @@
-@import "../bootstrap/mixins"
+@import "app/styles/mixins"
 
 $totalWidth: 706px - 2 * 20px
 // We get 666px to play with from our parent modals.
@@ -34,7 +34,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     bottom: 0
     //bottom: $selectedAreaHeight + 10
     right: 0
-    overflow: scroll
+    overflow: hidden
 
     .item-slot-row
       //background-color: rgba(35, 112, 124, 0.5)
@@ -128,28 +128,44 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     right: 0
     top: 0 
     bottom: 0
-    overflow: scroll
+    overflow-y: scroll
     border: 2px solid #ccc
     padding: 4px
     background-color: white
 
   .list-group-item
-    padding: 8px 0
-    img
-      width: 50px
-      height: 50px
-      margin-right: 5px
+    padding: 4px 0
 
     &.active
       background-color: #e0f0f5
-    &.equipped
-      display: none
-    &.restricted
-      @include opacity(0.5)
 
       .item-info:after
-        content: ' (locked)'
+        content: ' (available)'
     
+    &.equipped
+      background-color: #ff5
+
+      .item-view
+        cursor: default
+      .item-info:after
+        content: ' (equipped)'
+
+    &.locked
+      background-image: url(/images/pages/game-menu/lock.png)
+      background-size: 25px 25px
+      background-repeat: no-repeat
+      background-position: 98% 90%
+
+      .item-view
+        cursor: default
+  
+        h4, img
+          //@include filter(contrast(50%) brightness(65%))
+          @include opacity(0.6)
+  
+        .item-info:after
+          content: ' (locked)'
+
   .item-view
     cursor: pointer
     
@@ -157,8 +173,6 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     $selectedItemsContainerMargin: 20px
     $selectedItemMargin: 10px
     $selectedItemImageSize: 75px
-    $swapItemHeight: 40px
-    $swapItemWidth: 60px
 
     position: absolute
     top: $selectedItemsContainerMargin
@@ -169,37 +183,39 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
     #selected-equipped-item, #selected-available-item
       text-align: left
-      overflow: scroll
+      overflow-y: scroll
       margin: 0
       height: 48.4%
       height: -webkit-calc(50% - $selectedItemMargin / 2)
       height: calc(50% - $selectedItemMargin / 2)
       width: 100%
       padding: 10px 5px 10px 10px
+      position: relative
+      display: none
       
       img
         margin-top: 21px
         width: $selectedItemImageSize
         height: $selectedItemImageSize
+        margin-right: 10px
         
       .item-info
-        margin-left: $selectedItemImageSize + 10px
+        width: 110px
+        width: -webkit-calc(100% - 75px - 10px)
+        width: calc(100% - 75px - 10px)
+
+      > h3
+        position: absolute
+        left: 0px
+        top: 0px
+        padding: 5px
 
     #selected-equipped-item
       margin-bottom: $selectedItemMargin
       padding-bottom: 20px
+      background-color: #ff5
 
     #selected-available-item
       padding-top: 15px
-      
-    #swap-button
-      position: absolute
-      top: 50%
-      left: 50%
-      margin-top: -($swapItemHeight / 2)
-      margin-left: -($swapItemWidth / 2)
-      width: $swapItemWidth
-      height: $swapItemHeight
-      font-size: 24px
-      line-height: 24px
-      display: inline-block
+      background-color: #e0f0f5
+      bottom: 0

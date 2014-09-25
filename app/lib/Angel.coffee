@@ -66,7 +66,11 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates  # Work ends here if we're headless.
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus  # Work ends here if we're headless.
+      when 'end-preload-frames'
+        clearTimeout @condemnTimeout
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus, true
+
 
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
@@ -105,9 +109,9 @@ module.exports = class Angel extends CocoClass
       else
         @log 'Received unsupported message:', event.data
 
-  beholdGoalStates: (goalStates) ->
+  beholdGoalStates: (goalStates, overallStatus, preload=false) ->
     return if @aborting
-    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates
+    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus
     @finishWork() if @shared.headless
 
   beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->

@@ -116,13 +116,9 @@ $gameControlMargin: 30px
       display: none
       position: absolute
       z-index: 3
-      padding: 10px 10px 30px 10px
+      padding: 10px
       border-image: url(/images/level/popover_background.png) 18 fill round
       border-width: 15px
-          
-      .level-image
-        float: left
-        margin-right: 20px
 
       .level-info.complete h3:after
         content: " - Complete!"
@@ -133,9 +129,6 @@ $gameControlMargin: 30px
         color: desaturate(green, 50%)
     
       .level-info
-        width: 330px
-        float: left
-
         h3
           margin-top: 0
           margin-bottom: 0px
@@ -146,6 +139,11 @@ $gameControlMargin: 30px
 
         .campaign-label
           text-shadow: 0 1px 0 white
+
+      .start-level
+        display: block
+        margin: 10px auto 0 auto
+        width: 200px
           
   .game-controls
     position: absolute

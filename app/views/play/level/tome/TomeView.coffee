@@ -61,6 +61,7 @@ module.exports = class TomeView extends CocoView
   afterRender: ->
     super()
     @worker = @createWorker()
+    #programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.spriteName isnt 'Hero Placeholder'
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
@@ -136,6 +137,7 @@ module.exports = class TomeView extends CocoView
             spectateView: @options.spectateView
             spectateOpponentCodeLanguage: @options.spectateOpponentCodeLanguage
             levelID: @options.levelID
+            level: @options.level
 
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -210,7 +212,7 @@ module.exports = class TomeView extends CocoView
 
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
-    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session
+    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell   # TODO: know when palette should have been disabled but didn't exist
 
   spellFor: (thang, spellName) ->
