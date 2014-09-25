@@ -117,6 +117,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     adventurer_forum: "форуме Искателей приключений"
     adventurer_suffix: "."
     campaign_beginner: "Кампания для новичков"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... в которой вы познакомитесь с магией программирования."
     campaign_dev: "Случайные уровни потруднее"
     campaign_dev_description: "... в которых вы изучите интерфейс и научитесь делать кое-что посложнее."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "Выбрать заклинание"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
 #    tome_your_skills: "Your Skills"

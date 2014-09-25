@@ -117,6 +117,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     adventurer_forum: "het Avonturiersforum"
     adventurer_suffix: "."
     campaign_beginner: "Beginnercampagne"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... waarin je de toverkunst van het programmeren leert."
     campaign_dev: "Willekeurige moeilijkere levels"
     campaign_dev_description: "... waarin je de interface leert kennen terwijl je wat moeilijkers doet."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "Selecteer een Spreuk"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
 #    tome_your_skills: "Your Skills"

@@ -77,7 +77,7 @@ module.exports = class WorldMapView extends RootView
     super()
     @onWindowResize()
     unless application.isIPadApp
-      _.defer => @$el.find('.game-controls button').tooltip()  # Have to defer or i18n doesn't take effect.
+      _.defer => @$el.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
       @$el.find('.level').tooltip()
 
   onSessionsLoaded: (e) ->

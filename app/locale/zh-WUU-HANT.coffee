@@ -117,6 +117,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     adventurer_forum: "冒險者論壇"
     adventurer_suffix: "。"
     campaign_beginner: "新手打仗"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "……徠箇裏爾學得到編程手法。"
     campaign_dev: "照摸難關"
     campaign_dev_description: "……徠箇搭爾學得到做一許囉唆功能個接口。"
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "揀一個法術"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "揀人來 "
     tome_available_spells: "好用個法術"
 #    tome_your_skills: "Your Skills"

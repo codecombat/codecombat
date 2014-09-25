@@ -141,6 +141,7 @@
     previous: "Previous"
     choose_inventory: "Equip Items"
     older_campaigns: "Older Campaigns"
+    anonymous: "Anonymous Player"
 
   items:
     armor: "Armor"
