@@ -330,7 +330,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    project_link_help: "Link to the project."
 #    player_code: "Player Code"
 
-#  employers:
+  employers:
 #    hire_developers_not_credentials: "Hire developers, not credentials."
 #    get_started: "Get Started"
 #    already_screened: "We've already technically screened all our candidates"
@@ -374,7 +374,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    other_developers: "Other Developers"
 #    inactive_developers: "Inactive Developers"
 
-#  play_level:
+  play_level:
     done: "Fet"
     customize_wizard: "Personalitza el teu bruixot"
 #    home: "Home"
@@ -464,7 +464,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     infinite_loop_reset_level: "Reiniciar nivell"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
     choose_hero_tab: "Recomençar nivell"
     save_load_tab: "Desa/Carrega"
@@ -481,7 +481,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   inventory:
     choose_inventory: "Equipar objectes"
 
-#  choose_hero:
+  choose_hero:
     choose_hero: "Escull el teu heroi"
     programming_language: "Llenguatge de programació"
 #    programming_language_description: "Which programming language do you want to use?"
@@ -490,11 +490,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     health: "Salut"
     speed: "Velocitat"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Desats"
 #    granularity_change_history: "History"
 
-#  options:
+  options:
     general_options: "Opcions generals"
     volume_label: "Volum"
     music_label: "Musica"
@@ -522,7 +522,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
+  multiplayer:
 #    multiplayer_title: "Multiplayer Settings"
     multiplayer_toggle: "Activar multijugador"
 #    multiplayer_toggle_description: "Allow others to join your game."
@@ -532,7 +532,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    multiplayer_coming_soon: "More multiplayer features to come!"
 #    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Dreceres del teclat"
     space: "Espai"
     enter: "Enter"
@@ -553,7 +553,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "Mou el teu bruixot pel nivell."
 
-#  admin:
+  admin:
 #    av_espionage: "Espionage"
 #    av_espionage_placeholder: "Email or username"
 #    av_usersearch: "User Search"
@@ -571,7 +571,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    lg_title: "Latest Games"
 #    clas: "CLAs"
 
-#  community:
+  community:
 #    main_title: "CodeCombat Community"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
@@ -589,7 +589,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
 #    contribute_to_the_project: "Contribute to the project"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    article_title: "Article Editor"
 #    thang_title: "Thang Editor"
@@ -657,7 +657,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
     name: "Nom"
 #    date: "Date"
@@ -688,7 +688,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     hard: "Difícil"
     player: "Jugador"
 
-#  about:
+  about:
 #    why_codecombat: "Why CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
@@ -859,7 +859,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
 #    archmage_title: "Archmage"
 #    archmage_title_description: "(Coder)"
     artisan_title: "Artesà"
@@ -873,7 +873,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    ambassador_title: "Ambassador"
 #    ambassador_title_description: "(Support)"
 
-#  ladder:
+  ladder:
 #    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
     simulate: "Simula"
@@ -947,7 +947,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  loading_error:
+  loading_error:
 #    could_not_load: "Error loading from server"
     connection_failure: "Connexió fallida."
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
@@ -960,7 +960,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     server_error: "Error del servidor."
     unknown: "Error desconegut."
 
-#  resources:
+  resources:
 #    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
     level: "Nivell"
@@ -1006,7 +1006,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 
-#  delta:
+  delta:
     added: "Afegit"
     modified: "Modificat"
     deleted: "Eliminat"
@@ -1015,7 +1015,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
 
-#  user:
+  user:
 #    stats: "Stats"
     singleplayer_title: "Nivell d'un sol jugador"
     multiplayer_title: "Nivells multijugador"
@@ -1030,7 +1030,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    favorite_prefix: "Favorite language is "
 #    favorite_postfix: "."
 
-#  achievements:
+  achievements:
 #    last_earned: "Last Earned"
 #    amount_achieved: "Amount"
 #    achievement: "Achievement"
@@ -1046,6 +1046,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-#  account:
+  account:
     recently_played: "Ultimanent jugat"
     no_recent_games: "No s'ha jugat en les ultimes setmanes."
