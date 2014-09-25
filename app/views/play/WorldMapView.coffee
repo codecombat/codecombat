@@ -33,9 +33,13 @@ module.exports = class WorldMapView extends RootView
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
+    @playAmbientSound()
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
+    if ambientSound = @ambientSound
+      # Doesn't seem to work; stops immediately.
+      createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     super()
 
   getLevelPlayCounts: ->
@@ -155,6 +159,19 @@ module.exports = class WorldMapView extends RootView
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
+
+  playAmbientSound: ->
+    return if @ambientSound
+    terrain = 'Grass'
+    return unless file = {Dungeon: 'ambient-map-dungeon', Grass: 'ambient-map-grass'}[terrain]
+    src = "/file/interface/#{file}#{AudioPlayer.ext}"
+    unless AudioPlayer.getStatus(src)?.loaded
+      AudioPlayer.preloadSound src
+      Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
+      return
+    @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
+    createjs.Tween.get(@ambientSound).to({volume: 1.0}, 1000)
+
 
 tutorials = [
   {

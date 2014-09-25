@@ -19,6 +19,8 @@ PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
 
+resizeDelay = 500  # At least as much as $level-resize-transition-time.
+
 module.exports = Surface = class Surface extends CocoClass
   stage: null
 
@@ -88,7 +90,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 500  # At least as much as $level-resize-transition-time.
+    @onResize = _.debounce @onResize, resizeDelay
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -545,6 +547,7 @@ module.exports = Surface = class Surface extends CocoClass
     return unless @realTime
     @realTime = false
     @onResize()
+    _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
     @spriteBoss.selfWizardSprite?.toggle true
     @canvas.removeClass 'flag-color-selected'
     if @previousCameraZoom
