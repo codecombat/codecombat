@@ -11,7 +11,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     delay_1_sec: "1 δευτερόλεπτο"
     delay_3_sec: "3 δευτερόλεπτα"
     delay_5_sec: "5 δευτερόλεπτα"
-#    manual: "Manual"
+    manual: "Οδηγίες"
 #    fork: "Fork"
 #    play: "Play" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
