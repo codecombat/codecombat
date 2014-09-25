@@ -117,6 +117,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     adventurer_forum: "انجمن ماجراجو ها"
     adventurer_suffix: "."
     campaign_beginner: "کمپین تازه کارها"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: ".که شما در آن می توانید جادوگری به وسیله برنامه نویسی را یادبگیرید..."
     campaign_dev: "مراحل سخت تصادفی"
     campaign_dev_description: "... جایی که میتونید طراحی ظاهر رو یاد بگیرید درحالی که فعالیت سخت تری انجام میدید"
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-#    tome_select_spell: "Select a Spell"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    tome_your_skills: "Your Skills"
