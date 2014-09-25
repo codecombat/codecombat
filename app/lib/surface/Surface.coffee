@@ -336,7 +336,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     @lastFrame = @currentFrame
 
-  getProgress: -> @currentFrame / @world.frames.length
+  getProgress: -> @currentFrame / Math.max(1, @world.frames.length - 1)
 
 
 

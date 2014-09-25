@@ -262,10 +262,7 @@ module.exports = class LevelPlaybackView extends CocoView
   onFrameChanged: (e) ->
     if e.progress isnt @lastProgress
       @currentTime = e.frame / e.world.frameRate
-      # Game will sometimes stop at 29.97, but with only one digit, this is unnecesary.
-      # @currentTime = @totalTime if Math.abs(@totalTime - @currentTime) < 0.04
       @updatePopupContent() if @timePopup?.shown
-
       @updateProgress(e.progress, e.world)
       @updatePlayButton(e.progress)
     @lastProgress = e.progress
