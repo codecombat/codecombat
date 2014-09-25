@@ -89,9 +89,9 @@ module.exports = class LadderPlayModal extends ModalView
     ctx.otherTeamID = @otherTeam
     ctx.tutorialLevelExists = @tutorialLevelExists
     ctx.languages = [
+      {id: 'python', name: 'Python'}
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript'}
-      {id: 'python', name: 'Python (Experimental)'}
       {id: 'clojure', name: 'Clojure (Experimental)'}
       {id: 'lua', name: 'Lua (Experimental)'}
       {id: 'io', name: 'Io (Experimental)'}

@@ -617,6 +617,7 @@ hero = [
     description: 'Escape the Kithgard dungeons and don\'t let the guardians get you.'
     x: 47.38
     y: 70.55
+    disabled: true
   }
   {
     name: 'Defence of Plainswood'
@@ -626,6 +627,7 @@ hero = [
     description: 'Protect the peasants from the pursuing ogres.'
     x: 52.66
     y: 69.66
+    disabled: true
   }
   #{
   #  name: ''
