@@ -554,7 +554,6 @@ module.exports = Surface = class Surface extends CocoClass
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
     @spriteBoss.selfWizardSprite?.toggle true
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
-    @canvas.removeClass 'flag-color-selected'
     if @previousCameraZoom
       @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
