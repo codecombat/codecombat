@@ -237,8 +237,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     builder.addFrame(placeholder)
     
     # Add custom graphics
+    extantGraphics = if @spriteSheet?.resolutionFactor is @resolutionFactor then @spriteSheet.getAnimations() else []
     for key, graphic of @customGraphics
-      frame = builder.addFrame(graphic.graphic, graphic.bounds, @resolutionFactor)
+      if key in extantGraphics
+        graphic = new createjs.Sprite(@spriteSheet)
+        graphic.gotoAndStop(key)
+        frame = builder.addFrame(graphic)
+      else
+        frame = builder.addFrame(graphic.graphic, graphic.bounds, @resolutionFactor)
       builder.addAnimation(key, [frame], false)
       
     # Render ThangTypes
