@@ -196,27 +196,27 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       else
         newFrame = newFrame % @animLength
 
-    return if @currentFrame is newFrame
+    translatedFrame = newFrame
 
     if @frames
       prevFrame = Math.floor(newFrame)
       nextFrame = Math.ceil(newFrame)
       if prevFrame is nextFrame
-        @baseMovieClip.gotoAndStop(@frames[newFrame])
+        translatedFrame = @frames[newFrame]
       else if nextFrame is @frames.length
-        @baseMovieClip.gotoAndStop(@frames[prevFrame])
+        translatedFrame = @frames[prevFrame]
       else
         # interpolate between frames
         pct = newFrame % 1
         newFrameIndex = @frames[prevFrame] + (pct * (@frames[nextFrame] - @frames[prevFrame]))
-        @baseMovieClip.gotoAndStop(newFrameIndex)
-    else
-      @baseMovieClip.gotoAndStop(newFrame)
+        translatedFrame = newFrameIndex
 
     @currentFrame = newFrame
-    @children = []
+    return if translatedFrame is @baseMovieClip.currentFrame
 
+    @baseMovieClip.gotoAndStop(translatedFrame)
     movieClip.gotoAndStop(newFrame) for movieClip in @childMovieClips
+    @children = []
     @takeChildrenFromMovieClip()
         
   takeChildrenFromMovieClip: ->
