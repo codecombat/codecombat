@@ -14,6 +14,7 @@ module.exports = class VictoryModal extends ModalView
 
   events:
     'click .next-level-button': 'onPlayNextLevel'
+    'click .world-map-button': 'onClickWorldMap'
 
     # review events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -63,6 +64,11 @@ module.exports = class VictoryModal extends ModalView
   onPlayNextLevel: ->
     @saveReview() if @$el.find('.review textarea').val()
     Backbone.Mediator.publish 'level:play-next-level', {}
+
+  onClickWorldMap: (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    Backbone.Mediator.publish 'router:navigate', route: '/play-hero', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"

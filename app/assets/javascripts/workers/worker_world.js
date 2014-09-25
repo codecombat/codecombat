@@ -65,7 +65,12 @@ self.console = console;
 
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
 
-var restricted = ["XMLHttpRequest", "importScripts", "Worker"];
+var restricted = ["XMLHttpRequest", "Worker"];
+if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
+    !self.navigator.userAgent.match(/Trident.*rv\:11\./)) {
+  // Can't restrict 'importScripts' in IE11, skip for all IE versions
+  restricted.push("importScripts");
+}
 for(var i = 0; i < restricted.length; ++i) {
   // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
   Object.defineProperty(self, restricted[i], {

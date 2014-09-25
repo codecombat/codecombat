@@ -166,6 +166,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @togglePlaybackControls false
     Backbone.Mediator.publish 'playback:real-time-playback-started', {}
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'real-time-playback-start', volume: 1
+    Backbone.Mediator.publish 'level:set-letterbox', on: true
 
   onRealTimeMultiplayerCast: (e) ->
     @realTime = true
@@ -179,8 +180,8 @@ module.exports = class LevelPlaybackView extends CocoView
     @updateBarWidth e.world.frames.length, e.world.maxTotalFrames, e.world.dt
 
   updateBarWidth: (loadedFrameCount, maxTotalFrames, dt) ->
-    @totalTime = loadedFrameCount * dt
-    pct = parseInt(100 * loadedFrameCount / maxTotalFrames) + '%'
+    @totalTime = (loadedFrameCount - 1) * dt
+    pct = parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
     $('.scrubber .progress', @$el).slider('enable', true)
     @newTime = 0
@@ -262,10 +263,7 @@ module.exports = class LevelPlaybackView extends CocoView
   onFrameChanged: (e) ->
     if e.progress isnt @lastProgress
       @currentTime = e.frame / e.world.frameRate
-      # Game will sometimes stop at 29.97, but with only one digit, this is unnecesary.
-      # @currentTime = @totalTime if Math.abs(@totalTime - @currentTime) < 0.04
       @updatePopupContent() if @timePopup?.shown
-
       @updateProgress(e.progress, e.world)
       @updatePlayButton(e.progress)
     @lastProgress = e.progress
@@ -295,11 +293,13 @@ module.exports = class LevelPlaybackView extends CocoView
     @worldCompletelyLoaded = world.frames.length is world.totalFrames
     if @realTime and @worldCompletelyLoaded and not wasLoaded
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
+      Backbone.Mediator.publish 'level:set-letterbox', on: false
     $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100}%")
 
   updatePlayButton: (progress) ->
     if @worldCompletelyLoaded and progress >= 0.99 and @lastProgress < 0.99
       $('#play-button').removeClass('playing').removeClass('paused').addClass('ended')
+      Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
     if progress < 0.99 and @lastProgress >= 0.99
       b = $('#play-button').removeClass('ended')
@@ -337,7 +337,7 @@ module.exports = class LevelPlaybackView extends CocoView
       start: (event, ui) =>
         return if @shouldIgnore()
         @slideCount = 0
-        @wasPlaying = @playing
+        @wasPlaying = @playing and not $('#play-button').hasClass('ended')
         Backbone.Mediator.publish 'level:set-playing', {playing: false}
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'playback-scrub-start', volume: 0.5
 
