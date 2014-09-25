@@ -98,7 +98,10 @@ module.exports = class World
     continueLaterFn = =>
       @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
-      @realTimeSpeedFactor ?= 1
+      if @levelID in ['the-first-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze']
+        @realTimeSpeedFactor = 3
+      else
+        @realTimeSpeedFactor = 1
       return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
     t1 = now()
     @t0 ?= t1
@@ -193,8 +196,7 @@ module.exports = class World
     @flagHistory.push flagEvent
 
   loadFromLevel: (level, willSimulate=true) ->
-    if level.slug in ['the-first-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze']
-      @realTimeSpeedFactor = 3
+    @levelID = level.slug
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
     @loadSystemsFromLevel level

@@ -171,7 +171,7 @@ me.FunctionArgumentSchema = me.object {
         description: 'Examples by code language.',
         additionalProperties: me.shortString(description: 'Example value for the argument.')
         format: 'code-languages-object'
-        default: {javascript: ''}
+        default: {javascript: '', python: ''}
       }
       me.shortString(title: 'Example', description: 'Example value for the argument.')
     ]
@@ -183,7 +183,7 @@ me.FunctionArgumentSchema = me.object {
         description: 'Example argument descriptions by code language.',
         additionalProperties: {type: 'string', description: 'Description of the argument.', maxLength: 1000}
         format: 'code-languages-object'
-        default: {javascript: ''}
+        default: {javascript: '', python: ''}
       }
       {title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000}
     ]

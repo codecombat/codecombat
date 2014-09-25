@@ -23,8 +23,8 @@ LevelSessionSchema = c.object
   title: 'Session'
   description: 'A single session for a given level.'
   default:
-    codeLanguage: 'javascript'
-    submittedCodeLanguage: 'javascript'
+    codeLanguage: 'python'
+    submittedCodeLanguage: 'python'
     playtime: 0
 
 _.extend LevelSessionSchema.properties,

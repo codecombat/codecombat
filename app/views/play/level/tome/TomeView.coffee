@@ -36,8 +36,6 @@ ThangListView = require './ThangListView'
 SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 
-window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.js'
-
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
   template: template
@@ -108,7 +106,7 @@ module.exports = class TomeView extends CocoView
     return teamSpellMap
 
   createSpells: (programmableThangs, world) ->
-    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'javascript'
+    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}

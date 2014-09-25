@@ -258,7 +258,7 @@ class JavaScriptTreema extends CodeTreema
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
   findLanguageName: (languageCode) ->
-    # to get around mongoose emtpy object bug, there's a prop in the object which needs to be ignored
+    # to get around mongoose empty object bug, there's a prop in the object which needs to be ignored
     return '' if languageCode is '-'
     locale[languageCode]?.nativeDescription or "#{languageCode} Not Found"
 
