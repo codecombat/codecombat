@@ -511,7 +511,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     pos
 
   createMarks: ->
-    return # TODO: get marks working again
     return unless @options.camera
     if @thang
       allProps = []
@@ -608,7 +607,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
-    return     # TODO: figure out how to recreate marks
     @marks[name] ?= new Mark name: name, sprite: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
 

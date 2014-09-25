@@ -26,11 +26,11 @@ describe 'SpriteBoss', ->
     world = new World()
     world.thangs = [
       # Set trees side by side with different render strategies
-      {id: 'Segmented Tree', spriteName: 'Segmented Tree', exists: true, pos: {x:10, y:-8}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
-      {id: 'Singular Tree', spriteName: 'Singular Tree', exists: true, pos: {x:8, y:-8}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Segmented Tree', spriteName: 'Segmented Tree', exists: true, shape: 'disc', depth: 2, pos: {x:10, y:-8, z: 1}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Singular Tree', spriteName: 'Singular Tree', exists: true, shape: 'disc', depth: 2, pos: {x:8, y:-8, z: 1}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
       
       # Include a tree whose existence will change so we can test removing sprites
-      {id: 'Disappearing Tree', spriteName: 'Singular Tree', exists: true, pos: {x:0, y:0}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
+      {id: 'Disappearing Tree', spriteName: 'Singular Tree', exists: true, shape: 'disc', depth: 2, pos: {x:0, y:0, z: 1}, action: 'idle', health: 20, maxHealth: 20, rotation: Math.PI/2, acts: true }
     ]
     world.thangMap = {}
     world.thangMap[thang.id] = thang for thang in world.thangs
@@ -79,23 +79,23 @@ describe 'SpriteBoss', ->
       # Now make the world a little more complicated.
       world.thangs = world.thangs.concat [
         # four cardinal ogres, to test movement rotation and placement around a center point.
-        {id: 'Ogre N', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5, hudProperties: ['health'] }
-        {id: 'Ogre W', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-8, y:0}, action: 'move', health: 8, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5, hudProperties: ['health'] }
-        {id: 'Ogre E', spriteName: 'Segmented Munchkin', exists: true, pos: {x:8, y:0}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5, hudProperties: ['health'] }
-        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, pos: {x:0, y:-8}, action: 'move', health: 2, maxHealth: 10, rotation: Math.PI/2, acts: true, hudProperties: ['health'] }
+        {id: 'Ogre N', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:0, y:8, z: 1}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, scaleFactorX: 1.5, hudProperties: ['health'] }
+        {id: 'Ogre W', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-8, y:0, z: 1}, action: 'move', health: 8, maxHealth: 10, rotation: 0, acts: true, scaleFactorY: 1.5, hudProperties: ['health'] }
+        {id: 'Ogre E', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:8, y:0, z: 1}, action: 'move', health: 5, maxHealth: 10, rotation: Math.PI, acts: true, alpha: 0.5, hudProperties: ['health'] }
+        {id: 'Ogre S', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:0, y:-8, z: 1}, action: 'move', health: 2, maxHealth: 10, rotation: Math.PI/2, acts: true, hudProperties: ['health'] }
 
         # Set ogres side by side with different render strategies
-        {id: 'Singular Ogre', spriteName: 'Singular Munchkin', exists: true, pos: {x:-10, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
-        {id: 'Segmented Ogre', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-8, y:-8}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true }
+        {id: 'Singular Ogre', spriteName: 'Singular Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-10, y:-8, z: 1}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true, alpha: 0.5 }
+        {id: 'Segmented Ogre', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-8, y:-8, z: 1}, action: 'move', health: 10, maxHealth: 10, rotation: -Math.PI/2, acts: true }
 
         # A line of ogres overlapping to test child ordering
-        {id: 'Dying Ogre 1', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-14, y:0}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-        {id: 'Dying Ogre 2', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-13.5, y:1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-        {id: 'Dying Ogre 3', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-13, y:2}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
-        {id: 'Dying Ogre 4', spriteName: 'Segmented Munchkin', exists: true, pos: {x:-12.5, y:3}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 1', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-14, y:0, z: 1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 2', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-13.5, y:1, z: 1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 3', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-13, y:2, z: 1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
+        {id: 'Dying Ogre 4', spriteName: 'Segmented Munchkin', exists: true, shape: 'disc', depth: 2, pos: {x:-12.5, y:3, z: 1}, action: 'die', health: 5, maxHealth: 10, rotation: 0, acts: true }
         
         # Throw in a ThangType that contains nested MovieClips
-        {id: 'Fangrider', spriteName: 'Fangrider', exists: true, pos: {x:8, y:8}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true, currentEvents: ['aoe-' + JSON.stringify([0, 0, 8, '#00F'])] }
+        {id: 'Fangrider', spriteName: 'Fangrider', exists: true, shape: 'disc', depth: 2, pos: {x:8, y:8, z: 1}, action: 'move', health: 20, maxHealth: 20, rotation: 0, acts: true, currentEvents: ['aoe-' + JSON.stringify([0, 0, 8, '#00F'])] }
       ]
       
       _.find(world.thangs, {id: 'Disappearing Tree'}).exists = false

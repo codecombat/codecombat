@@ -15,6 +15,7 @@ module.exports = class Mark extends CocoClass
     @camera = options.camera
     @layer = options.layer
     @thangType = options.thangType
+    @listenTo @layer, 'new-spritesheet', @onLayerMadeSpriteSheet
     console.error @toString(), 'needs a name.' unless @name
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
@@ -29,6 +30,13 @@ module.exports = class Mark extends CocoClass
 
   toString: -> "<Mark #{@name}: Sprite #{@sprite?.thang?.id ? 'None'}>"
 
+  onLayerMadeSpriteSheet: ->
+    return unless @mark
+    @mark = null
+    @build()
+    @layer.addChild @mark
+    @layer.updateLayerOrder()
+    
   toggle: (to) ->
     return @ if to is @on
     return @toggleTo = to unless @mark
@@ -119,7 +127,20 @@ module.exports = class Mark extends CocoClass
     @lastHeight = @sprite.thang.height
 
   buildShadow: ->
-    alpha = @sprite.thang?.alpha ? 1
+    shapeName = if @sprite.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
+    key = "#{shapeName}-shadow"
+    SHADOW_SIZE = 10
+    unless key in @layer.spriteSheet.getAnimations()
+      shape = new createjs.Shape()
+      shape.graphics.beginFill "rgba(0,0,0)"
+      bounds = [-SHADOW_SIZE/2, - SHADOW_SIZE/2, SHADOW_SIZE, SHADOW_SIZE]
+      if shapeName is 'ellipse'
+        shape.graphics.drawEllipse bounds...
+      else
+        shape.graphics.drawRect bounds...
+      shape.graphics.endFill()
+      @layer.addCustomGraphic(key, shape, bounds)
+    alpha = @sprite.thang?.alpha ? 1 
     width = (@sprite.thang?.width ? 0) + 0.5
     height = (@sprite.thang?.height ? 0) + 0.5
     longest = Math.max width, height
@@ -128,17 +149,12 @@ module.exports = class Mark extends CocoClass
     height = height * actualLongest / longest
     width *= Camera.PPM
     height *= Camera.PPM * @camera.y2x  # TODO: doesn't work with rotation
-    @mark = new createjs.Shape()
+    @mark = new createjs.Sprite(@layer.spriteSheet)
+    @mark.gotoAndStop(key)
     @mark.mouseEnabled = false
-    @mark.graphics.beginFill "rgba(0,0,0,#{alpha})"
-    if @sprite.thang.shape in ['ellipsoid', 'disc']
-      @mark.graphics.drawEllipse 0, 0, width, height
-    else
-      @mark.graphics.drawRect 0, 0, width, height
-    @mark.graphics.endFill()
-    @mark.regX = width / 2
-    @mark.regY = height / 2
-    @mark.cache -1, -1, width + 2, height + 2 # not actually faster than simple ellipse draw
+    @mark.alpha = alpha
+    @baseScaleX = @mark.scaleX = width / (@layer.resolutionFactor * SHADOW_SIZE)
+    @baseScaleY = @mark.scaleY = height / (@layer.resolutionFactor * SHADOW_SIZE)
 
   buildRadius: (range) ->
     alpha = 0.15
@@ -217,7 +233,6 @@ module.exports = class Mark extends CocoClass
     @listenToOnce(@thangType, 'sync', @onLoadedThangType)
     @thangType.fetch()
     markThangTypes[name] = @thangType
-    window.mtt = markThangTypes
 
   onLoadedThangType: ->
     @build()
@@ -279,8 +294,8 @@ module.exports = class Mark extends CocoClass
       @markSprite.updateScale()
 
     if @name is 'shadow' and thang = @sprite.thang
-      @mark.scaleX = thang.scaleFactor ? thang.scaleFactorX ? 1
-      @mark.scaleY = thang.scaleFactor ? thang.scaleFactorY ? 1
+      @mark.scaleX = @baseScaleX * (thang.scaleFactor ? thang.scaleFactorX ? 1)
+      @mark.scaleY = @baseScaleY * (thang.scaleFactor ? thang.scaleFactorY ? 1)
 
     return unless @name in ['selection', 'target', 'repair', 'highlight']
 
