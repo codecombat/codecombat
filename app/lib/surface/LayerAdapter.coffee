@@ -446,9 +446,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     
     else if cocoSprite.thangType.get('raster')
       sprite = new createjs.Sprite(@spriteSheet)
+      scale = cocoSprite.thangType.get('scale') or 1
       reg = cocoSprite.getOffset 'registration'
-      sprite.regX = -reg.x
-      sprite.regY = -reg.y
+      sprite.regX = -reg.x * scale
+      sprite.regY = -reg.y * scale
       sprite.gotoAndStop(@renderGroupingKey(cocoSprite.thangType))
       sprite.baseScaleX = sprite.baseScaleY = 1
       
