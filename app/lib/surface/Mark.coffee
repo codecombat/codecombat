@@ -270,6 +270,7 @@ module.exports = class Mark extends CocoClass
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
     else
       pos ?= @sprite?.imageObject
+    return unless pos
     @mark.x = pos.x
     @mark.y = pos.y
     if @statusEffect or @name is 'highlight'
