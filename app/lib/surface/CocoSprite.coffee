@@ -140,6 +140,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return @updateActionDirection() unless action.animation or action.container
     m = if action.container then 'gotoAndStop' else 'gotoAndPlay'
     @imageObject[m]?(action.name)
+    @updateScale()
+    @updateRotation()
 
   hide: ->
     @hiding = true
