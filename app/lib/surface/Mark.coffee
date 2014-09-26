@@ -211,16 +211,26 @@ module.exports = class Mark extends CocoClass
     @mark.scaleY *= @camera.y2x
 
   buildDebug: ->
-    @mark = new createjs.Shape()
+    shapeName = if @sprite.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
+    key = "#{shapeName}-debug"
+    DEBUG_SIZE = 10
+    unless key in @layer.spriteSheet.getAnimations()
+      shape = new createjs.Shape()
+      shape.graphics.beginFill 'rgba(171,205,239,0.5)'
+      bounds = [-DEBUG_SIZE / 2, -DEBUG_SIZE / 2, DEBUG_SIZE, DEBUG_SIZE]
+      if shapeName is 'ellipse'
+        shape.graphics.drawEllipse bounds...
+      else
+        shape.graphics.drawRect bounds...
+      shape.graphics.endFill()
+      @layer.addCustomGraphic(key, shape, bounds)
+
+    @mark = new createjs.Sprite(@layer.spriteSheet)
+    @mark.gotoAndStop(key)
     PX = 3
     [w, h] = [Math.max(PX, @sprite.thang.width * Camera.PPM), Math.max(PX, @sprite.thang.height * Camera.PPM) * @camera.y2x]  # TODO: doesn't work with rotation
-    @mark.alpha = 0.5
-    @mark.graphics.beginFill '#abcdef'
-    if @sprite.thang.shape in ['ellipsoid', 'disc']
-      @mark.graphics.drawEllipse -w / 2, -h / 2, w, h
-    else
-      @mark.graphics.drawRect -w / 2, -h / 2, w, h
-    @mark.graphics.endFill()
+    @mark.scaleX = w / (@layer.resolutionFactor * DEBUG_SIZE)
+    @mark.scaleY = h / (@layer.resolutionFactor * DEBUG_SIZE)
 
   buildSprite: ->
     if _.isString @thangType

@@ -605,10 +605,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @options.thang = @thang
 
   setDebug: (debug) ->
-    # TODO: get debugging shapes working again
-#    return unless @thang?.collides and @options.camera?
-#    @addMark 'debug', @options.floatingLayer if debug
-#    @marks.debug?.toggle debug
+    return unless @thang?.collides and @options.camera?
+    @addMark 'debug', @options.floatingLayer if debug
+    @marks.debug?.toggle debug
 
   addLabel: (name, style) ->
     @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style
