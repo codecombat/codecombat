@@ -143,6 +143,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Adding, removing children for WebGL layers.
         
   addCocoSprite: (cocoSprite) ->
+    # TODO: Move this into the production DB rather than setting it dynamically.
+    if cocoSprite.thangType?.get('name') is 'Highlight'
+      cocoSprite.thangType.set('spriteType', 'segmented')
     cocoSprite.options.resolutionFactor = @resolutionFactor
     if cocoSprite.layer
       console.warn 'CocoSprite being re-added to a layer?'

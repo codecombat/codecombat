@@ -594,10 +594,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks[effects[@effectIndex]].show()
 
   setHighlight: (to, delay) ->
-    # TODO: get highlights working again
-#    @addMark 'highlight', @options.floatingLayer, 'highlight' if to
-#    @marks.highlight?.highlightDelay = delay
-#    @marks.highlight?.toggle to and not @dimmed
+    @addMark 'highlight', @options.floatingLayer, 'highlight' if to
+    @marks.highlight?.highlightDelay = delay
+    @marks.highlight?.toggle to and not @dimmed
 
   setDimmed: (@dimmed) ->
     @marks.highlight?.toggle @marks.highlight.on and not @dimmed
