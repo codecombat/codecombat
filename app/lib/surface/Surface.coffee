@@ -105,7 +105,7 @@ module.exports = Surface = class Surface extends CocoClass
     @normalLayers.push @screenLayer = new Layer name: 'Screen', layerPriority: 3, transform: Layer.TRANSFORM_SCREEN, camera: @camera
     @normalLayers.push @cameraBorderLayer = new Layer name: 'Camera Border', layerPriority: 4, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @cameraBorderLayer.addChild @cameraBorder = new CameraBorder(bounds: @camera.bounds)
-    @normalStage.addChild @normalLayers...
+    @normalStage.addChild (layer.container for layer in @normalLayers)...
 
     canvasWidth = parseInt @normalCanvas.attr('width'), 10
     canvasHeight = parseInt @normalCanvas.attr('height'), 10
@@ -234,7 +234,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
-#    @normalStage.update e
+    @normalStage.update e
     @webGLStage.update e
 
 
