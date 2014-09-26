@@ -61,6 +61,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     super()
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
+    if @thang?
+      options = @thang?.getSpriteOptions?()
+      @options.colorConfig = options.colorConfig if options.colorConfig
     console.error @toString(), 'has no ThangType!' unless @thangType
 
     # this is a stub, use @setImageObject to swap it out for something else later
@@ -138,6 +141,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return @hide() unless action.animation or action.container or action.relatedActions
     @show()
     return @updateActionDirection() unless action.animation or action.container
+    return if @imageObject.placeholder
     m = if action.container then 'gotoAndStop' else 'gotoAndPlay'
     @imageObject[m]?(action.name)
     @updateScale()

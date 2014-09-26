@@ -441,8 +441,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if not cocoSprite.thangType.isFullyLoaded()
       # just give a placeholder
       sprite = new createjs.Sprite(@spriteSheet)
+      sprite.gotoAndStop(0)
       sprite.placeholder = true
-      sprite.baseScaleX = sprite.baseScaleY = 1
+      sprite.regX = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH / 2
+      sprite.regY = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
+      sprite.baseScaleX = sprite.baseScaleY = sprite.scaleX = sprite.scaleY = 10 / (@resolutionFactor * SPRITE_PLACEHOLDER_WIDTH)
     
     else if cocoSprite.thangType.get('raster')
       sprite = new createjs.Sprite(@spriteSheet)
@@ -455,7 +458,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       
     else
       SpriteClass = if (cocoSprite.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
-      prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.colorConfig) + '.'
+      prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.options.colorConfig) + '.'
       sprite = new SpriteClass(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
 
     sprite.sprite = cocoSprite
