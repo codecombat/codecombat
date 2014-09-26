@@ -42,6 +42,7 @@ module.exports = class Mark extends CocoClass
     @layer.updateLayerOrder()
     
   toggle: (to) ->
+    to = !!to
     return @ if to is @on
     return @toggleTo = to unless @mark
     @on = to
