@@ -114,6 +114,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if @transformStyle in [LayerAdapter.TRANSFORM_SURFACE, LayerAdapter.TRANSFORM_SURFACE_TEXT, LayerAdapter.TRANSFORM_CHILD]
       change = @container.scaleX / e.zoom
       @container.scaleX = @container.scaleY = e.zoom
+      if @webGL
+        @container.scaleX *= @camera.canvasScaleFactorX
+        @container.scaleY *= @camera.canvasScaleFactorY
       @container.regX = e.surfaceViewport.x
       @container.regY = e.surfaceViewport.y
       if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT

@@ -62,6 +62,7 @@ module.exports = class Camera extends CocoClass
   onResize: (newCanvasWidth, newCanvasHeight) ->
     @canvasScaleFactorX = newCanvasWidth / @canvasWidth
     @canvasScaleFactorY = newCanvasHeight / @canvasHeight
+    Backbone.Mediator.publish 'camera:zoom-updated', camera: @, zoom: @zoom, surfaceViewport: @surfaceViewport
 
   calculateViewingAngle: (angle) ->
     # Operate on open interval between 0 - 90 degrees to make the math easier

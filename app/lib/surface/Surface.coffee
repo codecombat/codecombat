@@ -120,7 +120,7 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLStage.addEventListener 'stagemousemove', @onMouseMove
     @webGLStage.addEventListener 'stagemousedown', @onMouseDown
     @webGLCanvas[0].addEventListener 'mouseup', @onMouseUp
-    @webGLStage.on 'mousewheel', @onMouseWheel
+    @webGLCanvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing # TODO: figure this stuff out
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
     createjs.Ticker.setFPS @options.frameRate
@@ -522,10 +522,14 @@ module.exports = Surface = class Surface extends CocoClass
     #@normalCanvas.height newHeight
     scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
-    @webGLStage.scaleX = @normalStage.scaleX *= newWidth / oldWidth
-    @webGLStage.scaleY = @normalStage.scaleY *= newHeight / oldHeight
+    
+    # Cannot do this to the webGLStage because it does not use scaleX/Y.
+    # Instead the LayerAdapter scales webGL-enabled layers. 
+    @webGLStage.updateViewport(@webGLCanvas[0].width, @webGLCanvas[0].height)
+    @normalStage.scaleX *= newWidth / oldWidth
+    @normalStage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
-
+    
 
   #- Camera focus on hero
   focusOnHero: ->
@@ -695,7 +699,7 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.enableDOMEvents false
     @webGLStage.enableDOMEvents false
     @webGLStage.enableMouseOver 0
-    @webGLStage.off 'mousewheel', @onMouseWheel
+    @webGLCanvas.off 'mousewheel', @onMouseWheel
     $(window).off 'resize', @onResize
     clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
     clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
