@@ -95,7 +95,7 @@
 
   home:
     slogan: "Learn to Code by Playing a Game"
-    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
+    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
     play: "Play"  # The big play button that just starts playing a level
     old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
@@ -117,6 +117,7 @@
     adventurer_forum: "the Adventurer forum"
     adventurer_suffix: "."
     campaign_beginner: "Beginner Campaign"
+    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... in which you learn the wizardry of programming."
     campaign_dev: "Random Harder Levels"
     campaign_dev_description: "... in which you learn the interface while doing something a little harder."
@@ -139,6 +140,8 @@
     next: "Next"
     previous: "Previous"
     choose_inventory: "Equip Items"
+    older_campaigns: "Older Campaigns"
+    anonymous: "Anonymous Player"
 
   items:
     armor: "Armor"

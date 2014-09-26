@@ -30,7 +30,25 @@
 .game-controls.header-font
   if me.isAdmin()
     button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
-  button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
-  button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-  button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
-  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
+    button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+    button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+  if me.isAdmin()
+    button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
+    button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
+  else if me.get('anonymous')
+    button.btn.settings(data-toggle='coco-modal', data-target='modal/AuthModal', data-i18n="[title]play.settings")
+  else
+    a.btn.achievements(href="/user/#{me.getSlugOrID()}/stats", data-i18n="[title]play.achievements")
+    a.btn.account(href="/user/#{me.getSlugOrID()}", data-i18n="[title]play.account")
+    a.btn.settings(href='/account', data-i18n="[title]play.settings")
+
+.old-levels
+  a(href="/play-old", data-i18n="play.older_campaigns").header-font Older Campaigns
+
+.user-status.header-font
+  if me.get('anonymous')
+    span.spr(data-i18n="play.anonymous_player") Anonymous Player
+    button.btn.btn-default.btn-flat.btn-sm(data-toggle='coco-modal', data-target='modal/AuthModal', data-i18n="login.log_in")
+  else
+    span.spr= me.get('name')
+    button#logout-button.btn.btn-default.btn-flat.btn-sm(data-i18n="login.log_out") Log Out

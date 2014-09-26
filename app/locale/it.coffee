@@ -117,6 +117,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     adventurer_forum: "forum degli Avventurieri"
     adventurer_suffix: "."
     campaign_beginner: "Campagne per principianti"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... nelle quali imparerai i trucchi della programmazione."
     campaign_dev: "Livelli difficili casuali"
     campaign_dev_description: "... nei quali imparerai a usare l'interfaccia facendo qualcosa di un po' più difficile."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "Seleziona un incantesimo"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Seleziona qualcuno per "
     tome_available_spells: "Incantesimi disponibili"
 #    tome_your_skills: "Your Skills"

@@ -15,6 +15,7 @@
       display: block
       margin: 0 auto
       @include transition(box-shadow .50s ease-in-out)
+      border-radius: 11px
 
     text-shadow: 2px 2px 5px black
     
@@ -62,176 +63,12 @@
       &.inverted
         filter: invert(100%)
         -webkit-filter: invert(100%)
-
-  .code-languages
-    margin: 10px 0 30px 0
-
-    &:hover
-      .code-language
-        opacity: 0.6
-
-      .code-language.selected-language:not(:hover)
-        opacity: 0.8
-
-        h2, h3
-          text-shadow: none
-
-        .code-wizard
-          opacity: 0.5
-
-    .language-play-count
-      text-transform: lowercase
-      position: absolute
-      left: 0
-      top: 0
-
-    .code-language
-      cursor: pointer
-      text-align: center
-      position: relative
-      opacity: 0.6
-
-      &:hover
-        opacity: 1
-
-        h2, h3
-          text-shadow: 0px 0px 5px white
-
-        .code-wizard
-          display: block
-          opacity: 1
-
-      &.selected-language
-        opacity: 1
-
-        h2, h3
-          text-shadow: 0px 0px 5px white
-
-        .code-wizard
-          display: block
-
-      .code-wizard
-        position: absolute
-        background: transparent url(/images/pages/home/wizard.png) no-repeat
-        background-size: contain
-        width: 111px
-        height: 97px
-        display: none
-
-      .code-language-beta
-        background: transparent url(/images/pages/home/language_beta_sticker.png) no-repeat
-        background-size: contain
-        width: 100px
-        height: 32px
-        position: absolute
-        right: 20px
-        top: -7px
-
-    .primary-code-languages
-
-      #javascript
-        background: transparent url(/images/pages/home/language_js.png) no-repeat
-        padding-right: 150px
-
-        .language-play-count
-          right: -100px
-        .code-wizard
-          left: 120px
-
-      #python
-        background: transparent url(/images/pages/home/language_python.png) no-repeat
-        padding-left: 150px
-
-        .language-play-count
-          left: 125px
-        .code-wizard
-          right: 120px
-
-      .code-language
-        width: 498px
-        height: 153px
-        padding: 30px
-        margin: 0px 0 0 -6px
-
-        .code-wizard
-          top: -65px
-
-        h2
-          margin: 15px 0 5px
-
-        p
-          overflow: hidden
-          height: 40px
-
-    .secondary-code-languages
-      margin-left: -10px
-
-      .col-md-3
-        padding: 0px
-
-      .language-play-count
-        left: 15px
-        top: -15px
-
-      .code-language
-        background: transparent url(/images/pages/home/language_background_small.png) no-repeat
-        width: 250px
-        height: 80px
-        margin: 20px 0 20px 0
-        padding: 20px 20px 20px 70px
-
-        .code-wizard
-          top: -51px
-          left: 89px
-          height: 63px
-
-        .code-language-logo
-          position: absolute
-          left: 15px
-          top: 17px
-          width: 50px
-          height: 50px
-
-        .code-language-beta
-          right: -15px
-          top: -16px
-          height: 24px
-
-        h3
-          margin: 0
-          padding: 0
-
-        p
-          white-space: nowrap
-          text-overflow: ellipsis
-          overflow: hidden
-
-      #coffeescript .code-language-logo
-        background: transparent url(/images/common/code_languages/coffeescript_small.png) no-repeat center
-
-      #clojure .code-language-logo
-        background: transparent url(/images/common/code_languages/clojure_small.png) no-repeat center
-
-      #lua .code-language-logo
-        background: transparent url(/images/common/code_languages/lua_small.png) no-repeat center
-
-      #io .code-language-logo
-        background: transparent url(/images/common/code_languages/io_small.png) no-repeat center
-
   
-#mobile-trailer-wrapper
-  display: none
-  
-@media only screen and (max-width: 800px)
+@media only screen and (max-width: 768px)
   #home-view
     #site-slogan
       font-size: 30px
       margin-bottom: 30px
-    .code-languages
-      .col-sm-6, .col-sm-3
-        margin-top: 30px
-        .code-language
-          margin: 0px auto
     .game-mode-wrapper
       width: 100%
       img
@@ -244,9 +81,6 @@
         font-size: 50px
         font-family: Bangers
         @include transition(color .10s linear)
-      .code-language-logo
-        right: 0px
-        top: 5px
      
   h1
     text-align: center

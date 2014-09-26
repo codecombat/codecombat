@@ -117,8 +117,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     adventurer_forum: "Φόρουμ του Adventurer"
     adventurer_suffix: "."
     campaign_beginner: "Εκστρατεία για Αρχάριους"
+<<<<<<< HEAD
     campaign_beginner_description: "... στο οποίο μαθαίνετε τη μαγεία του προγραμματισμού."
     campaign_dev: "Τυχαία Δυσκολότερα Επίπεδα"
+=======
+#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_beginner_description: "... στο οποίο μπορείτε να μάθετε τη μαγεία του προγραμματισμού"
+    campaign_dev: "Τυχαία δυσκολότερα επίπεδα"
+>>>>>>> upstream/master
     campaign_dev_description: "... στο οποίο μπορείτε να μάθετε το περιβάλλον, ενώ κάνετε κάτι λίγο πιο δύσκολο."
     campaign_multiplayer: "Αρένες Πολλαπλών Παικτών"
     campaign_multiplayer_description: "... στο οποίο προγραμματίζετε σώμα-με-σώμα εναντίον άλλων παικτών."
@@ -127,6 +133,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     campaign_classic_algorithms: "Κλασσικοί Αλγόριθμοι"
     campaign_classic_algorithms_description: "... στο οποίο μαθαίνετε του πιο δημοφιλής αλγορίθμους της Επιστήμης της Πληροφορικής."
     level_difficulty: "Δυσκολία: "
+<<<<<<< HEAD
     play_as: "Παίξτε ως"
     spectate: "Θεατής"
     players: "παίκτες"
@@ -139,6 +146,22 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     next: "Επόμενο"
     previous: "Προηγούμενο"
     choose_inventory: "Εξοπλίσου με Αντικείμενα"
+=======
+#    play_as: "Play As"
+#    spectate: "Spectate"
+#    players: "players"
+#    hours_played: "hours played"
+#    items: "Items"
+#    heroes: "Heroes"
+#    achievements: "Achievements"
+#    account: "Account"
+#    settings: "Settings"
+#    next: "Next"
+#    previous: "Previous"
+#    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
+>>>>>>> upstream/master
 
   items:
     armor: "Πανοπλία"
@@ -416,7 +439,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-#    tome_select_spell: "Select a Spell"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    tome_your_skills: "Your Skills"
