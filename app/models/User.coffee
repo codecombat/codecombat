@@ -73,6 +73,6 @@ module.exports = class User extends CocoModel
     gemsSpent = sum(purchased.heroes) + sum(purchased.items) + sum(purchased.levels)
     gemsEarned + gemsPurchased - gemsSpent
 
-  earnedHero: (heroOriginal) -> heroOriginal in me.get('earned')?.heroes ? []
-  earnedItem: (itemOriginal) -> itemOriginal in me.get('earned')?.items ? []
-  earnedLevel: (levelOriginal) -> levelOriginal in me.get('earned')?.levels ? []
+  earnedHero: (heroOriginal) -> heroOriginal in (me.get('earned')?.heroes ? [])
+  earnedItem: (itemOriginal) -> itemOriginal in (me.get('earned')?.items ? [])
+  earnedLevel: (levelOriginal) -> levelOriginal in (me.get('earned')?.levels ? [])
