@@ -524,7 +524,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-  guide:
+#  guide:
 #    temp: "Temp"
 
   multiplayer:
@@ -658,7 +658,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 
-  article:
+#  article:
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
