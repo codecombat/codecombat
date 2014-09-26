@@ -30,10 +30,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   # Intermediary between a Surface Stage and a top-level static normal Container or hot-swapped WebGL SpriteContainer.
   # It handles zooming in different ways and, if webGL, creating and assigning spriteSheets.
 
-  @TRANSFORM_CHILD: 'child'  # Layer transform is managed by its parents
   @TRANSFORM_SURFACE: 'surface'  # Layer moves/scales/zooms with the Surface of the World
   @TRANSFORM_SURFACE_TEXT: 'surface_text'  # Layer moves with the Surface but is size-independent
-  @TRANSFORM_SCREEN: 'screen'  # Layer stays fixed to the screen (different from child?)
+  @TRANSFORM_SCREEN: 'screen'  # Layer stays fixed to the screen
 
   # WebGL properties
   actionRenderState: null
@@ -60,7 +59,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @defaultSpriteType = if @name is 'Default' then 'segmented' else 'singular'
     @customGraphics = {}
     @layerPriority = options.layerPriority ? 0
-    @transformStyle = options.transform ? LayerAdapter.TRANSFORM_CHILD
+    @transformStyle = options.transform ? LayerAdapter.TRANSFORM_SURFACE
     @camera = options.camera
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
 
@@ -111,7 +110,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   onZoomUpdated: (e) ->
     return unless e.camera is @camera
-    if @transformStyle in [LayerAdapter.TRANSFORM_SURFACE, LayerAdapter.TRANSFORM_SURFACE_TEXT, LayerAdapter.TRANSFORM_CHILD]
+    if @transformStyle in [LayerAdapter.TRANSFORM_SURFACE, LayerAdapter.TRANSFORM_SURFACE_TEXT]
       change = @container.scaleX / e.zoom
       @container.scaleX = @container.scaleY = e.zoom
       if @webGL
@@ -123,15 +122,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         for child in @container.children
           child.scaleX *= change
           child.scaleY *= change
-
-  #- Caching
-
-  cache: ->
-    return if @webGL
-    return unless @children.length 
-    bounds = @container.getBounds()
-    return unless bounds
-    @container.cache bounds.x, bounds.y, bounds.width, bounds.height, 2
 
   #- Container-like child functions
 

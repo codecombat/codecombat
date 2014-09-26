@@ -64,7 +64,7 @@ module.exports = class SpriteBoss extends CocoClass
       ['Default', 0]
       ['Floating', 10]
     ]
-      @spriteLayers[name] = new LayerAdapter name: name, webGL: true, layerPriority: priority, transform: LayerAdapter.TRANSFORM_CHILD, camera: @camera
+      @spriteLayers[name] = new LayerAdapter name: name, webGL: true, layerPriority: priority, transform: LayerAdapter.TRANSFORM_SURFACE, camera: @camera
     @webGLStage.addChild (spriteLayer.container for spriteLayer in _.values(@spriteLayers))...
 
   layerForChild: (child, sprite) ->
