@@ -5,7 +5,7 @@ module.exports =
     type: 'object'
     default:
       previouslyAchievedAmount: 0
-      
+
     properties:
       user: c.objectId
         links:
@@ -30,4 +30,5 @@ module.exports =
       achievedAmount: type: 'number'
       earnedPoints: type: 'number'
       previouslyAchievedAmount: {type: 'number'}
+      earnedRewards: c.RewardSchema 'awarded by this achievement to this user'
       notified: type: 'boolean'

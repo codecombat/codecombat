@@ -6,12 +6,12 @@
     each level in campaign.levels
       - var next = !seenNext && levelStatusMap[level.id] != "complete";
       - seenNext = seenNext || next;
-      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{campaign.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name)
+      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{campaign.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name)
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
       div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.id] || "")
       .level-info-container(data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
         div(class="level-info " + (levelStatusMap[level.id] || ""))
-          h3= level.name + (level.disabled ? " (Coming soon!)" : "")
+          h3= level.name + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
           .level-description= level.description
           span(data-i18n="play.level_difficulty") Difficulty: 
           each i in Array(level.difficulty)
@@ -46,6 +46,8 @@
   a(href="/play-old", data-i18n="play.older_campaigns").header-font Older Campaigns
 
 .user-status.header-font
+  span.gem.gem-20
+  span.spr= me.gems()
   if me.get('anonymous')
     span.spr(data-i18n="play.anonymous_player") Anonymous Player
     button.btn.btn-default.btn-flat.btn-sm(data-toggle='coco-modal', data-target='modal/AuthModal', data-i18n="login.log_in")

@@ -15,8 +15,6 @@ module.exports = class AchievementPopup extends CocoView
     @popup ?= true
     @className += ' popup' if @popup
     super options
-    console.debug 'Created an AchievementPopup', @$el
-
     @render()
 
   calculateData: ->
@@ -62,7 +60,6 @@ module.exports = class AchievementPopup extends CocoView
     c
 
   render: ->
-    console.debug 'render achievement popup'
     super()
     @container.prepend @$el
     if @popup

@@ -5,6 +5,7 @@ AchievementPopup = require 'views/achievements/AchievementPopup'
 ConfirmModal = require 'views/modal/ConfirmModal'
 errors = require 'lib/errors'
 app = require 'application'
+nodes = require 'views/editor/level/treema_nodes'
 
 module.exports = class AchievementEditView extends RootView
   id: 'editor-achievement-edit-view'
@@ -36,8 +37,13 @@ module.exports = class AchievementEditView extends RootView
       readOnly: me.get('anonymous')
       callbacks:
         change: @pushChangesToPreview
+      nodeClasses:
+        'thang-type': nodes.ThangTypeNode
+        'item-thang-type': nodes.ItemThangTypeNode
+      supermodel: @supermodel
     @treema = @$el.find('#achievement-treema').treema(options)
     @treema.build()
+    @treema.childrenTreemas.rewards?.open(3)
     @pushChangesToPreview()
 
   getRenderData: (context={}) ->
