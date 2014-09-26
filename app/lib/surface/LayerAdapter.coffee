@@ -129,16 +129,16 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @container.addChild children...
     if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
       for child in children
-        child.scaleX /= @scaleX
-        child.scaleY /= @scaleY
+        child.scaleX /= @container.scaleX
+        child.scaleY /= @container.scaleY
 
   removeChild: (children...) ->
     @container.removeChild children...
     # TODO: Do we actually need to scale children that were removed?
     if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
       for child in children
-        child.scaleX *= @scaleX
-        child.scaleY *= @scaleY
+        child.scaleX *= @container.scaleX
+        child.scaleY *= @container.scaleY
 
   #- Adding, removing children for WebGL layers.
         

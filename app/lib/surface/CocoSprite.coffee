@@ -228,29 +228,28 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
           delete @handledDisplayEvents[event]
 
   showTextEvents: ->
-    # TODO: Add back text events, once this has been integrated with the Surface
-#    return unless @thang?.currentEvents
-#    for event in @thang.currentEvents
-#      continue unless event.startsWith 'text-'
-#      continue if @handledDisplayEvents[event]
-#      @handledDisplayEvents[event] = true
-#      options = JSON.parse(event[5...])
-#      label = new createjs.Text options.text, "bold #{options.size or 16}px Arial", options.color or '#FFF'
-#      shadowColor = {humans: '#F00', ogres: '#00F', neutral: '#0F0', common: '#0F0'}[@thang.team] ? '#000'
-#      label.shadow = new createjs.Shadow shadowColor, 1, 1, 3
-#      offset = @getOffset 'aboveHead'
-#      [label.x, label.y] = [@imageObject.x + offset.x - label.getMeasuredWidth() / 2, @imageObject.y + offset.y]
-#      @options.floatingLayer.addChild label
-#      window.labels ?= []
-#      window.labels.push label
-#      label.alpha = 0
-#      createjs.Tween.get(label)
-#        .to({y: label.y-2, alpha: 1}, 200, createjs.Ease.linear)
-#        .to({y: label.y-12}, 1000, createjs.Ease.linear)
-#        .to({y: label.y-22, alpha: 0}, 1000, createjs.Ease.linear)
-#        .call =>
-#          return if @destroyed
-#          @options.floatingLayer.removeChild label
+    return unless @thang?.currentEvents
+    for event in @thang.currentEvents
+      continue unless event.startsWith 'text-'
+      continue if @handledDisplayEvents[event]
+      @handledDisplayEvents[event] = true
+      options = JSON.parse(event[5...])
+      label = new createjs.Text options.text, "bold #{options.size or 16}px Arial", options.color or '#FFF'
+      shadowColor = {humans: '#F00', ogres: '#00F', neutral: '#0F0', common: '#0F0'}[@thang.team] ? '#000'
+      label.shadow = new createjs.Shadow shadowColor, 1, 1, 3
+      offset = @getOffset 'aboveHead'
+      [label.x, label.y] = [@imageObject.x + offset.x - label.getMeasuredWidth() / 2, @imageObject.y + offset.y]
+      @options.textLayer.addChild label
+      window.labels ?= []
+      window.labels.push label
+      label.alpha = 0
+      createjs.Tween.get(label)
+        .to({y: label.y-2, alpha: 1}, 200, createjs.Ease.linear)
+        .to({y: label.y-12}, 1000, createjs.Ease.linear)
+        .to({y: label.y-22, alpha: 0}, 1000, createjs.Ease.linear)
+        .call =>
+          return if @destroyed
+          @options.textLayer.removeChild label
 
   getBobOffset: ->
     return 0 unless @thang.bobHeight
