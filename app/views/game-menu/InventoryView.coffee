@@ -321,6 +321,8 @@ module.exports = class InventoryView extends CocoView
       for slot, item of items
         @allowedItems.push gear[item] unless gear[item] in @allowedItems
       break if level is @options.levelID
+    for item in me.get('earned')?.items ? [] when not (item in @allowedItems)
+      @allowedItems.push item
 
   onHeroSelectionUpdated: (e) ->
     @selectedHero = e.hero

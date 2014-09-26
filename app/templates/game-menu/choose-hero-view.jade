@@ -2,23 +2,25 @@
   .carousel-indicator-container
     ol.carousel-indicators
       for hero, index in heroes
-        - var info = heroInfo[hero.get('slug')]
-        li(data-hero-id=hero.get('original'), title=hero.get('name'), data-slide-to=index, data-target="#hero-carousel", class="hero-indicator" + (info.status == "Locked" ? " locked" : ""))
+        li(data-hero-id=hero.get('original'), title=hero.get('name'), data-slide-to=index, data-target="#hero-carousel", class="hero-indicator" + (hero.locked ? " locked" : ""))
           .hero-avatar
-          if info.status == "Locked"
+          if hero.locked
             img.lock-indicator(src="/images/pages/game-menu/lock.png")
 
   .carousel-inner
     for hero in heroes
       - var info = heroInfo[hero.get('slug')]
-      div(class="item hero-item" + (info.status == "Locked" ? " locked" : ""), data-hero-id=hero.get('original'))
+      div(class="item hero-item" + (hero.locked ? " locked" : ""), data-hero-id=hero.get('original'))
         canvas.hero-canvas
         .hero-stats
           h2= info.fullName
           p
             span(data-i18n="choose_hero.status") Status
             span.spr :
-            | #{info.status}
+            if hero.locked
+              | #{info.status}
+            else
+              | Available
           p
             span(data-i18n="choose_hero.weapons") Weapons
             span.spr :
