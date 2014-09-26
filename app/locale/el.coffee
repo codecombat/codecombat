@@ -465,34 +465,34 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    infinite_loop_comment_out: "Comment Out My Code"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    inventory_tab: "Εφόδια"
+    choose_hero_tab: "Επανεκκίνηση Επιπέδου"
+    save_load_tab: "Αποθήκευση/Φόρτωση"
+    options_tab: "Επιλογές"
+    guide_tab: "Οδηγός"
     multiplayer_tab: "Πολλαπλοί παίχτες"
-#    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
-#    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
-#    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
+    inventory_caption: "Εξόπλισε τον ήρωά σου"
+    choose_hero_caption: "Διάλεξε ήρωα, γλώσσα"
+    save_load_caption: "... και δες το ιστορικό"
+    options_caption: "Διαμόρφωση ρυθμίσεων"
+    guide_caption: "Κείμενα και συμβουλές"
+    multiplayer_caption: "Παίξε με φίλους!"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
+  inventory:
+    choose_inventory: "Εφοδιάσου με αντικείμενα"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    status: "Status"
-#    weapons: "Weapons"
-#    health: "Health"
-#    speed: "Speed"
+  choose_hero:
+    choose_hero: "Διάλεξε Ήρωα"
+    programming_language: "Γλώσσα Προγραμματισμού"
+    programming_language_description: "Ποια γλώσσα προγραμματισμού θες να χρησιμοποιήσεις;"
+    status: "Κατάσταση"
+    weapons: "Όπλα"
+    health: "Υγεία"
+    speed: "Ταχύτητα"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "Αποθηκεύτηκε"
+    granularity_change_history: "Ιστορικό"
 
 #  options:
 #    general_options: "General Options"
