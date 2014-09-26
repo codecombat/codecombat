@@ -177,6 +177,7 @@ module.exports = Surface = class Surface extends CocoClass
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
     lastFrame = @world.frames.length - 1
+    framesDropped = 0
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
@@ -191,12 +192,15 @@ module.exports = Surface = class Surface extends CocoClass
         @currentFrame += advanceBy
         @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
-      worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
-      if worldFrameAdvanced
-        # Only restore world state when it will correspond to an integer WorldFrame, not interpolated frame.
-        @restoreWorldState()
-        oldWorldFrame = newWorldFrame
-      break unless Dropper.drop()
+      if Dropper.drop()
+        framesDropped += 1
+      else
+        worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
+        if worldFrameAdvanced
+          # Only restore world state when it will correspond to an integer WorldFrame, not interpolated frame.
+          @restoreWorldState()
+          oldWorldFrame = newWorldFrame
+        break
     if frameAdvanced and not worldFrameAdvanced
       # We didn't end the above loop on an integer frame, so do the world state update.
       @restoreWorldState()
