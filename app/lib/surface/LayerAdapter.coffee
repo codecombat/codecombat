@@ -304,10 +304,23 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     # and different colors for different layers.
     g = new createjs.Graphics()
     g.setStrokeStyle(5)
-    g.beginStroke(createjs.Graphics.getRGB(64,64,64))
-    g.beginFill(createjs.Graphics.getRGB(64,64,64,0.7))
-    radius = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH / 2
-    g.drawCircle(radius, radius, radius)
+    color = {
+      'Land': [0, 50, 0]
+      'Ground': [230, 230, 230]
+      'Obstacle': [20, 70, 20]
+      'Path': [200, 100, 200]
+      'Default': [64, 64, 64]
+      'Floating': [100, 100, 200]
+    }[@name] or [0, 0, 0]
+    g.beginStroke(createjs.Graphics.getRGB(color...))
+    color.push 0.7
+    g.beginFill(createjs.Graphics.getRGB(color...))
+    width = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
+    bounds = [0, 0, width, width]
+    if @name in ['Default', 'Ground', 'Floating', 'Path']
+      g.drawEllipse(bounds...)
+    else
+      g.drawRect(bounds...)
     new createjs.Shape(g)
     
   #- Rendering containers for segmented thang types
