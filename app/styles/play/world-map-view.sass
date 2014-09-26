@@ -52,8 +52,15 @@ $gameControlMargin: 30px
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
 
-      &.disabled
+      &.disabled, &.locked
+        background-image: url(/images/pages/game-menu/lock.png)
+        background-size: 75%
+        background-repeat: no-repeat
+        background-position: 50% 50%
         opacity: 0.7
+
+        a
+          cursor: default
 
       &.next
         width: 2 * $levelDotWidth

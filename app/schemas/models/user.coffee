@@ -17,6 +17,8 @@ UserSchema = c.object
     simulatedBy: 0
     simulatedFor: 0
     jobProfile: {}
+    earned: {heroes: [], items: [], levels: [], gems: 0}
+    purchased: {heroes: [], items: [], levels: [], gems: 0}
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
@@ -265,6 +267,8 @@ _.extend UserSchema.properties,
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
 
+  earned: c.RewardSchema 'earned by achievements'
+  purchased: c.RewardSchema 'purchased with gems'
 
 c.extendBasicProperties UserSchema, 'user'
 
