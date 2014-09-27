@@ -36,7 +36,7 @@ module.exports.setup = (app) ->
       else if isHTTPMethodPut req
         handler.processTaskResult req, res
       else if isHTTPMethodPost req
-        handler.createNewTask req, res #TODO: do not use this in production
+        handler.createNewTask req, res 
       else
         sendMethodNotSupportedError req, res
     catch error
