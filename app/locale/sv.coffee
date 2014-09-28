@@ -117,6 +117,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     adventurer_forum: "Äventyrarforumet"
     adventurer_suffix: "."
     campaign_beginner: "Nybörjarkampanj"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... i vilken du lär dig programmerandets magi."
     campaign_dev: "Slumpad svårare nivå"
     campaign_dev_description: "... där du lär dig att hantera gränssnittet medan du gör något lite svårare."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "Välj en förmåga"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Välj någon för "
     tome_available_spells: "Tillgängliga förmågor"
 #    tome_your_skills: "Your Skills"

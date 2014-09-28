@@ -9,7 +9,7 @@ thangTypes = [
 
 describe 'InventoryView', ->
   inventoryView = null
-  
+
   beforeEach (done) ->
     equipment = { 'feet':'boots', 'eyes': 'crude-glasses' }
     inventoryView = new InventoryView({ equipment: equipment })
@@ -19,53 +19,23 @@ describe 'InventoryView', ->
     _.defer ->
       inventoryView.render()
       done()
-    
+
   it 'selects a slot when you click it', ->
     inventoryView.getSlot('eyes').click()
     expect(inventoryView.getSelectedSlot().data('slot')).toBe('eyes')
-    
+
   it 'unselects a selected slot when you click it', ->
     inventoryView.getSlot('eyes').click().click()
     expect(inventoryView.getSelectedSlot().data('slot')).toBeUndefined()
-    
+
   it 'selects an available item when you click it', ->
-    inventoryView.getAvailableItemContainer('boots-of-leaping-id').click()
-    expect(inventoryView.getSelectedAvailableItemContainer().data('item-id')).toBe('boots-of-leaping-id')
-    
+    inventoryView.getAvailableItemContainer('boots-of-leaping').click()
+    expect(inventoryView.getSelectedAvailableItemContainer().data('item-id')).toBe('boots-of-leaping')
+
   it 'equips an available item when you double click it', ->
-    inventoryView.getAvailableItemContainer('crossbow-id').click().dblclick()
+    inventoryView.getAvailableItemContainer('crossbow').click().dblclick()
     expect(inventoryView.getCurrentEquipmentConfig()['right-hand']).toBeTruthy()
-    
-  it 'unequips an itm when you double click it', ->
+
+  it 'unequips an item when you double click it', ->
     inventoryView.getSlot('eyes').find('.item-view').click().dblclick()
     expect(inventoryView.getCurrentEquipmentConfig().eyes).toBeUndefined()
-    
-  describe 'swap button', ->
-    it 'does nothing if nothing is selected', ->
-      inventoryView.$el.find('#swap-button').click()
-      expect(inventoryView.getSelectedSlot()[0]).toBeFalsy()
-      expect(inventoryView.getSelectedAvailableItemContainer()[0]).toBeFalsy()
-      
-    it 'unequips and selects the unequipped item if just an equipped slot is chosen', ->
-      expect(inventoryView.getCurrentEquipmentConfig().eyes).toBeTruthy()
-      slot = inventoryView.getSlot('eyes')
-      inventoryView.selectSlot(slot)
-      inventoryView.$el.find('#swap-button').click()
-      expect(inventoryView.getCurrentEquipmentConfig().eyes).toBeUndefined()
-      expect(inventoryView.getSelectedAvailableItemContainer().data('item-id')).toBe('crude-glasses-id')
-      
-    it 'equips the selected item if just an available item is selected', ->
-      expect(inventoryView.getCurrentEquipmentConfig()['right-hand']).toBeUndefined()
-      inventoryView.getAvailableItemContainer('crossbow-id').click()
-      inventoryView.$el.find('#swap-button').click()
-      expect(inventoryView.getCurrentEquipmentConfig()['right-hand']).toBeTruthy()
-      expect(inventoryView.getSelectedAvailableItemContainer().data('item-id')).toBeUndefined()
-      expect(inventoryView.getSelectedSlot().data('slot')).toBe('right-hand')
-
-    it 'swaps items if both a slot and item are selected, and keeps them selected', ->
-      inventoryView.getAvailableItemContainer('boots-of-leaping-id').click()
-      inventoryView.getSlot('feet').click()
-      inventoryView.$el.find('#swap-button').click()
-      expect(inventoryView.getCurrentEquipmentConfig()['feet']).toBe('boots-of-leaping')
-      expect(inventoryView.getSelectedAvailableItemContainer().data('item-id')).toBe('boots-id')
-      expect(inventoryView.getSelectedSlot().data('slot')).toBe('feet')

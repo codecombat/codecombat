@@ -17,6 +17,8 @@ UserSchema = c.object
     simulatedBy: 0
     simulatedFor: 0
     jobProfile: {}
+    earned: {heroes: [], items: [], levels: [], gems: 0}
+    purchased: {heroes: [], items: [], levels: [], gems: 0}
 
 c.extendNamedProperties UserSchema  # let's have the name be the first property
 
@@ -106,8 +108,8 @@ _.extend UserSchema.properties,
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  aceConfig: c.object { default: { language: 'javascript', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['javascript', 'coffeescript', 'python', 'clojure', 'lua', 'io']}
+  aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
+    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'clojure', 'lua', 'io']}
     keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}
     invisibles: {type: 'boolean' }
     indentGuides: {type: 'boolean' }
@@ -265,6 +267,8 @@ _.extend UserSchema.properties,
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
 
+  earned: c.RewardSchema 'earned by achievements'
+  purchased: c.RewardSchema 'purchased with gems'
 
 c.extendBasicProperties UserSchema, 'user'
 

@@ -18,6 +18,7 @@ me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
 # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
 me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)
+me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
 me.int = (ext) -> combine {type: 'integer'}, ext
 me.float = (ext) -> combine {type: 'number'}, ext
@@ -171,7 +172,7 @@ me.FunctionArgumentSchema = me.object {
         description: 'Examples by code language.',
         additionalProperties: me.shortString(description: 'Example value for the argument.')
         format: 'code-languages-object'
-        default: {javascript: ''}
+        default: {javascript: '', python: ''}
       }
       me.shortString(title: 'Example', description: 'Example value for the argument.')
     ]
@@ -183,7 +184,7 @@ me.FunctionArgumentSchema = me.object {
         description: 'Example argument descriptions by code language.',
         additionalProperties: {type: 'string', description: 'Description of the argument.', maxLength: 1000}
         format: 'code-languages-object'
-        default: {javascript: ''}
+        default: {javascript: '', python: ''}
       }
       {title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000}
     ]
@@ -209,3 +210,16 @@ me.HeroConfigSchema = me.object {description: 'Which hero the player is using, e
     description: 'The inventory of the hero: slots to item ThangTypes.'
     additionalProperties: me.objectId(description: 'An item ThangType.')
   thangType: me.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type')
+
+me.RewardSchema = (descriptionFragment='earned by achievements') ->
+  type: 'object'
+  additionalProperties: false
+  description: "Rewards #{descriptionFragment}."
+  properties:
+    heroes: me.array {uniqueItems: true, description: "Heroes #{descriptionFragment}."},
+      me.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Hero ThangType', description: 'A reference to the earned hero ThangType.', format: 'thang-type')
+    items: me.array {uniqueItems: true, description: "Items #{descriptionFragment}."},
+      me.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type')
+    levels: me.array {uniqueItems: true, description: "Levels #{descriptionFragment}."},
+      me.stringID(links: [{rel: 'db', href: '/db/level/{($)}/version'}], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference')
+    gems: me.int {description: "Gems #{descriptionFragment}."}

@@ -117,6 +117,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     adventurer_forum: "冒険者の掲示板"
 #    adventurer_suffix: "."
     campaign_beginner: "初心者のキャンペーン"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "プログラミングの魔法を学びましょう"
     campaign_dev: "いろんな難しいレベル"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "呪文を選択"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "誰かを選択: "
     tome_available_spells: "利用できる呪文"
 #    tome_your_skills: "Your Skills"

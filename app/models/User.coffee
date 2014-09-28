@@ -64,3 +64,15 @@ module.exports = class User extends CocoModel
 
   level: ->
     User.levelFromExp(@get('points'))
+
+  gems: ->
+    gemsEarned = @get('earned')?.gems ? 0
+    purchased = @get('purchased') ? {}
+    gemsPurchased = purchased.gems ? 0
+    sum = (arr) -> arr?.reduce((a, b) -> a + b) ? 0
+    gemsSpent = sum(purchased.heroes) + sum(purchased.items) + sum(purchased.levels)
+    gemsEarned + gemsPurchased - gemsSpent
+
+  earnedHero: (heroOriginal) -> heroOriginal in (me.get('earned')?.heroes ? [])
+  earnedItem: (itemOriginal) -> itemOriginal in (me.get('earned')?.items ? [])
+  earnedLevel: (levelOriginal) -> levelOriginal in (me.get('earned')?.levels ? [])

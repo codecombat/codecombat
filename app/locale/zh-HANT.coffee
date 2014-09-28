@@ -117,6 +117,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     adventurer_forum: "冒險家論壇"
     adventurer_suffix: "."
     campaign_beginner: "新手指南"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "...在這裡可以學到編程技巧。"
     campaign_dev: "隨機關卡"
     campaign_dev_description: "...在這裡你可以學到做一些較複雜的程式技巧。"
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "選擇一個法術"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "選擇一個人物來施放"
     tome_available_spells: "可用的法術"
 #    tome_your_skills: "Your Skills"

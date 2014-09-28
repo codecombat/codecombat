@@ -52,8 +52,15 @@ $gameControlMargin: 30px
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
 
-      &.disabled
+      &.disabled, &.locked
+        background-image: url(/images/pages/game-menu/lock.png)
+        background-size: 75%
+        background-repeat: no-repeat
+        background-position: 50% 50%
         opacity: 0.7
+
+        a
+          cursor: default
 
       &.next
         width: 2 * $levelDotWidth
@@ -151,7 +158,7 @@ $gameControlMargin: 30px
     bottom: 1%
     z-index: 3
 
-    button.btn
+    .btn
       &:not(:first-child)
         margin-left: $gameControlMargin
       width: $gameControlSize
@@ -180,3 +187,32 @@ $gameControlMargin: 30px
 
     .tooltip
       font-size: 24px
+
+  .old-levels
+    position: absolute
+    bottom: 1%
+    left: 1%
+    z-index: 3
+
+    a
+      font-size: 24px
+      color: #eee
+      text-decoration: underline
+
+      &:hover
+        color: white
+        text-shadow: 1px 1px 0px black
+
+  .user-status
+    position: absolute
+    bottom: 1%
+    left: 50%
+    width: 400px
+    margin-left: -200px
+    text-align: center
+    font-size: 24px
+    color: white
+    text-shadow: 1px 1px 0px black
+
+    button
+      margin-left: 10px

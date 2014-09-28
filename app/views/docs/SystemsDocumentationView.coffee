@@ -35,7 +35,7 @@ module.exports = class SystemsDocumentationView extends CocoView
     c = super()
     c.systems = @systemDocs.models
     c.marked = marked
-    c.codeLanguage = me.get('aceConfig')?.language ? 'javascript'
+    c.codeLanguage = me.get('aceConfig')?.language ? 'python'
     c
 
   onToggleAllCode: (e) ->

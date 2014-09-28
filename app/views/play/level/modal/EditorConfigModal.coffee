@@ -8,7 +8,7 @@ module.exports = class EditorConfigModal extends ModalView
   aceConfig: {}
 
   defaultConfig:
-    language: 'javascript'
+    language: 'python'
     keyBindings: 'default'
     invisibles: false
     indentGuides: false
@@ -32,9 +32,9 @@ module.exports = class EditorConfigModal extends ModalView
     @aceConfig = _.defaults @aceConfig, @defaultConfig
     c = super()
     c.languages = [
+      {id: 'python', name: 'Python'}
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript'}
-      {id: 'python', name: 'Python (Experimental)'}
       {id: 'clojure', name: 'Clojure (Experimental)'}
       {id: 'lua', name: 'Lua (Experimental)'}
       {id: 'io', name: 'Io (Experimental)'}

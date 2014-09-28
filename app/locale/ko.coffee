@@ -117,6 +117,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     adventurer_forum: "모험가들의 포럼"
     adventurer_suffix: "."
     campaign_beginner: "초보자 캠페인"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... 이곳에서 당신은 프로그래밍의 마법을 배우게 될 것입니다."
     campaign_dev: "상급 레벨 랜덤 선택"
     campaign_dev_description: "... 이곳에서 당신은 조금 더 어려운 레벨에 도전할때 필요한 조작 방법을 배울 것입니다."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    next: "Next"
 #    previous: "Previous"
 #    choose_inventory: "Equip Items"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
 #  items:
 #    armor: "Armor"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-    tome_select_spell: "마법을 선택 하세요"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "누군가를 선택하세요. "
     tome_available_spells: "사용 가능한 마법"
 #    tome_your_skills: "Your Skills"

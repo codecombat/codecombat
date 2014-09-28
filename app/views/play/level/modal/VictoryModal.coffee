@@ -68,7 +68,7 @@ module.exports = class VictoryModal extends ModalView
   onClickWorldMap: (e) ->
     e.preventDefault()
     e.stopImmediatePropagation()
-    Backbone.Mediator.publish 'router:navigate', route: '/play-hero', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
+    Backbone.Mediator.publish 'router:navigate', route: '/play', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"

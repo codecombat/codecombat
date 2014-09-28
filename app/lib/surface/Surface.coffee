@@ -146,10 +146,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   setWorld: (@world) ->
     @worldLoaded = true
-    lastFrame = Math.min(@getCurrentFrame(), @world.frames.length - 1)
-    @world.getFrame(lastFrame).restoreState() unless @options.choosing
     @spriteBoss.world = @world
-
+    @restoreWorldState() unless @options.choosing
     @showLevel()
     @updateState true if @loaded
     @onFrameChanged()

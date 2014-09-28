@@ -93,7 +93,7 @@ LevelHandler = class LevelHandler extends Handler
         access: 'write'
       }
     ]
-    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'javascript'
+    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'python'
     session = new Session(initVals)
 
     session.save (err) =>

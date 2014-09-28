@@ -117,6 +117,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     adventurer_forum: "fórum do Aventureiro"
     adventurer_suffix: "."
     campaign_beginner: "Campanha para Iniciantes"
+#    campaign_old_beginner: "Old Beginner Campaign"
     campaign_beginner_description: "... onde aprendes a magia da programação."
     campaign_dev: "Níveis mais Difíceis Aleatórios"
     campaign_dev_description: "... onde aprendes a interface enquanto fazes coisas um bocadinho mais difíceis."
@@ -139,6 +140,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     next: "Seguinte"
     previous: "Anterior"
     choose_inventory: "Equipar Itens"
+#    older_campaigns: "Older Campaigns"
+#    anonymous: "Anonymous Player"
 
   items:
     armor: "Armadura"
@@ -416,7 +419,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_running: "A Correr"
     tome_cast_button_ran: "Corrido"
     tome_submit_button: "Submeter"
-    tome_select_spell: "Seleciona um Feitiço"
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+#    tome_select_method: "Select a Method"
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Seleciona Alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"

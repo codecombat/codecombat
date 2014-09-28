@@ -258,7 +258,7 @@ class JavaScriptTreema extends CodeTreema
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
   findLanguageName: (languageCode) ->
-    # to get around mongoose emtpy object bug, there's a prop in the object which needs to be ignored
+    # to get around mongoose empty object bug, there's a prop in the object which needs to be ignored
     return '' if languageCode is '-'
     locale[languageCode]?.nativeDescription or "#{languageCode} Not Found"
 
@@ -360,11 +360,14 @@ class LatestVersionReferenceNode extends TreemaNode
     return 'Unknown' unless @settings.supermodel?
     m = CocoModel.getReferencedModel(@getData(), @workingSchema)
     data = @getData()
-    m = @settings.supermodel.getModelByOriginalAndMajorVersion(m.constructor, data.original, data.majorVersion)
+    if _.isString data  # LatestVersionOriginalReferenceNode just uses original
+      m = @settings.supermodel.getModelByOriginal(m.constructor, data)
+    else
+      m = @settings.supermodel.getModelByOriginalAndMajorVersion(m.constructor, data.original, data.majorVersion)
     if @instance and not m
       m = @instance
       @settings.supermodel.registerModel(m)
-    return 'Unknown' unless m
+    return 'Unknown - ' + (data.original ? data) unless m
     return @modelToString(m)
 
   saveChanges: ->
@@ -409,6 +412,15 @@ class LatestVersionReferenceNode extends TreemaNode
     selected = @getSelectedResultEl()
     return not selected.length
 
+class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode
+  # Just for saving the original, not the major version.
+  saveChanges: ->
+    selected = @getSelectedResultEl()
+    return unless selected.length
+    fullValue = selected.data('value')
+    @data = fullValue.attributes.original
+    @instance = fullValue
+
 class LevelComponentReferenceNode extends LatestVersionReferenceNode
   # HACK: this list of properties is needed by the thang components edit view and config views.
   # need a better way to specify this, or keep the search models from bleeding into those
@@ -436,6 +448,7 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('javascript', JavaScriptTreema)
   TreemaNode.setNodeSubclass('image-file', ImageFileTreema)
   TreemaNode.setNodeSubclass('latest-version-reference', LatestVersionReferenceNode)
+  TreemaNode.setNodeSubclass('latest-version-original-reference', LatestVersionOriginalReferenceNode)
   TreemaNode.setNodeSubclass('component-reference', LevelComponentReferenceNode)
   TreemaNode.setNodeSubclass('i18n', InternationalizationNode)
   TreemaNode.setNodeSubclass('sound-file', SoundFileTreema)

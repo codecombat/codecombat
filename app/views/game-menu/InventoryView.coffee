@@ -311,7 +311,7 @@ module.exports = class InventoryView extends CocoView
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-    necessaryGear = gearByLevel[@options.levelID]
+    return unless necessaryGear = gearByLevel[@options.levelID]
     for slot, item of necessaryGear ? {}
       @equipment[slot] ?= gear[item]
 
@@ -321,6 +321,8 @@ module.exports = class InventoryView extends CocoView
       for slot, item of items
         @allowedItems.push gear[item] unless gear[item] in @allowedItems
       break if level is @options.levelID
+    for item in me.get('earned')?.items ? [] when not (item in @allowedItems)
+      @allowedItems.push item
 
   onHeroSelectionUpdated: (e) ->
     @selectedHero = e.hero

@@ -77,15 +77,21 @@ class EarnedAchievementHandler extends Handler
         EarnedAchievement.find {user: userID}, (err, alreadyEarned) ->
           alreadyEarnedIDs = []
           previousPoints = 0
+          previousRewards = heroes: [], items: [], levels: [], gems: 0
           async.each alreadyEarned, ((earned, doneWithEarned) ->
             if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString()) # if already earned
               alreadyEarnedIDs.push earned.get('achievement')
               previousPoints += earned.get 'earnedPoints'
+              for rewardType in ['heroes', 'items', 'levels']
+                previousRewards[rewardType] = previousRewards[rewardType].concat(earned.get('earnedRewards')?[rewardType] ? [])
+              previousRewards.gems += earned.get('earnedRewards')?.gems ? 0
             doneWithEarned()
-          ), -> # After checking already achieved
+          ), (err) -> # After checking already achieved
+            log.error err if err
             # TODO maybe also delete earned? Make sure you don't delete too many
 
             newTotalPoints = 0
+            newTotalRewards = heroes: [], items: [], levels: [], gems: 0
 
             async.each achievements, ((achievement, doneWithAchievement) ->
               return doneWithAchievement() unless achievement.isRecalculable()
@@ -122,17 +128,43 @@ class EarnedAchievementHandler extends Handler
                 earned.earnedPoints = newPoints
                 newTotalPoints += newPoints
 
+                earned.earnedRewards = achievement.get('rewards')
+                for rewardType in ['heroes', 'items', 'levels']
+                  newTotalRewards[rewardType] = newTotalRewards[rewardType].concat(achievement.get('rewards')?[rewardType] ? [])
+                newTotalRewards.gems += achievement.get('rewards')?.gems ? 0
+
                 EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
                   doneWithAchievement err
-            ), -> # Wrap up a user, save points
+            ), (err) -> # Wrap up a user, save points
+              log.error err if err
               # Since some achievements cannot be recalculated it's important to deduct the old amount of exp
               # and add the new amount, instead of just setting to the new amount
-              return doneWithUser(user) unless newTotalPoints
+              #console.log 'User', user.get('name'), 'had newTotalPoints', newTotalPoints, 'and newTotalRewards', newTotalRewards
+              return doneWithUser(user) unless newTotalPoints or newTotalRewards.gems or _.some(newTotalRewards, (r) -> r.length)
 #              log.debug "Matched a total of #{newTotalPoints} new points"
 #              log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
               pctDone = (100 * usersFinished / total).toFixed(2)
               console.log "Updated points to #{newTotalPoints}(+#{newTotalPoints - previousPoints}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
-              User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, (err) ->
+              update = {$inc: {points: newTotalPoints - previousPoints}}
+              for rewardType, rewards of newTotalRewards
+                if rewardType is 'gems'
+                  update.$inc['earned.gems'] = rewards - previousRewards.gems
+                else
+                  previousCounts = _.countBy previousRewards[rewardType]
+                  newCounts = _.countBy rewards
+                  relevantRewards = _.union _.keys(previousCounts), _.keys(newCounts)
+                  for reward in relevantRewards
+                    [previousCount, newCount] = [previousCounts[reward], newCounts[reward]]
+                    if newCount and not previousCount
+                      update.$addToSet ?= {}
+                      update.$addToSet["earned.#{rewardType}"] ?= {$each: []}
+                      update.$addToSet["earned.#{rewardType}"].$each.push reward
+                    else if previousCount and not newCount
+                      # Might $pull $each also work here?
+                      update.$pullAll ?= {}
+                      update.$pullAll["earned.#{rewardType}"] ?= []
+                      update.$pullAll["earned.#{rewardType}"].push reward
+              User.update {_id: userID}, update, {}, (err) ->
                 log.error err if err?
                 doneWithUser(user)
 

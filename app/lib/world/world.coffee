@@ -98,6 +98,10 @@ module.exports = class World
     continueLaterFn = =>
       @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
+      if @levelID in ['the-first-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze']
+        @realTimeSpeedFactor = 3
+      else
+        @realTimeSpeedFactor = 1
       return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
     t1 = now()
     @t0 ?= t1
@@ -136,18 +140,18 @@ module.exports = class World
 
   shouldDelayRealTimeSimulation: (t) ->
     return false unless @realTime
-    timeSinceStart = t - @worldLoadStartTime
+    timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     timeLoaded = @frames.length * @dt * 1000
     timeBuffered = timeLoaded - timeSinceStart
-    timeBuffered > REAL_TIME_BUFFER_MAX
+    timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
     return false if @frames.length * @dt is @lastRealTimeUpdate
     timeLoaded = @frames.length * @dt * 1000
-    timeSinceStart = t - @worldLoadStartTime
+    timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
-    remainingBuffer < REAL_TIME_BUFFER_MIN
+    remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
@@ -192,6 +196,7 @@ module.exports = class World
     @flagHistory.push flagEvent
 
   loadFromLevel: (level, willSimulate=true) ->
+    @levelID = level.slug
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
     @loadSystemsFromLevel level

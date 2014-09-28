@@ -10,12 +10,7 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click .code-language': 'onCodeLanguageSelected'
-
-  constructor: ->
-    super(arguments...)
-    ThangType.loadUniversalWizard()
-    @getCodeLanguageCounts()
+    'click #beginner-campaign': 'onClickBeginnerCampaign'
 
   getRenderData: ->
     c = super()
@@ -28,61 +23,9 @@ module.exports = class HomeView extends RootView
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
-    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
-    c.codeLanguageCountMap = @codeLanguageCountMap
     c
 
-  afterRender: ->
-    super()
-    @$el.find('.modal').on 'shown.bs.modal', ->
-      $('input:visible:first', @).focus()
-
-    # Try to find latest level and set 'Play' link to go to that level
-    lastLevel = me.get('lastLevel')
-    lastLevel ?= localStorage?['lastLevel']  # Temp, until it's migrated to user property
-    if lastLevel
-      playLink = @$el.find('#beginner-campaign')
-      if playLink[0]?
-        href = playLink.attr('href').split('/')
-        href[href.length-1] = lastLevel if href.length isnt 0
-        href = href.join('/')
-        playLink.attr('href', href)
-
-    codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
-    @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
-    @updateLanguageLogos codeLanguage
-
-  updateLanguageLogos: (codeLanguage) ->
-    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/common/code_languages/#{codeLanguage}_small.png)")
-
-  onCodeLanguageSelected: (e) ->
-    target = $(e.target).closest('.code-language')
-    codeLanguage = target.data('code-language')
-    @$el.find('.code-language').removeClass 'selected-language'
-    target.addClass 'selected-language'
-    aceConfig = me.get('aceConfig') ? {}
-    return if (aceConfig.language or 'javascript') is codeLanguage
-    aceConfig.language = codeLanguage
-    me.set 'aceConfig', aceConfig
-    me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once
-
-    firstButton = @$el.find('#beginner-campaign .game-mode-wrapper').delay(500).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
-    lastButton = @$el.find('#multiplayer .game-mode-wrapper').delay(1000).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
-    $('#page-container').animate {scrollTop: firstButton.offset().top - 100, easing: 'easeInOutCubic'}, 500
-    @updateLanguageLogos codeLanguage
-
-  getCodeLanguageCounts: ->
-    @codeLanguageCountMap = {}
-    success = (codeLanguageCounts) =>
-      return if @destroyed
-      for codeLanguage in codeLanguageCounts
-        @codeLanguageCountMap[codeLanguage._id] = codeLanguage.sessions
-      @codeLanguageCountMap.javascript += @codeLanguageCountMap[null]
-      @render() if @supermodel.finished()
-
-    codeLanguageCountsRequest = @supermodel.addRequestResource 'play_counts', {
-      url: '/db/level.session/-/code_language_counts'
-      method: 'POST'
-      success: success
-    }, 0
-    codeLanguageCountsRequest.load()
+  onClickBeginnerCampaign: (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    window.open '/play', '_blank'

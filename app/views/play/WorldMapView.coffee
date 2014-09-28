@@ -33,9 +33,13 @@ module.exports = class WorldMapView extends RootView
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
+    @playAmbientSound()
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
+    if ambientSound = @ambientSound
+      # Doesn't seem to work; stops immediately.
+      createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     super()
 
   getLevelPlayCounts: ->
@@ -61,9 +65,11 @@ module.exports = class WorldMapView extends RootView
     context = super(context)
     context.campaigns = campaigns
     for campaign in context.campaigns
-      for level in campaign.levels
+      for level, index in campaign.levels
         level.x ?= 10 + 80 * Math.random()
         level.y ?= 10 + 80 * Math.random()
+        #level.locked = index > 0 and not me.earnedLevel level.original
+        level.locked = false  # Not working yet, but time for sleep.
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
@@ -73,7 +79,7 @@ module.exports = class WorldMapView extends RootView
     super()
     @onWindowResize()
     unless application.isIPadApp
-      _.defer => @$el.find('.game-controls button').tooltip()  # Have to defer or i18n doesn't take effect.
+      _.defer => @$el.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
       @$el.find('.level').tooltip()
 
   onSessionsLoaded: (e) ->
@@ -92,7 +98,7 @@ module.exports = class WorldMapView extends RootView
     e.preventDefault()
     e.stopPropagation()
     @$levelInfo?.hide()
-    return if $(e.target).attr('disabled')
+    return if $(e.target).attr('disabled') or $(e.target).parent().hasClass 'locked'
     if application.isIPadApp
       levelID = $(e.target).parents('.level').data('level-id')
       @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -155,6 +161,19 @@ module.exports = class WorldMapView extends RootView
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
+
+  playAmbientSound: ->
+    return if @ambientSound
+    terrain = 'Grass'
+    return unless file = {Dungeon: 'ambient-map-dungeon', Grass: 'ambient-map-grass'}[terrain]
+    src = "/file/interface/#{file}#{AudioPlayer.ext}"
+    unless AudioPlayer.getStatus(src)?.loaded
+      AudioPlayer.preloadSound src
+      Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
+      return
+    @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
+    createjs.Tween.get(@ambientSound).to({volume: 1.0}, 1000)
+
 
 tutorials = [
   {
@@ -498,6 +517,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'dungeons-of-kithgard'
+    original: '528110f30268d018e3000001'
     description: 'Grab the gem, but touch nothing else. Start here.'
     x: 17.23
     y: 36.94
@@ -507,6 +527,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'gems-in-the-deep'
+    original: '54173c90844506ae0195a0b4'
     description: 'Quickly collect the gems; you will need them.'
     x: 22.6
     y: 35.1
@@ -516,6 +537,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'shadow-guard'
+    original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
     x: 27.74
     y: 35.17
@@ -525,6 +547,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'true-names'
+    original: '541875da4c16460000ab990f'
     description: 'Learn an enemy\'s true name to defeat it.'
     x: 32.7
     y: 36.7
@@ -534,6 +557,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'the-raised-sword'
+    original: '5418aec24c16460000ab9aa6'
     description: 'Learn to equip yourself for combat.'
     x: 36.6
     y: 39.5
@@ -543,6 +567,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'the-first-kithmaze'
+    original: '5418b9d64c16460000ab9ab4'
     description: 'The builders of Kith constructed many mazes to confuse travelers.'
     x: 38.4
     y: 43.5
@@ -552,6 +577,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'the-second-kithmaze'
+    original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
     x: 38.9
     y: 48.1
@@ -561,6 +587,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'new-sight'
+    original: '5418d40f4c16460000ab9ac2'
     description: 'A true name can only be seen with the correct lenses.'
     x: 39.3
     y: 53.1
@@ -570,6 +597,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'lowly-kithmen'
+    original: '541b24511ccc8eaae19f3c1f'
     description: 'Use your glasses to seek out and attack the Kithmen.'
     x: 39.4
     y: 57.7
@@ -579,6 +607,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'a-bolt-in-the-dark'
+    original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
     x: 40.0
     y: 63.2
@@ -588,6 +617,7 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'the-final-kithmaze'
+    original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
     x: 42.67
     y: 67.98
@@ -597,18 +627,22 @@ hero = [
     type: 'hero'
     difficulty: 1
     id: 'kithgard-gates'
+    original: '541c9a30c6362edfb0f34479'
     description: 'Escape the Kithgard dungeons and don\'t let the guardians get you.'
     x: 47.38
     y: 70.55
+    disabled: true
   }
   {
     name: 'Defence of Plainswood'
     type: 'hero'
     difficulty: 1
     id: 'defence-of-plainswood'
+    original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
     x: 52.66
     y: 69.66
+    disabled: true
   }
   #{
   #  name: ''

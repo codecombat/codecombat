@@ -50,12 +50,20 @@ AchievablePlugin = (schema, options) ->
             user: userID
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
+            earnedRewarsd: achievement.get 'rewards'
 
           worth = achievement.get('worth') ? 10
           earnedPoints = 0
           wrapUp = ->
             # Update user's experience points
-            User.update {_id: userID}, {$inc: {points: earnedPoints}}, {}, (err, count) ->
+            update = {$inc: {points: earnedPoints}}
+            for rewardType, rewards of achievement.get('rewards') ? {}
+              if rewardType is 'gems'
+                update.$inc['earned.gems'] = rewards if rewards
+              else if rewards.length
+                update.$addToSet ?= {}
+                update.$addToSet["earned.#{rewardType}"] = $each: rewards
+            User.update {_id: userID}, update, {}, (err, count) ->
               log.error err if err?
 
           if isRepeatable
