@@ -334,7 +334,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering containers for segmented thang types
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
-    console.log 'rendering segmented thang type'
     containersToRender = {}
     for actionName in actionNames
       action = _.find(thangType.getActions(), {name: actionName})
@@ -365,7 +364,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering sprite sheets for singular thang types
       
   renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
-    console.log 'rendering singular thang type'
     actionObjects = _.values(thangType.getActions())
     animationActions = []
     for a in actionObjects

@@ -1,6 +1,6 @@
 LayerAdapter = require 'lib/surface/LayerAdapter'
 SegmentedSprite = require 'lib/surface/SegmentedSprite'
-CocoSprite = require 'lib/surface/CocoSprite'
+Lank = require 'lib/surface/Lank'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
@@ -40,8 +40,8 @@ describe 'SegmentedSprite', ->
       layer.buildAsync = false
       treeThangType.markToRevert()
       treeThangType.set('spriteType', 'segmented')
-      sprite = new CocoSprite(treeThangType)
-      layer.addCocoSprite(sprite)
+      sprite = new Lank(treeThangType)
+      layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(treeThangType) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, treeThangType, prefix)
@@ -103,8 +103,8 @@ describe 'SegmentedSprite', ->
       actions.head = {container:'head', name:'head'}
       
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
-      sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
-      layer.addCocoSprite(sprite)
+      sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
+      layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreMunchkinThangType, prefix)
@@ -195,8 +195,8 @@ describe 'SegmentedSprite', ->
       ogreFangriderThangType.markToRevert()
       ogreFangriderThangType.set('spriteType', 'segmented')
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
-      sprite = new CocoSprite(ogreFangriderThangType, {colorConfig: colorConfig})
-      layer.addCocoSprite(sprite)
+      sprite = new Lank(ogreFangriderThangType, {colorConfig: colorConfig})
+      layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreFangriderThangType, null, colorConfig) + '.'
       window.segmentedSprite = segmentedSprite = new SegmentedSprite(sheet, ogreFangriderThangType, prefix)

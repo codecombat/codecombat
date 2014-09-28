@@ -1,6 +1,6 @@
 LayerAdapter = require 'lib/surface/LayerAdapter'
 SingularSprite = require 'lib/surface/SingularSprite'
-CocoSprite = require 'lib/surface/CocoSprite'
+Lank = require 'lib/surface/Lank'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ThangType = require 'models/ThangType'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
@@ -45,8 +45,8 @@ describe 'SingularSprite', ->
       layer.buildAsync = false
       treeThangType.markToRevert()
       treeThangType.set('spriteType', 'singular')
-      sprite = new CocoSprite(treeThangType)
-      layer.addCocoSprite(sprite)
+      sprite = new Lank(treeThangType)
+      layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(treeThangType) + '.'
       window.singularSprite = singularSprite = new SingularSprite(sheet, treeThangType, prefix)
@@ -98,8 +98,8 @@ describe 'SingularSprite', ->
       actions = ogreMunchkinThangType.getActions()
 
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
-      sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
-      layer.addCocoSprite(sprite)
+      sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
+      layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       prefix = layer.renderGroupingKey(ogreMunchkinThangType, null, colorConfig) + '.'
       window.singularSprite = singularSprite = new SingularSprite(sheet, ogreMunchkinThangType, prefix)

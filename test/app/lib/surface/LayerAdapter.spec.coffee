@@ -1,5 +1,5 @@
 LayerAdapter = require 'lib/surface/LayerAdapter'
-CocoSprite = require 'lib/surface/CocoSprite'
+Lank = require 'lib/surface/Lank'
 ThangType = require 'models/ThangType'
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
@@ -15,16 +15,16 @@ describe 'LayerAdapter', ->
   it 'creates containers for animated actions if set to spriteType=segmented', ->
     ogreMunchkinThangType.set('spriteType', 'segmented')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
-    sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
+    layer.addLank(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(ogreMunchkinThangType, 'head', colorConfig)
     expect(key in sheet.getAnimations()).toBe(true)
 
   it 'creates the container for static actions if set to spriteType=segmented', ->
     treeThangType.set('spriteType', 'segmented')
-    sprite = new CocoSprite(treeThangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(treeThangType)
+    layer.addLank(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(treeThangType, 'Tree_4')
     expect(key in sheet.getAnimations()).toBe(true)
@@ -32,16 +32,16 @@ describe 'LayerAdapter', ->
   it 'creates animations for animated actions if set to spriteType=singular', ->
     ogreMunchkinThangType.set('spriteType', 'singular')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
-    sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
+    layer.addLank(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(ogreMunchkinThangType, 'idle', colorConfig)
     expect(key in sheet.getAnimations()).toBe(true)
 
   it 'creates animations for static actions if set to spriteType=singular', ->
     treeThangType.set('spriteType', 'singular')
-    sprite = new CocoSprite(treeThangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(treeThangType)
+    layer.addLank(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(treeThangType, 'idle')
     expect(key in sheet.getAnimations()).toBe(true)
@@ -50,8 +50,8 @@ describe 'LayerAdapter', ->
     layer.defaultActions = ['idle'] # uses the move side animation
     ogreMunchkinThangType.set('spriteType', 'singular')
     colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
-    sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(ogreMunchkinThangType, {colorConfig: colorConfig})
+    layer.addLank(sprite)
     sheet = layer.renderNewSpriteSheet()
     key = layer.renderGroupingKey(ogreMunchkinThangType, 'idle', colorConfig)
     animations = sheet.getAnimations()
@@ -63,8 +63,8 @@ describe 'LayerAdapter', ->
     bootsThangType = new ThangType(require 'test/app/fixtures/leather-boots.thang.type')
     bootsThangType.loadRasterImage()
     bootsThangType.once('raster-image-loaded', ->
-      sprite = new CocoSprite(bootsThangType)
-      layer.addCocoSprite(sprite)
+      sprite = new Lank(bootsThangType)
+      layer.addLank(sprite)
       sheet = layer.renderNewSpriteSheet()
       key = layer.renderGroupingKey(bootsThangType)
       expect(key in sheet.getAnimations()).toBe(true)
@@ -76,18 +76,18 @@ describe 'LayerAdapter', ->
       done()
     )
   
-  it 'loads ThangTypes for CocoSprites that are added to it and need to be loaded', ->
+  it 'loads ThangTypes for Lanks that are added to it and need to be loaded', ->
     thangType = new ThangType({_id: 1})
-    sprite = new CocoSprite(thangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(thangType)
+    layer.addLank(sprite)
     expect(layer.numThingsLoading).toBe(1)
     expect(jasmine.Ajax.requests.count()).toBe(1)
     
   it 'loads raster images for ThangType', ->
     bootsThangTypeData = require 'test/app/fixtures/leather-boots.thang.type'
     thangType = new ThangType({_id: 1})
-    sprite = new CocoSprite(thangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(thangType)
+    layer.addLank(sprite)
     expect(layer.numThingsLoading).toBe(1)
     spyOn(thangType, 'loadRasterImage')
     jasmine.Ajax.requests.sendResponses({'/db/thang.type/1': bootsThangTypeData})
@@ -103,9 +103,9 @@ describe 'LayerAdapter', ->
     bootsThangTypeData = require 'test/app/fixtures/leather-boots.thang.type'
     thangType1 = new ThangType({_id: 1})
     thangType2 = new ThangType({_id: 2})
-    layer.addCocoSprite(new CocoSprite(thangType1))
+    layer.addLank(new Lank(thangType1))
     expect(layer.numThingsLoading).toBe(1)
-    layer.addCocoSprite(new CocoSprite(thangType2))
+    layer.addLank(new Lank(thangType2))
     expect(layer.numThingsLoading).toBe(2)
     spyOn(thangType2, 'loadRasterImage')
     spyOn layer, '_renderNewSpriteSheet'
@@ -122,8 +122,8 @@ describe 'LayerAdapter', ->
 
   it 'recycles *containers* from previous sprite sheets, rather than building repeatedly from raw vector data', ->
     treeThangType.set('spriteType', 'segmented')
-    sprite = new CocoSprite(treeThangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(treeThangType)
+    layer.addLank(sprite)
     spyOn(SpriteBuilder.prototype, 'buildContainerFromStore').and.callThrough()
     for i in _.range(2)
       sheet = layer.renderNewSpriteSheet()
@@ -131,8 +131,8 @@ describe 'LayerAdapter', ->
 
   it '*does not* recycle *containers* from previous sprite sheets when the resolutionFactor has changed', ->
     treeThangType.set('spriteType', 'segmented')
-    sprite = new CocoSprite(treeThangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(treeThangType)
+    layer.addLank(sprite)
     spyOn(SpriteBuilder.prototype, 'buildContainerFromStore').and.callThrough()
     for i in _.range(2)
       layer.resolutionFactor *= 1.1
@@ -141,8 +141,8 @@ describe 'LayerAdapter', ->
 
   it 'recycles *animations* from previous sprite sheets, rather than building repeatedly from raw vector data', ->
     ogreMunchkinThangType.set('spriteType', 'singular')
-    sprite = new CocoSprite(ogreMunchkinThangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(ogreMunchkinThangType)
+    layer.addLank(sprite)
     numFrameses = []
     spyOn(SpriteBuilder.prototype, 'buildMovieClip').and.callThrough()
     for i in _.range(2)
@@ -157,8 +157,8 @@ describe 'LayerAdapter', ->
 
   it '*does not* recycles *animations* from previous sprite sheets when the resolutionFactor has changed', ->
     ogreMunchkinThangType.set('spriteType', 'singular')
-    sprite = new CocoSprite(ogreMunchkinThangType)
-    layer.addCocoSprite(sprite)
+    sprite = new Lank(ogreMunchkinThangType)
+    layer.addLank(sprite)
     spyOn(SpriteBuilder.prototype, 'buildMovieClip').and.callThrough()
     for i in _.range(2)
       layer.resolutionFactor *= 1.1
