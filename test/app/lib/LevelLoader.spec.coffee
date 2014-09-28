@@ -99,14 +99,14 @@ describe 'LevelLoader', ->
       requests = jasmine.Ajax.requests.all()
       urls = (r.url for r in requests)
       expect('/db/thang.type/gloves/version?project=name,components,original' in urls).toBeTruthy()
-      expect('/db/thang.type/anya/version?project=name,components,original' in urls).toBeTruthy()
+      expect('/db/thang.type/anya/version' in urls).toBeTruthy()
 
     it 'loads components for the hero in the heroConfig in the given session', ->
       levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
       session = new LevelSession(sessionWithAnyaWithGloves)
       levelLoader.loadDependenciesForSession(session)
       responses = {
-        '/db/thang.type/anya/version?project=name,components,original': thangTypeAnyaWithJumpsComponent
+        '/db/thang.type/anya/version': thangTypeAnyaWithJumpsComponent
       }
       jasmine.Ajax.requests.sendResponses(responses)
       requests = jasmine.Ajax.requests.all()
@@ -121,11 +121,11 @@ describe 'LevelLoader', ->
       jasmine.Ajax.requests.sendResponses(responses)
       responses = '/db/level_session/id': sessionWithTharinWithHelmet
       jasmine.Ajax.requests.sendResponses(responses)
-      numRequestsBefore = jasmine.Ajax.requests.count()
 
       # then try to load Tharin some more
       session = new LevelSession(sessionWithTharinWithHelmet)
       levelLoader.loadDependenciesForSession(session)
+      numRequestsBefore = jasmine.Ajax.requests.count()
       levelLoader.loadDependenciesForSession(session)
       levelLoader.loadDependenciesForSession(session)
       numRequestsAfter = jasmine.Ajax.requests.count()
