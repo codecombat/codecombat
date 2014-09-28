@@ -118,7 +118,7 @@ module.exports = class LevelHUDView extends CocoView
         @listeningToCreateAvatar = true
       return
     @listeningToCreateAvatar = false
-    options = thang.getSpriteOptions() or {}
+    options = thang.getLankOptions() or {}
     options.async = false
     options.colorConfig = colorConfig if colorConfig
     wrapper = @$el.find '.thang-canvas-wrapper'

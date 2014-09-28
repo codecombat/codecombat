@@ -14,7 +14,7 @@ WaitingScreen = require './WaitingScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 CoordinateGrid = require './CoordinateGrid'
-SpriteBoss = require './SpriteBoss'
+LankBoss = require './LankBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
@@ -30,7 +30,7 @@ module.exports = Surface = class Surface extends CocoClass
   screenLayer: null
   gridLayer: null
 
-  spriteBoss: null
+  lankBoss: null
 
   debugDisplay: null
   currentFrame: 0
@@ -111,7 +111,7 @@ module.exports = Surface = class Surface extends CocoClass
     canvasHeight = parseInt @normalCanvas.attr('height'), 10
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
 
-    @spriteBoss = new SpriteBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
+    @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer
     @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @waitingScreen = new WaitingScreen camera: @camera, layer: @screenLayer
@@ -146,7 +146,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   setWorld: (@world) ->
     @worldLoaded = true
-    @spriteBoss.world = @world
+    @lankBoss.world = @world
     @restoreWorldState() unless @options.choosing
     @showLevel()
     @updateState true if @loaded
@@ -156,15 +156,15 @@ module.exports = Surface = class Surface extends CocoClass
     return if @destroyed
     return if @loaded
     @loaded = true
-    @spriteBoss.createMarks()
-    @spriteBoss.createIndieSprites @world.indieSprites, @options.wizards
+    @lankBoss.createMarks()
+    @lankBoss.createIndieLanks @world.indieSprites, @options.wizards
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
     Backbone.Mediator.publish 'level:started', {}
 
   createOpponentWizard: (opponent) ->
-    @spriteBoss.createOpponentWizard opponent
+    @lankBoss.createOpponentWizard opponent
 
 
 
@@ -224,15 +224,15 @@ module.exports = Surface = class Surface extends CocoClass
       ratio = current % 1
       @world.frames[next].restorePartialState ratio if next > 1
     frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
-    @spriteBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
+    @lankBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
-    if @playing and @heroSprite and not @mouseIsDown and @camera.newTarget isnt @heroSprite.imageObject and @camera.target isnt @heroSprite.imageObject
-      @camera.zoomTo @heroSprite.imageObject, @camera.zoom, 750
+    if @playing and @heroSprite and not @mouseIsDown and @camera.newTarget isnt @heroSprite.sprite and @camera.target isnt @heroSprite.sprite
+      @camera.zoomTo @heroSprite.sprite, @camera.zoom, 750
     @camera.updateZoom()
-    @spriteBoss.update frameChanged
-    @dimmer?.setSprites @spriteBoss.sprites
+    @lankBoss.update frameChanged
+    @dimmer?.setSprites @lankBoss.sprites
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
@@ -288,12 +288,12 @@ module.exports = Surface = class Surface extends CocoClass
         frame = @world.getFrame(@getCurrentFrame())
         frame.restoreState()
         volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
-        sprite.playSounds false, volume for sprite in @spriteBoss.spriteArray
+        sprite.playSounds false, volume for sprite in @lankBoss.spriteArray
         tempFrame += if rising then 1 else -1
       @currentFrame = actualCurrentFrame
 
     @restoreWorldState()
-    @spriteBoss.update true
+    @lankBoss.update true
     @onFrameChanged()
 
   getCurrentFrame: ->
@@ -310,11 +310,11 @@ module.exports = Surface = class Surface extends CocoClass
     @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
     if paused
       @surfacePauseTimeout = _.delay performToggle, 2000
-      @spriteBoss.stop()
+      @lankBoss.stop()
       @playbackOverScreen.show()
     else
       performToggle()
-      @spriteBoss.play()
+      @lankBoss.play()
       @playbackOverScreen.hide()
 
 
@@ -327,7 +327,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
     Backbone.Mediator.publish('surface:frame-changed',
-      selectedThang: @spriteBoss.selectedSprite?.thang
+      selectedThang: @lankBoss.selectedSprite?.thang
       progress: progress
       frame: @currentFrame
       world: @world
@@ -365,7 +365,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onSetCamera: (e) ->
     if e.thangID
-      return unless target = @spriteBoss.spriteFor(e.thangID)?.imageObject
+      return unless target = @lankBoss.spriteFor(e.thangID)?.sprite
     else if e.pos
       target = @camera.worldToSurface e.pos
     else
@@ -383,7 +383,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if e.controls and not ('surface' in e.controls)
     @setDisabled true
     @dimmer ?= new Dimmer camera: @camera, layer: @screenLayer
-    @dimmer.setSprites @spriteBoss.sprites
+    @dimmer.setSprites @lankBoss.sprites
 
   onEnableControls: (e) ->
     return if e.controls and not ('surface' in e.controls)
@@ -393,7 +393,7 @@ module.exports = Surface = class Surface extends CocoClass
     @setDisabled e.on
 
   setDisabled: (@disabled) ->
-    @spriteBoss.disabled = @disabled
+    @lankBoss.disabled = @disabled
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
@@ -433,7 +433,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onStreamingWorldUpdated: (event) ->
     @casting = false
-    @spriteBoss.play()
+    @lankBoss.play()
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
@@ -535,7 +535,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   #- Camera focus on hero
   focusOnHero: ->
-    @heroSprite = @spriteBoss.spriteFor 'Hero Placeholder'
+    @heroSprite = @lankBoss.spriteFor 'Hero Placeholder'
 
 
   #- Real-time playback
@@ -547,18 +547,18 @@ module.exports = Surface = class Surface extends CocoClass
     return if @realTime
     @realTime = true
     @onResize()
-    @spriteBoss.selfWizardSprite?.toggle false
+    @lankBoss.selfWizardLank?.toggle false
     @playing = false  # Will start when countdown is done.
     if @heroSprite
       @previousCameraZoom = @camera.zoom
-      @camera.zoomTo @heroSprite.imageObject, 4, 3000
+      @camera.zoomTo @heroSprite.sprite, 4, 3000
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime
     @realTime = false
     @onResize()
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
-    @spriteBoss.selfWizardSprite?.toggle true
+    @lankBoss.selfWizardLank?.toggle true
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
     if @previousCameraZoom
       @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
@@ -569,22 +569,22 @@ module.exports = Surface = class Surface extends CocoClass
 
 
 
-  #- Paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
+  #- Paths - TODO: move to LankBoss? but only update on frame drawing instead of on every frame update?
 
   updatePaths: ->
     return # TODO: Get paths working again with WebGL
     return unless @options.paths
     return if @casting
     @hidePaths()
-    selectedThang = @spriteBoss.selectedSprite?.thang
+    selectedThang = @lankBoss.selectedSprite?.thang
     return if @world.showPaths is 'never'
     return if @world.showPaths is 'paused' and @playing
     return if @world.showPaths is 'selected' and not selectedThang
     @trailmaster ?= new path.Trailmaster @camera
     selectedOnly = @playing and @world.showPaths is 'selected'
-    @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @spriteBoss.sprites, selectedOnly
+    @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @lankBoss.sprites, selectedOnly
     @paths.name = 'paths'
-    @spriteBoss.spriteLayers['Path'].addChild @paths
+    @lankBoss.layerAdapters['Path'].addChild @paths
 
   hidePaths: ->
     return if not @paths
@@ -681,7 +681,7 @@ module.exports = Surface = class Surface extends CocoClass
     createjs.Ticker.removeEventListener('tick', @tick)
     createjs.Sound.stop()
     layer.destroy() for layer in @normalLayers
-    @spriteBoss.destroy()
+    @lankBoss.destroy()
     @chooser?.destroy()
     @dimmer?.destroy()
     @countdownScreen?.destroy()

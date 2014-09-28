@@ -44,7 +44,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
   defaultActions: ['idle', 'die', 'move', 'move', 'attack']
   numThingsLoading: 0
-  cocoSprites: null
+  lanks: null
   spriteSheet: null
   container: null
   customGraphics: null
@@ -70,7 +70,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @container = new createjs.SpriteContainer(@spriteSheet)
       @actionRenderState = {}
       @toRenderBundles = []
-      @cocoSprites = []
+      @lanks = []
       @initializing = false
 
     else
@@ -91,13 +91,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     # TODO: remove this z stuff
     az = a.z or 1000
     bz = b.z or 1000
-    if aSprite = a.sprite
-      if aThang = aSprite.thang
+    if aLank = a.lank
+      if aThang = aLank.thang
         aPos = aThang.pos
         if aThang.health < 0
           --az
-    if bSprite = b.sprite
-      if bThang = bSprite.thang
+    if bLank = b.lank
+      if bThang = bLank.thang
         bPos = bThang.pos
         if bThang.health < 0
           --bz
@@ -142,27 +142,27 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   #- Adding, removing children for WebGL layers.
         
-  addCocoSprite: (cocoSprite) ->
+  addLank: (lank) ->
     # TODO: Move this into the production DB rather than setting it dynamically.
-    if cocoSprite.thangType?.get('name') is 'Highlight'
-      cocoSprite.thangType.set('spriteType', 'segmented')
-    cocoSprite.options.resolutionFactor = @resolutionFactor
-    if cocoSprite.layer
-      console.warn 'CocoSprite being re-added to a layer?'
+    if lank.thangType?.get('name') is 'Highlight'
+      lank.thangType.set('spriteType', 'segmented')
+    lank.options.resolutionFactor = @resolutionFactor
+    if lank.layer
+      console.warn 'Lank being re-added to a layer?'
     
-    cocoSprite.layer = @
-    @listenTo(cocoSprite, 'action-needs-render', @onActionNeedsRender)
-    @cocoSprites.push cocoSprite
-    @loadThangType(cocoSprite.thangType)
-    @addDefaultActionsToRender(cocoSprite)
-    @setImageObjectToCocoSprite(cocoSprite)
+    lank.layer = @
+    @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
+    @lanks.push lank
+    @loadThangType(lank.thangType)
+    @addDefaultActionsToRender(lank)
+    @setSpriteToLank(lank)
     @updateLayerOrder()
-    cocoSprite.addHealthBar()
+    lank.addHealthBar()
 
-  removeCocoSprite: (cocoSprite) ->
-    @stopListening(cocoSprite)
-    @container.removeChild cocoSprite.imageObject
-    @cocoSprites = _.without @cocoSprites, cocoSprite
+  removeLank: (lank) ->
+    @stopListening(lank)
+    @container.removeChild lank.sprite
+    @lanks = _.without @lanks, lank
 
   #- Loading network resources dynamically
     
@@ -180,24 +180,24 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   somethingLoaded: (thangType) ->
     @numThingsLoading--
     @loadThangType(thangType) # might need to load the raster image object
-    for cocoSprite in @cocoSprites
-      if cocoSprite.thangType is thangType
-        @addDefaultActionsToRender(cocoSprite)
+    for lank in @lanks
+      if lank.thangType is thangType
+        @addDefaultActionsToRender(lank)
     @renderNewSpriteSheet()
 
   #- Adding to the list of things we need to render
     
-  onActionNeedsRender: (cocoSprite, action) ->
-    @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
+  onActionNeedsRender: (lank, action) ->
+    @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
-  addDefaultActionsToRender: (cocoSprite) ->
+  addDefaultActionsToRender: (lank) ->
     needToRender = false
-    if cocoSprite.thangType.get('raster')
-      @upsertActionToRender(cocoSprite.thangType)
+    if lank.thangType.get('raster')
+      @upsertActionToRender(lank.thangType)
     else
-      for action in _.values(cocoSprite.thangType.getActions())
+      for action in _.values(lank.thangType.getActions())
         continue unless _.any @defaultActions, (prefix) -> action.name.startsWith(prefix)
-        @upsertActionToRender(cocoSprite.thangType, action.name, cocoSprite.options.colorConfig)
+        @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
     groupKey = @renderGroupingKey(thangType, actionName, colorConfig)
@@ -279,10 +279,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @spriteSheet.resolutionFactor = @resolutionFactor
     oldLayer = @container 
     @container = new createjs.SpriteContainer(@spriteSheet)
-    for cocoSprite in @cocoSprites
-      console.log 'zombie sprite found on layer', @name if cocoSprite.destroyed
-      continue if cocoSprite.destroyed
-      @setImageObjectToCocoSprite(cocoSprite)
+    for lank in @lanks
+      console.log 'zombie sprite found on layer', @name if lank.destroyed
+      continue if lank.destroyed
+      @setSpriteToLank(lank)
     for prop in ['scaleX', 'scaleY', 'regX', 'regY']
       @container[prop] = oldLayer[prop]
     if parent = oldLayer.parent
@@ -291,11 +291,19 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       parent.addChildAt(@container, index)
     @camera?.updateZoom(true)
     @updateLayerOrder()
-    for cocoSprite in @cocoSprites
-      cocoSprite.options.resolutionFactor = @resolutionFactor
-      cocoSprite.updateScale()
-      cocoSprite.updateRotation()
+    for lank in @lanks
+      lank.options.resolutionFactor = @resolutionFactor
+      lank.updateScale()
+      lank.updateRotation()
     @trigger 'new-spritesheet'
+    
+  resetSpriteSheet: ->
+    @removeLank(lank) for lank in @lanks.slice(0)
+    @toRenderBundles = []
+    @actionRenderState = {}
+    @initializing = true
+    @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
+    @initializing = false
 
   #- Placeholder
     
@@ -326,6 +334,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering containers for segmented thang types
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+    console.log 'rendering segmented thang type'
     containersToRender = {}
     for actionName in actionNames
       action = _.find(thangType.getActions(), {name: actionName})
@@ -356,6 +365,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   #- Rendering sprite sheets for singular thang types
       
   renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
+    console.log 'rendering singular thang type'
     actionObjects = _.values(thangType.getActions())
     animationActions = []
     for a in actionObjects
@@ -441,10 +451,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
     
-  #- Distributing new Segmented/Singular/RasterSprites to CocoSprites
+  #- Distributing new Segmented/Singular/RasterSprites to Lanks
 
-  setImageObjectToCocoSprite: (cocoSprite) ->
-    if not cocoSprite.thangType.isFullyLoaded()
+  setSpriteToLank: (lank) ->
+    if not lank.thangType.isFullyLoaded()
       # just give a placeholder
       sprite = new createjs.Sprite(@spriteSheet)
       sprite.gotoAndStop(0)
@@ -453,26 +463,26 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.regY = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
       sprite.baseScaleX = sprite.baseScaleY = sprite.scaleX = sprite.scaleY = 10 / (@resolutionFactor * SPRITE_PLACEHOLDER_WIDTH)
     
-    else if cocoSprite.thangType.get('raster')
+    else if lank.thangType.get('raster')
       sprite = new createjs.Sprite(@spriteSheet)
-      scale = cocoSprite.thangType.get('scale') or 1
-      reg = cocoSprite.getOffset 'registration'
+      scale = lank.thangType.get('scale') or 1
+      reg = lank.getOffset 'registration'
       sprite.regX = -reg.x * scale
       sprite.regY = -reg.y * scale
-      sprite.gotoAndStop(@renderGroupingKey(cocoSprite.thangType))
+      sprite.gotoAndStop(@renderGroupingKey(lank.thangType))
       sprite.baseScaleX = sprite.baseScaleY = 1
       
     else
-      SpriteClass = if (cocoSprite.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
-      prefix = @renderGroupingKey(cocoSprite.thangType, null, cocoSprite.options.colorConfig) + '.'
-      sprite = new SpriteClass(@spriteSheet, cocoSprite.thangType, prefix, @resolutionFactor)
+      SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
+      prefix = @renderGroupingKey(lank.thangType, null, lank.options.colorConfig) + '.'
+      sprite = new SpriteClass(@spriteSheet, lank.thangType, prefix, @resolutionFactor)
 
-    sprite.sprite = cocoSprite
+    sprite.lank = lank
     sprite.camera = @camera
-    sprite.layerPriority = cocoSprite.thang?.layerPriority ? cocoSprite.thangType.get 'layerPriority'
-    sprite.name = cocoSprite.thang?.spriteName or cocoSprite.thangType.get 'name'
-    cocoSprite.setImageObject(sprite)
-    cocoSprite.update(true)
+    sprite.layerPriority = lank.thang?.layerPriority ? lank.thangType.get 'layerPriority'
+    sprite.name = lank.thang?.spriteName or lank.thangType.get 'name'
+    lank.setSprite(sprite)
+    lank.update(true)
     @container.addChild(sprite)
 
   renderGroupingKey: (thangType, grouping, colorConfig) ->

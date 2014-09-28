@@ -49,11 +49,11 @@ module.exports = class Label extends CocoClass
   update: ->
     return unless @text
     offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
-    offset ?= x: 0, y: 0  # temp (if not CocoSprite)
+    offset ?= x: 0, y: 0  # temp (if not Lank)
     rotation = @sprite.getRotation()
     offset.x *= -1 if rotation >= 135 or rotation <= -135
-    @label.x = @background.x = @sprite.imageObject.x + offset.x
-    @label.y = @background.y = @sprite.imageObject.y + offset.y
+    @label.x = @background.x = @sprite.sprite.x + offset.x
+    @label.y = @background.y = @sprite.sprite.y + offset.y
     null
 
   show: ->
@@ -122,7 +122,7 @@ module.exports = class Label extends CocoClass
       pointerWidth += radius  # Convenience value including pointer width and border radius
 
       # Figure out the position of the pointer for the bubble
-      sup = x: @sprite.imageObject.x, y: @sprite.imageObject.y  # a little more accurate to aim for mouth--how?
+      sup = x: @sprite.sprite.x, y: @sprite.sprite.y  # a little more accurate to aim for mouth--how?
       cap = @camera.surfaceToCanvas sup
       hPos = if cap.x / @camera.canvasWidth > 0.53 then 'right' else 'left'
       vPos = if cap.y / @camera.canvasHeight > 0.53 then 'bottom' else 'top'

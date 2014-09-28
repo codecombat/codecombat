@@ -1,6 +1,6 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/wizard_settings'
-WizardSprite = require 'lib/surface/WizardSprite'
+WizardLank = require 'lib/surface/WizardLank'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
 forms = require 'lib/forms'

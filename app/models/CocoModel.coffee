@@ -66,7 +66,7 @@ class CocoModel extends Backbone.Model
     inFlux = @loading or not @loaded
     @markToRevert() unless inFlux or @_revertAttributes or @project or options?.fromMerge
     res = super attributes, options
-    @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
+    @saveBackup() if @saveBackups and (not inFlux)
     res
 
   buildAttributesWithDefaults: ->

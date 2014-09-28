@@ -1,7 +1,7 @@
-IndieSprite = require 'lib/surface/IndieSprite'
+IndieLank = require 'lib/surface/IndieLank'
 {me} = require 'lib/auth'
 
-module.exports = class WizardSprite extends IndieSprite
+module.exports = class WizardLank extends IndieLank
   # Wizard targets are constantly changing, so a simple tween doesn't work.
   # Instead, the wizard stores its origin point and the (possibly) moving target.
   # Then it figures out its current position based on tween percentage and
@@ -9,7 +9,7 @@ module.exports = class WizardSprite extends IndieSprite
   tweenPercentage: 1.0
   originPos: null
   targetPos: null
-  targetSprite: null
+  targetLank: null
   reachedTarget: true
   spriteXOffset: 4  # meters from target sprite
   spriteYOffset: 0  # meters from target sprite
@@ -17,8 +17,8 @@ module.exports = class WizardSprite extends IndieSprite
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
     'auth:me-synced': 'onMeSynced'
-    'surface:sprite-selected': 'onSpriteSelected'
-    'sprite:echo-all-wizard-sprites': 'onEchoAllWizardSprites'
+    'surface:sprite-selected': 'onLankSelected'
+    'sprite:echo-all-wizard-sprites': 'onEchoAllWizardLanks'
 
   shortcuts:
     'up': 'onMoveKey'
@@ -57,7 +57,7 @@ module.exports = class WizardSprite extends IndieSprite
     super name
 
   toggle: (to) ->
-    @imageObject?.visible = to
+    @sprite?.visible = to
     label[if to then 'show' else 'hide']() for name, label of @labels
     mark.mark?.visible = to for name, mark of @marks
 
@@ -65,37 +65,37 @@ module.exports = class WizardSprite extends IndieSprite
     for playerID, state of e.states
       continue unless playerID is @thang.id
       @setEditing state.wizard?.editing
-      continue if playerID is me.id  # ignore changes for self wizard sprite
+      continue if playerID is me.id  # ignore changes for self wizard lank
       @setNameLabel state.name
       continue unless state.wizard?
-      if targetID = state.wizard.targetSprite
-        return console.warn 'Wizard Sprite couldn\'t find target sprite', targetID unless targetID of @options.sprites
-        @setTarget @options.sprites[targetID]
+      if targetID = state.wizard.targetLank
+        return console.warn 'Wizard Lank couldn\'t find target lank', targetID unless targetID of @options.lanks
+        @setTarget @options.lanks[targetID]
       else
         @setTarget state.wizard.targetPos
 
   onMeSynced: (e) ->
     return unless @isSelf
-    @setNameLabel me.displayName() if @imageObject.visible  # not if we hid the wiz
+    @setNameLabel me.displayName() if @sprite.visible  # not if we hid the wiz
     newColorConfig = me.get('wizard')?.colorConfig or {}
     shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
     @options.colorConfig = $.extend(true, {}, newColorConfig)
     if shouldUpdate
-      @setUpSprite()
+      @setUpLank()
       @playAction(@currentAction) if @currentAction
 
-  onSpriteSelected: (e) ->
+  onLankSelected: (e) ->
     return unless @isSelf
     @setTarget e.sprite or e.worldPos
 
   animateIn: ->
-    @imageObject.scaleX = @imageObject.scaleY = @imageObject.alpha = 0
-    createjs.Tween.get(@imageObject)
+    @sprite.scaleX = @sprite.scaleY = @sprite.alpha = 0
+    createjs.Tween.get(@sprite)
       .to({scaleX: 1, scaleY: 1, alpha: 1}, 1000, createjs.Ease.getPowInOut(2.2))
     @labels.name?.show()
 
   animateOut: (callback) ->
-    tween = createjs.Tween.get(@imageObject)
+    tween = createjs.Tween.get(@sprite)
       .to({scaleX: 0, scaleY: 0, alpha: 0}, 1000, createjs.Ease.getPowInOut(2.2))
     tween.call(callback) if callback
     @labels.name?.hide()
@@ -107,11 +107,11 @@ module.exports = class WizardSprite extends IndieSprite
     else
       @thang.action = 'idle' if @thang.action is 'cast'
 
-  setInitialState: (targetPos, @targetSprite) ->
-    @targetPos = @getPosFromTarget(@targetSprite or targetPos)
+  setInitialState: (targetPos, @targetLank) ->
+    @targetPos = @getPosFromTarget(@targetLank or targetPos)
     @endMoveTween()
 
-  onEchoAllWizardSprites: (e) -> e.payload.push @
+  onEchoAllWizardLanks: (e) -> e.payload.push @
   defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @thang.bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
 
@@ -121,12 +121,12 @@ module.exports = class WizardSprite extends IndieSprite
     return if @targetPos and @targetPos.x is targetPos.x and @targetPos.y is targetPos.y
 
     # ignore selecting sprites you can't control
-    isSprite = newTarget?.thang?
-    return if isSprite and not newTarget.thang.isProgrammable
-    return if isSprite and newTarget is @targetSprite
+    isLank = newTarget?.thang?
+    return if isLank and not newTarget.thang.isProgrammable
+    return if isLank and newTarget is @targetLank
 
-    @shoveOtherWizards(true) if @targetSprite
-    @targetSprite = if isSprite then newTarget else null
+    @shoveOtherWizards(true) if @targetLank
+    @targetLank = if isLank then newTarget else null
     @targetPos = @boundWizard targetPos
     @beginMoveTween(duration, isLinear)
     @shoveOtherWizards()
@@ -175,10 +175,10 @@ module.exports = class WizardSprite extends IndieSprite
     @update true
 
   shoveOtherWizards: (removeMe) ->
-    return unless @targetSprite
+    return unless @targetLank
     allWizards = []
     Backbone.Mediator.publish 'sprite:echo-all-wizard-sprites', payload: allWizards
-    allOfUs = (wizard for wizard in allWizards when wizard.targetSprite is @targetSprite)
+    allOfUs = (wizard for wizard in allWizards when wizard.targetLank is @targetLank)
     allOfUs = (wizard for wizard in allOfUs when wizard isnt @) if removeMe
 
     # diagonal lineup pattern
@@ -210,18 +210,18 @@ module.exports = class WizardSprite extends IndieSprite
     @thang.pos = @getCurrentPosition()
     @faceTarget()
     sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2
-    @imageObject.x = sup.x
-    @imageObject.y = sup.y
+    @sprite.x = sup.x
+    @sprite.y = sup.y
 
   getCurrentPosition: ->
     """
     Takes into account whether the wizard is in transit or not, and the bobbing up and down.
     Eventually will also adjust based on where other wizards are.
     """
-    @targetPos = @targetSprite.thang.pos if @targetSprite?.thang
+    @targetPos = @targetLank.thang.pos if @targetLank?.thang
     pos = _.clone(@targetPos)
     pos.z = @defaultPos().z + @getBobOffset()
-    @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
+    @adjustPositionToSideOfTarget(pos) if @targetLank  # be off to the side depending on placement in world
     return pos if @reachedTarget  # stick like glue
 
     # if here, then the wizard is in transit. Calculate the diff!
@@ -248,11 +248,11 @@ module.exports = class WizardSprite extends IndieSprite
     targetPos.y += @spriteYOffset
 
   faceTarget: ->
-    if @targetSprite?.thang
-      @pointToward(@targetSprite.thang.pos)
+    if @targetLank?.thang
+      @pointToward(@targetLank.thang.pos)
 
   updateMarks: ->
-    super() if @imageObject.visible  # not if we hid the wiz
+    super() if @sprite.visible  # not if we hid the wiz
 
   onMoveKey: (e) ->
     return unless @isSelf

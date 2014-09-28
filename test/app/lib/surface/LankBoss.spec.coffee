@@ -1,4 +1,4 @@
-SpriteBoss = require 'lib/surface/SpriteBoss'
+LankBoss = require 'lib/surface/LankBoss'
 Camera = require 'lib/surface/Camera'
 World = require 'lib/world/world'
 ThangType = require 'models/ThangType'
@@ -8,8 +8,8 @@ munchkinData = require 'test/app/fixtures/ogre-munchkin-m.thang.type'
 fangriderData = require 'test/app/fixtures/ogre-fangrider.thang.type'
 curseData = require 'test/app/fixtures/curse.thang.type'
 
-describe 'SpriteBoss', ->
-  spriteBoss = null
+describe 'LankBoss', ->
+  lankBoss = null
   canvas = null
   stage = null
   midRenderExpectations = [] # bit of a hack to move tests which happen mid-initialization into a separate test
@@ -18,7 +18,7 @@ describe 'SpriteBoss', ->
   # check the resulting data for the whole thing, without changing anything.
   
   init = (done) ->
-    return done() if spriteBoss
+    return done() if lankBoss
     t = new Date()
     canvas = $('<canvas width="800" height="600"></canvas>')
     camera = new Camera(canvas)
@@ -45,7 +45,7 @@ describe 'SpriteBoss', ->
     
     thangTypes = [fangrider, segmentedMunchkin, singularMunchkin, segmentedTree, singularTree]
     
-    # Build the Stage and SpriteBoss.
+    # Build the Stage and LankBoss.
     window.stage = stage = new createjs.SpriteStage(canvas[0])
     options = {
       camera: camera
@@ -55,9 +55,9 @@ describe 'SpriteBoss', ->
       thangTypes: thangTypes
     }
     
-    window.spriteBoss = spriteBoss = new SpriteBoss(options)
+    window.lankBoss = lankBoss = new LankBoss(options)
     
-    defaultLayer = spriteBoss.spriteLayers.Default
+    defaultLayer = lankBoss.layerAdapters.Default
     defaultLayer.buildAsync = false # cause faster
 
     # Sort of an implicit test. By default, all the default actions are always rendered,
@@ -66,14 +66,14 @@ describe 'SpriteBoss', ->
     defaultLayer.defaultActions = ['idle']
     
     # Render the simple world with just trees
-    spriteBoss.update(true)
+    lankBoss.update(true)
     
     # Test that the unrendered, static sprites aren't showing anything
-    midRenderExpectations.push([spriteBoss.sprites['Segmented Tree'].imageObject.children.length,1,'static segmented action'])
-    midRenderExpectations.push([spriteBoss.sprites['Segmented Tree'].imageObject.children[0].currentFrame,0,'static segmented action'])
-    midRenderExpectations.push([spriteBoss.sprites['Segmented Tree'].imageObject.children[0].paused,true,'static segmented action'])
-    midRenderExpectations.push([spriteBoss.sprites['Singular Tree'].imageObject.currentFrame,0,'static singular action'])
-    midRenderExpectations.push([spriteBoss.sprites['Singular Tree'].imageObject.paused,true,'static singular action'])
+    midRenderExpectations.push([lankBoss.lanks['Segmented Tree'].imageObject.children.length,1,'static segmented action'])
+    midRenderExpectations.push([lankBoss.lanks['Segmented Tree'].imageObject.children[0].currentFrame,0,'static segmented action'])
+    midRenderExpectations.push([lankBoss.lanks['Segmented Tree'].imageObject.children[0].paused,true,'static segmented action'])
+    midRenderExpectations.push([lankBoss.lanks['Singular Tree'].imageObject.currentFrame,0,'static singular action'])
+    midRenderExpectations.push([lankBoss.lanks['Singular Tree'].imageObject.paused,true,'static singular action'])
 
     defaultLayer.once 'new-spritesheet', ->
       
@@ -101,15 +101,15 @@ describe 'SpriteBoss', ->
       
       _.find(world.thangs, {id: 'Disappearing Tree'}).exists = false
       world.thangMap[thang.id] = thang for thang in world.thangs
-      spriteBoss.update(true)
+      lankBoss.update(true)
       jasmine.Ajax.requests.sendResponses({'/db/thang.type/curse': curseData})
 
       # Test that the unrendered, animated sprites aren't showing anything
-      midRenderExpectations.push([spriteBoss.sprites['Segmented Ogre'].imageObject.children.length,10,'animated segmented action'])
-      for child in spriteBoss.sprites['Segmented Ogre'].imageObject.children
+      midRenderExpectations.push([lankBoss.lanks['Segmented Ogre'].imageObject.children.length,10,'animated segmented action'])
+      for child in lankBoss.lanks['Segmented Ogre'].imageObject.children
         midRenderExpectations.push([child.children[0].currentFrame, 0, 'animated segmented action'])
-      midRenderExpectations.push([spriteBoss.sprites['Singular Ogre'].imageObject.currentFrame,0,'animated singular action'])
-      midRenderExpectations.push([spriteBoss.sprites['Singular Ogre'].imageObject.paused,true,'animated singular action'])
+      midRenderExpectations.push([lankBoss.lanks['Singular Ogre'].imageObject.currentFrame,0,'animated singular action'])
+      midRenderExpectations.push([lankBoss.lanks['Singular Ogre'].imageObject.paused,true,'animated singular action'])
       
       defaultLayer.once 'new-spritesheet', ->
 #        showMe() # Uncomment to display this world when you run any of these tests.
@@ -127,7 +127,7 @@ describe 'SpriteBoss', ->
         return if ticks >= 100
         ticks += 1
         if ticks % 20 is 0
-          spriteBoss.update(true)
+          lankBoss.update(true)
         stage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
@@ -140,43 +140,43 @@ describe 'SpriteBoss', ->
       expect(expectation[0]).toBe(expectation[1])
     
   it 'rotates and animates sprites according to thang rotation', ->
-    expect(spriteBoss.sprites['Ogre N'].imageObject.currentAnimation).toBe('move_fore')
-    expect(spriteBoss.sprites['Ogre E'].imageObject.currentAnimation).toBe('move_side')
-    expect(spriteBoss.sprites['Ogre W'].imageObject.currentAnimation).toBe('move_side')
-    expect(spriteBoss.sprites['Ogre S'].imageObject.currentAnimation).toBe('move_back')
+    expect(lankBoss.lanks['Ogre N'].imageObject.currentAnimation).toBe('move_fore')
+    expect(lankBoss.lanks['Ogre E'].imageObject.currentAnimation).toBe('move_side')
+    expect(lankBoss.lanks['Ogre W'].imageObject.currentAnimation).toBe('move_side')
+    expect(lankBoss.lanks['Ogre S'].imageObject.currentAnimation).toBe('move_back')
 
-    expect(spriteBoss.sprites['Ogre E'].imageObject.scaleX).toBeLessThan(0)
-    expect(spriteBoss.sprites['Ogre W'].imageObject.scaleX).toBeGreaterThan(0)
+    expect(lankBoss.lanks['Ogre E'].imageObject.scaleX).toBeLessThan(0)
+    expect(lankBoss.lanks['Ogre W'].imageObject.scaleX).toBeGreaterThan(0)
 
   it 'positions sprites according to thang pos', ->
-    expect(spriteBoss.sprites['Ogre N'].imageObject.x).toBe(0)
-    expect(spriteBoss.sprites['Ogre N'].imageObject.y).toBeCloseTo(-60)
-    expect(spriteBoss.sprites['Ogre E'].imageObject.x).toBeCloseTo(80)
-    expect(spriteBoss.sprites['Ogre E'].imageObject.y).toBe(0)
-    expect(spriteBoss.sprites['Ogre W'].imageObject.x).toBe(-80)
-    expect(spriteBoss.sprites['Ogre W'].imageObject.y).toBeCloseTo(0)
-    expect(spriteBoss.sprites['Ogre S'].imageObject.x).toBe(0)
-    expect(spriteBoss.sprites['Ogre S'].imageObject.y).toBeCloseTo(60)
+    expect(lankBoss.lanks['Ogre N'].imageObject.x).toBe(0)
+    expect(lankBoss.lanks['Ogre N'].imageObject.y).toBeCloseTo(-60)
+    expect(lankBoss.lanks['Ogre E'].imageObject.x).toBeCloseTo(80)
+    expect(lankBoss.lanks['Ogre E'].imageObject.y).toBe(0)
+    expect(lankBoss.lanks['Ogre W'].imageObject.x).toBe(-80)
+    expect(lankBoss.lanks['Ogre W'].imageObject.y).toBeCloseTo(0)
+    expect(lankBoss.lanks['Ogre S'].imageObject.x).toBe(0)
+    expect(lankBoss.lanks['Ogre S'].imageObject.y).toBeCloseTo(60)
     
   it 'scales sprites according to thang scaleFactorX and scaleFactorY', ->
-    expect(spriteBoss.sprites['Ogre N'].imageObject.scaleX).toBe(spriteBoss.sprites['Ogre N'].imageObject.baseScaleX * 1.5)
-    expect(spriteBoss.sprites['Ogre W'].imageObject.scaleY).toBe(spriteBoss.sprites['Ogre N'].imageObject.baseScaleY * 1.5)
+    expect(lankBoss.lanks['Ogre N'].imageObject.scaleX).toBe(lankBoss.lanks['Ogre N'].imageObject.baseScaleX * 1.5)
+    expect(lankBoss.lanks['Ogre W'].imageObject.scaleY).toBe(lankBoss.lanks['Ogre N'].imageObject.baseScaleY * 1.5)
 
   it 'sets alpha based on thang alpha', ->
-    expect(spriteBoss.sprites['Ogre E'].imageObject.alpha).toBe(0.5)
+    expect(lankBoss.lanks['Ogre E'].imageObject.alpha).toBe(0.5)
     
   it 'orders sprites in the layer based on thang pos.y\'s', ->
-    container = spriteBoss.spriteLayers.Default.container
+    container = lankBoss.layerAdapters.Default.container
     l = container.children
-    i1 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 1'))
-    i2 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 2'))
-    i3 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 3'))
-    i4 = container.getChildIndex(_.find(container.children, (c) -> c.sprite.thang.id is 'Dying Ogre 4'))
+    i1 = container.getChildIndex(_.find(container.children, (c) -> c.lank.thang.id is 'Dying Ogre 1'))
+    i2 = container.getChildIndex(_.find(container.children, (c) -> c.lank.thang.id is 'Dying Ogre 2'))
+    i3 = container.getChildIndex(_.find(container.children, (c) -> c.lank.thang.id is 'Dying Ogre 3'))
+    i4 = container.getChildIndex(_.find(container.children, (c) -> c.lank.thang.id is 'Dying Ogre 4'))
     expect(i1).toBeGreaterThan(i2)
     expect(i2).toBeGreaterThan(i3)
     expect(i3).toBeGreaterThan(i4)
 
   it 'only contains children Sprites and SpriteContainers whose spritesheet matches the Layer', ->
-    defaultLayerContainer = spriteBoss.spriteLayers.Default.container
+    defaultLayerContainer = lankBoss.layerAdapters.Default.container
     for c in defaultLayerContainer.children
       expect(c.spriteSheet).toBe(defaultLayerContainer.spriteSheet)

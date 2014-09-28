@@ -53,11 +53,11 @@ module.exports = class LevelBus extends Bus
     super()
 
   onSelfWizardCreated: (e) ->
-    @selfWizardSprite = e.sprite
+    @selfWizardLank = e.sprite
 
   onSelfWizardTargetChanged: (e) ->
-    @wizardRef?.child('targetPos').set(@selfWizardSprite?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardSprite?.targetSprite?.thang.id or null)
+    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
+    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
 
   onMeSynced: =>
     super()
@@ -66,8 +66,8 @@ module.exports = class LevelBus extends Bus
   join: ->
     super()
     @wizardRef = @myConnection.child('wizard')
-    @wizardRef?.child('targetPos').set(@selfWizardSprite?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardSprite?.targetSprite?.thang.id or null)
+    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
+    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
     @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   disconnect: ->

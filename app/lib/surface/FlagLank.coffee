@@ -1,7 +1,7 @@
-IndieSprite = require 'lib/surface/IndieSprite'
+IndieLank = require 'lib/surface/IndieLank'
 {me} = require 'lib/auth'
 
-module.exports = class FlagSprite extends IndieSprite
+module.exports = class FlagLank extends IndieLank
   subscriptions:
     'surface:mouse-moved': 'onMouseMoved'
 
