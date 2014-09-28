@@ -35,7 +35,7 @@ describe 'SegmentedSprite', ->
     
   describe 'with Tree ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter({webGL:true})
+      layer = new LayerAdapter({webGL:true, name:'Default'})
       layer.buildAutomatically = false
       layer.buildAsync = false
       treeThangType.markToRevert()
@@ -90,7 +90,7 @@ describe 'SegmentedSprite', ->
 
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter({webGL:true})
+      layer = new LayerAdapter({webGL:true, name:'Default'})
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()
@@ -98,9 +98,9 @@ describe 'SegmentedSprite', ->
       actions = ogreMunchkinThangType.getActions()
       
       # couple extra actions for doing some tests
-      actions.littledance = {animation:'enemy_small_move_side',framerate:1, frames:'0,6,2,6,2,8,0'}
-      actions.onestep = {animation:'enemy_small_move_side', loops: false}
-      actions.head = {container:'head'}
+      actions.littledance = {animation:'enemy_small_move_side',framerate:1, frames:'0,6,2,6,2,8,0', name: 'littledance'}
+      actions.onestep = {animation:'enemy_small_move_side', loops: false, name:'onestep'}
+      actions.head = {container:'head', name:'head'}
       
       colorConfig = {team: {hue: 0, saturation: 1, lightness: 0.5}}
       sprite = new CocoSprite(ogreMunchkinThangType, {colorConfig: colorConfig})

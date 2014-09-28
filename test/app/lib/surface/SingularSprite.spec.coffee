@@ -40,7 +40,7 @@ describe 'SingularSprite', ->
 
   describe 'with Tree ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter({webGL:true})
+      layer = new LayerAdapter({webGL:true, name:'Default'})
       layer.buildAutomatically = false
       layer.buildAsync = false
       treeThangType.markToRevert()
@@ -90,7 +90,7 @@ describe 'SingularSprite', ->
       
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
-      layer = new LayerAdapter({webGL:true})
+      layer = new LayerAdapter({webGL:true, name:'Default'})
       layer.buildAutomatically = false
       layer.buildAsync = false
       ogreMunchkinThangType.markToRevert()

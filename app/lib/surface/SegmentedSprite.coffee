@@ -98,6 +98,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     for mc in @spriteSheet.mcPool[key]
       if not mc.inUse
         mc.gotoAndStop(mc.currentFrame+0.01) # just to make sure it has its children back
+        @childMovieClips = mc.childMovieClips
         return mc
     
     raw = @thangType.get('raw')
@@ -132,6 +133,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds
       anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
+      anim.childMovieClips = @childMovieClips
     
     @spriteSheet.mcPool[key].push(anim)
     return anim
@@ -234,7 +236,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     movieClip.gotoAndStop(newFrame) for movieClip in @childMovieClips
     @children = []
     @takeChildrenFromMovieClip()
-        
+    
   takeChildrenFromMovieClip: ->
     i = 0
     while i < @baseMovieClip.children.length
@@ -251,7 +253,6 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
           for prop in ['regX', 'regY', 'rotation', 'scaleX', 'scaleY', 'skewX', 'skewY', 'x', 'y']
             newChild[prop] = child[prop]
         @addChild(newChild)
-        @alreadyLogged = true
         i += 1
       else
         @addChild(child)

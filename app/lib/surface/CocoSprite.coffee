@@ -63,7 +63,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @setThang @options.thang
     if @thang?
       options = @thang?.getSpriteOptions?()
-      @options.colorConfig = options.colorConfig if options.colorConfig
+      @options.colorConfig = options.colorConfig if options and options.colorConfig
     console.error @toString(), 'has no ThangType!' unless @thangType
 
     # this is a stub, use @setImageObject to swap it out for something else later

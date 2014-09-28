@@ -49,7 +49,7 @@ describe 'SpriteBoss', ->
     window.stage = stage = new createjs.SpriteStage(canvas[0])
     options = {
       camera: camera
-      surfaceLayer: stage
+      webGLStage: stage
       surfaceTextLayer: new createjs.Container()
       world: world
       thangTypes: thangTypes
@@ -112,7 +112,7 @@ describe 'SpriteBoss', ->
       midRenderExpectations.push([spriteBoss.sprites['Singular Ogre'].imageObject.paused,true,'animated singular action'])
       
       defaultLayer.once 'new-spritesheet', ->
-        showMe() # Uncomment to display this world when you run any of these tests.
+#        showMe() # Uncomment to display this world when you run any of these tests.
         done()
 
   beforeEach (done) -> init(done)
@@ -159,8 +159,8 @@ describe 'SpriteBoss', ->
     expect(spriteBoss.sprites['Ogre S'].imageObject.y).toBeCloseTo(60)
     
   it 'scales sprites according to thang scaleFactorX and scaleFactorY', ->
-    expect(spriteBoss.sprites['Ogre N'].imageObject.scaleX).toBe(spriteBoss.sprites['Ogre N'].baseScaleX * 1.5)
-    expect(spriteBoss.sprites['Ogre W'].imageObject.scaleY).toBe(spriteBoss.sprites['Ogre N'].baseScaleY * 1.5)
+    expect(spriteBoss.sprites['Ogre N'].imageObject.scaleX).toBe(spriteBoss.sprites['Ogre N'].imageObject.baseScaleX * 1.5)
+    expect(spriteBoss.sprites['Ogre W'].imageObject.scaleY).toBe(spriteBoss.sprites['Ogre N'].imageObject.baseScaleY * 1.5)
 
   it 'sets alpha based on thang alpha', ->
     expect(spriteBoss.sprites['Ogre E'].imageObject.alpha).toBe(0.5)
