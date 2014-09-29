@@ -100,6 +100,8 @@ module.exports = class Label extends CocoClass
     label.shadow = new createjs.Shadow o.shadowColor, 1, 1, 0 if o.shadow
     label.layerPriority = o.layerPriority
     label.name = "Sprite Label - #{@style}"
+    bounds = label.getBounds()
+    label.cache(bounds.x, bounds.y, bounds.width, bounds.height)
     o.textHeight = label.getMeasuredHeight()
     o.label = label
     label
@@ -170,6 +172,7 @@ module.exports = class Label extends CocoClass
 
     o.label.regX = background.regX - o.marginX
     o.label.regY = background.regY - o.marginY
+    background.cache(0, 0, w, h)
 
     g.endStroke()
     g.endFill()

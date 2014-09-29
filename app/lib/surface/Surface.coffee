@@ -103,8 +103,8 @@ module.exports = Surface = class Surface extends CocoClass
     @normalLayers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
     @normalLayers.push @gridLayer = new Layer name: 'Grid', layerPriority: 2, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @normalLayers.push @screenLayer = new Layer name: 'Screen', layerPriority: 3, transform: Layer.TRANSFORM_SCREEN, camera: @camera
-    @normalLayers.push @cameraBorderLayer = new Layer name: 'Camera Border', layerPriority: 4, transform: Layer.TRANSFORM_SURFACE, camera: @camera
-    @cameraBorderLayer.addChild @cameraBorder = new CameraBorder(bounds: @camera.bounds)
+#    @normalLayers.push @cameraBorderLayer = new Layer name: 'Camera Border', layerPriority: 4, transform: Layer.TRANSFORM_SURFACE, camera: @camera
+#    @cameraBorderLayer.addChild @cameraBorder = new CameraBorder(bounds: @camera.bounds)
     @normalStage.addChild (layer.container for layer in @normalLayers)...
 
     canvasWidth = parseInt @normalCanvas.attr('width'), 10
@@ -236,7 +236,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
-    @normalStage.update e
+    @normalStage.update e if @totalFramesDrawn % 2 is 0
     @webGLStage.update e
 
 
@@ -371,7 +371,7 @@ module.exports = Surface = class Surface extends CocoClass
     else
       target = null
     @camera.setBounds e.bounds if e.bounds
-    @cameraBorder.updateBounds @camera.bounds
+#    @cameraBorder.updateBounds @camera.bounds
     @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
 
   onZoomUpdated: (e) ->
