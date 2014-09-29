@@ -59,6 +59,7 @@ module.exports = Lank = class Lank extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
+    @isMissile = @thangType.get('name') in ['Arrow', 'Spear']
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     if @thang?
@@ -109,6 +110,8 @@ module.exports = Lank = class Lank extends CocoClass
       delete @[prop]
 
     @sprite = newSprite
+    if @thang and @thang.stateChanged is false
+      @thang.stateChanged = true
     @configureMouse()
     @sprite.on 'animationend', @playNextAction
     @playAction(@currentAction) if @currentAction and not @stillLoading
@@ -167,8 +170,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
-    return if @stillLoading
-    @updatePosition()
+    return false if @stillLoading
+    return false if @thang and @thang.stateChanged is false
+    @updatePosition() if frameChanged or @thang.bobHeight
     frameChanged = frameChanged or @targetScaleFactorX isnt @scaleFactorX or @targetScaleFactorY isnt @scaleFactorY
     if frameChanged
       @handledDisplayEvents = {}
@@ -183,6 +187,8 @@ module.exports = Lank = class Lank extends CocoClass
       @updateHealthBar()
     @updateMarks()
     @updateLabels()
+    @thang.stateChanged = false if @thang and @thang.stateChanged is true
+    return true
 
   showAreaOfEffects: ->
     return unless @thang?.currentEvents
@@ -266,9 +272,9 @@ module.exports = Lank = class Lank extends CocoClass
   updatePosition: (whileLoading=false) ->
     return if @stillLoading and not whileLoading
     return unless @thang?.pos and @options.camera?
-    wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
-    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo and not @thang.bobHeight
+    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @thang.bobHeight
+    wop = @getWorldPosition()
     sup = @options.camera.worldToSurface wop
     [@sprite.x, @sprite.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1) unless whileLoading
@@ -296,7 +302,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     scaleX = scaleY = 1
 
-    if @thangType.get('name') in ['Arrow', 'Spear']
+    if @isMissile
       # Scales the arrow so it appears longer when flying parallel to horizon.
       # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
       # (a - x) / a: equals 1 when x = 0, equals 0 when x = a, monotonous in between. That gives us some sort of
@@ -336,7 +342,7 @@ module.exports = Lank = class Lank extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
-    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.velocity
+    if @isMissile and @thang.velocity
       # Rotates the arrow to see it arc based on velocity.z.
       # Notice that rotation here does not affect thang's state - it is just the effect.
       # Thang's rotation is always pointing where it is heading.
@@ -552,7 +558,7 @@ module.exports = Lank = class Lank extends CocoClass
     else
       @marks[range['name']].toggle false for range in @ranges
 
-    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.action is 'die'
+    if @isMissile and @thang.action is 'die'
       @marks.shadow?.hide()
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['warcry', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']

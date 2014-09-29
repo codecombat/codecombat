@@ -67,6 +67,7 @@ module.exports = class World
     @thangMap[id]
 
   setThang: (thang) ->
+    thang.stateChanged = true
     for old, i in @thangs
       console.error 'world trying to set', thang, 'over', old unless old? and thang?
       if old.id is thang.id

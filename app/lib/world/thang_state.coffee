@@ -93,6 +93,7 @@ module.exports = class ThangState
       for prop, propIndex in @trackedPropertyKeys
         @thang[prop] = @props[propIndex]
     @thang.partialState = false
+    @thang.stateChanged = true
     @
 
   restorePartial: (ratio) ->
@@ -118,6 +119,7 @@ module.exports = class ThangState
       else if prop is 'rotation'
         @thang.rotation = inverse * @thang.rotation + ratio * value
       @thang.partialState = true
+    @thang.stateChanged = true
     @
 
   serialize: (frameIndex, trackedPropertyIndices, trackedPropertyTypes, trackedPropertyValues, specialValuesToKeys, specialKeysToValues) ->
