@@ -25,9 +25,11 @@ exports.config =
           vendor[\/\\](?!scripts[\/\\]Box2d)
           |bower_components[\/\\](?!aether)
         )///
-        'javascripts/vendor_with_box2d.js': ///^(
-          vendor[\/\\]
-          |bower_components[\/\\](?!aether)  # include box2dweb for profiling (and for IE9...)
+        'javascripts/box2d.js': ///^( 
+          # Include box2dweb for profiling and IE9
+          # Vector renamed to Box2DVector to avoid name collisions
+          # TODO: move this to assets/lib since we're not really joining anything here?
+          (vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3) 
         )///
         'javascripts/lodash.js': ///^(
           (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
