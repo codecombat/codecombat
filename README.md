@@ -28,7 +28,7 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ![Michael Schmatz](http://codecombat.com/images/pages/about/michael_small.png)
 ![Jeremy Arns](http://codecombat.com/images/pages/about/jeremy_small.png)
 ![Glen De Cauwsemaecker](https://dl.dropboxusercontent.com/u/6351701/Avatars/Glen%20de%20Cauwsemaecker/glen_100.png)
-![Tom Steinbrecher](https://dl.dropboxusercontent.com/u/6351701/Avatars/tom/tom_100.png)
+![Tom Steinbrecher](https://dl.dropboxusercontent.com/u/6351701/Avatars/Tom%20Steinbrecher/tom_100.png)
 ![Sébastien Moratinos](https://dl.dropboxusercontent.com/u/6351701/Avatars/Tom%20Steinbrecher/tom_100.png)
 ![deepak1556](https://dl.dropboxusercontent.com/u/6351701/Avatars/Deepak1556/deepak_100.png)
 ![Ronnie Cheng](https://dl.dropboxusercontent.com/u/6351701/Avatars/Ronnie%20Cheng/ronnie_100.png)
