@@ -89,6 +89,7 @@ module.exports = class TomeView extends CocoView
     @cast()
 
   createWorker: ->
+    return null unless Worker?
     return new Worker('/javascripts/workers/aether_worker.js')
 
   generateTeamSpellMap: (spellObject) ->

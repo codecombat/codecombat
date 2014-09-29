@@ -110,19 +110,22 @@ module.exports = class Spell
     unless aether
       console.error @toString(), 'couldn\'t find a spellThang with aether of', @thangs
       cb false
-    workerMessage =
-      function: 'hasChangedSignificantly'
-      a: (newSource ? @originalSource)
-      spellKey: @spellKey
-      b: (currentSource ? @source)
-      careAboutLineNumbers: true
-      careAboutLint: true
-    @worker.addEventListener 'message', (e) =>
-      workerData = JSON.parse e.data
-      if workerData.function is 'hasChangedSignificantly' and workerData.spellKey is @spellKey
-        @worker.removeEventListener 'message', arguments.callee, false
-        cb(workerData.hasChanged)
-    @worker.postMessage JSON.stringify(workerMessage)
+    if @worker
+      workerMessage =
+        function: 'hasChangedSignificantly'
+        a: (newSource ? @originalSource)
+        spellKey: @spellKey
+        b: (currentSource ? @source)
+        careAboutLineNumbers: true
+        careAboutLint: true
+      @worker.addEventListener 'message', (e) =>
+        workerData = JSON.parse e.data
+        if workerData.function is 'hasChangedSignificantly' and workerData.spellKey is @spellKey
+          @worker.removeEventListener 'message', arguments.callee, false
+          cb(workerData.hasChanged)
+      @worker.postMessage JSON.stringify(workerMessage)
+    else
+      cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
     aceConfig = me.get('aceConfig') ? {}
@@ -130,11 +133,12 @@ module.exports = class Spell
     skipProtectAPI = @skipProtectAPI or not writable
     aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI
     aether = new Aether aetherOptions
-    workerMessage =
-      function: 'createAether'
-      spellKey: @spellKey
-      options: aetherOptions
-    @worker.postMessage JSON.stringify workerMessage
+    if @worker
+      workerMessage =
+        function: 'createAether'
+        spellKey: @spellKey
+        options: aetherOptions
+      @worker.postMessage JSON.stringify workerMessage
     aether
 
   updateLanguageAether: (@language) ->
@@ -142,10 +146,11 @@ module.exports = class Spell
       spellThang.aether?.setLanguage @language
       spellThang.castAether = null
       Backbone.Mediator.publish 'tome:spell-changed-language', spell: @, language: @language
-    workerMessage =
-      function: 'updateLanguageAether'
-      newLanguage: @language
-    @worker.postMessage JSON.stringify workerMessage
+    if @worker
+      workerMessage =
+        function: 'updateLanguageAether'
+        newLanguage: @language
+      @worker.postMessage JSON.stringify workerMessage
     @transpile()
 
   toString: ->
