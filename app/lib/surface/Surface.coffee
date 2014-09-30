@@ -236,7 +236,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
-    @normalStage.update e if @totalFramesDrawn % 2 is 0
+    @normalStage.update e
     @webGLStage.update e
 
 
