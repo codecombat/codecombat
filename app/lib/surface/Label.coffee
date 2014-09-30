@@ -172,7 +172,7 @@ module.exports = class Label extends CocoClass
 
     o.label.regX = background.regX - o.marginX
     o.label.regY = background.regY - o.marginY
-    background.cache(0, 0, w, h)
+    background.cache(-10, -10, w+20, h+20) # give a wide berth for speech box pointers
 
     g.endStroke()
     g.endFill()
