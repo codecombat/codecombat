@@ -238,10 +238,7 @@ module.exports = class Angel extends CocoClass
     work.testWorld = testWorld = new World work.userCodeMap
     testWorld.loadFromLevel work.level
     if @shared.goalManager
-      # TODO: Do we need to create testGM via @shared.goalManager.constructor for some scenario?
-      # TODO: It breaks IE9, because @world is undefined in GoalManager.initThangTeams()
-      # testGM = new @shared.goalManager.constructor @testWorld
-      testGM = new GoalManager(work.testWorld)
+      testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
       testGM.setCode work.userCodeMap
       testGM.worldGenerationWillBegin()
