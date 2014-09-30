@@ -47,7 +47,18 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @frames = (parseInt(f) for f in @frames.split(',')) if @frames
       @animLength = if @frames then @frames.length else @baseMovieClip.timeline.duration
       @paused = true if @animLength is 1
-      @currentFrame = if randomStart then Math.floor(Math.random() * @animLength) else 0
+      
+      if @frames
+        if randomStart
+          @currentFrame = @frames[_.random(@frames.length - 1)]
+        else
+          @currentFrame = @frames[0]
+      else
+        if randomStart
+          @currentFrame = then Math.floor(Math.random() * @animLength)
+        else 
+          @currentFrame = 0
+
       @baseMovieClip.gotoAndStop(@currentFrame)
       movieClip.gotoAndStop(@currentFrame) for movieClip in @childMovieClips
       @takeChildrenFromMovieClip()
