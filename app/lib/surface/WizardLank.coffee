@@ -81,7 +81,6 @@ module.exports = class WizardLank extends IndieLank
     shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
     @options.colorConfig = $.extend(true, {}, newColorConfig)
     if shouldUpdate
-      @setUpLank()
       @playAction(@currentAction) if @currentAction
 
   onLankSelected: (e) ->
