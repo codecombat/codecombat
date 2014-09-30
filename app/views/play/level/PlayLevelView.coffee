@@ -32,6 +32,7 @@ GoalsView = require './LevelGoalsView'
 LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
+HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 
@@ -196,6 +197,11 @@ module.exports = class PlayLevelView extends RootView
     @insertSubviews()
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+
+    # testing
+#    modal = new HeroVictoryModal({session: @session, level: @level})
+#    @openModalView(modal)
+
     @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
@@ -450,8 +456,10 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     options = {level: @level, supermodel: @supermodel, session: @session}
-    docs = new VictoryModal(options)
-    @openModalView(docs)
+#    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
+#    victoryModal = new ModalClass(options)
+    victoryModal = new VictoryModal(options)
+    @openModalView(victoryModal)
     if me.get('anonymous')
       window.nextLevelURL = @getNextLevelURL()  # Signup will go here on completion instead of reloading.
 
