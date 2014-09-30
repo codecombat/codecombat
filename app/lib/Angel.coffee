@@ -4,6 +4,7 @@
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
 CocoClass = require 'lib/CocoClass'
+GoalManager = require 'lib/world/GoalManager'
 
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
@@ -237,7 +238,10 @@ module.exports = class Angel extends CocoClass
     work.testWorld = testWorld = new World work.userCodeMap
     testWorld.loadFromLevel work.level
     if @shared.goalManager
-      testGM = new @shared.goalManager.constructor @testWorld
+      # TODO: Do we need to create testGM via @shared.goalManager.constructor for some scenario?
+      # TODO: It breaks IE9, because @world is undefined in GoalManager.initThangTeams()
+      # testGM = new @shared.goalManager.constructor @testWorld
+      testGM = new GoalManager(work.testWorld)
       testGM.setGoals work.goals
       testGM.setCode work.userCodeMap
       testGM.worldGenerationWillBegin()
