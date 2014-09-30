@@ -104,3 +104,6 @@ login.coffee
 # debugging
 *.heapsnapshot
 
+npm-debug.log*
+
+temp/
