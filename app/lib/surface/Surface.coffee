@@ -228,8 +228,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
-    if @playing and @heroSprite and not @mouseIsDown and @camera.newTarget isnt @heroSprite.sprite and @camera.target isnt @heroSprite.sprite
-      @camera.zoomTo @heroSprite.sprite, @camera.zoom, 750
+    if @playing and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
+      @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
     @camera.updateZoom()
     @lankBoss.update frameChanged
     @dimmer?.setSprites @lankBoss.sprites
@@ -535,7 +535,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   #- Camera focus on hero
   focusOnHero: ->
-    @heroSprite = @lankBoss.spriteFor 'Hero Placeholder'
+    @heroLank = @lankBoss.lankFor 'Hero Placeholder'
 
 
   #- Real-time playback
@@ -549,9 +549,9 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
     @lankBoss.selfWizardLank?.toggle false
     @playing = false  # Will start when countdown is done.
-    if @heroSprite
+    if @heroLank
       @previousCameraZoom = @camera.zoom
-      @camera.zoomTo @heroSprite.sprite, 4, 3000
+      @camera.zoomTo @heroLank.sprite, 4, 3000
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime
