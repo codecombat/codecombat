@@ -68,8 +68,7 @@ module.exports = class WorldMapView extends RootView
       for level, index in campaign.levels
         level.x ?= 10 + 80 * Math.random()
         level.y ?= 10 + 80 * Math.random()
-        #level.locked = index > 0 and not me.earnedLevel level.original
-        level.locked = false  # Not working yet, but time for sleep.
+        level.locked = index > 0 and not me.earnedLevel level.original
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
