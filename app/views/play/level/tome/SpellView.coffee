@@ -400,19 +400,23 @@ module.exports = class SpellView extends CocoView
 
       @clearAetherDisplay()
       if codeHasChangedSignificantly and not codeIsAsCast
-        workerMessage =
-          function: 'transpile'
-          spellKey: @spell.spellKey
-          source: source
+        if @worker
+          workerMessage =
+            function: 'transpile'
+            spellKey: @spell.spellKey
+            source: source
 
-        @worker.addEventListener 'message', (e) =>
-          workerData = JSON.parse e.data
-          if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
-            @worker.removeEventListener 'message', arguments.callee, false
-            aether.problems = workerData.problems
-            aether.raw = source
-            finishUpdatingAether(aether)
-        @worker.postMessage JSON.stringify(workerMessage)
+          @worker.addEventListener 'message', (e) =>
+            workerData = JSON.parse e.data
+            if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
+              @worker.removeEventListener 'message', arguments.callee, false
+              aether.problems = workerData.problems
+              aether.raw = source
+              finishUpdatingAether(aether)
+          @worker.postMessage JSON.stringify(workerMessage)
+        else
+          aether.transpile source
+          finishUpdatingAether(aether)
       else
         finishUpdatingAether(aether)
 

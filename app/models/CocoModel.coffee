@@ -19,6 +19,7 @@ class CocoModel extends Backbone.Model
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
+    console.debug = console.log unless console.debug # Needed for IE10 and earlier
 
   setProjection: (project) ->
     return if project is @project
