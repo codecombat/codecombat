@@ -232,7 +232,7 @@ module.exports = Surface = class Surface extends CocoClass
       @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
     @camera.updateZoom()
     @lankBoss.update frameChanged
-    @dimmer?.setSprites @lankBoss.sprites
+    @dimmer?.setSprites @lankBoss.lanks
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
@@ -288,7 +288,7 @@ module.exports = Surface = class Surface extends CocoClass
         frame = @world.getFrame(@getCurrentFrame())
         frame.restoreState()
         volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
-        sprite.playSounds false, volume for sprite in @lankBoss.spriteArray
+        lank.playSounds false, volume for lank in @lankBoss.lankArray
         tempFrame += if rising then 1 else -1
       @currentFrame = actualCurrentFrame
 
@@ -327,7 +327,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
     Backbone.Mediator.publish('surface:frame-changed',
-      selectedThang: @lankBoss.selectedSprite?.thang
+      selectedThang: @lankBoss.selectedLank?.thang
       progress: progress
       frame: @currentFrame
       world: @world
@@ -383,7 +383,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if e.controls and not ('surface' in e.controls)
     @setDisabled true
     @dimmer ?= new Dimmer camera: @camera, layer: @screenLayer
-    @dimmer.setSprites @lankBoss.sprites
+    @dimmer.setSprites @lankBoss.lanks
 
   onEnableControls: (e) ->
     return if e.controls and not ('surface' in e.controls)
@@ -576,13 +576,13 @@ module.exports = Surface = class Surface extends CocoClass
     return unless @options.paths
     return if @casting
     @hidePaths()
-    selectedThang = @lankBoss.selectedSprite?.thang
+    selectedThang = @lankBoss.selectedLank?.thang
     return if @world.showPaths is 'never'
     return if @world.showPaths is 'paused' and @playing
     return if @world.showPaths is 'selected' and not selectedThang
     @trailmaster ?= new path.Trailmaster @camera
     selectedOnly = @playing and @world.showPaths is 'selected'
-    @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @lankBoss.sprites, selectedOnly
+    @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @lankBoss.lanks, selectedOnly
     @paths.name = 'paths'
     @lankBoss.layerAdapters['Path'].addChild @paths
 
