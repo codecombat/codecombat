@@ -25,13 +25,14 @@ module.exports = class UserView extends RootView
     context.user = @user unless @user?.isAnonymous()
     context
 
-  isMe: -> @userID is me.id
+  isMe: -> @userID in [me.id, me.get('slug')]
 
   onLoaded: ->
     @onUserLoaded @user if @user.loaded and not @userLoaded
     super()
 
   onUserLoaded: ->
+    @userID = @user.id
     @userLoaded = true
 
   ifUserNotFound: ->
