@@ -122,6 +122,7 @@ module.exports = class ThangTypeEditView extends RootView
     canvas = @$el.find('#canvas')
     @stage = new createjs.Stage(canvas[0])
     @layerAdapter = new LayerAdapter({name:'Default', webGL: true})
+    @listenTo @layerAdapter, 'new-spritesheet', @onNewSpriteSheet
     @stage.addChild(@layerAdapter.container)
     @camera?.destroy()
     @camera = new Camera canvas
@@ -228,15 +229,10 @@ module.exports = class ThangTypeEditView extends RootView
   # animation select
 
   refreshAnimation: =>
+    @thangType.buildActions()
     return @showRasterImage() if @thangType.get('raster')
     options = @getLankOptions()
     console.log 'refresh animation....'
-#    @thangType.resetSpriteSheetCache()
-#    spriteSheet = @thangType.buildSpriteSheet(options)
-#    $('#spritesheets').empty()
-#    return unless spriteSheet
-#    for image in spriteSheet._images
-#      $('#spritesheets').append(image)
     @showAnimation()
     @updatePortrait()
 
@@ -245,6 +241,12 @@ module.exports = class ThangTypeEditView extends RootView
     @currentLank?.destroy()
     @currentLank = sprite
     @showSprite(sprite.sprite)
+    @updateScale()
+    
+  onNewSpriteSheet: ->
+    $('#spritesheets').empty()
+    for image in @layerAdapter.spriteSheet._images
+      $('#spritesheets').append(image)
     @updateScale()
 
   showAnimation: (animationName) ->
@@ -334,8 +336,8 @@ module.exports = class ThangTypeEditView extends RootView
     @scale = scaleValue
     @$el.find('.scale-label').text " #{fixed}x "
     if @currentLank
-      @currentLank.scaleFactorX = @currentLank.scaleFactorY = scaleValue
-      @currentLank.updateScale()
+      @currentLank.sprite.scaleX = @currentLank.sprite.baseScaleX * scaleValue
+      @currentLank.sprite.scaleY = @currentLank.sprite.baseScaleY * scaleValue
     else if @currentObject?
       @currentObject.scaleX = @currentObject.scaleY = scaleValue / resValue
     @updateGrid()
