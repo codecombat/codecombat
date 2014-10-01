@@ -1,7 +1,7 @@
 Thang = require 'lib/world/thang'
-CocoSprite = require 'lib/surface/CocoSprite'
+Lank = require 'lib/surface/Lank'
 
-module.exports = IndieSprite = class IndieSprite extends CocoSprite
+module.exports = IndieLank = class IndieLank extends Lank
   notOfThisWorld: true
   subscriptions:
     'script:note-group-started': 'onNoteGroupStarted'

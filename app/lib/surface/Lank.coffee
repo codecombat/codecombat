@@ -13,10 +13,10 @@ healthColors =
   neutral: [64, 212, 128]
 
 # Sprite: EaselJS-based view/controller for Thang model
-module.exports = CocoSprite = class CocoSprite extends CocoClass
+module.exports = Lank = class Lank extends CocoClass
   thangType: null # ThangType instance
 
-  imageObject: null
+  sprite: null
 
   healthBar: null
   marks: null
@@ -24,16 +24,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ranges: null
 
   options:
-    resolutionFactor: SPRITE_RESOLUTION_FACTOR
     groundLayer: null
     textLayer: null
     floatingLayer: null
-    frameRateFactor: 1  # TODO: use or lose?
     thang: null
     camera: null
-    spriteSheetCache: null
     showInvisible: false
-    async: true
 
   possessed: false
   flipped: false
@@ -43,8 +39,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   rotation: 0
 
   # Scale numbers
-  baseScaleX: 1 # scale + flip (for current action) / resolutionFactor.
-  baseScaleY: 1 # These numbers rarely change, so keep them around.
   scaleFactorX: 1 # Current scale adjustment. This can change rapidly.
   scaleFactorY: 1
   targetScaleFactorX: 1 # What the scaleFactor is going toward during a tween.
@@ -65,12 +59,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
+    @isMissile = @thangType.get('name') in ['Arrow', 'Spear']
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
+    if @thang?
+      options = @thang?.getLankOptions?()
+      @options.colorConfig = options.colorConfig if options and options.colorConfig
     console.error @toString(), 'has no ThangType!' unless @thangType
 
-    # this is a stub, use @setImageObject to swap it out for something else later
-    @imageObject = new createjs.Container
+    # this is a stub, use @setSprite to swap it out for something else later
+    @sprite = new createjs.Container
 
     @actionQueue = []
     @marks = {}
@@ -79,118 +77,51 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @handledDisplayEvents = {}
     @age = 0
     @stillLoading = true
-    @setNameLabel @thang.id if @thang?.showsName and not @thang.health <= 0
-    if @thangType.isFullyLoaded()
-      @setUpSprite()
-    else
-      @thangType.setProjection null
-      @thangType.fetch() unless @thangType.loading
-      @listenToOnce(@thangType, 'sync', @setUpSprite)
-      @setUpPlaceholder()
+    if @thangType.isFullyLoaded() then @onThangTypeLoaded() else @listenToOnce(@thangType, 'sync', @onThangTypeLoaded)
 
-  setUpSprite: ->
+  toString: -> "<Lank: #{@thang?.id}>"
+
+  onThangTypeLoaded: ->
+    @stillLoading = false
     for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
       AudioPlayer.preloadSoundReference sound for sound in sounds when sound
     if @thangType.get('raster')
-      @stillLoading = false
       @actions = {}
       @isRaster = true
-      @setUpRasterImage()
     else
-      result = @buildSpriteSheet()
-      if _.isString result # async build
-        @listenToOnce @thangType, 'build-complete', @setUpSprite
-        @setUpPlaceholder()
-      else
-        @stillLoading = false
-        @actions = @thangType.getActions()
-        @buildFromSpriteSheet result
-        @createMarks()
-        @queueAction 'idle'
+      @actions = @thangType.getActions()
+      @createMarks()
 
-  finishSetup: ->
-    @placeholder = null
-    @updateBaseScale()
     @scaleFactorX = @thang.scaleFactorX if @thang?.scaleFactorX?
     @scaleFactorX = @thang.scaleFactor if @thang?.scaleFactor?
     @scaleFactorY = @thang.scaleFactorY if @thang?.scaleFactorY?
     @scaleFactorY = @thang.scaleFactor if @thang?.scaleFactor?
-    @update true  # Reflect initial scale and other state
+    @updateAction() unless @currentAction
 
-  setUpRasterImage: ->
-    raster = @thangType.get('raster')
-    image = new createjs.Bitmap('/file/'+raster)
-    @setImageObject image
-    $(image.image).one 'load', => @updateScale?()
+  setSprite: (newSprite) ->
+    if @sprite
+      @sprite.destroy?()
+      if parent = @sprite.parent
+        parent.removeChild @sprite
+        parent.addChild newSprite
+
+    # get the lank to update things
+    for prop in ['lastPos', 'currentRootAction']
+      delete @[prop]
+
+    @sprite = newSprite
+    if @thang and @thang.stateChanged is false
+      @thang.stateChanged = true
     @configureMouse()
-    @imageObject.sprite = @
-    @imageObject.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
-    @imageObject.name = @thang?.spriteName or @thangType.get 'name'
-    reg = @getOffset 'registration'
-    @imageObject.regX = -reg.x
-    @imageObject.regY = -reg.y
-    @finishSetup()
-
-  setUpPlaceholder: ->
-    return if @placeholder or not @thang
-    shape = new createjs.Shape()
-    width = @thang.width * Camera.PPM
-    height = @thang.height * Camera.PPM * @options.camera.y2x
-    depth = @thang.depth * Camera.PPM * @options.camera.z2y * @options.camera.y2x
-    brightnessFuzzFactor = 1 + 0.1 * (Math.random() - 0.5)
-    makeColor = (brightnessFactor) => (Math.round(c * brightnessFuzzFactor * brightnessFactor) for c in (healthColors[@thang.team] ? [180, 180, 180]))
-    topColor = "rgba(#{makeColor(0.85).join(', ')},1)"
-    mainColor = "rgba(#{makeColor(0.75).join(', ')},1)"
-    ellipse = @thang.shape in ['ellipsoid', 'disc']
-    fn = if ellipse then 'drawEllipse' else 'drawRect'
-    shape.graphics.beginFill(mainColor)[fn](-width / 2, -height / 2, width, height).endFill()
-    if ellipse
-      shape.graphics.moveTo(-width / 2, 0).beginFill(mainColor).lineTo(-width / 2, -depth).lineTo(width / 2, -depth).lineTo(width / 2, 0).lineTo(-width / 2, 0).endFill()
-    else
-      shape.graphics.moveTo(-width / 2, 0).beginFill(mainColor).lineTo(-width / 2, -depth).lineTo(width / 2, -depth).lineTo(width / 2, 0).lineTo(-width / 2, 0).endFill()
-    shape.graphics.beginFill(topColor)[fn](-width / 2, -height / 2 - depth, width, height).endFill()
-    shape.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
-    @setImageObject shape
-    @updatePosition true
-    @placeholder = shape
-
-  toString: -> "<CocoSprite: #{@thang?.id}>"
-
-  buildSpriteSheet: ->
-    options = _.extend @options, @thang?.getSpriteOptions?() ? {}
-    options.colorConfig = @options.colorConfig if @options.colorConfig
-    options.async = @options.async
-    @thangType.getSpriteSheet options
-
-  setImageObject: (newImageObject) ->
-    if parent = @imageObject?.parent
-      parent.removeChild @imageObject
-      parent.addChild newImageObject
-      parent.updateLayerOrder()
-    @imageObject = newImageObject
-
-  buildFromSpriteSheet: (spriteSheet) ->
-    if spriteSheet
-      sprite = new createjs.Sprite(spriteSheet)
-    else
-      sprite = new createjs.Shape()
-
-    @setImageObject sprite
-    @addHealthBar()
-    @configureMouse()
-    # TODO: generalize this later?
-    @imageObject.sprite = @
-    @imageObject.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
-    @imageObject.name = @thang?.spriteName or @thangType.get 'name'
-    @imageObject.on 'animationend', @playNextAction
-    @finishSetup()
+    @sprite.on 'animationend', @playNextAction
+    @playAction(@currentAction) if @currentAction and not @stillLoading
+    @trigger 'new-sprite', @sprite
 
   ##################################################
   # QUEUEING AND PLAYING ACTIONS
 
   queueAction: (action) ->
     # The normal way to have an action play
-    return unless @thangType.isFullyLoaded()
     action = @actions[action] if _.isString(action)
     action ?= @actions.idle
     @actionQueue = []
@@ -212,17 +143,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @currentAction = action
     return @hide() unless action.animation or action.container or action.relatedActions
     @show()
-    @updateBaseScale()
     return @updateActionDirection() unless action.animation or action.container
+    return if @sprite.placeholder
     m = if action.container then 'gotoAndStop' else 'gotoAndPlay'
-    @imageObject.framerate = action.framerate or 20
-    @imageObject[m] action.name
-    reg = @getOffset 'registration'
-    @imageObject.regX = -reg.x
-    @imageObject.regY = -reg.y
-    if @currentRootAction.name is 'move' and action.frames
-      start = Math.floor(Math.random() * action.frames.length)
-      @imageObject.currentAnimationFrame = start
+    @sprite[m]?(action.name)
+    @updateScale()
+    @updateRotation()
 
   hide: ->
     @hiding = true
@@ -233,19 +159,20 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updateAlpha()
 
   stop: ->
-    @imageObject?.stop?()
+    @sprite?.stop?()
     mark.stop() for name, mark of @marks
     @stopped = true
 
   play: ->
-    @imageObject?.play?()
+    @sprite?.play?()
     mark.play() for name, mark of @marks
     @stopped = false
 
   update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
-    return if @stillLoading
-    @updatePosition()
+    return false if @stillLoading
+    return false if @thang and @thang.stateChanged is false
+    @updatePosition() if frameChanged or @thang.bobHeight or @notOfThisWorld
     frameChanged = frameChanged or @targetScaleFactorX isnt @scaleFactorX or @targetScaleFactorY isnt @scaleFactorY
     if frameChanged
       @handledDisplayEvents = {}
@@ -260,37 +187,46 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @updateHealthBar()
     @updateMarks()
     @updateLabels()
+    @thang.stateChanged = false if @thang and @thang.stateChanged is true
+    return true
 
   showAreaOfEffects: ->
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
       continue unless event.startsWith 'aoe-'
       continue if @handledDisplayEvents[event]
-
       @handledDisplayEvents[event] = true
       args = JSON.parse(event[4...])
+      key = 'aoe-' + JSON.stringify(args[2..])
+      
+      unless key in @options.groundLayer.spriteSheet.getAnimations()
+        args = JSON.parse(event[4...])
+        circle = new createjs.Shape()
+        radius = args[2] * Camera.PPM
+        if args.length is 4
+          circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
+        else
+          startAngle = args[4]
+          endAngle = args[5]
+          circle.graphics.beginFill(args[3])
+            .lineTo(0, 0)
+            .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
+            .arc(0, 0, radius, startAngle, endAngle)
+            .lineTo(0, 0)
+        @options.groundLayer.addCustomGraphic(key, circle, [-radius, -radius, radius*2, radius*2])
+
+      circle = new createjs.Sprite(@options.groundLayer.spriteSheet)
+      circle.gotoAndStop(key)
       pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
-      circle = new createjs.Shape()
-      radius = args[2] * Camera.PPM
-      if args.length is 4
-        circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
-      else
-        startAngle = args[4]
-        endAngle = args[5]
-        circle.graphics.beginFill(args[3])
-          .lineTo(0, 0)
-          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
-          .arc(0, 0, radius, startAngle, endAngle)
-          .lineTo(0, 0)
       circle.x = pos.x
       circle.y = pos.y
-      circle.scaleY = @options.camera.y2x * 0.7
-      circle.scaleX = 0.7
+      resFactor = @options.groundLayer.resolutionFactor
+      circle.scaleY = @options.camera.y2x * 0.7 / resFactor
+      circle.scaleX = 0.7 / resFactor
       circle.alpha = 0.2
-      circle
       @options.groundLayer.addChild circle
       createjs.Tween.get(circle)
-        .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
+        .to({alpha: 0.6, scaleY: @options.camera.y2x / resFactor, scaleX: 1 / resFactor}, 100, createjs.Ease.circOut)
         .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
         .call =>
           return if @destroyed
@@ -308,8 +244,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       shadowColor = {humans: '#F00', ogres: '#00F', neutral: '#0F0', common: '#0F0'}[@thang.team] ? '#000'
       label.shadow = new createjs.Shadow shadowColor, 1, 1, 3
       offset = @getOffset 'aboveHead'
-      [label.x, label.y] = [@imageObject.x + offset.x - label.getMeasuredWidth() / 2, @imageObject.y + offset.y]
-      @options.floatingLayer.addChild label
+      [label.x, label.y] = [@sprite.x + offset.x - label.getMeasuredWidth() / 2, @sprite.y + offset.y]
+      @options.textLayer.addChild label
       window.labels ?= []
       window.labels.push label
       label.alpha = 0
@@ -319,12 +255,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         .to({y: label.y-22, alpha: 0}, 1000, createjs.Ease.linear)
         .call =>
           return if @destroyed
-          @options.floatingLayer.removeChild label
-
-  cache: ->
-    bounds = @imageObject.getBounds()
-    @imageObject.cache 0, 0, bounds.width, bounds.height
-    #console.log 'just cached', @thang.id, 'which was at', @imageObject.x, @imageObject.y, bounds.width, bounds.height, 'with scale', Math.max(@imageObject.scaleX, @imageObject.scaleY)
+          @options.textLayer.removeChild label
 
   getBobOffset: ->
     return 0 unless @thang.bobHeight
@@ -341,49 +272,37 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   updatePosition: (whileLoading=false) ->
     return if @stillLoading and not whileLoading
     return unless @thang?.pos and @options.camera?
-    wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
-    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo and not @thang.bobHeight
+    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @thang.bobHeight
+    wop = @getWorldPosition()
     sup = @options.camera.worldToSurface wop
-    [@imageObject.x, @imageObject.y] = [sup.x, sup.y]
+    [@sprite.x, @sprite.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1) unless whileLoading
     @hasMoved = true
     if @thangType.get('name') is 'Flag' and not @notOfThisWorld
       # Let the pending flags know we're here (but not this call stack, they need to delete themselves, and we may be iterating sprites).
       _.defer => Backbone.Mediator.publish 'surface:flag-appeared', sprite: @
 
-  updateBaseScale: ->
-    scale = 1
-    scale = @thangType.get('scale') or 1 if @isRaster
-    scale /= @options.resolutionFactor unless @isRaster
-    @baseScaleX = @baseScaleY = scale
-    @baseScaleX *= -1 if @getActionProp 'flipX'
-    @baseScaleY *= -1 if @getActionProp 'flipY'
-    # temp, until these are re-exported with perspective
-    floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle']
-    if @options.camera and @thangType.get('name') in floors
-      @baseScaleY *= @options.camera.y2x
-
   updateScale: ->
-    return unless @imageObject
+    return unless @sprite
     if @thangType.get('matchWorldDimensions') and @thang
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
-        bounds = @imageObject.getBounds()
+        bounds = @sprite.getBounds()
         return unless bounds
-        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
-        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
-        @imageObject.regX = bounds.width / 2
-        @imageObject.regY = bounds.height / 2
+        @sprite.scaleX = @thang.width * Camera.PPM / bounds.width
+        @sprite.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
+        @sprite.regX = bounds.width / 2
+        @sprite.regY = bounds.height / 2
 
         unless @thang.spriteName is 'Beam'
-          @imageObject.scaleX *= @thangType.get('scale') ? 1
-          @imageObject.scaleY *= @thangType.get('scale') ? 1
+          @sprite.scaleX *= @thangType.get('scale') ? 1
+          @sprite.scaleY *= @thangType.get('scale') ? 1
         [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
       return
 
     scaleX = scaleY = 1
 
-    if @thangType.get('name') in ['Arrow', 'Spear']
+    if @isMissile
       # Scales the arrow so it appears longer when flying parallel to horizon.
       # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
       # (a - x) / a: equals 1 when x = 0, equals 0 when x = a, monotonous in between. That gives us some sort of
@@ -398,8 +317,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
 
 #    console.error 'No thang for', @ unless @thang
-    @imageObject.scaleX = @baseScaleX * @scaleFactorX * scaleX
-    @imageObject.scaleY = @baseScaleY * @scaleFactorY * scaleY
+    @sprite.scaleX = @sprite.baseScaleX * @scaleFactorX * scaleX
+    @sprite.scaleY = @sprite.baseScaleY * @scaleFactorY * scaleY
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
@@ -410,20 +329,20 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       createjs.Tween.get(@).to({scaleFactorX: @targetScaleFactorX, scaleFactorY: @targetScaleFactorY}, 2000, createjs.Ease.elasticOut)
 
   updateAlpha: ->
-    @imageObject.alpha = if @hiding then 0 else 1
+    @sprite.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
-    return if @imageObject.alpha is @thang.alpha
-    @imageObject.alpha = @thang.alpha
+    return if @sprite.alpha is @thang.alpha
+    @sprite.alpha = @thang.alpha
     if @options.showInvisible
-      @imageObject.alpha = Math.max 0.5, @imageObject.alpha
+      @sprite.alpha = Math.max 0.5, @sprite.alpha
     mark.updateAlpha @thang.alpha for name, mark of @marks
     @healthBar?.alpha = @thang.alpha
 
-  updateRotation: (imageObject) ->
+  updateRotation: (sprite) ->
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
-    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.velocity
+    if @isMissile and @thang.velocity
       # Rotates the arrow to see it arc based on velocity.z.
       # Notice that rotation here does not affect thang's state - it is just the effect.
       # Thang's rotation is always pointing where it is heading.
@@ -434,9 +353,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         xFactor = Math.cos heading
         zFactor = vz / Math.sqrt(vz * vz + vx * vx)
         rotation -= xFactor * zFactor * 45
-    imageObject ?= @imageObject
-    return imageObject.rotation = rotation if rotationType is 'free' or not rotationType
-    @updateIsometricRotation(rotation, imageObject)
+    sprite ?= @sprite
+    return sprite.rotation = rotation if rotationType is 'free' or not rotationType
+    @updateIsometricRotation(rotation, sprite)
 
   getRotation: ->
     thang = if @possessed then @shadow else @thang
@@ -446,15 +365,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotation -= 360 if rotation > 180
     rotation
 
-  updateIsometricRotation: (rotation, imageObject) ->
+  updateIsometricRotation: (rotation, sprite) ->
     return unless @currentAction
     return if _.string.endsWith(@currentAction.name, 'back')
     return if _.string.endsWith(@currentAction.name, 'fore')
-    imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
+    sprite.scaleX *= -1 if Math.abs(rotation) >= 90
 
   ##################################################
   updateAction: ->
-    return if @isRaster
+    return if @isRaster or @actionLocked
     action = @determineAction()
     isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
@@ -482,6 +401,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # wallGrid is only needed for wall grid face updates; should refactor if this works
     return unless action = @getActionDirection()
     @playAction(action) if action isnt @currentAction
+  
+  lockAction: -> (@actionLocked=true)
 
   getActionDirection: (rootAction=null) ->
     rootAction ?= @currentRootAction
@@ -535,25 +456,23 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @lastHealth = @thang.health
     if bar = @healthBar
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
-      bar.scaleX = healthPct / bar.baseScale
-      healthOffset = @getOffset 'aboveHead'
-      [bar.x, bar.y] = [healthOffset.x - bar.width / 2, healthOffset.y]
+      bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
 
   configureMouse: ->
-    @imageObject.cursor = 'pointer' if @thang?.isSelectable
-    @imageObject.mouseEnabled = @imageObject.mouseChildren = false unless @thang?.isSelectable or @thang?.isLand
-    if @imageObject.mouseEnabled
-      @imageObject.on 'mousedown', @onMouseEvent, @, false, 'sprite:mouse-down'
-      @imageObject.on 'click',     @onMouseEvent, @, false, 'sprite:clicked'
-      @imageObject.on 'dblclick',  @onMouseEvent, @, false, 'sprite:double-clicked'
-      @imageObject.on 'pressmove', @onMouseEvent, @, false, 'sprite:dragged'
-      @imageObject.on 'pressup',   @onMouseEvent, @, false, 'sprite:mouse-up'
+    @sprite.cursor = 'pointer' if @thang?.isSelectable
+    @sprite.mouseEnabled = @sprite.mouseChildren = false unless @thang?.isSelectable or @thang?.isLand
+    if @sprite.mouseEnabled
+      @sprite.on 'mousedown', @onMouseEvent, @, false, 'sprite:mouse-down'
+      @sprite.on 'click',     @onMouseEvent, @, false, 'sprite:clicked'
+      @sprite.on 'dblclick',  @onMouseEvent, @, false, 'sprite:double-clicked'
+      @sprite.on 'pressmove', @onMouseEvent, @, false, 'sprite:dragged'
+      @sprite.on 'pressup',   @onMouseEvent, @, false, 'sprite:mouse-up'
 
   onMouseEvent: (e, ourEventName) ->
-    return if @letterboxOn or not @imageObject
-    p = @imageObject
+    return if @letterboxOn or not @sprite
+    p = @sprite
     p = p.parent while p.parent
     newEvent = sprite: @, thang: @thang, originalEvent: e, canvas: p.canvas
     @trigger ourEventName, newEvent
@@ -561,13 +480,22 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   addHealthBar: ->
     return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
-    healthColor = healthColors[@thang?.team] ? healthColors['neutral']
-    healthOffset = @getOffset 'aboveHead'
-    bar = @healthBar = createProgressBar(healthColor, healthOffset)
-    bar.name = 'health bar'
-    bar.cache 0, -bar.height * bar.baseScale / 2, bar.width * bar.baseScale, bar.height * bar.baseScale
-    @options.floatingLayer.addChild bar
+    team = @thang?.team or 'neutral'
+    key = "#{team}-health-bar"
+
+    unless key in @options.floatingLayer.spriteSheet.getAnimations()
+      healthColor = healthColors[team]
+      bar = createProgressBar(healthColor)
+      @options.floatingLayer.addCustomGraphic(key, bar, bar.bounds)
+
+    @healthBar = new createjs.Sprite(@options.floatingLayer.spriteSheet)
+    @healthBar.gotoAndStop(key)
+    offset = @getOffset 'aboveHead'
+    @healthBar.scaleX = @healthBar.scaleY = 1 / @options.floatingLayer.resolutionFactor
+    @healthBar.name = 'health bar'
+    @options.floatingLayer.addChild @healthBar
     @updateHealthBar()
+    @lastHealth = null
 
   getActionProp: (prop, subProp, def=null) ->
     # Get a property or sub-property from an action, falling back to ThangType
@@ -583,7 +511,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     pos = x: pos.x, y: pos.y
     if not @isRaster
       scale = @getActionProp 'scale', null, 1
-      scale *= @options.resolutionFactor if prop is 'registration'
+      scale *= @sprite.parent.resolutionFactor if prop is 'registration'
       pos.x *= scale
       pos.y *= scale
     if @thang and prop isnt 'registration'
@@ -598,24 +526,26 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   createMarks: ->
     return unless @options.camera
     if @thang
-      allProps = []
-      allProps = allProps.concat (@thang.hudProperties ? [])
-      allProps = allProps.concat (@thang.programmableProperties ? [])
-      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+      # TODO: Add back ranges
+#      allProps = []
+#      allProps = allProps.concat (@thang.hudProperties ? [])
+#      allProps = allProps.concat (@thang.programmableProperties ? [])
+#      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+#
+#      for property in allProps
+#        if m = property.match /.*(Range|Distance|Radius)$/
+#          if @thang[m[0]]? and @thang[m[0]] < 9001
+#            @ranges.push
+#              name: m[0]
+#              radius: @thang[m[0]]
+#
+#      @ranges = _.sortBy @ranges, 'radius'
+#      @ranges.reverse()
+#
+#      @addMark range.name for range in @ranges
 
-      for property in allProps
-        if m = property.match /.*(Range|Distance|Radius)$/
-          if @thang[m[0]]? and @thang[m[0]] < 9001
-            @ranges.push
-              name: m[0]
-              radius: @thang[m[0]]
-
-      @ranges = _.sortBy @ranges, 'radius'
-      @ranges.reverse()
-
-      @addMark range.name for range in @ranges
-
-      @addMark('bounds').toggle true if @thang?.drawsBounds
+      # TODO: add back bounds
+#      @addMark('bounds').toggle true if @thang?.drawsBounds
       @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
 
   updateMarks: ->
@@ -628,7 +558,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @marks[range['name']].toggle false for range in @ranges
 
-    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.action is 'die'
+    if @isMissile and @thang.action is 'die'
       @marks.shadow?.hide()
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['warcry', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
@@ -689,7 +619,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
-    @marks[name] ?= new Mark name: name, sprite: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
+    @marks[name] ?= new Mark name: name, lank: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
 
   notifySpeechUpdated: (e) ->
@@ -796,7 +726,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       z = @shadow.pos.z
       @shadow.pos = pos
       @shadow.pos.z = z
-      @imageObject.gotoAndPlay?(endAnimation)
+      @sprite.gotoAndPlay?(endAnimation)
       return
 
     @shadow.action = 'move'
@@ -812,7 +742,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
     endFunc = =>
       @lastTween = null
-      @imageObject.gotoAndPlay(endAnimation) unless @stillLoading
+      @sprite.gotoAndPlay(endAnimation) unless @stillLoading
       @shadow.action = 'idle'
       @update true
       @possessed = false
@@ -836,13 +766,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updateHealthBar: ->
     return unless @healthBar
-    @healthBar.x = @imageObject.x
-    @healthBar.y = @imageObject.y
+    bounds = @healthBar.getBounds()
+    offset = @getOffset 'aboveHead'
+    @healthBar.x = @sprite.x - (-offset.x + bounds.width / 2 / @options.floatingLayer.resolutionFactor)
+    @healthBar.y = @sprite.y - (-offset.y + bounds.height / 2 / @options.floatingLayer.resolutionFactor)
 
   destroy: ->
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
     p.removeChild @healthBar if p = @healthBar?.parent
-    @imageObject?.off 'animationend', @playNextAction
+    @sprite?.off 'animationend', @playNextAction
     clearInterval @effectInterval if @effectInterval
     super()

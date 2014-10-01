@@ -123,6 +123,7 @@ _.extend ThangTypeSchema.properties,
   scale:
     title: 'Scale'
     type: 'number'
+  spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
   positions: PositionsSchema
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }

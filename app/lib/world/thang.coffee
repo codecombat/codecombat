@@ -166,7 +166,7 @@ module.exports = class Thang
   serializeForAether: ->
     {CN: @constructor.className, id: @id}
 
-  getSpriteOptions: ->
+  getLankOptions: ->
     colorConfigs = @teamColors or @world?.getTeamColors() or {}
     options = {colorConfig: {}}
     if @team and teamColor = colorConfigs[@team]

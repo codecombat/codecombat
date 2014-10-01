@@ -1,6 +1,6 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/home'
-WizardSprite = require 'lib/surface/WizardSprite'
+WizardLank = require 'lib/surface/WizardLank'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
 {me} = require '/lib/auth'

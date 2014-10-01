@@ -443,13 +443,17 @@ class WebGLDemoView extends RootView
     spriteContainers = []
     i = 0
 
+    class SpriteContainerChildClass extends createjs.SpriteContainer
+      constructor: (spriteSheet) ->
+        @initialize(spriteSheet)
+
     while i < 100
       beStatic = false
       #      beStatic = i % 2
       #      beStatic = true
 
       librarian = new librarianLib.Librarian_SideWalk_JSCC()
-      c = new createjs.SpriteContainer(sheet)
+      c = new SpriteContainerChildClass(sheet)
       c.x = (i%10) * 95
       c.y = i * 6
       c.scaleX = 1
@@ -514,8 +518,7 @@ class WebGLDemoView extends RootView
 #    @testAnimateManyRasteredWaterfalls()
 #    @testManualMovieClipUpdating()
 #    @testManyWaterfallsWithManualAnimation()
-#    @testLibrarianHorde()
-    @testGiantCanvas()
+    @testLibrarianHorde()
 
 module.exports = ->
   v = new WebGLDemoView()

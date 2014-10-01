@@ -1,5 +1,5 @@
-@import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 body.is-playing
   background-color: black
@@ -17,8 +17,13 @@ $level-resize-transition-time: 0.5s
 
     #canvas-wrapper
       width: 100%
-      canvas#surface
+      canvas
         margin: 0 auto
+      #normal-surface
+        left: 0
+        right: 0
+        margin-left: auto
+        margin-right: auto
     #control-bar-view
       width: 100%
       button, h4
@@ -44,6 +49,7 @@ $level-resize-transition-time: 0.5s
       text-align: center
     #stop-real-time-playback-button
       display: block
+      z-index: 20
 
     .level-content
       margin: 0px auto
@@ -57,10 +63,20 @@ $level-resize-transition-time: 0.5s
     overflow: hidden
     @include transition($level-resize-transition-time ease-out)
     
-  canvas#surface
+  canvas#webgl-surface
     background-color: #333
-    display: block
     z-index: 1
+    
+  canvas#normal-surface
+    z-index: 1
+    position: absolute
+    top: 0
+    left: 0
+    pointer-events: none
+    
+  canvas#webgl-surface, canvas#normal-surface
+    display: block
+    z-index: 2
     @include transition($level-resize-transition-time ease-out)
 
     &.flag-color-selected
@@ -272,6 +288,6 @@ body.ipad #level-view
   #canvas-wrapper
     height: 653px
 
-    canvas#surface
+    canvas
       margin: 0 auto
       overflow: hidden

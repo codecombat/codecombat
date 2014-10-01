@@ -1,7 +1,8 @@
 ThangType = require 'models/ThangType'
 SpriteParser = require 'lib/sprites/SpriteParser'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-CocoSprite = require 'lib/surface/CocoSprite'
+Lank = require 'lib/surface/Lank'
+LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 
@@ -58,7 +59,7 @@ module.exports = class ThangTypeEditView extends RootView
     @listenToOnce @thangType, 'sync', ->
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
       @updateFileSize()
-    @refreshAnimation = _.debounce @refreshAnimation, 500
+#    @refreshAnimation = _.debounce @refreshAnimation, 500
 
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
@@ -74,7 +75,8 @@ module.exports = class ThangTypeEditView extends RootView
     context
 
   getAnimationNames: ->
-    raw = _.keys(@thangType.get('raw', true).animations)
+    raw = _.keys((@thangType.get('raw') or {}).animations)
+    return [] unless raw
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
@@ -119,6 +121,9 @@ module.exports = class ThangTypeEditView extends RootView
   initStage: ->
     canvas = @$el.find('#canvas')
     @stage = new createjs.Stage(canvas[0])
+    @layerAdapter = new LayerAdapter({name:'Default', webGL: true})
+    @listenTo @layerAdapter, 'new-spritesheet', @onNewSpriteSheet
+    @stage.addChild(@layerAdapter.container)
     @camera?.destroy()
     @camera = new Camera canvas
 
@@ -128,7 +133,7 @@ module.exports = class ThangTypeEditView extends RootView
     @groundDot = @makeDot('red')
     @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
     @updateGrid()
-    @refreshAnimation()
+    _.defer @refreshAnimation
 
     createjs.Ticker.setFPS(30)
     createjs.Ticker.addEventListener('tick', @stage)
@@ -139,11 +144,11 @@ module.exports = class ThangTypeEditView extends RootView
 
   updateDots: ->
     @stage.removeChild(@torsoDot, @mouthDot, @aboveHeadDot, @groundDot)
-    return unless @currentSprite
+    return unless @currentLank
     return unless @showDots
-    torso = @currentSprite.getOffset 'torso'
-    mouth = @currentSprite.getOffset 'mouth'
-    aboveHead = @currentSprite.getOffset 'aboveHead'
+    torso = @currentLank.getOffset 'torso'
+    mouth = @currentLank.getOffset 'mouth'
+    aboveHead = @currentLank.getOffset 'aboveHead'
     @torsoDot.x = CENTER.x + torso.x * @scale
     @torsoDot.y = CENTER.y + torso.y * @scale
     @mouthDot.x = CENTER.x + mouth.x * @scale
@@ -153,7 +158,7 @@ module.exports = class ThangTypeEditView extends RootView
     @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
 
   endAnimation: ->
-    @currentSprite?.queueAction('idle')
+    @currentLank?.queueAction('idle')
 
   updateGrid: ->
     grid = new createjs.Container()
@@ -223,23 +228,25 @@ module.exports = class ThangTypeEditView extends RootView
 
   # animation select
 
-  refreshAnimation: ->
+  refreshAnimation: =>
+    @thangType.buildActions()
     return @showRasterImage() if @thangType.get('raster')
-    options = @getSpriteOptions()
-    @thangType.resetSpriteSheetCache()
-    spriteSheet = @thangType.buildSpriteSheet(options)
-    $('#spritesheets').empty()
-    return unless spriteSheet
-    for image in spriteSheet._images
-      $('#spritesheets').append(image)
+    options = @getLankOptions()
+    console.log 'refresh animation....'
     @showAnimation()
     @updatePortrait()
 
   showRasterImage: ->
-    sprite = new CocoSprite(@thangType, @getSpriteOptions())
-    @currentSprite?.destroy()
-    @currentSprite = sprite
-    @showImageObject(sprite.imageObject)
+    sprite = new Lank(@thangType, @getLankOptions())
+    @currentLank?.destroy()
+    @currentLank = sprite
+    @showSprite(sprite.sprite)
+    @updateScale()
+    
+  onNewSpriteSheet: ->
+    $('#spritesheets').empty()
+    for image in @layerAdapter.spriteSheet._images
+      $('#spritesheets').append(image)
     @updateScale()
 
   showAnimation: (animationName) ->
@@ -249,7 +256,7 @@ module.exports = class ThangTypeEditView extends RootView
       animationName = animationName[4...]
       @showMovieClip(animationName)
     else
-      @showSprite(animationName)
+      @showAction(animationName)
     @updateRotation()
     @updateScale() # must happen after update rotation, because updateRotation calls the sprite update() method.
 
@@ -261,36 +268,51 @@ module.exports = class ThangTypeEditView extends RootView
     if reg
       movieClip.regX = -reg.x
       movieClip.regY = -reg.y
-    @showImageObject(movieClip)
+    @showSprite(movieClip)
 
-  getSpriteOptions: -> {resolutionFactor: @resolution, thang: @mockThang}
+  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang}
 
-  showSprite: (actionName) ->
-    options = @getSpriteOptions()
-    sprite = new CocoSprite(@thangType, options)
-    sprite.queueAction(actionName)
-    @currentSprite?.destroy()
-    @currentSprite = sprite
-    @showImageObject(sprite.imageObject)
+  showAction: (actionName) ->
+    options = @getLankOptions()
+    lank = new Lank(@thangType, options)
+    @showLank(lank)
+    lank.queueAction(actionName)
 
   updatePortrait: ->
-    options = @getSpriteOptions()
+    options = @getLankOptions()
     portrait = @thangType.getPortraitImage(options)
     return unless portrait
     portrait?.attr('id', 'portrait').addClass('img-thumbnail')
     portrait.addClass 'img-thumbnail'
     $('#portrait').replaceWith(portrait)
-
-  showImageObject: (imageObject) ->
+    
+  showLank: (lank) ->
     @clearDisplayObject()
-    imageObject.x = CENTER.x
-    imageObject.y = CENTER.y
-    @stage.addChildAt(imageObject, 1)
-    @currentObject = imageObject
+    @clearLank()
+    @layerAdapter.resetSpriteSheet()
+    @layerAdapter.addLank(lank)
+    @currentLank = lank
+    lank.sprite.x = CENTER.x
+    lank.sprite.y = CENTER.y
+    lank.on 'new-sprite', ->
+      lank.sprite.x = CENTER.x
+      lank.sprite.y = CENTER.y
+
+  showSprite: (sprite) ->
+    @clearDisplayObject()
+    @clearLank()
+    sprite.x = CENTER.x
+    sprite.y = CENTER.y
+    @stage.addChildAt(sprite, 1)
+    @currentObject = sprite
     @updateDots()
 
   clearDisplayObject: ->
     @stage.removeChild(@currentObject) if @currentObject?
+    
+  clearLank: ->
+    @layerAdapter.removeLank(@currentLank) if @currentLank
+    @currentLank?.destroy()
 
   # sliders
 
@@ -303,9 +325,9 @@ module.exports = class ThangTypeEditView extends RootView
   updateRotation: =>
     value = parseInt(180 * (@rotationSlider.slider('value') - 50) / 50)
     @$el.find('.rotation-label').text " #{value}° "
-    if @currentSprite
-      @currentSprite.rotation = value
-      @currentSprite.update(true)
+    if @currentLank
+      @currentLank.rotation = value
+      @currentLank.update(true)
 
   updateScale: =>
     resValue = (@resolutionSlider.slider('value') + 1) / 10
@@ -313,9 +335,9 @@ module.exports = class ThangTypeEditView extends RootView
     fixed = scaleValue.toFixed(1)
     @scale = scaleValue
     @$el.find('.scale-label').text " #{fixed}x "
-    if @currentSprite
-      @currentSprite.scaleFactorX = @currentSprite.scaleFactorY = scaleValue
-      @currentSprite.updateScale()
+    if @currentLank
+      @currentLank.sprite.scaleX = @currentLank.sprite.baseScaleX * scaleValue
+      @currentLank.sprite.scaleY = @currentLank.sprite.baseScaleY * scaleValue
     else if @currentObject?
       @currentObject.scaleX = @currentObject.scaleY = scaleValue / resValue
     @updateGrid()
@@ -332,7 +354,7 @@ module.exports = class ThangTypeEditView extends RootView
     value = parseInt((@healthSlider.slider('value')) / 10)
     @$el.find('.health-label').text " #{value}hp "
     @mockThang.health = value
-    @currentSprite?.update()
+    @currentLank?.update()
 
   # save
 
@@ -352,7 +374,7 @@ module.exports = class ThangTypeEditView extends RootView
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
       portraitSource = null
       if @thangType.get('raster')
-        image = @currentSprite.imageObject.image
+        image = @currentLank.sprite.image
         portraitSource = imageToPortrait image
         # bit of a hacky way to get that portrait
       success = =>
@@ -422,11 +444,11 @@ module.exports = class ThangTypeEditView extends RootView
       bounds = obj.frameBounds[0]
       obj.regX = bounds.x + bounds.width / 2
       obj.regY = bounds.y + bounds.height / 2
-    @showImageObject(obj) if obj
+    @showSprite(obj) if obj
     obj.y = 200 if obj # truly center the container
     @showingSelectedNode = true
-    @currentSprite?.destroy()
-    @currentSprite = null
+    @currentLank?.destroy()
+    @currentLank = null
     @updateScale()
     @grid.alpha = 0.0
 

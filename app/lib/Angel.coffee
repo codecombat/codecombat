@@ -4,6 +4,7 @@
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
 CocoClass = require 'lib/CocoClass'
+GoalManager = require 'lib/world/GoalManager'
 
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
@@ -210,6 +211,11 @@ module.exports = class Angel extends CocoClass
     @hireWorker() if rehire
 
   hireWorker: ->
+    unless Worker?
+      unless @initialized
+        @initialized = true
+        @doWork()
+      return null
     return if @worker
     @say 'Hiring worker.'
     @worker = new Worker @shared.workerCode
@@ -232,7 +238,7 @@ module.exports = class Angel extends CocoClass
     work.testWorld = testWorld = new World work.userCodeMap
     testWorld.loadFromLevel work.level
     if @shared.goalManager
-      testGM = new @shared.goalManager.constructor @testWorld
+      testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
       testGM.setCode work.userCodeMap
       testGM.worldGenerationWillBegin()
@@ -243,11 +249,12 @@ module.exports = class Angel extends CocoClass
 
     # If performance was really a priority in IE9, we would rework things to be able to skip this step.
     goalStates = testGM?.getGoalStates()
-    serialized = testWorld.serialize().serializedWorld
+    work.testWorld.goalManager.worldGenerationEnded() if work.testWorld.ended
+    serialized = testWorld.serialize()
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @angelsShare.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame
     window.BOX2D_ENABLED = true
-    @shared.lastSerializedWorldFrames = serialized.frames
+    @shared.lastSerializedWorldFrames = serialized.serializedWorld.frames
 
   doSimulateWorld: (work) ->
     work.t1 = now()
@@ -258,6 +265,7 @@ module.exports = class Angel extends CocoClass
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++
+    Backbone.Mediator.publish 'god:world-load-progress-changed', progress: 1
     work.testWorld.ended = true
     system.finish work.testWorld.thangs for system in work.testWorld.systems
     work.t2 = now()

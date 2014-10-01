@@ -32,6 +32,7 @@ GoalsView = require './LevelGoalsView'
 LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
+HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 
@@ -196,6 +197,11 @@ module.exports = class PlayLevelView extends RootView
     @insertSubviews()
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+
+    # testing
+#    modal = new HeroVictoryModal({session: @session, level: @level})
+#    @openModalView(modal)
+
     @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
@@ -266,7 +272,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
-    Backbone.Mediator.publish('level:set-debug', debug: true) if @isIPadApp()  # if me.displayName() is 'Nick'
+    _.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
     volume = me.get('volume')
@@ -319,8 +325,9 @@ module.exports = class PlayLevelView extends RootView
     storage.save 'recently-played-matches', allRecentlyPlayedMatches
 
   initSurface: ->
-    surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: @level.get('type', true) isnt 'hero')
+    webGLSurface = $('canvas#webgl-surface', @$el)
+    normalSurface = $('canvas#normal-surface', @$el)
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: @level.get('type', true) isnt 'hero')
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -449,8 +456,10 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     options = {level: @level, supermodel: @supermodel, session: @session}
-    docs = new VictoryModal(options)
-    @openModalView(docs)
+#    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
+#    victoryModal = new ModalClass(options)
+    victoryModal = new VictoryModal(options)
+    @openModalView(victoryModal)
     if me.get('anonymous')
       window.nextLevelURL = @getNextLevelURL()  # Signup will go here on completion instead of reloading.
 

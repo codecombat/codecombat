@@ -61,7 +61,7 @@ _.extend AchievementSchema.properties,
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
   recalculable:
     type: 'boolean'
-    description: 'Needs to be set to true before it is eligible for recalculation.'
+    description: 'Deprecated: all achievements must be recalculable now. Used to need to be set to true before it is eligible for recalculation.'
   function:
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'

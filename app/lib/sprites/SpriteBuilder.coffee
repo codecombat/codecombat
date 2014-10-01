@@ -11,7 +11,7 @@ module.exports = class SpriteBuilder
 
   setOptions: (@options) ->
 
-  buildMovieClip: (animationName, movieClipArgs...) ->
+  buildMovieClip: (animationName, mode, startPosition, loops, labels) ->
     animData = @animationStore[animationName]
     unless animData
       console.error 'couldn\'t find animData from', @animationStore, 'for', animationName
@@ -22,14 +22,10 @@ module.exports = class SpriteBuilder
     _.extend locals, @buildMovieClipAnimations(animData.animations)
     _.extend locals, @buildMovieClipGraphics(animData.graphics)
     anim = new createjs.MovieClip()
-    movieClipArgs ?= []
-    labels = {}
-    labels[animationName] = 0
-    anim.initialize(
-      movieClipArgs[0] ? createjs.MovieClip.INDEPENDENT, # mode
-      movieClipArgs[1] ? 0, # start position
-      movieClipArgs[2] ? true, # loops
-      labels)
+    if not labels
+      labels = {}
+      labels[animationName] = 0
+    anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true, labels)
     for tweenData in animData.tweens
       tween = createjs.Tween
       for func in tweenData
@@ -81,7 +77,7 @@ module.exports = class SpriteBuilder
   buildMovieClipAnimations: (localAnimations) ->
     map = {}
     for localAnimation in localAnimations
-      animation = @buildMovieClip(localAnimation.gn, localAnimation.a)
+      animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
     map
@@ -111,7 +107,7 @@ module.exports = class SpriteBuilder
     shape
 
   buildContainerFromStore: (containerKey) ->
-    console.error 'Yo we don\'t have no', containerKey unless containerKey
+    console.error 'Yo we don\'t have no containerKey' unless containerKey
     contData = @containerStore[containerKey]
     cont = new createjs.Container()
     cont.initialize()

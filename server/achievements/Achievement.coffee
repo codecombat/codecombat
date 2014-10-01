@@ -30,8 +30,6 @@ AchievementSchema.methods.getExpFunction = ->
   TreemaUtils.populateDefaults(func, jsonschema.properties.function)
   return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
 
-AchievementSchema.methods.isRecalculable = -> @get('recalculable') isnt false
-
 AchievementSchema.statics.jsonschema = jsonschema
 AchievementSchema.statics.earnedAchievements = {}
 

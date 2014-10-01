@@ -84,7 +84,7 @@ module.exports = class JobProfileView extends UserView
     if me.isAdmin() or 'employer' in me.get('permissions', true)
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@user.id), 'candidate_sessions').model
     @listenToOnce @sessions, 'sync', => @render?()
     if me.isAdmin()
       # Mimicking how the VictoryModal fetches LevelFeedback

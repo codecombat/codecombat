@@ -14,6 +14,7 @@ module.exports = class AchievementEditView extends RootView
   events:
     'click #save-button': 'saveAchievement'
     'click #recalculate-button': 'confirmRecalculation'
+    'click #recalculate-all-button': 'confirmAllRecalculation'
     'click #delete-button': 'confirmDeletion'
 
   constructor: (options, @achievementID) ->
@@ -82,16 +83,20 @@ module.exports = class AchievementEditView extends RootView
       url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
       document.location.href = url
 
-  confirmRecalculation: ->
+  confirmRecalculation: (e, all=false) ->
     renderData =
       'confirmTitle': 'Are you really sure?'
-      'confirmBody': 'This will trigger recalculation of the achievement for all users. Are you really sure you want to go down this path?'
+      'confirmBody': "This will trigger recalculation of #{if all then 'all achievements' else 'the achievement'} for all users. Are you really sure you want to go down this path?"
       'confirmDecline': 'Not really'
       'confirmConfirm': 'Definitely'
 
     confirmModal = new ConfirmModal renderData
     confirmModal.on 'confirm', @recalculateAchievement
+    @recalculatingAll = all
     @openModalView confirmModal
+
+  confirmAllRecalculation: (e) ->
+    @confirmRecalculation e, true
 
   confirmDeletion: ->
     renderData =
@@ -105,8 +110,9 @@ module.exports = class AchievementEditView extends RootView
     @openModalView confirmModal
 
   recalculateAchievement: =>
+    data = if @recalculatingAll then {} else {achievements: [@achievement.get('slug') or @achievement.get('_id')]}
     $.ajax
-      data: JSON.stringify(earnedAchievements: [@achievement.get('slug') or @achievement.get('_id')])
+      data: JSON.stringify data
       success: (data, status, jqXHR) ->
         noty
           timeout: 5000

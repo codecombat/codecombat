@@ -359,9 +359,9 @@ module.exports = class ThangsTabView extends CocoView
     @addThangType = type
     if @addThangType
       thang = @createAddThang()
-      @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers['Floating']
+      @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.layerAdapters['Floating']
       @addThangSprite.notOfThisWorld = true
-      @addThangSprite.imageObject.alpha = 0.75
+      @addThangSprite.sprite.alpha = 0.75
       @addThangSprite.playSound? 'selected'
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
       @adjustThangPos @addThangSprite, thang, pos
@@ -420,11 +420,11 @@ module.exports = class ThangsTabView extends CocoView
 
   onSurfaceMouseOver: (e) ->
     return unless @addThangSprite
-    @addThangSprite.imageObject.visible = true
+    @addThangSprite.sprite.visible = true
 
   onSurfaceMouseOut: (e) ->
     return unless @addThangSprite
-    @addThangSprite.imageObject.visible = false
+    @addThangSprite.sprite.visible = false
 
   calculateMovement: (pctX, pctY, widthHeightRatio) ->
     MOVE_TOP_MARGIN = 1.0 - MOVE_MARGIN

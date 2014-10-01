@@ -218,15 +218,15 @@ module.exports = class LevelLoader extends CocoClass
     nameModelMap = _.zipObject nameModelTuples
     @spriteSheetsToBuild ?= []
 
-    for thangTypeName in thangsToLoad
-      thangType = nameModelMap[thangTypeName]
-      continue if not thangType or thangType.isFullyLoaded()
-      thangType.fetch()
-      thangType = @supermodel.loadModel(thangType, 'thang').model
-      res = @supermodel.addSomethingResource 'sprite_sheet', 5
-      res.thangType = thangType
-      res.markLoading()
-      @spriteSheetsToBuild.push res
+#    for thangTypeName in thangsToLoad
+#      thangType = nameModelMap[thangTypeName]
+#      continue if not thangType or thangType.isFullyLoaded()
+#      thangType.fetch()
+#      thangType = @supermodel.loadModel(thangType, 'thang').model
+#      res = @supermodel.addSomethingResource 'sprite_sheet', 5
+#      res.thangType = thangType
+#      res.markLoading()
+#      @spriteSheetsToBuild.push res
 
     @buildLoopInterval = setInterval @buildLoop, 5 if @spriteSheetsToBuild.length
 

@@ -432,6 +432,7 @@ var p = SpriteStage.prototype = new createjs.Stage();
 		if (child._spritestage_compatibility >= 1) {
 			// The child is compatible with SpriteStage.
 		} else {
+          console.trace();
 			console && console.log("Error: You can only add children of type SpriteContainer, Sprite, Bitmap, BitmapText, or DOMElement. [" + child.toString() + "]");
 			return child;
 		}
