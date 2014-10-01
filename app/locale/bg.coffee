@@ -3,11 +3,11 @@ module.exports = nativeDescription: "български език", englishDescri
     loading: "Зареждане..."
     saving: "Записване..."
     sending: "Изпращане..."
-#    send: "Send"
+    send: "Изпрати"
     cancel: "Отказ"
     save: "Запис"
-#    publish: "Publish"
-#    create: "Create"
+    publish: "Публикирай"
+    create: "Создавай"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунди"
     delay_5_sec: "5 секунди"
@@ -19,21 +19,21 @@ module.exports = nativeDescription: "български език", englishDescri
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "секунда"
+    seconds: "секунди"
+    minute: "минута"
+    minutes: "минути"
+    hour: "час"
+    hours: "часове"
+    day: "ден"
+    days: "дни"
+    week: "седмица"
+    weeks: "седмици"
+    month: "месец"
+    months: "месеци"
+    year: "година"
+    years: "години"
 
   modal:
     close: "Затвори"
@@ -44,20 +44,20 @@ module.exports = nativeDescription: "български език", englishDescri
 
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    community: "Обшност"
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
-#    account: "Account"
-#    profile: "Profile"
+    account: "Сметката"
+    profile: "Профил"
 #    stats: "Stats"
 #    code: "Code"
 #    admin: "Admin"
-#    home: "Home"
+    home: "Начало"
 #    contribute: "Contribute"
 #    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
+    about: "За нас"
+    contact: "Контакти"
 #    twitter_follow: "Follow"
 #    employers: "Employers"
 
@@ -72,7 +72,7 @@ module.exports = nativeDescription: "български език", englishDescri
   login:
     sign_up: "Създай Профил"
     log_in: "Вход"
-#    logging_in: "Logging In"
+    logging_in: "Влизане..."
     log_out: "Изход"
     recover: "Възстанови акаунт"
 
@@ -82,16 +82,16 @@ module.exports = nativeDescription: "български език", englishDescri
 #    recovery_sent: "Recovery email sent."
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
-#    description: "It's free. Just need a couple things and you'll be good to go:"
-#    email_announcements: "Receive announcements by email"
+    create_account_title: "Создавай нов сметката за да записва прогрес"
+    description: "Е безплатен. Само ще трабва неколко неща и ти ще си готов:"
+    email_announcements: "Получава анонци през имейл"
 #    coppa: "13+ or non-USA "
     coppa_why: "(Защо?)"
     creating: "Създаване на профил..."
     sign_up: "Регистриране"
     log_in: "Вход с парола"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
-#    required: "You need to log in before you can go that way."
+    social_signup: "Или, можеш да зарегистрираваш през Facebook или G+:"
+    required: "Трабва да влезиш преди можеш да ходиш на там."
 
   home:
     slogan: "Научи се да програмираш, докато играеш игра "
@@ -165,11 +165,11 @@ module.exports = nativeDescription: "български език", englishDescri
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!"
+    title: "Дай да помогни да преводи CodeCombat!"
 #    sub_heading: "We need your language skills."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Bulgarian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Bulgarian."
     missing_translations: "Until we can translate everything into Bulgarian, you'll see English when Bulgarian isn't available."
-#    learn_more: "Learn more about being a Diplomat"
+    learn_more: "Научи повече за ставане Дипломат"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  wizard_settings:
