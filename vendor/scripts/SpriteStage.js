@@ -528,7 +528,7 @@ var p = SpriteStage.prototype = new createjs.Stage();
 	 * into itself).
 	 **/
 	p.draw = function(ctx, ignoreCache) {
-		if (ctx === this._webGLContext || ctx instanceof WebGLRenderingContext) {
+		if (typeof WebGLRenderingContext !== 'undefined' && (ctx === this._webGLContext || ctx instanceof WebGLRenderingContext)) {		
 			this._drawWebGLKids(this.children, ctx);
 
 			// If there is a remaining texture, draw it:

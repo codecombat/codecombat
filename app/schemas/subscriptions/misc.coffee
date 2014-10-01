@@ -29,6 +29,9 @@ module.exports =
     viewClass: {type: 'function'}
     viewArgs: {type: 'array'}
 
+  'router:navigated': c.object {required: ['route']},
+    route: {type: 'string'}
+
   'achievements:new': c.object {required: ['earnedAchievements']},
     earnedAchievements: {type: 'object'}
 

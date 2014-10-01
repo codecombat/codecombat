@@ -10,6 +10,7 @@ block content
       li.active
         | #{achievement.attributes.name}
 
+    button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-all-button Recalculate All
     button.achievement-tool-button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
     button.achievement-tool-button(data-i18n="common.delete", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#delete-button Delete
     button.achievement-tool-button(data-i18n="common.save", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#save-button Save

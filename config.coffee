@@ -25,11 +25,11 @@ exports.config =
           vendor[\/\\](?!scripts[\/\\]Box2d)
           |bower_components[\/\\](?!aether)
         )///
-        'javascripts/box2d.js': ///^( 
+        'javascripts/box2d.js': ///^(
           # Include box2dweb for profiling and IE9
           # Vector renamed to Box2DVector to avoid name collisions
           # TODO: move this to assets/lib since we're not really joining anything here?
-          (vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3) 
+          (vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3)
         )///
         'javascripts/lodash.js': ///^(
           (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
@@ -92,6 +92,9 @@ exports.config =
     uglify:
       output:
         semicolons: false
+    sass:
+      mode: 'ruby'
+      allowCache: true
 
   onCompile: (files) ->
     exec = require('child_process').exec
