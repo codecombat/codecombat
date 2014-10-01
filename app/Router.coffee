@@ -177,3 +177,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @openView view
     else
       @openView e.view
+
+  navigate: (fragment, options) ->
+    super fragment, options
+    Backbone.Mediator.publish 'router:navigated', route: fragment

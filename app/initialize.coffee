@@ -61,10 +61,12 @@ setUpBackboneMediator = ->
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
   if webkit?.messageHandlers
+    window.iPadSubscriptions = 'application:error': true  # We try to subscribe to this one before it's all set up, so just do it.
     originalPublish = Backbone.Mediator.publish
     Backbone.Mediator.publish = ->
       originalPublish.apply Backbone.Mediator, arguments
-      webkit.messageHandlers.backboneEventHandler?.postMessage channel: arguments[0], event: serializeForIOS(arguments[1] ? {})
+      if window.iPadSubscriptions[arguments[0]]
+        webkit.messageHandlers.backboneEventHandler?.postMessage channel: arguments[0], event: serializeForIOS(arguments[1] ? {})
 
 setUpMoment = ->
   {me} = require 'lib/auth'
@@ -105,6 +107,12 @@ watchForErrors = ->
     #msg += "\nStack: #{stack}" if stack = error?.stack
     noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
     Backbone.Mediator.publish 'application:error', message: msg  # For iOS app
+
+window.addIPadSubscription = (channel) ->
+  window.iPadSubscriptions[channel] = true
+
+window.removeIPadSubscription = (channel) ->
+  window.iPadSubscriptions[channel] = false
 
 setUpIOSLogging = ->
   return unless webkit?.messageHandlers
