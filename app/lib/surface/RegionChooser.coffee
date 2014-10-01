@@ -59,10 +59,10 @@ module.exports = class RegionChooser extends CocoClass
 
   updateShape: ->
     rect = @options.camera.normalizeBounds([@firstPoint, @secondPoint])
-    @options.surfaceLayer.removeChild @shape if @shape
+    @options.normalStage.removeChild @shape if @shape
     @shape = new createjs.Shape()
     @shape.alpha = 0.5
     @shape.mouseEnabled = false
     @shape.graphics.beginFill('#fedcba').drawRect rect.x, rect.y, rect.width, rect.height
     @shape.graphics.endFill()
-    @options.surfaceLayer.addChild(@shape)
+    @options.normalStage.addChild(@shape)

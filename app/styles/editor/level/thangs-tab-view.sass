@@ -111,9 +111,14 @@
   
     // Below snatched from play/level.sass; should refactor?
   
-    canvas#surface
+    canvas
       background-color: #ddd
       width: 100%
       display: block
-      z-index: 1
       border: 1px solid black
+
+    #webgl-surface
+      z-index: 1
+      
+    #normal-surface
+      z-index: 2

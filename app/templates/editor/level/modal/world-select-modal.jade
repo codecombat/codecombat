@@ -32,7 +32,9 @@ block modal-body-content
       div.alert.alert-info
         strong Enter
         |  to confirm
-  canvas(width=924, height=589)
+  .canvas-wrapper
+    canvas(width=924, height=589).webgl-canvas
+    canvas(width=924, height=589).normal-canvas
 
 block modal-footer-content
   a.btn.btn-primary#done-button Done
