@@ -92,6 +92,8 @@ exports.config =
     uglify:
       output:
         semicolons: false
+    sass:
+      mode: 'ruby'
 
   onCompile: (files) ->
     exec = require('child_process').exec
