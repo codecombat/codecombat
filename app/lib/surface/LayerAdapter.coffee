@@ -340,7 +340,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       if action.container
         containersToRender[action.container] = true
       else if action.animation
-        animationContainers = @getContainersForAnimation(thangType, action.animation)
+        animationContainers = @getContainersForAnimation(thangType, action.animation, action)
         containersToRender[container.gn] = true for container in animationContainers
     
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
@@ -355,10 +355,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         frame = spriteSheetBuilder.addFrame(container, null, @resolutionFactor * (thangType.get('scale') or 1))
       spriteSheetBuilder.addAnimation(containerKey, [frame], false)
 
-  getContainersForAnimation: (thangType, animation) ->
-    containers = thangType.get('raw').animations[animation].containers
+  getContainersForAnimation: (thangType, animation, action) ->
+    rawAnimation = thangType.get('raw').animations[animation]
+    if not rawAnimation
+      console.error 'thang type', thangType.get('name'), 'is missing animation', animation, 'from action', action
+    containers = rawAnimation.containers
     for animation in thangType.get('raw').animations[animation].animations
-      containers = containers.concat(@getContainersForAnimation(thangType, animation.gn))
+      containers = containers.concat(@getContainersForAnimation(thangType, animation.gn, action))
     return containers
     
   #- Rendering sprite sheets for singular thang types
