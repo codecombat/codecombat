@@ -16,7 +16,6 @@ class EarnedAchievementHandler extends Handler
 
   recalculate: (req, res) ->
     onSuccess = (data) => log.debug 'Finished recalculating achievements'
-    console.log 'req.body.achievements is', req.body.achievements
     if 'achievements' of req.body # Support both slugs and IDs separated by commas
       achievementSlugsOrIDs = req.body.achievements
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
@@ -55,7 +54,7 @@ class EarnedAchievementHandler extends Handler
       log.info "Recalculating a total of #{achievements.length} achievements..."
 
       # Fetch every single user. This tends to get big so do it in a streaming fashion.
-      userStream = User.find(slug: 'nick').sort('_id').stream()
+      userStream = User.find().sort('_id').stream()
       streamFinished = false
       usersTotal = 0
       usersFinished = 0
