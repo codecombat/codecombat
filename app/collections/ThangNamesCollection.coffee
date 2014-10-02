@@ -10,5 +10,6 @@ module.exports = class ThangNamesCollection extends CocoCollection
 
   fetch: (options) ->
     options ?= {}
-    _.extend options, {type:'POST', data:{ids:@ids}}
+    method = if application.isIPadApp then 'GET' else 'POST'  # Not sure why this was required that one time.
+    _.extend options, {type: method, data: {ids: @ids}}
     super(options)

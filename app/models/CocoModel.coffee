@@ -129,10 +129,11 @@ class CocoModel extends Backbone.Model
       errorMessage = "Error saving #{@get('name') ? @type()}"
       console.log 'going to log an error message'
       console.warn errorMessage, res.responseJSON
-      try
-        noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
-      catch notyError
-        console.warn "Couldn't even show noty error for", error, "because", notyError
+      unless webkit?.messageHandlers  # Don't show these notys on iPad
+        try
+          noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
+        catch notyError
+          console.warn "Couldn't even show noty error for", error, "because", notyError
       options.success = options.error = null  # So the callbacks can be garbage-collected.
     @trigger 'save', @
     return super attrs, options

@@ -4,6 +4,7 @@ LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 AudioPlayer = require 'lib/AudioPlayer'
 PlayLevelModal = require 'views/play/modal/PlayLevelModal'
+ThangType = require 'models/ThangType'
 
 class LevelSessionsCollection extends CocoCollection
   url: ''
@@ -34,6 +35,7 @@ module.exports = class WorldMapView extends RootView
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
     @playAmbientSound()
+    @preloadTopHeroes()
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -165,8 +167,9 @@ module.exports = class WorldMapView extends RootView
 
   playAmbientSound: ->
     return if @ambientSound
-    terrain = 'Grass'
-    return unless file = {Dungeon: 'ambient-map-dungeon', Grass: 'ambient-map-grass'}[terrain]
+    #terrain = 'Grass'
+    terrain = 'Dungeon'
+    return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-map-grass'}[terrain]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"
     unless AudioPlayer.getStatus(src)?.loaded
       AudioPlayer.preloadSound src
@@ -174,6 +177,14 @@ module.exports = class WorldMapView extends RootView
       return
     @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
     createjs.Tween.get(@ambientSound).to({volume: 1.0}, 1000)
+
+  preloadTopHeroes: ->
+    for heroID in ['captain', 'knight']
+      url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
+      continue if @supermodel.getModel url
+      fullHero = new ThangType()
+      fullHero.setURL url
+      @supermodel.loadModel fullHero, 'thang'
 
 
 tutorials = [

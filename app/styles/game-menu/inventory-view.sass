@@ -136,16 +136,6 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       &[data-slot="right-hand"] .placeholder
         background-position-x: -17 * $itemSlotInnerWidth
 
-      &[data-slot="whatever"]
-        // My spooging of the other placeholders had them dimmed; these didn't.
-        .placeholder
-          @include opacity(0.35)
-          border-color: black
-      &.selected
-        &[data-slot="whatever"]
-          .placeholder
-            border-color: #28f
-
       .item-container
         position: absolute
         left: 0
