@@ -13,11 +13,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     delay_5_sec: "5 δευτερόλεπτα"
     manual: "Οδηγίες"
 #    fork: "Fork"
-#    play: "Play" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    play: "Παίξε" # When used as an action verb, like "Play next level"
+    retry: "Προσπάθησε εκ νέου"
+    watch: "Παρακολούθηση"
+    unwatch: "Παύση παρακολούθηση"
+    submit_patch: "Αποστολή Επιδιόρθωσης"
 
   units:
     second: "δευτερόλεπτο"
@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     sign_up: "Εγγραφή"
     log_in: "Σύνδεση με κωδικό"
     social_signup: "Ή, μπορείς να συνδεθείς μέσω του Facebook ή του G+:"
-#    required: "You need to log in before you can go that way."
+    required: "Πρέπει να είσαι συνδεδεμένος για να συνεχίσεις."
 
   home:
     slogan: "Μάθε να προγραμμάτιζεις με JavaScript παίζοντας"
@@ -140,13 +140,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     previous: "Προηγούμενο"
     choose_inventory: "Εφοδιάσου με αντικείμενα"
 
-#  items:
-#    armor: "Armor"
-#    hands: "Hands"
-#    accessories: "Accessories"
-#    books: "Books"
-#    minions: "Minions"
-#    misc: "Misc"
+  items:
+    armor: "Θωράκιση"
+    hands: "Χέρια"
+    accessories: "Αξεσουάρ"
+    books: "Βιβλία"
+    minions: "Σύντροφοι"
+    misc: "Διάφορα"
 
   contact:
     contact_us: "Επικοινωνήστε μαζί μας"
@@ -158,8 +158,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     forum_page: "το φόρουμ μας"
     forum_suffix: "."
     send: "Αποστολή σχολίων"
-#    contact_candidate: "Contact Candidate"
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
+    contact_candidate: "Επικοινώνησε με τον Υποψήφιο"
+    recruitment_reminder: "Χρησιμοποίησε τη φόρμα αυτή για να επικοινωνήσεις με τους υποψήφιους, από τους οποίους ενδιαφέρεσαι να πάρεις συνέντευξη. Υπενθυμίζουμε πως το CodeCombat χρεώνει το 15% της αμοιβής του πρώτου έτους. Η καταβολή του ποσού γίνεται με την πρόσληψη του εργαζομένου, και μπορεί να επιστραφεί εντός 90 ημερών, στην περίπτωση που ο εργαζόμενος δεν παραμείνει στην εργασία. Οι μερικής απασχόλησης, οι εργαζόμενοι εξ αποστάσεως (τηλε-εργασία), οι μπλοκάκηδες και οι πρακτικάριοι είναι δωρεάν."
 
   diplomat_suggestion:
     title: "Βοηθήστε στην μετάφραση CodeCombat!"
