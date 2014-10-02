@@ -1,5 +1,13 @@
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
+# Put this on MovieClips
+specialGoToAndStop = (frame) ->
+  if frame is @currentFrame and @childrenCopy
+    @addChild(@childrenCopy...)
+  else
+    @gotoAndStop(frame)
+    @childrenCopy = @children.slice(0)
+
 module.exports = class SegmentedSprite extends createjs.SpriteContainer
   childMovieClips: null
 
@@ -59,9 +67,14 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         else 
           @currentFrame = 0
 
-      @baseMovieClip.gotoAndStop(@currentFrame)
-      movieClip.gotoAndStop(@currentFrame) for movieClip in @childMovieClips
-      @takeChildrenFromMovieClip()
+      @baseMovieClip.specialGoToAndStop(@currentFrame)
+      for movieClip in @childMovieClips
+        if movieClip.mode is 'single'
+          movieClip.specialGoToAndStop(movieClip.startPosition)
+        else
+          movieClip.specialGoToAndStop(@currentFrame)
+          
+      @takeChildrenFromMovieClip(@baseMovieClip, @)
       @loop = action.loops isnt false
       @goesTo = action.goesTo
       @notifyActionNeedsRender(action) if @actionNotSupported
@@ -119,7 +132,6 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     raw = @thangType.get('raw')
     animData = raw.animations[animationName]
     @lastAnimData = animData
-    movieClip = new createjs.MovieClip()
 
     locals = {}
     _.extend locals, @buildMovieClipContainers(animData.containers)
@@ -131,6 +143,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 
     anim = new createjs.MovieClip()
     anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true)
+    anim.specialGoToAndStop = specialGoToAndStop
 
     for tweenData in animData.tweens
       stopped = false
@@ -247,30 +260,23 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @currentFrame = newFrame
     return if translatedFrame is @baseMovieClip.currentFrame
 
-    @baseMovieClip.gotoAndStop(translatedFrame)
-    movieClip.gotoAndStop(newFrame) for movieClip in @childMovieClips
+    @baseMovieClip.specialGoToAndStop(translatedFrame)
+    for movieClip in @childMovieClips
+      movieClip.specialGoToAndStop(if movieClip.mode is 'single' then movieClip.startPosition else newFrame)
+      
     @children = []
-    @takeChildrenFromMovieClip()
+    @takeChildrenFromMovieClip(@baseMovieClip, @)
     
-  takeChildrenFromMovieClip: ->
-    i = 0
-    while i < @baseMovieClip.children.length
-      child = @baseMovieClip.children[i]
+  takeChildrenFromMovieClip: (movieClip, recipientContainer) ->
+    for child in movieClip.childrenCopy
       if child instanceof createjs.MovieClip
-        newChild = new createjs.SpriteContainer(@spriteSheet)
-        j = 0
-        while j < child.children.length
-          grandChild = child.children[j]
-          if grandChild instanceof createjs.MovieClip
-            console.error('MovieClip Segmentedsprites not currently working at this depth!')
-            continue
-          newChild.addChild(grandChild)
-          for prop in ['regX', 'regY', 'rotation', 'scaleX', 'scaleY', 'skewX', 'skewY', 'x', 'y']
-            newChild[prop] = child[prop]
-        @addChild(newChild)
-        i += 1
+        childRecipient = new createjs.SpriteContainer(@spriteSheet)
+        @takeChildrenFromMovieClip(child, childRecipient)
+        for prop in ['regX', 'regY', 'rotation', 'scaleX', 'scaleY', 'skewX', 'skewY', 'x', 'y']
+          childRecipient[prop] = child[prop]
+        recipientContainer.addChild(childRecipient)
       else
-        @addChild(child)
+        recipientContainer.addChild(child)
     
 
 #  _getBounds: createjs.SpriteContainer.prototype.getBounds
