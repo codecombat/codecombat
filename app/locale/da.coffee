@@ -59,6 +59,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     about: "Om"
     contact: "Kontakt"
     twitter_follow: "Følg"
+#    teachers: "Teachers"
     employers: "Arbejdsgivere"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 
   home:
     slogan: "Lær at Kode ved at Spille et Spil"
-    no_ie: "CodeCombat kan desværre ikke køre i Internet Explorer 9 eller ældre. Beklager!"
+    no_ie: "CodeCombat kan desværre ikke køre i Internet Explorer 8 eller ældre. Beklager!"
     no_mobile: "CodeCombat er ikke designet til mobile enheder og vil måske ikke virke!"
     play: "Spil" # The big play button that just starts playing a level
     old_browser: "Åh åh, din browser er for gammel til at køre CodeCombat. Beklager!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

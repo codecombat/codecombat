@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     about: "Σχετικά με"
     contact: "Επικοινωνία"
     twitter_follow: "Ακολούθησε"
+#    teachers: "Teachers"
     employers: "Εργοδότες"
 
 #  versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   home:
     slogan: "Μάθε να προγραμμάτιζεις με JavaScript μέσω ενός παιχνιδιού"
-    no_ie: "Το CodeCombat δεν παίζει με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση. Συγνώμη!"
+    no_ie: "Το CodeCombat δεν παίζει με το Internet Explorer 8 ή κάποια παλαιότερη έκδοση. Συγνώμη!"
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!"
     play: "Παίξε" # The big play button that just starts playing a level
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξετε το CodeCombat. Συγνώμη!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

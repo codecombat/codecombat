@@ -59,6 +59,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     about: "소개"
     contact: "문의"
     twitter_follow: "Follow"
+#    teachers: "Teachers"
     employers: "직원들"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   home:
     slogan: "쉽고 간단한 게임 배우기"
-    no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 9에서는 동작하지 않습니다."
+    no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 8에서는 동작하지 않습니다."
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다."
     play: "시작" # The big play button that just starts playing a level
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다."
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

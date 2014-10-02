@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     about: "Über"
     contact: "Kontakt"
     twitter_follow: "Folge"
+#    teachers: "Teachers"
     employers: "Mitarbeiter"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 
   home:
     slogan: "Lern, wiemer JavaScript programmiert indem du es Spiel spielsch!"
-    no_ie: "CodeCombat funktioniert uf InternetExplorer 9 und älter nid. Sorry!"
+    no_ie: "CodeCombat funktioniert uf InternetExplorer 8 und älter nid. Sorry!"
     no_mobile: "CodeCombat isch nid für mobili Grät entwicklet worde und funktioniert vilicht nid!"
     play: "Spiele" # The big play button that just starts playing a level
     old_browser: "Uh oh, din Browser isch z alt zum CodeCombat spiele. Sorry!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     about: "Informazioni"
     contact: "Contatti"
     twitter_follow: "Segui"
+#    teachers: "Teachers"
     employers: "Impiegati"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   home:
     slogan: "Impara a programmare giocando"
-    no_ie: "CodeCombat non supporta Internet Explorer 9 o browser precedenti. Ci dispiace!"
+    no_ie: "CodeCombat non supporta Internet Explorer 8 o browser precedenti. Ci dispiace!"
     no_mobile: "CodeCombat non è stato progettato per dispositivi mobile e potrebbe non funzionare!"
     play: "Gioca" # The big play button that just starts playing a level
     old_browser: "Accidenti, il tuo browser è troppo vecchio per giocare a CodeCombat. Mi spiace!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

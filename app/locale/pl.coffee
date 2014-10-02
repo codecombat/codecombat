@@ -59,6 +59,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     about: "O nas"
     contact: "Kontakt"
     twitter_follow: "Subskrybuj"
+#    teachers: "Teachers"
     employers: "Pracodawcy"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 
   home:
     slogan: "Naucz się programowania grając"
-    no_ie: "CodeCombat nie działa na Internet Explorer 9 lub starszym. Przepraszamy!"
+    no_ie: "CodeCombat nie działa na Internet Explorer 8 lub starszym. Przepraszamy!"
     no_mobile: "CodeCombat nie został zaprojektowany dla urządzeń przenośnych więc może nie działać!"
     play: "Graj" # The big play button that just starts playing a level
     old_browser: "Wygląda na to, że twoja przeglądarka jest zbyt stara, by obsłużyć CodeCombat. Wybacz!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

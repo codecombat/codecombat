@@ -59,6 +59,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     about: "CoCoについて"
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
+#    teachers: "Teachers"
     employers: "雇用者の方へ"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

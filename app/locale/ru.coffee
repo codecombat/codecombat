@@ -59,6 +59,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     about: "О нас"
     contact: "Контакты"
     twitter_follow: "Подписаться"
+#    teachers: "Teachers"
     employers: "Работодателям"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

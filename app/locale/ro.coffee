@@ -59,6 +59,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     about: "Despre"
     contact: "Contact"
     twitter_follow: "Urmărește"
+#    teachers: "Teachers"
     employers: "Angajați"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   home:
     slogan: "Învață sa scrii cod jucându-te"
-    no_ie: "CodeCombat nu merge pe Internet Explorer 9 sau mai vechi. Scuze!"
+    no_ie: "CodeCombat nu merge pe Internet Explorer 8 sau mai vechi. Scuze!"
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargă!"
     play: "Joacă" # The big play button that just starts playing a level
     old_browser: "Mda , browser-ul tău este prea vechi pentru CodeCombat. Scuze!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     about: "Về"
     contact: "Liên hệ"
     twitter_follow: "Đi theo"
+#    teachers: "Teachers"
     employers: "Người tuyển việc"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   home:
     slogan: "Học mã bằng chơi Games"
-    no_ie: "Codecombat không chạy trong Internet Explorer 9 hoặc cũ hơn. Xin lỗi!"
+    no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!"
     no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!"
     play: "Chơi" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

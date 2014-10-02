@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     about: "Sobre Nosaltres"
     contact: "Contacta"
     twitter_follow: "Segueix-nos"
+#    teachers: "Teachers"
     employers: "Treballadors"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   home:
     slogan: "Aprén a programar tot Jugant"
-    no_ie: "CodeCombat no funciona en Internet Explorer 9 o versions anteriors. Perdó!"
+    no_ie: "CodeCombat no funciona en Internet Explorer 8 o versions anteriors. Perdó!"
     no_mobile: "CodeCombat no ha estat dissenyat per dispositius mòbils i per tant no funcionarà!"
     play: "Jugar" # The big play button that just starts playing a level
     old_browser: "Uh oh, el teu navegador és massa antic per fer funcionar CodeCombat. Perdó!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     account: "Conta"
     settings: "Configuració"
     next: "Següent"
-    previous: "Anterior"
+#    change_hero: "Change Hero"
     choose_inventory: "Equipar objectes"
     older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
@@ -779,7 +780,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
     character_classes_title: "Classes de personatges"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."

@@ -59,6 +59,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     about: "עלינו"
     contact: "צור קשר"
     twitter_follow: "עקוב אחרינו בטוויטר"
+#    teachers: "Teachers"
     employers: "עובדים"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   home:
     slogan: "גם לשחק וגם ללמוד לתכנת"
-    no_ie: "המשחק לא עובד באקפלורר 9 וישן יותר. סליחה!"
+    no_ie: "המשחק לא עובד באקפלורר 8 וישן יותר. סליחה!"
     no_mobile: "המשחק לא עוצב לטלפונים ואולי לא יעבוד"
     play: "שחק" # The big play button that just starts playing a level
     old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

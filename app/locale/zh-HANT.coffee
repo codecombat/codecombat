@@ -59,6 +59,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     about: "關於"
     contact: "聯繫我們"
     twitter_follow: "在Twitter關注"
+#    teachers: "Teachers"
     employers: "招募訊息"
 
 #  versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   home:
     slogan: "通過玩遊戲學習編程"
-    no_ie: "抱歉！Internet Explorer 9 等舊的瀏覽器打不開此網站"
+    no_ie: "抱歉！Internet Explorer 8 等舊的瀏覽器打不開此網站"
     no_mobile: "CodeCombat 不是針對手機設備設計的，所以可能會出問題！"
     play: "開始遊戲" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

@@ -59,6 +59,7 @@ module.exports = nativeDescription: "български език", englishDescri
     about: "За нас"
     contact: "Контакти"
 #    twitter_follow: "Follow"
+#    teachers: "Teachers"
 #    employers: "Employers"
 
 #  versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "български език", englishDescri
 
   home:
     slogan: "Научи се да програмираш, докато играеш игра "
-    no_ie: "CodeCombat не работи под Internet Explorer 9 или по-стар. Съжалявам!"
+    no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стар. Съжалявам!"
     no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи!"
     play: "Играй" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

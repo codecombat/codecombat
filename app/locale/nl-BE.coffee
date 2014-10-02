@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
+#    teachers: "Teachers"
     employers: "Werkgevers"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

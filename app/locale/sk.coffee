@@ -59,6 +59,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     about: "O projekte"
     contact: "Kontakt"
     twitter_follow: "Sleduj na twitteri"
+#    teachers: "Teachers"
     employers: "Zamestnávatelia"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   home:
     slogan: "Nauč sa programovať pomocou hry"
-    no_ie: "CodeCombat nefunguje v prehliadači Internet Explorer 9 a jeho starších verziách. Ospravedlňujeme sa."
+    no_ie: "CodeCombat nefunguje v prehliadači Internet Explorer 8 a jeho starších verziách. Ospravedlňujeme sa."
     no_mobile: "CodeCombat nebol navrhnutý pre mobilné zariadenia a nemusí na nich fungovať správne!"
     play: "Hraj" # The big play button that just starts playing a level
     old_browser: "Ajaj, prehliadač je príliš starý. CodeCombat na ňom nepôjde. Je nám to ľúto!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

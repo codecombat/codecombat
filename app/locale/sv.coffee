@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     about: "Om oss"
     contact: "Kontakt"
     twitter_follow: "Följ oss på Twitter"
+#    teachers: "Teachers"
     employers: "Arbetsgivare"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

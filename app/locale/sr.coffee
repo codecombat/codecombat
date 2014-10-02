@@ -59,6 +59,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     about: "О нама"
     contact: "Контакт"
     twitter_follow: "Прати"
+#    teachers: "Teachers"
 #    employers: "Employers"
 
 #  versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

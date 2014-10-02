@@ -59,6 +59,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     about: "O programu"
     contact: "Kontakt"
     twitter_follow: "Sledovat na twitteru"
+#    teachers: "Teachers"
     employers: "Pro zaměstnavatele"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   home:
     slogan: "Naučte se programování tu při hraní více-hráčové programovací hry."
-    no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 9 nebo starším."
+    no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 8 nebo starším."
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!"
     play: "Hrát" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

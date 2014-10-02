@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     about: "Über"
     contact: "Kontakt"
     twitter_follow: "Twitter"
+#    teachers: "Teachers"
     employers: "Mitarbeiter"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     account: "Account"
     settings: "Einstellungen"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
     choose_inventory: "Gegenstände ausrüsten"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

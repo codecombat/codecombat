@@ -59,6 +59,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     about: "เกี่ยวกับเรา"
     contact: "ติดต่อเรา"
     twitter_follow: "Follow me!"
+#    teachers: "Teachers"
 #    employers: "Employers"
 
 #  versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
   home:
 #    slogan: "Learn to Code by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
+#    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
     play: "เล่น" # The big play button that just starts playing a level
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

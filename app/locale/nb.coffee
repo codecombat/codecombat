@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     about: "Om"
     contact: "Kontakt"
     twitter_follow: "Følg"
+#    teachers: "Teachers"
 #    employers: "Employers"
 
 #  versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

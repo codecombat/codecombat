@@ -59,6 +59,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     about: "相關"
     contact: "搭我裏聯繫"
     twitter_follow: "關注"
+#    teachers: "Teachers"
     employers: "招人訊息"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
   home:
     slogan: "打遊戲來學編程"
-    no_ie: "對弗住！箇網站叻 Internet Explorer 9 箇粒老個瀏覽器嘸處用。"
+    no_ie: "對弗住！箇網站叻 Internet Explorer 8 箇粒老個瀏覽器嘸處用。"
     no_mobile: "CodeCombat 勿是照手機設備設計個，怪得嘸數达弗到頂讚個享受！"
     play: "遊戲開打" # The big play button that just starts playing a level
     old_browser: "啊耶, 爾個瀏覽器忒老哉, 嘸處運行 CodeCombat。對弗住險！"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

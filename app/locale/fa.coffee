@@ -59,6 +59,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     about: "درباره"
     contact: "تماس "
     twitter_follow: "دنبال کردن"
+#    teachers: "Teachers"
     employers: "Employers"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

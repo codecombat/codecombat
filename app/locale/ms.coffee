@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     about: "Tentang"
     contact: "Hubungi"
     twitter_follow: "Ikuti"
+#    teachers: "Teachers"
     employers: "Majikan"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 
   home:
     slogan: "Belajar Kod bDengan Permainan"
-    no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 9 dan terdahulu. Maaf!"
+    no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 8 dan terdahulu. Maaf!"
     no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet dan tidak akan berfungsi!"
     play: "Mula" # The big play button that just starts playing a level
     old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

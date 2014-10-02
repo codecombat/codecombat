@@ -59,6 +59,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     about: "Про нас"
     contact: "Контакти"
     twitter_follow: "Фоловити"
+#    teachers: "Teachers"
     employers: "Роботодавцям"
 
   versions:
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

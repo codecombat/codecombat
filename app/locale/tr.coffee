@@ -59,6 +59,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     about: "Hakkında"
     contact: "İletişim"
     twitter_follow: "Takip et"
+#    teachers: "Teachers"
     employers: "İş Verenler"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   home:
     slogan: "Oyun oynayarak kodlamayı öğrenin"
-    no_ie: "CodeCombat maalesef Internet Explorer 9 veya daha eski sürümlerde çalışmaz."
+    no_ie: "CodeCombat maalesef Internet Explorer 8 veya daha eski sürümlerde çalışmaz."
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir."
     play: "Oyna" # The big play button that just starts playing a level
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"

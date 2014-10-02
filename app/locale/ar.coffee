@@ -59,6 +59,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     about: "حول"
     contact: "اتّصال"
     twitter_follow: "متابعة"
+#    teachers: "Teachers"
     employers: "موظّفين"
 
   versions:
@@ -95,7 +96,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 
   home:
     slogan: "تعلّم البرمجة من لعب لعبة"
-    no_ie: "CodeCombat لا يعمل في Internet Explorer 9 أو أقل. آسف!"
+    no_ie: "CodeCombat لا يعمل في Internet Explorer 8 أو أقل. آسف!"
     no_mobile: "لم يصمم CodeCombat للهواتف النقالة وقد لا يعمل!"
     play: "إلعب" # The big play button that just starts playing a level
     old_browser: "اه أوه، متصفحك قديم جدا لتشغيل CodeCombat. آسف!"
@@ -138,7 +139,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    account: "Account"
 #    settings: "Settings"
 #    next: "Next"
-#    previous: "Previous"
+#    change_hero: "Change Hero"
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
