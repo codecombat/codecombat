@@ -17,7 +17,7 @@
           each i in Array(level.difficulty)
             i.icon-star
           - var playCount = levelPlayCountMap[level.id]
-          if playCount && playCount > 20
+          if playCount && playCount.sessions > 20
             div
               span.spr #{playCount.sessions}
               span(data-i18n="play.players") players

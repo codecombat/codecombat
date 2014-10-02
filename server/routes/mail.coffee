@@ -21,20 +21,20 @@ module.exports.setup = (app) ->
 setupScheduledEmails = ->
   testForLockManager()
   mailTasks = [
-      taskFunction: candidateUpdateProfileTask
-      frequencyMs: 10 * 60 * 1000 #10 minutes
-    ,
-      taskFunction: internalCandidateUpdateTask
-      frequencyMs: 10 * 60 * 1000 #10 minutes
-    ,
-      taskFunction: employerNewCandidatesAvailableTask
-      frequencyMs: 10 * 60 * 1000 #10 minutes
-    ,
-      taskFunction: unapprovedCandidateFinishProfileTask
-      frequencyMs: 10 * 60 * 1000
-    ,
-      taskFunction: emailUserRemarkTaskRemindersTask
-      frequencyMs: 10 * 60 * 1000
+    #  taskFunction: candidateUpdateProfileTask
+    #  frequencyMs: 10 * 60 * 1000 #10 minutes
+    #,
+    #  taskFunction: internalCandidateUpdateTask
+    #  frequencyMs: 10 * 60 * 1000 #10 minutes
+    #,
+    #  taskFunction: employerNewCandidatesAvailableTask
+    #  frequencyMs: 10 * 60 * 1000 #10 minutes
+    #,
+    #  taskFunction: unapprovedCandidateFinishProfileTask
+    #  frequencyMs: 10 * 60 * 1000
+    #,
+    #  taskFunction: emailUserRemarkTaskRemindersTask
+    #  frequencyMs: 10 * 60 * 1000
   ]
 
   for mailTask in mailTasks
