@@ -90,7 +90,7 @@ block outer_content
           div#thang-type-treema
           .clearfix
         div#display-col.well
-          canvas#canvas(width="400", height="400")
+          canvas#canvas(width="400", height="600")
           select#animations-select.form-control
             for animation in animations
               option #{animation}
@@ -98,7 +98,10 @@ block outer_content
             button.btn.btn-small.btn-primary#marker-button
               i.icon-map-marker
               span.spl Markers
-            button.btn.btn-small.btn-primary#end-button
+            button.btn.btn-small.btn-primary#play-button
+              i.icon-play
+              span.spl Play
+            button.btn.btn-small.btn-primary#stop-button
               i.icon-stop
               span.spl Stop
           div.slider-cell

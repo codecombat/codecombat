@@ -36,7 +36,8 @@ module.exports = class ThangTypeEditView extends RootView
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
-    'click #end-button': 'endAnimation'
+    'click #stop-button': 'stopAnimation'
+    'click #play-button': 'playAnimation'
     'click #history-button': 'showVersionHistory'
     'click #fork-start-button': 'startForking'
     'click #save-button': 'openSaveModal'
@@ -157,8 +158,11 @@ module.exports = class ThangTypeEditView extends RootView
     @aboveHeadDot.y = aboveHead.y
     @topLayer.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
 
-  endAnimation: ->
+  stopAnimation: ->
     @currentLank?.queueAction('idle')
+
+  playAnimation: ->
+    @currentLank?.queueAction(@$el.find('#animations-select').val())
 
   updateGrid: ->
     grid = new createjs.Container()
@@ -258,7 +262,7 @@ module.exports = class ThangTypeEditView extends RootView
     @showAction(animationName)
     @updateRotation()
     @updateScale() # must happen after update rotation, because updateRotation calls the sprite update() method.
-
+    
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
     movieClip = vectorParser.buildMovieClip(animationName)
@@ -416,6 +420,7 @@ module.exports = class ThangTypeEditView extends RootView
 
   onSelectNode: (e, selected) =>
     selected = selected[0]
+    @topLayer.removeChild(@boundsBox) if @boundsBox
     return @stopShowingSelectedNode() if not selected
     path = selected.getPath()
     parts = path.split('/')
@@ -426,13 +431,15 @@ module.exports = class ThangTypeEditView extends RootView
     obj = vectorParser.buildMovieClip(key) if type is 'animations'
     obj = vectorParser.buildContainerFromStore(key) if type is 'containers'
     obj = vectorParser.buildShapeFromStore(key) if type is 'shapes'
-    if obj?.bounds
-      obj.regX = obj.bounds.x + obj.bounds.width / 2
-      obj.regY = obj.bounds.y + obj.bounds.height / 2
-    else if obj?.frameBounds?[0]
-      bounds = obj.frameBounds[0]
-      obj.regX = bounds.x + bounds.width / 2
-      obj.regY = bounds.y + bounds.height / 2
+    
+    bounds = obj?.bounds or obj?.nominalBounds
+    if bounds
+      @boundsBox = new createjs.Shape()
+      @boundsBox.graphics.beginFill('#aaaaaa').beginStroke('black').drawRect(bounds.x, bounds.y, bounds.width, bounds.height)
+      @topLayer.addChild(@boundsBox)
+      obj.regX = @boundsBox.regX = bounds.x + bounds.width / 2
+      obj.regY = @boundsBox.regY = bounds.y + bounds.height / 2
+    
     @showSprite(obj) if obj
     @showingSelectedNode = true
     @currentLank?.destroy()
