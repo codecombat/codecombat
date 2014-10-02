@@ -94,6 +94,7 @@ exports.config =
         semicolons: false
     sass:
       mode: 'ruby'
+      allowCache: true
 
   onCompile: (files) ->
     exec = require('child_process').exec

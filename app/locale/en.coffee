@@ -59,6 +59,7 @@
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
+    teachers: "Teachers"
     employers: "Employers"
 
   versions:

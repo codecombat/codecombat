@@ -184,8 +184,9 @@ module.exports = class ThangsTabView extends CocoView
         @openSmallerFolders(child)
 
   initSurface: ->
-    surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface @world, surfaceCanvas, {
+    webGLCanvas = $('canvas#webgl-surface', @$el)
+    normalCanvas = $('canvas#normal-surface', @$el)
+    @surface = new Surface @world, normalCanvas, webGLCanvas, {
       wizards: false
       paths: false
       coords: true
@@ -219,7 +220,7 @@ module.exports = class ThangsTabView extends CocoView
 
   onViewSwitched: (e) ->
     @selectAddThang null, true
-    @surface?.spriteBoss?.selectSprite null, null
+    @surface?.lankBoss?.selectLank null, null
 
   onSpriteMouseDown: (e) ->
     @dragged = false
@@ -229,7 +230,7 @@ module.exports = class ThangsTabView extends CocoView
     #   @onSpriteContextMenu e
 
   onStageMouseDown: (e) ->
-    return unless @addThangSprite?.thangType.get('kind') is 'Wall'
+    return unless @addThangLank?.thangType.get('kind') is 'Wall'
     @surface.camera.dragDisabled = true
     @paintingWalls = true
 
@@ -238,9 +239,9 @@ module.exports = class ThangsTabView extends CocoView
       # We need to stop painting walls, but we may also stop in onExtantThangSelected.
       _.defer =>
         @paintingWalls = @paintedWalls = @surface.camera.dragDisabled = false
-    else if @addThangSprite
+    else if @addThangLank
       @surface.camera.lock()
-      # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
+      # If we click on the background, we need to add @addThangLank, but not if onSpriteMouseUp will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
     $('#contextmenu').hide()
 
@@ -252,7 +253,7 @@ module.exports = class ThangsTabView extends CocoView
     cap = @surface.camera.screenToCanvas x: stageX, y: stageY
     wop = @surface.camera.canvasToWorld cap
     wop.z = @selectedExtantThang.depth / 2
-    @adjustThangPos @selectedExtantSprite, @selectedExtantThang, wop
+    @adjustThangPos @selectedExtantLank, @selectedExtantThang, wop
     [w, h] = [@surface.camera.canvasWidth, @surface.camera.canvasHeight]
     sidebarWidths = ((if @$el.find(id).hasClass('hide') then 0 else (@$el.find(id).outerWidth() / @surface.camera.canvasScaleFactorX)) for id in ['#all-thangs', '#add-thangs-view'])
     w -= sidebarWidth for sidebarWidth in sidebarWidths
@@ -304,9 +305,9 @@ module.exports = class ThangsTabView extends CocoView
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
-    @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
+    @selectedExtantLank?.setNameLabel? null unless @selectedExtantLank is e.sprite
     @selectedExtantThang = e.thang
-    @selectedExtantSprite = e.sprite
+    @selectedExtantLank = e.sprite
     paintedAWall = @paintedWalls
     @paintingWalls = @paintedWalls = @surface.camera.dragDisabled = false
     if paintedAWall
@@ -318,15 +319,15 @@ module.exports = class ThangsTabView extends CocoView
     else if @justAdded()
       # Skip double insert due to extra selection event
       null
-    else if e.thang and not (@addThangSprite and @addThangType.get('name') in overlappableThangTypeNames)
+    else if e.thang and not (@addThangLank and @addThangType.get('name') in overlappableThangTypeNames)
       # We clicked on a Thang (or its Treema), so select the Thang
       @selectAddThang null, true
       @selectedExtantThangClickTime = new Date()
       # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
-      @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
-    else if @addThangSprite
+      @selectedExtantLank.setNameLabel @selectedExtantLank.thangType.get('name') + ': ' + @selectedExtantThang.id
+    else if @addThangLank
       # We clicked on the background when we had an add Thang selected, so add it
-      @addThang @addThangType, @addThangSprite.thang.pos
+      @addThang @addThangType, @addThangLank.thang.pos
       @lastAddTime = new Date()
 
   justAdded: -> @lastAddTime and (new Date() - @lastAddTime) < 150
@@ -354,19 +355,19 @@ module.exports = class ThangsTabView extends CocoView
   selectAddThangType: (type, @cloneSourceThang) ->
     if _.isString type
       type = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is type
-    pos = @addThangSprite?.thang.pos  # Maintain old sprite's pos if we have it
-    @surface.spriteBoss.removeSprite @addThangSprite if @addThangSprite
+    pos = @addThangLank?.thang.pos  # Maintain old sprite's pos if we have it
+    @surface.lankBoss.removeLank @addThangLank if @addThangLank
     @addThangType = type
     if @addThangType
       thang = @createAddThang()
-      @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.layerAdapters['Floating']
-      @addThangSprite.notOfThisWorld = true
-      @addThangSprite.sprite.alpha = 0.75
-      @addThangSprite.playSound? 'selected'
+      @addThangLank = @surface.lankBoss.addThangToLanks thang, @surface.lankBoss.layerAdapters['Floating']
+      @addThangLank.notOfThisWorld = true
+      @addThangLank.sprite.alpha = 0.75
+      @addThangLank.playSound? 'selected'
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
-      @adjustThangPos @addThangSprite, thang, pos
+      @adjustThangPos @addThangLank, thang, pos
     else
-      @addThangSprite = null
+      @addThangLank = null
 
   createEssentialComponents: (defaultComponents) ->
     physicalConfig = {pos: {x: 10, y: 10, z: 1}}
@@ -399,32 +400,32 @@ module.exports = class ThangsTabView extends CocoView
     pos.y = Math.round((pos.y - (thang.height ? 1) / 2) / snap.y) * snap.y + (thang.height ? 1) / 2
     pos.z = thang.depth / 2
     thang.pos = pos
-    @surface.spriteBoss.update true  # Make sure Obstacle layer resets cache
+    @surface.lankBoss.update true  # Make sure Obstacle layer resets cache
 
   onSurfaceMouseMoved: (e) ->
-    return unless @addThangSprite
+    return unless @addThangLank
     wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
-    @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
+    @adjustThangPos @addThangLank, @addThangLank.thang, wop
     if @paintingWalls
-      unless _.find @surface.spriteBoss.spriteArray, ((sprite) =>
-        sprite.thangType.get('kind') is 'Wall' and
-        Math.abs(sprite.thang.pos.x - @addThangSprite.thang.pos.x) < 2 and
-        Math.abs(sprite.thang.pos.y - @addThangSprite.thang.pos.y) < 2 and
-        sprite isnt @addThangSprite
+      unless _.find @surface.lankBoss.lankArray, ((lank) =>
+        lank.thangType.get('kind') is 'Wall' and
+        Math.abs(lank.thang.pos.x - @addThangLank.thang.pos.x) < 2 and
+        Math.abs(lank.thang.pos.y - @addThangLank.thang.pos.y) < 2 and
+        lank isnt @addThangLank
       )
-        @addThang @addThangType, @addThangSprite.thang.pos
+        @addThang @addThangType, @addThangLank.thang.pos
         @lastAddTime = new Date()
         @paintedWalls = true
     null
 
   onSurfaceMouseOver: (e) ->
-    return unless @addThangSprite
-    @addThangSprite.sprite.visible = true
+    return unless @addThangLank
+    @addThangLank.sprite.visible = true
 
   onSurfaceMouseOut: (e) ->
-    return unless @addThangSprite
-    @addThangSprite.sprite.visible = false
+    return unless @addThangLank
+    @addThangLank.sprite.visible = false
 
   calculateMovement: (pctX, pctY, widthHeightRatio) ->
     MOVE_TOP_MARGIN = 1.0 - MOVE_MARGIN
@@ -521,14 +522,14 @@ module.exports = class ThangsTabView extends CocoView
 
     # update selection, since the thangs have been remade
     if @selectedExtantThang
-      @selectedExtantSprite = @surface.spriteBoss.sprites[@selectedExtantThang.id]
-      @selectedExtantThang = @selectedExtantSprite?.thang
+      @selectedExtantLank = @surface.lankBoss.lanks[@selectedExtantThang.id]
+      @selectedExtantThang = @selectedExtantLank?.thang
     Backbone.Mediator.publish 'editor:thangs-edited', thangs: @world.thangs
 
   onTreemaThangSelected: (e, selectedTreemas) =>
     selectedThangID = _.last(selectedTreemas)?.data.id
     if selectedThangID isnt @selectedExtantThang?.id
-      @surface.spriteBoss.selectThang selectedThangID, null, true
+      @surface.lankBoss.selectThang selectedThangID, null, true
 
   onTreemaThangDoubleClicked: (e, treema) =>
     id = treema?.data?.id
@@ -566,6 +567,7 @@ module.exports = class ThangsTabView extends CocoView
       thangData = $(e.target).data 'thang-data'
     else  # Mediator event
       thangData = @getThangByID(e.thangID)
+    return unless thangData
     @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel, oldPath: @pathForThang(thangData)  # supermodel needed for checkForMissingSystems
     @insertSubView @editThangView
     @$el.find('>').hide()

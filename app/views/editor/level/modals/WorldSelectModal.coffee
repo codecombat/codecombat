@@ -1,10 +1,10 @@
 ModalView = require 'views/kinds/ModalView'
-template = require 'templates/editor/level/modal/world_select'
+template = require 'templates/editor/level/modal/world-select-modal'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
 
 module.exports = class WorldSelectModal extends ModalView
-  id: 'select-point-modal'
+  id: 'world-select-modal'
   template: template
   modalWidthPercent: 80
   cache: false
@@ -41,10 +41,12 @@ module.exports = class WorldSelectModal extends ModalView
   # surface setup
 
   initSurface: ->
-    canvas = @$el.find('canvas')
-    canvas.attr('width', currentView.$el.width()*.8-70)
-    canvas.attr('height', currentView.$el.height()*.6)
-    @surface = new Surface @world, canvas, {
+    webGLCanvas = @$el.find('.webgl-canvas')
+    normalCanvas = @$el.find('.normal-canvas')
+    canvases = webGLCanvas.add(normalCanvas)
+    canvases.attr('width', currentView.$el.width()*.8-70)
+    canvases.attr('height', currentView.$el.height()*.6)
+    @surface = new Surface @world, normalCanvas, webGLCanvas, {
       wizards: false
       paths: false
       grid: true

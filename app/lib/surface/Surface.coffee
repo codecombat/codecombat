@@ -133,7 +133,7 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if showCoordinates
 
   hookUpChooseControls: ->
-    chooserOptions = stage: @normalStage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
+    chooserOptions = stage: @normalStage, normalStage: @normalStage, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
     klass = if @options.choosing is 'point' then PointChooser else RegionChooser
     @chooser = new klass chooserOptions
 
@@ -506,7 +506,10 @@ module.exports = Surface = class Surface extends CocoClass
     oldHeight = parseInt @normalCanvas.attr('height'), 10
     aspectRatio = oldWidth / oldHeight
     pageWidth = $('#page-container').width() - 17  # 17px nano scroll bar
-    if @realTime or @options.spectateGame
+    if application.isIPadApp
+      newWidth = 1024
+      newHeight = newWidth / aspectRatio
+    else if @realTime or @options.spectateGame
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
@@ -517,6 +520,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
     return unless newWidth > 0 and newHeight > 0
+    return if newWidth is oldWidth and newHeight is oldHeight
     ##if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
     ##  newWidth = Math.min 924, newWidth
     ##  newHeight = Math.min 589, newHeight
@@ -524,14 +528,14 @@ module.exports = Surface = class Surface extends CocoClass
     #@normalCanvas.height newHeight
     scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
-    
+
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
-    # Instead the LayerAdapter scales webGL-enabled layers. 
+    # Instead the LayerAdapter scales webGL-enabled layers.
     @webGLStage.updateViewport(@webGLCanvas[0].width, @webGLCanvas[0].height)
     @normalStage.scaleX *= newWidth / oldWidth
     @normalStage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
-    
+
 
   #- Camera focus on hero
   focusOnHero: ->
