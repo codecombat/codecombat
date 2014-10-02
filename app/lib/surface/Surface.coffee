@@ -521,12 +521,8 @@ module.exports = Surface = class Surface extends CocoClass
       newHeight = newWidth / aspectRatio
     return unless newWidth > 0 and newHeight > 0
     return if newWidth is oldWidth and newHeight is oldHeight
-    ##if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
-    ##  newWidth = Math.min 924, newWidth
-    ##  newHeight = Math.min 589, newHeight
-    #@normalCanvas.width newWidth
-    #@normalCanvas.height newHeight
-    scaleFactor = if application.isIPadApp then 2 else 1  # Retina
+    #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
+    scaleFactor = 1
     @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.

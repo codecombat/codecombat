@@ -103,7 +103,7 @@ module.exports = class InventoryView extends CocoView
 
     for itemSlot in @$el.find '.item-slot'
       slot = $(itemSlot).data 'slot'
-      $(itemSlot).find('.placeholder').css('background-image', "url(/images/pages/game-menu/slot-#{slot}.png)")
+      #$(itemSlot).find('.placeholder').css('background-image', "url(/images/pages/game-menu/slot-#{slot}.png)")
       do (slot) =>
         $(itemSlot).droppable
           drop: (e, ui) => @onAvailableItemDoubleClick()
