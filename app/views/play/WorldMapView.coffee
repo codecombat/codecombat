@@ -551,8 +551,8 @@ hero = [
     id: 'dungeons-of-kithgard'
     original: '528110f30268d018e3000001'
     description: 'Grab the gem, but touch nothing else. Start here.'
-    x: 20.24
-    y: 32.93
+    x: 14
+    y: 15.5
   }
   {
     name: 'Gems in the Deep'
@@ -561,8 +561,8 @@ hero = [
     id: 'gems-in-the-deep'
     original: '54173c90844506ae0195a0b4'
     description: 'Quickly collect the gems; you will need them.'
-    x: 18.47
-    y: 49.78
+    x: 32
+    y: 15.5
   }
   {
     name: 'Shadow Guard'
@@ -571,8 +571,8 @@ hero = [
     id: 'shadow-guard'
     original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
-    x: 30.89
-    y: 61.30
+    x: 54
+    y: 9
   }
   {
     name: 'True Names'
@@ -581,8 +581,8 @@ hero = [
     id: 'true-names'
     original: '541875da4c16460000ab990f'
     description: 'Learn an enemy\'s true name to defeat it.'
-    x: 44.39
-    y: 57.39
+    x: 74
+    y: 12
   }
   {
     name: 'The Raised Sword'
@@ -591,8 +591,8 @@ hero = [
     id: 'the-raised-sword'
     original: '5418aec24c16460000ab9aa6'
     description: 'Learn to equip yourself for combat.'
-    x: 41.83
-    y: 41.74
+    x: 85
+    y: 20
   }
   {
     name: 'The First Kithmaze'
@@ -601,8 +601,8 @@ hero = [
     id: 'the-first-kithmaze'
     original: '5418b9d64c16460000ab9ab4'
     description: 'The builders of Kith constructed many mazes to confuse travelers.'
-    x: 57.39
-    y: 48.15
+    x: 70
+    y: 28
   }
   {
     name: 'The Second Kithmaze'
@@ -611,8 +611,8 @@ hero = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 61.72
-    y: 37.07
+    x: 67
+    y: 41
   }
   {
     name: 'New Sight'
@@ -631,8 +631,8 @@ hero = [
     id: 'lowly-kithmen'
     original: '541b24511ccc8eaae19f3c1f'
     description: 'Use your glasses to seek out and attack the Kithmen.'
-    x: 70.53
-    y: 27.93
+    x: 74
+    y: 48
   }
   {
     name: 'A Bolt in the Dark'
@@ -641,8 +641,8 @@ hero = [
     id: 'a-bolt-in-the-dark'
     original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
-    x: 86.08
-    y: 40.76
+    x: 76
+    y: 60
   }
   {
     name: 'The Final Kithmaze'
@@ -651,8 +651,8 @@ hero = [
     id: 'the-final-kithmaze'
     original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
-    x: 96.95
-    y: 58.15
+    x: 82
+    y: 70
   }
   {
     name: 'Kithgard Gates'
@@ -662,8 +662,8 @@ hero = [
     original: '541c9a30c6362edfb0f34479'
     description: 'Escape the Kithgard dungeons and don\'t let the guardians get you.'
     disabled: true
-    x: 84.02
-    y: 72.39
+    x: 89
+    y: 82
   }
   {
     name: 'Defence of Plainswood'
