@@ -93,7 +93,11 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         sprite.scaleX = sprite.scaleY = 1 / @resolutionFactor
       @children = []
       @addChild(sprite)
-
+      
+    else if action.goesTo
+      @goto(action.goesTo, @paused)
+      return
+      
     @scaleX *= -1 if action.flipX
     @scaleY *= -1 if action.flipY
     @baseScaleX = @scaleX
@@ -101,7 +105,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     return
     
   notifyActionNeedsRender: (action) ->
-    @sprite?.trigger('action-needs-render', @sprite, action)
+    @lank?.trigger('action-needs-render', @lank, action)
 
   buildMovieClip: (animationName, mode, startPosition, loops) ->
     key = JSON.stringify([@spriteSheetPrefix].concat(arguments))
@@ -221,7 +225,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       else if not @loop
         @paused = true
         newFrame = @animLength - 1
-        @dispatchEvent('animationend')
+        _.defer => @dispatchEvent('animationend')
       else
         newFrame = newFrame % @animLength
 

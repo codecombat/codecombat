@@ -141,9 +141,9 @@ module.exports = Lank = class Lank extends CocoClass
   playAction: (action) ->
     return if @isRaster
     @currentAction = action
-    return @hide() unless action.animation or action.container or action.relatedActions
+    return @hide() unless action.animation or action.container or action.relatedActions or action.goesTo
     @show()
-    return @updateActionDirection() unless action.animation or action.container
+    return @updateActionDirection() unless action.animation or action.container or action.goesTo
     return if @sprite.placeholder
     m = if action.container then 'gotoAndStop' else 'gotoAndPlay'
     @sprite[m]?(action.name)

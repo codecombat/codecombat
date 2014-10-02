@@ -75,4 +75,4 @@ module.exports = class SingularSprite extends createjs.Sprite
     return
     
   notifyActionNeedsRender: (action) ->
-    @sprite?.trigger('action-needs-render', @sprite, action) 
+    @lank?.trigger('action-needs-render', @lank, action) 
