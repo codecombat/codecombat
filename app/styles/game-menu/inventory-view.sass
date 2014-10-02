@@ -7,6 +7,8 @@ $equippedWidth: 450px
 $itemSlotMargin: 5px
 $itemSlotSize: ($equippedWidth - 6 * 2 * $itemSlotMargin) / 6
 $itemSlotSizeWithMargin: $itemSlotSize + 2 * $itemSlotMargin
+$itemSlotBorderWidth: 2px
+$itemSlotInnerWidth: $itemSlotSize - 2 * $itemSlotBorderWidth
 $heroContainerBottomMargin: 10px
 $heroContainerWidth: 4 * $itemSlotSizeWithMargin
 $heroContainerHeight: $inventoryHeight - 2 * $itemSlotSizeWithMargin - $heroContainerBottomMargin
@@ -76,16 +78,71 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
         width: 100%
         height: 100%
         background-size: cover
-        border: 2px solid #888
-        @include opacity(0.75)
+        border: $itemSlotBorderWidth solid #888
+        @include opacity(0.4)
+        background-image: url(/images/pages/game-menu/slot-icons.png)
 
-      &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
+      &[data-slot="misc-1"] .placeholder
+        background-position-x: -0 * $itemSlotInnerWidth
+
+      &[data-slot="minion"] .placeholder
+        background-position-x: -1 * $itemSlotInnerWidth
+
+      &[data-slot="programming-book"] .placeholder
+        background-position-x: -2 * $itemSlotInnerWidth
+
+      &[data-slot="spellbook"] .placeholder
+        background-position-x: -3 * $itemSlotInnerWidth
+
+      &[data-slot="misc-0"] .placeholder
+        background-position-x: -4 * $itemSlotInnerWidth
+
+      &[data-slot="wrists"] .placeholder
+        background-position-x: -5 * $itemSlotInnerWidth
+
+      &[data-slot="left-ring"] .placeholder
+        background-position-x: -6 * $itemSlotInnerWidth
+
+      &[data-slot="right-ring"] .placeholder
+        background-position-x: -7 * $itemSlotInnerWidth
+
+      &[data-slot="torso"] .placeholder
+        background-position-x: -8 * $itemSlotInnerWidth
+
+      &[data-slot="feet"] .placeholder
+        background-position-x: -9 * $itemSlotInnerWidth
+
+      &[data-slot="neck"] .placeholder
+        background-position-x: -10 * $itemSlotInnerWidth
+
+      &[data-slot="waist"] .placeholder
+        background-position-x: -11 * $itemSlotInnerWidth
+
+      &[data-slot="eyes"] .placeholder
+        background-position-x: -12 * $itemSlotInnerWidth
+
+      &[data-slot="head"] .placeholder
+        background-position-x: -13 * $itemSlotInnerWidth
+
+      &[data-slot="pet"] .placeholder
+        background-position-x: -14 * $itemSlotInnerWidth
+
+      &[data-slot="gloves"] .placeholder
+        background-position-x: -15 * $itemSlotInnerWidth
+
+      &[data-slot="left-hand"] .placeholder
+        background-position-x: -16 * $itemSlotInnerWidth
+
+      &[data-slot="right-hand"] .placeholder
+        background-position-x: -17 * $itemSlotInnerWidth
+
+      &[data-slot="whatever"]
         // My spooging of the other placeholders had them dimmed; these didn't.
         .placeholder
           @include opacity(0.35)
           border-color: black
       &.selected
-        &[data-slot="waist"], &[data-slot="pet"], &[data-slot="minion"], &[data-slot="misc-1"]
+        &[data-slot="whatever"]
           .placeholder
             border-color: #28f
 

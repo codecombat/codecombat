@@ -73,6 +73,7 @@ module.exports = class WorldMapView extends RootView
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
+    context.mapType = 'dungeon'
     context
 
   afterRender: ->
@@ -145,13 +146,13 @@ module.exports = class WorldMapView extends RootView
     @$levelInfo.css('top', top)
 
   onWindowResize: (e) =>
-    forestMapWidth = 2401
-    forestMapHeight = 1536
-    aspectRatio = forestMapWidth / forestMapHeight
+    mapHeight = 1536
+    mapWidth = 2350  # 2500 for forest
+    aspectRatio = mapWidth / mapHeight
     pageWidth = $(window).width()
     pageHeight = $(window).height()
-    widthRatio = pageWidth / forestMapWidth
-    heightRatio = pageHeight / forestMapHeight
+    widthRatio = pageWidth / mapWidth
+    heightRatio = pageHeight / mapHeight
     if widthRatio > heightRatio
       resultingWidth = pageWidth
       resultingHeight = resultingWidth / aspectRatio
@@ -519,8 +520,8 @@ hero = [
     id: 'dungeons-of-kithgard'
     original: '528110f30268d018e3000001'
     description: 'Grab the gem, but touch nothing else. Start here.'
-    x: 17.23
-    y: 36.94
+    x: 20.24
+    y: 32.93
   }
   {
     name: 'Gems in the Deep'
@@ -529,8 +530,8 @@ hero = [
     id: 'gems-in-the-deep'
     original: '54173c90844506ae0195a0b4'
     description: 'Quickly collect the gems; you will need them.'
-    x: 22.6
-    y: 35.1
+    x: 18.47
+    y: 49.78
   }
   {
     name: 'Shadow Guard'
@@ -539,8 +540,8 @@ hero = [
     id: 'shadow-guard'
     original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
-    x: 27.74
-    y: 35.17
+    x: 30.89
+    y: 61.30
   }
   {
     name: 'True Names'
@@ -549,8 +550,8 @@ hero = [
     id: 'true-names'
     original: '541875da4c16460000ab990f'
     description: 'Learn an enemy\'s true name to defeat it.'
-    x: 32.7
-    y: 36.7
+    x: 44.39
+    y: 57.39
   }
   {
     name: 'The Raised Sword'
@@ -559,8 +560,8 @@ hero = [
     id: 'the-raised-sword'
     original: '5418aec24c16460000ab9aa6'
     description: 'Learn to equip yourself for combat.'
-    x: 36.6
-    y: 39.5
+    x: 41.83
+    y: 41.74
   }
   {
     name: 'The First Kithmaze'
@@ -569,8 +570,8 @@ hero = [
     id: 'the-first-kithmaze'
     original: '5418b9d64c16460000ab9ab4'
     description: 'The builders of Kith constructed many mazes to confuse travelers.'
-    x: 38.4
-    y: 43.5
+    x: 57.39
+    y: 48.15
   }
   {
     name: 'The Second Kithmaze'
@@ -579,8 +580,8 @@ hero = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 38.9
-    y: 48.1
+    x: 61.72
+    y: 37.07
   }
   {
     name: 'New Sight'
@@ -589,8 +590,8 @@ hero = [
     id: 'new-sight'
     original: '5418d40f4c16460000ab9ac2'
     description: 'A true name can only be seen with the correct lenses.'
-    x: 39.3
-    y: 53.1
+    x: 55.54
+    y: 26.96
   }
   {
     name: 'Lowly Kithmen'
@@ -599,8 +600,8 @@ hero = [
     id: 'lowly-kithmen'
     original: '541b24511ccc8eaae19f3c1f'
     description: 'Use your glasses to seek out and attack the Kithmen.'
-    x: 39.4
-    y: 57.7
+    x: 70.53
+    y: 27.93
   }
   {
     name: 'A Bolt in the Dark'
@@ -609,8 +610,8 @@ hero = [
     id: 'a-bolt-in-the-dark'
     original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
-    x: 40.0
-    y: 63.2
+    x: 86.08
+    y: 40.76
   }
   {
     name: 'The Final Kithmaze'
@@ -619,8 +620,8 @@ hero = [
     id: 'the-final-kithmaze'
     original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
-    x: 42.67
-    y: 67.98
+    x: 96.95
+    y: 58.15
   }
   {
     name: 'Kithgard Gates'
@@ -629,9 +630,9 @@ hero = [
     id: 'kithgard-gates'
     original: '541c9a30c6362edfb0f34479'
     description: 'Escape the Kithgard dungeons and don\'t let the guardians get you.'
-    x: 47.38
-    y: 70.55
     disabled: true
+    x: 84.02
+    y: 72.39
   }
   {
     name: 'Defence of Plainswood'
@@ -640,9 +641,9 @@ hero = [
     id: 'defence-of-plainswood'
     original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
-    x: 52.66
-    y: 69.66
     disabled: true
+    x: 95.31
+    y: 88.26
   }
   #{
   #  name: ''
