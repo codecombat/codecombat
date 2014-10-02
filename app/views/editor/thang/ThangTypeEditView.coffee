@@ -133,12 +133,13 @@ module.exports = class ThangTypeEditView extends RootView
     @topLayer.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
     @updateGrid()
     _.defer @refreshAnimation
-
+    @toggleDots(false)
+    
     createjs.Ticker.setFPS(30)
     createjs.Ticker.addEventListener('tick', @stage)
 
-  toggleDots: ->
-    @showDots = not @showDots
+  toggleDots: (newShowDots) ->
+    @showDots = if typeof(newShowDots) is 'boolean' then newShowDots else not @showDots
     @updateDots()
 
   updateDots: ->
