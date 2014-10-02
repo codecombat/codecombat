@@ -59,7 +59,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     about: "Sobre"
     contact: "Contacte"
     twitter_follow: "Seguir"
-#    teachers: "Teachers"
+    teachers: "Professores"
     employers: "Empregadores"
 
   versions:
@@ -139,7 +139,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     account: "Conta"
     settings: "Definições"
     next: "Seguinte"
-#    change_hero: "Change Hero"
+    change_hero: "Alterar Herói"
     choose_inventory: "Equipar Itens"
     older_campaigns: "Campanhas Mais Antigas"
     anonymous: "Jogador Anónimo"
