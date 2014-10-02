@@ -105,7 +105,8 @@ watchForErrors = ->
     #msg += "\nColumn: #{col}" if col?
     #msg += "\nError: #{error}" if error?
     #msg += "\nStack: #{stack}" if stack = error?.stack
-    noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
+    unless webkit?.messageHandlers  # Don't show these notys on iPad
+      noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
     Backbone.Mediator.publish 'application:error', message: msg  # For iOS app
 
 window.addIPadSubscription = (channel) ->
