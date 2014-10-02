@@ -45,8 +45,14 @@ module.exports = class PlayLevelModal extends ModalView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
     @insertSubView @chooseHeroView = new ChooseHeroView @options
     @insertSubView @inventoryView = new InventoryView @options
-    @inventoryView.$el.addClass 'secret'
-    @chooseHeroView.onShown()
+    if @options.hadEverChosenHero
+      @$el.find('.choose-hero-active').add(@chooseHeroView.$el).addClass 'secret'
+      @$el.find('.choose-inventory-active').removeClass 'secret'
+      @inventoryView.onShown()
+    else
+      @$el.find('.choose-inventory-active').add(@inventoryView.$el).addClass 'secret'
+      @$el.find('.choose-hero-active').removeClass 'secret'
+      @chooseHeroView.onShown()
 
   onHidden: ->
     unless @navigatingToPlay

@@ -115,6 +115,9 @@ module.exports = class InventoryView extends CocoView
     @$el.find('#selected-items').hide()  # Hide until one is selected
     @delegateEvents()
 
+    if @selectedHero and not @startedLoadingFirstHero
+      @loadHero()
+
   afterInsert: ->
     super()
     @canvasWidth = @$el.find('canvas').innerWidth()
@@ -329,7 +332,8 @@ module.exports = class InventoryView extends CocoView
     @loadHero()
 
   loadHero: ->
-    return unless @selectedHero and not @$el.hasClass 'secret'
+    return unless @supermodel.finished() and @selectedHero and not @$el.hasClass 'secret'
+    @startedLoadingFirstHero = true
     @stage?.removeAllChildren()
     if @selectedHero.loaded and movieClip = @movieClips?[@selectedHero.get('original')]
       @stage.addChild(movieClip)

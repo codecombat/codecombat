@@ -36,6 +36,7 @@ module.exports = class WorldMapView extends RootView
     $(window).on 'resize', @onWindowResize
     @playAmbientSound()
     @preloadTopHeroes()
+    @hadEverChosenHero = me.get('heroConfig')?.thangType
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -113,7 +114,7 @@ module.exports = class WorldMapView extends RootView
     @startLevel $(e.target).parents('.level-info-container')
 
   startLevel: (levelElement) ->
-    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name')
+    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero
     @openModalView playLevelModal
     @$levelInfo?.hide()
 
