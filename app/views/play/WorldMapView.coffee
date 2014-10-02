@@ -17,6 +17,7 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class WorldMapView extends RootView
   id: 'world-map-view'
   template: template
+  terrain: 'Dungeon'  # or Grass
 
   events:
     'click .map-background': 'onClickMap'
@@ -76,7 +77,7 @@ module.exports = class WorldMapView extends RootView
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
-    context.mapType = 'dungeon'
+    context.mapType = _.string.slugify @terrain
     context
 
   afterRender: ->
@@ -85,6 +86,7 @@ module.exports = class WorldMapView extends RootView
     unless application.isIPadApp
       _.defer => @$el.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
       @$el.find('.level').tooltip()
+    @$el.addClass _.string.slugify @terrain
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
@@ -149,28 +151,45 @@ module.exports = class WorldMapView extends RootView
     @$levelInfo.css('top', top)
 
   onWindowResize: (e) =>
-    mapHeight = 1536
-    mapWidth = 2350  # 2500 for forest
+    mapHeight = iPadHeight = 1536
+    mapWidth = if @terrain is 'Dungeon' then 2350 else 2500
+    iPadWidth = 2048
     aspectRatio = mapWidth / mapHeight
+    iPadAspectRatio = iPadWidth / iPadHeight
     pageWidth = $(window).width()
     pageHeight = $(window).height()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
-    if widthRatio > heightRatio
-      resultingWidth = pageWidth
-      resultingHeight = resultingWidth / aspectRatio
+    iPadWidthRatio = pageWidth / iPadWidth
+    if @terrain is 'Dungeon'
+      # Make sure we can see almost the whole map, fading to background in one dimension.
+      if heightRatio <= iPadWidthRatio
+        # Full width, full height, left and right margin
+        resultingHeight = pageHeight
+        resultingWidth = resultingHeight * aspectRatio
+      else if iPadWidthRatio < heightRatio * (iPadAspectRatio / aspectRatio)
+        # Cropped width, full height, left and right margin
+        resultingWidth = pageWidth
+        resultingHeight = resultingWidth / aspectRatio
+      else
+        # Cropped width, full height, top and bottom margin
+        resultingWidth = pageWidth * aspectRatio / iPadAspectRatio
+        resultingHeight = resultingWidth / aspectRatio
     else
-      resultingHeight = pageHeight
-      resultingWidth = resultingHeight * aspectRatio
+      # Scale it in either dimension so that we're always full on one of the dimensions.
+      if heightRatio > widthRatio
+        resultingHeight = pageHeight
+        resultingWidth = resultingHeight * aspectRatio
+      else
+        resultingWidth = pageWidth
+        resultingHeight = resultingWidth / aspectRatio
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
 
   playAmbientSound: ->
     return if @ambientSound
-    #terrain = 'Grass'
-    terrain = 'Dungeon'
-    return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-map-grass'}[terrain]
+    return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-map-grass'}[@terrain]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"
     unless AudioPlayer.getStatus(src)?.loaded
       AudioPlayer.preloadSound src
