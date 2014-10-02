@@ -182,7 +182,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     clothes: "Одежда"
     trim: "Отделка"
     cloud: "Облако"
-    team: "Облако"
+    team: "Команда"
     spell: "Заклинание"
     boots: "Обувь"
     hue: "Оттенок"
@@ -471,10 +471,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     infinite_loop_comment_out: "Закомментировать мой код"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
+    inventory_tab: "Инвентарь"
+    choose_hero_tab: "Перезапустить уровень"
+    save_load_tab: "Сохранить/Загрузить"
+    options_tab: "Настройки"
 #    guide_tab: "Guide"
     multiplayer_tab: "Мультиплеер"
 #    inventory_caption: "Equip your hero"
@@ -482,7 +482,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
+    multiplayer_caption: "Играй с друзьями!"
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -501,11 +501,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    granularity_change_history: "History"
 
   options:
-#    general_options: "General Options"
-#    volume_label: "Volume"
-#    music_label: "Music"
-#    music_description: "Turn background music on/off."
-#    autorun_label: "Autorun"
+    general_options: "Общие Настройки"
+    volume_label: "Громкость"
+    music_label: "Музыка"
+    music_description: "Фоновая музыка вкл/выкл"
+    autorun_label: "Автозапуск"
 #    autorun_description: "Control automatic code execution."
     editor_config: "Настройки редактора"
     editor_config_title: "Настройки редактора"
