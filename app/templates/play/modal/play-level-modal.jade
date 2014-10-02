@@ -1,8 +1,8 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  h1#choose-hero-header(data-i18n="choose_hero.choose_hero") Choose Your Hero
-  h1#choose-inventory-header.secret(data-i18n="inventory.choose_inventory") Equip Items
+  h1#choose-hero-header.choose-hero-active.secret(data-i18n="choose_hero.choose_hero") Choose Your Hero
+  h1#choose-inventory-header.choose-inventory-active.secret(data-i18n="inventory.choose_inventory") Equip Items
 
 block modal-body-content
   #choose-hero-view
@@ -10,7 +10,7 @@ block modal-body-content
   #inventory-view
 
 block modal-footer-content
-  button#choose-inventory-button.btn.btn-lg.btn-success(data-i18n="play.next") Next
-  button#choose-hero-button.btn.btn-lg.btn-primary.secret.pull-left(data-i18n="play.previous") Previous
-  button#play-level-button.btn.btn-lg.btn-success.secret(data-i18n="common.play") Play
+  button#choose-inventory-button.btn.btn-lg.btn-success.choose-hero-active.secret(data-i18n="play.next") Next
+  button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active.secret.pull-left(data-i18n="play.change_hero") Change Hero
+  button#play-level-button.btn.btn-lg.btn-success.choose-inventory-active.secret(data-i18n="common.play") Play
   

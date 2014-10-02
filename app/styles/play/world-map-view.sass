@@ -5,7 +5,8 @@ $mapHeight: 1536
 $forestMapWidth: 2500
 $dungeonMapWidth: 2350
 $forestMapSeaBackground: #71bad0
-$dungeonMapCaveBackground: rgb(54, 43, 34)
+$dungeonMapCaveBackground: rgba(68, 54, 45, 1)
+$dungeonMapCaveBackgroundTransparent: rgba(68, 54, 45, 0)
 $levelDotWidth: 2%
 $levelDotHeight: $levelDotWidth * $forestMapWidth / $mapHeight
 $levelDotZ: $levelDotHeight * 0.25
@@ -30,12 +31,43 @@ $gameControlMargin: 30px
 #world-map-view
   width: 100%
   height: 100%
+  position: absolute
 
   &.forest
     background-color: $forestMapSeaBackground
 
   &.dungeon
     background-color: $dungeonMapCaveBackground
+
+    .gradient
+      position: absolute
+      z-index: 0
+
+      &.horizontal-gradient
+        left: 0
+        right: 0
+        height: 3%
+
+      &.vertical-gradient
+        top: 0
+        bottom: 0
+        width: 3%
+
+      &.top-gradient
+        top: 0
+        background: linear-gradient(to bottom, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
+  
+      &.right-gradient
+        right: 0
+        background: linear-gradient(to left, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
+
+      &.bottom-gradient
+        bottom: 0
+        background: linear-gradient(to top, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
+  
+      &.left-gradient
+        left: 0
+        background: linear-gradient(to right, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
 
   .map
     position: relative

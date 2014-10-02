@@ -1,4 +1,8 @@
 .map
+  .gradient.horizontal-gradient.top-gradient
+  .gradient.vertical-gradient.right-gradient
+  .gradient.horizontal-gradient.bottom-gradient
+  .gradient.vertical-gradient.left-gradient
   img.map-background(src="/images/pages/play/map_" + mapType + ".jpg", alt="")
 
   - var seenNext = false;
@@ -17,7 +21,7 @@
           each i in Array(level.difficulty)
             i.icon-star
           - var playCount = levelPlayCountMap[level.id]
-          if playCount && playCount > 20
+          if playCount && playCount.sessions > 20
             div
               span.spr #{playCount.sessions}
               span(data-i18n="play.players") players

@@ -63,10 +63,7 @@ body
     .footer.clearfix
       .content
         p.footer-link-text
-          if pathname == "/" || (me.get('permissions', true)).indexOf('employer') != -1
-            a(href='/employers', tabindex=-1, data-i18n="nav.employers") Employers
-          else
-            a(href='/', tabindex=-1, data-i18n="nav.home") Home
+          a(href='/', tabindex=-1, data-i18n="nav.home") Home
           a(href='/play/ladder', tabindex=-1, data-i18n="home.multiplayer") Multiplayer
           a(href='/community', tabindex=-1, data-i18n="nav.community") Community
           a(href='/contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
