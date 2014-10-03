@@ -58,21 +58,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    achievements: "成就" # Tooltip on achievement list button from /play
+    account: "账户" # Tooltip on account button from /play
+    settings: "设置" # Tooltip on settings button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
+    choose_inventory: "装备道具"
+    older_campaigns: "旧的战役"
+    anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
     choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
     adventurer_forum: "冒险者论坛"
     adventurer_suffix: "。"
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "旧的新手战役"
     campaign_beginner_description: "……在这里你可以学习到编程技巧。"
     campaign_dev: "随机困难关卡"
     campaign_dev_description: "……在这里你可以学到做一些复杂功能的接口。"
@@ -80,8 +80,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_multiplayer_description: "……在这里你可以与其他玩家进行代码肉搏战。"
     campaign_player_created: "创建玩家"
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "经典算法"
+    campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
 
   login:
     sign_up: "注册"
@@ -107,13 +107,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     send_password: "发送重置链接"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
-#    armor: "Armor"
-#    hands: "Hands"
-#    accessories: "Accessories"
-#    books: "Books"
-#    minions: "Minions"
-#    misc: "Misc"
+  items:
+    armor: "盔甲"
+    hands: "手持"
+    accessories: "配饰"
+    books: "图书"
+    minions: "部下"
+    misc: "辅助道具"
 
   common:
     loading: "读取中……"
@@ -182,16 +182,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   play_level:
     done: "完成"
     home: "主页"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    skip: "跳过"
+    game_menu: "游戏菜单"
     guide: "指南"
     restart: "重新开始"
     goals: "目标"
-#    goal: "Goal"
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
-#    failing: "Failing"
+    goal: "目标"
+    success: "成功!"
+    incomplete: "未完成"
+    timed_out: "运行超时"
+    failing: "失败"
     action_timeline: "行动时间轴"
     click_to_select: "点击选择一个单元。"
     reload_title: "重载所有代码？"
@@ -219,10 +219,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_submit_button: "提交"
+    tome_reload_method: "重载该方法的原始代码" # Title text for individual method reload button.
+    tome_select_method: "选择方法"
+    tome_see_all_methods: "查看所有能够编辑的方法" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
 #    tome_your_skills: "Your Skills"
@@ -286,18 +286,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    status: "Status"
-#    weapons: "Weapons"
-#    health: "Health"
-#    speed: "Speed"
+  choose_hero:
+    choose_hero: "请选择您的英雄"
+    programming_language: "编程语言"
+    programming_language_description: "您希望使用那门编程语言?"
+    status: "状态"
+    weapons: "武器"
+    health: "健康值"
+    speed: "速度"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "保存"
+    granularity_change_history: "历史记录"
 
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
@@ -333,11 +333,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     why_paragraph_2_italic_caps: "老妈，我得先把这关打完！"
     why_paragraph_2_suffix: "这就是为什么 CodeCombat 是个多人游戏，而不是一个游戏化的编程课。你不停，我们就不停——但这次这是件好事。"
     why_paragraph_3: "如果你一定要对游戏上瘾，那就对这个游戏上瘾，然后成为科技时代的法师吧。"
-#    press_title: "Bloggers/Press"
+    press_title: "博客/媒体"
 #    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
-#    team: "Team"
+    team: "团队"
 #    george_title: "CEO"
 #    george_blurb: "Businesser"
 #    scott_title: "Programmer"
