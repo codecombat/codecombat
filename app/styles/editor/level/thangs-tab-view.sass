@@ -106,19 +106,19 @@
         position: absolute
         top: 45%
         //height: 40px
-
-
-  
-    // Below snatched from play/level.sass; should refactor?
   
     canvas
-      background-color: #ddd
       width: 100%
       display: block
       border: 1px solid black
 
     #webgl-surface
+      background-color: #ddd
       z-index: 1
       
     #normal-surface
       z-index: 2
+      position: absolute
+      left: 0
+      top: 0
+      pointer-events: none
