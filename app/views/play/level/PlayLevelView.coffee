@@ -604,7 +604,7 @@ module.exports = class PlayLevelView extends RootView
     if finishedLoading
       @lastWorldFramesLoaded = 0
       if @waitingForSubmissionComplete
-        @onSubmissionComplete()
+        _.defer @onSubmissionComplete  # Give it a frame to make sure we have the latest goals
         @waitingForSubmissionComplete = false
     else
       @lastWorldFramesLoaded = @world.frames.length
