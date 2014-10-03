@@ -336,7 +336,7 @@ module.exports = class ThangsTabView extends CocoView
     return if e? and $(e.target).closest('#thang-search').length # Ignore if you're trying to search thangs
     return unless (e? and $(e.target).closest('#thangs-tab-view').length) or key.isPressed('esc') or forceDeselect
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
-    return true if target.attr('id') is 'surface'
+    return true if target.attr('id') is 'webgl-surface'
     target = target.closest('.add-thang-palette-icon')
     wasSelected = target.hasClass 'selected'
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
@@ -400,6 +400,7 @@ module.exports = class ThangsTabView extends CocoView
     pos.y = Math.round((pos.y - (thang.height ? 1) / 2) / snap.y) * snap.y + (thang.height ? 1) / 2
     pos.z = thang.depth / 2
     thang.pos = pos
+    thang.stateChanged = true
     @surface.lankBoss.update true  # Make sure Obstacle layer resets cache
 
   onSurfaceMouseMoved: (e) ->

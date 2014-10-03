@@ -98,6 +98,7 @@ module.exports = Surface = class Surface extends CocoClass
   initEasel: ->
     @normalStage = new createjs.Stage(@normalCanvas[0])
     @webGLStage = new createjs.SpriteStage(@webGLCanvas[0])
+    @normalStage.nextStage = @webGLStage
     @camera = AudioPlayer.camera = new Camera @webGLCanvas
 
     @normalLayers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera

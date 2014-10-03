@@ -119,13 +119,12 @@ module.exports = class Angel extends CocoClass
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, streamingWorld
+    @streamingWorld = World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting
-    @streamingWorld = world
     finished = world.frames.length is world.totalFrames
     firstChangedFrame = world.findFirstChangedFrame @shared.world
     eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'
@@ -208,6 +207,8 @@ module.exports = class Angel extends CocoClass
     @say 'Fired worker.'
     @initialized = false
     @work = null
+    @streamingWorld = null
+    @deserializationQueue = null
     @hireWorker() if rehire
 
   hireWorker: ->

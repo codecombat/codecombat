@@ -28,6 +28,7 @@ module.exports = class ThangTypeEditView extends RootView
     health: 10.0
     maxHealth: 10.0
     hudProperties: ['health']
+    acts: true
 
   events:
     'click #clear-button': 'clearRawData'
@@ -35,7 +36,8 @@ module.exports = class ThangTypeEditView extends RootView
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
-    'click #end-button': 'endAnimation'
+    'click #stop-button': 'stopAnimation'
+    'click #play-button': 'playAnimation'
     'click #history-button': 'showVersionHistory'
     'click #fork-start-button': 'startForking'
     'click #save-button': 'openSaveModal'
@@ -74,13 +76,8 @@ module.exports = class ThangTypeEditView extends RootView
     context.fileSizeString = @fileSizeString
     context
 
-  getAnimationNames: ->
-    raw = _.keys((@thangType.get('raw') or {}).animations)
-    return [] unless raw
-    raw = ("raw:#{name}" for name in raw)
-    main = _.keys(@thangType.get('actions') or {})
-    main.concat(raw)
-
+  getAnimationNames: -> _.keys(@thangType.get('actions') or {})
+  
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -113,17 +110,20 @@ module.exports = class ThangTypeEditView extends RootView
   makeDot: (color) ->
     circle = new createjs.Shape()
     circle.graphics.beginFill(color).beginStroke('black').drawCircle(0, 0, 5)
-    circle.x = CENTER.x
-    circle.y = CENTER.y
-    circle.scaleY = 0.5
+    circle.scaleY = 0.2
+    circle.scaleX = 0.5
     circle
 
   initStage: ->
     canvas = @$el.find('#canvas')
     @stage = new createjs.Stage(canvas[0])
     @layerAdapter = new LayerAdapter({name:'Default', webGL: true})
+    @topLayer = new createjs.Container()
+    
+    @layerAdapter.container.x = @topLayer.x = CENTER.x
+    @layerAdapter.container.y = @topLayer.y = CENTER.y
+    @stage.addChild(@layerAdapter.container, @topLayer)
     @listenTo @layerAdapter, 'new-spritesheet', @onNewSpriteSheet
-    @stage.addChild(@layerAdapter.container)
     @camera?.destroy()
     @camera = new Camera canvas
 
@@ -131,34 +131,38 @@ module.exports = class ThangTypeEditView extends RootView
     @mouthDot = @makeDot('yellow')
     @aboveHeadDot = @makeDot('green')
     @groundDot = @makeDot('red')
-    @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
+    @topLayer.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
     @updateGrid()
     _.defer @refreshAnimation
-
+    @toggleDots(false)
+    
     createjs.Ticker.setFPS(30)
     createjs.Ticker.addEventListener('tick', @stage)
 
-  toggleDots: ->
-    @showDots = not @showDots
+  toggleDots: (newShowDots) ->
+    @showDots = if typeof(newShowDots) is 'boolean' then newShowDots else not @showDots
     @updateDots()
 
   updateDots: ->
-    @stage.removeChild(@torsoDot, @mouthDot, @aboveHeadDot, @groundDot)
+    @topLayer.removeChild(@torsoDot, @mouthDot, @aboveHeadDot, @groundDot)
     return unless @currentLank
     return unless @showDots
     torso = @currentLank.getOffset 'torso'
     mouth = @currentLank.getOffset 'mouth'
     aboveHead = @currentLank.getOffset 'aboveHead'
-    @torsoDot.x = CENTER.x + torso.x * @scale
-    @torsoDot.y = CENTER.y + torso.y * @scale
-    @mouthDot.x = CENTER.x + mouth.x * @scale
-    @mouthDot.y = CENTER.y + mouth.y * @scale
-    @aboveHeadDot.x = CENTER.x + aboveHead.x * @scale
-    @aboveHeadDot.y = CENTER.y + aboveHead.y * @scale
-    @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
+    @torsoDot.x = torso.x
+    @torsoDot.y = torso.y
+    @mouthDot.x = mouth.x
+    @mouthDot.y = mouth.y
+    @aboveHeadDot.x = aboveHead.x
+    @aboveHeadDot.y = aboveHead.y
+    @topLayer.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
 
-  endAnimation: ->
+  stopAnimation: ->
     @currentLank?.queueAction('idle')
+
+  playAnimation: ->
+    @currentLank?.queueAction(@$el.find('#animations-select').val())
 
   updateGrid: ->
     grid = new createjs.Container()
@@ -247,19 +251,18 @@ module.exports = class ThangTypeEditView extends RootView
     $('#spritesheets').empty()
     for image in @layerAdapter.spriteSheet._images
       $('#spritesheets').append(image)
+    @layerAdapter.container.x = CENTER.x
+    @layerAdapter.container.y = CENTER.y
     @updateScale()
 
   showAnimation: (animationName) ->
     animationName = @$el.find('#animations-select').val() unless _.isString animationName
     return unless animationName
-    if animationName.startsWith('raw:')
-      animationName = animationName[4...]
-      @showMovieClip(animationName)
-    else
-      @showAction(animationName)
+    @mockThang.action = animationName
+    @showAction(animationName)
     @updateRotation()
     @updateScale() # must happen after update rotation, because updateRotation calls the sprite update() method.
-
+    
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
     movieClip = vectorParser.buildMovieClip(animationName)
@@ -268,6 +271,9 @@ module.exports = class ThangTypeEditView extends RootView
     if reg
       movieClip.regX = -reg.x
       movieClip.regY = -reg.y
+    scale = @thangType.get('scale')
+    if scale
+      movieClip.scaleX = movieClip.scaleY = scale
     @showSprite(movieClip)
 
   getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang}
@@ -292,23 +298,16 @@ module.exports = class ThangTypeEditView extends RootView
     @layerAdapter.resetSpriteSheet()
     @layerAdapter.addLank(lank)
     @currentLank = lank
-    lank.sprite.x = CENTER.x
-    lank.sprite.y = CENTER.y
-    lank.on 'new-sprite', ->
-      lank.sprite.x = CENTER.x
-      lank.sprite.y = CENTER.y
 
   showSprite: (sprite) ->
     @clearDisplayObject()
     @clearLank()
-    sprite.x = CENTER.x
-    sprite.y = CENTER.y
-    @stage.addChildAt(sprite, 1)
+    @topLayer.addChild(sprite)
     @currentObject = sprite
     @updateDots()
 
   clearDisplayObject: ->
-    @stage.removeChild(@currentObject) if @currentObject?
+    @topLayer.removeChild(@currentObject) if @currentObject?
     
   clearLank: ->
     @layerAdapter.removeLank(@currentLank) if @currentLank
@@ -330,18 +329,12 @@ module.exports = class ThangTypeEditView extends RootView
       @currentLank.update(true)
 
   updateScale: =>
-    resValue = (@resolutionSlider.slider('value') + 1) / 10
     scaleValue = (@scaleSlider.slider('value') + 1) / 10
+    @layerAdapter.container.scaleX = @layerAdapter.container.scaleY = @topLayer.scaleX = @topLayer.scaleY = scaleValue
     fixed = scaleValue.toFixed(1)
     @scale = scaleValue
     @$el.find('.scale-label').text " #{fixed}x "
-    if @currentLank
-      @currentLank.sprite.scaleX = @currentLank.sprite.baseScaleX * scaleValue
-      @currentLank.sprite.scaleY = @currentLank.sprite.baseScaleY * scaleValue
-    else if @currentObject?
-      @currentObject.scaleX = @currentObject.scaleY = scaleValue / resValue
     @updateGrid()
-    @updateDots()
 
   updateResolution: =>
     value = (@resolutionSlider.slider('value') + 1) / 10
@@ -427,6 +420,7 @@ module.exports = class ThangTypeEditView extends RootView
 
   onSelectNode: (e, selected) =>
     selected = selected[0]
+    @topLayer.removeChild(@boundsBox) if @boundsBox
     return @stopShowingSelectedNode() if not selected
     path = selected.getPath()
     parts = path.split('/')
@@ -437,15 +431,16 @@ module.exports = class ThangTypeEditView extends RootView
     obj = vectorParser.buildMovieClip(key) if type is 'animations'
     obj = vectorParser.buildContainerFromStore(key) if type is 'containers'
     obj = vectorParser.buildShapeFromStore(key) if type is 'shapes'
-    if obj?.bounds
-      obj.regX = obj.bounds.x + obj.bounds.width / 2
-      obj.regY = obj.bounds.y + obj.bounds.height / 2
-    else if obj?.frameBounds?[0]
-      bounds = obj.frameBounds[0]
-      obj.regX = bounds.x + bounds.width / 2
-      obj.regY = bounds.y + bounds.height / 2
+    
+    bounds = obj?.bounds or obj?.nominalBounds
+    if bounds
+      @boundsBox = new createjs.Shape()
+      @boundsBox.graphics.beginFill('#aaaaaa').beginStroke('black').drawRect(bounds.x, bounds.y, bounds.width, bounds.height)
+      @topLayer.addChild(@boundsBox)
+      obj.regX = @boundsBox.regX = bounds.x + bounds.width / 2
+      obj.regY = @boundsBox.regY = bounds.y + bounds.height / 2
+    
     @showSprite(obj) if obj
-    obj.y = 200 if obj # truly center the container
     @showingSelectedNode = true
     @currentLank?.destroy()
     @currentLank = null

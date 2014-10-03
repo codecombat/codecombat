@@ -63,7 +63,13 @@ module.exports = class SpriteParser
             instructions.push {t: c.t, gn: c.gn}
             break
       @addContainer {c: instructions, b: container.bounds}, container.name
-    for movieClip in movieClips
+    for movieClip, index in movieClips
+      if index is 0
+        for bounds in movieClip.frameBounds
+          bounds[0] -= @width / 2
+          bounds[1] -= @height / 2
+        movieClip.bounds[0] -= @width / 2
+        movieClip.bounds[1] -= @height / 2
       localGraphics = @getGraphicsFromBlock(movieClip, source)
       [shapeKeys, localShapes] = @getShapesFromBlock movieClip, source
       localContainers = @getContainersFromMovieClip movieClip, source, true
@@ -174,7 +180,7 @@ module.exports = class SpriteParser
             frameBoundsSource = @subSourceFromRange frameBoundsRange, source
             if frameBoundsSource.search(/\[rect/) is -1  # some other statement; we don't have multiframe bounds
               console.log 'Didn\'t have multiframe bounds for this movie clip.'
-              frameBounds = [nominalBounds]
+              frameBounds = [_.clone(nominalBounds)]
             else
               lastRect = nominalBounds
               frameBounds = []
@@ -192,12 +198,7 @@ module.exports = class SpriteParser
                   bounds = [0, 0, 1, 1]  # Let's try this.
                 frameBounds.push _.clone bounds
           else
-            frameBounds = [nominalBounds]
-
-          # Subtract half of width/height parsed from lib.properties
-          for bounds in frameBounds
-            bounds[0] -= @width / 2
-            bounds[1] -= @height / 2
+            frameBounds = [_.clone(nominalBounds)]
 
           functionExpressions.push {name: name, bounds: nominalBounds, frameBounds: frameBounds, expression: node.parent.parent, kind: kind}
     @walk ast, null, gatherFunctionExpressions

@@ -364,7 +364,6 @@ module.exports = class World
     o.trackedPropertiesPerThangValuesOffsets = []  # Needed to reconstruct ArrayBufferViews on other end, since Firefox has bugs transfering those: https://bugzilla.mozilla.org/show_bug.cgi?id=841904 and https://bugzilla.mozilla.org/show_bug.cgi?id=861925  # Actually, as of January 2014, it should be fixed. So we could try to undo the workaround.
     transferableStorageBytesNeeded = 0
     nFrames = endFrame - startFrame
-    streaming = nFrames < @totalFrames
     for thang in @thangs
       # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
       # Check both, since sometimes people mark stateless Thangs but then change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
@@ -477,6 +476,7 @@ module.exports = class World
     w.frames = [] unless streamingWorld
     clearTimeout @deserializationTimeout if @deserializationTimeout
     @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
+    w  # Return in-progress deserializing world
 
   # Spread deserialization out across multiple calls so the interface stays responsive
   @deserializeSomeFrames: (o, w, finishedWorldCallback, perf, startFrame, endFrame) =>
