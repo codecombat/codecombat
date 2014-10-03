@@ -611,8 +611,8 @@ hero = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 67
-    y: 41
+    x: 55.54
+    y: 26.96
   }
   {
     name: 'New Sight'
@@ -621,8 +621,8 @@ hero = [
     id: 'new-sight'
     original: '5418d40f4c16460000ab9ac2'
     description: 'A true name can only be seen with the correct lenses.'
-    x: 55.54
-    y: 26.96
+    x: 67
+    y: 41
   }
   {
     name: 'Lowly Kithmen'

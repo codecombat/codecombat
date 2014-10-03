@@ -389,7 +389,7 @@ module.exports = class LevelPlaybackView extends CocoView
 
   onToggleMusic: (e) ->
     e?.preventDefault()
-    me.set('music', not me.get('music'))
+    me.set('music', not me.get('music', true))
     me.patch()
     $(document.activeElement).blur()
 
