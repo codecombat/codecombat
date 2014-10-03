@@ -212,6 +212,8 @@ $gameControlMargin: 30px
       @include box-shadow(2px 2px 4px black)
       border: 0
       border-radius: 12px
+      // IE9 shows a blank white button with this MS gradient filter in place
+      filter: none 
       
       &:hover
         @include box-shadow(0 0 12px #bbf)
