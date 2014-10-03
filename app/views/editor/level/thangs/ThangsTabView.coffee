@@ -325,6 +325,8 @@ module.exports = class ThangsTabView extends CocoView
       @selectedExtantThangClickTime = new Date()
       # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
       @selectedExtantLank.setNameLabel @selectedExtantLank.thangType.get('name') + ': ' + @selectedExtantThang.id
+      @selectedExtantLank.updateLabels()
+      @selectedExtantLank.updateMarks()
     else if @addThangLank
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangLank.thang.pos
