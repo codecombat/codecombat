@@ -163,8 +163,12 @@ $gameControlMargin: 30px
       position: absolute
       z-index: 3
       padding: 10px
-      border-image: url(/images/level/popover_background.png) 18 fill round
       border-width: 15px
+      // Using modernizr-mixin for compat detection
+      @include yep(borderimage)
+        border-image: url(/images/level/popover_background.png) 18 fill round
+      @include nope(borderimage)
+        background-color: rgb(247, 242, 218)
 
       .level-info.complete h3:after
         content: " - Complete!"

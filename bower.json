@@ -90,5 +90,8 @@
     "modernizr": {
       "main": "modernizr.js"
     }
+  },
+  "devDependencies": {
+    "modernizr-mixin": "~3.0.0"
   }
 }
