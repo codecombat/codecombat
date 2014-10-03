@@ -212,7 +212,7 @@ module.exports = class ThangsTabView extends CocoView
 
   destroy: ->
     @selectAddThangType null
-    @surface.destroy()
+    @surface?.destroy()
     $(window).off 'resize', @onWindowResize
     $(document).unbind 'contextmenu', @preventDefaultContextMenu
     @thangsTreema?.destroy()

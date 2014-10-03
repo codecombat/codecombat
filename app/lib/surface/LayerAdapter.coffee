@@ -223,6 +223,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     
   _renderNewSpriteSheet: (async) ->
     @asyncBuilder.stopAsync() if @asyncBuilder
+    @asyncBuilder = null
       
     async ?= @buildAsync
     builder = new createjs.SpriteSheetBuilder()
@@ -274,7 +275,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       return sheet
       
   onBuildSpriteSheetComplete: (e, builder) ->
-    return if @initializing
+    return if @initializing or @destroyed
     @asyncBuilder = null
     
     if builder.spriteSheet._images.length > 1
@@ -506,4 +507,5 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   destroy: ->
     child.destroy?() for child in @container.children
+    @asyncBuilder.stopAsync() if @asyncBuilder
     super()
