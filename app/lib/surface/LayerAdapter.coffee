@@ -147,8 +147,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if lank.thangType?.get('name') is 'Highlight'
       lank.thangType.set('spriteType', 'segmented')
     lank.options.resolutionFactor = @resolutionFactor
-    if lank.layer
-      console.warn 'Lank being re-added to a layer?'
     
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
@@ -161,6 +159,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   removeLank: (lank) ->
     @stopListening(lank)
+    lank.layer = null
     @container.removeChild lank.sprite
     @lanks = _.without @lanks, lank
 
