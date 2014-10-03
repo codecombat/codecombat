@@ -161,7 +161,8 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds
       anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
-      anim.childMovieClips = @childMovieClips
+
+    anim.childMovieClips = @childMovieClips
     
     @spriteSheet.mcPool[key].push(anim)
     return anim
