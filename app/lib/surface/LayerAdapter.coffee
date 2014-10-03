@@ -427,7 +427,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         if action.frames
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
-          frames = _.values(framesMap).sort()
+          frames = _.sortBy(_.values(framesMap))
         next = @nextForAction(action)
         spriteSheetBuilder.addAnimation(name, frames, next) 
         
