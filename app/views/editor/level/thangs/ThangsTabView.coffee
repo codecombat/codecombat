@@ -519,6 +519,7 @@ module.exports = class ThangsTabView extends CocoView
       console.error 'Catastrophic error loading the level:', error
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
+    @surface?.lankBoss.cachedObstacles = false
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
 
     # update selection, since the thangs have been remade
