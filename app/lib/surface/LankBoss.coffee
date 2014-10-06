@@ -47,6 +47,7 @@ module.exports = class LankBoss extends CocoClass
     @removeLank lank for thangID, lank of @lanks
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    lankLayer.destroy() for lankLayer in _.values @layerAdapters
     super()
 
   toString: -> "<LankBoss: #{@lankArray.length} lanks>"
@@ -248,7 +249,7 @@ module.exports = class LankBoss extends CocoClass
       wallLank.updatePosition()
 #    console.log wallGrid.toString()
     @cachedObstacles = true
-    
+
   lankFor: (thangID) -> @lanks[thangID]
 
   onNewWorld: (e) ->

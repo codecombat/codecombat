@@ -171,8 +171,9 @@ module.exports = Lank = class Lank extends CocoClass
   update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return false if @stillLoading
+    if (frameChanged and @thang and @thang.stateChanged) or (@thang and @thang.bobHeight) or @notOfThisWorld
+      @updatePosition()
     return false if @thang and @thang.stateChanged is false
-    @updatePosition() if frameChanged or @thang.bobHeight or @notOfThisWorld
     frameChanged = frameChanged or @targetScaleFactorX isnt @scaleFactorX or @targetScaleFactorY isnt @scaleFactorY
     if frameChanged
       @handledDisplayEvents = {}
@@ -198,7 +199,7 @@ module.exports = Lank = class Lank extends CocoClass
       @handledDisplayEvents[event] = true
       args = JSON.parse(event[4...])
       key = 'aoe-' + JSON.stringify(args[2..])
-      
+
       unless key in @options.groundLayer.spriteSheet.getAnimations()
         args = JSON.parse(event[4...])
         circle = new createjs.Shape()
@@ -401,7 +402,7 @@ module.exports = Lank = class Lank extends CocoClass
     # wallGrid is only needed for wall grid face updates; should refactor if this works
     return unless action = @getActionDirection()
     @playAction(action) if action isnt @currentAction
-  
+
   lockAction: -> (@actionLocked=true)
 
   getActionDirection: (rootAction=null) ->
