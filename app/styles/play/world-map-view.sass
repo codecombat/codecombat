@@ -261,3 +261,29 @@ $gameControlMargin: 30px
 
     button
       margin-left: 10px
+
+  #volume-button
+    position: absolute
+    left: 1%
+    top: 1%
+    padding: 3px 8px
+    @include opacity(0.75)
+
+    &:hover
+      @include opacity(1.0)
+
+    .glyphicon
+      display: none
+      font-size: 32px
+
+    &.vol-up .glyphicon.glyphicon-volume-up
+      display: inline-block
+
+    &.vol-off .glyphicon.glyphicon-volume-off
+      display: inline-block
+      @include opacity(0.50)
+      &:hover
+        @include opacity(0.75)
+
+    &.vol-down .glyphicon.glyphicon-volume-down
+      display: inline-block
