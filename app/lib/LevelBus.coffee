@@ -46,7 +46,7 @@ module.exports = class LevelBus extends Bus
   incrementSessionPlaytime: =>
     if @playerIsIdle then return
     @changedSessionProperties.playtime = true
-    @session.set('playtime', @session.get('playtime', true) + 1)
+    @session.set('playtime', (@session.get('playtime') ? 0) + 1)
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
