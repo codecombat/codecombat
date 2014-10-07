@@ -171,9 +171,10 @@ module.exports = Lank = class Lank extends CocoClass
   update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return false if @stillLoading
-    if (frameChanged and @thang and @thang.stateChanged) or (@thang and @thang.bobHeight) or @notOfThisWorld
+    thangUnchanged = @thang and @thang.stateChanged is false
+    if (frameChanged and not thangUnchanged) or (@thang and @thang.bobHeight) or @notOfThisWorld
       @updatePosition()
-    return false if @thang and @thang.stateChanged is false
+    return false if thangUnchanged
     frameChanged = frameChanged or @targetScaleFactorX isnt @scaleFactorX or @targetScaleFactorY isnt @scaleFactorY
     if frameChanged
       @handledDisplayEvents = {}
