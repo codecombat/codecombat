@@ -57,22 +57,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    heroes: "Герои" # Tooltip on hero shop button from /play
+    achievements: "Достижения" # Tooltip on achievement list button from /play
+    account: "Аккаунт" # Tooltip on account button from /play
+    settings: "Настройки" # Tooltip on settings button from /play
+    next: "Следующий" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Старые компании"
+    anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     campaign_beginner: "Кампания для новичков"
     choose_your_level: "Выберите ваш уровень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Вы можете зайти на любой из этих уровней, а также обсудить уровни на "
     adventurer_forum: "форуме Искателей приключений"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Старые компании для новичков"
     campaign_beginner_description: "... в которой вы познакомитесь с магией программирования."
     campaign_dev: "Случайные уровни потруднее"
     campaign_dev_description: "... в которых вы изучите интерфейс и научитесь делать кое-что посложнее."
@@ -107,13 +107,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     send_password: "Отправить пароль для восстановления"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
-#    armor: "Armor"
-#    hands: "Hands"
-#    accessories: "Accessories"
-#    books: "Books"
+  items:
+    armor: "Броня" #"Armor"
+    hands: "Руки" #"Hands"
+    accessories: "Аксессуары" #"Accessories"
+    books: "Книги" #"Books" 
 #    minions: "Minions"
-#    misc: "Misc"
+    misc: "Разное" #"Misc"
 
   common:
     loading: "Загрузка..."
@@ -182,12 +182,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   play_level:
     done: "Готово"
     home: "На главную"
-#    skip: "Skip"
+    skip: "Пропустить"
     game_menu: "Меню игры"
     guide: "Руководство"
     restart: "Перезапустить"
     goals: "Цели"
-#    goal: "Goal"
+    goal: "Цель"
     success: "Успешно!"
     incomplete: "Не завершено"
     timed_out: "Время истекло"
@@ -277,7 +277,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    guide_tab: "Guide"
     multiplayer_tab: "Мультиплеер"
 #    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
+    choose_hero_caption: "Выбор героя, языка" #"Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
@@ -286,18 +286,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    status: "Status"
-#    weapons: "Weapons"
-#    health: "Health"
-#    speed: "Speed"
+  choose_hero:
+    choose_hero: "Выберите героя" # "Choose Your Hero"
+    programming_language: "Язык программирования" # "Programming Language"
+    programming_language_description: "Какой язык программирования вы хотите использовать?" # "Which programming language do you want to use?"
+    status: "Статус" # "Status"
+    weapons: "Оружие" # "Weapons"
+    health: "Жизнь" # "Health"
+    speed: "Скорость" # "Speed"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "Сохранено"
+    granularity_change_history: "История"
 
   options:
     general_options: "Общие Настройки" # Check out the Options tab in the Game Menu while playing a level

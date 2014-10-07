@@ -135,6 +135,7 @@ module.exports = class CocoRouter extends Backbone.Router
     window.currentModal?.hide?()
     return unless window.currentView?
     window.currentView.destroy()
+    $('.popover').popover 'hide'
 
   onGPlusAPILoaded: =>
     @renderLoginButtons()

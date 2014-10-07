@@ -79,7 +79,8 @@ describe 'POST /db/user', ->
       request.get url, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         user = JSON.parse(body)
-        expect(user.email).toBe('normal@jo.com')
+        expect(user.name).toBe('Joe')  # Anyone should be served the username.
+        expect(user.email).toBeUndefined()  # Shouldn't be available to just anyone.
         expect(user.passwordHash).toBeUndefined()
         done()
 
