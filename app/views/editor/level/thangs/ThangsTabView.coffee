@@ -212,7 +212,7 @@ module.exports = class ThangsTabView extends CocoView
 
   destroy: ->
     @selectAddThangType null
-    @surface.destroy()
+    @surface?.destroy()
     $(window).off 'resize', @onWindowResize
     $(document).unbind 'contextmenu', @preventDefaultContextMenu
     @thangsTreema?.destroy()
@@ -325,6 +325,8 @@ module.exports = class ThangsTabView extends CocoView
       @selectedExtantThangClickTime = new Date()
       # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
       @selectedExtantLank.setNameLabel @selectedExtantLank.thangType.get('name') + ': ' + @selectedExtantThang.id
+      @selectedExtantLank.updateLabels()
+      @selectedExtantLank.updateMarks()
     else if @addThangLank
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangLank.thang.pos
@@ -359,6 +361,7 @@ module.exports = class ThangsTabView extends CocoView
     @surface.lankBoss.removeLank @addThangLank if @addThangLank
     @addThangType = type
     if @addThangType
+      @surface.lankBoss.reallyStopMoving = true
       thang = @createAddThang()
       @addThangLank = @surface.lankBoss.addThangToLanks thang, @surface.lankBoss.layerAdapters['Floating']
       @addThangLank.notOfThisWorld = true
@@ -368,6 +371,7 @@ module.exports = class ThangsTabView extends CocoView
       @adjustThangPos @addThangLank, thang, pos
     else
       @addThangLank = null
+      @surface.lankBoss.reallyStopMoving = false
 
   createEssentialComponents: (defaultComponents) ->
     physicalConfig = {pos: {x: 10, y: 10, z: 1}}
@@ -519,6 +523,7 @@ module.exports = class ThangsTabView extends CocoView
       console.error 'Catastrophic error loading the level:', error
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
+    @surface?.lankBoss.cachedObstacles = false
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
 
     # update selection, since the thangs have been remade

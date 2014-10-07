@@ -42,7 +42,7 @@ module.exports = class OptionsView extends CocoView
     @aceConfig = _.cloneDeep me.get('aceConfig') ? {}
     @aceConfig = _.defaults @aceConfig, @defaultConfig
     c.aceConfig = @aceConfig
-    c.music = me.get('music')
+    c.music = me.get('music', true)
     c.autorunDelay = me.get('autocastDelay') ? 5000
     c
 

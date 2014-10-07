@@ -13,7 +13,7 @@ module.exports = class AuthModal extends ModalView
   events:
     # login buttons
     'click #switch-to-signup-button': 'onSignupInstead'
-    'click #signup-confirm-age': 'checkAge'
+    'click #confirm-age': 'checkAge'
     'click #github-login-button': 'onGitHubLoginClicked'
     'submit': 'onSubmitForm' # handles both submit buttons
     'keyup #name': 'onNameChange'

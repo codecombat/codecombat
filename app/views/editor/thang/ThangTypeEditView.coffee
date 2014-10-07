@@ -241,10 +241,8 @@ module.exports = class ThangTypeEditView extends RootView
     @updatePortrait()
 
   showRasterImage: ->
-    sprite = new Lank(@thangType, @getLankOptions())
-    @currentLank?.destroy()
-    @currentLank = sprite
-    @showSprite(sprite.sprite)
+    lank = new Lank(@thangType, @getLankOptions())
+    @showLank(lank)
     @updateScale()
     
   onNewSpriteSheet: ->

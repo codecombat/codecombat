@@ -26,6 +26,7 @@ module.exports = class WorldMapView extends RootView
     'mouseenter .level a': 'onMouseEnterLevel'
     'mouseleave .level a': 'onMouseLeaveLevel'
     'mousemove .map': 'onMouseMoveMap'
+    'click #volume-button': 'onToggleVolume'
 
   constructor: (options) ->
     super options
@@ -87,6 +88,7 @@ module.exports = class WorldMapView extends RootView
       _.defer => @$el.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
+    @updateVolume()
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
@@ -205,6 +207,30 @@ module.exports = class WorldMapView extends RootView
       fullHero = new ThangType()
       fullHero.setURL url
       @supermodel.loadModel fullHero, 'thang'
+
+  updateVolume: (volume) ->
+    volume ?= me.get('volume') ? 1.0
+    classes = ['vol-off', 'vol-down', 'vol-up']
+    button = $('#volume-button', @$el)
+    button.toggleClass 'vol-off', volume <= 0.0
+    button.toggleClass 'vol-down', 0.0 < volume < 1.0
+    button.toggleClass 'vol-up', volume >= 1.0
+    createjs.Sound.setVolume(if volume is 1 then 0.6 else volume)  # Quieter for now until individual sound FX controls work again.
+    if volume isnt me.get 'volume'
+      me.set 'volume', volume
+      me.patch()
+
+  onToggleVolume: (e) ->
+    button = $(e.target).closest('#volume-button')
+    classes = ['vol-off', 'vol-down', 'vol-up']
+    volumes = [0, 0.4, 1.0]
+    for oldClass, i in classes
+      if button.hasClass oldClass
+        newI = (i + 1) % classes.length
+        break
+      else if i is classes.length - 1  # no oldClass
+        newI = 2
+    @updateVolume volumes[newI]
 
 
 tutorials = [
@@ -611,8 +637,8 @@ hero = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 67
-    y: 41
+    x: 55.54
+    y: 26.96
   }
   {
     name: 'New Sight'
@@ -621,8 +647,8 @@ hero = [
     id: 'new-sight'
     original: '5418d40f4c16460000ab9ac2'
     description: 'A true name can only be seen with the correct lenses.'
-    x: 55.54
-    y: 26.96
+    x: 67
+    y: 41
   }
   {
     name: 'Lowly Kithmen'
@@ -635,10 +661,10 @@ hero = [
     y: 48
   }
   {
-    name: 'A Bolt in the Dark'
+    name: 'Closing the Distance'
     type: 'hero'
     difficulty: 1
-    id: 'a-bolt-in-the-dark'
+    id: 'closing-the-distance'
     original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
     x: 76

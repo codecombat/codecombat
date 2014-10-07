@@ -59,6 +59,8 @@ module.exports = class LevelEditView extends RootView
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
+    
+  getTitle: -> "LevelEditor - " + (@level.get('name') or '...')
 
   onLoaded: ->
     _.defer =>

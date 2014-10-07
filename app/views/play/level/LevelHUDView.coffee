@@ -8,6 +8,7 @@ module.exports = class LevelHUDView extends CocoView
   id: 'thang-hud'
   template: template
   dialogueMode: false
+  showingActions: false
 
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
@@ -168,6 +169,7 @@ module.exports = class LevelHUDView extends CocoView
     actions = @$el.find('.thang-actions tbody').empty()
     showActions = @thang.world and not @thang.notOfThisWorld and not _.isEmpty(@thang.actions) and 'action' in (@thang.hudProperties ? [])
     @$el.find('.thang-actions').toggleClass 'secret', not showActions
+    @showingActions = showActions
     return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
@@ -260,6 +262,7 @@ module.exports = class LevelHUDView extends CocoView
     @dialogueMode = false
     $('.thang-elem', @$el).removeClass('secret')
     $('.dialogue-area', @$el).addClass('secret')
+    $('.thang-actions', @$el).toggleClass 'secret', not @showingActions
 
   update: ->
     return unless @thang and not @speaker
@@ -326,7 +329,7 @@ module.exports = class LevelHUDView extends CocoView
     return val
 
   updateActions: ->
-    return unless @thang.world and not _.isEmpty @thang.actions
+    return unless @thang.world and @showingActions and not _.isEmpty @thang.actions
     @buildActionTimespans() unless @timespans
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)

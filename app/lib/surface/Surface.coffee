@@ -229,7 +229,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
-    if @playing and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
+    if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
       @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
     @camera.updateZoom()
     @lankBoss.update frameChanged

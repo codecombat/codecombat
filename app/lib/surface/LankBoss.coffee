@@ -47,6 +47,7 @@ module.exports = class LankBoss extends CocoClass
     @removeLank lank for thangID, lank of @lanks
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    lankLayer.destroy() for lankLayer in _.values @layerAdapters
     super()
 
   toString: -> "<LankBoss: #{@lankArray.length} lanks>"
@@ -238,15 +239,17 @@ module.exports = class LankBoss extends CocoClass
       possiblyUpdatedWallLanks = (lank for lank in wallLanks when _.find updatedObstacles, (w2) -> lank is w2 or (Math.abs(lank.thang.pos.x - w2.thang.pos.x) + Math.abs(lank.thang.pos.y - w2.thang.pos.y)) <= 16)
     else
       possiblyUpdatedWallLanks = wallLanks
-    #console.log 'updating up to', possiblyUpdatedWallLanks.length, 'of', wallLanks.length, 'wall lanks from updatedObstacles', updatedObstacles
+#    console.log 'updating up to', possiblyUpdatedWallLanks.length, 'of', wallLanks.length, 'wall lanks from updatedObstacles', updatedObstacles
     for wallLank in possiblyUpdatedWallLanks
+      wallLank.queueAction 'idle' if not wallLank.currentRootAction
+      wallLank.lockAction(false)
       wallLank.updateActionDirection wallGrid
-      wallLank.lockAction()
+      wallLank.lockAction(true)
       wallLank.updateScale()
       wallLank.updatePosition()
-    #console.log @wallGrid.toString()
+#    console.log wallGrid.toString()
     @cachedObstacles = true
-    
+
   lankFor: (thangID) -> @lanks[thangID]
 
   onNewWorld: (e) ->
@@ -296,7 +299,7 @@ module.exports = class LankBoss extends CocoClass
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = lank?.thang?.pos
     worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e?.originalEvent
-    if worldPos and (@options.navigateToSelection or not lank or treemaThangSelected) and e?.originalEvent?.nativeEvent?.which isnt 3
+    if (not @reallyStopMoving) and worldPos and (@options.navigateToSelection or not lank or treemaThangSelected) and e?.originalEvent?.nativeEvent?.which isnt 3
       @camera.zoomTo(lank?.sprite or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     lank = null if @options.choosing  # Don't select lanks while choosing
     if lank isnt @selectedLank

@@ -75,7 +75,9 @@ block modal-footer
         | GitHub
     div.network-login
       .fb-login-button(data-show-faces="false", data-width="200", data-max-rows="1", data-scope="email")
-    div.network-login
-      .gplus-login-button#gplus-login-button
+    // Google+ login causing script errors on IE10
+    if !isIE
+      div.network-login
+        .gplus-login-button#gplus-login-button
     div#recover-account-wrapper
       a(data-toggle="coco-modal", data-target="modal/RecoverModal", data-i18n="login.recover")#link-to-recover recover account

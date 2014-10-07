@@ -147,8 +147,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if lank.thangType?.get('name') is 'Highlight'
       lank.thangType.set('spriteType', 'segmented')
     lank.options.resolutionFactor = @resolutionFactor
-    if lank.layer
-      console.warn 'Lank being re-added to a layer?'
     
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
@@ -161,6 +159,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   removeLank: (lank) ->
     @stopListening(lank)
+    lank.layer = null
     @container.removeChild lank.sprite
     @lanks = _.without @lanks, lank
 
@@ -222,6 +221,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @_renderNewSpriteSheet()
     
   _renderNewSpriteSheet: (async) ->
+    @asyncBuilder.stopAsync() if @asyncBuilder
+    @asyncBuilder = null
+      
     async ?= @buildAsync
     builder = new createjs.SpriteSheetBuilder()
     groups = _.groupBy(@toRenderBundles, ((bundle) -> @renderGroupingKey(bundle.thangType, '', bundle.colorConfig)), @)
@@ -259,19 +261,28 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         @renderRasterThangType(thangType, builder)
         
     if async
-      builder.buildAsync()
+      try
+        builder.buildAsync()
+      catch e
+        @resolutionFactor *= 0.9
+        return @_renderNewSpriteSheet(async)
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
+      @asyncBuilder = builder
     else
       sheet = builder.build()
       @onBuildSpriteSheetComplete({async:async}, builder)
       return sheet
       
   onBuildSpriteSheetComplete: (e, builder) ->
-    return if @initializing
+    return if @initializing or @destroyed
+    @asyncBuilder = null
     
     if builder.spriteSheet._images.length > 1
-      @resolutionFactor *= 0.9
-      console.debug('Sprite sheet is too large... re-rendering at', @resolutionFactor.toFixed(2))
+      total = 0
+      # get a rough estimate of how much smaller the spritesheet needs to be
+      for image, index in builder.spriteSheet._images
+        total += image.height / builder.maxHeight
+      @resolutionFactor /= (Math.max(1.1, Math.sqrt(total)))
       @_renderNewSpriteSheet(e.async)
       return
     
@@ -416,7 +427,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         if action.frames
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
-          frames = _.values(framesMap).sort()
+          frames = _.sortBy(_.values(framesMap))
         next = @nextForAction(action)
         spriteSheetBuilder.addAnimation(name, frames, next) 
         
@@ -495,4 +506,5 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   destroy: ->
     child.destroy?() for child in @container.children
+    @asyncBuilder.stopAsync() if @asyncBuilder
     super()

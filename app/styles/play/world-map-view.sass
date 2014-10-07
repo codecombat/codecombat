@@ -163,8 +163,12 @@ $gameControlMargin: 30px
       position: absolute
       z-index: 3
       padding: 10px
-      border-image: url(/images/level/popover_background.png) 18 fill round
       border-width: 15px
+      // Using modernizr-mixin for compat detection
+      @include yep(borderimage)
+        border-image: url(/images/level/popover_background.png) 18 fill round
+      @include nope(borderimage)
+        background-color: rgb(247, 242, 218)
 
       .level-info.complete h3:after
         content: " - Complete!"
@@ -208,6 +212,8 @@ $gameControlMargin: 30px
       @include box-shadow(2px 2px 4px black)
       border: 0
       border-radius: 12px
+      // IE9 shows a blank white button with this MS gradient filter in place
+      filter: none 
       
       &:hover
         @include box-shadow(0 0 12px #bbf)
@@ -216,13 +222,13 @@ $gameControlMargin: 30px
         @include box-shadow(0 0 20px white)
       
       &.heroes
-        background-position-x: -1 * $gameControlSize
+        background-position: (-1 * $gameControlSize) 0px
       &.achievements
-        background-position-x: -2 * $gameControlSize
+        background-position: (-2 * $gameControlSize) 0px
       &.account
-        background-position-x: -3 * $gameControlSize
+        background-position: (-3 * $gameControlSize) 0px
       &.settings
-        background-position-x: -4 * $gameControlSize
+        background-position: (-4 * $gameControlSize) 0px
 
     .tooltip
       font-size: 24px
@@ -255,3 +261,29 @@ $gameControlMargin: 30px
 
     button
       margin-left: 10px
+
+  #volume-button
+    position: absolute
+    left: 1%
+    top: 1%
+    padding: 3px 8px
+    @include opacity(0.75)
+
+    &:hover
+      @include opacity(1.0)
+
+    .glyphicon
+      display: none
+      font-size: 32px
+
+    &.vol-up .glyphicon.glyphicon-volume-up
+      display: inline-block
+
+    &.vol-off .glyphicon.glyphicon-volume-off
+      display: inline-block
+      @include opacity(0.50)
+      &:hover
+        @include opacity(0.75)
+
+    &.vol-down .glyphicon.glyphicon-volume-down
+      display: inline-block

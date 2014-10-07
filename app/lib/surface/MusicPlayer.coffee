@@ -53,7 +53,7 @@ module.exports = class MusicPlayer extends CocoClass
     @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src
     return unless @currentMusic
     @currentMusic.volume = 0.0
-    if me.get('music')
+    if me.get('music', true)
       createjs.Tween.get(@currentMusic).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
 
   onMusicSettingChanged: ->
@@ -62,7 +62,7 @@ module.exports = class MusicPlayer extends CocoClass
   updateMusicVolume: ->
     return unless @currentMusic
     createjs.Tween.removeTweens(@currentMusic)
-    @currentMusic.volume = if me.get('music') then MUSIC_VOLUME else 0.0
+    @currentMusic.volume = if me.get('music', true) then MUSIC_VOLUME else 0.0
 
   onRealTimePlaybackStarted: (e) ->
     @previousMusic = @currentMusic
