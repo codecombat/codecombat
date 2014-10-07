@@ -661,10 +661,10 @@ hero = [
     y: 48
   }
   {
-    name: 'A Bolt in the Dark'
+    name: 'Closing the Distance'
     type: 'hero'
     difficulty: 1
-    id: 'a-bolt-in-the-dark'
+    id: 'closing-the-distance'
     original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
     x: 76

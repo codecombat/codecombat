@@ -131,6 +131,14 @@ module.exports = class PlayLevelView extends RootView
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable('team')
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
 
+  trackLevelLoadEnd: ->
+    return if @isEditorPreview
+    @loadEndTime = new Date()
+    loadDuration = @loadEndTime - @loadStartTime
+    console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
+    application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
+    application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
+
   # CocoView overridden methods ###############################################
 
   updateProgress: (progress) ->
@@ -338,6 +346,7 @@ module.exports = class PlayLevelView extends RootView
   onLevelStarted: ->
     return unless @surface?
     @loadingView.showReady()
+    @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
@@ -355,12 +364,6 @@ module.exports = class PlayLevelView extends RootView
     @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null
-    unless @isEditorPreview
-      @loadEndTime = new Date()
-      loadDuration = @loadEndTime - @loadStartTime
-      console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
-      application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
-      application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
     @playAmbientSound()
 
   playAmbientSound: ->
@@ -379,7 +382,9 @@ module.exports = class PlayLevelView extends RootView
     @alreadyLoadedState = true
     state = @originalSessionState
     if @level.get('type', true) is 'hero'
+      Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
+      Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
       @surface.focusOnHero()
       Backbone.Mediator.publish 'level:set-time', time: 0
       Backbone.Mediator.publish 'level:set-playing', playing: true
