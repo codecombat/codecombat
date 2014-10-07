@@ -46,8 +46,6 @@ module.exports = class LevelBus extends Bus
   incrementSessionPlaytime: =>
     if @playerIsIdle then return
     @changedSessionProperties.playtime = true
-    if _.isNaN @session.get('playtime')
-      @session.set 'playtime', 0   # Oops, corrupted some playtimes when moving to new defaults system. Fixed on 2014-10-06, but lost playtime data in between.
     @session.set('playtime', @session.get('playtime', true) + 1)
 
   onPoint: ->
