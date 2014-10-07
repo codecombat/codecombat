@@ -100,11 +100,7 @@ module.exports = class SpellView extends CocoView
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    # TODO: restore Zatanna when it totally stops the this.this.moveRight()(); problem
-    #@zatanna = new Zatanna @ace,
-    #  liveCompletion: aceConfig.liveCompletion ? true
-    #  completers:
-    #    keywords: false
+    @initAutocomplete aceConfig.liveCompletion ? true
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -191,8 +187,24 @@ module.exports = class SpellView extends CocoView
     @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
 
+  initAutocomplete: (@autocomplete) ->
+    # TODO: Turn on more autocompletion based on level sophistication
+    # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
+    # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
+    @zatanna = new Zatanna @ace,
+      basic: false
+      liveCompletion: false
+      snippets: @autocomplete
+      snippetsLangDefaults: false
+      completers:
+        keywords: false
+        text: false
+
+  updateAutocomplete: (@autocomplete) ->
+    @zatanna?.set 'snippets', @autocomplete
+
   addZatannaSnippets: (e) ->
-    return unless @zatanna
+    return unless @zatanna and @autocomplete
     snippetEntries = []
     for owner, props of e.propGroups
       for prop in props
@@ -682,12 +694,12 @@ module.exports = class SpellView extends CocoView
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    @zatanna?.set 'liveCompletion', (aceConfig.liveCompletion ? false)
+    @updateAutocomplete(aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
     @aceSession.setMode @editModes[e.language]
-    # @zatanna?.set 'language', @editModes[e.language].substr('ace/mode/')
+    @zatanna?.set 'language', @editModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
