@@ -343,8 +343,8 @@ module.exports = class ThangsTabView extends CocoView
     wasSelected = target.hasClass 'selected'
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
     @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
+    @addThangLank?.playSound? 'selected'
     target.addClass('selected') if @addThangType
-    #false # was causing #1099, any reason to keep?
 
   moveAddThangSelection: (direction) ->
     return unless @addThangType
@@ -366,7 +366,6 @@ module.exports = class ThangsTabView extends CocoView
       @addThangLank = @surface.lankBoss.addThangToLanks thang, @surface.lankBoss.layerAdapters['Floating']
       @addThangLank.notOfThisWorld = true
       @addThangLank.sprite.alpha = 0.75
-      @addThangLank.playSound? 'selected'
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
       @adjustThangPos @addThangLank, thang, pos
     else
