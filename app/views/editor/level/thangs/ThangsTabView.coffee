@@ -343,8 +343,8 @@ module.exports = class ThangsTabView extends CocoView
     wasSelected = target.hasClass 'selected'
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
     @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
+    @addThangLank?.playSound? 'selected'
     target.addClass('selected') if @addThangType
-    #false # was causing #1099, any reason to keep?
 
   moveAddThangSelection: (direction) ->
     return unless @addThangType
@@ -366,7 +366,6 @@ module.exports = class ThangsTabView extends CocoView
       @addThangLank = @surface.lankBoss.addThangToLanks thang, @surface.lankBoss.layerAdapters['Floating']
       @addThangLank.notOfThisWorld = true
       @addThangLank.sprite.alpha = 0.75
-      @addThangLank.playSound? 'selected'
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
       @adjustThangPos @addThangLank, thang, pos
     else
@@ -399,9 +398,14 @@ module.exports = class ThangsTabView extends CocoView
     thang
 
   adjustThangPos: (sprite, thang, pos) ->
-    snap = sprite?.data?.snap or sprite?.thangType?.get('snap') or {x: 0.01, y: 0.01}  # Centimeter resolution by default
-    pos.x = Math.round((pos.x - (thang.width ? 1) / 2) / snap.x) * snap.x + (thang.width ? 1) / 2
-    pos.y = Math.round((pos.y - (thang.height ? 1) / 2) / snap.y) * snap.y + (thang.height ? 1) / 2
+    if key.shift
+      # Meter resolution when holding shift, not caring about thang size.
+      pos.x = Math.round pos.x
+      pos.y = Math.round pos.y
+    else
+      snap = sprite?.data?.snap or sprite?.thangType?.get('snap') or x: 0.01, y: 0.01  # Centimeter resolution by default
+      pos.x = Math.round((pos.x - (thang.width ? 1) / 2) / snap.x) * snap.x + (thang.width ? 1) / 2
+      pos.y = Math.round((pos.y - (thang.height ? 1) / 2) / snap.y) * snap.y + (thang.height ? 1) / 2
     pos.z = thang.depth / 2
     thang.pos = pos
     thang.stateChanged = true

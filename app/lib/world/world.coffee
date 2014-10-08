@@ -442,7 +442,15 @@ module.exports = class World
     perf = {}
     perf.t0 = now()
     nFrames = endFrame - startFrame
-    w = streamingWorld ? new World o.userCodeMap, classMap
+    if streamingWorld
+      w = streamingWorld
+      # Make sure we get any Aether updates from the new frames into the already-deserialized streaming world Aethers.
+      for thangID, methods of o.userCodeMap
+        for methodName, serializedAether of methods
+          for aetherStateKey in ['flow', 'metrics', 'style', 'problems']
+            w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
+    else
+      w = new World o.userCodeMap, classMap
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
     w[prop] = val for prop, val of o.trackedProperties
 

@@ -58,7 +58,7 @@ module.exports =
     entry: {type: 'object'}
 
   'tome:spell-statement-index-updated': c.object {title: 'Spell Statement Index Updated', description: 'Published when the spell index is updated', required: ['statementIndex', 'ace']},
-    statementIndex: {type: 'object'}
+    statementIndex: {type: 'integer'}
     ace: {type: 'object'}
 
   'tome:spell-beautify': c.object {title: 'Beautify', description: 'Published when you click the \'beautify\' button', required: []},

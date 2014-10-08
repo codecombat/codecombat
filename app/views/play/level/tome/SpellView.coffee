@@ -100,11 +100,7 @@ module.exports = class SpellView extends CocoView
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    # TODO: restore Zatanna when it totally stops the this.this.moveRight()(); problem
-    #@zatanna = new Zatanna @ace,
-    #  liveCompletion: aceConfig.liveCompletion ? true
-    #  completers:
-    #    keywords: false
+    @initAutocomplete aceConfig.liveCompletion ? true
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -191,8 +187,24 @@ module.exports = class SpellView extends CocoView
     @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
 
+  initAutocomplete: (@autocomplete) ->
+    # TODO: Turn on more autocompletion based on level sophistication
+    # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
+    # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
+    @zatanna = new Zatanna @ace,
+      basic: false
+      liveCompletion: false
+      snippets: @autocomplete
+      snippetsLangDefaults: false
+      completers:
+        keywords: false
+        text: false
+
+  updateAutocomplete: (@autocomplete) ->
+    @zatanna?.set 'snippets', @autocomplete
+
   addZatannaSnippets: (e) ->
-    return unless @zatanna
+    return unless @zatanna and @autocomplete
     snippetEntries = []
     for owner, props of e.propGroups
       for prop in props
@@ -593,18 +605,20 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration row, 'executing'
         @aceSession.removeGutterDecoration row, 'executed'
         @decoratedGutter[row] = ''
-    if not executed.length or (@spell.name is 'plan' and @spellThang.castAether.metrics.statementsExecuted < 20)
+    lastExecuted = _.last executed
+    showToolbarView = executed.length and (@spell.name isnt 'plan' or @spellThang.castAether.metrics.statementsExecuted > 20)
+
+    if showToolbarView
+      statementIndex = Math.max 0, lastExecuted.length - 1
+      @toolbarView?.toggleFlow true
+      @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
+      lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
+    else
       @toolbarView?.toggleFlow false
       @debugView?.setVariableStates {}
-      return
-    lastExecuted = _.last executed
-    @toolbarView?.toggleFlow true
-    statementIndex = Math.max 0, lastExecuted.length - 1
-    @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
-    lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     gotVariableStates = false
-    for state, i in lastExecuted
+    for state, i in lastExecuted ? []
       [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
       if clazz is 'executed'
@@ -682,18 +696,17 @@ module.exports = class SpellView extends CocoView
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    @zatanna?.set 'liveCompletion', (aceConfig.liveCompletion ? false)
+    @updateAutocomplete(aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
     @aceSession.setMode @editModes[e.language]
-    # @zatanna?.set 'language', @editModes[e.language].substr('ace/mode/')
+    @zatanna?.set 'language', @editModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
 
   onInsertSnippet: (e) ->
-    console.log 'doc', e.doc, e.formatted
     snippetCode = null
     if e.doc.snippets?[e.language]?.code
       snippetCode = e.doc.snippets[e.language].code

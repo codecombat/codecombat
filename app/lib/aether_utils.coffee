@@ -8,7 +8,7 @@ module.exports.createAetherOptions = (options) ->
   aetherOptions =
     functionName: options.functionName
     protectAPI: not options.skipProtectAPI
-    includeFlow: false
+    includeFlow: options.includeFlow
     yieldConditionally: options.functionName is 'plan'
     simpleLoops: true
     globals: ['Vector', '_']
