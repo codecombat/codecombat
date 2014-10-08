@@ -199,6 +199,8 @@ module.exports = class SpellView extends CocoView
       completers:
         keywords: false
         text: false
+      autoLineEndings:
+        javascript: ';'
 
   updateAutocomplete: (@autocomplete) ->
     @zatanna?.set 'snippets', @autocomplete
