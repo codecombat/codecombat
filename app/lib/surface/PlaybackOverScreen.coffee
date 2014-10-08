@@ -25,7 +25,7 @@ module.exports = class PlaybackOverScreen extends CocoClass
   show: ->
     return if @showing
     @showing = true
-    @updateColor 'rgba(212, 212, 212, 0.4' unless @color  # If we haven't caught the goal state for the first run, just do something neutral.
+    @updateColor 'rgba(212, 212, 212, 0.4)' unless @color  # If we haven't caught the goal state for the first run, just do something neutral.
     @dimLayer.alpha = 0
     createjs.Tween.removeTweens @dimLayer
     createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)

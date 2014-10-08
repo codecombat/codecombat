@@ -49,7 +49,7 @@ module.exports = class PlayLevelView extends RootView
     'level:set-volume': (e) -> createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
     'level:show-victory': 'onShowVictory'
     'level:restart': 'onRestartLevel'
-    'level:highlight-dom': 'onHighlightDom'
+    'level:highlight-dom': 'onHighlightDOM'
     'level:end-highlight-dom': 'onEndHighlight'
     'level:focus-dom': 'onFocusDom'
     'level:disable-controls': 'onDisableControls'
@@ -430,9 +430,7 @@ module.exports = class PlayLevelView extends RootView
       viewArgs: [{supermodel: @supermodel, autoUnveil: true}, @levelID]
     }
 
-  onWindowResize: (s...) ->
-    $('#pointer').css('opacity', 0.0)
-    clearInterval(@pointerInterval)
+  onWindowResize: (e) -> @endHighlight()
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -500,72 +498,11 @@ module.exports = class PlayLevelView extends RootView
     return null unless @getNextLevelID()
     "/play/level/#{@getNextLevelID()}"
 
-  onHighlightDom: (e) ->
-    if e.delay
-      delay = e.delay
-      delete e.delay
-      @pointerInterval = _.delay((=> @onHighlightDom e), delay)
-      return
-    @addPointer()
-    selector = e.selector + ':visible'
-    dom = $(selector)
-    return if parseFloat(dom.css('opacity')) is 0.0
-    offset = dom.offset()
-    return if not offset
-    target_left = offset.left + dom.outerWidth() * 0.5
-    target_top = offset.top + dom.outerHeight() * 0.5
+  onHighlightDOM: (e) -> @highlightElement e.selector, delay: e.delay, sides: e.sides, offset: e.offset, rotation: e.rotation
 
-    if e.sides
-      if 'left' in e.sides then target_left = offset.left
-      if 'right' in e.sides then target_left = offset.left + dom.outerWidth()
-      if 'top' in e.sides then target_top = offset.top
-      if 'bottom' in e.sides then target_top = offset.top + dom.outerHeight()
-    else
-      # aim to hit the side if the target is entirely on one side of the screen
-      if offset.left > @$el.outerWidth()*0.5
-        target_left = offset.left
-      else if offset.left + dom.outerWidth() < @$el.outerWidth()*0.5
-        target_left = offset.left + dom.outerWidth()
-
-      # aim to hit the bottom or top if the target is entirely on the top or bottom of the screen
-      if offset.top > @$el.outerWidth()*0.5
-        target_top = offset.top
-      else if  offset.top + dom.outerHeight() < @$el.outerHeight()*0.5
-        target_top = offset.top + dom.outerHeight()
-
-    if e.offset
-      target_left += e.offset.x
-      target_top += e.offset.y
-
-    @pointerRadialDistance = -47 # - Math.sqrt(Math.pow(dom.outerHeight()*0.5, 2), Math.pow(dom.outerWidth()*0.5))
-    @pointerRotation = e.rotation ? Math.atan2(@$el.outerWidth()*0.5 - target_left, target_top - @$el.outerHeight()*0.5)
-    pointer = $('#pointer')
-    pointer
-      .css('opacity', 1.0)
-      .css('transition', 'none')
-      .css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)")
-      .css('top', target_top - 50)
-      .css('left', target_left - 50)
-    setTimeout(()=>
-      return if @destroyed
-      @animatePointer()
-      clearInterval(@pointerInterval)
-      @pointerInterval = setInterval(@animatePointer, 1200)
-    , 1)
-
-  animatePointer: =>
-    pointer = $('#pointer')
-    pointer.css('transition', 'all 0.6s ease-out')
-    pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
-    #Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75  # Never mind, this is currently so annoying
-    setTimeout((=>
-      pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
+  onEndHighlight: -> @endHighlight()
 
   onFocusDom: (e) -> $(e.selector).focus()
-
-  onEndHighlight: ->
-    $('#pointer').css('opacity', 0.0)
-    clearInterval(@pointerInterval)
 
   onMultiplayerChanged: (e) ->
     if @session.get('multiplayer')
@@ -573,11 +510,6 @@ module.exports = class PlayLevelView extends RootView
     else
       @bus.removeFirebaseData =>
         @bus.disconnect()
-
-  addPointer: ->
-    p = $('#pointer')
-    return if p.length
-    @$el.append($('<img src="/images/level/pointer.png" id="pointer">'))
 
   preloadNextLevel: =>
     # TODO: Loading models in the middle of gameplay causes stuttering. Most of the improvement in loading time is simply from passing the supermodel from this level to the next, but if we can find a way to populate the level early without it being noticeable, that would be even better.
@@ -652,7 +584,6 @@ module.exports = class PlayLevelView extends RootView
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     $(window).off 'resize', @onWindowResize
     delete window.world # not sure where this is set, but this is one way to clean it up
-    clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     delete window.nextLevelURL
