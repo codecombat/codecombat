@@ -19,6 +19,7 @@ module.exports = class Spell
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
     @levelID = options.levelID
+    @levelType = options.level.get('type', true)
 
     p = options.programmableMethod
     @languages = p.languages ? {}
@@ -131,7 +132,7 @@ module.exports = class Spell
     aceConfig = me.get('aceConfig') ? {}
     writable = @permissions.readwrite.length > 0
     skipProtectAPI = @skipProtectAPI or not writable
-    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI
+    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType is 'hero'
     aether = new Aether aetherOptions
     if @worker
       workerMessage =

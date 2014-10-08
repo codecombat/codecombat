@@ -605,18 +605,20 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration row, 'executing'
         @aceSession.removeGutterDecoration row, 'executed'
         @decoratedGutter[row] = ''
-    if not executed.length or (@spell.name is 'plan' and @spellThang.castAether.metrics.statementsExecuted < 20)
+    lastExecuted = _.last executed
+    showToolbarView = executed.length and (@spell.name isnt 'plan' or @spellThang.castAether.metrics.statementsExecuted > 20)
+
+    if showToolbarView
+      statementIndex = Math.max 0, lastExecuted.length - 1
+      @toolbarView?.toggleFlow true
+      @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
+      lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
+    else
       @toolbarView?.toggleFlow false
       @debugView?.setVariableStates {}
-      return
-    lastExecuted = _.last executed
-    @toolbarView?.toggleFlow true
-    statementIndex = Math.max 0, lastExecuted.length - 1
-    @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
-    lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     gotVariableStates = false
-    for state, i in lastExecuted
+    for state, i in lastExecuted ? []
       [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
       if clazz is 'executed'
@@ -705,7 +707,6 @@ module.exports = class SpellView extends CocoView
     @reloadCode true if wasDefault
 
   onInsertSnippet: (e) ->
-    console.log 'doc', e.doc, e.formatted
     snippetCode = null
     if e.doc.snippets?[e.language]?.code
       snippetCode = e.doc.snippets[e.language].code
