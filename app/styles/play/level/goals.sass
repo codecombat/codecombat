@@ -5,19 +5,24 @@
   position: absolute
   left: 10px
   top: -100px
-  @include transition(top 0.5s ease-in-out)
+  @include transition(0.5s ease-in-out)
   background-color: rgba(200,200,200,1.0)
   
   border: black
   padding: 15px 7px 2px 5px
   box-sizing: border-box
-  border:  1px solid #333
+  border: 1px solid #333
   border-radius: 5px
-  
+  z-index: 3
+  font-size: 14px
+
+  &.brighter
+    font-size: 28px
+
   .goals-status
-    font-size: 14px
     margin: 0
     color: black
+
     .success
       color: darkgreen
     .timed-out
