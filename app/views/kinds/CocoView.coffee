@@ -60,6 +60,7 @@ module.exports = class CocoView extends Backbone.View
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     @endHighlight()
+    @getPointer(false).remove()
     @[key] = undefined for key, value of @
     @destroyed = true
     @off = doNothing
@@ -354,16 +355,17 @@ module.exports = class CocoView extends Backbone.View
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->
-    @getPointer().css('opacity', 0.0)
+    @getPointer(false).css('opacity', 0.0)
     clearInterval @pointerInterval
     clearTimeout @pointerDelayTimeout
     clearTimeout @pointerDurationTimeout
     @pointerInterval = @pointerDelayTimeout = @pointerDurationTimeout = null
 
-  getPointer: ->
-    return $pointer if ($pointer = @$el.find('.highlight-pointer')) and $pointer.length
-    $pointer = $('<img src="/images/level/pointer.png" class="highlight-pointer">')
-    @$el.append($pointer)
+  getPointer: (add=true) ->
+    return $pointer if ($pointer = $(".highlight-pointer[data-cid='#{@cid}']")) and ($pointer.length or not add)
+    $pointer = $("<img src='/images/level/pointer.png' class='highlight-pointer' data-cid='#{@cid}'>")
+    $pointer.css('z-index', 1040) if @$el.parents('#modal-wrapper').length
+    $('body').append($pointer)
     $pointer
 
   # Utilities

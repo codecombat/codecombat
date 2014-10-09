@@ -68,6 +68,10 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
           border-color: #28f
           @include box-shadow(0 0 10px #28f)
 
+      &.should-equip
+        background-color: #8fa
+        outline: 2px solid #8af
+
       &.droppable
         outline: 2px solid blue
 
@@ -189,6 +193,14 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       .item-info:after
         content: ' (available)'
     
+    &.should-equip
+      background-color: #8fa
+      outline: 2px solid #8af
+
+      .item-info:after
+        content: ' (drag to equip)'
+        font-weight: bold
+      
     &.equipped
       background-color: #ff5
 

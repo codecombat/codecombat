@@ -29,7 +29,6 @@ module.exports = class InventoryView extends CocoView
     @items = new CocoCollection([], {model: ThangType})
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
-    @assignLevelEquipment()
     @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
     @supermodel.loadCollection(@items, 'items')
 
@@ -103,25 +102,43 @@ module.exports = class InventoryView extends CocoView
 
     for itemSlot in @$el.find '.item-slot'
       slot = $(itemSlot).data 'slot'
-      #$(itemSlot).find('.placeholder').css('background-image', "url(/images/pages/game-menu/slot-#{slot}.png)")
-      do (slot) =>
+      do (slot, itemSlot) =>
         $(itemSlot).droppable
           drop: (e, ui) => @onAvailableItemDoubleClick()
           accept: (el) -> $(el).parent().hasClass slot
           activeClass: 'droppable'
           hoverClass: 'droppable-hover'
           tolerance: 'touch'
+        @makeEquippedSlotDraggable $(itemSlot)
 
     @$el.find('#selected-items').hide()  # Hide until one is selected
     @delegateEvents()
 
     if @selectedHero and not @startedLoadingFirstHero
       @loadHero()
+    @requireLevelEquipment()
 
   afterInsert: ->
     super()
     @canvasWidth = @$el.find('canvas').innerWidth()
     @canvasHeight = @$el.find('canvas').innerHeight()
+
+  makeEquippedSlotDraggable: (slot) ->
+    unequip = => @unequipItemFromSlot slot
+    shouldStayEquippedWhenDropped = (isValidDrop) ->
+      pos = $(@).position()
+      revert = Math.abs(pos.left) < $(@).outerWidth() and Math.abs(pos.top) < $(@).outerHeight()
+      unequip() if not revert
+      revert
+    # TODO: figure out how to make this actually above the available items list (the .ui-draggable-helper img is still inside .item-view and so underlaps...)
+    $(slot).find('img').draggable
+      revert: shouldStayEquippedWhenDropped
+      appendTo: @$el
+      cursorAt: {left: 35.5, top: 35.5}
+      revertDuration: 200
+      distance: 10
+      scroll: false
+      zIndex: 100
 
   clearSelection: ->
     @$el.find('.item-slot.selected').removeClass 'selected'
@@ -197,7 +214,10 @@ module.exports = class InventoryView extends CocoView
     for el in @$el.find('#available-equipment .list-group-item')
       itemID = $(el).find('.item-view').data('item-id')
       if itemID is itemIDToUnequip
-        return $(el).removeClass('equipped')
+        unequipped = $(el).removeClass('equipped')
+        break
+    @requireLevelEquipment() if unequipped
+    return unequipped
 
   equipSelectedItemToSlot: (slot) ->
     selectedItemContainer = @getSelectedAvailableItemContainer()
@@ -207,6 +227,8 @@ module.exports = class InventoryView extends CocoView
     slotContainer.html(newItemHTML)
     slotContainer.find('.item-view').data('item-id', selectedItemContainer.find('.item-view').data('item-id'))
     @$el.find('.list-group-item').removeClass('active')
+    @makeEquippedSlotDraggable slot
+    @requireLevelEquipment()
 
   onSelectionChanged: ->
     @$el.find('.item-slot').show()
@@ -290,7 +312,7 @@ module.exports = class InventoryView extends CocoView
       config[slotName] = item.get('original')
     config
 
-  assignLevelEquipment: ->
+  requireLevelEquipment: ->
     # This is temporary, until we have a more general way of awarding items and configuring needed/locked items per level.
     gear =
       'simple-boots': '53e237bf53457600003e3f05'
@@ -306,17 +328,35 @@ module.exports = class InventoryView extends CocoView
       'shadow-guard': {feet: 'simple-boots'}
       'true-names': {feet: 'simple-boots', 'right-hand': 'longsword'}
       'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic'}
-      'the-first-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
-      'the-second-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
-      'new-sight': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i'}
-      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'a-bolt-in-the-dark': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'the-first-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
+      'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
+      'new-sight': {'right-hand': 'longsword', 'programming-book': 'programmaticon-i'}
+      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'longsword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'a-bolt-in-the-dark': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', eyes: 'crude-glasses'}
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+      'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+      # TODO: figure out leather boots for plainswood (or next one?)
     return unless necessaryGear = gearByLevel[@options.levelID]
-    for slot, item of necessaryGear ? {}
-      @equipment[slot] ?= gear[item]
+    if @supermodel.finished()
+      equipment = @getCurrentEquipmentConfig()  # Make sure @equipment is updated
+    else
+      equipment = @equipment
+    hadRequired = @remainingRequiredEquipment?.length
+    @remainingRequiredEquipment = []
+    @$el.find('.should-equip').removeClass('should-equip')
+    for slot, item of necessaryGear
+      continue if item is 'leather-tunic' and $('#world-map-view')  # Don't tell them they need it until they need it in the level
+      continue if equipment[slot] and not (item is 'builders-hammer' and @equipment[slot] is gear.longsword)
+      availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
+      @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
+      @$el.find(availableSlotSelector).addClass 'should-equip'
+      @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
+      @remainingRequiredEquipment.push slot: slot, item: gear[item]
+    if hadRequired and not @remainingRequiredEquipment.length
+      @endHighlight()
+      @highlightElement '#play-level-button', duration: 5000
+    $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
 
     # Restrict available items to those that would be available by this item.
     @allowedItems = []
@@ -370,7 +410,9 @@ module.exports = class InventoryView extends CocoView
 
   onShown: ->
     # Called when we switch tabs to this within the modal
+    @requireLevelEquipment()
     @loadHero()
 
   onHidden: ->
     # Called when the modal itself is dismissed
+    @endHighlight()
