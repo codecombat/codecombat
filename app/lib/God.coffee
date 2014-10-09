@@ -131,9 +131,7 @@ module.exports = class God extends CocoClass
         Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress
 
   onNewWorldCreated: (e) ->
-    console.log 'filtering', _.cloneDeep e.world.userCodeMap
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap
-    console.log '   ... filtered into', _.cloneDeep e.world.userCodeMap
 
   filterUserCodeMapWhenFromWorld: (worldUserCodeMap) ->
     newUserCodeMap = {}
