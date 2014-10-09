@@ -58,14 +58,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     hours_played: "horas jugadas" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
+    achievements: "Logros" # Tooltip on achievement list button from /play
+    account: "Cuenta" # Tooltip on account button from /play
 #    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Campañas Anteriores"
+    anonymous: "Jugador Anonimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña de Principiante"
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -182,12 +182,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   play_level:
     done: "Hecho"
     home: "Inicio"
-#    skip: "Skip"
+    skip: "Saltar"
     game_menu: "Menu del Juego"
     guide: "Guía"
     restart: "Reiniciar"
     goals: "Objetivos"
-#    goal: "Goal"
+    goal: "Objetivo Principal"
     success: "Exito!"
     incomplete: "Incompleto"
     timed_out: "Te has quedado sin tiempo"
@@ -204,7 +204,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_rate_the_level: "Puntúa este nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver a Clasificación"
     victory_play_next_level: "Jugar el siguiente nivel" # Only in old-style levels.
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Continuar"
     victory_go_home: "Ir a Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Ya terminaste?"
@@ -220,18 +220,18 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_reload_method: "Recargcar código original para este método" # Title text for individual method reload button.
+    tome_select_method: "Seleccionar método"
+    tome_see_all_methods: "Métodos que pueden ser editados" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Selecciona a alguien para "
     tome_available_spells: "Hechizos disponibles"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "Tus Habilidades"
     hud_continue: "Continuar (pulsa Shift+Space)"
     spell_saved: "Hechizo guardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
     loading_ready: "¡Listo!"
-#    loading_start: "Start Level"
+    loading_start: "Iniciar Nivel"
     time_current: "Ahora:"
     time_total: "Máx:"
     time_goto: "Ir a:"
@@ -266,7 +266,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_hardware_problem: "P: Cuantos programadores hacen falta para cambiar una bombilla?  R: Ninguno, es un problema de hardware."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Cuando haya dudas, usa la fuerza bruta. - Ken Thompson"
     customize_wizard: "Personalizar Mago"
 
   game_menu:
@@ -286,14 +286,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    status: "Status"
-#    weapons: "Weapons"
-#    health: "Health"
-#    speed: "Speed"
+  choose_hero:
+    choose_hero: "Selecciona tu Heroe"
+    programming_language: "Lenguaje de Programación"
+    programming_language_description: "¿Qué lenguaje de programación deseas usar?"
+    status: "Estado"
+    weapons: "Armas"
+    health: "Salud"
+    speed: "Velocidad"
 
   save_load:
     granularity_saved_games: "Salvado"
