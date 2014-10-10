@@ -59,6 +59,8 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    @endHighlight()
+    @getPointer(false).remove()
     @[key] = undefined for key, value of @
     @destroyed = true
     @off = doNothing
@@ -292,6 +294,79 @@ module.exports = class CocoView extends Backbone.View
     view.$el.empty()
     delete @subviews[view.parentKey]
     view.destroy()
+
+  # Pointing stuff out
+
+  highlightElement: (selector, options) ->
+    @endHighlight()
+    options ?= {}
+    if delay = options.delay
+      delete options.delay
+      return @pointerDelayTimeout = _.delay((=> @highlightElement selector, options), delay)
+    $pointer = @getPointer()
+    $target = $(selector + ':visible')
+    return if parseFloat($target.css('opacity')) is 0.0  # Don't point out invisible elements.
+    return unless offset = $target.offset()  # Don't point out elements we can't locate.
+    targetLeft = offset.left + $target.outerWidth() * 0.5
+    targetTop = offset.top + $target.outerHeight() * 0.5
+
+    if options.sides
+      if 'left' in options.sides then targetLeft = offset.left
+      if 'right' in options.sides then targetLeft = offset.left + $target.outerWidth()
+      if 'top' in options.sides then targetTop = offset.top
+      if 'bottom' in options.sides then targetTop = offset.top + $target.outerHeight()
+    else
+      # Aim to hit the side if the target is entirely on one side of the screen.
+      if offset.left > @$el.outerWidth() * 0.5
+        targetLeft = offset.left
+      else if offset.left + $target.outerWidth() < @$el.outerWidth() * 0.5
+        targetLeft = offset.left + $target.outerWidth()
+
+      # Aim to hit the bottom or top if the target is entirely on the top or bottom of the screen.
+      if offset.top > @$el.outerWidth() * 0.5
+        targetTop = offset.top
+      else if  offset.top + $target.outerHeight() < @$el.outerHeight() * 0.5
+        targetTop = offset.top + $target.outerHeight()
+
+    if options.offset
+      targetLeft += options.offset.x
+      targetTop += options.offset.y
+
+    @pointerRadialDistance = -47
+    @pointerRotation = options.rotation ? Math.atan2(@$el.outerWidth() * 0.5 - targetLeft, targetTop - @$el.outerHeight() * 0.5)
+    $pointer.css
+      opacity: 1.0
+      transition: 'none'
+      transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"
+      top: targetTop - 50
+      left: targetLeft - 50
+    _.defer =>
+      return if @destroyed
+      @animatePointer()
+      clearInterval @pointerInterval
+      @pointerInterval = setInterval(@animatePointer, 1200)
+    if options.duration
+      @pointerDurationTimeout = _.delay (=> @endHighlight() unless @destroyed), options.duration
+
+  animatePointer: =>
+    $pointer = @getPointer()
+    $pointer.css transition: 'all 0.6s ease-out', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)"
+    #Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75  # Never mind, this is currently so annoying
+    setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
+
+  endHighlight: ->
+    @getPointer(false).css('opacity', 0.0)
+    clearInterval @pointerInterval
+    clearTimeout @pointerDelayTimeout
+    clearTimeout @pointerDurationTimeout
+    @pointerInterval = @pointerDelayTimeout = @pointerDurationTimeout = null
+
+  getPointer: (add=true) ->
+    return $pointer if ($pointer = $(".highlight-pointer[data-cid='#{@cid}']")) and ($pointer.length or not add)
+    $pointer = $("<img src='/images/level/pointer.png' class='highlight-pointer' data-cid='#{@cid}'>")
+    $pointer.css('z-index', 1040) if @$el.parents('#modal-wrapper').length
+    $('body').append($pointer)
+    $pointer
 
   # Utilities
 

@@ -193,7 +193,7 @@ module.exports = Surface = class Surface extends CocoClass
         @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
       if Dropper.drop()
-        framesDropped += 1
+        ++framesDropped
       else
         worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
         if worldFrameAdvanced
@@ -232,8 +232,8 @@ module.exports = Surface = class Surface extends CocoClass
     # world state must have been restored in @restoreWorldState
     if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
       @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
-    @camera.updateZoom()
     @lankBoss.update frameChanged
+    @camera.updateZoom()  # Make sure to do this right after the LankBoss updates, not before, so it can properly target sprite positions.
     @dimmer?.setSprites @lankBoss.lanks
 
   drawCurrentFrame: (e) ->

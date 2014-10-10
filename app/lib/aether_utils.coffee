@@ -47,3 +47,4 @@ functionParameters =
   chooseAction: []
   plan: []
   initializeCentroids: []
+  update: []

@@ -448,6 +448,8 @@ module.exports = class World
       for thangID, methods of o.userCodeMap
         for methodName, serializedAether of methods
           for aetherStateKey in ['flow', 'metrics', 'style', 'problems']
+            w.userCodeMap[thangID] ?= {}
+            w.userCodeMap[thangID][methodName] ?= {}
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap

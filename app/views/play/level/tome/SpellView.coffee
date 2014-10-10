@@ -199,6 +199,8 @@ module.exports = class SpellView extends CocoView
       completers:
         keywords: false
         text: false
+      autoLineEndings:
+        javascript: ';'
 
   updateAutocomplete: (@autocomplete) ->
     @zatanna?.set 'snippets', @autocomplete
@@ -654,6 +656,8 @@ module.exports = class SpellView extends CocoView
         session.addGutterDecoration index, 'comment-line'
 
   onAnnotationClick: ->
+    # @ is the gutter element
+    msg = "Edit line #{$(@).index() + 1} to fix it."
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
     offset = $(@).offset()
     offset.left -= 162  # default width of the Bootstrap alert here

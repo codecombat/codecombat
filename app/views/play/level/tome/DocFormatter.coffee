@@ -107,10 +107,14 @@ module.exports = class DocFormatter
         v = @options.thang[@doc.name]
       else
         v = window[@doc.owner][@doc.name]  # grab Math or Vector
-    if @doc.type is 'number' and not isNaN v
+    if @doc.type is 'number' and not _.isNaN v
       if v == Math.round v
         return v
-      return v?.toFixed(2) ? 'null'
+      if _.isNumber v
+        return v.toFixed 2
+      unless v
+        return 'null'
+      return '' + v
     if _.isString v
       return "\"#{v}\""
     if v?.id
