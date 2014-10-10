@@ -345,8 +345,9 @@ module.exports = class InventoryView extends CocoView
     hadRequired = @remainingRequiredEquipment?.length
     @remainingRequiredEquipment = []
     @$el.find('.should-equip').removeClass('should-equip')
+    inWorldMap = $('#world-map-view').length
     for slot, item of necessaryGear
-      continue if item is 'leather-tunic' and $('#world-map-view')  # Don't tell them they need it until they need it in the level
+      continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
       continue if equipment[slot] and not (item is 'builders-hammer' and @equipment[slot] is gear.longsword)
       availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
       @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
@@ -355,7 +356,7 @@ module.exports = class InventoryView extends CocoView
       @remainingRequiredEquipment.push slot: slot, item: gear[item]
     if hadRequired and not @remainingRequiredEquipment.length
       @endHighlight()
-      @highlightElement '#play-level-button', duration: 5000
+      @highlightElement (if inWorldMap then '#play-level-button' else '.overlaid-close-button'), duration: 5000
     $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
 
     # Restrict available items to those that would be available by this item.
