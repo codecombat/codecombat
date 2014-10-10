@@ -29,6 +29,7 @@ module.exports = class InventoryView extends CocoView
     @items = new CocoCollection([], {model: ThangType})
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
+    @requireLevelEquipment()
     @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
     @supermodel.loadCollection(@items, 'items')
 
@@ -122,6 +123,7 @@ module.exports = class InventoryView extends CocoView
     super()
     @canvasWidth = @$el.find('canvas').innerWidth()
     @canvasHeight = @$el.find('canvas').innerHeight()
+    @inserted = true
 
   makeEquippedSlotDraggable: (slot) ->
     unequip = => @unequipItemFromSlot slot
@@ -338,26 +340,27 @@ module.exports = class InventoryView extends CocoView
       'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
       # TODO: figure out leather boots for plainswood (or next one?)
     return unless necessaryGear = gearByLevel[@options.levelID]
-    if @supermodel.finished()
-      equipment = @getCurrentEquipmentConfig()  # Make sure @equipment is updated
-    else
-      equipment = @equipment
-    hadRequired = @remainingRequiredEquipment?.length
-    @remainingRequiredEquipment = []
-    @$el.find('.should-equip').removeClass('should-equip')
-    inWorldMap = $('#world-map-view').length
-    for slot, item of necessaryGear
-      continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
-      continue if equipment[slot] and not (item is 'builders-hammer' and @equipment[slot] is gear.longsword)
-      availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
-      @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
-      @$el.find(availableSlotSelector).addClass 'should-equip'
-      @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-      @remainingRequiredEquipment.push slot: slot, item: gear[item]
-    if hadRequired and not @remainingRequiredEquipment.length
-      @endHighlight()
-      @highlightElement (if inWorldMap then '#play-level-button' else '.overlaid-close-button'), duration: 5000
-    $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
+    if @inserted
+      if @supermodel.finished()
+        equipment = @getCurrentEquipmentConfig()  # Make sure @equipment is updated
+      else
+        equipment = @equipment
+      hadRequired = @remainingRequiredEquipment?.length
+      @remainingRequiredEquipment = []
+      @$el.find('.should-equip').removeClass('should-equip')
+      inWorldMap = $('#world-map-view').length
+      for slot, item of necessaryGear
+        continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
+        continue if equipment[slot] and not (item is 'builders-hammer' and @equipment[slot] is gear.longsword)
+        availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
+        @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
+        @$el.find(availableSlotSelector).addClass 'should-equip'
+        @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
+        @remainingRequiredEquipment.push slot: slot, item: gear[item]
+      if hadRequired and not @remainingRequiredEquipment.length
+        @endHighlight()
+        @highlightElement (if inWorldMap then '#play-level-button' else '.overlaid-close-button'), duration: 5000
+      $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
 
     # Restrict available items to those that would be available by this item.
     @allowedItems = []
