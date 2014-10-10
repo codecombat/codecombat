@@ -1,34 +1,53 @@
 extends /templates/modal/modal_base
 block modal-header-content
-  h3
-    span(data-i18n="play_level.victory_title_prefix")
-    span= levelName
-    span(data-i18n="play_level.victory_title_suffix") Complete
+  img(src="/images/pages/play/level/modal/victory_word.png")#victory-header
 
 block modal-body-content
-  h4 Achievements Unlocked
-
+  
   for achievement in achievements
-    .panel
-      img(src=achievement.getImageURL())
-      h5= achievement.get('name')
-      p= achievement.get('description')
-      if achievement.completed
-        strong Completed
-      else
-        strong Incomplete
-      p Earned #{achievement.get('worth')} xp.
+    - var animate = achievement.completed && !achievement.completedAWhileAgo
+    .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
       - var rewards = achievement.get('rewards') || {};
-      if rewards.gems
-        p Earned #{achievement.get('rewards').gems} gems.
-      if rewards.heroes
-        for hero in rewards.heroes
-          - var hero = thangTypes[hero];
-          img(src=hero.getPortraitURL())
-      if rewards.items
-        for item in rewards.items
-          - var item = thangTypes[item];
-          img(src=item.getPortraitURL())
+      
+      div.achievement-description= achievement.get('description')
+      
+      div.achievement-rewards
+        - var worth = achievement.get('worth', true);
+        if worth
+          .reward-panel.numerical(data-number=worth, data-number-unit='xp')
+            .reward-image-container(class=animate?'':'show')
+              img(src="/images/pages/play/level/modal/reward_icon_xp.png")
+            .reward-text= animate ? 'x0' : '+'+worth
+
+        if rewards.gems
+          .reward-panel.numerical(data-number=rewards.gems, data-number-unit='gem')
+            .reward-image-container(class=animate?'':'show')
+              img(src="/images/pages/play/level/modal/reward_icon_gems.png")
+            .reward-text= animate ? 'x0' : '+'+rewards.gems
+          
+        if rewards.heroes
+          for hero in rewards.heroes
+            - var hero = thangTypes[hero];
+            .reward-panel
+              .reward-image-container(class=animate?'':'show')
+                img(src=hero.getPortraitURL())
+              .reward-text= hero.get('name')
+
+        if rewards.items
+          for item in rewards.items
+            - var item = thangTypes[item];
+            .reward-panel
+              .reward-image-container(class=animate?'':'show')
+                img(src=item.getPortraitURL())
+              .reward-text= item.get('name')
+
 
 block modal-footer-content
-  | footer
+  div#totals.pull-left
+    span.spr Experience Gained:
+    span#xp-total +0
+    br
+    span.spr Gems Gained:
+    span#gem-total +0
+  
+  button.btn.btn-primary.pull-right#continue-button Continue

@@ -206,10 +206,6 @@ module.exports = class PlayLevelView extends RootView
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
 
-    # testing
-#    modal = new HeroVictoryModal({session: @session, level: @level})
-#    @openModalView(modal)
-
     @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)

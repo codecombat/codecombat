@@ -14,6 +14,26 @@ class EarnedAchievementHandler extends Handler
   hasAccess: (req) ->
     req.method is 'GET' # or req.user.isAdmin()
 
+  get: (req, res) ->
+    return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
+    super(arguments...)
+
+  getByAchievementIDs: (req, res) ->
+    query = { user: req.user._id+''}
+    ids = req.query.achievementIDs
+    if (not ids) or (ids.length is 0)
+      return @sendBadInputError(res, 'For a get-by-achievement-ids request, need to provide ids.')
+      
+    ids = ids.split(',')
+    for id in ids
+      if not Handler.isID(id)
+        return @sendBadInputError(res, "Not a MongoDB ObjectId: #{id}")
+        
+    query.achievement = {$in: ids}
+    EarnedAchievement.find query, (err, earnedAchievements) ->
+      return @sendDatabaseError(res, err) if err
+      res.send(earnedAchievements)
+
   recalculate: (req, res) ->
     onSuccess = (data) => log.debug 'Finished recalculating achievements'
     if 'achievements' of req.body # Support both slugs and IDs separated by commas
