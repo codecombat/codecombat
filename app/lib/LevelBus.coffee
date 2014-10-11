@@ -29,7 +29,7 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
+    @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})
     @playerIsIdle = false
 
   init: ->
@@ -190,7 +190,7 @@ module.exports = class LevelBus extends Bus
     state.complete = true
     @session.set('state', state)
     @changedSessionProperties.state = true
-    @saveSession()
+    @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
   onNewGoalStates: ({goalStates})->
     state = @session.get 'state'
@@ -232,7 +232,8 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.permissions = true
     @saveSession()
 
-  saveSession: ->
+  # Debounced as saveSession
+  reallySaveSession: ->
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
     return unless @session.get('multiplayer') or @session.get('creator') is me.id

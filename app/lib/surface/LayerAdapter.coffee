@@ -6,7 +6,7 @@
   ** Paths and target pieces (and ghosts?)
   ** Normal Thangs, bots, wizards (z-indexing based on World-determined sprite.thang.pos.z/y, mainly, instead of sprite-map-determined sprite.z, which we rename to... something)
   ** Above-thang marks (blood, highlight) and health bars
-  
+
   * Stage (Regular Canvas)
   ** Camera border
   ** surfaceTextLayer (speech, names)
@@ -14,7 +14,7 @@
   *** Letterbox
   **** Letterbox top and bottom
   *** FPS display, maybe grid axis labels, coordinate hover
-  
+
   ** Grid lines--somewhere--we will figure it out, do not really need it at first
 ###
 
@@ -26,7 +26,7 @@ SingularSprite = require './SingularSprite'
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
 module.exports = LayerAdapter = class LayerAdapter extends CocoClass
-  
+
   # Intermediary between a Surface Stage and a top-level static normal Container or hot-swapped WebGL SpriteContainer.
   # It handles zooming in different ways and, if webGL, creating and assigning spriteSheets.
 
@@ -79,8 +79,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   toString: -> "<Layer #{@layerPriority}: #{@name}>"
 
   #- Layer ordering
-    
+
   updateLayerOrder: ->
+    return if @destroyed
     @container.sortChildren @layerOrderComparator
 
   layerOrderComparator: (a, b) ->
@@ -105,7 +106,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       return 0 unless aPos and bPos
       return (bPos.y - aPos.y) or (bPos.x - aPos.x)
     return az - bz
-    
+
   #- Zoom updating
 
   onZoomUpdated: (e) ->
@@ -141,13 +142,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         child.scaleY *= @container.scaleY
 
   #- Adding, removing children for WebGL layers.
-        
+
   addLank: (lank) ->
     # TODO: Move this into the production DB rather than setting it dynamically.
     if lank.thangType?.get('name') is 'Highlight'
       lank.thangType.set('spriteType', 'segmented')
     lank.options.resolutionFactor = @resolutionFactor
-    
+
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
@@ -164,7 +165,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @lanks = _.without @lanks, lank
 
   #- Loading network resources dynamically
-    
+
   loadThangType: (thangType) ->
     if not thangType.isFullyLoaded()
       thangType.setProjection null
@@ -185,7 +186,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @renderNewSpriteSheet()
 
   #- Adding to the list of things we need to render
-    
+
   onActionNeedsRender: (lank, action) ->
     @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
@@ -214,16 +215,16 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @_renderNewSpriteSheet(false)
 
   #- Rendering sprite sheets
-    
+
   renderNewSpriteSheet: ->
     @willRender = false
     return if @numThingsLoading
     @_renderNewSpriteSheet()
-    
+
   _renderNewSpriteSheet: (async) ->
     @asyncBuilder.stopAsync() if @asyncBuilder
     @asyncBuilder = null
-      
+
     async ?= @buildAsync
     builder = new createjs.SpriteSheetBuilder()
     groups = _.groupBy(@toRenderBundles, ((bundle) -> @renderGroupingKey(bundle.thangType, '', bundle.colorConfig)), @)
@@ -233,7 +234,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     dimension = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
     placeholder.setBounds(0, 0, dimension, dimension)
     builder.addFrame(placeholder)
-    
+
     # Add custom graphics
     extantGraphics = if @spriteSheet?.resolutionFactor is @resolutionFactor then @spriteSheet.getAnimations() else []
     for key, graphic of @customGraphics
@@ -244,7 +245,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       else
         frame = builder.addFrame(graphic.graphic, graphic.bounds, @resolutionFactor)
       builder.addAnimation(key, [frame], false)
-      
+
     # Render ThangTypes
     groups = {} if NEVER_RENDER_ANYTHING
     for bundleGrouping in _.values(groups)
@@ -259,7 +260,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           @renderSingularThangType(args...)
       else
         @renderRasterThangType(thangType, builder)
-        
+
     if async
       try
         builder.buildAsync()
@@ -272,11 +273,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sheet = builder.build()
       @onBuildSpriteSheetComplete({async:async}, builder)
       return sheet
-      
+
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing or @destroyed
     @asyncBuilder = null
-    
+
     if builder.spriteSheet._images.length > 1
       total = 0
       # get a rough estimate of how much smaller the spritesheet needs to be
@@ -285,10 +286,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @resolutionFactor /= (Math.max(1.1, Math.sqrt(total)))
       @_renderNewSpriteSheet(e.async)
       return
-    
+
     @spriteSheet = builder.spriteSheet
     @spriteSheet.resolutionFactor = @resolutionFactor
-    oldLayer = @container 
+    oldLayer = @container
     @container = new createjs.SpriteContainer(@spriteSheet)
     for lank in @lanks
       console.log 'zombie sprite found on layer', @name if lank.destroyed
@@ -307,7 +308,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       lank.updateScale()
       lank.updateRotation()
     @trigger 'new-spritesheet'
-    
+
   resetSpriteSheet: ->
     @removeLank(lank) for lank in @lanks.slice(0)
     @toRenderBundles = []
@@ -317,9 +318,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @initializing = false
 
   #- Placeholder
-    
+
   createPlaceholder: ->
-    # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor, 
+    # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor,
     # and different colors for different layers.
     g = new createjs.Graphics()
     g.setStrokeStyle(5)
@@ -341,7 +342,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     else
       g.drawRect(bounds...)
     new createjs.Shape(g)
-    
+
   #- Rendering containers for segmented thang types
 
   renderSegmentedThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
@@ -353,7 +354,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       else if action.animation
         animationContainers = @getContainersForAnimation(thangType, action.animation, action)
         containersToRender[container.gn] = true for container in animationContainers
-    
+
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
     for containerGlobalName in _.keys(containersToRender)
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
@@ -374,9 +375,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     for animation in thangType.get('raw').animations[animation].animations
       containers = containers.concat(@getContainersForAnimation(thangType, animation.gn, action))
     return containers
-    
+
   #- Rendering sprite sheets for singular thang types
-      
+
   renderSingularThangType: (thangType, colorConfig, actionNames, spriteSheetBuilder) ->
     actionObjects = _.values(thangType.getActions())
     animationActions = []
@@ -384,14 +385,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       continue unless a.animation
       continue unless a.name in actionNames
       animationActions.push(a)
-    
+
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
-    
+
     animationGroups = _.groupBy animationActions, (action) -> action.animation
     for animationName, actions of animationGroups
       renderAll = _.any actions, (action) -> action.frames is undefined
       scale = actions[0].scale or thangType.get('scale') or 1
-      
+
       actionKeys = (@renderGroupingKey(thangType, action.name, colorConfig) for action in actions)
       if @spriteSheet?.resolutionFactor is @resolutionFactor and _.all(actionKeys, (key) => key in @spriteSheet.getAnimations())
         framesNeeded = _.uniq(_.flatten((@spriteSheet.getAnimation(key)).frames for key in actionKeys))
@@ -406,9 +407,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           next = @nextForAction(action)
           spriteSheetBuilder.addAnimation(key, frames, next)
         continue
-      
+
       mc = spriteBuilder.buildMovieClip(animationName, null, null, null, {'temp':0})
-      
+
       if renderAll
         res = spriteSheetBuilder.addMovieClip(mc, null, scale * @resolutionFactor)
         frames = spriteSheetBuilder._animations['temp'].frames
@@ -420,23 +421,23 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           frame = parseInt(frame)
           f = _.bind(mc.gotoAndStop, mc, frame)
           framesMap[frame] = spriteSheetBuilder.addFrame(mc, null, scale * @resolutionFactor, f)
-      
+
       for action in actions
         name = @renderGroupingKey(thangType, action.name, colorConfig)
-        
+
         if action.frames
           frames = (framesMap[parseInt(frame)] for frame in action.frames.split(','))
         else
           frames = _.sortBy(_.values(framesMap))
         next = @nextForAction(action)
-        spriteSheetBuilder.addAnimation(name, frames, next) 
-        
+        spriteSheetBuilder.addAnimation(name, frames, next)
+
     containerActions = []
     for a in actionObjects
       continue unless a.container
       continue unless a.name in actionNames
       containerActions.push(a)
-    
+
     containerGroups = _.groupBy containerActions, (action) -> action.container
     for containerName, actions of containerGroups
       container = spriteBuilder.buildContainerFromStore(containerName)
@@ -444,25 +445,25 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       frame = spriteSheetBuilder.addFrame(container, null, scale * @resolutionFactor)
       for action in actions
         name = @renderGroupingKey(thangType, action.name, colorConfig)
-        spriteSheetBuilder.addAnimation(name, [frame], false)      
-    
+        spriteSheetBuilder.addAnimation(name, [frame], false)
+
   nextForAction: (action) ->
     next = true
     next = action.goesTo if action.goesTo
     next = false if action.loops is false
     return next
-    
+
   #- Rendering frames for raster thang types
-        
+
   renderRasterThangType: (thangType, spriteSheetBuilder) ->
     unless thangType.rasterImage
       console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
-    
+
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
-    
+
   #- Distributing new Segmented/Singular/RasterSprites to Lanks
 
   setSpriteToLank: (lank) ->
@@ -474,7 +475,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.regX = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH / 2
       sprite.regY = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
       sprite.baseScaleX = sprite.baseScaleY = sprite.scaleX = sprite.scaleY = 10 / (@resolutionFactor * SPRITE_PLACEHOLDER_WIDTH)
-    
+
     else if lank.thangType.get('raster')
       sprite = new createjs.Sprite(@spriteSheet)
       scale = lank.thangType.get('scale') or 1
@@ -483,7 +484,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.regY = -reg.y * scale
       sprite.gotoAndStop(@renderGroupingKey(lank.thangType))
       sprite.baseScaleX = sprite.baseScaleY = 1
-      
+
     else
       SpriteClass = if (lank.thangType.get('spriteType') or @defaultSpriteType) is 'segmented' then SegmentedSprite else SingularSprite
       prefix = @renderGroupingKey(lank.thangType, null, lank.options.colorConfig) + '.'

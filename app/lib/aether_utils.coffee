@@ -8,7 +8,7 @@ module.exports.createAetherOptions = (options) ->
   aetherOptions =
     functionName: options.functionName
     protectAPI: not options.skipProtectAPI
-    includeFlow: options.includeFlow
+    includeFlow: Boolean options.includeFlow
     yieldConditionally: options.functionName is 'plan'
     simpleLoops: true
     globals: ['Vector', '_']
@@ -47,3 +47,4 @@ functionParameters =
   chooseAction: []
   plan: []
   initializeCentroids: []
+  update: []

@@ -430,7 +430,7 @@ module.exports = class PlayLevelView extends RootView
       viewArgs: [{supermodel: @supermodel, autoUnveil: true}, @levelID]
     }
 
-  onWindowResize: (e) -> @endHighlight()
+  onWindowResize: (e) => @endHighlight()
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)

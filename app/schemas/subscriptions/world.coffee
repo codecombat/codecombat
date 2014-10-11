@@ -28,3 +28,5 @@ module.exports =
   'world:attacked-when-out-of-range': c.object {required: ['thang']},
     replacedNoteChain: {type: 'array'}
     thang: {type: 'object'}
+
+  'world:custom-script-trigger': {type: 'object'}

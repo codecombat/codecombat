@@ -64,7 +64,7 @@ module.exports = class PlayLevelModal extends ModalView
   updateConfig: (callback, skipSessionSave) ->
     sessionHeroConfig = @options.session.get('heroConfig') ? {}
     lastHeroConfig = me.get('heroConfig') ? {}
-    thangType = @subviews.choose_hero_view.selectedHero.get 'original'
+    thangType = @subviews.choose_hero_view.selectedHero?.get('original') ? sessionHeroConfig.thangType ? lastHeroConfig.thangType
     inventory = @subviews.inventory_view.getCurrentEquipmentConfig()
     patchSession = patchMe = false
     props = thangType: thangType, inventory: inventory
@@ -101,6 +101,7 @@ module.exports = class PlayLevelModal extends ModalView
     @chooseHeroView.onShown()
 
   onClickPlayLevel: (e) ->
+    return if @$el.find('#play-level-button').prop 'disabled'
     @showLoading()
     @updateConfig =>
       @navigatingToPlay = true
