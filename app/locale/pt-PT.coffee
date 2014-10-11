@@ -546,7 +546,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
     class_attributes: "Atributos da Classe"
     archmage_attribute_1_pref: "Conhecimento em "
-    archmage_attribute_1_suf: ", ou vontade de aprender. A maioria do nosso código está nesta linguagem. Se és um fã de Ruby ou Python, vais sentir-te em casa. É igual ao Javascript, mas com uma sintaxe melhor."
+    archmage_attribute_1_suf: ", ou vontade de aprender. A maioria do nosso código está nesta linguagem. Se és um fã de Ruby ou Python, vais sentir-te em casa. É igual ao JavaScript, mas com uma sintaxe melhor."
     archmage_attribute_2: "Alguma experiência em programação e iniciativa pessoal. Nós ajudamos-te a orientares-te, mas não podemos gastar muito tempo a treinar-te."
     how_to_join: "Como Me Junto"
     join_desc_1: "Qualquer um pode ajudar! Só tens de conferir o nosso "
