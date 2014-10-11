@@ -814,7 +814,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    recruitment_description_ending: "the site remains free and everybody's happy. That's the plan."
     copyrights_title: "Direitos Autorais e Licensas"
     contributor_title: "Contrato de Licença do Contribuinte (CLA)"
-    contributor_description_prefix: "Todas as contribuições, tanto no site como no nosso repositório GitHub, estão sujeitas ao nosso"
+    contributor_description_prefix: "Todas as contribuições, tanto no sítio como no nosso repositório GitHub, estão sujeitas ao nosso"
     cla_url: "CLA"
     contributor_description_suffix: "com o qual deves concordar antes de contribuir."
     code_title: "Código - MIT"
