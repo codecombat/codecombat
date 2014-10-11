@@ -108,12 +108,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    recovery_sent: "Recovery email sent."
 
   items:
-    armor: "Броня" #"Armor"
-    hands: "Руки" #"Hands"
-    accessories: "Аксессуары" #"Accessories"
-    books: "Книги" #"Books" 
+    armor: "Броня"
+    hands: "Руки"
+    accessories: "Аксессуары"
+    books: "Книги"
 #    minions: "Minions"
-    misc: "Разное" #"Misc"
+    misc: "Разное"
 
   common:
     loading: "Загрузка..."
@@ -277,7 +277,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    guide_tab: "Guide"
     multiplayer_tab: "Мультиплеер"
 #    inventory_caption: "Equip your hero"
-    choose_hero_caption: "Выбор героя, языка" #"Choose hero, language"
+    choose_hero_caption: "Выбор героя, языка"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
@@ -287,13 +287,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    choose_inventory: "Equip Items"
 
   choose_hero:
-    choose_hero: "Выберите героя" # "Choose Your Hero"
-    programming_language: "Язык программирования" # "Programming Language"
-    programming_language_description: "Какой язык программирования вы хотите использовать?" # "Which programming language do you want to use?"
-    status: "Статус" # "Status"
-    weapons: "Оружие" # "Weapons"
-    health: "Жизнь" # "Health"
-    speed: "Скорость" # "Speed"
+    choose_hero: "Выберите героя"
+    programming_language: "Язык программирования"
+    programming_language_description: "Какой язык программирования вы хотите использовать?"
+    status: "Статус"
+    weapons: "Оружие"
+    health: "Жизнь"
+    speed: "Скорость"
 
   save_load:
     granularity_saved_games: "Сохранено"
