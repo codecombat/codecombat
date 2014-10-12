@@ -27,12 +27,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     profile: "Perfil"
     stats: "Estatísticas"
     code: "Código"
-    admin: "Administrador" # Only shows up when you are an admin
+    admin: "Admin" # Only shows up when you are an admin
     home: "Início"
     contribute: "Contribuir"
     legal: "Legal"
     about: "Sobre"
-    contact: "Contacte"
+    contact: "Contactar"
     twitter_follow: "Seguir"
     teachers: "Professores"
 
@@ -216,9 +216,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_castable: "Lançar Feitiço" # Temporary, if tome_cast_button_run isn't translated.
     tome_cast_button_casting: "A Lançar" # Temporary, if tome_cast_button_running isn't translated.
     tome_cast_button_cast: "Feitiço Lançado" # Temporary, if tome_cast_button_ran isn't translated.
-    tome_cast_button_run: "Correr"
-    tome_cast_button_running: "A Correr"
-    tome_cast_button_ran: "Corrido"
+    tome_cast_button_run: "Executar"
+    tome_cast_button_running: "A Executar"
+    tome_cast_button_ran: "Executado"
     tome_submit_button: "Submeter"
     tome_reload_method: "Recarregar o código original para este método" # Title text for individual method reload button.
     tome_select_method: "Selecionar um método"
