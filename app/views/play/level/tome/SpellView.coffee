@@ -640,6 +640,7 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter[start.row] isnt ''
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
+        Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 

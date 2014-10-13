@@ -1,2 +1,188 @@
 #hero-victory-modal
-  color: red
+  
+  //- Header
+  
+  .background-wrapper
+    background: url("/images/pages/play/level/modal/victory_modal_background.png")
+    height: 650px
+    width: 550px
+    
+  #victory-header
+    display: block
+    margin: 40px auto 0
+    
+  .modal-header
+    height: 110px
+    border: none
+  
+    
+  //- Achievement panels
+  
+  .modal-body
+    padding: 0 20px
+  
+  .achievement-panel
+    background: url("/images/pages/play/level/modal/achievement_plate.png")
+    width: 451px
+    height: 144px
+    margin: 5px auto
+    position: relative
+
+    -webkit-transition-duration: 1s
+    -moz-transition-duration: 1s
+    -o-transition-duration: 1s
+    transition-duration: 1s
+
+    -webkit-filter: grayscale(100%)
+    -moz-filter: grayscale(100%)
+    -o-filter: grayscale(100%)
+    filter: grayscale(100%)
+
+    &.earned
+      -webkit-filter: none
+      -moz-filter: none
+      -o-filter: none
+      filter: none
+
+  .achievement-description
+    position: absolute
+    text-align: center
+    left: 95px
+    right: 98px
+    top: 10px
+    color: white
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    
+  .achievement-rewards
+    position: absolute
+    left: 25px
+    right: 23px
+    top: 41px
+    bottom: 18px
+    
+    
+  //- Reward panels
+  
+  .reward-panel
+    background: url("/images/pages/play/level/modal/reward_plate.png")
+    background: url("/images/pages/play/level/modal/reward_plate.png")
+    width: 77px
+    height: 85px
+    float: left
+    margin: 0 1.8px
+    position: relative
+
+    .reward-image-container
+      top: 8px
+      left: 11px
+      height: 55px
+      width: 56px
+      position: relative
+
+      -webkit-transform: scale(0, 0)
+      -moz-transform: scale(0, 0)
+      -o-transform: scale(0, 0)
+      transform: scale(0, 0)
+
+      -webkit-transition-duration: 0.5s
+      -moz-transition-duration: 0.5s
+      -o-transition-duration: 0.5s
+      transition-duration: 0.5s
+      
+      &.show
+        -webkit-transform: scale(1, 1)
+        -moz-transform: scale(1, 1)
+        -o-transform: scale(1, 1)
+        transform: scale(1, 1)
+      
+      img
+        margin: 0
+        position: absolute
+        top: 50%
+        left: 50%
+        margin-right: -50%
+
+        -webkit-transition-duration: 0.5s
+        -moz-transition-duration: 0.5s
+        -o-transition-duration: 0.5s
+        transition-duration: 0.5s
+
+        -webkit-transform: translate(-50%, -50%)
+        -moz-transform: translate(-50%, -50%)
+        -o-transform: translate(-50%, -50%)
+        transform: translate(-50%, -50%)
+        
+        max-width: 56px
+        max-height: 55px
+
+    .reward-text
+      position: absolute
+      bottom: 6px
+      left: 4px
+      right: 3px
+      height: 15px
+      text-align: center
+      color: white
+      font-weight: bold
+      font-size: 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+    
+  //- Pulse effect
+
+  @-webkit-keyframes pulse  
+    from
+      -webkit-transform: translate(-50%, -50%) scale(1.0)
+    50%
+      -webkit-transform: translate(-50%, -50%) scale(1.3)
+    to
+      -webkit-transform: translate(-50%, -50%) scale(1.0)
+
+  @-moz-keyframes pulse
+    from
+      -moz-transform: translate(-50%, -50%) scale(1.0)
+    50%
+      -moz-transform: translate(-50%, -50%) scale(1.3)
+    to
+      -moz-transform: translate(-50%, -50%) scale(1.0)
+
+  @-o-keyframes pulse
+    from
+      -o-transform: translate(-50%, -50%) scale(1.0)
+    50%
+      -o-transform: translate(-50%, -50%) scale(1.3)
+    to
+      -o-transform: translate(-50%, -50%) scale(1.0)
+
+  @keyframes pulse
+    from
+      transform: translate(-50%, -50%) scale(1.0)
+    50%
+      transform: translate(-50%, -50%) scale(1.3)
+    to
+      transform: translate(-50%, -50%) scale(1.0)
+
+  .pulse
+    -webkit-animation: pulse 0.5s infinite
+    -moz-animation: pulse 0.5s infinite
+    -o-animation: pulse 0.5s infinite
+    animation: pulse 0.5s infinite
+    
+    
+  //- Footer
+  
+  .modal-content
+    height: 650px // so the footer appears at the bottom
+  
+  .modal-footer
+    position: absolute
+    bottom: 20px
+    left: 20px
+    right: 20px
+    
+  #totals
+    color: white

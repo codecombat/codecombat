@@ -670,29 +670,29 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    rules: "Rules"
 #    winners: "Winners"
 
-#  user:
+  user:
 #    stats: "Stats"
-#    singleplayer_title: "Singleplayer Levels"
-#    multiplayer_title: "Multiplayer Levels"
-#    achievements_title: "Achievements"
-#    last_played: "Last Played"
-#    status: "Status"
-#    status_completed: "Completed"
-#    status_unfinished: "Unfinished"
-#    no_singleplayer: "No Singleplayer games played yet."
-#    no_multiplayer: "No Multiplayer games played yet."
-#    no_achievements: "No Achievements earned yet."
-#    favorite_prefix: "Favorite language is "
-#    favorite_postfix: "."
+    singleplayer_title: "單人遊戲等級"
+    multiplayer_title: "多人遊戲等級"
+    achievements_title: "成就"
+    last_played: "最後游玩"
+    status: "狀態"
+    status_completed: "已完成"
+    status_unfinished: "未完成"
+    no_singleplayer: "還沒有玩過單人遊戲."
+    no_multiplayer: "還沒有玩過多 人遊戲."
+    no_achievements: "還沒有取得成就."
+    favorite_prefix: "語言喜好為"
+    favorite_postfix: "."
 
-#  achievements:
+  achievements:
 #    last_earned: "Last Earned"
-#    amount_achieved: "Amount"
-#    achievement: "Achievement"
-#    category_contributor: "Contributor"
+    amount_achieved: "數量"
+    achievement: "成就"
+    category_contributor: "貢獻者"
 #    category_miscellaneous: "Miscellaneous"
-#    category_levels: "Levels"
-#    category_undefined: "Uncategorized"
+    category_levels: "等級"
+    category_undefined: "未定義"
 #    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
 #    new_xp_prefix: ""
@@ -701,9 +701,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-#  account:
-#    recently_played: "Recently Played"
-#    no_recent_games: "No games played during the past two weeks."
+  account:
+    recently_played: "最近玩過"
+    no_recent_games: "在過去兩個星期沒有遊戲玩過。"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
