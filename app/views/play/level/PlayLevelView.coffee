@@ -455,9 +455,8 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     options = {level: @level, supermodel: @supermodel, session: @session}
-#    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
-#    victoryModal = new ModalClass(options)
-    victoryModal = new VictoryModal(options)
+    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
+    victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')
       window.nextLevelURL = @getNextLevelURL()  # Signup will go here on completion instead of reloading.

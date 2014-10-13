@@ -23,6 +23,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @thangTypes = {}
     @achievements = @supermodel.loadCollection(achievements, 'achievements').model
     @listenToOnce @achievements, 'sync', @onAchievementsLoaded
+    @readyToContinue = false
   
   onAchievementsLoaded: ->
     thangTypeOriginals = []
@@ -31,27 +32,41 @@ module.exports = class HeroVictoryModal extends ModalView
       rewards = achievement.get('rewards')
       thangTypeOriginals.push rewards.heroes or []
       thangTypeOriginals.push rewards.items or []
-      achievementIDs.push(achievement.id)
+      achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
+      achievementIDs.push(achievement.id) if achievement.completed
+        
     thangTypeOriginals = _.uniq _.flatten thangTypeOriginals
     for thangTypeOriginal in thangTypeOriginals
       thangType = new ThangType()
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
       thangType.project = ['original', 'rasterIcon', 'name']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
-    url = "/db/earned_achievement?view=get-by-achievement-ids&achievementIDs=#{achievementIDs.join(',')}"
-    earnedAchievements = new CocoCollection([], {
-      url: url
-      model: EarnedAchievement
-    })
-    res = @supermodel.loadCollection(earnedAchievements, 'earned_achievements')
-    @earnedAchievements = res.model
-      
+
+    if achievementIDs.length
+      url = "/db/earned_achievement?view=get-by-achievement-ids&achievementIDs=#{achievementIDs.join(',')}"
+      earnedAchievements = new CocoCollection([], {
+        url: url
+        model: EarnedAchievement
+      })
+      earnedAchievements.sizeShouldBe = achievementIDs.length
+      res = @supermodel.loadCollection(earnedAchievements, 'earned_achievements')
+      @earnedAchievements = res.model
+      @listenTo @earnedAchievements, 'sync', ->
+        if @earnedAchievements.models.length < @earnedAchievements.sizeShouldBe
+          @earnedAchievements.fetch()
+        else
+          @listenToOnce me, 'sync', ->
+            @readyToContinue = true
+            @updateSavingProgressStatus()
+          me.fetch() unless me.loading
+    else
+      @readyToContinue = true
+    
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
     earnedAchievementMap = _.indexBy(@earnedAchievements?.models or [], (ea) -> ea.get('achievement'))
-    for achievement, index in @achievements.models
-      achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
+    for achievement in @achievements.models
       earnedAchievement = earnedAchievementMap[achievement.id]
       if earnedAchievement
         achievement.completedAWhileAgo = new Date() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
@@ -70,6 +85,7 @@ module.exports = class HeroVictoryModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @updateSavingProgressStatus()
     complete = _.once(_.bind(@beginAnimateNumbers, @))
     @animatedPanels = $()
     panels = @$el.find('.achievement-panel')
@@ -89,6 +105,7 @@ module.exports = class HeroVictoryModal extends ModalView
       )
       panel.delay(500)
       panel.queue(-> complete())
+    @animationComplete = !@animatedPanels.length
       
   beginAnimateNumbers: ->
     @numericalItemPanels = _.map(@animatedPanels.find('.numerical'), (panel) -> {
@@ -119,3 +136,10 @@ module.exports = class HeroVictoryModal extends ModalView
   endAnimateNumbers: ->
     @$el.find('.pulse').removeClass('pulse')
     clearInterval(@numberAnimationInterval)
+    @animationComplete = true
+    @updateSavingProgressStatus()
+
+  updateSavingProgressStatus: ->
+    return unless @animationComplete
+    @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
+    @$el.find('#continue-button').toggleClass('hide', !@readyToContinue)
