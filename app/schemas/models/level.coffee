@@ -74,7 +74,7 @@ PointSchema = c.object {title: 'Point', description: 'An {x, y} coordinate point
   x: {title: 'x', description: 'The x coordinate.', type: 'number'}
   y: {title: 'y', description: 'The y coordinate.', type: 'number'}
 
-SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Captain Anya'}},
+SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Hero Placeholder'}},
   id: thang
   select: {title: 'Select', description: 'Select or deselect this Thang.', type: 'boolean'}
   say: c.object {title: 'Say', description: 'Make this Thang say a message.', required: ['text'], default: { mood: 'explain' }},

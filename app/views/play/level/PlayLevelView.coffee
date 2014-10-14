@@ -268,7 +268,7 @@ module.exports = class PlayLevelView extends RootView
 
   insertSubviews: ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
-    @insertSubView new LevelPlaybackView session: @session
+    @insertSubView new LevelPlaybackView session: @session, levelID: @levelID
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span'  # TODO: figure out when flags are available
     @insertSubView new GoldView {}
