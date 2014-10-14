@@ -132,7 +132,8 @@ module.exports = class Spell
     aceConfig = me.get('aceConfig') ? {}
     writable = @permissions.readwrite.length > 0
     skipProtectAPI = @skipProtectAPI or not writable
-    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType is 'hero'
+    problemContext = @createProblemContext thang
+    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType is 'hero', problemContext: problemContext
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
@@ -181,3 +182,32 @@ module.exports = class Spell
         @updateLanguageAether e.codeLanguage
     else
       console.error 'Spell onNewOpponentCode did not receive code', e
+      
+  createProblemContext: (thang) ->
+    # Create problemContext Aether can use to craft better error messages
+    # stringReferences: values that should be referred to as a string instead of a variable (e.g. "Brak", not Brak)
+    # thisMethods: methods available on the 'this' object
+    # thisProperties: properties available on the 'this' object
+
+    # NOTE: Assuming the first createProblemContext call has everything we need, and we'll use that forevermore
+    return @problemContext if @problemContext?
+
+    @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
+    return @problemContext unless thang?
+
+    # Populate stringReferences
+    for key, value of thang.world?.thangMap
+      if (value.isAttackable or value.isSelectable) and value.id not in @problemContext.stringReferences
+        @problemContext.stringReferences.push value.id
+
+    # Populate thisMethods and thisProperties
+    if thang.programmableProperties?
+      for prop in thang.programmableProperties
+        if _.isFunction(thang[prop])
+          @problemContext.thisMethods.push prop
+        else
+          @problemContext.thisProperties.push prop
+
+    # TODO: See SpellPaletteView.createPalette() for other interesting contextual properties
+
+    @problemContext

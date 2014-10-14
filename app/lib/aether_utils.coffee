@@ -20,6 +20,7 @@ module.exports.createAetherOptions = (options) ->
       jshint_E043: {level: 'ignore'}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
       jshint_Unknown: {level: 'ignore'}  # E043 also triggers Unknown, so ignore that, too
       aether_MissingThis: {level: 'error'}
+    problemContext: options.problemContext
     #functionParameters: # TODOOOOO
     executionLimit: 1 * 1000 * 1000
     language: options.codeLanguage
