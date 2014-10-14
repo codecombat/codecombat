@@ -34,7 +34,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     about: "Sobre"
     contact: "Contate-nos"
     twitter_follow: "Seguir"
-#    teachers: "Teachers"
+    teachers: "Professores"
 
   modal:
     close: "Fechar"
@@ -55,24 +55,24 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     play_as: "Jogar Como " # Ladder page
     spectate: "Assistir" # Ladder page
     players: "jogadores" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    hours_played: "horas jogadas" # Hover over a level on /play
+    items: "Items" # Tooltip on item shop button from /play
+    heroes: "Heróis" # Tooltip on hero shop button from /play
+    achievements: "Conquistas" # Tooltip on achievement list button from /play
+    account: "Conta" # Tooltip on account button from /play
+    settings: "Configurações" # Tooltip on settings button from /play
+    next: "Próximo" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
+    choose_inventory: "Equipar Items"
+    older_campaigns: "Campanhas antigas"
+    anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
     campaign_beginner: "Campanha Iniciante"
     choose_your_level: "Escolha seu estágio" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Você pode ir para qualquer um dos estágios abaixo, ou discutir sobre eles no "
     adventurer_forum: "Fórum do Aventureiro"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Campanha antiga para Iniciantes"
     campaign_beginner_description: "... na qual você aprenderá a magia da programação."
     campaign_dev: "Fases Difíceis Aleatórias"
     campaign_dev_description: "... nas quais você aprenderá a interface enquanto faz algo um pouco mais difícil."
@@ -80,8 +80,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     campaign_multiplayer_description: "... nas quais você programará cara-a-cara contra outros jogadores."
     campaign_player_created: "Criados por Jogadores"
     campaign_player_created_description: "... nos quais você batalhará contra a criatividade dos seus companheiros <a href=\"/contribute#artisan\">feiticeiros Artesãos</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "Algoritmos Clássicos"
+    campaign_classic_algorithms_description: "...onde você aprende os algoritmos mais conhecidos em Ciência da Computação."
 
   login:
     sign_up: "Criar conta"
