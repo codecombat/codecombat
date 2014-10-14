@@ -6,6 +6,8 @@ PlayLevelView = require 'views/play/level/PlayLevelView'
 LadderView = require 'views/play/ladder/LadderView'
 LevelSession = require 'models/LevelSession'
 
+hasGoneFullScreenOnce = false
+
 module.exports = class PlayLevelModal extends ModalView
   className: 'modal fade play-modal'
   template: template
@@ -103,6 +105,10 @@ module.exports = class PlayLevelModal extends ModalView
   onClickPlayLevel: (e) ->
     return if @$el.find('#play-level-button').prop 'disabled'
     @showLoading()
+    ua = navigator.userAgent.toLowerCase()
+    unless hasGoneFullScreenOnce or (/safari/.test(ua) and not /chrome/.test(ua))
+      @toggleFullscreen()
+      hasGoneFullScreenOnce = true
     @updateConfig =>
       @navigatingToPlay = true
       viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
