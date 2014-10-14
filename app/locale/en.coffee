@@ -111,7 +111,6 @@
     armor: "Armor"
     hands: "Hands"
     accessories: "Accessories"
-    books: "Books"
     minions: "Minions"
     misc: "Misc"
 

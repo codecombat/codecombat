@@ -48,6 +48,7 @@ module.exports = class WorldMapView extends RootView
     super()
 
   getLevelPlayCounts: ->
+    return unless me.isAdmin()
     success = (levelPlayCounts) =>
       return if @destroyed
       for level in levelPlayCounts

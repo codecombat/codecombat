@@ -127,6 +127,7 @@ _.extend ThangTypeSchema.properties,
   positions: PositionsSchema
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
+  featureImage: { type: 'string', format: 'image-file', title: 'Feature Image' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:
