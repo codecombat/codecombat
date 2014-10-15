@@ -77,4 +77,5 @@ module.exports = class MusicPlayer extends CocoClass
 
   destroy: ->
     me.off 'change:music', @onMusicSettingChanged, @
+    @fadeOutCurrentMusic()
     super()
