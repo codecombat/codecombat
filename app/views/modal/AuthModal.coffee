@@ -42,7 +42,7 @@ module.exports = class AuthModal extends ModalView
 
   afterInsert: ->
     super()
-    _.delay application.router.renderLoginButtons, 500
+    _.delay (=> application.router.renderLoginButtons()), 500
     _.delay (=> $('input:visible:first', @$el).focus()), 500
 
   onSignupInstead: (e) ->

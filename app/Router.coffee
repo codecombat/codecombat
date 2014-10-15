@@ -12,6 +12,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @bind 'route', @_trackPageView
     Backbone.Mediator.subscribe 'auth:gplus-api-loaded', @onGPlusAPILoaded, @
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
+    @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
   routes:
     '': go('HomeView')  # This will go somewhere deprecated when FrontView is done.
@@ -125,7 +126,7 @@ module.exports = class CocoRouter extends Backbone.Router
     $('#page-container').empty().append view.el
     window.currentView = view
     @activateTab()
-    @renderLoginButtons()
+    @renderLoginButtons() if view.usesSocialMedia
     view.afterInsert()
     view.didReappear()
 
@@ -139,8 +140,22 @@ module.exports = class CocoRouter extends Backbone.Router
 
   onGPlusAPILoaded: =>
     @renderLoginButtons()
+    
+  initializeSocialMediaServices: ->
+    return if application.testing or application.demoing
+    services = [
+      './lib/services/facebook'
+      './lib/services/google'
+      './lib/services/twitter'
+      './lib/services/linkedin'
+    ]
+
+    for service in services
+      service = require service
+      service()
 
   renderLoginButtons: ->
+    @initializeSocialMediaServices()
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
     setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like
     twttr?.widgets?.load?()

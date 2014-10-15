@@ -24,9 +24,9 @@ init = ->
   watchForErrors()
   setUpIOSLogging()
   path = document.location.pathname
-  testing = path.startsWith '/test'
-  demoing = path.startsWith '/demo'
-  initializeServices() unless testing or demoing
+  app.testing = path.startsWith '/test'
+  app.demoing = path.startsWith '/demo'
+  initializeUtilityServices() unless app.testing or app.demoing
   setUpBackboneMediator()
   app.initialize()
   Backbone.history.start({ pushState: true })
@@ -74,15 +74,11 @@ setUpMoment = ->
   me.on 'change:preferredLanguage', (me) ->
     moment.lang me.get('preferredLanguage', true), {}
 
-initializeServices = ->
+initializeUtilityServices = ->
   services = [
     './lib/services/filepicker'
     './lib/services/segmentio'
     './lib/services/olark'
-    './lib/services/facebook'
-    './lib/services/google'
-    './lib/services/twitter'
-    './lib/services/linkedin'
   ]
 
   for service in services

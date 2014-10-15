@@ -70,6 +70,7 @@ module.exports = class RootView extends CocoView
   getRenderData: ->
     c = super()
     c.showBackground = @showBackground
+    c.usesSocialMedia = @usesSocialMedia
     c
 
   afterRender: ->
