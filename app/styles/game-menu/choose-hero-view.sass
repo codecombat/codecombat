@@ -4,7 +4,7 @@
 $maxHeroPortraitSize: 100px
 $minHeroPortraitSize: 50px
 
-$heroCanvasHeight: 330px
+$heroCanvasHeight: 265px
 
 #choose-hero-view
 
@@ -62,13 +62,20 @@ $heroCanvasHeight: 330px
       &.locked
         @include opacity(0.6)
   
-      canvas, .hero-stats
+      canvas, .hero-feature-image, .hero-stats
         width: 45%
         height: $heroCanvasHeight
         float: left
   
-      canvas
+      canvas, .hero-feature-image
         margin-left: 5%
+
+      .hero-feature-image
+        display: none
+        text-align: center
+
+        img
+          height: $heroCanvasHeight
   
       .hero-stats
         text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6)
@@ -84,7 +91,7 @@ $heroCanvasHeight: 330px
   
     .carousel-control
       height: 75%
-      top: 25%
+      top: 30%
       width: 10%
 
   .select-group

@@ -206,10 +206,6 @@ module.exports = class PlayLevelView extends RootView
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
 
-    # testing
-#    modal = new HeroVictoryModal({session: @session, level: @level})
-#    @openModalView(modal)
-
     @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
@@ -272,11 +268,11 @@ module.exports = class PlayLevelView extends RootView
 
   insertSubviews: ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
-    @insertSubView new LevelPlaybackView session: @session
+    @insertSubView new LevelPlaybackView session: @session, levelID: @levelID
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span'  # TODO: figure out when flags are available
     @insertSubView new GoldView {}
-    @insertSubView new HUDView {}
+    @insertSubView new HUDView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
@@ -459,9 +455,8 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     options = {level: @level, supermodel: @supermodel, session: @session}
-#    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
-#    victoryModal = new ModalClass(options)
-    victoryModal = new VictoryModal(options)
+    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
+    victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')
       window.nextLevelURL = @getNextLevelURL()  # Signup will go here on completion instead of reloading.

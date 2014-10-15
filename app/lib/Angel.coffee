@@ -124,7 +124,7 @@ module.exports = class Angel extends CocoClass
     @shared.lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (goalStates) -> (world) =>
-    return if @aborting
+    return if @aborting or @destroyed
     finished = world.frames.length is world.totalFrames
     firstChangedFrame = world.findFirstChangedFrame @shared.world
     eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'

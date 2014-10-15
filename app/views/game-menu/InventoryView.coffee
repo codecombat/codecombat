@@ -10,7 +10,7 @@ module.exports = class InventoryView extends CocoView
   id: 'inventory-view'
   className: 'tab-pane'
   template: template
-  slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'spellbook', 'programming-book', 'pet', 'minion', 'misc-0', 'misc-1', 'misc-2', 'misc-3', 'misc-4']
+  slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'misc-0', 'misc-1']
 
   events:
     'click .item-slot': 'onItemSlotClick'
@@ -379,12 +379,16 @@ module.exports = class InventoryView extends CocoView
     return unless @supermodel.finished() and @selectedHero and not @$el.hasClass 'secret'
     @startedLoadingFirstHero = true
     @stage?.removeAllChildren()
+    if featureImage = @selectedHero.get 'featureImage'
+      @$el.find(".equipped-hero-canvas").hide()
+      @$el.find(".hero-feature-image").show().find('img').prop('src', '/file/' + featureImage)
+      return
     if @selectedHero.loaded and movieClip = @movieClips?[@selectedHero.get('original')]
       @stage.addChild(movieClip)
       @stage.update()
       return
     onLoaded = =>
-      return unless canvas = $(".equipped-hero-canvas")
+      return unless canvas = @$el.find(".equipped-hero-canvas")
       @canvasWidth ||= canvas.width()
       @canvasHeight ||= canvas.height()
       canvas.prop width: @canvasWidth, height: @canvasHeight

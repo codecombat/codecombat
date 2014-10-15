@@ -10,6 +10,7 @@ module.exports = class Problem
     @buildAnnotation()
     @buildAlertView() if withAlert
     @buildMarkerRange() if isCast
+    Backbone.Mediator.publish("problem:problem-created", line:@annotation.row, text: @annotation.text) if application.isIPadApp
     @saveUserCodeProblem() if isCast
 
   destroy: ->

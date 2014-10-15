@@ -100,6 +100,8 @@ module.exports = class World
       @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
       if @levelID in ['the-first-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze']
+        @realTimeSpeedFactor = 5
+      else if @levelID in ['kithgard-gates']
         @realTimeSpeedFactor = 3
       else
         @realTimeSpeedFactor = 1

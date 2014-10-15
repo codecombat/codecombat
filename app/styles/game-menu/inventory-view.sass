@@ -1,17 +1,15 @@
 @import "app/styles/mixins"
 
 $totalWidth: 706px - 2 * 20px
-// We get 666px to play with from our parent modals.
-$inventoryHeight: 530px
+$inventoryHeight: 445px
 $equippedWidth: 450px
 $itemSlotMargin: 5px
 $itemSlotSize: ($equippedWidth - 6 * 2 * $itemSlotMargin) / 6
 $itemSlotSizeWithMargin: $itemSlotSize + 2 * $itemSlotMargin
 $itemSlotBorderWidth: 2px
 $itemSlotInnerWidth: $itemSlotSize - 2 * $itemSlotBorderWidth
-$heroContainerBottomMargin: 10px
 $heroContainerWidth: 4 * $itemSlotSizeWithMargin
-$heroContainerHeight: $inventoryHeight - 2 * $itemSlotSizeWithMargin - $heroContainerBottomMargin
+$heroContainerHeight: $inventoryHeight - $itemSlotSizeWithMargin
 $selectedAreaHeight: 150px
 $stashMargin: 20px
 $stashWidth: $totalWidth - $equippedWidth - $stashMargin
@@ -50,9 +48,9 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     .item-slot-column
       //background-color: rgba(112, 124, 35, 0.5)
       width: $itemSlotSizeWithMargin
-      height: 4 * $itemSlotSizeWithMargin
+      height: 5 * $itemSlotSizeWithMargin
       float: left
-      margin-top: 30px
+      //margin-top: 30px
       
     .item-slot
       width: $itemSlotSize
@@ -93,10 +91,11 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
         background-position: (-1 * $itemSlotInnerWidth) 0px
 
       &[data-slot="programming-book"] .placeholder
-        background-position: (-2 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="spellbook"] .placeholder
         background-position: (-3 * $itemSlotInnerWidth) 0px
+
+      // Only for wizards...
+      //&[data-slot="spellbook"] .placeholder
+      //  background-position: (-2 * $itemSlotInnerWidth) 0px
 
       &[data-slot="misc-0"] .placeholder
         background-position: (-4 * $itemSlotInnerWidth) 0px
@@ -163,15 +162,15 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       float: left
       position: relative
 
-      .equipped-hero-canvas
+      .equipped-hero-canvas, .hero-feature-image
         width: $heroContainerWidth
         height: $heroContainerHeight
 
-    hr.slot-row-separator
-      clear: both
-      margin-top: 0
-      margin-bottom: $heroContainerBottomMargin / 2 - 1
-      border-top: 1px solid #aaa
+      .hero-feature-image
+        text-align: center
+
+        img
+          height: $heroContainerHeight
 
   #available-equipment
     width: $stashWidth
@@ -236,7 +235,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     position: absolute
     top: $selectedItemsContainerMargin
     right: $selectedItemsContainerMargin
-    bottom: $selectedItemsContainerMargin + $heroContainerBottomMargin
+    bottom: $selectedItemsContainerMargin
     left: $selectedItemsContainerMargin
     text-align: center
 
