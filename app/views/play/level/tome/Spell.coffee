@@ -188,11 +188,14 @@ module.exports = class Spell
     # stringReferences: values that should be referred to as a string instead of a variable (e.g. "Brak", not Brak)
     # thisMethods: methods available on the 'this' object
     # thisProperties: properties available on the 'this' object
+    # commonThisMethods: methods that are available sometimes, but not awlays
 
     # NOTE: Assuming the first createProblemContext call has everything we need, and we'll use that forevermore
     return @problemContext if @problemContext?
 
     @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
+    # TODO: These should be read from the database
+    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attackNearbyEnemy', 'say', 'move', 'attackNearestEnemy', 'shootAt', 'rotateTo', 'shoot', 'distance', 'getNearestEnemy', 'getEnemies', 'attack', 'setAction', 'setTarget', 'getFriends', 'patrol']
     return @problemContext unless thang?
 
     # Populate stringReferences
