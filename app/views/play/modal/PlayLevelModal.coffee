@@ -101,6 +101,7 @@ module.exports = class PlayLevelModal extends ModalView
     @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').removeClass 'secret'
     @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').addClass 'secret'
     @chooseHeroView.onShown()
+    @inventoryView.endHighlight()
 
   onClickPlayLevel: (e) ->
     return if @$el.find('#play-level-button').prop 'disabled'

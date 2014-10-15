@@ -136,6 +136,7 @@ module.exports = class WorldMapView extends RootView
     levelID = $(e.target).parents('.level').data('level-id')
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
     @adjustLevelInfoPosition e
+    @endHighlight()
 
   onMouseLeaveLevel: (e) ->
     return if application.isIPadApp
