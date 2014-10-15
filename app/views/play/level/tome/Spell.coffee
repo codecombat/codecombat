@@ -182,7 +182,7 @@ module.exports = class Spell
         @updateLanguageAether e.codeLanguage
     else
       console.error 'Spell onNewOpponentCode did not receive code', e
-      
+
   createProblemContext: (thang) ->
     # Create problemContext Aether can use to craft better error messages
     # stringReferences: values that should be referred to as a string instead of a variable (e.g. "Brak", not Brak)
@@ -195,7 +195,7 @@ module.exports = class Spell
 
     @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
     # TODO: These should be read from the database
-    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attackNearbyEnemy', 'say', 'move', 'attackNearestEnemy', 'shootAt', 'rotateTo', 'shoot', 'distance', 'getNearestEnemy', 'getEnemies', 'attack', 'setAction', 'setTarget', 'getFriends', 'patrol']
+    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'getFriends', 'addFlag', 'getFlag', 'removeFlag', 'getFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
     return @problemContext unless thang?
 
     # Populate stringReferences

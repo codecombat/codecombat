@@ -85,7 +85,8 @@ module.exports = class LevelHUDView extends CocoView
     clearTimeout @hintNextSelectionTimeout
     @$el.find('.no-selection-message').hide()
     if not @thang
-      @hintNextSelectionTimeout = _.delay((=> @$el.find('.no-selection-message').slideDown('slow')), 10000)
+      unless @options.level.get('type', true) is 'hero'
+        @hintNextSelectionTimeout = _.delay((=> @$el.find('.no-selection-message').slideDown('slow')), 10000)
       return
     @createAvatar thangType, @thang
     @createProperties()

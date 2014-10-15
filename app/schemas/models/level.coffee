@@ -149,7 +149,7 @@ ScriptSchema = c.object {
   required: ['channel']
   'default': {channel: 'world:won', noteChain: []}
 },
-  id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.')  # uniqueness?
+  id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.', pattern: '^[a-zA-Z 0-9:\'"_!-]+$')  # uniqueness? Ideally this would be just ids-like-this but we have a lot of legacy data.
   channel: c.shortString(title: 'Event', format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: 'Event Checks', description: 'Logical checks on the event for this script to trigger.', format: 'event-prereqs'}, EventPrereqSchema
   repeats: {title: 'Repeats', description: 'Whether this script can trigger more than once during a level.', enum: [true, false, 'session']}
