@@ -69,6 +69,8 @@ module.exports = class ControlBarView extends CocoView
     c.multiplayerSession = @multiplayerSession if @multiplayerSession
     c.multiplayerPlayers = @multiplayerPlayers if @multiplayerPlayers
     c.meID = me.id
+    docs = @level.get('documentation') ? {}
+    c.showsGuide = docs.specificArticles?.length or docs.generalArticles?.length
     c
 
   afterRender: ->

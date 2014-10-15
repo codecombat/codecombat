@@ -11,6 +11,7 @@ module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
   template: template
   closeButton: false
+  closesOnClickOutside: false
 
   constructor: (options) ->
     super(options)
@@ -24,7 +25,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @achievements = @supermodel.loadCollection(achievements, 'achievements').model
     @listenToOnce @achievements, 'sync', @onAchievementsLoaded
     @readyToContinue = false
-  
+
   onAchievementsLoaded: ->
     thangTypeOriginals = []
     achievementIDs = []
@@ -34,7 +35,7 @@ module.exports = class HeroVictoryModal extends ModalView
       thangTypeOriginals.push rewards.items or []
       achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
       achievementIDs.push(achievement.id) if achievement.completed
-        
+
     thangTypeOriginals = _.uniq _.flatten thangTypeOriginals
     for thangTypeOriginal in thangTypeOriginals
       thangType = new ThangType()
@@ -61,7 +62,7 @@ module.exports = class HeroVictoryModal extends ModalView
           me.fetch() unless me.loading
     else
       @readyToContinue = true
-    
+
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
@@ -81,7 +82,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.thangTypes = @thangTypes
     return c
-    
+
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -105,8 +106,8 @@ module.exports = class HeroVictoryModal extends ModalView
       )
       panel.delay(500)
       panel.queue(-> complete())
-    @animationComplete = !@animatedPanels.length
-      
+    @animationComplete = not @animatedPanels.length
+
   beginAnimateNumbers: ->
     @numericalItemPanels = _.map(@animatedPanels.find('.numerical'), (panel) -> {
       number: $(panel).data('number')
@@ -114,7 +115,7 @@ module.exports = class HeroVictoryModal extends ModalView
       rootEl: $(panel)
       unit: $(panel).data('number-unit')
     })
-    
+
     # TODO: mess with this more later. Doesn't seem to work, often times will pulse background red rather than animate
 #    itemPanel.rootEl.find('.reward-image-container img').addClass('pulse') for itemPanel in @numericalItemPanels
     @numberAnimationStart = new Date()
@@ -125,7 +126,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @gemEl = $('#gem-total')
     @XPEl = $('#xp-total')
     @numberAnimationInterval = setInterval(@tickNumberAnimation, 15 / 1000)
-    
+
   tickNumberAnimation: =>
     pct = Math.min(1, (new Date() - @numberAnimationStart) / 1500)
     panel.textEl.text('+'+parseInt(panel.number*pct)) for panel in @numericalItemPanels
@@ -142,4 +143,4 @@ module.exports = class HeroVictoryModal extends ModalView
   updateSavingProgressStatus: ->
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
-    @$el.find('#continue-button').toggleClass('hide', !@readyToContinue)
+    @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)

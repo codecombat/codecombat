@@ -6,6 +6,8 @@ PlayLevelView = require 'views/play/level/PlayLevelView'
 LadderView = require 'views/play/ladder/LadderView'
 LevelSession = require 'models/LevelSession'
 
+hasGoneFullScreenOnce = false
+
 module.exports = class PlayLevelModal extends ModalView
   className: 'modal fade play-modal'
   template: template
@@ -99,10 +101,15 @@ module.exports = class PlayLevelModal extends ModalView
     @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').removeClass 'secret'
     @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').addClass 'secret'
     @chooseHeroView.onShown()
+    @inventoryView.endHighlight()
 
   onClickPlayLevel: (e) ->
     return if @$el.find('#play-level-button').prop 'disabled'
     @showLoading()
+    ua = navigator.userAgent.toLowerCase()
+    unless hasGoneFullScreenOnce or (/safari/.test(ua) and not /chrome/.test(ua)) or $(window).height() >= 658  # Min vertical resolution needed at 1366px wide
+      @toggleFullscreen()
+      hasGoneFullScreenOnce = true
     @updateConfig =>
       @navigatingToPlay = true
       viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView

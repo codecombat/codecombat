@@ -8,7 +8,7 @@
             .replace-me(data-item-id=equipment[slot].get('original'))
 
   .item-slot-column.pull-left
-    for slot in ['minion', 'torso', 'gloves', 'left-hand']
+    for slot in ['minion', 'torso', 'gloves', 'left-hand', 'misc-0']
       .item-slot(data-slot=slot)
         .placeholder
         .item-container
@@ -17,6 +17,8 @@
 
   .hero-container
     canvas.equipped-hero-canvas
+    .hero-feature-image
+      img
     #selected-items
       #selected-equipped-item.well
         h3(data-i18n="inventory.equipped") Equipped
@@ -26,22 +28,23 @@
         .item-view-stub
 
   .item-slot-column.pull-right
-    for slot in ['pet', 'waist', 'feet', 'right-hand']
+    for slot in ['pet', 'waist', 'feet', 'right-hand', 'programming-book']
       .item-slot(data-slot=slot)
         .placeholder
         .item-container
           if equipment[slot]
             .replace-me(data-item-id=equipment[slot].get('original'))
 
-  hr.slot-row-separator
-
-  .item-slot-row.row-4
-    for slot in ['programming-book', 'spellbook', 'misc-0', 'misc-1']
-      .item-slot(data-slot=slot)
-        .placeholder
-        .item-container
-          if equipment[slot]
-            .replace-me(data-item-id=equipment[slot].get('original'))
+  // TODO: work in misc 1 again
+  //hr.slot-row-separator
+  //
+  //.item-slot-row.row-4
+  //  for slot in ['misc-1']
+  //    .item-slot(data-slot=slot)
+  //      .placeholder
+  //      .item-container
+  //        if equipment[slot]
+  //          .replace-me(data-item-id=equipment[slot].get('original'))
 
 #available-equipment
   h4#unlocked-description

@@ -5,6 +5,8 @@ CocoCollection = require 'collections/CocoCollection'
 AudioPlayer = require 'lib/AudioPlayer'
 PlayLevelModal = require 'views/play/modal/PlayLevelModal'
 ThangType = require 'models/ThangType'
+MusicPlayer = require 'lib/surface/MusicPlayer'
+storage = require 'lib/storage'
 
 class LevelSessionsCollection extends CocoCollection
   url: ''
@@ -37,6 +39,9 @@ module.exports = class WorldMapView extends RootView
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
     @playAmbientSound()
+    @probablyCachedMusic = storage.load("loaded-menu-music-#{@terrain}")
+    musicDelay = if @probablyCachedMusic then 1000 else 10000
+    @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
     @preloadTopHeroes()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
 
@@ -45,9 +50,12 @@ module.exports = class WorldMapView extends RootView
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
+    @musicPlayer?.destroy()
+    clearTimeout @playMusicTimeout
     super()
 
   getLevelPlayCounts: ->
+    return unless me.isAdmin()
     success = (levelPlayCounts) =>
       return if @destroyed
       for level in levelPlayCounts
@@ -128,6 +136,7 @@ module.exports = class WorldMapView extends RootView
     levelID = $(e.target).parents('.level').data('level-id')
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
     @adjustLevelInfoPosition e
+    @endHighlight()
 
   onMouseLeaveLevel: (e) ->
     return if application.isIPadApp
@@ -200,6 +209,12 @@ module.exports = class WorldMapView extends RootView
       return
     @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
     createjs.Tween.get(@ambientSound).to({volume: 1.0}, 1000)
+
+  playMusic: ->
+    @musicPlayer = new MusicPlayer()
+    musicFile = {Dungeon: '/music/music-menu-dungeon', Grass: '/music/music-menu-grass'}[@terrain]
+    Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
+    storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
     for heroID in ['captain', 'knight']

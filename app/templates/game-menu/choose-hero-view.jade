@@ -12,6 +12,8 @@
       - var info = heroInfo[hero.get('slug')]
       div(class="item hero-item" + (hero.locked ? " locked" : ""), data-hero-id=hero.get('original'))
         canvas.hero-canvas
+        .hero-feature-image
+          img
         .hero-stats
           h2= info.fullName
           p

@@ -74,7 +74,7 @@ PointSchema = c.object {title: 'Point', description: 'An {x, y} coordinate point
   x: {title: 'x', description: 'The x coordinate.', type: 'number'}
   y: {title: 'y', description: 'The y coordinate.', type: 'number'}
 
-SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Captain Anya'}},
+SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Hero Placeholder'}},
   id: thang
   select: {title: 'Select', description: 'Select or deselect this Thang.', type: 'boolean'}
   say: c.object {title: 'Say', description: 'Make this Thang say a message.', required: ['text'], default: { mood: 'explain' }},
@@ -149,7 +149,7 @@ ScriptSchema = c.object {
   required: ['channel']
   'default': {channel: 'world:won', noteChain: []}
 },
-  id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.')  # uniqueness?
+  id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.', pattern: '^[a-zA-Z 0-9:\'"_!-]+$')  # uniqueness? Ideally this would be just ids-like-this but we have a lot of legacy data.
   channel: c.shortString(title: 'Event', format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: 'Event Checks', description: 'Logical checks on the event for this script to trigger.', format: 'event-prereqs'}, EventPrereqSchema
   repeats: {title: 'Repeats', description: 'Whether this script can trigger more than once during a level.', enum: [true, false, 'session']}

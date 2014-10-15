@@ -23,7 +23,7 @@ module.exports = class ChooseHeroView extends CocoView
   constructor: (options) ->
     super options
     @heroes = new CocoCollection([], {model: ThangType})
-    @heroes.url = '/db/thang.type?view=heroes&project=original,name,slug,soundTriggers'
+    @heroes.url = '/db/thang.type?view=heroes&project=original,name,slug,soundTriggers,featureImage'
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}
 
@@ -100,6 +100,11 @@ module.exports = class ChooseHeroView extends CocoView
 
   loadHero: (hero, heroIndex, preloading=false) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
+    if featureImage = hero.get 'featureImage'
+      $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
+      $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-feature-image").show().find('img').prop('src', '/file/' + featureImage)
+      @playSelectionSound hero unless preloading
+      return hero
     createjs.Ticker.setFPS 30  # In case we paused it from being inactive somewhere else
     if stage = @stages[heroIndex]
       unless preloading
@@ -109,7 +114,7 @@ module.exports = class ChooseHeroView extends CocoView
     fullHero = @getFullHero hero.get 'original'
     onLoaded = =>
       return unless canvas = $(".hero-item[data-hero-id='#{fullHero.get('original')}'] canvas")
-      canvas.prop width: @canvasWidth, height: @canvasHeight
+      canvas.show().prop width: @canvasWidth, height: @canvasHeight
       builder = new SpriteBuilder(fullHero)
       movieClip = builder.buildMovieClip(fullHero.get('actions').attack?.animation ? fullHero.get('actions').idle.animation)
       movieClip.scaleX = movieClip.scaleY = canvas.prop('height') / 120  # Average hero height is ~110px tall at normal resolution
