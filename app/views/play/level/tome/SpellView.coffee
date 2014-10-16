@@ -65,6 +65,7 @@ module.exports = class SpellView extends CocoView
     @problems = []
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
+    $(window).on 'resize', @onWindowResize
 
   afterRender: ->
     super()
@@ -281,6 +282,8 @@ module.exports = class SpellView extends CocoView
 
   setThang: (thang) ->
     @focus()
+    @lastScreenLineCount = null
+    @updateLines()
     return if thang.id is @thang?.id
     @thang = thang
     @spellThang = @spell.thangs[@thang.id]
@@ -304,6 +307,31 @@ module.exports = class SpellView extends CocoView
   notifyEditingBegan: =>
     return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
+
+  updateLines: =>
+    # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
+    lineCount = @aceDoc.getLength()
+    lastLine = @aceDoc.$lines[lineCount - 1]
+    if lastLine isnt ''
+      cursorPosition = @ace.getCursorPosition()
+      wasAtEnd = cursorPosition.row is lineCount - 1 and cursorPosition.column is lastLine.length
+      @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
+      @ace.navigateLeft(1) if wasAtEnd
+      ++lineCount
+    screenLineCount = @aceSession.getScreenLength()
+    if screenLineCount isnt @lastScreenLineCount
+      @lastScreenLineCount = screenLineCount
+      lineHeight = @ace.renderer.lineHeight or 20
+      tomeHeight = $('#tome-view').innerHeight()
+      spellListTabEntryHeight = $('#spell-list-tab-entry-view').outerHeight()
+      spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
+      spellPaletteHeight = $('#spell-palette-view').outerHeight()
+      maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteHeight
+      linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
+      lines = Math.max 8, Math.min(screenLineCount + 4, linesAtMaxHeight)
+      # 2 lines buffer is nice, but 4 leaves room to put problem alerts.
+      @ace.setOptions minLines: lines, maxLines: lines
+      $('#spell-palette-view').css('top', 38 + 45 + lineHeight * lines)  # Move spell palette up, slightly underlapping us.
 
   onManualCast: (e) ->
     cast = @$el.parent().length
@@ -361,6 +389,7 @@ module.exports = class SpellView extends CocoView
       _.debounce @notifyEditingEnded, 1000
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
+      _.throttle @updateLines, 500
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
@@ -695,7 +724,15 @@ module.exports = class SpellView extends CocoView
     @ace.setValue pretty
 
   onMaximizeToggled: (e) ->
-    _.delay (=> @ace?.resize true), 500  # Wait $level-resize-transition-time.
+    _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
+
+  onWindowResize: (e) =>
+    _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
+
+  resize: ->
+    @ace?.resize true
+    @lastScreenLineCount = null
+    @updateLines()
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get('aceConfig') ? {}
@@ -739,4 +776,5 @@ module.exports = class SpellView extends CocoView
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
     @debugView?.destroy()
+    $(window).off 'resize', @onWindowResize
     super()

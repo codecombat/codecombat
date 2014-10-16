@@ -48,6 +48,10 @@ module.exports = class SpellPaletteView extends CocoView
     $('.nano').nanoScroller()
     @updateCodeLanguage @options.language
 
+  afterInsert: ->
+    super()
+    _.delay => @$el?.css('bottom', 0) unless $('#spell-view').is('.shown')
+
   updateCodeLanguage: (language) ->
     @options.language = language
     @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language

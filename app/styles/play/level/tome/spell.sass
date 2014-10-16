@@ -12,9 +12,8 @@
   position: absolute
   left: 10px
   top: 48px
-  bottom: 121px
-  // Bottom relates to .palette height and padding-top
   right: 10px
+  padding-bottom: 10px
   z-index: 1
   // Set z-index above palette
   display: none
@@ -61,9 +60,6 @@
     background-color: transparent
     line-height: 20px
     overflow: visible
-
-    &.user-code-problem.spell-cast
-      @include editor-height(60px)
 
     &.disabled
       @include opacity(80)
