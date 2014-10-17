@@ -332,6 +332,30 @@ class CocoModel extends Backbone.Model
       error: ->
         console.error 'Miserably failed to fetch unnotified achievements', arguments
 
-CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
+  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
+  
+  
+  #- Internationalization
+
+  updateI18NCoverage: ->
+    i18nObjects = @findI18NObjects()
+    console.log 'i18n objects', i18nObjects
+    langCodeArrays = (_.keys(i18n) for i18n in i18nObjects)
+    console.log 'lang code arrays', langCodeArrays
+    window.codes = langCodeArrays
+    @set('i18nCoverage', _.intersection(langCodeArrays...))
+    
+  findI18NObjects: (data, results) ->
+    data ?= @attributes
+    results ?= []
+    
+    if _.isPlainObject(data) or _.isArray(data)
+      for [key, value] in _.pairs data
+        if key is 'i18n'
+          results.push value
+        else if _.isPlainObject(value) or _.isArray(value)
+          @findI18NObjects(value, results)
+    
+    return results
 
 module.exports = CocoModel
