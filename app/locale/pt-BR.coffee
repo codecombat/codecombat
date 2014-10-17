@@ -216,13 +216,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_cast_button_castable: "Lançar" # Temporary, if tome_cast_button_run isn't translated.
     tome_cast_button_casting: "Conjurando" # Temporary, if tome_cast_button_running isn't translated.
     tome_cast_button_cast: "Feitiço" # Temporary, if tome_cast_button_ran isn't translated.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+    tome_cast_button_run: "Rodar"
+    tome_cast_button_running: "Rodando"
+    tome_cast_button_ran: "Rodado"
     tome_submit_button: "Enviar"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+    tome_reload_method: "Recarregar o código original para este método" # Title text for individual method reload button.
     tome_select_method: "Selecione um Método"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Visualizar todos os métodos que você pode editar" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
@@ -236,14 +236,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     time_total: "Máximo:"
     time_goto: "Ir para:"
     infinite_loop_try_again: "Tentar novamente"
-#    infinite_loop_reset_level: "Reset Level"
+    infinite_loop_reset_level: "Resetar nível"
 #    infinite_loop_comment_out: "Comment Out My Code"
-#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
-#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+    tip_toggle_play: "Alterne entre rodando/pausado com Ctrl+P."
+    tip_scrub_shortcut: "Ctrl+[ e Ctrl+] rebobina e avança."
 #    tip_guide_exists: "Click the guide at the top of the page for useful info."
-#    tip_open_source: "CodeCombat is 100% open source!"
-#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
-#    tip_think_solution: "Think of the solution, not the problem."
+    tip_open_source: "CodeCombat é 100% código aberto!"
+    tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
+    tip_think_solution: "Pense na solução, não no problema."
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
@@ -266,7 +266,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Na dúvida, utilize força bruta. - Ken Thompson"
     customize_wizard: "Personalize o feiticeiro"
 
   game_menu:
@@ -277,14 +277,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
     inventory_caption: "Equipar seu herói"
-#    choose_hero_caption: "Choose hero, language"
+    choose_hero_caption: "Escolha seu herói, linguagem"
 #    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
+    options_caption: "Configurar preferências"
     guide_caption: "Documentos e dicas"
-#    multiplayer_caption: "Play with friends!"
+    multiplayer_caption: "Jogue com seus amigos!"
 
 #  inventory:
-#    choose_inventory: "Equip Items"
+    choose_inventory: "Equipar itens"
 
   choose_hero:
     choose_hero: "Escolha seu Herói"
@@ -300,23 +300,23 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     granularity_change_history: "Histórico"
 
   options:
-#    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
+    general_options: "Opções Gerais" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "Volume"
     music_label: "Música"
-#    music_description: "Turn background music on/off."
-#    autorun_label: "Autorun"
-#    autorun_description: "Control automatic code execution."
+    music_description: "Ligar/desligar música de fundo."
+    autorun_label: "Rodar automaticamente"
+    autorun_description: "Controlar execução automática do código."
     editor_config: "Editor de Configurações"
     editor_config_title: "Editor de Configurações"
-#    editor_config_level_language_label: "Language for This Level"
-#    editor_config_level_language_description: "Define the programming language for this particular level."
-#    editor_config_default_language_label: "Default Programming Language"
-#    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
+    editor_config_level_language_label: "Linguagem para este nível"
+    editor_config_level_language_description: "Definir linguagem para esse nível específico."
+    editor_config_default_language_label: "Linguagem de programação padrão"
+    editor_config_default_language_description: "Define a linguagem de programação que você quer utilizar quando iniciar novos níveis."
     editor_config_keybindings_label: "Teclas de Atalho"
     editor_config_keybindings_default: "Padrão (Ace)"
     editor_config_keybindings_description: "Adicionar atalhos conhecidos de editores comuns."
-#    editor_config_livecompletion_label: "Live Autocompletion"
-#    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
+    editor_config_livecompletion_label: "Autocompletar durante a escrita"
+    editor_config_livecompletion_description: "Mostra opções de autocompletar enquanto estiver escrevendo."
     editor_config_invisibles_label: "Mostrar Invisíveis"
     editor_config_invisibles_description: "Mostrar invisíveis como espaços e tabs."
     editor_config_indentguides_label: "Mostrar Linhas de Identação"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     forum_page: "nosso fórum"
     forum_suffix: " ao invés disso."
     send: "Enviar opinião"
-#    contact_candidate: "Contact Candidate" # Deprecated
+    contact_candidate: "Contactar Candidato" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
   account_settings:
