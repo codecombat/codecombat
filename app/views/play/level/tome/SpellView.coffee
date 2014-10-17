@@ -209,8 +209,13 @@ module.exports = class SpellView extends CocoView
   addZatannaSnippets: (e) ->
     return unless @zatanna and @autocomplete
     snippetEntries = []
-    for owner, props of e.propGroups
+    for group, props of e.propGroups
       for prop in props
+        if _.isString prop  # organizePalette
+          owner = group
+        else                # organizePaletteHero
+          owner = prop.owner
+          prop = prop.prop
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
@@ -394,10 +399,11 @@ module.exports = class SpellView extends CocoView
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'code-change', volume: 0.5
-      @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw, (hasChanged) =>
-        if not @spellThang or hasChanged
-          callback() for callback in onSignificantChange  # Do these first
-        callback() for callback in onAnyChange  # Then these
+      if @spellThang
+        @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw, (hasChanged) =>
+          if not @spellThang or hasChanged
+            callback() for callback in onSignificantChange  # Do these first
+          callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
   setRecompileNeeded: (@recompileNeeded) =>
