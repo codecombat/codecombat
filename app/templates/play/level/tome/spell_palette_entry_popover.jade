@@ -105,6 +105,10 @@ if doc.returns
       if doc.returns.description
         div!= marked(doc.returns.description)
 
+if item
+  p
+    em Granted by #{item.get('name')}.
+
 if selectedMethod
   p
     em Write the body of this method below.
