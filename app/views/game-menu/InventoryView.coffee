@@ -334,7 +334,7 @@ module.exports = class InventoryView extends CocoView
       'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'new-sight': {'right-hand': 'longsword', 'programming-book': 'programmaticon-i'}
       'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'longsword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'a-bolt-in-the-dark': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', eyes: 'crude-glasses'}
+      'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', eyes: 'crude-glasses'}
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
       'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
