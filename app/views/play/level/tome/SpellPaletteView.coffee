@@ -4,6 +4,7 @@ template = require 'templates/play/level/tome/spell_palette'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
+ThangType = require 'models/ThangType'
 EditorConfigModal = require '../modal/EditorConfigModal'
 
 N_ROWS = 4
@@ -26,6 +27,7 @@ module.exports = class SpellPaletteView extends CocoView
     super options
     @thang = options.thang
     @createPalette()
+    $(window).on 'resize', @onResize
 
   getRenderData: ->
     c = super()
@@ -38,19 +40,52 @@ module.exports = class SpellPaletteView extends CocoView
 
   afterRender: ->
     super()
-    for group, entries of @entryGroups
-      groupSlug = @entryGroupSlugs[group]
-      for columnNumber, entryColumn of entries
-        col = $('<div class="property-entry-column"></div>').appendTo @$el.find(".properties-#{groupSlug}")
-        for entry in entryColumn
-          col.append entry.el
+    if @entryGroupSlugs
+      for group, entries of @entryGroups
+        groupSlug = @entryGroupSlugs[group]
+        for columnNumber, entryColumn of entries
+          col = $('<div class="property-entry-column"></div>').appendTo @$el.find(".properties-#{groupSlug}")
+          for entry in entryColumn
+            col.append entry.el
+            entry.render()  # Render after appending so that we can access parent container for popover
+      $('.nano').nanoScroller()
+      @updateCodeLanguage @options.language
+    else
+      @entryGroupElements = {}
+      for group, entries of @entryGroups
+        @entryGroupElements[group] = itemGroup = $('<div class="property-entry-item-group"></div>').appendTo @$el.find('.properties')
+        itemGroup.append $('<img class="item-image"></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2)) if entries[0].options.item?.getPortraitURL
+        for entry in entries
+          itemGroup.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover
-    $('.nano').nanoScroller()
-    @updateCodeLanguage @options.language
+      @$el.addClass 'hero'
+      @updateMaxHeight()
+
+  afterInsert: ->
+    super()
+    _.delay => @$el?.css('bottom', 0) unless $('#spell-view').is('.shown')
 
   updateCodeLanguage: (language) ->
     @options.language = language
     @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language
+
+  updateMaxHeight: ->
+    return unless @isHero
+    nColumns = Math.floor @$el.find('.properties').innerWidth() / 212   # ~212px is a good max entry width; will always have 2 columns
+    columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
+    nRows = 0
+    for group, entries of @entryGroups
+      shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
+      shortestColumn.nEntries += Math.max 2, entries.length
+      shortestColumn.items.push @entryGroupElements[group]
+      nRows = Math.max nRows, shortestColumn.nEntries
+    for column in columns
+      for item in column.items
+        item.detach().appendTo @$el.find('.properties')
+    @$el.find('.properties').css('height', 19 * (nRows + 1))
+
+  onResize: (e) =>
+    @updateMaxHeight()
 
   createPalette: ->
     Backbone.Mediator.publish 'tome:palette-cleared', {thangID: @thang.id}
@@ -86,6 +121,12 @@ module.exports = class SpellPaletteView extends CocoView
     else
       propStorage =
         'this': ['apiProperties', 'apiMethods']
+    if @options.level.get('type', true) isnt 'hero' or not @options.programmable
+      @organizePalette propStorage, allDocs, excludedDocs
+    else
+      @organizePaletteHero propStorage, allDocs, excludedDocs
+
+  organizePalette: (propStorage, allDocs, excludedDocs) ->
     count = 0
     propGroups = {}
     for owner, storages of propStorage
@@ -95,13 +136,11 @@ module.exports = class SpellPaletteView extends CocoView
         added = _.sortBy(props).slice()
         propGroups[owner] = (propGroups[owner] ? []).concat added
         count += added.length
+    Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs, language: @options.language
 
     shortenize = count > 6
     tabbify = count >= 10
     @entries = []
-
-    Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs, language: @options.language
-
     for owner, props of propGroups
       for prop in props
         doc = _.find (allDocs['__' + prop] ? []), (doc) ->
@@ -130,22 +169,68 @@ module.exports = class SpellPaletteView extends CocoView
       @defaultGroupSlug = _.string.slugify defaultGroup
     @entryGroupSlugs = {}
     @entryGroupNames = {}
-    iOSEntryGroups = {}
     for group, entries of @entryGroups
       @entryGroups[group] = _.groupBy entries, (entry, i) -> Math.floor i / N_ROWS
       @entryGroupSlugs[group] = _.string.slugify group
       @entryGroupNames[group] = group
-      iOSEntryGroups[group] = (entry.doc for entry in entries)
     if thisName = {coffeescript: '@', lua: 'self', clojure: 'self'}[@options.language]
       if @entryGroupNames.this
         @entryGroupNames.this = thisName
-        iOSEntryGroups[thisName] = iOSEntryGroups.this
-        delete iOSEntryGroups.this
-    Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: JSON.stringify(iOSEntryGroups)  # TODO: make it sort these by granting items if it's a hero level
 
-  addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
+  organizePaletteHero: (propStorage, allDocs, excludedDocs) ->
+    # Assign any kind of programmable properties to the items that grant them.
+    @isHero = true
+    itemThangTypes = {}
+    itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType
+    propsByItem = {}
+    propCount = 0
+    itemsByProp = {}
+    for slot, inventoryID of @thang.inventoryIDs ? {}
+      if item = itemThangTypes[inventoryID]
+        for component in item.get('components') when component.config
+          for owner, storages of propStorage
+            if props = component.config[storages]
+              for prop in _.sortBy(props) when prop[0] isnt '_'  # no private properties
+                propsByItem[item.get('name')] ?= []
+                propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
+                itemsByProp[prop] = item
+                ++propCount
+      else
+        console.log @thang.id, "couldn't find item ThangType for", slot, inventoryID
+
+    # Assign any unassigned properties to the hero itself.
+    for owner, storage of propStorage
+      for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
+        propsByItem['Hero'] ?= []
+        propsByItem['Hero'].push owner: owner, prop: prop, item: null
+        ++propCount
+
+    Backbone.Mediator.publish 'tome:update-snippets', propGroups: propsByItem, allDocs: allDocs, language: @options.language
+
+    shortenize = propCount > 6
+    @entries = []
+    for itemName, props of propsByItem
+      for prop, propIndex in props
+        item = prop.item
+        owner = prop.owner
+        prop = prop.prop
+        doc = _.find (allDocs['__' + prop] ? []), (doc) ->
+          return true if doc.owner is owner
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        if not doc and not excludedDocs['__' + prop]
+          console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups, 'with item', item
+          doc ?= prop
+        if doc
+          @entries.push @addEntry(doc, shortenize, false, owner is 'snippets', item, propIndex > 0)
+    @entryGroups = _.groupBy @entries, (entry) -> itemsByProp[entry.doc.name]?.get('name') ? 'Hero'
+    iOSEntryGroups = {}
+    for group, entries of @entryGroups
+      iOSEntryGroups[group] = (entry.doc for entry in entries)
+    Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: JSON.stringify(iOSEntryGroups)
+
+  addEntry: (doc, shortenize, tabbify, isSnippet=false, item=null, showImage=false) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
-    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level
+    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -181,4 +266,5 @@ module.exports = class SpellPaletteView extends CocoView
   destroy: ->
     entry.destroy() for entry in @entries
     @toggleBackground = null
+    $(window).off 'resize', @onResize
     super()

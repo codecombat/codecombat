@@ -216,13 +216,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_cast_button_castable: "Lançar" # Temporary, if tome_cast_button_run isn't translated.
     tome_cast_button_casting: "Conjurando" # Temporary, if tome_cast_button_running isn't translated.
     tome_cast_button_cast: "Feitiço" # Temporary, if tome_cast_button_ran isn't translated.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+    tome_cast_button_run: "Rodar"
+    tome_cast_button_running: "Rodando"
+    tome_cast_button_ran: "Encerrado"
     tome_submit_button: "Enviar"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+    tome_reload_method: "Recarregar o código original para este método" # Title text for individual method reload button.
     tome_select_method: "Selecione um Método"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Visualizar todos os métodos que você pode editar" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
@@ -236,14 +236,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     time_total: "Máximo:"
     time_goto: "Ir para:"
     infinite_loop_try_again: "Tentar novamente"
-#    infinite_loop_reset_level: "Reset Level"
+    infinite_loop_reset_level: "Resetar nível"
 #    infinite_loop_comment_out: "Comment Out My Code"
-#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
-#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+    tip_toggle_play: "Alterne entre rodando/pausado com Ctrl+P."
+    tip_scrub_shortcut: "Ctrl+[ e Ctrl+] rebobina e avança."
 #    tip_guide_exists: "Click the guide at the top of the page for useful info."
-#    tip_open_source: "CodeCombat is 100% open source!"
-#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
-#    tip_think_solution: "Think of the solution, not the problem."
+    tip_open_source: "CodeCombat é 100% código aberto!"
+    tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
+    tip_think_solution: "Pense na solução, não no problema."
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
@@ -257,16 +257,16 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
-#    tip_patience: "Patience you must have, young Padawan. - Yoda"
-#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
+    tip_no_try: "Faça. Ou não faça. Não existe tentar. - Yoda"
+    tip_patience: "Paciência você deve ter, jovem Padawan. - Yoda"
+    tip_documented_bug: "Um bug documentado não é um bug; é uma funcionalidade."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Na dúvida, utilize força bruta. - Ken Thompson"
     customize_wizard: "Personalize o feiticeiro"
 
   game_menu:
@@ -277,14 +277,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
     inventory_caption: "Equipar seu herói"
-#    choose_hero_caption: "Choose hero, language"
+    choose_hero_caption: "Escolha seu herói, linguagem"
 #    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
+    options_caption: "Configurar preferências"
     guide_caption: "Documentos e dicas"
-#    multiplayer_caption: "Play with friends!"
+    multiplayer_caption: "Jogue com seus amigos!"
 
 #  inventory:
-#    choose_inventory: "Equip Items"
+    choose_inventory: "Equipar itens"
 
   choose_hero:
     choose_hero: "Escolha seu Herói"
@@ -300,23 +300,23 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     granularity_change_history: "Histórico"
 
   options:
-#    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
+    general_options: "Opções Gerais" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "Volume"
     music_label: "Música"
-#    music_description: "Turn background music on/off."
-#    autorun_label: "Autorun"
-#    autorun_description: "Control automatic code execution."
+    music_description: "Ligar/desligar música de fundo."
+    autorun_label: "Rodar automaticamente"
+    autorun_description: "Controlar execução automática do código."
     editor_config: "Editor de Configurações"
     editor_config_title: "Editor de Configurações"
-#    editor_config_level_language_label: "Language for This Level"
-#    editor_config_level_language_description: "Define the programming language for this particular level."
-#    editor_config_default_language_label: "Default Programming Language"
-#    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
+    editor_config_level_language_label: "Linguagem para este nível"
+    editor_config_level_language_description: "Definir linguagem para esse nível específico."
+    editor_config_default_language_label: "Linguagem de programação padrão"
+    editor_config_default_language_description: "Define a linguagem de programação que você quer utilizar quando iniciar novos níveis."
     editor_config_keybindings_label: "Teclas de Atalho"
     editor_config_keybindings_default: "Padrão (Ace)"
     editor_config_keybindings_description: "Adicionar atalhos conhecidos de editores comuns."
-#    editor_config_livecompletion_label: "Live Autocompletion"
-#    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
+    editor_config_livecompletion_label: "Autocompletar durante a escrita"
+    editor_config_livecompletion_description: "Mostra opções de autocompletar enquanto estiver escrevendo."
     editor_config_invisibles_label: "Mostrar Invisíveis"
     editor_config_invisibles_description: "Mostrar invisíveis como espaços e tabs."
     editor_config_indentguides_label: "Mostrar Linhas de Identação"
@@ -367,8 +367,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     forum_page: "nosso fórum"
     forum_suffix: " ao invés disso."
     send: "Enviar opinião"
-#    contact_candidate: "Contact Candidate" # Deprecated
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
+    contact_candidate: "Contactar Candidato" # Deprecated
+    recruitment_reminder: "Utilize esse formulário para entrar em contato com candidatos que você esteja interessado em entrevistar. Lembre-se que o CodeCombat cobra 15% do salário do primeiro ano. A taxa de contratação é cobrada quando da contratação do empregado e é reembolsável por 90 dias, se o empregado não permanece no emprego. Empregados de meio-turno, remotos ou com contrato serão gratuitos como estagiários." # Deprecated
 
   account_settings:
     title: "Configurações da Conta"
@@ -416,20 +416,20 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     enter: "Enter"
     escape: "Esc"
     shift: "Shift"
-#    cast_spell: "Cast current spell."
-#    run_real_time: "Run in real time."
+    cast_spell: "Lançar feitiço atual."
+    run_real_time: "Rodar em tempo real."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
-#    toggle_playback: "Toggle play/pause."
-#    scrub_playback: "Scrub back and forward through time."
-#    single_scrub_playback: "Scrub back and forward through time by a single frame."
-#    scrub_execution: "Scrub through current spell execution."
-#    toggle_debug: "Toggle debug display."
-#    toggle_grid: "Toggle grid overlay."
-#    toggle_pathfinding: "Toggle pathfinding overlay."
-#    beautify: "Beautify your code by standardizing its formatting."
-#    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
+    toggle_playback: "Alternar play/pause."
+    scrub_playback: "Rolar para frente e para trás no tempo."
+    single_scrub_playback: "Rolar para frente e para trás no tempo, quadro a quadro."
+    scrub_execution: "Rolar através da execução do feitiço atual."
+    toggle_debug: "Ligar/desligar informações de debug."
+    toggle_grid: "Ligar/desligar exibição da grade."
+    toggle_pathfinding: "Ligar/desligar exibição do pathfinding (caminho)."
+    beautify: "Embeleze seu código a partir da padronização de formatação."
+    maximize_editor: "Maximizar/minimizar editor de código."
+    move_wizard: "Mova o Wizard pelo nível."
 
   community:
     main_title: "Comunidade CodeCombat"
@@ -468,7 +468,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     article_title: "Editor de Artigo"
     thang_title: "Editor de Thang"
     level_title: "Editor de Nível"
-#    achievement_title: "Achievement Editor"
+    achievement_title: "Editor de Conquistas"
     back: "Voltar"
     revert: "Reverter"
     revert_models: "Reverter Modelos"
@@ -979,11 +979,11 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     projects_header_2: "Projetos (Top 3)"
     projects_blurb: "Destaque seus projetos para impressionar os empregadores."
     project_name: "Nome do Projeto"
-#    project_name_help: "What was the project called?"
+    project_name_help: "Como o projeto se chama?"
     project_description: "Descrição"
-#    project_description_help: "Briefly describe the project."
+    project_description_help: "Descreva o projeto brevemente."
     project_picture: "Imagem"
-#    project_picture_help: "Upload a 230x115px or larger image showing off the project."
+    project_picture_help: "Envie uma imagem com 230x115px ou maior mostrando o projeto."
     project_link: "Link"
     project_link_help: "Link para o projeto."
 #    player_code: "Player Code"
@@ -1035,11 +1035,11 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    inactive_developers: "Inactive Developers"
 
   admin:
-#    av_espionage: "Espionage" # Really not important to translate /admin controls.
-#    av_espionage_placeholder: "Email or username"
-#    av_usersearch: "User Search"
-#    av_usersearch_placeholder: "Email, username, name, whatever"
-#    av_usersearch_search: "Search"
+    av_espionage: "Espionagem" # Really not important to translate /admin controls.
+    av_espionage_placeholder: "Email ou username"
+    av_usersearch: "Busca de Usuário"
+    av_usersearch_placeholder: "Email, username, nome, qualquer coisa"
+    av_usersearch_search: "Buscar"
     av_title: "Visualização de Administrador"
     av_entities_sub_title: "Entidades"
     av_entities_users_url: "Usuários"

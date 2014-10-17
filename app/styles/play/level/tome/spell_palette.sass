@@ -3,10 +3,10 @@
 
 #spell-palette-view
   position: absolute
-  bottom: 10px
+  padding-bottom: 10px
   left: 10px
   right: 10px
-  height: 140px
+  //height: 140px
   // Height relates to .tab-content height
   padding-top: 35px
   padding-left: 12px
@@ -68,6 +68,37 @@
     display: inline-block
     margin-right: 3px
     vertical-align: top
+
+  &.hero .properties
+    @include flexbox()
+    @include flex-wrap()
+    @include flex-column()
+    @include flex-align-content-start()
+
+    .property-entry-item-group
+      display: inline-block
+      min-height: 38px
+      max-width: 212px
+      @include flexbox()
+      @include flex-wrap()
+      @include flex-center()
+      outline: 1px dashed #b86
+      position: relative
+  
+      img.item-image
+        width: 38px
+        height: 38px
+        position: absolute
+
+      &:not(:hover) img.item-image
+        -webkit-filter: sepia(100%)
+        filter: sepia(100%)
+  
+      .spell-palette-entry-view
+        margin-left: 38px
+        width: 174px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
 
   .code-language-logo
     position: absolute

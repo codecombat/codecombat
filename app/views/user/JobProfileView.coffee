@@ -30,6 +30,7 @@ module.exports = class JobProfileView extends UserView
   id: 'profile-view'
   template: template
   showBackground: false
+  usesSocialMedia: true
 
   subscriptions:
     'auth:linkedin-api-loaded': 'onLinkedInLoaded'

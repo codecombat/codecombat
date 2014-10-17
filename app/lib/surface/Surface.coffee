@@ -522,7 +522,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
     return unless newWidth > 0 and newHeight > 0
-    return if newWidth is oldWidth and newHeight is oldHeight
+    return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
     @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
@@ -533,7 +533,9 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.scaleX *= newWidth / oldWidth
     @normalStage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
-
+    if @options.spectateGame
+      # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas. But not further than +149px (1920px screen).
+      @normalCanvas.css 'left', Math.min 149, @webGLCanvas.offset().left
 
   #- Camera focus on hero
   focusOnHero: ->

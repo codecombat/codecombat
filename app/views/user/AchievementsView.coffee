@@ -48,9 +48,8 @@ module.exports = class AchievementsView extends UserView
     # After user is loaded
     if @user and not @user.isAnonymous()
       context.earnedAchievements = @earnedAchievements
-      context.achievements = @achievements
       context.achievementsByCategory = {}
-      for achievement in @achievements.models
+      for achievement in @achievements.models when achievement.get('category')
         context.achievementsByCategory[achievement.get('category')] ?= []
         context.achievementsByCategory[achievement.get('category')].push achievement
     context

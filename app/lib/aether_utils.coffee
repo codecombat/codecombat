@@ -44,8 +44,10 @@ functionParameters =
   evaluateBoard: ['board', 'player']
   getPossibleMoves: ['board']
   minimax_alphaBeta: ['board', 'player', 'depth', 'alpha', 'beta']
+  distanceTo: ['target']
 
   chooseAction: []
   plan: []
   initializeCentroids: []
   update: []
+  getNearestEnemy: []

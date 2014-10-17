@@ -28,6 +28,7 @@ module.exports = class VictoryModal extends ModalView
     'enter': -> 'onPlayNextLevel'
 
   constructor: (options) ->
+    application.router.initializeSocialMediaServices()
     victory = options.level.get('victory')
     body = utils.i18n(victory, 'body') or 'Sorry, this level has no victory message yet.'
     @body = marked(body)

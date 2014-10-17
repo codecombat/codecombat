@@ -83,9 +83,11 @@ module.exports = class DocFormatter
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
-    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}, {obj: @doc, prop: 'returns'}]
+    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
     for arg in (@doc.args ? [])
       toTranslate.push {obj: arg, prop: 'example'}, {obj: arg, prop: 'description'}
+    if @doc.returns
+      toTranslate.push {obj: @doc.returns, prop: 'example'}, {obj: @doc.returns, prop: 'description'}
     for {obj, prop} in toTranslate
       if val = obj[prop]?[@options.language]
         obj[prop] = val
@@ -93,7 +95,7 @@ module.exports = class DocFormatter
         obj[prop] = null
 
   formatPopover: ->
-    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns()
+    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = content.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))

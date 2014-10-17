@@ -181,6 +181,7 @@ module.exports = class TomeView extends CocoView
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
     @spellPaletteView = null
+    @$el.find('#spell-palette-view').hide()
     @castButton?.$el.hide()
     @thangList?.$el.show()
 
@@ -204,10 +205,10 @@ module.exports = class TomeView extends CocoView
       @castButton.attachTo @spellView
       @thangList?.$el.hide()
       Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
+    @updateSpellPalette thang, spell
     @spellList.setThangAndSpell thang, spell
     @spellView?.setThang thang
     @spellTabView?.setThang thang
-    @updateSpellPalette thang, spell
 
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
