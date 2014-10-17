@@ -218,7 +218,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_cast_button_cast: "Feitiço" # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Rodar"
     tome_cast_button_running: "Rodando"
-    tome_cast_button_ran: "Rodado"
+    tome_cast_button_ran: "Encerrado"
     tome_submit_button: "Enviar"
     tome_reload_method: "Recarregar o código original para este método" # Title text for individual method reload button.
     tome_select_method: "Selecione um Método"
