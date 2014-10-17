@@ -257,9 +257,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
-#    tip_patience: "Patience you must have, young Padawan. - Yoda"
-#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
+    tip_no_try: "Faça. Ou não faça. Não existe tentar. - Yoda"
+    tip_patience: "Paciência você deve ter, jovem Padawan. - Yoda"
+    tip_documented_bug: "Um bug documentado não é um bug; é uma funcionalidade."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
@@ -368,7 +368,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     forum_suffix: " ao invés disso."
     send: "Enviar opinião"
     contact_candidate: "Contactar Candidato" # Deprecated
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
+    recruitment_reminder: "Utilize esse formulário para entrar em contato com candidatos que você esteja interessado em entrevistar. Lembre-se que o CodeCombat cobra 15% do salário do primeiro ano. A taxa de contratação é cobrada quando da contratação do empregado e é reembolsável por 90 dias, se o empregado não permanece no emprego. Empregados de meio-turno, remotos ou com contrato serão gratuitos como estagiários." # Deprecated
 
   account_settings:
     title: "Configurações da Conta"
@@ -416,12 +416,12 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     enter: "Enter"
     escape: "Esc"
     shift: "Shift"
-#    cast_spell: "Cast current spell."
-#    run_real_time: "Run in real time."
+    cast_spell: "Lançar feitiço atual."
+    run_real_time: "Rodar em tempo real."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
-#    toggle_playback: "Toggle play/pause."
-#    scrub_playback: "Scrub back and forward through time."
+    toggle_playback: "Alternar play/pause."
+    scrub_playback: "Rolar para frente e para trás no tempo."
 #    single_scrub_playback: "Scrub back and forward through time by a single frame."
 #    scrub_execution: "Scrub through current spell execution."
 #    toggle_debug: "Toggle debug display."
@@ -979,11 +979,11 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     projects_header_2: "Projetos (Top 3)"
     projects_blurb: "Destaque seus projetos para impressionar os empregadores."
     project_name: "Nome do Projeto"
-#    project_name_help: "What was the project called?"
+    project_name_help: "Como o projeto se chama?"
     project_description: "Descrição"
-#    project_description_help: "Briefly describe the project."
+    project_description_help: "Descreva o projeto brevemente."
     project_picture: "Imagem"
-#    project_picture_help: "Upload a 230x115px or larger image showing off the project."
+    project_picture_help: "Envie uma imagem com 230x115px ou maior mostrando o projeto."
     project_link: "Link"
     project_link_help: "Link para o projeto."
 #    player_code: "Player Code"
@@ -1035,11 +1035,11 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    inactive_developers: "Inactive Developers"
 
   admin:
-#    av_espionage: "Espionage" # Really not important to translate /admin controls.
-#    av_espionage_placeholder: "Email or username"
-#    av_usersearch: "User Search"
-#    av_usersearch_placeholder: "Email, username, name, whatever"
-#    av_usersearch_search: "Search"
+    av_espionage: "Espionagem" # Really not important to translate /admin controls.
+    av_espionage_placeholder: "Email ou username"
+    av_usersearch: "Busca de Usuário"
+    av_usersearch_placeholder: "Email, username, nome, qualquer coisa"
+    av_usersearch_search: "Buscar"
     av_title: "Visualização de Administrador"
     av_entities_sub_title: "Entidades"
     av_entities_users_url: "Usuários"
