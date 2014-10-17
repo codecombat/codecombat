@@ -284,6 +284,7 @@ class CocoModel extends Backbone.Model
     if schema.items and _.isArray data
       sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
 
+    @updateI18NCoverage()
     sum
 
   @getReferencedModel: (data, schema) ->

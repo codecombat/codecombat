@@ -11,6 +11,7 @@ LevelSchema.plugin(plugins.PermissionsPlugin)
 LevelSchema.plugin(plugins.VersionedPlugin)
 LevelSchema.plugin(plugins.SearchablePlugin, {searchable: ['name', 'description']})
 LevelSchema.plugin(plugins.PatchablePlugin)
+LevelSchema.plugin(plugins.TranslationCoveragePlugin)
 
 LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
