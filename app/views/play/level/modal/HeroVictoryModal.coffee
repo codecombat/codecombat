@@ -25,6 +25,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @achievements = @supermodel.loadCollection(achievements, 'achievements').model
     @listenToOnce @achievements, 'sync', @onAchievementsLoaded
     @readyToContinue = false
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
 
   onAchievementsLoaded: ->
     thangTypeOriginals = []
@@ -74,19 +75,27 @@ module.exports = class HeroVictoryModal extends ModalView
     c.achievements = @achievements.models
 
     # for testing the three states
-#    if c.achievements.length
-#      c.achievements = [c.achievements[0].clone(), c.achievements[0].clone(), c.achievements[0].clone()]
-#    for achievement, index in c.achievements
-#      achievement.completed = index > 0
-#      achievement.completedAWhileAgo = index > 1
+    #if c.achievements.length
+    #  c.achievements = [c.achievements[0].clone(), c.achievements[0].clone(), c.achievements[0].clone()]
+    #for achievement, index in c.achievements
+    ##  achievement.completed = index > 0
+    ##  achievement.completedAWhileAgo = index > 1
+    #  achievement.completed = true
+    #  achievement.completedAWhileAgo = false
+    #  achievement.attributes.worth = (index + 1) * achievement.get('worth')
+    #  rewards = achievement.get('rewards')
+    #  rewards.gems *= (index + 1)
 
     c.thangTypes = @thangTypes
+    c.me = me
     return c
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @$el.addClass 'with-sign-up' if me.get('anonymous')
     @updateSavingProgressStatus()
+    @$el.find('#victory-header').delay(250).queue(-> $(@).removeClass('out').dequeue())
     complete = _.once(_.bind(@beginAnimateNumbers, @))
     @animatedPanels = $()
     panels = @$el.find('.achievement-panel')
@@ -94,15 +103,15 @@ module.exports = class HeroVictoryModal extends ModalView
       panel = $(panel)
       continue unless panel.data('animate')
       @animatedPanels = @animatedPanels.add(panel)
-      panel.delay(500)
+      panel.delay(500)  # Waiting for victory header to show up and fall
       panel.queue(->
-        $(this).addClass('earned') # animate out the grayscale
-        $(this).dequeue()
+        $(@).addClass('earned') # animate out the grayscale
+        $(@).dequeue()
       )
       panel.delay(500)
       panel.queue(->
-        $(this).find('.reward-image-container').addClass('show')
-        $(this).dequeue()
+        $(@).find('.reward-image-container').addClass('show')
+        $(@).dequeue()
       )
       panel.delay(500)
       panel.queue(-> complete())
@@ -116,27 +125,59 @@ module.exports = class HeroVictoryModal extends ModalView
       unit: $(panel).data('number-unit')
     })
 
-    # TODO: mess with this more later. Doesn't seem to work, often times will pulse background red rather than animate
-#    itemPanel.rootEl.find('.reward-image-container img').addClass('pulse') for itemPanel in @numericalItemPanels
-    @numberAnimationStart = new Date()
     @totalXP = 0
     @totalXP += panel.number for panel in @numericalItemPanels when panel.unit is 'xp'
     @totalGems = 0
     @totalGems += panel.number for panel in @numericalItemPanels when panel.unit is 'gem'
     @gemEl = $('#gem-total')
     @XPEl = $('#xp-total')
-    @numberAnimationInterval = setInterval(@tickNumberAnimation, 15 / 1000)
+    @totalXPAnimated = @totalGemsAnimated = @lastTotalXP = @lastTotalGems = 0
+    @numberAnimationStart = new Date()
+    @numberAnimationInterval = setInterval(@tickNumberAnimation, 1000 / 60)
 
   tickNumberAnimation: =>
-    pct = Math.min(1, (new Date() - @numberAnimationStart) / 1500)
-    panel.textEl.text('+'+parseInt(panel.number*pct)) for panel in @numericalItemPanels
-    @XPEl.text('+'+parseInt(@totalXP * pct))
-    @gemEl.text('+'+parseInt(@totalGems * pct))
-    @endAnimateNumbers() if pct is 1
+    # TODO: make sure the animation pulses happen when the numbers go up and sounds play (up to a max speed)
+    return @endAnimateNumbers() unless panel = @numericalItemPanels[0]
+    duration = Math.log10(panel.number + 1) * 1000
+    ratio = @getEaseRatio (new Date() - @numberAnimationStart), duration
+    if panel.unit is 'xp'
+      totalXP = @totalXPAnimated + Math.floor(ratio * panel.number)
+      if totalXP isnt @lastTotalXP
+        panel.textEl.text('+' + totalXP)
+        @XPEl.text('+' + totalXP)
+        xpTrigger = 'xp-' + (totalXP % 6)  # 6 xp sounds
+        Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
+        @lastTotalXP = totalXP
+    else
+      totalGems = @totalGemsAnimated + Math.floor(ratio * panel.number)
+      if totalGems isnt @lastTotalGems
+        panel.textEl.text('+' + totalGems)
+        @gemEl.text('+' + totalGems)
+        gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
+        Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2
+        @lastTotalGems = totalGems
+    if ratio is 1
+      panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')
+      @numberAnimationStart = new Date()
+      if panel.unit is 'xp'
+        @totalXPAnimated += panel.number
+      else
+        @totalGemsAnimated += panel.number
+      @numericalItemPanels.shift()
+      return
+    panel.rootEl.addClass('animating').find('.reward-image-container img').addClass('pulse')
+
+  getEaseRatio: (timeSinceStart, duration) ->
+    # Ease in/out quadratic - http://gizma.com/easing/
+    timeSinceStart = Math.min timeSinceStart, duration
+    t = 2 * timeSinceStart / duration
+    if t < 1
+      return 0.5 * t * t
+    --t
+    -0.5 * (t * (t - 2) - 1)
 
   endAnimateNumbers: ->
-    @$el.find('.pulse').removeClass('pulse')
-    clearInterval(@numberAnimationInterval)
+    clearInterval @numberAnimationInterval
     @animationComplete = true
     @updateSavingProgressStatus()
 
@@ -144,3 +185,9 @@ module.exports = class HeroVictoryModal extends ModalView
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
     @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)
+
+  # TODO: award heroes/items and play an awesome sound when you get one
+
+  destroy: ->
+    clearInterval @numberAnimationInterval
+    super()

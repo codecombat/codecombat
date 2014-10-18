@@ -8,6 +8,7 @@ Problem = require './Problem'
 SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
+UserCodeProblem = require 'models/UserCodeProblem'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -63,6 +64,7 @@ module.exports = class SpellView extends CocoView
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = []
+    @savedProblems = {} # Cache saved user code problems to prevent duplicates
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
@@ -486,6 +488,7 @@ module.exports = class SpellView extends CocoView
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast, @spell.levelID
+      @saveUserCodeProblem(aether, aetherProblem) if isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
     @highlightCurrentLine aether.flow unless _.isEmpty aether.flow
@@ -497,6 +500,29 @@ module.exports = class SpellView extends CocoView
     @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast'
     Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: isCast
     @ace.resize()
+
+  saveUserCodeProblem: (aether, aetherProblem) ->
+    # Skip duplicate problems
+    hashValue = aether.raw + aetherProblem.message
+    return if hashValue of @savedProblems
+    @savedProblems[hashValue] = true
+    # Save new problem
+    @userCodeProblem = new UserCodeProblem()
+    @userCodeProblem.set 'code', aether.raw
+    if aetherProblem.range
+      rawLines = aether.raw.split '\n'
+      errorLines = rawLines.slice aetherProblem.range[0].row, aetherProblem.range[1].row + 1
+      @userCodeProblem.set 'codeSnippet', errorLines.join '\n'
+    @userCodeProblem.set 'errHint', aetherProblem.hint if aetherProblem.hint
+    @userCodeProblem.set 'errId', aetherProblem.id if aetherProblem.id
+    @userCodeProblem.set 'errLevel', aetherProblem.level if aetherProblem.level
+    @userCodeProblem.set 'errMessage', aetherProblem.message if aetherProblem.message
+    @userCodeProblem.set 'errRange', aetherProblem.range if aetherProblem.range
+    @userCodeProblem.set 'errType', aetherProblem.type if aetherProblem.type
+    @userCodeProblem.set 'language', aether.language.id if aether.language?.id
+    @userCodeProblem.set 'levelID', @spell.levelID if @spell.levelID
+    @userCodeProblem.save()
+    null
 
   # Autocast:
   # Goes immediately if the code is a) changed and b) complete/valid and c) the cursor is at beginning or end of a line
