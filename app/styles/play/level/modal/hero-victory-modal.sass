@@ -43,10 +43,10 @@
 
     @include transition-duration(1s)
 
-    -webkit-filter: grayscale(100%)
-    -moz-filter: grayscale(100%)
-    -o-filter: grayscale(100%)
-    filter: grayscale(100%)
+    -webkit-filter: grayscale(100%) brightness(75%)
+    -moz-filter: grayscale(100%) brightness(75%)
+    -o-filter: grayscale(100%) brightness(75%)
+    filter: grayscale(100%) brightness(75%)
 
     &.earned
       -webkit-filter: none
@@ -54,7 +54,11 @@
       -o-filter: none
       filter: none
 
+      .achievement-description
+        @include opacity(1)
+
   .achievement-description
+    @include opacity(0.75)
     position: absolute
     text-align: center
     left: 95px
@@ -64,14 +68,15 @@
     white-space: nowrap
     overflow: hidden
     text-overflow: ellipsis
-    
+
   .achievement-rewards
     position: absolute
     left: 25px
     right: 23px
     top: 41px
     bottom: 18px
-    
+    @include flexbox()
+    @include flex-justify-center()
     
   //- Reward panels
   
@@ -156,7 +161,10 @@
   
   .modal-content
     padding-bottom: 50px // so the footer appears at the bottom
-  
+
+  &.with-sign-up .modal-content
+    padding-bottom: 100px  // need more space for signup poke
+
   .modal-footer
     position: absolute
     bottom: -20px
@@ -165,6 +173,16 @@
     
   #totals
     color: white
+
+  p.sign-up-poke
+    position: absolute
+    bottom: 60px
+    right: 20px
+    color: white
+
+    .sign-up-button
+      float: right
+      margin-left: 10px
 
 html.no-borderimage
   #hero-victory-modal

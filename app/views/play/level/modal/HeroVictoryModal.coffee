@@ -87,11 +87,13 @@ module.exports = class HeroVictoryModal extends ModalView
     #  rewards.gems *= (index + 1)
 
     c.thangTypes = @thangTypes
+    c.me = me
     return c
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @$el.addClass 'with-sign-up' if me.get('anonymous')
     @updateSavingProgressStatus()
     @$el.find('#victory-header').delay(250).queue(-> $(@).removeClass('out').dequeue())
     complete = _.once(_.bind(@beginAnimateNumbers, @))
