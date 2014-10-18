@@ -40,7 +40,7 @@ module.exports = class MultiplayerView extends CocoView
     c.team = @session.get 'team'
     c.levelSlug = @level?.get 'slug'
     # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
-    if @level?.get('type') is 'ladder'
+    if @level?.get('type') in ['ladder', 'hero-ladder']
       c.ladderGame = true
       c.readyToRank = @session?.readyToRank()
 
@@ -68,7 +68,7 @@ module.exports = class MultiplayerView extends CocoView
   updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')
     la = @$el.find('#link-area')
-    la.toggle if @level?.get('type') is 'ladder' then false else Boolean(multiplayer)
+    la.toggle if @level?.get('type') in ['ladder', 'hero-ladder'] then false else Boolean(multiplayer)
     true
 
   onHidden: ->

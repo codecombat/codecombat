@@ -118,7 +118,7 @@ module.exports = class PlayLevelView extends RootView
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
-    serializedLevel = @level.serialize @supermodel, @session
+    serializedLevel = @level.serialize @supermodel, @session, @otherSession
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -215,8 +215,8 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
-    @$el.addClass 'hero' if @level.get('type', true) is 'hero'
-    @$el.addClass 'flags' if @level.get('slug') is 'sky-span'  # TODO: figure out when the player has flags.
+    @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    @$el.addClass 'flags' if @level.get('slug') is 'sky-span' or (@level.get('type', true) in ['hero-ladder', 'hero-coop']) # TODO: figure out when the player has flags.
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -251,7 +251,7 @@ module.exports = class PlayLevelView extends RootView
       @session.set 'multiplayer', false
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel, @session
+    @god.setLevel @level.serialize @supermodel, @session, @otherSession
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
 
@@ -268,9 +268,9 @@ module.exports = class PlayLevelView extends RootView
 
   insertSubviews: ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
-    @insertSubView new LevelPlaybackView session: @session, levelID: @levelID
+    @insertSubView new LevelPlaybackView session: @session, levelID: @levelID, level: @level
     @insertSubView new GoalsView {}
-    @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span'  # TODO: figure out when flags are available
+    @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span' or @level.get('type', true) in ['hero-ladder', 'hero-coop'] # TODO: figure out when flags are available
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
@@ -297,11 +297,11 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     # Just the level has been loaded by the level loader
-    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and e.level.get('type', true) isnt 'hero'
+    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and not (e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
 
   onSessionLoaded: (e) ->
     # Just the level and session have been loaded by the level loader
-    if e.level.get('type', true) is 'hero' and not _.size e.session.get('heroConfig')?.inventory ? {}
+    if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
       @openModalView new GameMenuModal level: e.level, session: e.session
 
   onLoaded: ->
@@ -331,7 +331,7 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: @level.get('type', true) isnt 'hero')
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']))
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -346,7 +346,7 @@ module.exports = class PlayLevelView extends RootView
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
-    if @otherSession and @level.get('type', true) isnt 'hero'
+    if @otherSession and not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
     if @isEditorPreview
@@ -377,7 +377,7 @@ module.exports = class PlayLevelView extends RootView
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if @level.get('type', true) is 'hero'
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
       Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
@@ -443,7 +443,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show() unless @level.get('type', true) is 'hero'
+    $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
     return if @victorySeen
@@ -455,7 +455,8 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     options = {level: @level, supermodel: @supermodel, session: @session}
-    ModalClass = if @level.get('type', true) is 'hero' then HeroVictoryModal else VictoryModal
+    ModalClass = if @level.get('type', true) in ['hero', 'hero-coop'] then HeroVictoryModal else VictoryModal
+    # TODO: made HeroVictoryModal able to support hero-ladder and then switch over for that level type, too
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')

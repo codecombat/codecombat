@@ -91,9 +91,9 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     if session is @session
       Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
-    return unless @level.get('type', true) is 'hero'
+    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     heroConfig = session.get('heroConfig')
-    heroConfig ?= me.get('heroConfig')
+    heroConfig ?= me.get('heroConfig') if session is @session
     heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
@@ -334,7 +334,7 @@ module.exports = class LevelLoader extends CocoClass
     @initialized = true
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
-    serializedLevel = @level.serialize(@supermodel, @session)
+    serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'
 

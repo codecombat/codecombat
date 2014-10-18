@@ -718,6 +718,17 @@ hero = [
     x: 95.31
     y: 88.26
   }
+  {
+    name: 'Dueling Grounds'
+    type: 'hero-ladder'
+    difficulty: 1
+    id: 'dueling-grounds'
+    original: '5442ba0e1e835500007eb1c7'
+    description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
+    disabled: not me.isAdmin()
+    x: 17.54
+    y: 78.39
+  }
   #{
   #  name: ''
   #  type: 'hero'

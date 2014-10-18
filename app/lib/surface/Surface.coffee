@@ -540,7 +540,9 @@ module.exports = Surface = class Surface extends CocoClass
   #- Camera focus on hero
   focusOnHero: ->
     @heroLank = @lankBoss.lankFor 'Hero Placeholder'
-
+    if me.team is 'ogres'
+      # TODO: do this for real
+      @heroLank = @lankBoss.lankFor 'Hero Placeholder 1'
 
   #- Real-time playback
 

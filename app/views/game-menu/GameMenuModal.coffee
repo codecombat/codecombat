@@ -21,7 +21,7 @@ module.exports = class GameMenuModal extends ModalView
   constructor: (options) ->
     super options
     @options.showDevBits = me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
-    @options.showInventory = @options.level.get('type', true) is 'hero'
+    @options.showInventory = @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
 

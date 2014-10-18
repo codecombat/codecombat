@@ -36,9 +36,6 @@ module.exports = class VictoryModal extends ModalView
     @session = options.session
     @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
     @loadExistingFeedback()
-    if @level.get('type', true) is 'hero'
-      @closeButton = false
-      @closesOnClickOutside = false
     super options
 
   loadExistingFeedback: ->
@@ -82,7 +79,7 @@ module.exports = class VictoryModal extends ModalView
     c.hasNextLevel = _.isObject(@level.get('nextLevel'))
     c.levelName = utils.i18n @level.attributes, 'name'
     c.level = @level
-    if c.level.get('type') is 'ladder'
+    if c.level.get('type') in ['ladder', 'hero-ladder']
       c.readyToRank = @session.readyToRank()
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 30 minutes
