@@ -51,15 +51,15 @@ module.exports = class ControlBarView extends CocoView
     super c
     c.worldName = @worldName
     c.multiplayerEnabled = @session.get('multiplayer')
-    c.ladderGame = @level.get('type') is 'ladder'
+    c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder']
     c.spectateGame = @spectateGame
     @homeViewArgs = [{supermodel: @supermodel}]
-    if @level.get('type', true) in ['ladder', 'ladder-tutorial']
+    if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder']
       levelID = @level.get('slug').replace /\-tutorial$/, ''
       @homeLink = c.homeLink = '/play/ladder/' + levelID
       @homeViewClass = require 'views/play/ladder/LadderView'
       @homeViewArgs.push levelID
-    else if @level.get('type', true) is 'hero'
+    else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
     else

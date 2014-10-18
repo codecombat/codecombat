@@ -56,14 +56,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать" # Ladder page
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    items: "Предметы" # Tooltip on item shop button from /play
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Достижения" # Tooltip on achievement list button from /play
     account: "Аккаунт" # Tooltip on account button from /play
     settings: "Настройки" # Tooltip on settings button from /play
     next: "Следующий" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
+    choose_inventory: "Выбрать предметы"
     older_campaigns: "Старые компании"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
@@ -135,7 +135,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   general:
     and: "и"
     name: "Имя"
-#    date: "Date"
+    date: "Дата"
     body: "Содержание"
     version: "Версия"
     commit_msg: "Сопроводительное сообщение"
@@ -204,7 +204,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_next_level: "Следующий уровень" # Only in old-style levels.
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Продолжить"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
     victory_hour_of_code_done: "Вы закончили?"
@@ -225,13 +225,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "Ваши навыки"
     hud_continue: "Продолжить (Shift+Пробел)"
     spell_saved: "Заклинание сохранено"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
-#    loading_start: "Start Level"
+    loading_start: "Начать уровень"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -265,7 +265,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_first_language: "Наиболее катастрофическая вещь, которую вы можете выучить - ваш первый язык программирования. - Alan Kay"
     tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
-#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+    tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     customize_wizard: "Настройки волшебника"
 
@@ -274,9 +274,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_hero_tab: "Перезапустить уровень"
     save_load_tab: "Сохранить/Загрузить"
     options_tab: "Настройки"
-#    guide_tab: "Guide"
+    guide_tab: "Руководство"
     multiplayer_tab: "Мультиплеер"
-#    inventory_caption: "Equip your hero"
+    inventory_caption: "Оденьте своего героя"
     choose_hero_caption: "Выбор героя, языка"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
@@ -305,7 +305,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     music_label: "Музыка"
     music_description: "Фоновая музыка вкл/выкл"
     autorun_label: "Автозапуск"
-#    autorun_description: "Control automatic code execution."
+    autorun_description: "Настройка автоматического выполнения кода."
     editor_config: "Настройки редактора"
     editor_config_title: "Настройки редактора"
     editor_config_level_language_label: "Язык для этого уровня"
@@ -417,7 +417,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     escape: "Escape"
 #    shift: "Shift"
     cast_spell: "Произнести текущее заклинание."
-#    run_real_time: "Run in real time."
+    run_real_time: "Запустить в реальном времени."
     continue_script: "Продолжить текущий скрипт."
     skip_scripts: "Пропустить все возможные скрипты."
     toggle_playback: "Переключить проигрывание/паузу."
@@ -428,7 +428,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     toggle_grid: "Включить наложение сетки."
     toggle_pathfinding: "Включить путевой оверлей.."
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
-#    maximize_editor: "Maximize/minimize code editor."
+    maximize_editor: "Развернуть/свернуть редактор кода."
     move_wizard: "Перемещайте своего Волшебника по уровню."
 
   community:
@@ -477,7 +477,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     grassy: "Травянистый"
     fork_title: "Форк новой версии"
     fork_creating: "Создание форка..."
-#    generate_terrain: "Generate Terrain"
+    generate_terrain: "Создать ландшафт"
     more: "Ещё"
     wiki: "Вики"
     live_chat: "Онлайн-чат"
@@ -487,7 +487,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_tab_settings: "Настройки"
     level_tab_components: "Компоненты"
     level_tab_systems: "Системы"
-#    level_tab_docs: "Documentation"
+    level_tab_docs: "Документация"
     level_tab_thangs_title: "Текущие объекты"
     level_tab_thangs_all: "Все"
     level_tab_thangs_conditions: "Начальные условия"
@@ -522,7 +522,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_search_title: "Искать уровни"
     achievement_search_title: "Искать достижения"
     read_only_warning2: "Примечание: вы не можете сохранять любые правки здесь, потому что вы не авторизованы."
-#    no_achievements: "No achievements have been added for this level yet."
+    no_achievements: "Для этого уровня еще не были добавлены достижения."
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
@@ -719,7 +719,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
 
   resources:
-#    sessions: "Sessions"
+    sessions: "Сессии"
     your_sessions: "Ваши сессии"
     level: "Уровень"
     social_network_apis: "API социальных сетей"
@@ -735,7 +735,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     patched_model: "Исходный документ"
     model: "Модель"
     system: "Система"
-#    systems: "Systems"
+    systems: "Системы"
     component: "Компонент"
     components: "Компоненты"
 #    thang: "Thang"
@@ -756,13 +756,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     user_remark: "Пользовательские поправки"
 #    user_remarks: "User Remarks"
     versions: "Версии"
-#    items: "Items"
-#    heroes: "Heroes"
-#    wizard: "Wizard"
-#    achievement: "Achievement"
+    items: "Предметы"
+    heroes: "Герои"
+    wizard: "Волшебник"
+    achievement: "Достижение"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
-#    feedback: "Feedback"
+    feedback: "Отзыв"
 
   delta:
     added: "Добавлено"

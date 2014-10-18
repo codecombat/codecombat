@@ -520,7 +520,7 @@ module.exports = class ThangsTabView extends CocoView
 
     @level.set 'thangs', thangs
     return if @editThangView
-    serializedLevel = @level.serialize @supermodel, null, true
+    serializedLevel = @level.serialize @supermodel, null, null, true
     try
       @world.loadFromLevel serializedLevel, false
     catch error
@@ -552,14 +552,14 @@ module.exports = class ThangsTabView extends CocoView
     if batchInsert
       if thangType.get('name') is 'Hero Placeholder'
         thangID = 'Hero Placeholder'
-        return if @level.get('type', true) isnt 'hero' or @getThangByID(thangID)
+        return if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']) or @getThangByID(thangID)
       else
         thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
       thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @getThangByID(thangID)
     if @cloneSourceThang
       components = _.cloneDeep @getThangByID(@cloneSourceThang.id).components
-    else if @level.get('type', true) is 'hero'
+    else if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []

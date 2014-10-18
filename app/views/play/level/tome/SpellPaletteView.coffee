@@ -59,7 +59,7 @@ module.exports = class SpellPaletteView extends CocoView
           itemGroup.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover
       @$el.addClass 'hero'
-      @updateMaxHeight()
+      @updateMaxHeight() unless application.isIPadApp
 
   afterInsert: ->
     super()
@@ -121,7 +121,7 @@ module.exports = class SpellPaletteView extends CocoView
     else
       propStorage =
         'this': ['apiProperties', 'apiMethods']
-    if @options.level.get('type', true) isnt 'hero' or not @options.programmable
+    if not (@options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']) or not @options.programmable
       @organizePalette propStorage, allDocs, excludedDocs
     else
       @organizePaletteHero propStorage, allDocs, excludedDocs
@@ -162,7 +162,7 @@ module.exports = class SpellPaletteView extends CocoView
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
       @entryGroups = _.groupBy @entries, groupForEntry
     else
-      i18nKey = if @options.level.get('type', true) is 'hero' then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
+      i18nKey = if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
       defaultGroup = $.i18n.t i18nKey
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
@@ -218,7 +218,7 @@ module.exports = class SpellPaletteView extends CocoView
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if not doc and not excludedDocs['__' + prop]
-          console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups, 'with item', item
+          console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propsByItem, 'with item', item
           doc ?= prop
         if doc
           @entries.push @addEntry(doc, shortenize, false, owner is 'snippets', item, propIndex > 0)

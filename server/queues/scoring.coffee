@@ -279,7 +279,7 @@ fetchAndVerifyLevelType = (levelID, cb) ->
   .lean()
   query.exec (err, levelWithType) ->
     if err? then return cb err
-    if not levelWithType.type or levelWithType.type isnt 'ladder' then return cb 'Level isn\'t of type "ladder"'
+    if not levelWithType.type or not (levelWithType.type in ['ladder', 'hero-ladder']) then return cb 'Level isn\'t of type "ladder"'
     cb null
 
 fetchSessionObjectToSubmit = (sessionID, callback) ->

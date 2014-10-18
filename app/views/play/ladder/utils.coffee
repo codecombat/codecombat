@@ -1,7 +1,7 @@
 {hslToHex} = require 'lib/utils'
 
 module.exports.teamDataFromLevel = (level) ->
-  alliedSystem = _.find level.get('systems'), (value) -> value.config?.teams?
+  alliedSystem = _.find level.get('systems', true), (value) -> value.config?.teams?
   teamNames = (teamName for teamName, teamConfig of alliedSystem.config.teams when teamConfig.playable)
   teamConfigs = alliedSystem.config.teams
 
