@@ -19,6 +19,10 @@
   #victory-header
     display: block
     margin: 15px auto 0
+    @include transition(0.25s ease-in)
+
+    &.out
+      margin-top: -100px
     
   .modal-header
     height: 85px
@@ -78,6 +82,17 @@
     float: left
     margin: 0 1.8px
     position: relative
+    z-index: 1
+    @include transition(0.25s ease)
+
+    &.animating
+      @include scale(1.5)
+      z-index: 2
+
+      .reward-text
+        font-size: 18px
+        overflow: visible
+        bottom: 9px
 
     .reward-image-container
       top: 8px
@@ -116,7 +131,6 @@
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
-
     
   //- Pulse effect
 
@@ -125,15 +139,18 @@
       max-width: 56px
       max-height: 55px
     50%
-      width: 72px
-      max-width: 72px
-      max-height: 72px
+      width: 66px
+      max-width: 66px
+      max-height: 66px
     to
       max-width: 56px
       max-height: 55px
 
-  .pulse
+  .xp .pulse
     @include animation(rewardPulse 0.15s infinite)
+
+  .gems .pulse
+    @include animation(rewardPulse 0.25s infinite)
     
   //- Footer
   

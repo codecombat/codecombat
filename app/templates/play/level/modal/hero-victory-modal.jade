@@ -1,6 +1,6 @@
 extends /templates/modal/modal_base
 block modal-header-content
-  img(src="/images/pages/play/level/modal/victory_word.png")#victory-header
+  img(src="/images/pages/play/level/modal/victory_word.png")#victory-header.out
 
 block modal-body-content
   
@@ -14,13 +14,13 @@ block modal-body-content
       div.achievement-rewards
         - var worth = achievement.get('worth', true);
         if worth
-          .reward-panel.numerical(data-number=worth, data-number-unit='xp')
+          .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp')
             .reward-image-container(class=animate?'':'show')
               img(src="/images/pages/play/level/modal/reward_icon_xp.png")
             .reward-text= animate ? 'x0' : '+'+worth
 
         if rewards.gems
-          .reward-panel.numerical(data-number=rewards.gems, data-number-unit='gem')
+          .reward-panel.numerical.gems(data-number=rewards.gems, data-number-unit='gem')
             .reward-image-container(class=animate?'':'show')
               img(src="/images/pages/play/level/modal/reward_icon_gems.png")
             .reward-text= animate ? 'x0' : '+'+rewards.gems
@@ -28,7 +28,7 @@ block modal-body-content
         if rewards.heroes
           for hero in rewards.heroes
             - var hero = thangTypes[hero];
-            .reward-panel
+            .reward-panel.hero
               .reward-image-container(class=animate?'':'show')
                 img(src=hero.getPortraitURL())
               .reward-text= hero.get('name')
@@ -36,7 +36,7 @@ block modal-body-content
         if rewards.items
           for item in rewards.items
             - var item = thangTypes[item];
-            .reward-panel
+            .reward-panel.item
               .reward-image-container(class=animate?'':'show')
                 img(src=item.getPortraitURL())
               .reward-text= item.get('name')
