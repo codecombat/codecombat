@@ -59,7 +59,7 @@ module.exports = class SpellPaletteView extends CocoView
           itemGroup.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover
       @$el.addClass 'hero'
-      @updateMaxHeight()
+      @updateMaxHeight() unless application.isIPadApp
 
   afterInsert: ->
     super()
