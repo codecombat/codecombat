@@ -73,12 +73,12 @@ module.exports = class HeroVictoryModal extends ModalView
         achievement.completedAWhileAgo = new Date() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
     c.achievements = @achievements.models
 
-    # for testing the three states
-#    if c.achievements.length
-#      c.achievements = [c.achievements[0].clone(), c.achievements[0].clone(), c.achievements[0].clone()]
-#    for achievement, index in c.achievements
-#      achievement.completed = index > 0
-#      achievement.completedAWhileAgo = index > 1
+    ## for testing the three states
+    #if c.achievements.length
+    #  c.achievements = [c.achievements[0].clone(), c.achievements[0].clone(), c.achievements[0].clone()]
+    #for achievement, index in c.achievements
+    #  achievement.completed = index > 0
+    #  achievement.completedAWhileAgo = index > 1
 
     c.thangTypes = @thangTypes
     return c
@@ -116,8 +116,7 @@ module.exports = class HeroVictoryModal extends ModalView
       unit: $(panel).data('number-unit')
     })
 
-    # TODO: mess with this more later. Doesn't seem to work, often times will pulse background red rather than animate
-#    itemPanel.rootEl.find('.reward-image-container img').addClass('pulse') for itemPanel in @numericalItemPanels
+    itemPanel.rootEl.find('.reward-image-container img').addClass('pulse') for itemPanel in @numericalItemPanels
     @numberAnimationStart = new Date()
     @totalXP = 0
     @totalXP += panel.number for panel in @numericalItemPanels when panel.unit is 'xp'
@@ -128,11 +127,21 @@ module.exports = class HeroVictoryModal extends ModalView
     @numberAnimationInterval = setInterval(@tickNumberAnimation, 15 / 1000)
 
   tickNumberAnimation: =>
-    pct = Math.min(1, (new Date() - @numberAnimationStart) / 1500)
-    panel.textEl.text('+'+parseInt(panel.number*pct)) for panel in @numericalItemPanels
-    @XPEl.text('+'+parseInt(@totalXP * pct))
-    @gemEl.text('+'+parseInt(@totalGems * pct))
-    @endAnimateNumbers() if pct is 1
+    # TODO: make these tick serially
+    # TODO: make each panel huge while it's ticking
+    # TODO: only play a sound when an integer tick up happens
+    # TODO: make sure the animation pulses happen when the numbers go up and sounds play (up to a max speed)
+    # TODO: add easing so that the counts start slow and speed up, then end slow (easeInOut)
+    # TODO: make each animation slightly longer if it has lots of stuff to animate, faster if not much to animate
+    ratio = Math.min(1, (new Date() - @numberAnimationStart) / 1500)
+    panel.textEl.text('+'+parseInt(panel.number * ratio)) for panel in @numericalItemPanels
+    @XPEl.text('+'+parseInt(@totalXP * ratio))
+    @gemEl.text('+'+parseInt(@totalGems * ratio))
+    @endAnimateNumbers() if ratio is 1
+    xpTrigger = 'xp-' + (parseInt(panel.number * ratio) % 6)  # 6 xp sounds
+    gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2
 
   endAnimateNumbers: ->
     @$el.find('.pulse').removeClass('pulse')
@@ -144,3 +153,5 @@ module.exports = class HeroVictoryModal extends ModalView
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
     @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)
+
+  # TODO: award heroes/items and play an awesome sound when you get one
