@@ -1045,7 +1045,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     av_entities_users_url: "Usuários"
     av_entities_active_instances_url: "Instâncias Ativas"
     av_entities_employer_list_url: "Lista de Empregadores"
-     av_entities_candidates_list_url: "Lista de Candidatos"
+    av_entities_candidates_list_url: "Lista de Candidatos"
     av_other_sub_title: "Outro"
     av_other_debug_base_url: "Base (para debugar base.jade)"
     u_title: "Lista de Usuários"
