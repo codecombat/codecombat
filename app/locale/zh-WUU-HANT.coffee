@@ -111,7 +111,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_return_to_ladder: "走轉"
     victory_play_next_level: "下關" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "轉到主頁" # Only in old-style levels.
     victory_review: "搭我裏反應！" # Only in old-style levels.
     victory_hour_of_code_done: "爾妝下落爻噃？"

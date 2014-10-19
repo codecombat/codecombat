@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     armor: "Πανοπλία"
     hands: "Χέρια"
     accessories: "Εξαρτήματα"
-    books: "Βιβλία"
     minions: "Minions"
     misc: "Διάφορα"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Παίξε το επόμενο επίπεδο" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Πηγαίνετε στην Αρχική" # Only in old-style levels.
     victory_review: "Πείτε μας περισσότερα!" # Only in old-style levels.
     victory_hour_of_code_done: "Τελείωσες;"

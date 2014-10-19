@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     armor: "Armadura"
     hands: "Mãos"
     accessories: "Acessórios"
-    books: "Livros"
     minions: "Minions"
     misc: "Vários"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_return_to_ladder: "Voltar à Classificação"
     victory_play_next_level: "Jogar Próximo Nível" # Only in old-style levels.
     victory_play_continue: "Continuar"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ir para o Início" # Only in old-style levels.
     victory_review: "Conta-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminaste?"

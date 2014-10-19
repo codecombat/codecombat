@@ -111,7 +111,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
     victory_play_next_level: "Joacă nivelul următor" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Acasă" # Only in old-style levels.
     victory_review: "Spune-ne mai multe!" # Only in old-style levels.
     victory_hour_of_code_done: "Ai terminat?"

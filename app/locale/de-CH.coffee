@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     victory_return_to_ladder: "Zrugg zum letzte Level"
     victory_play_next_level: "Spiel s nögste Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
     victory_review: "Verzell üs meh!" # Only in old-style levels.
     victory_hour_of_code_done: "Bisch fertig?"

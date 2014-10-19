@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Gioca il prossimo livello" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Torna alla pagina iniziale" # Only in old-style levels.
     victory_review: "Dicci di più!" # Only in old-style levels.
     victory_hour_of_code_done: "Finito?"

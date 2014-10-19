@@ -111,7 +111,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     armor: "Armadura"
     hands: "Manos"
     accessories: "Accesorios"
-    books: "Libros"
     minions: "Seguidores"
     misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     victory_return_to_ladder: "Volver a la escalera"
     victory_play_next_level: "Jugar Próximo Nivel" # Only in old-style levels.
     victory_play_continue: "Continuar"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ir al Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Has acabado?"

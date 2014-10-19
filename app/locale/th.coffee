@@ -111,7 +111,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "เล่นด่านถัดไป" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "ไปหน้าแรก" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
     victory_hour_of_code_done: "เสร็จหรือยัง?"

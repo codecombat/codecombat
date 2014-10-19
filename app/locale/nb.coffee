@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Spill Neste Nivå" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Gå Hjem" # Only in old-style levels.
     victory_review: "Fortell oss mer!" # Only in old-style levels.
     victory_hour_of_code_done: "Er du ferdig?"

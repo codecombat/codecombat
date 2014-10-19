@@ -111,7 +111,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     armor: "Броня"
     hands: "Руки"
     accessories: "Аксессуары"
-    books: "Книги"
 #    minions: "Minions"
     misc: "Разное"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_next_level: "Следующий уровень" # Only in old-style levels.
     victory_play_continue: "Продолжить"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
     victory_hour_of_code_done: "Вы закончили?"

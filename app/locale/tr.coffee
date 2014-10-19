@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Sonraki Seviyeyi Oyna: " # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Anasayfaya Git" # Only in old-style levels.
     victory_review: "Daha detaylı bilgi verebilirsiniz!" # Only in old-style levels.
     victory_hour_of_code_done: "Bitirdiniz mi?"

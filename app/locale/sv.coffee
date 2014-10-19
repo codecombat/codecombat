@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_return_to_ladder: "Gå tillbaka till stegen"
     victory_play_next_level: "Spela nästa nivå" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Gå hem" # Only in old-style levels.
     victory_review: "Berätta mer!" # Only in old-style levels.
     victory_hour_of_code_done: "Är du klar?"

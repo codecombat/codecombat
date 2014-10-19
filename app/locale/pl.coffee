@@ -111,7 +111,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     victory_return_to_ladder: "Powrót do drabinki"
     victory_play_next_level: "Przejdź na następny poziom" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Powrót do strony głównej" # Only in old-style levels.
     victory_review: "Powiedz nam coś więcej!" # Only in old-style levels.
     victory_hour_of_code_done: "Skończyłeś już?"

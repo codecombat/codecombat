@@ -111,7 +111,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_return_to_ladder: "레더로 돌아가기"
     victory_play_next_level: "다음 레벨 플레이 하기" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "홈으로" # Only in old-style levels.
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
     victory_hour_of_code_done: "정말 종료합니까?"

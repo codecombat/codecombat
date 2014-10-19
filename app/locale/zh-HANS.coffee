@@ -52,9 +52,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交翻译人员申请"
 
   play:
-    #play_as: "Play As" # Ladder page
+#    play_as: "Play As" # Ladder page
     spectate: "旁观他人的游戏" # Ladder page
-    #players: "players" # Hover over a level on /play
+#    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
     heroes: "英雄" # Tooltip on hero shop button from /play
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     armor: "盔甲"
     hands: "手持"
     accessories: "配饰"
-    books: "图书"
     minions: "部下"
     misc: "辅助道具"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_return_to_ladder: "返回"
     victory_play_next_level: "下一关" # Only in old-style levels.
     victory_play_continue: "继续"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "返回主页" # Only in old-style levels.
     victory_review: "给我们反馈！" # Only in old-style levels.
     victory_hour_of_code_done: "你完成了吗?"
@@ -689,17 +689,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     last_earned: "最近取得的时间"
     amount_achieved: "数量"
     achievement: "成就"
-    #category_contributor: "Contributor"
-    #category_miscellaneous: "Miscellaneous"
-    #category_levels: "Levels"
-    #category_undefined: "Uncategorized"
-    #current_xp_prefix: ""
-    #current_xp_postfix: " in total"
-    #new_xp_prefix: ""
-    #new_xp_postfix: " earned"
-    #left_xp_prefix: ""
-    #left_xp_infix: " until level "
-    #left_xp_postfix: ""
+#    category_contributor: "Contributor"
+#    category_miscellaneous: "Miscellaneous"
+#    category_levels: "Levels"
+#    category_undefined: "Uncategorized"
+#    current_xp_prefix: ""
+#    current_xp_postfix: " in total"
+#    new_xp_prefix: ""
+#    new_xp_postfix: " earned"
+#    left_xp_prefix: ""
+#    left_xp_infix: " until level "
+#    left_xp_postfix: ""
 
   account:
     recently_played: "最近玩过的关卡"

@@ -111,7 +111,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     armor: "Armadura"
     hands: "Mãos"
     accessories: "Accessórios"
-    books: "Livross"
     minions: "Minions"
     misc: "Diversos"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     victory_return_to_ladder: "Retornar para a Ladder"
     victory_play_next_level: "Jogar o próximo estágio" # Only in old-style levels.
     victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ir à página inicial" # Only in old-style levels.
     victory_review: "Diga-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminou?"
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     press_paragraph_1_suffix: ". Todas as logomarcas e imagens podem ser usadas sem nos contactar previamente."
     team: "Time"
     george_title: "CEO"
-    george_blurb: "Administrador" # Businesser
+    george_blurb: "Administrador"
     scott_title: "Programador"
     scott_blurb: "O Sensato"
     nick_title: "Programador"
