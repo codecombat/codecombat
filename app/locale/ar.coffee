@@ -73,7 +73,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     adventurer_forum: "منتدى المغامر"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... فيها تتعلم سحر البرمجة."
+    campaign_old_beginner_description: "... فيها تتعلم سحر البرمجة."
     campaign_dev: "مستويات أصعب عشوائية"
     campaign_dev_description: "... فيها تتعلم واجهة بينما  تفعل شيئا أصعب قليلا."
     campaign_multiplayer: "ساحات متعددة اللاّعبين"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_next_level: "Play Next Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"

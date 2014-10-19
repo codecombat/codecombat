@@ -73,7 +73,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     adventurer_forum: "форуме Искателей приключений"
     adventurer_suffix: "."
     campaign_old_beginner: "Старые компании для новичков"
-    campaign_beginner_description: "... в которой вы познакомитесь с магией программирования."
+    campaign_old_beginner_description: "... в которой вы познакомитесь с магией программирования."
     campaign_dev: "Случайные уровни потруднее"
     campaign_dev_description: "... в которых вы изучите интерфейс и научитесь делать кое-что посложнее."
     campaign_multiplayer: "Арены для мультиплеера"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     armor: "Броня"
     hands: "Руки"
     accessories: "Аксессуары"
-    books: "Книги"
 #    minions: "Minions"
     misc: "Разное"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_next_level: "Следующий уровень" # Only in old-style levels.
     victory_play_continue: "Продолжить"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
     victory_hour_of_code_done: "Вы закончили?"

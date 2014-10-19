@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     adventurer_forum: "fórum do Aventureiro"
     adventurer_suffix: "."
     campaign_old_beginner: "Campanha para Iniciantes Antiga"
-    campaign_beginner_description: "... onde aprendes a magia da programação."
+    campaign_old_beginner_description: "... onde aprendes a magia da programação."
     campaign_dev: "Níveis mais Difíceis Aleatórios"
     campaign_dev_description: "... onde aprendes a interface enquanto fazes coisas um bocadinho mais difíceis."
     campaign_multiplayer: "Arenas Multijogador"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     armor: "Armadura"
     hands: "Mãos"
     accessories: "Acessórios"
-    books: "Livros"
     minions: "Minions"
     misc: "Vários"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_return_to_ladder: "Voltar à Classificação"
     victory_play_next_level: "Jogar Próximo Nível" # Only in old-style levels.
     victory_play_continue: "Continuar"
+    victory_saving_progress: "A Guardar o Progresso"
     victory_go_home: "Ir para o Início" # Only in old-style levels.
     victory_review: "Conta-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminaste?"

@@ -91,6 +91,9 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     if session is @session
       Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
+      @consolidateFlagHistory() if @opponentSession?.loaded
+    else
+      @consolidateFlagHistory() if @session.loaded
     return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session
@@ -112,6 +115,13 @@ module.exports = class LevelLoader extends CocoClass
         itemThangType = @supermodel.getModel url
         @loadDefaultComponentsForThangType itemThangType
         @loadThangsRequiredByThangType itemThangType
+
+  consolidateFlagHistory: ->
+    state = @session.get('state') ? {}
+    myFlagHistory = _.filter state.flagHistory ? [], team: @session.get('team')
+    opponentFlagHistory = _.filter @opponentSession.get('state')?.flagHistory ? [], team: @opponentSession.get('team')
+    state.flagHistory = myFlagHistory.concat opponentFlagHistory
+    @session.set 'state', state
 
   # Grabbing the rest of the required data for the level
 
@@ -334,6 +344,8 @@ module.exports = class LevelLoader extends CocoClass
     @initialized = true
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
+    @world.submissionCount = @session?.get('state')?.submissionCount ? 0
+    @world.flagHistory = @session?.get('state')?.flagHistory ? []
     serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'

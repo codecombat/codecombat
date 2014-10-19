@@ -73,7 +73,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     adventurer_forum: "Eventyrer-forummet"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... hvor du lærer programmeringens kunst."
+    campaign_old_beginner_description: "... hvor du lærer programmeringens kunst."
     campaign_dev: "Tilfældige Sværere Niveauer"
     campaign_dev_description: "... hvor du lærer grænsefladen imens du udfører lidt sværere opgaver."
     campaign_multiplayer: "Multiplayer Arenaer"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Spil næste bane" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Gå hjem" # Only in old-style levels.
     victory_review: "Fortæl os mere!" # Only in old-style levels.
     victory_hour_of_code_done: "Er du færdig?"

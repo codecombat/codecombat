@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     adventurer_forum: "Maceracı forumunda"
     adventurer_suffix: " tartışabilirsiniz."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "Programlama büyüsünü öğrenmek için..."
+    campaign_old_beginner_description: "Programlama büyüsünü öğrenmek için..."
     campaign_dev: "Rastgele Daha Zor Seviyeler"
     campaign_dev_description: "Biraz daha zor işlerle uğraşırken arayüzü öğrenmek için..."
     campaign_multiplayer: "Çok Oyunculu Meydanlar"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Sonraki Seviyeyi Oyna: " # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Anasayfaya Git" # Only in old-style levels.
     victory_review: "Daha detaylı bilgi verebilirsiniz!" # Only in old-style levels.
     victory_hour_of_code_done: "Bitirdiniz mi?"

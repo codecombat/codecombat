@@ -73,7 +73,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     adventurer_forum: "fóru Dobrodruhů"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "...ve které se naučíte kouzla programování."
+    campaign_old_beginner_description: "...ve které se naučíte kouzla programování."
     campaign_dev: "Náhodné težší úrovně"
     campaign_dev_description: "...ve kterých se dozvíte více o prostředí při plnění těžších úkolů."
     campaign_multiplayer: "Multiplayer Aréna"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Hrát další úroveň" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Přejít domů" # Only in old-style levels.
     victory_review: "Připomínky!" # Only in old-style levels.
     victory_hour_of_code_done: "Skončili jste?"

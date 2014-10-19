@@ -29,7 +29,7 @@ module.exports = class VictoryModal extends ModalView
 
   constructor: (options) ->
     application.router.initializeSocialMediaServices()
-    victory = options.level.get('victory')
+    victory = options.level.get('victory', true)
     body = utils.i18n(victory, 'body') or 'Sorry, this level has no victory message yet.'
     @body = marked(body)
     @level = options.level

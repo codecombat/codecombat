@@ -73,7 +73,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     adventurer_forum: "פורום ההרפתקנים"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "...שבו תלמד את קסם התכנות."
+    campaign_old_beginner_description: "...שבו תלמד את קסם התכנות."
     campaign_dev: "שלבים אקראים קשים יותר"
     campaign_dev_description: "...שבהם תלמד על הממשק בזמן שתעשה משהו קצת קשה יותר."
     campaign_multiplayer: "זירות רב-המשתתפים"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_next_level: "Play Next Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"

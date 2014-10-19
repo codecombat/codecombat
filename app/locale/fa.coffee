@@ -73,7 +73,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     adventurer_forum: "انجمن ماجراجو ها"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: ".که شما در آن می توانید جادوگری به وسیله برنامه نویسی را یادبگیرید..."
+    campaign_old_beginner_description: ".که شما در آن می توانید جادوگری به وسیله برنامه نویسی را یادبگیرید..."
     campaign_dev: "مراحل سخت تصادفی"
     campaign_dev_description: "... جایی که میتونید طراحی ظاهر رو یاد بگیرید درحالی که فعالیت سخت تری انجام میدید"
     campaign_multiplayer: "مسابقات چند نفره"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_next_level: "Play Next Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"

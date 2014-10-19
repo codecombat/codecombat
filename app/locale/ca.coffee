@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     adventurer_forum: "El fòrum de l'aventurer"
     adventurer_suffix: "."
     campaign_old_beginner: "Antiga campanya del principiant"
-    campaign_beginner_description: "... on aprens la bruixeria de la programació."
+    campaign_old_beginner_description: "... on aprens la bruixeria de la programació."
     campaign_dev: "Nivells difícils aleatoris"
     campaign_dev_description: "... on aprens a interactuar amb la interfície tot fent coses un pèl més difícils."
     campaign_multiplayer: "Arenes Multijugador"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     armor: "Armadura"
     hands: "Mans"
     accessories: "Accessoris"
-    books: "Llibres"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Jugar el següent nivell" # Only in old-style levels.
     victory_play_continue: "Continuar"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Tornar a l'inici" # Only in old-style levels.
     victory_review: "Diguens més!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"
