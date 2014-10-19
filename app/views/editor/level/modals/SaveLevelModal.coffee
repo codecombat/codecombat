@@ -52,6 +52,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
       console.log "Should we save", m.get('system'), m.get('name'), m, "? localChanges:", m.hasLocalChanges(), "version:", m.get('version'), 'isPublished:', m.isPublished(), 'collection:', m.collection
       return false
     return true if m.hasLocalChanges()
+    console.error "Trying to check major version of #{m.type()} #{m.get('name')}, but it doesn't have a version:", m unless m.get('version')
     return true if (m.get('version').major is 0 and m.get('version').minor is 0) or not m.isPublished() and not m.collection
     # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.
     false
