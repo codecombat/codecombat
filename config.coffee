@@ -4,7 +4,8 @@ startsWith = (string, substring) ->
 
 exports.config =
   paths:
-    'public': 'public'
+    public: 'public'
+    watched: ['app', 'vendor', 'test/app', 'test/demo']
   conventions:
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
   sourceMaps: true
