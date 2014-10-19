@@ -110,6 +110,22 @@ _.extend LevelSessionSchema.properties,
         type: 'object'
         properties:
           status: enum: ['failure', 'incomplete', 'success']
+    submissionCount:
+      description: 'How many times the session has been submitted for real-time playback (can affect the random seed).'
+      type: 'integer'
+      minimum: 0
+    flagHistory:
+      description: 'The history of flag events during the last real-time playback submission.'
+      type: 'array'
+      items: c.object {required: ['player', 'color', 'time', 'active']},
+        player: {type: 'string'}
+        team: {type: 'string'}
+        color: {type: 'string', enum: ['green', 'black', 'violet']}
+        time: {type: 'number', minimum: 0}
+        active: {type: 'boolean'}
+        pos: c.object {required: ['x', 'y']},
+          x: {type: 'number'}
+          y: {type: 'number'}
 
   code:
     type: 'object'

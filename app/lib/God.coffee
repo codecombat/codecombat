@@ -54,9 +54,11 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
+    @lastSubmissionCount = e.submissionCount
+    @lastFlagHistory = e.flagHistory
     @createWorld e.spells, e.preload, e.realTime
 
-  createWorld: (spells, preload=false, realTime=false) ->
+  createWorld: (spells, preload, realTime) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -81,6 +83,8 @@ module.exports = class God extends CocoClass
       userCodeMap: userCodeMap
       level: @level
       levelSessionIDs: @levelSessionIDs
+      submissionCount: @lastSubmissionCount
+      flagHistory: @lastFlagHistory
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload: preload
@@ -110,6 +114,8 @@ module.exports = class God extends CocoClass
         userCodeMap: @currentUserCodeMap
         level: @level
         levelSessionIDs: @levelSessionIDs
+        submissionCount: @lastSubmissionCount
+        flagHistory: @lastFlagHistory
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID
