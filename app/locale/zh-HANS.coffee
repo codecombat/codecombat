@@ -57,11 +57,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
     settings: "设置" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    next: "下一个" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
     older_campaigns: "旧的战役"
@@ -184,11 +184,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     home: "主页"
     skip: "跳过"
     game_menu: "游戏菜单"
-    guide: "指南"
-    restart: "重新开始"
-    goals: "目标"
-    goal: "目标"
-    success: "成功!"
+    uide: "重新开始关卡restart: "重新开始"
+    存/打开"
+    oal: "设置"
+    uccess:向导"成使用功!"
     incomplete: "未完成"
     timed_out: "运行超时"
     failing: "失败"
@@ -204,7 +203,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_rate_the_level: "评估关卡：" # Only in old-style levels.
     victory_return_to_ladder: "返回"
     victory_play_next_level: "下一关" # Only in old-style levels.
-#    victory_play_continue: "Continue"
+    victory_play_continue: "继续游戏"
     victory_go_home: "返回主页" # Only in old-style levels.
     victory_review: "给我们反馈！" # Only in old-style levels.
     victory_hour_of_code_done: "你完成了吗?"
@@ -225,13 +224,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_see_all_methods: "查看所有能够编辑的方法" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "你的技能"
     hud_continue: "继续（按 Shift-空格）"
     spell_saved: "咒语已保存"
     skip_tutorial: "跳过（esc）"
-#    keyboard_shortcuts: "Key Shortcuts"
+    keyboard_shortcuts: "快捷键"
     loading_ready: "载入完成!"
-#    loading_start: "Start Level"
+    loading_start: "关卡开始"
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
@@ -271,10 +270,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    choose_hero_tab: "重新开始关卡"
+    save_load_tab: "保存/打开"
+    options_tab: "设置"
+    guide_tab: "使用向导"
     multiplayer_tab: "多人游戏"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
@@ -757,11 +756,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
-#    heroes: "Heroes"
+    英雄: "Heroes"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
-#    play_counts: "Play Counts"
+    play_co下一个: "Play Counts"
 #    feedback: "Feedback"
 
 #  delta:
