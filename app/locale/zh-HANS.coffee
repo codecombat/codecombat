@@ -34,7 +34,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     about: "关于"
     contact: "联系我们"
     twitter_follow: "关注"
-#    teachers: "Teachers"
+    teachers: "教师"
 
   modal:
     close: "关闭"
@@ -54,14 +54,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   play:
     play_as: "Play As" # Ladder page
     spectate: "旁观他人的游戏" # Ladder page
-#    players: "players" # Hover over a level on /play
+    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    items: "道具" # Tooltip on item shop button from /play
+    heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
     settings: "设置" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
     older_campaigns: "旧的战役"
@@ -204,7 +204,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_rate_the_level: "评估关卡：" # Only in old-style levels.
     victory_return_to_ladder: "返回"
     victory_play_next_level: "下一关" # Only in old-style levels.
-#    victory_play_continue: "Continue"
+    victory_play_continue: "继续"
     victory_go_home: "返回主页" # Only in old-style levels.
     victory_review: "给我们反馈！" # Only in old-style levels.
     victory_hour_of_code_done: "你完成了吗?"
@@ -283,8 +283,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
+  inventory:
+    choose_inventory: "装备道具"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -334,9 +334,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     why_paragraph_2_suffix: "这就是为什么 CodeCombat 是个多人游戏，而不是一个游戏化的编程课。你不停，我们就不停——但这次这是件好事。"
     why_paragraph_3: "如果你一定要对游戏上瘾，那就对这个游戏上瘾，然后成为科技时代的法师吧。"
     press_title: "博客/媒体"
-#    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
-#    press_paragraph_1_link: "press packet"
-#    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
+    press_paragraph_1_prefix: "想要报道我们？ 您可以自由下载和使用"
+    press_paragraph_1_link: "成套宣传包"
+    press_paragraph_1_suffix: "里的所有材料. 所有商标和图像的使用都不必事先联系我们。"
     team: "团队"
 #    george_title: "CEO"
 #    george_blurb: "Businesser"
@@ -541,7 +541,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     introduction_desc_ending: "我们希望你也能一起加入进来！"
     introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy 以及 Matt"
     alert_account_message_intro: "你好！"
-#    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
+    alert_account_message: "想要订阅邮件？ 您必须先登录"
     archmage_summary: "你对游戏图像、界面设计、数据库和服务器运营、多人在线、物理、声音、游戏引擎性能感兴趣吗？想做一个教别人编程的游戏吗？如果你有编程经验，想要开发 CodeCombat ，那就选择这个职业吧。我们会非常高兴在制作史上最棒编程游戏的过程中得到你的帮助。"
     archmage_introduction: "制作游戏时，最令人激动的事莫过于整合诸多东西。图像、音响、实时网络交流、社交网络，从底层数据库管理到服务器运维，再到用户界面的设计和实现。制作游戏有很多事情要做，所以如果你有编程经验,  那么你应该选择这个职业。我们会很高兴在制作史上最好编程游戏的路上有你的陪伴."
     class_attributes: "职业说明"
@@ -670,40 +670,40 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    rules: "Rules"
 #    winners: "Winners"
 
-#  user:
-#    stats: "Stats"
-#    singleplayer_title: "Singleplayer Levels"
-#    multiplayer_title: "Multiplayer Levels"
-#    achievements_title: "Achievements"
-#    last_played: "Last Played"
-#    status: "Status"
-#    status_completed: "Completed"
-#    status_unfinished: "Unfinished"
-#    no_singleplayer: "No Singleplayer games played yet."
-#    no_multiplayer: "No Multiplayer games played yet."
-#    no_achievements: "No Achievements earned yet."
-#    favorite_prefix: "Favorite language is "
-#    favorite_postfix: "."
+  user:
+    stats: "成就"
+    singleplayer_title: "单人关卡"
+    multiplayer_title: "多人关卡"
+    achievements_title: "成就"
+    last_played: "最近玩的时间"
+    status: "状态"
+    status_completed: "完成"
+    status_unfinished: "未完成"
+    no_singleplayer: "还未玩过任何单人关卡。"
+    no_multiplayer: "还未玩过任何多人关卡。"
+    no_achievements: "还未得到任何成就"
+    favorite_prefix: "最喜爱的语言是 "
+    favorite_postfix: "."
 
-#  achievements:
-#    last_earned: "Last Earned"
-#    amount_achieved: "Amount"
-#    achievement: "Achievement"
-#    category_contributor: "Contributor"
-#    category_miscellaneous: "Miscellaneous"
-#    category_levels: "Levels"
-#    category_undefined: "Uncategorized"
-#    current_xp_prefix: ""
-#    current_xp_postfix: " in total"
-#    new_xp_prefix: ""
-#    new_xp_postfix: " earned"
-#    left_xp_prefix: ""
-#    left_xp_infix: " until level "
-#    left_xp_postfix: ""
+  achievements:
+    last_earned: "最近取得的时间"
+    amount_achieved: "数量"
+    achievement: "成就"
+    category_contributor: "Contributor"
+    category_miscellaneous: "Miscellaneous"
+    category_levels: "Levels"
+    category_undefined: "Uncategorized"
+    current_xp_prefix: ""
+    current_xp_postfix: " in total"
+    new_xp_prefix: ""
+    new_xp_postfix: " earned"
+    left_xp_prefix: ""
+    left_xp_infix: " until level "
+    left_xp_postfix: ""
 
-#  account:
-#    recently_played: "Recently Played"
-#    no_recent_games: "No games played during the past two weeks."
+  account:
+    recent0ly_played: "最近玩过的关卡"
+    no_recent_games: "最近两个星期没有玩过游戏。"
 
   loading_error:
     could_not_load: "载入失败"
@@ -730,7 +730,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    gplus_friend_sessions: "G+ Friend Sessions"
     leaderboard: "排行榜"
     user_schema: "用户模式"
-    user_profile: "User Profile"
+    user_profile: "用户信息"
     patches: "补丁"
 #    patched_model: "Source Document"
 #    model: "Model"
