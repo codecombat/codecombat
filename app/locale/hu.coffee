@@ -73,7 +73,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     adventurer_forum: "a Kalandozók Fórumán"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... amelyben megtanulhatod a programozás varázslatait."
+    campaign_old_beginner_description: "... amelyben megtanulhatod a programozás varázslatait."
     campaign_dev: "Véletlenszerű Nehezebb Pályák"
     campaign_dev_description: "... amelyekben kicsit nehezebb dolgokkal nézhetsz szembe."
     campaign_multiplayer: "Multiplayer Arénák"

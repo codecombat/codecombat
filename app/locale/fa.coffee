@@ -73,7 +73,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     adventurer_forum: "انجمن ماجراجو ها"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: ".که شما در آن می توانید جادوگری به وسیله برنامه نویسی را یادبگیرید..."
+    campaign_old_beginner_description: ".که شما در آن می توانید جادوگری به وسیله برنامه نویسی را یادبگیرید..."
     campaign_dev: "مراحل سخت تصادفی"
     campaign_dev_description: "... جایی که میتونید طراحی ظاهر رو یاد بگیرید درحالی که فعالیت سخت تری انجام میدید"
     campaign_multiplayer: "مسابقات چند نفره"

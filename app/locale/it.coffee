@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     adventurer_forum: "forum degli Avventurieri"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... nelle quali imparerai i trucchi della programmazione."
+    campaign_old_beginner_description: "... nelle quali imparerai i trucchi della programmazione."
     campaign_dev: "Livelli difficili casuali"
     campaign_dev_description: "... nei quali imparerai a usare l'interfaccia facendo qualcosa di un po' più difficile."
     campaign_multiplayer: "Arene multigiocatore"

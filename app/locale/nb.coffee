@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     adventurer_forum: "Adventurer forumet"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... hvor du lærer trolldommen bak programmering."
+    campaign_old_beginner_description: "... hvor du lærer trolldommen bak programmering."
     campaign_dev: "Tilfeldig Vanskeligere Nivåer"
     campaign_dev_description: "... hvor du lærer grensesnittet mens du stadig gjør mer vanskeligere utfordringer."
     campaign_multiplayer: "Multispiller Arenaer"

@@ -73,7 +73,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     adventurer_forum: "forumul Aventurierului"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... în care se învață tainele programării."
+    campaign_old_beginner_description: "... în care se învață tainele programării."
     campaign_dev: "Nivele aleatoare mai grele"
     campaign_dev_description: "... în care se învață interfața, cu o dificultate puțin mai mare."
     campaign_multiplayer: "Arene Multiplayer"

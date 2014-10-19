@@ -73,7 +73,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     adventurer_forum: "모험가들의 포럼"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... 이곳에서 당신은 프로그래밍의 마법을 배우게 될 것입니다."
+    campaign_old_beginner_description: "... 이곳에서 당신은 프로그래밍의 마법을 배우게 될 것입니다."
     campaign_dev: "상급 레벨 랜덤 선택"
     campaign_dev_description: "... 이곳에서 당신은 조금 더 어려운 레벨에 도전할때 필요한 조작 방법을 배울 것입니다."
     campaign_multiplayer: "멀티 플레이어 전투장"

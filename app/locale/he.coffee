@@ -73,7 +73,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     adventurer_forum: "פורום ההרפתקנים"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "...שבו תלמד את קסם התכנות."
+    campaign_old_beginner_description: "...שבו תלמד את קסם התכנות."
     campaign_dev: "שלבים אקראים קשים יותר"
     campaign_dev_description: "...שבהם תלמד על הממשק בזמן שתעשה משהו קצת קשה יותר."
     campaign_multiplayer: "זירות רב-המשתתפים"

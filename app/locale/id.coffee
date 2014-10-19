@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    adventurer_forum: "the Adventurer forum"
 #    adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-#    campaign_beginner_description: "... in which you learn the wizardry of programming."
+#    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
 #    campaign_dev: "Random Harder Levels"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
 #    campaign_multiplayer: "Multiplayer Arenas"

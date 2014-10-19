@@ -73,7 +73,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     adventurer_forum: "форуму Авантуриста"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... у којој учиш магију програмирања."
+    campaign_old_beginner_description: "... у којој учиш магију програмирања."
     campaign_dev: "Насумични тежи нивои"
     campaign_dev_description: "... у којима учиш о интерфејсу док радиш нешто теже."
     campaign_multiplayer: "Арене за више играча"

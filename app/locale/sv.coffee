@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     adventurer_forum: "Äventyrarforumet"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... i vilken du lär dig programmerandets magi."
+    campaign_old_beginner_description: "... i vilken du lär dig programmerandets magi."
     campaign_dev: "Slumpad svårare nivå"
     campaign_dev_description: "... där du lär dig att hantera gränssnittet medan du gör något lite svårare."
     campaign_multiplayer: "Flerspelararenor"

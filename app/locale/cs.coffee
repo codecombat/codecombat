@@ -73,7 +73,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     adventurer_forum: "fóru Dobrodruhů"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "...ve které se naučíte kouzla programování."
+    campaign_old_beginner_description: "...ve které se naučíte kouzla programování."
     campaign_dev: "Náhodné težší úrovně"
     campaign_dev_description: "...ve kterých se dozvíte více o prostředí při plnění těžších úkolů."
     campaign_multiplayer: "Multiplayer Aréna"

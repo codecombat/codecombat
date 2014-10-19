@@ -73,7 +73,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     adventurer_forum: "منتدى المغامر"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... فيها تتعلم سحر البرمجة."
+    campaign_old_beginner_description: "... فيها تتعلم سحر البرمجة."
     campaign_dev: "مستويات أصعب عشوائية"
     campaign_dev_description: "... فيها تتعلم واجهة بينما  تفعل شيئا أصعب قليلا."
     campaign_multiplayer: "ساحات متعددة اللاّعبين"

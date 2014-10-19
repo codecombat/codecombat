@@ -73,7 +73,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     adventurer_forum: "форумі Шукачів пригод"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... у якій ви навчитеся магії програмування."
+    campaign_old_beginner_description: "... у якій ви навчитеся магії програмування."
     campaign_dev: "Випадкові складніші рівні"
     campaign_dev_description: "... в яких ви вивчите інтерфейс, одночасно роблячи щось складніше."
     campaign_multiplayer: "Арени для мультиплеєра"

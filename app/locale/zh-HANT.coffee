@@ -73,7 +73,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     adventurer_forum: "冒險家論壇"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "...在這裡可以學到編程技巧。"
+    campaign_old_beginner_description: "...在這裡可以學到編程技巧。"
     campaign_dev: "隨機關卡"
     campaign_dev_description: "...在這裡你可以學到做一些較複雜的程式技巧。"
     campaign_multiplayer: "多人競技場"

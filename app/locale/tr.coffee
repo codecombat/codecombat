@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     adventurer_forum: "Maceracı forumunda"
     adventurer_suffix: " tartışabilirsiniz."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "Programlama büyüsünü öğrenmek için..."
+    campaign_old_beginner_description: "Programlama büyüsünü öğrenmek için..."
     campaign_dev: "Rastgele Daha Zor Seviyeler"
     campaign_dev_description: "Biraz daha zor işlerle uğraşırken arayüzü öğrenmek için..."
     campaign_multiplayer: "Çok Oyunculu Meydanlar"

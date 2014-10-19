@@ -73,7 +73,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     adventurer_forum: "форуме Искателей приключений"
     adventurer_suffix: "."
     campaign_old_beginner: "Старые компании для новичков"
-    campaign_beginner_description: "... в которой вы познакомитесь с магией программирования."
+    campaign_old_beginner_description: "... в которой вы познакомитесь с магией программирования."
     campaign_dev: "Случайные уровни потруднее"
     campaign_dev_description: "... в которых вы изучите интерфейс и научитесь делать кое-что посложнее."
     campaign_multiplayer: "Арены для мультиплеера"

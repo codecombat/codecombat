@@ -73,7 +73,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     adventurer_forum: "冒険者の掲示板"
 #    adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "プログラミングの魔法を学びましょう"
+    campaign_old_beginner_description: "プログラミングの魔法を学びましょう"
     campaign_dev: "いろんな難しいレベル"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
     campaign_multiplayer: "マルチプレイ・アリーナ"

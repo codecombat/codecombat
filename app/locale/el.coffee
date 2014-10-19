@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     adventurer_forum: "Φόρουμ του Adventurer"
     adventurer_suffix: "."
     campaign_old_beginner: "Παλαιότερη Εκστρατεία Αρχαρίων"
-    campaign_beginner_description: "... στην οποία μαθαίνετε τη μαγεία του προγραμματισμού."
+    campaign_old_beginner_description: "... στην οποία μαθαίνετε τη μαγεία του προγραμματισμού."
     campaign_dev: "Τυχαία Δυσκολότερα Επίπεδα"
     campaign_dev_description: "... στα οποία μπορείτε να μάθετε το περιβάλλον, ενώ κάνετε κάτι λίγο δυσκολότερο."
     campaign_multiplayer: "Αρένες Πολλαπλών Παικτών"

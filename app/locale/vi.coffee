@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     adventurer_forum: "diễn đàn Adventurer"
 #    adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-#    campaign_beginner_description: "... in which you learn the wizardry of programming."
+#    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
     campaign_dev: "Các cấp độ khó hơn ngẫu nhiên"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
     campaign_multiplayer: "Khu vực đa người chơi"

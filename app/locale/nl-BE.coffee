@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     adventurer_forum: "het Avonturiersforum"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... waarin je de toverkunst van het programmeren leert."
+    campaign_old_beginner_description: "... waarin je de toverkunst van het programmeren leert."
     campaign_dev: "Willekeurige moeilijkere levels"
     campaign_dev_description: "... waarin je de interface leert kennen terwijl je wat moeilijkers doet."
     campaign_multiplayer: "Multiplayer Arena's"
