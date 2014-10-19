@@ -500,8 +500,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   renderGroupingKey: (thangType, grouping, colorConfig) ->
     key = thangType.get('slug')
-    if colorConfig?.team
-      key += "(#{colorConfig.team.hue},#{colorConfig.team.saturation},#{colorConfig.team.lightness})"
+    for colorKey, colorValue of colorConfig ? {}
+      key += "(#{colorKey}:#{colorValue.hue},#{colorValue.saturation},#{colorValue.lightness})"
     key += '.'+grouping if grouping
     key
 
