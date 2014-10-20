@@ -98,7 +98,6 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDependenciesRegistered ?= {}
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
-    console.error @level.get('name'), session.get('team'), session.get('creatorName'), 'had hero', heroConfig.thangType
     heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
