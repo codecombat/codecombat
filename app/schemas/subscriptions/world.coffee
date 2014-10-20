@@ -39,3 +39,7 @@ module.exports =
       level: {type: 'string', enum: ['info', 'warning', 'error']}
       type: {type: 'string'}
       error: {type: 'object'}
+
+  'world:lines-of-code-counted': c.object {required: ['thang', 'linesUsed']},
+    thang: {type: 'object'}
+    linesUsed: {type: 'integer'}

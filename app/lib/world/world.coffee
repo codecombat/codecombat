@@ -307,7 +307,7 @@ module.exports = class World
   publishNote: (channel, event) ->
     event ?= {}
     channel = 'world:' + channel
-    for script in @scripts
+    for script in @scripts ? []
       continue if script.channel isnt channel
       scriptNote = new WorldScriptNote script, event
       continue if scriptNote.invalid

@@ -45,7 +45,7 @@ module.exports = class GoalManager extends CocoClass
     'world:thang-left-map': 'onThangLeftMap'
     'world:thang-collected-item': 'onThangCollectedItem'
     'world:user-code-problem': 'onUserCodeProblem'
-    'world:ended': 'onWorldEnded'
+    'world:lines-of-code-counted': 'onLinesOfCodeCounted'
 
   onLevelRestarted: ->
     @goals = []
@@ -116,10 +116,12 @@ module.exports = class GoalManager extends CocoClass
   checkOverallStatus: (ignoreIncomplete=false) ->
     overallStatus = null
     goals = if @goalStates then _.values @goalStates else []
+    goals = (g for g in goals when not g.optional)
     goals = (g for g in goals when g.team in [undefined, @team]) if @team
     statuses = if @goalStates then (goal.status for goal in goals) else []
     overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
+    #console.log 'got overallStatus', overallStatus, 'from goals', goals, 'goalStates', @goalStates, 'statuses', statuses
     overallStatus
 
   # WORLD GOAL TRACKING
@@ -132,6 +134,7 @@ module.exports = class GoalManager extends CocoClass
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
         team: goal.team
+        optional: goal.optional
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []
@@ -142,7 +145,7 @@ module.exports = class GoalManager extends CocoClass
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
       @initGoalState(state, [goal.collectThangs?.targets, goal.keepFromCollectingThangs?.targets], 'collected')
       @initGoalState(state, [goal.linesOfCode?.who], 'lines')  # TODO: find out how many lines there are
-      @initGoalState(state, [goal.codeProblems?.who], 'problems')  # TODO: count initial problems, not just runtime
+      @initGoalState(state, [goal.codeProblems], 'problems')  # TODO: count initial problems, not just runtime
       @goalStates[goal.id] = state
 
   onThangDied: (e, frameNumber) ->
@@ -192,11 +195,21 @@ module.exports = class GoalManager extends CocoClass
 
   onUserCodeProblem: (e, frameNumber) ->
     for goal in @goals ? [] when goal.codeProblems
-      @checkCodeProblem goal.id, goal.codeProblems.who, e.thang, frameNumber
+      @checkCodeProblem goal.id, goal.codeProblems, e.thang, frameNumber
 
   checkCodeProblem: (goalID, who, thang, frameNumber) ->
     return unless thang.id in who or thang.team in who
-    @updateGoalState goal.id, thang.id, 'problems', frameNumber
+    @updateGoalState goalID, thang.id, 'problems', frameNumber
+
+  onLinesOfCodeCounted: (e, frameNumber) ->
+    for goal in @goals ? [] when goal.linesOfCode
+      @checkLinesOfCode goal.id, goal.linesOfCode, e.thang, e.linesUsed, frameNumber
+
+  checkLinesOfCode: (goalID, who, thang, linesUsed, frameNumber) ->
+    return unless thang.id in who or thang.team in who
+    # TODO: somehow pull in linesUsed
+    console.log 'checkLinesOfCode', goalID, who, thang, linesUsed, frameNumber
+    #@updateGoalState goalID, thang.id, 'lines', frameNumber
 
   wrapUpGoalStates: (finalFrame) ->
     for goalID, state of @goalStates
@@ -258,12 +271,12 @@ module.exports = class GoalManager extends CocoClass
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be 'done'
       numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
-    #console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs, 'for', goalID, thangID, 'on frame', frameNumber
+    console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs, 'for', goalID, thangID, 'on frame', frameNumber
     return unless numDone >= numNeeded
     return if state.status and not success  # already failed it; don't wipe keyframe
     state.status = if success then 'success' else 'failure'
     state.keyFrame = frameNumber
-    #console.log goalID, 'became', success, 'on frame', frameNumber, 'with overallStatus', @checkOverallStatus true
+    console.log goalID, 'became', success, 'on frame', frameNumber, 'with overallStatus', @checkOverallStatus true
     if overallStatus = @checkOverallStatus true
       matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
