@@ -78,7 +78,6 @@ initializeUtilityServices = ->
   services = [
     './lib/services/filepicker'
     './lib/services/segmentio'
-    './lib/services/olark'
   ]
 
   for service in services

@@ -235,6 +235,7 @@ module.exports = class ThangType extends CocoModel
     return if _.isString spriteSheet
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
+    console.log 'made canvas', canvas, 'with size', size unless canvas[0]
     stage = new createjs.Stage(canvas[0])
     sprite = new createjs.Sprite(spriteSheet)
     pt = @actions.portrait?.positions?.registration

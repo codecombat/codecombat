@@ -57,7 +57,7 @@ module.exports = class Level extends CocoModel
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.
-      # TODO: actually look at the teams on these things to determine which session should go with which placeholder.
+      # TODO: actually look at the teams on these Thangs to determine which session should go with which placeholder.
       if levelThang.id is 'Hero Placeholder 1' and session.get('team') is 'humans'
         session = otherSession
       else if levelThang.id is 'Hero Placeholder' and session.get('team') is 'ogres'

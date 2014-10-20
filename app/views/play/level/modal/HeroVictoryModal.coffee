@@ -6,12 +6,16 @@ CocoCollection = require 'collections/CocoCollection'
 LocalMongo = require 'lib/LocalMongo'
 utils = require 'lib/utils'
 ThangType = require 'models/ThangType'
+LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
   template: template
   closeButton: false
   closesOnClickOutside: false
+
+  subscriptions:
+    'ladder:game-submitted': 'onGameSubmitted'
 
   constructor: (options) ->
     super(options)
@@ -88,6 +92,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.thangTypes = @thangTypes
     c.me = me
+    c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     return c
 
   afterRender: ->
@@ -116,6 +121,9 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.delay(500)
       panel.queue(-> complete())
     @animationComplete = not @animatedPanels.length
+    if @level.get('type', true) is 'hero-ladder'
+      @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
+      @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   beginAnimateNumbers: ->
     @numericalItemPanels = _.map(@animatedPanels.find('.numerical'), (panel) -> {
@@ -185,6 +193,11 @@ module.exports = class HeroVictoryModal extends ModalView
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
     @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)
+
+  onGameSubmitted: (e) ->
+    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL
+
 
   # TODO: award heroes/items and play an awesome sound when you get one
 
