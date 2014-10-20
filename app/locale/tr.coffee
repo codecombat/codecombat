@@ -107,7 +107,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     send_password: "Kurtarma Parolası Gönder"
     recovery_sent: "Kurtarma e-postası gönderildi."
 
-#  items:
+  items:
     armor: "Zırh"
     hands: "Eller"
     accessories: "Aksesuarlar"
@@ -283,10 +283,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     guide_caption: "Belgeler ve ipuçları"
     multiplayer_caption: "Arkadaşlarla oyna!"
 
-#  inventory:
+  inventory:
     choose_inventory: "Ögeleri Donan"
 
-#  choose_hero:
+  choose_hero:
     choose_hero: "Kahramanınızı Seçin"
     programming_language: "Programlama Dili"
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
@@ -410,7 +410,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     wizard_tab: "Sihirbaz"
     wizard_color: "Sihirbaz Kıyafeti Rengi"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Klavye Kısayolları"
     space: "Boşluk"
     enter: "Enter"
