@@ -455,8 +455,7 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     options = {level: @level, supermodel: @supermodel, session: @session}
-    ModalClass = if @level.get('type', true) in ['hero', 'hero-coop'] then HeroVictoryModal else VictoryModal
-    # TODO: made HeroVictoryModal able to support hero-ladder and then switch over for that level type, too
+    ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then HeroVictoryModal else VictoryModal
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')

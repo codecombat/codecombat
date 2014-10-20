@@ -9,7 +9,6 @@ module.exports = class Tracker
     window.tracker = @
     @isProduction = document.location.href.search('codecombat.com') isnt -1
     @identify()
-    @updateOlark()
 
   identify: (traits) ->
     console.log 'Would identify', traits if debugAnalytics
@@ -19,24 +18,6 @@ module.exports = class Tracker
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'wizardColor1', 'testGroupNumber', 'gender']
       traits[userTrait] ?= me.get(userTrait)
     analytics.identify me.id, traits
-
-  updateOlark: ->
-    return unless me and olark?
-    olark 'api.chat.updateVisitorStatus', snippet: ["User ID: #{me.id}"]
-    return if me.get('anonymous')
-    olark 'api.visitor.updateEmailAddress', emailAddress: me.get('email') if me.get('email')
-    olark 'api.chat.updateVisitorNickname', snippet: me.displayName()
-
-  updatePlayState: (level, session) ->
-    return unless olark?
-    link = "codecombat.com/play/level/#{level.get('slug') or level.id}?session=#{session.id}"
-    snippet = [
-      "#{link}"
-      "User ID: #{me.id}"
-      "Session ID: #{session.id}"
-      "Level: #{level.get('name')}"
-    ]
-    olark 'api.chat.updateVisitorStatus', snippet: snippet
 
   trackPageView: ->
     return unless @isProduction and analytics?

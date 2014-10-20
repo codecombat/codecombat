@@ -108,7 +108,7 @@ module.exports = class LevelLoader extends CocoClass
       @loadThangsRequiredByThangType heroThangType
 
     for itemThangType in _.values(heroConfig.inventory)
-      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon"
+      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon,kind"
       if itemResource = @maybeLoadURL(url, ThangType, 'thang')
         @worldNecessities.push itemResource
       else
@@ -193,7 +193,7 @@ module.exports = class LevelLoader extends CocoClass
       else if component.config.requiredThangTypes
         requiredThangTypes = requiredThangTypes.concat component.config.requiredThangTypes
     for thangType in requiredThangTypes
-      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon"
+      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
@@ -250,7 +250,6 @@ module.exports = class LevelLoader extends CocoClass
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
     @loadLevelSounds()
     @denormalizeSession()
-    app.tracker.updatePlayState(@level, @session) unless @headless
 
   buildLoop: =>
     someLeft = false

@@ -484,7 +484,8 @@ module.exports = class ThangsTabView extends CocoView
 
   folderForThang: (thang) ->
     thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
-    [thangType.get('kind'), thangType.get('name')]
+    console.error 'uhh, we had kind', thangType.get('kind', true), 'for', thangType unless thangType.get('kind', true)
+    [thangType.get('kind', true), thangType.get('name', true)]
 
   pathForThang: (thang) ->
     folder = @folderForThang(thang)
