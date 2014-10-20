@@ -93,6 +93,7 @@ module.exports = class HeroVictoryModal extends ModalView
     c.thangTypes = @thangTypes
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
+    c.level = @level
     return c
 
   afterRender: ->

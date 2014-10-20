@@ -31,6 +31,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   worldEndsAfter: {title: 'World Ends After', description: 'When included, ends the world this many seconds after this goal succeeds or fails.', type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 300, default: 3}
   howMany: {title: 'How Many', description: 'When included, require only this many of the listed goal targets instead of all of them.', type: 'integer', minimum: 1}
   hiddenGoal: {title: 'Hidden', description: 'Hidden goals don\'t show up in the goals area for the player until they\'re failed. (Usually they\'re obvious, like "don\'t die".)', 'type': 'boolean' }
+  optional: {title: 'Optional', description: 'Optional goals do not need to be completed for overallStatus to be success.', type: 'boolean'}
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: 'Kill Thangs', description: 'A list of Thang IDs the player should kill, or team names.', uniqueItems: true, minItems: 1, 'default': ['ogres']}, thang
   saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
@@ -62,6 +63,8 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   keepFromCollectingThangs: c.object {title: 'Keep From Collecting', description: 'Thangs that the player must prevent other Thangs from collecting.', required: ['who', 'targets']},
     who: c.array {title: 'Who', description: 'The Thangs which must not collect the target items.', minItems: 1}, thang
     targets: c.array {title: 'Targets', description: 'The target items which the Thangs must not collect.', minItems: 1}, thang
+  codeProblems: c.array {title: 'Code Problems', description: 'A list of Thang IDs that should not have any code problems, or team names.', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
+  linesOfCode: {title: 'Lines of Code', description: 'A mapping of Thang IDs or teams to how many many lines of code should be allowed (well, statements).', type: 'object', default: {humans: 10}, additionalProperties: {type: 'integer', description: 'How many lines to allow for this Thang.'}}
 
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
