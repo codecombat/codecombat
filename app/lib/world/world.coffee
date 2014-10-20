@@ -201,9 +201,9 @@ module.exports = class World
     @levelID = level.slug
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
+    @loadScriptsFromLevel level
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
-    @loadScriptsFromLevel level
     system.start @thangs for system in @systems
 
   loadSystemsFromLevel: (level) ->
