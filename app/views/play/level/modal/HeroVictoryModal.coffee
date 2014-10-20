@@ -146,7 +146,7 @@ module.exports = class HeroVictoryModal extends ModalView
   tickNumberAnimation: =>
     # TODO: make sure the animation pulses happen when the numbers go up and sounds play (up to a max speed)
     return @endAnimateNumbers() unless panel = @numericalItemPanels[0]
-    duration = Math.log10(panel.number + 1) * 1000
+    duration = Math.log(panel.number + 1) / Math.LN10 * 1000  # Math.log10 is ES6
     ratio = @getEaseRatio (new Date() - @numberAnimationStart), duration
     if panel.unit is 'xp'
       totalXP = @totalXPAnimated + Math.floor(ratio * panel.number)
