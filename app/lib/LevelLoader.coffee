@@ -61,7 +61,6 @@ module.exports = class LevelLoader extends CocoClass
   # Session Loading
 
   loadSession: ->
-    return if @headless
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
     else
@@ -71,6 +70,11 @@ module.exports = class LevelLoader extends CocoClass
     session = new LevelSession().setURL url
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
+    if @opponentSessionID
+      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
+      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
+      @opponentSession = @opponentSessionResource.model
+
     if @session.loaded
       @session.setURL '/db/level.session/' + @session.id
       @loadDependenciesForSession @session
@@ -78,11 +82,7 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @session, 'sync', ->
         @session.setURL '/db/level.session/' + @session.id
         @loadDependenciesForSession @session
-
-    if @opponentSessionID
-      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
-      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
-      @opponentSession = @opponentSessionResource.model
+    if @opponentSession
       if @opponentSession.loaded
         @loadDependenciesForSession @opponentSession
       else
@@ -92,11 +92,13 @@ module.exports = class LevelLoader extends CocoClass
     if session is @session
       Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       @consolidateFlagHistory() if @opponentSession?.loaded
-    else
+    else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
     return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    @sessionDependenciesRegistered ?= {}
     heroConfig = session.get('heroConfig')
-    heroConfig ?= me.get('heroConfig') if session is @session
+    heroConfig ?= me.get('heroConfig') if session is @session and not @headless
+    console.error @level.get('name'), session.get('team'), session.get('creatorName'), 'had hero', heroConfig.thangType
     heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
@@ -115,6 +117,9 @@ module.exports = class LevelLoader extends CocoClass
         itemThangType = @supermodel.getModel url
         @loadDefaultComponentsForThangType itemThangType
         @loadThangsRequiredByThangType itemThangType
+    @sessionDependenciesRegistered[session.id] = true
+    if _.size(@sessionDependenciesRegistered) is 2 and not (r for r in @worldNecessities when r?).length
+      @onWorldNecessitiesLoaded()
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
@@ -172,7 +177,7 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    unless @headless
+    unless @headless or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       wizard = ThangType.loadUniversalWizard()
       @supermodel.loadModel wizard, 'thang'
 
@@ -216,9 +221,10 @@ module.exports = class LevelLoader extends CocoClass
     return unless index >= 0
     @worldNecessities.splice(index, 1)
     @worldNecessities = (r for r in @worldNecessities when r?)
-    @onWorldNecessitiesLoaded() if @worldNecessities.length is 0
+    if @worldNecessities.length is 0 and (not @sessionDependenciesRegistered or @sessionDependenciesRegistered[@session.id] and (not @opponentSession or @sessionDependenciesRegistered[@opponentSession.id]))
+      @onWorldNecessitiesLoaded()
 
-  onWorldNecessitiesLoaded: =>
+  onWorldNecessitiesLoaded: ->
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
