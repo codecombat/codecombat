@@ -34,12 +34,13 @@ module.exports = class Mark extends CocoClass
 
   onLayerMadeSpriteSheet: ->
     return unless @sprite
-    return @update() if @markLank
-    # need to update the mark display object manually...
+    # rebuild sprite for new sprite sheet
     @sprite = null
     @build()
     @layer.addChild @sprite
     @layer.updateLayerOrder()
+#    @updatePosition()
+    @update()
     
   toggle: (to) ->
     to = !!to
