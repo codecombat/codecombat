@@ -63,7 +63,9 @@ module.exports = class GoalManager extends CocoClass
   # gets these goals and code, and is told to be all ears during world gen
   setGoals: (@goals) ->
   setCode: (@userCodeMap) -> @updateCodeGoalStates()
-  worldGenerationWillBegin: -> @initGoalStates()
+  worldGenerationWillBegin: ->
+    @initGoalStates()
+    @checkForInitialUserCodeProblems()
 
   # World generator feeds world events to the goal manager to keep track
   submitWorldGenerationEvent: (channel, event, frameNumber) ->
@@ -147,6 +149,12 @@ module.exports = class GoalManager extends CocoClass
       @initGoalState(state, [goal.codeProblems], 'problems')
       @initGoalState(state, [_.keys(goal.linesOfCode ? {})], 'lines')
       @goalStates[goal.id] = state
+
+  checkForInitialUserCodeProblems: ->
+    # There might have been some user code problems reported before the goal manager started listening.
+    for thang in @world.thangs when thang.isProgrammable
+      for message, problem of thang.publishedUserCodeProblems
+        @onUserCodeProblem {thang: thang, problem: problem}, 0
 
   onThangDied: (e, frameNumber) ->
     for goal in @goals ? []
