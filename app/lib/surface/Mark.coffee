@@ -35,6 +35,7 @@ module.exports = class Mark extends CocoClass
   onLayerMadeSpriteSheet: ->
     return unless @sprite
     # rebuild sprite for new sprite sheet
+    @layer.removeChild @sprite
     @sprite = null
     @build()
     @layer.addChild @sprite
