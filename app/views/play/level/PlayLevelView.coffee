@@ -138,6 +138,7 @@ module.exports = class PlayLevelView extends RootView
     console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
     application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
     application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
+    application.tracker?.trackEvent 'Play Level', Action: 'Loaded', levelID: @levelID
 
   # CocoView overridden methods ###############################################
 
@@ -361,6 +362,7 @@ module.exports = class PlayLevelView extends RootView
     @removeSubView @loadingView
     @loadingView = null
     @playAmbientSound()
+    application.tracker?.trackEvent 'Play Level', Action: 'Start Level', levelID: @levelID
 
   playAmbientSound: ->
     return if @ambientSound
