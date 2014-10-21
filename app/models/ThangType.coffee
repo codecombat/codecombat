@@ -43,7 +43,7 @@ module.exports = class ThangType extends CocoModel
   isFullyLoaded: ->
     # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
     return @get('actions') or @get('raster') # needs one of these two things
-  
+
   loadRasterImage: ->
     return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
@@ -57,7 +57,7 @@ module.exports = class ThangType extends CocoModel
       @loadingRaster = false
       @trigger('raster-image-load-errored', @)
     )
-    
+
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()
@@ -71,11 +71,6 @@ module.exports = class ThangType extends CocoModel
         relatedAction.name = action.name + '_' + relatedName
         @actions[relatedAction.name] = relatedAction
     @actions
-
-  getSpriteSheet: (options) ->
-    options = @fillOptions options
-    key = @spriteSheetKey(options)
-    return @spriteSheets[key] or @buildSpriteSheet(options)
 
   fillOptions: (options) ->
     options ?= {}
@@ -240,6 +235,7 @@ module.exports = class ThangType extends CocoModel
     return if _.isString spriteSheet
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
+    console.log 'made canvas', canvas, 'with size', size unless canvas[0]
     stage = new createjs.Stage(canvas[0])
     sprite = new createjs.Sprite(spriteSheet)
     pt = @actions.portrait?.positions?.registration

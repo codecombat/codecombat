@@ -17,7 +17,8 @@ transpileLevelSession = (sessionID, cb) ->
     if err then return cb err
     submittedCode = session.submittedCode
     unless session.submittedCodeLanguage
-      throw 'SUBMITTED CODE LANGUAGE DOESN\'T EXIST'
+      console.log '\n\n\n#{i++} SUBMITTED CODE LANGUAGE DOESN\'T EXIST\n', session, '\n\n'
+      return cb()
     else
       console.log "Transpiling code for session #{i++} #{session._id} in language #{session.submittedCodeLanguage}"
     transpiledCode = {}

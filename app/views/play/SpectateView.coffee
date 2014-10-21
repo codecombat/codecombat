@@ -68,7 +68,7 @@ module.exports = class SpectateLevelView extends RootView
       @load()
 
   setLevel: (@level, @supermodel) ->
-    serializedLevel = @level.serialize @supermodel, @session
+    serializedLevel = @level.serialize @supermodel, @session, @otherSession
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -105,7 +105,7 @@ module.exports = class SpectateLevelView extends RootView
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.setLevel @level.serialize @supermodel, @session
+    @god.setLevel @level.serialize @supermodel, @session, @otherSession
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
     @setTeam team
@@ -119,7 +119,7 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if @level.get('type', true) isnt 'hero'
+    if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
       if me.id isnt @session.get 'creator'
         @surface.createOpponentWizard
           id: @session.get('creator')
@@ -205,8 +205,9 @@ module.exports = class SpectateLevelView extends RootView
   # initialization
 
   initSurface: ->
-    surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) isnt 'hero')
+    webGLSurface = $('canvas#webgl-surface', @$el)
+    normalSurface = $('canvas#normal-surface', @$el)
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) isnt 'hero')
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)

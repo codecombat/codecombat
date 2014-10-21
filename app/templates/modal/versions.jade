@@ -5,6 +5,11 @@ block modal-header-content
     h3
      span(data-i18n="general.version_history_for") Version History for:
      |"#{dataList[0].name}"
+    p
+     |Select two changes below to see the difference.
+
+  div.delta-container
+    div.delta-view
 
 block modal-body-content
   if dataList
@@ -24,8 +29,5 @@ block modal-body-content
           td= moment(data.created).format('l')
           td= data.creator
           td #{data.commitMessage}
-
-  div.delta-container
-    div.delta-view
 
 block modal-footer-content

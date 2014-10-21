@@ -8,8 +8,8 @@ module.exports = class Level extends CocoModel
   @schema: require 'schemas/models/level'
   urlRoot: '/db/level'
 
-  serialize: (supermodel, session, cached=false) ->
-    o = @denormalize supermodel, session # hot spot to optimize
+  serialize: (supermodel, session, otherSession, cached=false) ->
+    o = @denormalize supermodel, session, otherSession # hot spot to optimize
 
     # Figure out Components
     o.levelComponents = if cached then @getCachedLevelComponents(supermodel) else $.extend true, [], (lc.attributes for lc in supermodel.getModels LevelComponent)
@@ -44,17 +44,24 @@ module.exports = class Level extends CocoModel
       newLevelComponents.push(@cachedLevelComponents[levelComponent.id])
     newLevelComponents
 
-  denormalize: (supermodel, session) ->
+  denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) is 'hero'
-      # TOOD: figure out if/when/how we are doing this for non-Hero levels that aren't expecting denormalization.
+    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       for levelThang in o.thangs
-        @denormalizeThang(levelThang, supermodel, session)
+        @denormalizeThang(levelThang, supermodel, session, otherSession)
     o
 
-  denormalizeThang: (levelThang, supermodel, session) ->
+  denormalizeThang: (levelThang, supermodel, session, otherSession) ->
     levelThang.components ?= []
-    isHero = levelThang.id is 'Hero Placeholder'
+    isHero = /Hero Placeholder/.test levelThang.id
+    if isHero and otherSession
+      # If it's a hero and there's another session, find the right session for it.
+      # If there is no other session (playing against default code, or on single player), clone all placeholders.
+      # TODO: actually look at the teams on these Thangs to determine which session should go with which placeholder.
+      if levelThang.id is 'Hero Placeholder 1' and session.get('team') is 'humans'
+        session = otherSession
+      else if levelThang.id is 'Hero Placeholder' and session.get('team') is 'ogres'
+        session = otherSession
 
     # Empty out placeholder Components and store their values if we're the hero placeholder.
     if isHero
@@ -129,6 +136,7 @@ module.exports = class Level extends CocoModel
     # Example: Programmable must come last, since it has to override any Component-provided methods that any other Component might have created. Can't enumerate all soft dependencies.
     # Example: Plans needs to come after everything except Programmable, since other Components that add plannable methods need to have done so by the time Plans is attached.
     # Example: Collides doesn't depend on Allied, but if both exist, Collides must come after Allied. Soft dependency example. Can't just figure out a proper priority to take care of it.
+    # Example: Moves doesn't depend on Acts, but if both exist, Moves must come after Acts. Another soft dependency example.
     # Decision? Just special case the sort logic in here until we have more examples than these two and decide how best to handle most of the cases then, since we don't really know the whole of the problem yet.
     # TODO: anything that depends on Programmable will break right now.
 
@@ -158,10 +166,13 @@ module.exports = class Level extends CocoModel
               console.error parentType, thang.id or thang.name, 'does not have dependent Component', dependent, 'from', lc.name
             visit c2 if c2
           if lc.name is 'Collides'
-            allied = _.find levelComponents, {name: 'Allied'}
-            if allied
-              collides = _.find(thang.components, {original: allied.original})
-              visit collides if collides
+            if allied = _.find levelComponents, {name: 'Allied'}
+              allied = _.find(thang.components, {original: allied.original})
+              visit allied if allied
+          if lc.name is 'Moves'
+            if acts = _.find levelComponents, {name: 'Acts'}
+              acts = _.find(thang.components, {original: acts.original})
+              visit acts if acts
         #console.log thang.id, 'sorted comps adding', lc.name
         sorted.push c
       for comp in thang.components

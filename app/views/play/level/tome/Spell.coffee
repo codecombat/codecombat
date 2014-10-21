@@ -40,6 +40,8 @@ module.exports = class Spell
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
       if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it
         @source = sessionSource
+    if p.aiSource and not @otherSession and not @canWrite()
+      @source = @originalSource = p.aiSource
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
       @view = new SpellView {spell: @, level: options.level, session: @session, worker: @worker}
@@ -133,7 +135,7 @@ module.exports = class Spell
     writable = @permissions.readwrite.length > 0
     skipProtectAPI = @skipProtectAPI or not writable
     problemContext = @createProblemContext thang
-    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType is 'hero', problemContext: problemContext
+    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType in ['hero', 'hero-ladder', 'hero-coop'], problemContext: problemContext
     aether = new Aether aetherOptions
     if @worker
       workerMessage =

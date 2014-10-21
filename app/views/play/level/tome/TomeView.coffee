@@ -157,11 +157,15 @@ module.exports = class TomeView extends CocoView
 
   onCastSpell: (e) ->
     # A single spell is cast.
-    # Hmm; do we need to make sure other spells are all cast here?
     @cast e?.preload, e?.realTime
 
   cast: (preload=false, realTime=false) ->
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime
+    sessionState = @options.session.get('state') ? {}
+    if realTime
+      sessionState.submissionCount = (sessionState.submissionCount ? 0) + 1
+      sessionState.flagHistory = _.filter sessionState.flagHistory ? [], (event) => event.team isnt @options.session.get('team')
+      @options.session.set 'state', sessionState
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? []
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()
@@ -186,7 +190,7 @@ module.exports = class TomeView extends CocoView
     @thangList?.$el.show()
 
   onSpriteSelected: (e) ->
-    return if @spellView and @options.level.get('type', true) is 'hero'  # Never deselect the hero in the Tome.
+    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']  # Never deselect the hero in the Tome.
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
@@ -230,7 +234,7 @@ module.exports = class TomeView extends CocoView
 
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false, realTime: false
+    @cast false, false
 
   updateLanguageForAllSpells: (e) ->
     spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()

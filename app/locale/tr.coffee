@@ -6,27 +6,27 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     play: "Oyna" # The big play button that just starts playing a level
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
-    campaign: "Senaryo Modu"
+    campaign: "Senaryo Kipi"
     for_beginners: "Yeni Başlayanlar için"
-    multiplayer: "Çoklu-oyuncu Modu" # Not currently shown on home page
+    multiplayer: "Çoklu-oyuncu Kipi" # Not currently shown on home page
     for_developers: "Geliştiriciler için" # Not currently shown on home page.
-#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers." # Not currently shown on home page
-#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language." # Not currently shown on home page
-#    coffeescript_blurb: "Nicer JavaScript syntax." # Not currently shown on home page
-#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
-#    lua_blurb: "Game scripting language." # Not currently shown on home page
-#    io_blurb: "Simple but obscure." # Not currently shown on home page
+    javascript_blurb: "Web'in dili. web siteleri, web uygulamaları, HTML5 oyunları ve sunucular yazmak için mükemmeldir." # Not currently shown on home page
+    python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir." # Not currently shown on home page
+    coffeescript_blurb: "Daha iyi JavaScript sözdizimi." # Not currently shown on home page
+    clojure_blurb: "Modern bir Lisp." # Not currently shown on home page
+    lua_blurb: "Oyun betik dili." # Not currently shown on home page
+    io_blurb: "Basit fakat anlaşılması güç." # Not currently shown on home page
 
   nav:
     play: "Oyna" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    community: "Topluluk"
     editor: "Düzenleyici"
     blog: "Blog"
     forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "Hesap"
+    profile: "Profil"
+    stats: "İstatistikler"
+    code: "Kod"
     admin: "Yönetici" # Only shows up when you are an admin
     home: "Anasayfa"
     contribute: "Katkıda bulun"
@@ -34,7 +34,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     about: "Hakkında"
     contact: "İletişim"
     twitter_follow: "Takip et"
-#    teachers: "Teachers"
+    teachers: "Öğretmenler"
 
   modal:
     close: "Kapat"
@@ -54,41 +54,41 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   play:
     play_as: "Olarak Oyna" # Ladder page
     spectate: "İzleyici olarak katıl" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    players: "oyuncu" # Hover over a level on /play
+    hours_played: "saat oynandı" # Hover over a level on /play
+    items: "Ögeler" # Tooltip on item shop button from /play
+    heroes: "Kahramanlar" # Tooltip on hero shop button from /play
+    achievements: "Başarımlar" # Tooltip on achievement list button from /play
+    account: "Hesap" # Tooltip on account button from /play
+    settings: "Ayarlar" # Tooltip on settings button from /play
+    next: "İleri" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
+    choose_inventory: "Ögeleri Giy"
+    older_campaigns: "Daha Eski Görevler"
+    anonymous: "Anonim Oyuncu"
     level_difficulty: "Zorluk: "
     campaign_beginner: "Acemi Seferi"
     choose_your_level: "Seviye Seçimi" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Aşağıdaki seviyelerden birini doğrudan oynayabilirsiniz, veya seviye ile ilgili "
     adventurer_forum: "Maceracı forumunda"
     adventurer_suffix: " tartışabilirsiniz."
-#    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "Programlama büyüsünü öğrenmek için..."
+    campaign_old_beginner: "Eski Yeni Başlayan Görevi"
+    campaign_old_beginner_description: "Programlama büyüsünü öğrenmek için..."
     campaign_dev: "Rastgele Daha Zor Seviyeler"
     campaign_dev_description: "Biraz daha zor işlerle uğraşırken arayüzü öğrenmek için..."
     campaign_multiplayer: "Çok Oyunculu Meydanlar"
     campaign_multiplayer_description: "Diğer oyuncularla kafa kafaya verip kodlamak için..."
     campaign_player_created: "Oyuncuların Oluşturdukları"
     campaign_player_created_description: "<a href=\"/contribute#artisan\">Zanaatkâr Büyücüler</a>in yaratıcılıklarına karşı mücadele etmek için..."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "Klasik Algoritmalar"
+    campaign_classic_algorithms_description: "... Bilgisayar Bilimleri'nde öğrendiğiniz en yaygın algoritmalar."
 
   login:
-    sign_up: "Kaydol"
+    sign_up: "Hesap Oluştur"
     log_in: "Giriş Yap"
     logging_in: "Giriş Yapılıyor"
     log_out: "Çıkış Yap"
-    recover: "şifrenizi sıfırlayabilirsiniz."
+    recover: "hesabı kurtar."
 
   signup:
     create_account_title: "İlerlemenizi Kaydetmek için Hesap Oluşturun"
@@ -99,43 +99,42 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     creating: "Hesap oluşturuluyor..."
     sign_up: "Kaydol"
     log_in: "buradan giriş yapabilirsiniz."
-#    social_signup: "Or, you can sign up through Facebook or G+:"
-#    required: "You need to log in before you can go that way."
+    social_signup: "veya Facebook ya da G+ ile oturum açabilirsiniz:"
+    required: "Buraya gidebilmeniz için oturum açmanız gerekli."
 
   recover:
     recover_account_title: "Hesabı Kurtar"
     send_password: "Kurtarma Parolası Gönder"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Kurtarma e-postası gönderildi."
 
-#  items:
-#    armor: "Armor"
-#    hands: "Hands"
-#    accessories: "Accessories"
-#    books: "Books"
-#    minions: "Minions"
-#    misc: "Misc"
+  items:
+    armor: "Zırh"
+    hands: "Eller"
+    accessories: "Aksesuarlar"
+    minions: "Köleler"
+    misc: "Çeşitli"
 
   common:
     loading: "Yükleniyor..."
     saving: "Kaydediliyor..."
     sending: "Gönderiliyor..."
-#    send: "Send"
+    send: "Gönder"
     cancel: "İptal"
     save: "Kaydet"
-#    publish: "Publish"
+    publish: "Yayınla"
     create: "Oluştur"
     manual: "El ile"
     fork: "Çatalla"
     play: "Oyna" # When used as an action verb, like "Play next level"
     retry: "Yeniden Dene"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    watch: "İzle"
+    unwatch: "İzlemeyi Bırak"
+    submit_patch: "Yama Gönder"
 
   general:
     and: "ve"
     name: "İsim"
-#    date: "Date"
+    date: "Tarih"
     body: "Gövde"
     version: "Sürüm"
     commit_msg: "Gönderme İletisi"
@@ -145,12 +144,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     results: "Sonuçlar"
     description: "Açıklama"
     or: "veya"
-#    subject: "Subject"
+    subject: "Konu"
     email: "E-posta"
     password: "Şifre"
     message: "İleti"
     code: "Kod"
-#    ladder: "Ladder"
+    ladder: "Merdiven"
     when: "iken"
     opponent: "Rakip"
     rank: "Sıra"
@@ -161,7 +160,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     easy: "Kolay"
     medium: "Normal"
     hard: "Zor"
-#    player: "Player"
+    player: "Oyuncu"
 
   units:
     second: "saniye"
@@ -170,28 +169,28 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     minutes: "dakika"
     hour: "saat"
     hours: "saat"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+    day: "gün"
+    days: "gün"
+    week: "hafta"
+    weeks: "hafta"
+    month: "ay"
+    months: "ay"
+    year: "yıl"
+    years: "yıl"
 
   play_level:
     done: "Tamamdır"
     home: "Anasayfa"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    skip: "Atla"
+    game_menu: "Oyun Menüsü"
     guide: "Rehber"
     restart: "Yeniden başlat"
     goals: "Hedefler"
-#    goal: "Goal"
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
-#    failing: "Failing"
+    goal: "Amaç"
+    success: "Başarılı!"
+    incomplete: "Tamamlanmamış"
+    timed_out: "Süre bitti"
+    failing: "Başarısız"
     action_timeline: "Eylem Çizelgesi"
     click_to_select: "Birimi seçmek için üzerine tıklayın."
     reload_title: "Tüm kod yeniden yüklensin mi?"
@@ -199,39 +198,40 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     reload_confirm: "Tümünü Yeniden Yükle"
     victory_title_prefix: ""
     victory_title_suffix: "Tamamlandı "
-    victory_sign_up: " Güncellemelere Abone Ol"
-    victory_sign_up_poke: "Son haberleri e-postanızda görmek ister misiniz? Ücretsiz bir hesap oluşturmanız durumunda sizi bilgilendirebiliriz."
+    victory_sign_up: "İlerlemeyi Kaydetmek için Kaydolun"
+    victory_sign_up_poke: "Kodu kaydetmek ister misiniz? Ücretsiz bir hesap oluşturun!"
     victory_rate_the_level: "Seviyeyi oyla:" # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
+    victory_return_to_ladder: "Merdivene Dön"
     victory_play_next_level: "Sonraki Seviyeyi Oyna: " # Only in old-style levels.
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Devam Et"
+    victory_saving_progress: "İlerlemeyi Kaydediliyor"
     victory_go_home: "Anasayfaya Git" # Only in old-style levels.
-    victory_review: "Daha detaylı bilgi verebilirsiniz!" # Only in old-style levels.
+    victory_review: "Daha fazla söyleyin!" # Only in old-style levels.
     victory_hour_of_code_done: "Bitirdiniz mi?"
     victory_hour_of_code_done_yes: "Evet, Kod Saatimi (Hour of Code) bitirdim!"
     guide_title: "Rehber"
     tome_minion_spells: "Minyonlarınızın Büyüleri" # Only in old-style levels.
     tome_read_only_spells: "Salt Okunur Büyüler" # Only in old-style levels.
     tome_other_units: "Diğer Birimler" # Only in old-style levels.
-    tome_cast_button_castable: "Fırlatılabilir" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Fırlatılıyor" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Fırlat" # Temporary, if tome_cast_button_ran isn't translated.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_cast_button_castable: "Başlatılabilir" # Temporary, if tome_cast_button_run isn't translated.
+    tome_cast_button_casting: "Başlatılıyor" # Temporary, if tome_cast_button_running isn't translated.
+    tome_cast_button_cast: "Başlat" # Temporary, if tome_cast_button_ran isn't translated.
+    tome_cast_button_run: "Çalıştır"
+    tome_cast_button_running: "Çalıştırılıyor"
+    tome_cast_button_ran: "Çalıştırıldı"
+    tome_submit_button: "Gönder"
+    tome_reload_method: "Bu yöntem için özgün kodu yeniden yükle" # Title text for individual method reload button.
+    tome_select_method: "Bir Yöntem Seçin"
+    tome_see_all_methods: "Düzenleyebileceğiniz tüm yöntemleri görün" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Birini seç..."
     tome_available_spells: "Kullanılabilir Büyüler"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "Yetenekleriniz"
     hud_continue: "Devam (ÜstKarakter+Boşluk)"
     spell_saved: "Büyü Kaydedildi"
     skip_tutorial: "Atla (esc)"
-#    keyboard_shortcuts: "Key Shortcuts"
+    keyboard_shortcuts: "Klavye Kısayolları"
     loading_ready: "Hazır!"
-#    loading_start: "Start Level"
+    loading_start: "Seviyeyi Başlat"
     time_current: "Şimdi:"
     time_total: "Max:"
     time_goto: "Git:"
@@ -270,30 +270,30 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     customize_wizard: "Sihirbazı Düzenle"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    inventory_tab: "Envanter"
+    choose_hero_tab: "Seviyeyi Yeniden Başlat"
+    save_load_tab: "Kaydet/Yükle"
+    options_tab: "Seçenekler"
+    guide_tab: "Rehber"
     multiplayer_tab: "Çoklu-oyuncu"
-#    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
-#    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
-#    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
+    inventory_caption: "Kahramanınızı donatın"
+    choose_hero_caption: "Kahraman, dil seçin"
+    save_load_caption: "... ve geçmişe bak"
+    options_caption: "Ayarları yapılandır"
+    guide_caption: "Belgeler ve ipuçları"
+    multiplayer_caption: "Arkadaşlarla oyna!"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
+  inventory:
+    choose_inventory: "Ögeleri Donan"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    status: "Status"
-#    weapons: "Weapons"
-#    health: "Health"
-#    speed: "Speed"
+  choose_hero:
+    choose_hero: "Kahramanınızı Seçin"
+    programming_language: "Programlama Dili"
+    programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
+    status: "Durum"
+    weapons: "Silahlar"
+    health: "Sağlık"
+    speed: "Hız"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -376,14 +376,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     autosave: "Değişiklikler Kendiliğinden Kaydedilir"
     me_tab: "Ben"
     picture_tab: "Resim"
-#    upload_picture: "Upload a picture"
+    upload_picture: "Bir Resim Yükle"
     password_tab: "Şifre"
     emails_tab: "E-postalar"
     admin: "Yönetici"
     new_password: "Yeni Şifre"
     new_password_verify: "Teyit Et"
     email_subscriptions: "E-posta Abonelikleri"
-#    email_subscriptions_none: "No Email Subscriptions."
+    email_subscriptions_none: "E-posta aboneliği yok."
     email_announcements: "Duyurular"
     email_announcements_description: "CodeCombat ile ilgili son haberlere ve gelişmelere ulaşın."
     email_notifications: "Bilgilendirme"
@@ -401,7 +401,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     error_saving: "Kayıt Esnasında Hata"
     saved: "Değişiklikler Kaydedildi"
     password_mismatch: "Şifreler Uyuşmuyor"
-#    password_repeat: "Please repeat your password."
+    password_repeat: "Lütfen şifrenizi yenileyin."
 #    job_profile: "Job Profile" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
@@ -410,14 +410,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     wizard_tab: "Sihirbaz"
     wizard_color: "Sihirbaz Kıyafeti Rengi"
 
-#  keyboard_shortcuts:
-#    keyboard_shortcuts: "Keyboard Shortcuts"
-#    space: "Space"
-#    enter: "Enter"
-#    escape: "Escape"
-#    shift: "Shift"
-#    cast_spell: "Cast current spell."
-#    run_real_time: "Run in real time."
+  keyboard_shortcuts:
+    keyboard_shortcuts: "Klavye Kısayolları"
+    space: "Boşluk"
+    enter: "Enter"
+    escape: "Escape"
+    shift: "ÜstKarakter"
+    cast_spell: "Geçerli büyüyü çalıştır."
+    run_real_time: "Eşzamanlı çalış."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
 #    toggle_playback: "Toggle play/pause."
@@ -468,32 +468,32 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     article_title: "Makale Düzenleyici"
     thang_title: "Nesne Düzenleyici"
     level_title: "Bölüm Düzenleyici"
-#    achievement_title: "Achievement Editor"
-#    back: "Back"
+    achievement_title: "Başarı Düzenleyici"
+    back: "Geri"
     revert: "Geri al"
     revert_models: "Önceki Modeller"
-#    pick_a_terrain: "Pick A Terrain"
-#    small: "Small"
-#    grassy: "Grassy"
-#    fork_title: "Fork New Version"
-#    fork_creating: "Creating Fork..."
-#    generate_terrain: "Generate Terrain"
-#    more: "More"
-#    wiki: "Wiki"
-#    live_chat: "Live Chat"
+    pick_a_terrain: "Bir Arazi Seçin"
+    small: "Küçük"
+    grassy: "Çimli"
+    fork_title: "Yeni Sürüm Çatalla"
+    fork_creating: "Çatal Oluşturuluyor..."
+    generate_terrain: "Arazi Oluştur"
+    more: "Daha Fazla"
+    wiki: "Viki"
+    live_chat: "Canlı Sohbet"
     level_some_options: "Bazı Seçenekler?"
     level_tab_thangs: "Nesneler"
     level_tab_scripts: "Betikler"
     level_tab_settings: "Ayarlar"
     level_tab_components: "Bileşenler"
     level_tab_systems: "Sistemler"
-#    level_tab_docs: "Documentation"
+    level_tab_docs: "Belgelendirme"
     level_tab_thangs_title: "Geçerli Şartlar"
-#    level_tab_thangs_all: "All"
+    level_tab_thangs_all: "Tüm"
     level_tab_thangs_conditions: "Başlama Şartları"
     level_tab_thangs_add: "Nesne Ekle"
-#    delete: "Delete"
-#    duplicate: "Duplicate"
+    delete: "Sil"
+    duplicate: "Kopyala"
     level_settings_title: "Ayarlar"
     level_component_tab_title: "Geçerli Bileşenler"
     level_component_btn_new: "Yeni Bileşen Oluştur"

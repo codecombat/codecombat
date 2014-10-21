@@ -77,7 +77,7 @@ module.exports = class ThangTypeEditView extends RootView
     context
 
   getAnimationNames: -> _.keys(@thangType.get('actions') or {})
-  
+
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -119,7 +119,7 @@ module.exports = class ThangTypeEditView extends RootView
     @stage = new createjs.Stage(canvas[0])
     @layerAdapter = new LayerAdapter({name:'Default', webGL: true})
     @topLayer = new createjs.Container()
-    
+
     @layerAdapter.container.x = @topLayer.x = CENTER.x
     @layerAdapter.container.y = @topLayer.y = CENTER.y
     @stage.addChild(@layerAdapter.container, @topLayer)
@@ -135,7 +135,7 @@ module.exports = class ThangTypeEditView extends RootView
     @updateGrid()
     _.defer @refreshAnimation
     @toggleDots(false)
-    
+
     createjs.Ticker.setFPS(30)
     createjs.Ticker.addEventListener('tick', @stage)
 
@@ -244,7 +244,7 @@ module.exports = class ThangTypeEditView extends RootView
     lank = new Lank(@thangType, @getLankOptions())
     @showLank(lank)
     @updateScale()
-    
+
   onNewSpriteSheet: ->
     $('#spritesheets').empty()
     for image in @layerAdapter.spriteSheet._images
@@ -260,7 +260,7 @@ module.exports = class ThangTypeEditView extends RootView
     @showAction(animationName)
     @updateRotation()
     @updateScale() # must happen after update rotation, because updateRotation calls the sprite update() method.
-    
+
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
     movieClip = vectorParser.buildMovieClip(animationName)
@@ -289,7 +289,7 @@ module.exports = class ThangTypeEditView extends RootView
     portrait?.attr('id', 'portrait').addClass('img-thumbnail')
     portrait.addClass 'img-thumbnail'
     $('#portrait').replaceWith(portrait)
-    
+
   showLank: (lank) ->
     @clearDisplayObject()
     @clearLank()
@@ -306,7 +306,7 @@ module.exports = class ThangTypeEditView extends RootView
 
   clearDisplayObject: ->
     @topLayer.removeChild(@currentObject) if @currentObject?
-    
+
   clearLank: ->
     @layerAdapter.removeLank(@currentLank) if @currentLank
     @currentLank?.destroy()
@@ -365,7 +365,8 @@ module.exports = class ThangTypeEditView extends RootView
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
       portraitSource = null
       if @thangType.get('raster')
-        image = @currentLank.sprite.image
+        #image = @currentLank.sprite.image  # Doesn't work?
+        image = @currentLank.sprite.spriteSheet._images[0]
         portraitSource = imageToPortrait image
         # bit of a hacky way to get that portrait
       success = =>
@@ -429,7 +430,7 @@ module.exports = class ThangTypeEditView extends RootView
     obj = vectorParser.buildMovieClip(key) if type is 'animations'
     obj = vectorParser.buildContainerFromStore(key) if type is 'containers'
     obj = vectorParser.buildShapeFromStore(key) if type is 'shapes'
-    
+
     bounds = obj?.bounds or obj?.nominalBounds
     if bounds
       @boundsBox = new createjs.Shape()
@@ -437,7 +438,7 @@ module.exports = class ThangTypeEditView extends RootView
       @topLayer.addChild(@boundsBox)
       obj.regX = @boundsBox.regX = bounds.x + bounds.width / 2
       obj.regY = @boundsBox.regY = bounds.y + bounds.height / 2
-    
+
     @showSprite(obj) if obj
     @showingSelectedNode = true
     @currentLank?.destroy()

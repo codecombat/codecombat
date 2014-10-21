@@ -45,7 +45,7 @@ module.exports = class Simulator extends CocoClass
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
         @stopListening @supermodel, 'loaded-all'
-        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
+        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
 
         if @supermodel.finished()
           @simulateSingleGame()
@@ -165,7 +165,7 @@ module.exports = class Simulator extends CocoClass
     @supermodel ?= new SuperModel()
     @supermodel.resetProgress()
     @stopListening @supermodel, 'loaded-all'
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
     else
@@ -189,11 +189,13 @@ module.exports = class Simulator extends CocoClass
     @world = @levelLoader.world
     @task.setWorld(@world)
     @level = @levelLoader.level
+    @session = @levelLoader.session
+    @otherSession = @levelLoader.opponentSession
     @levelLoader.destroy()
     @levelLoader = null
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel
+    @god.setLevel @level.serialize(@supermodel, @session, @otherSession)
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
@@ -423,6 +425,8 @@ class SimulationTask
     throw new Error "The task was malformed, reason: #{errorString}"
 
   getFirstSessionID: -> @rawData.sessions[0].sessionID
+
+  getSecondSessionID: -> @rawData.sessions[1].sessionID
 
   getTaskID: -> @rawData.taskID
 

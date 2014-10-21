@@ -124,7 +124,7 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']
+  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span', 'dueling-grounds', 'cavern-survival']
   levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
     #fetch random games here
@@ -279,7 +279,7 @@ fetchAndVerifyLevelType = (levelID, cb) ->
   .lean()
   query.exec (err, levelWithType) ->
     if err? then return cb err
-    if not levelWithType.type or levelWithType.type isnt 'ladder' then return cb 'Level isn\'t of type "ladder"'
+    if not levelWithType.type or not (levelWithType.type in ['ladder', 'hero-ladder']) then return cb 'Level isn\'t of type "ladder"'
     cb null
 
 fetchSessionObjectToSubmit = (sessionID, callback) ->

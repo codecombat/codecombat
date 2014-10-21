@@ -23,8 +23,10 @@ module.exports = class LevelBus extends Bus
     'level:show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
+    'tome:cast-spells': 'onCastSpells'
     'application:idle-changed': 'onIdleChanged'
     'goal-manager:new-goal-states': 'onNewGoalStates'
+    'god:new-world-created': 'onNewWorldCreated'
 
   constructor: ->
     super(arguments...)
@@ -125,6 +127,22 @@ module.exports = class LevelBus extends Bus
     if spellTeam is me.team or (e.spell.otherSession and spellTeam isnt e.spell.otherSession.get('team'))
       # https://github.com/codecombat/codecombat/issues/81
       @onSpellChanged e  # Save the new spell to the session, too.
+
+  onCastSpells: (e) ->
+    return unless @onPoint() and e.realTime
+    # We have incremented state.submissionCount and reset state.flagHistory.
+    @changedSessionProperties.state = true
+    @saveSession()
+
+  onNewWorldCreated: (e) ->
+    return unless @onPoint()
+    # Record the flag history.
+    state = @session.get('state')
+    return if _.isEqual state.flagHistory, e.world.flagHistory
+    state.flagHistory = e.world.flagHistory
+    @changedSessionProperties.state = true
+    @session.set('state', state)
+    @saveSession()
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()

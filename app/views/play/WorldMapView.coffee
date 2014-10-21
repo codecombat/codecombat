@@ -97,7 +97,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    @highlightElement '.level.next', delay: 8000, duration: 20000, rotation: 0, sides: ['top']
+    @highlightElement '.level.next', delay: 2000, duration: 60000, rotation: 0, sides: ['top']
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
@@ -718,6 +718,17 @@ hero = [
     x: 95.31
     y: 88.26
   }
+  {
+    name: 'Dueling Grounds'
+    type: 'hero-ladder'
+    difficulty: 1
+    id: 'dueling-grounds'
+    original: '5442ba0e1e835500007eb1c7'
+    description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
+    disabled: not me.isAdmin()
+    x: 17.54
+    y: 78.39
+  }
   #{
   #  name: ''
   #  type: 'hero'
@@ -770,7 +781,7 @@ campaigns = [
   #{id: 'beginner', name: 'Beginner Campaign', description: '... in which you learn the wizardry of programming.', levels: tutorials, color: "rgb(255, 80, 60)"}
   #{id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: arenas, color: "rgb(80, 5, 60)"}
   #{id: 'dev', name: 'Random Harder Levels', description: '... in which you learn the interface while doing something a little harder.', levels: experienced, color: "rgb(80, 60, 255)"}
-  #{id: 'classic' ,name: 'Classic Algorithms', description: '... in which you learn the most popular algorithms in Computer Science.', levels: classicAlgorithms, color: "rgb(110, 80, 120)"}
+  #{id: 'classic_algorithms' ,name: 'Classic Algorithms', description: '... in which you learn the most popular algorithms in Computer Science.', levels: classicAlgorithms, color: "rgb(110, 80, 120)"}
   #{id: 'player_created', name: 'Player-Created', description: '... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.', levels: playerCreated, color: "rgb(160, 160, 180)"}
   {id: 'beginner', name: 'Beginner Campaign', levels: hero, color: 'rgb(255, 80, 60)'}
 ]

@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     adventurer_forum: "diễn đàn Adventurer"
 #    adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-#    campaign_beginner_description: "... in which you learn the wizardry of programming."
+#    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
     campaign_dev: "Các cấp độ khó hơn ngẫu nhiên"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
     campaign_multiplayer: "Khu vực đa người chơi"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_next_level: "Play Next Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"

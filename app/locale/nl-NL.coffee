@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     adventurer_forum: "het Avonturiersforum"
     adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_beginner_description: "... waarin je de toverkunst van het programmeren leert."
+    campaign_old_beginner_description: "... waarin je de toverkunst van het programmeren leert."
     campaign_dev: "Willekeurige moeilijkere levels"
     campaign_dev_description: "... waarin je de interface leert kennen terwijl je wat moeilijkers doet."
     campaign_multiplayer: "Multiplayer Arena's"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    armor: "Armor"
 #    hands: "Hands"
 #    accessories: "Accessories"
-#    books: "Books"
 #    minions: "Minions"
 #    misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_return_to_ladder: "Keer terug naar de ladder"
     victory_play_next_level: "Speel Volgend Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ga naar Home" # Only in old-style levels.
     victory_review: "Vertel ons meer!" # Only in old-style levels.
     victory_hour_of_code_done: "Ben Je Klaar?"

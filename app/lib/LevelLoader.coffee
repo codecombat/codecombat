@@ -61,7 +61,6 @@ module.exports = class LevelLoader extends CocoClass
   # Session Loading
 
   loadSession: ->
-    return if @headless
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
     else
@@ -71,6 +70,11 @@ module.exports = class LevelLoader extends CocoClass
     session = new LevelSession().setURL url
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
+    if @opponentSessionID
+      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
+      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
+      @opponentSession = @opponentSessionResource.model
+
     if @session.loaded
       @session.setURL '/db/level.session/' + @session.id
       @loadDependenciesForSession @session
@@ -78,11 +82,7 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @session, 'sync', ->
         @session.setURL '/db/level.session/' + @session.id
         @loadDependenciesForSession @session
-
-    if @opponentSessionID
-      opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
-      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
-      @opponentSession = @opponentSessionResource.model
+    if @opponentSession
       if @opponentSession.loaded
         @loadDependenciesForSession @opponentSession
       else
@@ -91,9 +91,13 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     if session is @session
       Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
-    return unless @level.get('type', true) is 'hero'
+      @consolidateFlagHistory() if @opponentSession?.loaded
+    else if session is @opponentSession
+      @consolidateFlagHistory() if @session.loaded
+    return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    @sessionDependenciesRegistered ?= {}
     heroConfig = session.get('heroConfig')
-    heroConfig ?= me.get('heroConfig')
+    heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
@@ -105,13 +109,23 @@ module.exports = class LevelLoader extends CocoClass
       @loadThangsRequiredByThangType heroThangType
 
     for itemThangType in _.values(heroConfig.inventory)
-      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon"
+      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon,kind"
       if itemResource = @maybeLoadURL(url, ThangType, 'thang')
         @worldNecessities.push itemResource
       else
         itemThangType = @supermodel.getModel url
         @loadDefaultComponentsForThangType itemThangType
         @loadThangsRequiredByThangType itemThangType
+    @sessionDependenciesRegistered[session.id] = true
+    if _.size(@sessionDependenciesRegistered) is 2 and not (r for r in @worldNecessities when r?).length
+      @onWorldNecessitiesLoaded()
+
+  consolidateFlagHistory: ->
+    state = @session.get('state') ? {}
+    myFlagHistory = _.filter state.flagHistory ? [], team: @session.get('team')
+    opponentFlagHistory = _.filter @opponentSession.get('state')?.flagHistory ? [], team: @opponentSession.get('team')
+    state.flagHistory = myFlagHistory.concat opponentFlagHistory
+    @session.set 'state', state
 
   # Grabbing the rest of the required data for the level
 
@@ -162,7 +176,7 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    unless @headless
+    unless @headless or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       wizard = ThangType.loadUniversalWizard()
       @supermodel.loadModel wizard, 'thang'
 
@@ -183,7 +197,7 @@ module.exports = class LevelLoader extends CocoClass
       else if component.config.requiredThangTypes
         requiredThangTypes = requiredThangTypes.concat component.config.requiredThangTypes
     for thangType in requiredThangTypes
-      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon"
+      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
@@ -206,9 +220,10 @@ module.exports = class LevelLoader extends CocoClass
     return unless index >= 0
     @worldNecessities.splice(index, 1)
     @worldNecessities = (r for r in @worldNecessities when r?)
-    @onWorldNecessitiesLoaded() if @worldNecessities.length is 0
+    if @worldNecessities.length is 0 and (not @sessionDependenciesRegistered or @sessionDependenciesRegistered[@session.id] and (not @opponentSession or @sessionDependenciesRegistered[@opponentSession.id]))
+      @onWorldNecessitiesLoaded()
 
-  onWorldNecessitiesLoaded: =>
+  onWorldNecessitiesLoaded: ->
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
@@ -240,7 +255,6 @@ module.exports = class LevelLoader extends CocoClass
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
     @loadLevelSounds()
     @denormalizeSession()
-    app.tracker.updatePlayState(@level, @session) unless @headless
 
   buildLoop: =>
     someLeft = false
@@ -334,7 +348,9 @@ module.exports = class LevelLoader extends CocoClass
     @initialized = true
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
-    serializedLevel = @level.serialize(@supermodel, @session)
+    @world.submissionCount = @session?.get('state')?.submissionCount ? 0
+    @world.flagHistory = @session?.get('state')?.flagHistory ? []
+    serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'
 

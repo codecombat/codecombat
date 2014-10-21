@@ -30,7 +30,7 @@ class LevelSessionHandler extends Handler
       @sendSuccess(res, documents)
 
   hasAccessToDocument: (req, document, method=null) ->
-    return true if req.method is 'GET' and document.get('totalScore')
+    return true if req.method is 'GET' and document.get('submitted')
     return true if ('employer' in (req.user.get('permissions') ? [])) and (method ? req.method).toLowerCase() is 'get'
     super(arguments...)
 

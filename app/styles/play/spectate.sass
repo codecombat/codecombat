@@ -42,12 +42,18 @@
     position: relative
     margin: 0 auto
 
-  canvas#surface
-    background-color: #333
+  canvas#webgl-surface, canvas#normal-surface
     display: block
     z-index: 1
     margin: 0 auto
 
+  canvas#webgl-surface
+    background-color: #333
+
+  canvas#normal-surface
+    position: absolute
+    top: 0
+    pointer-events: none
 
   min-width: 1024px
   position: relative

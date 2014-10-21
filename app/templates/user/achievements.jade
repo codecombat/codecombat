@@ -36,15 +36,17 @@ block append content
               th XP
             each earnedAchievement in earnedAchievements.models
               - var achievement = earnedAchievement.get('achievement');
-              tr
-                td= achievement.i18nName()
-                td= achievement.i18nDescription()
-                td= moment().format("MMMM Do YYYY", earnedAchievement.get('changed'))
-                if achievement.isRepeatable()
-                  td= earnedAchievement.get('achievedAmount')
-                else
-                  td
-                td= earnedAchievement.get('earnedPoints')
+              if achievement.get('category')
+                // No level-specific achievements in here.
+                tr
+                  td= achievement.i18nName()
+                  td= achievement.i18nDescription()
+                  td= moment().format("MMMM Do YYYY", earnedAchievement.get('changed'))
+                  if achievement.isRepeatable()
+                    td= earnedAchievement.get('achievedAmount')
+                  else
+                    td
+                  td= earnedAchievement.get('earnedPoints')
         else
           .panel#no-achievements
             .panel-body(data-i18n="user.no_achievements") No achievements earned yet.

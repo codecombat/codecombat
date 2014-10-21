@@ -44,7 +44,8 @@ module.exports = class GoalManager extends CocoClass
     'world:thang-touched-goal': 'onThangTouchedGoal'
     'world:thang-left-map': 'onThangLeftMap'
     'world:thang-collected-item': 'onThangCollectedItem'
-    'world:ended': 'onWorldEnded'
+    'world:user-code-problem': 'onUserCodeProblem'
+    'world:lines-of-code-counted': 'onLinesOfCodeCounted'
 
   onLevelRestarted: ->
     @goals = []
@@ -62,7 +63,9 @@ module.exports = class GoalManager extends CocoClass
   # gets these goals and code, and is told to be all ears during world gen
   setGoals: (@goals) ->
   setCode: (@userCodeMap) -> @updateCodeGoalStates()
-  worldGenerationWillBegin: -> @initGoalStates()
+  worldGenerationWillBegin: ->
+    @initGoalStates()
+    @checkForInitialUserCodeProblems()
 
   # World generator feeds world events to the goal manager to keep track
   submitWorldGenerationEvent: (channel, event, frameNumber) ->
@@ -115,10 +118,12 @@ module.exports = class GoalManager extends CocoClass
   checkOverallStatus: (ignoreIncomplete=false) ->
     overallStatus = null
     goals = if @goalStates then _.values @goalStates else []
+    goals = (g for g in goals when not g.optional)
     goals = (g for g in goals when g.team in [undefined, @team]) if @team
     statuses = if @goalStates then (goal.status for goal in goals) else []
     overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
+    #console.log 'got overallStatus', overallStatus, 'from goals', goals, 'goalStates', @goalStates, 'statuses', statuses
     overallStatus
 
   # WORLD GOAL TRACKING
@@ -131,6 +136,7 @@ module.exports = class GoalManager extends CocoClass
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
         team: goal.team
+        optional: goal.optional
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []
@@ -140,7 +146,15 @@ module.exports = class GoalManager extends CocoClass
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
       @initGoalState(state, [goal.collectThangs?.targets, goal.keepFromCollectingThangs?.targets], 'collected')
+      @initGoalState(state, [goal.codeProblems], 'problems')
+      @initGoalState(state, [_.keys(goal.linesOfCode ? {})], 'lines')
       @goalStates[goal.id] = state
+
+  checkForInitialUserCodeProblems: ->
+    # There might have been some user code problems reported before the goal manager started listening.
+    for thang in @world.thangs when thang.isProgrammable
+      for message, problem of thang.publishedUserCodeProblems
+        @onUserCodeProblem {thang: thang, problem: problem}, 0
 
   onThangDied: (e, frameNumber) ->
     for goal in @goals ? []
@@ -186,6 +200,22 @@ module.exports = class GoalManager extends CocoClass
     return unless itemID in targets
     return unless thang.id in who or thang.team in who
     @updateGoalState(goalID, itemID, 'collected', frameNumber)
+
+  onUserCodeProblem: (e, frameNumber) ->
+    for goal in @goals ? [] when goal.codeProblems
+      @checkCodeProblem goal.id, goal.codeProblems, e.thang, frameNumber
+
+  checkCodeProblem: (goalID, who, thang, frameNumber) ->
+    return unless thang.id in who or thang.team in who
+    @updateGoalState goalID, thang.id, 'problems', frameNumber
+
+  onLinesOfCodeCounted: (e, frameNumber) ->
+    for goal in @goals ? [] when goal.linesOfCode
+      @checkLinesOfCode goal.id, goal.linesOfCode, e.thang, e.linesUsed, frameNumber
+
+  checkLinesOfCode: (goalID, who, thang, linesUsed, frameNumber) ->
+    return unless linesAllowed = who[thang.id] ? who[thang.team]
+    @updateGoalState goalID, thang.id, 'lines', frameNumber if linesUsed > linesAllowed
 
   wrapUpGoalStates: (finalFrame) ->
     for goalID, state of @goalStates
@@ -247,7 +277,7 @@ module.exports = class GoalManager extends CocoClass
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be 'done'
       numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
-    #console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs
+    #console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs, 'for', goalID, thangID, 'on frame', frameNumber
     return unless numDone >= numNeeded
     return if state.status and not success  # already failed it; don't wipe keyframe
     state.status = if success then 'success' else 'failure'
@@ -278,6 +308,8 @@ module.exports = class GoalManager extends CocoClass
     keepFromLeavingOffSides: 0
     collectThangs: 1
     keepFromCollectingThangs: 0
+    linesOfCode: 0
+    codeProblems: 0
 
   updateCodeGoalStates: ->
     # TODO

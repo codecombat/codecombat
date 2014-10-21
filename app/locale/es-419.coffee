@@ -73,7 +73,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     adventurer_forum: "el foro del aventurero"
     adventurer_suffix: "."
     campaign_old_beginner: "Campaña anterior de principiante"
-    campaign_beginner_description: "... en la que aprendes la hechicería de la programación."
+    campaign_old_beginner_description: "... en la que aprendes la hechicería de la programación."
     campaign_dev: "Niveles aleatorios más difíciles"
     campaign_dev_description: "... en los que aprendes sobre la interfaz mientras haces algo un poco más difícil."
     campaign_multiplayer: "Arenas Multijugador"
@@ -111,7 +111,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     armor: "Armadura"
     hands: "Manos"
     accessories: "Accesorios"
-    books: "Libros"
     minions: "Seguidores"
     misc: "Misc"
 
@@ -205,6 +204,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     victory_return_to_ladder: "Volver a la escalera"
     victory_play_next_level: "Jugar Próximo Nivel" # Only in old-style levels.
     victory_play_continue: "Continuar"
+#    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ir al Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Has acabado?"

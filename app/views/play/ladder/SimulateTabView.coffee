@@ -49,6 +49,7 @@ module.exports = class SimulateTabView extends CocoView
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
       @simulator.fetchAndSimulateTask = =>
         if @simulator.simulatedByYou >= 5
+          console.log '------------------- Destroying  Simulator and making a new one -----------------'
           @simulator.destroy()
           @simulator = null
           @simulateNextGame()
