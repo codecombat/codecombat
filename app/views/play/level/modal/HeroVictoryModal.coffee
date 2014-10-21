@@ -150,17 +150,19 @@ module.exports = class HeroVictoryModal extends ModalView
     duration = Math.log(panel.number + 1) / Math.LN10 * 1000  # Math.log10 is ES6
     ratio = @getEaseRatio (new Date() - @numberAnimationStart), duration
     if panel.unit is 'xp'
-      totalXP = @totalXPAnimated + Math.floor(ratio * panel.number)
+      newXP = Math.floor(ratio * panel.number)
+      totalXP = @totalXPAnimated + newXP
       if totalXP isnt @lastTotalXP
-        panel.textEl.text('+' + totalXP)
+        panel.textEl.text('+' + newXP)
         @XPEl.text('+' + totalXP)
         xpTrigger = 'xp-' + (totalXP % 6)  # 6 xp sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
         @lastTotalXP = totalXP
     else
-      totalGems = @totalGemsAnimated + Math.floor(ratio * panel.number)
+      newGems = Math.floor(ratio * panel.number)
+      totalGems = @totalGemsAnimated + newGems
       if totalGems isnt @lastTotalGems
-        panel.textEl.text('+' + totalGems)
+        panel.textEl.text('+' + newGems)
         @gemEl.text('+' + totalGems)
         gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2

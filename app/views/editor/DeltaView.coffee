@@ -94,11 +94,17 @@ module.exports = class DeltaView extends CocoView
 
     if _.isObject(deltaData.left) and leftEl = deltaEl.find('.old-value')
       options = _.defaults {data: deltaData.left}, treemaOptions
-      TreemaNode.make(leftEl, options).build()
+      try
+        TreemaNode.make(leftEl, options).build()
+      catch error
+        console.error "Couldn't show left details Treema for", deltaData.left, treemaOptions
 
     if _.isObject(deltaData.right) and rightEl = deltaEl.find('.new-value')
       options = _.defaults {data: deltaData.right}, treemaOptions
-      TreemaNode.make(rightEl, options).build()
+      try
+        TreemaNode.make(rightEl, options).build()
+      catch error
+        console.error "Couldn't show right details Treema for", deltaData.right, treemaOptions
 
     if deltaData.action is 'text-diff'
       return console.error "Couldn't show diff for left: #{deltaData.left}, right: #{deltaData.right} of delta:", deltaData unless deltaData.left? and deltaData.right?
