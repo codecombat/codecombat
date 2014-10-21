@@ -614,7 +614,9 @@ module.exports = Lank = class Lank extends CocoClass
   setDebug: (debug) ->
     return unless @thang?.collides and @options.camera?
     @addMark 'debug', @options.floatingLayer if debug
-    @marks.debug?.toggle debug
+    if d = @marks.debug
+      d.toggle debug
+      d.updatePosition()
 
   addLabel: (name, style) ->
     @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style

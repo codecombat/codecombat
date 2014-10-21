@@ -143,6 +143,10 @@ me.getLanguageCodeArray = ->
   return Language.languageCodes
 
 me.getLanguagesObject = -> return Language
+  
+me.extendTranslationCoverageProperties = (schema) ->
+  schema.properties = {} unless schema.properties?
+  schema.properties.i18nCoverage = { title: 'i18n Coverage', type: 'array', items: { type: 'string' }}
 
 # OTHER
 

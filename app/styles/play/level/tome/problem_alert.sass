@@ -9,7 +9,7 @@
   left: 10px
   right: 10px
   background: transparent
-  border: 0
+  border: 1px solid transparent
   padding: 0
   text-shadow: none
   color: white
@@ -31,14 +31,14 @@
     &:hover, &:focus
       @include opacity(1)
 
-  .problem-hint
+  .problem-subtitle
     font-size: 80%
-      
+
   //&.alert-error
 
   &.alert-warning
     border-image-source: url(/images/level/code_editor_warning_background.png)
-    
+
   &.alert-info
     border-image-source: url(/images/level/code_editor_info_background.png)
 

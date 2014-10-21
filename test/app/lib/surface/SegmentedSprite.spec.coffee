@@ -136,12 +136,14 @@ describe 'SegmentedSprite', ->
       segmentedSprite.tick(500)
       expect(segmentedSprite.baseMovieClip.currentFrame).toBe(6)
 
-    it 'emits animationend for animations where loops is false and there is no goesTo', ->
+    it 'emits animationend for animations where loops is false and there is no goesTo', (done) ->
       fired = false
       segmentedSprite.gotoAndPlay('onestep')
       segmentedSprite.on('animationend', -> fired = true)
       segmentedSprite.tick(1000)
-      expect(fired).toBe(true)
+      _.defer -> # because the event is deferred
+        expect(fired).toBe(true)
+        done()
 
     it 'scales rendered animations like a MovieClip', ->
       # build a movie clip, put it on top of the segmented sprite and make sure

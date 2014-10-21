@@ -15,7 +15,7 @@ module.exports = class PlayItemsModal extends ModalView
     hands: ['right-hand', 'left-hand']
     accessories: ['eyes', 'neck', 'left-ring', 'right-ring', 'waist']
     minions: ['minion', 'pet']
-    misc: ['programming-book', 'misc-0', 'misc-1']
+    misc: ['programming-book', 'flag', 'misc-0', 'misc-1']
 
   #events:
   #  'change input.select': 'onSelectionChanged'

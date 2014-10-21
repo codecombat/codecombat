@@ -8,7 +8,8 @@
             .replace-me(data-item-id=equipment[slot].get('original'))
 
   .item-slot-column.pull-left
-    for slot in ['minion', 'torso', 'gloves', 'left-hand', 'misc-0']
+    // TODO: add in 'misc-0' again somehow? Used to be where 'flag' is now.
+    for slot in ['minion', 'torso', 'gloves', 'left-hand', 'flag']
       .item-slot(data-slot=slot)
         .placeholder
         .item-container

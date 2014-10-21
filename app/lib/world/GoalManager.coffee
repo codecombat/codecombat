@@ -152,6 +152,7 @@ module.exports = class GoalManager extends CocoClass
 
   checkForInitialUserCodeProblems: ->
     # There might have been some user code problems reported before the goal manager started listening.
+    return unless @world
     for thang in @world.thangs when thang.isProgrammable
       for message, problem of thang.publishedUserCodeProblems
         @onUserCodeProblem {thang: thang, problem: problem}, 0

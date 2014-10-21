@@ -370,7 +370,7 @@ module.exports = class ThangsTabView extends CocoView
       @adjustThangPos @addThangLank, thang, pos
     else
       @addThangLank = null
-      @surface.lankBoss.reallyStopMoving = false
+      @surface?.lankBoss.reallyStopMoving = false
 
   createEssentialComponents: (defaultComponents) ->
     physicalConfig = {pos: {x: 10, y: 10, z: 1}}

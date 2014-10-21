@@ -35,6 +35,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'rasterIcon'
     'featureImage'
     'spriteType'
+    'i18nCoverage'
   ]
 
   hasAccess: (req) ->

@@ -150,3 +150,27 @@ describe 'CocoModel', ->
           else return ready false
 
           request.response {status:200, responseText: JSON.stringify me}
+
+  describe 'updateI18NCoverage', ->
+    class FlexibleClass extends CocoModel
+      @className: 'Flexible'
+      @schema: {}
+
+    it 'only includes languages for which all objects include a translation', ->
+      m = new FlexibleClass({
+        i18n: { es: {}, fr: {} }
+        prop1: 1
+        prop2: 'string'
+        prop3: true
+        innerObject: {
+          i18n: { es: {}, de: {}, fr: {} }
+          prop4: [
+            {
+              i18n: { es: {} }
+            }
+          ]
+        }
+      })
+
+      m.updateI18NCoverage()
+      expect(JSON.stringify(m.get('i18nCoverage'))).toBe('["es"]')

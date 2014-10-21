@@ -83,9 +83,11 @@ module.exports = class PlayLevelModal extends ModalView
       aceConfig.language = codeLanguage
       me.set 'aceConfig', aceConfig
     if patchMe
+      console.log 'setting me.heroConfig to', lastHeroConfig
       me.set 'heroConfig', lastHeroConfig
       me.patch()
     if patchSession
+      console.log 'setting session.heroConfig to', sessionHeroConfig
       @options.session.set 'heroConfig', sessionHeroConfig
       @options.session.patch success: callback unless skipSessionSave
     else

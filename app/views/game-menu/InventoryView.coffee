@@ -10,7 +10,7 @@ module.exports = class InventoryView extends CocoView
   id: 'inventory-view'
   className: 'tab-pane'
   template: template
-  slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'misc-0', 'misc-1']
+  slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag']  #, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
 
   events:
     'click .item-slot': 'onItemSlotClick'
