@@ -121,6 +121,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @container.regY = e.surfaceViewport.y
       if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
         for child in @container.children
+          continue if child.skipScaling
           child.scaleX *= change
           child.scaleY *= change
 
@@ -130,6 +131,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @container.addChild children...
     if @transformStyle is LayerAdapter.TRANSFORM_SURFACE_TEXT
       for child in children
+        continue if child.skipScaling
         child.scaleX /= @container.scaleX
         child.scaleY /= @container.scaleY
 

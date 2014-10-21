@@ -135,7 +135,7 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if showCoordinates
 
   hookUpChooseControls: ->
-    chooserOptions = stage: @normalStage, normalStage: @normalStage, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
+    chooserOptions = stage: @webGLStage, surfaceLayer: @surfaceTextLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
     klass = if @options.choosing is 'point' then PointChooser else RegionChooser
     @chooser = new klass chooserOptions
 
