@@ -51,7 +51,8 @@ module.exports = class ThangsTabView extends CocoView
     'click #thangs-container-toggle': 'toggleThangsContainer'
     'click #thangs-palette-toggle': 'toggleThangsPalette'
 #    'click .add-thang-palette-icon': 'toggleThangsPalette'
-
+    'click #rotation-menu-item button': 'onClickRotationButton'
+  
   shortcuts:
     'esc': 'selectAddThang'
     'delete, del, backspace': 'deleteSelectedExtantThang'
@@ -59,6 +60,10 @@ module.exports = class ThangsTabView extends CocoView
     'right': -> @moveAddThangSelection 1
     'ctrl+z, ⌘+z': 'undo'
     'ctrl+shift+z, ⌘+shift+z': 'redo'
+    'alt+left': -> @rotateSelectedThangBy(Math.PI)
+    'alt+right': -> @rotateSelectedThangBy(0)
+    'alt+up': -> @rotateSelectedThangBy(-Math.PI/2)
+    'alt+down': -> @rotateSelectedThangBy(Math.PI/2)
 
   constructor: (options) ->
     super options
@@ -615,6 +620,8 @@ module.exports = class ThangsTabView extends CocoView
     $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
     $('#contextmenu').show()
 
+  #- Context menu callbacks
+    
   onDeleteClicked: (e) ->
     $('#contextmenu').hide()
     @deleteSelectedExtantThang e
@@ -623,6 +630,22 @@ module.exports = class ThangsTabView extends CocoView
     $('#contextmenu').hide()
     @selectAddThangType @selectedExtantThang.spriteName, @selectedExtantThang
 
+  onClickRotationButton: (e) ->
+    $('#contextmenu').hide()
+    rotation = parseFloat($(e.target).closest('button').data('rotation'))
+    @rotateSelectedThangBy rotation * Math.PI
+    
+  rotateSelectedThangBy: (radians) ->
+    return unless @selectedExtantThang
+    @hush = true
+    thangData = @getThangByID(@selectedExtantThang.id)
+    thangData = $.extend(true, {}, thangData)
+    component = _.find thangData.components, {original: LevelComponent.PhysicalID}
+    component.config.rotation = radians
+    @thangsTreema.set(@pathForThang(thangData), thangData)
+    @hush = false
+    @onThangsChanged()
+    
   toggleThangsContainer: (e) ->
     $('#all-thangs').toggleClass('hide')
 

@@ -494,6 +494,7 @@
     level_tab_thangs_add: "Add Thangs"
     delete: "Delete"
     duplicate: "Duplicate"
+    rotate: "Rotate"
     level_settings_title: "Settings"
     level_component_tab_title: "Current Components"
     level_component_btn_new: "Create New Component"
