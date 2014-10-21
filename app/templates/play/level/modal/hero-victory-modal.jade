@@ -15,31 +15,31 @@ block modal-body-content
         - var worth = achievement.get('worth', true);
         if worth
           .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp')
-            .reward-image-container(class=animate?'':'show')
+            .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
               img(src="/images/pages/play/level/modal/reward_icon_xp.png")
             .reward-text= animate ? '+0' : '+'+worth
 
         if rewards.gems
           .reward-panel.numerical.gems(data-number=rewards.gems, data-number-unit='gem')
-            .reward-image-container(class=animate?'':'show')
+            .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
               img(src="/images/pages/play/level/modal/reward_icon_gems.png")
             .reward-text= animate ? '+0' : '+'+rewards.gems
           
         if rewards.heroes
           for hero in rewards.heroes
             - var hero = thangTypes[hero];
-            .reward-panel.hero
-              .reward-image-container(class=animate?'':'show')
+            .reward-panel.hero(data-hero-thang-type=hero.get('original'))
+              .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                 img(src=hero.getPortraitURL())
-              .reward-text= hero.get('name')
+              .reward-text= animate ? 'New Hero' : hero.get('name')
 
         if rewards.items
           for item in rewards.items
             - var item = thangTypes[item];
-            .reward-panel.item
-              .reward-image-container(class=animate?'':'show')
+            .reward-panel.item(data-item-thang-type=item.get('original'))
+              .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                 img(src=item.getPortraitURL())
-              .reward-text= item.get('name')
+              .reward-text= animate ? 'New Item' : item.get('name')
 
 
 block modal-footer-content
@@ -60,7 +60,7 @@ block modal-footer-content
     a.btn.btn-success.world-map-button.hide#continue-button(href="/play-hero", data-dismiss="modal", data-i18n="play_level.victory_play_continue") Continue
 
   if me.get('anonymous')
-    p.sign-up-poke
+    p.sign-up-poke.hide
       button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/SignupModal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
       span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
 

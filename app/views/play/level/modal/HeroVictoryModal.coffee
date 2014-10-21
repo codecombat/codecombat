@@ -7,6 +7,7 @@ LocalMongo = require 'lib/LocalMongo'
 utils = require 'lib/utils'
 ThangType = require 'models/ThangType'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
+AudioPlayer = require 'lib/AudioPlayer'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -45,7 +46,7 @@ module.exports = class HeroVictoryModal extends ModalView
     for thangTypeOriginal in thangTypeOriginals
       thangType = new ThangType()
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
-      thangType.project = ['original', 'rasterIcon', 'name']
+      thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
 
     if achievementIDs.length
@@ -86,7 +87,7 @@ module.exports = class HeroVictoryModal extends ModalView
     ##  achievement.completedAWhileAgo = index > 1
     #  achievement.completed = true
     #  achievement.completedAWhileAgo = false
-    #  achievement.attributes.worth = (index + 1) * achievement.get('worth')
+    #  achievement.attributes.worth = (index + 1) * achievement.get('worth', true)
     #  rewards = achievement.get('rewards')
     #  rewards.gems *= (index + 1)
 
@@ -99,10 +100,14 @@ module.exports = class HeroVictoryModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @$el.addClass 'with-sign-up' if me.get('anonymous')
     @updateSavingProgressStatus()
-    @$el.find('#victory-header').delay(250).queue(-> $(@).removeClass('out').dequeue())
-    complete = _.once(_.bind(@beginAnimateNumbers, @))
+    @$el.find('#victory-header').delay(250).queue(->
+      $(@).removeClass('out').dequeue()
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory-title-appear'  # TODO: actually add this
+    )
+    complete = _.once(_.bind(@beginSequentialAnimations, @))
     @animatedPanels = $()
     panels = @$el.find('.achievement-panel')
     for panel in panels
@@ -126,29 +131,34 @@ module.exports = class HeroVictoryModal extends ModalView
       @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
-  beginAnimateNumbers: ->
-    @numericalItemPanels = _.map(@animatedPanels.find('.numerical'), (panel) -> {
+  beginSequentialAnimations: ->
+    @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       textEl: $(panel).find('.reward-text')
       rootEl: $(panel)
       unit: $(panel).data('number-unit')
+      hero: $(panel).data('hero-thang-type')
+      item: $(panel).data('item-thang-type')
     })
 
     @totalXP = 0
-    @totalXP += panel.number for panel in @numericalItemPanels when panel.unit is 'xp'
+    @totalXP += panel.number for panel in @sequentialAnimatedPanels when panel.unit is 'xp'
     @totalGems = 0
-    @totalGems += panel.number for panel in @numericalItemPanels when panel.unit is 'gem'
+    @totalGems += panel.number for panel in @sequentialAnimatedPanels when panel.unit is 'gem'
     @gemEl = $('#gem-total')
     @XPEl = $('#xp-total')
     @totalXPAnimated = @totalGemsAnimated = @lastTotalXP = @lastTotalGems = 0
-    @numberAnimationStart = new Date()
-    @numberAnimationInterval = setInterval(@tickNumberAnimation, 1000 / 60)
+    @sequentialAnimationStart = new Date()
+    @sequentialAnimationInterval = setInterval(@tickSequentialAnimation, 1000 / 60)
 
-  tickNumberAnimation: =>
+  tickSequentialAnimation: =>
     # TODO: make sure the animation pulses happen when the numbers go up and sounds play (up to a max speed)
-    return @endAnimateNumbers() unless panel = @numericalItemPanels[0]
-    duration = Math.log(panel.number + 1) / Math.LN10 * 1000  # Math.log10 is ES6
-    ratio = @getEaseRatio (new Date() - @numberAnimationStart), duration
+    return @endSequentialAnimations() unless panel = @sequentialAnimatedPanels[0]
+    if panel.number
+      duration = Math.log(panel.number + 1) / Math.LN10 * 1000  # Math.log10 is ES6
+    else
+      duration = 1000
+    ratio = @getEaseRatio (new Date() - @sequentialAnimationStart), duration
     if panel.unit is 'xp'
       newXP = Math.floor(ratio * panel.number)
       totalXP = @totalXPAnimated + newXP
@@ -158,7 +168,7 @@ module.exports = class HeroVictoryModal extends ModalView
         xpTrigger = 'xp-' + (totalXP % 6)  # 6 xp sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
         @lastTotalXP = totalXP
-    else
+    else if panel.unit is 'gem'
       newGems = Math.floor(ratio * panel.number)
       totalGems = @totalGemsAnimated + newGems
       if totalGems isnt @lastTotalGems
@@ -167,16 +177,24 @@ module.exports = class HeroVictoryModal extends ModalView
         gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2
         @lastTotalGems = totalGems
+    else if panel.item
+      thangType = @thangTypes[panel.item]
+      panel.textEl.text(thangType.get('name'))
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'item-unlocked', volume: 1 if 0.5 < ratio < 0.6
+    else if panel.hero
+      thangType = @thangTypes[panel.hero]
+      panel.textEl.text(thangType.get('name'))
+      @playSelectionSound hero if 0.5 < ratio < 0.6
     if ratio is 1
       panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')
-      @numberAnimationStart = new Date()
+      @sequentialAnimationStart = new Date()
       if panel.unit is 'xp'
         @totalXPAnimated += panel.number
-      else
+      else if panel.unit is 'gem'
         @totalGemsAnimated += panel.number
-      @numericalItemPanels.shift()
+      @sequentialAnimatedPanels.shift()
       return
-    panel.rootEl.addClass('animating').find('.reward-image-container img').addClass('pulse')
+    panel.rootEl.addClass('animating').find('.reward-image-container').removeClass('pending-reward-image').find('img').addClass('pulse')
 
   getEaseRatio: (timeSinceStart, duration) ->
     # Ease in/out quadratic - http://gizma.com/easing/
@@ -187,8 +205,8 @@ module.exports = class HeroVictoryModal extends ModalView
     --t
     -0.5 * (t * (t - 2) - 1)
 
-  endAnimateNumbers: ->
-    clearInterval @numberAnimationInterval
+  endSequentialAnimations: ->
+    clearInterval @sequentialAnimationInterval
     @animationComplete = true
     @updateSavingProgressStatus()
 
@@ -196,14 +214,23 @@ module.exports = class HeroVictoryModal extends ModalView
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
     @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)
+    @$el.find('.sign-up-poke').toggleClass('hide', not @readyToContinue)
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     Backbone.Mediator.publish 'router:navigate', route: ladderURL
 
+  playSelectionSound: (hero, preload=false) ->
+    return unless sounds = hero.get('soundTriggers')?.selected
+    return unless sound = sounds[Math.floor Math.random() * sounds.length]
+    name = AudioPlayer.nameForSoundReference sound
+    if preload
+      AudioPlayer.preloadSoundReference sound
+    else
+      AudioPlayer.playSound name, 1
 
   # TODO: award heroes/items and play an awesome sound when you get one
 
   destroy: ->
-    clearInterval @numberAnimationInterval
+    clearInterval @sequentialAnimationInterval
     super()

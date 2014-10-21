@@ -19,10 +19,11 @@
   #victory-header
     display: block
     margin: 15px auto 0
-    @include transition(0.25s ease-in)
+    // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.18,.68,.75,2
+    @include transition(0.5s cubic-bezier(0.18, 0.68, 0.75, 2))
 
     &.out
-      margin-top: -100px
+      @include scale(0)
     
   .modal-header
     height: 85px
@@ -95,10 +96,10 @@
       @include scale(1.5)
       z-index: 2
 
-      .reward-text
-        font-size: 18px
-        overflow: visible
-        bottom: 9px
+    &.numerical &.animating .reward-text
+      font-size: 18px
+      overflow: visible
+      bottom: 9px
 
     .reward-image-container
       top: 8px
@@ -113,6 +114,13 @@
       &.show
         @include scale(1)
       
+      &.pending-reward-image
+        img
+          -webkit-filter: brightness(2000%) contrast(25%)
+          -moz-filter: brightness(2000%) contrast(25%)
+          -o-filter: brightness(2000%) contrast(25%)
+          filter: brightness(2000%) contrast(25%)
+
       img
         margin: 0
         position: absolute
