@@ -237,14 +237,12 @@ module.exports = class Mark extends CocoClass
     @sprite.scaleY = h / (@layer.resolutionFactor * DEBUG_SIZE)
 
   buildSprite: ->
-    console.log 'build sprite?'
     if _.isString @thangType
       thangType = markThangTypes[@thangType]
       return @loadThangType() if not thangType
       @thangType = thangType
 
     return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
-    console.log 'loaded, so go ahead!'
     Lank = require './Lank'
     # don't bother with making these render async for now, but maybe later for fun and more complexity of code
     markLank = new Lank @thangType
@@ -252,8 +250,7 @@ module.exports = class Mark extends CocoClass
     @sprite = markLank.sprite
     @markLank = markLank
     @listenTo @markLank, 'new-sprite', (@sprite) ->
-    console.log 'oh yes, all done', markLank, @markLank
-
+    
   loadThangType: ->
     name = @thangType
     @thangType = new ThangType()
@@ -263,7 +260,6 @@ module.exports = class Mark extends CocoClass
     markThangTypes[name] = @thangType
 
   onLoadedThangType: ->
-    console.log 'on loaded thang type...', @name
     @build()
     @update() if @markLank
     @toggle(@toggleTo) if @toggleTo?
