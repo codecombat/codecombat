@@ -98,12 +98,14 @@ module.exports = class PlayLevelModal extends ModalView
     @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').removeClass 'secret'
     @inventoryView.selectedHero = @chooseHeroView.selectedHero
     @inventoryView.onShown()
+    window.tracker?.trackEvent 'Play Level Modal', Action: 'Choose Inventory'
 
   onClickChooseHero: (e) ->
     @chooseHeroView.$el.add('#choose-inventory-button, #choose-hero-header').removeClass 'secret'
     @inventoryView.$el.add('#choose-hero-button, #play-level-button, #choose-inventory-header').addClass 'secret'
     @chooseHeroView.onShown()
     @inventoryView.endHighlight()
+    window.tracker?.trackEvent 'Play Level Modal', Action: 'Choose Hero'
 
   onClickPlayLevel: (e) ->
     return if @$el.find('#play-level-button').prop 'disabled'
@@ -120,6 +122,7 @@ module.exports = class PlayLevelModal extends ModalView
         viewClass: viewClass
         viewArgs: [{supermodel: @supermodel}, @options.levelID]
       }
+    window.tracker?.trackEvent 'Play Level Modal', Action: 'Play'
 
   onEnterPressed: (e) ->
     (if @chooseHeroView.$el.hasClass('secret') then @onClickPlayLevel else @onClickChooseInventory).apply @

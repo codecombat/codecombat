@@ -44,6 +44,7 @@ module.exports = class WorldMapView extends RootView
     @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
     @preloadTopHeroes()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
+    window.tracker?.trackEvent 'World Map', Action: 'Loaded'
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -121,7 +122,10 @@ module.exports = class WorldMapView extends RootView
       @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
       @adjustLevelInfoPosition e
     else
-      @startLevel $(e.target).parents('.level')
+      levelElement = $(e.target).parents('.level')
+      levelID = levelElement.data('level-id')
+      @startLevel levelElement
+    window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelID
 
   onClickStartLevel: (e) ->
     @startLevel $(e.target).parents('.level-info-container')
@@ -217,6 +221,7 @@ module.exports = class WorldMapView extends RootView
     storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
+    return  # Testing to see if this is causing the weird problem with ThangTypes overwriting me
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url

@@ -26,7 +26,7 @@ module.exports = class RootView extends CocoView
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .auth-button': 'onClickAuthButton'
-    'click a': 'toggleModal'
+    'click a': 'onClickAnchor'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
 
@@ -43,6 +43,7 @@ module.exports = class RootView extends CocoView
         success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
 
   logoutAccount: ->
+    window.tracker?.trackEvent 'Homepage', Action: 'Log Out' if @id is 'home-view'
     logoutUser($('#login-email').val())
 
   showWizardSettingsModal: ->
@@ -52,7 +53,13 @@ module.exports = class RootView extends CocoView
 
   onClickAuthButton: ->
     AuthModal = require 'views/modal/AuthModal'
+    window.tracker?.trackEvent 'Homepage', Action: 'Auth Modal' if @id is 'home-view'
     @openModalView new AuthModal {}
+
+  onClickAnchor: (e) ->
+    anchorText = e?.currentTarget?.text
+    window.tracker?.trackEvent 'Homepage', Action: anchorText if @id is 'home-view' and anchorText
+    @toggleModal e
 
   showLoading: ($el) ->
     $el ?= @$el.find('.main-content-area')

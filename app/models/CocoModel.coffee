@@ -79,7 +79,8 @@ class CocoModel extends Backbone.Model
     TreemaNode.utils.populateDefaults(clone, @schema(), thisTV4)
     @attributesWithDefaults = clone
     duration = new Date() - t0
-    console.debug "Populated defaults for #{@attributes.name or @type()} in #{duration}ms" if duration > 10
+    console.debug "Populated defaults for #{@type()}#{if @attributes.name then ' ' + @attributes.name else ''} in #{duration}ms"# if duration > 10
+    console.trace?()
 
   loadFromBackup: ->
     return unless @saveBackups
@@ -109,7 +110,7 @@ class CocoModel extends Backbone.Model
       console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
       for error in errors
         console.debug "\t", error.dataPath, ':', error.message
-      console.trace()
+      console.trace?()
       return errors
 
   save: (attrs, options) ->

@@ -12,6 +12,10 @@ module.exports = class HomeView extends RootView
   events:
     'click #beginner-campaign': 'onClickBeginnerCampaign'
 
+  constructor: ->
+    super()
+    window.tracker?.trackEvent 'Homepage', Action: 'Loaded'
+
   getRenderData: ->
     c = super()
     if $.browser
@@ -28,4 +32,5 @@ module.exports = class HomeView extends RootView
   onClickBeginnerCampaign: (e) ->
     e.preventDefault()
     e.stopImmediatePropagation()
+    window.tracker?.trackEvent 'Homepage', Action: 'Play'
     window.open '/play', '_blank'
