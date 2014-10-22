@@ -65,8 +65,7 @@ class CocoModel extends Backbone.Model
   set: (attributes, options) ->
     delete @attributesWithDefaults unless attributes is 'thangs'  # unless attributes is 'thangs': performance optimization for Levels keeping their cache.
     inFlux = @loading or not @loaded
-    console.log @type(), @get('name'), 'setting', attributes, options
-    console.trace
+    console.error @type(), @get('name'), 'setting', attributes, options
     @markToRevert() unless inFlux or @_revertAttributes or @project or options?.fromMerge
     res = super attributes, options
     @saveBackup() if @saveBackups and (not inFlux)
@@ -81,8 +80,7 @@ class CocoModel extends Backbone.Model
     TreemaNode.utils.populateDefaults(clone, @schema(), thisTV4)
     @attributesWithDefaults = clone
     duration = new Date() - t0
-    console.debug "Populated defaults for #{@type()}#{if @attributes.name then ' ' + @attributes.name else ''} in #{duration}ms"# if duration > 10
-    console.trace?()
+    console.debug "Populated defaults for #{@type()}#{if @attributes.name then ' ' + @attributes.name else ''} in #{duration}ms" if duration > 10
 
   loadFromBackup: ->
     return unless @saveBackups
