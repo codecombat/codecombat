@@ -168,43 +168,39 @@
     
   //- Footer
   
-  .modal-content
-    padding-bottom: 50px // so the footer appears at the bottom
-
-  &.with-sign-up .modal-content
-    padding-bottom: 100px  // need more space for signup poke
-
   .modal-footer
-    position: absolute
-    bottom: -20px
-    left: 20px
-    right: 20px
+    padding-bottom: 0
     
-  #totals
-    color: white
-
   p.sign-up-poke
-    position: absolute
-    bottom: 60px
-    right: 20px
     color: white
 
     .sign-up-button
       float: right
-      margin-left: 10px
+      margin: 2px 10px
 
-  .ladder-submission-view
-    display: inline-block
+  #totals
     color: white
 
-    .rank-button.btn-block
-      display: inline-block
-      width: initial
-      padding-left: 19px
-      padding-right: 19px
+  .next-level-buttons
+    float: right
 
-    .last-submitted
-      float: none
+    .next-level-button
+      display: block
+      margin: 8px 10px
+      width: 150px
+
+    .ladder-submission-view
+      display: inline-block
+      color: white
+
+      .rank-button.btn-block
+        display: inline-block
+        width: initial
+        padding-left: 19px
+        padding-right: 19px
+
+      .last-submitted
+        float: none
 
 
 html.no-borderimage

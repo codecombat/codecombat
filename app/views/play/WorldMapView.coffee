@@ -32,6 +32,7 @@ module.exports = class WorldMapView extends RootView
 
   constructor: (options) ->
     super options
+    @nextLevel = @getQueryVariable 'next'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
@@ -83,11 +84,14 @@ module.exports = class WorldMapView extends RootView
         level.x ?= 10 + 80 * Math.random()
         level.y ?= 10 + 80 * Math.random()
         level.locked = index > 0 and not me.earnedLevel level.original
-        level.locked = false if window.levelUnlocksNotWorking
+        window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
+        level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
+        level.color = if level.practice then 'rgb(80, 130, 200)' else campaign.color
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
+    context.nextLevel = @nextLevel
     context
 
   afterRender: ->
@@ -599,6 +603,9 @@ hero = [
     description: 'Grab the gem, but touch nothing else. Start here.'
     x: 14
     y: 15.5
+    nextLevels:
+      continue: 'gems-in-the-deep'
+      skip_ahead: 'shadow-guard'
   }
   {
     name: 'Gems in the Deep'
@@ -609,6 +616,24 @@ hero = [
     description: 'Quickly collect the gems; you will need them.'
     x: 32
     y: 15.5
+    nextLevels:
+      more_practice: 'gem-grabber'
+      continue: 'shadow-guard'
+      skip_ahead: 'true-names'
+  }
+  {
+    name: 'Gem Grabber'
+    type: 'hero'
+    difficulty: 1
+    id: 'gem-grabber'
+    original: '54174347844506ae0195a0b8'
+    description: 'Grab even more gems as you practice moving.'
+    x: 35.49
+    y: 24.61
+    nextLevels:
+      continue: 'shadow-guard'
+    practice: true
+    disabled: true
   }
   {
     name: 'Shadow Guard'
@@ -619,6 +644,23 @@ hero = [
     description: 'Evade the Kithgard minion.'
     x: 54
     y: 9
+    nextLevels:
+      more_practice: 'munchkin-dodger'
+      continue: 'true-names'
+  }
+  {
+    name: 'Munchkin Dodger'
+    type: 'hero'
+    difficulty: 1
+    id: 'munchkin-dodger'
+    original: '541875da4c16460000ab990f'
+    description: 'Practice your evasion skills with more guards.'
+    x: 61.19
+    y: 13.80
+    nextLevels:
+      continue: 'true-names'
+    practice: true
+    disabled: true
   }
   {
     name: 'True Names'
@@ -629,6 +671,23 @@ hero = [
     description: 'Learn an enemy\'s true name to defeat it.'
     x: 74
     y: 12
+    nextLevels:
+      more_practice: 'munchkin-slayer'
+      continue: 'the-raised-sword'
+  }
+  {
+    name: 'Munchkin Slayer'
+    type: 'hero'
+    difficulty: 1
+    id: 'munchkin-slayer'
+    original: '5418aec24c16460000ab9aa6'
+    description: 'Test out your battle skills by defeating more munchkins.'
+    x: 80.85
+    y: 11.85
+    nextLevels:
+      continue: 'the-raised-sword'
+    practice: true
+    disabled: true
   }
   {
     name: 'The Raised Sword'
@@ -639,6 +698,8 @@ hero = [
     description: 'Learn to equip yourself for combat.'
     x: 85
     y: 20
+    nextLevels:
+      continue: 'the-first-kithmaze'
   }
   {
     name: 'The First Kithmaze'
@@ -649,6 +710,24 @@ hero = [
     description: 'The builders of Kith constructed many mazes to confuse travelers.'
     x: 70
     y: 28
+    nextLevels:
+      more_practice: 'the-one-point-fifth-kithmaze'
+      continue: 'the-second-kithmaze'
+      skip_ahead: 'new-sight'
+  }
+  {
+    name: 'The One-Point_Fifth Kithmaze'
+    type: 'hero'
+    difficulty: 1
+    id: 'the-one-point-fifth-kithmaze'
+    original: '5418cf256bae62f707c7e1c3'
+    description: 'Another day, another maze.'
+    x: 78.47
+    y: 34.38
+    nextLevels:
+      continue: 'the-second-kithmaze'
+    practice: true
+    disabled: true
   }
   {
     name: 'The Second Kithmaze'
@@ -659,6 +738,23 @@ hero = [
     description: 'Many have tried, few have found their way through this maze.'
     x: 55.54
     y: 26.96
+    nextLevels:
+      more_practice: 'the-two-point-fifth-kithmaze'
+      continue: 'new-sight'
+  }
+  {
+    name: 'The Two-Point-Fifth Kithmaze'
+    type: 'hero'
+    difficulty: 1
+    id: 'the-two-point-fifth-kithmaze'
+    original: '5418d40f4c16460000ab9ac2'
+    description: 'You must really like doing these mazes!'
+    x: 49.02
+    y: 25.78
+    nextLevels:
+      continue: 'new-sight'
+    practice: true
+    disabled: true
   }
   {
     name: 'New Sight'
@@ -669,6 +765,8 @@ hero = [
     description: 'A true name can only be seen with the correct lenses.'
     x: 67
     y: 41
+    nextLevels:
+      continue: 'lowly-kithmen'
   }
   {
     name: 'Lowly Kithmen'
@@ -679,6 +777,24 @@ hero = [
     description: 'Use your glasses to seek out and attack the Kithmen.'
     x: 74
     y: 48
+    nextLevels:
+      more_practice: 'still-pretty-low-kithmen'
+      continue: 'closing-the-distance'
+      skip_ahead: 'the-final-kithmaze'
+  }
+  {
+    name: 'Still-Pretty-Low Kithmen'
+    type: 'hero'
+    difficulty: 1
+    id: 'still-pretty-low-kithmen'
+    original: '541b288e1ccc8eaae19f3c25'
+    description: 'Now that you can see them, they\'re everywhere!'
+    x: 80.17
+    y: 45.31
+    nextLevels:
+      continue: 'closing-the-distance'
+    practice: true
+    disabled: true
   }
   {
     name: 'Closing the Distance'
@@ -689,6 +805,23 @@ hero = [
     description: 'Kithmen are not the only ones to stand in your way.'
     x: 76
     y: 60
+    nextLevels:
+      more_practice: 'assassinating-more-kithmen'
+      continue: 'the-final-kithmaze'
+  }
+  {
+    name: 'Assassinating More Kithmen'
+    type: 'hero'
+    difficulty: 1
+    id: 'assassinating-more-kithmen'
+    original: '541b434e1ccc8eaae19f3c33'
+    description: 'They\'re, uh, coming right for us?'
+    x: 80.34
+    y: 55.60
+    nextLevels:
+      continue: 'the-final-kithmaze'
+    practice: true
+    disabled: true
   }
   {
     name: 'The Final Kithmaze'
@@ -699,6 +832,23 @@ hero = [
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
     x: 82
     y: 70
+    nextLevels:
+      more_practice: 'okay-one-more-kithmaze'
+      continue: 'kithgard-gates'
+  }
+  {
+    name: 'Okay, One More Kithmaze'
+    type: 'hero'
+    difficulty: 1
+    id: 'okay-one-more-kithmaze'
+    original: '541c9a30c6362edfb0f34479'
+    description: 'But you really gotta get outside after this, okay?'
+    x: 76.94
+    y: 74.22
+    nextLevels:
+      continue: 'kithgard-gates'
+    practice: true
+    disabled: true
   }
   {
     name: 'Kithgard Gates'
@@ -710,6 +860,8 @@ hero = [
     disabled: true
     x: 89
     y: 82
+    nextLevels:
+      continue: 'defence-of-plainswood'
   }
   {
     name: 'Defence of Plainswood'
@@ -781,7 +933,7 @@ hero = [
 
 ]
 
-campaigns = [
+WorldMapView.campaigns = campaigns = [
   #{id: 'beginner', name: 'Beginner Campaign', description: '... in which you learn the wizardry of programming.', levels: tutorials, color: "rgb(255, 80, 60)"}
   #{id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: arenas, color: "rgb(80, 5, 60)"}
   #{id: 'dev', name: 'Random Harder Levels', description: '... in which you learn the interface while doing something a little harder.', levels: experienced, color: "rgb(80, 60, 255)"}

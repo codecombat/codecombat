@@ -102,13 +102,15 @@ module.exports = class HeroVictoryModal extends ModalView
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
+    c.continueLevel = @getNextLevel 'continue'
+    c.morePracticeLevel = me.isAdmin() and @getNextLevel 'more_practice'
+    c.skipAheadLevel = me.isAdmin() and @getNextLevel 'skip_ahead'
     return c
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
-    @$el.addClass 'with-sign-up' if me.get('anonymous')
     @updateSavingProgressStatus()
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
@@ -220,7 +222,7 @@ module.exports = class HeroVictoryModal extends ModalView
   updateSavingProgressStatus: ->
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
-    @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)
+    @$el.find('.next-level-button').toggleClass('hide', not @readyToContinue)
     @$el.find('.sign-up-poke').toggleClass('hide', not @readyToContinue)
 
   onGameSubmitted: (e) ->
@@ -235,6 +237,15 @@ module.exports = class HeroVictoryModal extends ModalView
       AudioPlayer.preloadSoundReference sound
     else
       AudioPlayer.playSound name, 1
+
+  getNextLevel: (type) ->
+    for campaign in require('views/play/WorldMapView').campaigns
+      break if levelInfo
+      for level in campaign.levels
+        if level.id is @level.get 'slug'
+          levelInfo = level
+          break
+    levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
 
   # TODO: award heroes/items and play an awesome sound when you get one
 
