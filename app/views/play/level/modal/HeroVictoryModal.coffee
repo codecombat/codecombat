@@ -37,7 +37,7 @@ module.exports = class HeroVictoryModal extends ModalView
     thangTypeOriginals = []
     achievementIDs = []
     for achievement in @achievements.models
-      rewards = achievement.get('rewards')
+      rewards = achievement.get('rewards') or {}
       thangTypeOriginals.push rewards.heroes or []
       thangTypeOriginals.push rewards.items or []
       achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
@@ -95,7 +95,7 @@ module.exports = class HeroVictoryModal extends ModalView
     #  achievement.completed = true
     #  achievement.completedAWhileAgo = false
     #  achievement.attributes.worth = (index + 1) * achievement.get('worth', true)
-    #  rewards = achievement.get('rewards')
+    #  rewards = achievement.get('rewards') or {}
     #  rewards.gems *= (index + 1)
 
     c.thangTypes = @thangTypes
