@@ -1009,7 +1009,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    filter_experience_junior: "Junior"
 #    filter_experience_recent_grad: "Recent Grad"
 #    filter_experience_student: "College Student"
-    filter_results: "Résultat"
+    filter_results: "Résultats"
 #    start_hiring: "Start hiring."
 #    reasons: "Three reasons you should hire through us:"
 #    everyone_looking: "Everyone here is looking for their next opportunity."
@@ -1032,7 +1032,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     candidate_last_updated: "Dernière mise à jour"
 #    candidate_who: "Who"
 #    featured_developers: "Featured Developers"
-    other_developers: "Autres développeur"
+    other_developers: "Autres développeurs"
 #    inactive_developers: "Inactive Developers"
 
   admin:
