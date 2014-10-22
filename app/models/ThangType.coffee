@@ -219,7 +219,7 @@ module.exports = class ThangType extends CocoModel
     $('<img />').attr('src', src)
 
   getPortraitSource: (spriteOptionsOrKey, size=100) ->
-    return @getPortraitURL() if @get 'rasterIcon'
+    return @getPortraitURL() if @get('rasterIcon') or @get('raster')
     stage = @getPortraitStage(spriteOptionsOrKey, size)
     stage?.toDataURL()
 
@@ -259,7 +259,7 @@ module.exports = class ThangType extends CocoModel
 
   uploadGenericPortrait: (callback, src) ->
     src ?= @getPortraitSource()
-    return callback?() unless src
+    return callback?() unless src and src.startsWith 'data:'
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'
@@ -284,6 +284,8 @@ module.exports = class ThangType extends CocoModel
   getPortraitURL: ->
     if iconURL = @get('rasterIcon')
       return "/file/#{iconURL}"
+    if rasterURL = @get('raster')
+      return "/file/#{rasterURL}"
     "/file/db/thang.type/#{@get('original')}/portrait.png"
 
   # Item functions

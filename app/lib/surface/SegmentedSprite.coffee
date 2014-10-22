@@ -89,7 +89,6 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       containerName = @spriteSheetPrefix + action.container
       sprite = new createjs.Sprite(@spriteSheet)
       sprite.gotoAndStop(containerName)
-      @listenToEventsFor(sprite)
       if sprite.currentFrame is 0 or @usePlaceholders
         sprite.gotoAndStop(0)
         @notifyActionNeedsRender(action)
@@ -173,7 +172,6 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       outerContainer = new createjs.SpriteContainer(@spriteSheet)
       innerContainer = new createjs.Sprite(@spriteSheet)
       innerContainer.gotoAndStop(@spriteSheetPrefix + localContainer.gn)
-      @listenToEventsFor(innerContainer)
       if innerContainer.currentFrame is 0 or @usePlaceholders
         innerContainer.gotoAndStop(0)
         @actionNotSupported = true
@@ -190,12 +188,6 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       outerContainer.alpha = localContainer.al if localContainer.al?
       map[localContainer.bn] = outerContainer
     return map
-
-  listenToEventsFor: (displayObject) ->
-    for event in ['mousedown', 'click', 'dblclick', 'pressmove', 'pressup']
-      displayObject.on event, @onMouseEvent, @
-   
-  onMouseEvent: (e) -> @dispatchEvent(e)
 
   buildMovieClipAnimations: (localAnimations) ->
     map = {}

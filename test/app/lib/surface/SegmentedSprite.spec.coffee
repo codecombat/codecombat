@@ -81,13 +81,6 @@ describe 'SegmentedSprite', ->
       expect(hitRate).toBeGreaterThan(0.73)
       $('canvas').remove()
 
-    it 'propagates events from the single segment through the segmented sprite', ->
-      fired = {}
-      segmentedSprite.on('click', -> fired.didIt = true)
-      segmentedSprite.gotoAndStop('idle')
-      segmentedSprite.children[0].dispatchEvent('click')
-      expect(fired.didIt).toBe(true)
-
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
       layer = new LayerAdapter({webGL:true, name:'Default'})
@@ -182,13 +175,6 @@ describe 'SegmentedSprite', ->
       expect(hitRate).toBeGreaterThan(0.96)
       $('canvas').remove()
       
-    it 'propagates events from the segments through the segmented sprite', ->
-      fired = {}
-      segmentedSprite.on('click', -> fired.didIt = true)
-      segmentedSprite.gotoAndStop('idle')
-      segmentedSprite.children[0].children[0].dispatchEvent('click')
-      expect(fired.didIt).toBe(true)
-
   describe 'with Ogre Fangrider ThangType', ->
     beforeEach ->
       layer = new LayerAdapter({webGL:true})

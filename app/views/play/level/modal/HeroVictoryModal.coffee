@@ -30,13 +30,14 @@ module.exports = class HeroVictoryModal extends ModalView
     @achievements = @supermodel.loadCollection(achievements, 'achievements').model
     @listenToOnce @achievements, 'sync', @onAchievementsLoaded
     @readyToContinue = false
+    @waitingToContinueSince = new Date()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
 
   onAchievementsLoaded: ->
     thangTypeOriginals = []
     achievementIDs = []
     for achievement in @achievements.models
-      rewards = achievement.get('rewards')
+      rewards = achievement.get('rewards') or {}
       thangTypeOriginals.push rewards.heroes or []
       thangTypeOriginals.push rewards.items or []
       achievement.completed = LocalMongo.matchesQuery(@session.attributes, achievement.get('query'))
@@ -59,7 +60,13 @@ module.exports = class HeroVictoryModal extends ModalView
       res = @supermodel.loadCollection(earnedAchievements, 'earned_achievements')
       @earnedAchievements = res.model
       @listenTo @earnedAchievements, 'sync', ->
-        if @earnedAchievements.models.length < @earnedAchievements.sizeShouldBe
+        if (new Date() - @waitingToContinueSince) > 15 * 1000
+          # In case there is some network problem, like we saw with CloudFlare + school proxies, we'll let them keep playing.
+          application.tracker?.trackEvent 'Unlocking Failed', level: @level.get('slug'), label: @level.get('slug')
+          window.levelUnlocksNotWorking = true
+          @readyToContinue = true
+          @updateSavingProgressStatus()
+        else if @earnedAchievements.models.length < @earnedAchievements.sizeShouldBe
           @earnedAchievements.fetch()
         else
           @listenToOnce me, 'sync', ->
@@ -88,7 +95,7 @@ module.exports = class HeroVictoryModal extends ModalView
     #  achievement.completed = true
     #  achievement.completedAWhileAgo = false
     #  achievement.attributes.worth = (index + 1) * achievement.get('worth', true)
-    #  rewards = achievement.get('rewards')
+    #  rewards = achievement.get('rewards') or {}
     #  rewards.gems *= (index + 1)
 
     c.thangTypes = @thangTypes

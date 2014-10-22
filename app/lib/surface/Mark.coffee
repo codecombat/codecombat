@@ -34,7 +34,9 @@ module.exports = class Mark extends CocoClass
 
   onLayerMadeSpriteSheet: ->
     return unless @sprite
+    return @update() if @markLank
     # rebuild sprite for new sprite sheet
+    @layer.removeChild @sprite
     @sprite = null
     @build()
     @layer.addChild @sprite
@@ -248,7 +250,7 @@ module.exports = class Mark extends CocoClass
     @sprite = markLank.sprite
     @markLank = markLank
     @listenTo @markLank, 'new-sprite', (@sprite) ->
-
+    
   loadThangType: ->
     name = @thangType
     @thangType = new ThangType()
@@ -259,6 +261,7 @@ module.exports = class Mark extends CocoClass
 
   onLoadedThangType: ->
     @build()
+    @update() if @markLank
     @toggle(@toggleTo) if @toggleTo?
     Backbone.Mediator.publish 'sprite:loaded', {sprite: @}
 

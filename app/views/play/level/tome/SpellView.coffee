@@ -209,6 +209,11 @@ module.exports = class SpellView extends CocoView
     @zatanna?.set 'snippets', @autocomplete
 
   addZatannaSnippets: (e) ->
+    # Snippet entry format:
+    # content: code inserted into document
+    # meta: displayed right-justfied in popup
+    # name: displayed left-justified in popup, and what's being matched
+    # tabTrigger: fallback for name field
     return unless @zatanna and @autocomplete
     snippetEntries = []
     for group, props of e.propGroups
@@ -224,6 +229,7 @@ module.exports = class SpellView extends CocoView
         if doc?.snippets?[e.language]
           entry =
             content: doc.snippets[e.language].code
+            meta: 'press enter'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
           snippetEntries.push entry

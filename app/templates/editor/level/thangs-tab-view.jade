@@ -14,6 +14,17 @@ button.btn#thangs-palette-toggle
         a(data-i18n="editor.delete") Delete
       li#duplicate
         a(data-i18n="editor.duplicate") Duplicate
+      li.divider
+      li.dropdown-header#rotation-menu-item
+        span(data-i18n="editor.rotate").spr Rotate
+        button.btn.btn-xs.spr(data-rotation='-0.5')
+          span.glyphicon.glyphicon-arrow-up
+        button.btn.btn-xs.spr(data-rotation='1')
+          span.glyphicon.glyphicon-arrow-left
+        button.btn.btn-xs.spr(data-rotation='0')
+          span.glyphicon.glyphicon-arrow-right
+        button.btn.btn-xs(data-rotation='0.5')
+          span.glyphicon.glyphicon-arrow-down
     canvas(width=924, height=589)#webgl-surface
     canvas(width=924, height=589)#normal-surface
     #canvas-left-gradient.gradient
