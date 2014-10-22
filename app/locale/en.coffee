@@ -227,7 +227,7 @@
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     hud_continue: "Continue (shift+space)"
-    spell_saved: "Spell Saved"
+    code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
