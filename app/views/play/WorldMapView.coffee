@@ -221,7 +221,6 @@ module.exports = class WorldMapView extends RootView
     storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
-    return  # Testing to see if this is causing the weird problem with ThangTypes overwriting me
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url

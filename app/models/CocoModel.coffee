@@ -65,6 +65,8 @@ class CocoModel extends Backbone.Model
   set: (attributes, options) ->
     delete @attributesWithDefaults unless attributes is 'thangs'  # unless attributes is 'thangs': performance optimization for Levels keeping their cache.
     inFlux = @loading or not @loaded
+    console.log @type(), @get('name'), 'setting', attributes, options
+    console.trace
     @markToRevert() unless inFlux or @_revertAttributes or @project or options?.fromMerge
     res = super attributes, options
     @saveBackup() if @saveBackups and (not inFlux)
