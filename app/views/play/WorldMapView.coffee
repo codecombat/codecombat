@@ -86,7 +86,10 @@ module.exports = class WorldMapView extends RootView
         level.locked = index > 0 and not me.earnedLevel level.original
         window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
         level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
-        level.color = if level.practice then 'rgb(80, 130, 200)' else campaign.color
+        level.color = campaign.color
+        if level.practice
+          level.color = 'rgb(80, 130, 200)' unless me.getBranchingGroup() is 'all-practice'
+          level.hidden = true if me.getBranchingGroup() is 'no-practice'
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
@@ -716,7 +719,7 @@ hero = [
       skip_ahead: 'new-sight'
   }
   {
-    name: 'The One-Point_Fifth Kithmaze'
+    name: 'The One-Point-Fifth Kithmaze'
     type: 'hero'
     difficulty: 1
     id: 'the-one-point-fifth-kithmaze'

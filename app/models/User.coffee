@@ -76,3 +76,15 @@ module.exports = class User extends CocoModel
   earnedHero: (heroOriginal) -> heroOriginal in (me.get('earned')?.heroes ? [])
   earnedItem: (itemOriginal) -> itemOriginal in (me.get('earned')?.items ? [])
   earnedLevel: (levelOriginal) -> levelOriginal in (me.get('earned')?.levels ? [])
+
+  getBranchingGroup: ->
+    return @branchingGroup if @branchingGroup
+    group = me.get('testGroupNumber') % 4
+    @branchingGroup = switch group
+      when 0 then 'no-practice'
+      when 1 then 'all-practice'
+      when 2 then 'choice-explicit'
+      when 3 then 'choice-implicit'
+    @branchingGroup = 'choice-explicit' if me.isAdmin()
+    application.tracker.identify branchingGroup: @branchingGroup
+    @branchingGroup

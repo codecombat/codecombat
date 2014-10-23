@@ -18,6 +18,10 @@ module.exports = class HeroVictoryModal extends ModalView
   subscriptions:
     'ladder:game-submitted': 'onGameSubmitted'
 
+  events:
+    'click #continue-button': 'onClickContinue'
+    'click .next-level-branch-button': 'onClickNextLevelBranch'
+
   constructor: (options) ->
     super(options)
     @session = options.session
@@ -32,6 +36,10 @@ module.exports = class HeroVictoryModal extends ModalView
     @readyToContinue = false
     @waitingToContinueSince = new Date()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
+
+  destroy: ->
+    clearInterval @sequentialAnimationInterval
+    super()
 
   onAchievementsLoaded: ->
     thangTypeOriginals = []
@@ -102,9 +110,14 @@ module.exports = class HeroVictoryModal extends ModalView
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
-    c.continueLevel = @getNextLevel 'continue'
-    c.morePracticeLevel = me.isAdmin() and @getNextLevel 'more_practice'
-    c.skipAheadLevel = me.isAdmin() and @getNextLevel 'skip_ahead'
+    @continueLevelLink = @getNextLevelLink 'continue'
+    @morePracticeLevelLink = me.isAdmin() and @getNextLevelLink 'more_practice'
+    @skipAheadLevelLink = me.isAdmin() and @getNextLevelLink 'skip_ahead'
+    c.continueButtons = [
+      {key: 'skip_ahead', link: @skipAheadLevelLink, 'choice-explicit': 'skip', 'choice-implicit': 'too_easy'}
+      {key: 'continue', link: @continueLevelLink, 'choice-explicit': 'next_level', 'choice-implicit': 'just_right'}
+      {key: 'more_practice', link: @morePracticeLevelLink, 'choice-explicit': 'more_practice', 'choice-implicit': 'too_hard'}
+    ]
     return c
 
   afterRender: ->
@@ -227,7 +240,8 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    # Preserve the supermodel as we navigate back to the ladder.
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}]
 
   playSelectionSound: (hero, preload=false) ->
     return unless sounds = hero.get('soundTriggers')?.selected
@@ -238,6 +252,8 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       AudioPlayer.playSound name, 1
 
+  # Branching group testing
+
   getNextLevel: (type) ->
     for campaign in require('views/play/WorldMapView').campaigns
       break if levelInfo
@@ -247,8 +263,25 @@ module.exports = class HeroVictoryModal extends ModalView
           break
     levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
 
-  # TODO: award heroes/items and play an awesome sound when you get one
+  getNextLevelLink: (type) ->
+    return '/play' unless nextLevel = @getNextLevel type
+    "play?next=#{nextLevel}"
 
-  destroy: ->
-    clearInterval @sequentialAnimationInterval
-    super()
+  onClickContinue: (e) ->
+    nextLevelLink = @continueLevelLink
+    if me.getBranchingGroup() is 'all-practice' and @morePracticeLevelLink
+      nextLevelLink = @morePracticeLevelLink
+    skipPrompt = me.getBranchingGroup() in ['no-practice', 'all-practice']
+    skipPrompt ||= not (@skipAheadLevelLink or @morePractiveLevelLink) and me.getBranchingGroup() is 'choice-explicit'
+    if skipPrompt
+      # Preserve the supermodel as we navigate back to the world map.
+      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
+    else
+      # Hide everything except the buttons prompting them for which kind of next level to do
+      @$el.find('.modal-footer, .modal-body > *').hide()
+      @$el.find('.next-levels-prompt').show()
+
+  onClickNextLevelBranch: (e) ->
+    application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup()
+    # Preserve the supermodel as we navigate back to world map.
+    Backbone.Mediator.publish 'router:navigate', route: '/play', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]

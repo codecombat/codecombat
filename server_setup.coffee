@@ -32,7 +32,7 @@ setupExpressMiddleware = (app) ->
     express.logger.format('prod', productionLogging)
     app.use(express.logger('prod'))
     app.use express.compress filter: (req, res) ->
-      return false if req.headers.host is 'codecombat.com'  # Cloudflare will gzip it for us on codecombat.com
+      #return false if req.headers.host is 'codecombat.com'  # CloudFlare will gzip it for us on codecombat.com  # But now it's disabled.
       compressible res.getHeader('Content-Type')
   else
     app.use(express.logger('dev'))

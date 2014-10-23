@@ -202,10 +202,13 @@
     victory_sign_up_poke: "Want to save your code? Create a free account!"
     victory_rate_the_level: "Rate the level: "  # Only in old-style levels.
     victory_return_to_ladder: "Return to Ladder"
-    victory_play_next_level: "Play Next Level"  # Only in old-style levels.
     victory_play_continue: "Continue"
-    victory_play_more_practice: "More Practice"
     victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Play Next Level"
+    victory_play_more_practice: "More Practice"
+    victory_play_too_easy: "Too Easy"
+    victory_play_just_right: "Just Right"
+    victory_play_too_hard: "Too Hard"
     victory_saving_progress: "Saving Progress"
     victory_go_home: "Go Home"  # Only in old-style levels.
     victory_review: "Tell us more!"  # Only in old-style levels.

@@ -41,6 +41,10 @@ block modal-body-content
                 img(src=item.getPortraitURL())
               .reward-text= animate ? 'New Item' : item.get('name')
 
+  .next-levels-prompt
+    for button in continueButtons
+      - var enabled = Boolean(button.link != '/play' || me.getBranchingGroup() == 'choice-implicit' || button.key == 'continue');
+      a.btn.btn-success.btn-lg.world-map-button.next-level-branch-button(href=button.link, disabled=!enabled, data-dismiss="modal", data-i18n="play_level.victory_play_" + button[me.getBranchingGroup()], data-branch-key=button.key)
 
 block modal-footer-content
   if me.get('anonymous')
@@ -63,8 +67,4 @@ block modal-footer-content
     else if level.get('type') === 'hero-ladder'
       a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
-      if morePracticeLevel
-        a.btn.btn-primary.world-map-button.next-level-button.hide#more-practice-button(href="/play?next=" + morePracticeLevel, data-dismiss="modal", data-i18n="play_level.victory_play_more_practice") More Practice
-      a.btn.btn-success.world-map-button.next-level-button.hide#continue-button(href="/play" + (continueLevel ? '?next=' + continueLevel : ''), data-dismiss="modal", data-i18n="play_level.victory_play_continue") Continue
-      if skipAheadLevel
-        a.btn.btn-primary.world-map-button.next-level-button.hide#skip-ahead-button(href="/play?next=" + skipAheadLevel, data-dismiss="modal", data-i18n="play_level.victory_skip_ahead") Skip Ahead
+      button.btn.btn-success.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.victory_play_continue") Continue

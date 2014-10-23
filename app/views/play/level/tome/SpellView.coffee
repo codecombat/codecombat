@@ -641,7 +641,7 @@ module.exports = class SpellView extends CocoView
     # TODO: move this whole thing into SpellDebugView or somewhere?
     @highlightComments() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
-    return unless flow
+    return unless flow and @thang
     executed = []
     executedRows = {}
     matched = false
