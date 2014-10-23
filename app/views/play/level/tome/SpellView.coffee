@@ -197,11 +197,11 @@ module.exports = class SpellView extends CocoView
     @zatanna = new Zatanna @ace,
       basic: false
       liveCompletion: false
-      snippets: @autocomplete
       snippetsLangDefaults: false
       completers:
         keywords: false
-        text: false
+        snippets: @autocomplete
+        text: @autocomplete
       autoLineEndings:
         javascript: ';'
       popupFontSizePx: 16
