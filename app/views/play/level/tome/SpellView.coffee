@@ -204,6 +204,8 @@ module.exports = class SpellView extends CocoView
         text: false
       autoLineEndings:
         javascript: ';'
+      popupFontSizePx: 16
+      popupWidthPx: 380
 
   updateAutocomplete: (@autocomplete) ->
     @zatanna?.set 'snippets', @autocomplete
