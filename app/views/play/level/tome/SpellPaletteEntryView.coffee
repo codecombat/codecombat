@@ -47,7 +47,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     ).on 'show.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
       soundIndex = Math.floor(Math.random() * 4)
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-{soundIndex}", volume: 0.75
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-#{soundIndex}", volume: 0.75
 
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value

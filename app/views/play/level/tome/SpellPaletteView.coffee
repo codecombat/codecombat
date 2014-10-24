@@ -75,7 +75,7 @@ module.exports = class SpellPaletteView extends CocoView
     columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
     nRows = 0
     for group, entries of @entryGroups
-      shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
+      continue unless shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
       shortestColumn.nEntries += Math.max 2, entries.length
       shortestColumn.items.push @entryGroupElements[group]
       nRows = Math.max nRows, shortestColumn.nEntries

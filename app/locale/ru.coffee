@@ -61,10 +61,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     achievements: "Достижения" # Tooltip on achievement list button from /play
     account: "Аккаунт" # Tooltip on account button from /play
     settings: "Настройки" # Tooltip on settings button from /play
-    next: "Следующий" # Go from choose hero to choose inventory before playing a level
+    next: "Выбрать" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     choose_inventory: "Выбрать предметы"
-    older_campaigns: "Старые компании"
+    older_campaigns: "Старые кампании"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     campaign_beginner: "Кампания для новичков"
@@ -72,7 +72,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     adventurer_prefix: "Вы можете зайти на любой из этих уровней, а также обсудить уровни на "
     adventurer_forum: "форуме Искателей приключений"
     adventurer_suffix: "."
-    campaign_old_beginner: "Старые компании для новичков"
+    campaign_old_beginner: "Старые кампании для новичков"
     campaign_old_beginner_description: "... в которой вы познакомитесь с магией программирования."
     campaign_dev: "Случайные уровни потруднее"
     campaign_dev_description: "... в которых вы изучите интерфейс и научитесь делать кое-что посложнее."
@@ -227,7 +227,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hud_continue: "Продолжить (Shift+Пробел)"
-#    code_saved: "Code Saved"
+    code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
@@ -279,12 +279,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     inventory_caption: "Оденьте своего героя"
     choose_hero_caption: "Выбор героя, языка"
 #    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
+    options_caption: "Выбор настроек"
 #    guide_caption: "Docs and tips"
     multiplayer_caption: "Играй с друзьями!"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
+  inventory:
+    choose_inventory: "Выбрать предметы"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -333,10 +333,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     why_paragraph_2_italic_caps: "НЕТ, МАМ, Я ДОЛЖЕН ПРОЙТИ УРОВЕНЬ!"
     why_paragraph_2_suffix: "Вот, почему CodeCombat - мультиплеерная игра, а не курс уроков в игровой форме. Мы не остановимся, пока вы не потеряете голову - в данном случае, это хорошо."
     why_paragraph_3: "Если вы собираетесь увлечься какой-нибудь игрой, увлекитесь этой и станьте одним из волшебников века информационных технологий."
-#    press_title: "Bloggers/Press"
-#    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
-#    press_paragraph_1_link: "press packet"
-#    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
+    press_title: "Блогерам/Прессе"
+    press_paragraph_1_prefix: "Хотите написать о нас? Скачивайте и используйте все ресурсы, включенный в наш"
+    press_paragraph_1_link: "пресс-пакет"
+    press_paragraph_1_suffix: ". Все изображения могут быть использованы без предварительного уведомления."
 #    team: "Team"
 #    george_title: "CEO"
 #    george_blurb: "Businesser"
@@ -494,7 +494,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_tab_thangs_add: "Добавить объект"
     delete: "Удалить"
     duplicate: "Дублировать"
-#    rotate: "Rotate"
+    rotate: "Повернуть"
     level_settings_title: "Настройки"
     level_component_tab_title: "Текущие компоненты"
     level_component_btn_new: "Создать новый компонент"

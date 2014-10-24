@@ -436,7 +436,7 @@ module.exports = class World
       console.log 'Whoa, serializing a lot of WorldScriptNotes here:', o.scriptNotes.length
     {serializedWorld: o, transferableObjects: [o.storageBuffer], startFrame: startFrame, endFrame: endFrame}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, streamingWorld) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, level, streamingWorld) ->
     # Code hotspot; optimize it
     #console.log 'Deserializing', o, 'length', JSON.stringify(o).length
     #console.log JSON.stringify(o)
@@ -461,10 +461,10 @@ module.exports = class World
     perf.t1 = now()
     if w.thangs.length
       for thangConfig in o.thangs when not w.thangMap[thangConfig.id]
-        w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap)
+        w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap, level.levelComponents)
         w.setThang thang
     else
-      w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
+      w.thangs = (Thang.deserialize(thang, w, classMap, level.levelComponents) for thang in o.thangs)
       w.setThang thang for thang in w.thangs
     w.scriptNotes = (WorldScriptNote.deserialize(sn, w, classMap) for sn in o.scriptNotes)
     perf.t2 = now()

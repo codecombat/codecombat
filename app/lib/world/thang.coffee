@@ -151,10 +151,14 @@ module.exports = class Thang
     o.unusedTrackedPropertyKeys = (@trackedPropertiesKeys[propIndex] for used, propIndex in @trackedPropertiesUsed when not used)
     o
 
-  @deserialize: (o, world, classMap) ->
+  @deserialize: (o, world, classMap, levelComponents) ->
     t = new Thang world, o.spriteName, o.id
     for [componentClassName, componentConfig] in o.components
-      componentClass = classMap[componentClassName]
+      unless componentClass = classMap[componentClassName]
+        console.debug 'Compiling new Component while deserializing:', componentClassName
+        componentModel = _.find levelComponents, name: componentClassName
+        componentClass = world.loadClassFromCode componentModel.js, componentClassName, 'component'
+        world.classMap[componentClassName] = componentClass
       t.addComponents [componentClass, componentConfig]
     t.unusedTrackedPropertyKeys = o.unusedTrackedPropertyKeys
     t.unusedTrackedPropertyValues = (t[prop] for prop in o.unusedTrackedPropertyKeys)

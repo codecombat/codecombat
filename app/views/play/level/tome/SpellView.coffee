@@ -197,13 +197,15 @@ module.exports = class SpellView extends CocoView
     @zatanna = new Zatanna @ace,
       basic: false
       liveCompletion: false
-      snippets: @autocomplete
       snippetsLangDefaults: false
       completers:
         keywords: false
-        text: false
+        snippets: @autocomplete
+        text: @autocomplete
       autoLineEndings:
         javascript: ';'
+      popupFontSizePx: 16
+      popupWidthPx: 380
 
   updateAutocomplete: (@autocomplete) ->
     @zatanna?.set 'snippets', @autocomplete
@@ -639,7 +641,7 @@ module.exports = class SpellView extends CocoView
     # TODO: move this whole thing into SpellDebugView or somewhere?
     @highlightComments() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
-    return unless flow
+    return unless flow and @thang
     executed = []
     executedRows = {}
     matched = false

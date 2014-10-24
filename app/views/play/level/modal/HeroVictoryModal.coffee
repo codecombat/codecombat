@@ -18,6 +18,10 @@ module.exports = class HeroVictoryModal extends ModalView
   subscriptions:
     'ladder:game-submitted': 'onGameSubmitted'
 
+  events:
+    'click #continue-button': 'onClickContinue'
+    'click .next-level-branch-button': 'onClickNextLevelBranch'
+
   constructor: (options) ->
     super(options)
     @session = options.session
@@ -32,6 +36,14 @@ module.exports = class HeroVictoryModal extends ModalView
     @readyToContinue = false
     @waitingToContinueSince = new Date()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
+
+  destroy: ->
+    clearInterval @sequentialAnimationInterval
+    super()
+
+  onHidden: ->
+    Backbone.Mediator.publish 'music-player:exit-menu', {}
+    super()
 
   onAchievementsLoaded: ->
     thangTypeOriginals = []
@@ -102,13 +114,20 @@ module.exports = class HeroVictoryModal extends ModalView
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
+    @continueLevelLink = @getNextLevelLink 'continue'
+    @morePracticeLevelLink = me.isAdmin() and @getNextLevelLink 'more_practice'
+    @skipAheadLevelLink = me.isAdmin() and @getNextLevelLink 'skip_ahead'
+    c.continueButtons = [
+      {key: 'skip_ahead', link: @skipAheadLevelLink, 'choice-explicit': 'skip', 'choice-implicit': 'too_easy'}
+      {key: 'continue', link: @continueLevelLink, 'choice-explicit': 'next_level', 'choice-implicit': 'just_right'}
+      {key: 'more_practice', link: @morePracticeLevelLink, 'choice-explicit': 'more_practice', 'choice-implicit': 'too_hard'}
+    ]
     return c
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
-    @$el.addClass 'with-sign-up' if me.get('anonymous')
     @updateSavingProgressStatus()
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
@@ -134,6 +153,7 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.delay(500)
       panel.queue(-> complete())
     @animationComplete = not @animatedPanels.length
+    complete() if @animationComplete
     if @level.get('type', true) is 'hero-ladder'
       @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
@@ -216,16 +236,18 @@ module.exports = class HeroVictoryModal extends ModalView
     clearInterval @sequentialAnimationInterval
     @animationComplete = true
     @updateSavingProgressStatus()
+    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true)
 
   updateSavingProgressStatus: ->
     return unless @animationComplete
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
-    @$el.find('#continue-button').toggleClass('hide', not @readyToContinue)
+    @$el.find('.next-level-button').toggleClass('hide', not @readyToContinue)
     @$el.find('.sign-up-poke').toggleClass('hide', not @readyToContinue)
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    # Preserve the supermodel as we navigate back to the ladder.
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}]
 
   playSelectionSound: (hero, preload=false) ->
     return unless sounds = hero.get('soundTriggers')?.selected
@@ -236,8 +258,36 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       AudioPlayer.playSound name, 1
 
-  # TODO: award heroes/items and play an awesome sound when you get one
+  # Branching group testing
 
-  destroy: ->
-    clearInterval @sequentialAnimationInterval
-    super()
+  getNextLevel: (type) ->
+    for campaign in require('views/play/WorldMapView').campaigns
+      break if levelInfo
+      for level in campaign.levels
+        if level.id is @level.get 'slug'
+          levelInfo = level
+          break
+    levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
+
+  getNextLevelLink: (type) ->
+    return '/play' unless nextLevel = @getNextLevel type
+    "play?next=#{nextLevel}"
+
+  onClickContinue: (e) ->
+    nextLevelLink = @continueLevelLink
+    if me.getBranchingGroup() is 'all-practice' and @morePracticeLevelLink
+      nextLevelLink = @morePracticeLevelLink
+    skipPrompt = me.getBranchingGroup() in ['no-practice', 'all-practice']
+    skipPrompt ||= not (@skipAheadLevelLink or @morePractiveLevelLink) and me.getBranchingGroup() is 'choice-explicit'
+    if skipPrompt
+      # Preserve the supermodel as we navigate back to the world map.
+      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
+    else
+      # Hide everything except the buttons prompting them for which kind of next level to do
+      @$el.find('.modal-footer, .modal-body > *').hide()
+      @$el.find('.next-levels-prompt').show()
+
+  onClickNextLevelBranch: (e) ->
+    application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup()
+    # Preserve the supermodel as we navigate back to world map.
+    Backbone.Mediator.publish 'router:navigate', route: '/play', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
