@@ -52,7 +52,7 @@ module.exports = class ThangsTabView extends CocoView
     'click #thangs-palette-toggle': 'toggleThangsPalette'
 #    'click .add-thang-palette-icon': 'toggleThangsPalette'
     'click #rotation-menu-item button': 'onClickRotationButton'
-  
+
   shortcuts:
     'esc': 'selectAddThang'
     'delete, del, backspace': 'deleteSelectedExtantThang'
@@ -501,7 +501,7 @@ module.exports = class ThangsTabView extends CocoView
     # foldered thangs -> array of thangs
     flattened = []
     for key, value of thangs
-      if value.id and value.thangType
+      if value.id? and value.thangType
         flattened.push value
       else
         flattened = flattened.concat @flattenThangs(value)
@@ -621,7 +621,7 @@ module.exports = class ThangsTabView extends CocoView
     $('#contextmenu').show()
 
   #- Context menu callbacks
-    
+
   onDeleteClicked: (e) ->
     $('#contextmenu').hide()
     @deleteSelectedExtantThang e
@@ -634,7 +634,7 @@ module.exports = class ThangsTabView extends CocoView
     $('#contextmenu').hide()
     rotation = parseFloat($(e.target).closest('button').data('rotation'))
     @rotateSelectedThangBy rotation * Math.PI
-    
+
   rotateSelectedThangBy: (radians) ->
     return unless @selectedExtantThang
     @hush = true
@@ -645,7 +645,7 @@ module.exports = class ThangsTabView extends CocoView
     @thangsTreema.set(@pathForThang(thangData), thangData)
     @hush = false
     @onThangsChanged()
-    
+
   toggleThangsContainer: (e) ->
     $('#all-thangs').toggleClass('hide')
 
@@ -675,10 +675,10 @@ class ThangsFolderNode extends TreemaNode.nodeMap.object
     valEl.append(el)
 
   countThangs: (data) ->
-    return 0 if data.thangType and data.id
+    return 0 if data.thangType and data.id?
     num = 0
     for key, value of data
-      if value.thangType and value.id
+      if value.thangType and value.id?
         num += 1
       else
         num += @countThangs(value)
