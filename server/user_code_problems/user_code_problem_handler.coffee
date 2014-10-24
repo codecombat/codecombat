@@ -11,6 +11,7 @@ class UserCodeProblemHandler extends Handler
     'errId'
     'errLevel'
     'errMessage'
+    'errMessageNoLineInfo'
     'errRange'
     'errType'
     'language'
