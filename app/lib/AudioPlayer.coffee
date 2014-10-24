@@ -93,7 +93,7 @@ class AudioPlayer extends CocoClass
     filename = if _.string.startsWith(name, '/file/') then name else '/file/' + name
     unless @hasLoadedSound filename
       @soundsToPlayWhenLoaded[name] = audioOptions.volume
-    audioOptions = @applyPanning audioOptions, pos if @camera and pos
+    audioOptions = @applyPanning audioOptions, pos if @camera and not @camera.destroyed and pos
     instance = createjs.Sound.play name, audioOptions
     # For some reason, individual sound volume control doesn't work any more.
     # I tried updating to SoundJS NEXT on 2014-09-10, but couldn't get any sounds to play with that one.
