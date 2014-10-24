@@ -198,7 +198,7 @@ me.FunctionArgumentSchema = me.object {
     'default': null
 
 me.codeSnippet = me.object {description: 'A language-specific code snippet'},
-  code: {type: 'string', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
+  code: {type: 'string', format: 'code', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
   tab: {type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
 
 me.activity = me.object {description: 'Stats on an activity'},
