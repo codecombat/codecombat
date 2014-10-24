@@ -539,7 +539,13 @@ module.exports = class SpellView extends CocoView
     @userCodeProblem.set 'errHint', aetherProblem.hint if aetherProblem.hint
     @userCodeProblem.set 'errId', aetherProblem.id if aetherProblem.id
     @userCodeProblem.set 'errLevel', aetherProblem.level if aetherProblem.level
-    @userCodeProblem.set 'errMessage', aetherProblem.message if aetherProblem.message
+    if aetherProblem.message
+      @userCodeProblem.set 'errMessage', aetherProblem.message
+      # Save error message without 'Line N: ' prefix
+      messageNoLineInfo = aetherProblem.message
+      if lineInfoMatch = messageNoLineInfo.match /^Line [0-9]+\: /
+        messageNoLineInfo = messageNoLineInfo.slice(lineInfoMatch[0].length)
+      @userCodeProblem.set 'errMessageNoLineInfo', messageNoLineInfo
     @userCodeProblem.set 'errRange', aetherProblem.range if aetherProblem.range
     @userCodeProblem.set 'errType', aetherProblem.type if aetherProblem.type
     @userCodeProblem.set 'language', aether.language.id if aether.language?.id
