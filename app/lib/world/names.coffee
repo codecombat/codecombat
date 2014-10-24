@@ -68,6 +68,7 @@ module.exports.thangNames = thangNames =
     'Buffy'
     'Allankrita'
     'Kay'
+    'Shannon'
   ]
   'Peasant M': [
     'Yorik'
@@ -86,6 +87,7 @@ module.exports.thangNames = thangNames =
     'Durfkor'
     'Paps'
     'Hodor'
+    'James'
   ]
   'Peasant F': [
     'Hilda'
@@ -375,4 +377,5 @@ module.exports.thangNames = thangNames =
     'Leona'
     'Jarin'
     'Helena'
+    'Philips'
   ]
