@@ -50,7 +50,6 @@ module.exports.thangNames = thangNames =
     'Sage'
     'Ryan'
     'Bond'
-    'Richard'
   ]
   'Soldier F': [
     'Sarah'
@@ -378,5 +377,5 @@ module.exports.thangNames = thangNames =
     'Leona'
     'Jarin'
     'Helena'
-  'Philips'
+    'Philips'
   ]
