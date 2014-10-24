@@ -18,6 +18,12 @@ module.exports =
   'music-player:play-music': c.object {required: ['play']},
     play: {type: 'boolean'}
     file: {type: 'string'}
+    delay: {type: 'integer', minimum: 0, format: 'milliseconds'}
+
+  'music-player:enter-menu': c.object {required: []},
+    terrain: {type: 'string'}
+
+  'music-player:exit-menu': c.object {}
 
   'modal:opened': c.object {}
 

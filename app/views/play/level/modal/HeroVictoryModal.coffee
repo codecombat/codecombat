@@ -41,6 +41,10 @@ module.exports = class HeroVictoryModal extends ModalView
     clearInterval @sequentialAnimationInterval
     super()
 
+  onHidden: ->
+    Backbone.Mediator.publish 'music-player:exit-menu', {}
+    super()
+
   onAchievementsLoaded: ->
     thangTypeOriginals = []
     achievementIDs = []
@@ -149,6 +153,7 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.delay(500)
       panel.queue(-> complete())
     @animationComplete = not @animatedPanels.length
+    complete() if @animationComplete
     if @level.get('type', true) is 'hero-ladder'
       @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
@@ -231,6 +236,7 @@ module.exports = class HeroVictoryModal extends ModalView
     clearInterval @sequentialAnimationInterval
     @animationComplete = true
     @updateSavingProgressStatus()
+    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true)
 
   updateSavingProgressStatus: ->
     return unless @animationComplete

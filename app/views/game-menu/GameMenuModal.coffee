@@ -24,6 +24,7 @@ module.exports = class GameMenuModal extends ModalView
     @options.showInventory = @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
+    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @options.level.get('terrain', true)
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -50,6 +51,7 @@ module.exports = class GameMenuModal extends ModalView
     patchingMe = @updateConfig()
     me.patch() unless patchingMe  # Might need to patch for options menu, too
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    Backbone.Mediator.publish 'music-player:exit-menu', {}
 
   updateConfig: ->
     sessionHeroConfig = @options.startingSessionHeroConfig

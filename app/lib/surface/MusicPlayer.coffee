@@ -14,6 +14,8 @@ module.exports = class MusicPlayer extends CocoClass
     'audio-player:loaded': 'onAudioLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'music-player:enter-menu': 'onEnterMenu'
+    'music-player:exit-menu': 'onExitMenu'
 
   constructor: ->
     super arguments...
@@ -35,9 +37,10 @@ module.exports = class MusicPlayer extends CocoClass
       @standingBy = e
       return
 
+    delay = e.delay ? 0
     @standingBy = null
     @fadeOutCurrentMusic()
-    @startNewMusic(src) if e.play
+    @startNewMusic(src, delay) if e.play
 
   restartCurrentMusic: ->
     return unless @currentMusic
@@ -46,15 +49,16 @@ module.exports = class MusicPlayer extends CocoClass
 
   fadeOutCurrentMusic: ->
     return unless @currentMusic
+    createjs.Tween.removeTweens(@currentMusic)
     f = -> @stop()
     createjs.Tween.get(@currentMusic).to({volume: 0.0}, CROSSFADE_LENGTH).call(f)
 
-  startNewMusic: (src) ->
+  startNewMusic: (src, delay) ->
     @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src
     return unless @currentMusic
     @currentMusic.volume = 0.0
     if me.get('music', true)
-      createjs.Tween.get(@currentMusic).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
+      createjs.Tween.get(@currentMusic).wait(delay).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
 
   onMusicSettingChanged: ->
     @updateMusicVolume()
@@ -70,6 +74,24 @@ module.exports = class MusicPlayer extends CocoClass
     Backbone.Mediator.publish 'music-player:play-music', file: "/music/music_real_time_#{trackNumber}", play: true
 
   onRealTimePlaybackEnded: (e) ->
+    @fadeOutCurrentMusic()
+    if @previousMusic
+      @currentMusic = @previousMusic
+      @restartCurrentMusic()
+      if @currentMusic.volume
+        createjs.Tween.get(@currentMusic).wait(5000).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
+
+  onEnterMenu: (e) ->
+    return if @inMenu
+    @inMenu = true
+    @previousMusic = @currentMusic
+    terrain = (e.terrain ? 'Dungeon').toLowerCase()
+    file = "/music/music-menu-#{terrain}"
+    Backbone.Mediator.publish 'music-player:play-music', file: file, play: true, delay: 1000
+
+  onExitMenu: (e) ->
+    return unless @inMenu
+    @inMenu = false
     @fadeOutCurrentMusic()
     if @previousMusic
       @currentMusic = @previousMusic

@@ -860,7 +860,6 @@ hero = [
     id: 'kithgard-gates'
     original: '541c9a30c6362edfb0f34479'
     description: 'Escape the Kithgard dungeons and don\'t let the guardians get you.'
-    disabled: true
     x: 89
     y: 82
     nextLevels:
@@ -873,7 +872,6 @@ hero = [
     id: 'defence-of-plainswood'
     original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
-    disabled: true
     x: 95.31
     y: 88.26
   }
