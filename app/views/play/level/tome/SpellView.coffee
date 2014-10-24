@@ -234,7 +234,22 @@ module.exports = class SpellView extends CocoView
             meta: 'press enter'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
-          snippetEntries.push entry
+          if doc.name is 'findNearestEnemy'
+            # Remember if we have findNearestEnemy so attack snippet can be updated
+            haveFindNearestEnemy = true
+          if doc.name is 'attack'
+            # Postpone this until we know if findNearestEnemy is available
+            attackEntry = entry
+          else
+            snippetEntries.push entry
+
+    # TODO: Generalize this snippet replacement
+    # TODO: Where should this logic live, and what format should it be in?
+    if attackEntry?
+      unless haveFindNearestEnemy
+        # No findNearestEnemy, so update attack snippet to string-based target
+        attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
+      snippetEntries.push attackEntry
 
     # window.zatannaInstance = @zatanna
     # window.snippetEntries = snippetEntries
