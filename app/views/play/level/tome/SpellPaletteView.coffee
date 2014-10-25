@@ -225,7 +225,9 @@ module.exports = class SpellPaletteView extends CocoView
     @entryGroups = _.groupBy @entries, (entry) -> itemsByProp[entry.doc.name]?.get('name') ? 'Hero'
     iOSEntryGroups = {}
     for group, entries of @entryGroups
-      iOSEntryGroups[group] = (entry.doc for entry in entries)
+      iOSEntryGroups[group] =
+        item: {name: group, imageURL: itemThangTypes[group]?.getPortraitURL()}
+        props: (entry.doc for entry in entries)
     Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: JSON.stringify(iOSEntryGroups)
 
   addEntry: (doc, shortenize, tabbify, isSnippet=false, item=null, showImage=false) ->

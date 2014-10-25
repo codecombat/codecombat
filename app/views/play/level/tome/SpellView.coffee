@@ -375,6 +375,7 @@ module.exports = class SpellView extends CocoView
   reloadCode: (cast=true) ->
     @updateACEText @spell.originalSource
     @recompile cast
+    Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
 
   recompileIfNeeded: =>
     @recompile() if @recompileNeeded
