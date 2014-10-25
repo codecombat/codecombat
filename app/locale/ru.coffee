@@ -202,8 +202,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
-    victory_play_next_level: "Следующий уровень" # Only in old-style levels.
     victory_play_continue: "Продолжить"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Следующий уровень"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     av_entities_active_instances_url: "Активные экземпляры"
     av_entities_employer_list_url: "Список работодателей"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Другое"
     av_other_debug_base_url: "База (для отладки base.jade)"
     u_title: "Список пользователей"
+#    ucp_title: "User Code Problems"
     lg_title: "Последние игры"
     clas: "ЛСС"

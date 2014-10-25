@@ -202,8 +202,13 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     victory_sign_up_poke: "Wil je jouw code opslaan? Maak een gratis account aan!"
     victory_rate_the_level: "Beoordeel het level: " # Only in old-style levels.
     victory_return_to_ladder: "Keer terug naar de ladder"
-    victory_play_next_level: "Speel Volgend Level" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Speel Volgend Level"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ga naar Home" # Only in old-style levels.
     victory_review: "Vertel ons meer!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     av_entities_active_instances_url: "Actieve instanties"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Andere"
     av_other_debug_base_url: "Base (om base.jade te debuggen)"
     u_title: "Gebruikerslijst"
+#    ucp_title: "User Code Problems"
     lg_title: "Laatste Spelletjes"
     clas: "CLAs"

@@ -202,8 +202,13 @@ module.exports = nativeDescription: "українська мова", englishDesc
     victory_sign_up_poke: "Хочете отримувати останні новини на email? Створіть безкоштовний акаунт, і ми будемо тримати вас у курсі!"
     victory_rate_the_level: "Оцінити рівень: " # Only in old-style levels.
     victory_return_to_ladder: "Повернутись до таблиці рівнів"
-    victory_play_next_level: "Наступний рівень" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Наступний рівень"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "На головну" # Only in old-style levels.
     victory_review: "Розкажіть нам більше!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "українська мова", englishDesc
     av_entities_active_instances_url: "Активні вимоги"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Інші"
     av_other_debug_base_url: "Основне (для налагодження base.jade)"
     u_title: "Список учасників"
+#    ucp_title: "User Code Problems"
     lg_title: "Останні ігри"
     clas: "CLAs"

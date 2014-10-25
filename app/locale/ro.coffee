@@ -202,8 +202,13 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_sign_up_poke: "Vrei să-ți salvezi codul? Crează un cont gratis!"
     victory_rate_the_level: "Apreciază nivelul: " # Only in old-style levels.
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
-    victory_play_next_level: "Joacă nivelul următor" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Joacă nivelul următor"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Acasă" # Only in old-style levels.
     victory_review: "Spune-ne mai multe!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     av_entities_active_instances_url: "Instanțe active"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Altele"
     av_other_debug_base_url: "Base (pentru debugging base.jade)"
     u_title: "Listă utilizatori"
+#    ucp_title: "User Code Problems"
     lg_title: "Ultimele jocuri"
     clas: "CLAs"

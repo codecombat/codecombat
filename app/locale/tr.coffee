@@ -202,8 +202,13 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     victory_sign_up_poke: "Kodu kaydetmek ister misiniz? Ücretsiz bir hesap oluşturun!"
     victory_rate_the_level: "Seviyeyi oyla:" # Only in old-style levels.
     victory_return_to_ladder: "Merdivene Dön"
-    victory_play_next_level: "Sonraki Seviyeyi Oyna: " # Only in old-style levels.
     victory_play_continue: "Devam Et"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Sonraki Seviyeyi Oyna: "
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
     victory_saving_progress: "İlerlemeyi Kaydediliyor"
     victory_go_home: "Anasayfaya Git" # Only in old-style levels.
     victory_review: "Daha fazla söyleyin!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     av_entities_active_instances_url: "Aktif Örnekler"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Başka"
     av_other_debug_base_url: "Temel (base.jade hata kontrolü)"
     u_title: "Kullanıcı Listesi"
+#    ucp_title: "User Code Problems"
     lg_title: "Yeni Oyunlar"
 #    clas: "CLAs"

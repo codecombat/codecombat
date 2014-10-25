@@ -202,8 +202,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_sign_up_poke: "想保存你的代码？创建一个免费账户吧！"
     victory_rate_the_level: "评估关卡：" # Only in old-style levels.
     victory_return_to_ladder: "返回"
-    victory_play_next_level: "下一关" # Only in old-style levels.
     victory_play_continue: "继续"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "下一关"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "返回主页" # Only in old-style levels.
     victory_review: "给我们反馈！" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     av_entities_active_instances_url: "活动实例"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "其他"
     av_other_debug_base_url: "Base（用于调试 base.jade）"
     u_title: "用户列表"
+#    ucp_title: "User Code Problems"
     lg_title: "最新的游戏"
     clas: "贡献者许可协议"
