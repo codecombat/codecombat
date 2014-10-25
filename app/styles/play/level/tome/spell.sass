@@ -60,6 +60,8 @@
     background-color: transparent
     line-height: 20px
     overflow: visible
+    // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
+    font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
     &.disabled
       @include opacity(80)
