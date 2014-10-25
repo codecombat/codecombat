@@ -202,8 +202,13 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_sign_up_poke: "想存檔爾個代碼？造一個免費賬號起！"
     victory_rate_the_level: "箇關評價：" # Only in old-style levels.
     victory_return_to_ladder: "走轉"
-    victory_play_next_level: "下關" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "下關"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "轉到主頁" # Only in old-style levels.
     victory_review: "搭我裏反應！" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     av_entities_active_instances_url: "活動樣品"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "別樣"
     av_other_debug_base_url: "Base（用來調試 base.jade）"
     u_title: "用戶列表"
+#    ucp_title: "User Code Problems"
     lg_title: "最新個遊戲"
 #    clas: "CLAs"

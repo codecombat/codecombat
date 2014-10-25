@@ -196,6 +196,7 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'abort'
 
   fireWorker: (rehire=true) =>
+    return if @destroyed
     @aborting = false
     @running = false
     _.remove @shared.busyAngels, @

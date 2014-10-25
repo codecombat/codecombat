@@ -202,8 +202,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_sign_up_poke: "코드를 저장하고 싶으세요? 지금 등록하세요!"
     victory_rate_the_level: "이번 레벨 평가: " # Only in old-style levels.
     victory_return_to_ladder: "레더로 돌아가기"
-    victory_play_next_level: "다음 레벨 플레이 하기" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "다음 레벨 플레이 하기"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "홈으로" # Only in old-style levels.
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     av_entities_active_instances_url: "액티브 인스턴스들"
     av_entities_employer_list_url: "고용주 리스트"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "다른 사람들"
     av_other_debug_base_url: "베이스 (base.jade 디버깅)"
     u_title: "유저 목록"
+#    ucp_title: "User Code Problems"
     lg_title: "가장 최근 게임"
     clas: "컨트리뷰터 라이센스 약관"

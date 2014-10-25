@@ -202,8 +202,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_sign_up_poke: "Chcete uložit váš kód? Vytvořte si účet zdarma!"
     victory_rate_the_level: "Ohodnoťte tuto úroveň: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-    victory_play_next_level: "Hrát další úroveň" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Hrát další úroveň"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Přejít domů" # Only in old-style levels.
     victory_review: "Připomínky!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     av_entities_active_instances_url: "Aktivní instance"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Ostatní"
     av_other_debug_base_url: "Base (pro debugování base.jade)"
     u_title: "Seznam uživatelů"
+#    ucp_title: "User Code Problems"
     lg_title: "Poslední hry"
 #    clas: "CLAs"

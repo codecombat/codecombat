@@ -202,8 +202,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_sign_up_poke: "Vous voulez recevoir les dernières actualités par mail? Créez un compte gratuitement et nous vous tiendrons informés!"
     victory_rate_the_level: "Notez ce niveau: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-    victory_play_next_level: "Jouer au prochain niveau" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Jouer au prochain niveau"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Retourner à l'accueil" # Only in old-style levels.
     victory_review: "Dites-nous en plus!" # Only in old-style levels.
@@ -287,11 +292,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    choose_inventory: "Equip Items"
 
 #  choose_hero:
-    choose_hero: "Choisir votre héro"
+#    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
 #    status: "Status"
-    weapons: "Armes"
+#    weapons: "Weapons"
 #    health: "Health"
 #    speed: "Speed"
 
@@ -683,7 +688,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    no_singleplayer: "No Singleplayer games played yet."
 #    no_multiplayer: "No Multiplayer games played yet."
 #    no_achievements: "No Achievements earned yet."
-    favorite_prefix: "Le langage favori est "
+#    favorite_prefix: "Favorite language is "
 #    favorite_postfix: "."
 
 #  achievements:
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     av_entities_active_instances_url: "Instances actives"
     av_entities_employer_list_url: "Liste des employés"
     av_entities_candidates_list_url: "Liste des candidats"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Autre"
     av_other_debug_base_url: "Base (pour debugger base.jade)"
     u_title: "Liste des utilisateurs"
+#    ucp_title: "User Code Problems"
     lg_title: "Dernières parties"
     clas: "CLAs"

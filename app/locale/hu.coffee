@@ -202,8 +202,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_sign_up_poke: "Szeretnéd, ha levelet küldenénk neked az újításokról? Regisztrálj ingyen egy fiókot, és nem maradsz le semmiről!"
     victory_rate_the_level: "Értékeld a pályát: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-    victory_play_next_level: "Következő pálya" # Only in old-style levels.
 #    victory_play_continue: "Continue"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Következő pálya"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Vissza a kezdőoldalra" # Only in old-style levels.
     victory_review: "Mondd el a véleményedet!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    av_entities_active_instances_url: "Active Instances"
 #    av_entities_employer_list_url: "Employer List"
 #    av_entities_candidates_list_url: "Candidate List"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
 #    av_other_sub_title: "Other"
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
 #    u_title: "User List"
+#    ucp_title: "User Code Problems"
 #    lg_title: "Latest Games"
 #    clas: "CLAs"

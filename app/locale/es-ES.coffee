@@ -202,8 +202,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_sign_up_poke: "¿Quieres recibir las últimas noticias en tu correo electrónico? ¡Crea una cuente gratuita y te mantendremos informado!"
     victory_rate_the_level: "Puntúa este nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver a Clasificación"
-    victory_play_next_level: "Jugar el siguiente nivel" # Only in old-style levels.
     victory_play_continue: "Continuar"
+#    victory_play_skip: "Skip Ahead"
+    victory_play_next_level: "Jugar el siguiente nivel"
+#    victory_play_more_practice: "More Practice"
+#    victory_play_too_easy: "Too Easy"
+#    victory_play_just_right: "Just Right"
+#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ir a Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
@@ -1047,8 +1052,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     av_entities_active_instances_url: "Instancias Activas"
     av_entities_employer_list_url: "Lista de empleados"
     av_entities_candidates_list_url: "Lista de Candidatos"
+#    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Otros"
     av_other_debug_base_url: "Base (para debugging base.jade)"
     u_title: "Lista de Usuarios"
+#    ucp_title: "User Code Problems"
     lg_title: "Últimos Juegos"
     clas: "CLAs"
