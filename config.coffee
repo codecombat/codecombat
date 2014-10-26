@@ -5,10 +5,13 @@ startsWith = (string, substring) ->
 exports.config =
   paths:
     public: 'public'
-    watched: ['app', 'vendor', 'test/app', 'test/demo']  
+    watched: ['app', 'vendor', 'test/app', 'test/demo']
   conventions:
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
   sourceMaps: true
+  overrides:
+    production:
+      sourceMaps: true
   files:
     javascripts:
       defaultExtension: 'coffee'
