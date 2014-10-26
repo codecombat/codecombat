@@ -337,7 +337,7 @@ module.exports = class InventoryView extends CocoView
       'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', eyes: 'crude-glasses'}
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
-      'defence-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+      'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
       # TODO: figure out leather boots for plainswood (or next one?)
     return unless necessaryGear = gearByLevel[@options.levelID]
     if @inserted
