@@ -16,25 +16,40 @@
           img
         .hero-stats
           h2= info.fullName
-          p
+          //.hero-description= info.description  // Not until we have written the descriptions.
+          .hero-status
             span(data-i18n="choose_hero.status") Status
             span.spr :
             if hero.locked
               | #{info.status}
             else
               | Available
-          p
+          .hero-class
             span(data-i18n="choose_hero.weapons") Weapons
             span.spr :
             | #{info.weapons}
-          p
-            span(data-i18n="choose_hero.health") Health
-            span.spr :
-            | #{info.health}
-          p
-            span(data-i18n="choose_hero.speed") Speed
-            span.spr :
-            | #{info.speed}
+          for statInfo in [{name: 'attack', color: 'danger'}, {name: 'health', color: 'info'}, {name: 'speed', color: 'success'}]
+            - var tooltip = "";
+            - if (statInfo.name == 'attack')
+            -   tooltip = Math.round(100 * info[statInfo.name + 'Factor']) + '% ' + info.class.toLowerCase() + ' weapon damage';
+            - else if (statInfo.name == 'health')
+            -   tooltip = Math.round(100 * info[statInfo.name + 'Factor']) + '% ' + info.class.toLowerCase() + ' armor health';
+            - else if (statInfo.name == 'speed')
+            -   tooltip = info.speedAbsolute + ' meters per second';
+            .hero-stat(title=tooltip)
+              .progress
+                div(class="progress-bar progress-bar-" + statInfo.color, style="width: " + (10 * info[statInfo.name]) + "%")
+                .hero-stat-label
+                  span(data-i18n="choose_hero." + statInfo.name)
+                  span.spr :
+                  | #{info[statInfo.name]}
+
+          if info.skills
+            .hero-skills
+              span(data-i18n="choose_hero.skills") Skills
+              span.spr :
+              for skill in info.skills
+                code.spl.spr= skill
   a.carousel-control.left(role="button", data-slide="prev", href="#hero-carousel")
     span.glyphicon.glyphicon-chevron-left
   a.carousel-control.right(role="button", data-slide="next", href="#hero-carousel")

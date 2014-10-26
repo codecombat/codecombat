@@ -65,6 +65,7 @@ module.exports = class ChooseHeroView extends CocoView
     heroIndex = Math.max 0, _.findIndex(heroes, ((hero) -> hero.get('original') is heroConfig.thangType))
     @$el.find(".hero-item:nth-child(#{heroIndex + 1}), .hero-indicator:nth-child(#{heroIndex + 1})").addClass('active')
     @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[heroIndex]
+    @$el.find('.hero-stat').tooltip()
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'
@@ -161,65 +162,125 @@ module.exports = class ChooseHeroView extends CocoView
 
 
 temporaryHeroInfo =
-  captain:
-    fullName: 'Captain Anya Weston'
-    weapons: 'Razor Discs'
-    status: 'Available'
-    health: '35'
-    speed: '4 m/s'
-
   knight:
     fullName: 'Tharin Thunderfist'
-    weapons: 'Swords'
+    weapons: 'Swords - Short Range, No Magic'
+    class: 'Warrior'
+    description: 'Beefcake! Beefcaaake!'
     status: 'Available'
-    health: '35'
-    speed: '4 m/s'
+    attack: 8
+    attackFactor: 1.2
+    health: 8.5
+    healthFactor: 1.4
+    speed: 1.5
+    speedAbsolute: 6
+
+  captain:
+    fullName: 'Captain Anya Weston'
+    weapons: 'Swords - Short Range, No Magic'
+    class: 'Warrior'
+    description: 'Don\'t bother me, I\'m winning this fight for you.'
+    status: 'Available'
+    attack: 8
+    attackFactor: 1.2
+    health: 8.5
+    healthFactor: 1.4
+    speed: 1.5
+    speedAbsolute: 6
 
   thoktar:
     fullName: 'Thoktar the Devourer'
-    weapons: 'Magic'
+    weapons: 'Wands, Staffs - Long Range, Magic'
+    class: 'Wizard'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 5
+    attackFactor: 2
+    health: 4.5
+    healthFactor: 1.4
+    speed: 2.5
+    speedAbsolute: 7
+    skills: ['summonElemental', 'devour']
 
   equestrian:
     fullName: 'Rider Reynaldo'
-    weapons: 'Axes'
+    weapons: 'Crossbows, Guns - Long Range, No Magic'
+    class: 'Ranger'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 6
+    attackFactor: 1.4
+    health: 7
+    healthFactor: 1.8
+    speed: 1.5
+    speedAbsolute: 6
+    skills: ['hide']
 
   'potion-master':
     fullName: 'Master Snake'
-    weapons: 'Magic'
+    weapons: 'Wands, Staffs - Long Range, Magic'
+    class: 'Wizard'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 2
+    attackFactor: 0.833
+    health: 4
+    healthFactor: 1.2
+    speed: 6
+    speedAbsolute: 11
+    skills: ['brewPotion']
 
   librarian:
     fullName: 'Hushbaum'
-    weapons: 'Magic'
+    weapons: 'Wands, Staffs - Long Range, Magic'
+    class: 'Wizard'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 3
+    attackFactor: 1.2
+    health: 4.5
+    healthFactor: 1.4
+    speed: 2.5
+    speedAbsolute: 7
 
   'robot-walker':
     fullName: '???'
     weapons: '???'
+    class: 'Ranger'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 6.5
+    attackFactor: 1.6
+    health: 5.5
+    healthFactor: 1.2
+    speed: 6
+    speedAbsolute: 11
+    skills: ['???', '???', '???']
 
   'michael-heasell':
     fullName: '???'
     weapons: '???'
+    class: 'Ranger'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 4
+    attackFactor: 0.714
+    health: 5
+    healthFactor: 1
+    speed: 10
+    speedAbsolute: 16
+    skills: ['???', '???']
 
   'ian-elliott':
     fullName: '???'
-    weapons: '???'
+    weapons: 'Swords - Short Range, No Magic'
+    class: 'Warrior'
+    description: '???'
     status: 'Locked'
-    health: '???'
-    speed: '???'
+    attack: 9.5
+    attackFactor: 1.8
+    health: 6.5
+    healthFactor: 0.714
+    speed: 3.5
+    speedAbsolute: 8
+    skills: ['trueStrike']
