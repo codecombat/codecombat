@@ -211,7 +211,7 @@ module.exports = class HeroVictoryModal extends ModalView
     else if panel.hero
       thangType = @thangTypes[panel.hero]
       panel.textEl.text(thangType.get('name'))
-      @playSelectionSound hero if 0.5 < ratio < 0.6
+      @playSelectionSound thangType if 0.5 < ratio < 0.6
     if ratio is 1
       panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')
       @sequentialAnimationStart = new Date()
