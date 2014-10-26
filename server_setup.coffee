@@ -27,6 +27,16 @@ productionLogging = (tokens, req, res) ->
     return "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
   null
 
+developmentLogging = (tokens, req, res) ->
+  status = res.statusCode
+  color = 32
+  if status >= 500 then color = 31
+  else if status >= 400 then color = 33
+  else if status >= 300 then color = 36
+  elapsed = (new Date()) - req._startTime
+  elapsedColor = if elapsed < 500 then 90 else 31
+  "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
+
 setupExpressMiddleware = (app) ->
   if config.isProduction
     express.logger.format('prod', productionLogging)
@@ -35,6 +45,7 @@ setupExpressMiddleware = (app) ->
       return false if req.headers.host is 'codecombat.com'  # CloudFlare will gzip it for us on codecombat.com  # But now it's disabled.
       compressible res.getHeader('Content-Type')
   else
+    express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
   app.use(express.static(path.join(__dirname, 'public')))
   app.use(useragent.express())
