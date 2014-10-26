@@ -864,13 +864,13 @@ hero = [
     x: 89
     y: 82
     nextLevels:
-      continue: 'defence-of-plainswood'
+      continue: 'defense-of-plainswood'
   }
   {
-    name: 'Defence of Plainswood'
+    name: 'Defense of Plainswood'
     type: 'hero'
     difficulty: 1
-    id: 'defence-of-plainswood'
+    id: 'defense-of-plainswood'
     original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
     x: 95.31

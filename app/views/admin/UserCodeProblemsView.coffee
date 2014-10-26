@@ -10,6 +10,7 @@ module.exports = class UserCodeProblemsView extends RootView
 
   constructor: (options) ->
     super options
+    @fetchingData = true
     @getUserCodeProblems()
 
   getUserCodeProblems: ->
@@ -19,9 +20,18 @@ module.exports = class UserCodeProblemsView extends RootView
     # The first arg is the function name
     # The rest are the args for the function
 
+    lastMonth = new Date()
+    if lastMonth.getMonth() is 1
+      lastMonth.setMonth 12
+      lastMonth.setYear lastMonth.getYear() - 1
+    else
+      lastMonth.setMonth lastMonth.getMonth() - 1
+
     conditions = [
       ['limit', 1000]
       ['sort', '-created']
+      ['where', 'created']
+      ['gte', lastMonth.toString()]
     ]
     conditions = $.param({conditions:JSON.stringify(conditions)})
     UserCodeProblemCollection = Backbone.Collection.extend({
@@ -30,9 +40,12 @@ module.exports = class UserCodeProblemsView extends RootView
     })
     @userCodeProblems = new UserCodeProblemCollection()
     @userCodeProblems.fetch()
-    @listenTo(@userCodeProblems, 'all', @render)
+    @listenTo @userCodeProblems, 'all', ->
+      @fetchingData = false
+      @render()
 
   getRenderData: ->
     c = super()
+    c.fetchingData = @fetchingData
     c.userCodeProblems = (problem.attributes for problem in @userCodeProblems.models)
     c

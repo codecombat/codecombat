@@ -79,7 +79,27 @@ $heroCanvasHeight: 265px
   
       .hero-stats
         text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6)
-        font-size: 24px
+
+        .hero-class, .hero-status, .hero-skills
+          font-size: 14px
+
+        .hero-stat
+          margin: 10px 0
+
+          .progress
+            width: 90%
+            text-align: center
+            height: 26px
+            position: relative
+            margin: 0
+
+            .hero-stat-label
+              position: absolute
+              width: 100%
+              font-size: 18px
+              text-transform: uppercase
+              color: white
+              text-shadow: 0px 1px 0px black, 0px -1px 0px black, -1px 0px 0px black, 1px 0px 0px black
   
     .carousel-control.left
       border-top-left-radius: 10px
