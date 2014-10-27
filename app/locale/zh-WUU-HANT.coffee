@@ -297,8 +297,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    programming_language_description: "Which programming language do you want to use?"
 #    status: "Status"
 #    weapons: "Weapons"
+#    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
+#    skills: "Skills"
 
 #  save_load:
 #    granularity_saved_games: "Saved"

@@ -297,8 +297,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     programming_language_description: "Какой язык программирования вы хотите использовать?"
     status: "Статус"
     weapons: "Оружие"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Жизнь"
     speed: "Скорость"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "Сохранено"

@@ -297,8 +297,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
     status: "Durum"
     weapons: "Silahlar"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Sağlık"
     speed: "Hız"
+#    skills: "Skills"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
