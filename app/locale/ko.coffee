@@ -10,12 +10,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     for_beginners: "초보자용"
     multiplayer: "멀티플레이어" # Not currently shown on home page
     for_developers: "개발자용" # Not currently shown on home page.
-    javascript_blurb: "웹을 위한 언어. 웹사이트, 웹 어플리케이션, HTML5 게임, 서버 제작에 적합한 언어입니다." # Not currently shown on home page
-    python_blurb: "간단하지만 강력합니다. Python은 일반적인 용도로 두루 사용하기 좋은 프로그래밍 언어입니다." # Not currently shown on home page
-    coffeescript_blurb: "향상된 자바스크립트 문법." # Not currently shown on home page
-    clojure_blurb: "현대적인 Lisp." # Not currently shown on home page
-    lua_blurb: "게임 스크립팅 언어" # Not currently shown on home page
-    io_blurb: "간단하지만 아직 잘 알려지지 않은 언어." # Not currently shown on home page
 
   nav:
     play: "레벨" # The top nav bar entry where players choose which levels to play
@@ -291,10 +285,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+    javascript_blurb: "웹을 위한 언어." # Shorten to match new en blurb
+    python_blurb: "간단하지만 강력합니다." # Shorten to match new en blurb
+    coffeescript_blurb: "향상된 자바스크립트 문법." # Not currently shown on home page
+    clojure_blurb: "현대적인 Lisp." # Not currently shown on home page
+    lua_blurb: "게임 스크립팅 언어" # Not currently shown on home page
+    io_blurb: "간단하지만 아직 잘 알려지지 않은 언어." # Not currently shown on home page
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

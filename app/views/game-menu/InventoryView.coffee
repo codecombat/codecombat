@@ -112,6 +112,13 @@ module.exports = class InventoryView extends CocoView
           tolerance: 'touch'
         @makeEquippedSlotDraggable $(itemSlot)
 
+    @$el.find('.hero-container').droppable
+      drop: (e, ui) => @onAvailableItemDoubleClick()
+      accept: (el) -> true
+      activeClass: 'droppable'
+      hoverClass: 'droppable-hover'
+      tolerance: 'pointer'
+
     @$el.find('#selected-items').hide()  # Hide until one is selected
     @delegateEvents()
 

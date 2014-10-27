@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     for_beginners: "Für Afänger"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    javascript_blurb: "D Internetsproch. Super zum Websiite, Web Apps, HTML5 Games und Server schriibe." # Not currently shown on home page
-    python_blurb: "Eifach und doch mächtig. Python isch grossartigi, allgemein isetzbari Programmiersproch." # Not currently shown on home page
-    coffeescript_blurb: "Nettere JavaScript Syntax." # Not currently shown on home page
-#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
-    lua_blurb: "D Sproch für Game Scripts." # Not currently shown on home page
-    io_blurb: "Eifach aber undurchsichtig." # Not currently shown on home page
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
@@ -291,10 +285,16 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+    javascript_blurb: "D Internetsproch." # Shorten to match new en blurb
+    python_blurb: "Eifach und doch mächtig." # Shorten to match new en blurb
+    coffeescript_blurb: "Nettere JavaScript Syntax." # Not currently shown on home page
+#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
+    lua_blurb: "D Sproch für Game Scripts." # Not currently shown on home page
+    io_blurb: "Eifach aber undurchsichtig." # Not currently shown on home page
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

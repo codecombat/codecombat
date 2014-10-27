@@ -10,12 +10,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_beginners: "Новичкам"
     multiplayer: "Мультиплеер" # Not currently shown on home page
     for_developers: "Разработчикам" # Not currently shown on home page.
-    javascript_blurb: "Язык для Сети. Подходит для написания сайтов, веб-приложений, HTML5-игр и серверов." # Not currently shown on home page
-    python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения." # Not currently shown on home page
-    coffeescript_blurb: "Улучшенный синтаксис JavaScript." # Not currently shown on home page
-    clojure_blurb: "Современный Lisp." # Not currently shown on home page
-    lua_blurb: "Скриптовый язык для игр." # Not currently shown on home page
-    io_blurb: "Простой, но непонятный." # Not currently shown on home page
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
@@ -295,6 +289,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_hero: "Выберите героя"
     programming_language: "Язык программирования"
     programming_language_description: "Какой язык программирования вы хотите использовать?"
+    javascript_blurb: "Язык для Сети." # Shorten to match new en blurb
+    python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения." # Shorten to match new en blurb
+    coffeescript_blurb: "Улучшенный синтаксис JavaScript." # Not currently shown on home page
+    clojure_blurb: "Современный Lisp." # Not currently shown on home page
+    lua_blurb: "Скриптовый язык для игр." # Not currently shown on home page
+    io_blurb: "Простой, но непонятный." # Not currently shown on home page
     status: "Статус"
     weapons: "Оружие"
 #    attack: "Damage" # Can also translate as "Attack"

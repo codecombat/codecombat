@@ -10,12 +10,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     for_beginners: "For Begyndere"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "For Udviklere" # Not currently shown on home page.
-#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers." # Not currently shown on home page
-#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language." # Not currently shown on home page
-#    coffeescript_blurb: "Nicer JavaScript syntax." # Not currently shown on home page
-#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
-#    lua_blurb: "Game scripting language." # Not currently shown on home page
-#    io_blurb: "Simple but obscure." # Not currently shown on home page
 
   nav:
     play: "Spil" # The top nav bar entry where players choose which levels to play
@@ -295,6 +289,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+#    #javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers." # Shorten to match new en blurb
+#   # python_blurb: "Simple yet powerful, Python is a great general purpose programming language." # Shorten to match new en blurb
+#    coffeescript_blurb: "Nicer JavaScript syntax." # Not currently shown on home page
+#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
+#    lua_blurb: "Game scripting language." # Not currently shown on home page
+#    io_blurb: "Simple but obscure." # Not currently shown on home page
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

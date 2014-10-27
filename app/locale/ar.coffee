@@ -10,12 +10,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     for_beginners: "للمبتدئين"
     multiplayer: "متعدد اللاعبين" # Not currently shown on home page
     for_developers: "للمطوّرين" # Not currently shown on home page.
-    javascript_blurb: "لغة الويب. عظيم للكتابة المواقع، تطبيقات الويب، ألعاب HTML5، والخوادم." # Not currently shown on home page
-    python_blurb: "بسيطة لكنها قوية، بيثون هي لغة برمجة عظيمة للأغراض العامة." # Not currently shown on home page
-    coffeescript_blurb: "Nicer JavaScript syntax." # Not currently shown on home page
-    clojure_blurb: "لثغة حديثة." # Not currently shown on home page
-    lua_blurb: "لعبة لغة البرمجة." # Not currently shown on home page
-    io_blurb: "بسيطة ولكنها غامضة." # Not currently shown on home page
 
   nav:
     play: "إلعب" # The top nav bar entry where players choose which levels to play
@@ -291,10 +285,16 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+    javascript_blurb: "لغة الويب. عظيم للكتابة المواقع، تطبيقات الويب، ألعاب HTML5، والخوادم." # Shorten to match new en blurb
+    python_blurb: "بسيطة لكنها قوية، بيثون هي لغة برمجة عظيمة للأغراض العامة." # Shorten to match new en blurb
+    coffeescript_blurb: "Nicer JavaScript syntax." # Not currently shown on home page
+    clojure_blurb: "لثغة حديثة." # Not currently shown on home page
+    lua_blurb: "لعبة لغة البرمجة." # Not currently shown on home page
+    io_blurb: "بسيطة ولكنها غامضة." # Not currently shown on home page
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

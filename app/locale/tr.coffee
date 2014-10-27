@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     for_beginners: "Yeni Başlayanlar için"
     multiplayer: "Çoklu-oyuncu Kipi" # Not currently shown on home page
     for_developers: "Geliştiriciler için" # Not currently shown on home page.
-    javascript_blurb: "Web'in dili. web siteleri, web uygulamaları, HTML5 oyunları ve sunucular yazmak için mükemmeldir." # Not currently shown on home page
-    python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir." # Not currently shown on home page
-    coffeescript_blurb: "Daha iyi JavaScript sözdizimi." # Not currently shown on home page
-    clojure_blurb: "Modern bir Lisp." # Not currently shown on home page
-    lua_blurb: "Oyun betik dili." # Not currently shown on home page
-    io_blurb: "Basit fakat anlaşılması güç." # Not currently shown on home page
 
   nav:
     play: "Oyna" # The top nav bar entry where players choose which levels to play
@@ -295,6 +289,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     choose_hero: "Kahramanınızı Seçin"
     programming_language: "Programlama Dili"
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
+    javascript_blurb: "Web'in dili." # Shorten to match new en blurb
+    python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir." # Shorten to match new en blurb
+    coffeescript_blurb: "Daha iyi JavaScript sözdizimi." # Not currently shown on home page
+    clojure_blurb: "Modern bir Lisp." # Not currently shown on home page
+    lua_blurb: "Oyun betik dili." # Not currently shown on home page
+    io_blurb: "Basit fakat anlaşılması güç." # Not currently shown on home page
     status: "Durum"
     weapons: "Silahlar"
 #    attack: "Damage" # Can also translate as "Attack"

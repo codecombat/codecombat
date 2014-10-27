@@ -10,12 +10,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
-    javascript_blurb: "为web开发而生的语言。 非常适合制作网站, 网站apps, HTML5游戏或开发服务器。" # Not currently shown on home page
-    python_blurb: "简单而强大, Python是一个伟大的通用编程语言。" # Not currently shown on home page
-    coffeescript_blurb: "一种更好的JavaScript语法." # Not currently shown on home page
-    clojure_blurb: "一种现代的列表处理语言。" # Not currently shown on home page
-    lua_blurb: "一种游戏脚本语言。" # Not currently shown on home page
-    io_blurb: "简单而晦涩。" # Not currently shown on home page
 
   nav:
     play: "开始游戏" # The top nav bar entry where players choose which levels to play
@@ -295,6 +289,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     choose_hero: "请选择您的英雄"
     programming_language: "编程语言"
     programming_language_description: "您希望使用那门编程语言?"
+    javascript_blurb: "为web开发而生的语言。" # Shorten to match new en blurb
+    python_blurb: "简单而强大, Python是一个伟大的通用编程语言。" # Shorten to match new en blurb
+    coffeescript_blurb: "一种更好的JavaScript语法." # Not currently shown on home page
+    clojure_blurb: "一种现代的列表处理语言。" # Not currently shown on home page
+    lua_blurb: "一种游戏脚本语言。" # Not currently shown on home page
+    io_blurb: "简单而晦涩。" # Not currently shown on home page
     status: "状态"
     weapons: "武器"
 #    attack: "Damage" # Can also translate as "Attack"

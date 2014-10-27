@@ -10,12 +10,6 @@
     for_beginners: "For Beginners"
     multiplayer: "Multiplayer"  # Not currently shown on home page
     for_developers: "For Developers"  # Not currently shown on home page.
-    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."  # Not currently shown on home page
-    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."  # Not currently shown on home page
-    coffeescript_blurb: "Nicer JavaScript syntax."  # Not currently shown on home page
-    clojure_blurb: "A modern Lisp."  # Not currently shown on home page
-    lua_blurb: "Game scripting language."  # Not currently shown on home page
-    io_blurb: "Simple but obscure."  # Not currently shown on home page
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
@@ -297,6 +291,12 @@
     choose_hero: "Choose Your Hero"
     programming_language: "Programming Language"
     programming_language_description: "Which programming language do you want to use?"
+    python_blurb: "Simple yet powerful, great for beginners and experts."
+    javascript_blurb: "The language of the web. (Not the same as Java.)"
+    coffeescript_blurb: "Nicer JavaScript syntax."
+    clojure_blurb: "A modern Lisp."
+    lua_blurb: "Game scripting language."
+    io_blurb: "Simple but obscure."
     status: "Status"
     weapons: "Weapons"
     attack: "Damage"  # Can also translate as "Attack"

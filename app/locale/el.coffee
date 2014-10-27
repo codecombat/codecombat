@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     for_beginners: "Για αρχάριους"
     multiplayer: "Πολλαπλοί Παίκτες" # Not currently shown on home page
     for_developers: "Για προγραμματιστές" # Not currently shown on home page.
-    javascript_blurb: "Η γλώσσα του web. Ιδανική για δημιουργία ιστοσελίδων, web εφαρμογών, παιχνίδια HTML5, και διακομιστές." # Not currently shown on home page
-    python_blurb: "Απλή αλλά δυνατή, η Python είναι μια πολύ καλή γλώσσα προγραμματισμού γενικής χρήσης." # Not currently shown on home page
-    coffeescript_blurb: "Καλύτερη JavaScript σύνταξη." # Not currently shown on home page
-    clojure_blurb: "Μοντέρνα Lisp." # Not currently shown on home page
-    lua_blurb: "Scripting γλώσσα παιχνιδιών." # Not currently shown on home page
-    io_blurb: "Απλή αλλά ασαφής." # Not currently shown on home page
 
   nav:
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
@@ -291,10 +285,16 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+    javascript_blurb: "Η γλώσσα του web." # Shorten to match new en blurb
+    python_blurb: "Απλή αλλά δυνατή." # Shorten to match new en blurb
+    coffeescript_blurb: "Καλύτερη JavaScript σύνταξη." # Not currently shown on home page
+    clojure_blurb: "Μοντέρνα Lisp." # Not currently shown on home page
+    lua_blurb: "Scripting γλώσσα παιχνιδιών." # Not currently shown on home page
+    io_blurb: "Απλή αλλά ασαφής." # Not currently shown on home page
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

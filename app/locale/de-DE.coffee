@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    javascript_blurb: "Die Sprache des Web. Geeignet für die Erstellung von Webseiten, WebApps, HTML5 Spielen und Servern.." # Not currently shown on home page
-    python_blurb: "Einfach jedoch leistungsfähig, Python ist eine gute Allzweck-Programmiersprache." # Not currently shown on home page
-    coffeescript_blurb: "Schönere JavaScript Syntax." # Not currently shown on home page
-    clojure_blurb: "Ein modernes Lisp." # Not currently shown on home page
-    lua_blurb: "Skriptsprache für Spiele." # Not currently shown on home page
-    io_blurb: "Simpel aber obskur." # Not currently shown on home page
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -295,6 +289,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     choose_hero: "Wähle deinen Helden"
     programming_language: "Programmiersprache"
     programming_language_description: "Welche Programmiersprache möchtest du verwenden?"
+    javascript_blurb: "Die Sprache des Web." # Shorten to match new en blurb
+    python_blurb: "Einfach jedoch leistungsfähig, Python ist eine gute Allzweck-Programmiersprache." # Shorten to match new en blurb
+    coffeescript_blurb: "Schönere JavaScript Syntax." # Not currently shown on home page
+    clojure_blurb: "Ein modernes Lisp." # Not currently shown on home page
+    lua_blurb: "Skriptsprache für Spiele." # Not currently shown on home page
+    io_blurb: "Simpel aber obskur." # Not currently shown on home page
     status: "Status"
     weapons: "Waffen"
 #    attack: "Damage" # Can also translate as "Attack"
