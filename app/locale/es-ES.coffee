@@ -28,7 +28,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     about: "Sobre nosotros"
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
-#    teachers: "Teachers"
+    teachers: "Profesores"
 
   modal:
     close: "Cerrar"
@@ -50,14 +50,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     spectate: "Observar" # Ladder page
     players: "jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    items: "Objetos" # Tooltip on item shop button from /play
+    heroes: "Heroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Cuenta" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    settings: "Ajustes" # Tooltip on settings button from /play
     next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
+    choose_inventory: "Equipar Objetos"
     older_campaigns: "Campañas Anteriores"
     anonymous: "Jugador Anonimo"
     level_difficulty: "Dificultad: "
@@ -66,7 +66,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     adventurer_prefix: "Puedes elegir cualquier pantalla o charlar en "
     adventurer_forum: "el foro del aventurero "
     adventurer_suffix: "sobre ello."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Antigua Campaña de Principiante"
     campaign_old_beginner_description: "... en la que aprenderás la magia de la programación."
     campaign_dev: "Niveles aleatorios más dificiles"
     campaign_dev_description: "... en los que aprenderás sobre la interfaz mientras haces algo más difícil."
@@ -101,12 +101,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     send_password: "Enviar recuperación de contraseña"
     recovery_sent: "Email de recuperación de contraseña enviado."
 
-#  items:
-#    armor: "Armor"
-#    hands: "Hands"
-#    accessories: "Accessories"
-#    minions: "Minions"
-#    misc: "Misc"
+  items:
+    armor: "Armadura"
+    hands: "Manos"
+    accessories: "Accesorios"
+    minions: "Peones"
+    misc: "Miscelanea"
 
   common:
     loading: "Cargando..."
@@ -197,13 +197,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_rate_the_level: "Puntúa este nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver a Clasificación"
     victory_play_continue: "Continuar"
-#    victory_play_skip: "Skip Ahead"
+    victory_play_skip: "Saltar animacion"
     victory_play_next_level: "Jugar el siguiente nivel"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_more_practice: "Mas Practica"
+    victory_play_too_easy: "Demasiado facil"
+    victory_play_just_right: "Justo"
+    victory_play_too_hard: "Demasiado dificil"
+    victory_saving_progress: "Salvando Progreso"
     victory_go_home: "Ir a Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Ya terminaste?"
@@ -215,10 +215,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_cast_button_castable: "Invocable" # Temporary, if tome_cast_button_run isn't translated.
     tome_cast_button_casting: "Invocando" # Temporary, if tome_cast_button_running isn't translated.
     tome_cast_button_cast: "Invocar" # Temporary, if tome_cast_button_ran isn't translated.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
+    tome_cast_button_run: "Correr"
+    tome_cast_button_running: "Corriendo"
+    tome_cast_button_ran: "Corrido"
+    tome_submit_button: "Mandar"
     tome_reload_method: "Recargcar código original para este método" # Title text for individual method reload button.
     tome_select_method: "Seleccionar método"
     tome_see_all_methods: "Métodos que pueden ser editados" # Title text for method list selector (shown when there are multiple programmable methdos).
@@ -226,7 +226,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_available_spells: "Hechizos disponibles"
     tome_your_skills: "Tus Habilidades"
     hud_continue: "Continuar (pulsa Shift+Space)"
-#    code_saved: "Code Saved"
+    code_saved: "Codigo Salvado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
     loading_ready: "¡Listo!"
@@ -264,7 +264,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_first_language: "La cosa más desastrosa que puedes aprender es tu primer lenguaje de programación. - Alan Kay"
     tip_hardware_problem: "P: Cuantos programadores hacen falta para cambiar una bombilla?  R: Ninguno, es un problema de hardware."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
-#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
+    tip_premature_optimization: "La optimizacion prematura es la raiz de todo mal. - Donald Knuth"
     tip_brute_force: "Cuando haya dudas, usa la fuerza bruta. - Ken Thompson"
     customize_wizard: "Personalizar Mago"
 
@@ -275,17 +275,17 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     options_tab: "Opciones"
     guide_tab: "Guia"
     multiplayer_tab: "Multijugador"
-#    auth_tab: "Sign Up"
+    auth_tab: "Crear cuenta"
     inventory_caption: "Equipa a tu heroe"
     choose_hero_caption: "Elige la lengua del heroe"
     save_load_caption: "... y ver la historia"
     options_caption: "Ajustes de configuracion"
     guide_caption: "Documentos y pistas"
     multiplayer_caption: "Juega con amigos!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Salvar tu progreso."
 
-#  inventory:
-#    choose_inventory: "Equip Items"
+  inventory:
+    choose_inventory: "Equipar Objetos"
 
   choose_hero:
     choose_hero: "Selecciona tu Heroe"
@@ -299,10 +299,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     io_blurb: "Simple pero oscuro."
     status: "Estado"
     weapons: "Armas"
-#    attack: "Damage" # Can also translate as "Attack"
+    attack: "Daño" # Can also translate as "Attack"
     health: "Salud"
     speed: "Velocidad"
-#    skills: "Skills"
+    skills: "Habilidades"
 
   save_load:
     granularity_saved_games: "Salvado"
@@ -313,7 +313,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     volume_label: "Volumen"
     music_label: "Musica"
     music_description: "Musica de fondo on/off."
-#    autorun_label: "Autorun"
+    autorun_label: "Autorun"
     autorun_description: "Control automatico de codigo en ejecucion."
     editor_config: "Conf. editor"
     editor_config_title: "Configuración del editor"
@@ -503,7 +503,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     level_tab_thangs_add: "Añadir Objetos"
     delete: "Borrar"
     duplicate: "Duplicar"
-#    rotate: "Rotate"
+    rotate: "Rotar"
     level_settings_title: "Ajustes"
     level_component_tab_title: "Componentes Actuales"
     level_component_btn_new: "Crear Nuevo Componente"
@@ -523,7 +523,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     new_thang_title: "Crea un nuevo tipo de objeto"
     new_level_title: "Crear un nuevo nivel"
     new_article_title_login: "Inicia sesión para Crear un Nuevo Artíuclo"
-#    new_thang_title_login: "Log In to Create a New Thang Type"
+    new_thang_title_login: "Inicia sesión para Crear un Nuevo Tipo de Thang"
     new_level_title_login: "Inicia sesión para Crear un Nuevo Nivel"
     new_achievement_title: "Crea un nuevo Logro"
     new_achievement_title_login: "Inicia sesión para Crear un Nuevo Logro"
@@ -767,12 +767,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    user_remarks: "User Remarks"
     versions: "Versiones"
     items: "Objetos"
-#    heroes: "Heroes"
+    heroes: "Heroes"
     wizard: "Mago"
     achievement: "Logro"
-#    clas: "CLAs"
+    clas: "Clasess"
     play_counts: "Contador de Juegos"
-#    feedback: "Feedback"
+    feedback: "Apoyo"
 
   delta:
     added: "Añadido"
@@ -783,8 +783,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Sin Cambios"
 
-#  guide:
-#    temp: "Temp"
+  guide:
+    temp: "Temporal"
 
   multiplayer:
     multiplayer_title: "Ajustes de Multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.
@@ -1056,10 +1056,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     av_entities_active_instances_url: "Instancias Activas"
     av_entities_employer_list_url: "Lista de empleados"
     av_entities_candidates_list_url: "Lista de Candidatos"
-#    av_entities_user_code_problems_list_url: "User Code Problems List"
+    av_entities_user_code_problems_list_url: "Lista de Problemas de Codigo del Usuario"
     av_other_sub_title: "Otros"
     av_other_debug_base_url: "Base (para debugging base.jade)"
     u_title: "Lista de Usuarios"
-#    ucp_title: "User Code Problems"
+    ucp_title: "Problemas de Codigo del Usuario"
     lg_title: "Últimos Juegos"
     clas: "CLAs"
