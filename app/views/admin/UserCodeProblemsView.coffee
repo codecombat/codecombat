@@ -28,7 +28,7 @@ module.exports = class UserCodeProblemsView extends RootView
       lastMonth.setMonth lastMonth.getMonth() - 1
 
     conditions = [
-      ['limit', 1000]
+      ['limit', 300]
       ['sort', '-created']
       ['where', 'created']
       ['gte', lastMonth.toString()]
