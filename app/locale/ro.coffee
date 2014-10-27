@@ -275,12 +275,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    options_tab: "Options"
 #    guide_tab: "Guide"
     multiplayer_tab: "Multiplayer"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
     options_caption: "Configurarea setărilor"
     guide_caption: "Documentație si sfaturi"
     multiplayer_caption: "Joaca cu prieteni!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
-    javascript_blurb: "Limbajul web-ului." # Shorten to match new en blurb
-    python_blurb: "Simplu dar puternic, Python este un limbaj de uz general extraordinar!" # Shorten to match new en blurb
-    coffeescript_blurb: "JavaScript cu o syntaxă mai placută! Nicer JavaScript syntax." # Not currently shown on home page
-    clojure_blurb: "Un Lisp modern." # Not currently shown on home page
-    lua_blurb: "Limbaj de scripting pentru jocuri." # Not currently shown on home page
-    io_blurb: "Simplu dar obscur." # Not currently shown on home page
+    python_blurb: "Simplu dar puternic, Python este un limbaj de uz general extraordinar!"
+    javascript_blurb: "Limbajul web-ului."
+    coffeescript_blurb: "JavaScript cu o syntaxă mai placută! Nicer JavaScript syntax."
+    clojure_blurb: "Un Lisp modern."
+    lua_blurb: "Limbaj de scripting pentru jocuri."
+    io_blurb: "Simplu dar obscur."
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

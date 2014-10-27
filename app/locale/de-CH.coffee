@@ -275,12 +275,14 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    options_tab: "Options"
 #    guide_tab: "Guide"
     multiplayer_tab: "Multiplayer"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
-    javascript_blurb: "D Internetsproch." # Shorten to match new en blurb
-    python_blurb: "Eifach und doch mächtig." # Shorten to match new en blurb
-    coffeescript_blurb: "Nettere JavaScript Syntax." # Not currently shown on home page
-#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
-    lua_blurb: "D Sproch für Game Scripts." # Not currently shown on home page
-    io_blurb: "Eifach aber undurchsichtig." # Not currently shown on home page
+    python_blurb: "Eifach und doch mächtig."
+    javascript_blurb: "D Internetsproch."
+    coffeescript_blurb: "Nettere JavaScript Syntax."
+#    clojure_blurb: "A modern Lisp."
+    lua_blurb: "D Sproch für Game Scripts."
+    io_blurb: "Eifach aber undurchsichtig."
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

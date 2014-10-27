@@ -275,12 +275,14 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     options_tab: "Opcje"
     guide_tab: "Przewodnik"
     multiplayer_tab: "Multiplayer"
+#    auth_tab: "Sign Up"
     inventory_caption: "Wyposaż swojego bohatera"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
     options_caption: "Ustaw opcje"
     guide_caption: "Dokumenty i wskazówki"
     multiplayer_caption: "Graj ze znajomymi!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
-    javascript_blurb: "Język internetu." # Shorten to match new en blurb
-    python_blurb: "Prosty ale potężny." # Shorten to match new en blurb
-    coffeescript_blurb: "Przyjemniejsza składnia JavaScript." # Not currently shown on home page
-    clojure_blurb: "Nowoczesny Lisp." # Not currently shown on home page
-    lua_blurb: "Język skryptowy gier." # Not currently shown on home page
-    io_blurb: "Prosty lecz nieznany." # Not currently shown on home page
+    python_blurb: "Prosty ale potężny."
+    javascript_blurb: "Język internetu."
+    coffeescript_blurb: "Przyjemniejsza składnia JavaScript."
+    clojure_blurb: "Nowoczesny Lisp."
+    lua_blurb: "Język skryptowy gier."
+    io_blurb: "Prosty lecz nieznany."
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

@@ -275,12 +275,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    options_tab: "Options"
 #    guide_tab: "Guide"
     multiplayer_tab: "멀티 플레이"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
-    javascript_blurb: "웹을 위한 언어." # Shorten to match new en blurb
-    python_blurb: "간단하지만 강력합니다." # Shorten to match new en blurb
-    coffeescript_blurb: "향상된 자바스크립트 문법." # Not currently shown on home page
-    clojure_blurb: "현대적인 Lisp." # Not currently shown on home page
-    lua_blurb: "게임 스크립팅 언어" # Not currently shown on home page
-    io_blurb: "간단하지만 아직 잘 알려지지 않은 언어." # Not currently shown on home page
+    python_blurb: "간단하지만 강력합니다."
+    javascript_blurb: "웹을 위한 언어."
+    coffeescript_blurb: "향상된 자바스크립트 문법."
+    clojure_blurb: "현대적인 Lisp."
+    lua_blurb: "게임 스크립팅 언어"
+    io_blurb: "간단하지만 아직 잘 알려지지 않은 언어."
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

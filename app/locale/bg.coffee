@@ -275,12 +275,14 @@ module.exports = nativeDescription: "български език", englishDescri
 #    options_tab: "Options"
 #    guide_tab: "Guide"
 #    multiplayer_tab: "Multiplayer"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "български език", englishDescri
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
-#    #javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers." # Shorten to match new en blurb
-#   # python_blurb: "Simple yet powerful, Python is a great general purpose programming language." # Shorten to match new en blurb
-#    coffeescript_blurb: "Nicer JavaScript syntax." # Not currently shown on home page
-#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
-#    lua_blurb: "Game scripting language." # Not currently shown on home page
-#    io_blurb: "Simple but obscure." # Not currently shown on home page
+#    python_blurb: "Simple yet powerful, great for beginners and experts."
+#    javascript_blurb: "The language of the web. (Not the same as Java.)"
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
 #    attack: "Damage" # Can also translate as "Attack"

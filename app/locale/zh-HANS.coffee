@@ -275,12 +275,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     options_tab: "设置"
     guide_tab: "使用向导"
     multiplayer_tab: "多人游戏"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "装备道具"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     choose_hero: "请选择您的英雄"
     programming_language: "编程语言"
     programming_language_description: "您希望使用那门编程语言?"
-    javascript_blurb: "为web开发而生的语言。" # Shorten to match new en blurb
-    python_blurb: "简单而强大, Python是一个伟大的通用编程语言。" # Shorten to match new en blurb
-    coffeescript_blurb: "一种更好的JavaScript语法." # Not currently shown on home page
-    clojure_blurb: "一种现代的列表处理语言。" # Not currently shown on home page
-    lua_blurb: "一种游戏脚本语言。" # Not currently shown on home page
-    io_blurb: "简单而晦涩。" # Not currently shown on home page
+    python_blurb: "简单而强大, Python是一个伟大的通用编程语言。"
+    javascript_blurb: "为web开发而生的语言。"
+    coffeescript_blurb: "一种更好的JavaScript语法."
+    clojure_blurb: "一种现代的列表处理语言。"
+    lua_blurb: "一种游戏脚本语言。"
+    io_blurb: "简单而晦涩。"
     status: "状态"
     weapons: "武器"
 #    attack: "Damage" # Can also translate as "Attack"

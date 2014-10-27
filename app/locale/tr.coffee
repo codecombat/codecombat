@@ -275,12 +275,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     options_tab: "Seçenekler"
     guide_tab: "Rehber"
     multiplayer_tab: "Çoklu-oyuncu"
+#    auth_tab: "Sign Up"
     inventory_caption: "Kahramanınızı donatın"
     choose_hero_caption: "Kahraman, dil seçin"
     save_load_caption: "... ve geçmişe bak"
     options_caption: "Ayarları yapılandır"
     guide_caption: "Belgeler ve ipuçları"
     multiplayer_caption: "Arkadaşlarla oyna!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "Ögeleri Donan"
@@ -289,12 +291,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     choose_hero: "Kahramanınızı Seçin"
     programming_language: "Programlama Dili"
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
-    javascript_blurb: "Web'in dili." # Shorten to match new en blurb
-    python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir." # Shorten to match new en blurb
-    coffeescript_blurb: "Daha iyi JavaScript sözdizimi." # Not currently shown on home page
-    clojure_blurb: "Modern bir Lisp." # Not currently shown on home page
-    lua_blurb: "Oyun betik dili." # Not currently shown on home page
-    io_blurb: "Basit fakat anlaşılması güç." # Not currently shown on home page
+    python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir."
+    javascript_blurb: "Web'in dili."
+    coffeescript_blurb: "Daha iyi JavaScript sözdizimi."
+    clojure_blurb: "Modern bir Lisp."
+    lua_blurb: "Oyun betik dili."
+    io_blurb: "Basit fakat anlaşılması güç."
     status: "Durum"
     weapons: "Silahlar"
 #    attack: "Damage" # Can also translate as "Attack"
