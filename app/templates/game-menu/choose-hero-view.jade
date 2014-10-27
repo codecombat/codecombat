@@ -58,17 +58,17 @@
 
 .form
   .form-group.select-group
-    span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+    //span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
     label.control-label(for="option-code-language", data-i18n="choose_hero.programming_language") Programming Language
     select#option-code-language(name="code-language")
       for option in codeLanguages
         option(value=option.id, selected=codeLanguage === option.id)= option.name
 
-if level
-  .form-group.select-group
-    label.control-label(for="#restart-level-confirm-button", data-i18n="play_level.reload_title") Reload All Code?
-    button(data-dismiss="modal", data-i18n="play_level.reload_confirm").btn.btn-sm.btn-danger#restart-level-confirm-button Reload All
-    span.help-block(data-i18n="play_level.reload_really") Are you sure you want to reload this level back to the beginning?
+  if level
+    .form-group.select-group
+      label.control-label(for="#restart-level-confirm-button", data-i18n="play_level.reload_title") Reload All Code?
+      button(data-dismiss="modal", data-i18n="play_level.reload_confirm").btn.btn-sm.btn-danger#restart-level-confirm-button Reload All
+      span.help-block(data-i18n="play_level.reload_really") Are you sure you want to reload this level back to the beginning?
   
   
   

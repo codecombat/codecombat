@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     for_beginners: "Per a principiants"
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Per a Desenvolupadors" # Not currently shown on home page.
-    javascript_blurb: "El llenguatge de les webs. Útil per escriure pagines web, aplicacions web, jocs en HTML5 i servidors." # Not currently shown on home page
-    python_blurb: "Simple però poderós, Python és un bon llenguatge d'us general." # Not currently shown on home page
-    coffeescript_blurb: "Sintaxi JavaScript millorat." # Not currently shown on home page
-    clojure_blurb: "Un Lisp modern." # Not currently shown on home page
-    lua_blurb: "Llenguatge script per a jocs." # Not currently shown on home page
-    io_blurb: "Senzill però obscur." # Not currently shown on home page
 
   nav:
     play: "Nivells" # The top nav bar entry where players choose which levels to play
@@ -281,12 +275,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     options_tab: "Opcions"
     guide_tab: "Gui"
     multiplayer_tab: "Multijugador"
+#    auth_tab: "Sign Up"
     inventory_caption: "Equipa el teu heroi"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
     options_caption: "Edita la configuració"
     guide_caption: "Documents i pistes"
     multiplayer_caption: "Juga amb amics!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "Equipar objectes"
@@ -295,10 +291,18 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     choose_hero: "Escull el teu heroi"
     programming_language: "Llenguatge de programació"
     programming_language_description: "Quin llenguatge de programació vols utilitzar?"
+    python_blurb: "Simple però poderós, Python és un bon llenguatge d'us general."
+    javascript_blurb: "El llenguatge de les webs."
+    coffeescript_blurb: "Sintaxi JavaScript millorat."
+    clojure_blurb: "Un Lisp modern."
+    lua_blurb: "Llenguatge script per a jocs."
+    io_blurb: "Senzill però obscur."
     status: "Estat"
     weapons: "Armes"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Salut"
     speed: "Velocitat"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "Desats"

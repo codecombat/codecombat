@@ -345,7 +345,7 @@ module.exports = class JobProfileView extends UserView
   onJobProfileNotesChanged: (e) =>
     notes = @$el.find('#job-profile-notes').val()
     @user.set 'jobProfileNotes', notes
-    @user.save {jobProfileNotes: notes}, {patch: true}
+    @user.save {jobProfileNotes: notes}, {patch: true, type: 'PUT'}
 
   iconForLink: (link) ->
     icons = [

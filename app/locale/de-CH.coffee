@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     for_beginners: "Für Afänger"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    javascript_blurb: "D Internetsproch. Super zum Websiite, Web Apps, HTML5 Games und Server schriibe." # Not currently shown on home page
-    python_blurb: "Eifach und doch mächtig. Python isch grossartigi, allgemein isetzbari Programmiersproch." # Not currently shown on home page
-    coffeescript_blurb: "Nettere JavaScript Syntax." # Not currently shown on home page
-#    clojure_blurb: "A modern Lisp." # Not currently shown on home page
-    lua_blurb: "D Sproch für Game Scripts." # Not currently shown on home page
-    io_blurb: "Eifach aber undurchsichtig." # Not currently shown on home page
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
@@ -281,24 +275,34 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    options_tab: "Options"
 #    guide_tab: "Guide"
     multiplayer_tab: "Multiplayer"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+    python_blurb: "Eifach und doch mächtig."
+    javascript_blurb: "D Internetsproch."
+    coffeescript_blurb: "Nettere JavaScript Syntax."
+#    clojure_blurb: "A modern Lisp."
+    lua_blurb: "D Sproch für Game Scripts."
+    io_blurb: "Eifach aber undurchsichtig."
 #    status: "Status"
 #    weapons: "Weapons"
+#    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
+#    skills: "Skills"
 
 #  save_load:
 #    granularity_saved_games: "Saved"

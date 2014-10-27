@@ -41,6 +41,9 @@ module.exports = class LevelPlaybackView extends CocoView
     'mouseenter #timeProgress': 'onProgressEnter'
     'mouseleave #timeProgress': 'onProgressLeave'
     'mousemove #timeProgress': 'onProgressHover'
+    'tapstart #timeProgress': 'onProgressTapStart'
+    'tapend #timeProgress': 'onProgressTapEnd'
+    'tapmove #timeProgress': 'onProgressTapMove'
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
@@ -276,9 +279,9 @@ module.exports = class LevelPlaybackView extends CocoView
   onProgressLeave: (e) ->
     @timePopup?.leave @timePopup
 
-  onProgressHover: (e) ->
+  onProgressHover: (e, offsetX) ->
     timeRatio = @$progressScrubber.width() / @totalTime
-    offsetX = e.clientX - $(e.target).closest('#timeProgress').offset().left
+    offsetX ?= e.clientX - $(e.target).closest('#timeProgress').offset().left
     @newTime = offsetX / timeRatio
     @updatePopupContent()
     @timePopup?.onHover e
@@ -286,6 +289,27 @@ module.exports = class LevelPlaybackView extends CocoView
     # Show it instantaneously if close enough to current time.
     if @timePopup and Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
       @timePopup.show()
+
+  onProgressTapStart: (e, touchData) ->
+    return unless application.isIPadApp
+    @onProgressEnter e
+    screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
+    offsetX = Math.max offsetX, 0
+    @scrubTo offsetX / @$progressScrubber.width()
+    @onTogglePlay() if @$el.find('#play-button').hasClass 'playing'
+
+  onProgressTapEnd: (e, touchData) ->
+    return unless application.isIPadApp
+    @onProgressLeave e
+
+  onProgressTapMove: (e, touchData) ->
+    return unless application.isIPadApp  # Not sure why the tap events would fire when it's not one.
+    screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
+    offsetX = Math.max offsetX, 0
+    @onProgressHover e, offsetX
+    @scrubTo offsetX / @$progressScrubber.width()
 
   updateProgress: (progress, world) ->
     if world.frames.length isnt @lastLoadedFrameCount

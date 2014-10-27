@@ -10,12 +10,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador" # Not currently shown on home page
     for_developers: "Para Desenvolvedores" # Not currently shown on home page.
-    javascript_blurb: "A linguagem da web. Ótima para criação de websites, web app, jogos HTML5, e servidores" # Not currently shown on home page
-    python_blurb: "Simples mas poderosa, Python é uma linguagem de programação de uso geral" # Not currently shown on home page
-    coffeescript_blurb: "Sintaxe de JavaScript mais legal." # Not currently shown on home page
-    clojure_blurb: "Um Lisp moderno." # Not currently shown on home page
-    lua_blurb: "Linguagem de script para jogos." # Not currently shown on home page
-    io_blurb: "Simples mas obscura." # Not currently shown on home page
 
   nav:
     play: "Jogar" # The top nav bar entry where players choose which levels to play
@@ -281,12 +275,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     options_tab: "Opções"
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
+#    auth_tab: "Sign Up"
     inventory_caption: "Equipar seu herói"
     choose_hero_caption: "Escolha seu herói, linguagem"
     save_load_caption: "... e visualizar o histórico"
     options_caption: "Configurar preferências"
     guide_caption: "Documentos e dicas"
     multiplayer_caption: "Jogue com seus amigos!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "Equipar itens"
@@ -295,10 +291,18 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     choose_hero: "Escolha seu Herói"
     programming_language: "Linguagem de Programação"
     programming_language_description: "Qual Linguagem de Programação você gostaria de usar?"
+    python_blurb: "Simples mas poderosa, Python é uma linguagem de programação de uso geral."
+    javascript_blurb: "A linguagem da web."
+    coffeescript_blurb: "Sintaxe de JavaScript mais legal."
+    clojure_blurb: "Um Lisp moderno."
+    lua_blurb: "Linguagem de script para jogos."
+    io_blurb: "Simples mas obscura."
     status: "Status"
     weapons: "Armas"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Vida"
     speed: "Velocidade"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "Salvo"

@@ -10,12 +10,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    javascript_blurb: "Die Sprache des Web. Geeignet für die Erstellung von Webseiten, WebApps, HTML5 Spielen und Servern.." # Not currently shown on home page
-    python_blurb: "Einfach jedoch leistungsfähig, Python ist eine gute Allzweck-Programmiersprache." # Not currently shown on home page
-    coffeescript_blurb: "Schönere JavaScript Syntax." # Not currently shown on home page
-    clojure_blurb: "Ein modernes Lisp." # Not currently shown on home page
-    lua_blurb: "Skriptsprache für Spiele." # Not currently shown on home page
-    io_blurb: "Simpel aber obskur." # Not currently shown on home page
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -281,12 +275,14 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     options_tab: "Einstellungen"
     guide_tab: "Guide"
     multiplayer_tab: "Mehrspieler"
+#    auth_tab: "Sign Up"
     inventory_caption: "Rüste deinen Helden aus"
     choose_hero_caption: "Wähle Helden, Sprache"
     save_load_caption: "... und schaue dir die Historie an"
     options_caption: "konfiguriere Einstellungen"
     guide_caption: "Doku und Tipps"
     multiplayer_caption: "Spiele mit Freunden!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "Gegenstände ausrüsten"
@@ -295,10 +291,18 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     choose_hero: "Wähle deinen Helden"
     programming_language: "Programmiersprache"
     programming_language_description: "Welche Programmiersprache möchtest du verwenden?"
+    python_blurb: "Einfach jedoch leistungsfähig, Python ist eine gute Allzweck-Programmiersprache."
+    javascript_blurb: "Die Sprache des Web."
+    coffeescript_blurb: "Schönere JavaScript Syntax."
+    clojure_blurb: "Ein modernes Lisp."
+    lua_blurb: "Skriptsprache für Spiele."
+    io_blurb: "Simpel aber obskur."
     status: "Status"
     weapons: "Waffen"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Gesundheit"
     speed: "Geschwindigkeit"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "Gespeichert"

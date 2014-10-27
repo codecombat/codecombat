@@ -144,6 +144,7 @@ class CocoModel extends Backbone.Model
     return false unless @_revertAttributes
     options ?= {}
     options.patch = true
+    options.type = 'PUT'
 
     attrs = {_id: @id}
     keys = []

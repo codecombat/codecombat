@@ -293,7 +293,7 @@ module.exports = class LevelLoader extends CocoClass
     unless _.isEmpty patch
       @session.set key, value for key, value of patch
       tempSession = new LevelSession _id: @session.id
-      tempSession.save(patch, {patch: true})
+      tempSession.save(patch, {patch: true, type: 'PUT'})
     @sessionDenormalized = true
 
   # Building sprite sheets

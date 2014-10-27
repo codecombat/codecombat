@@ -39,7 +39,7 @@ module.exports = class ChooseHeroView extends CocoView
     hero.locked = temporaryHeroInfo[hero.get('slug')].status is 'Locked' and not me.earnedHero hero.get('original') for hero in context.heroes
     context.level = @options.level
     context.codeLanguages = [
-      {id: 'python', name: 'Python'}
+      {id: 'python', name: 'Python (Default)'}
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript'}
       {id: 'clojure', name: 'Clojure (Experimental)'}
@@ -66,6 +66,7 @@ module.exports = class ChooseHeroView extends CocoView
     @$el.find(".hero-item:nth-child(#{heroIndex + 1}), .hero-indicator:nth-child(#{heroIndex + 1})").addClass('active')
     @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[heroIndex]
     @$el.find('.hero-stat').tooltip()
+    @buildCodeLanguages()
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'
@@ -149,6 +150,14 @@ module.exports = class ChooseHeroView extends CocoView
     AudioPlayer.preloadSoundReference sound
     @currentSoundInstance = AudioPlayer.playSound name, 1
     @currentSoundInstance
+
+  buildCodeLanguages: ->
+    $select = @$el.find('#option-code-language')
+    $select.fancySelect().parent().find('.options li').each ->
+      languageName = $(@).text()
+      languageID = $(@).data('value')
+      blurb = $.i18n.t("choose_hero.#{languageID}_blurb")
+      $(@).text("#{languageName} - #{blurb}")
 
   onCodeLanguageChanged: (e) ->
     @codeLanguage = @$el.find('#option-code-language').val()

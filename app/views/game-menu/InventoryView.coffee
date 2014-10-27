@@ -16,7 +16,9 @@ module.exports = class InventoryView extends CocoView
     'click .item-slot': 'onItemSlotClick'
     'click #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemClick'
     'dblclick #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemDoubleClick'
+    'doubletap #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemDoubleClick'
     'dblclick .item-slot .item-view': 'onEquippedItemDoubleClick'
+    'doubletap .item-slot .item-view': 'onEquippedItemDoubleClick'
 
   subscriptions:
     'level:hero-selection-updated': 'onHeroSelectionUpdated'
@@ -111,6 +113,13 @@ module.exports = class InventoryView extends CocoView
           hoverClass: 'droppable-hover'
           tolerance: 'touch'
         @makeEquippedSlotDraggable $(itemSlot)
+
+    @$el.find('.hero-container').droppable
+      drop: (e, ui) => @onAvailableItemDoubleClick()
+      accept: (el) -> true
+      activeClass: 'droppable'
+      hoverClass: 'droppable-hover'
+      tolerance: 'pointer'
 
     @$el.find('#selected-items').hide()  # Hide until one is selected
     @delegateEvents()

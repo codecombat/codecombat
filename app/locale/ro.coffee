@@ -10,12 +10,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     for_beginners: "Pentru Începători"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Pentru dezvoltatori" # Not currently shown on home page.
-    javascript_blurb: "Limbajul web-ului. Perfect pentru crearea website-urilor, web applicații, jocuri HTML5, si servere. The language of the web. Great for writing websites, web apps, HTML5 games, and servers." # Not currently shown on home page
-    python_blurb: "Simplu dar puternic, Python este un limbaj de uz general extraordinar!" # Not currently shown on home page
-    coffeescript_blurb: "JavaScript cu o syntaxă mai placută! Nicer JavaScript syntax." # Not currently shown on home page
-    clojure_blurb: "Un Lisp modern." # Not currently shown on home page
-    lua_blurb: "Limbaj de scripting pentru jocuri." # Not currently shown on home page
-    io_blurb: "Simplu dar obscur." # Not currently shown on home page
 
   nav:
     play: "Nivele" # The top nav bar entry where players choose which levels to play
@@ -281,24 +275,34 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    options_tab: "Options"
 #    guide_tab: "Guide"
     multiplayer_tab: "Multiplayer"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
     options_caption: "Configurarea setărilor"
     guide_caption: "Documentație si sfaturi"
     multiplayer_caption: "Joaca cu prieteni!"
+#    auth_caption: "Save your progress."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+    python_blurb: "Simplu dar puternic, Python este un limbaj de uz general extraordinar!"
+    javascript_blurb: "Limbajul web-ului."
+    coffeescript_blurb: "JavaScript cu o syntaxă mai placută! Nicer JavaScript syntax."
+    clojure_blurb: "Un Lisp modern."
+    lua_blurb: "Limbaj de scripting pentru jocuri."
+    io_blurb: "Simplu dar obscur."
 #    status: "Status"
 #    weapons: "Weapons"
+#    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
+#    skills: "Skills"
 
 #  save_load:
 #    granularity_saved_games: "Saved"

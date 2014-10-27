@@ -10,12 +10,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_beginners: "Новичкам"
     multiplayer: "Мультиплеер" # Not currently shown on home page
     for_developers: "Разработчикам" # Not currently shown on home page.
-    javascript_blurb: "Язык для Сети. Подходит для написания сайтов, веб-приложений, HTML5-игр и серверов." # Not currently shown on home page
-    python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения." # Not currently shown on home page
-    coffeescript_blurb: "Улучшенный синтаксис JavaScript." # Not currently shown on home page
-    clojure_blurb: "Современный Lisp." # Not currently shown on home page
-    lua_blurb: "Скриптовый язык для игр." # Not currently shown on home page
-    io_blurb: "Простой, но непонятный." # Not currently shown on home page
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
@@ -281,12 +275,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     options_tab: "Настройки"
     guide_tab: "Руководство"
     multiplayer_tab: "Мультиплеер"
+#    auth_tab: "Sign Up"
     inventory_caption: "Оденьте своего героя"
     choose_hero_caption: "Выбор героя, языка"
 #    save_load_caption: "... and view history"
     options_caption: "Выбор настроек"
 #    guide_caption: "Docs and tips"
     multiplayer_caption: "Играй с друзьями!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "Выбрать предметы"
@@ -295,10 +291,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_hero: "Выберите героя"
     programming_language: "Язык программирования"
     programming_language_description: "Какой язык программирования вы хотите использовать?"
+    python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения."
+    javascript_blurb: "Язык для Сети."
+    coffeescript_blurb: "Улучшенный синтаксис JavaScript."
+    clojure_blurb: "Современный Lisp."
+    lua_blurb: "Скриптовый язык для игр."
+    io_blurb: "Простой, но непонятный."
     status: "Статус"
     weapons: "Оружие"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Жизнь"
     speed: "Скорость"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "Сохранено"

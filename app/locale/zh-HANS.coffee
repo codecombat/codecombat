@@ -10,12 +10,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
-    javascript_blurb: "为web开发而生的语言。 非常适合制作网站, 网站apps, HTML5游戏或开发服务器。" # Not currently shown on home page
-    python_blurb: "简单而强大, Python是一个伟大的通用编程语言。" # Not currently shown on home page
-    coffeescript_blurb: "一种更好的JavaScript语法." # Not currently shown on home page
-    clojure_blurb: "一种现代的列表处理语言。" # Not currently shown on home page
-    lua_blurb: "一种游戏脚本语言。" # Not currently shown on home page
-    io_blurb: "简单而晦涩。" # Not currently shown on home page
 
   nav:
     play: "开始游戏" # The top nav bar entry where players choose which levels to play
@@ -202,7 +196,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_sign_up_poke: "想保存你的代码？创建一个免费账户吧！"
     victory_rate_the_level: "评估关卡：" # Only in old-style levels.
     victory_return_to_ladder: "返回"
-    victory_play_continue: "继续"
+    victory_play_continue: "继续游戏"
 #    victory_play_skip: "Skip Ahead"
     victory_play_next_level: "下一关"
 #    victory_play_more_practice: "More Practice"
@@ -230,13 +224,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_see_all_methods: "查看所有能够编辑的方法" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "你的技能"
     hud_continue: "继续（按 Shift-空格）"
 #    code_saved: "Code Saved"
     skip_tutorial: "跳过（esc）"
-#    keyboard_shortcuts: "Key Shortcuts"
+    keyboard_shortcuts: "快捷键"
     loading_ready: "载入完成!"
-#    loading_start: "Start Level"
+    loading_start: "关卡开始"
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
@@ -276,17 +270,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    choose_hero_tab: "重新开始关卡"
+    save_load_tab: "保存/打开"
+    options_tab: "设置"
+    guide_tab: "使用向导"
     multiplayer_tab: "多人游戏"
+#    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
+#    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "装备道具"
@@ -295,10 +291,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     choose_hero: "请选择您的英雄"
     programming_language: "编程语言"
     programming_language_description: "您希望使用那门编程语言?"
+    python_blurb: "简单而强大, Python是一个伟大的通用编程语言。"
+    javascript_blurb: "为web开发而生的语言。"
+    coffeescript_blurb: "一种更好的JavaScript语法."
+    clojure_blurb: "一种现代的列表处理语言。"
+    lua_blurb: "一种游戏脚本语言。"
+    io_blurb: "简单而晦涩。"
     status: "状态"
     weapons: "武器"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "健康值"
     speed: "速度"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "保存"
@@ -763,7 +767,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
-#    heroes: "Heroes"
+    heroes: "英雄"
 #    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"

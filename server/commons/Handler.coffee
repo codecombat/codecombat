@@ -267,9 +267,12 @@ module.exports = class Handler
       res.end()
 
   patch: ->
+    console.warn 'Received unexpected PATCH request'
     @put(arguments...)
 
   put: (req, res, id) ->
+    # Client expects PATCH behavior for PUTs
+    # Real PATCHs return incorrect HTTP responses in some environments (e.g. Browserstack, schools)
     return @postNewVersion(req, res) if @modelClass.schema.uses_coco_versions
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendForbiddenError(res) unless @hasAccess(req)

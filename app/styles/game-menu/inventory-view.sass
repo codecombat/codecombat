@@ -60,6 +60,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       float: left
       position: relative
       cursor: pointer
+      @include transition(0.5s ease)
       
       &.selected
         .placeholder, .item-container .item-view img
@@ -69,12 +70,15 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       &.should-equip
         background-color: #8fa
         outline: 2px solid #8af
+        @include box-shadow(2px 2px 4px black)
 
       &.droppable
         outline: 2px solid blue
+        @include box-shadow(4px 4px 6px black)
 
       &.droppable-hover
         outline: 4px solid blue
+        @include box-shadow(6px 6px 8px black)
 
       .placeholder
         width: 100%
@@ -165,6 +169,15 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       //background-color: rgba(31, 0, 200, 0.25)
       float: left
       position: relative
+      @include transition(0.5s ease)
+
+      &.droppable
+        outline: 2px solid blue
+        @include box-shadow(4px 4px 6px black)
+
+      &.droppable-hover
+        outline: 4px solid blue
+        @include box-shadow(6px 6px 8px black)
 
       .equipped-hero-canvas, .hero-feature-image
         width: $heroContainerWidth
@@ -189,6 +202,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
   .list-group-item
     padding: 4px 0
+    @include transition(0.5s ease)
 
     &.active
       background-color: #e0f0f5
@@ -199,9 +213,11 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     &.should-equip
       background-color: #8fa
       outline: 2px solid #8af
+      @include box-shadow(4px 4px 6px black)
+      z-index: 1
 
       .item-info:after
-        content: ' (drag to equip)'
+        content: ' (double-click to equip)'
         font-weight: bold
       
     &.equipped

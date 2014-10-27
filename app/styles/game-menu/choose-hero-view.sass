@@ -115,7 +115,7 @@ $heroCanvasHeight: 265px
       width: 10%
 
   .select-group
-    display: block
+    display: inline-block
     min-height: 20px
     margin-top: 10px
     margin-bottom: 10px
@@ -125,6 +125,45 @@ $heroCanvasHeight: 265px
     label
       margin-right: 20px
       margin-bottom: 0
+      text-align: top
+
+      &[for="option-code-language"]
+        vertical-align: top
+        margin-top: 10px
 
     select
       font-size: 18px
+
+    .fancy-select
+      display: inline-block
+  
+      .trigger, .options
+        text-transform: none
+        background-color: #def
+
+      .options
+        padding-left: 5px
+
+        .selected
+          color: #111
+
+        .hover
+          color: #111
+          background-color: #abc
+
+      .options
+        li
+          padding-left: 40px
+          background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat left center
+          background-size: 32px 32px
+
+          &[data-value="python"]
+            background-image: url(/images/common/code_languages/python_small.png)
+          &[data-value="coffeescript"]
+            background-image: url(/images/common/code_languages/coffeescript_small.png)
+          &[data-value="clojure"]
+            background-image: url(/images/common/code_languages/clojure_small.png)
+          &[data-value="lua"]
+            background-image: url(/images/common/code_languages/lua_small.png)
+          &[data-value="io"]
+            background-image: url(/images/common/code_languages/io_small.png)
