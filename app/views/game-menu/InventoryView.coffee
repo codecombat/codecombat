@@ -16,7 +16,9 @@ module.exports = class InventoryView extends CocoView
     'click .item-slot': 'onItemSlotClick'
     'click #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemClick'
     'dblclick #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemDoubleClick'
+    'doubletap #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemDoubleClick'
     'dblclick .item-slot .item-view': 'onEquippedItemDoubleClick'
+    'doubletap .item-slot .item-view': 'onEquippedItemDoubleClick'
 
   subscriptions:
     'level:hero-selection-updated': 'onHeroSelectionUpdated'

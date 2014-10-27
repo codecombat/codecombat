@@ -64,6 +64,7 @@ exports.config =
           'bower_components/fastclick/lib/fastclick.js'
           'bower_components/d3/d3.min.js'
           'vendor/scripts/async.js'
+          'vendor/scripts/jquery-ui-1.11.1.js.custom.js'
         ]
     stylesheets:
       defaultExtension: 'sass'
