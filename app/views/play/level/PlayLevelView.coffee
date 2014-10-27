@@ -523,7 +523,7 @@ module.exports = class PlayLevelView extends RootView
   # Throttled
   saveScreenshot: (session) =>
     return unless screenshot = @surface?.screenshot()
-    session.save {screenshot: screenshot}, {patch: true}
+    session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
 
   # Dynamic sound loading
 

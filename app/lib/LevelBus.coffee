@@ -263,7 +263,7 @@ module.exports = class LevelBus extends Bus
     # since updates are coming fast and loose for session objects
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id: @session.id
-    tempSession.save(patch, {patch: true})
+    tempSession.save(patch, {patch: true, type: 'PUT'})
 
   destroy: ->
     clearInterval(@timerIntervalID)

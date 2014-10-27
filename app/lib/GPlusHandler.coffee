@@ -99,6 +99,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     wasAnonymous = me.get('anonymous')
     me.save(patch, {
       patch: true
+      type: 'PUT'
       error: backboneFailure,
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
       success: (model) ->

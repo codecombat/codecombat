@@ -150,7 +150,7 @@ module.exports = class EmployersView extends RootView
       me.set 'savedEmployerFilterAlerts', me.previous('savedEmployerFilterAlerts')
     else
       triggerErrorAlert = -> alert("There was an error saving your filter alert! Please notify team@codecombat.com.")
-      res = me.save {"savedEmployerFilterAlerts": newFilters}, {patch: true, success: cb, error: triggerErrorAlert}
+      res = me.save {"savedEmployerFilterAlerts": newFilters}, {patch: true, type: 'PUT', success: cb, error: triggerErrorAlert}
 
   renderSavedFilters: =>
     savedFilters = me.get('savedEmployerFilterAlerts')
