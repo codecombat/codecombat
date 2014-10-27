@@ -297,8 +297,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     programming_language_description: "¿Qué lenguaje de programación deseas usar?"
     status: "Estado"
     weapons: "Armas"
+#    attack: "Damage" # Can also translate as "Attack"
     health: "Salud"
     speed: "Velocidad"
+#    skills: "Skills"
 
   save_load:
     granularity_saved_games: "Salvado"
