@@ -281,12 +281,14 @@
     options_tab: "Options"
     guide_tab: "Guide"
     multiplayer_tab: "Multiplayer"
+    auth_tab: "Sign Up"
     inventory_caption: "Equip your hero"
     choose_hero_caption: "Choose hero, language"
     save_load_caption: "... and view history"
     options_caption: "Configure settings"
     guide_caption: "Docs and tips"
     multiplayer_caption: "Play with friends!"
+    auth_caption: "Save your progress."
 
   inventory:
     choose_inventory: "Equip Items"
