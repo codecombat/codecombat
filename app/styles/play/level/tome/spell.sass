@@ -83,8 +83,10 @@
         position: absolute
     .executing
       // https://github.com/codecombat/codecombat/issues/6
-      background-color: rgba(50, 255, 80, 0.65)
+      background-color: rgba(255, 255, 255, 0.75)
       @include gradient-striped()
+      outline: 2px outset #0099ff
+      @include box-shadow(1px 1px 4px black)
     .executed
       background-color: rgba(110, 110, 110, 0.12)
     .problem-marker-info
@@ -96,8 +98,7 @@
 
     .executing:not(.ace_gutter-cell)
       background-size: 40px 40px
-      text-shadow: 1px 1px 1px #000
-      @include animation(progress-bar-stripes 2s linear infinite)
+      @include animation(progress-bar-stripes 0.5s linear infinite)
 
     .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
       margin-left: 1px
