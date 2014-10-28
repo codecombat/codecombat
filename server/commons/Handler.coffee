@@ -33,14 +33,14 @@ module.exports = class Handler
   hasAccess: (req) -> true
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
-    
+
     if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() is 'put'
       return true if @isJustFillingTranslations(req, document)
-    
+
     if @modelClass.schema.uses_coco_permissions
       return document.hasPermissionsForMethod?(req.user, method or req.method)
     return true
-    
+
   isJustFillingTranslations: (req, document) ->
     differ = deltasLib.makeJSONDiffer()
     omissions = ['original'].concat(deltasLib.DOC_SKIP_PATHS)
@@ -121,6 +121,7 @@ module.exports = class Handler
         return @sendDatabaseError(res, err) if err
         documents = (@formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, documents)
+      return
 
     specialParameters = ['term', 'project', 'conditions']
 
