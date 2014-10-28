@@ -96,6 +96,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     @showLoading()
     tuples = _.zip(modelsToSave, formsToSave)
     for [newModel, form] in tuples
+      newModel.updateI18NCoverage() if newModel.get('i18nCoverage')
       res = newModel.save()
       do (newModel, form) =>
         res.error =>
