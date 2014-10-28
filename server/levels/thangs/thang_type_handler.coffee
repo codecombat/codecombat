@@ -36,13 +36,22 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'featureImage'
     'spriteType'
     'i18nCoverage'
+    'i18n'
+    'description'
   ]
 
   hasAccess: (req) ->
-    req.method is 'GET' or req.user?.isAdmin()
+    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
+
+  hasAccessToDocument: (req, document, method=null) ->
+    method = (method or req.method).toLowerCase()
+    return true if method is 'get' 
+    return true if req.user?.isAdmin()
+    return true if method is 'put' and @isJustFillingTranslations(req, document)
+    return
 
   get: (req, res) ->
-    if req.query.view in ['items', 'heroes']
+    if req.query.view in ['items', 'heroes', 'i18n-coverage']
       projection = {}
       if req.query.project
         projection[field] = 1 for field in req.query.project.split(',')
@@ -52,7 +61,19 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       else if req.query.view is 'heroes'
         query.kind = 'Unit'
         query.original = {$in: _.values heroes}  # TODO: replace with some sort of ThangType property later
-      ThangType.find(query, projection).exec (err, documents) =>
+      else if req.query.view is 'i18n-coverage'
+        query.i18nCoverage = {$exists: true}
+      
+      q = ThangType.find(query, projection)
+      skip = parseInt(req.query.skip)
+      if skip? and skip < 1000000
+        q.skip(skip)
+
+      limit = parseInt(req.query.limit)
+      if limit? and limit < 1000
+        q.limit(limit)
+
+      q.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
         documents = (@formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, documents)

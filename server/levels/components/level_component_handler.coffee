@@ -14,6 +14,7 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
     'propertyDocumentation'
     'configSchema'
     'name'
+    'i18nCoverage'
   ]
 
   getEditableProperties: (req, document) ->

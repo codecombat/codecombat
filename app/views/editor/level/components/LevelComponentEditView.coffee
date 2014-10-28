@@ -20,6 +20,7 @@ module.exports = class LevelComponentEditView extends CocoView
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
+    'click #pop-component-i18n-button': -> @levelComponent.populateI18N()
 
   constructor: (options) ->
     super options

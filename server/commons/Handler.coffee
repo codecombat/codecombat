@@ -7,6 +7,7 @@ Patch = require '../patches/Patch'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
 hipchat = require '../hipchat'
+deltasLib = require '../../app/lib/deltas'
 
 PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
 FETCH_LIMIT = 300
@@ -32,9 +33,22 @@ module.exports = class Handler
   hasAccess: (req) -> true
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
+    
+    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() is 'put'
+      return true if @isJustFillingTranslations(req, document)
+    
     if @modelClass.schema.uses_coco_permissions
       return document.hasPermissionsForMethod?(req.user, method or req.method)
     return true
+    
+  isJustFillingTranslations: (req, document) ->
+    differ = deltasLib.makeJSONDiffer()
+    omissions = ['original'].concat(deltasLib.DOC_SKIP_PATHS)
+    delta = differ.diff(_.omit(document.toObject(), omissions), _.omit(req.body, omissions))
+    flattened = deltasLib.flattenDelta(delta)
+    _.all(flattened, (delta) ->
+      # sometimes coverage gets moved around... allow other changes to happen to i18nCoverage
+      return _.isArray(delta.o) and (('i18n' in delta.dataPath and delta.o.length is 1) or 'i18nCoverage' in delta.dataPath))
 
   formatEntity: (req, document) -> document?.toObject()
   getEditableProperties: (req, document) ->
@@ -86,6 +100,27 @@ module.exports = class Handler
   # generic handlers
   get: (req, res) ->
     @sendForbiddenError(res) if not @hasAccess(req)
+
+    if @modelClass.schema.uses_coco_translation_coverage and req.query.view is 'i18n-coverage'
+      # TODO: generalize view, project, limit and skip query parameters
+      projection = {}
+      if req.query.project
+        projection[field] = 1 for field in req.query.project.split(',')
+      query = {slug: {$exists: true}, i18nCoverage: {$exists: true}}
+      q = @modelClass.find(query, projection)
+
+      skip = parseInt(req.query.skip)
+      if skip? and skip < 1000000
+        q.skip(skip)
+
+      limit = parseInt(req.query.limit)
+      if limit? and limit < 1000
+        q.limit(limit)
+
+      q.exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
 
     specialParameters = ['term', 'project', 'conditions']
 

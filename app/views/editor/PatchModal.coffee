@@ -2,15 +2,13 @@ ModalView = require 'views/kinds/ModalView'
 template = require 'templates/editor/patch_modal'
 DeltaView = require 'views/editor/DeltaView'
 auth = require 'lib/auth'
+deltasLib = require 'lib/deltas'
 
 module.exports = class PatchModal extends ModalView
   id: 'patch-modal'
   template: template
   plain: true
   modalWidthPercent: 60
-  @DOC_SKIP_PATHS = [
-    '_id','version', 'commitMessage', 'parent', 'created', 
-    'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers']
 
   events:
     'click #withdraw-button': 'withdrawPatch'
@@ -54,7 +52,7 @@ module.exports = class PatchModal extends ModalView
 
   afterRender: ->
     return super() unless @supermodel.finished() and @deltaWorked
-    @deltaView = new DeltaView({model:@pendingModel, headModel:@headModel, skipPaths: PatchModal.DOC_SKIP_PATHS})
+    @deltaView = new DeltaView({model:@pendingModel, headModel:@headModel, skipPaths: deltasLib.DOC_SKIP_PATHS})
     changeEl = @$el.find('.changes-stub')
     @insertSubView(@deltaView, changeEl)
     super()

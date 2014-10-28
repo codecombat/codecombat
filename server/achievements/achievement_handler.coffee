@@ -5,13 +5,37 @@ class AchievementHandler extends Handler
   modelClass: Achievement
 
   # Used to determine which properties requests may edit
-  editableProperties: ['name', 'query', 'worth', 'collection', 'description', 'userField', 'proportionalTo', 'icon', 'function', 'related', 'difficulty', 'category', 'rewards']
+  editableProperties: [
+    'name'
+    'query'
+    'worth'
+    'collection'
+    'description'
+    'userField'
+    'proportionalTo'
+    'icon'
+    'function'
+    'related'
+    'difficulty'
+    'category'
+    'rewards'
+    'i18n'
+    'i18nCoverage'
+  ]
+  
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
   jsonSchema = require '../../app/schemas/models/achievement.coffee'
 
 
   hasAccess: (req) ->
-    req.method is 'GET' or req.user?.isAdmin()
+    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
+
+  hasAccessToDocument: (req, document, method=null) ->
+    method = (method or req.method).toLowerCase()
+    return true if method is 'get'
+    return true if req.user?.isAdmin()
+    return true if method is 'put' and @isJustFillingTranslations(req, document)
+    return
 
   get: (req, res) ->
     # /db/achievement?related=<ID>

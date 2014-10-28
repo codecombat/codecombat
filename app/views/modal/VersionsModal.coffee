@@ -4,6 +4,7 @@ DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
 nameLoader = require 'lib/NameLoader'
 CocoCollection = require 'collections/CocoCollection'
+deltasLib = require 'lib/deltas'
 
 class VersionsViewCollection extends CocoCollection
   url: ''
@@ -55,7 +56,7 @@ module.exports = class VersionsModal extends ModalView
     @deltaView = new DeltaView({
       model: earlierVersion
       comparisonModel: laterVersion
-      skipPaths: PatchModal.DOC_SKIP_PATHS
+      skipPaths: deltasLib.DOC_SKIP_PATHS
       loadModels: true
     })
     @insertSubView(@deltaView, deltaEl)
