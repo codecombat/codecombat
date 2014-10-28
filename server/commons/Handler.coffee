@@ -123,7 +123,6 @@ module.exports = class Handler
         return @sendDatabaseError(res, err) if err
         documents = (@formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, documents)
-      return
 
     # If the model uses coco search it's probably a text search
     else if @modelClass.schema.uses_coco_search

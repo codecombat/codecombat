@@ -1,6 +1,7 @@
 popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
+utils = require 'lib/utils'
 
 safeJSONStringify = (input, maxDepth) ->
   recursion = (input, path, depth) ->
@@ -89,10 +90,25 @@ module.exports = class DocFormatter
     if @doc.returns
       toTranslate.push {obj: @doc.returns, prop: 'example'}, {obj: @doc.returns, prop: 'description'}
     for {obj, prop} in toTranslate
+      # Translate into chosen code language.
       if val = obj[prop]?[@options.language]
         obj[prop] = val
       else unless _.isString obj[prop]
         obj[prop] = null
+
+      # Translate into chosen spoken language.
+      if val = obj[prop]
+        context = @doc.context
+        obj[prop] = val = utils.i18n obj, prop
+        if @doc.i18n
+          spokenLanguage = me.get 'preferredLanguage'
+          while spokenLanguage
+            spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+            if spokenLanguageContext = @doc.i18n[spokenLanguage]?.context
+              context = spokenLanguageContext
+              break
+            fallingBack = true
+        obj[prop] = _.template val, context if context
 
   formatPopover: ->
     content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
