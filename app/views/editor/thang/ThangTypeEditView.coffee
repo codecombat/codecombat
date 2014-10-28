@@ -407,8 +407,9 @@ module.exports = class ThangTypeEditView extends RootView
   pushChangesToPreview: =>
     return if @temporarilyIgnoringChanges
     # TODO: This doesn't delete old Treema keys you deleted
-    for key, value of @treema.data
-      @thangType.set(key, value)
+    for key of @thangType.attributes
+      continue if key is 'components'
+      @thangType.set(key, @treema.data[key])
     @updateSelectBox()
     @refreshAnimation()
     @updateDots()
