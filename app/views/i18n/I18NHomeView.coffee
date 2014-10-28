@@ -23,6 +23,11 @@ module.exports = class I18NHomeView extends RootView
 
     #-
     @aggregateModels = new Backbone.Collection()
+    @aggregateModels.comparator = (m) ->
+      return 2 if m.specificallyCovered
+      return 1 if m.generallyCovered
+      return 0
+    
     project = ['name', 'components.original', 'i18nCoverage', 'slug']
 
     @thangTypes = new CocoCollection([], { url: '/db/thang.type?view=i18n-coverage', project: project, model: ThangType })
@@ -58,6 +63,11 @@ module.exports = class I18NHomeView extends RootView
     c.languages = languages
     c.selectedLanguage = @selectedLanguage
     c.collection = @aggregateModels
+    
+    covered = (m for m in @aggregateModels.models when m.specificallyCovered).length
+    total = @aggregateModels.models.length
+    c.progress = if total then parseInt(100 * covered / total) else 100
+      
     c
 
   updateCoverage: ->
@@ -66,7 +76,8 @@ module.exports = class I18NHomeView extends RootView
     for model in @aggregateModels.models
       @updateCoverageForModel(model, relatedLanguages)
       model.generallyCovered = true if @selectedLanguage.startsWith 'en'
-
+    @aggregateModels.sort()
+      
   updateCoverageForModel: (model, relatedLanguages) ->
     model.specificallyCovered = true
     model.generallyCovered = true
