@@ -16,8 +16,6 @@ module.exports = class AchievementEditView extends RootView
     'click #recalculate-button': 'confirmRecalculation'
     'click #recalculate-all-button': 'confirmAllRecalculation'
     'click #delete-button': 'confirmDeletion'
-    'click #populate-i18n-button': -> @achievement.populateI18N()
-    
  
   constructor: (options, @achievementID) ->
     super options
