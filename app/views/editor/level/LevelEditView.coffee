@@ -43,7 +43,7 @@ module.exports = class LevelEditView extends RootView
     'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
-    'click #pop-level-i18n-button': -> @level.populateI18N()
+    'click #pop-level-i18n-button': 'onPopulateI18N'
     'click a[href="#editor-level-documentation"]': 'onClickDocumentationTab'
     'mouseup .nav-tabs > li a': 'toggleTab'
 
@@ -163,6 +163,11 @@ module.exports = class LevelEditView extends RootView
     button = @$el.find('#level-watch-button')
     @level.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
+    
+  onPopulateI18N: ->
+    @level.populateI18N()
+    f = -> document.location.reload()
+    setTimeout(f, 200)
 
   toggleTab: (e) ->
     @renderScrollbar()
