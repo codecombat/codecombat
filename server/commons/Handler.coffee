@@ -101,6 +101,8 @@ module.exports = class Handler
   get: (req, res) ->
     @sendForbiddenError(res) if not @hasAccess(req)
 
+    specialParameters = ['term', 'project', 'conditions']
+
     if @modelClass.schema.uses_coco_translation_coverage and req.query.view is 'i18n-coverage'
       # TODO: generalize view, project, limit and skip query parameters
       projection = {}
@@ -123,10 +125,8 @@ module.exports = class Handler
         @sendSuccess(res, documents)
       return
 
-    specialParameters = ['term', 'project', 'conditions']
-
     # If the model uses coco search it's probably a text search
-    if @modelClass.schema.uses_coco_search
+    else if @modelClass.schema.uses_coco_search
       term = req.query.term
       matchedObjects = []
       filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
