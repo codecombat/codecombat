@@ -266,6 +266,11 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
     res = super(arguments...)
     res = (r for r in res when r[0] isnt '-')
     res
+    
+  populateData: ->
+    super()
+    if Object.keys(@data).length is 0
+      @data['-'] = {'-':'-'} # also to get around mongoose bug
 
   getChildSchema: (key) ->
     #construct the child schema here

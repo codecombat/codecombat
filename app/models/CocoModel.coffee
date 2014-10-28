@@ -274,7 +274,7 @@ class CocoModel extends Backbone.Model
     schema ?= @schema() or {}
     addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
-      data.i18n = {'-':'-'} # mongoose doesn't work with empty objects
+      data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
       sum += 1
       addedI18N = true
 
