@@ -28,7 +28,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     about: "Sobre Nosaltres"
     contact: "Contacta"
     twitter_follow: "Segueix-nos"
-#    teachers: "Teachers"
+    teachers: "Profesors"
 
   modal:
     close: "Tancar"
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     account: "Conta" # Tooltip on account button from /play
     settings: "Configuració" # Tooltip on settings button from /play
     next: "Següent" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objectes"
     older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
@@ -132,7 +132,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     body: "Cos"
     version: "Versió"
 #    commit_msg: "Commit Message"
-#    version_history: "Version History"
+    version_history: "Historial de versions"
 #    version_history_for: "Version History for: "
     result: "Resultat"
     results: "Resultats"
@@ -148,8 +148,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    opponent: "Opponent"
 #    rank: "Rank"
     score: "Puntuació"
-#    win: "Win"
-#    loss: "Loss"
+    win: "Guanyats"
+    loss: "Perduts"
 #    tie: "Tie"
     easy: "Fàcil"
     medium: "Intermedi"
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   play_level:
     done: "Fet"
     home: "Inici"
-#    skip: "Skip"
+    skip: "Ometre"
     game_menu: "Menu de joc"
     guide: "Guia"
 #    restart: "Restart"
@@ -200,10 +200,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    victory_play_skip: "Skip Ahead"
     victory_play_next_level: "Jugar el següent nivell"
 #    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
+    victory_play_too_easy: "Massa fàcil"
 #    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_too_hard: "Massa difícil"
+    victory_saving_progress: "Desa progrés"
     victory_go_home: "Tornar a l'inici" # Only in old-style levels.
     victory_review: "Diguens més!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"
@@ -302,7 +302,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    attack: "Damage" # Can also translate as "Attack"
     health: "Salut"
     speed: "Velocitat"
-#    skills: "Skills"
+    skills: "Habilitats"
 
   save_load:
     granularity_saved_games: "Desats"
@@ -482,7 +482,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    revert: "Revert"
 #    revert_models: "Revert Models"
 #    pick_a_terrain: "Pick A Terrain"
-#    small: "Small"
+    small: "Petit"
 #    grassy: "Grassy"
 #    fork_title: "Fork New Version"
 #    fork_creating: "Creating Fork..."
@@ -492,11 +492,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     live_chat: "Xat en directe"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
-#    level_tab_scripts: "Scripts"
+    level_tab_scripts: "Scripts"
     level_tab_settings: "Configuració"
     level_tab_components: "Components"
     level_tab_systems: "Sistemes"
-#    level_tab_docs: "Documentation"
+    level_tab_docs: "Documentació"
 #    level_tab_thangs_title: "Current Thangs"
     level_tab_thangs_all: "Tot"
 #    level_tab_thangs_conditions: "Starting Conditions"
@@ -508,13 +508,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     level_component_tab_title: "Components actuals"
 #    level_component_btn_new: "Create New Component"
     level_systems_tab_title: "Sistemes actuals"
-#    level_systems_btn_new: "Create New System"
+    level_systems_btn_new: "Crea un nou sistema"
     level_systems_btn_add: "Afegir sistema"
 #    level_components_title: "Back to All Thangs"
 #    level_components_type: "Type"
 #    level_component_edit_title: "Edit Component"
 #    level_component_config_schema: "Config Schema"
-#    level_component_settings: "Settings"
+    level_component_settings: "Configuració"
 #    level_system_edit_title: "Edit System"
     create_system_title: "Crea un nou sistema"
 #    new_component_title: "Create New Component"
@@ -537,9 +537,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 
-#  article:
-#    edit_btn_preview: "Preview"
-#    edit_article_title: "Edit Article"
+  article:
+    edit_btn_preview: "Vista previa"
+    edit_article_title: "Editar l'article"
 
   contribute:
 #    page_title: "Contributing"
@@ -783,8 +783,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Sense canvis"
 
-#  guide:
-#    temp: "Temp"
+  guide:
+    temp: "Temp"
 
   multiplayer:
     multiplayer_title: "Configuració multijugador" # We'll be changing this around significantly soon. Until then, it's not important to translate.
@@ -808,13 +808,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    practices_description: "These are our promises to you, the player, in slightly less legalese."
     privacy_title: "Privacitat"
 #    privacy_description: "We will not sell any of your personal information. We intend to make money through recruitment eventually, but rest assured we will not distribute your personal information to interested companies without your explicit consent."
-#    security_title: "Security"
+    security_title: "Seguretat"
 #    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
 #    email_title: "Email"
 #    email_description_prefix: "We will not inundate you with spam. Through"
 #    email_settings_url: "your email settings"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
-#    cost_title: "Cost"
+    cost_title: "Cost"
 #    cost_description: "Currently, CodeCombat is 100% free! One of our main goals is to keep it that way, so that as many people can play as possible, regardless of place in life. If the sky darkens, we might have to charge subscriptions or for some content, but we'd rather not. With any luck, we'll be able to sustain the company with:"
 #    recruitment_title: "Recruitment"
 #    recruitment_description_prefix: "Here on CodeCombat, you're going to become a powerful wizard–not just in the game, but also in real life."
@@ -900,7 +900,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     profile_for_prefix: "Perfil de "
     profile_for_suffix: ""
     featured: "Destacat"
-#    not_featured: "Not Featured"
+    not_featured: "Sense destacar"
     looking_for: "Buscant:"
     last_updated: "Ultima actualització:"
     contact: "Contacta"
@@ -1059,7 +1059,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "Altres"
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
-#    u_title: "User List"
+    u_title: "Llista d'usuaris"
 #    ucp_title: "User Code Problems"
 #    lg_title: "Latest Games"
 #    clas: "CLAs"
