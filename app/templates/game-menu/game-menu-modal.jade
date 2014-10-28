@@ -6,13 +6,15 @@ block modal-body-content
   .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
   .tabbable.tabs-left
     - var submenus = ["inventory", "choose-hero", "save-load", "options", "guide", "multiplayer"]
-    - if (!showDevBits) {  // Not done yet.
+    - if (!showsGuide) {
     -   submenus.splice(4, 1);
+    - }
+    - if (!showDevBits) {  // Not done yet.
     -   submenus.splice(2, 1);
     - }
     - if (!showInventory)
     -   submenus.splice(0, 1);
-    ul.nav.nav-tabs
+    ul.nav.nav-tabs#game-menu-nav
       for submenu, index in submenus
         li(class=index ? "" : "active")
           a(href='#' + submenu + '-view', data-toggle='tab')

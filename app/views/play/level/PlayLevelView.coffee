@@ -142,37 +142,6 @@ module.exports = class PlayLevelView extends RootView
 
   # CocoView overridden methods ###############################################
 
-  updateProgress: (progress) ->
-    super(progress)
-    return if @seenDocs
-    return if @isIPadApp()
-    return unless @levelLoader.session.loaded and @levelLoader.level.loaded
-    return unless showFrequency = @levelLoader.level.get('showsGuide')
-    session = @levelLoader.session
-    diff = new Date().getTime() - new Date(session.get('created')).getTime()
-    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
-    articles = @levelLoader.supermodel.getModels Article
-    for article in articles
-      return unless article.loaded
-    @showGuide()
-
-  showGuide: ->
-    @seenDocs = true
-    LevelGuideModal = require './modal/LevelGuideModal'
-    options =
-      docs: @levelLoader.level.get('documentation')
-      supermodel: @supermodel
-      firstOnly: true
-    @openModalView(new LevelGuideModal(options), true)
-    onGuideOpened = (e) ->
-      @guideOpenTime = new Date()
-    onGuideClosed = (e) ->
-      application.tracker?.trackTiming new Date() - @guideOpenTime, 'Intro Guide Time', @levelID, @levelID, 100
-      @onLevelStarted()
-    Backbone.Mediator.subscribeOnce 'modal:opened', onGuideOpened, @
-    Backbone.Mediator.subscribeOnce 'modal:closed', onGuideClosed, @
-    return true
-
   getRenderData: ->
     c = super()
     c.world = @world

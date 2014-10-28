@@ -2,7 +2,6 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/control_bar'
 {me} = require 'lib/auth'
 
-LevelGuideModal = require './modal/LevelGuideModal'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
@@ -16,16 +15,9 @@ module.exports = class ControlBarView extends CocoView
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
 
   events:
-    'click #docs-button': ->
-      window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
-      @showGuideModal()
-
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
-
     'click #game-menu-button': 'showGameMenuModal'
-
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
-
     'click .home a': 'onClickHome'
 
   constructor: (options) ->
@@ -69,30 +61,10 @@ module.exports = class ControlBarView extends CocoView
     c.multiplayerSession = @multiplayerSession if @multiplayerSession
     c.multiplayerPlayers = @multiplayerPlayers if @multiplayerPlayers
     c.meID = me.id
-    docs = @level.get('documentation') ? {}
-    c.showsGuide = docs.specificArticles?.length or docs.generalArticles?.length
     c
 
-  afterRender: ->
-    super()
-    @guideHighlightInterval ?= setInterval @onGuideHighlight, 5 * 60 * 1000
-
-  destroy: ->
-    clearInterval @guideHighlightInterval if @guideHighlightInterval
-    super()
-
-  onGuideHighlight: =>
-    return if @destroyed or @guideShownOnce
-    @$el.find('#docs-button').hide().show('highlight', 4000)
-
-  showGuideModal: ->
-    options = {docs: @level.get('documentation'), supermodel: @supermodel}
-    @openModalView(new LevelGuideModal(options))
-    clearInterval @guideHighlightInterval
-    @guideHighlightInterval = null
-
   showGameMenuModal: ->
-    @openModalView new GameMenuModal level: @level, session: @session
+    @openModalView new GameMenuModal level: @level, session: @session, supermodel: @supermodel
 
   onClickHome: (e) ->
     e.preventDefault()
