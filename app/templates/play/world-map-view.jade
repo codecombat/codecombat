@@ -6,32 +6,31 @@
   img.map-background(src="/images/pages/play/map_" + mapType + ".jpg", alt="")
 
   - var seenNext = nextLevel;
-  each campaign in campaigns
-    each level in campaign.levels
-      if level.hidden
-        continue;
-      - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled);
-      - seenNext = seenNext || next;
-      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name)
-        a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-      div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.id] || "")
-      .level-info-container(data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-        div(class="level-info " + (levelStatusMap[level.id] || ""))
-          h3= level.name + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
-          .level-description= level.description
-          span(data-i18n="play.level_difficulty") Difficulty: 
-          each i in Array(level.difficulty)
-            i.icon-star
-          - var playCount = levelPlayCountMap[level.id]
-          if playCount && playCount.sessions > 20
-            div
-              span.spr #{playCount.sessions}
-              span(data-i18n="play.players") players
-              span.spr , #{Math.round(playCount.playtime / 3600)}
-              span(data-i18n="play.hours_played") hours played
-          .campaign-label(style="color: #{campaign.color}")= campaign.name
-        if isIPadApp
-          button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
+  each level in campaign.levels
+    if level.hidden
+      continue;
+    - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled);
+    - seenNext = seenNext || next;
+    div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name)
+      a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+    div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.id] || "")
+    .level-info-container(data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+      div(class="level-info " + (levelStatusMap[level.id] || ""))
+        h3= level.name + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
+        .level-description= level.description
+        span(data-i18n="play.level_difficulty") Difficulty: 
+        each i in Array(level.difficulty)
+          i.icon-star
+        - var playCount = levelPlayCountMap[level.id]
+        if playCount && playCount.sessions > 20
+          div
+            span.spr #{playCount.sessions}
+            span(data-i18n="play.players") players
+            span.spr , #{Math.round(playCount.playtime / 3600)}
+            span(data-i18n="play.hours_played") hours played
+        .campaign-label(style="color: #{campaign.color}")= campaign.name
+      if isIPadApp
+        button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
 
 .game-controls.header-font
   if me.isAdmin()
@@ -47,6 +46,13 @@
     a.btn.achievements(href="/user/#{me.getSlugOrID()}/stats", data-i18n="[title]play.achievements")
     a.btn.account(href="/user/#{me.getSlugOrID()}", data-i18n="[title]play.account")
     a.btn.settings(href='/account', data-i18n="[title]play.settings")
+  
+  if mapType === 'forest'
+    a.btn(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
+      img(src="/images/pages/play/map_dungeon_icon.jpg").img-thumbnail
+  if mapType === 'dungeon'
+    a.btn(href="/play/forest", data-i18n="[title]play.campaign_forest")
+      img(src="/images/pages/play/map_forest_icon.jpg").img-thumbnail
 
 .old-levels
   a(href="/play-old", data-i18n="play.older_campaigns").header-font Older Campaigns

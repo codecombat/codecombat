@@ -19,7 +19,6 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class WorldMapView extends RootView
   id: 'world-map-view'
   template: template
-  terrain: 'Dungeon'  # or Grass
 
   events:
     'click .map-background': 'onClickMap'
@@ -30,7 +29,8 @@ module.exports = class WorldMapView extends RootView
     'mousemove .map': 'onMouseMoveMap'
     'click #volume-button': 'onToggleVolume'
 
-  constructor: (options) ->
+  constructor: (options, @terrain) ->
+    @terrain ?= 'dungeon' # or 'forest'
     super options
     @nextLevel = @getQueryVariable 'next'
     @levelStatusMap = {}
@@ -78,18 +78,17 @@ module.exports = class WorldMapView extends RootView
 
   getRenderData: (context={}) ->
     context = super(context)
-    context.campaigns = campaigns
-    for campaign in context.campaigns
-      for level, index in campaign.levels
-        level.x ?= 10 + 80 * Math.random()
-        level.y ?= 10 + 80 * Math.random()
-        level.locked = index > 0 and not me.earnedLevel level.original
-        window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
-        level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
-        level.color = campaign.color
-        if level.practice
-          level.color = 'rgb(80, 130, 200)' unless me.getBranchingGroup() is 'all-practice'
-          level.hidden = true if me.getBranchingGroup() is 'no-practice'
+    context.campaign = _.find campaigns, { id: @terrain }
+    for level, index in context.campaign.levels
+      level.x ?= 10 + 80 * Math.random()
+      level.y ?= 10 + 80 * Math.random()
+      level.locked = index > 0 and not me.earnedLevel level.original
+      window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
+      level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
+      level.color = 'rgb(255, 80, 60)'
+      if level.practice
+        level.color = 'rgb(80, 130, 200)' unless me.getBranchingGroup() is 'all-practice'
+        level.hidden = true if me.getBranchingGroup() is 'no-practice'
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
@@ -176,7 +175,7 @@ module.exports = class WorldMapView extends RootView
 
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
-    mapWidth = if @terrain is 'Dungeon' then 2350 else 2500
+    mapWidth = if @terrain is 'dungeon' then 2350 else 2500
     iPadWidth = 2048
     aspectRatio = mapWidth / mapHeight
     iPadAspectRatio = iPadWidth / iPadHeight
@@ -185,7 +184,7 @@ module.exports = class WorldMapView extends RootView
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
     iPadWidthRatio = pageWidth / iPadWidth
-    if @terrain is 'Dungeon'
+    if @terrain is 'dungeon'
       # Make sure we can see almost the whole map, fading to background in one dimension.
       if heightRatio <= iPadWidthRatio
         # Full width, full height, left and right margin
@@ -213,7 +212,7 @@ module.exports = class WorldMapView extends RootView
 
   playAmbientSound: ->
     return if @ambientSound
-    return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-map-grass'}[@terrain]
+    return unless file = {dungeon: 'ambient-dungeon', forest: 'ambient-map-grass'}[@terrain]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"
     unless AudioPlayer.getStatus(src)?.loaded
       AudioPlayer.preloadSound src
@@ -224,7 +223,7 @@ module.exports = class WorldMapView extends RootView
 
   playMusic: ->
     @musicPlayer = new MusicPlayer()
-    musicFile = {Dungeon: '/music/music-menu-dungeon', Grass: '/music/music-menu-grass'}[@terrain]
+    musicFile = {dungeon: '/music/music-menu-dungeon', forest: '/music/music-menu-grass'}[@terrain]
     Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
     storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
@@ -597,7 +596,7 @@ playerCreated = [
   }
 ]
 
-hero = [
+dungeon = [
   {
     name: 'Dungeons of Kithgard'
     type: 'hero'
@@ -866,6 +865,9 @@ hero = [
     nextLevels:
       continue: 'defense-of-plainswood'
   }
+]
+
+forest = [
   {
     name: 'Defense of Plainswood'
     type: 'hero'
@@ -873,8 +875,8 @@ hero = [
     id: 'defense-of-plainswood'
     original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
-    x: 95.31
-    y: 88.26
+    x: 48
+    y: 65
   }
   {
     name: 'Dueling Grounds'
@@ -884,8 +886,8 @@ hero = [
     original: '5442ba0e1e835500007eb1c7'
     description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
     disabled: not me.isAdmin()
-    x: 17.54
-    y: 78.39
+    x: 26
+    y: 77
   }
   #{
   #  name: ''
@@ -941,5 +943,6 @@ WorldMapView.campaigns = campaigns = [
   #{id: 'dev', name: 'Random Harder Levels', description: '... in which you learn the interface while doing something a little harder.', levels: experienced, color: "rgb(80, 60, 255)"}
   #{id: 'classic_algorithms' ,name: 'Classic Algorithms', description: '... in which you learn the most popular algorithms in Computer Science.', levels: classicAlgorithms, color: "rgb(110, 80, 120)"}
   #{id: 'player_created', name: 'Player-Created', description: '... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.', levels: playerCreated, color: "rgb(160, 160, 180)"}
-  {id: 'beginner', name: 'Beginner Campaign', levels: hero, color: 'rgb(255, 80, 60)'}
+  {id: 'dungeon', name: 'Dungeon Campaign', levels: dungeon }
+  {id: 'forest', name: 'Forest Campaign', levels: forest }
 ]

@@ -206,7 +206,17 @@ $gameControlMargin: 30px
         margin-left: $gameControlMargin
       width: $gameControlSize
       height: $gameControlSize
+      
       background: url(/images/pages/play/menu_icons.png) no-repeat
+      
+      position: relative
+      img
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        
       background-size: cover
       @include transition(0.5s ease)
       @include box-shadow(2px 2px 4px black)
