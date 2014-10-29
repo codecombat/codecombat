@@ -156,4 +156,4 @@ exports.setExpressConfigurationOptions = (app) ->
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
   app.set('env', if config.isProduction then 'production' else 'development')
-  app.set('json spaces', 0)
+  app.set('json spaces', 0) if config.isProduction
