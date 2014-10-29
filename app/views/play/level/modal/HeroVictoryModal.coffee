@@ -300,4 +300,5 @@ module.exports = class HeroVictoryModal extends ModalView
     e.preventDefault()
     application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup()
     # Preserve the supermodel as we navigate back to world map.
-    Backbone.Mediator.publish 'router:navigate', route: $(e.target).attr('href'), viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelMap()]
+    route = $(e.target).attr('href') or "/play/#{@getNextLevelMap()}"
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelMap()]

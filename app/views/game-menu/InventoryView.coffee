@@ -363,7 +363,7 @@ module.exports = class InventoryView extends CocoView
       inWorldMap = $('#world-map-view').length
       for slot, item of necessaryGear
         continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
-        continue if equipment[slot] and not (item is 'builders-hammer' and @equipment[slot] is gear.longsword)
+        continue if equipment[slot] and not (item is 'builders-hammer' and equipment[slot] is gear.longsword)
         availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
         @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
         @$el.find(availableSlotSelector).addClass 'should-equip'
