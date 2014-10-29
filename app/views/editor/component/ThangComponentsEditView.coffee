@@ -15,6 +15,7 @@ CocoCollection = require 'collections/CocoCollection'
 LC = (componentName, config) -> original: LevelComponent[componentName + 'ID'], majorVersion: 0, config: config
 DEFAULT_COMPONENTS =
   Unit: [LC('Equips')]
+  Hero: [LC('Equips')]
   Floor: [
     LC('Exists', stateless: true)
     LC('Physical', width: 20, height: 17, depth: 2, shape: 'sheet', pos: {x: 10, y: 8.5, z: 1})

@@ -32,7 +32,7 @@ module.exports = class InventoryView extends CocoView
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
-    @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
+    @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon,gems,description,heroClass'
     @supermodel.loadCollection(@items, 'items')
 
   destroy: ->
