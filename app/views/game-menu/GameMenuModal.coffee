@@ -16,7 +16,7 @@ module.exports = class GameMenuModal extends ModalView
 
   events:
     'change input.select': 'onSelectionChanged'
-    'shown.bs.tab .nav-tabs a': 'onTabShown'
+    'shown.bs.tab #game-menu-nav a': 'onTabShown'
 
   constructor: (options) ->
     super options
@@ -30,6 +30,8 @@ module.exports = class GameMenuModal extends ModalView
     context = super(context)
     context.showDevBits = @options.showDevBits
     context.showInventory = @options.showInventory
+    docs = @options.level.get('documentation') ? {}
+    context.showsGuide = docs.specificArticles?.length or docs.generalArticles?.length
     context
 
   afterRender: ->

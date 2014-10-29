@@ -93,14 +93,14 @@ module.exports = class DeltaView extends CocoView
     treemaOptions = { schema: deltaData.schema or {}, readOnly: true }
 
     if _.isObject(deltaData.left) and leftEl = deltaEl.find('.old-value')
-      options = _.defaults {data: deltaData.left}, treemaOptions
+      options = _.defaults {data: _.merge({}, deltaData.left)}, treemaOptions
       try
         TreemaNode.make(leftEl, options).build()
       catch error
         console.error "Couldn't show left details Treema for", deltaData.left, treemaOptions
 
     if _.isObject(deltaData.right) and rightEl = deltaEl.find('.new-value')
-      options = _.defaults {data: deltaData.right}, treemaOptions
+      options = _.defaults {data: _.merge({}, deltaData.right)}, treemaOptions
       try
         TreemaNode.make(rightEl, options).build()
       catch error

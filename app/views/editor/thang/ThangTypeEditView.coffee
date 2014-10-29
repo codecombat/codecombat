@@ -45,6 +45,7 @@ module.exports = class ThangTypeEditView extends RootView
     'click .play-with-level-button': 'onPlayLevel'
     'click .play-with-level-parent': 'onPlayLevelSelect'
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
+    'click #pop-level-i18n-button': 'onPopulateLevelI18N'
 
   subscriptions:
     'editor:thang-type-color-groups-changed': 'onColorGroupsChanged'
@@ -352,7 +353,8 @@ module.exports = class ThangTypeEditView extends RootView
   saveNewThangType: (e) ->
     newThangType = if e.major then @thangType.cloneNewMajorVersion() else @thangType.cloneNewMinorVersion()
     newThangType.set('commitMessage', e.commitMessage)
-
+    newThangType.updateI18NCoverage() if newThangType.get('i18nCoverage')
+    
     res = newThangType.save()
     return unless res
     modal = $('#save-version-modal')
@@ -404,9 +406,9 @@ module.exports = class ThangTypeEditView extends RootView
 
   pushChangesToPreview: =>
     return if @temporarilyIgnoringChanges
-    # TODO: This doesn't delete old Treema keys you deleted
-    for key, value of @treema.data
-      @thangType.set(key, value)
+    for key of @thangType.attributes
+      continue if key is 'components'
+      @thangType.set(key, @treema.data[key])
     @updateSelectBox()
     @refreshAnimation()
     @updateDots()
@@ -454,6 +456,10 @@ module.exports = class ThangTypeEditView extends RootView
 
   showVersionHistory: (e) ->
     @openModalView new ThangTypeVersionsModal thangType: @thangType, @thangTypeID
+
+  onPopulateLevelI18N: ->
+    @thangType.populateI18N()
+    _.delay((-> document.location.reload()), 500)
 
   openSaveModal: ->
     @openModalView new SaveVersionModal model: @thangType

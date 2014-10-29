@@ -106,15 +106,20 @@ module.exports = class RootView extends CocoView
       $select.parent().find('.options, .trigger').remove()
       $select.unwrap().removeClass('fancified')
     preferred = me.get('preferredLanguage', true)
+    @addLanguagesToSelect($select, preferred)
+    $select.fancySelect().parent().find('.trigger').addClass('header-font')
+    $('body').attr('lang', preferred)
+    
+  addLanguagesToSelect: ($select, initialVal) ->
+    initialVal ?= me.get('preferredLanguage', true)
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when not (code in genericCodes) or code is preferred
+    for code, localeInfo of locale when not (code in genericCodes) or code is initialVal
       $select.append(
         $('<option></option>').val(code).text(localeInfo.nativeDescription))
-    $select.val(preferred).fancySelect().parent().find('.trigger').addClass('header-font')
-    $('body').attr('lang', preferred)
+    $select.val(initialVal)
 
   onLanguageChanged: ->
     newLang = $('.language-dropdown').val()

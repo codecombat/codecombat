@@ -14,6 +14,7 @@ config = require './server_config'
 auth = require './server/routes/auth'
 UserHandler = require './server/users/user_handler'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
+global.jsondiffpatch = require 'jsondiffpatch'
 
 productionLogging = (tokens, req, res) ->
   status = res.statusCode

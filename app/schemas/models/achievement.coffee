@@ -78,10 +78,7 @@ _.extend AchievementSchema.properties,
     default: {kind: 'linear', parameters: {}}
     required: ['kind', 'parameters']
     additionalProperties: false
-  i18n: c.object
-    format: 'i18n'
-    props: ['name', 'description']
-    description: 'Help translate this achievement'
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this achievement'}
   rewards: c.RewardSchema 'awarded by this achievement'
 
 
@@ -93,5 +90,6 @@ _.extend AchievementSchema, # Let's have these on the bottom
 AchievementSchema.definitions = {}
 AchievementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
 AchievementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
+c.extendTranslationCoverageProperties AchievementSchema
 
 module.exports = AchievementSchema

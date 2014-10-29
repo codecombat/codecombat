@@ -20,6 +20,7 @@ module.exports = class LevelComponentEditView extends CocoView
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
+    'click #pop-component-i18n-button': 'onPopulateI18N' 
 
   constructor: (options) ->
     super options
@@ -132,6 +133,10 @@ module.exports = class LevelComponentEditView extends CocoView
     button = @$el.find('#component-watch-button')
     @levelComponent.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
+
+  onPopulateI18N: ->
+    @levelComponent.populateI18N()
+    @render()
 
   destroy: ->
     @destroyAceEditor(@editor)

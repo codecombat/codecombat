@@ -336,6 +336,7 @@ module.exports = class InventoryView extends CocoView
     gearByLevel =
       'dungeons-of-kithgard': {feet: 'simple-boots'}
       'gems-in-the-deep': {feet: 'simple-boots'}
+      'forgetful-gemsmith': {feet: 'simple-boots'}
       'shadow-guard': {feet: 'simple-boots'}
       'true-names': {feet: 'simple-boots', 'right-hand': 'longsword'}
       'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic'}
@@ -345,9 +346,11 @@ module.exports = class InventoryView extends CocoView
       'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'longsword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', eyes: 'crude-glasses'}
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+      'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
       'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
-      # TODO: figure out leather boots for plainswood (or next one?)
+      'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
+      'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
+      'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
     return unless necessaryGear = gearByLevel[@options.levelID]
     if @inserted
       if @supermodel.finished()

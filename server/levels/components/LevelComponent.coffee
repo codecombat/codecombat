@@ -12,6 +12,7 @@ LevelComponentSchema.plugin plugins.PermissionsPlugin
 LevelComponentSchema.plugin plugins.VersionedPlugin
 LevelComponentSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'searchStrings', 'description']}
 LevelComponentSchema.plugin plugins.PatchablePlugin
+LevelComponentSchema.plugin plugins.TranslationCoveragePlugin
 LevelComponentSchema.pre('save', (next) ->
   name = @get('name')
   strings = _.str.humanize(name).toLowerCase().split(' ')

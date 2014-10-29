@@ -12,6 +12,10 @@ module.exports = class Achievement extends CocoModel
   getExpFunction: ->
     func = @get('function', true)
     return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
+    
+  save: ->
+    @populateI18N()
+    super(arguments...)
 
   @styleMapping:
     1: 'achievement-wood'

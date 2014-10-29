@@ -175,3 +175,7 @@ prunePath = (delta, path) ->
     prunePath delta[path[0]], path.slice(1) unless delta[path[0]] is undefined
     keys = (k for k in _.keys(delta[path[0]]) when k isnt '_t')
     delete delta[path[0]] if keys.length is 0
+
+module.exports.DOC_SKIP_PATHS = [
+  '_id','version', 'commitMessage', 'parent', 'created',
+  'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers'] 

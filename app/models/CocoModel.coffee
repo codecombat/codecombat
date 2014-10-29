@@ -233,7 +233,7 @@ class CocoModel extends Backbone.Model
 
   getDelta: ->
     differ = deltasLib.makeJSONDiffer()
-    differ.diff @_revertAttributes, @attributes
+    differ.diff(_.omit(@_revertAttributes, deltasLib.DOC_SKIP_PATHS), _.omit(@attributes, deltasLib.DOC_SKIP_PATHS))
 
   getDeltaWith: (otherModel) ->
     differ = deltasLib.makeJSONDiffer()
@@ -272,9 +272,11 @@ class CocoModel extends Backbone.Model
     sum = 0
     data ?= $.extend true, {}, @attributes
     schema ?= @schema() or {}
+    addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
-      data.i18n = {'-':'-'} # mongoose doesn't work with empty objects
+      data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
       sum += 1
+      addedI18N = true
 
     if _.isPlainObject data
       for key, value of data
@@ -287,6 +289,7 @@ class CocoModel extends Backbone.Model
     if schema.items and _.isArray data
       sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
 
+    @set('i18n', data.i18n) if addedI18N and not path # need special case for root i18n
     @updateI18NCoverage()
     sum
 
@@ -343,10 +346,8 @@ class CocoModel extends Backbone.Model
 
   updateI18NCoverage: ->
     i18nObjects = @findI18NObjects()
-    console.log 'i18n objects', i18nObjects
+    return unless i18nObjects.length
     langCodeArrays = (_.keys(i18n) for i18n in i18nObjects)
-    console.log 'lang code arrays', langCodeArrays
-    window.codes = langCodeArrays
     @set('i18nCoverage', _.intersection(langCodeArrays...))
 
   findI18NObjects: (data, results) ->

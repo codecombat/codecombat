@@ -116,6 +116,7 @@ _.extend ThangTypeSchema.properties,
   rotationType: {title: 'Rotation', type: 'string', enum: ['isometric', 'fixed', 'free']}
   matchWorldDimensions: {title: 'Match World Dimensions', type: 'boolean'}
   shadow: {title: 'Shadow Diameter', type: 'number', format: 'meters', description: 'Shadow diameter in meters'}
+  description: { type:'string', format: 'markdown', title: 'Description' }
   layerPriority:
     title: 'Layer Priority'
     type: 'integer'
@@ -144,6 +145,7 @@ _.extend ThangTypeSchema.properties,
       type: 'number'
       description: 'Snap to this many meters in the y-direction.'
   components: c.array {title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on 'original', not whole thing
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this ThangType\'s name and description.'}
 
 ThangTypeSchema.required = []
 
@@ -158,5 +160,6 @@ c.extendBasicProperties ThangTypeSchema, 'thang.type'
 c.extendSearchableProperties ThangTypeSchema
 c.extendVersionedProperties ThangTypeSchema, 'thang.type'
 c.extendPatchableProperties ThangTypeSchema
+c.extendTranslationCoverageProperties ThangTypeSchema
 
 module.exports = ThangTypeSchema

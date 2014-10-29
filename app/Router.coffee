@@ -72,6 +72,12 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
+    'i18n': go('i18n/I18NHomeView')
+    'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
+    'i18n/component/:handle': go('i18n/I18NEditComponentView')
+    'i18n/level/:handle': go('i18n/I18NEditLevelView')
+    'i18n/achievement/:handle': go('i18n/I18NEditAchievementView')
+
     'legal': go('LegalView')
 
     'multiplayer': go('MultiplayerView')

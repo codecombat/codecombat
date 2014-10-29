@@ -166,6 +166,7 @@ me.FunctionArgumentSchema = me.object {
   required: ['name', 'type', 'example', 'description']
 },
   name: {type: 'string', pattern: me.identifierPattern, title: 'Name', description: 'Name of the function argument.'}
+  i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this argument'}
   # not actual JS types, just whatever they describe...
   type: me.shortString(title: 'Type', description: 'Intended type of the argument.')
   example:
