@@ -74,7 +74,10 @@ module.exports = class Spell
           context = _.merge context, spokenLanguageContext
           break
         fallingBack = true
-    @originalSource = _.template @originalSource, context
+    try
+      @originalSource = _.template @originalSource, context
+    catch e
+      console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
 
   addThang: (thang) ->
     if @thangs[thang.id]

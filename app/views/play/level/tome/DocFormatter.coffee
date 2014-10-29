@@ -108,7 +108,11 @@ module.exports = class DocFormatter
               context = _.merge context, spokenLanguageContext
               break
             fallingBack = true
-        obj[prop] = _.template val, context if context
+        if context
+          try
+            obj[prop] = _.template val, context
+          catch e
+            console.error "Couldn't create docs template of", val, "\nwith context", context, "\nError:", e
 
   formatPopover: ->
     content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
