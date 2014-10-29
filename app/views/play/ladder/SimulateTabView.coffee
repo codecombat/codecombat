@@ -66,7 +66,7 @@ module.exports = class SimulateTabView extends CocoView
     if simulationStatus is 'Fetching simulation data!'
       @simulationMatchDescription = ''
       @simulationSpectateLink = ''
-    @simulationStatus = simulationStatus
+    @simulationStatus = _.string.escapeHTML(simulationStatus)
     try
       if sessions?
         @simulationMatchDescription = ''

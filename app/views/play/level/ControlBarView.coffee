@@ -54,6 +54,10 @@ module.exports = class ControlBarView extends CocoView
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
+      # TODO: dynamically figure out which world map to return to
+      if @level.get('slug') in ['defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
+        @homeLink += '/forest'
+        @homeViewArgs.push 'forest'
     else
       @homeLink = c.homeLink = '/'
       @homeViewClass = require 'views/HomeView'
