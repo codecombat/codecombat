@@ -354,7 +354,7 @@ module.exports = class ThangTypeEditView extends RootView
     newThangType = if e.major then @thangType.cloneNewMajorVersion() else @thangType.cloneNewMinorVersion()
     newThangType.set('commitMessage', e.commitMessage)
     newThangType.updateI18NCoverage() if newThangType.get('i18nCoverage')
-    
+
     res = newThangType.save()
     return unless res
     modal = $('#save-version-modal')
@@ -406,9 +406,14 @@ module.exports = class ThangTypeEditView extends RootView
 
   pushChangesToPreview: =>
     return if @temporarilyIgnoringChanges
+    keysProcessed = {}
     for key of @thangType.attributes
+      keysProcessed[key] = true
       continue if key is 'components'
       @thangType.set(key, @treema.data[key])
+    for key, value of @treema.data when not keysProcessed[key]
+      @thangType.set(key, value)
+
     @updateSelectBox()
     @refreshAnimation()
     @updateDots()
