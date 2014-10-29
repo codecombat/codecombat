@@ -89,7 +89,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
       ogg: c.shortString(title: 'OGG', format: 'sound-file')
       preload: {title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' }
     responses: c.array {title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.'}, ResponseSchema
-    i18n: {type: 'object', format: 'i18n', props: ['blurb', 'text'], description: 'Help translate this message'}
+    i18n: {type: 'object', format: 'i18n', props: ['blurb', 'text', 'sound'], description: 'Help translate this message'}
   move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}

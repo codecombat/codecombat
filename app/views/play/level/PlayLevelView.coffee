@@ -272,7 +272,7 @@ module.exports = class PlayLevelView extends RootView
   onSessionLoaded: (e) ->
     # Just the level and session have been loaded by the level loader
     if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
-      @openModalView new GameMenuModal level: e.level, session: e.session
+      @openModalView new GameMenuModal level: e.level, session: e.session, supermodel: @supermodel
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
