@@ -43,7 +43,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     super(options)
     @originalScripts = options.scripts
     @session = options.session
-    @debugScripts = CocoView.getQueryVariable 'dev'
+    @debugScripts = application.isIPadApp or CocoView.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
     @beginTicking()
@@ -193,7 +193,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     for sprite in noteGroup.sprites
       if sprite.move?
         sprite.move.duration ?= DEFAULT_BOT_MOVE_DURATION
-      sprite.id ?= 'Captain Anya'
+      sprite.id ?= 'Hero Placeholder'
     noteGroup.script ?= {}
     noteGroup.script.yields ?= true
     noteGroup.script.skippable ?= true
