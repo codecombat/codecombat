@@ -76,5 +76,6 @@ describe 'lib/FacebookHandler.coffee', ->
     expect(params.gender).toBe(mockMe.gender)
     expect(params.email).toBe(mockMe.email)
     expect(params.facebookID).toBe(mockMe.id)
-    expect(request.method).toBe('PATCH')
+    #expect(request.method).toBe('PATCH')  # PATCHes are PUTs until more proxy servers recognize PATCH
+    expect(request.method).toBe('PUT')
     expect(_.string.startsWith(request.url, '/db/user/12345')).toBeTruthy()
