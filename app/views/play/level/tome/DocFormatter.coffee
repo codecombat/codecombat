@@ -105,7 +105,7 @@ module.exports = class DocFormatter
           while spokenLanguage
             spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
             if spokenLanguageContext = @doc.i18n[spokenLanguage]?.context
-              context = spokenLanguageContext
+              context = _.merge context, spokenLanguageContext
               break
             fallingBack = true
         obj[prop] = _.template val, context if context

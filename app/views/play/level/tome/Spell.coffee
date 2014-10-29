@@ -22,6 +22,8 @@ module.exports = class Spell
     @levelType = options.level.get('type', true)
 
     p = options.programmableMethod
+    @commentI18N = p.i18n
+    @commentContext = p.context
     @languages = p.languages ? {}
     @languages.javascript ?= p.source
     @name = p.name
@@ -61,6 +63,18 @@ module.exports = class Spell
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
     @originalSource = @languages[language] ? @languages.javascript
+    # Translate comments chosen spoken language.
+    return unless @commentContext
+    context = $.extend true, {}, @commentContext
+    if @commentI18N
+      spokenLanguage = me.get 'preferredLanguage'
+      while spokenLanguage
+        spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+        if spokenLanguageContext = @commentI18N[spokenLanguage]?.context
+          context = _.merge context, spokenLanguageContext
+          break
+        fallingBack = true
+    @originalSource = _.template @originalSource, context
 
   addThang: (thang) ->
     if @thangs[thang.id]

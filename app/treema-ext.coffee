@@ -266,7 +266,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
     res = super(arguments...)
     res = (r for r in res when r[0] isnt '-')
     res
-    
+
   populateData: ->
     super()
     if Object.keys(@data).length is 0
@@ -286,7 +286,12 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
       @workingSchema.props = (prop for prop,_ of @parent.schema.properties when prop isnt 'i18n')
 
     for i18nProperty in @workingSchema.props
-      i18nChildSchema.properties[i18nProperty] = @parent.schema.properties[i18nProperty]
+      parentSchemaProperties = @parent.schema.properties ? {}
+      for extraSchemas in [@parent.schema.oneOf, @parent.schema.anyOf]
+        for extraSchema in extraSchemas ? []
+          for prop, schema of extraSchema?.properties ? {}
+            parentSchemaProperties[prop] ?= schema
+      i18nChildSchema.properties[i18nProperty] = parentSchemaProperties[i18nProperty]
     return i18nChildSchema
     #this must be filled out in order for the i18n node to work
 
