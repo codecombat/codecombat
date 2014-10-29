@@ -75,7 +75,7 @@ module.exports = class PlayLevelModal extends ModalView
       patchMe ||= not _.isEqual val, lastHeroConfig[key]
       sessionHeroConfig[key] = val
       lastHeroConfig[key] = val
-    if (codeLanguage = @subviews.choose_hero_view.codeLanguage) and @subviews.choose_hero_view.codeLanguageChanged
+    if (codeLanguage = @subviews.choose_hero_view.codeLanguage) and (@subviews.choose_hero_view.codeLanguageChanged or not me.get('aceConfig'))
       patchSession ||= codeLanguage isnt @options.session.get('codeLanguage')
       patchMe ||= codeLanguage isnt me.get('aceConfig')?.language
       @options.session.set 'codeLanguage', codeLanguage
