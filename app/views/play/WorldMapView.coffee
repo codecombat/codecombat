@@ -100,7 +100,7 @@ module.exports = class WorldMapView extends RootView
     super()
     @onWindowResize()
     unless application.isIPadApp
-      _.defer => @$el.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
+      _.defer => @$el?.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
@@ -865,6 +865,17 @@ dungeon = [
     nextLevels:
       continue: 'defense-of-plainswood'
   }
+  {
+    name: 'Cavern Survival'
+    type: 'hero-ladder'
+    difficulty: 1
+    id: 'cavern-survival'
+    original: '544437e0645c0c0000c3291d'
+    description: 'Stay alive longer than your opponent amidst hordes of ogres!'
+    disabled: not me.isAdmin()
+    x: 17.54
+    y: 78.39
+  }
 ]
 
 forest = [
@@ -875,19 +886,39 @@ forest = [
     id: 'defense-of-plainswood'
     original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
-    x: 48
-    y: 65
+    x: 29.63
+    y: 53.69
   }
   {
-    name: 'Dueling Grounds'
-    type: 'hero-ladder'
+    name: 'Winding Trail'
+    type: 'hero'
     difficulty: 1
-    id: 'dueling-grounds'
-    original: '5442ba0e1e835500007eb1c7'
-    description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
-    disabled: not me.isAdmin()
-    x: 26
-    y: 77
+    id: 'winding-trail'
+    original: '5446cb40ce01c23e05ecf027'
+    description: 'Stay alive and navigate through the forest.'
+    x: 39.03
+    y: 54.97
+  }
+  {
+    name: 'Thornbush Farm'
+    type: 'hero'
+    difficulty: 1
+    id: 'thornbush-farm'
+    original: '5447030525cce60000745e2a'
+    description: 'Determine refugee peasant from ogre when defending the farm.'
+    x: 44.09
+    y: 57.75
+  }
+  {
+    name: 'A Fiery Trap'
+    type: 'hero'
+    difficulty: 1
+    id: 'a-fiery-trap'
+    original: '5448330517d7283e051f9b9e'
+    description: 'Patrol the village entrances, but stay defensive.'
+    disabled: true
+    x: 40.14
+    y: 63.96
   }
   #{
   #  name: ''
@@ -934,7 +965,17 @@ forest = [
   #  x: 84.29
   #  y: 61.23
   #}
-
+  {
+    name: 'Dueling Grounds'
+    type: 'hero-ladder'
+    difficulty: 1
+    id: 'dueling-grounds'
+    original: '5442ba0e1e835500007eb1c7'
+    description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
+    disabled: not me.isAdmin()
+    x: 25.5
+    y: 77.5
+  }
 ]
 
 WorldMapView.campaigns = campaigns = [

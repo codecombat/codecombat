@@ -269,9 +269,18 @@ module.exports = class HeroVictoryModal extends ModalView
           break
     levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
 
+  getNextLevelMap: ->
+    # TODO: dynamically figure out which world map to return to
+    if @level.get('slug') in ['kithgard-gates', 'defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
+      return 'forest'
+    return 'dungeon'
+
   getNextLevelLink: (type) ->
-    return '/play' unless nextLevel = @getNextLevel type
-    "play?next=#{nextLevel}"
+    link = '/play'
+    nextMap = @getNextLevelMap()
+    link += '/' + nextMap unless nextMap is 'dungeon'
+    return link unless nextLevel = @getNextLevel type
+    "#{link}?next=#{nextLevel}"
 
   onClickContinue: (e) ->
     nextLevelLink = @continueLevelLink
@@ -281,13 +290,14 @@ module.exports = class HeroVictoryModal extends ModalView
     skipPrompt ||= not (@skipAheadLevelLink or @morePractiveLevelLink) and me.getBranchingGroup() is 'choice-explicit'
     if skipPrompt
       # Preserve the supermodel as we navigate back to the world map.
-      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
+      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelMap()]
     else
       # Hide everything except the buttons prompting them for which kind of next level to do
       @$el.find('.modal-footer, .modal-body > *').hide()
       @$el.find('.next-levels-prompt').show()
 
   onClickNextLevelBranch: (e) ->
+    e.preventDefault()
     application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup()
     # Preserve the supermodel as we navigate back to world map.
-    Backbone.Mediator.publish 'router:navigate', route: '/play', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
+    Backbone.Mediator.publish 'router:navigate', route: $(e.target).attr('href'), viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelMap()]
