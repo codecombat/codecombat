@@ -620,23 +620,22 @@ dungeon = [
     x: 32
     y: 15.5
     nextLevels:
-      more_practice: 'gem-grabber'
+      more_practice: 'forgetful-gemsmith'
       continue: 'shadow-guard'
       skip_ahead: 'true-names'
   }
   {
-    name: 'Gem Grabber'
+    name: 'Forgetful Gemsmith'
     type: 'hero'
     difficulty: 1
-    id: 'gem-grabber'
-    original: '54174347844506ae0195a0b8'
+    id: 'forgetful-gemsmith'
+    original: '544a98f62d002f0000fe331a'
     description: 'Grab even more gems as you practice moving.'
     x: 35.49
     y: 24.61
     nextLevels:
       continue: 'shadow-guard'
     practice: true
-    disabled: true
   }
   {
     name: 'Shadow Guard'
