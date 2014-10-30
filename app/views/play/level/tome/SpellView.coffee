@@ -371,6 +371,7 @@ module.exports = class SpellView extends CocoView
   onCodeReload: (e) ->
     return unless e.spell is @spell
     @reloadCode true
+    @ace.clearSelection()
 
   reloadCode: (cast=true) ->
     @updateACEText @spell.originalSource
@@ -422,6 +423,7 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
     ]
+    onSignificantChange.push _.debounce @checkRequiredCode, 1500 if requiredCodePerLevel[@options.level.get('slug')]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'code-change', volume: 0.5
@@ -564,7 +566,7 @@ module.exports = class SpellView extends CocoView
   guessWhetherFinished: (aether) ->
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
-    currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
+    currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(@singleLineCommentRegex(), ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     incompleteThis = /^(s|se|sel|self|t|th|thi|this)$/.test currentLine.trim()
@@ -574,6 +576,20 @@ module.exports = class SpellView extends CocoView
         @preload()
       else
         @recompile()
+
+  singleLineCommentRegex: ->
+    return @_singleLineCommentRegex if @_singleLineCommentRegex
+    commentStarts =
+      javascript: '//'
+      python: '#'
+      coffeescript: '#'
+      clojure: ';'
+      lua: '--'
+      io: '//'
+    commentStart = commentStarts[@spell.language] or '//'
+    @_singleLineCommentRegexp ?= new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
+    console.log 'got', @_singleLineCommentRegexp, 'from', "[ \t]*#{commentStart}[^\"']*", 'comment start is', commentStart, 'acuse lang is', @spell.language
+    @_singleLineCommentRegexp
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
@@ -829,6 +845,16 @@ module.exports = class SpellView extends CocoView
   onScriptStateChange: (e) ->
     @scriptRunning = if e.currentScript is null then false else true
 
+  checkRequiredCode: =>
+    return if @destroyed
+    source = @getSource().replace @singleLineCommentRegex(), ''
+    for requiredCodeFragment in requiredCodePerLevel[@options.level.get('slug')]
+      if source.indexOf(requiredCodeFragment) is -1
+        @warnedCodeFragments ?= {}
+        unless @warnedCodeFragments[requiredCodeFragment]
+          Backbone.Mediator.publish 'tome:required-code-fragment-deleted', codeFragment: requiredCodeFragment
+        @warnedCodeFragments[requiredCodeFragment] = true
+
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @firepad?.dispose()
@@ -840,3 +866,9 @@ module.exports = class SpellView extends CocoView
     @debugView?.destroy()
     $(window).off 'resize', @onWindowResize
     super()
+
+
+requiredCodePerLevel =
+  'true-names': ['Brak']
+  'the-first-kithmaze': ['loop']
+  'lowly-kithmen': ['findNearestEnemy']
