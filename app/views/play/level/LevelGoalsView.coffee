@@ -60,7 +60,8 @@ module.exports = class LevelGoalsView extends CocoView
       # This should really get refactored, along with GoalManager, so that goals have a standard
       # representation of how many are done, how many are needed, what that means, etc.
       li = $('<li></li>').addClass("status-#{state.status}").text(text)
-      li.prepend($('<i></i>').addClass('glyphicon').addClass(iconClass) if iconClass = stateIconMap[state.status])
+      iconClass = stateIconMap[state.status]
+      li.prepend($('<i></i>').addClass("glyphicon #{iconClass or ''}"))  # If empty, insert a .glyphicon to take up space
       list.append(li)
       goals.push goal
       if not firstRun and state.status is 'success' and @previousGoalStatus[goal.id] isnt 'success'
