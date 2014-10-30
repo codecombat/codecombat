@@ -132,7 +132,7 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
   clone = {}
   keysHandled = 0
   for own key, value of obj
-    continue if ++keysHandled > 20
+    continue if ++keysHandled > 50
     if not value
       clone[key] = value
     else if value is window or value.firstElementChild or value.preventDefault
