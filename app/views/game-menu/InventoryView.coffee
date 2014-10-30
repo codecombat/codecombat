@@ -48,15 +48,24 @@ module.exports = class InventoryView extends CocoView
     context.equipped = _.values(@equipment)
     context.items = @items.models
 
-    context.unlockedItems = []
-    context.lockedItems = []
     for item in @items.models
       item.classes = item.getAllowedSlots()
       item.classes.push 'equipped' if item.get('original') in context.equipped
       locked = @allowedItems and not (item.get('original') in @allowedItems)
-      item.classes.push 'locked' if locked
-      (if locked then context.lockedItems else context.unlockedItems).push item
-    @items.models.sort (a, b) -> ('locked' in a.classes) - ('locked' in b.classes)
+      item.classes.push 'locked' if locked and item.get('slug') isnt 'simple-boots'
+      for heroClass in item.getAllowedHeroClasses()
+        item.classes.push heroClass
+      item.classes.push 'silhouette' if item.isSilhouettedItem()
+
+    @items.models.sort (a, b) ->
+      lockScore = 90019001 * (('locked' in a.classes) - ('locked' in b.classes))
+      gemScore = a.get('gems') - b.get('gems')
+      lockScore + gemScore
+
+    context.unlockedItems = []
+    context.lockedItems = []
+    for item in @items.models
+      (if 'locked' in item.classes then context.lockedItems else context.unlockedItems).push item
 
     context.slots = @slots
     context.equipment = _.clone @equipment
@@ -184,6 +193,7 @@ module.exports = class InventoryView extends CocoView
     @onSelectionChanged()
     slot = @getSelectedSlot()
     slot = @$el.find('.item-slot:not(.disabled):first') if not slot.length
+    $(e.target).effect('transfer', to: slot, duration: 500, easing: 'easeOutCubic') if e
     @unequipItemFromSlot(slot)
     @equipSelectedItemToSlot(slot)
     @onSelectionChanged()
@@ -261,9 +271,9 @@ module.exports = class InventoryView extends CocoView
         @hideSelectedSlotItem()
     else
       unlockedCount = @$el.find('#available-equipment .list-group-item:not(.locked)').show().length
-      lockedCount = @$el.find('#available-equipment .list-group-item.locked').show().length
+      @$el.find('#available-equipment .list-group-item.locked').hide()
       @$el.find('#unlocked-description').text("#{unlockedCount} items owned").toggle unlockedCount > 0
-      @$el.find('#locked-description').text("#{lockedCount} items locked").toggle lockedCount > 0
+      @$el.find('#locked-description').text("#{lockedCount} items locked").hide()
     #@$el.find('#available-equipment .list-group-item.equipped').hide()
 
     @$el.find('.item-slot').removeClass('disabled')
@@ -327,30 +337,30 @@ module.exports = class InventoryView extends CocoView
     # This is temporary, until we have a more general way of awarding items and configuring needed/locked items per level.
     gear =
       'simple-boots': '53e237bf53457600003e3f05'
-      'longsword': '53e218d853457600003e3ebe'
+      'simple-sword': '53e218d853457600003e3ebe'
       'leather-tunic': '53e22eac53457600003e3efc'
       'leather-boots': '53e2384453457600003e3f07'
       'programmaticon-i': '53e4108204c00d4607a89f78'
-      'crude-glasses': '53e238df53457600003e3f0b'
+      'crude-wooden-glasses': '53e238df53457600003e3f0b'
       'builders-hammer': '53f4e6e3d822c23505b74f42'
     gearByLevel =
       'dungeons-of-kithgard': {feet: 'simple-boots'}
       'gems-in-the-deep': {feet: 'simple-boots'}
       'forgetful-gemsmith': {feet: 'simple-boots'}
       'shadow-guard': {feet: 'simple-boots'}
-      'true-names': {feet: 'simple-boots', 'right-hand': 'longsword'}
-      'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic'}
+      'true-names': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+      'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic'}
       'the-first-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
-      'new-sight': {'right-hand': 'longsword', 'programming-book': 'programmaticon-i'}
-      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'longsword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-      'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', eyes: 'crude-glasses'}
-      'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'longsword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'new-sight': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
+      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
+      'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-wooden-glasses'}
+      'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
       'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
       'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
-      'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
-      'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
+      'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-wooden-glasses'}
+      'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-wooden-glasses'}
     return unless necessaryGear = gearByLevel[@options.levelID]
     if @inserted
       if @supermodel.finished()
@@ -363,7 +373,7 @@ module.exports = class InventoryView extends CocoView
       inWorldMap = $('#world-map-view').length
       for slot, item of necessaryGear
         continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
-        continue if equipment[slot] and not ((item is 'builders-hammer' and equipment[slot] is gear.longsword) or (item is 'leather-boots' and equipment[slot] is gear['simple-boots']))
+        continue if equipment[slot] and not ((item is 'builders-hammer' and equipment[slot] is gear['simple-sword']) or (item is 'leather-boots' and equipment[slot] is gear['simple-boots']))
         availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
         @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
         @$el.find(availableSlotSelector).addClass 'should-equip'
@@ -386,6 +396,7 @@ module.exports = class InventoryView extends CocoView
   onHeroSelectionUpdated: (e) ->
     @selectedHero = e.hero
     @loadHero()
+    @$el.removeClass('Warrior Ranger Wizard').addClass(@selectedHero.get('heroClass'))
 
   loadHero: ->
     return unless @supermodel.finished() and @selectedHero and not @$el.hasClass 'secret'
