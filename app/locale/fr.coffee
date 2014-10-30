@@ -58,7 +58,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
+    older_campaigns: "Anciennes campagnes"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Difficulté: "
     campaign_beginner: "Campagne du Débutant"
@@ -605,7 +605,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     diplomat_launch_url: "lancement en octobre"
     diplomat_introduction_suf: "c'est qu'il y a un intérêt considérable pour CodeCombat dans d'autres pays, particulièrement au Brésil! Nous créons une équipe de traducteurs pour changer une liste de mots en une autre pour que CodeCombat soit le plus accessible possible à travers le monde. Si vous souhaitez avoir un aperçu des prochains contenus et avoir les niveaux dans votre langue le plus tôt possible, alors cette classe est faite pour vous."
     diplomat_attribute_1: "Des facilités en anglais et dans la langue que vous souhaitez traduire. Pour transmettre des idées complexes, il est important d'avoir une solide compréhension des deux!"
-    diplomat_join_pref_github: "Trouvez le fichier de langue souhaité"
+    diplomat_join_pref_github: "Trouvez le fichier de langue souhaité "
     diplomat_github_url: "sur GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
     more_about_diplomat: "En apprendre plus sur comment devenir un bon diplomate"
