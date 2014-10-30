@@ -38,6 +38,8 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'i18nCoverage'
     'i18n'
     'description'
+    'gems'
+    'heroClass'
   ]
 
   hasAccess: (req) ->
@@ -45,7 +47,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     method = (method or req.method).toLowerCase()
-    return true if method is 'get' 
+    return true if method is 'get'
     return true if req.user?.isAdmin()
     return true if method is 'put' and @isJustFillingTranslations(req, document)
     return
@@ -59,11 +61,11 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       if req.query.view is 'items'
         query.kind = 'Item'
       else if req.query.view is 'heroes'
-        query.kind = 'Unit'
-        query.original = {$in: _.values heroes}  # TODO: replace with some sort of ThangType property later
+        #query.kind = 'Hero'  # TODO: when all the heroes are tagged, just use this
+        query.original = {$in: _.values heroes}  # TODO: when all the heroes are tagged, don't do this
       else if req.query.view is 'i18n-coverage'
         query.i18nCoverage = {$exists: true}
-      
+
       q = ThangType.find(query, projection)
       skip = parseInt(req.query.skip)
       if skip? and skip < 1000000

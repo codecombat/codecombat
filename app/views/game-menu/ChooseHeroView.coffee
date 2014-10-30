@@ -23,7 +23,7 @@ module.exports = class ChooseHeroView extends CocoView
   constructor: (options) ->
     super options
     @heroes = new CocoCollection([], {model: ThangType})
-    @heroes.url = '/db/thang.type?view=heroes&project=original,name,slug,soundTriggers,featureImage'
+    @heroes.url = '/db/thang.type?view=heroes&project=original,name,slug,soundTriggers,featureImage,gems,heroClass,description'
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}
 

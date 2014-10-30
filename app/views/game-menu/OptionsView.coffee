@@ -11,7 +11,7 @@ module.exports = class OptionsView extends CocoView
   template: template
   aceConfig: {}
   defaultConfig:
-    language: 'javascript'
+    language: 'python'
     keyBindings: 'default'
     invisibles: false
     indentGuides: false

@@ -210,12 +210,23 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
-  onNewGoalStates: ({goalStates})->
-    state = @session.get 'state'
-    unless utils.kindaEqual state.goalStates, goalStates  # Only save when goals really change
-      # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
-      return console.error("Somehow trying to save null goal states!", goalStates) if _.find(goalStates, (gs) -> not gs.status)
-      state.goalStates = goalStates
+  onNewGoalStates: ({goalStates}) ->
+    # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
+    return console.error("Somehow trying to save null goal states!", newGoalStates) if _.find(newGoalStates, (gs) -> not gs.status)
+
+    newGoalStates = goalStates
+    state = @session.get('state')
+    oldGoalStates = state.goalStates or {}
+    
+    changed = false
+    for goalKey, goalState of newGoalStates
+      continue if oldGoalStates[goalKey]?.status is 'success' and goalState.status isnt 'success' # don't undo success, this property is for keying off achievements
+      continue if utils.kindaEqual state.goalStates?[goalKey], goalState # Only save when goals really change
+      changed = true
+      oldGoalStates[goalKey] = _.cloneDeep newGoalStates[goalKey]
+      
+    if changed
+      state.goalStates = oldGoalStates
       @session.set 'state', state
       @changedSessionProperties.state = true
       @saveSession()

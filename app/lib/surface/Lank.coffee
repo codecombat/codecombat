@@ -647,6 +647,7 @@ module.exports = Lank = class Lank extends CocoClass
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
+    return unless @labels.dialogue?.text
     @labels.dialogue?.setText null
     @dialogueSoundInstance?.stop()
     @notifySpeechUpdated {}

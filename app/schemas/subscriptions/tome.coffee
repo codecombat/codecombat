@@ -120,3 +120,6 @@ module.exports =
   'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}
 
   'tome:select-primary-sprite': c.object {title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.'}
+
+  'tome:required-code-fragment-deleted': c.object {title: 'Required Code Fragment Deleted', description: 'Published when a required code fragment is deleted from the sample code.', required: ['codeFragment']},
+    codeFragment: {type: 'string'}

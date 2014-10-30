@@ -32,7 +32,7 @@ module.exports = class InventoryView extends CocoView
     @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
-    @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon'
+    @items.url = '/db/thang.type?view=items&project=name,components,original,rasterIcon,gems,description,heroClass'
     @supermodel.loadCollection(@items, 'items')
 
   destroy: ->
@@ -329,7 +329,7 @@ module.exports = class InventoryView extends CocoView
       'simple-boots': '53e237bf53457600003e3f05'
       'longsword': '53e218d853457600003e3ebe'
       'leather-tunic': '53e22eac53457600003e3efc'
-      #'leather-boots': '53e2384453457600003e3f07'
+      'leather-boots': '53e2384453457600003e3f07'
       'programmaticon-i': '53e4108204c00d4607a89f78'
       'crude-glasses': '53e238df53457600003e3f0b'
       'builders-hammer': '53f4e6e3d822c23505b74f42'
@@ -363,7 +363,7 @@ module.exports = class InventoryView extends CocoView
       inWorldMap = $('#world-map-view').length
       for slot, item of necessaryGear
         continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
-        continue if equipment[slot] and not (item is 'builders-hammer' and equipment[slot] is gear.longsword)
+        continue if equipment[slot] and not ((item is 'builders-hammer' and equipment[slot] is gear.longsword) or (item is 'leather-boots' and equipment[slot] is gear['simple-boots']))
         availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
         @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
         @$el.find(availableSlotSelector).addClass 'should-equip'
