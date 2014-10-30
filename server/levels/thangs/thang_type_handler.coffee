@@ -62,8 +62,8 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
         query.kind = 'Item'
         query.gems = {$exists: true}  # Items without gems don't show up anywhere
       else if req.query.view is 'heroes'
-        #query.kind = 'Hero'  # TODO: when all the heroes are tagged, just use this
-        query.original = {$in: _.values heroes}  # TODO: when all the heroes are tagged, don't do this
+        #query.kind = 'Hero'  # TODO: when ChooseHeroView is refactored, just use this
+        query.original = {$in: _.values heroes}  # TODO: when ChooseHeroView is refactored, don't do this
       else if req.query.view is 'i18n-coverage'
         query.i18nCoverage = {$exists: true}
 
