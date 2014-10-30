@@ -17,6 +17,7 @@ REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
+COUNTDOWN_LEVELS = ['sky-span', 'dueling-grounds', 'cavern-survival']  # TODO: determine flag usage dynamically
 
 module.exports = class World
   @className: 'World'
@@ -104,7 +105,10 @@ module.exports = class World
         @realTimeSpeedFactor = 3
       else
         @realTimeSpeedFactor = 1
-      return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
+      if @showsCountdown
+        return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
+      else
+        @finishCountdown continueLaterFn
     t1 = now()
     @t0 ?= t1
     @worldLoadStartTime ?= t1
@@ -199,6 +203,7 @@ module.exports = class World
 
   loadFromLevel: (level, willSimulate=true) ->
     @levelID = level.slug
+    @showsCountdown = @levelID in COUNTDOWN_LEVELS
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
     @loadScriptsFromLevel level

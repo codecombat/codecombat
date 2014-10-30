@@ -10,6 +10,7 @@ module.exports = class CountdownScreen extends CocoClass
     options ?= {}
     @camera = options.camera
     @layer = options.layer
+    @showsCountdown = options.showsCountdown
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
     @build()
@@ -44,14 +45,17 @@ module.exports = class CountdownScreen extends CocoClass
 
   show: ->
     return if @showing
-    @showing = true
-    @dimLayer.alpha = 0
     createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
-    @secondsRemaining = 3
-    @countdownInterval = setInterval @decrementCountdown, 1000
-    @updateText()
-    @layer.addChild @dimLayer
+    if @showsCountdown
+      @dimLayer.alpha = 0
+      @showing = true
+      createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
+      @secondsRemaining = 3
+      @countdownInterval = setInterval @decrementCountdown, 1000
+      @updateText()
+      @layer.addChild @dimLayer
+    else
+      @endCountdown()
 
   hide: ->
     return unless @showing
