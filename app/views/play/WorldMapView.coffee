@@ -647,22 +647,35 @@ dungeon = [
     x: 54
     y: 9
     nextLevels:
-      more_practice: 'munchkin-dodger'
+      more_practice: 'kounter-kithwise'
       continue: 'true-names'
   }
   {
-    name: 'Munchkin Dodger'
+    name: 'Kounter Kithwise'
     type: 'hero'
     difficulty: 1
-    id: 'munchkin-dodger'
-    original: '541875da4c16460000ab990f'
+    id: 'kounter-kithwise'
+    original: '54527a6257e83800009730c7'
     description: 'Practice your evasion skills with more guards.'
     x: 61.19
     y: 13.80
     nextLevels:
+      more_practice: 'crawlways-of-kithgard'
       continue: 'true-names'
     practice: true
-    disabled: true
+  }
+  {
+    name: 'Crawlways of Kithgard'
+    type: 'hero'
+    difficulty: 1
+    id: 'crawlways-of-kithgard'
+    original: '545287ef57e83800009730d5'
+    description: 'Dart in and grab the gem–at the right moment.'
+    x: 63.19
+    y: 15.80
+    nextLevels:
+      continue: 'true-names'
+    practice: true
   }
   {
     name: 'True Names'
@@ -674,22 +687,21 @@ dungeon = [
     x: 74
     y: 12
     nextLevels:
-      more_practice: 'munchkin-slayer'
+      more_practice: 'favorable-odds'
       continue: 'the-raised-sword'
   }
   {
-    name: 'Munchkin Slayer'
+    name: 'Favorable Odds'
     type: 'hero'
     difficulty: 1
-    id: 'munchkin-slayer'
-    original: '5418aec24c16460000ab9aa6'
+    id: 'favorable-odds'
+    original: '5452972f57e83800009730de'
     description: 'Test out your battle skills by defeating more munchkins.'
     x: 80.85
     y: 11.85
     nextLevels:
       continue: 'the-raised-sword'
     practice: true
-    disabled: true
   }
   {
     name: 'The Raised Sword'
@@ -709,27 +721,26 @@ dungeon = [
     difficulty: 1
     id: 'the-first-kithmaze'
     original: '5418b9d64c16460000ab9ab4'
-    description: 'The builders of Kith constructed many mazes to confuse travelers.'
+    description: 'The builders of Kithgard constructed many mazes to confuse travelers.'
     x: 70
     y: 28
     nextLevels:
-      more_practice: 'the-one-point-fifth-kithmaze'
+      more_practice: 'descending-further'
       continue: 'the-second-kithmaze'
       skip_ahead: 'new-sight'
   }
   {
-    name: 'The One-Point-Fifth Kithmaze'
+    name: 'Descending Further'
     type: 'hero'
     difficulty: 1
-    id: 'the-one-point-fifth-kithmaze'
-    original: '5418cf256bae62f707c7e1c3'
+    id: 'descending-further'
+    original: '5452a84d57e83800009730e4'
     description: 'Another day, another maze.'
     x: 78.47
     y: 34.38
     nextLevels:
       continue: 'the-second-kithmaze'
     practice: true
-    disabled: true
   }
   {
     name: 'The Second Kithmaze'
@@ -741,22 +752,7 @@ dungeon = [
     x: 55.54
     y: 26.96
     nextLevels:
-      more_practice: 'the-two-point-fifth-kithmaze'
       continue: 'new-sight'
-  }
-  {
-    name: 'The Two-Point-Fifth Kithmaze'
-    type: 'hero'
-    difficulty: 1
-    id: 'the-two-point-fifth-kithmaze'
-    original: '5418d40f4c16460000ab9ac2'
-    description: 'You must really like doing these mazes!'
-    x: 49.02
-    y: 25.78
-    nextLevels:
-      continue: 'new-sight'
-    practice: true
-    disabled: true
   }
   {
     name: 'New Sight'
@@ -768,7 +764,32 @@ dungeon = [
     x: 67
     y: 41
     nextLevels:
+      continue: 'known-enemy'
+  }
+  {
+    name: 'Known Enemy'
+    type: 'hero'
+    difficulty: 1
+    id: 'known-enemy'
+    original: '5452adea57e83800009730ee'
+    description: 'Begin to use variables in your battles.'
+    x: 80.17
+    y: 45.31
+    nextLevels:
+      continue: 'master-of-names'
+  }
+  {
+    name: 'Master of Names'
+    type: 'hero'
+    difficulty: 1
+    id: 'master-of-names'
+    original: '5452c3ce57e83800009730f7'
+    description: 'Use your glasses to defend yourself from the Kithmen.'
+    x: 84.17
+    y: 45.31
+    nextLevels:
       continue: 'lowly-kithmen'
+      skip_ahead: 'closing-the-distance'
   }
   {
     name: 'Lowly Kithmen'
@@ -776,27 +797,12 @@ dungeon = [
     difficulty: 1
     id: 'lowly-kithmen'
     original: '541b24511ccc8eaae19f3c1f'
-    description: 'Use your glasses to seek out and attack the Kithmen.'
+    description: 'Now that you can see them, they\'re everywhere!'
     x: 74
     y: 48
     nextLevels:
-      more_practice: 'still-pretty-low-kithmen'
       continue: 'closing-the-distance'
       skip_ahead: 'the-final-kithmaze'
-  }
-  {
-    name: 'Still-Pretty-Low Kithmen'
-    type: 'hero'
-    difficulty: 1
-    id: 'still-pretty-low-kithmen'
-    original: '541b288e1ccc8eaae19f3c25'
-    description: 'Now that you can see them, they\'re everywhere!'
-    x: 80.17
-    y: 45.31
-    nextLevels:
-      continue: 'closing-the-distance'
-    practice: true
-    disabled: true
   }
   {
     name: 'Closing the Distance'
@@ -808,22 +814,21 @@ dungeon = [
     x: 76
     y: 60
     nextLevels:
-      more_practice: 'assassinating-more-kithmen'
+      more_practice: 'tactical-strike'
       continue: 'the-final-kithmaze'
   }
   {
-    name: 'Assassinating More Kithmen'
+    name: 'Tactical Strike'
     type: 'hero'
     difficulty: 1
-    id: 'assassinating-more-kithmen'
-    original: '541b434e1ccc8eaae19f3c33'
-    description: 'They\'re, uh, coming right for us?'
+    id: 'tactical-strike'
+    original: '5452cfa706a59e000067e4f5'
+    description: 'They\'re, uh, coming right for us! Sneak up behind them.'
     x: 80.34
     y: 55.60
     nextLevels:
       continue: 'the-final-kithmaze'
     practice: true
-    disabled: true
   }
   {
     name: 'The Final Kithmaze'
@@ -835,22 +840,21 @@ dungeon = [
     x: 82
     y: 70
     nextLevels:
-      more_practice: 'okay-one-more-kithmaze'
+      more_practice: 'the-gauntlet'
       continue: 'kithgard-gates'
   }
   {
-    name: 'Okay, One More Kithmaze'
+    name: 'The Gauntlet'
     type: 'hero'
     difficulty: 1
-    id: 'okay-one-more-kithmaze'
-    original: '541c9a30c6362edfb0f34479'
-    description: 'But you really gotta get outside after this, okay?'
+    id: 'the-gauntlet'
+    original: '5452d8b906a59e000067e4fa'
+    description: 'Rush for the stairs, battling foes at every turn.'
     x: 76.94
     y: 74.22
     nextLevels:
       continue: 'kithgard-gates'
     practice: true
-    disabled: true
   }
   {
     name: 'Kithgard Gates'
