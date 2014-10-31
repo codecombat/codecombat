@@ -241,7 +241,7 @@
     infinite_loop_comment_out: "Comment Out My Code"
     tip_toggle_play: "Toggle play/paused with Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
-    tip_guide_exists: "Click the guide at the top of the page for useful info."
+    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat is 100% open source!"
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_think_solution: "Think of the solution, not the problem."

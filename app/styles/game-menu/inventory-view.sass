@@ -14,6 +14,11 @@ $selectedAreaHeight: 150px
 $stashMargin: 20px
 $stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
+.ui-effects-transfer
+  outline: 2px solid #28f
+  @include box-shadow(0 0 10px #28f)
+  z-index: 9001
+
 #inventory-view
   position: relative
   height: $inventoryHeight
@@ -200,6 +205,11 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     padding: 4px
     background-color: white
 
+  &.Warrior .list-group-item:not(.Warrior), &.Ranger .list-group-item:not(.Ranger), &.Wizard .list-group-item:not(.Wizard)
+    // Our code hides and shows (modifies display), but we can be invisible this other way.
+    visibility: hidden
+    position: absolute
+
   .list-group-item
     padding: 4px 0
     @include transition(0.5s ease)
@@ -243,6 +253,18 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
   
         .item-info:after
           content: ' (locked)'
+
+      &.silhouette
+        h4
+          visibility: hidden
+          position: absolute
+        h4:before
+          content: '???'
+          visibility: visible
+        .item-info:after
+          display: none
+        img
+          @include filter(contrast(25%) brightness(25%))
 
   .item-view
     cursor: pointer

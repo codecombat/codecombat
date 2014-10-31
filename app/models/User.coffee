@@ -88,3 +88,13 @@ module.exports = class User extends CocoModel
     @branchingGroup = 'choice-explicit' if me.isAdmin()
     application.tracker.identify branchingGroup: @branchingGroup
     @branchingGroup
+
+  getHighlightArrowSoundGroup: ->
+    return @highlightArrowGroup if @highlightArrowGroup
+    group = me.get('testGroupNumber') % 8
+    @highlightArrowGroup = switch group
+      when 0, 1, 2, 3 then 'sound-off'
+      when 4, 5, 6, 7 then 'sound-on'
+    @highlightArrowGroup = 'sound-off' if me.isAdmin()
+    application.tracker.identify highlightArrowGroup: @highlightArrowGroup
+    @highlightArrowGroup

@@ -294,7 +294,11 @@ module.exports = class ThangType extends CocoModel
     itemComponentRef = _.find(
       @get('components') or [],
       (compRef) -> compRef.original is LevelComponent.ItemID)
-    return itemComponentRef?.config?.slots or []
+    return itemComponentRef?.config?.slots or ['right-hand']  # ['right-hand'] is default
+
+  getAllowedHeroClasses: ->
+    return [heroClass] if heroClass = @get 'heroClass'
+    ['Warrior', 'Ranger', 'Wizard']
 
   getFrontFacingStats: ->
     components = @get('components') or []
@@ -341,3 +345,10 @@ module.exports = class ThangType extends CocoModel
     display = display.join ', '
     display = display.replace /9001m?/, 'Infinity'
     name: name, display: display
+
+  isSilhouettedItem: ->
+    # TODO: have items have actual levels instead of just going by their gem count
+    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get 'gems'
+    points = me.get('points')
+    expectedTotalGems = (points ? 0) * 1.5   # Not actually true, but roughly kinda close for tier 0, kinda tier 1
+    @get('gems') > (100 + expectedTotalGems) * 2

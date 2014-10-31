@@ -105,7 +105,7 @@ _.extend ThangTypeSchema.properties,
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
     containers: c.object {title: 'Containers', additionalProperties: ContainerObjectSchema}
     animations: c.object {title: 'Animations', additionalProperties: RawAnimationObjectSchema}
-  kind: c.shortString {enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item', 'Hero'], default: 'Misc', title: 'Kind'}
+  kind: c.shortString {enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item', 'Hero', 'Missile'], default: 'Misc', title: 'Kind'}
   terrains: c.array {title: 'Terrains', description: 'If specified, limits this ThangType to levels with matching terrains.', uniqueItems: true}, c.terrainString
   gems: {type: 'integer', minimum: 0, title: 'Gem Cost', description: 'How many gems this item or hero costs.'}
   heroClass: {type: 'string', enum: ['Warrior', 'Ranger', 'Wizard'], title: 'Hero Class', description: 'What class this is (if a hero) or is restricted to (if an item). Leave undefined for most items.'}

@@ -323,6 +323,7 @@ module.exports.thangNames = thangNames =
     'Letholdus'
   ]
   'Potion Master': [
+    'Omar'
     'Snake'
     'Amaranth'
     'Zander'
@@ -378,4 +379,13 @@ module.exports.thangNames = thangNames =
     'Jarin'
     'Helena'
     'Philips'
+  ]
+  'Ninja': [
+    'Amara'
+  ]
+  'Sorcerer': [
+    'Pender'
+  ]
+  'Samurai': [
+    'Hattori'
   ]

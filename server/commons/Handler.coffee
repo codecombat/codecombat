@@ -46,9 +46,9 @@ module.exports = class Handler
     omissions = ['original'].concat(deltasLib.DOC_SKIP_PATHS)
     delta = differ.diff(_.omit(document.toObject(), omissions), _.omit(req.body, omissions))
     flattened = deltasLib.flattenDelta(delta)
-    _.all(flattened, (delta) ->
+    _.all flattened, (delta) ->
       # sometimes coverage gets moved around... allow other changes to happen to i18nCoverage
-      return _.isArray(delta.o) and (('i18n' in delta.dataPath and delta.o.length is 1) or 'i18nCoverage' in delta.dataPath))
+      return _.isArray(delta.o) and (('i18n' in delta.dataPath and delta.o.length is 1) or 'i18nCoverage' in delta.dataPath)
 
   formatEntity: (req, document) -> document?.toObject()
   getEditableProperties: (req, document) ->
