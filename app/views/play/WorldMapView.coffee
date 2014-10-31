@@ -722,8 +722,8 @@ dungeon = [
     id: 'the-first-kithmaze'
     original: '5418b9d64c16460000ab9ab4'
     description: 'The builders of Kithgard constructed many mazes to confuse travelers.'
-    x: 70
-    y: 28
+    x: 78
+    y: 29
     nextLevels:
       more_practice: 'descending-further'
       continue: 'the-second-kithmaze'
@@ -736,8 +736,8 @@ dungeon = [
     id: 'descending-further'
     original: '5452a84d57e83800009730e4'
     description: 'Another day, another maze.'
-    x: 78
-    y: 29
+    x: 70
+    y: 28
     nextLevels:
       continue: 'the-second-kithmaze'
     practice: true
@@ -773,8 +773,8 @@ dungeon = [
     id: 'known-enemy'
     original: '5452adea57e83800009730ee'
     description: 'Begin to use variables in your battles.'
-    x: 75
-    y: 46
+    x: 68
+    y: 42
     nextLevels:
       continue: 'master-of-names'
   }
@@ -785,8 +785,8 @@ dungeon = [
     id: 'master-of-names'
     original: '5452c3ce57e83800009730f7'
     description: 'Use your glasses to defend yourself from the Kithmen.'
-    x: 86
-    y: 43
+    x: 75
+    y: 46
     nextLevels:
       continue: 'lowly-kithmen'
       skip_ahead: 'closing-the-distance'
@@ -798,8 +798,8 @@ dungeon = [
     id: 'lowly-kithmen'
     original: '541b24511ccc8eaae19f3c1f'
     description: 'Now that you can see them, they\'re everywhere!'
-    x: 68
-    y: 42
+    x: 86
+    y: 43
     nextLevels:
       continue: 'closing-the-distance'
       skip_ahead: 'the-final-kithmaze'
@@ -811,8 +811,8 @@ dungeon = [
     id: 'closing-the-distance'
     original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
-    x: 95
-    y: 58
+    x: 93
+    y: 47
     nextLevels:
       more_practice: 'tactical-strike'
       continue: 'the-final-kithmaze'
@@ -824,8 +824,8 @@ dungeon = [
     id: 'tactical-strike'
     original: '5452cfa706a59e000067e4f5'
     description: 'They\'re, uh, coming right for us! Sneak up behind them.'
-    x: 93
-    y: 47
+    x: 95
+    y: 58
     nextLevels:
       continue: 'the-final-kithmaze'
     practice: true

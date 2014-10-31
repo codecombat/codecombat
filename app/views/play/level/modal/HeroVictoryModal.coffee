@@ -72,7 +72,7 @@ module.exports = class HeroVictoryModal extends ModalView
       res = @supermodel.loadCollection(earnedAchievements, 'earned_achievements')
       @earnedAchievements = res.model
       @listenTo @earnedAchievements, 'sync', ->
-        if (new Date() - @waitingToContinueSince) > 15 * 1000
+        if (new Date() - @waitingToContinueSince) > 20 * 1000
           # In case there is some network problem, like we saw with CloudFlare + school proxies, we'll let them keep playing.
           application.tracker?.trackEvent 'Unlocking Failed', level: @level.get('slug'), label: @level.get('slug')
           window.levelUnlocksNotWorking = true

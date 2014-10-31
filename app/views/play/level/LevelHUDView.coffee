@@ -30,7 +30,7 @@ module.exports = class LevelHUDView extends CocoView
   afterRender: ->
     super()
     @$el.addClass 'no-selection'
-    if @options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'descending-further', 'the-second-kithmaze', 'new-sight', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'assassinating-more-kithmen???', 'the-final-kithmaze', 'the-gauntlet']
+    if @options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'descending-further', 'the-second-kithmaze', 'new-sight', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'tactical-strike', 'the-final-kithmaze', 'the-gauntlet']
       @hidesHUD = true
       @$el.addClass 'hide-hud-properties'
 
