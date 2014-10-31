@@ -7,9 +7,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
+    for_beginners: "For Begynnere"
+    multiplayer: "Flerspiller" # Not currently shown on home page
+    for_developers: "For Utviklere" # Not currently shown on home page.
 
   nav:
     play: "Spill" # The top nav bar entry where players choose which levels to play
@@ -17,8 +17,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     editor: "Editor"
     blog: "Blogg"
     forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
+    account: "bruker"
+    profile: "Profil"
 #    stats: "Stats"
 #    code: "Code"
     admin: "Administrator" # Only shows up when you are an admin
@@ -28,7 +28,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     about: "Om"
     contact: "Kontakt"
     twitter_follow: "Følg"
-#    teachers: "Teachers"
+    teachers: "Lærere"
 
   modal:
     close: "Lukk"
@@ -46,20 +46,20 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     subscribe_as_diplomat: "Meld deg på som Diplomat"
 
   play:
-#    play_as: "Play As" # Ladder page
+    play_as: "Spill som" # Ladder page
 #    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    players: "spillere" # Hover over a level on /play
+    hours_played: "Timer spilt" # Hover over a level on /play
+    items: "Gjenstander" # Tooltip on item shop button from /play
+    heroes: "Helter" # Tooltip on hero shop button from /play
+    achievements: "Oppnåelser" # Tooltip on achievement list button from /play
+    account: "Bruker" # Tooltip on account button from /play
+    settings: "Innstillinger" # Tooltip on settings button from /play
+    next: "Neste" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Endre Helt" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "Anonym Spiller"
     level_difficulty: "Vanskelighetsgrad: "
     campaign_beginner: "Begynner Felttog"
     choose_your_level: "Velg Ditt Nivå" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -80,12 +80,12 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   login:
     sign_up: "Lag konto"
     log_in: "Logg Inn"
-#    logging_in: "Logging In"
+    logging_in: "Logg ut"
     log_out: "Logg Ut"
     recover: "gjenåpne konto"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Opprett konto for å lagre fremgrang"
     description: "Det er gratis. Trenger bare noen få avklaringer, så er du klar:"
     email_announcements: "Motta kunngjøringer på epost"
     coppa: "13+ eller ikke fra USA"
@@ -93,7 +93,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     creating: "Oppretter Konto..."
     sign_up: "Registrer deg"
     log_in: "logg inn med passord"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "Eller du kan registrere deg gjennom Facebook eller Google+:"
 #    required: "You need to log in before you can go that way."
 
 #  recover:
@@ -110,13 +110,13 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   common:
     loading: "Laster..."
-#    saving: "Saving..."
+    saving: "Lagrer..."
 #    sending: "Sending..."
 #    send: "Send"
     cancel: "Avbryt"
-#    save: "Save"
-#    publish: "Publish"
-#    create: "Create"
+    save: "Lagre"
+    publish: "Publiser"
+    create: "Opprett"
     manual: "Manuelt"
 #    fork: "Fork"
     play: "Spill" # When used as an action verb, like "Play next level"
@@ -126,9 +126,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    submit_patch: "Submit Patch"
 
   general:
-#    and: "and"
+    and: "og"
     name: "Navn"
-#    date: "Date"
+    date: "Dato"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
@@ -144,44 +144,44 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     message: "Melding"
 #    code: "Code"
 #    ladder: "Ladder"
-#    when: "When"
+    when: "Når"
 #    opponent: "Opponent"
 #    rank: "Rank"
 #    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
+    win: "Seier"
+    loss: "Tap"
+    tie: "uavgjort"
+    easy: "Lett"
+    medium: "Middels"
+    hard: "Vanskelig"
+    player: "Spiller"
 
 #  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+    second: "sekund"
+    seconds: "sekunder"
+    minute: "minut"
+    minutes: "minuter"
+    hour: "time"
+    hours: "timer"
+    day: "dag"
+    days: "dager"
+    week: "uke"
+    weeks: "uker"
+    month: "måned"
+    months: "måneder"
+    year: "år"
+    years: "år"
 
   play_level:
     done: "Ferdig"
     home: "Hjem"
 #    skip: "Skip"
-#    game_menu: "Game Menu"
+    game_menu: "Spill Meny"
     guide: "Guide"
     restart: "Start på nytt"
     goals: "Mål"
-#    goal: "Goal"
-#    success: "Success!"
+    goal: "Mål"
+    success: "Vellyket!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
@@ -226,7 +226,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tome_available_spells: "Tilgjenglige Trylleformularer"
 #    tome_your_skills: "Your Skills"
     hud_continue: "Fortsett (trykk shift-mellomrom)"
-#    code_saved: "Code Saved"
+    code_saved: "Kode lagret"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
