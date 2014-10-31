@@ -8,6 +8,7 @@ module.exports =
     replacedNoteChain: {type: 'array'}
     thang: {type: 'object'}
     killer: {type: 'object'}
+    killerHealth: {type: ['number', 'undefined']}
 
   'world:thang-touched-goal': c.object {required: ['actor', 'touched']},
     replacedNoteChain: {type: 'array'}

@@ -351,7 +351,8 @@ module.exports = class CocoView extends Backbone.View
   animatePointer: =>
     $pointer = @getPointer()
     $pointer.css transition: 'all 0.6s ease-out', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)"
-    #Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75  # Never mind, this is currently so annoying
+    if me.getHighlightArrowSoundGroup() is 'sound-on'
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.5
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->

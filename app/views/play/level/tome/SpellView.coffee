@@ -588,7 +588,6 @@ module.exports = class SpellView extends CocoView
       io: '//'
     commentStart = commentStarts[@spell.language] or '//'
     @_singleLineCommentRegexp ?= new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
-    console.log 'got', @_singleLineCommentRegexp, 'from', "[ \t]*#{commentStart}[^\"']*", 'comment start is', commentStart, 'acuse lang is', @spell.language
     @_singleLineCommentRegexp
 
   preload: ->
