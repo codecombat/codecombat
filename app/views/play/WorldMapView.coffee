@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+0RootView = require 'views/kinds/RootView'
 template = require 'templates/play/world-map-view'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
