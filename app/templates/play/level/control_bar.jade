@@ -8,16 +8,6 @@ h4.title
   | #{worldName}
   span.spl.spr.editor-dash -
   a(href=editorLink, data-i18n="nav.editor", title="Open " + worldName + " in the Level Editor") Editor
-  if multiplayerSession
-    - found = false
-    - for (var i=0; i < multiplayerPlayers.length; i++) {
-      if (multiplayerPlayers.at(i).id !== meID)
-        span.spl.spr - vs #{multiplayerPlayers.at(i).get('name')}
-        - found = true
-        - break
-    - }
-    if !found
-      span.spl.spr - waiting...
 
 button.btn.btn-xs.btn-inverse.banner#game-menu-button(title="Show game menu", data-i18n="play_level.game_menu") Game Menu
 

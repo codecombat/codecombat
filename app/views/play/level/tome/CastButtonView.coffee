@@ -14,6 +14,7 @@ module.exports = class CastButtonView extends CocoView
     'tome:spell-changed': 'onSpellChanged'
     'tome:cast-spells': 'onCastSpells'
     'god:new-world-created': 'onNewWorld'
+    'real-time-multiplayer:created-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
     'goal-manager:new-goal-states': 'onNewGoalStates'
@@ -57,7 +58,7 @@ module.exports = class CastButtonView extends CocoView
       @multiplayerSession.on 'change', (e) =>
         if @multiplayerSession.get('state') is 'running'
           # Real-time multiplayer session is ready to go, so resume normal cast
-          @multiplayerSession.off()
+          @multiplayerSession.off 'change'
           Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     else
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
@@ -128,5 +129,5 @@ module.exports = class CastButtonView extends CocoView
 
   onLeftRealTimeMultiplayerGame: (e) ->
     if @multiplayerSession
-      @multiplayerSession.off()
+      @multiplayerSession.off 'change'
       @multiplayerSession = null

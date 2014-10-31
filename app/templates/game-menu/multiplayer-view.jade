@@ -29,22 +29,24 @@ if ladderGame
 
     div#created-multiplayer-session
       h3 Your Game
-      if currentMultiplayerSession
+      if currentRealTimeSession
         div
-          span(style="margin:10px")= currentMultiplayerSession.get('levelID')
-          span(style="margin:10px")= currentMultiplayerSession.get('creatorName')
-          span(style="margin:10px")= currentMultiplayerSession.get('state')
-          span(style="margin:10px")= currentMultiplayerSession.id
+          span(style="margin:10px")= currentRealTimeSession.get('levelID')
+          span(style="margin:10px")= currentRealTimeSession.get('creatorName')
+          span(style="margin:10px")= currentRealTimeSession.get('state')
+          span(style="margin:10px")= currentRealTimeSession.id
           button#leave-game-button(data-item=item) Leave Game
         div
-          - var players = playersCollections[currentMultiplayerSession.id]
-          span(style="margin:10px") Players:
-          - for (var i=0; i < players.length; i++) {
-            - var name = players.at(i).get('name')
-            - var team = players.at(i).get('team')
-            span(style="margin:10px")= name
-            span(style="margin:10px")= team
-          - }
+          - var players = realTimeSessionPlayers[currentRealTimeSession.id]
+          if players
+            span(style="margin:10px") Players:
+            - for (var i=0; i < players.length; i++) {
+              span(style="margin:10px")= players.at(i).get('name')
+              span(style="margin:10px")= players.at(i).get('team')
+              span(style="margin:10px")= players.at(i).get('state')
+            - }
+          else
+            span No Players?
       else
         div Click something above to create a game.
 
@@ -52,33 +54,31 @@ if ladderGame
 
     div#open-games
       h3 Open Games
-      // TODO: do not let you join ones with same-team opponent
+      //- TODO: do not let you join ones with same-team opponent
       - var noOpenGames = true
-      if multiplayerSessions
-        - for (var i=0; i < multiplayerSessions.length; i++) {
-          if levelID === multiplayerSessions[i].get('levelID') && multiplayerSessions[i].get('state') === 'creating'
-            - var id = multiplayerSessions[i].get('id')
-            - var players = playersCollections[id]
-            if players && players.length < 2
-              - noOpenGames = false
-              - var creatorName = multiplayerSessions[i].get('creatorName')
-              - var creator = multiplayerSessions[i].get('creator')
-              - var state = multiplayerSessions[i].get('state')
-              - var item = multiplayerSessions[i]
-              div
-                button#join-game-button(data-item=item) Join Game
-                span(style="margin:10px")= levelID
-                span(style="margin:10px")= creatorName
-                span(style="margin:10px")= state
-                span(style="margin:10px")= id
-              div
-                span(style="margin:10px") Players:
-                - for (var j=0; j < players.length; j++) {
-                  - var name = players.at(j).get('name')
-                  - var team = players.at(j).get('team')
-                  span(style="margin:10px")= name
-                  span(style="margin:10px")= team
-                - }
+      - for (var i=0; i < realTimeSessions.length; i++) {
+        if (currentRealTimeSession && realTimeSessions.at(i).id == currentRealTimeSession.id) 
+          - continue
+        if levelID === realTimeSessions.at(i).get('levelID') && realTimeSessions.at(i).get('state') === 'creating'
+          - var id = realTimeSessions.at(i).get('id')
+          - var players = realTimeSessionPlayers[id]
+          if players && players.length === 1
+            - noOpenGames = false
+            - var creatorName = realTimeSessions.at(i).get('creatorName')
+            - var creator = realTimeSessions.at(i).get('creator')
+            - var state = realTimeSessions.at(i).get('state')
+            - var item = realTimeSessions.at(i)
+            div
+              button#join-game-button(data-item=item) Join Game
+              span(style="margin:10px")= levelID
+              span(style="margin:10px")= creatorName
+              span(style="margin:10px")= state
+              span(style="margin:10px")= id
+            div
+              span(style="margin:10px") Players:
+              span(style="margin:10px")= players.at(0).get('name')
+              span(style="margin:10px")= players.at(0).get('team')
+              span(style="margin:10px")= players.at(0).get('state')
         - }
       if noOpenGames
         div No games available.
