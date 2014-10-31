@@ -104,7 +104,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    @highlightElement '.level.next', delay: 2000, duration: 60000, rotation: 0, sides: ['top']
+    @highlightElement '.level.next', delay: 2000, duration: 60000, rotation: 0, sides: ['top'] unless window.currentModal
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models
@@ -837,8 +837,8 @@ dungeon = [
     id: 'the-final-kithmaze'
     original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
-    x: 82
-    y: 70
+    x: 89
+    y: 64
     nextLevels:
       more_practice: 'the-gauntlet'
       continue: 'kithgard-gates'
@@ -850,8 +850,8 @@ dungeon = [
     id: 'the-gauntlet'
     original: '5452d8b906a59e000067e4fa'
     description: 'Rush for the stairs, battling foes at every turn.'
-    x: 89
-    y: 64
+    x: 82
+    y: 70
     nextLevels:
       continue: 'kithgard-gates'
     practice: true
