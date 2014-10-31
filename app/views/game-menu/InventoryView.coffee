@@ -341,7 +341,7 @@ module.exports = class InventoryView extends CocoView
       'leather-tunic': '53e22eac53457600003e3efc'
       'leather-boots': '53e2384453457600003e3f07'
       'programmaticon-i': '53e4108204c00d4607a89f78'
-      'crude-wooden-glasses': '53e238df53457600003e3f0b'
+      'crude-glasses': '53e238df53457600003e3f0b'
       'builders-hammer': '53f4e6e3d822c23505b74f42'
     gearByLevel =
       'dungeons-of-kithgard': {feet: 'simple-boots'}
@@ -358,17 +358,17 @@ module.exports = class InventoryView extends CocoView
       'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'new-sight': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
       'known-enemy': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
-      'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
-      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
-      'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-wooden-glasses'}
-      'tactical-strike': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-wooden-glasses'}
-      'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
-      'the-gauntlet': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
+      'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
+      'tactical-strike': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
+      'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+      'the-gauntlet': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
       'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
       'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
-      'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-wooden-glasses'}
-      'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-wooden-glasses'}
+      'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
+      'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
     return unless necessaryGear = gearByLevel[@options.levelID]
     if @inserted
       if @supermodel.finished()

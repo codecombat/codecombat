@@ -99,9 +99,9 @@ module.exports = class World
     continueLaterFn = =>
       @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
-      if @levelID in ['the-first-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze']
+      if @levelID in ['the-first-kithmaze', 'descending-further', 'the-second-kithmaze', 'the-final-kithmaze', 'the-gauntlet', 'winding-trail', 'thornbush-farm']
         @realTimeSpeedFactor = 5
-      else if @levelID in ['kithgard-gates']
+      else if @levelID in ['forgotten-gemsmith', 'tactical-strike', 'kithgard-gates']
         @realTimeSpeedFactor = 3
       else
         @realTimeSpeedFactor = 1

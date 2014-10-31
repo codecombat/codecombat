@@ -337,7 +337,7 @@ module.exports = class CocoView extends Backbone.View
     $pointer.css
       opacity: 1.0
       transition: 'none'
-      transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"
+      transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px) scale(20)"
       top: targetTop - 50
       left: targetLeft - 50
     _.defer =>
