@@ -1,4 +1,4 @@
-0RootView = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/play/world-map-view'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
@@ -617,8 +617,8 @@ dungeon = [
     id: 'gems-in-the-deep'
     original: '54173c90844506ae0195a0b4'
     description: 'Quickly collect the gems; you will need them.'
-    x: 32
-    y: 15.5
+    x: 29
+    y: 12
     nextLevels:
       more_practice: 'forgetful-gemsmith'
       continue: 'shadow-guard'
@@ -631,8 +631,8 @@ dungeon = [
     id: 'forgetful-gemsmith'
     original: '544a98f62d002f0000fe331a'
     description: 'Grab even more gems as you practice moving.'
-    x: 35.49
-    y: 24.61
+    x: 38
+    y: 12
     nextLevels:
       continue: 'shadow-guard'
     practice: true
@@ -644,8 +644,8 @@ dungeon = [
     id: 'shadow-guard'
     original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
-    x: 54
-    y: 9
+    x: 50
+    y: 11
     nextLevels:
       more_practice: 'kounter-kithwise'
       continue: 'true-names'
@@ -657,8 +657,8 @@ dungeon = [
     id: 'kounter-kithwise'
     original: '54527a6257e83800009730c7'
     description: 'Practice your evasion skills with more guards.'
-    x: 61.19
-    y: 13.80
+    x: 58
+    y: 10
     nextLevels:
       more_practice: 'crawlways-of-kithgard'
       continue: 'true-names'
@@ -671,8 +671,8 @@ dungeon = [
     id: 'crawlways-of-kithgard'
     original: '545287ef57e83800009730d5'
     description: 'Dart in and grab the gem–at the right moment.'
-    x: 63.19
-    y: 15.80
+    x: 67
+    y: 10
     nextLevels:
       continue: 'true-names'
     practice: true
@@ -698,7 +698,7 @@ dungeon = [
     original: '5452972f57e83800009730de'
     description: 'Test out your battle skills by defeating more munchkins.'
     x: 80.85
-    y: 11.85
+    y: 16
     nextLevels:
       continue: 'the-raised-sword'
     practice: true
@@ -736,8 +736,8 @@ dungeon = [
     id: 'descending-further'
     original: '5452a84d57e83800009730e4'
     description: 'Another day, another maze.'
-    x: 78.47
-    y: 34.38
+    x: 78
+    y: 29
     nextLevels:
       continue: 'the-second-kithmaze'
     practice: true
@@ -749,8 +749,8 @@ dungeon = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 55.54
-    y: 26.96
+    x: 59
+    y: 25
     nextLevels:
       continue: 'new-sight'
   }
@@ -761,8 +761,8 @@ dungeon = [
     id: 'new-sight'
     original: '5418d40f4c16460000ab9ac2'
     description: 'A true name can only be seen with the correct lenses.'
-    x: 67
-    y: 41
+    x: 60
+    y: 34
     nextLevels:
       continue: 'known-enemy'
   }
@@ -773,8 +773,8 @@ dungeon = [
     id: 'known-enemy'
     original: '5452adea57e83800009730ee'
     description: 'Begin to use variables in your battles.'
-    x: 80.17
-    y: 45.31
+    x: 75
+    y: 46
     nextLevels:
       continue: 'master-of-names'
   }
@@ -785,8 +785,8 @@ dungeon = [
     id: 'master-of-names'
     original: '5452c3ce57e83800009730f7'
     description: 'Use your glasses to defend yourself from the Kithmen.'
-    x: 84.17
-    y: 45.31
+    x: 86
+    y: 43
     nextLevels:
       continue: 'lowly-kithmen'
       skip_ahead: 'closing-the-distance'
@@ -798,8 +798,8 @@ dungeon = [
     id: 'lowly-kithmen'
     original: '541b24511ccc8eaae19f3c1f'
     description: 'Now that you can see them, they\'re everywhere!'
-    x: 74
-    y: 48
+    x: 68
+    y: 42
     nextLevels:
       continue: 'closing-the-distance'
       skip_ahead: 'the-final-kithmaze'
@@ -811,8 +811,8 @@ dungeon = [
     id: 'closing-the-distance'
     original: '541b288e1ccc8eaae19f3c25'
     description: 'Kithmen are not the only ones to stand in your way.'
-    x: 76
-    y: 60
+    x: 95
+    y: 58
     nextLevels:
       more_practice: 'tactical-strike'
       continue: 'the-final-kithmaze'
@@ -824,8 +824,8 @@ dungeon = [
     id: 'tactical-strike'
     original: '5452cfa706a59e000067e4f5'
     description: 'They\'re, uh, coming right for us! Sneak up behind them.'
-    x: 80.34
-    y: 55.60
+    x: 93
+    y: 47
     nextLevels:
       continue: 'the-final-kithmaze'
     practice: true
@@ -850,8 +850,8 @@ dungeon = [
     id: 'the-gauntlet'
     original: '5452d8b906a59e000067e4fa'
     description: 'Rush for the stairs, battling foes at every turn.'
-    x: 76.94
-    y: 74.22
+    x: 89
+    y: 64
     nextLevels:
       continue: 'kithgard-gates'
     practice: true
