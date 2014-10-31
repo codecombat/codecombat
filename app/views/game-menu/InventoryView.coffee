@@ -348,14 +348,22 @@ module.exports = class InventoryView extends CocoView
       'gems-in-the-deep': {feet: 'simple-boots'}
       'forgetful-gemsmith': {feet: 'simple-boots'}
       'shadow-guard': {feet: 'simple-boots'}
+      'kounter-kithwise': {feet: 'simple-boots'}
+      'crawlways-of-kithgard': {feet: 'simple-boots'}
       'true-names': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+      'favorable-odds': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
       'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic'}
       'the-first-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
+      'descending-further': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'new-sight': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
+      'known-enemy': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
+      'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
       'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
       'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-wooden-glasses'}
+      'tactical-strike': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-wooden-glasses'}
       'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
+      'the-gauntlet': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-wooden-glasses'}
       'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
       'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
       'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
