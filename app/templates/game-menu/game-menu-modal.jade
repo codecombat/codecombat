@@ -16,7 +16,7 @@ block modal-body-content
     -   submenus.splice(0, 1);
     ul.nav.nav-tabs#game-menu-nav
       for submenu, index in submenus
-        li(class=index ? "" : "active")
+        li(class=submenu === showTab || index === 0 && !showTab ? "active" : "")
           a(href='#' + submenu + '-view', data-toggle='tab')
             h2(data-i18n='game_menu.' + submenu.replace('-', '_') + '_tab')
             em(data-i18n='game_menu.' + submenu.replace('-', '_') + '_caption')

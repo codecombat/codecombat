@@ -22,14 +22,16 @@ module.exports = class GameMenuModal extends ModalView
     super options
     @options.showDevBits = me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
     @options.showInventory = @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    @options.showTab = options.showTab
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
-    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @options.level.get('terrain', true)
+    Backbone.Mediator.publish 'music-player:enter-menu', terrain: @options.level.get('terrain', true) ? 'Dungeon'
 
   getRenderData: (context={}) ->
     context = super(context)
     context.showDevBits = @options.showDevBits
     context.showInventory = @options.showInventory
+    context.showTab = @options.showTab
     docs = @options.level.get('documentation') ? {}
     context.showsGuide = docs.specificArticles?.length or docs.generalArticles?.length
     context
@@ -37,7 +39,11 @@ module.exports = class GameMenuModal extends ModalView
   afterRender: ->
     super()
     @insertSubView new submenuView @options for submenuView in submenuViews
-    firstView = (if @options.showInventory then @subviews.inventory_view else @subviews.choose_hero_view)
+    if @options.showTab
+      firstView = switch @options.showTab
+        when 'multiplayer' then @subviews.multiplayer_view
+    unless firstView?
+      firstView = (if @options.showInventory then @subviews.inventory_view else @subviews.choose_hero_view)
     firstView.$el.addClass 'active'
     firstView.onShown?()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1

@@ -11,8 +11,6 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
-    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
-    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -62,9 +60,6 @@ module.exports = class ControlBarView extends CocoView
       @homeLink = c.homeLink = '/'
       @homeViewClass = require 'views/HomeView'
     c.editorLink = "/editor/level/#{@level.get('slug')}"
-    c.multiplayerSession = @multiplayerSession if @multiplayerSession
-    c.multiplayerPlayers = @multiplayerPlayers if @multiplayerPlayers
-    c.meID = me.id
     c
 
   showGameMenuModal: ->
@@ -74,22 +69,3 @@ module.exports = class ControlBarView extends CocoView
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
-
-  onJoinedRealTimeMultiplayerGame: (e) ->
-    @multiplayerSession = e.session
-    @multiplayerPlayers = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
-    @multiplayerPlayers.on 'add', @onRealTimeMultiplayerPlayerAdded
-    @multiplayerPlayers.on 'remove', @onRealTimeMultiplayerPlayerRemoved
-    @render()
-
-  onLeftRealTimeMultiplayerGame: (e) ->
-    @multiplayerSession = null
-    @multiplayerPlayers.off()
-    @multiplayerPlayers = null
-    @render()
-
-  onRealTimeMultiplayerPlayerAdded: (e) =>
-    @render() unless @destroyed
-
-  onRealTimeMultiplayerPlayerRemoved: (e) =>
-    @render() unless @destroyed

@@ -187,7 +187,9 @@ module.exports = class SpellPaletteView extends CocoView
     itemsByProp = {}
     for slot, inventoryID of @thang.inventoryIDs ? {}
       if item = itemThangTypes[inventoryID]
-        for component in item.get('components') when component.config
+        unless item.get('components')
+          console.error 'Item', item, 'did not have any components when we went to assemble docs.'
+        for component in item.get('components') ? [] when component.config
           for owner, storages of propStorage
             if props = component.config[storages]
               for prop in _.sortBy(props) when prop[0] isnt '_'  # no private properties

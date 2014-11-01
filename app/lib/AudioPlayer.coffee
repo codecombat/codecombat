@@ -68,6 +68,8 @@ class AudioPlayer extends CocoClass
     return null unless say = soundTriggers?.say
     message = _.string.slugify message
     return sound if sound = say[message]
+    if _.string.startsWith message, 'attack'
+      return sound if sound = say.attack
     defaults = say.defaultSimlish
     if say.swearingSimlish?.length and _.find(swears, (s) -> message.search(s) isnt -1)
       defaults = say.swearingSimlish
