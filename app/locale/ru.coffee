@@ -76,6 +76,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
     campaign_classic_algorithms: "Классические принципы"
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Создать аккаунт"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hud_continue: "Продолжить (Shift+Пробел)"
+#    hud_continue_short: "Continue"
     code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Предпросмотр"

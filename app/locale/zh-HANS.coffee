@@ -76,6 +76,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
     campaign_classic_algorithms: "经典算法"
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "注册"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_available_spells: "可用的法术"
     tome_your_skills: "你的技能"
     hud_continue: "继续（按 Shift-空格）"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "关卡完成"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "预览"

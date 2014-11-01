@@ -76,6 +76,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Account maken"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     tome_available_spells: "Beschikbare spreuken"
 #    tome_your_skills: "Your Skills"
     hud_continue: "Ga verder (druk shift-space)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Overslaan (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Voorbeeld"

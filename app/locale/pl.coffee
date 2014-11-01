@@ -76,6 +76,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     campaign_player_created_description: "... w których walczysz przeciwko dziełom <a href=\"/contribute#artisan\">Czarodziejów Rzemieślników</a>"
     campaign_classic_algorithms: "Algorytmy klasyczne"
     campaign_classic_algorithms_description: "... gdzie nauczysz się najpopularniejszych alogrytmów w Informatyce."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Stwórz konto"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     tome_available_spells: "Dostępne czary"
 #    tome_your_skills: "Your Skills"
     hud_continue: "Kontynuuj (Shift + spacja)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Pomiń (esc)"
     keyboard_shortcuts: "Skróty klawiszowe"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Podgląd"

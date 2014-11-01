@@ -76,6 +76,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_player_created_description: "... en las que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisa\">Magos Artesanos</a>."
     campaign_classic_algorithms: "Algoritmos Clasicos"
     campaign_classic_algorithms_description: "... donde aprendes los algoritmos mas populares de la informatica."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Crear una cuenta"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_available_spells: "Hechizos disponibles"
     tome_your_skills: "Tus Habilidades"
     hud_continue: "Continuar (pulsa Shift+Space)"
+#    hud_continue_short: "Continue"
     code_saved: "Codigo Salvado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Porcentaje de Nivel Completado"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Vista preliminar"

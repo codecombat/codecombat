@@ -76,6 +76,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     campaign_player_created_description: "... 당신 동료가 고안한 레벨에 도전하세요 <a href=\"/contributeartisan\">마법사 장인</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "계정 생성"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_available_spells: "사용 가능한 마법"
 #    tome_your_skills: "Your Skills"
     hud_continue: "계속진행 (shift+space)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "넘기기 (esc)"
     keyboard_shortcuts: "단축키"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "미리보기"

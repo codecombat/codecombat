@@ -76,6 +76,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     campaign_player_created_description: "... i dene du gege d Kreativität vome <a href=\"/contribute#artisan\">Handwerker Zauberer</a> kämpfsch."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Account erstelle"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tome_available_spells: "Verfüegbari Zaubersprüch"
 #    tome_your_skills: "Your Skills"
     hud_continue: "Wiiter (shift+space)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Überspringe (esc)"
     keyboard_shortcuts: "Shortcuts"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
 #  article:
 #    edit_btn_preview: "Preview"
