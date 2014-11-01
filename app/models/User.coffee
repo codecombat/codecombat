@@ -67,15 +67,16 @@ module.exports = class User extends CocoModel
 
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
-    purchased = @get('purchased') ? {}
-    gemsPurchased = purchased.gems ? 0
-    sum = (arr) -> arr?.reduce((a, b) -> a + b) ? 0
-    gemsSpent = sum(purchased.heroes) + sum(purchased.items) + sum(purchased.levels)
+    gemsPurchased = @get('purchased')?.gems ? 0
+    gemsSpent = @get('spent') ? 0
     gemsEarned + gemsPurchased - gemsSpent
 
-  earnedHero: (heroOriginal) -> heroOriginal in (me.get('earned')?.heroes ? [])
-  earnedItem: (itemOriginal) -> itemOriginal in (me.get('earned')?.items ? [])
-  earnedLevel: (levelOriginal) -> levelOriginal in (me.get('earned')?.levels ? [])
+  heroes: -> (me.get('earned')?.heroes ? []).concat(me.get('purchased')?.heroes ? [])
+  items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? [])
+  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? [])
+  ownsHero: (heroOriginal) -> heroOriginal in @heroes()
+  ownsItem: (itemOriginal) -> itemOriginal in @items()
+  ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
   getBranchingGroup: ->
     return @branchingGroup if @branchingGroup

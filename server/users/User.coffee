@@ -59,6 +59,12 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   newSubs[newName].enabled = enabled
   @set('emails', newSubs)
   @newsSubsChanged = true if newName in mail.NEWS_GROUPS
+  
+UserSchema.methods.gems = ->
+  gemsEarned = @get('earned')?.gems ? 0
+  gemsPurchased = @get('purchased')?.gems ? 0
+  gemsSpent = @get('spent') ? 0
+  gemsEarned + gemsPurchased - gemsSpent
 
 UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   emails = @get 'emails'

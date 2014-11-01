@@ -2,6 +2,8 @@ CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
 
+utils = require 'lib/utils'
+
 buildQueue = []
 
 module.exports = class ThangType extends CocoModel
@@ -328,14 +330,30 @@ module.exports = class ThangType extends CocoModel
     props: props, stats: stats
 
   formatStatDisplay: (name, modifiers) ->
-    name = {maxHealth: 'Health', maxSpeed: 'Speed', healthReplenishRate: 'Regeneration'}[name] ? name
-    name = _.string.humanize name
+    i18nKey = {
+      maxHealth: 'health'
+      maxSpeed: 'speed'
+      healthReplenishRate: 'regeneration'
+      attackDamage: 'attack'
+      attackRange: 'range'
+      shieldDefenseFactor: 'blocks'
+      visualRange: 'range'
+    }[name]
+    
+    if i18nKey
+      name = $.i18n.t 'choose_hero.' + i18nKey
+    else
+      name = _.string.humanize name
+
     format = ''
-    format = 'm' if /(range|radius|distance)$/i.test name
+    format = 'm' if /(range|radius|distance|vision)$/i.test name
     format ||= 's' if /cooldown$/i.test name
     format ||= 'm/s' if /speed$/i.test name
     format ||= '/s' if /(regeneration| rate)$/i.test name
     value = modifiers.setTo
+    if /(blocks)$/i.test name
+      format ||= '%'
+      value = (value*100).toFixed(1)
     value = value.join ', ' if _.isArray value
     display = []
     display.push "#{value}#{format}" if value?

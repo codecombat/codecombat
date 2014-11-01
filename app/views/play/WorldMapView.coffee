@@ -83,7 +83,7 @@ module.exports = class WorldMapView extends RootView
     for level, index in context.campaign.levels
       level.x ?= 10 + 80 * Math.random()
       level.y ?= 10 + 80 * Math.random()
-      level.locked = index > 0 and not me.earnedLevel level.original
+      level.locked = index > 0 and not me.ownsLevel level.original
       window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
       level.color = 'rgb(255, 80, 60)'

@@ -93,6 +93,13 @@ module.exports = class CocoView extends Backbone.View
 
   # View Rendering
 
+  renderSelectors: (selectors...) ->
+    newTemplate = $(@template(@getRenderData()))
+    for selector in selectors
+      @$el.find(selector).replaceWith(newTemplate.find(selector))
+    @delegateEvents()
+    @$el.i18n()
+  
   render: ->
     return @ unless me
     view.destroy() for id, view of @subviews

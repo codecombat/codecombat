@@ -34,7 +34,7 @@ module.exports = class CountdownScreen extends CocoClass
 
   makeCountdownText: ->
     size = Math.ceil @camera.canvasHeight / 2
-    text = new createjs.Text '3...', "#{size}px Bangers", '#F7B42C'
+    text = new createjs.Text '3...', "#{size}px Open Sans Condensed", '#F7B42C'
     text.shadow = new createjs.Shadow '#000', Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 120)
     text.textAlign = 'center'
     text.textBaseline = 'middle'

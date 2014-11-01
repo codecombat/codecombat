@@ -268,7 +268,8 @@ _.extend UserSchema.properties,
     thangTypeMiscPatches: c.int()
 
   earned: c.RewardSchema 'earned by achievements'
-  purchased: c.RewardSchema 'purchased with gems'
+  purchased: c.RewardSchema 'purchased with gems or money'
+  spent: {type: 'number'}
 
 c.extendBasicProperties UserSchema, 'user'
 

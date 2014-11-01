@@ -34,7 +34,7 @@ module.exports = class WaitingScreen extends CocoClass
 
   makeWaitingText: ->
     size = Math.ceil @camera.canvasHeight / 8
-    text = new createjs.Text @waitingText, "#{size}px Bangers", '#F7B42C'
+    text = new createjs.Text @waitingText, "#{size}px Open Sans Condensed", '#F7B42C'
     text.shadow = new createjs.Shadow '#000', Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 300), Math.ceil(@camera.canvasHeight / 120)
     text.textAlign = 'center'
     text.textBaseline = 'middle'
