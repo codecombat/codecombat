@@ -199,7 +199,10 @@ module.exports = class LevelHUDView extends CocoView
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue', defaultValue: 'Continue (shift+space)')
+      if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+        s = $.i18n.t('play_level.hud_continue_short', defaultValue: 'Continue')
+      else
+        s = $.i18n.t('play_level.hud_continue', defaultValue: 'Continue (shift+space)')  # Get rid of eventually
       sk = $.i18n.t('play_level.skip_tutorial', defaultValue: 'skip: esc')
       if not @escapePressed
         group.append('<span class="hud-hint">' + sk + '</span>')
