@@ -268,7 +268,7 @@ _.extend LevelSessionSchema.properties,
                     description: 'The opponent\'s ranking in a given match'
                     type: 'number'
               codeLanguage:
-                type: 'string'
+                type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
