@@ -824,8 +824,8 @@ dungeon = [
     id: 'tactical-strike'
     original: '5452cfa706a59e000067e4f5'
     description: 'They\'re, uh, coming right for us! Sneak up behind them.'
-    x: 95
-    y: 58
+    x: 88.65
+    y: 63.06
     nextLevels:
       continue: 'the-final-kithmaze'
     practice: true
@@ -837,8 +837,8 @@ dungeon = [
     id: 'the-final-kithmaze'
     original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
-    x: 89
-    y: 64
+    x: 81.93
+    y: 65.86
     nextLevels:
       more_practice: 'the-gauntlet'
       continue: 'kithgard-gates'
@@ -850,8 +850,8 @@ dungeon = [
     id: 'the-gauntlet'
     original: '5452d8b906a59e000067e4fa'
     description: 'Rush for the stairs, battling foes at every turn.'
-    x: 82
-    y: 70
+    x: 84.89
+    y: 73.88
     nextLevels:
       continue: 'kithgard-gates'
     practice: true
