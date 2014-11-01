@@ -655,7 +655,7 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Playing against ' + e.get('name')
     else
       console.error 'PlayLevelView onRealTimePlayerAdded session in unexpected state', @realTimeSession.get('state')
-  
+
   onRealTimeOpponentChanged: (e) =>
     # console.log 'PlayLevelView onRealTimeOpponentChanged', e
     switch @realTimeOpponent.get('state')
