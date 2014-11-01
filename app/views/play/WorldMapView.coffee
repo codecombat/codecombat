@@ -889,6 +889,8 @@ forest = [
     id: 'defense-of-plainswood'
     original: '541b67f71ccc8eaae19f3c62'
     description: 'Protect the peasants from the pursuing ogres.'
+    nextLevels:
+      continue: 'winding-trail'
     x: 29.63
     y: 53.69
   }
@@ -899,6 +901,8 @@ forest = [
     id: 'winding-trail'
     original: '5446cb40ce01c23e05ecf027'
     description: 'Stay alive and navigate through the forest.'
+    nextLevels:
+      continue: 'thornbush-farm'
     x: 39.03
     y: 54.97
   }
@@ -909,6 +913,8 @@ forest = [
     id: 'thornbush-farm'
     original: '5447030525cce60000745e2a'
     description: 'Determine refugee peasant from ogre when defending the farm.'
+    nextLevels:
+      continue: 'a-fiery-trap'
     x: 44.09
     y: 57.75
   }
