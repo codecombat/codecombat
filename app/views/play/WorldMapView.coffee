@@ -104,7 +104,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    @highlightElement '.level.next', delay: 2000, duration: 60000, rotation: 0, sides: ['top'] unless window.currentModal
+    @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top'] unless window.currentModal
 
   onSessionsLoaded: (e) ->
     for session in @sessions.models

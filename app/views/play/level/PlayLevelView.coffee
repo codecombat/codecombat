@@ -258,7 +258,7 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   initScriptManager: ->
-    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session})
+    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session, levelID: @level.get('slug')})
     @scriptManager.loadFromSession()
 
   register: ->
