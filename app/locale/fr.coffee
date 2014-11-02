@@ -1040,7 +1040,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     candidate_years_experience: "Années d'expérience"
     candidate_last_updated: "Dernière mise à jour"
     candidate_who: "Qui"
-    featured_developers: "Nouveaux dévelopeurs"
+    featured_developers: "Nouveaux développeurs"
     other_developers: "Autres développeurs"
     inactive_developers: "Développeurs inactifs"
 
