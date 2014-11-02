@@ -76,8 +76,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_player_created_description: "... onde combates contra a criatividade dos teus colegas <a href=\"/contribute#artisan\">Feiticeiros Artesãos</a>."
     campaign_classic_algorithms: "Algoritmos Clássicos"
     campaign_classic_algorithms_description: "... onde aprendes os algoritmos mais populares da Ciência da Computação."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "Campanha da Floresta"
+    campaign_dungeon: "Campanha da Masmorra"
 
   login:
     sign_up: "Criar Conta"
@@ -228,7 +228,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
     hud_continue: "Continuar (shift-espaço)"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atalhos do Teclado"
@@ -242,7 +242,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     infinite_loop_comment_out: "Comentar o Meu Código"
     tip_toggle_play: "Alterna entre Jogar e Pausar com Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ rebobina e Ctrl+] avança."
-    tip_guide_exists: "Clica no Guia no topo da página para informações úteis."
+    tip_guide_exists: "Clica no guia, dentro do menu do jogo (no topo da página), para informações úteis."
     tip_open_source: "O CodeCombat é 100% open source!"
     tip_beta_launch: "O CodeCombat lançou o seu beta em outubro de 2013."
     tip_think_solution: "Pensa na solução, não no problema."
@@ -539,7 +539,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Completação do Nível"
-#    pop_i18n: "Populate I18N"
+    pop_i18n: "Propagar I18N"
 
   article:
     edit_btn_preview: "Pré-visualizar"
