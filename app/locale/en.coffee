@@ -176,7 +176,8 @@
 
   play_level:
     done: "Done"
-    home: "Home"
+    home: "Home"  # Not used any more, will be removed soon.
+    level: "Level"  # Like "Level: Dungeons of Kithgard"
     skip: "Skip"
     game_menu: "Game Menu"
     guide: "Guide"

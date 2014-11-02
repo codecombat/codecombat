@@ -48,10 +48,10 @@
     a.btn.settings(href='/account', data-i18n="[title]play.settings")
   
   if mapType === 'forest'
-    a.btn(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
+    a.btn.campaign-switch(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
       img(src="/images/pages/play/map_dungeon_icon.jpg").img-thumbnail
   if mapType === 'dungeon'
-    a.btn(href="/play/forest", data-i18n="[title]play.campaign_forest")
+    a.btn.campaign-switch(href="/play/forest", data-i18n="[title]play.campaign_forest")
       img(src="/images/pages/play/map_forest_icon.jpg").img-thumbnail
 
 .old-levels
