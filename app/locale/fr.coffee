@@ -1027,7 +1027,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    weeding_blurb: "Every player that we list has been screened for technical ability. We also perform phone screens for select candidates and make notes on their profiles to save you time."
 #    pass_screen: "They will pass your technical screen."
 #    pass_screen_blurb: "Review each candidate's code before reaching out. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News."
-    make_hiring_easier: "Faire mon embauche plus facile, se il vous plaît."
+    make_hiring_easier: "Faire de mon embauche plus facile, s'il vous plaît."
     what: "Qu'est-ce que CodeCombat?"
     what_blurb: "CodeCombat est un jeu de programmation multijoueur par navigateur. Les Joueurs écrivent le code pour contrôler leurs troupes dans des batailles contre d'autres développeurs. Nous prenons en charge JavaScript, Python, Lua, Clojure, CoffeeScript, et Io."
 #    cost: "How much do we charge?"
