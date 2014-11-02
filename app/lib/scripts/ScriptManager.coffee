@@ -43,6 +43,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     super(options)
     @originalScripts = options.scripts
     @session = options.session
+    @levelID = options.levelID
     @debugScripts = application.isIPadApp or CocoView.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
@@ -219,6 +220,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @notifyScriptStateChanged()
     @scriptInProgress = true
     @currentTimeouts = []
+    scriptLabel = "#{@levelID}: #{nextNoteGroup.scriptID} - #{nextNoteGroup.name}"
+    application.tracker?.trackEvent 'Script Started', {label: scriptLabel}, ['Google Analytics']
     console.debug "SCRIPT: Starting note group '#{nextNoteGroup.name}'" if @debugScripts
     for module in nextNoteGroup.modules
       @processNote(note, nextNoteGroup) for note in module.startNotes()
@@ -280,6 +283,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return if @ending # kill infinite loops right here
     @ending = true
     return unless @currentNoteGroup?
+    scriptLabel = "#{@levelID}: #{@currentNoteGroup.scriptID} - #{@currentNoteGroup.name}"
+    application.tracker?.trackEvent 'Script Ended', {label: scriptLabel}, ['Google Analytics']
     console.debug "SCRIPT: Ending note group '#{@currentNoteGroup.name}'" if @debugScripts
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules

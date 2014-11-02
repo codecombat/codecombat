@@ -76,6 +76,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_player_created_description: "... in welchem Du gegen die Kreativität eines <a href=\"/contribute#artisan\">Artisan Zauberers</a> kämpfst."
     campaign_classic_algorithms: "Klassiche Algorithmen"
     campaign_classic_algorithms_description: "... in welchem du die populärsten Algorithmen der Informatik lernst."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Registrieren"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_available_spells: "Verfügbare Zauber"
 #    tome_your_skills: "Your Skills"
     hud_continue: "Weiter (drücke Shift + Leertaste)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Überspringen (Esc)"
     keyboard_shortcuts: "Tastenkürzel"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Vorschau"

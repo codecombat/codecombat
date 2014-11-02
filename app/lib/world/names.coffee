@@ -177,6 +177,7 @@ module.exports.thangNames = thangNames =
     'Kog'
     'Ursa'
     'Ragtime'
+    'Blob'
   ]
   'Ogre Munchkin F': [
     'Iyert'
@@ -188,6 +189,7 @@ module.exports.thangNames = thangNames =
     'Inski'
     'Lacos'
     'Upfish'
+    'Hoot'
   ]
   'Ogre Peon M': [
     'Durbo'

@@ -258,7 +258,7 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   initScriptManager: ->
-    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session})
+    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session, levelID: @level.get('slug')})
     @scriptManager.loadFromSession()
 
   register: ->
@@ -655,7 +655,7 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Playing against ' + e.get('name')
     else
       console.error 'PlayLevelView onRealTimePlayerAdded session in unexpected state', @realTimeSession.get('state')
-  
+
   onRealTimeOpponentChanged: (e) =>
     # console.log 'PlayLevelView onRealTimeOpponentChanged', e
     switch @realTimeOpponent.get('state')

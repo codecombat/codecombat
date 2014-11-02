@@ -76,6 +76,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     campaign_player_created_description: "……徠箇搭爾好搭爾夥計造起來個賭打 <a href=\"/contribute#artisan\">技術相幫</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "註冊"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tome_available_spells: "好用個法術"
 #    tome_your_skills: "Your Skills"
     hud_continue: "接落去（捺 Shift-空格）"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "跳過去（Esc）"
 #    keyboard_shortcuts: "Key Shortcuts"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "試望"

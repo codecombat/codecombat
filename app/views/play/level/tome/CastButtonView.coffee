@@ -82,8 +82,11 @@ module.exports = class CastButtonView extends CocoView
     @updateCastButton()
 
   onNewGoalStates: (e) ->
-    @winnable = e.overallStatus is 'success'
+    winnable = e.overallStatus is 'success'
+    return if @winnable is winnable
+    @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
+    Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable
     if @winnable or (@hasCastOnce and @options.levelID isnt 'dungeons-of-kithgard')  # Show once 1) we think they will win or 2) they have hit “run” once. (Only #1 on the fist level.)
       @$el.find('.submit-button').show()  # In case we hid it, like on the first level.
 

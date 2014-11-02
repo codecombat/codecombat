@@ -76,6 +76,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     campaign_player_created_description: "... nos quais você batalhará contra a criatividade dos seus companheiros <a href=\"/contribute#artisan\">feiticeiros Artesãos</a>."
     campaign_classic_algorithms: "Algoritmos Clássicos"
     campaign_classic_algorithms_description: "...onde você aprende os algoritmos mais conhecidos em Ciência da Computação."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Criar conta"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
     hud_continue: "Continue (tecle Shift+Space)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Pular (esc)"
     keyboard_shortcuts: "Teclas de atalho"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Conclusão do Nível"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Prever"

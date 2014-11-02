@@ -115,3 +115,13 @@
   -webkit-flex-direction: column
   -ms-flex-direction: column
   -flex-direction: column
+
+@mixin scaleX($ratio)
+  -webkit-transform: scaleX($ratio)
+  -ms-transform: scaleX($ratio)
+  transform: scaleX($ratio)
+
+@mixin scaleXY($xRatio, $yRatio)
+  -webkit-transform: scaleX($xRatio) scaleY($yRatio)
+  -ms-transform: scaleX($xRatio) scaleY($yRatio)
+  transform: scaleX($xRatio) scaleY($yRatio)

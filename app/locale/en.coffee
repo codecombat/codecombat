@@ -176,7 +176,8 @@
 
   play_level:
     done: "Done"
-    home: "Home"
+    home: "Home"  # Not used any more, will be removed soon.
+    level: "Level"  # Like "Level: Dungeons of Kithgard"
     skip: "Skip"
     game_menu: "Game Menu"
     guide: "Guide"
@@ -228,6 +229,7 @@
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     hud_continue: "Continue (shift+space)"
+    hud_continue_short: "Continue"
     code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"

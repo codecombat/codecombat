@@ -76,6 +76,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     campaign_classic_algorithms: "Algorítmos Clásicos"
     campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares en las Ciencias de la Computación."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Crear Cuenta"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     tome_available_spells: "Hechizos Disponibles"
     tome_your_skills: "Tus habilidades"
     hud_continue: "Continuar (presionar shift+space)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Vista previa"

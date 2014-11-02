@@ -76,6 +76,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_player_created_description: "... Dans laquelle vous serez confrontés à la créativité des votres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Algorithmes classiques"
     campaign_classic_algorithms_description: "... dans lesquels vous apprendrez les algorithmes les plus populaires dans l'informatique."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Créer un compte"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_available_spells: "Sorts diponibles"
     tome_your_skills: "Vos compétences"
     hud_continue: "Continuer (appuie sur shift ou espace)"
+#    hud_continue_short: "Continue"
     code_saved: "Code Sauvergardé"
     skip_tutorial: "Passer (esc)"
     keyboard_shortcuts: "Raccourcis Clavier"
@@ -434,7 +437,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    single_scrub_playback: "Scrub back and forward through time by a single frame."
 #    scrub_execution: "Scrub through current spell execution."
 #    toggle_debug: "Toggle debug display."
-#    toggle_grid: "Toggle grid overlay"
+#    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Embellissez votre code en normalisant sa mise en forme."
     maximize_editor: "Maximiser/minimiser l'éditeur de code."
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Prévisualiser"
@@ -682,17 +686,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
 #  user:
 #    stats: "Stats"
-    singleplayer_title: "Niveaux solo"
-    multiplayer_title: "Niveaux multijoueurs"
-    achievements_title: "Succès"
-    last_played: "Dernièrement joué"
+#    singleplayer_title: "Singleplayer Levels"
+#    multiplayer_title: "Multiplayer Levels"
+#    achievements_title: "Achievements"
+#    last_played: "Last Played"
 #    status: "Status"
-    status_completed: "Terminé"
-    status_unfinished: "Non terminé"
-    no_singleplayer: "Aucunes parties solo encore jouées."
-    no_multiplayer: "Aucunes parties multijoueurs encore jouées."
-    no_achievements: "Aucuns succès encore remportés."
-    favorite_prefix: "Langage favori : "
+#    status_completed: "Completed"
+#    status_unfinished: "Unfinished"
+#    no_singleplayer: "No Singleplayer games played yet."
+#    no_multiplayer: "No Multiplayer games played yet."
+#    no_achievements: "No Achievements earned yet."
+#    favorite_prefix: "Favorite language is "
 #    favorite_postfix: "."
 
   achievements:
@@ -712,8 +716,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    left_xp_postfix: ""
 
 #  account:
-    recently_played: "Joué récemment"
-    no_recent_games: "Aucuns jeux joués au cours des deux dernières semaines."
+#    recently_played: "Recently Played"
+#    no_recent_games: "No games played during the past two weeks."
 
   loading_error:
     could_not_load: "Erreur de chargement du serveur"

@@ -6,6 +6,8 @@
   height: 30px
   position: relative
   background: #383434
+  // Counteract 50px height of absolutely positioned control bar.
+  margin-top: 50px
 
   button
     height: 26px
@@ -134,3 +136,7 @@
         margin-right: -11px
         // Don't load jQuery UI background image here
         background: transparent none
+
+body.ipad #playback-view
+  #playback-settings
+    display: none

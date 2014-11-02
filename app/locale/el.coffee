@@ -76,6 +76,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     campaign_player_created_description: "... στην οποία μάχεστε ενάντια στην δημιουργικότητα των συναδέλφων <a href=\"/contribute#artisan\">Τεχνιτών Μάγων</a>."
     campaign_classic_algorithms: "Κλασσικοί Αλγόριθμοι"
     campaign_classic_algorithms_description: "... στο οποίο μαθαίνετε του πιο δημοφιλής αλγορίθμους της Επιστήμης της Πληροφορικής."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Δημιουργία Λογαριασμού"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    tome_available_spells: "Available Spells"
 #    tome_your_skills: "Your Skills"
 #    hud_continue: "Continue (shift+space)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
@@ -239,7 +242,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    infinite_loop_comment_out: "Comment Out My Code"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
-#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
 #    tip_open_source: "CodeCombat is 100% open source!"
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_think_solution: "Think of the solution, not the problem."
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
 #  article:
 #    edit_btn_preview: "Preview"

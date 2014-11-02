@@ -76,6 +76,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     campaign_player_created_description: "<a href=\"/contribute#artisan\">Zanaatkâr Büyücüler</a>in yaratıcılıklarına karşı mücadele etmek için..."
     campaign_classic_algorithms: "Klasik Algoritmalar"
     campaign_classic_algorithms_description: "... Bilgisayar Bilimleri'nde öğrendiğiniz en yaygın algoritmalar."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Hesap Oluştur"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_available_spells: "Kullanılabilir Büyüler"
     tome_your_skills: "Yetenekleriniz"
     hud_continue: "Devam (ÜstKarakter+Boşluk)"
+#    hud_continue_short: "Continue"
     code_saved: "Kod Kaydedildi"
     skip_tutorial: "Atla (ESC)"
     keyboard_shortcuts: "Klavye Kısayolları"
@@ -239,7 +242,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     infinite_loop_comment_out: "Kodumu Yorum Yap"
     tip_toggle_play: "Ctrl+P ile oynat/beklet."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
-#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat %100 açık kaynaktır!"
     tip_beta_launch: "CodeCombat ilk beta sürümünü Ekim 2013'te başlattı."
 #    tip_think_solution: "Think of the solution, not the problem."
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Önizleme"

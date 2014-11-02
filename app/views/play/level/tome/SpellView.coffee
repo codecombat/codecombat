@@ -868,6 +868,7 @@ module.exports = class SpellView extends CocoView
 
 
 requiredCodePerLevel =
+  'dungeons-of-kithgard': ['moveRight']
   'true-names': ['Brak']
   'the-first-kithmaze': ['loop']
   'lowly-kithmen': ['findNearestEnemy']

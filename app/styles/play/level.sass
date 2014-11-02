@@ -58,6 +58,7 @@ $level-resize-transition-time: 0.5s
     position: relative
 
   #canvas-wrapper
+    top: 50px
     width: 55%
     position: relative
     overflow: hidden
@@ -231,32 +232,12 @@ html.fullscreen-editor
       right: 0
 
 body.ipad #level-view
-  // Full-width Surface, preserving aspect ratio.
-  height: 1024px * (589 / 924)
+  // Full-width Surface, preserving aspect ratio, with space for control bar.
+  height: 1024px * (589 / 924) + 50px
   overflow: hidden
 
   #code-area, .footer, #thang-hud
     display: none
-
-  #control-bar-view
-    position: absolute
-    background: transparent
-    z-index: 1
-
-    .home
-      i
-        @include opacity(1)
-      .home-text
-        display: none
-
-    .title
-      left: 20%
-      width: 60%
-      text-align: center
-      color: white
-
-      a, .editor-dash
-        display: none
 
   #goals-view
     left: 40px
@@ -268,7 +249,6 @@ body.ipad #level-view
     background-color: transparent
     z-index: 3
     bottom: 30px
-    margin-bottom: -30px
 
     button
       background-color: #333

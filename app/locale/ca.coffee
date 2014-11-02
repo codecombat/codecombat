@@ -76,6 +76,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     campaign_player_created_description: "... on lluites contra la creativitat dels teus companys <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Algoritmes classics"
     campaign_classic_algorithms_description: "... on pots aprendre els algoritmes més populars de l'informàtica."
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Crear un compte"
@@ -226,6 +228,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tome_available_spells: "Available Spells"
     tome_your_skills: "Les teves habilitats"
     hud_continue: "Continuar (shift+espai)"
+#    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
 #    skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Dreceres del teclat"
@@ -239,7 +242,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    infinite_loop_comment_out: "Comment Out My Code"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
-#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
 #    tip_open_source: "CodeCombat is 100% open source!"
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_think_solution: "Pensa en la solució,no en el problema."
@@ -536,6 +539,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
+#    pop_i18n: "Populate I18N"
 
   article:
     edit_btn_preview: "Vista previa"
