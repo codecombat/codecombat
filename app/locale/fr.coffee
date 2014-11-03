@@ -184,7 +184,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     goals: "Objectifs"
     goal: "Objectif"
     success: "Succès"
-    incomplete: "Imcoplet"
+    incomplete: "Incomplet"
     timed_out: "Plus de temps"
     failing: "Echec"
     action_timeline: "Action sur la ligne de temps"
