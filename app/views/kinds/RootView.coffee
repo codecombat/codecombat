@@ -43,6 +43,7 @@ module.exports = class RootView extends CocoView
         success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
 
   logoutAccount: ->
+    Backbone.Mediator.publish("auth:logging-out")
     window.tracker?.trackEvent 'Homepage', Action: 'Log Out' if @id is 'home-view'
     logoutUser($('#login-email').val())
 
