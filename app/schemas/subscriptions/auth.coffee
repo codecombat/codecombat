@@ -7,6 +7,8 @@ module.exports =
   'auth:facebook-api-loaded': c.object {}
 
   'auth:logging-in-with-facebook': c.object {}
+  
+  'auth:logging-out': c.object {}
 
   'auth:logged-in-with-facebook': c.object {title: 'Facebook logged in', description: 'Published when you successfully logged in with Facebook', required: ['response']},
     response:
