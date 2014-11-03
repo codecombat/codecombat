@@ -8,11 +8,12 @@ application  = require 'application'
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
   template: template
-  mode: 'login' # or 'signup'
+  mode: 'signup' # or 'login'
 
   events:
     # login buttons
     'click #switch-to-signup-button': 'onSignupInstead'
+    'click #switch-to-login-button': 'onLoginInstead'
     'click #confirm-age': 'checkAge'
     'click #github-login-button': 'onGitHubLoginClicked'
     'submit': 'onSubmitForm' # handles both submit buttons
@@ -47,6 +48,12 @@ module.exports = class AuthModal extends ModalView
 
   onSignupInstead: (e) ->
     @mode = 'signup'
+    @previousFormInputs = forms.formToObject @$el
+    @render()
+    _.delay application.router.renderLoginButtons, 500
+
+  onLoginInstead: (e) ->
+    @mode = 'login'
     @previousFormInputs = forms.formToObject @$el
     @render()
     _.delay application.router.renderLoginButtons, 500

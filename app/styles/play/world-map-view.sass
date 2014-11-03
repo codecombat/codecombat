@@ -245,7 +245,7 @@ $gameControlMargin: 30px
 
   .old-levels
     position: absolute
-    bottom: 1%
+    bottom: 5%
     left: 1%
     z-index: 3
 
@@ -261,9 +261,7 @@ $gameControlMargin: 30px
   .user-status
     position: absolute
     bottom: 1%
-    left: 50%
-    width: 400px
-    margin-left: -200px
+    left: 1%
     text-align: center
     font-size: 24px
     color: white
@@ -302,10 +300,10 @@ body:not(.ipad) #world-map-view
   .level-info-container
     pointer-events: none
 
-  .old-levels
-    display: none
-
 body.ipad #world-map-view
   // iPad only supports up to Kithgard Gates for now.
   .campaign-switch
+    display: none
+
+  .old-levels
     display: none

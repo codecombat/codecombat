@@ -148,7 +148,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   onGPlusAPILoaded: =>
     @renderLoginButtons()
-    
+
   initializeSocialMediaServices: ->
     return if application.testing or application.demoing
     services = [
@@ -162,7 +162,7 @@ module.exports = class CocoRouter extends Backbone.Router
       service = require service
       service()
 
-  renderLoginButtons: ->
+  renderLoginButtons: =>
     @initializeSocialMediaServices()
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
     setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like
