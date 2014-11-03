@@ -56,8 +56,9 @@ block modal-body-content
       else
         input.btn.btn-info.btn-large#login-button(value=translate("login.log_in"), type="submit")
         .btn.btn-default.btn-large#switch-to-signup-button(data-i18n="login.sign_up") Create Account
-    if mode === 'signup'
+    else if mode === 'signup'
       input.btn.btn-info.btn-large#signup-button(value=translate("signup.sign_up"), type="submit")
+      .btn.btn-default.btn-large#switch-to-login-button(data-i18n="login.log_in")
 
 
 block modal-body-wait-content
