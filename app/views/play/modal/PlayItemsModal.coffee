@@ -91,7 +91,6 @@ module.exports = class PlayItemsModal extends ModalView
       model.silhouetted = model.isSilhouettedItem()
       model.equippable = 'Warrior' in model.getAllowedHeroClasses()  # Temp: while there are no wizards/rangers
       model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats  # Temp: while there are placeholder items
-      console.log model.name, 'is comingSoon?', model.comingSoon, model.getFrontFacingStats()
       @idToItem[model.id] = model
 
     if needMore
@@ -110,8 +109,6 @@ module.exports = class PlayItemsModal extends ModalView
     super()
     return unless @supermodel.finished()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
-    @$el.find('.modal-dialog').css({width: "1230px", height: "660px", background: 'none'})
-    @$el.find('.background-wrapper').css({'background', 'none'})
     @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
