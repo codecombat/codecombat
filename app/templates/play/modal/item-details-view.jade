@@ -25,5 +25,10 @@
             span.spr :
             span!= prop.description
 
+     if item.comingSoon
+       .text-center
+         h3 This item has no stats.
+         p Only admins will see it for now.
+
 if item && !item.owned
   button#selected-item-unlock-button.btn.big-font.unlock-button(disabled=!item.affordable, data-item-id=item.id, data-i18n="play.unlock") Unlock

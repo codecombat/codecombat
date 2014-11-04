@@ -24,7 +24,8 @@
           .nano
             .nano-content
               for item in itemCategoryCollections[category].models
-                .item(data-item-id=item.id)
+                - var hidden = item.comingSoon && !me.isAdmin()
+                div(class="item" + (hidden ? " hide" : ""), data-item-id=item.id)
                   if item.silhouetted && !item.owned
                     span.glyphicon.glyphicon-lock.bolder
                     span.glyphicon.glyphicon-lock

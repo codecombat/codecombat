@@ -19,6 +19,8 @@ module.exports = class ThangType extends CocoModel
     'robot-walker': '5301696ad82649ec2c0c9b0d'
     'michael-heasell': '53e126a4e06b897606d38bef'
     'ian-elliott': '53e12be0d042f23505c3023b'
+  @items:
+    'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
   building: {}
 
@@ -339,7 +341,7 @@ module.exports = class ThangType extends CocoModel
       shieldDefenseFactor: 'blocks'
       visualRange: 'range'
     }[name]
-    
+
     if i18nKey
       name = $.i18n.t 'choose_hero.' + i18nKey
     else

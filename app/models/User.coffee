@@ -2,6 +2,7 @@ GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
 util = require 'lib/utils'
+ThangType = require './ThangType'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -72,7 +73,7 @@ module.exports = class User extends CocoModel
     gemsEarned + gemsPurchased - gemsSpent
 
   heroes: -> (me.get('earned')?.heroes ? []).concat(me.get('purchased')?.heroes ? [])
-  items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? [])
+  items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? [])
   ownsHero: (heroOriginal) -> heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()

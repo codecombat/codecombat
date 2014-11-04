@@ -90,6 +90,8 @@ module.exports = class PlayItemsModal extends ModalView
       model.owned = me.ownsItem model.get('original')
       model.silhouetted = model.isSilhouettedItem()
       model.equippable = 'Warrior' in model.getAllowedHeroClasses()  # Temp: while there are no wizards/rangers
+      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats  # Temp: while there are placeholder items
+      console.log model.name, 'is comingSoon?', model.comingSoon, model.getFrontFacingStats()
       @idToItem[model.id] = model
 
     if needMore
