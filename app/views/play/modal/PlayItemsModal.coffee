@@ -55,7 +55,7 @@ module.exports = class PlayItemsModal extends ModalView
     me.set('spent', 0)
     @items = new Backbone.Collection()
     @itemCategoryCollections = {}
-    
+
     project = [
       'name'
       'components.config'
@@ -65,8 +65,9 @@ module.exports = class PlayItemsModal extends ModalView
       'rasterIcon'
       'gems'
       'i18n'
+      'heroClass'
     ]
-    
+
     itemFetcher = new CocoCollection([], { url: '/db/thang.type?view=items', project: project, model: ThangType })
     itemFetcher.skip = 0
     itemFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
@@ -88,12 +89,13 @@ module.exports = class PlayItemsModal extends ModalView
       model.affordable = cost <= gemsOwned
       model.owned = me.ownsItem model.get('original')
       model.silhouetted = model.isSilhouettedItem()
+      model.equippable = 'Warrior' in model.getAllowedHeroClasses()  # Temp: while there are no wizards/rangers
       @idToItem[model.id] = model
 
     if needMore
       itemFetcher.skip += PAGE_SIZE
       itemFetcher.fetch({data: {skip: itemFetcher.skip, limit: PAGE_SIZE}})
-      
+
   getRenderData: (context={}) ->
     context = super(context)
     context.itemCategoryCollections = @itemCategoryCollections
@@ -116,9 +118,9 @@ module.exports = class PlayItemsModal extends ModalView
     super()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
-    
+
   #- Click events
-    
+
   onItemClicked: (e) ->
     return if $(e.target).closest('.unlock-button').length
     itemEl = $(e.target).closest('.item')
@@ -133,7 +135,7 @@ module.exports = class PlayItemsModal extends ModalView
       else
         itemEl.addClass('selected') unless wasSelected
     @itemDetailsView.setItem(item)
-    
+
   onTabClicked: (e) ->
     $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
 
@@ -143,7 +145,7 @@ module.exports = class PlayItemsModal extends ModalView
       item = @idToItem[$(e.target).data('item-id')]
       purchase = Purchase.makeFor(item)
       purchase.save()
-      
+
       #- set local changes to mimic what should happen on the server...
       purchased = me.get('purchased') ? {}
       purchased.items ?= []
@@ -151,7 +153,7 @@ module.exports = class PlayItemsModal extends ModalView
       item.owned = true
       me.set('purchased', purchased)
       me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
-      
+
       #- ...then rerender key bits
       @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
       @itemDetailsView.render()
@@ -159,24 +161,24 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
-    
+
 class ItemDetailsView extends CocoView
   id: "item-details-view"
   template: itemDetailsTemplate
-  
+
   constructor: ->
     super(arguments...)
     @propDocs = {}
-  
-  setItem: (@item) -> 
+
+  setItem: (@item) ->
     @render()
-    
+
     if @item
       stats = @item.getFrontFacingStats()
       props = (p for p in stats.props when not @propDocs[p])
       return if props.length is 0
-      
-      docs = new CocoCollection([], { 
+
+      docs = new CocoCollection([], {
         url: '/db/level.component?view=prop-doc-lookup'
         model: LevelComponent
         project: [
@@ -197,7 +199,7 @@ class ItemDetailsView extends CocoView
       for propDoc in component.get('propertyDocumentation')
         @propDocs[propDoc.name] = propDoc
     @render()
-  
+
   getRenderData: ->
     c = super()
     c.item = @item
@@ -209,7 +211,7 @@ class ItemDetailsView extends CocoView
       progLang = (me.get('aceConfig') ? {}).language or 'python'
       for prop in stats.props
         description = utils.i18n @propDocs[prop] ? {}, 'description'
-        
+
         if _.isObject description
           description = description[progLang] or _.values(description)[0]
         if _.isString description
@@ -217,7 +219,7 @@ class ItemDetailsView extends CocoView
           if fact = stats.stats.shieldDefenseFactor
             description = description.replace(/#{shieldDefensePercent}%/g, fact.display)
           description = $(marked(description)).html()
-          
+
         c.props.push {
           name: prop
           description: description or '...'
