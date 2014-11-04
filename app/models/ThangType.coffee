@@ -2,6 +2,8 @@ CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
 
+utils = require 'lib/utils'
+
 buildQueue = []
 
 module.exports = class ThangType extends CocoModel
@@ -17,6 +19,8 @@ module.exports = class ThangType extends CocoModel
     'robot-walker': '5301696ad82649ec2c0c9b0d'
     'michael-heasell': '53e126a4e06b897606d38bef'
     'ian-elliott': '53e12be0d042f23505c3023b'
+  @items:
+    'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
   building: {}
 
@@ -328,14 +332,30 @@ module.exports = class ThangType extends CocoModel
     props: props, stats: stats
 
   formatStatDisplay: (name, modifiers) ->
-    name = {maxHealth: 'Health', maxSpeed: 'Speed', healthReplenishRate: 'Regeneration'}[name] ? name
-    name = _.string.humanize name
+    i18nKey = {
+      maxHealth: 'health'
+      maxSpeed: 'speed'
+      healthReplenishRate: 'regeneration'
+      attackDamage: 'attack'
+      attackRange: 'range'
+      shieldDefenseFactor: 'blocks'
+      visualRange: 'range'
+    }[name]
+
+    if i18nKey
+      name = $.i18n.t 'choose_hero.' + i18nKey
+    else
+      name = _.string.humanize name
+
     format = ''
-    format = 'm' if /(range|radius|distance)$/i.test name
+    format = 'm' if /(range|radius|distance|vision)$/i.test name
     format ||= 's' if /cooldown$/i.test name
     format ||= 'm/s' if /speed$/i.test name
     format ||= '/s' if /(regeneration| rate)$/i.test name
     value = modifiers.setTo
+    if /(blocks)$/i.test name
+      format ||= '%'
+      value = (value*100).toFixed(1)
     value = value.join ', ' if _.isArray value
     display = []
     display.push "#{value}#{format}" if value?

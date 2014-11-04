@@ -33,8 +33,8 @@
         button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
 
 .game-controls.header-font
+  button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   if me.isAdmin()
-    button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
     button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
     button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
   if me.isAdmin()

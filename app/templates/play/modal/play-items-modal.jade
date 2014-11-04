@@ -1,17 +1,54 @@
-extends /templates/modal/modal_base
-
-block modal-header-content
-  h3(data-i18n="play.items") Items
-
-block modal-body-content
-  ul.nav.nav-tabs
-    for slotGroup, index in slotGroupsArray
-      li(class=index ? "" : "active")
-        a(href="#slot-group-" + slotGroup, data-toggle="tab")
-          span= slotGroupsNames[index]
-  .tab-content
-    for slotGroup, index in slotGroupsArray
-      .tab-pane(id="slot-group-" + slotGroup, class=index ? "" : "active")
-        h3 buy some #{slotGroupsNames[index]} yo:
-        for item in slotGroups[slotGroup]
-          .replace-me(data-item-id=item.id)
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/play-items-modal-background.png")#play-items-modal-bg
+    img(src="/images/pages/play/modal/play-items-modal-background-narrow.png")#play-items-modal-narrow-bg
+    
+    h1.big-font(data-i18n="play.items")
+    
+    div#gems-count-container
+      span#gems-count.big-font= gems
+    
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+    
+    ul.nav.nav-pills.nav-stacked
+      for category, index in itemCategories
+        li(class=index ? "" : "active")
+          a.one-line(href="#item-category-" + category, data-toggle="tab")
+            img.tab-icon(src="/images/pages/play/modal/play-items-modal-tab-icon-"+category+".png")
+            span.big-font= itemCategoryNames[index]
+    
+    
+    .tab-content
+      for category, index in itemCategories
+        .tab-pane(id="item-category-" + category, class=index ? "" : "active")
+          .nano
+            .nano-content
+              for item in itemCategoryCollections[category].models
+                - var hidden = item.comingSoon && !me.isAdmin()
+                div(class="item" + (hidden ? " hide" : ""), data-item-id=item.id)
+                  if item.silhouetted && !item.owned
+                    span.glyphicon.glyphicon-lock.bolder
+                    span.glyphicon.glyphicon-lock
+                    img.item-silhouette(src=item.getPortraitURL())
+                  else
+                    strong.big-font= item.name
+                    img.item-img(src=item.getPortraitURL())
+                    img.item-shadow(src=item.getPortraitURL())
+                  
+                  if item.owned
+                    span.big-font.owned(data-i18n="play.owned")
+                  else if item.silhouetted
+                    span.big-font.locked(data-i18n="play.locked")
+                  else
+                    span.cost
+                      img(src="/images/common/gem.png")
+                      span.big-font= item.get('gems')
+                    if item.equippable
+                      // Temp, while we only have Warriors: prevent them from buying non-Warrior stuff
+                      button.btn.unlock-button.big-font(data-i18n="play.unlock", disabled=!item.affordable, data-item-id=item.id)
+                    else
+                      span.big-font.unequippable= item.get('heroClass')
+              .clearfix
+              
+    #item-details-view

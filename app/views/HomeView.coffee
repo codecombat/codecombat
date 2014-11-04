@@ -3,6 +3,7 @@ template = require 'templates/home'
 WizardLank = require 'lib/surface/WizardLank'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
+
 {me} = require '/lib/auth'
 
 module.exports = class HomeView extends RootView

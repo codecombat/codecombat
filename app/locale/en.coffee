@@ -51,6 +51,11 @@
     players: "players"  # Hover over a level on /play
     hours_played: "hours played"  # Hover over a level on /play
     items: "Items"  # Tooltip on item shop button from /play
+    unlock: "Unlock" # For purchasing items and heroes
+    confirm: "Confirm"
+    owned: "Owned" # For items you own
+    locked: "Locked"
+    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
     achievements: "Achievements"  # Tooltip on achievement list button from /play
     account: "Account"  # Tooltip on account button from /play
@@ -104,11 +109,12 @@
     recovery_sent: "Recovery email sent."
 
   items:
+    primary: "Primary"
+    secondary: "Secondary"
     armor: "Armor"
-    hands: "Hands"
     accessories: "Accessories"
-    minions: "Minions"
     misc: "Misc"
+    books: "Books"
 
   common:
     loading: "Loading..."
@@ -306,6 +312,9 @@
     attack: "Damage"  # Can also translate as "Attack"
     health: "Health"
     speed: "Speed"
+    regeneration: "Regeneration"
+    range: "Range" # As in "attack or visual range"
+    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Skills"
 
   save_load:

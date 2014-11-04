@@ -36,7 +36,7 @@ module.exports = class ChooseHeroView extends CocoView
   getRenderData: (context={}) ->
     context = super(context)
     context.heroes = @heroes.models
-    hero.locked = temporaryHeroInfo[hero.get('slug')].status is 'Locked' and not me.earnedHero hero.get('original') for hero in context.heroes
+    hero.locked = temporaryHeroInfo[hero.get('slug')].status is 'Locked' and not me.ownsHero hero.get('original') for hero in context.heroes
     context.level = @options.level
     context.codeLanguages = [
       {id: 'python', name: 'Python (Default)'}
@@ -79,7 +79,7 @@ module.exports = class ChooseHeroView extends CocoView
       size = 100 - (50 / 3) * distance
       $(@).css width: size, height: size, top: -(100 - size) / 2
     heroInfo = temporaryHeroInfo[hero.get('slug')]
-    locked = heroInfo.status is 'Locked' and not me.earnedHero ThangType.heroes[hero.get('slug')]
+    locked = heroInfo.status is 'Locked' and not me.ownsHero ThangType.heroes[hero.get('slug')]
     hero = @loadHero hero, heroIndex
     @preloadHero heroIndex + 1
     @preloadHero heroIndex - 1
