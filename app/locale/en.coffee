@@ -296,6 +296,11 @@
 
   inventory:
     choose_inventory: "Equip Items"
+    equipped_item: "Equipped"
+    available_item: "Available"
+    should_equip: "(double-click to equip)"
+    equipped: "(equipped)"
+    locked: "(locked)"
 
   choose_hero:
     choose_hero: "Choose Your Hero"
