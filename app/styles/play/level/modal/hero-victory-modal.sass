@@ -227,3 +227,9 @@ html.no-borderimage
       padding-bottom: 0
     .modal-footer
       bottom: 20px
+
+body.ipad
+  #hero-victory-modal
+    // This animation is slow and wigs out on iPad and very old computers.
+    .xp .pulse, .gems .pulse
+      @include animation(none)
