@@ -101,7 +101,7 @@ module.exports = class LevelGoalsView extends CocoView
     return if expand is @expanded
     @updateHeight()
     sound = if expand then 'goals-expand' else 'goals-collapse'
-    top = if expand then -10 else 26 - (@normalHeight ? @$el.outerHeight())
+    top = if expand then -5 else 36 - (@normalHeight ? @$el.outerHeight())
     @$el.css 'top', top
     if @soundTimeout
       # Don't play the sound we were going to play after all; the transition has reversed.
