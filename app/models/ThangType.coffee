@@ -304,6 +304,31 @@ module.exports = class ThangType extends CocoModel
     return [heroClass] if heroClass = @get 'heroClass'
     ['Warrior', 'Ranger', 'Wizard']
 
+  getHeroStats: ->
+    return unless heroClass = @get('heroClass')
+    
+    return switch heroClass
+      when 'Warrior' then {
+        attack: 0.8
+        health: 0.85
+        speed: 0.6
+        skills: []
+      }
+
+      when 'Ranger' then {
+        attack: 0.6
+        health: 0.7
+        speed: 0.8
+        skills: []
+      }
+        
+      when 'Wizard' then {
+        attack: 0.5
+        health: 0.45
+        speed: 0.25
+        skills: []
+      }
+    
   getFrontFacingStats: ->
     components = @get('components') or []
     unless itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
