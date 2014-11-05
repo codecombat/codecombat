@@ -99,6 +99,7 @@ module.exports = class SpellView extends CocoView
     @ace.setShowInvisibles aceConfig.invisibles
     @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
+    @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
