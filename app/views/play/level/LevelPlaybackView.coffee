@@ -17,7 +17,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'level:scrub-forward': 'onScrubForward'
     'level:scrub-back': 'onScrubBack'
     'level:set-volume': 'onSetVolume'
-    'level:set-debug': 'onSetDebug'
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
@@ -28,10 +27,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
 
   events:
-    'click #debug-toggle': 'onToggleDebug'
-    'click #edit-wizard-settings': 'onEditWizardSettings'
-    'click #edit-editor-config': 'onEditEditorConfig'
-    'click #view-keyboard-shortcuts': 'onViewKeyboardShortcuts'
     'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
     'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
@@ -51,59 +46,6 @@ module.exports = class LevelPlaybackView extends CocoView
     '⌘+⇧+[, ctrl+⇧+[': 'onSingleScrubBack'
     '⌘+], ctrl+]': 'onScrubForward'
     '⌘+⇧+], ctrl+⇧+]': 'onSingleScrubForward'
-
-  # popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
-  # Could make this into a jQuery plugins itself theoretically.
-  class HoverPopup extends $.fn.popover.Constructor
-    constructor: () ->
-      @enabled = true
-      @shown = false
-      @type = 'HoverPopup'
-      @options =
-        placement: 'top'
-        container: 'body'
-        animation: true
-        html: true
-        delay:
-          show: 400
-      @$element = $('#timeProgress')
-      @$tip = $('#timePopover')
-
-      @content = ''
-
-    getContent: -> @content
-
-    show: ->
-      unless @shown
-        super()
-        @shown = true
-
-    updateContent: (@content) ->
-      @setContent()
-      @$tip.addClass('fade top in')
-
-    onHover: (@e) ->
-      pos = @getPosition()
-      actualWidth  = @$tip[0].offsetWidth
-      actualHeight = @$tip[0].offsetHeight
-      calculatedOffset =
-        top: pos.top - actualHeight
-        left: pos.left + pos.width / 2 - actualWidth / 2
-      this.applyPlacement(calculatedOffset, 'top')
-
-    getPosition: ->
-      top: @$element.offset().top
-      left: if @e? then @e.pageX else @$element.offset().left
-      height: 0
-      width: 0
-
-    hide: ->
-      super()
-      @shown = false
-
-    disable: ->
-      super()
-      @hide()
 
   constructor: ->
     super(arguments...)
@@ -191,20 +133,6 @@ module.exports = class LevelPlaybackView extends CocoView
     @newTime = 0
     @currentTime = 0
     @lastLoadedFrameCount = loadedFrameCount
-
-  onToggleDebug: ->
-    return if @shouldIgnore()
-    flag = $('#debug-toggle i.icon-ok')
-    Backbone.Mediator.publish('level:set-debug', {debug: flag.hasClass('invisible')})
-
-  onEditWizardSettings: ->
-    Backbone.Mediator.publish 'level:edit-wizard-settings', {}
-
-  onEditEditorConfig: ->
-    @openModalView new EditorConfigModal session: @options.session
-
-  onViewKeyboardShortcuts: ->
-    @openModalView new KeyboardShortcutsModal()
 
   onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
@@ -340,10 +268,6 @@ module.exports = class LevelPlaybackView extends CocoView
     Backbone.Mediator.publish 'level:set-letterbox', on: false
     Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
 
-  onSetDebug: (e) ->
-    flag = $('#debug-toggle i.icon-ok')
-    flag.toggleClass 'invisible', not e.debug
-
   # to refactor
 
   hookUpScrubber: ->
@@ -423,3 +347,56 @@ module.exports = class LevelPlaybackView extends CocoView
     $(window).off('resize', @onWindowResize)
     @onWindowResize = null
     super()
+
+# popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
+# Could make this into a jQuery plugins itself theoretically.
+class HoverPopup extends $.fn.popover.Constructor
+  constructor: () ->
+    @enabled = true
+    @shown = false
+    @type = 'HoverPopup'
+    @options =
+      placement: 'top'
+      container: 'body'
+      animation: true
+      html: true
+      delay:
+        show: 400
+    @$element = $('#timeProgress')
+    @$tip = $('#timePopover')
+
+    @content = ''
+
+  getContent: -> @content
+
+  show: ->
+    unless @shown
+      super()
+      @shown = true
+
+  updateContent: (@content) ->
+    @setContent()
+    @$tip.addClass('fade top in')
+
+  onHover: (@e) ->
+    pos = @getPosition()
+    actualWidth  = @$tip[0].offsetWidth
+    actualHeight = @$tip[0].offsetHeight
+    calculatedOffset =
+      top: pos.top - actualHeight
+      left: pos.left + pos.width / 2 - actualWidth / 2
+    this.applyPlacement(calculatedOffset, 'top')
+
+  getPosition: ->
+    top: @$element.offset().top
+    left: if @e? then @e.pageX else @$element.offset().left
+    height: 0
+    width: 0
+
+  hide: ->
+    super()
+    @shown = false
+
+  disable: ->
+    super()
+    @hide()
