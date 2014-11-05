@@ -51,6 +51,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    skills_granted: "Skills Granted" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
@@ -104,11 +109,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送."
 
   items:
+#    primary: "Primary"
+#    secondary: "Secondary"
     armor: "盔甲"
-    hands: "手持"
     accessories: "配饰"
-    minions: "部下"
     misc: "辅助道具"
+#    books: "Books"
 
   common:
     loading: "读取中……"
@@ -176,7 +182,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_level:
     done: "完成"
-    home: "主页"
+    home: "主页" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "跳过"
     game_menu: "游戏菜单"
     guide: "指南"
@@ -289,6 +296,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   inventory:
     choose_inventory: "装备道具"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -305,6 +317,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    attack: "Damage" # Can also translate as "Attack"
     health: "健康值"
     speed: "速度"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
 
   save_load:

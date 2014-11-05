@@ -51,6 +51,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     players: "joueurs" # Hover over a level on /play
     hours_played: "heures jouées" # Hover over a level on /play
     items: "Objets" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Héros" # Tooltip on hero shop button from /play
     achievements: "Succès" # Tooltip on achievement list button from /play
     account: "Compte" # Tooltip on account button from /play
@@ -104,11 +109,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     recovery_sent: "Email de récupération envoyé"
 
   items:
+#    primary: "Primary"
+#    secondary: "Secondary"
     armor: "Armure"
-    hands: "Mains"
     accessories: "Accessoires"
-    minions: "Sbires"
     misc: "Divers"
+#    books: "Books"
 
   common:
     loading: "Chargement..."
@@ -176,7 +182,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play_level:
     done: "Fait"
-    home: "Accueil"
+    home: "Accueil" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Passer"
     game_menu: "Menu du jeu"
     guide: "Guide"
@@ -289,6 +296,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   inventory:
     choose_inventory: "Équiper des Objets"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
 
   choose_hero:
     choose_hero: "Choisissez votre Héro"
@@ -305,6 +317,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     attack: "Dégât" # Can also translate as "Attack"
     health: "Santé"
     speed: "Vitesse"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Compétences"
 
   save_load:

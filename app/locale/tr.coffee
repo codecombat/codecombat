@@ -51,6 +51,11 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     players: "oyuncu" # Hover over a level on /play
     hours_played: "saat oynandı" # Hover over a level on /play
     items: "Ögeler" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Kahramanlar" # Tooltip on hero shop button from /play
     achievements: "Başarımlar" # Tooltip on achievement list button from /play
     account: "Hesap" # Tooltip on account button from /play
@@ -104,11 +109,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     recovery_sent: "Kurtarma e-postası gönderildi."
 
   items:
+#    primary: "Primary"
+#    secondary: "Secondary"
     armor: "Zırh"
-    hands: "Eller"
     accessories: "Aksesuarlar"
-    minions: "Köleler"
     misc: "Çeşitli"
+#    books: "Books"
 
   common:
     loading: "Yükleniyor..."
@@ -176,7 +182,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   play_level:
     done: "Tamamdır"
-    home: "Anasayfa"
+    home: "Anasayfa" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Atla"
     game_menu: "Oyun Menüsü"
     guide: "Rehber"
@@ -289,6 +296,11 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   inventory:
     choose_inventory: "Ögeleri Donan"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
 
   choose_hero:
     choose_hero: "Kahramanınızı Seçin"
@@ -305,6 +317,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     attack: "Saldırı" # Can also translate as "Attack"
     health: "Sağlık"
     speed: "Hız"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Yetenekler"
 
   save_load:

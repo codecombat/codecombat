@@ -217,8 +217,8 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
     &.active
       background-color: #e0f0f5
 
-      .item-info:after
-        content: ' (available)'
+      .status-message .should-equip-message
+        display: inline
     
     &.should-equip
       background-color: #8fa
@@ -226,8 +226,8 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       @include box-shadow(4px 4px 6px black)
       z-index: 1
 
-      .item-info:after
-        content: ' (double-click to equip)'
+      .status-message .should-equip-message
+        display: inline
         font-weight: bold
       
     &.equipped
@@ -235,8 +235,9 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
 
       .item-view
         cursor: default
-      .item-info:after
-        content: ' (equipped)'
+
+      .status-message .equipped-message
+        display: inline
 
     &.locked
       background-image: url(/images/pages/game-menu/lock.png)
@@ -251,8 +252,8 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
           //@include filter(contrast(50%) brightness(65%))
           @include opacity(0.6)
   
-        .item-info:after
-          content: ' (locked)'
+        .status-message .locked-message
+          display: inline
 
       &.silhouette
         h4
@@ -261,7 +262,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
         h4:before
           content: '???'
           visibility: visible
-        .item-info:after
+        .item-view .status-message .locked-message
           display: none
         img
           @include filter(contrast(25%) brightness(25%))

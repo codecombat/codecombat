@@ -166,6 +166,7 @@ module.exports = class InventoryView extends CocoView
     @onSelectionChanged()
 
   onItemSlotClick: (e) ->
+    return if @remainingRequiredEquipment?.length  # Don't let them select a slot if we need them to first equip some require gear.
     slot = $(e.target).closest('.item-slot')
     wasActive = slot.hasClass('selected')
     @unselectAllSlots()
@@ -237,7 +238,9 @@ module.exports = class InventoryView extends CocoView
       if itemID is itemIDToUnequip
         unequipped = $(el).removeClass('equipped')
         break
-    @requireLevelEquipment() if unequipped
+    if unequipped
+      @clearSelection()
+      @requireLevelEquipment()
     return unequipped
 
   equipSelectedItemToSlot: (slot) ->

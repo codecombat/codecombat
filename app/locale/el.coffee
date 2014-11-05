@@ -51,6 +51,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     players: "παίκτες" # Hover over a level on /play
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
     items: "Αντικείμενα" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Ήρωες" # Tooltip on hero shop button from /play
     achievements: "Επιτεύγματα" # Tooltip on achievement list button from /play
     account: "Λογαριασμός" # Tooltip on account button from /play
@@ -104,11 +109,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     recovery_sent: "Email ανάκτησης στάλθηκε."
 
   items:
+#    primary: "Primary"
+#    secondary: "Secondary"
     armor: "Πανοπλία"
-    hands: "Χέρια"
     accessories: "Εξαρτήματα"
-    minions: "Minions"
     misc: "Διάφορα"
+#    books: "Books"
 
   common:
     loading: "Φορτώνει..."
@@ -176,7 +182,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   play_level:
     done: "Έτοιμο"
-    home: "Αρχική"
+    home: "Αρχική" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Παράλειψη"
     game_menu: "Μενού Παιχνιδιού"
     guide: "Οδηγός"
@@ -289,6 +296,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
 #  inventory:
 #    choose_inventory: "Equip Items"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -305,6 +317,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
 
 #  save_load:

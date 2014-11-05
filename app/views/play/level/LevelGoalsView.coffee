@@ -16,6 +16,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
+    'tome:cast-spells': 'onTomeCast'
     'level:set-letterbox': 'onSetLetterbox'
     'surface:playback-restarted': 'onSurfacePlaybackRestarted'
     'surface:playback-ended': 'onSurfacePlaybackEnded'
@@ -76,6 +77,11 @@ module.exports = class LevelGoalsView extends CocoView
       @lastSizeTweenTime = new Date()
     @updatePlacement()
 
+  onTomeCast: (e) ->
+    return if e.preload
+    @$el.find('.goal-status').addClass('secret')
+    @$el.find('.goal-status.running').removeClass('secret')
+
   onSurfacePlaybackRestarted: ->
     @playbackEnded = false
     @$el.removeClass 'brighter'
@@ -101,7 +107,7 @@ module.exports = class LevelGoalsView extends CocoView
     return if expand is @expanded
     @updateHeight()
     sound = if expand then 'goals-expand' else 'goals-collapse'
-    top = if expand then -5 else 36 - (@normalHeight ? @$el.outerHeight())
+    top = if expand then -5 else 41 - (@normalHeight ? @$el.outerHeight())
     @$el.css 'top', top
     if @soundTimeout
       # Don't play the sound we were going to play after all; the transition has reversed.
