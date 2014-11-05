@@ -86,6 +86,7 @@ module.exports = class WorldMapView extends RootView
       level.locked = index > 0 and not me.ownsLevel level.original
       window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
+      level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.practice
         level.color = 'rgb(80, 130, 200)' unless me.getBranchingGroup() is 'all-practice'

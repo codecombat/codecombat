@@ -305,30 +305,34 @@ module.exports = class ThangType extends CocoModel
     ['Warrior', 'Ranger', 'Wizard']
 
   getHeroStats: ->
+    # Translate from raw hero properties into appropriate display values for the ChooseHeroView.
+    # Adapted from https://docs.google.com/a/codecombat.com/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
     return unless heroClass = @get('heroClass')
-    
-    return switch heroClass
-      when 'Warrior' then {
-        attack: 0.8
-        health: 0.85
-        speed: 0.6
-        skills: []
-      }
+    components = @get('components') or []
+    unless equipsConfig = _.find(components, original: LevelComponent.EquipsID)?.config
+      return console.warn @get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)'
+    unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
+      return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
+    @classStatAverages ?=
+      attack: {Warrior: 7.5, Ranger: 5, Wizard: 2.5}
+      health: {Warrior: 7.5, Ranger: 5, Wizard: 3.5}
+    stats = {skills: []}  # TODO: find skills
+    rawNumbers = attack: equipsConfig.attackDamageFactor ? 1, health: equipsConfig.maxHealthFactor ? 1, speed: movesConfig.maxSpeed
+    for prop in ['attack', 'health']
+      stat = rawNumbers[prop]
+      if stat < 1
+        classSpecificScore = 10 - 5 / stat
+      else
+        classSpecificScore = stat * 5
+      classAverage = @classStatAverages[prop][@get('heroClass')]
+      stats[prop] = Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+    minSpeed = 4
+    maxSpeed = 16
+    speedRange = maxSpeed - minSpeed
+    speedPoints = rawNumbers.speed - minSpeed
+    stats.speed = Math.round(20 * speedPoints / speedRange) / 2 / 10
+    stats
 
-      when 'Ranger' then {
-        attack: 0.6
-        health: 0.7
-        speed: 0.8
-        skills: []
-      }
-        
-      when 'Wizard' then {
-        attack: 0.5
-        health: 0.45
-        speed: 0.25
-        skills: []
-      }
-    
   getFrontFacingStats: ->
     components = @get('components') or []
     unless itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
