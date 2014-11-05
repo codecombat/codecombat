@@ -1,47 +1,31 @@
-Skip to content
- This repository
-Explore
-Gist
-Blog
-Help
-mcaeiror mcaeiror
- 
-1  Unwatch 
-  Star 0
- Fork 1,216mcaeiror/codecombat
-forked from codecombat/codecombat
- branch: master  codecombat / app / locale / es-ES.coffee
-Nick Winternwinter 3 days ago Propagated i18n.
-17 contributors Nick WinterTitounkleGlen De CauwsemaeckerMichael SchmatzDanielDominik MaierDavid BeckleyVindurrinDominik KundelShrihariJeremy ArnsGuillermoAlexei Nikitinsikandar47Tay Yang ShunAirunedzPablo Lobato
-1070 lines (1026 sloc)  64.502 kb RawBlameHistory   
-module.exports = nativeDescription: "Galego (GL)", englishDescription: "Galician (Galicia)", translation:
+ module.exports = nativeDescription: "Galego (GL)", englishDescription: "Galician (Galicia)", translation:
   home:
     slogan: "Aprende a programar xogando"
-    no_ie: "CodeCombat non funciona en Internet Explorer 8 ou anteriores. ¡Sentímolo!" # Warning that only shows up in IE8 and older
+    no_ie: "CodeCombat non funciona en Internet Explorer 8 ou anteriores. Sentímolo!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat non foi deseñado para dispositivos móbiles e pode que non funcione!" # Warning that shows up on mobile devices
-    play: "Jugar" # The big play button that just starts playing a level
-    old_browser: "Ay, su navegador es demasiado viejo para ejecutar CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Lo puede intentar de todos modos, pero probablemente no va a funcionar."
+    play: "Xogar" # The big play button that just starts playing a level
+    old_browser: "Vaia, o seu navegador é demasiado vello para executar CodeCombat. Sentímolo!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Pódeo tentar de todos modos, pero probablemente no vaia a funcionar."
     campaign: "Campaña"
     for_beginners: "Para principiantes"
-    multiplayer: "Multijugador" # Not currently shown on home page
+    multiplayer: "Multixogador" # Not currently shown on home page
     for_developers: "Para programadores" # Not currently shown on home page.
 
   nav:
-    play: "Jugar" # The top nav bar entry where players choose which levels to play
-    community: "Comunidad"
+    play: "Xogar" # The top nav bar entry where players choose which levels to play
+    community: "Comunidade"
     editor: "Editor"
-    blog: "Blog"
+    blog: "Blogue"
     forum: "Foro"
-    account: "Cuenta"
+    account: "Conta"
     profile: "Perfil"
-    stats: "Estadisticas"
-    code: "Codigo"
+    stats: "Estatísticas"
+    code: "Código"
     admin: "Admin" # Only shows up when you are an admin
     home: "Inicio"
     contribute: "Colaborar"
-    legal: "Legalidad"
-    about: "Sobre nosotros"
+    legal: "Legalidade"
+    about: "Sobre nó"
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
     teachers: "Profesores"
@@ -51,12 +35,12 @@ module.exports = nativeDescription: "Galego (GL)", englishDescription: "Galician
     okay: "Ok"
 
   not_found:
-    page_not_found: "Página no encontrada"
+    page_not_found: "Páxina no atopada"
 
   diplomat_suggestion:
-    title: "¡Ayuda a traducir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "Necesitamos tus habilidades lingüisticas."
-    pitch_body: "Nosotros desarrollamos CodeCombat en inglés, pero ya tenemos jugadores de todo el mundo. Muchos de ellos quieren jugar en español porque no hablan inglés, así que si hablas ambos idiomas, inscríbete como Diplomático y ayuda a traducir la web y todos los niveles de CodeCombat al español."
+    title: "Axuda a traducir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Necesitamos das túas habilidades lingüisticas."
+    pitch_body: "Nos desenvolvemos CodeCombat en inglés, pero xa temos xogadores de todo o mundo. Moitos deles queren xogar en galego porque non falan inglés, así que si falas ambos idiomas, inscríbete como Diplomático e axuda a traducir a web e todos os niveis de CodeCombat ao galego."
     missing_translations: "Mientras terminamos la traducción al español, verás en inglés las partes que no estén todavía disponibles."
     learn_more: "Aprende más sobre ser un Diplomático"
     subscribe_as_diplomat: "Suscríbete como Diplomático"
