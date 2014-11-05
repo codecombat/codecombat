@@ -190,6 +190,7 @@
     restart: "Restart"
     goals: "Goals"
     goal: "Goal"
+    running: "Running..."
     success: "Success!"
     incomplete: "Incomplete"
     timed_out: "Ran out of time"
