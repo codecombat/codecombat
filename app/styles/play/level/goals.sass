@@ -6,21 +6,21 @@
   left: -15px
   top: -100px
   @include transition(0.5s ease-in-out)
-  background: transparent url(/images/level/goals_background.png)
-  background-size: 100% 100%
-
-  padding: 19px 17px 2px 25px
+  border-image: url(/images/level/goals_background.png) 15 20 51 15 fill stretch
+  border-width: 8px 10px 25px 8px
+  margin: -8px -10px -25px -8px
+  padding: 19px 0px 2px 25px
   z-index: 3
   font-size: 14px
 
   &.brighter
     font-size: 18px
     font-size: 1.4vw
-    //@include box-shadow(0px 0px 12px white)
+    border-width: 0.91vw 1.22vw 3.10vw 0.91vw
 
   .goals-status
-    margin: 0
-    margin-top: 10px
+    margin: 5px 0 0 0
+    position: absolute
     color: white
     text-transform: uppercase
 
@@ -63,3 +63,15 @@
 #goals-view.collapsed ul
   display: none
     
+html.no-borderimage
+  #goals-view
+    background: transparent url(/images/level/goals_background.png)
+    background-size: 100% 100%
+    border: 0
+
+    &.brighter
+      border: 0
+
+    .goals-status
+      position: static
+      margin-top: 10px
