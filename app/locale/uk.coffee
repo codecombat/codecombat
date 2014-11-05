@@ -51,6 +51,11 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
 #    account: "Account" # Tooltip on account button from /play
@@ -104,11 +109,12 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    recovery_sent: "Recovery email sent."
 
 #  items:
+#    primary: "Primary"
+#    secondary: "Secondary"
 #    armor: "Armor"
-#    hands: "Hands"
 #    accessories: "Accessories"
-#    minions: "Minions"
 #    misc: "Misc"
+#    books: "Books"
 
   common:
     loading: "Завантаження..."
@@ -176,7 +182,8 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
   play_level:
     done: "Готово"
-    home: "На головну"
+    home: "На головну" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
 #    skip: "Skip"
 #    game_menu: "Game Menu"
     guide: "Посібник"
@@ -289,6 +296,11 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
 #  inventory:
 #    choose_inventory: "Equip Items"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -305,6 +317,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
 
 #  save_load:

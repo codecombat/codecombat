@@ -51,6 +51,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
     items: "Предметы" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Достижения" # Tooltip on achievement list button from /play
     account: "Аккаунт" # Tooltip on account button from /play
@@ -104,11 +109,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    recovery_sent: "Recovery email sent."
 
   items:
+#    primary: "Primary"
+#    secondary: "Secondary"
     armor: "Броня"
-    hands: "Руки"
     accessories: "Аксессуары"
-#    minions: "Minions"
     misc: "Разное"
+#    books: "Books"
 
   common:
     loading: "Загрузка..."
@@ -176,7 +182,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   play_level:
     done: "Готово"
-    home: "На главную"
+    home: "На главную" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Пропустить"
     game_menu: "Меню игры"
     guide: "Руководство"
@@ -289,6 +296,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   inventory:
     choose_inventory: "Выбрать предметы"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -305,6 +317,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    attack: "Damage" # Can also translate as "Attack"
     health: "Жизнь"
     speed: "Скорость"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
 
   save_load:
