@@ -181,12 +181,12 @@ module.exports = class SpellPaletteView extends CocoView
     # Assign any kind of programmable properties to the items that grant them.
     @isHero = true
     itemThangTypes = {}
-    itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType
+    itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType  # Also heroes
     propsByItem = {}
     propCount = 0
     itemsByProp = {}
-    for slot, inventoryID of @thang.inventoryIDs ? {}
-      if item = itemThangTypes[inventoryID]
+    for slot, thangTypeName of @thang.inventoryThangTypeNames ? {}
+      if item = itemThangTypes[thangTypeName]
         unless item.get('components')
           console.error 'Item', item, 'did not have any components when we went to assemble docs.'
         for component in item.get('components') ? [] when component.config
@@ -198,13 +198,15 @@ module.exports = class SpellPaletteView extends CocoView
                 itemsByProp[prop] = item
                 ++propCount
       else
-        console.log @thang.id, "couldn't find item ThangType for", slot, inventoryID
+        console.log @thang.id, "couldn't find item ThangType for", slot, thangTypeName
 
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
       for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
+        if prop is 'say' and @options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'haunted-kithmaze', 'descending-further', 'the-second-kithmaze', 'dread-door', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'tactical-strike', 'the-final-kithmaze', 'the-gauntlet']
+          continue
         propsByItem['Hero'] ?= []
-        propsByItem['Hero'].push owner: owner, prop: prop, item: null
+        propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount
 
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propsByItem, allDocs: allDocs, language: @options.language
