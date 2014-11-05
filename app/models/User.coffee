@@ -88,7 +88,7 @@ module.exports = class User extends CocoModel
       when 2 then 'choice-explicit'
       when 3 then 'choice-implicit'
     @branchingGroup = 'choice-explicit' if me.isAdmin()
-    application.tracker.identify branchingGroup: @branchingGroup
+    application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()
     @branchingGroup
 
   getHighlightArrowSoundGroup: ->
@@ -98,5 +98,15 @@ module.exports = class User extends CocoModel
       when 0, 1, 2, 3 then 'sound-off'
       when 4, 5, 6, 7 then 'sound-on'
     @highlightArrowGroup = 'sound-off' if me.isAdmin()
-    application.tracker.identify highlightArrowGroup: @highlightArrowGroup
+    application.tracker.identify highlightArrowGroup: @highlightArrowGroup unless me.isAdmin()
     @highlightArrowGroup
+
+  getKithmazeGroup: ->
+    return @kithmazeGroup if @kithmazeGroup
+    group = me.get('testGroupNumber') % 16
+    @kithmazeGroup = switch group
+      when 0, 1, 2, 3, 4, 5, 6, 7 then 'the-first-kithmaze'
+      when 8, 9, 10, 11, 12, 13, 14, 15 then 'haunted-kithmaze'
+    @kithmazeGroup = 'haunted-kithmaze' if me.isAdmin()
+    application.tracker.identify kithmazeGroup: @kithmazeGroup unless me.isAdmin()
+    @kithmazeGroup

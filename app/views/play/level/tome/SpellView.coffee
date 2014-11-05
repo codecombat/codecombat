@@ -871,4 +871,5 @@ requiredCodePerLevel =
   'dungeons-of-kithgard': ['moveRight']
   'true-names': ['Brak']
   'the-first-kithmaze': ['loop']
+  'haunted-kithmaze': ['loop']
   'lowly-kithmen': ['findNearestEnemy']
