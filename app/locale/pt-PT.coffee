@@ -183,7 +183,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     restart: "Reiniciar"
     goals: "Objetivos"
     goal: "Objetivo"
-    success: "Successo!"
+    success: "Sucesso!"
     incomplete: "Incompletos"
     timed_out: "Ficaste sem tempo"
     failing: "A falhar"
