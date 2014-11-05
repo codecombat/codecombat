@@ -1067,6 +1067,3 @@
     ucp_title: "Problemas de Codigo del Usuario"
     lg_title: "Últimos Juegos"
     clas: "CLAs"
-Status API Training Shop Blog About
-© 2014 GitHub, Inc. Terms Privacy Security Contact
-
