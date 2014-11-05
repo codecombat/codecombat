@@ -630,22 +630,8 @@ dungeon = [
     x: 29
     y: 12
     nextLevels:
-      more_practice: 'forgetful-gemsmith'
       continue: 'shadow-guard'
-      skip_ahead: 'true-names'
-  }
-  {
-    name: 'Forgetful Gemsmith'
-    type: 'hero'
-    difficulty: 1
-    id: 'forgetful-gemsmith'
-    original: '544a98f62d002f0000fe331a'
-    description: 'Grab even more gems as you practice moving.'
-    x: 38
-    y: 12
-    nextLevels:
-      continue: 'shadow-guard'
-    practice: true
+      skip_ahead: 'forgetful-gemsmith'
   }
   {
     name: 'Shadow Guard'
@@ -654,11 +640,11 @@ dungeon = [
     id: 'shadow-guard'
     original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
-    x: 50
-    y: 11
+    x: 41
+    y: 13
     nextLevels:
       more_practice: 'kounter-kithwise'
-      continue: 'true-names'
+      continue: 'forgetful-gemsmith'
   }
   {
     name: 'Kounter Kithwise'
@@ -667,25 +653,37 @@ dungeon = [
     id: 'kounter-kithwise'
     original: '54527a6257e83800009730c7'
     description: 'Practice your evasion skills with more guards.'
-    x: 58
-    y: 10
+    x: 50
+    y: 14
     nextLevels:
-      more_practice: 'crawlways-of-kithgard'
+      #more_practice: 'crawlways-of-kithgard'
       continue: 'true-names'
     practice: true
   }
+  #{
+  #  name: 'Crawlways of Kithgard'
+  #  type: 'hero'
+  #  difficulty: 1
+  #  id: 'crawlways-of-kithgard'
+  #  original: '545287ef57e83800009730d5'
+  #  description: 'Dart in and grab the gem–at the right moment.'
+  #  x: 57
+  #  y: 12
+  #  nextLevels:
+  #    continue: 'true-names'
+  #  practice: true
+  #}
   {
-    name: 'Crawlways of Kithgard'
+    name: 'Forgetful Gemsmith'
     type: 'hero'
     difficulty: 1
-    id: 'crawlways-of-kithgard'
-    original: '545287ef57e83800009730d5'
-    description: 'Dart in and grab the gem–at the right moment.'
-    x: 67
-    y: 10
+    id: 'forgetful-gemsmith'
+    original: '544a98f62d002f0000fe331a'
+    description: 'Grab even more gems as you practice moving.'
+    x: 63
+    y: 13
     nextLevels:
-      continue: 'true-names'
-    practice: true
+      continue: 'shadow-guard'
   }
   {
     name: 'True Names'
@@ -695,7 +693,7 @@ dungeon = [
     original: '541875da4c16460000ab990f'
     description: 'Learn an enemy\'s true name to defeat it.'
     x: 74
-    y: 12
+    y: 14
     nextLevels:
       more_practice: 'favorable-odds'
       continue: 'the-raised-sword'
@@ -737,7 +735,21 @@ dungeon = [
     nextLevels:
       more_practice: 'descending-further'
       continue: 'the-second-kithmaze'
-      skip_ahead: 'new-sight'
+      skip_ahead: 'dread-door'
+  }
+  {
+    name: 'Haunted Kithmaze'
+    type: 'hero'
+    difficulty: 1
+    id: 'haunted-kithmaze'
+    original: '545a5914d820eb0000f6dc0a'
+    description: 'The builders of Kithgard constructed many mazes to confuse travelers.'
+    x: 78
+    y: 29
+    nextLevels:
+      more_practice: 'descending-further'
+      continue: 'the-second-kithmaze'
+      skip_ahead: 'dread-door'
   }
   {
     name: 'Descending Further'
@@ -762,15 +774,15 @@ dungeon = [
     x: 59
     y: 25
     nextLevels:
-      continue: 'new-sight'
+      continue: 'dread-door'
   }
   {
-    name: 'New Sight'
+    name: 'Dread Door'
     type: 'hero'
     difficulty: 1
-    id: 'new-sight'
+    id: 'dread-door'
     original: '5418d40f4c16460000ab9ac2'
-    description: 'A true name can only be seen with the correct lenses.'
+    description: 'Behind a dread door lies a chest full of riches.'
     x: 60
     y: 34
     nextLevels:
@@ -1006,3 +1018,9 @@ WorldMapView.campaigns = campaigns = [
   {id: 'dungeon', name: 'Dungeon Campaign', levels: dungeon }
   {id: 'forest', name: 'Forest Campaign', levels: forest }
 ]
+
+# A/B testing first kithmaze level: The First Kithmaze vs. Haunted Kithmaze
+if me.getKithmazeGroup() is 'the-first-kithmaze'
+  _.remove dungeon, id: 'haunted-kithmaze'
+else
+  _.remove dungeon, id: 'the-first-kithmaze'

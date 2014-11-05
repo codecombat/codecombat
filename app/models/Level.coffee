@@ -102,6 +102,8 @@ module.exports = class Level extends CocoModel
           levelThangComponent.config.pos.y = placeholderConfig.pos.y
         else if placeholderConfig.team  # Pull in Allied team
           levelThangComponent.config.team = placeholderConfig.team
+        else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy
+          levelThangComponent.config.significantProperty = placeholderConfig.significantProperty
         else if placeholderConfig.programmableMethods
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig

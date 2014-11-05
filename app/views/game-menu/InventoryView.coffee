@@ -340,23 +340,25 @@ module.exports = class InventoryView extends CocoView
       'simple-sword': '53e218d853457600003e3ebe'
       'leather-tunic': '53e22eac53457600003e3efc'
       'leather-boots': '53e2384453457600003e3f07'
+      'leather-belt': '5437002a7beba4a82024a97d'
       'programmaticon-i': '53e4108204c00d4607a89f78'
       'crude-glasses': '53e238df53457600003e3f0b'
       'builders-hammer': '53f4e6e3d822c23505b74f42'
     gearByLevel =
       'dungeons-of-kithgard': {feet: 'simple-boots'}
       'gems-in-the-deep': {feet: 'simple-boots'}
-      'forgetful-gemsmith': {feet: 'simple-boots'}
       'shadow-guard': {feet: 'simple-boots'}
       'kounter-kithwise': {feet: 'simple-boots'}
       'crawlways-of-kithgard': {feet: 'simple-boots'}
-      'true-names': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+      'forgetful-gemsmith': {feet: 'simple-boots'}
+      'true-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', waist: 'leather-belt'}
       'favorable-odds': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
       'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic'}
       'the-first-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
+      'haunted-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'descending-further': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
       'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
-      'new-sight': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
+      'dread-door': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
       'known-enemy': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
       'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
       'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
