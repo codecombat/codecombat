@@ -1,4 +1,4 @@
- module.exports = nativeDescription: "Galego (GL)", englishDescription: "Galician (Galicia)", translation:
+module.exports = nativeDescription: "Galego", englishDescription: "Galician", translation:
   home:
     slogan: "Aprende a programar xogando"
     no_ie: "CodeCombat non funciona en Internet Explorer 8 ou anteriores. Sentímolo!" # Warning that only shows up in IE8 and older
