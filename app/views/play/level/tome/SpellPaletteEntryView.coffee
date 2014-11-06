@@ -40,7 +40,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @$el.popover(
       animation: false
       html: true
-      placement: 'top'
+      placement: 'left'
       trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
       content: @docFormatter.formatPopover()
       container: 'body'
