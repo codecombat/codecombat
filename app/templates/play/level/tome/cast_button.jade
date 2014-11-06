@@ -1,3 +1,6 @@
 button.btn.btn-lg.btn-inverse.banner.cast-button(title=castVerbose, data-i18n="play_level.tome_run_button_ran") Ran
 
-button.btn.btn-lg.btn-success.banner.submit-button(title=castRealTimeVerbose, data-i18n="play_level.tome_submit_button") Submit
+if testSubmitText != null && testSubmitText.length > 0
+  button.btn.btn-lg.btn-success.banner.submit-button(title=castRealTimeVerbose) #{testSubmitText}
+else
+  button.btn.btn-lg.btn-success.banner.submit-button(title=castRealTimeVerbose, data-i18n="play_level.tome_submit_button") Submit
