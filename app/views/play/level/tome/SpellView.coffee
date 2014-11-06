@@ -389,7 +389,7 @@ module.exports = class SpellView extends CocoView
     if hasChanged
       @spell.transpile @getSource()
       @updateAether true, false
-    if cast and (hasChanged or realTime)
+    if cast  #and (hasChanged or realTime)  # just always cast now
       @cast(false, realTime)
     if hasChanged
       @notifySpellChanged()

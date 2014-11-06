@@ -104,17 +104,14 @@ module.exports = class CastButtonView extends CocoView
       @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
       if @casting
         s = $.i18n.t('play_level.tome_cast_button_running')
-        s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Running' and me.get('preferredLanguage', true).split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.
-      else if castable
+      else if castable or true
         s = $.i18n.t('play_level.tome_cast_button_run')
-        s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Run' and me.get('preferredLanguage').split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.
         unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'kounter-kithwise', 'true-names', 'the-raised-sword', 'favorable-odds', 'the-first-kithmaze', 'haunted-kithmaze']  # Hide for first few.
           s += ' ' + @castShortcut
       else
         s = $.i18n.t('play_level.tome_cast_button_ran')
-        s = $.i18n.t('play_level.tome_cast_button_casting') if s is 'Ran' and me.get('preferredLanguage').split('-')[0] isnt 'en'  # Temporary, if tome_cast_button_running isn't translated.
       @castButton.text s
-      @castButton.prop 'disabled', not castable
+      #@castButton.prop 'disabled', not castable
 
   setAutocastDelay: (delay) ->
     #console.log 'Set autocast delay to', delay

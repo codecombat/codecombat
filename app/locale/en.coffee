@@ -222,9 +222,6 @@
     tome_minion_spells: "Your Minions' Spells"  # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spells"  # Only in old-style levels.
     tome_other_units: "Other Units"  # Only in old-style levels.
-    tome_cast_button_castable: "Cast Spell"  # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Casting"  # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Spell Cast"  # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Run"
     tome_cast_button_running: "Running"
     tome_cast_button_ran: "Ran"
