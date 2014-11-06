@@ -27,7 +27,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @confirmButtonI18N = options.confirmButtonI18N ? "common.save"
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components']
+    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName']
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}

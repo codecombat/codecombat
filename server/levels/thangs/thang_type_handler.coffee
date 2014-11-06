@@ -40,6 +40,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'description'
     'gems'
     'heroClass'
+    'extendedName'
   ]
 
   hasAccess: (req) ->
