@@ -28,7 +28,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     about: "О нас"
     contact: "Контакты"
     twitter_follow: "Подписаться"
-#    teachers: "Teachers"
+    teachers: "Учителям"
 
   modal:
     close: "Закрыть"
@@ -51,11 +51,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
     items: "Предметы" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    unlock: "Разблокировать" # For purchasing items and heroes
+    confirm: "Подтвердить"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Умение получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Достижения" # Tooltip on achievement list button from /play
     account: "Аккаунт" # Tooltip on account button from /play
@@ -81,8 +81,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
     campaign_classic_algorithms: "Классические принципы"
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "Лесная кампания"
+    campaign_dungeon: "Кампания в подземелии"
 
   login:
     sign_up: "Создать аккаунт"
@@ -109,12 +109,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    recovery_sent: "Recovery email sent."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Основное"
+    secondary: "Второстепенное"
     armor: "Броня"
     accessories: "Аксессуары"
     misc: "Разное"
-#    books: "Books"
+    books: "Книги"
 
   common:
     loading: "Загрузка..."
@@ -183,7 +183,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   play_level:
     done: "Готово"
     home: "На главную" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Уровень" # Like "Level: Dungeons of Kithgard"
     skip: "Пропустить"
     game_menu: "Меню игры"
     guide: "Руководство"
@@ -206,13 +206,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_continue: "Продолжить"
-#    victory_play_skip: "Skip Ahead"
+    victory_play_skip: "Пропустить"
     victory_play_next_level: "Следующий уровень"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_more_practice: "Попрактиковаться еще"
+    victory_play_too_easy: "Очень легко"
+    victory_play_just_right: "То, что надо"
+    victory_play_too_hard: "Очень сложно"
+    victory_saving_progress: "Процесс сохранения"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
     victory_hour_of_code_done: "Вы закончили?"
@@ -224,18 +224,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_castable: "Читать заклинание" # Temporary, if tome_cast_button_run isn't translated.
     tome_cast_button_casting: "Заклинание читается" # Temporary, if tome_cast_button_running isn't translated.
     tome_cast_button_cast: "Заклинание прочитано" # Temporary, if tome_cast_button_ran isn't translated.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_cast_button_run: "Запустить"
+    tome_cast_button_running: "В процессе"
+    tome_cast_button_ran: "Запущен"
+    tome_submit_button: "Отправить"
+    tome_reload_method: "Загрузить оригинальный код для этого метода" # Title text for individual method reload button.
+    tome_select_method: "Выбрать метод"
+    tome_see_all_methods: "Показать все методы, доступные для редактирования" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hud_continue: "Продолжить (Shift+Пробел)"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
@@ -285,22 +285,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     options_tab: "Настройки"
     guide_tab: "Руководство"
     multiplayer_tab: "Мультиплеер"
-#    auth_tab: "Sign Up"
+    auth_tab: "Зарегистрироваться"
     inventory_caption: "Оденьте своего героя"
     choose_hero_caption: "Выбор героя, языка"
-#    save_load_caption: "... and view history"
+    save_load_caption: "... и посмотреть историю"
     options_caption: "Выбор настроек"
 #    guide_caption: "Docs and tips"
     multiplayer_caption: "Играй с друзьями!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Сохранить прогресс."
 
   inventory:
     choose_inventory: "Выбрать предметы"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
+    equipped_item: "Выбранный"
+    available_item: "Доступный"
+    should_equip: "(двойной клик чтобы одеть)"
+    equipped: "(выбранный)"
+    locked: "(заблокированный)"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -314,13 +314,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     io_blurb: "Простой, но непонятный."
     status: "Статус"
     weapons: "Оружие"
-#    attack: "Damage" # Can also translate as "Attack"
+    attack: "Урон" # Can also translate as "Attack"
     health: "Жизнь"
     speed: "Скорость"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    skills: "Skills"
+    regeneration: "Регенерация"
+    range: "Зона" # As in "attack or visual range"
+    blocks: "Блокирует" # As in "this shield blocks this much damage"
+    skills: "Умения"
 
   save_load:
     granularity_saved_games: "Сохранено"
