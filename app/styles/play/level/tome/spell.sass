@@ -87,6 +87,10 @@
       @include gradient-striped()
       outline: 2px outset #0099ff
       @include box-shadow(1px 1px 4px black)
+    &.playback-ended .executing
+      background-color: rgba(50, 255, 80, 0.65)
+      outline: 0
+      @include box-shadow(0 0 0px black)
     .executed
       background-color: rgba(110, 110, 110, 0.12)
     .problem-marker-info
@@ -96,9 +100,10 @@
     .problem-marker-error
       background-color: rgba(110, 45, 27, 0.25)
 
-    .executing:not(.ace_gutter-cell)
-      background-size: 40px 40px
-      @include animation(progress-bar-stripes 0.5s linear infinite)
+    &:not(.playback-ended)
+      .executing:not(.ace_gutter-cell)
+        background-size: 40px 40px
+        @include animation(progress-bar-stripes 0.5s linear infinite)
 
     .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
       margin-left: 1px

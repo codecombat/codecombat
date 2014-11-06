@@ -101,6 +101,9 @@ module.exports =
 
   'playback:real-time-playback-ended': c.object {}
 
+  'playback:ended-changed': c.object {required: ['ended']},
+    ended: {type: 'boolean'}
+
   'level:play-next-level': c.object {}
 
   'level:toggle-playing': c.object {}

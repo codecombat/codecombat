@@ -53,6 +53,7 @@ module.exports = class SpellView extends CocoView
     'tome:spell-beautify': 'onSpellBeautify'
     'tome:maximize-toggled': 'onMaximizeToggled'
     'script:state-changed': 'onScriptStateChange'
+    'playback:ended-changed': 'onPlaybackEndedChanged'
 
   events:
     'mouseout': 'onMouseOut'
@@ -844,6 +845,9 @@ module.exports = class SpellView extends CocoView
 
   onScriptStateChange: (e) ->
     @scriptRunning = if e.currentScript is null then false else true
+
+  onPlaybackEndedChanged: (e) ->
+    $(@ace?.container).toggleClass 'playback-ended', e.ended
 
   checkRequiredCode: =>
     return if @destroyed
