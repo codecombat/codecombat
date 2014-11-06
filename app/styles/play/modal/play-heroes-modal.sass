@@ -264,7 +264,6 @@ $heroCanvasHeight: 265px
         
       .trigger, .options
         background-color: rgb(239,232,217)
-        width: 100%
         color: black
         
       .trigger
@@ -272,6 +271,7 @@ $heroCanvasHeight: 265px
         border: 3px solid black
         font-size: 16px
         padding: 5px 10px
+        width: 100%
         
         //- the little triangle on the right side of the fancy select box
         &:after
@@ -282,6 +282,7 @@ $heroCanvasHeight: 265px
 
       .options
         padding-left: 5px
+        overflow: visible
 
         .selected
           color: black
@@ -295,6 +296,7 @@ $heroCanvasHeight: 265px
           padding-left: 40px
           background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat left center
           background-size: 32px 32px
+          margin-bottom: -1px
 
           &[data-value="python"]
             background-image: url(/images/common/code_languages/python_small.png)

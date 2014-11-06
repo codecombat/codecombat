@@ -27,12 +27,12 @@ module.exports = class PlayHeroesModal extends ModalView
     @confirmButtonI18N = options.confirmButtonI18N ? "common.save"
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description']
+    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components']
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}
     @session = options.session
-    
+
   onHeroesLoaded: ->
     for hero in @heroes.models
       hero.name = utils.i18n hero.attributes, 'extendedName' # or whatever the property name ends up being
@@ -168,26 +168,26 @@ module.exports = class PlayHeroesModal extends ModalView
 
   saveAndHide: ->
     hero = @selectedHero.get('original')
-    
+
     if @session
       changed = @updateHeroConfig(@session, hero)
       if @session.get('codeLanguage') isnt @codeLanguage
         @session.set('codeLanguage', @codeLanguage)
         changed = true
-      
+
       @session.patch() if changed
-      
+
     changed = @updateHeroConfig(me, hero)
     aceConfig = _.clone(me.get('aceConfig'))
     if @codeLanguage isnt aceConfig.language
       aceConfig.language = @codeLanguage
       me.set 'aceConfig', aceConfig
       changed = true
-      
+
     me.patch() if changed
-    
+
     @hide()
-      
+
   updateHeroConfig: (model, hero) ->
     heroConfig = _.clone(model.get('heroConfig')) or {}
     if heroConfig.thangType isnt hero
@@ -204,6 +204,3 @@ module.exports = class PlayHeroesModal extends ModalView
       createjs.Ticker.removeEventListener "tick", stage
       stage.removeAllChildren()
     super()
-
-
-
