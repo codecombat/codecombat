@@ -147,6 +147,9 @@
         background: transparent none
 
 body.ipad #playback-view
+  // Counteract 50px height of absolutely positioned control bar, but overlap by 20px of jagged transparent top.
+  margin-top: 50px - 30px
+
   #playback-settings
     display: none
   .scrubber
