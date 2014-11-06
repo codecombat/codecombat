@@ -18,14 +18,7 @@ module.exports = class ProblemAlertView extends CocoView
   getRenderData: (context={}) ->
     context = super context
     format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
-    message = @problem.aetherProblem.message
-    age = @problem.aetherProblem.userInfo?.age
-    if age?
-      if /^Line \d+:/.test message
-        message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
-      else
-        message = "Time #{age.toFixed(1)}: #{message}"
-    context.message = format message
+    context.message = format @problem.aetherProblem.message
     context.hint = format @problem.aetherProblem.hint
     context
 
