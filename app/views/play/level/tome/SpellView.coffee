@@ -53,6 +53,7 @@ module.exports = class SpellView extends CocoView
     'tome:spell-beautify': 'onSpellBeautify'
     'tome:maximize-toggled': 'onMaximizeToggled'
     'script:state-changed': 'onScriptStateChange'
+    'playback:ended-changed': 'onPlaybackEndedChanged'
 
   events:
     'mouseout': 'onMouseOut'
@@ -388,7 +389,7 @@ module.exports = class SpellView extends CocoView
     if hasChanged
       @spell.transpile @getSource()
       @updateAether true, false
-    if cast and (hasChanged or realTime)
+    if cast  #and (hasChanged or realTime)  # just always cast now
       @cast(false, realTime)
     if hasChanged
       @notifySpellChanged()
@@ -716,7 +717,7 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration row, 'executed'
         @decoratedGutter[row] = ''
     lastExecuted = _.last executed
-    showToolbarView = executed.length and (@spell.name isnt 'plan' or @spellThang.castAether.metrics.statementsExecuted > 20)
+    showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not (@options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'haunted-kithmaze', 'descending-further', 'the-second-kithmaze', 'dread-door', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'tactical-strike', 'the-final-kithmaze', 'the-gauntlet', 'kithgard-gates'])
 
     if showToolbarView
       statementIndex = Math.max 0, lastExecuted.length - 1
@@ -844,6 +845,9 @@ module.exports = class SpellView extends CocoView
 
   onScriptStateChange: (e) ->
     @scriptRunning = if e.currentScript is null then false else true
+
+  onPlaybackEndedChanged: (e) ->
+    $(@ace?.container).toggleClass 'playback-ended', e.ended
 
   checkRequiredCode: =>
     return if @destroyed

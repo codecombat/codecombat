@@ -55,6 +55,7 @@
     confirm: "Confirm"
     owned: "Owned" # For items you own
     locked: "Locked"
+    available: "Available"
     skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
     achievements: "Achievements"  # Tooltip on achievement list button from /play
@@ -222,9 +223,6 @@
     tome_minion_spells: "Your Minions' Spells"  # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spells"  # Only in old-style levels.
     tome_other_units: "Other Units"  # Only in old-style levels.
-    tome_cast_button_castable: "Cast Spell"  # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Casting"  # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Spell Cast"  # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Run"
     tome_cast_button_running: "Running"
     tome_cast_button_ran: "Ran"
@@ -302,6 +300,7 @@
     should_equip: "(double-click to equip)"
     equipped: "(equipped)"
     locked: "(locked)"
+    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "Choose Your Hero"
@@ -315,6 +314,9 @@
     io_blurb: "Simple but obscure."
     status: "Status"
     weapons: "Weapons"
+    weapons_warrior: "Swords - Short Range, No Magic"
+    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+    weapons_wizard: "Wands, Staffs - Long Range, Magic"
     attack: "Damage"  # Can also translate as "Attack"
     health: "Health"
     speed: "Speed"

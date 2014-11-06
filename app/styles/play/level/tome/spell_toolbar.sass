@@ -75,14 +75,23 @@
   
     .metrics
       display: none
-      top: 30px
+      top: 0px
       position: absolute
       z-index: 10
       pointer-events: none
-      padding: 10px
-      background: transparent url(/images/level/popover_background.png)
-      background-size: 100% 100%
+      border-image: url(/images/level/popover_background.png) 29 39 fill stretch
+      padding: 0
+      border-width: 15px 20px
       font-variant: small-caps
       text-overflow: ellipsis
       font-size: 13px
       white-space: nowrap
+
+html.no-borderimage
+  .spell-toolbar-view
+    .metrics
+      top: 30px
+      border: 0
+      background: transparent url(/images/level/popover_background.png)
+      background-size: 100% 100%
+      padding: 10px 20px

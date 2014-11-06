@@ -32,7 +32,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
     return @sendBadInputError(res) if not collection in @jsonSchema.properties.purchased.properties.collection.enum
     
     handler = require('../' + handlers[collection])
-    criteria = { 'original': mongoose.Types.ObjectId(purchasedOriginal) }
+    criteria = { 'original': purchasedOriginal }
     sort = { 'version.major': -1, 'version.minor': -1 }
     
     handler.modelClass.findOne(criteria).sort(sort).exec (err, purchasedItem) =>
@@ -44,7 +44,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
       req.purchasedItem = purchasedItem # for safekeeping
 
       criteria = {
-        'purchased.original': purchased?.original
+        'purchased.original': purchasedOriginal
         'recipient': purchaser
       }
       Purchase.findOne criteria, (err, purchase) =>
@@ -73,7 +73,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
     purchased[group] ?= []
     unless original in purchased[group]
       #- add the purchase to the list of purchases
-      purchased[group].push(original)
+      purchased[group].push(original+'')
       user.set('purchased', purchased)
 
       #- deduct the gems from the user

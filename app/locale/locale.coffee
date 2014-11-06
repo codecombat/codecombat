@@ -54,3 +54,4 @@ module.exports =
   ur: require './ur'             # اُردُو, Urdu
   ms: require './ms'             # Bahasa Melayu, Bahasa Malaysia
   ca: require './ca'             # Català, Catalan
+  gl: require './gl'             # Galego, Galician

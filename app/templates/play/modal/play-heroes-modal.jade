@@ -1,7 +1,63 @@
-extends /templates/modal/modal_base
+.modal-dialog
+  .modal-content
 
-block modal-header-content
-  h3(data-i18n="play.heroes") Heroes
+    img(src="/images/pages/play/modal/play-heroes-background.png")#play-heroes-background
+    
+    h1(data-i18n="choose_hero.choose_hero")
 
-block modal-body-content
-  p TODO: show all dem heroes
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    #hero-carousel.carousel.slide(data-interval=0)
+      .carousel-indicator-container
+        ol.carousel-indicators
+          for hero, index in heroes
+            li(data-hero-id=hero.get('original'), title=hero.get('name'), data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : ""))
+              .hero-avatar
+              if hero.locked
+                img.lock-indicator(src="/images/pages/game-menu/lock.png")
+      .carousel-inner
+        for hero in heroes
+          div(class="item hero-item" + (hero.locked ? " locked" : ""), data-hero-id=hero.get('original'))
+            canvas.hero-canvas
+            .hero-feature-image
+              img
+            .hero-stats
+              h2= hero.name
+              .hero-description= hero.description
+              
+              .hero-stat-row
+                .stat-label(data-i18n='choose_hero.status')
+                .stat-value(data-i18n=hero.locked ? 'play.locked' : 'play.available')
+                
+              .hero-stat-row
+                .stat-label(data-i18n='choose_hero.weapons')
+                .stat-value(data-i18n='choose_hero.weapons_'+hero.class)
+
+              if hero.stats
+                if hero.stats.skills.length
+                  .hero-stat-row
+                    .stat-label(data-i18n='choose_hero.skills')
+                    .stat-value= hero.stats.skills.join(', ')
+                for stat in ['attack', 'health', 'speed']
+                  .hero-stat-row(class=stat)
+                    .stat-label(data-i18n='choose_hero.'+stat)
+                    .stat-value
+                      .stat-progress
+                        .stat-progress-bar(style="width: " + (parseInt(hero.stats[stat]*100)) + "%")
+      
+      a.left(role="button", data-slide="prev", href="#hero-carousel")
+        span.glyphicon.glyphicon-play
+      a.right(role="button", data-slide="next", href="#hero-carousel")
+        span.glyphicon.glyphicon-play
+    
+    
+    .form
+      .form-group.select-group
+        span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+        //label.control-label(for="option-code-language", data-i18n="choose_hero.programming_language") Programming Language
+        select#option-code-language(name="code-language")
+          for option in codeLanguages
+            option(value=option.id, selected=codeLanguage === option.id)= option.name
+            
+    a#confirm-button(data-i18n=confirmButtonI18N)

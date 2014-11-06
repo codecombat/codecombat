@@ -250,13 +250,18 @@ module.exports = class LevelPlaybackView extends CocoView
     $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100}%")
 
   updatePlayButton: (progress) ->
+    playButton = @$el.find('#play-button')
+    wasEnded = playButton.hasClass('ended')
     if @worldCompletelyLoaded and progress >= 0.99 and @lastProgress < 0.99
-      $('#play-button').removeClass('playing').removeClass('paused').addClass('ended')
+      playButton.removeClass('playing').removeClass('paused').addClass('ended')
       Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
     if progress < 0.99 and @lastProgress >= 0.99
-      b = $('#play-button').removeClass('ended')
-      if @playing then b.addClass('playing') else b.addClass('paused')
+      playButton.removeClass('ended')
+      playButton.addClass(if @playing then 'playing' else 'paused')
+    isEnded = playButton.hasClass('ended')
+    if wasEnded isnt isEnded
+      Backbone.Mediator.publish 'playback:ended-changed', ended: isEnded
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime

@@ -42,10 +42,11 @@
     button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   else if me.get('anonymous')
     button.btn.settings(data-toggle='coco-modal', data-target='modal/AuthModal', data-i18n="[title]play.settings")
-  else
-    a.btn.achievements(href="/user/#{me.getSlugOrID()}/stats", data-i18n="[title]play.achievements")
-    a.btn.account(href="/user/#{me.getSlugOrID()}", data-i18n="[title]play.account")
-    a.btn.settings(href='/account', data-i18n="[title]play.settings")
+  // Don't show these things, they are bad and take us out of the game. Just wait until the new ones work.
+  //else
+  //  a.btn.achievements(href="/user/#{me.getSlugOrID()}/stats", data-i18n="[title]play.achievements")
+  //  a.btn.account(href="/user/#{me.getSlugOrID()}", data-i18n="[title]play.account")
+  //  a.btn.settings(href='/account', data-i18n="[title]play.settings")
   
   if mapType === 'forest'
     a.btn.campaign-switch(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
