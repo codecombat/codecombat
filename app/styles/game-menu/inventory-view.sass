@@ -239,6 +239,15 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
       .status-message .equipped-message
         display: inline
 
+    &.restricted
+      background-color: rgba(255, 80, 67, 0.25)
+
+      .item-view
+        cursor: default
+
+      .status-message .restricted-message
+        display: inline
+
     &.locked
       background-image: url(/images/pages/game-menu/lock.png)
       background-size: 25px 25px

@@ -300,6 +300,7 @@
     should_equip: "(double-click to equip)"
     equipped: "(equipped)"
     locked: "(locked)"
+    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "Choose Your Hero"
