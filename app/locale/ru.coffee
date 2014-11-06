@@ -82,7 +82,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms: "Классические принципы"
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
     campaign_forest: "Лесная кампания"
-    campaign_dungeon: "Кампания в подземелии"
+    campaign_dungeon: "Кампания в подземелье"
 
   login:
     sign_up: "Создать аккаунт"
