@@ -51,11 +51,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     players: "jogadores" # Hover over a level on /play
     hours_played: "horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    skills_granted: "Skills Granted" # Property documentation details
+    unlock: "Desbloquear" # For purchasing items and heroes
+    confirm: "Confirmar"
+    owned: "Obtido" # For items you own
+    locked: "Bloqueado"
+    skills_granted: "Habilidades Garantidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
     achievements: "Conquistas" # Tooltip on achievement list button from /play
     account: "Conta" # Tooltip on account button from /play
@@ -109,12 +109,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     recovery_sent: "E-mail de recuperação enviado."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primários"
+    secondary: "Secundários"
     armor: "Armadura"
     accessories: "Acessórios"
     misc: "Vários"
-#    books: "Books"
+    books: "Livros"
 
   common:
     loading: "A carregar..."
@@ -183,7 +183,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   play_level:
     done: "Concluir"
     home: "Início" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Nível" # Like "Level: Dungeons of Kithgard"
     skip: "Saltar"
     game_menu: "Menu do Jogo"
     guide: "Guia"
@@ -296,11 +296,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   inventory:
     choose_inventory: "Equipar Itens"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
+    equipped_item: "Equipado"
+    available_item: "Disponível"
+    should_equip: "(clica duas vezes para equipares)"
+    equipped: "(equipado)"
+    locked: "(bloqueado)"
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -317,9 +317,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     attack: "Ataque" # Can also translate as "Attack"
     health: "Vida"
     speed: "Velocidade"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
+    regeneration: "Regeneração"
+    range: "Alcance" # As in "attack or visual range"
+    blocks: "Bloqueia" # As in "this shield blocks this much damage"
     skills: "Habilidades"
 
   save_load:
