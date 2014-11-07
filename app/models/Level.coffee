@@ -108,6 +108,8 @@ module.exports = class Level extends CocoModel
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig
           levelThangComponent.config = _.merge copy, levelThangComponent.config
+        else if placeholderConfig.extraHUDProperties
+          levelThangComponent.config.extraHUDProperties = _.union(levelThangComponent.config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
 
     if isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}

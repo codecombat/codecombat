@@ -507,6 +507,7 @@ requiredGearByLevel =
   'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
   'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
   'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
+  'coinucopia': {feet: 'leather-boots', flag: 'basic-flags'}
 
 restrictedGearByLevel =
   'dungeons-of-kithgard': {feet: 'leather-boots'}

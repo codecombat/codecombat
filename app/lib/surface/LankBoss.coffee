@@ -353,7 +353,7 @@ module.exports = class LankBoss extends CocoClass
         foundExactMatch = true
         @pendingFlags.splice(i, 1)
         @removeLank pendingFlag
-    e.sprite.sprite.cursor = if @flagCursorLank then 'crosshair' else 'pointer'
+    e.sprite.sprite?.cursor = if @flagCursorLank then 'crosshair' else 'pointer'
     null
 
   onRemoveSelectedFlag: (e) ->

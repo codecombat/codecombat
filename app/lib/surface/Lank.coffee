@@ -672,12 +672,12 @@ module.exports = Lank = class Lank extends CocoClass
     # rather than an each-thang-that-shows-gold-per-team thing.
     return unless @thang
     return if @thang.gold is @lastGold
-    gold = Math.floor @thang.gold
+    gold = Math.floor @thang.gold ? 0
     if @thang.world.age is 0
       gold = @thang.world.initialTeamGold[@thang.team].gold
     return if gold is @lastGold
     @lastGold = gold
-    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned)}
+    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned ? 0)}
 
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []

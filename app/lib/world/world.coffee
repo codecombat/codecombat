@@ -101,7 +101,7 @@ module.exports = class World
     if @realTime and not @countdownFinished
       if @levelID in ['the-first-kithmaze', 'haunted-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze', 'the-gauntlet', 'winding-trail', 'thornbush-farm']
         @realTimeSpeedFactor = 5
-      else if @levelID in ['forgotten-gemsmith', 'descending-further', 'tactical-strike', 'kithgard-gates']
+      else if @levelID in ['forgetful-gemsmith', 'descending-further', 'tactical-strike', 'kithgard-gates']
         @realTimeSpeedFactor = 3
       else
         @realTimeSpeedFactor = 1
