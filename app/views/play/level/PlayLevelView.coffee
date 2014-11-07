@@ -35,7 +35,6 @@ GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
-GameMenuModal = require 'views/game-menu/GameMenuModal'
 MultiplayerStatusView = require './MultiplayerStatusView'
 LevelSetupManager = require 'lib/LevelSetupManager'
 

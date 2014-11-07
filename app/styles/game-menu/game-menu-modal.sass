@@ -1,88 +1,66 @@
 @import "app/styles/mixins"
 
 #game-menu-modal
+
+  //- Clear modal defaults
   
-  .close
-    // We have to style this indendently because it's not in the header (we don't have a header).
-    position: absolute
-    top: -5px
-    right: 0
-    padding: 15px
-    font-size: 28px
-    background-color: transparent
-    z-index: 1
-
-    @include opacity(0.60)
-
-    &:hover
-      @include opacity(1)
-
-  // Make room for an overlaid close button in the lower right (we don't have a footer).
-  .overlaid-close-button
-    position: absolute
-    right: 35px
-    bottom: 20px
-  
-  #inventory-modal #available-equipment
-    bottom: 60px
-
   .modal-dialog
-    margin-top: 0
-    width: 963px
+    width: 820px
+    height: 570px
+    padding: 0
+    background: none
+    position: relative
+    top: 40px
 
-  .nav-tabs
-    h2
-      margin: 0
+    
+  //- Background
+  
+  #game-menu-background
+    position: absolute
+    top: -146px
+    left: -3px
 
-    .auth-tab
+
+  //- Nav bar
+
+  #game-menu-nav
+    position: absolute
+    top: 53px
+    left: 42px
+    width: 178px
+
+    li
+      background: url(/images/pages/play/modal/menu-tab.png)
+      padding: 5px
+      margin: -5px 0
+      height: 80px
+      padding: 0
+      
+      &.active
+        background: url(/images/pages/play/modal/menu-tab-selected.png)
+        width: 197px
+
       a
-        h2, em
-          pointer-events: none
-  
-  .tab-pane
-    h3:first-child
-      margin-top: 0
-  
-  // http://stackoverflow.com/questions/18432577/stacked-tabs-in-bootstrap-3
-  .tabs-left
-    > .nav-tabs
-      float: left
-      width: 185px
-      border-bottom: 0
+        font-size: 18px
+        line-height: 50px
+        background: none
+        color: rgb(195,153,124)
+        font-weight: bold
+        padding: 14px 20px
+        font-family: Open Sans Condensed
+        text-transform: uppercase
+    
+        .glyphicon
+          margin-right: 6px
 
-    > .tab-content
-      padding: 0px 15px
-      margin-left: 185px
-   
-  .tab-content > .tab-pane, .pill-content > .pill-pane
-    display: none
-   
-  .tab-content > .active, .pill-content > .active
-    display: block
-   
-  .tabs-left
-    > .nav-tabs > li
-      float: none
-   
-      > a
-        min-width: 74px
-        margin-right: 0
-        margin-bottom: 0
-   
-  .tabs-left > .nav-tabs
-    border-right: 1px solid #ddd
-   
-    > li > a
-      margin-right: -1px
-      -webkit-border-radius: 4px 0 0 4px
-      -moz-border-radius: 4px 0 0 4px
-      border-radius: 4px 0 0 4px
-   
-      &:hover, &:focus
-        border-color: #eee #ddd #eee #eee
-   
-    > .active a
-      &, &:hover, &:focus
-        border-color: #ddd transparent #ddd #ddd
-        *border-right-color: #fff
 
+  //- Tab panels
+  
+  .game-menu-tab-content
+    position: absolute
+    left: 219px
+    top: 21px
+    width: 571px
+    height: 518px
+    padding: 50px
+    overflow: scroll

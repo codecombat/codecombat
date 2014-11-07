@@ -3,6 +3,10 @@ template = require 'templates/home'
 WizardLank = require 'lib/surface/WizardLank'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
+Level = require 'models/Level'
+LevelSession = require 'models/LevelSession'
+
+GameMenuModal = require 'views/game-menu/GameMenuModal'
 
 {me} = require '/lib/auth'
 
@@ -35,3 +39,11 @@ module.exports = class HomeView extends RootView
     e.stopImmediatePropagation()
     window.tracker?.trackEvent 'Homepage', Action: 'Play'
     window.open '/play', '_blank'
+
+  afterInsert: ->
+    super(arguments...)
+    level = new Level({_id: 'kounter-kithwise'})
+    level.fetch()
+    @listenToOnce level, 'sync', ->
+      console.log 'opened level...'
+      @openModalView(new GameMenuModal({level: level, session: new LevelSession(), supermodel: @supermodel}))

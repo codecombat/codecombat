@@ -4,6 +4,7 @@ template = require 'templates/play/level/control_bar'
 
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 RealTimeCollection = require 'collections/RealTimeCollection'
+LevelSetupManager = require 'lib/LevelSetupManager'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -63,7 +64,11 @@ module.exports = class ControlBarView extends CocoView
     c
 
   showGameMenuModal: ->
-    @openModalView new GameMenuModal level: @level, session: @session, supermodel: @supermodel
+    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel
+    @openModalView gameMenuModal
+    @listenToOnce gameMenuModal, 'change-hero', ->
+      setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @})
+      setupManager.open()
 
   onClickHome: (e) ->
     e.preventDefault()
