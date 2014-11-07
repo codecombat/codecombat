@@ -3,7 +3,7 @@ template = require 'templates/play/world-map-view'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 AudioPlayer = require 'lib/AudioPlayer'
-PlayLevelModal = require 'views/play/modal/PlayLevelModal'
+LevelSetupManager = require 'lib/LevelSetupManager'
 ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'lib/storage'
@@ -149,8 +149,8 @@ module.exports = class WorldMapView extends RootView
     @startLevel $(e.target).parents('.level-info-container')
 
   startLevel: (levelElement) ->
-    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero
-    @openModalView playLevelModal
+    setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
+    setupManager.open()
     @$levelInfo?.hide()
 
   onMouseEnterLevel: (e) ->

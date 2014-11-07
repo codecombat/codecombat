@@ -36,6 +36,7 @@ HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 MultiplayerStatusView = require './MultiplayerStatusView'
+LevelSetupManager = require 'lib/LevelSetupManager'
 
 PROFILE_ME = false
 
@@ -276,7 +277,9 @@ module.exports = class PlayLevelView extends RootView
   onSessionLoaded: (e) ->
     # Just the level and session have been loaded by the level loader
     if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
-      @openModalView new GameMenuModal level: e.level, session: e.session, supermodel: @supermodel
+      setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @})
+      setupManager.open()
+
     @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['ladder', 'hero-ladder']
 
   onLoaded: ->

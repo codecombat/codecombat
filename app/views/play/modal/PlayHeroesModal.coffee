@@ -20,6 +20,7 @@ module.exports = class PlayHeroesModal extends ModalView
   shortcuts:
     'left': -> @$el.find('#hero-carousel').carousel('prev') if @heroes.models.length and not @$el.hasClass 'secret'
     'right': -> @$el.find('#hero-carousel').carousel('next') if @heroes.models.length and not @$el.hasClass 'secret'
+    'enter': 'saveAndHide'
 
   constructor: (options) ->
     super options
@@ -87,8 +88,8 @@ module.exports = class PlayHeroesModal extends ModalView
     @preloadHero heroIndex + 1
     @preloadHero heroIndex - 1
     @selectedHero = hero unless hero.locked
-    Backbone.Mediator.publish 'level:hero-selection-updated', hero: @selectedHero
     $('#choose-inventory-button').prop 'disabled', hero.locked
+    @trigger 'hero-loaded', {hero: hero}
 
   getFullHero: (original) ->
     url = "/db/thang.type/#{original}/version"
@@ -178,7 +179,7 @@ module.exports = class PlayHeroesModal extends ModalView
       @session.patch() if changed
 
     changed = @updateHeroConfig(me, hero)
-    aceConfig = _.clone(me.get('aceConfig'))
+    aceConfig = _.clone(me.get('aceConfig')) or {}
     if @codeLanguage isnt aceConfig.language
       aceConfig.language = @codeLanguage
       me.set 'aceConfig', aceConfig
@@ -187,6 +188,7 @@ module.exports = class PlayHeroesModal extends ModalView
     me.patch() if changed
 
     @hide()
+    @trigger 'confirm-click', hero: @selectedHero
 
   updateHeroConfig: (model, hero) ->
     heroConfig = _.clone(model.get('heroConfig')) or {}

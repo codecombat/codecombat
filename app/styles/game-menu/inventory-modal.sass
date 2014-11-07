@@ -19,9 +19,15 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
   @include box-shadow(0 0 10px #28f)
   z-index: 9001
 
-#inventory-view
-  position: relative
-  height: $inventoryHeight
+#inventory-modal
+  .modal-dialog
+    margin: 30px auto 0 auto
+    width: 720px
+
+    .modal-body
+      height: 450px
+      margin: 0
+
   +user-select(none)
   
   h3
@@ -34,7 +40,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
   #equipped
     width: $equippedWidth
     position: absolute
-    left: 0
+    left: 20px
     top: 0
     bottom: 0
     //bottom: $selectedAreaHeight + 10
@@ -197,7 +203,7 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
   #available-equipment
     width: $stashWidth
     position: absolute
-    right: 0
+    right: 20px
     top: 0 
     bottom: 0
     overflow-y: scroll

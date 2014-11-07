@@ -1,14 +1,16 @@
-CocoView = require 'views/kinds/CocoView'
-template = require 'templates/game-menu/inventory-view'
+ModalView = require 'views/kinds/ModalView'
+template = require 'templates/game-menu/inventory-modal'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 ItemView = require './ItemView'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
-module.exports = class InventoryView extends CocoView
-  id: 'inventory-view'
-  className: 'tab-pane'
+hasGoneFullScreenOnce = false
+
+module.exports = class InventoryModal extends ModalView
+  id: 'inventory-modal'
+  className: 'modal fade play-modal'
   template: template
   slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag']  #, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
 
@@ -19,12 +21,13 @@ module.exports = class InventoryView extends CocoView
     'doubletap #available-equipment .list-group-item:not(.equipped)': 'onAvailableItemDoubleClick'
     'dblclick .item-slot .item-view': 'onEquippedItemDoubleClick'
     'doubletap .item-slot .item-view': 'onEquippedItemDoubleClick'
-
-  subscriptions:
-    'level:hero-selection-updated': 'onHeroSelectionUpdated'
+    'shown.bs.modal': 'onShown'
+    'click #choose-hero-button': 'onClickChooseHero'
+    'click #play-level-button': 'onClickPlayLevel'
 
   shortcuts:
     'esc': 'clearSelection'
+    'enter': 'onClickPlayLevel'
 
   initialize: (options) ->
     super(arguments...)
@@ -378,8 +381,7 @@ module.exports = class InventoryView extends CocoView
     for item in me.items() when not (item in @allowedItems)
       @allowedItems.push item
 
-  onHeroSelectionUpdated: (e) ->
-    @selectedHero = e.hero
+  setHero: (@selectedHero) ->
     @loadHero()
     @$el.removeClass('Warrior Ranger Wizard').addClass(@selectedHero.get('heroClass'))
 
@@ -433,6 +435,40 @@ module.exports = class InventoryView extends CocoView
     # Called when the modal itself is dismissed
     @endHighlight()
 
+  onClickChooseHero: ->
+    @hide()
+    @trigger 'choose-hero-click'
+
+  onClickPlayLevel: (e) ->
+    return if @$el.find('#play-level-button').prop 'disabled'
+    @showLoading()
+    ua = navigator.userAgent.toLowerCase()
+    unless hasGoneFullScreenOnce or (/safari/.test(ua) and not /chrome/.test(ua)) or $(window).height() >= 658  # Min vertical resolution needed at 1366px wide
+      @toggleFullscreen()
+      hasGoneFullScreenOnce = true
+    @updateConfig =>
+      @trigger 'play-click'
+    window.tracker?.trackEvent 'Play Level Modal', Action: 'Play'
+
+  updateConfig: (callback, skipSessionSave) ->
+    sessionHeroConfig = @options.session.get('heroConfig') ? {}
+    lastHeroConfig = me.get('heroConfig') ? {}
+    inventory = @getCurrentEquipmentConfig()
+    patchSession = patchMe = false
+    patchSession ||= not _.isEqual inventory, sessionHeroConfig.inventory
+    patchMe ||= not _.isEqual inventory, lastHeroConfig.inventory
+    sessionHeroConfig.inventory = inventory
+    lastHeroConfig.inventory = inventory
+    if patchMe
+      console.log 'setting me.heroConfig to', JSON.stringify(lastHeroConfig)
+      me.set 'heroConfig', lastHeroConfig
+      me.patch()
+    if patchSession
+      console.log 'setting session.heroConfig to', JSON.stringify(sessionHeroConfig)
+      @options.session.set 'heroConfig', sessionHeroConfig
+      @options.session.patch success: callback unless skipSessionSave
+    else
+      callback?()
 
 gear =
   'simple-boots': '53e237bf53457600003e3f05'
