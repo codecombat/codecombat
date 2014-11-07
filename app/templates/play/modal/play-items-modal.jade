@@ -1,7 +1,7 @@
 .modal-dialog
   .modal-content
-    img(src="/images/pages/play/modal/play-items-modal-background.png")#play-items-modal-bg
-    img(src="/images/pages/play/modal/play-items-modal-background-narrow.png")#play-items-modal-narrow-bg
+    img(src="/images/pages/play/modal/items-background.png")#play-items-modal-bg
+    img(src="/images/pages/play/modal/items-background-narrow.png")#play-items-modal-narrow-bg
     
     h1.big-font(data-i18n="play.items")
     
@@ -15,7 +15,7 @@
       for category, index in itemCategories
         li(class=index ? "" : "active")
           a.one-line(href="#item-category-" + category, data-toggle="tab")
-            img.tab-icon(src="/images/pages/play/modal/play-items-modal-tab-icon-"+category+".png")
+            img.tab-icon(src="/images/pages/play/modal/item-icon-"+category+".png")
             span.big-font= itemCategoryNames[index]
     
     
