@@ -23,6 +23,7 @@ RealTimeCollection = require 'collections/RealTimeCollection'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
+ProblemAlertView = require './tome/ProblemAlertView'
 TomeView = require './tome/TomeView'
 ChatView = require './LevelChatView'
 HUDView = require './LevelHUDView'
@@ -249,6 +250,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     if @level.get('type') in ['ladder', 'hero-ladder']
       @insertSubView new MultiplayerStatusView levelID: @levelID, session: @session, level: @level
+    @insertSubView new ProblemAlertView {}
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
