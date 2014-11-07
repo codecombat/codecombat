@@ -75,7 +75,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
           break
     return unless found
     docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.codeLanguage, selectedMethod: true
-    @$el.find('code').popover(
+    @$el.find('.method-signature').popover(
       animation: true
       html: true
       placement: 'bottom'
@@ -126,7 +126,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onSpellChangedLanguage: (e) ->
     return unless e.spell is @spell
     @options.codeLanguage = e.language
-    @$el.find('code').popover 'destroy'
+    @$el.find('.method-signature').popover 'destroy'
     @render()
     @docsBuilt = false
     @buildDocs() if @thang
@@ -168,5 +168,5 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   destroy: ->
     @avatar?.destroy()
-    @$el.find('code').popover 'destroy'
+    @$el.find('.method-signature').popover 'destroy'
     super()

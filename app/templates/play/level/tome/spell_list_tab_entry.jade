@@ -1,11 +1,16 @@
-img(src="/images/level/code_editor_tab_background.png").spell-tab-image-hidden.hidden
+.hinge.hinge-0
+.hinge.hinge-1
+.hinge.hinge-2
+.hinge.hinge-3
 
 if includeSpellList
   .btn.btn-small.spell-list-button(data-i18n="[title]play_level.tome_see_all_methods", title="See all methods you can edit")
     i.icon-chevron-down
+
 .thang-avatar-placeholder
 
-code #{methodSignature}
+.method-label(data-i18n="play_level.tome_current_method") Current Method
+.method-signature #{methodSignature}
 
 .spell-tool-buttons
   if levelType !== 'hero'

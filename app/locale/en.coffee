@@ -233,6 +233,7 @@
     tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
+    tome_current_method: "Current Method"
     hud_continue: "Continue (shift+space)"
     hud_continue_short: "Continue"
     code_saved: "Code Saved"
