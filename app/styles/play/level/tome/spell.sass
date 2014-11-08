@@ -2,38 +2,37 @@
 @import "app/styles/bootstrap/variables"
 
 @mixin editor-height($extraHeight)
-  @include box-sizing(border-box)
   width: 98%
   height: 83%
-  height: unquote("-webkit-calc(100% - 60px -")$extraHeight unquote(")")
-  height: unquote("calc(100% - 60px -")$extraHeight unquote(")")
+  height: unquote("-webkit-calc(100% - 100px -")$extraHeight unquote(")")
+  height: unquote("calc(100% - 100px -")$extraHeight unquote(")")
 
 #spell-view
-  position: absolute
-  left: 10px
-  top: 140px
-  //top: 48px
-  right: 10px
-  padding-bottom: 10px
-  z-index: 1
-  // Set z-index above palette
+  margin-top: 10px
+  padding-top: 20px
+  padding-left: 30px
+  padding-bottom: 95px
   display: none
+  position: relative
+  z-index: 1
 
   &.shown
     display: block
 
   .code-background
     position: absolute
-    top: 0
+    top: -68px
+    left: 0px
     height: 100%
-    width: 100%
+    right: -10px
     
   span.code-background
-    border-width: 40px
-    border-image: url(/images/level/code_editor_background.png) 40 fill round
+    border-width: 124px 76px 64px 40px
+    border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill round
 
   img.code-background
     display: none
+    width: 100%
 
   .save-status
     display: none
@@ -44,7 +43,7 @@
   .firepad
     // When Firepad is active, it wraps .ace_editor in .firepad.
     @include editor-height(0px)
-    width: 98%
+    width: 94%
 
     .ace_editor
       width: 100%
@@ -56,7 +55,7 @@
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
     @include editor-height(0px)
-    width: 98%
+    width: 94%
     position: relative
     background-color: transparent
     line-height: 20px
@@ -70,14 +69,18 @@
         @include opacity(20)
 
     .ace_gutter
-      background-color: rgba(255, 255, 255, 0.25)
+      background-color: transparent
+      border-right: 1px solid rgb(195, 178, 156)
+      //background-color: rgba(255, 255, 255, 0.25)
       width: 47px
       margin-left: 4px
-      border-bottom: 1px dotted #2f261d
 
     .ace_scroller
       background-color: transparent
-      border-bottom: 1px dotted #2f261d
+      //padding-left: 10px  // Interrupts gutter and line highlighting
+
+    .ace_active-line, .ace_gutter-active-line
+      background-color: rgba(255, 255, 255, 0.4)
 
     .ace_content
       .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
@@ -147,10 +150,10 @@
       .ace_searchbtn, .ace_replacebtn
         padding: 0px 4px
 
+
 html.no-borderimage
   #spell-view
     span.code-background
       display: none
     img.code-background
       display: block
-

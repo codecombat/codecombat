@@ -33,7 +33,7 @@ module.exports = class CastButtonView extends CocoView
     enter = $.i18n.t 'keyboard_shortcuts.enter'
     castShortcutVerbose = "#{shift}+#{enter}"
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
-    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.cast_spell')
+    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
     # A/B test submit button text
     context.testSubmitText = @testButtonsText.submit  if @testGroup? and @testGroup isnt 0
@@ -105,7 +105,7 @@ module.exports = class CastButtonView extends CocoView
     , (castable) =>
       Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
       @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
-      
+
       # A/B testing cast button text for en-US
       if $.i18n.lng() isnt 'en-US' or not @testGroup? or @testGroup is 0
         if @casting
@@ -160,5 +160,3 @@ module.exports = class CastButtonView extends CocoView
         Action: 'Loaded'
         levelID: @levelID
         castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
-
-

@@ -5,7 +5,6 @@ filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
-EditorConfigModal = require '../modal/EditorConfigModal'
 
 N_ROWS = 4
 
@@ -19,9 +18,6 @@ module.exports = class SpellPaletteView extends CocoView
     'level:enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
-
-  events:
-    'click .code-language-logo': 'onEditEditorConfig'
 
   constructor: (options) ->
     super options
@@ -54,7 +50,7 @@ module.exports = class SpellPaletteView extends CocoView
       @entryGroupElements = {}
       for group, entries of @entryGroups
         @entryGroupElements[group] = itemGroup = $('<div class="property-entry-item-group"></div>').appendTo @$el.find('.properties')
-        itemGroup.append $('<img class="item-image"></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2)) if entries[0].options.item?.getPortraitURL
+        itemGroup.append $('<img class="item-image"></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2) if entries[0].options.item?.getPortraitURL
         for entry in entries
           itemGroup.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover
@@ -67,7 +63,6 @@ module.exports = class SpellPaletteView extends CocoView
 
   updateCodeLanguage: (language) ->
     @options.language = language
-    @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language
 
   updateMaxHeight: ->
     return unless @isHero
@@ -265,9 +260,6 @@ module.exports = class SpellPaletteView extends CocoView
     entry.destroy() for entry in @entries
     @createPalette()
     @render()
-
-  onEditEditorConfig: (e) ->
-    @openModalView new EditorConfigModal session: @options.session
 
   destroy: ->
     entry.destroy() for entry in @entries

@@ -85,9 +85,6 @@ module.exports =
     problems: {type: 'array'}
     isCast: {type: 'boolean'}
 
-  'tome:thang-list-entry-popover-shown': c.object {title: 'Thang List Entry Popover Shown', description: 'Published when we show the popover for a thang in the master list', required: ['entry']},
-    entry: {type: 'object'}
-
   'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
     thang: {type: 'object'}
     spell: {type: 'object'}

@@ -360,10 +360,10 @@ module.exports = class SpellView extends CocoView
       spellPaletteHeight = $('#spell-palette-view').outerHeight()
       maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteHeight
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max 8, Math.min(screenLineCount + 4, linesAtMaxHeight)
-      # 2 lines buffer is nice, but 4 leaves room to put problem alerts.
+      lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
-      $('#spell-palette-view').css('top', 38 + 45 + lineHeight * lines)  # Move spell palette up, slightly underlapping us.
+      $('#spell-palette-view').css('top', 175 + lineHeight * lines)  # Move spell palette up, slightly overlapping us.
 
   onManualCast: (e) ->
     cast = @$el.parent().length

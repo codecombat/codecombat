@@ -13,7 +13,6 @@
   $height: 87px
   $paddingTop: 10px
   $paddingBottom: 25px
-  $childMargin: 2px
   $childSize: $height - $paddingTop - $paddingBottom
   width: 100%
   height: $height
@@ -22,6 +21,7 @@
   position: relative
   background: transparent url(/images/level/code_editor_top_bar_wood_background.png)
   background-size: 100% 100%
+  z-index: 2
 
   .hinge
     position: absolute
@@ -30,7 +30,6 @@
     width: 24px
     height: 20px
     background-size: contain
-    z-index: 100
 
   .hinge-0
     left: 20%
@@ -45,14 +44,23 @@
     background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 100%), url(/images/level/code_editor_top_bar_wood_background.png)
     background-size: 100% 100%
   
-  .spell-list-button, .thang-avatar-view, .reload-code, .beautify-code, .fullscreen-code
-    width: $childSize
-    height: $childSize
-    margin: 0 $childMargin
+  .thang-avatar-view
+    width: $childSize - 10px
+    margin: 5px
     display: inline-block
-
-  .spell-list-button, .thang-avatar-view
     float: left
+
+  .btn.btn-small
+    margin-top: 15px
+    margin-right: 15px
+    font-size: 18px
+
+    .glyphicon
+      font-size: 16px
+    
+  .btn.btn-small.spell-list-button
+    float: left
+    margin-top: 5px
 
   .spell-tool-buttons
     position: absolute
@@ -69,43 +77,32 @@
   .fullscreen-code
     float: right
     &:not(.maximized)
-      .icon-resize-small
+      .glyphicon-resize-small
         display: none
     &.maximized
-      .icon-fullscreen
+      .glyphicon-fullscreen
         display: none
 
-  .btn.btn-small
-    background: transparent
-    padding: 0
-
-    &:not(:hover)
-      border-color: transparent
-      @include box-shadow(none)
-
-    .icon-chevron-down, .icon-repeat, .icon-magnet, .icon-fullscreen, .icon-resize-small
-      margin-top: 7px
-    
   .thang-avatar-wrapper
     border-width: 0
 
-  .method-label
+  .method-name-area
     margin-left: 10px
-    line-height: $childSize
-    font-size: 1vw
-    display: inline-block
-    font-weight: bold
-    color: white
+    margin-top: 10px
     text-transform: uppercase
+    display: inline-block
+    font-family: Open Sans Condensed
+    font-weight: bold
 
-  .method-signature
-    margin-left: 10px
-    line-height: $childSize
-    font-size: 1vw
-    display: inline-block
-    font-weight: bold
-    color: white
-    text-transform: uppercase
+    .method-label
+      font-size: 12px
+      color: rgb(243, 211, 59)
+      margin-bottom: -5px
+
+    .method-signature
+      color: white
+      font-size: 18px
+      padding: 0
 
 .spell-list-entry-view:not(.spell-tab)
   cursor: pointer

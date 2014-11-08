@@ -2,9 +2,6 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
-EditorConfigModal = require './modal/EditorConfigModal'
-KeyboardShortcutsModal = require './modal/KeyboardShortcutsModal'
-
 module.exports = class LevelPlaybackView extends CocoView
   id: 'playback-view'
   template: template
