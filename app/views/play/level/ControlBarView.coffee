@@ -12,6 +12,8 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -74,3 +76,11 @@ module.exports = class ControlBarView extends CocoView
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
+
+  onDisableControls: (e) -> @toggleControls e, false
+  onEnableControls: (e) -> @toggleControls e, true
+  toggleControls: (e, enabled) ->
+    return if e.controls and not ('level' in e.controls)
+    return if enabled is @controlsEnabled
+    @controlsEnabled = enabled
+    @$el.toggleClass 'controls-disabled', not enabled

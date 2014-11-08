@@ -17,8 +17,12 @@
     left: 0px
     z-index: -1
 
-  &.disabled
-    @include opacity(0.80)
+  &.controls-disabled
+    .code-palette-background
+      @include filter(brightness(75%))
+
+    > :not(.code-palette-background)
+      @include opacity(0.50)
 
   h4
     color: white

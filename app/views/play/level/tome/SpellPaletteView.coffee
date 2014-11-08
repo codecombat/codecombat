@@ -240,6 +240,7 @@ module.exports = class SpellPaletteView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.find('*').attr('disabled', not enabled)
+    @$el.toggleClass 'controls-disabled', not enabled
     @toggleBackground()
 
   toggleBackground: =>

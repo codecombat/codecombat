@@ -64,9 +64,9 @@
     font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
     &.disabled
-      @include opacity(80)
-      .ace_cursor
-        @include opacity(20)
+      @include opacity(0.8)
+      .ace_cursor, .executing, .ace_active-line, .ace_gutter-active-line
+        @include opacity(0.2)
 
     .ace_gutter
       background-color: transparent

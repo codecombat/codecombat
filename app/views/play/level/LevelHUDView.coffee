@@ -36,10 +36,12 @@ module.exports = class LevelHUDView extends CocoView
   onDisableControls: (e) ->
     return if e.controls and not ('hud' in e.controls)
     @disabled = true
+    @$el.addClass 'controls-disabled'
 
   onEnableControls: (e) ->
     return if e.controls and not ('hud' in e.controls)
     @disabled = false
+    @$el.removeClass 'controls-disabled'
 
   onSpriteSelected: (e) ->
     return if @disabled

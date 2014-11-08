@@ -101,7 +101,6 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     #Backbone.Mediator.publish 'tome:reload-code', spell: @spell  # Old: just reload the current code
     @openModalView new ReloadLevelModal()                # New: prompt them to restart the level
 
-
   onBeautifyClick: (e) ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell

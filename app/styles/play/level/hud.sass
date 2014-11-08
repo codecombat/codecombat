@@ -7,6 +7,10 @@
   position: relative
   overflow: visible
 
+  &.controls-disabled
+    @include opacity(0.5)
+    pointer-events: none
+
   .wood-background
     position: absolute
     left: 0
