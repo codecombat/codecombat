@@ -31,7 +31,7 @@ module.exports = class LevelLoadingView extends CocoView
       eventualCanvasWidth = $('#canvas-wrapper').outerWidth()
       eventualCanvasHeight = Math.max(eventualCanvasWidth / canvasAspectRatio)
       currentCanvasHeight = 589
-      extraHeight  # From control bar (I think)
+      extraHeight = 50  # From control bar (I think)
       @$el.addClass('manually-sized').css('height', @$el.outerHeight() + eventualCanvasHeight - currentCanvasHeight + 2 + extraHeight)
 
   onLevelLoaded: (e) ->

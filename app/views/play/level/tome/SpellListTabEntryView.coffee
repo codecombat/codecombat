@@ -3,7 +3,7 @@ ThangAvatarView = require 'views/play/level/ThangAvatarView'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
 LevelComponent = require 'models/LevelComponent'
 DocFormatter = require './DocFormatter'
-filters = require 'lib/image_filter'
+ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
@@ -97,10 +97,10 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-list-open', volume: 1
 
   onCodeReload: (e) ->
-    return unless @controlsEnabled
+    #return unless @controlsEnabled
     #Backbone.Mediator.publish 'tome:reload-code', spell: @spell  # Old: just reload the current code
-    Backbone.Mediator.publish 'level:restart', {}                 # New: prompt them to restart the level
-    # TODO: actually prompt them to restart rather than just doing it
+    @openModalView new ReloadLevelModal()                # New: prompt them to restart the level
+
 
   onBeautifyClick: (e) ->
     return unless @controlsEnabled
