@@ -773,13 +773,7 @@ module.exports = class SpellView extends CocoView
 
   onAnnotationClick: ->
     # @ is the gutter element
-    msg = "Edit line #{$(@).index() + 1} to fix it."
-    alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
-    offset = $(@).offset()
-    offset.left -= 162  # default width of the Bootstrap alert here
-    alertBox.css(offset).css('z-index', 500).css('position', 'absolute')
-    $('body').append(alertBox.alert())
-    _.delay (-> alertBox.alert('close')), 2500
+    Backbone.Mediator.publish 'tome:jiggle-problem-alert', {}
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, @writable

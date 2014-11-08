@@ -9,6 +9,7 @@ module.exports = class ProblemAlertView extends CocoView
 
   subscriptions:
     'tome:show-problem-alert': 'onShowProblemAlert'
+    'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
     'tome:manual-cast': 'onHideProblemAlert'
     'real-time-multiplayer:manual-cast': 'onHideProblemAlert'
 
@@ -51,6 +52,18 @@ module.exports = class ProblemAlertView extends CocoView
     @$el.show()
     @onWindowResize()
     @render()
+    @onJiggleProblemAlert()
+
+  onJiggleProblemAlert: ->
+    if @$el.is(":visible")
+      @$el.css('animation-play-state', 'running')
+      @$el.css('-moz-animation-play-state', 'running')
+      @$el.css('-webkit-animation-play-state', 'running')
+      pauseJiggle = =>
+        @$el.css('animation-play-state', 'paused')
+        @$el.css('-moz-animation-play-state', 'paused')
+        @$el.css('-webkit-animation-play-state', 'paused')
+      _.delay pauseJiggle, 2000
 
   onHideProblemAlert: ->
     @onRemoveClicked()
