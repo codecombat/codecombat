@@ -25,49 +25,49 @@
     home: "Inicio"
     contribute: "Colaborar"
     legal: "Legalidade"
-    about: "Sobre nó"
+    about: "Sobre nós"
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
     teachers: "Profesores"
 
   modal:
-    close: "Cerrar"
+    close: "Pechar"
     okay: "Ok"
 
   not_found:
-    page_not_found: "Páxina no atopada"
+    page_not_found: "Páxina non atopada"
 
   diplomat_suggestion:
     title: "Axuda a traducir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Necesitamos das túas habilidades lingüisticas."
     pitch_body: "Nos desenvolvemos CodeCombat en inglés, pero xa temos xogadores de todo o mundo. Moitos deles queren xogar en galego porque non falan inglés, así que si falas ambos idiomas, inscríbete como Diplomático e axuda a traducir a web e todos os niveis de CodeCombat ao galego."
-    missing_translations: "Mientras terminamos la traducción al español, verás en inglés las partes que no estén todavía disponibles."
-    learn_more: "Aprende más sobre ser un Diplomático"
+    missing_translations: "Mentras terminamos a traducción ao galego, verás en castelán ou en inglés as partes que non estén ainda dispoñibles."
+    learn_more: "Aprende máis sobre o que é ser un Diplomático"
     subscribe_as_diplomat: "Suscríbete como Diplomático"
 
   play:
-    play_as: "Jugar como" # Ladder page
-    spectate: "Observar" # Ladder page
-    players: "jugadores" # Hover over a level on /play
-    hours_played: "horas jugadas" # Hover over a level on /play
-    items: "Objetos" # Tooltip on item shop button from /play
+    play_as: "Xogar como" # Ladder page
+    spectate: "Mirar" # Ladder page
+    players: "xogadores" # Hover over a level on /play
+    hours_played: "horas xogadas" # Hover over a level on /play
+    items: "Obxectos" # Tooltip on item shop button from /play
     heroes: "Heroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
-    account: "Cuenta" # Tooltip on account button from /play
-    settings: "Ajustes" # Tooltip on settings button from /play
-    next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
+    account: "Conta" # Tooltip on account button from /play
+    settings: "Axustes" # Tooltip on settings button from /play
+    next: "Seguente Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
-    choose_inventory: "Equipar Objetos"
+    choose_inventory: "Equipar Obxectos"
     older_campaigns: "Campañas Anteriores"
-    anonymous: "Jugador Anonimo"
-    level_difficulty: "Dificultad: "
+    anonymous: "Xogador Anónimo"
+    level_difficulty: "Dificultade: "
     campaign_beginner: "Campaña de Principiante"
-    choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Puedes elegir cualquier pantalla o charlar en "
-    adventurer_forum: "el foro del aventurero "
-    adventurer_suffix: "sobre ello."
-    campaign_old_beginner: "Antigua Campaña de Principiante"
-    campaign_old_beginner_description: "... en la que aprenderás la magia de la programación."
+    choose_your_level: "Elixe o teu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
+    adventurer_prefix: "Podes elixir calqueira pantalla ou falar no "
+    adventurer_forum: " foro do aventureiro "
+    adventurer_suffix: "sobre elo."
+    campaign_old_beginner: "Antiga Campaña de Principiante"
+    campaign_old_beginner_description: "... na que aprenderás xa maxia da programación."
     campaign_dev: "Niveles aleatorios más dificiles"
     campaign_dev_description: "... en los que aprenderás sobre la interfaz mientras haces algo más difícil."
     campaign_multiplayer: "Arenas Multijugador"
