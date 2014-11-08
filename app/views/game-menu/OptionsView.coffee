@@ -72,6 +72,7 @@ module.exports = class OptionsView extends CocoView
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')
     me.set 'aceConfig', @aceConfig
+    me.patch()
     Backbone.Mediator.publish 'tome:change-config', {}
 
   updateMusic: ->

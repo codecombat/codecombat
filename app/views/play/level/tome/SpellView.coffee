@@ -515,7 +515,13 @@ module.exports = class SpellView extends CocoView
     for aetherProblem, problemIndex in aether.getAllProblems()
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast, @spell.levelID
+      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @spell.levelID
+      if isCast and problemIndex is 0
+        if problem.aetherProblem.range?
+          # Line height is 20px
+          # TODO: Can we get line height dynamically from ace?
+          lineOffsetPx = problem.aetherProblem.range[0].row * 20 - @ace.session.getScrollTop()
+        Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: lineOffsetPx
       @saveUserCodeProblem(aether, aetherProblem) if isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations

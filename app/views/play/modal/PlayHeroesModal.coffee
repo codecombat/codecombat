@@ -188,7 +188,7 @@ module.exports = class PlayHeroesModal extends ModalView
     me.patch() if changed
 
     @hide()
-    @trigger 'confirm-click', hero: @selectedHero
+    @trigger?('confirm-click', hero: @selectedHero)
 
   updateHeroConfig: (model, hero) ->
     heroConfig = _.clone(model.get('heroConfig')) or {}

@@ -8,6 +8,7 @@ submenuViews = [
 ]
 
 module.exports = class GameMenuModal extends ModalView
+  className: 'modal fade play-modal'
   template: template
   id: 'game-menu-modal'
   instant: true
@@ -15,10 +16,10 @@ module.exports = class GameMenuModal extends ModalView
   events:
     'change input.select': 'onSelectionChanged'
     'shown.bs.tab #game-menu-nav a': 'onTabShown'
+    'click #change-hero-tab': -> @trigger 'change-hero'
 
   constructor: (options) ->
     super options
-    @options.showDevBits = me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
     @options.showTab = options.showTab
     @options.levelID = @options.level.get('slug')
     @options.startingSessionHeroConfig = $.extend {}, true, (@options.session.get('heroConfig') ? {})
@@ -26,10 +27,17 @@ module.exports = class GameMenuModal extends ModalView
 
   getRenderData: (context={}) ->
     context = super(context)
-    context.showDevBits = @options.showDevBits
-    context.showTab = @options.showTab
     docs = @options.level.get('documentation') ? {}
-    context.showsGuide = docs.specificArticles?.length or docs.generalArticles?.length
+    submenus = ["options", "save-load", "guide", "multiplayer"]
+    submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length
+    submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
+    context.showTab = @options.showTab ? submenus[0]
+    context.submenus = submenus
+    context.iconMap =
+      'options': 'cog'
+      'guide': 'list'
+      'save-load': 'floppy-disk'
+      'multiplayer': 'globe'
     context
 
   afterRender: ->

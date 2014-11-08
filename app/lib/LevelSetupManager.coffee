@@ -1,8 +1,6 @@
 CocoClass = require 'lib/CocoClass'
 PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 InventoryModal = require 'views/game-menu/InventoryModal'
-PlayLevelView = require 'views/play/level/PlayLevelView'
-LadderView = require 'views/play/ladder/LadderView'
 LevelSession = require 'models/LevelSession'
 SuperModel = require 'models/SuperModel'
 
@@ -10,7 +8,6 @@ module.exports = class LevelSetupManager extends CocoClass
 
   constructor: (@options) ->
     super()
-    @options.showDevBits = true #?
     @supermodel = new SuperModel()
     @session = @options.session
     if @session
@@ -71,6 +68,8 @@ module.exports = class LevelSetupManager extends CocoClass
 
   onInventoryModalPlayClicked: ->
     @navigatingToPlay = true
+    PlayLevelView = require 'views/play/level/PlayLevelView'
+    LadderView = require 'views/play/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
     Backbone.Mediator.publish 'router:navigate', {
       route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
