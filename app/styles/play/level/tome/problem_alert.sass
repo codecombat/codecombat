@@ -19,13 +19,7 @@
   border-width: 16px 20px
 
   // Jiggle animation
-  // TODO: Cleanup browser compat nonsense with sass mixin
-  // TODO: http://joshbroton.com/quick-fix-sass-mixins-for-css-keyframe-animations/
-  animation-duration: .4s
-  animation-name: jiggle
-  animation-play-state: running
-  animation-iteration-count: infinite
-  @keyframes jiggle
+  +keyframes(jiggle)
     0%
       transform: rotate(0deg)
     25%
@@ -36,36 +30,9 @@
       transform: rotate(-1deg)
     100%
       transform: rotate(0deg)
-  -moz-animation-duration: .4s
-  -moz-animation-name: jiggle
-  -moz-animation-play-state: running
-  -moz-animation-iteration-count: infinite
-  @-moz-keyframes jiggle
-    0%
-      -moz-transform: rotate(0deg)
-    25%
-      -moz-transform: rotate(1deg)
-    50%
-      -moz-transform: rotate(0deg)
-    75%
-      -moz-transform: rotate(-1deg)
-    100%
-      -moz-transform: rotate(0deg)
-  -webkit-animation-duration: .4s
-  -webkit-animation-name: jiggle
-  -webkit-animation-play-state: running
-  -webkit-animation-iteration-count: infinite
-  @-webkit-keyframes jiggle
-    0%
-      -webkit-transform: rotate(0deg)
-    25%
-      -webkit-transform: rotate(1deg)
-    50%
-      -webkit-transform: rotate(0deg)
-    75%
-      -webkit-transform: rotate(-1deg)
-    100%
-      -webkit-transform: rotate(0deg)
+
+  &.jiggling
+    @include animation(jiggle .4s infinite)
 
   &.no-hint
     // Since it's probably only one line, let's make it not look weird by being tiny.

@@ -19,7 +19,7 @@ module.exports = class ProblemAlertView extends CocoView
   constructor: (options) ->
     super options
     if options.problem?
-      @problem = options.problem 
+      @problem = options.problem
       @onWindowResize()
     else
       @$el.hide()
@@ -56,13 +56,9 @@ module.exports = class ProblemAlertView extends CocoView
 
   onJiggleProblemAlert: ->
     if @$el.is(":visible")
-      @$el.css('animation-play-state', 'running')
-      @$el.css('-moz-animation-play-state', 'running')
-      @$el.css('-webkit-animation-play-state', 'running')
+      @$el.addClass 'jiggling'
       pauseJiggle = =>
-        @$el.css('animation-play-state', 'paused')
-        @$el.css('-moz-animation-play-state', 'paused')
-        @$el.css('-webkit-animation-play-state', 'paused')
+        @$el?.removeClass 'jiggling'
       _.delay pauseJiggle, 2000
 
   onHideProblemAlert: ->
@@ -72,12 +68,12 @@ module.exports = class ProblemAlertView extends CocoView
     @$el.hide()
     @problem = null
 
-  onWindowResize: (e) => 
+  onWindowResize: (e) =>
     # TODO: This all seems a little hacky
     if @problem?
       @$el.css('left', $('#goals-view').outerWidth(true) + 'px')
       @$el.css('right', $('#code-area').outerWidth(true) + 'px')
 
-      # 45px from top roughly aligns top of alert with top of first code line
+      # 110px from top roughly aligns top of alert with top of first code line
       # TODO: calculate this in a more dynamic, less sketchy way
-      @$el.css('top', (45 + @lineOffsetPx) + 'px')
+      @$el.css('top', (110 + @lineOffsetPx) + 'px')

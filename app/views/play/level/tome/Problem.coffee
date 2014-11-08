@@ -6,7 +6,8 @@ module.exports = class Problem
   constructor: (@aether, @aetherProblem, @ace, isCast=false, @levelID) ->
     @buildAnnotation()
     @buildMarkerRange() if isCast
-    Backbone.Mediator.publish("problem:problem-created", line:@annotation.row, text: @annotation.text) if application.isIPadApp
+    # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
+    Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp
 
   destroy: ->
     @removeMarkerRange()
