@@ -98,7 +98,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onCodeReload: (e) ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish 'tome:reload-code', spell: @spell
+    #Backbone.Mediator.publish 'tome:reload-code', spell: @spell  # Old: just reload the current code
+    Backbone.Mediator.publish 'level:restart', {}                 # New: prompt them to restart the level
+    # TODO: actually prompt them to restart rather than just doing it
 
   onBeautifyClick: (e) ->
     return unless @controlsEnabled
@@ -138,16 +140,6 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
-    @toggleBackground()
-
-  toggleBackground: =>
-    # TODO: make the palette background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
-    background = @$el.find('img.spell-tab-image-hidden')[0]
-    if background.naturalWidth is 0  # not loaded yet
-      return _.delay @toggleBackground, 100
-    filters.revertImage background, '.spell-list-entry-view.spell-tab' if @controlsEnabled
-    filters.darkenImage background, '.spell-list-entry-view.spell-tab', 0.8 unless @controlsEnabled
 
   attachTransitionEventListener: =>
     transitionListener = ''
