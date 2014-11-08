@@ -1,7 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
-DialogueAnimator = require './DialogueAnimator'
 
 module.exports = class LevelHUDView extends CocoView
   id: 'thang-hud'
@@ -180,6 +179,4 @@ module.exports = class LevelHUDView extends CocoView
 
   destroy: ->
     @stage?.stopTalking()
-    clearInterval(@messageInterval) if @messageInterval
-    clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
     super()

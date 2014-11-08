@@ -638,8 +638,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   onDialogue: (e) ->
     return unless @thang?.id is e.spriteID
-    label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
-    label.setText e.blurb or '...'
+    unless @thang?.id is 'Hero Placeholder'  # Don't show these for heroes, because they aren't actually first-person, just LevelDialogueView narration
+      label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
+      label.setText e.blurb or '...'
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     @dialogueSoundInstance?.stop()
     if @dialogueSoundInstance = @playSound sound, false

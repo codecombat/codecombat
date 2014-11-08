@@ -27,6 +27,7 @@ ProblemAlertView = require './tome/ProblemAlertView'
 TomeView = require './tome/TomeView'
 ChatView = require './LevelChatView'
 HUDView = require './LevelHUDView'
+LevelDialogueView = require './LevelDialogueView'
 ControlBarView = require './ControlBarView'
 LevelPlaybackView = require './LevelPlaybackView'
 GoalsView = require './LevelGoalsView'
@@ -246,6 +247,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelFlagsView world: @world if (@levelID in ['sky-span', 'coinucopia']) or @level.get('type', true) in ['hero-ladder', 'hero-coop'] # TODO: figure out when flags are available
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
+    @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     if @level.get('type') in ['ladder', 'hero-ladder']
       @insertSubView new MultiplayerStatusView levelID: @levelID, session: @session, level: @level

@@ -1,0 +1,91 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#level-dialogue-view
+  +keyframes(speakingPulse)
+    from
+      @include box-shadow(0px 0px 8px #333)
+      color: white
+    50%
+      @include box-shadow(0px 0px 35px skyblue)
+      color: skyblue
+    to
+      @include box-shadow(0px 0px 8px #333)
+      color: white
+
+  width: 417px
+  height: 296px
+  background: transparent url(/images/level/code_palette_wood_background.png)
+  background-size: 100% auto
+  position: absolute
+  bottom: -296px + 40px
+  //left: -webkit-calc(27.5% - 417px / 2)
+  left: -webkit-calc(55% - 417px)
+  // Bounce in
+  @include transition(1s cubic-bezier(.17,.89,.42,1.36))
+  z-index: 2
+
+  &.active
+    display: block
+    bottom: -20px
+
+  &.speaking
+    .dialogue-area
+      .bubble
+        @include animation(speakingPulse 1.5s infinite)
+
+  .dialogue-area
+    position: relative
+    height: 100%
+    width: 100%
+    z-index: 1
+
+    .bubble
+      position: relative
+      margin: 20px
+      padding: 10px 10px 30px 10px
+      color: white
+      font-weight: bold
+      background: rgb(45, 35, 234)
+      border: black solid 1px
+      border-radius: 10px
+      font-size: 18px
+      line-height: 20px
+
+      strong
+        color: #09B057
+
+      .hud-hint
+        font-weight: normal
+        color: #ddd
+        font-size: 14px
+        line-height: 16px
+        vertical-align: middle
+
+      .enter
+        position: absolute
+        right: 10px
+        bottom: 10px
+        div.dot
+          background: #337
+          width: 8px
+          height: 8px
+          position: absolute
+          right: 8px
+          top: 9px
+          border-radius: 5px
+
+      button, .alert
+        padding: 2px 5px
+
+      .enter button.with-dot
+        padding-right: 20px
+
+      h3
+        margin: 0
+        font-size: 16px
+        line-height: 16px
+        color: #338
+
+      button
+        margin-left: 10px

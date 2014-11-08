@@ -495,9 +495,9 @@ requiredGearByLevel =
   'descending-further': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
   'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
   'dread-door': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
-  'known-enemy': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
-  'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-  'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+  'known-enemy': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', torso: 'leather-tunic'}
+  'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
+  'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
   'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
   'tactical-strike': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
   'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
