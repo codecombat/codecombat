@@ -91,6 +91,16 @@ module.exports = class User extends CocoModel
     application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()
     @branchingGroup
 
+  getCastButtonTextGroup: ->
+    # Group 0 is original behavior
+    unless @castButtonTextGroup?
+      if me.isAdmin()
+        @castButtonTextGroup = 0
+      else
+        @castButtonTextGroup = me.get('testGroupNumber') % 7
+        application.tracker.identify castButtonTextGroup: @castButtonTextGroup
+    @castButtonTextGroup
+
   getHighlightArrowSoundGroup: ->
     return @highlightArrowGroup if @highlightArrowGroup
     group = me.get('testGroupNumber') % 8

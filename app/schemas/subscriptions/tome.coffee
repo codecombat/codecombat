@@ -127,3 +127,5 @@ module.exports =
   'tome:show-problem-alert': c.object {title: 'Show Problem Alert', description: 'A problem alert needs to be shown.', required: ['problem']},
     problem: {type: 'object'}
     lineOffsetPx: {type: ['number', 'undefined']}
+
+  'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}

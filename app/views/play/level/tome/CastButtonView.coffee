@@ -36,7 +36,7 @@ module.exports = class CastButtonView extends CocoView
     context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
     # A/B test submit button text
-    context.testSubmitText = @testButtonsText.submit  if @testGroup? and @testGroup isnt 0
+    context.testSubmitText = @testButtonsText.submit if @testGroup? and @testGroup isnt 0
     context
 
   afterRender: ->
@@ -107,7 +107,7 @@ module.exports = class CastButtonView extends CocoView
       @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
 
       # A/B testing cast button text for en-US
-      if $.i18n.lng() isnt 'en-US' or not @testGroup? or @testGroup is 0
+      unless @testGroup? and @testGroup isnt 0
         if @casting
           castText = $.i18n.t('play_level.tome_cast_button_running')
         else if castable or true
@@ -141,22 +141,22 @@ module.exports = class CastButtonView extends CocoView
       @multiplayerSession = null
 
   initButtonTextABTest: ->
-    if $.i18n.lng() is 'en-US'
-      # A/B test buttons text
-      # Only testing 'en-US' for simplicity and it accounts for a significant % of users
-      # Test group 0 is existing behavior
-      # Intentionally leaving out cast shortcut for test groups for simplicity
-      @testGroup = Math.floor(Math.random() * 7)
-      console.info 'Cast button text test group', @testGroup
-      @testButtonsText = switch @testGroup
-        when 0 then run: 'Run/Running', submit: 'Submit'
-        when 1 then run: 'Run', submit: 'Submit'
-        when 2 then run: 'Test', submit: 'Submit'
-        when 3 then run: 'Run', submit: 'Continue'
-        when 4 then run: 'Test', submit: 'Continue'
-        when 5 then run: 'Run', submit: 'Finish'
-        when 6 then run: 'Test', submit: 'Finish'
-      application.tracker?.trackEvent 'Spell View',
-        Action: 'Loaded'
-        levelID: @levelID
-        castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
+    return if me.isAdmin()
+    return unless $.i18n.lng() is 'en-US'
+    # A/B test buttons text
+    # Only testing 'en-US' for simplicity and it accounts for a significant % of users
+    # Test group 0 is existing behavior
+    # Intentionally leaving out cast shortcut for test groups for simplicity
+    @testGroup = me.getCastButtonTextGroup()
+    @testButtonsText = switch @testGroup
+      when 0 then run: 'Run/Running', submit: 'Submit'
+      when 1 then run: 'Run', submit: 'Submit'
+      when 2 then run: 'Test', submit: 'Submit'
+      when 3 then run: 'Run', submit: 'Continue'
+      when 4 then run: 'Test', submit: 'Continue'
+      when 5 then run: 'Run', submit: 'Finish'
+      when 6 then run: 'Test', submit: 'Finish'
+    application.tracker?.trackEvent 'Spell View',
+      Action: 'Loaded'
+      levelID: @levelID
+      castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
