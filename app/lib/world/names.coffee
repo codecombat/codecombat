@@ -69,6 +69,11 @@ module.exports.thangNames = thangNames =
     'Allankrita'
     'Kay'
     'Shannon'
+    'Scarlett'
+    'Natasha'
+    'Aphrodite'
+    'Gabrielle'
+    
   ]
   'Peasant M': [
     'Yorik'
@@ -88,6 +93,10 @@ module.exports.thangNames = thangNames =
     'Paps'
     'Hodor'
     'James'
+    'Merek'
+    'Brom'
+    'Tybalt'
+    'Fendrel'
   ]
   'Peasant F': [
     'Hilda'
@@ -101,6 +110,18 @@ module.exports.thangNames = thangNames =
     'Regan'
     'Giselle'
     'Bernadette'
+    'Millicent'
+    'Anastas'
+    'Thea'
+    'Ellyn'
+    'Alianor'
+    'Anastas'
+    'Cristiana'
+    'Helena'
+    'Alexia'
+    'Katelyn'
+    'Rose'
+    
   ]
   'Archer F': [
     'Phoebe'
