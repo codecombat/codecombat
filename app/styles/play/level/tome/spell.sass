@@ -105,6 +105,15 @@
       @include box-shadow(0 0 0px black)
     .executed
       background-color: rgba(110, 110, 110, 0.12)
+
+    +keyframes(pulseRedBackground)
+      from
+        background-color: rgba(255, 45, 27, 0.25)
+      50%
+        background-color: rgba(255, 45, 27, 0.125)
+      to
+        background-color: rgba(255, 45, 27, 0.25)
+
     // problem-marker-#{@aetherProblem.level} set in Problem.coffee
     .problem-marker-info
       background-color: rgba(196, 163, 184, 0.25)
@@ -114,13 +123,6 @@
       // TODO: Pulses too quickly during playback
       @include animation(pulseRedBackground 1s infinite)
 
-      +keyframes(pulseRedBackground)
-        from
-          background-color: rgba(255, 45, 27, 0.25)
-        50%
-          background-color: rgba(255, 45, 27, 0.125)
-        to
-          background-color: rgba(255, 45, 27, 0.25)
 
     &:not(.playback-ended)
       .executing:not(.ace_gutter-cell)
