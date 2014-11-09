@@ -949,7 +949,6 @@ forest = [
     id: 'a-fiery-trap'
     original: '5448330517d7283e051f9b9e'
     description: 'Patrol the village entrances, but stay defensive.'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'ogre-encampment'
     x: 40.14
@@ -961,7 +960,6 @@ forest = [
     difficulty: 1
     id: 'ogre-encampment'
     description: 'Recover stolen treasure from an ogre encampment.'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'woodland-cleaver'
     x: 46.48
@@ -973,7 +971,6 @@ forest = [
     difficulty: 1
     id: 'woodland-cleaver'
     description: 'Use your new cleave ability to fend off munchkins.'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'shield-rush'
     x: 52.32
@@ -985,7 +982,6 @@ forest = [
     difficulty: 1
     id: 'shield-rush'
     description: 'Combine cleave and shield to endure an ogre onslaught.'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'peasant-protection'
     x: 58.54
@@ -997,7 +993,6 @@ forest = [
     difficulty: 1
     id: 'peasant-protection'
     description: 'Stay close to Victor.'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'munchkin-swarm'
     x: 64.37
@@ -1008,8 +1003,7 @@ forest = [
     type: 'hero'
     difficulty: 1
     id: 'munchkin-swarm'
-    description: 'they eerywhere'
-    disabled: not me.isAdmin()
+    description: 'Loot a gigantic chest while surrounded by a swarm of ogre munchkins.'
     nextLevels:
       continue: 'coinucopia'
     x: 71.19
