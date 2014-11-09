@@ -19,8 +19,9 @@
   background-size: 100% auto
   position: absolute
   bottom: -296px + 40px
-  //left: -webkit-calc(27.5% - 417px / 2)
+  left: 300px
   left: -webkit-calc(55% - 417px)
+  left: calc(55% - 417px)
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
   z-index: 2
@@ -89,3 +90,13 @@
 
       button
         margin-left: 10px
+
+body.ipad #level-dialogue-view
+  left: auto
+  right: 0
+
+  &.active
+    bottom: -60px
+
+  .hud-hint
+    visibility: hidden
