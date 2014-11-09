@@ -100,6 +100,7 @@ module.exports = class Level extends CocoModel
           levelThangComponent.config.pos ?= {}
           levelThangComponent.config.pos.x = placeholderConfig.pos.x
           levelThangComponent.config.pos.y = placeholderConfig.pos.y
+          levelThangComponent.config.rotation = placeholderConfig.rotation
         else if placeholderConfig.team  # Pull in Allied team
           levelThangComponent.config.team = placeholderConfig.team
         else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy

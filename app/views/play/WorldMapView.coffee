@@ -949,55 +949,141 @@ forest = [
     id: 'a-fiery-trap'
     original: '5448330517d7283e051f9b9e'
     description: 'Patrol the village entrances, but stay defensive.'
-    disabled: true
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'ogre-encampment'
     x: 40.14
     y: 63.96
   }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 58.46
-  #  y: 66.38
-  # }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 63.11
-  #  y: 62.74
-  # }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 69.19
-  #  y: 60.61
-  # }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 77.54
-  #  y: 65.94
-  #}
+  {
+    name: 'Ogre Encampment'
+    type: 'hero'
+    difficulty: 1
+    id: 'ogre-encampment'
+    description: 'Recover stolen treasure from an ogre encampment.'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'woodland-cleaver'
+    x: 46.48
+    y: 70.92
+   }
+  {
+    name: 'Woodland Cleaver'
+    type: 'hero'
+    difficulty: 1
+    id: 'woodland-cleaver'
+    description: 'Use your new cleave ability to fend off munchkins.'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'shield-rush'
+    x: 52.32
+    y: 70.80
+   }
+  {
+    name: 'Shield Rush'
+    type: 'hero'
+    difficulty: 1
+    id: 'shield-rush'
+    description: 'Combine cleave and shield to endure an ogre onslaught.'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'peasant-protection'
+    x: 58.54
+    y: 66.73
+   }
+  {
+    name: 'Peasant Protection'
+    type: 'hero'
+    difficulty: 1
+    id: 'peasant-protection'
+    description: 'Stay close to Victor.'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'munchkin-swarm'
+    x: 64.37
+    y: 62.18
+  }
+  {
+    name: 'Munchkin Swarm'
+    type: 'hero'
+    difficulty: 1
+    id: 'munchkin-swarm'
+    description: 'they eerywhere'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'coinucopia'
+    x: 71.19
+    y: 63.61
+  }
   {
     name: 'Coinucopia'
     type: 'hero'
     difficulty: 1
     id: 'coinucopia'
     description: 'Start playing in real-time with input flags as you collect gold coins!'
-    x: 58.54
-    y: 66.73
-    disabled: true
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'copper-meadows'
+    x: 77.54
+    y: 65.94
+  }
+  {
+    name: 'Copper Meadows'
+    type: 'hero'
+    difficulty: 1
+    id: 'copper-meadows'
+    description: 'grab the coins'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'drop-the-flag'
+    x: 77.54
+    y: 55.94
+  }
+  {
+    name: 'Drop the Flag'
+    type: 'hero'
+    difficulty: 1
+    id: 'drop-the-flag'
+    description: 'it is hot'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'rich-forager'
+    x: 77.54
+    y: 50.94
+  }
+  {
+    name: 'Rich Forager'
+    type: 'hero'
+    difficulty: 1
+    id: 'rich-forager'
+    description: 'if i were a rich man'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'deadly-pursuit'
+    x: 77.54
+    y: 45.94
+  }
+  {
+    name: 'Deadly Pursuit'
+    type: 'hero'
+    difficulty: 1
+    id: 'deadly-pursuit'
+    description: 'what is a dirt nap? it is death.'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'multiplayer-treasure-grove'
+    x: 77.54
+    y: 40.94
+  }
+  {
+    name: 'Multiplayer Treasure Grove'
+    type: 'hero'
+    difficulty: 1
+    id: 'multiplayer-treasure-grove'
+    description: 'show em who is the professional boss'
+    disabled: not me.isAdmin()
+    x: 77.54
+    y: 35.94
   }
   {
     name: 'Dueling Grounds'

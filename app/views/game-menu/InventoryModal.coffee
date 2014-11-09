@@ -359,7 +359,7 @@ module.exports = class InventoryModal extends ModalView
           console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
       for slot, item of necessaryGear
-        continue if item is 'leather-tunic' and inWorldMap  # Don't tell them they need it until they need it in the level
+        continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
         equipped = equipment[slot]
         continue if equipped and not ((item is 'builders-hammer' and equipped is gear['simple-sword']) or (item is 'leather-boots' and equipped is gear['simple-boots']))
         availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
@@ -372,7 +372,7 @@ module.exports = class InventoryModal extends ModalView
         @highlightElement (if inWorldMap then '#play-level-button' else '.overlaid-close-button'), duration: 5000
       $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
 
-    # Restrict available items to those that would be available by this item.
+    # Restrict available items to those that would be available by this level.
     @allowedItems = []
     for level, items of requiredGearByLevel
       for slot, item of items
@@ -479,6 +479,11 @@ gear =
   'programmaticon-i': '53e4108204c00d4607a89f78'
   'crude-glasses': '53e238df53457600003e3f0b'
   'builders-hammer': '53f4e6e3d822c23505b74f42'
+  'long-sword': '544d7d1f8494308424f564a3'
+  'sundial-wristwatch': '53e2396a53457600003e3f0f'
+  'bronze-shield': '544c310ae0017993fce214bf'
+  'wooden-glasses': '53e2167653457600003e3eb3'
+  'basic-flags': '545bacb41e649a4495f887da'
 
 requiredGearByLevel =
   'dungeons-of-kithgard': {feet: 'simple-boots'}
@@ -506,8 +511,18 @@ requiredGearByLevel =
   'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
   'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
   'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
-  'a-fiery-trap': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
-  'coinucopia': {feet: 'leather-boots', flag: 'basic-flags'}
+  'a-fiery-trap': {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
+  'ogre-encampment': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
+  'woodland-cleaver': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'wooden-shield', wrists: 'sundial-wristwatch', feet: 'leather-boots'}
+  'shield-rush': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+  'peasant-protection': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+  'munchkin-swarm': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+  'coinucopia': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags'}
+  'copper-meadows': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses'}
+  'drop-the-flag': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
+  'rich-forager': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'longsword', 'left-hand': 'bronze-shield'}
+  'deadly-pursuit': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
+  'multiplayer-treasure-grove': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic'}
 
 restrictedGearByLevel =
   'dungeons-of-kithgard': {feet: 'leather-boots'}
@@ -530,3 +545,10 @@ restrictedGearByLevel =
   'winding-trail': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'thornbush-farm': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'a-fiery-trap': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+  'ogre-encampment': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+  'woodland-cleaver': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+  'shield-rush': {'left-hand': 'wooden-shield'}
+  'peasant-protection': {eyes: 'crude-glasses'}
+  'drop-the-flag': {'right-hand': 'longsword'}
+  'rich-forager': {'right-hand': 'builders-hammer'}
+  'deadly-pursuit': {'right-hand': 'longsword'}

@@ -272,7 +272,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   getNextLevelMap: ->
     # TODO: dynamically figure out which world map to return to
-    if @level.get('slug') in ['kithgard-gates', 'defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
+    if @level.get('slug') in ['kithgard-gates', 'defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm', 'coinucopia', 'copper-meadows', 'drop-the-flag', 'rich-forager', 'deadly-pursuit', 'multiplayer-treasure-grove']
       return 'forest'
     return 'dungeon'
 
