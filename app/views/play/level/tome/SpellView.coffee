@@ -104,7 +104,7 @@ module.exports = class SpellView extends CocoView
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
-    $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @initAutocomplete aceConfig.liveCompletion ? true
 
   createACEShortcuts: ->
@@ -518,10 +518,11 @@ module.exports = class SpellView extends CocoView
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @spell.levelID
       if isCast and problemIndex is 0
         if problem.aetherProblem.range?
-          # Line height is 20px
-          # TODO: Can we get line height dynamically from ace?
-          lineOffsetPx = problem.aetherProblem.range[0].row * 20 - @ace.session.getScrollTop()
-        Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: lineOffsetPx
+          lineOffsetPx = 0
+          for i in [0...problem.aetherProblem.range[0].row]
+            lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
+          lineOffsetPx -= @ace.session.getScrollTop()
+        Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
       @saveUserCodeProblem(aether, aetherProblem) if isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations

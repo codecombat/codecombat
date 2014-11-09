@@ -31,7 +31,7 @@ module.exports = class Problem
     @markerRange = new Range start.row, start.col, end.row, end.col
     @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start
     @markerRange.end = @ace.getSession().getDocument().createAnchor @markerRange.end
-    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'text'
+    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'fullLine'
 
   removeMarkerRange: ->
     return unless @markerRange

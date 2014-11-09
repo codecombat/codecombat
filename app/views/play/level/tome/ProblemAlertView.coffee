@@ -45,8 +45,12 @@ module.exports = class ProblemAlertView extends CocoView
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
 
   onShowProblemAlert: (data) ->
-    return if @problem? and data.problem.aetherProblem.message is @problem.aetherProblem.message and data.problem.aetherProblem.hint is @problem.aetherProblem.hint
     return unless $('#code-area').is(":visible")
+    if @problem?
+      if @$el.hasClass "alert-#{@problem.aetherProblem.level}"
+        @$el.removeClass "alert-#{@problem.aetherProblem.level}"
+      if @$el.hasClass "no-hint"
+        @$el.removeClass "no-hint"
     @problem = data.problem
     @lineOffsetPx = data.lineOffsetPx or 0
     @$el.show()
@@ -55,18 +59,19 @@ module.exports = class ProblemAlertView extends CocoView
     @onJiggleProblemAlert()
 
   onJiggleProblemAlert: ->
-    if @$el.is(":visible")
-      @$el.addClass 'jiggling'
-      pauseJiggle = =>
-        @$el?.removeClass 'jiggling'
-      _.delay pauseJiggle, 2000
+    return unless @problem?
+    @$el.show() unless @$el.is(":visible")
+    @$el.addClass 'jiggling'
+    pauseJiggle = =>
+      @$el?.removeClass 'jiggling'
+    _.delay pauseJiggle, 2000
+    
 
   onHideProblemAlert: ->
     @onRemoveClicked()
 
   onRemoveClicked: ->
     @$el.hide()
-    @problem = null
 
   onWindowResize: (e) =>
     # TODO: This all seems a little hacky

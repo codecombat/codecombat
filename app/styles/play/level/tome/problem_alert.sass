@@ -32,11 +32,15 @@
       transform: rotate(0deg)
 
   &.jiggling
-    @include animation(jiggle .4s infinite)
+    @include animation(jiggle .3s infinite)
 
   &.no-hint
     // Since it's probably only one line, let's make it not look weird by being tiny.
     padding: 7px
+
+  .problem-alert-title
+    color: white
+    border-bottom: 1px solid white
 
   .close
     @include opacity(0.80)
