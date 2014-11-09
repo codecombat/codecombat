@@ -73,7 +73,6 @@ module.exports.thangNames = thangNames =
     'Natasha'
     'Aphrodite'
     'Gabrielle'
-    
   ]
   'Peasant M': [
     'Yorik'
