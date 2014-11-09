@@ -379,6 +379,9 @@ module.exports = class SpellView extends CocoView
       @ace.setOptions minLines: lines, maxLines: lines
       $('#spell-palette-view').css('top', 175 + lineHeight * lines)  # Move spell palette up, slightly overlapping us.
 
+  hideProblemAlert: ->
+    Backbone.Mediator.publish 'tome:hide-problem-alert', {}
+
   onManualCast: (e) ->
     cast = @$el.parent().length
     @recompile cast, e.realTime
@@ -438,6 +441,7 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
+      _.throttle @hideProblemAlert, 500
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 1500 if requiredCodePerLevel[@options.level.get('slug')]
     @onCodeChangeMetaHandler = =>
