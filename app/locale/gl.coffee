@@ -51,6 +51,12 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     players: "xogadores" # Hover over a level on /play
     hours_played: "horas xogadas" # Hover over a level on /play
     items: "Obxectos" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
+#    confirm: "Confirm"
+#    owned: "Owned" # For items you own
+#    locked: "Locked"
+#    available: "Available"
+#    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Conta" # Tooltip on account button from /play
@@ -104,11 +110,12 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     recovery_sent: "Email de recuperación de contrasinal enviado."
 
   items:
+#    primary: "Primary"
+#    secondary: "Secondary"
     armor: "Armadura"
-    hands: "Mans"
     accessories: "Accesorios"
-    minions: "Peóns"
     misc: "Miscelanea"
+#    books: "Books"
 
   common:
     loading: "Cargando..."
@@ -176,19 +183,22 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 
   play_level:
     done: "Feito"
-    home: "Inicio"
+    home: "Inicio" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Saltar"
     game_menu: "Menú do Xogo"
     guide: "Guía"
     restart: "Reiniciar"
     goals: "Obxectivos"
     goal: "Obxectivo Principal"
+#    running: "Running..."
     success: "Éxito!"
     incomplete: "Incompleto"
     timed_out: "Quedalles sin tiempo"
     failing: "Fallando"
     action_timeline: "Cronoloxía de Acción"
     click_to_select: "Preme nunha unidade para seleccionala"
+#    reload: "Reload"
     reload_title: "Recargar todo o código?"
     reload_really: "Estás seguro que queres reiniciar o nivel?"
     reload_confirm: "Recargalo todo"
@@ -214,9 +224,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     tome_minion_spells: "Os feitizos dos de teus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Feitizos de so lectura" # Only in old-style levels.
     tome_other_units: "Outras unidades" # Only in old-style levels.
-    tome_cast_button_castable: "Invocable" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Invocando" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Invocar" # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "Executando"
     tome_cast_button_ran: "Executado"
@@ -227,13 +234,14 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     tome_select_a_thang: "Selecciona a alguén para "
     tome_available_spells: "Feitizos dispoñibles"
     tome_your_skills: "As Túas Habilidades"
-    hud_continue: "Continuar (pulsa Shift+Espazo)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
     code_saved: "Codigo Gardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atallos de teclado"
     loading_ready: "Listo!"
     loading_start: "Iniciar Nivel"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Agora:"
     time_total: "Máx:"
     time_goto: "Ir a:"
@@ -273,7 +281,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 
   game_menu:
     inventory_tab: "Inventario"
-    choose_hero_tab: "Reiniciar Nivel"
     save_load_tab: "Gardar/Cargar"
     options_tab: "Opcións"
     guide_tab: "Guia"
@@ -289,6 +296,12 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 
   inventory:
     choose_inventory: "Equipar Obxectos"
+#    equipped_item: "Equipped"
+#    available_item: "Available"
+#    should_equip: "(double-click to equip)"
+#    equipped: "(equipped)"
+#    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "Selecciona o teu Heroe"
@@ -302,9 +315,15 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     io_blurb: "Simple pero oscuro."
     status: "Estado"
     weapons: "Armas"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
     attack: "Dano" # Can also translate as "Attack"
     health: "Saúde"
     speed: "Velocidade"
+#    regeneration: "Regeneration"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Habilidades"
 
   save_load:
@@ -428,7 +447,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     enter: "Enter"
     escape: "Escape"
     shift: "Shift"
-    cast_spell: "Invocar o feitizo actual."
+#    run_code: "Run current code."
     run_real_time: "executar en tempo real."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -609,6 +628,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     diplomat_launch_url: "lanzamiento en octubre"
     diplomat_introduction_suf: "hai un interés considerable en CodeCombat en otros paises, ¡especialmente Brasil! Estamos formando un cuerpo de traductores con ganas de traducir un grupo de palabras tras otro para hacer CodeCombat tan accesible para todo el mundo como sea posible. Si quieres recibir avances de próximos contenidos y quieres poner esos niveles a disposición de los que comparten tu idioma tan pronto como sea posible, entonces esta Clase es para ti."
     diplomat_attribute_1: "Fluidez co inglés e a linguaxe á que queiras traducir. Cando se trata de transmitir ideas complexas, és importante ter grandes coñecementos das dúas!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Atopa o ficheiro local do teu idioma "
     diplomat_github_url: "en GitHub"
     diplomat_join_suf_github: ", edítao en liña, e solicita que sexa revisado. Ademais, marca a casilla de abaixo para mantenerte informado en novos progresos en Internacionalización."

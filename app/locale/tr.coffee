@@ -55,6 +55,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Kahramanlar" # Tooltip on hero shop button from /play
     achievements: "Başarımlar" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     restart: "Yeniden başlat"
     goals: "Hedefler"
     goal: "Amaç"
+#    running: "Running..."
     success: "Başarılı!"
     incomplete: "Tamamlanmamış"
     timed_out: "Süre bitti"
     failing: "Başarısız"
     action_timeline: "Eylem Çizelgesi"
     click_to_select: "Birimi seçmek için üzerine tıklayın."
+#    reload: "Reload"
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_minion_spells: "Minyonlarınızın Büyüleri" # Only in old-style levels.
     tome_read_only_spells: "Salt Okunur Büyüler" # Only in old-style levels.
     tome_other_units: "Diğer Birimler" # Only in old-style levels.
-    tome_cast_button_castable: "Başlatılabilir" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Başlatılıyor" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Başlat" # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Çalıştır"
     tome_cast_button_running: "Çalıştırılıyor"
     tome_cast_button_ran: "Çalıştırıldı"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_select_a_thang: "Birini seç..."
     tome_available_spells: "Kullanılabilir Büyüler"
     tome_your_skills: "Yetenekleriniz"
-    hud_continue: "Devam (ÜstKarakter+Boşluk)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
     code_saved: "Kod Kaydedildi"
     skip_tutorial: "Atla (ESC)"
     keyboard_shortcuts: "Klavye Kısayolları"
     loading_ready: "Hazır!"
     loading_start: "Seviyeyi Başlat"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Şimdi:"
     time_total: "Max:"
     time_goto: "Git:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   game_menu:
     inventory_tab: "Envanter"
-    choose_hero_tab: "Seviyeyi Yeniden Başlat"
     save_load_tab: "Kaydet/Yükle"
     options_tab: "Seçenekler"
     guide_tab: "Rehber"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "Kahramanınızı Seçin"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     io_blurb: "Basit fakat anlaşılması güç."
     status: "Durum"
     weapons: "Silahlar"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
     attack: "Saldırı" # Can also translate as "Attack"
     health: "Sağlık"
     speed: "Hız"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     enter: "Enter"
     escape: "Escape"
     shift: "ÜstKarakter"
-    cast_spell: "Geçerli büyüyü çalıştır."
+#    run_code: "Run current code."
     run_real_time: "Eşzamanlı çalış."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    diplomat_launch_url: "launch in October"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
 #    diplomat_github_url: "on GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

@@ -55,6 +55,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     restart: "Ricomincia"
     goals: "Obiettivi"
 #    goal: "Goal"
+#    running: "Running..."
 #    success: "Success!"
     incomplete: "Incompleto"
     timed_out: "Tempo Scaduto"
 #    failing: "Failing"
     action_timeline: "Barra temporale delle azioni"
     click_to_select: "Clicca un'unità per selezionarla."
+#    reload: "Reload"
     reload_title: "Ricarica tutto il codice?"
     reload_really: "Sei sicuro di voler ricominciare il livello?"
     reload_confirm: "Ricarica tutto"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tome_minion_spells: "Incantesimi dei tuoi seguaci" # Only in old-style levels.
     tome_read_only_spells: "Incantesimi in sola lettura" # Only in old-style levels.
     tome_other_units: "Altre unità" # Only in old-style levels.
-    tome_cast_button_castable: "Lancia" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Lanciando" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Incantesimi" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tome_select_a_thang: "Seleziona qualcuno per "
     tome_available_spells: "Incantesimi disponibili"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "Continua (premi Maiusc-Spazio)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Salta (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Pronto!"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   game_menu:
     inventory_tab: "Inventario"
-    choose_hero_tab: "Ricomincia Livello"
     save_load_tab: "Salva/Carico"
     options_tab: "Opzioni"
     guide_tab: "Guida"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     enter: "Invio"
     escape: "Esc"
     shift: "Maiusc"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     diplomat_launch_url: "lancio di ottobre"
     diplomat_introduction_suf: "è che c'è un notevole interesse per CodeCombat negli altri paesi, in particolare in Brasile! Stiamo costruendo un corpo di traduttori per trasformare liste di parole in altre parole, per rendere CodeCombat accessibile il più possibile in tutto il mondo. Se ti piace l'idea di sbirciare nei contenuti futuri e di portare questi livelli ai tuoi connazionali il più presto possibile, questa categoria potrebbe essere la tua."
     diplomat_attribute_1: "Competenza in inglese e nella lingua in cui vorresti tradurre. Per trasferire idee complesse è importante avere una solida capacità in entrambe!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
     diplomat_github_url: "su GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

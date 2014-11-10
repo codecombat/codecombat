@@ -55,6 +55,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     restart: "재시작"
     goals: "목표"
 #    goal: "Goal"
+#    running: "Running..."
     success: "성공!"
     incomplete: "목표 미완료"
     timed_out: "제한 시간 초과"
     failing: "다시 한번 더 도전해보세요."
     action_timeline: "액션 타임라인"
     click_to_select: "유닛을 선택하기 위해서 유닛을 마우스로 클릭하세요."
+#    reload: "Reload"
     reload_title: "모든 코드가 다시 로딩 되었나요?"
     reload_really: "모든 레벨 초기화합니다. 확실한가요?"
     reload_confirm: "모두 초기화"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_minion_spells: "미니언의 마법" # Only in old-style levels.
     tome_read_only_spells: "읽기 전용 마법" # Only in old-style levels.
     tome_other_units: "다른 유닛들" # Only in old-style levels.
-    tome_cast_button_castable: "마법 캐스팅" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "캐스팅 중" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "마법 캐스팅" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_select_a_thang: "누군가를 선택하세요. "
     tome_available_spells: "사용 가능한 마법"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "계속진행 (shift+space)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "넘기기 (esc)"
     keyboard_shortcuts: "단축키"
     loading_ready: "준비!"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     io_blurb: "간단하지만 아직 잘 알려지지 않은 언어."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     enter: "엔터"
     escape: "Esc"
 #    shift: "Shift"
-    cast_spell: "현재 상태의 주문을 겁니다."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    diplomat_launch_url: "launch in October"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
 #    diplomat_github_url: "on GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

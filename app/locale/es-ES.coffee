@@ -55,6 +55,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     restart: "Reiniciar"
     goals: "Objetivos"
     goal: "Objetivo Principal"
+#    running: "Running..."
     success: "Exito!"
     incomplete: "Incompleto"
     timed_out: "Te has quedado sin tiempo"
     failing: "Fallando"
     action_timeline: "Cronología de Acción"
     click_to_select: "Click en una unidad para seleccionarla"
+#    reload: "Reload"
     reload_title: "¿Recargar todo el código?"
     reload_really: "¿Estas seguro que quieres reiniciar el nivel?"
     reload_confirm: "Recargarlo todo"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_minion_spells: "Los hechizos de tus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de solo lectura" # Only in old-style levels.
     tome_other_units: "Otras unidades" # Only in old-style levels.
-    tome_cast_button_castable: "Invocable" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Invocando" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Invocar" # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Correr"
     tome_cast_button_running: "Corriendo"
     tome_cast_button_ran: "Corrido"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_select_a_thang: "Selecciona a alguien para "
     tome_available_spells: "Hechizos disponibles"
     tome_your_skills: "Tus Habilidades"
-    hud_continue: "Continuar (pulsa Shift+Space)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
     code_saved: "Codigo Salvado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
     loading_ready: "¡Listo!"
     loading_start: "Iniciar Nivel"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Ahora:"
     time_total: "Máx:"
     time_goto: "Ir a:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   game_menu:
     inventory_tab: "Inventario"
-    choose_hero_tab: "Reiniciar Nivel"
     save_load_tab: "Salvar/Cargar"
     options_tab: "Opciones"
     guide_tab: "Guia"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "Selecciona tu Heroe"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     io_blurb: "Simple pero oscuro."
     status: "Estado"
     weapons: "Armas"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
     attack: "Daño" # Can also translate as "Attack"
     health: "Salud"
     speed: "Velocidad"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     enter: "Enter"
     escape: "Escape"
     shift: "Shift"
-    cast_spell: "Invocar el hechizo actual."
+#    run_code: "Run current code."
     run_real_time: "correr en tiempo real."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     diplomat_launch_url: "lanzamiento en octubre"
     diplomat_introduction_suf: "hay un interés considerable en CodeCombat en otros paises, ¡especialmente Brasil! Estamos formando un cuerpo de traductores con ganas de traducir un grupo de palabras tras otro para hacer CodeCombat tan accesible para todo el mundo como sea posible. Si quieres recibir avances de próximos contenidos y quieres poner esos niveles a disposición de los que comparten tu idioma tan pronto como sea posible, entonces esta Clase es para ti."
     diplomat_attribute_1: "Fluidez con el ingles y el lenguaje al que quieras traducir. Cuando de transmitir ideas complejas se trata, ¡es importante tener grandes conocimientos de ambas!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Encuentra el fichero local de tu idioma "
     diplomat_github_url: "en GitHub"
     diplomat_join_suf_github: ", edítalo online, y solicita que sea revisado. Además, marca la casilla de abajo para mantenerte informado en nuevos progresos en Internacionalización."
