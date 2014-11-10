@@ -6,6 +6,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots'}
   'gems-in-the-deep':
@@ -15,6 +16,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots'}
   'shadow-guard':
@@ -24,6 +26,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword'}
   'kounter-kithwise':
@@ -32,6 +35,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'crawlways-of-kithgard':
@@ -40,6 +44,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'forgetful-gemsmith':
@@ -48,6 +53,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'true-names':
@@ -56,6 +62,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', waist: 'leather-belt'}
     restrictedGear: {feet: 'leather-boots'}
   'favorable-odds':
@@ -63,6 +70,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
     restrictedGear: {feet: 'leather-boots'}
   'the-raised-sword':
@@ -70,6 +78,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic'}
     restrictedGear: {feet: 'leather-boots'}
   'the-first-kithmaze':
@@ -77,6 +86,7 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'haunted-kithmaze':
@@ -84,76 +94,90 @@ module.exports = LevelOptions =
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'descending-further':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'the-second-kithmaze':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'dread-door':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'known-enemy':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', torso: 'leather-tunic'}
     restrictedGear: {feet: 'leather-boots'}
   'master-of-names':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
     restrictedGear: {feet: 'leather-boots'}
   'lowly-kithmen':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
     restrictedGear: {feet: 'leather-boots'}
   'closing-the-distance':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'leather-boots'}
   'tactical-strike':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'leather-boots'}
   'the-final-kithmaze':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
   'the-gauntlet':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'leather-boots'}
   'kithgard-gates':
     hidesSay: true
     hidesCodeToolbar: true
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
     restrictedGear: {'right-hand': 'simple-sword'}
   'defense-of-plainswood':
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
     restrictedGear: {'right-hand': 'simple-sword'}
   'winding-trail':
+    hidesRealTimePlayback: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'thornbush-farm':
