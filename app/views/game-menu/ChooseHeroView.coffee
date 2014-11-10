@@ -12,7 +12,6 @@ module.exports = class ChooseHeroView extends CocoView
   template: template
 
   events:
-    'click #restart-level-confirm-button': -> Backbone.Mediator.publish 'level:restart', {}
     'slide.bs.carousel #hero-carousel': 'onHeroChanged'
     'change #option-code-language': 'onCodeLanguageChanged'
 
@@ -37,7 +36,6 @@ module.exports = class ChooseHeroView extends CocoView
     context = super(context)
     context.heroes = @heroes.models
     hero.locked = temporaryHeroInfo[hero.get('slug')].status is 'Locked' and not me.ownsHero hero.get('original') for hero in context.heroes
-    context.level = @options.level
     context.codeLanguages = [
       {id: 'python', name: 'Python (Default)'}
       {id: 'javascript', name: 'JavaScript'}

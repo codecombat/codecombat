@@ -5,6 +5,7 @@ ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 ItemView = require './ItemView'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+LevelOptions = require 'lib/LevelOptions'
 
 hasGoneFullScreenOnce = false
 
@@ -32,11 +33,9 @@ module.exports = class InventoryModal extends ModalView
   initialize: (options) ->
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
-    @equipment = options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
-    @equipment = $.extend true, {}, @equipment
-    @requireLevelEquipment()
     @items.url = '/db/thang.type?view=items&project=name,slug,components,original,rasterIcon,gems,description,heroClass'
     @supermodel.loadCollection(@items, 'items')
+    @equipment = {}  # Assign for real when we have loaded the session
 
   destroy: ->
     @stage?.removeAllChildren()
@@ -44,6 +43,9 @@ module.exports = class InventoryModal extends ModalView
 
   onLoaded: ->
     item.notInLevel = true for item in @items.models
+    @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
+    @equipment = $.extend true, {}, @equipment
+    @requireLevelEquipment()
     super()
 
   getRenderData: (context={}) ->
@@ -54,12 +56,12 @@ module.exports = class InventoryModal extends ModalView
     for item in @items.models
       item.classes = item.getAllowedSlots()
       item.classes.push 'equipped' if item.get('original') in context.equipped
-      locked = @allowedItems and not (item.get('original') in @allowedItems)
+      locked = not (item.get('original') in me.items())
       item.classes.push 'locked' if locked and item.get('slug') isnt 'simple-boots'
       for heroClass in item.getAllowedHeroClasses()
         item.classes.push heroClass
       item.classes.push 'silhouette' if item.isSilhouettedItem()
-      item.classes.push 'restricted' if item.get('slug') in _.values(restrictedGearByLevel[@options.levelID] ? {})
+      item.classes.push 'restricted' if item.get('slug') in _.values(LevelOptions[@options.levelID]?.restrictedGear ? {})
 
     @items.models.sort (a, b) ->
       lockScore = 90019001 * (('locked' in a.classes) - ('locked' in b.classes))
@@ -80,7 +82,9 @@ module.exports = class InventoryModal extends ModalView
 
   afterRender: ->
     super()
+    @$el.find('.modal-footer button').css('visibility', 'hidden')
     return unless @supermodel.finished()
+    @$el.find('.modal-footer button').css('visibility', 'visible')
 
     keys = (item.get('original') for item in @items.models)
     itemMap = _.zipObject keys, @items.models
@@ -112,7 +116,7 @@ module.exports = class InventoryModal extends ModalView
           revertDuration: 200
           distance: 10
           scroll: false
-          zIndex: 100
+          zIndex: 10000
         itemView.$el.on 'dragstart', =>
           @onAvailableItemClick target: itemView.$el.parent() unless itemView.$el.parent().hasClass 'active'
 
@@ -162,7 +166,7 @@ module.exports = class InventoryModal extends ModalView
       revertDuration: 200
       distance: 10
       scroll: false
-      zIndex: 100
+      zIndex: 10000
 
   clearSelection: ->
     @$el.find('.item-slot.selected').removeClass 'selected'
@@ -342,8 +346,8 @@ module.exports = class InventoryModal extends ModalView
 
   requireLevelEquipment: ->
     # This is temporary, until we have a more general way of awarding items and configuring required/restricted items per level.
-    return unless necessaryGear = requiredGearByLevel[@options.levelID]
-    restrictedGear = restrictedGearByLevel[@options.levelID] ? {}
+    requiredGear = LevelOptions[@options.levelID]?.requiredGear ? {}
+    restrictedGear = LevelOptions[@options.levelID]?.restrictedGear ? {}
     if @inserted
       if @supermodel.finished()
         equipment = @getCurrentEquipmentConfig()  # Make sure @equipment is updated
@@ -358,10 +362,15 @@ module.exports = class InventoryModal extends ModalView
         if equipped and equipped is gear[restrictedGear[slot]]
           console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
-      for slot, item of necessaryGear
-        continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
+      for slot, item of requiredGear
+        #continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level  # ... when we make it so that you can buy it
         equipped = equipment[slot]
-        continue if equipped and not ((item is 'builders-hammer' and equipped is gear['simple-sword']) or (item is 'leather-boots' and equipped is gear['simple-boots']))
+        continue if equipped and not (
+          (item is 'builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword']]) or
+          (item in ['simple-sword', 'long-sword'] and equipped is gear['builders-hammer']) or
+          (item is 'leather-boots' and equipped is gear['simple-boots']) or
+          (item is 'simple-boots' and equipped is gear['leather-boots'])
+        )
         availableSlotSelector = "#available-equipment li[data-item-id='#{gear[item]}']"
         @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
         @$el.find(availableSlotSelector).addClass 'should-equip'
@@ -369,17 +378,8 @@ module.exports = class InventoryModal extends ModalView
         @remainingRequiredEquipment.push slot: slot, item: gear[item]
       if hadRequired and not @remainingRequiredEquipment.length
         @endHighlight()
-        @highlightElement (if inWorldMap then '#play-level-button' else '.overlaid-close-button'), duration: 5000
+        @highlightElement '#play-level-button', duration: 5000
       $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
-
-    # Restrict available items to those that would be available by this level.
-    @allowedItems = []
-    for level, items of requiredGearByLevel
-      for slot, item of items
-        @allowedItems.push gear[item] unless gear[item] in @allowedItems
-      break if level is @options.levelID
-    for item in me.items() when not (item in @allowedItems)
-      @allowedItems.push item
 
   setHero: (@selectedHero) ->
     @loadHero()
@@ -485,71 +485,3 @@ gear =
   'bronze-shield': '544c310ae0017993fce214bf'
   'wooden-glasses': '53e2167653457600003e3eb3'
   'basic-flags': '545bacb41e649a4495f887da'
-
-requiredGearByLevel =
-  'dungeons-of-kithgard': {feet: 'simple-boots'}
-  'gems-in-the-deep': {feet: 'simple-boots'}
-  'shadow-guard': {feet: 'simple-boots'}
-  'kounter-kithwise': {feet: 'simple-boots'}
-  'crawlways-of-kithgard': {feet: 'simple-boots'}
-  'forgetful-gemsmith': {feet: 'simple-boots'}
-  'true-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', waist: 'leather-belt'}
-  'favorable-odds': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
-  'the-raised-sword': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic'}
-  'the-first-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
-  'haunted-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
-  'descending-further': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
-  'the-second-kithmaze': {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
-  'dread-door': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
-  'known-enemy': {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', torso: 'leather-tunic'}
-  'master-of-names': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
-  'lowly-kithmen': {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
-  'closing-the-distance': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
-  'tactical-strike': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
-  'the-final-kithmaze': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-  'the-gauntlet': {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-  'kithgard-gates': {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
-  'defense-of-plainswood': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
-  'winding-trail': {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
-  'thornbush-farm': {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
-  'a-fiery-trap': {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
-  'ogre-encampment': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
-  'woodland-cleaver': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'wooden-shield', wrists: 'sundial-wristwatch', feet: 'leather-boots'}
-  'shield-rush': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-  'peasant-protection': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-  'munchkin-swarm': {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-  'coinucopia': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags'}
-  'copper-meadows': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses'}
-  'drop-the-flag': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
-  'rich-forager': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'longsword', 'left-hand': 'bronze-shield'}
-  'deadly-pursuit': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
-  'multiplayer-treasure-grove': {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic'}
-
-restrictedGearByLevel =
-  'dungeons-of-kithgard': {feet: 'leather-boots'}
-  'gems-in-the-deep': {feet: 'leather-boots'}
-  'shadow-guard': {feet: 'leather-boots', 'right-hand': 'simple-sword'}
-  'kounter-kithwise': {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
-  'crawlways-of-kithgard': {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
-  'forgetful-gemsmith': {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
-  'true-names': {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
-  'favorable-odds': {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
-  'the-raised-sword': {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
-  'the-first-kithmaze': {feet: 'leather-boots'}
-  'haunted-kithmaze': {feet: 'leather-boots'}
-  'descending-further': {feet: 'leather-boots'}
-  'the-second-kithmaze': {feet: 'leather-boots'}
-  'the-final-kithmaze': {feet: 'leather-boots'}
-  'the-gauntlet': {feet: 'leather-boots'}
-  'kithgard-gates': {'right-hand': 'simple-sword'}
-  'defense-of-plainswood': {'right-hand': 'simple-sword'}
-  'winding-trail': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
-  'thornbush-farm': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
-  'a-fiery-trap': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
-  'ogre-encampment': {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
-  'woodland-cleaver': {feet: 'simple-boots', 'right-hand': 'simple-sword'}
-  'shield-rush': {'left-hand': 'wooden-shield'}
-  'peasant-protection': {eyes: 'crude-glasses'}
-  'drop-the-flag': {'right-hand': 'longsword'}
-  'rich-forager': {'right-hand': 'builders-hammer'}
-  'deadly-pursuit': {'right-hand': 'longsword'}

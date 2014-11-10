@@ -101,6 +101,32 @@ module.exports = class User extends CocoModel
         application.tracker.identify castButtonTextGroup: @castButtonTextGroup
     @castButtonTextGroup
 
+  getDirectFirstGroup: ->
+    # Group -1 is not participating
+    # Group 0 is original behavior
+    # Group 1 goes directly to first level if new user
+    # Targetting users with testGroupNumber < 128
+    unless @directFirstGroup?
+      if me.isAdmin() or me.get('testGroupNumber') >= 128
+        @directFirstGroup = -1
+      else
+        @directFirstGroup = me.get('testGroupNumber') % 2
+        application.tracker.identify directFirstGroup: @directFirstGroup
+    @directFirstGroup
+
+  getExperimentalLangGroup: ->
+    # Group -1 is not participating
+    # Group 0 is original behavior
+    # Group 1 isn't shown experimental languages in hero modal when launching beginner campaign level
+    # Targetting users with testGroupNumber >= 128
+    unless @experimentalLangGroup?
+      if me.isAdmin() or me.get('testGroupNumber') < 128
+        @experimentalLangGroup = -1
+      else
+        @experimentalLangGroup = me.get('testGroupNumber') % 2
+        application.tracker.identify experimentalLangGroup: @experimentalLangGroup
+    @experimentalLangGroup
+
   getHighlightArrowSoundGroup: ->
     return @highlightArrowGroup if @highlightArrowGroup
     group = me.get('testGroupNumber') % 8

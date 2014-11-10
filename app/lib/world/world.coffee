@@ -17,7 +17,7 @@ REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
-COUNTDOWN_LEVELS = ['sky-span', 'dueling-grounds', 'cavern-survival']  # TODO: determine flag usage dynamically
+COUNTDOWN_LEVELS = ['sky-span']
 
 module.exports = class World
   @className: 'World'
@@ -99,12 +99,12 @@ module.exports = class World
     continueLaterFn = =>
       @loadFrames(loadedCallback, errorCallback, loadProgressCallback, preloadedCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     if @realTime and not @countdownFinished
-      if @levelID in ['the-first-kithmaze', 'haunted-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze', 'the-gauntlet', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
-        @realTimeSpeedFactor = 5
-      else if @levelID in ['forgetful-gemsmith', 'descending-further', 'tactical-strike', 'kithgard-gates', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm']
-        @realTimeSpeedFactor = 3
-      else
-        @realTimeSpeedFactor = 1
+      @realTimeSpeedFactor = 1
+      unless @showsCountdown
+        if @levelID in ['the-first-kithmaze', 'haunted-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze', 'the-gauntlet', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
+          @realTimeSpeedFactor = 5
+        else if @levelID in ['forgetful-gemsmith', 'descending-further', 'tactical-strike', 'kithgard-gates', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm']
+          @realTimeSpeedFactor = 3
       if @showsCountdown
         return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
       else
@@ -203,12 +203,12 @@ module.exports = class World
 
   loadFromLevel: (level, willSimulate=true) ->
     @levelID = level.slug
-    @showsCountdown = @levelID in COUNTDOWN_LEVELS
     @levelComponents = level.levelComponents
     @thangTypes = level.thangTypes
     @loadScriptsFromLevel level
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
+    @showsCountdown = @levelID in COUNTDOWN_LEVELS or _.any(@thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag)
     system.start @thangs for system in @systems
 
   loadSystemsFromLevel: (level) ->

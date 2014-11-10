@@ -4,31 +4,33 @@
 
 #item-details-body
   if item
-    #item-container
-      img.item-img(src=item.getPortraitURL())
-      img.item-shadow(src=item.getPortraitURL())
-    
-    img.hr(src="/images/pages/play/modal/hr.png")
-  
-    for stat in stats
-      div.stat-row.big-font
-        div.stat-label= stat.name
-        div.stat= stat.display
-      img.hr(src="/images/pages/play/modal/hr.png" class=stat.isLast ? "" : "faded")
+    .nano
+      .nano-content
+        #item-container
+          img.item-img(src=item.getPortraitURL())
+          img.item-shadow(src=item.getPortraitURL())
 
-    if props.length
-      #skills
-        h3.big-font(data-i18n="play.skills-granted")
-        for prop in props
-          p
-            strong.big-font= prop.name
-            span.spr :
-            span!= prop.description
+        img.hr(src="/images/pages/play/modal/hr.png")
 
-     if item.comingSoon
-       .text-center
-         h3 This item has no stats.
-         p Only admins will see it for now.
+        for stat in stats
+          div.stat-row.big-font
+            div.stat-label= stat.name
+            div.stat= stat.display
+          img.hr(src="/images/pages/play/modal/hr.png" class=stat.isLast ? "" : "faded")
+
+        if props.length
+          #skills
+            h3.big-font(data-i18n="play.skills-granted")
+            for prop in props
+              p
+                strong.big-font= prop.name
+                span.spr :
+                span!= prop.description
+
+         if item.comingSoon
+           .text-center
+             h3 This item has no stats.
+             p Only admins will see it for now.
 
 if item && !item.owned
   button#selected-item-unlock-button.btn.big-font.unlock-button(disabled=!item.affordable, data-item-id=item.id, data-i18n="play.unlock") Unlock

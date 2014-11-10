@@ -78,7 +78,6 @@ module.exports = class PlayLevelView extends RootView
     'real-time-multiplayer:joined-game': 'onRealTimeMultiplayerJoinedGame'
     'real-time-multiplayer:left-game': 'onRealTimeMultiplayerLeftGame'
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
-    'level:hero-config-changed': 'onHeroConfigChanged'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -190,7 +189,7 @@ module.exports = class PlayLevelView extends RootView
     @world = @levelLoader.world
     @level = @levelLoader.level
     @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-    @$el.addClass 'flags' if (@level.get('slug') in ['sky-span', 'coinucopia']) or (@level.get('type', true) in ['hero-ladder', 'hero-coop']) # TODO: figure out when the player has flags.
+    @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -244,7 +243,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
     @insertSubView new LevelPlaybackView session: @session, levelID: @levelID, level: @level
     @insertSubView new GoalsView {}
-    @insertSubView new LevelFlagsView world: @world if (@levelID in ['sky-span', 'coinucopia']) or @level.get('type', true) in ['hero-ladder', 'hero-coop'] # TODO: figure out when flags are available
+    @insertSubView new LevelFlagsView world: @world if @$el.hasClass 'flags'
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}
@@ -281,7 +280,7 @@ module.exports = class PlayLevelView extends RootView
     # Just the level and session have been loaded by the level loader
     if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @})
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session})
       @setupManager.open()
 
     @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['ladder', 'hero-ladder']
@@ -397,18 +396,6 @@ module.exports = class PlayLevelView extends RootView
         break
     Backbone.Mediator.publish 'tome:cast-spell', {}
 
-  onHeroConfigChanged: (e) ->
-    # Doesn't work because the new inventory ThangTypes may not be loaded.
-    #@setLevel @level, @supermodel
-    #Backbone.Mediator.publish 'tome:cast-spell', {}
-    # We'll just make a new PlayLevelView instead
-    console.log 'Hero config changed; reload the level.'
-    Backbone.Mediator.publish 'router:navigate', {
-      route: window.location.pathname,
-      viewClass: PlayLevelView,
-      viewArgs: [{supermodel: @supermodel, autoUnveil: true}, @levelID]
-    }
-
   onWindowResize: (e) => @endHighlight()
 
   onDisableControls: (e) ->
@@ -433,7 +420,10 @@ module.exports = class PlayLevelView extends RootView
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
     if victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
-      application.tracker?.trackEvent 'Saw Victory', level: @level.get('name'), label: @level.get('name')
+      application.tracker?.trackEvent 'Saw Victory',
+        level: @level.get('name')
+        label: @level.get('name')
+        getDirectFirstGroup: me.getDirectFirstGroup()
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->

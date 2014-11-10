@@ -55,10 +55,10 @@ module.exports = class ControlBarView extends CocoView
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
-      # TODO: dynamically figure out which world map to return to
-      if @level.get('slug') in ['defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
-        @homeLink += '/forest'
-        @homeViewArgs.push 'forest'
+      campaign = @getCampaignForSlug @level.get 'slug'
+      if campaign isnt 'dungeon'
+        @homeLink += '/' + campaign
+        @homeViewArgs.push campaign
     else
       @homeLink = c.homeLink = '/'
       @homeViewClass = require 'views/HomeView'
@@ -70,7 +70,7 @@ module.exports = class ControlBarView extends CocoView
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @})
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @, session: @session})
       @setupManager.open()
 
   onClickHome: (e) ->
@@ -85,6 +85,11 @@ module.exports = class ControlBarView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'controls-disabled', not enabled
+
+  getCampaignForSlug: (slug) ->
+    for campaign in require('views/play/WorldMapView').campaigns
+      for level in campaign.levels
+        return campaign.id if level.id is slug
 
   destroy: ->
     @setupManager?.destroy()

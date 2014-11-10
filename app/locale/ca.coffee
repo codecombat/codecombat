@@ -55,6 +55,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Herois" # Tooltip on hero shop button from /play
     achievements: "Triomfs" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     restart: "Recomençar"
     goals: "Objectius"
     goal: "Objectiu"
+#    running: "Running..."
     success: "Exit!"
     incomplete: "Incomplet"
     timed_out: "S'ha acabat el temps"
     failing: "Fallant"
     action_timeline: "Cronologia d'accions"
 #    click_to_select: "Click on a unit to select it."
+#    reload: "Reload"
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
     tome_other_units: "Altres unitats" # Only in old-style levels.
-#    tome_cast_button_castable: "Cast Spell" # Temporary, if tome_cast_button_run isn't translated.
-#    tome_cast_button_casting: "Casting" # Temporary, if tome_cast_button_running isn't translated.
-#    tome_cast_button_cast: "Spell Cast" # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "Executant"
     tome_cast_button_ran: "Executat"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
     tome_your_skills: "Les teves habilitats"
-    hud_continue: "Continuar (shift+espai)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
 #    skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Dreceres del teclat"
     loading_ready: "Preparat!"
     loading_start: "Comença el nivell"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Ara:"
     time_total: "Maxim:"
     time_goto: "Ves a:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   game_menu:
     inventory_tab: "Inventari"
-    choose_hero_tab: "Recomençar nivell"
     save_load_tab: "Desa/Carrega"
     options_tab: "Opcions"
     guide_tab: "Gui"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "Escull el teu heroi"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     io_blurb: "Senzill però obscur."
     status: "Estat"
     weapons: "Armes"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
     attack: "Dany" # Can also translate as "Attack"
     health: "Salut"
     speed: "Velocitat"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     enter: "Enter"
     escape: "Escape"
     shift: "Shift"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    diplomat_launch_url: "launch in October"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
 #    diplomat_github_url: "on GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

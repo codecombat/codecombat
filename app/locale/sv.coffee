@@ -55,6 +55,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     restart: "Börja om"
     goals: "Mål"
 #    goal: "Goal"
+#    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
     action_timeline: "Händelse-tidslinje"
     click_to_select: "Klicka på en enhet för att välja den."
+#    reload: "Reload"
     reload_title: "Ladda om all kod?"
     reload_really: "Är du säker på att du vill ladda om nivån från början?"
     reload_confirm: "Ladda om allt"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_minion_spells: "Dina soldaters förmågor" # Only in old-style levels.
     tome_read_only_spells: "Skrivskyddade förmågor" # Only in old-style levels.
     tome_other_units: "Andra enheter" # Only in old-style levels.
-    tome_cast_button_castable: "Använd besvärjelse" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Besvärjer" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Besvärjelse använd" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_select_a_thang: "Välj någon för "
     tome_available_spells: "Tillgängliga förmågor"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "Fortsätt (skift+mellanslag)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Hoppa över (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    enter: "Enter"
 #    escape: "Escape"
 #    shift: "Shift"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     diplomat_launch_url: "lanseringen i oktober"
     diplomat_introduction_suf: "är det att det finns ett stort intresse för CodeCombat i andra länder! Vi bygger en kår av översättare ivriga att förvandla en samling ord till en annan samling ord för att få CodeCombat så tillgänglig i världen som möjligt. Om du gillar att få tjuvkikar på kommande innehåll och att få dessa nivåer till de andra i ditt land så snart som möjligt är det här kanske klassen för dig."
     diplomat_attribute_1: "Flytande engelska och språket du vill översätta till. När man förmedlar komplicerade idéer är det viktigt att ha ett starkt grepp om båda!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Hitta ditt språks locale-fil "
     diplomat_github_url: "på GitHub"
     diplomat_join_suf_github: ", redigera den online, och skicka en ryckförfrågan. Kryssa också i rutan här nedanför för att hålla dig uppdaterad om nya internationaliseringsutvecklingar."

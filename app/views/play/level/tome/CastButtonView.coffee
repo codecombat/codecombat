@@ -1,6 +1,7 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/cast_button'
 {me} = require 'lib/auth'
+LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -46,7 +47,7 @@ module.exports = class CastButtonView extends CocoView
     #delay = me.get('autocastDelay')  # No more autocast
     delay = 90019001
     @setAutocastDelay delay
-    @$el.find('.submit-button').hide() if @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']
+    @$el.find('.submit-button').hide() if LevelOptions[@options.levelID]?.hidesSubmitUntilRun  # Hide Submit for the first few until they run it once.
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
@@ -112,7 +113,7 @@ module.exports = class CastButtonView extends CocoView
           castText = $.i18n.t('play_level.tome_cast_button_running')
         else if castable or true
           castText = $.i18n.t('play_level.tome_cast_button_run')
-          unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'kounter-kithwise', 'true-names', 'the-raised-sword', 'favorable-odds', 'the-first-kithmaze', 'haunted-kithmaze']  # Hide for first few.
+          unless LevelOptions[@options.levelID]?.hidesRunShortcut  # Hide for first few.
             castText += ' ' + @castShortcut
         else
           castText = $.i18n.t('play_level.tome_cast_button_ran')
@@ -156,7 +157,7 @@ module.exports = class CastButtonView extends CocoView
       when 4 then run: 'Test', submit: 'Continue'
       when 5 then run: 'Run', submit: 'Finish'
       when 6 then run: 'Test', submit: 'Finish'
-    application.tracker?.trackEvent 'Spell View',
-      Action: 'Loaded'
+    application.tracker?.trackEvent 'Cast Button',
       levelID: @levelID
       castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
+      castButtonTextGroup: @testGroup

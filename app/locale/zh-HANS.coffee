@@ -55,6 +55,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     restart: "重新开始"
     goals: "目标"
     goal: "目标"
+#    running: "Running..."
     success: "成功!"
     incomplete: "未完成"
     timed_out: "运行超时"
     failing: "失败"
     action_timeline: "行动时间轴"
     click_to_select: "点击选择一个单元。"
+#    reload: "Reload"
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
     tome_other_units: "其他单元" # Only in old-style levels.
-    tome_cast_button_castable: "发动" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "发动中" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "发动咒语" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
     tome_your_skills: "你的技能"
-    hud_continue: "继续（按 Shift-空格）"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
     loading_ready: "载入完成!"
     loading_start: "关卡开始"
+#    problem_alert_title: "Fix Your Code"
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   game_menu:
 #    inventory_tab: "Inventory"
-    choose_hero_tab: "重新开始关卡"
     save_load_tab: "保存/打开"
     options_tab: "设置"
     guide_tab: "使用向导"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     io_blurb: "简单而晦涩。"
     status: "状态"
     weapons: "武器"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
     health: "健康值"
     speed: "速度"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     enter: "回车"
 #    escape: "Escape"
 #    shift: "Shift"
-    cast_spell: "演示当前咒语"
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     diplomat_launch_url: "十月的发布"
     diplomat_introduction_suf: "中得到了什么启发：那就是全世界的人都对 CodeCombat 很感兴趣。我们召集了一群翻译者，尽快地把网站上的信息翻译成各国文字。如果你对即将发布的新内容很感兴趣，想让你的国家的人们玩上，就快来成为外交官吧。"
     diplomat_attribute_1: "既会说流利的英语，也熟悉自己的语言。编程是一件很复杂的事情，而要翻译复杂的概念，你必须对两种语言都在行！"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "在"
     diplomat_github_url: " GitHub "
     diplomat_join_suf_github: "找到你的语言文件 (中文的是: codecombat/app/locale/zh-HNAS.coffee)，在线编辑它，然后提交一个合并请求。同时，选中下面这个复选框来关注最新的国际化开发！"

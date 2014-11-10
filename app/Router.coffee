@@ -156,7 +156,6 @@ module.exports = class CocoRouter extends Backbone.Router
       './lib/services/facebook'
       './lib/services/google'
       './lib/services/twitter'
-      './lib/services/linkedin'
     ]
 
     for service in services

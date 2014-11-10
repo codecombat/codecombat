@@ -68,6 +68,9 @@
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     campaign_beginner: "Beginner Campaign"
+    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Choose Your Level"  # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "You can jump to any level below, or discuss the levels on "
     adventurer_forum: "the Adventurer forum"
@@ -281,7 +284,6 @@
 
   game_menu:
     inventory_tab: "Inventory"
-    choose_hero_tab: "Restart Level"
     save_load_tab: "Save/Load"
     options_tab: "Options"
     guide_tab: "Guide"
@@ -629,6 +631,9 @@
     diplomat_launch_url: "launch in October"
     diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
     diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
+    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+    diplomat_i18n_page: "translations page"
+    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Find your language locale file "
     diplomat_github_url: "on GitHub"
     diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

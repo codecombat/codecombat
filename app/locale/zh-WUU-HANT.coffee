@@ -55,6 +55,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     restart: "轉來"
     goals: "目標"
 #    goal: "Goal"
+#    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
     action_timeline: "行動時間橛"
     click_to_select: "點選一個單位。"
+#    reload: "Reload"
     reload_title: "轉讀取全部個代碼？"
     reload_really: "準定轉讀取箇關，回轉到扣起頭？"
     reload_confirm: "轉讀取全部"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tome_minion_spells: "下手個咒語" # Only in old-style levels.
     tome_read_only_spells: "只讀個咒語" # Only in old-style levels.
     tome_other_units: "各許單元" # Only in old-style levels.
-    tome_cast_button_castable: "發動" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "徠搭發動" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "發動咒語" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tome_select_a_thang: "揀人來 "
     tome_available_spells: "好用個法術"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "接落去（捺 Shift-空格）"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "跳過去（Esc）"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "讀取下落！"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
     time_current: "瑲朞:"
     time_total: "頂大:"
     time_goto: "轉到:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    enter: "Enter"
 #    escape: "Escape"
 #    shift: "Shift"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     diplomat_launch_url: "十月個發佈"
     diplomat_introduction_suf: "裏向得到解某啓發：佩是全世界個人都對 CodeCombat 興致頭高險。我裏籠來一陣翻譯人，儘話快速畀網站裏個訊息翻譯成各地文字。空是爾對發佈新個內容有興趣，想讓爾個國土裏個人也來攪，快點趒來當外交官。"
     diplomat_attribute_1: "英語順溜，自己個話也熟。編程是猴煩難個事幹，翻譯囉唆個概念，爾也喫得兩種話都內照！"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "徠"
     diplomat_github_url: " GitHub "
     diplomat_join_suf_github: "尋着爾個語言文件 (吳語是: codecombat/app/locale/zh-WUU-HANT.coffee)，徠線編寫渠，隨底提交一個合併請求。同時，選牢下底箇個多選框關注最新個國際化開發！"

@@ -55,6 +55,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     restart: "Restartovat"
     goals: "Cíl"
 #    goal: "Goal"
+#    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
     action_timeline: "Časová osa"
     click_to_select: "Vyberte kliknutím."
+#    reload: "Reload"
     reload_title: "Znovunačíst veškerý kód?"
     reload_really: "Opravdu chcete resetovat tuto úroveň do počátečního stavu?"
     reload_confirm: "Znovu načíst vše"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tome_minion_spells: "Vaše oblíbená kouzla" # Only in old-style levels.
     tome_read_only_spells: "Kouzla jen pro čtení" # Only in old-style levels.
     tome_other_units: "Ostatní jednotky" # Only in old-style levels.
-    tome_cast_button_castable: "Spustit" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Spouštění" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Spustit Kouzlo" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tome_select_a_thang: "Zvolte někoho pro "
     tome_available_spells: "Dostupná kouzla"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "Pokračovat (stiskněte shift-mezera)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
 #    loading_ready: "Ready!"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    enter: "Enter"
 #    escape: "Escape"
 #    shift: "Shift"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     diplomat_launch_url: "zahájení v Říjnu"
     diplomat_introduction_suf: "bylo, že o CodeCombat je velký zájem i v jiných zemích, obzvláště v Brazílii! Chystáme regiment překladatelů ke zpřístupnění CodeCombatu světu. Pokud chcete nakouknout pod pokličku, dozvědět se o připravovaných novinkách a zpřístupnit úrovně vašim národním kolegům, toto je role pro vás."
     diplomat_attribute_1: "Plynulost v angličtině a v jazyce do kterého budete překládat. Při předávání komplexních myšlenek je důležité si být jistí v kramflecích v obou jazycích!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
 #    diplomat_github_url: "on GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

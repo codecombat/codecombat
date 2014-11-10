@@ -5,6 +5,7 @@ filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
+LevelOptions = require 'lib/LevelOptions'
 
 N_ROWS = 4
 
@@ -198,7 +199,7 @@ module.exports = class SpellPaletteView extends CocoView
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
       for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
-        if prop is 'say' and @options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'haunted-kithmaze', 'descending-further', 'the-second-kithmaze', 'dread-door', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'tactical-strike', 'the-final-kithmaze', 'the-gauntlet', 'kithgard-gates']
+        if prop is 'say' and LevelOptions[@options.level.get('slug')]?.hidesSay  # Hide for Dungeon Campaign
           continue
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]

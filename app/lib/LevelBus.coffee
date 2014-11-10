@@ -173,7 +173,7 @@ module.exports = class LevelBus extends Bus
     @fireScriptsRef?.set({})
     state = @session.get('state')
     state.scripts = {}
-    state.complete = false
+    #state.complete = false  # Keep it complete once ever completed.
     @session.set('state', state)
     @changedSessionProperties.state = true
     @saveSession()
@@ -217,14 +217,14 @@ module.exports = class LevelBus extends Bus
     newGoalStates = goalStates
     state = @session.get('state')
     oldGoalStates = state.goalStates or {}
-    
+
     changed = false
     for goalKey, goalState of newGoalStates
       continue if oldGoalStates[goalKey]?.status is 'success' and goalState.status isnt 'success' # don't undo success, this property is for keying off achievements
       continue if utils.kindaEqual state.goalStates?[goalKey], goalState # Only save when goals really change
       changed = true
       oldGoalStates[goalKey] = _.cloneDeep newGoalStates[goalKey]
-      
+
     if changed
       state.goalStates = oldGoalStates
       @session.set 'state', state
