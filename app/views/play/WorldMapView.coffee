@@ -140,9 +140,9 @@ module.exports = class WorldMapView extends RootView
         levelElement = $(target).parents('.level')
         levelID = levelElement.data('level-id')
         @startLevel levelElement
-        window.tracker?.trackEvent 'World Map', Action: 'ABAutoFirst', levelID: firstLevelID, directFirstGroup: testGroup
+        window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
       else if not me.isAdmin()
-        window.tracker?.trackEvent 'World Map', Action: 'ABAutoFirst', levelID: firstLevelID, directFirstGroup: testGroup
+        window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
         @ABTestSkipHighlight = false
     else
       @ABTestSkipHighlight = false

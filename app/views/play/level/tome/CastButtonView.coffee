@@ -156,7 +156,7 @@ module.exports = class CastButtonView extends CocoView
       when 4 then run: 'Test', submit: 'Continue'
       when 5 then run: 'Run', submit: 'Finish'
       when 6 then run: 'Test', submit: 'Finish'
-    application.tracker?.trackEvent 'Spell View',
-      Action: 'Loaded'
+    application.tracker?.trackEvent 'Cast Button',
       levelID: @levelID
       castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
+      castButtonTextGroup: @testGroup
