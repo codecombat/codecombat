@@ -1,6 +1,7 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
+LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class LevelHUDView extends CocoView
   id: 'thang-hud'
@@ -21,7 +22,7 @@ module.exports = class LevelHUDView extends CocoView
   afterRender: ->
     super()
     @$el.addClass 'no-selection'
-    if @options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'haunted-kithmaze', 'descending-further', 'the-second-kithmaze', 'dread-door', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'tactical-strike', 'the-final-kithmaze', 'the-gauntlet']
+    if LevelOptions[@options.level.get('slug')]?.hidesHUD
       @hidesHUD = true
       @$el.addClass 'hide-hud-properties'
 

@@ -9,6 +9,7 @@ SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
+LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -312,7 +313,7 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
 
   createDebugView: ->
-    return if @options.level.get('type', true) is 'hero'  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -742,7 +743,7 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration row, 'executed'
         @decoratedGutter[row] = ''
     lastExecuted = _.last executed
-    showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not (@options.level.get('slug') in ['dungeons-of-kithgard', 'gems-in-the-deep', 'forgetful-gemsmith', 'shadow-guard', 'kounter-kithwise', 'crawlways-of-kithgard', 'true-names', 'favorable-odds', 'the-raised-sword', 'the-first-kithmaze', 'haunted-kithmaze', 'descending-further', 'the-second-kithmaze', 'dread-door', 'known-enemy', 'master-of-names', 'lowly-kithmen', 'closing-the-distance', 'tactical-strike', 'the-final-kithmaze', 'the-gauntlet', 'kithgard-gates'])
+    showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not LevelOptions[@options.level.get('slug')]?.hidesCodeToolbar  # Hide for a while
 
     if showToolbarView
       statementIndex = Math.max 0, lastExecuted.length - 1
