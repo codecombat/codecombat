@@ -192,6 +192,7 @@ class ItemDetailsView extends CocoView
         propertyNames: props.join(',')
       }})
       @listenToOnce docs, 'sync', @onDocsLoaded
+      @$el.find('.nano:visible').nanoScroller()
 
   onDocsLoaded: (levelComponents) ->
     for component in levelComponents.models
