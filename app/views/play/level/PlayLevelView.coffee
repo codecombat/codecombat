@@ -189,7 +189,7 @@ module.exports = class PlayLevelView extends RootView
     @world = @levelLoader.world
     @level = @levelLoader.level
     @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-    @$el.addClass 'flags' if (@level.get('slug') in ['sky-span', 'coinucopia']) or (@level.get('type', true) in ['hero-ladder', 'hero-coop']) # TODO: figure out when the player has flags.
+    @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -243,7 +243,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
     @insertSubView new LevelPlaybackView session: @session, levelID: @levelID, level: @level
     @insertSubView new GoalsView {}
-    @insertSubView new LevelFlagsView world: @world if (@levelID in ['sky-span', 'coinucopia']) or @level.get('type', true) in ['hero-ladder', 'hero-coop'] # TODO: figure out when flags are available
+    @insertSubView new LevelFlagsView world: @world if @$el.hasClass 'flags'
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}

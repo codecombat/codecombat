@@ -684,6 +684,7 @@ module.exports = Lank = class Lank extends CocoClass
     return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
     return true if /^attack /.test m
     return true if /^Repeating loop/.test m
+    return true if /^findNearestEnemy/.test m
     false
 
   playSounds: (withDelay=true, volume=1.0) ->
