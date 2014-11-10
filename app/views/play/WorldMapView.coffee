@@ -139,7 +139,6 @@ module.exports = class WorldMapView extends RootView
     # TODO: Cleanup @afterRender when this test is finished
     firstLevelID = 'dungeons-of-kithgard'
     testGroup = me.getDirectFirstGroup()
-    console.log 'WorldMapView initABTestAutoFirstLevel', testGroup
     unless @nextLevel? or (firstLevelID of @levelStatusMap) or testGroup is -1
       @ABTestSkipHighlight = testGroup is 1
       if testGroup is 1
