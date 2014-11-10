@@ -80,7 +80,9 @@ module.exports = class InventoryModal extends ModalView
 
   afterRender: ->
     super()
+    @$el.find('.modal-footer button').css('visibility', 'hidden')
     return unless @supermodel.finished()
+    @$el.find('.modal-footer button').css('visibility', 'visible')
 
     keys = (item.get('original') for item in @items.models)
     itemMap = _.zipObject keys, @items.models
