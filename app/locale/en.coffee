@@ -281,7 +281,6 @@
 
   game_menu:
     inventory_tab: "Inventory"
-    choose_hero_tab: "Restart Level"
     save_load_tab: "Save/Load"
     options_tab: "Options"
     guide_tab: "Guide"
