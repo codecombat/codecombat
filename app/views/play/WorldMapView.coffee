@@ -49,6 +49,7 @@ module.exports = class WorldMapView extends RootView
     window.tracker?.trackEvent 'World Map', Action: 'Loaded'
 
   destroy: ->
+    @setupManager?.destroy()
     $(window).off 'resize', @onWindowResize
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
@@ -150,8 +151,9 @@ module.exports = class WorldMapView extends RootView
     @startLevel $(e.target).parents('.level-info-container')
 
   startLevel: (levelElement) ->
-    setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
-    setupManager.open()
+    @setupManager?.destroy()
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
+    @setupManager.open()
     @$levelInfo?.hide()
 
   onMouseEnterLevel: (e) ->

@@ -434,6 +434,7 @@ module.exports = class InventoryModal extends ModalView
   onHidden: ->
     # Called when the modal itself is dismissed
     @endHighlight()
+    super()
 
   onClickChooseHero: ->
     @hide()

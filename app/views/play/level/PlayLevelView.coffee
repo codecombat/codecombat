@@ -280,8 +280,9 @@ module.exports = class PlayLevelView extends RootView
   onSessionLoaded: (e) ->
     # Just the level and session have been loaded by the level loader
     if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
-      setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @})
-      setupManager.open()
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @})
+      @setupManager.open()
 
     @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['ladder', 'hero-ladder']
 
@@ -556,6 +557,7 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
+    @setupManager?.destroy()
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()

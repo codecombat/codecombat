@@ -69,8 +69,9 @@ module.exports = class ControlBarView extends CocoView
     gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
-      setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @})
-      setupManager.open()
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @})
+      @setupManager.open()
 
   onClickHome: (e) ->
     e.preventDefault()
@@ -84,3 +85,7 @@ module.exports = class ControlBarView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'controls-disabled', not enabled
+
+  destroy: ->
+    @setupManager?.destroy()
+    super()

@@ -76,3 +76,8 @@ module.exports = class LevelSetupManager extends CocoClass
       viewClass: viewClass
       viewArgs: [{supermodel: @supermodel}, @options.levelID]
     }
+
+  destroy: ->
+    @heroesModalDestroy.call @heroesModal unless @heroesModal.destroyed
+    @inventoryModalDestroy.call @inventoryModal unless @inventoryModal.destroyed
+    super()
