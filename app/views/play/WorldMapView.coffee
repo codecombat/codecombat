@@ -108,7 +108,8 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top'] unless window.currentModal
+    unless window.currentModal or not @ABTestSkipHighlight? or @ABTestSkipHighlight
+      @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
 
   afterInsert: ->
     super()
@@ -123,6 +124,28 @@ module.exports = class WorldMapView extends RootView
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
     @render()
+    @initABTestAutoFirstLevel()
+    
+  initABTestAutoFirstLevel: ->
+    # A/B testing directly navigating to first level
+    # Excluding admins and users who have already started
+    # TODO: Cleanup @afterRender when this test is finished
+    firstLevelID = 'dungeons-of-kithgard'
+    unless @nextLevel? or firstLevelID of @levelStatusMap
+      testGroup = me.getDirectFirstGroup()
+      if testGroup is 1
+        @ABTestSkipHighlight = true
+        target = $("a[data-level-id='" + firstLevelID + "']")
+        return if $(target).attr('disabled') or $(target).parent().hasClass 'locked'
+        levelElement = $(target).parents('.level')
+        levelID = levelElement.data('level-id')
+        @startLevel levelElement
+        window.tracker?.trackEvent 'World Map', Action: 'ABAutoFirst', levelID: firstLevelID, directFirstGroup: testGroup
+      else if not me.isAdmin()
+        window.tracker?.trackEvent 'World Map', Action: 'ABAutoFirst', levelID: firstLevelID, directFirstGroup: testGroup
+        @ABTestSkipHighlight = false
+    else
+      @ABTestSkipHighlight = false
 
   onClickMap: (e) ->
     @$levelInfo?.hide()

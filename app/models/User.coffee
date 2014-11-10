@@ -101,6 +101,17 @@ module.exports = class User extends CocoModel
         application.tracker.identify castButtonTextGroup: @castButtonTextGroup
     @castButtonTextGroup
 
+  getDirectFirstGroup: ->
+    # Group 0 is original behavior
+    # Group 1 goes directly to first level if new user
+    unless @directFirstGroup?
+      if me.isAdmin()
+        @directFirstGroup = 0
+      else
+        @directFirstGroup = me.get('testGroupNumber') % 2
+        application.tracker.identify directFirstGroup: @directFirstGroup
+    @directFirstGroup
+
   getHighlightArrowSoundGroup: ->
     return @highlightArrowGroup if @highlightArrowGroup
     group = me.get('testGroupNumber') % 8

@@ -433,7 +433,10 @@ module.exports = class PlayLevelView extends RootView
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
     if victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
-      application.tracker?.trackEvent 'Saw Victory', level: @level.get('name'), label: @level.get('name')
+      application.tracker?.trackEvent 'Saw Victory', 
+        level: @level.get('name')
+        label: @level.get('name')
+        getDirectFirstGroup: me.getDirectFirstGroup()
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->
