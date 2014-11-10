@@ -64,6 +64,7 @@ module.exports = class JobProfileView extends UserView
     window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
+    require('lib/services/filepicker')()  # Initialize if needed
     super userID, options
 
   onLoaded: ->

@@ -76,7 +76,7 @@ setUpMoment = ->
 
 initializeUtilityServices = ->
   services = [
-    './lib/services/filepicker'
+    #'./lib/services/filepicker'  # Not until needed
     './lib/services/segmentio'
   ]
 

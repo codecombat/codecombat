@@ -190,11 +190,11 @@ module.exports = class SpellView extends CocoView
       # TODO: Restrict to beginner campaign levels
       name: 'enter-skip-delimiters'
       bindKey: 'Enter|Return'
-      exec: => 
+      exec: =>
         if @aceSession.selection.isEmpty()
           cursor = @ace.getCursorPosition()
           line = @aceDoc.getLine(cursor.row)
-          if delimMatch = line.substring(cursor.column).match /^(["|']?\)+;?)/
+          if delimMatch = line.substring(cursor.column).match /^(["|']?\)+;?)/  # Yay for editors misreading regexes: "
             newRange = @ace.getSelectionRange()
             newRange.setStart newRange.start.row, newRange.start.column + delimMatch[1].length
             newRange.setEnd newRange.end.row, newRange.end.column + delimMatch[1].length

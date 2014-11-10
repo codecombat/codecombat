@@ -3,6 +3,9 @@ CocoCollection = require 'collections/CocoCollection'
 {me} = require('lib/auth')
 locale = require 'locale/locale'
 
+initializeFilePicker = ->
+  require('lib/services/filepicker')() unless window.application.isIPadApp
+
 class DateTimeTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-date-time'
   buildValueForDisplay: (el, data) -> el.text(moment(data).format('llll'))
@@ -20,6 +23,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceMode = 'ace/mode/markdown'
+    initializeFilePicker()
 
   initEditor: (valEl) ->
     buttonRow = $('<div class="buttons"></div>')
@@ -78,6 +82,10 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-sound-file'
   editable: false
   soundCollection: 'files'
+
+  constructor: ->
+    super arguments...
+    initializeFilePicker()
 
   onClick: (e) ->
     return if $(e.target).closest('.btn').length
@@ -179,6 +187,10 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 class ImageFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-image-file'
   editable: false
+
+  constructor: ->
+    super arguments...
+    initializeFilePicker()
 
   onClick: (e) ->
     return if $(e.target).closest('.btn').length

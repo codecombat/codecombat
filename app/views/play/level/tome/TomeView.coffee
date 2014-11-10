@@ -87,6 +87,7 @@ module.exports = class TomeView extends CocoView
 
   createWorker: ->
     return null unless Worker?
+    return null if window.application.isIPadApp  # Save memory!
     return new Worker('/javascripts/workers/aether_worker.js')
 
   generateTeamSpellMap: (spellObject) ->
