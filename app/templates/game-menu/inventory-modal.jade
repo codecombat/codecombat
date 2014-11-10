@@ -1,68 +1,50 @@
-extends /templates/modal/modal_base
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/items-background-narrow.png")#play-items-modal-narrow-bg
 
-block modal-header-content
-  h1#choose-inventory-header.choose-inventory-active(data-i18n="inventory.choose_inventory") Equip Items
+    div#gems-count-container
+      span#gems-count.big-font= gems
 
-block modal-body-content
-  #equipped
-    .item-slot-row
-      for slot in ['left-ring', 'neck', 'eyes', 'head', 'wrists', 'right-ring']
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    #equipped
+      if selectedHero
+        img(src="/file/"+selectedHero.get('featureImage'))#hero-image
+
+      for slot in ['head', 'eyes', 'neck', 'torso', 'gloves', 'wrists', 'left-hand', 'right-hand', 'waist', 'feet', 'left-ring', 'right-ring', 'minion', 'flag', 'pet', 'programming-book', 'misc-0', 'misc-1']
         .item-slot(data-slot=slot)
           .placeholder
-          .item-container
-            if equipment[slot]
-              .replace-me(data-item-id=equipment[slot].get('original'))
-  
-    .item-slot-column.pull-left
-      // TODO: add in 'misc-0' again somehow? Used to be where 'flag' is now.
-      for slot in ['minion', 'torso', 'gloves', 'left-hand', 'flag']
-        .item-slot(data-slot=slot)
-          .placeholder
-          .item-container
-            if equipment[slot]
-              .replace-me(data-item-id=equipment[slot].get('original'))
-  
-    .hero-container
-      canvas.equipped-hero-canvas
-      .hero-feature-image
-        img
-      #selected-items
-        #selected-equipped-item.well
-          h3(data-i18n="inventory.equipped_item") Equipped
-          .item-view-stub
-        #selected-available-item.well
-          h3(data-i18n="inventory.available_item") Available
-          .item-view-stub
-  
-    .item-slot-column.pull-right
-      for slot in ['pet', 'waist', 'feet', 'right-hand', 'programming-book']
-        .item-slot(data-slot=slot)
-          .placeholder
-          .item-container
-            if equipment[slot]
-              .replace-me(data-item-id=equipment[slot].get('original'))
-  
-    // TODO: work in misc 1 again
-    //hr.slot-row-separator
-    //
-    //.item-slot-row.row-4
-    //  for slot in ['misc-1']
-    //    .item-slot(data-slot=slot)
-    //      .placeholder
-    //      .item-container
-    //        if equipment[slot]
-    //          .replace-me(data-item-id=equipment[slot].get('original'))
-  
-  #available-equipment
-    h4#unlocked-description
-    ul.list-group
-      for item in unlockedItems
-        li.list-group-item(class=item.classes, data-item-id=item.get('original'))
-    h4#locked-description
-    ul.list-group
-      for item in lockedItems
-        li.list-group-item(class=item.classes, data-item-id=item.get('original'), style="display: none")
+          if equipment[slot]
+            img.item(src=equipment[slot].getPortraitURL(), data-item-id=equipment[slot].id)
 
-block modal-footer-content
-  button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active.pull-left(data-i18n="play.change_hero") Change Hero
-  button#play-level-button.btn.btn-lg.btn-success.choose-inventory-active(data-i18n="common.play") Play
+    #unequipped
+      if itemGroups
+        if itemGroups.availableItems.models.length
+          h4#available-description(data-i18n="inventory.available_item")
+          for item in itemGroups.availableItems.models
+            img.item(src=item.getPortraitURL(), class=item.classes, data-item-id=item.id)
+          .clearfix
+        
+        #double-click-hint.alert.alert-info.secret(data-i18n="inventory.should_equip")
+        
+        if itemGroups.restrictedItems.models.length
+          h4#restricted-description(data-i18n="inventory.restricted_title")
+          for item in itemGroups.restrictedItems.models
+            img.item(src=item.getPortraitURL(), class=item.classes, data-item-id=item.id)
+          .clearfix
+  
+        if itemGroups.lockedItems.models.length
+          h4#locked-description(data-i18n="play.locked")
+          for item in itemGroups.lockedItems.models
+            img.item(src=item.getPortraitURL(), class=item.classes, data-item-id=item.id)
+          .clearfix
+
+    #item-details-view
+    #item-details-extra
+      button#equip-item-viewed.btn.secret(data-i18n="inventory.equip")
+      button#unequip-item-viewed.btn.secret(data-i18n="inventory.unequip")
+      .alert.alert-danger#restricted-item-viewed.secret(data-i18n="inventory.restricted")
+    
+    button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active(data-i18n="play.change_hero") Change Hero
+    button#play-level-button.btn.btn-lg.btn-success.choose-inventory-active(data-i18n="common.play") Play

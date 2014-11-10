@@ -33,4 +33,9 @@
              p Only admins will see it for now.
 
 if item && !item.owned
-  button#selected-item-unlock-button.btn.big-font.unlock-button(disabled=!item.affordable, data-item-id=item.id, data-i18n="play.unlock") Unlock
+  button#selected-item-unlock-button.btn.big-font.unlock-button(disabled=!item.affordable, data-item-id=item.id)
+    span(data-i18n="play.unlock") Unlock
+    span.spl= '('+item.get('gems')
+    img(src="/images/common/gem.png")
+    span )
+    
