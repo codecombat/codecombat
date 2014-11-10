@@ -47,7 +47,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   play:
     play_as: "Jogar Como" # Ladder page
-    spectate: "Espectar" # Ladder page
+    spectate: "Assistir" # Ladder page
     players: "jogadores" # Hover over a level on /play
     hours_played: "horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
@@ -55,7 +55,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     confirm: "Confirmar"
     owned: "Obtido" # For items you own
     locked: "Bloqueado"
-#    available: "Available"
+    available: "Disponível"
     skills_granted: "Habilidades Garantidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
     achievements: "Conquistas" # Tooltip on achievement list button from /play
@@ -191,14 +191,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     restart: "Reiniciar"
     goals: "Objetivos"
     goal: "Objetivo"
-#    running: "Running..."
+    running: "A executar..."
     success: "Sucesso!"
     incomplete: "Incompletos"
     timed_out: "Ficaste sem tempo"
     failing: "A falhar"
     action_timeline: "Linha do Tempo de Ações"
     click_to_select: "Clica numa unidade para selecioná-la."
-#    reload: "Reload"
+    reload: "Recarregar"
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
     reload_confirm: "Recarregar Tudo"
@@ -234,14 +234,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_select_a_thang: "Seleciona Alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
-#    tome_current_method: "Current Method"
+    tome_current_method: "Método Atual"
     hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atalhos do Teclado"
     loading_ready: "Pronto!"
     loading_start: "Iniciar Nível"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Corrige o Teu Código"
     time_current: "Agora:"
     time_total: "Máximo:"
     time_goto: "Ir para:"
@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     should_equip: "(clica duas vezes para equipares)"
     equipped: "(equipado)"
     locked: "(bloqueado)"
-#    restricted: "(restricted in this level)"
+    restricted: "(restrito neste nível)"
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -315,9 +315,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     io_blurb: "Simples mas obscuro."
     status: "Estado"
     weapons: "Armas"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
+    weapons_warrior: "Espadas - Curto Alcance, Sem Magia"
+    weapons_ranger: "Arcos, Armas - Longo Alcance, Sem Magia"
+    weapons_wizard: "Varinhas, Bastões - Longo Alcance, Magia"
     attack: "Ataque" # Can also translate as "Attack"
     health: "Vida"
     speed: "Velocidade"
@@ -447,8 +447,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     enter: "Enter"
     escape: "Esc"
     shift: "Shift"
-#    run_code: "Run current code."
-    run_real_time: "Correr em tempo real."
+    run_code: "Executar código atual."
+    run_real_time: "Executar em tempo real."
     continue_script: "Saltar o script atual."
     skip_scripts: "Saltar todos os scripts saltáveis."
     toggle_playback: "Alternar entre Jogar e Pausar."
@@ -628,9 +628,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     diplomat_launch_url: "lançamento em Outubro"
     diplomat_introduction_suf: "é que há um interesse considerável no CodeCombat noutros países! Estamos a construir um exército de tradutores dispostos a transformar um conjunto de palavras noutro conjuto de palavras, para conseguir que o CodeCombat fique o mais acessível quanto posível em todo o mundo. Se gostas de dar espreitadelas a conteúdos futuros e disponibilizar estes níveis para os teus colegas nacionais o mais depressa possível, então esta classe talvez seja para ti."
     diplomat_attribute_1: "Fluência em Inglês e no idioma para o qual gostarias de traduzir. Quando são tentadas passar ideias complicadas, é importante uma excelente compreensão das duas!"
-#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
-#    diplomat_i18n_page: "translations page"
-#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
+    diplomat_i18n_page_prefix: "Podes começar a traduzir os nossos níveis se fores à nossa"
+    diplomat_i18n_page: "página de traduções"
+    diplomat_i18n_page_suffix: ", ou a nossa interface e website no GitHub."
     diplomat_join_pref_github: "Encontra o ficheiro 'locale' do teu idioma "
     diplomat_github_url: "no GitHub"
     diplomat_join_suf_github: ", edita-o online e submete um 'pull request'. Assinala ainda esta caixa abaixo para ficares atualizado em relação a novos desenvolvimentos da internacionalização!"
