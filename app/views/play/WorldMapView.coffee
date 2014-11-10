@@ -108,8 +108,13 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or not @ABTestSkipHighlight? or @ABTestSkipHighlight
+    unless window.currentModal or @ABTestSkipHighlight or not @supermodel.finished()
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
+      if levelID = @$el.find('.level.next').data('level-id')
+        @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
+        pos = @$el.find('.level.next').offset()
+        @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top + 250
+        @manuallyPositionedLevelInfoID = levelID
 
   afterInsert: ->
     super()
@@ -123,15 +128,18 @@ module.exports = class WorldMapView extends RootView
   onSessionsLoaded: (e) ->
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+    if @nextLevel and @levelStatusMap[@nextLevel] is 'complete'
+      @nextLevel = null
     @render()
-    @initABTestAutoFirstLevel()
-    
+    if @supermodel.finished()
+      @initABTestAutoFirstLevel()
+
   initABTestAutoFirstLevel: ->
     # A/B testing directly navigating to first level
     # Excluding admins and users who have already started
     # TODO: Cleanup @afterRender when this test is finished
     firstLevelID = 'dungeons-of-kithgard'
-    unless @nextLevel? or firstLevelID of @levelStatusMap
+    unless @nextLevel? or (firstLevelID of @levelStatusMap) or me.isAdmin()
       testGroup = me.getDirectFirstGroup()
       if testGroup is 1
         @ABTestSkipHighlight = true
@@ -141,7 +149,7 @@ module.exports = class WorldMapView extends RootView
         levelID = levelElement.data('level-id')
         @startLevel levelElement
         window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
-      else if not me.isAdmin()
+      else
         window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
         @ABTestSkipHighlight = false
     else
@@ -189,6 +197,7 @@ module.exports = class WorldMapView extends RootView
   onMouseEnterLevel: (e) ->
     return if application.isIPadApp
     levelID = $(e.target).parents('.level').data('level-id')
+    return if @manuallyPositionedLevelInfoID and levelID isnt @manuallyPositionedLevelInfoID
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
     @adjustLevelInfoPosition e
     @endHighlight()
@@ -196,11 +205,13 @@ module.exports = class WorldMapView extends RootView
   onMouseLeaveLevel: (e) ->
     return if application.isIPadApp
     levelID = $(e.target).parents('.level').data('level-id')
+    return if @manuallyPositionedLevelInfoID and levelID isnt @manuallyPositionedLevelInfoID
     @$el.find(".level-info-container[data-level-id='#{levelID}']").hide()
+    @manuallyPositionedLevelInfoID = null
 
   onMouseMoveMap: (e) ->
     return if application.isIPadApp
-    @adjustLevelInfoPosition e
+    @adjustLevelInfoPosition e unless @manuallyPositionedLevelInfoID
 
   adjustLevelInfoPosition: (e) ->
     return unless @$levelInfo
