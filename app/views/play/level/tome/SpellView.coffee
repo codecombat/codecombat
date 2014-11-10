@@ -186,6 +186,20 @@ module.exports = class SpellView extends CocoView
       name: 'open-fullscreen-editor'
       bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
       exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
+    addCommand
+      # TODO: Restrict to beginner campaign levels
+      name: 'enter-skip-delimiters'
+      bindKey: 'Enter|Return'
+      exec: => 
+        if @aceSession.selection.isEmpty()
+          cursor = @ace.getCursorPosition()
+          line = @aceDoc.getLine(cursor.row)
+          if delimMatch = line.substring(cursor.column).match /^(["|']?\)+;?)/
+            newRange = @ace.getSelectionRange()
+            newRange.setStart newRange.start.row, newRange.start.column + delimMatch[1].length
+            newRange.setEnd newRange.end.row, newRange.end.column + delimMatch[1].length
+            @aceSession.selection.setSelectionRange newRange
+        @ace.execCommand 'insertstring', '\n'
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -365,6 +379,9 @@ module.exports = class SpellView extends CocoView
       @ace.setOptions minLines: lines, maxLines: lines
       $('#spell-palette-view').css('top', 175 + lineHeight * lines)  # Move spell palette up, slightly overlapping us.
 
+  hideProblemAlert: ->
+    Backbone.Mediator.publish 'tome:hide-problem-alert', {}
+
   onManualCast: (e) ->
     cast = @$el.parent().length
     @recompile cast, e.realTime
@@ -424,6 +441,7 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
+      _.throttle @hideProblemAlert, 500
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 1500 if requiredCodePerLevel[@options.level.get('slug')]
     @onCodeChangeMetaHandler = =>

@@ -9,6 +9,7 @@ module.exports = class ProblemAlertView extends CocoView
 
   subscriptions:
     'tome:show-problem-alert': 'onShowProblemAlert'
+    'tome:hide-problem-alert': 'onHideProblemAlert'
     'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
     'tome:manual-cast': 'onHideProblemAlert'
     'real-time-multiplayer:manual-cast': 'onHideProblemAlert'
