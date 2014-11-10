@@ -91,6 +91,7 @@ module.exports =
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
+    reload: {type: 'boolean', description: 'Whether player code should reload to the default when the language changes.'}
 
   'tome:spell-changed-language': c.object {title: 'Spell Changed Language', description: 'Published when an individual spell has updated its code language', required: ['spell']},
     spell: {type: 'object'}

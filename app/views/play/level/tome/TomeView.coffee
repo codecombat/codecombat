@@ -231,7 +231,10 @@ module.exports = class TomeView extends CocoView
 
   updateLanguageForAllSpells: (e) ->
     spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()
-    @cast()
+    if e.reload
+      @reloadAllCode()
+    else
+      @cast()
 
   onSelectPrimarySprite: (e) ->
     # TODO: this may not be correct
