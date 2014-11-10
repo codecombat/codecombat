@@ -18,9 +18,13 @@
       div(class="level-info " + (levelStatusMap[level.id] || ""))
         h3= level.name + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
         .level-description= level.description
-        span(data-i18n="play.level_difficulty") Difficulty: 
-        each i in Array(level.difficulty)
-          i.icon-star
+        if level.disabled
+          p
+            span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
+            a.spr(href="/contribute/adventurer")
+              strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
+            span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+            
         - var playCount = levelPlayCountMap[level.id]
         if playCount && playCount.sessions > 20
           div
@@ -29,7 +33,7 @@
             span.spr , #{Math.round(playCount.playtime / 3600)}
             span(data-i18n="play.hours_played") hours played
         .campaign-label(style="color: #{campaign.color}")= campaign.name
-      if isIPadApp
+      if isIPadApp && !level.disabled && !level.locked
         button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
 
 .game-controls.header-font
