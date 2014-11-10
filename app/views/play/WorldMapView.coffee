@@ -131,27 +131,24 @@ module.exports = class WorldMapView extends RootView
     if @nextLevel and @levelStatusMap[@nextLevel] is 'complete'
       @nextLevel = null
     @render()
-    if @supermodel.finished()
-      @initABTestAutoFirstLevel()
+    @initABTestAutoFirstLevel()
 
   initABTestAutoFirstLevel: ->
     # A/B testing directly navigating to first level
     # Excluding admins and users who have already started
     # TODO: Cleanup @afterRender when this test is finished
     firstLevelID = 'dungeons-of-kithgard'
-    unless @nextLevel? or (firstLevelID of @levelStatusMap) or me.isAdmin()
-      testGroup = me.getDirectFirstGroup()
+    testGroup = me.getDirectFirstGroup()
+    console.log 'WorldMapView initABTestAutoFirstLevel', testGroup
+    unless @nextLevel? or (firstLevelID of @levelStatusMap) or testGroup is -1
+      @ABTestSkipHighlight = testGroup is 1
       if testGroup is 1
-        @ABTestSkipHighlight = true
         target = $("a[data-level-id='" + firstLevelID + "']")
         return if $(target).attr('disabled') or $(target).parent().hasClass 'locked'
         levelElement = $(target).parents('.level')
         levelID = levelElement.data('level-id')
         @startLevel levelElement
-        window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
-      else
-        window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
-        @ABTestSkipHighlight = false
+      window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
     else
       @ABTestSkipHighlight = false
 

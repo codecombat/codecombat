@@ -16,7 +16,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @loadSession(@supermodel)
 
     # build modals and prevent them from disappearing.
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', levelID: options.levelID})
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', levelID: options.levelID, hadEverChosenHero: @options.hadEverChosenHero})
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, levelID: options.levelID})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
