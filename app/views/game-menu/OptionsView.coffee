@@ -35,6 +35,7 @@ module.exports = class OptionsView extends CocoView
     @onNameChange = _.debounce(@checkNameExists, 500)
     @on 'nameChanged', @onNameChange
     @playerName = me.get 'name'
+    require('lib/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     super options
 
   getRenderData: (c={}) ->
@@ -72,6 +73,7 @@ module.exports = class OptionsView extends CocoView
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')
     me.set 'aceConfig', @aceConfig
+    me.patch()
     Backbone.Mediator.publish 'tome:change-config', {}
 
   updateMusic: ->
@@ -106,6 +108,7 @@ module.exports = class OptionsView extends CocoView
         @playerName = newName
 
   onEditProfilePhoto: (e) ->
+    return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
     photoContainer = @$el.find('.profile-photo')
     onSaving = =>
       photoContainer.addClass('saving')

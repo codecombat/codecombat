@@ -104,7 +104,7 @@ module.exports = class SpellView extends CocoView
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
-    $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @initAutocomplete aceConfig.liveCompletion ? true
 
   createACEShortcuts: ->
@@ -186,6 +186,20 @@ module.exports = class SpellView extends CocoView
       name: 'open-fullscreen-editor'
       bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
       exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
+    addCommand
+      # TODO: Restrict to beginner campaign levels
+      name: 'enter-skip-delimiters'
+      bindKey: 'Enter|Return'
+      exec: =>
+        if @aceSession.selection.isEmpty()
+          cursor = @ace.getCursorPosition()
+          line = @aceDoc.getLine(cursor.row)
+          if delimMatch = line.substring(cursor.column).match /^(["|']?\)+;?)/  # Yay for editors misreading regexes: "
+            newRange = @ace.getSelectionRange()
+            newRange.setStart newRange.start.row, newRange.start.column + delimMatch[1].length
+            newRange.setEnd newRange.end.row, newRange.end.column + delimMatch[1].length
+            @aceSession.selection.setSelectionRange newRange
+        @ace.execCommand 'insertstring', '\n'
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -360,10 +374,13 @@ module.exports = class SpellView extends CocoView
       spellPaletteHeight = $('#spell-palette-view').outerHeight()
       maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteHeight
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max 8, Math.min(screenLineCount + 4, linesAtMaxHeight)
-      # 2 lines buffer is nice, but 4 leaves room to put problem alerts.
+      lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
-      $('#spell-palette-view').css('top', 38 + 45 + lineHeight * lines)  # Move spell palette up, slightly underlapping us.
+      $('#spell-palette-view').css('top', 175 + lineHeight * lines)  # Move spell palette up, slightly overlapping us.
+
+  hideProblemAlert: ->
+    Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   onManualCast: (e) ->
     cast = @$el.parent().length
@@ -424,6 +441,7 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifyEditingBegan, 250
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
+      _.throttle @hideProblemAlert, 500
     ]
     onSignificantChange.push _.debounce @checkRequiredCode, 1500 if requiredCodePerLevel[@options.level.get('slug')]
     @onCodeChangeMetaHandler = =>
@@ -515,7 +533,14 @@ module.exports = class SpellView extends CocoView
     for aetherProblem, problemIndex in aether.getAllProblems()
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast, @spell.levelID
+      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast, @spell.levelID
+      if isCast and problemIndex is 0
+        if problem.aetherProblem.range?
+          lineOffsetPx = 0
+          for i in [0...problem.aetherProblem.range[0].row]
+            lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
+          lineOffsetPx -= @ace.session.getScrollTop()
+        Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
       @saveUserCodeProblem(aether, aetherProblem) if isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
@@ -767,13 +792,7 @@ module.exports = class SpellView extends CocoView
 
   onAnnotationClick: ->
     # @ is the gutter element
-    msg = "Edit line #{$(@).index() + 1} to fix it."
-    alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
-    offset = $(@).offset()
-    offset.left -= 162  # default width of the Bootstrap alert here
-    alertBox.css(offset).css('z-index', 500).css('position', 'absolute')
-    $('body').append(alertBox.alert())
-    _.delay (-> alertBox.alert('close')), 2500
+    Backbone.Mediator.publish 'tome:jiggle-problem-alert', {}
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, @writable

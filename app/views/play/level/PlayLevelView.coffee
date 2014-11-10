@@ -23,9 +23,11 @@ RealTimeCollection = require 'collections/RealTimeCollection'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
+ProblemAlertView = require './tome/ProblemAlertView'
 TomeView = require './tome/TomeView'
 ChatView = require './LevelChatView'
 HUDView = require './LevelHUDView'
+LevelDialogueView = require './LevelDialogueView'
 ControlBarView = require './ControlBarView'
 LevelPlaybackView = require './LevelPlaybackView'
 GoalsView = require './LevelGoalsView'
@@ -34,8 +36,8 @@ GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
-GameMenuModal = require 'views/game-menu/GameMenuModal'
 MultiplayerStatusView = require './MultiplayerStatusView'
+LevelSetupManager = require 'lib/LevelSetupManager'
 
 PROFILE_ME = false
 
@@ -188,7 +190,7 @@ module.exports = class PlayLevelView extends RootView
     @world = @levelLoader.world
     @level = @levelLoader.level
     @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-    @$el.addClass 'flags' if @level.get('slug') is 'sky-span' or (@level.get('type', true) in ['hero-ladder', 'hero-coop']) # TODO: figure out when the player has flags.
+    @$el.addClass 'flags' if (@level.get('slug') in ['sky-span', 'coinucopia']) or (@level.get('type', true) in ['hero-ladder', 'hero-coop']) # TODO: figure out when the player has flags.
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -242,12 +244,14 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
     @insertSubView new LevelPlaybackView session: @session, levelID: @levelID, level: @level
     @insertSubView new GoalsView {}
-    @insertSubView new LevelFlagsView world: @world if @levelID is 'sky-span' or @level.get('type', true) in ['hero-ladder', 'hero-coop'] # TODO: figure out when flags are available
+    @insertSubView new LevelFlagsView world: @world if (@levelID in ['sky-span', 'coinucopia']) or @level.get('type', true) in ['hero-ladder', 'hero-coop'] # TODO: figure out when flags are available
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
+    @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     if @level.get('type') in ['ladder', 'hero-ladder']
       @insertSubView new MultiplayerStatusView levelID: @levelID, session: @session, level: @level
+    @insertSubView new ProblemAlertView {}
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
@@ -276,7 +280,10 @@ module.exports = class PlayLevelView extends RootView
   onSessionLoaded: (e) ->
     # Just the level and session have been loaded by the level loader
     if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
-      @openModalView new GameMenuModal level: e.level, session: e.session, supermodel: @supermodel
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @})
+      @setupManager.open()
+
     @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['ladder', 'hero-ladder']
 
   onLoaded: ->
@@ -550,6 +557,7 @@ module.exports = class PlayLevelView extends RootView
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
+    @setupManager?.destroy()
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()

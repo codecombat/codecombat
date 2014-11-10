@@ -12,7 +12,11 @@
   background-size: 100% 100%
   // Counteract 50px height of absolutely positioned control bar, but overlap by 10px of jagged transparent top.
   margin-top: 50px - 10px
-  z-index: 2
+  z-index: 3
+
+  &.controls-disabled
+    pointer-events: none
+    @include filter(brightness(50%))
 
   button
     font-size: 26px

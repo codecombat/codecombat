@@ -35,11 +35,7 @@
     padding: 10px
     text-align: center
     // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
-    -webkit-transition: top $UNVEIL_TIME cubic-bezier(0.285, 0, 0.670, 0)
-    -webkit-transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
-    -moz-transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
-    -o-transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
-    transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
+    @include transition(top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
 
     .load-progress
       position: absolute
@@ -88,9 +84,9 @@
   .left-wing
     @include wing-background('/images/level/loading_left_wing.png', right)
     left: -50%
-    transition: all $UNVEIL_TIME ease
+    @include transition(all $UNVEIL_TIME ease)
 
   .right-wing
     @include wing-background('/images/level/loading_right_wing.png', left)
     right: -50%
-    transition: all $UNVEIL_TIME ease
+    @include transition(all $UNVEIL_TIME ease)

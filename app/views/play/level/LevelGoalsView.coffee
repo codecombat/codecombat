@@ -45,7 +45,9 @@ module.exports = class LevelGoalsView extends CocoView
     goals = []
     for goal in e.goals
       state = e.goalStates[goal.id]
-      continue if goal.hiddenGoal and state.status isnt 'failure'
+      if goal.hiddenGoal
+        continue if goal.optional and state.status isnt 'success'
+        continue if not goal.optional and state.status isnt 'failure'
       continue if goal.team and me.team isnt goal.team
       text = utils.i18n goal, 'name'
       if state.killed

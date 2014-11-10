@@ -50,12 +50,15 @@ $level-resize-transition-time: 0.5s
     #stop-real-time-playback-button
       display: block
       z-index: 20
+    #level-dialogue-view
+      display: none
 
     .level-content
       margin: 0px auto
 
   .level-content
     position: relative
+    overflow: hidden
 
   #canvas-wrapper
     top: 50px
@@ -88,7 +91,7 @@ $level-resize-transition-time: 0.5s
 
   #code-area
     @include box-sizing(border-box)
-    padding: 10px 1%
+    padding: 0px 0.9% 10px 1.4%
     width: 45%
     background: transparent url(/images/level/wood_texture.png)
     background-size: 100% 100%
@@ -97,6 +100,7 @@ $level-resize-transition-time: 0.5s
     top: 0px
     bottom: 0
     @include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
+    overflow: hidden
     
   // Level Docs
   .ui-effects-transfer
@@ -230,9 +234,6 @@ body.ipad #level-view
 
   #code-area, .footer, #thang-hud
     display: none
-
-  #goals-view
-    left: 40px
 
   #level-chat-view
     bottom: 40px

@@ -2,9 +2,6 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
-EditorConfigModal = require './modal/EditorConfigModal'
-KeyboardShortcutsModal = require './modal/KeyboardShortcutsModal'
-
 module.exports = class LevelPlaybackView extends CocoView
   id: 'playback-view'
   template: template
@@ -144,6 +141,7 @@ module.exports = class LevelPlaybackView extends CocoView
         console.warn('error disabling scrubber', error)
       @timePopup?.disable()
     $('#volume-button', @$el).removeClass('disabled')
+    @$el.addClass 'controls-disabled'
 
   onEnableControls: (e) ->
     return if @realTime
@@ -155,6 +153,7 @@ module.exports = class LevelPlaybackView extends CocoView
       catch error
         console.warn('error enabling scrubber', error)
       @timePopup?.enable()
+    @$el.removeClass 'controls-disabled'
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true

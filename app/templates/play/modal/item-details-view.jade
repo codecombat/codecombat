@@ -8,13 +8,13 @@
       img.item-img(src=item.getPortraitURL())
       img.item-shadow(src=item.getPortraitURL())
     
-    img.hr(src="/images/pages/play/modal/play-items-modal-hr.png")
+    img.hr(src="/images/pages/play/modal/hr.png")
   
     for stat in stats
       div.stat-row.big-font
         div.stat-label= stat.name
         div.stat= stat.display
-      img.hr(src="/images/pages/play/modal/play-items-modal-hr.png" class=stat.isLast ? "" : "faded")
+      img.hr(src="/images/pages/play/modal/hr.png" class=stat.isLast ? "" : "faded")
 
     if props.length
       #skills

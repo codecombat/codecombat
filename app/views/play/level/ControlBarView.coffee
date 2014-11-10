@@ -4,6 +4,7 @@ template = require 'templates/play/level/control_bar'
 
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 RealTimeCollection = require 'collections/RealTimeCollection'
+LevelSetupManager = require 'lib/LevelSetupManager'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -11,6 +12,8 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -63,9 +66,26 @@ module.exports = class ControlBarView extends CocoView
     c
 
   showGameMenuModal: ->
-    @openModalView new GameMenuModal level: @level, session: @session, supermodel: @supermodel
+    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel
+    @openModalView gameMenuModal
+    @listenToOnce gameMenuModal, 'change-hero', ->
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @})
+      @setupManager.open()
 
   onClickHome: (e) ->
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
+
+  onDisableControls: (e) -> @toggleControls e, false
+  onEnableControls: (e) -> @toggleControls e, true
+  toggleControls: (e, enabled) ->
+    return if e.controls and not ('level' in e.controls)
+    return if enabled is @controlsEnabled
+    @controlsEnabled = enabled
+    @$el.toggleClass 'controls-disabled', not enabled
+
+  destroy: ->
+    @setupManager?.destroy()
+    super()

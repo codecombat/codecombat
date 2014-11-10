@@ -312,9 +312,56 @@ kbd
   .arrow
     display: none
 
+.btn.btn-illustrated
+  background: 0
+  border: 0
+  border-radius: 0
+  @include box-shadow(none)
+  border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
+  border-width: 7px 10px 10px 10px
+  padding: 0
+  font-family: Open Sans Condensed
+  text-transform: uppercase
+  font-weight: bold
+  color: rgb(248, 197, 146)
+
+  &:active
+    border-image: url(/images/common/button-background-pressed-border.png) 14 16 16 20 fill round
+    padding: 2px 0 0 2px
+    border-width: 7px 8px 8px 10px
+
+  &.disabled, &:disabled
+    border-image: url(/images/common/button-background-disabled-border.png) 14 20 20 20 fill round
+    @include opacity(1)
+
+    > *
+      @include opacity(0.5)
+
+  > *
+    @include opacity(0.75)
+
+  &:hover > *
+    @include opacity(1)
+
+
 html.no-borderimage
   .popover
     border: 0
     background: transparent url(/images/level/popover_background.png)
     background-size: 100% 100%
     padding: 10px 20px
+
+  .btn.btn-illustrated
+    border: 0
+    background-image: url(/images/common/button-background-active.png)
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+    
+    &:active
+      background-image: url(/images/common/button-background-pressed.png)
+      padding: 9px 8px 8px 12px
+      border: 0
+
+    &.disabled, &:disabled
+      background-image: url(/images/common/button-background-disabled.png)
+

@@ -25,6 +25,7 @@ module.exports = class CastButtonView extends CocoView
     @spells = options.spells
     @levelID = options.levelID
     @castShortcut = '⇧↵'
+    @initButtonTextABTest()
 
   getRenderData: (context={}) ->
     context = super context
@@ -32,8 +33,10 @@ module.exports = class CastButtonView extends CocoView
     enter = $.i18n.t 'keyboard_shortcuts.enter'
     castShortcutVerbose = "#{shift}+#{enter}"
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
-    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.cast_spell')
+    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
+    # A/B test submit button text
+    context.testSubmitText = @testButtonsText.submit if @testGroup? and @testGroup isnt 0
     context
 
   afterRender: ->
@@ -102,15 +105,20 @@ module.exports = class CastButtonView extends CocoView
     , (castable) =>
       Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
       @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
-      if @casting
-        s = $.i18n.t('play_level.tome_cast_button_running')
-      else if castable or true
-        s = $.i18n.t('play_level.tome_cast_button_run')
-        unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'kounter-kithwise', 'true-names', 'the-raised-sword', 'favorable-odds', 'the-first-kithmaze', 'haunted-kithmaze']  # Hide for first few.
-          s += ' ' + @castShortcut
+
+      # A/B testing cast button text for en-US
+      unless @testGroup? and @testGroup isnt 0
+        if @casting
+          castText = $.i18n.t('play_level.tome_cast_button_running')
+        else if castable or true
+          castText = $.i18n.t('play_level.tome_cast_button_run')
+          unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'kounter-kithwise', 'true-names', 'the-raised-sword', 'favorable-odds', 'the-first-kithmaze', 'haunted-kithmaze']  # Hide for first few.
+            castText += ' ' + @castShortcut
+        else
+          castText = $.i18n.t('play_level.tome_cast_button_ran')
       else
-        s = $.i18n.t('play_level.tome_cast_button_ran')
-      @castButton.text s
+        castText = @testButtonsText.run
+      @castButton.text castText
       #@castButton.prop 'disabled', not castable
 
   setAutocastDelay: (delay) ->
@@ -131,3 +139,24 @@ module.exports = class CastButtonView extends CocoView
     if @multiplayerSession
       @multiplayerSession.off 'change'
       @multiplayerSession = null
+
+  initButtonTextABTest: ->
+    return if me.isAdmin()
+    return unless $.i18n.lng() is 'en-US'
+    # A/B test buttons text
+    # Only testing 'en-US' for simplicity and it accounts for a significant % of users
+    # Test group 0 is existing behavior
+    # Intentionally leaving out cast shortcut for test groups for simplicity
+    @testGroup = me.getCastButtonTextGroup()
+    @testButtonsText = switch @testGroup
+      when 0 then run: 'Run/Running', submit: 'Submit'
+      when 1 then run: 'Run', submit: 'Submit'
+      when 2 then run: 'Test', submit: 'Submit'
+      when 3 then run: 'Run', submit: 'Continue'
+      when 4 then run: 'Test', submit: 'Continue'
+      when 5 then run: 'Run', submit: 'Finish'
+      when 6 then run: 'Test', submit: 'Finish'
+    application.tracker?.trackEvent 'Spell View',
+      Action: 'Loaded'
+      levelID: @levelID
+      castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit

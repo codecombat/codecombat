@@ -3,39 +3,83 @@ template = require 'templates/play/level/tome/problem_alert'
 {me} = require 'lib/auth'
 
 module.exports = class ProblemAlertView extends CocoView
+  id: 'problem-alert-view'
   className: 'problem-alert'
   template: template
 
-  subscriptions: {}
+  subscriptions:
+    'tome:show-problem-alert': 'onShowProblemAlert'
+    'tome:hide-problem-alert': 'onHideProblemAlert'
+    'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
+    'tome:manual-cast': 'onHideProblemAlert'
+    'real-time-multiplayer:manual-cast': 'onHideProblemAlert'
 
   events:
     'click .close': 'onRemoveClicked'
 
   constructor: (options) ->
     super options
-    @problem = options.problem
+    if options.problem?
+      @problem = options.problem
+      @onWindowResize()
+    else
+      @$el.hide()
+    $(window).on 'resize', @onWindowResize
+
+  destroy: ->
+    $(window).off 'resize', @onWindowResize
+    super()
 
   getRenderData: (context={}) ->
     context = super context
-    format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
-    message = @problem.aetherProblem.message
-    age = @problem.aetherProblem.userInfo?.age
-    if age?
-      if /^Line \d+:/.test message
-        message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
-      else
-        message = "Time #{age.toFixed(1)}: #{message}"
-    context.message = format message
-    context.hint = format @problem.aetherProblem.hint
+    if @problem?
+      format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
+      context.message = format @problem.aetherProblem.message
+      context.hint = format @problem.aetherProblem.hint
     context
 
   afterRender: ->
     super()
-    @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
-    @$el.addClass('no-hint') unless @problem.aetherProblem.hint
+    if @problem?
+      @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
+      @$el.addClass('no-hint') unless @problem.aetherProblem.hint
+      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+
+  onShowProblemAlert: (data) ->
+    return unless $('#code-area').is(":visible")
+    if @problem?
+      if @$el.hasClass "alert-#{@problem.aetherProblem.level}"
+        @$el.removeClass "alert-#{@problem.aetherProblem.level}"
+      if @$el.hasClass "no-hint"
+        @$el.removeClass "no-hint"
+    @problem = data.problem
+    @lineOffsetPx = data.lineOffsetPx or 0
+    @$el.show()
+    @onWindowResize()
+    @render()
+    @onJiggleProblemAlert()
+
+  onJiggleProblemAlert: ->
+    return unless @problem?
+    @$el.show() unless @$el.is(":visible")
+    @$el.addClass 'jiggling'
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+    pauseJiggle = =>
+      @$el?.removeClass 'jiggling'
+    _.delay pauseJiggle, 2000
+
+  onHideProblemAlert: ->
+    @onRemoveClicked()
 
   onRemoveClicked: ->
-    @$el.remove()
-    @destroy()
-    #@problem.destroy()  # let's try leaving the annotations / marker ranges alone
+    @$el.hide()
+
+  onWindowResize: (e) =>
+    # TODO: This all seems a little hacky
+    if @problem?
+      @$el.css('left', $('#goals-view').outerWidth(true) + 'px')
+      @$el.css('right', $('#code-area').outerWidth(true) + 'px')
+
+      # 110px from top roughly aligns top of alert with top of first code line
+      # TODO: calculate this in a more dynamic, less sketchy way
+      @$el.css('top', (110 + @lineOffsetPx) + 'px')

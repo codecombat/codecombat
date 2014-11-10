@@ -1,20 +1,15 @@
-ProblemAlertView = require './ProblemAlertView'
 Range = ace.require('ace/range').Range
 
 module.exports = class Problem
   annotation: null
-  alertView: null
   markerRange: null
-  constructor: (@aether, @aetherProblem, @ace, withAlert=false, isCast=false, @levelID) ->
+  constructor: (@aether, @aetherProblem, @ace, isCast=false, @levelID) ->
     @buildAnnotation()
-    @buildAlertView() if withAlert
     @buildMarkerRange() if isCast
-    Backbone.Mediator.publish("problem:problem-created", line:@annotation.row, text: @annotation.text) if application.isIPadApp
+    # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
+    Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp
 
   destroy: ->
-    unless @alertView?.destroyed
-      @alertView?.$el?.remove()
-      @alertView?.destroy()
     @removeMarkerRange()
     @userCodeProblem.off() if @userCodeProblem
 
@@ -29,11 +24,6 @@ module.exports = class Problem
       text: text,
       type: @aetherProblem.level ? 'error'
 
-  buildAlertView: ->
-    @alertView = new ProblemAlertView problem: @
-    @alertView.render()
-    $(@ace.container).append @alertView.el
-
   buildMarkerRange: ->
     return unless @aetherProblem.range
     [start, end] = @aetherProblem.range
@@ -41,7 +31,7 @@ module.exports = class Problem
     @markerRange = new Range start.row, start.col, end.row, end.col
     @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start
     @markerRange.end = @ace.getSession().getDocument().createAnchor @markerRange.end
-    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'text'
+    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'fullLine'
 
   removeMarkerRange: ->
     return unless @markerRange

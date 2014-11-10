@@ -34,8 +34,15 @@ module.exports = class God extends CocoClass
       angels: []
       busyAngels: []  # Busy angels will automatically register here.
 
+    # Determine how many concurrent Angels/web workers to use at a time
     # ~20MB per idle worker + angel overhead - every Angel maps to 1 worker
-    angelCount = options.maxAngels ? 2  # How many concurrent Angels/web workers to use at a time
+    if options.maxAngels?
+      angelCount = options.maxAngels
+    else if window.application.isIPadApp
+      angelCount = 1
+    else
+      angelCount = 2
+
     # Don't generate all Angels at once.
     _.delay (=> new Angel @angelsShare unless @destroyed), 250 * i for i in [0 ... angelCount]
 

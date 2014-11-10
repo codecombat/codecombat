@@ -3,7 +3,7 @@ template = require 'templates/play/world-map-view'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 AudioPlayer = require 'lib/AudioPlayer'
-PlayLevelModal = require 'views/play/modal/PlayLevelModal'
+LevelSetupManager = require 'lib/LevelSetupManager'
 ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'lib/storage'
@@ -49,6 +49,7 @@ module.exports = class WorldMapView extends RootView
     window.tracker?.trackEvent 'World Map', Action: 'Loaded'
 
   destroy: ->
+    @setupManager?.destroy()
     $(window).off 'resize', @onWindowResize
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
@@ -87,6 +88,7 @@ module.exports = class WorldMapView extends RootView
       window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
       level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
+      level.disabled = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.practice
         level.color = 'rgb(80, 130, 200)' unless me.getBranchingGroup() is 'all-practice'
@@ -149,8 +151,9 @@ module.exports = class WorldMapView extends RootView
     @startLevel $(e.target).parents('.level-info-container')
 
   startLevel: (levelElement) ->
-    playLevelModal = new PlayLevelModal supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero
-    @openModalView playLevelModal
+    @setupManager?.destroy()
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
+    @setupManager.open()
     @$levelInfo?.hide()
 
   onMouseEnterLevel: (e) ->
@@ -948,55 +951,136 @@ forest = [
     id: 'a-fiery-trap'
     original: '5448330517d7283e051f9b9e'
     description: 'Patrol the village entrances, but stay defensive.'
-    disabled: true
+    nextLevels:
+      continue: 'ogre-encampment'
     x: 40.14
     y: 63.96
   }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 58.46
-  #  y: 66.38
-  # }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 63.11
-  #  y: 62.74
-  # }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 69.19
-  #  y: 60.61
-  # }
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 77.54
-  #  y: 65.94
-  #}
-  #{
-  #  name: ''
-  #  type: 'hero'
-  #  difficulty: 1
-  #  id: ''
-  #  description: ''
-  #  x: 84.29
-  #  y: 61.23
-  #}
+  {
+    name: 'Ogre Encampment'
+    type: 'hero'
+    difficulty: 1
+    id: 'ogre-encampment'
+    description: 'Recover stolen treasure from an ogre encampment.'
+    nextLevels:
+      continue: 'woodland-cleaver'
+    x: 46.48
+    y: 70.92
+   }
+  {
+    name: 'Woodland Cleaver'
+    type: 'hero'
+    difficulty: 1
+    id: 'woodland-cleaver'
+    description: 'Use your new cleave ability to fend off munchkins.'
+    nextLevels:
+      continue: 'shield-rush'
+    x: 52.32
+    y: 70.80
+   }
+  {
+    name: 'Shield Rush'
+    type: 'hero'
+    difficulty: 1
+    id: 'shield-rush'
+    description: 'Combine cleave and shield to endure an ogre onslaught.'
+    nextLevels:
+      continue: 'peasant-protection'
+    x: 58.54
+    y: 66.73
+   }
+  {
+    name: 'Peasant Protection'
+    type: 'hero'
+    difficulty: 1
+    id: 'peasant-protection'
+    description: 'Stay close to Victor.'
+    nextLevels:
+      continue: 'munchkin-swarm'
+    x: 64.37
+    y: 62.18
+  }
+  {
+    name: 'Munchkin Swarm'
+    type: 'hero'
+    difficulty: 1
+    id: 'munchkin-swarm'
+    description: 'Loot a gigantic chest while surrounded by a swarm of ogre munchkins.'
+    nextLevels:
+      continue: 'coinucopia'
+    x: 71.19
+    y: 63.61
+  }
+  {
+    name: 'Coinucopia'
+    type: 'hero'
+    difficulty: 1
+    id: 'coinucopia'
+    description: 'Start playing in real-time with input flags as you collect gold coins!'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'copper-meadows'
+    x: 77.54
+    y: 65.94
+  }
+  {
+    name: 'Copper Meadows'
+    type: 'hero'
+    difficulty: 1
+    id: 'copper-meadows'
+    description: 'grab the coins'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'drop-the-flag'
+    x: 77.54
+    y: 55.94
+  }
+  {
+    name: 'Drop the Flag'
+    type: 'hero'
+    difficulty: 1
+    id: 'drop-the-flag'
+    description: 'it is hot'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'rich-forager'
+    x: 77.54
+    y: 50.94
+  }
+  {
+    name: 'Rich Forager'
+    type: 'hero'
+    difficulty: 1
+    id: 'rich-forager'
+    description: 'if i were a rich man'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'deadly-pursuit'
+    x: 77.54
+    y: 45.94
+  }
+  {
+    name: 'Deadly Pursuit'
+    type: 'hero'
+    difficulty: 1
+    id: 'deadly-pursuit'
+    description: 'what is a dirt nap? it is death.'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'multiplayer-treasure-grove'
+    x: 77.54
+    y: 40.94
+  }
+  {
+    name: 'Multiplayer Treasure Grove'
+    type: 'hero'
+    difficulty: 1
+    id: 'multiplayer-treasure-grove'
+    description: 'show em who is the professional boss'
+    disabled: not me.isAdmin()
+    x: 77.54
+    y: 35.94
+  }
   {
     name: 'Dueling Grounds'
     type: 'hero-ladder'
