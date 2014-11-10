@@ -117,7 +117,7 @@ module.exports = class LevelLoader extends CocoClass
         @loadDefaultComponentsForThangType itemThangType
         @loadThangsRequiredByThangType itemThangType
     @sessionDependenciesRegistered[session.id] = true
-    if _.size(@sessionDependenciesRegistered) is 2 and not (r for r in @worldNecessities when r?).length
+    if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
       @onWorldNecessitiesLoaded()
 
   consolidateFlagHistory: ->
@@ -204,6 +204,8 @@ module.exports = class LevelLoader extends CocoClass
     for thangType in thangNames.models
       @loadDefaultComponentsForThangType(thangType)
       @loadThangsRequiredByThangType(thangType)
+    @thangNamesLoaded = true
+    @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
   loadDefaultComponentsForThangType: (thangType) ->
     return unless components = thangType.get('components')
@@ -220,8 +222,14 @@ module.exports = class LevelLoader extends CocoClass
     return unless index >= 0
     @worldNecessities.splice(index, 1)
     @worldNecessities = (r for r in @worldNecessities when r?)
-    if @worldNecessities.length is 0 and (not @sessionDependenciesRegistered or @sessionDependenciesRegistered[@session.id] and (not @opponentSession or @sessionDependenciesRegistered[@opponentSession.id]))
-      @onWorldNecessitiesLoaded()
+    @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
+
+  checkAllWorldNecessitiesRegisteredAndLoaded: ->
+    return false unless _.filter(@worldNecessities).length is 0
+    return false unless @thangNamesLoaded
+    return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id]
+    return false if @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id]
+    true
 
   onWorldNecessitiesLoaded: ->
     @initWorld()

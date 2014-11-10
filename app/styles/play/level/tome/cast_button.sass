@@ -53,7 +53,7 @@
       border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
       padding: 2px 0 0 2px
 
-    &.submit-button
+    &.submit-button, &.done-button
       margin-left: 10px
       border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
       
@@ -66,7 +66,7 @@
     &:hover, &.castable
       @include opacity(1)
 
-  .submit-button > *
+  .submit-button > *, .done-button > *
     @include opacity(0.9)
   
     &:hover
@@ -90,7 +90,7 @@
   &.winnable
 
     .btn.btn-illustrated
-      &.submit-button
+      &.submit-button, &.done-button
         font-weight: bold
         @include animation(winnablePulse 3s infinite)
 
@@ -114,7 +114,7 @@ html.no-borderimage #cast-button-view
       padding: 9px 8px 8px 12px
       border: 0
 
-    &.submit-button
+    &.submit-button, &.done-button
       background-image: url(/images/level/code_toolbar_submit_button_active_pressed.png)
       border: 0
 
@@ -133,7 +133,7 @@ html.no-borderimage #cast-button-view
 
   &.winnable
     .btn.btn-illustrated
-      &.submit-button
+      &.submit-button, &.done-button
         border: 0
         background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
 

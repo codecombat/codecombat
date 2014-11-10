@@ -160,6 +160,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   beginSequentialAnimations: ->
+    return if @destroyed
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       textEl: $(panel).find('.reward-text')
