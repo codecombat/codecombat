@@ -228,7 +228,7 @@ module.exports = class LevelLoader extends CocoClass
     return false unless _.filter(@worldNecessities).length is 0
     return false unless @thangNamesLoaded
     return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id]
-    return false if @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id]
+    return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id]
     true
 
   onWorldNecessitiesLoaded: ->
