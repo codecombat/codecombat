@@ -122,6 +122,7 @@ module.exports = class InventoryModal extends ModalView
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
     @requireLevelEquipment()
+    @$el.find('.nano').nanoScroller()
 
   afterInsert: ->
     super()
@@ -169,7 +170,9 @@ module.exports = class InventoryModal extends ModalView
       tolerance: 'pointer'
 
   makeEquippedSlotDraggable: (slot) ->
-    unequip = => @unequipItemFromSlot slot
+    unequip = =>
+      @unequipItemFromSlot slot
+      @requireLevelEquipment()
     shouldStayEquippedWhenDropped = (isValidDrop) ->
       pos = $(@).position()
       revert = Math.abs(pos.left) < $(@).outerWidth() and Math.abs(pos.top) < $(@).outerHeight()
@@ -381,6 +384,7 @@ module.exports = class InventoryModal extends ModalView
       $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
 
   setHero: (@selectedHero) ->
+    @$el.removeClass('Warrior Ranger Wizard').addClass(@selectedHero.get('heroClass'))
     @render()
 
   onShown: ->

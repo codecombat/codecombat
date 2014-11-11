@@ -301,15 +301,19 @@ $itemSlotGridHeight: 70px
     
   //- Available equipment
    
+  &.Warrior #unequipped img.item:not(.Warrior), &.Ranger #unequipped img.item:not(.Ranger), &.Wizard #unequipped img.item:not(.Wizard)
+    // Our code hides and shows (modifies display), but we can be invisible this other way.
+    visibility: hidden
+    position: absolute
+
   #unequipped
     width: 222px
     position: absolute
     left: 370px
     top: 112px
     height: 450px
-    overflow-y: scroll
     border: 3px solid black
-    padding: 9px
+    padding: 9px 0 9px 9px
     background-color: white
 
     #double-click-hint
@@ -330,6 +334,7 @@ $itemSlotGridHeight: 70px
       padding: 1px
       width: 60px
       height: 60px
+      cursor: pointer
 
       &.active
         background-color: rgb(81,153,236)
@@ -350,6 +355,7 @@ $itemSlotGridHeight: 70px
       &.equipped
         background-color: #ff5
         display: none
+        cursor: default
     
         //.item-view
         //  cursor: default
@@ -359,6 +365,7 @@ $itemSlotGridHeight: 70px
     
       &.restricted
         background-color: rgba(255, 80, 67, 0.25)
+        cursor: default
     
         //.item-view
         //  cursor: default
@@ -366,10 +373,13 @@ $itemSlotGridHeight: 70px
         //.status-message .restricted-message
         //  display: inline
     
-      //&.locked
+      &.locked
+        cursor: default
         //background-color: gray
         
       &.silhouette
+        cursor: default
+        pointer-events: none
         @include filter(contrast(25%) brightness(25%))
         opacity: 0.5
       
@@ -397,122 +407,22 @@ $itemSlotGridHeight: 70px
     right: 414px
 
       
-  //- Item details. Mostly the same as the item store view, but figured we'd probably
-  // be futzing with details so just copied it. TODO: refactor?
+  //- Item details. Non-specific item-details-view styling is in item-details-view.sass.
 
-  #item-title
-    position: absolute
-    width: 228px
-    height: 50px
-    left: 698px
-    top: 56px
-    z-index: 2
+  #item-details-view
 
-    h2
-      font-size: 20px
-      margin: 12px 20px
-      text-align: center
-      color: rgb(53,40,25)
-
-  #item-details-body
-    position: absolute
-    left: 650px
-    top: 126px
-    width: 330px
-    height: 453px
-    //background: rgba(100,100,100,0.5)
-    overflow: scroll
-
-    #item-container
-      height: 163px
-      width: 100%
-
-    .item-img, .item-shadow
-      width: 130px
-      height: 130px
-
-    .item-img
-      top: 15px
-
-    .item-shadow
-      top: 25px
-
-    img.hr
-      width: 80%
-      margin: 0 10% -3px
-
-      &.faded
-        opacity: 0.4
-
-    .stat-row
-      height: 24px
-      position: relative
-      font-size: 20px
-      font-weight: bold
-
-      .stat-label
-        position: absolute
-        left: 54px
-        color: rgb(93,73,52)
-
-      .stat
-        position: absolute
-        left: 150px
-        color: rgb(42,38,28)
-
-    #skills
-      margin: 25px
-
-      h3
-        color: rgb(41,35,25)
-
-      strong
-        color: rgb(50,50,30)
-
-  #selected-item-unlock-button
-    left: 646px
-    top: 594px
-    width: 337px
-    height: 41px
-    font-size: 16px
-
-    img
-      height: 16px
-
-  //- Item icons w/shadows (both in list and details areas)
-
-  .item-img, .item-shadow, .item-silhouette
-    position: absolute
-    margin-left: auto
-    margin-right: auto
-    left: 0
-    right: 0
-    bottom: 0
-
-  .item-img
-    z-index: 1
-
-  .item-shadow
-    left: 5px
-    @include filter(contrast(0%) brightness(0%))
-    opacity: 0.2
-
-  .item-silhouette
-    @include filter(contrast(0%) brightness(0%))
-    opacity: 0.3
+    #item-title
+      left: 698px
+      top: 56px
   
-  .unlock-button
-    position: absolute
-    border: 3px solid rgb(7,65,83)
-    background: rgb(0,119,168)
-    color: white
-    font-size: 16px
-    border-radius: 0
+    #item-details-body
+      left: 650px
+  
+    #selected-item-unlock-button
+      left: 646px
 
-    &:disabled
-      background: rgb(72, 106, 113)
-      opacity: 1
-      color: rgba(255,255,255, 0.4)
+
+  //- Equip/unequip/extra
 
   #item-details-extra
     position: absolute
