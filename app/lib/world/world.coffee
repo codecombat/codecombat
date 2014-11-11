@@ -101,9 +101,7 @@ module.exports = class World
     if @realTime and not @countdownFinished
       @realTimeSpeedFactor = 1
       unless @showsCountdown
-        if @levelID in ['the-first-kithmaze', 'haunted-kithmaze', 'the-second-kithmaze', 'the-final-kithmaze', 'the-gauntlet', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
-          @realTimeSpeedFactor = 5
-        else if @levelID in ['forgetful-gemsmith', 'descending-further', 'tactical-strike', 'kithgard-gates', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm']
+        if @levelID in ['thornbush-farm', 'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm']
           @realTimeSpeedFactor = 3
       if @showsCountdown
         return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
