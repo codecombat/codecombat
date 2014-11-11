@@ -44,14 +44,15 @@ module.exports = class InventoryModal extends ModalView
     # TODO: switch to item store loading system?
     @items.url = '/db/thang.type?view=items'
     @items.setProjection [
-      'name',
-      'slug',
-      'components',
-      'original',
-      'rasterIcon',
-      'gems',
-      'description',
-      'heroClass',
+      'name'
+      'slug'
+      'components'
+      'original'
+      'rasterIcon'
+      'gems'
+      'tier'
+      'description'
+      'heroClass'
       'i18n'
     ]
     @supermodel.loadCollection(@items, 'items')

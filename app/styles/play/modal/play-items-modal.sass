@@ -139,6 +139,9 @@
     margin: 4px
     text-align: center
     position: relative
+
+    &.silhouetted
+      cursor: default
     
     strong
       position: absolute
@@ -275,7 +278,19 @@
   .item-silhouette
     @include filter(contrast(0%) brightness(0%))
     opacity: 0.3
-    
+
+  .required-level
+    position: absolute
+    left: 0
+    right: 5px
+    top: 70px
+    font-size: 20px
+    line-height: 20px
+    font-family: Open Sans Condensed
+    text-transform: uppercase
+    font-weight: bold
+    z-index: 2
+
     
   //- Unlock buttons (both in list and details areas)
 

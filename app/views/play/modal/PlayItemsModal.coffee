@@ -62,6 +62,7 @@ module.exports = class PlayItemsModal extends ModalView
       'original'
       'rasterIcon'
       'gems'
+      'tier'
       'i18n'
       'heroClass'
     ]
@@ -77,7 +78,8 @@ module.exports = class PlayItemsModal extends ModalView
     gemsOwned = me.gems()
     needMore = itemFetcher.models.length is PAGE_SIZE
     for model in itemFetcher.models
-      continue unless cost = model.get('gems')
+      model.owned = me.ownsItem model.get('original')
+      continue unless (cost = model.get('gems')) or model.owned
       category = slotToCategory[model.getAllowedSlots()[0]] or 'misc'
       @itemCategoryCollections[category] ?= new Backbone.Collection()
       collection = @itemCategoryCollections[category]
@@ -85,10 +87,10 @@ module.exports = class PlayItemsModal extends ModalView
       collection.add(model)
       model.name = utils.i18n model.attributes, 'name'
       model.affordable = cost <= gemsOwned
-      model.owned = me.ownsItem model.get('original')
-      model.silhouetted = model.isSilhouettedItem()
+      model.silhouetted = not model.owned and model.isSilhouettedItem()
+      model.level = model.levelRequiredForItem() if model.get('tier')?
       model.equippable = 'Warrior' in model.getAllowedHeroClasses()  # Temp: while there are no wizards/rangers
-      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats  # Temp: while there are placeholder items
+      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
     if needMore
@@ -127,7 +129,7 @@ module.exports = class PlayItemsModal extends ModalView
       item = null
     else
       item = @idToItem[itemEl.data('item-id')]
-      if item.silhouetted
+      if item.silhouetted and not item.owned
         item = null
       else
         itemEl.addClass('selected') unless wasSelected
@@ -158,4 +160,3 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
-
