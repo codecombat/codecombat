@@ -40,7 +40,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless purchasedItem
       return @sendBadInputError(res, 'This cannot be purchased.') if not cost = purchasedItem.get('gems')
-      return @sendForbiddenError(res, 'Not enough gems.') if cost > req.user.get('gems')
+      return @sendForbiddenError(res, 'Not enough gems.') if cost > req.user.gems()
       req.purchasedItem = purchasedItem # for safekeeping
 
       criteria = {
@@ -69,7 +69,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
       when 'Hero' then 'heroes'
       else 'levels'
 
-    original = item.get('original')
+    original = item.get('original') + ''
     purchased[group] ?= []
     unless original in purchased[group]
       #- add the purchase to the list of purchases

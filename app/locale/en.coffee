@@ -301,10 +301,13 @@
     choose_inventory: "Equip Items"
     equipped_item: "Equipped"
     available_item: "Available"
+    restricted_title: "Restricted"
     should_equip: "(double-click to equip)"
     equipped: "(equipped)"
     locked: "(locked)"
     restricted: "(restricted in this level)"
+    equip: "Equip"
+    unequip: "Unequip"
 
   choose_hero:
     choose_hero: "Choose Your Hero"

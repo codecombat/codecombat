@@ -1,8 +1,6 @@
 ModalView = require 'views/kinds/ModalView'
-CocoView = require 'views/kinds/CocoView'
-
 template = require 'templates/play/modal/play-items-modal'
-itemDetailsTemplate = require 'templates/play/modal/item-details-view'
+ItemDetailsView = require './ItemDetailsView'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
@@ -139,7 +137,7 @@ module.exports = class PlayItemsModal extends ModalView
     $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
 
   onUnlockButtonClicked: (e) ->
-    button = $(e.target)
+    button = $(e.target).closest('button')
     if button.hasClass('confirm')
       item = @idToItem[$(e.target).data('item-id')]
       purchase = Purchase.makeFor(item)
@@ -161,67 +159,3 @@ module.exports = class PlayItemsModal extends ModalView
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
 
-class ItemDetailsView extends CocoView
-  id: "item-details-view"
-  template: itemDetailsTemplate
-
-  constructor: ->
-    super(arguments...)
-    @propDocs = {}
-
-  setItem: (@item) ->
-    @render()
-
-    if @item
-      stats = @item.getFrontFacingStats()
-      props = (p for p in stats.props when not @propDocs[p])
-      return if props.length is 0
-
-      docs = new CocoCollection([], {
-        url: '/db/level.component?view=prop-doc-lookup'
-        model: LevelComponent
-        project: [
-          'propertyDocumentation.name'
-          'propertyDocumentation.description'
-          'propertyDocumentation.i18n'
-        ]
-      })
-
-      docs.fetch({ data: {
-        componentOriginals: [c.original for c in @item.get('components')].join(',')
-        propertyNames: props.join(',')
-      }})
-      @listenToOnce docs, 'sync', @onDocsLoaded
-      @$el.find('.nano:visible').nanoScroller()
-
-  onDocsLoaded: (levelComponents) ->
-    for component in levelComponents.models
-      for propDoc in component.get('propertyDocumentation')
-        @propDocs[propDoc.name] = propDoc
-    @render()
-
-  getRenderData: ->
-    c = super()
-    c.item = @item
-    if @item
-      stats = @item.getFrontFacingStats()
-      c.stats = _.values(stats.stats)
-      _.last(c.stats).isLast = true if c.stats.length
-      c.props = []
-      progLang = (me.get('aceConfig') ? {}).language or 'python'
-      for prop in stats.props
-        description = utils.i18n @propDocs[prop] ? {}, 'description'
-
-        if _.isObject description
-          description = description[progLang] or _.values(description)[0]
-        if _.isString description
-          description = description.replace(/#{spriteName}/g, 'hero')
-          if fact = stats.stats.shieldDefenseFactor
-            description = description.replace(/#{shieldDefensePercent}%/g, fact.display)
-          description = $(marked(description)).html()
-
-        c.props.push {
-          name: prop
-          description: description or '...'
-        }
-    c
