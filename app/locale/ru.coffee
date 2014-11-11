@@ -276,7 +276,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     customize_wizard: "Настройки волшебника"
 
   game_menu:
@@ -301,7 +301,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     should_equip: "(двойной клик чтобы одеть)"
     equipped: "(выбранный)"
     locked: "(заблокированный)"
-#    restricted: "(restricted in this level)"
+    restricted: "(запрещен в этом уровне)"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -315,9 +315,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     io_blurb: "Простой, но непонятный."
     status: "Статус"
     weapons: "Оружие"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
+    weapons_warrior: "Меч - ближний бой, не магический"
+    weapons_ranger: "Арбалеты, ружья - дальнобойные, не магические"
+    weapons_wizard: "Палочки, посохи - дальнобойные, магические"
     attack: "Урон" # Can also translate as "Attack"
     health: "Жизнь"
     speed: "Скорость"
