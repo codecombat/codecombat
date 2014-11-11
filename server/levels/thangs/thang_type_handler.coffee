@@ -40,6 +40,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'description'
     'gems'
     'heroClass'
+    'tier'
     'extendedName'
   ]
 
@@ -61,7 +62,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       query = slug: {$exists: true}
       if req.query.view is 'items'
         query.kind = 'Item'
-        query.gems = {$exists: true}  # Items without gems don't show up anywhere
+        query.tier = {$exists: true}  # Items without a tier don't show up anywhere, whereas items without gems don't show up in the store
       else if req.query.view is 'heroes'
         #query.kind = 'Hero'  # TODO: when ChooseHeroView is refactored, just use this
         query.original = {$in: _.values heroes}  # TODO: when ChooseHeroView is refactored, don't do this

@@ -396,8 +396,16 @@ module.exports = class ThangType extends CocoModel
     name: name, display: display
 
   isSilhouettedItem: ->
-    # TODO: have items have actual levels instead of just going by their gem count
     return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get 'gems'
+    console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
+    tier = @get 'tier'
+    if tier?
+      return @levelRequiredForItem() > me.level()
     points = me.get('points')
     expectedTotalGems = (points ? 0) * 1.5   # Not actually true, but roughly kinda close for tier 0, kinda tier 1
-    @get('gems') > (100 + expectedTotalGems) * 2
+    @get('gems') > (100 + expectedTotalGems) * 1.2
+
+  levelRequiredForItem: ->
+    return console.error "Trying to determine what level is required for #{@get('name')}, but it has no tier." unless @get('tier')?
+    tier = @get 'tier'
+    me.constructor.levelForTier(Math.pow(tier, 0.7))

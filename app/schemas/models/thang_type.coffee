@@ -109,6 +109,7 @@ _.extend ThangTypeSchema.properties,
   terrains: c.array {title: 'Terrains', description: 'If specified, limits this ThangType to levels with matching terrains.', uniqueItems: true}, c.terrainString
   gems: {type: 'integer', minimum: 0, title: 'Gem Cost', description: 'How many gems this item or hero costs.'}
   heroClass: {type: 'string', enum: ['Warrior', 'Ranger', 'Wizard'], title: 'Hero Class', description: 'What class this is (if a hero) or is restricted to (if an item). Leave undefined for most items.'}
+  tier: {type: 'number', minimum: 0, title: 'Tier', description: 'What tier (fractional) this item or hero is in.'}
   actions: c.object {title: 'Actions', additionalProperties: {$ref: '#/definitions/action'}}
   soundTriggers: c.object {title: 'Sound Triggers', additionalProperties: c.array({}, {$ref: '#/definitions/sound'})},
     say: c.object {format: 'slug-props', additionalProperties: {$ref: '#/definitions/sound'}},

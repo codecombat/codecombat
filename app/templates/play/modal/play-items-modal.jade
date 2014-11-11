@@ -26,11 +26,16 @@
             .nano-content
               for item in itemCategoryCollections[category].models
                 - var hidden = item.comingSoon && !me.isAdmin()
-                div(class="item" + (hidden ? " hide" : ""), data-item-id=item.id)
+                - hidden = hidden || (!item.get('gems') && !item.owned)
+                div(class="item" + (hidden ? " hide" : "") + (item.silhouetted && !item.owned ? " silhouetted" : ""), data-item-id=item.id)
                   if item.silhouetted && !item.owned
                     span.glyphicon.glyphicon-lock.bolder
                     span.glyphicon.glyphicon-lock
                     img.item-silhouette(src=item.getPortraitURL())
+                    if item.level
+                      .required-level
+                        div(data-i18n="general.player_level")
+                        div= item.level
                   else
                     strong.big-font= item.name
                     img.item-img(src=item.getPortraitURL())

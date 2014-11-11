@@ -4,8 +4,6 @@ WizardLank = require 'lib/surface/WizardLank'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
 
-InventoryModal = require 'views/game-menu/InventoryModal'
-
 {me} = require '/lib/auth'
 
 module.exports = class HomeView extends RootView
@@ -40,4 +38,3 @@ module.exports = class HomeView extends RootView
 
   afterInsert: ->
     super(arguments...)
-    @openModalView(new InventoryModal({levelID: 'the-raised-sword'}))

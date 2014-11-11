@@ -167,6 +167,7 @@
     medium: "Medium"
     hard: "Hard"
     player: "Player"
+    player_level: "Level"  # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "second"
