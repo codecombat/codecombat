@@ -183,7 +183,7 @@ module.exports = LevelOptions =
   'thornbush-farm':
     requiredGear: {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
-  'a-fiery-trap':
+  'back-to-back':
     requiredGear: {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
   'ogre-encampment':

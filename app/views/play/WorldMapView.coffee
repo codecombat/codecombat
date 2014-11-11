@@ -615,14 +615,14 @@ forest = [
     original: '5447030525cce60000745e2a'
     description: 'Determine refugee peasant from ogre when defending the farm.'
     nextLevels:
-      continue: 'a-fiery-trap'
+      continue: 'back-to-back'
     x: 44.09
     y: 57.75
   }
   {
-    name: 'A Fiery Trap'
+    name: 'Back to Back'
     type: 'hero'
-    id: 'a-fiery-trap'
+    id: 'back-to-back'
     original: '5448330517d7283e051f9b9e'
     description: 'Patrol the village entrances, but stay defensive.'
     nextLevels:
