@@ -61,7 +61,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
   addPurchaseToUser: (req) ->
     user = req.user
     purchased = user.get('purchased') or {}
-    purchased = _.clone purchased
+    purchased = _.cloneDeep purchased
     item = req.purchasedItem
 
     group = switch item.get('kind')
