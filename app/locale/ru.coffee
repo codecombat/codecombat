@@ -68,7 +68,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     campaign_beginner: "Кампания для новичков"
-	awaiting_levels_adventurer_prefix: "Мы выпускаем по 5 уровней в неделю."
+    awaiting_levels_adventurer_prefix: "Мы выпускаем по 5 уровней в неделю."
     awaiting_levels_adventurer: "Зарегистрируйтесь в качестве Искателя приключений"
     awaiting_levels_adventurer_suffix: "чтобы первым поиграть в новые уровни."
     choose_your_level: "Выберите ваш уровень" # The rest of this section is the old play view at /play-old and isn't very important.
