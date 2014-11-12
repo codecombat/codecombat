@@ -64,6 +64,7 @@
     next: "Next"  # Go from choose hero to choose inventory before playing a level
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     choose_inventory: "Equip Items"
+    buy_gems: "Buy Gems"
     older_campaigns: "Older Campaigns"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
