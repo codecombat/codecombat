@@ -12,6 +12,7 @@ ThangTypeVersionsModal = require './ThangTypeVersionsModal'
 ThangTypeColorsTabView = require './ThangTypeColorsTabView'
 PatchesView = require 'views/editor/PatchesView'
 ForkModal = require 'views/editor/ForkModal'
+VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'lib/storage'
@@ -33,6 +34,7 @@ module.exports = class ThangTypeEditView extends RootView
   events:
     'click #clear-button': 'clearRawData'
     'click #upload-button': -> @$el.find('input#real-upload-button').click()
+    'click #set-vector-icon': 'onClickSetVectorIcon'
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
@@ -46,6 +48,12 @@ module.exports = class ThangTypeEditView extends RootView
     'click .play-with-level-parent': 'onPlayLevelSelect'
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
     'click #pop-level-i18n-button': 'onPopulateLevelI18N'
+
+
+  onClickSetVectorIcon: ->
+    modal = new VectorIconSetupModal({}, @thangType)
+    @openModalView modal
+    modal.once 'done', => @treema.set('/', @getThangData())
 
   subscriptions:
     'editor:thang-type-color-groups-changed': 'onColorGroupsChanged'
@@ -234,7 +242,7 @@ module.exports = class ThangTypeEditView extends RootView
   # animation select
 
   refreshAnimation: =>
-    @thangType.buildActions()
+    @thangType.resetSpriteSheetCache()
     return @showRasterImage() if @thangType.get('raster')
     options = @getLankOptions()
     console.log 'refresh animation....'
