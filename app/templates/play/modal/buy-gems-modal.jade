@@ -1,0 +1,14 @@
+extends /templates/modal/modal_base
+
+block modal-header-content
+  h3(data-i18n='play.buy_gems')
+
+block modal-body-content
+  for product in products
+    button.product.btn.btn-lg(value=product.id)
+      img.gem(src="/images/common/gem.png")
+      span x#{product.gems): #{product.price}
+
+block modal-footer
+  .modal-footer
+    button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel

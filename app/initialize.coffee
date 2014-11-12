@@ -6,6 +6,7 @@ channelSchemas =
   'bus': require './schemas/subscriptions/bus'
   'editor': require './schemas/subscriptions/editor'
   'errors': require './schemas/subscriptions/errors'
+  'ipad': require './schemas/subscriptions/ipad'
   'misc': require './schemas/subscriptions/misc'
   'multiplayer': require './schemas/subscriptions/multiplayer'
   'play': require './schemas/subscriptions/play'
