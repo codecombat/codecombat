@@ -13,7 +13,7 @@ module.exports = class BuyGemsModal extends ModalView
   ]
   
   subscriptions:
-    'ipad:products': (e) -> @products = e.products
+    'ipad:products': 'onIPadProducts'
     'ipad:iap-complete': 'onIAPComplete'
   
   events:
@@ -21,22 +21,22 @@ module.exports = class BuyGemsModal extends ModalView
 
   constructor: (options) ->
     super(options)
-    @getProducts = _.once @getProducts
+    if application.isIPadApp
+      @products = []
+      Backbone.Mediator.publish 'buy-gems-modal:update-products' 
 
   getRenderData: ->
     c = super()
-    c.products = @getProducts()
+    c.products = @products
     return c
     
-  getProducts: =>
-    if application.isIPadApp
-      Backbone.Mediator.publish 'buy-gems-modal:update-products'
-      # products should now be updated through ipad:products event
-    @products
+  onIPadProducts: (e) ->
+    @products = e.products
+    @render()
 
   onClickProductButton: (e) ->
     productID = $(e.target).closest('button.product').val()
-    console.log 'purchasing', _.find @getProducts(), { id: productID }
+    console.log 'purchasing', _.find @products, { id: productID }
     
     if application.isIPadApp
       Backbone.Mediator.publish 'buy-gems-modal:purchase-initiated', { productID: productID }
