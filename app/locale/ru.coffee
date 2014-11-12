@@ -68,6 +68,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     campaign_beginner: "Кампания для новичков"
+	awaiting_levels_adventurer_prefix: "Мы выпускаем по 5 уровней в неделю."
+    awaiting_levels_adventurer: "Зарегистрируйтесь в качестве Искателя приключений"
+    awaiting_levels_adventurer_suffix: "чтобы первым поиграть в новые уровни."
     choose_your_level: "Выберите ваш уровень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Вы можете зайти на любой из этих уровней, а также обсудить уровни на "
     adventurer_forum: "форуме Искателей приключений"
@@ -107,7 +110,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   recover:
     recover_account_title: "Восстановить аккаунт"
     send_password: "Отправить пароль для восстановления"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Письмо с паролем отправлено."
 
   items:
     primary: "Основное"
@@ -227,7 +230,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
-    tome_submit_button: "Отправить"
+    tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код для этого метода" # Title text for individual method reload button.
     tome_select_method: "Выбрать метод"
     tome_see_all_methods: "Показать все методы, доступные для редактирования" # Title text for method list selector (shown when there are multiple programmable methdos).
@@ -290,14 +293,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_hero_caption: "Выбор героя, языка"
     save_load_caption: "... и посмотреть историю"
     options_caption: "Выбор настроек"
-#    guide_caption: "Docs and tips"
+    guide_caption: "Документы и советы"
     multiplayer_caption: "Играй с друзьями!"
     auth_caption: "Сохранить прогресс."
 
   inventory:
     choose_inventory: "Выбрать предметы"
     equipped_item: "Выбранный"
-    available_item: "Доступный"
+    available_item: "Доступно"
     should_equip: "(двойной клик чтобы одеть)"
     equipped: "(выбранный)"
     locked: "(заблокированный)"
@@ -446,8 +449,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     space: "Пробел"
     enter: "Enter"
     escape: "Escape"
-#    shift: "Shift"
-#    run_code: "Run current code."
+    shift: "Shift"
+    run_code: "Выполнить текущий код."
     run_real_time: "Запустить в реальном времени."
     continue_script: "Продолжить текущий скрипт."
     skip_scripts: "Пропустить все возможные скрипты."
