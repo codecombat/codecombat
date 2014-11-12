@@ -18,7 +18,7 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
     tip = _.sample(tips)
-    $(tip).removeClass('to-remove')
+    $(tip).removeClass('to-remove').addClass('secret')
     @$el.find('.to-remove').remove()
     @onLevelLoaded level: @options.level if @options.level?.get('goals')  # If Level was already loaded.
 
@@ -47,6 +47,11 @@ module.exports = class LevelLoadingView extends CocoView
       goalContainer.removeClass('secret')
       if goalCount is 1
         goalContainer.find('.panel-heading').text $.i18n.t 'play_level.goal'  # Not plural
+    tip = @$el.find('.tip')
+    if @level.get('loadingTip')
+      loadingTip = utils.i18n @level.attributes, 'loadingTip'
+      tip.text(loadingTip)
+    tip.removeClass('secret')
 
   showReady: ->
     return if @shownReady
@@ -59,8 +64,6 @@ module.exports = class LevelLoadingView extends CocoView
       @startUnveiling()
       @unveil()
     else
-      ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')
-      @$el.find('#tip-wrapper .tip').addClass('ready').text ready
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
       @$el.find('.progress').addClass 'active progress-striped'
       @$el.find('.start-level-button').removeClass 'secret'
