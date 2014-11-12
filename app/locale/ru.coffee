@@ -53,9 +53,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     items: "Предметы" # Tooltip on item shop button from /play
     unlock: "Разблокировать" # For purchasing items and heroes
     confirm: "Подтвердить"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
+#    owned: "Уже есть" # For items you own
+#    locked: "Заблокировано"
+#    available: "Доступно"
     skills_granted: "Умение получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Достижения" # Tooltip on achievement list button from /play
@@ -191,14 +191,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restart: "Перезапустить"
     goals: "Цели"
     goal: "Цель"
-#    running: "Running..."
+#    running: "Выполняется..."
     success: "Успешно!"
     incomplete: "Не завершено"
     timed_out: "Время истекло"
     failing: "Неудача"
     action_timeline: "График действий"
     click_to_select: "Выберите персонажа, щёлкнув на нём"
-#    reload: "Reload"
+#    reload: "Перезагрузить"
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
@@ -234,14 +234,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
-#    tome_current_method: "Current Method"
+#    tome_current_method: "Текущий метод"
     hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
     loading_start: "Начать уровень"
-#    problem_alert_title: "Fix Your Code"
+#    problem_alert_title: "Исправьте Ваш Код"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -274,7 +274,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_talk_is_cheap: "Слова ничего не стоят. Покажи мне код. - Linus Torvalds"
     tip_first_language: "Наиболее катастрофическая вещь, которую вы можете выучить - ваш первый язык программирования. - Alan Kay"
     tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+#    tip_hofstadters_law: "Закон Хофштадтера: Любое дело всегда длится дольше, чем ожидается, даже если учесть закон Хофштадтера."
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     customize_wizard: "Настройки волшебника"
