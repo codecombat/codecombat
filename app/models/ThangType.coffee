@@ -19,6 +19,7 @@ module.exports = class ThangType extends CocoModel
     'robot-walker': '5301696ad82649ec2c0c9b0d'
     'michael-heasell': '53e126a4e06b897606d38bef'
     'ian-elliott': '53e12be0d042f23505c3023b'
+    'ninja': '52fc0ed77e01835453bd8f6c'
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
@@ -305,7 +306,7 @@ module.exports = class ThangType extends CocoModel
     ['Warrior', 'Ranger', 'Wizard']
 
   getHeroStats: ->
-    # Translate from raw hero properties into appropriate display values for the ChooseHeroView.
+    # Translate from raw hero properties into appropriate display values for the PlayHeroesModal.
     # Adapted from https://docs.google.com/a/codecombat.com/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
     return unless heroClass = @get('heroClass')
     components = @get('components') or []

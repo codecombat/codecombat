@@ -13,14 +13,14 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   nav:
     play: "Livelli" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    community: "Comunità"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Account"
     profile: "Profilo"
     stats: "Statistiche"
-#    code: "Code"
+#    code: "Codice"
     admin: "Amministratore" # Only shows up when you are an admin
     home: "Pagina iniziale"
     contribute: "Contribuisci"
@@ -28,7 +28,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     about: "Informazioni"
     contact: "Contatti"
     twitter_follow: "Segui"
-#    teachers: "Teachers"
+    teachers: "Docenti"
 
   modal:
     close: "Chiudi"
@@ -50,22 +50,22 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     spectate: "Spettatore" # Ladder page
     players: "giocatori" # Hover over a level on /play
     hours_played: "ore di gioco" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
+    items: "Oggetti" # Tooltip on item shop button from /play
+    unlock: "Sblocca" # For purchasing items and heroes
+    confirm: "Conferma"
+    owned: "In tuo possesso" # For items you own
+    locked: "Bloccato"
+    available: "Disponibile"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "Eroi" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    account: "Account" # Tooltip on account button from /play
+    settings: "Impostazioni" # Tooltip on settings button from /play
+    next: "Procedi" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Cambia Eroe" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Campagne precedenti"
+    anonymous: "Giocatore Anonimo"
     level_difficulty: "Difficoltà: "
     campaign_beginner: "Campagne per principianti"
     choose_your_level: "Scegli il tuo livello" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -82,8 +82,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     campaign_player_created_description: "... nei quali affronterai la creatività dei tuoi compagni <a href=\"/contribute#artisan\">Stregoni Artigiani</a>."
     campaign_classic_algorithms: "Algoritmi classici"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "Campagna nella Foresta"
+    campaign_dungeon: "Campagna nelle Segrete"
 
   login:
     sign_up: "Crea account"
@@ -109,13 +109,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     send_password: "Invia password di recupero"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Primario"
+    secondary: "Secondario"
+    armor: "Armatura"
+    accessories: "Accessori"
+    misc: "Varie"
+    books: "Libri"
 
   common:
     loading: "Caricamento in corso..."
@@ -137,17 +137,17 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   general:
     and: "e"
     name: "Nome"
-#    date: "Date"
+    date: "Data"
     body: "Testo"
     version: "Versione"
-#    commit_msg: "Commit Message"
+    commit_msg: "Messaggio del Commit"
 #    version_history: "Version History"
 #    version_history_for: "Version History for: "
-#    result: "Result"
+    result: "Risultato"
     results: "Risultati"
     description: "Descrizione"
     or: "o"
-#    subject: "Subject"
+    subject: "Oggetto"
     email: "Email"
     password: "Password"
     message: "Messaggio"
@@ -159,11 +159,11 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     score: "Punteggio"
     win: "Vittoria"
     loss: "Sconfitta"
-#    tie: "Tie"
+    tie: "Pareggio"
     easy: "Facile"
     medium: "Medio"
     hard: "Difficile"
-#    player: "Player"
+    player: "Giocatore"
 
   units:
     second: "secondo"
@@ -184,21 +184,21 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   play_level:
     done: "Fatto"
     home: "Pagina iniziale" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Livello" # Like "Level: Dungeons of Kithgard"
 #    skip: "Skip"
     game_menu: "Menu"
     guide: "Guida"
     restart: "Ricomincia"
     goals: "Obiettivi"
-#    goal: "Goal"
-#    running: "Running..."
-#    success: "Success!"
+    goal: "Obiettivo"
+    running: "Eseguo..."
+    success: "Successo!"
     incomplete: "Incompleto"
     timed_out: "Tempo Scaduto"
 #    failing: "Failing"
     action_timeline: "Barra temporale delle azioni"
     click_to_select: "Clicca un'unità per selezionarla."
-#    reload: "Reload"
+    reload: "Ricarica"
     reload_title: "Ricarica tutto il codice?"
     reload_really: "Sei sicuro di voler ricominciare il livello?"
     reload_confirm: "Ricarica tutto"
@@ -208,7 +208,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     victory_sign_up_poke: "Vuoi ricevere le ultime novità per email? Crea un account gratuito e ti terremo aggiornato!"
     victory_rate_the_level: "Vota il livello: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Continua"
 #    victory_play_skip: "Skip Ahead"
     victory_play_next_level: "Gioca il prossimo livello"
 #    victory_play_more_practice: "More Practice"
@@ -235,13 +235,13 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tome_available_spells: "Incantesimi disponibili"
 #    tome_your_skills: "Your Skills"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "Continua"
 #    code_saved: "Code Saved"
     skip_tutorial: "Salta (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Pronto!"
 #    loading_start: "Start Level"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Sistema il codice"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -277,7 +277,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
-    customize_wizard: "Personalizza stregone"
+    customize_wizard: "Personalizza il mago"
 
   game_menu:
     inventory_tab: "Inventario"

@@ -59,7 +59,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
-    @isMissile = @thangType.get('name') in ['Arrow', 'Spear']
+    spriteName = @thangType.get('name')
+    @isMissile = /(Missile|Arrow|Spear)/.test(spriteName) and not /Tower/.test(spriteName)
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     if @thang?
