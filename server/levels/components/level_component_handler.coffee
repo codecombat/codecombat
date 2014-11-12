@@ -37,9 +37,12 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
         properties = req.query.propertyNames.split(',')
       catch e
         return @sendBadInputError(res, 'Could not parse componentOriginals or propertyNames.')
-        
+
       query['original'] = {$in: components}
-      query['propertyDocumentation.name'] = {$in: properties}
+      query.$or = [
+        {'propertyDocumentation.name': {$in: properties}}
+        {'propertyDocumentation.name': {$regex: /^cast.+/}}
+      ]
 
       q = LevelComponent.find(query, projection)
       q.exec (err, documents) =>
