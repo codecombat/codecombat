@@ -249,7 +249,7 @@ module.exports = class HeroVictoryModal extends ModalView
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}]
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}, @level.get('slug')]
 
   playSelectionSound: (hero, preload=false) ->
     return unless sounds = hero.get('soundTriggers')?.selected

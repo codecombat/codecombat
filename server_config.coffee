@@ -16,6 +16,9 @@ config.mongo =
   host: process.env.COCO_MONGO_HOST or 'localhost'
   db: process.env.COCO_MONGO_DATABASE_NAME or 'coco'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
+  
+config.apple =
+  verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt' # 'https://buy.itunes.apple.com/verifyReceipt'
 
 config.redis =
   port: process.env.COCO_REDIS_PORT or 6379

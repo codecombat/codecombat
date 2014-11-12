@@ -115,6 +115,7 @@ module.exports = class SpriteBuilder
       if _.isString(childData)
         child = @buildShapeFromStore(childData)
       else
+        continue if not childData.gn
         child = @buildContainerFromStore(childData.gn)
         child.setTransform(childData.t...)
       cont.addChild(child)

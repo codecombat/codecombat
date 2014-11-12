@@ -69,7 +69,7 @@ describe 'POST /db/user', ->
       expect(user.get('password')).toBeUndefined()
       expect(user?.get('passwordHash')).not.toBeUndefined()
       if user?.get('passwordHash')?
-        expect(user.get('passwordHash')[..5]).toBe('31dc3d')
+        expect(user.get('passwordHash')[..5]).toBe('948c7e')
         expect(user.get('permissions').length).toBe(0)
       done()
 
