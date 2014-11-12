@@ -64,7 +64,7 @@
 
 .user-status.header-font
   span.gem.gem-20
-  span.spr= me.gems()
+  span#gems-count.spr= me.gems()
   span.spl.spr(data-i18n="general.player_level")
   span.spr= me.level()
   if me.get('anonymous')

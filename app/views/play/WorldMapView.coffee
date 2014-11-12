@@ -46,6 +46,8 @@ module.exports = class WorldMapView extends RootView
     @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
     @preloadTopHeroes()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
+    @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
+    @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
     window.tracker?.trackEvent 'World Map', Action: 'Loaded'
 
   destroy: ->
