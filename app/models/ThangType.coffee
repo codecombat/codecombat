@@ -339,9 +339,10 @@ module.exports = class ThangType extends CocoModel
     unless itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
       console.warn @get('name'), 'is not an item, but you are asking for its stats.'
       return props: [], stats: {}
+    stats = {}
     props = itemConfig.programmableProperties ? []
     props = props.concat itemConfig.moreProgrammableProperties ? []
-    stats = {}
+    props = _.without props, 'canCast', 'spellNames', 'spells'
     for stat, modifiers of itemConfig.stats ? {}
       stats[stat] = @formatStatDisplay stat, modifiers
     for stat in itemConfig.extraHUDProperties ? []
