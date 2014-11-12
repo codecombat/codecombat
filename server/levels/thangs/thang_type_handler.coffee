@@ -1,17 +1,6 @@
 ThangType = require './ThangType'
 Handler = require '../../commons/Handler'
 
-heroes =
-  captain: '529ec584c423d4e83b000014'
-  knight: '529ffbf1cf1818f2be000001'
-  librarian: '52fbf74b7e01835453bd8d8e'
-  equestrian: '52e95b4222efc8e70900175d'
-  'potion-master': '52e9adf7427172ae56002172'
-  thoktar: '52a00542cf1818f2be000006'
-  'robot-walker': '5301696ad82649ec2c0c9b0d'
-  'michael-heasell': '53e126a4e06b897606d38bef'
-  'ian-elliott': '53e12be0d042f23505c3023b'
-
 ThangTypeHandler = class ThangTypeHandler extends Handler
   modelClass: ThangType
   jsonSchema: require '../../../app/schemas/models/thang_type'
@@ -64,8 +53,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
         query.kind = 'Item'
         query.tier = {$exists: true}  # Items without a tier don't show up anywhere, whereas items without gems don't show up in the store
       else if req.query.view is 'heroes'
-        #query.kind = 'Hero'  # TODO: when ChooseHeroView is refactored, just use this
-        query.original = {$in: _.values heroes}  # TODO: when ChooseHeroView is refactored, don't do this
+        query.kind = 'Hero'
       else if req.query.view is 'i18n-coverage'
         query.i18nCoverage = {$exists: true}
 

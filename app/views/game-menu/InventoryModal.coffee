@@ -357,35 +357,47 @@ module.exports = class InventoryModal extends ModalView
       @remainingRequiredEquipment = []
       @$el.find('.should-equip').removeClass('should-equip')
       inWorldMap = $('#world-map-view').length
+      if heroClass = @selectedHero?.get('heroClass')
+        for slot, item of _.clone equipment
+          itemModel = @items.findWhere original: item
+          unless itemModel and heroClass in itemModel.classes
+            console.log 'Unequipping', itemModel.get('heroClass'), 'item', itemModel.get('name'), 'from slot due to class restrictions.'
+            @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
       for slot, item of restrictedGear
         equipped = equipment[slot]
         if equipped and equipped is gear[restrictedGear[slot]]
           console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
-      for slot, item of requiredGear
-        #continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level  # ... when we make it so that you can buy it
-        equipped = equipment[slot]
-        continue if equipped and not (
-          (item is 'builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword']]) or
-          (item in ['simple-sword', 'long-sword'] and equipped is gear['builders-hammer']) or
-          (item is 'leather-boots' and equipped is gear['simple-boots']) or
-          (item is 'simple-boots' and equipped is gear['leather-boots'])
-        )
-        itemModel = @items.findWhere {slug: item}
-        continue unless itemModel
-        availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
-        @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
-        @$el.find(availableSlotSelector).addClass 'should-equip'
-        @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-        @$el.find('#double-click-hint').removeClass('secret')
-        @remainingRequiredEquipment.push slot: slot, item: gear[item]
+      if heroClass is 'Warrior'
+        # After they switch to a ranger or wizard, we stop being so finicky about gear.
+        for slot, item of requiredGear
+          #continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level  # ... when we make it so that you can buy it
+          equipped = equipment[slot]
+          continue if equipped and not (
+            (item is 'builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword']]) or
+            (item in ['simple-sword', 'long-sword'] and equipped is gear['builders-hammer']) or
+            (item is 'leather-boots' and equipped is gear['simple-boots']) or
+            (item is 'simple-boots' and equipped is gear['leather-boots'])
+          )
+          itemModel = @items.findWhere {slug: item}
+          continue unless itemModel
+          availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
+          @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
+          @$el.find(availableSlotSelector).addClass 'should-equip'
+          @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
+          @$el.find('#double-click-hint').removeClass('secret')
+          @remainingRequiredEquipment.push slot: slot, item: gear[item]
       if hadRequired and not @remainingRequiredEquipment.length
         @endHighlight()
         @highlightElement '#play-level-button', duration: 5000
       $('#play-level-button').prop('disabled', @remainingRequiredEquipment.length > 0)
 
   setHero: (@selectedHero) ->
+    if @selectedHero.loading
+      @listenToOnce @selectedHero, 'sync', => @setHero? @selectedHero
+      return
     @$el.removeClass('Warrior Ranger Wizard').addClass(@selectedHero.get('heroClass'))
+    @requireLevelEquipment()
     @render()
 
   onShown: ->
@@ -418,8 +430,11 @@ module.exports = class InventoryModal extends ModalView
     inventory = @getCurrentEquipmentConfig()
     patchSession = patchMe = false
     patchSession ||= not _.isEqual inventory, sessionHeroConfig.inventory
-    patchMe ||= not _.isEqual inventory, lastHeroConfig.inventory
     sessionHeroConfig.inventory = inventory
+    if hero = @selectedHero.get('original')
+      patchSession ||= not _.isEqual hero, sessionHeroConfig.thangType
+      sessionHeroConfig.thangType = hero
+    patchMe ||= not _.isEqual inventory, lastHeroConfig.inventory
     lastHeroConfig.inventory = inventory
     if patchMe
       console.log 'setting me.heroConfig to', JSON.stringify(lastHeroConfig)

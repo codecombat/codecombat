@@ -29,6 +29,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
     @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName']
+    @heroes.comparator = 'gems'
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}

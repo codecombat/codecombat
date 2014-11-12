@@ -210,12 +210,12 @@ module.exports = LevelOptions =
   'drop-the-flag':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
     restrictedGear: {'right-hand': 'longsword'}
-  'rich-forager':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'longsword', 'left-hand': 'bronze-shield'}
-    restrictedGear: {'right-hand': 'builders-hammer'}
   'deadly-pursuit':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
     restrictedGear: {'right-hand': 'longsword'}
+  'rich-forager':
+    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'longsword', 'left-hand': 'bronze-shield'}
+    restrictedGear: {'right-hand': 'builders-hammer'}
   'multiplayer-treasure-grove':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic'}
     restrictedGear: {}

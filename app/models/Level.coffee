@@ -97,19 +97,23 @@ module.exports = class Level extends CocoModel
         placeholdersUsed[placeholderComponent.original] = true
         placeholderConfig = placeholderComponent.config ? {}
         if placeholderConfig.pos  # Pull in Physical pos x and y
+          levelThangComponent.config ?= {}
           levelThangComponent.config.pos ?= {}
           levelThangComponent.config.pos.x = placeholderConfig.pos.x
           levelThangComponent.config.pos.y = placeholderConfig.pos.y
           levelThangComponent.config.rotation = placeholderConfig.rotation
         else if placeholderConfig.team  # Pull in Allied team
+          levelThangComponent.config ?= {}
           levelThangComponent.config.team = placeholderConfig.team
         else if placeholderConfig.significantProperty  # For levels where we cheat on what counts as an enemy
+          levelThangComponent.config ?= {}
           levelThangComponent.config.significantProperty = placeholderConfig.significantProperty
         else if placeholderConfig.programmableMethods
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig
           levelThangComponent.config = _.merge copy, levelThangComponent.config
         else if placeholderConfig.extraHUDProperties
+          levelThangComponent.config ?= {}
           levelThangComponent.config.extraHUDProperties = _.union(levelThangComponent.config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
 
     if isHero

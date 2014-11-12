@@ -63,6 +63,7 @@ module.exports = class ControlBarView extends CocoView
       @homeLink = c.homeLink = '/'
       @homeViewClass = require 'views/HomeView'
     c.editorLink = "/editor/level/#{@level.get('slug')}"
+    c.homeLink = @homeLink
     c
 
   showGameMenuModal: ->

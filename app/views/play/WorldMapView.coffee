@@ -709,20 +709,9 @@ forest = [
     description: 'it is hot'
     disabled: not me.isAdmin()
     nextLevels:
-      continue: 'rich-forager'
-    x: 77.54
-    y: 50.94
-  }
-  {
-    name: 'Rich Forager'
-    type: 'hero'
-    id: 'rich-forager'
-    description: 'if i were a rich man'
-    disabled: not me.isAdmin()
-    nextLevels:
       continue: 'deadly-pursuit'
     x: 77.54
-    y: 45.94
+    y: 50.94
   }
   {
     name: 'Deadly Pursuit'
@@ -731,9 +720,20 @@ forest = [
     description: 'what is a dirt nap? it is death.'
     disabled: not me.isAdmin()
     nextLevels:
-      continue: 'multiplayer-treasure-grove'
+      continue: 'rich-forager'
     x: 77.54
     y: 40.94
+  }
+  {
+    name: 'Rich Forager'
+    type: 'hero'
+    id: 'rich-forager'
+    description: 'if i were a rich man'
+    disabled: not me.isAdmin()
+    nextLevels:
+      continue: 'multiplayer-treasure-grove'
+    x: 77.54
+    y: 45.94
   }
   {
     name: 'Multiplayer Treasure Grove'
