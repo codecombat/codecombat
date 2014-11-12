@@ -59,7 +59,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
-    @isMissile = @thangType.get('name') in ['Arrow', 'Spear']
+    spriteName = @thangType.get('name')
+    @isMissile = /(Missile|Arrow|Spear)/.test(spriteName) and not /Tower/.test(spriteName)
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     if @thang?
@@ -638,8 +639,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   onDialogue: (e) ->
     return unless @thang?.id is e.spriteID
-    label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
-    label.setText e.blurb or '...'
+    unless @thang?.id is 'Hero Placeholder'  # Don't show these for heroes, because they aren't actually first-person, just LevelDialogueView narration
+      label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
+      label.setText e.blurb or '...'
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     @dialogueSoundInstance?.stop()
     if @dialogueSoundInstance = @playSound sound, false
@@ -679,6 +681,13 @@ module.exports = Lank = class Lank extends CocoClass
     @lastGold = gold
     Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned ? 0)}
 
+  shouldMuteMessage: (m) ->
+    return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
+    return true if /^attack /.test m
+    return true if /^Repeating loop/.test m
+    return true if /^findNearestEnemy/.test m
+    false
+
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
       @playSound event, withDelay, volume
@@ -686,7 +695,7 @@ module.exports = Lank = class Lank extends CocoClass
         AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
       @playSound action, withDelay, volume
-    if @thang.sayMessage and withDelay and not @thang.silent  # don't play sayMessages while scrubbing, annoying
+    if @thang.sayMessage and withDelay and not @thang.silent and not @shouldMuteMessage @thang.sayMessage  # don't play sayMessages while scrubbing, annoying
       offsetFrames = Math.abs(@thang.sayStartTime - @thang.world.age) / @thang.world.dt
       if offsetFrames <= 2  # or (not withDelay and offsetFrames < 30)
         sound = AudioPlayer.soundForDialogue @thang.sayMessage, @thangType.get 'soundTriggers'

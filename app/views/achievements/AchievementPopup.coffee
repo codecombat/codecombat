@@ -20,9 +20,9 @@ module.exports = class AchievementPopup extends CocoView
   calculateData: ->
     currentLevel = me.level()
     nextLevel = currentLevel + 1
-    currentLevelExp = User.expForLevel(currentLevel)
+    currentLevelXP = User.expForLevel(currentLevel)
     nextLevelXP = User.expForLevel(nextLevel)
-    totalExpNeeded = nextLevelXP - currentLevelExp
+    totalXPNeeded = nextLevelXP - currentLevelXP
     expFunction = @achievement.getExpFunction()
     currentXP = me.get 'points', true
     if @achievement.isRepeatable()
@@ -30,14 +30,14 @@ module.exports = class AchievementPopup extends CocoView
     else
       achievedXP = @achievement.get 'worth', true
     previousXP = currentXP - achievedXP
-    leveledUp = currentXP - achievedXP < currentLevelExp
+    leveledUp = currentXP - achievedXP < currentLevelXP
     #console.debug 'Leveled up' if leveledUp
-    alreadyAchievedPercentage = 100 * (previousXP - currentLevelExp) / totalExpNeeded
+    alreadyAchievedPercentage = 100 * (previousXP - currentLevelXP) / totalXPNeeded
     alreadyAchievedPercentage = 0 if alreadyAchievedPercentage < 0 # In case of level up
-    newlyAchievedPercentage = if leveledUp then 100 * (currentXP - currentLevelExp) / totalExpNeeded else  100 * achievedXP / totalExpNeeded
+    newlyAchievedPercentage = if leveledUp then 100 * (currentXP - currentLevelXP) / totalXPNeeded else  100 * achievedXP / totalXPNeeded
 
-    #console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelXP} xp)."
-    #console.debug "Need a total of #{nextLevelXP - currentLevelExp}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
+    #console.debug "Current level is #{currentLevel} (#{currentLevelXP} xp), next level is #{nextLevel} (#{nextLevelXP} xp)."
+    #console.debug "Need a total of #{nextLevelXP - currentLevelXP}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
 
     data =
       title: @achievement.i18nName()

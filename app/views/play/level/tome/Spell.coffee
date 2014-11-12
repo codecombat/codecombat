@@ -52,13 +52,14 @@ module.exports = class Spell
       @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
-    Backbone.Mediator.subscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode
+    Backbone.Mediator.subscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode, @
 
   destroy: ->
     @view?.destroy()
     @tabView?.destroy()
     @thangs = null
     @worker = null
+    Backbone.Mediator.unsubscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode, @
 
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
@@ -192,7 +193,7 @@ module.exports = class Spell
     return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
     false
 
-  onNewOpponentCode: (e) =>
+  onNewOpponentCode: (e) ->
     return unless @spellKey and @canWrite e.team
     if e.codeLanguage and e.code
       [thangSlug, methodSlug] = @spellKey.split '/'

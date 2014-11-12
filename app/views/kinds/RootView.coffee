@@ -58,6 +58,7 @@ module.exports = class RootView extends CocoView
     @openModalView new AuthModal {}
 
   onClickAnchor: (e) ->
+    return if @destroyed
     anchorText = e?.currentTarget?.text
     window.tracker?.trackEvent 'Homepage', Action: anchorText if @id is 'home-view' and anchorText
     @toggleModal e
@@ -110,7 +111,7 @@ module.exports = class RootView extends CocoView
     @addLanguagesToSelect($select, preferred)
     $select.fancySelect().parent().find('.trigger').addClass('header-font')
     $('body').attr('lang', preferred)
-    
+
   addLanguagesToSelect: ($select, initialVal) ->
     initialVal ?= me.get('preferredLanguage', true)
     codes = _.keys(locale)

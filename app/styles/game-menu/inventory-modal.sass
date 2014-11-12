@@ -1,18 +1,8 @@
 @import "app/styles/mixins"
 
-$totalWidth: 706px - 2 * 20px
-$inventoryHeight: 445px
-$equippedWidth: 450px
-$itemSlotMargin: 5px
-$itemSlotSize: ($equippedWidth - 6 * 2 * $itemSlotMargin) / 6
-$itemSlotSizeWithMargin: $itemSlotSize + 2 * $itemSlotMargin
-$itemSlotBorderWidth: 2px
-$itemSlotInnerWidth: $itemSlotSize - 2 * $itemSlotBorderWidth
-$heroContainerWidth: 4 * $itemSlotSizeWithMargin
-$heroContainerHeight: $inventoryHeight - $itemSlotSizeWithMargin
-$selectedAreaHeight: 150px
-$stashMargin: 20px
-$stashWidth: $totalWidth - $equippedWidth - $stashMargin
+$itemSlotSize: 55px
+$itemSlotInnerWidth: $itemSlotSize - 4
+$itemSlotGridHeight: 70px
 
 .ui-effects-transfer
   outline: 2px solid #28f
@@ -20,318 +10,434 @@ $stashWidth: $totalWidth - $equippedWidth - $stashMargin
   z-index: 9001
 
 #inventory-modal
+  
+  //- Overall modal structure
   .modal-dialog
     margin: 30px auto 0 auto
-    width: 720px
+    width: 1017px
+    height: 660px
+    
+  .modal-content
+    height: 100%
+    width: 100%
 
-    .modal-body
-      height: 450px
-      margin: 0
-
-  +user-select(none)
-  
-  h3
+  .modal-body
+    height: 450px
     margin: 0
 
-  .draggable-item
-    width: $itemSlotSize
-    height: $itemSlotSize
+  +user-select(none)
+
   
+  //- Background
+
+  #play-items-modal-narrow-bg
+    position: absolute
+    top: -69px
+    left: -8px
+
+
+  //- Gems count
+
+  #gems-count-container
+    position: absolute
+    left: 213px
+    top: 10px
+    width: 160px
+    height: 66px
+    @include rotate(5deg)
+
+    #gems-count
+      position: absolute
+      left: 75px
+      top: 17px
+      font-size: 25px
+      color: rgb(1,64,91)
+
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 390px
+    top: 23px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 7px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+
+  //- Equipped area
+
   #equipped
-    width: $equippedWidth
+    width: 330px
+    background: white
+    border: 3px solid black
     position: absolute
     left: 20px
-    top: 0
-    bottom: 0
-    //bottom: $selectedAreaHeight + 10
-    right: 0
+    top: 112px
+    height: 450px
     overflow: hidden
 
-    .item-slot-row
-      //background-color: rgba(35, 112, 124, 0.5)
-      height: $itemSlotSizeWithMargin
-      clear: both
-      margin: 0px auto
+    #hero-image
+      @include filter(contrast(0%) brightness(0%))
+      opacity: 0.4
+      width: 225px
+      height: 410px
+      position: absolute
+      left: 10px
+      top: 20px
 
-      &.row-4
-        width: 4 * $itemSlotSizeWithMargin
-
-    .item-slot-column
-      //background-color: rgba(112, 124, 35, 0.5)
-      width: $itemSlotSizeWithMargin
-      height: 5 * $itemSlotSizeWithMargin
-      float: left
-      //margin-top: 30px
-      
     .item-slot
       width: $itemSlotSize
       height: $itemSlotSize
-      margin: $itemSlotMargin
-      background-color: white
-      float: left
+      margin: 5px
+      background-color: rgba(255,255,255,0.4)
+      border: 2px dashed rgb(100,100,150)
       position: relative
       cursor: pointer
       @include transition(0.5s ease)
-      
-      &.selected
-        .placeholder, .item-container .item-view img
-          border-color: #28f
-          @include box-shadow(0 0 10px #28f)
 
+      //&.disabled
+      //  opacity: 0.5
+
+      &.selected
+        .placeholder, img.item
+          border-color: rgb(81,153,236)
+          background-color: rgb(81,153,236)
+          @include box-shadow(0 0 10px rgb(81,153,236))
+        img.item
+          background: rgb(81,153,236)
+  
       &.should-equip
         background-color: #8fa
         outline: 2px solid #8af
         @include box-shadow(2px 2px 4px black)
-
+  
       &.droppable
         outline: 2px solid blue
         @include box-shadow(4px 4px 6px black)
-
+  
       &.droppable-hover
         outline: 4px solid blue
         @include box-shadow(6px 6px 8px black)
-
+  
       .placeholder
         width: 100%
         height: 100%
         background-size: cover
-        border: $itemSlotBorderWidth solid #888
-        @include opacity(0.4)
+        @include opacity(0.7)
         background-image: url(/images/pages/game-menu/slot-icons.png)
+  
 
-      &[data-slot="misc-1"] .placeholder
-        background-position: (-0 * $itemSlotInnerWidth) 0px
+      // A terrible awful bit of styling, but will be gone or messed around with soon anyway
 
-      &[data-slot="minion"] .placeholder
-        background-position: (-1 * $itemSlotInnerWidth) 0px
+      &[data-slot="misc-1"]
+        display: none // hiding for now
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 3)
+        .placeholder
+          background-position: (-0 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="misc-0"]
+        display: none // hiding for now
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 2)
+        .placeholder
+          background-position: (-4 * $itemSlotInnerWidth) 0px
 
-      &[data-slot="programming-book"] .placeholder
-        background-position: (-3 * $itemSlotInnerWidth) 0px
 
+      &[data-slot="minion"]
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 1)
+        .placeholder
+          background-position: (-1 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="programming-book"]
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 4)
+        .placeholder
+          background-position: (-3 * $itemSlotInnerWidth) 0px
+  
       // Only for wizards...
       //&[data-slot="spellbook"] .placeholder
       //  background-position: (-2 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="misc-0"] .placeholder
-        background-position: (-4 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="wrists"] .placeholder
-        background-position: (-5 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="left-ring"] .placeholder
-        background-position: (-6 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="right-ring"] .placeholder
-        background-position: (-7 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="torso"] .placeholder
-        background-position: (-8 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="feet"] .placeholder
-        background-position: (-9 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="neck"] .placeholder
-        background-position: (-10 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="waist"] .placeholder
-        background-position: (-11 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="eyes"] .placeholder
-        background-position: (-12 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="head"] .placeholder
-        background-position: (-13 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="pet"] .placeholder
-        background-position: (-14 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="gloves"] .placeholder
-        background-position: (-15 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="left-hand"] .placeholder
-        background-position: (-16 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="right-hand"] .placeholder
-        background-position: (-17 * $itemSlotInnerWidth) 0px
-
-      &[data-slot="flag"] .placeholder
-        //background-position: (-18 * $itemSlotInnerWidth) 0px
-        background-position: (-2 * $itemSlotInnerWidth) 0px
-
-      .item-container
+  
+      &[data-slot="wrists"]
         position: absolute
-        left: 0
-        top: 0
+        left: 20px
+        top: 20px + ($itemSlotGridHeight * 2.5)
+        .placeholder
+          background-position: (-5 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="left-ring"]
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 2)
+        .placeholder
+          background-position: (-6 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="right-ring"]
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 3)
+        .placeholder
+          background-position: (-7 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="torso"]
+        position: absolute
+        left: 90px
+        top: 20px + ($itemSlotGridHeight * 3)
+        .placeholder
+          background-position: (-8 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="feet"]
+        position: absolute
+        left: 90px
+        top: 20px + ($itemSlotGridHeight * 5)
+        .placeholder
+          background-position: (-9 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="neck"]
+        position: absolute
+        left: 90px
+        top: 20px + ($itemSlotGridHeight * 2)
+        .placeholder
+          background-position: (-10 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="waist"]
+        position: absolute
+        left: 90px
+        top: 20px + ($itemSlotGridHeight * 4)
+        .placeholder
+          background-position: (-11 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="eyes"]
+        position: absolute
+        left: 90px
+        top: 20px + $itemSlotGridHeight
+        .placeholder
+          background-position: (-12 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="head"]
+        position: absolute
+        left: 90px
+        top: 20px
+        .placeholder
+          background-position: (-13 * $itemSlotInnerWidth) 0px
+        
+      &[data-slot="pet"]
+        position: absolute
+        left: 250px
+        top: 20px
+        .placeholder
+          background-position: (-14 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="gloves"]
+        position: absolute
+        left: 160px
+        top: 20px + ($itemSlotGridHeight * 2.5)
+        .placeholder
+          background-position: (-15 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="left-hand"]
+        position: absolute
+        left: 160px
+        top: 20px + ($itemSlotGridHeight * 3.5)
+        .placeholder
+          background-position: (-16 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="right-hand"]
+        position: absolute
+        left: 20px
+        top: 20px + ($itemSlotGridHeight * 3.5)
+        .placeholder
+          background-position: (-17 * $itemSlotInnerWidth) 0px
+  
+      &[data-slot="flag"]
+        position: absolute
+        left: 250px
+        top: 20px + ($itemSlotGridHeight * 5)
+        .placeholder
+          background-position: (-2 * $itemSlotInnerWidth) 0px
+  
+      img.item
+        position: absolute
+        left: -2px
+        top: -2px
 
-        .item-view
-          img
-            width: $itemSlotSize
-            height: $itemSlotSize
-            border: 2px solid black
-            background-color: white
+        width: $itemSlotSize
+        height: $itemSlotSize
+        border: 2px solid black
+        background-color: white
 
-          .item-info
-            display: none
+      
+  //- dragging styling 
+      
+  #equipped
     
-    .item-slot.disabled
-      opacity: 0.5
+    &.droppable
+      outline: 2px solid blue
+      @include box-shadow(4px 4px 6px black)
 
-    .hero-container
-      //background-color: rgba(31, 0, 200, 0.25)
-      float: left
-      position: relative
-      @include transition(0.5s ease)
+    &.droppable-hover
+      outline: 4px solid blue
+      @include box-shadow(6px 6px 8px black)
+    
+  .draggable-item
+    width: $itemSlotSize * 1.2
+    height: $itemSlotSize * 1.2
 
-      &.droppable
-        outline: 2px solid blue
-        @include box-shadow(4px 4px 6px black)
-
-      &.droppable-hover
-        outline: 4px solid blue
-        @include box-shadow(6px 6px 8px black)
-
-      .equipped-hero-canvas, .hero-feature-image
-        width: $heroContainerWidth
-        height: $heroContainerHeight
-
-      .hero-feature-image
-        text-align: center
-
-        img
-          height: $heroContainerHeight
-
-  #available-equipment
-    width: $stashWidth
-    position: absolute
-    right: 20px
-    top: 0 
-    bottom: 0
-    overflow-y: scroll
-    border: 2px solid #ccc
-    padding: 4px
-    background-color: white
-
-  &.Warrior .list-group-item:not(.Warrior), &.Ranger .list-group-item:not(.Ranger), &.Wizard .list-group-item:not(.Wizard)
+    
+  //- Available equipment
+   
+  &.Warrior #unequipped img.item:not(.Warrior), &.Ranger #unequipped img.item:not(.Ranger), &.Wizard #unequipped img.item:not(.Wizard)
     // Our code hides and shows (modifies display), but we can be invisible this other way.
     visibility: hidden
     position: absolute
 
-  .list-group-item
-    padding: 4px 0
-    @include transition(0.5s ease)
-
-    &.active
-      background-color: #e0f0f5
-
-      .status-message .should-equip-message
-        display: inline
-    
-    &.should-equip
-      background-color: #8fa
-      outline: 2px solid #8af
-      @include box-shadow(4px 4px 6px black)
-      z-index: 1
-
-      .status-message .should-equip-message
-        display: inline
-        font-weight: bold
-      
-    &.equipped
-      background-color: #ff5
-
-      .item-view
-        cursor: default
-
-      .status-message .equipped-message
-        display: inline
-
-    &.restricted
-      background-color: rgba(255, 80, 67, 0.25)
-
-      .item-view
-        cursor: default
-
-      .status-message .restricted-message
-        display: inline
-
-    &.locked
-      background-image: url(/images/pages/game-menu/lock.png)
-      background-size: 25px 25px
-      background-repeat: no-repeat
-      background-position: 98% 90%
-
-      .item-view
-        cursor: default
-  
-        h4, img
-          //@include filter(contrast(50%) brightness(65%))
-          @include opacity(0.6)
-  
-        .status-message .locked-message
-          display: inline
-
-      &.silhouette
-        h4
-          visibility: hidden
-          position: absolute
-        h4:before
-          content: '???'
-          visibility: visible
-        .item-view .status-message .locked-message
-          display: none
-        img
-          @include filter(contrast(25%) brightness(25%))
-
-  .item-view
-    cursor: pointer
-    
-  #selected-items
-    $selectedItemsContainerMargin: 20px
-    $selectedItemMargin: 10px
-    $selectedItemImageSize: 75px
-
+  #unequipped
+    width: 222px
     position: absolute
-    top: $selectedItemsContainerMargin
-    right: $selectedItemsContainerMargin
-    bottom: $selectedItemsContainerMargin
-    left: $selectedItemsContainerMargin
-    text-align: center
+    left: 370px
+    top: 112px
+    height: 450px
+    border: 3px solid black
+    padding: 9px 0 9px 9px
+    background-color: white
 
-    #selected-equipped-item, #selected-available-item
-      text-align: left
-      overflow-y: scroll
-      margin: 0
-      height: 48.4%
-      height: -webkit-calc(50% - $selectedItemMargin / 2)
-      height: calc(50% - $selectedItemMargin / 2)
-      width: 100%
-      padding: 10px 5px 10px 10px
-      position: relative
-      display: none
+    #double-click-hint
+      margin: 20px 0 70px
+    
+    h4
+      clear: both
+      margin-bottom: 10px
+      margin-top: 20px
+      font-size: 24px
+      text-transform: uppercase
+      font-weight: bold
+ 
+    img.item
+      float: left
+      border: 1px solid black
+      margin: 3px
+      padding: 1px
+      width: 60px
+      height: 60px
+      cursor: pointer
+
+      &.active
+        background-color: rgb(81,153,236)
+    
+        //.status-message .should-equip-message
+        //  display: inline
       
-      img
-        margin-top: 21px
-        width: $selectedItemImageSize
-        height: $selectedItemImageSize
-        margin-right: 10px
+      &.should-equip
+        background-color: #8fa
+        outline: 2px solid #8af
+        @include box-shadow(4px 4px 6px black)
+        z-index: 1
+    
+        //.status-message .should-equip-message
+        //  display: inline
+        //  font-weight: bold
         
-      .item-info
-        width: 110px
-        width: -webkit-calc(100% - 75px - 10px)
-        width: calc(100% - 75px - 10px)
+      &.equipped
+        background-color: #ff5
+        display: none
+        cursor: default
+    
+        //.item-view
+        //  cursor: default
+        //
+        //.status-message .equipped-message
+        //  display: inline
+    
+      &.restricted
+        background-color: rgba(255, 80, 67, 0.25)
+        cursor: default
+    
+        //.item-view
+        //  cursor: default
+        //
+        //.status-message .restricted-message
+        //  display: inline
+    
+      &.locked
+        cursor: default
+        //background-color: gray
+        
+      &.silhouette
+        cursor: default
+        pointer-events: none
+        @include filter(contrast(25%) brightness(25%))
+        opacity: 0.5
+      
+    
+  //- Hero/Play buttons
 
-      > h3
-        position: absolute
-        left: 0px
-        top: 0px
-        padding: 5px
+  #choose-hero-button, #play-level-button
+    top: 572px
+    position: absolute
+    background: url(/images/pages/play/modal/confirm-button.png)
+    width: 209px
+    height: 65px
+    background-size: 209px 65px
+    border: 0
 
-    #selected-equipped-item
-      margin-bottom: $selectedItemMargin
-      padding-bottom: 20px
-      background-color: #ff5
+    &:disabled
+      opacity: 1
+      @include filter(grayscale(100%))
+    
+    
+  #choose-hero-button
+    left: 20px
+    
+  #play-level-button
+    right: 414px
 
-    #selected-available-item
-      padding-top: 15px
-      background-color: #e0f0f5
-      bottom: 0
+      
+  //- Item details. Non-specific item-details-view styling is in item-details-view.sass.
+
+  #item-details-view
+
+    #item-title
+      left: 698px
+      top: 56px
+  
+    #item-details-body
+      left: 650px
+  
+    #selected-item-unlock-button
+      left: 646px
+
+
+  //- Equip/unequip/extra
+
+  #item-details-extra
+    position: absolute
+    left: 644px
+    top: 589px
+    
+    & > *
+      width: 338px
+      height: 50px
+      
+    .alert
+      text-align: center
+      font-weight: bold
+
+    button
+      border: 3px solid rgb(46,46,46)
+      background: white
+      font-size: 16px

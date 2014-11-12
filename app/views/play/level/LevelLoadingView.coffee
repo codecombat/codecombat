@@ -27,11 +27,12 @@ module.exports = class LevelLoadingView extends CocoView
     _.defer =>
       return if @destroyed
       # Make sure that we are as tall now as we will be when the canvas wrapper is resized to the right height.
+      currentCanvasHeight = 589
       canvasAspectRatio = 924 / 589
       eventualCanvasWidth = $('#canvas-wrapper').outerWidth()
-      eventualCanvasHeight = Math.max(eventualCanvasWidth / canvasAspectRatio)
-      currentCanvasHeight = 589
-      @$el.addClass('manually-sized').css('height', @$el.outerHeight() + eventualCanvasHeight - currentCanvasHeight + 2)
+      eventualCanvasHeight = eventualCanvasWidth / canvasAspectRatio
+      newHeight = Math.max 769, @$el.outerHeight() + eventualCanvasHeight - currentCanvasHeight + 2
+      @$el.addClass('manually-sized').css('height', newHeight)
 
   onLevelLoaded: (e) ->
     @level = e.level
@@ -63,7 +64,6 @@ module.exports = class LevelLoadingView extends CocoView
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
       @$el.find('.progress').addClass 'active progress-striped'
       @$el.find('.start-level-button').removeClass 'secret'
-      @$el.removeClass('manually-sized').css('height', '100%')
 
   startUnveiling: (e) ->
     Backbone.Mediator.publish 'level:loading-view-unveiling', {}

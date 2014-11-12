@@ -3,7 +3,7 @@ ThangAvatarView = require 'views/play/level/ThangAvatarView'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
 LevelComponent = require 'models/LevelComponent'
 DocFormatter = require './DocFormatter'
-filters = require 'lib/image_filter'
+ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
@@ -75,7 +75,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
           break
     return unless found
     docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.codeLanguage, selectedMethod: true
-    @$el.find('code').popover(
+    @$el.find('.method-signature').popover(
       animation: true
       html: true
       placement: 'bottom'
@@ -97,8 +97,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'spell-list-open', volume: 1
 
   onCodeReload: (e) ->
-    return unless @controlsEnabled
-    Backbone.Mediator.publish 'tome:reload-code', spell: @spell
+    #return unless @controlsEnabled
+    #Backbone.Mediator.publish 'tome:reload-code', spell: @spell  # Old: just reload the current code
+    @openModalView new ReloadLevelModal()                # New: prompt them to restart the level
 
   onBeautifyClick: (e) ->
     return unless @controlsEnabled
@@ -126,7 +127,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onSpellChangedLanguage: (e) ->
     return unless e.spell is @spell
     @options.codeLanguage = e.language
-    @$el.find('code').popover 'destroy'
+    @$el.find('.method-signature').popover 'destroy'
     @render()
     @docsBuilt = false
     @buildDocs() if @thang
@@ -138,16 +139,6 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
-    @toggleBackground()
-
-  toggleBackground: =>
-    # TODO: make the palette background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
-    background = @$el.find('img.spell-tab-image-hidden')[0]
-    if background.naturalWidth is 0  # not loaded yet
-      return _.delay @toggleBackground, 100
-    filters.revertImage background, '.spell-list-entry-view.spell-tab' if @controlsEnabled
-    filters.darkenImage background, '.spell-list-entry-view.spell-tab', 0.8 unless @controlsEnabled
 
   attachTransitionEventListener: =>
     transitionListener = ''
@@ -168,5 +159,5 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   destroy: ->
     @avatar?.destroy()
-    @$el.find('code').popover 'destroy'
+    @$el.find('.method-signature').popover 'destroy'
     super()

@@ -160,6 +160,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   beginSequentialAnimations: ->
+    return if @destroyed
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       textEl: $(panel).find('.reward-text')
@@ -248,7 +249,7 @@ module.exports = class HeroVictoryModal extends ModalView
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}]
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}, @level.get('slug')]
 
   playSelectionSound: (hero, preload=false) ->
     return unless sounds = hero.get('soundTriggers')?.selected
@@ -259,29 +260,35 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       AudioPlayer.playSound name, 1
 
-  # Branching group testing
-
-  getNextLevel: (type) ->
+  getLevelInfoForSlug: (slug) ->
     for campaign in require('views/play/WorldMapView').campaigns
-      break if levelInfo
       for level in campaign.levels
-        if level.id is @level.get 'slug'
-          levelInfo = level
-          break
-    levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
+        return level if level.id is slug
 
-  getNextLevelMap: ->
-    # TODO: dynamically figure out which world map to return to
-    if @level.get('slug') in ['kithgard-gates', 'defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
-      return 'forest'
-    return 'dungeon'
+  getCampaignForSlug: (slug) ->
+    for campaign in require('views/play/WorldMapView').campaigns
+      for level in campaign.levels
+        return campaign.id if level.id is slug
+
+  getNextLevelCampaign: ->
+    # Wouldn't handle skipping/more practice across campaign boundaries, but we don't do that.
+    campaign = @getCampaignForSlug @level.get 'slug'
+    if nextLevelSlug = @getNextLevel 'continue'
+      campaign = @getCampaignForSlug nextLevelSlug
+    campaign or 'dungeon'
 
   getNextLevelLink: (type) ->
     link = '/play'
-    nextMap = @getNextLevelMap()
-    link += '/' + nextMap unless nextMap is 'dungeon'
+    nextCampaign = @getNextLevelCampaign()
+    link += '/' + nextCampaign unless nextCampaign is 'dungeon'
     return link unless nextLevel = @getNextLevel type
     "#{link}?next=#{nextLevel}"
+
+  # Branching group testing
+
+  getNextLevel: (type) ->
+    levelInfo = @getLevelInfoForSlug @level.get 'slug'
+    levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
 
   onClickContinue: (e) ->
     nextLevelLink = @continueLevelLink
@@ -291,7 +298,7 @@ module.exports = class HeroVictoryModal extends ModalView
     skipPrompt ||= not (@skipAheadLevelLink or @morePractiveLevelLink) and me.getBranchingGroup() is 'choice-explicit'
     if skipPrompt
       # Preserve the supermodel as we navigate back to the world map.
-      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelMap()]
+      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelCampaign()]
     else
       # Hide everything except the buttons prompting them for which kind of next level to do
       @$el.find('.modal-footer, .modal-body > *').hide()
@@ -299,11 +306,10 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onClickNextLevelBranch: (e) ->
     e.preventDefault()
-    route = $(e.target).data('href') or "/play/#{@getNextLevelMap()}"
+    route = $(e.target).data('href') or "/play/#{@getNextLevelCampaign()}"
     application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup(), route: route
     # Preserve the supermodel as we navigate back to world map.
-    console.log 'would navigate to', route
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelMap()]
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelCampaign()]
 
   onClickReturnToLadder: (e) ->
     e.preventDefault()

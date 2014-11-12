@@ -29,10 +29,12 @@ module.exports = class PlayHeroesModal extends ModalView
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
     @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName']
+    @heroes.comparator = 'gems'
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}
     @session = options.session
+    @initCodeLanguageList options.hadEverChosenHero
 
   onHeroesLoaded: ->
     for hero in @heroes.models
@@ -48,14 +50,7 @@ module.exports = class PlayHeroesModal extends ModalView
     context = super(context)
     context.heroes = @heroes.models
     context.level = @options.level
-    context.codeLanguages = [
-      {id: 'python', name: 'Python (Default)'}
-      {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript'}
-      {id: 'clojure', name: 'Clojure (Experimental)'}
-      {id: 'lua', name: 'Lua (Experimental)'}
-      {id: 'io', name: 'Io (Experimental)'}
-    ]
+    context.codeLanguages = @codeLanguageList
     context.codeLanguage = @codeLanguage = @options?.session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     context.confirmButtonI18N = @confirmButtonI18N
     context
@@ -77,6 +72,25 @@ module.exports = class PlayHeroesModal extends ModalView
     @$el.find('.hero-stat').tooltip()
     @buildCodeLanguages()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+
+  initCodeLanguageList: (hadEverChosenHero) ->
+    @codeLanguageList = [
+      {id: 'python', name: 'Python (Default)'}
+      {id: 'javascript', name: 'JavaScript'}
+      {id: 'coffeescript', name: 'CoffeeScript'}
+    ]
+
+    # A/B test showing experimental languages on first hero select
+    # Group -1 is not participating
+    # Group 0 is original behavior
+    # Group 1 isn't shown experimental languages in hero modal when launching beginner campaign level
+    testGroup = me.getExperimentalLangGroup()
+    if hadEverChosenHero? or testGroup isnt 1
+      @codeLanguageList.push id: 'clojure', name: 'Clojure (Experimental)'
+      @codeLanguageList.push id: 'lua', name: 'Lua (Experimental)'
+      @codeLanguageList.push id: 'io', name: 'Io (Experimental)'
+    unless hadEverChosenHero? or testGroup is -1
+      window.tracker?.trackEvent 'Heroes Modal', experimentalLangGroup: testGroup
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'
@@ -175,6 +189,7 @@ module.exports = class PlayHeroesModal extends ModalView
       if @session.get('codeLanguage') isnt @codeLanguage
         @session.set('codeLanguage', @codeLanguage)
         changed = true
+        Backbone.Mediator.publish 'tome:change-language', language: @codeLanguage, reload: true
 
       @session.patch() if changed
 

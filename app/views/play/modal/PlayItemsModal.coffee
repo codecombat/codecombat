@@ -1,8 +1,6 @@
 ModalView = require 'views/kinds/ModalView'
-CocoView = require 'views/kinds/CocoView'
-
 template = require 'templates/play/modal/play-items-modal'
-itemDetailsTemplate = require 'templates/play/modal/item-details-view'
+ItemDetailsView = require './ItemDetailsView'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
@@ -64,6 +62,7 @@ module.exports = class PlayItemsModal extends ModalView
       'original'
       'rasterIcon'
       'gems'
+      'tier'
       'i18n'
       'heroClass'
     ]
@@ -79,7 +78,8 @@ module.exports = class PlayItemsModal extends ModalView
     gemsOwned = me.gems()
     needMore = itemFetcher.models.length is PAGE_SIZE
     for model in itemFetcher.models
-      continue unless cost = model.get('gems')
+      model.owned = me.ownsItem model.get('original')
+      continue unless (cost = model.get('gems')) or model.owned
       category = slotToCategory[model.getAllowedSlots()[0]] or 'misc'
       @itemCategoryCollections[category] ?= new Backbone.Collection()
       collection = @itemCategoryCollections[category]
@@ -87,10 +87,10 @@ module.exports = class PlayItemsModal extends ModalView
       collection.add(model)
       model.name = utils.i18n model.attributes, 'name'
       model.affordable = cost <= gemsOwned
-      model.owned = me.ownsItem model.get('original')
-      model.silhouetted = model.isSilhouettedItem()
+      model.silhouetted = not model.owned and model.isSilhouettedItem()
+      model.level = model.levelRequiredForItem() if model.get('tier')?
       model.equippable = 'Warrior' in model.getAllowedHeroClasses()  # Temp: while there are no wizards/rangers
-      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats  # Temp: while there are placeholder items
+      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
     if needMore
@@ -129,7 +129,7 @@ module.exports = class PlayItemsModal extends ModalView
       item = null
     else
       item = @idToItem[itemEl.data('item-id')]
-      if item.silhouetted
+      if item.silhouetted and not item.owned
         item = null
       else
         itemEl.addClass('selected') unless wasSelected
@@ -139,7 +139,7 @@ module.exports = class PlayItemsModal extends ModalView
     $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
 
   onUnlockButtonClicked: (e) ->
-    button = $(e.target)
+    button = $(e.target).closest('button')
     if button.hasClass('confirm')
       item = @idToItem[$(e.target).data('item-id')]
       purchase = Purchase.makeFor(item)
@@ -160,67 +160,3 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
-
-class ItemDetailsView extends CocoView
-  id: "item-details-view"
-  template: itemDetailsTemplate
-
-  constructor: ->
-    super(arguments...)
-    @propDocs = {}
-
-  setItem: (@item) ->
-    @render()
-
-    if @item
-      stats = @item.getFrontFacingStats()
-      props = (p for p in stats.props when not @propDocs[p])
-      return if props.length is 0
-
-      docs = new CocoCollection([], {
-        url: '/db/level.component?view=prop-doc-lookup'
-        model: LevelComponent
-        project: [
-          'propertyDocumentation.name'
-          'propertyDocumentation.description'
-          'propertyDocumentation.i18n'
-        ]
-      })
-
-      docs.fetch({ data: {
-        componentOriginals: [c.original for c in @item.get('components')].join(',')
-        propertyNames: props.join(',')
-      }})
-      @listenToOnce docs, 'sync', @onDocsLoaded
-
-  onDocsLoaded: (levelComponents) ->
-    for component in levelComponents.models
-      for propDoc in component.get('propertyDocumentation')
-        @propDocs[propDoc.name] = propDoc
-    @render()
-
-  getRenderData: ->
-    c = super()
-    c.item = @item
-    if @item
-      stats = @item.getFrontFacingStats()
-      c.stats = _.values(stats.stats)
-      _.last(c.stats).isLast = true if c.stats.length
-      c.props = []
-      progLang = (me.get('aceConfig') ? {}).language or 'python'
-      for prop in stats.props
-        description = utils.i18n @propDocs[prop] ? {}, 'description'
-
-        if _.isObject description
-          description = description[progLang] or _.values(description)[0]
-        if _.isString description
-          description = description.replace(/#{spriteName}/g, 'hero')
-          if fact = stats.stats.shieldDefenseFactor
-            description = description.replace(/#{shieldDefensePercent}%/g, fact.display)
-          description = $(marked(description)).html()
-
-        c.props.push {
-          name: prop
-          description: description or '...'
-        }
-    c

@@ -50,15 +50,6 @@ describe 'Achievement', ->
         expect(res.statusCode).toBe(403)
         done()
 
-  it 'can\'t be updated by ordinary users', (done) ->
-    loginJoe ->
-      request.put {uri: url, json: unlockable}, (err, res, body) ->
-        expect(res.statusCode).toBe(403)
-
-        request {method: 'patch', uri: url, json: unlockable}, (err, res, body) ->
-          expect(res.statusCode).toBe(403)
-          done()
-
   it 'can be created by admins', (done) ->
     loginAdmin ->
       request.post {uri: url, json: unlockable}, (err, res, body) ->
@@ -76,6 +67,17 @@ describe 'Achievement', ->
             Achievement.find {}, (err, docs) ->
               expect(docs.length).toBe 3
             done()
+
+  it 'can\'t be updated by ordinary users', (done) ->
+    loginJoe ->
+      unlockable3 = _.clone(unlockable)
+      unlockable3.description = 'alsdfkhasdkfhajksdhfjkasdhfj'
+      request.put {uri: url, json: unlockable3}, (err, res, body) ->
+        expect(res.statusCode).toBe(403)
+
+        request {method: 'patch', uri: url, json: unlockable}, (err, res, body) ->
+          expect(res.statusCode).toBe(403)
+          done()
 
   it 'can get all for ordinary users', (done) ->
     loginJoe ->

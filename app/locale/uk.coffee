@@ -55,6 +55,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "українська мова", englishDesc
     restart: "Перезавантажити"
     goals: "Цілі"
 #    goal: "Goal"
+#    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
     action_timeline: "Лінія часу"
     click_to_select: "Клікніть на юніті, щоб обрати його."
+#    reload: "Reload"
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
     tome_minion_spells: "Закляття ваших міньонів" # Only in old-style levels.
     tome_read_only_spells: "Закляття тільки для читання" # Only in old-style levels.
     tome_other_units: "Інші юніти" # Only in old-style levels.
-    tome_cast_button_castable: "Читати закляття" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Закляття читається" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Закляття прочитано" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "українська мова", englishDesc
     tome_select_a_thang: "Оберіть когось для "
     tome_available_spells: "Доступні закляття"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "Продовжити (натисніть shift-space)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Пропустити (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Готово!"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Зараз:"
     time_total: "Найбільше:"
     time_goto: "Перейти до:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    enter: "Enter"
 #    escape: "Escape"
 #    shift: "Shift"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    diplomat_launch_url: "launch in October"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
 #    diplomat_join_pref_github: "Find your language locale file "
     diplomat_github_url: "на GitHub"
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

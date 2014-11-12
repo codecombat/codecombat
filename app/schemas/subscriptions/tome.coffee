@@ -85,15 +85,13 @@ module.exports =
     problems: {type: 'array'}
     isCast: {type: 'boolean'}
 
-  'tome:thang-list-entry-popover-shown': c.object {title: 'Thang List Entry Popover Shown', description: 'Published when we show the popover for a thang in the master list', required: ['entry']},
-    entry: {type: 'object'}
-
   'tome:spell-shown': c.object {title: 'Spell Shown', description: 'Published when we show a spell', required: ['thang', 'spell']},
     thang: {type: 'object'}
     spell: {type: 'object'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
+    reload: {type: 'boolean', description: 'Whether player code should reload to the default when the language changes.'}
 
   'tome:spell-changed-language': c.object {title: 'Spell Changed Language', description: 'Published when an individual spell has updated its code language', required: ['spell']},
     spell: {type: 'object'}
@@ -126,7 +124,10 @@ module.exports =
 
   'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
     winnable: {type: 'boolean'}
-    
+
+  # Problem Alert
   'tome:show-problem-alert': c.object {title: 'Show Problem Alert', description: 'A problem alert needs to be shown.', required: ['problem']},
     problem: {type: 'object'}
     lineOffsetPx: {type: ['number', 'undefined']}
+  'tome:hide-problem-alert': c.object {title: 'Hide Problem Alert'}
+  'tome:jiggle-problem-alert': c.object {title: 'Jiggle Problem Alert'}

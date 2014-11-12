@@ -51,6 +51,7 @@ module.exports = class GameMenuModal extends ModalView
     firstView.$el.addClass 'active'
     firstView.onShown?()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @$el.find('.nano:visible').nanoScroller()
 
   onTabShown: (e) ->
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-tab-switch', volume: 1

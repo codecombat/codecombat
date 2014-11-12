@@ -47,3 +47,8 @@ module.exports =
 
   'supermodel:load-progress-changed': c.object {required: ['progress']},
     progress: {type: 'number', minimum: 0, maximum: 1}
+
+  'buy-gems-modal:update-products': { }
+  
+  'buy-gems-modal:purchase-initiated': c.object {required: ['productID']},
+    productID: { type: 'string' }

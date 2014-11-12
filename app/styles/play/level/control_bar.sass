@@ -15,6 +15,9 @@
   font-family: Open Sans Condensed
   font-weight: bold
 
+  &.controls-disabled
+    @include filter(brightness(50%))
+
   .levels-link-area
     position: absolute
     left: 40px
@@ -149,7 +152,7 @@
         .hamburger span.icon-bar
           background-color: $control-yellow-highlight
 
-    #level-done-button, #next-game-button
+    #level-done-button, #next-game-button, #control-bar-sign-up-button
       top: 7px
       font-size: 13px
       height: 24px

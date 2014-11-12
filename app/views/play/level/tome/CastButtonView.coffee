@@ -1,6 +1,7 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/cast_button'
 {me} = require 'lib/auth'
+LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -9,6 +10,7 @@ module.exports = class CastButtonView extends CocoView
   events:
     'click .cast-button': 'onCastButtonClick'
     'click .submit-button': 'onCastRealTimeButtonClick'
+    'click .done-button': 'onDoneButtonClick'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -25,7 +27,8 @@ module.exports = class CastButtonView extends CocoView
     @spells = options.spells
     @levelID = options.levelID
     @castShortcut = '⇧↵'
-    @initButtonTextABTest()
+    @levelOptions = LevelOptions[@options.levelID] ? {}
+    @initButtonTextABTest() unless @levelOptions.hidesRealTimePlayback
 
   getRenderData: (context={}) ->
     context = super context
@@ -33,10 +36,10 @@ module.exports = class CastButtonView extends CocoView
     enter = $.i18n.t 'keyboard_shortcuts.enter'
     castShortcutVerbose = "#{shift}+#{enter}"
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
-    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.cast_spell')
+    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
     # A/B test submit button text
-    context.testSubmitText = @testButtonsText.submit  if @testGroup? and @testGroup isnt 0
+    context.testSubmitText = @testButtonsText.submit if @testGroup? and @testGroup isnt 0
     context
 
   afterRender: ->
@@ -46,7 +49,12 @@ module.exports = class CastButtonView extends CocoView
     #delay = me.get('autocastDelay')  # No more autocast
     delay = 90019001
     @setAutocastDelay delay
-    @$el.find('.submit-button').hide() if @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']
+    if @levelOptions.hidesSubmitUntilRun or @levelOptions.hidesRealTimePlayback
+      @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
+    if @options.session.get('state')?.complete and @levelOptions.hidesRealTimePlayback
+      @$el.find('.done-button').show()
+    if @options.levelID is 'thornbush-farm'# and not @options.session.get('state')?.complete
+      @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
@@ -65,6 +73,9 @@ module.exports = class CastButtonView extends CocoView
           Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     else
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+
+  onDoneButtonClick: (e) ->
+    Backbone.Mediator.publish 'level:show-victory', showModal: true
 
   onSpellChanged: (e) ->
     @updateCastButton()
@@ -90,11 +101,16 @@ module.exports = class CastButtonView extends CocoView
     @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
     Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable
-    if @winnable or (@hasCastOnce and @options.levelID isnt 'dungeons-of-kithgard')  # Show once 1) we think they will win or 2) they have hit “run” once. (Only #1 on the fist level.)
-      @$el.find('.submit-button').show()  # In case we hid it, like on the first level.
+    if @levelOptions.hidesRealTimePlayback
+      @$el.find('.done-button').toggle @winnable
+    else if @winnable and @options.levelID is 'thornbush-farm'
+      @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
 
   onGoalsCalculated: (e) ->
+    # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
     return unless e.preload
+    return if @levelOptions.hidesRealTimePlayback
+    return if @options.levelID is 'thornbush-farm'  # Don't show it until they actually win for this first one.
     @onNewGoalStates e
 
   updateCastButton: ->
@@ -105,14 +121,14 @@ module.exports = class CastButtonView extends CocoView
     , (castable) =>
       Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
       @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
-      
+
       # A/B testing cast button text for en-US
-      if $.i18n.lng() isnt 'en-US' or not @testGroup? or @testGroup is 0
+      unless @testGroup? and @testGroup isnt 0
         if @casting
           castText = $.i18n.t('play_level.tome_cast_button_running')
         else if castable or true
           castText = $.i18n.t('play_level.tome_cast_button_run')
-          unless @options.levelID in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'kounter-kithwise', 'true-names', 'the-raised-sword', 'favorable-odds', 'the-first-kithmaze', 'haunted-kithmaze']  # Hide for first few.
+          unless @levelOptions.hidesRunShortcut  # Hide for first few.
             castText += ' ' + @castShortcut
         else
           castText = $.i18n.t('play_level.tome_cast_button_ran')
@@ -141,24 +157,22 @@ module.exports = class CastButtonView extends CocoView
       @multiplayerSession = null
 
   initButtonTextABTest: ->
-    if $.i18n.lng() is 'en-US'
-      # A/B test buttons text
-      # Only testing 'en-US' for simplicity and it accounts for a significant % of users
-      # Test group 0 is existing behavior
-      # Intentionally leaving out cast shortcut for test groups for simplicity
-      @testGroup = Math.floor(Math.random() * 7)
-      console.info 'Cast button text test group', @testGroup
-      @testButtonsText = switch @testGroup
-        when 0 then run: 'Run/Running', submit: 'Submit'
-        when 1 then run: 'Run', submit: 'Submit'
-        when 2 then run: 'Test', submit: 'Submit'
-        when 3 then run: 'Run', submit: 'Continue'
-        when 4 then run: 'Test', submit: 'Continue'
-        when 5 then run: 'Run', submit: 'Finish'
-        when 6 then run: 'Test', submit: 'Finish'
-      application.tracker?.trackEvent 'Spell View',
-        Action: 'Loaded'
-        levelID: @levelID
-        castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
-
-
+    return if me.isAdmin()
+    return unless $.i18n.lng() is 'en-US'
+    # A/B test buttons text
+    # Only testing 'en-US' for simplicity and it accounts for a significant % of users
+    # Test group 0 is existing behavior
+    # Intentionally leaving out cast shortcut for test groups for simplicity
+    @testGroup = me.getCastButtonTextGroup()
+    @testButtonsText = switch @testGroup
+      when 0 then run: 'Run/Running', submit: 'Submit'
+      when 1 then run: 'Run', submit: 'Submit'
+      when 2 then run: 'Test', submit: 'Submit'
+      when 3 then run: 'Run', submit: 'Continue'
+      when 4 then run: 'Test', submit: 'Continue'
+      when 5 then run: 'Run', submit: 'Finish'
+      when 6 then run: 'Test', submit: 'Finish'
+    application.tracker?.trackEvent 'Cast Button',
+      levelID: @levelID
+      castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
+      castButtonTextGroup: @testGroup

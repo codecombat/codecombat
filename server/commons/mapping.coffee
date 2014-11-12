@@ -6,6 +6,7 @@ module.exports.handlers =
   'level_session': 'levels/sessions/level_session_handler'
   'level_system': 'levels/systems/level_system_handler'
   'patch': 'patches/patch_handler'
+  'payment': 'payments/payment_handler'
   'purchase': 'purchases/purchase_handler'
   'thang_type': 'levels/thangs/thang_type_handler'
   'user': 'users/user_handler'

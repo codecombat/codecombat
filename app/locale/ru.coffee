@@ -55,6 +55,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     confirm: "Подтвердить"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
     skills_granted: "Умение получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Достижения" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restart: "Перезапустить"
     goals: "Цели"
     goal: "Цель"
+#    running: "Running..."
     success: "Успешно!"
     incomplete: "Не завершено"
     timed_out: "Время истекло"
     failing: "Неудача"
     action_timeline: "График действий"
     click_to_select: "Выберите персонажа, щёлкнув на нём"
+#    reload: "Reload"
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
     tome_read_only_spells: "Заклинания только для чтения" # Only in old-style levels.
     tome_other_units: "Другие юниты" # Only in old-style levels.
-    tome_cast_button_castable: "Читать заклинание" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Заклинание читается" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Заклинание прочитано" # Temporary, if tome_cast_button_ran isn't translated.
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
-    hud_continue: "Продолжить (Shift+Пробел)"
+#    tome_current_method: "Current Method"
     hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
     loading_start: "Начать уровень"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -275,12 +276,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     customize_wizard: "Настройки волшебника"
 
   game_menu:
     inventory_tab: "Инвентарь"
-    choose_hero_tab: "Перезапустить уровень"
     save_load_tab: "Сохранить/Загрузить"
     options_tab: "Настройки"
     guide_tab: "Руководство"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     should_equip: "(двойной клик чтобы одеть)"
     equipped: "(выбранный)"
     locked: "(заблокированный)"
+    restricted: "(запрещен в этом уровне)"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     io_blurb: "Простой, но непонятный."
     status: "Статус"
     weapons: "Оружие"
+    weapons_warrior: "Меч - ближний бой, не магический"
+    weapons_ranger: "Арбалеты, ружья - дальнобойные, не магические"
+    weapons_wizard: "Палочки, посохи - дальнобойные, магические"
     attack: "Урон" # Can also translate as "Attack"
     health: "Жизнь"
     speed: "Скорость"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     enter: "Enter"
     escape: "Escape"
 #    shift: "Shift"
-    cast_spell: "Произнести текущее заклинание."
+#    run_code: "Run current code."
     run_real_time: "Запустить в реальном времени."
     continue_script: "Продолжить текущий скрипт."
     skip_scripts: "Пропустить все возможные скрипты."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     diplomat_launch_url: "запуска в октябре"
     diplomat_introduction_suf: "было то, что есть значительная заинтересованность в CodeCombat в других странах! Мы создаём корпус переводчиков, стремящихся превратить один набор слов в другой набор слов для максимальной доступности CodeCombat по всему миру. Если вы любите видеть контент до официального выхода и получать эти уровни для ваших соотечественников как можно скорее, этот класс для вас."
     diplomat_attribute_1: "Свободное владение английским языком и языком, на который вы хотели бы переводить. При передаче сложных идей важно иметь сильную хватку в обоих!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Найдите файл локализации вашего языка "
     diplomat_github_url: "на GitHub"
     diplomat_join_suf_github: ", отредактируйте его онлайн и отправьте запрос на подтверждение изменений. Кроме того, установите флажок ниже, чтобы быть в курсе новых разработок интернационализации!"

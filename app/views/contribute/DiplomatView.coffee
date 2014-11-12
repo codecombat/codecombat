@@ -85,3 +85,4 @@ module.exports = class DiplomatView extends ContributeClassView
     ur: []             # اُردُو, Urdu
     ms: []             # Bahasa Melayu, Bahasa Malaysia
     ca: ['ArniMcFrag']             # Català, Catalan
+    gl: ['mcaeiror']             # Galego, Galician

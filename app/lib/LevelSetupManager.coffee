@@ -8,16 +8,34 @@ module.exports = class LevelSetupManager extends CocoClass
 
   constructor: (@options) ->
     super()
-    @supermodel = new SuperModel()
+    @supermodel = @options.supermodel ? new SuperModel()
     @session = @options.session
     if @session
       @fillSessionWithDefaults()
     else
-      @loadSession(@supermodel) 
+      @loadSession()
+    @loadModals()
 
+  loadSession: ->
+    url = "/db/level/#{@options.levelID}/session"
+    #url += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
+    @session = new LevelSession().setURL url
+    onSessionSync = ->
+      @session.url = -> '/db/level.session/' + @id
+      @fillSessionWithDefaults()
+    @listenToOnce @session, 'sync', onSessionSync
+    @session = @supermodel.loadModel(@session, 'level_session').model
+    if @session.loaded
+      onSessionSync.call @
+
+  fillSessionWithDefaults: ->
+    heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
+    @session.set('heroConfig', heroConfig)
+
+  loadModals: ->
     # build modals and prevent them from disappearing.
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', levelID: options.levelID})
-    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, levelID: options.levelID})
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', levelID: @options.levelID, hadEverChosenHero: @options.hadEverChosenHero})
+    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, levelID: @options.levelID})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
     @heroesModal.destroy = @inventoryModal.destroy = _.noop
@@ -25,32 +43,19 @@ module.exports = class LevelSetupManager extends CocoClass
     @listenToOnce @heroesModal, 'hero-loaded', @onceHeroLoaded
     @listenTo @inventoryModal, 'choose-hero-click', @onChooseHeroClicked
     @listenTo @inventoryModal, 'play-click', @onInventoryModalPlayClicked
-    
-  loadSession: (supermodel) ->
-    url = "/db/level/#{@options.levelID}/session"
-    #url += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
-    @session = new LevelSession().setURL url
-    @listenToOnce @session, 'sync', ->
-      @session.url = -> '/db/level.session/' + @id
-      @fillSessionWithDefaults()
-    supermodel.loadModel(@session, 'level_session').model
 
-  fillSessionWithDefaults: ->
-    heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
-    @session.set('heroConfig', heroConfig)
-    
   open: ->
-    firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal 
+    firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal
     @options.parent.openModalView(firstModal)
     #    @inventoryModal.onShown() # replace?
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
-    
-    
+
+
   #- Modal events
 
   onceHeroLoaded: (e) ->
     @inventoryModal.setHero(e.hero)
-  
+
   onHeroesModalConfirmClicked: (e) ->
     @options.parent.openModalView(@inventoryModal)
     @inventoryModal.render()
@@ -65,7 +70,7 @@ module.exports = class LevelSetupManager extends CocoClass
     @heroesModal.didReappear()
     @inventoryModal.endHighlight()
     window.tracker?.trackEvent 'Play Level Modal', Action: 'Choose Hero'
-    
+
   onInventoryModalPlayClicked: ->
     @navigatingToPlay = true
     PlayLevelView = require 'views/play/level/PlayLevelView'
@@ -75,4 +80,9 @@ module.exports = class LevelSetupManager extends CocoClass
       route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
       viewClass: viewClass
       viewArgs: [{supermodel: @supermodel}, @options.levelID]
-    } 
+    }
+
+  destroy: ->
+    @heroesModalDestroy.call @heroesModal unless @heroesModal.destroyed
+    @inventoryModalDestroy.call @inventoryModal unless @inventoryModal.destroyed
+    super()

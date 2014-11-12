@@ -12,6 +12,7 @@ module.exports = class FilesView extends RootView
 
   afterRender: ->
     super()
+    require('lib/services/filepicker')()  # Initialize if needed
     @loadFiles()
 
   onFileChosen: (InkBlob) =>

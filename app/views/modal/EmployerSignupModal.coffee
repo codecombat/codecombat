@@ -24,6 +24,7 @@ module.exports = class EmployerSignupModal extends ModalView
 
   constructor: (options) ->
     super(options)
+    return  # Removed LinkedIn, so if we want to resurrect the EmployerSignupModal, we'll want to redo it without LinkedIn auth.
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
     window.tracker?.trackEvent 'Started Employer Signup'
     @reloadWhenClosed = false

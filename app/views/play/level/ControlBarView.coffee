@@ -12,6 +12,8 @@ module.exports = class ControlBarView extends CocoView
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -53,24 +55,43 @@ module.exports = class ControlBarView extends CocoView
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
-      # TODO: dynamically figure out which world map to return to
-      if @level.get('slug') in ['defense-of-plainswood', 'winding-trail', 'thornbush-farm', 'a-fiery-trap']
-        @homeLink += '/forest'
-        @homeViewArgs.push 'forest'
+      campaign = @getCampaignForSlug @level.get 'slug'
+      if campaign isnt 'dungeon'
+        @homeLink += '/' + campaign
+        @homeViewArgs.push campaign
     else
       @homeLink = c.homeLink = '/'
       @homeViewClass = require 'views/HomeView'
     c.editorLink = "/editor/level/#{@level.get('slug')}"
+    c.homeLink = @homeLink
     c
 
   showGameMenuModal: ->
     gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
-      setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @})
-      setupManager.open()
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @level.get('slug'), parent: @, session: @session})
+      @setupManager.open()
 
   onClickHome: (e) ->
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs
+
+  onDisableControls: (e) -> @toggleControls e, false
+  onEnableControls: (e) -> @toggleControls e, true
+  toggleControls: (e, enabled) ->
+    return if e.controls and not ('level' in e.controls)
+    return if enabled is @controlsEnabled
+    @controlsEnabled = enabled
+    @$el.toggleClass 'controls-disabled', not enabled
+
+  getCampaignForSlug: (slug) ->
+    for campaign in require('views/play/WorldMapView').campaigns
+      for level in campaign.levels
+        return campaign.id if level.id is slug
+
+  destroy: ->
+    @setupManager?.destroy()
+    super()

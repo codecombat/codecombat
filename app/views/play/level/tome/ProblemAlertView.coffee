@@ -9,6 +9,8 @@ module.exports = class ProblemAlertView extends CocoView
 
   subscriptions:
     'tome:show-problem-alert': 'onShowProblemAlert'
+    'tome:hide-problem-alert': 'onHideProblemAlert'
+    'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
     'tome:manual-cast': 'onHideProblemAlert'
     'real-time-multiplayer:manual-cast': 'onHideProblemAlert'
 
@@ -18,7 +20,7 @@ module.exports = class ProblemAlertView extends CocoView
   constructor: (options) ->
     super options
     if options.problem?
-      @problem = options.problem 
+      @problem = options.problem
       @onWindowResize()
     else
       @$el.hide()
@@ -44,27 +46,40 @@ module.exports = class ProblemAlertView extends CocoView
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
 
   onShowProblemAlert: (data) ->
-    return if @problem? and data.problem.aetherProblem.message is @problem.aetherProblem.message and data.problem.aetherProblem.hint is @problem.aetherProblem.hint
     return unless $('#code-area').is(":visible")
+    if @problem?
+      if @$el.hasClass "alert-#{@problem.aetherProblem.level}"
+        @$el.removeClass "alert-#{@problem.aetherProblem.level}"
+      if @$el.hasClass "no-hint"
+        @$el.removeClass "no-hint"
     @problem = data.problem
     @lineOffsetPx = data.lineOffsetPx or 0
     @$el.show()
     @onWindowResize()
     @render()
+    @onJiggleProblemAlert()
+
+  onJiggleProblemAlert: ->
+    return unless @problem?
+    @$el.show() unless @$el.is(":visible")
+    @$el.addClass 'jiggling'
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
+    pauseJiggle = =>
+      @$el?.removeClass 'jiggling'
+    _.delay pauseJiggle, 2000
 
   onHideProblemAlert: ->
     @onRemoveClicked()
 
   onRemoveClicked: ->
     @$el.hide()
-    @problem = null
 
-  onWindowResize: (e) => 
+  onWindowResize: (e) =>
     # TODO: This all seems a little hacky
     if @problem?
       @$el.css('left', $('#goals-view').outerWidth(true) + 'px')
       @$el.css('right', $('#code-area').outerWidth(true) + 'px')
 
-      # 45px from top roughly aligns top of alert with top of first code line
+      # 110px from top roughly aligns top of alert with top of first code line
       # TODO: calculate this in a more dynamic, less sketchy way
-      @$el.css('top', (45 + @lineOffsetPx) + 'px')
+      @$el.css('top', (110 + @lineOffsetPx) + 'px')

@@ -64,10 +64,14 @@
     next: "Next"  # Go from choose hero to choose inventory before playing a level
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     choose_inventory: "Equip Items"
+    buy_gems: "Buy Gems"
     older_campaigns: "Older Campaigns"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     campaign_beginner: "Beginner Campaign"
+    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Choose Your Level"  # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "You can jump to any level below, or discuss the levels on "
     adventurer_forum: "the Adventurer forum"
@@ -164,6 +168,7 @@
     medium: "Medium"
     hard: "Hard"
     player: "Player"
+    player_level: "Level"  # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "second"
@@ -198,6 +203,7 @@
     failing: "Failing"
     action_timeline: "Action Timeline"
     click_to_select: "Click on a unit to select it."
+    reload: "Reload"
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
@@ -233,13 +239,14 @@
     tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
-    hud_continue: "Continue (shift+space)"
+    tome_current_method: "Current Method"
     hud_continue_short: "Continue"
     code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
     loading_start: "Start Level"
+    problem_alert_title: "Fix Your Code"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -279,7 +286,6 @@
 
   game_menu:
     inventory_tab: "Inventory"
-    choose_hero_tab: "Restart Level"
     save_load_tab: "Save/Load"
     options_tab: "Options"
     guide_tab: "Guide"
@@ -297,10 +303,13 @@
     choose_inventory: "Equip Items"
     equipped_item: "Equipped"
     available_item: "Available"
+    restricted_title: "Restricted"
     should_equip: "(double-click to equip)"
     equipped: "(equipped)"
     locked: "(locked)"
     restricted: "(restricted in this level)"
+    equip: "Equip"
+    unequip: "Unequip"
 
   choose_hero:
     choose_hero: "Choose Your Hero"
@@ -446,7 +455,7 @@
     enter: "Enter"
     escape: "Escape"
     shift: "Shift"
-    cast_spell: "Cast current spell."
+    run_code: "Run current code."
     run_real_time: "Run in real time."
     continue_script: "Continue past current script."
     skip_scripts: "Skip past all skippable scripts."
@@ -627,6 +636,9 @@
     diplomat_launch_url: "launch in October"
     diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
     diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
+    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+    diplomat_i18n_page: "translations page"
+    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Find your language locale file "
     diplomat_github_url: "on GitHub"
     diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"

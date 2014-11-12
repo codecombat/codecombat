@@ -230,11 +230,12 @@ module.exports = class LankBoss extends CocoClass
 
   cacheObstacles: (updatedObstacles=null) ->
     return if @cachedObstacles and not updatedObstacles
-    wallLanks = (lank for lank in @lankArray when lank.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    lankArray = @lankArray
+    wallLanks = (lank for lank in lankArray when lank.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
     return if _.any (s.stillLoading for s in wallLanks)
     walls = (lank.thang for lank in wallLanks)
     @world.calculateBounds()
-    wallGrid = new Grid walls, @world.size()...
+    wallGrid = new Grid walls, @world.width, @world.height
     if updatedObstacles
       possiblyUpdatedWallLanks = (lank for lank in wallLanks when _.find updatedObstacles, (w2) -> lank is w2 or (Math.abs(lank.thang.pos.x - w2.thang.pos.x) + Math.abs(lank.thang.pos.y - w2.thang.pos.y)) <= 16)
     else

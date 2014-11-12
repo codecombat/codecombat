@@ -123,8 +123,8 @@
   .tab-pane
     height: 100%
     
-  .nano-content
-    padding: 26px 51px 26px 26px
+    .nano-content
+      padding: 26px 51px 26px 26px
 
 
   //- Item box
@@ -139,6 +139,9 @@
     margin: 4px
     text-align: center
     position: relative
+
+    &.silhouetted
+      cursor: default
     
     strong
       position: absolute
@@ -222,6 +225,23 @@
       background: url(/images/pages/play/modal/item-box-background-selected.png)
 
     
+  //- Item details. Non-specific item-details-view styling is in item-details-view.sass.
+
+  #item-details-view
+  
+    #item-title
+      left: 910px
+      top: 60px
+      
+    #item-details-body
+      left: 860px
+  
+    #selected-item-unlock-button
+      left: 856px
+
+
+#play-items-modal, #inventory-modal
+
   //- Item list scrollbar
   
   .nano-pane
@@ -236,87 +256,6 @@
     margin-left: -3px
     margin-right: -3px
     
-  //  color: red
-    
-    
-  //- Item details
-
-  #item-title
-    position: absolute
-    width: 228px
-    height: 50px
-    left: 910px
-    top: 60px
-    z-index: 2
-    
-    h2
-      font-size: 20px
-      margin: 12px 20px
-      text-align: center
-      color: rgb(53,40,25)
-
-  #item-details-body
-    position: absolute
-    left: 860px
-    top: 126px
-    width: 330px
-    height: 453px
-    //background: rgba(100,100,100,0.5)
-    overflow: scroll
-
-    #item-container
-      height: 163px
-      width: 100%
-
-    .item-img, .item-shadow
-      width: 130px
-      height: 130px
-
-    .item-img
-      top: 15px
-
-    .item-shadow
-      top: 25px
-
-    img.hr
-      width: 80%
-      margin: 0 10% -3px
-      
-      &.faded
-        opacity: 0.4
-      
-    .stat-row
-      height: 24px
-      position: relative
-      font-size: 20px
-      font-weight: bold
-      
-      .stat-label
-        position: absolute
-        left: 54px
-        color: rgb(93,73,52)
-        
-      .stat
-        position: absolute
-        left: 150px
-        color: rgb(42,38,28)
-      
-    #skills
-      margin: 25px
-      
-      h3
-        color: rgb(41,35,25)
-        
-      strong
-        color: rgb(50,50,30)
-      
-  #selected-item-unlock-button
-    left: 856px
-    top: 594px
-    width: 337px
-    height: 41px
-    font-size: 16px
-
 
   //- Item icons w/shadows (both in list and details areas)
 
@@ -339,7 +278,19 @@
   .item-silhouette
     @include filter(contrast(0%) brightness(0%))
     opacity: 0.3
-    
+
+  .required-level
+    position: absolute
+    left: 0
+    right: 5px
+    top: 70px
+    font-size: 20px
+    line-height: 20px
+    font-family: Open Sans Condensed
+    text-transform: uppercase
+    font-weight: bold
+    z-index: 2
+
     
   //- Unlock buttons (both in list and details areas)
 
@@ -355,6 +306,9 @@
       background: rgb(72, 106, 113)
       opacity: 1
       color: rgba(255,255,255, 0.4)
+
+
+//- Use the two-column layout and background image if we are on a narrow screen.
 
 @media only screen and (max-width: 1300px)
   #play-items-modal

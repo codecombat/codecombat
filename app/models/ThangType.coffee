@@ -19,6 +19,7 @@ module.exports = class ThangType extends CocoModel
     'robot-walker': '5301696ad82649ec2c0c9b0d'
     'michael-heasell': '53e126a4e06b897606d38bef'
     'ian-elliott': '53e12be0d042f23505c3023b'
+    'ninja': '52fc0ed77e01835453bd8f6c'
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
@@ -305,7 +306,7 @@ module.exports = class ThangType extends CocoModel
     ['Warrior', 'Ranger', 'Wizard']
 
   getHeroStats: ->
-    # Translate from raw hero properties into appropriate display values for the ChooseHeroView.
+    # Translate from raw hero properties into appropriate display values for the PlayHeroesModal.
     # Adapted from https://docs.google.com/a/codecombat.com/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
     return unless heroClass = @get('heroClass')
     components = @get('components') or []
@@ -369,6 +370,8 @@ module.exports = class ThangType extends CocoModel
       attackRange: 'range'
       shieldDefenseFactor: 'blocks'
       visualRange: 'range'
+      throwDamage: 'attack'
+      throwRange: 'range'
     }[name]
 
     if i18nKey
@@ -396,8 +399,16 @@ module.exports = class ThangType extends CocoModel
     name: name, display: display
 
   isSilhouettedItem: ->
-    # TODO: have items have actual levels instead of just going by their gem count
     return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get 'gems'
+    console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
+    tier = @get 'tier'
+    if tier?
+      return @levelRequiredForItem() > me.level()
     points = me.get('points')
     expectedTotalGems = (points ? 0) * 1.5   # Not actually true, but roughly kinda close for tier 0, kinda tier 1
-    @get('gems') > (100 + expectedTotalGems) * 2
+    @get('gems') > (100 + expectedTotalGems) * 1.2
+
+  levelRequiredForItem: ->
+    return console.error "Trying to determine what level is required for #{@get('name')}, but it has no tier." unless @get('tier')?
+    tier = @get 'tier'
+    me.constructor.levelForTier(Math.pow(tier, 0.7))

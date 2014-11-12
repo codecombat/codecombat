@@ -55,6 +55,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -190,12 +191,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     restart: "Herstarten"
     goals: "Doelen"
 #    goal: "Goal"
+#    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
     action_timeline: "Actie tijdlijn"
     click_to_select: "Klik op een eenheid om deze te selecteren."
+#    reload: "Reload"
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
@@ -221,9 +224,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spreuken" # Only in old-style levels.
     tome_other_units: "Andere Eenheden" # Only in old-style levels.
-    tome_cast_button_castable: "Uitvoeren" # Temporary, if tome_cast_button_run isn't translated.
-    tome_cast_button_casting: "Aan het uitvoeren" # Temporary, if tome_cast_button_running isn't translated.
-    tome_cast_button_cast: "Spreuk uitvoeren" # Temporary, if tome_cast_button_ran isn't translated.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
@@ -234,13 +234,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
 #    tome_your_skills: "Your Skills"
-    hud_continue: "Ga verder (druk shift-spatie)"
+#    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
     skip_tutorial: "Overslaan (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Klaar!"
 #    loading_start: "Start Level"
+#    problem_alert_title: "Fix Your Code"
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
@@ -280,7 +281,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
@@ -301,6 +301,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
+#    restricted: "(restricted in this level)"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -314,6 +315,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    weapons: "Weapons"
+#    weapons_warrior: "Swords - Short Range, No Magic"
+#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
@@ -443,7 +447,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    enter: "Enter"
 #    escape: "Escape"
 #    shift: "Shift"
-#    cast_spell: "Cast current spell."
+#    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -624,6 +628,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     diplomat_launch_url: "release in oktober"
     diplomat_introduction_suf: "dan is het wel dat er een enorme belangstelling is voor CodeCombat in andere landen, vooral Brazilië! We zijn een groep van vertalers aan het creëren dat ijverig de ene set woorden in de andere omzet om CodeCombat zo toegankelijk mogelijk te maken in de hele wereld. Als jij het leuk vindt glimpsen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide talen goed te begrijpen!"
+#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
+#    diplomat_i18n_page: "translations page"
+#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Vind van jouw taal het locale bestand "
     diplomat_github_url: "op GitHub"
     diplomat_join_suf_github: ", edit het online, en submit een pull request. Daarnaast kun je hieronder aanvinken als je up-to-date wilt worden gehouden met nieuwe internationalisatie-ontwikkelingen."

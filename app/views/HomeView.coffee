@@ -35,3 +35,6 @@ module.exports = class HomeView extends RootView
     e.stopImmediatePropagation()
     window.tracker?.trackEvent 'Homepage', Action: 'Play'
     window.open '/play', '_blank'
+
+  afterInsert: ->
+    super(arguments...)

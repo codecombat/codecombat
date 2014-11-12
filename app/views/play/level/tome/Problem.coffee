@@ -6,7 +6,8 @@ module.exports = class Problem
   constructor: (@aether, @aetherProblem, @ace, isCast=false, @levelID) ->
     @buildAnnotation()
     @buildMarkerRange() if isCast
-    Backbone.Mediator.publish("problem:problem-created", line:@annotation.row, text: @annotation.text) if application.isIPadApp
+    # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
+    Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp
 
   destroy: ->
     @removeMarkerRange()
@@ -30,7 +31,7 @@ module.exports = class Problem
     @markerRange = new Range start.row, start.col, end.row, end.col
     @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start
     @markerRange.end = @ace.getSession().getDocument().createAnchor @markerRange.end
-    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'text'
+    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'fullLine'
 
   removeMarkerRange: ->
     return unless @markerRange
