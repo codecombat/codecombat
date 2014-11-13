@@ -422,7 +422,7 @@ module.exports = class InventoryModal extends ModalView
       @toggleFullscreen()
       hasGoneFullScreenOnce = true
     @updateConfig =>
-      @trigger 'play-click'
+      @trigger? 'play-click'
     window.tracker?.trackEvent 'Play Level Modal', Action: 'Play'
 
   updateConfig: (callback, skipSessionSave) ->

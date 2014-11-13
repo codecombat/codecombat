@@ -392,6 +392,7 @@ module.exports = class SpellView extends CocoView
     return unless e.spell is @spell
     @reloadCode true
     @ace.clearSelection()
+    _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
 
   reloadCode: (cast=true) ->
     @updateACEText @spell.originalSource
