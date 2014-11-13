@@ -7,9 +7,9 @@ module.exports = class BuyGemsModal extends ModalView
   plain: true
   
   products: [
-    { price: '$4.99', gems: 5000, id: 'gems_5' }
-    { price: '$9.99', gems: 11000, id: 'gems_10' }
-    { price: '$19.99', gems: 25000, id: 'gems_20' }
+    { price: '$4.99', gems: 5000, id: 'gems_5', i18n: 'buy_gems.few_gems' }
+    { price: '$9.99', gems: 11000, id: 'gems_10', i18n: 'buy_gems.pile_gems' }
+    { price: '$19.99', gems: 25000, id: 'gems_20', i18n: 'buy_gems.chest_gems' }
   ]
   
   subscriptions:
@@ -17,7 +17,7 @@ module.exports = class BuyGemsModal extends ModalView
     'ipad:iap-complete': 'onIAPComplete'
   
   events:
-    'click button.product': 'onClickProductButton'
+    'click .product button': 'onClickProductButton'
 
   constructor: (options) ->
     super(options)
@@ -48,7 +48,8 @@ module.exports = class BuyGemsModal extends ModalView
       Backbone.Mediator.publish 'buy-gems-modal:purchase-initiated', { productID: productID }
       
     else
-      @$el.find('.modal-body').append($('<div class="alert alert-danger">Not implemented</div>'))
+      application.tracker?.trackEvent 'Started purchase', {productID:productID}, ['Google Analytics']
+      alert('Not yet implemented, but thanks for trying!')
       
   onIAPComplete: (e) ->
     product = _.find @products, { id: e.productID }

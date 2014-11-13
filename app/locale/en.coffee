@@ -310,6 +310,11 @@
     restricted: "(restricted in this level)"
     equip: "Equip"
     unequip: "Unequip"
+    
+  buy_gems:
+    few_gems: 'A few gems'
+    pile_gems: 'Pile of gems'
+    chest_gems: 'Chest of gems'
 
   choose_hero:
     choose_hero: "Choose Your Hero"
