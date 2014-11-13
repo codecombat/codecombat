@@ -35,6 +35,10 @@
         .campaign-label(style="color: #{campaign.color}")= campaign.name
       if isIPadApp && !level.disabled && !level.locked
         button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
+  if mapType === 'dungeon' && forestIsAvailable
+    a#forest-link.glyphicon.glyphicon-share-alt.campaign-switch(href="/play/forest", data-i18n="[title]play.campaign_forest")
+  if mapType === 'forest'
+    a#dungeon-link.glyphicon.glyphicon-share-alt.campaign-switch(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
 
 .game-controls.header-font
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
@@ -53,13 +57,6 @@
   //  a.btn.account(href="/user/#{me.getSlugOrID()}", data-i18n="[title]play.account")
   //  a.btn.settings(href='/account', data-i18n="[title]play.settings")
   
-  if mapType === 'forest'
-    a.btn.campaign-switch(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
-      img(src="/images/pages/play/map_dungeon_icon.jpg").img-thumbnail
-  if mapType === 'dungeon'
-    a.btn.campaign-switch(href="/play/forest", data-i18n="[title]play.campaign_forest")
-      img(src="/images/pages/play/map_forest_icon.jpg").img-thumbnail
-
 .old-levels
   a(href="/play-old", data-i18n="play.older_campaigns").header-font Older Campaigns
 
