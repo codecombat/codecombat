@@ -124,7 +124,7 @@ module.exports = class InventoryModal extends ModalView
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
     @requireLevelEquipment()
-    @$el.find('.nano').nanoScroller()
+    @$el.find('.nano').nanoScroller({alwaysVisible: true})
 
   afterInsert: ->
     super()
