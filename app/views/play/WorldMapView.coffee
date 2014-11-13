@@ -100,6 +100,7 @@ module.exports = class WorldMapView extends RootView
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
+    context.forestIsAvailable = '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
     context
 
   afterRender: ->
@@ -596,7 +597,7 @@ forest = [
     description: 'Protect the peasants from the pursuing ogres.'
     nextLevels:
       continue: 'winding-trail'
-    x: 29.63
+    x: 32.63
     y: 53.69
   }
   {

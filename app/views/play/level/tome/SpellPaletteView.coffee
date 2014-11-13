@@ -129,6 +129,7 @@ module.exports = class SpellPaletteView extends CocoView
       storages = [storages] if _.isString storages
       for storage in storages
         props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
+        props = _.uniq props
         added = _.sortBy(props).slice()
         propGroups[owner] = (propGroups[owner] ? []).concat added
         count += added.length
@@ -181,14 +182,18 @@ module.exports = class SpellPaletteView extends CocoView
     propsByItem = {}
     propCount = 0
     itemsByProp = {}
-    for slot, thangTypeName of @thang.inventoryThangTypeNames ? {}
+    # Make sure that we get the spellbook first, then the primary hand, then anything else.
+    slots = _.sortBy _.keys(@thang.inventoryThangTypeNames ? {}), (slot) ->
+      if slot is 'left-hand' then 0 else if slot is 'right-hand' then 1 else 2
+    for slot in slots
+      thangTypeName = @thang.inventoryThangTypeNames[slot]
       if item = itemThangTypes[thangTypeName]
         unless item.get('components')
           console.error 'Item', item, 'did not have any components when we went to assemble docs.'
         for component in item.get('components') ? [] when component.config
           for owner, storages of propStorage
             if props = component.config[storages]
-              for prop in _.sortBy(props) when prop[0] isnt '_'  # no private properties
+              for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
                 propsByItem[item.get('name')] ?= []
                 propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
                 itemsByProp[prop] = item

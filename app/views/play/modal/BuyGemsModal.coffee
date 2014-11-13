@@ -31,7 +31,13 @@ module.exports = class BuyGemsModal extends ModalView
     return c
     
   onIPadProducts: (e) ->
-    @products = e.products
+    newProducts = []
+    for iapProduct in e.products
+      localProduct = _.find @products, { id: iapProduct.id }
+      continue unless localProduct
+      localProduct.price = iapProduct.price
+      newProducts.push localProduct
+    @products = newProducts
     @render()
 
   onClickProductButton: (e) ->
@@ -45,8 +51,10 @@ module.exports = class BuyGemsModal extends ModalView
       @$el.find('.modal-body').append($('<div class="alert alert-danger">Not implemented</div>'))
       
   onIAPComplete: (e) ->
+    product = _.find @products, { id: e.productID }
     purchased = me.get('purchased') ? {}
+    purchased = _.clone purchased
     purchased.gems ?= 0
-    purchased.gems += e.gems
+    purchased.gems += product.gems
     me.set('purchased', purchased)
     @hide()

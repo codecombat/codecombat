@@ -40,12 +40,17 @@ module.exports = class SpriteParser
     if movieClips.length
       # First movie clip is root, so do it last
       movieClips = movieClips[1 ... movieClips.length].concat([movieClips[0]])
-    else if containers.length
-      # First container is root, so do it last
-      containers = containers[1 ... containers.length].concat([containers[0]])
+    
+    # first container isn't necessarily root... actually the last one is root in blue-cart
+#    else if containers.length
+#      # First container is root, so do it last
+#      containers = containers[1 ... containers.length].concat([containers[0]])
     mainClip = _.last(movieClips) ? _.last(containers)
     @animationName = mainClip.name
-    for container in containers
+    for container, index in containers
+      if index is containers.length - 1 and not movieClips.length and container.bounds?.length
+        container.bounds[0] -= @width / 2
+        container.bounds[1] -= @height / 2
       [shapeKeys, localShapes] = @getShapesFromBlock container, source
       localContainers = @getContainersFromMovieClip container, source
       addChildArgs = @getAddChildCallArguments container, source
@@ -62,6 +67,7 @@ module.exports = class SpriteParser
           if c.bn is bn
             instructions.push {t: c.t, gn: c.gn}
             break
+      continue unless container.bounds and instructions.length
       @addContainer {c: instructions, b: container.bounds}, container.name
     for movieClip, index in movieClips
       if index is 0

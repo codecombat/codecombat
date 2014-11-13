@@ -240,7 +240,6 @@ module.exports = class ThangType extends CocoModel
     return if _.isString spriteSheet
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
-    console.log 'made canvas', canvas, 'with size', size unless canvas[0]
     stage = new createjs.Stage(canvas[0])
     sprite = new createjs.Sprite(spriteSheet)
     pt = @actions.portrait?.positions?.registration
@@ -260,6 +259,29 @@ module.exports = class ThangType extends CocoModel
       @update()
       createjs.Ticker.removeEventListener 'tick', @tick
       @tick = null
+    stage
+    
+  getVectorPortraitStage: (size=100) ->
+    return unless @actions
+    canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
+    stage = new createjs.Stage(canvas[0])
+    portrait = @actions.portrait
+    return unless portrait and (portrait.animation or portrait.container)
+    scale = portrait.scale or 1
+
+    vectorParser = new SpriteBuilder(@, {})
+    if portrait.animation
+      sprite = vectorParser.buildMovieClip portrait.animation
+      sprite.gotoAndStop(0)
+    else if portrait.container
+      sprite = vectorParser.buildContainerFromStore(portrait.container)
+
+    pt = portrait.positions?.registration
+    sprite.regX = pt?.x or 0
+    sprite.regY = pt?.y or 0
+    sprite.scaleX = sprite.scaleY = scale * size / 100
+    stage.addChild(sprite)
+    stage.update()
     stage
 
   uploadGenericPortrait: (callback, src) ->
@@ -339,9 +361,10 @@ module.exports = class ThangType extends CocoModel
     unless itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
       console.warn @get('name'), 'is not an item, but you are asking for its stats.'
       return props: [], stats: {}
+    stats = {}
     props = itemConfig.programmableProperties ? []
     props = props.concat itemConfig.moreProgrammableProperties ? []
-    stats = {}
+    props = _.without props, 'canCast', 'spellNames', 'spells'
     for stat, modifiers of itemConfig.stats ? {}
       stats[stat] = @formatStatDisplay stat, modifiers
     for stat in itemConfig.extraHUDProperties ? []

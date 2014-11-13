@@ -427,6 +427,7 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->
+    @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then HeroVictoryModal else VictoryModal
     victoryModal = new ModalClass(options)
