@@ -106,6 +106,7 @@ module.exports = class SpellView extends CocoView
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
     @initAutocomplete aceConfig.liveCompletion ? true
 
   createACEShortcuts: ->
@@ -392,6 +393,7 @@ module.exports = class SpellView extends CocoView
     return unless e.spell is @spell
     @reloadCode true
     @ace.clearSelection()
+    _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
 
   reloadCode: (cast=true) ->
     @updateACEText @spell.originalSource
@@ -795,6 +797,9 @@ module.exports = class SpellView extends CocoView
     # @ is the gutter element
     Backbone.Mediator.publish 'tome:jiggle-problem-alert', {}
 
+  onGutterClick: =>
+    @ace.clearSelection()
+
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, @writable
   toggleControls: (e, enabled) ->
@@ -881,6 +886,7 @@ module.exports = class SpellView extends CocoView
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    $(@ace?.container).find('.ace_gutter').off 'click', @onGutterClick
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()

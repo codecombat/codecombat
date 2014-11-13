@@ -361,7 +361,7 @@ dungeon = [
     y: 14
     nextLevels:
       #more_practice: 'crawlways-of-kithgard'
-      continue: 'true-names'
+      continue: 'forgetful-gemsmith'
     practice: true
   }
   #{
@@ -385,7 +385,7 @@ dungeon = [
     x: 63
     y: 13
     nextLevels:
-      continue: 'shadow-guard'
+      continue: 'true-names'
   }
   {
     name: 'True Names'
