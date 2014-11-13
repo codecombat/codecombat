@@ -81,12 +81,15 @@ block outer_content
         div#settings-col.well
           img#portrait.img-thumbnail
           div.file-controls
-            button(disabled=authorized === true ? undefined : "true").btn.btn-small.btn-info#upload-button
+            button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-button
               span.glyphicon.glyphicon-upload
               span.spl Upload Animation
-            button(disabled=authorized === true ? undefined : "true").btn.btn-small.btn-danger#clear-button
+            button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-danger#clear-button
               span.glyphicon.glyphicon-remove
               span.spl Clear Data
+            button#set-vector-icon(disabled=authorized === true ? undefined : "true").btn.btn-sm
+              span.glyphicon.glyphicon-gbp
+              span.spl Vector Icon Setup
             input#real-upload-button(type="file")
           #thang-type-file-size= fileSizeString
           div#thang-type-treema

@@ -194,6 +194,26 @@ $gameControlMargin: 30px
         display: block
         margin: 10px auto 0 auto
         width: 200px
+      
+    .campaign-switch
+      color: purple
+      position: absolute
+      z-index: 1
+      font-size: 2vw
+      text-shadow: 0 0 0.3vw white, 0 0 0.3vw white
+      
+      &:hover 
+        text-decoration: none
+      
+      &#forest-link
+        left: 94.5%
+        top: 7%
+        transform: rotate(-35deg)
+      
+      &#dungeon-link
+        left: 26.6%
+        top: 43%
+        transform: rotate(180deg)
           
   .game-controls
     position: absolute
@@ -239,6 +259,8 @@ $gameControlMargin: 30px
         background-position: (-3 * $gameControlSize) 0px
       &.settings
         background-position: (-4 * $gameControlSize) 0px
+      &.gems
+        background-position: (-5 * $gameControlSize) 0px
 
     .tooltip
       font-size: 24px

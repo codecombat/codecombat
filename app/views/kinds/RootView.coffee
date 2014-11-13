@@ -34,6 +34,7 @@ module.exports = class RootView extends CocoView
     'achievements:new': 'handleNewAchievements'
 
   showNewAchievement: (achievement, earnedAchievement) ->
+    return if achievement.get('collection') is 'level.sessions'
     popup = new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
