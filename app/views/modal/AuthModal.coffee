@@ -18,6 +18,7 @@ module.exports = class AuthModal extends ModalView
     'click #github-login-button': 'onGitHubLoginClicked'
     'submit': 'onSubmitForm' # handles both submit buttons
     'keyup #name': 'onNameChange'
+    'click #gplus-login-button': 'onClickGPlusLogin'
 
   subscriptions:
     'errors:server-error': 'onServerError'
@@ -113,3 +114,39 @@ module.exports = class AuthModal extends ModalView
 
   onGitHubLoginClicked: ->
     Backbone.Mediator.publish 'auth:log-in-with-github', {}
+
+  gplusAuthSteps: [
+    { i18n: 'login.authenticate_gplus', done: false }
+    { i18n: 'login.load_profile', done: false }
+    { i18n: 'login.load_email', done: false }
+    { i18n: 'login.finishing', done: false }
+  ]
+
+  onClickGPlusLogin: ->
+    step.done = false for step in @gplusAuthSteps
+    handler = application.gplusHandler
+    
+    @renderGPlusAuthChecklist()
+    
+    @listenToOnce handler, 'logged-in', ->
+      @gplusAuthSteps[0].done = true
+      @renderGPlusAuthChecklist()
+      handler.loginCodeCombat()
+      @listenToOnce handler, 'person-loaded', ->
+        @gplusAuthSteps[1].done = true
+        @renderGPlusAuthChecklist()
+
+      @listenToOnce handler, 'email-loaded', ->
+        @gplusAuthSteps[2].done = true
+        @renderGPlusAuthChecklist()
+
+      @listenToOnce handler, 'logging-into-codecombat', ->
+        @gplusAuthSteps[3].done = true
+        @renderGPlusAuthChecklist()
+     
+  renderGPlusAuthChecklist: ->
+    template = require 'templates/modal/auth-modal-gplus-checklist'
+    el = $(template({steps: @gplusAuthSteps}))
+    el.i18n()
+    @$el.find('.modal-body:visible').empty().append(el)
+    @$el.find('.modal-footer').remove()
