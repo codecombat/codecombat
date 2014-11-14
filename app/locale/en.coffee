@@ -95,6 +95,10 @@
     logging_in: "Logging In"
     log_out: "Log Out"
     recover: "recover account"
+    authenticate_gplus: 'Authenticate G+'
+    load_profile: 'Load G+ Profile'
+    load_email: 'Load G+ Email'
+    finishing: 'Finishing'
 
   signup:
     create_account_title: "Create Account to Save Progress"

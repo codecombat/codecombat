@@ -28,7 +28,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
   onGPlusLoaded: ->
     session_state = null
-    if @accessToken
+    if @accessToken and me.get('gplusID')
       # We need to check the current state, given our access token
       gapi.auth.setToken 'token', @accessToken
       session_state = @accessToken.session_state
@@ -50,19 +50,22 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
   onGPlusLogin: (e) =>
     @loggedIn = true
-    storage.save(GPLUS_TOKEN_KEY, e)
+    try
+      # Without removing this, we sometimes get a cross-domain error
+      d = JSON.stringify(_.omit(e, 'g-oauth-window'))
+      storage.save(GPLUS_TOKEN_KEY, d)
+    catch e
+      console.error 'Unable to save G+ token key', e
     @accessToken = e
     @trigger 'logged-in'
-    return if (not me) or me.get 'gplusID' # so only get more data
-
+    
+  loginCodeCombat: ->
     # email and profile data loaded separately
-    @responsesComplete = 0
     gapi.client.request(path: plusURL, callback: @onPersonEntityReceived)
     gapi.client.load('oauth2', 'v2', =>
       gapi.client.oauth2.userinfo.get().execute(@onEmailReceived))
 
   shouldSave: false
-  responsesComplete: 0
 
   onPersonEntityReceived: (r) =>
     for gpProp, userProp of userPropsToSave
@@ -74,18 +77,21 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         me.set(userProp, value)
 
     @responsesComplete += 1
+    @personLoaded = true
+    @trigger 'person-loaded'
     @saveIfAllDone()
 
   onEmailReceived: (r) =>
     newEmail = r.email and r.email isnt me.get('email')
-    return unless newEmail or me.get('anonymous')
+    return unless newEmail or me.get('anonymous', true)
     me.set('email', r.email)
     @shouldSave = true
-    @responsesComplete += 1
+    @emailLoaded = true
+    @trigger 'email-loaded'
     @saveIfAllDone()
 
   saveIfAllDone: =>
-    return unless @responsesComplete is 2
+    return unless @personLoaded and @emailLoaded
     return unless me.get('email') and me.get('gplusID')
 
     Backbone.Mediator.publish 'auth:logging-in-with-gplus', {}
@@ -97,6 +103,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     patch._id = me.id
     patch.email = me.get('email')
     wasAnonymous = me.get('anonymous')
+    @trigger 'logging-into-codecombat'
     me.save(patch, {
       patch: true
       type: 'PUT'
