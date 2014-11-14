@@ -375,8 +375,8 @@ module.exports = class InventoryModal extends ModalView
           #continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level  # ... when we make it so that you can buy it
           equipped = equipment[slot]
           continue if equipped and not (
-            (item is 'builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword']]) or
-            (item in ['simple-sword', 'long-sword'] and equipped is gear['builders-hammer']) or
+            (item is 'builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
+            (item in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['builders-hammer']) or
             (item is 'leather-boots' and equipped is gear['simple-boots']) or
             (item is 'simple-boots' and equipped is gear['leather-boots'])
           )
@@ -469,3 +469,5 @@ gear =
   'bronze-shield': '544c310ae0017993fce214bf'
   'wooden-glasses': '53e2167653457600003e3eb3'
   'basic-flags': '545bacb41e649a4495f887da'
+  'roughedge': '544d7d918494308424f564a7'
+  'sharpened-sword': '544d7deb8494308424f564ab'
