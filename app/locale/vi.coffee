@@ -7,7 +7,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
+    for_beginners: "Dành cho người bắt đầu chơi"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
 #    for_developers: "For Developers" # Not currently shown on home page.
 
