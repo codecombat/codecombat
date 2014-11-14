@@ -174,16 +174,20 @@ module.exports = LevelOptions =
     restrictedGear: {'right-hand': 'simple-sword'}
   'defense-of-plainswood':
     hidesRealTimePlayback: true
+    hidesCodeToolbar: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
     restrictedGear: {'right-hand': 'simple-sword'}
   'winding-trail':
     hidesRealTimePlayback: true
+    hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'thornbush-farm':
     requiredGear: {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
+    hidesCodeToolbar: true
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'back-to-back':
+    hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
   'ogre-encampment':
