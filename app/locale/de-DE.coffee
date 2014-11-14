@@ -28,7 +28,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     about: "Über"
     contact: "Kontakt"
     twitter_follow: "Twitter"
-#    teachers: "Teachers"
+    teachers: "Lehrer"
 
   modal:
     close: "Schließen"
@@ -51,28 +51,28 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     players: "Spieler" # Hover over a level on /play
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
+    unlock: "Entsperren" # For purchasing items and heroes
+    confirm: "Bestätigen"
+    owned: "Besitzen" # For items you own
+    locked: "Gesperrt"
+    available: "Verfügbar"
+    skills_granted: "Verfügbare Fähigkeiten" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
-    achievements: "Achievements" # Tooltip on achievement list button from /play
+    achievements: "Erfolge" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    next: "Nächster" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Ältere Kampagne"
+    anonymous: "Anonymer Spieler"
     level_difficulty: "Schwierigkeit: "
     campaign_beginner: "Anfängerkampagne"
     choose_your_level: "Wähle dein Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kannst zu jedem Level springen oder diskutiere die Level "
     adventurer_forum: "im Abenteurerforum"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Alte Anfänger Kampagne"
     campaign_old_beginner_description: "... in der Du die Zauberei der Programmierung lernst."
     campaign_dev: "Beliebiges schwierigeres Level"
     campaign_dev_description: "... in welchem Du die Bedienung erlernst, indem Du etwas schwierigeres machst."
@@ -82,8 +82,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_player_created_description: "... in welchem Du gegen die Kreativität eines <a href=\"/contribute#artisan\">Artisan Zauberers</a> kämpfst."
     campaign_classic_algorithms: "Klassiche Algorithmen"
     campaign_classic_algorithms_description: "... in welchem du die populärsten Algorithmen der Informatik lernst."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "Forest Kampagne"
+    campaign_dungeon: "Dungeon Kampagne"
 
   login:
     sign_up: "Registrieren"
@@ -110,12 +110,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     recovery_sent: "Wiederherstellungs-Email versandt."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primär"
+    secondary: "Sekundär"
     armor: "Rüstung"
     accessories: "Zubehör"
     misc: "Sonstiges"
-#    books: "Books"
+    books: "Bücher"
 
   common:
     loading: "Lade..."
@@ -130,8 +130,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     fork: "Fork"
     play: "Abspielen" # When used as an action verb, like "Play next level"
     retry: "Erneut versuchen"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
+    watch: "Verfolgen"
+    unwatch: "Nicht verfolgen"
     submit_patch: "Patch einreichen"
 
   general:
@@ -184,21 +184,21 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   play_level:
     done: "Fertig"
     home: "Startseite" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    level: "Level" # Like "Level: Dungeons of Kithgard"
+    skip: "Überspringen"
     game_menu: "Spielmenü"
     guide: "Hilfe"
     restart: "Neustart"
     goals: "Ziele"
-#    goal: "Goal"
-#    running: "Running..."
+    goal: "Ziel"
+    running: "Läuft..."
     success: "Erfolgreich!"
     incomplete: "Unvollständig"
     timed_out: "Zeit abgelaufen"
-#    failing: "Failing"
+    failing: "Fehlgeschlagen"
     action_timeline: "Aktionszeitstrahl"
     click_to_select: "Klicke auf eine Einheit, um sie auszuwählen."
-#    reload: "Reload"
+    reload: "Neu laden"
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
@@ -208,14 +208,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_sign_up_poke: "Möchtest Du Neuigkeiten per Mail erhalten? Erstelle einen kostenlosen Account und wir halten Dich auf dem Laufenden."
     victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
     victory_return_to_ladder: "Zurück zur Rangliste"
-#    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
+    victory_play_continue: "Fortsetzen"
+    victory_play_skip: "Überspringen"
     victory_play_next_level: "Spiel das nächste Level"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_more_practice: "Mehr Training"
+    victory_play_too_easy: "Zu einfach"
+    victory_play_just_right: "Genau richtig"
+    victory_play_too_hard: "Zu schwer"
+    victory_saving_progress: "Fortschritt speichern"
     victory_go_home: "Geh auf die Startseite" # Only in old-style levels.
     victory_review: "Erzähl uns davon!" # Only in old-style levels.
     victory_hour_of_code_done: "Bist Du fertig?"
@@ -224,24 +224,24 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte" # Only in old-style levels.
     tome_read_only_spells: "Nur-lesen Zauberspüche" # Only in old-style levels.
     tome_other_units: "Andere Einheiten" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_cast_button_run: "Run"
+    tome_cast_button_running: "Running"
+    tome_cast_button_ran: "Ran"
+    tome_submit_button: "Senden"
+    tome_reload_method: "Original Code für diese Methode neu laden" # Title text for individual method reload button.
+    tome_select_method: "Methode auswählen"
+    tome_see_all_methods: "Alle bearbeitbare Methoden anzeigen" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Wähle jemanden aus, um "
     tome_available_spells: "Verfügbare Zauber"
-#    tome_your_skills: "Your Skills"
-#    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    tome_your_skills: "Deine Fähigkeiten"
+    tome_current_method: "Aktuelle Methode"
+    hud_continue_short: "Fortsetzen"
+    code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
     keyboard_shortcuts: "Tastenkürzel"
     loading_ready: "Bereit!"
-#    loading_start: "Start Level"
-#    problem_alert_title: "Fix Your Code"
+    loading_start: "Starte Level"
+    problem_alert_title: "Repariere deinen Code"
     time_current: "Aktuell"
     time_total: "Total"
     time_goto: "Gehe zu"
@@ -261,7 +261,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_baby_coders: "In der Zukunft werden sogar Babies Erzmagier sein."
     tip_morale_improves: "Das Laden wird weiter gehen bis die Stimmung sich verbessert."
     tip_all_species: "Wir glauben an gleiche Chancen für alle Arten Programmieren zu lernen."
-#    tip_reticulating: "Reticulating spines."
+    tip_reticulating: "Spines neuberechnen."
     tip_harry: "Du bist ein Zauberer, "
     tip_great_responsibility: "Mit großen Programmierfähigkeiten kommt große Verantwortung."
     tip_munchkin: "Wenn du dein Gemüse nicht isst, besucht dich ein Zwerg während du schläfst."
@@ -274,9 +274,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_talk_is_cheap: "Reden ist billig. Zeig mir den Code. - Linus Torvalds"
     tip_first_language: "Das schwierigste, das du jemals lernen wirst, ist die erste Programmiersprache. - Alan Kay"
     tip_hardware_problem: "Q: Wie viele Programmierer braucht man um eine Glühbirne auszuwechseln? A: Keine, es ist ein Hardware-Problem."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
-#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_hofstadters_law: "Hofstadter's Gesetz: Es dauert immer länger als erwartet, auch wenn du Hofstadter's Gesetz anwendest."
+    tip_premature_optimization: "Vorzeitige Optimierung ist die Wurzel alles Übels (oder der mindestens Meister) bei der Programmierung - Donald Knuth"
+    tip_brute_force: "Verwende im Zweifelsfall rohe Gewalt. - Ken Thompson"
     customize_wizard: "Bearbeite den Zauberer"
 
   game_menu:
@@ -285,23 +285,23 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     options_tab: "Einstellungen"
     guide_tab: "Guide"
     multiplayer_tab: "Mehrspieler"
-#    auth_tab: "Sign Up"
+    auth_tab: "Registrieren"
     inventory_caption: "Rüste deinen Helden aus"
     choose_hero_caption: "Wähle Helden, Sprache"
     save_load_caption: "... und schaue dir die Historie an"
     options_caption: "konfiguriere Einstellungen"
     guide_caption: "Doku und Tipps"
     multiplayer_caption: "Spiele mit Freunden!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Fortschritt speichern."
 
   inventory:
     choose_inventory: "Gegenstände ausrüsten"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
+    equipped_item: "Hinzugefügt"
+    available_item: "Verfügbar"
+    should_equip: "(Doppelklick zum Hinzufügen)"
+    equipped: "(hinzugefügt)"
+    locked: "(gesperrt)"
+    restricted: "(benötigt für dieses Level)"
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -315,16 +315,16 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     io_blurb: "Simpel aber obskur."
     status: "Status"
     weapons: "Waffen"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
+    weapons_warrior: "Schwert - Kurze Reichweite, Kein Zauber"
+    weapons_ranger: "Armbrust, Geschütz - Hohe Reichweite, Kein Zauber"
+    weapons_wizard: "Stäbe, Stäbe - Lange Reichweite, Zauber"
+    attack: "Schaden" # Can also translate as "Attack"
     health: "Gesundheit"
     speed: "Geschwindigkeit"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    skills: "Skills"
+    regeneration: "Regeneration"
+    range: "Reichweite" # As in "attack or visual range"
+    blocks: "Blockieren" # As in "this shield blocks this much damage"
+    skills: "Fähigkeiten"
 
   save_load:
     granularity_saved_games: "Gespeichert"
@@ -565,10 +565,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     edit_article_title: "Artikel bearbeiten"
 
   contribute:
-#    page_title: "Contributing"
+    page_title: "Mitwirken"
     character_classes_title: "Charakter Klassen"
     introduction_desc_intro: "Wir haben hohe Erwartungen für CodeCombat."
-#    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
+#   introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
     introduction_desc_github_url: "CodeCombat ist komplett OpenSource"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
     introduction_desc_ending: "Wir hoffen du nimmst an unserer Party teil!"
@@ -578,7 +578,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
     class_attributes: "Klassenattribute"
-#    archmage_attribute_1_pref: "Knowledge in "
+    archmage_attribute_1_pref: "Kentnisse in "
 #    archmage_attribute_1_suf: ", or a desire to learn. Most of our code is in this language. If you're a fan of Ruby or Python, you'll feel right at home. It's JavaScript, but with a nicer syntax."
 #    archmage_attribute_2: "Some experience in programming and personal initiative. We'll help you get oriented, but we can't spend much time training you."
 #    how_to_join: "How To Join"
