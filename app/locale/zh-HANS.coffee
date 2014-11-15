@@ -46,17 +46,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交翻译人员申请"
 
   play:
-#    play_as: "Play As" # Ladder page
+    play_as: "扮演" # Ladder page
     spectate: "旁观他人的游戏" # Ladder page
-#    players: "players" # Hover over a level on /play
+    players: "玩家" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
+    unlock: "解锁" # For purchasing items and heroes
+    confirm: "确认"
+    owned: "已拥有" # For items you own
+    locked: "需解锁"
 #    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
@@ -123,7 +123,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
-#    books: "Books"
+    books: "书籍"
 
   common:
     loading: "读取中……"
@@ -161,7 +161,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     message: "信息"
     code: "代码"
     ladder: "升级比赛"
-    when: "当"
+    when: "时间"
     opponent: "对手"
     rank: "等级"
     score: "分数"
@@ -200,14 +200,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     restart: "重新开始"
     goals: "目标"
     goal: "目标"
-#    running: "Running..."
+    running: "运行中..."
     success: "成功!"
     incomplete: "未完成"
     timed_out: "运行超时"
     failing: "失败"
     action_timeline: "行动时间轴"
     click_to_select: "点击选择一个单元。"
-#    reload: "Reload"
+    reload: "重载"
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
@@ -245,12 +245,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_your_skills: "你的技能"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    code_saved: "代码已保存"
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
     loading_ready: "载入完成!"
     loading_start: "关卡开始"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "修正你的代码"
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
@@ -275,17 +275,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_great_responsibility: "更高的编程技巧也意味着更大的调试责任。"
     tip_munchkin: "如果你不吃掉你的蔬菜, 一个小矮人将在你睡着之后来找你。"
     tip_binary: "这个世界上只有 10 种人: 那些懂二进制的, 还有那些不懂二进制的."
-    tip_commitment_yoda: "一个程序员必须有高度的责任感和一颗认真的心。 ~ 尤达大师"
+    tip_commitment_yoda: "一个程序员必须有高度的责任感和一颗认真的心。 - 尤达大师"
     tip_no_try: "做. 或是不做. 这世上不存在'尝试'这种东西. - 尤达大师"
     tip_patience: "你必须要有耐心，年轻的学徒 - 尤达大师"
     tip_documented_bug: "一个写在文档里的漏洞不算漏洞, 那是个功能."
     tip_impossible: "在事情未完成之前，一切都看似不可能. - 纳尔逊·曼德拉"
     tip_talk_is_cheap: "多说无用, 亮出你的代码. - Linus Torvalds"
     tip_first_language: "你所经历过最可怕的事情是你的第一门编程语言。 - Alan Kay"
-#    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
-#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_hardware_problem: "问：换一个电灯泡需要几位程序员参与？答：一个都不需要，因为这属于硬件问题。"
+    tip_hofstadters_law: "侯世达定律：做事所花费的时间总是比你预期的要长，即使你的预期中考虑了侯世达定律。"
+    tip_premature_optimization: "过早的优化是万恶之源。 - 高德纳"
+    tip_brute_force: "拿不准时就用穷举法。 - Ken Thompson"
     customize_wizard: "自定义向导"
 
   game_menu:
@@ -301,17 +301,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
 #    multiplayer_caption: "Play with friends!"
-#    auth_caption: "Save your progress."
+    auth_caption: "保存进度"
 
   inventory:
     choose_inventory: "装备道具"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
 #    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
+    should_equip: "(双击装备此道具)"
+    equipped: "(已装备)"
+    locked: "(需解锁)"
+    restricted: "(本关卡不得使用)"
 #    equip: "Equip"
 #    unequip: "Unequip"
 
@@ -334,16 +334,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     io_blurb: "简单而晦涩。"
     status: "状态"
     weapons: "武器"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
+    weapons_warrior: "刀剑 - 近程物理攻击"
+    weapons_ranger: "弓弩，火枪 - 远程物理攻击"
+    weapons_wizard: "魔棒，法杖 - 远程魔法攻击"
+    attack: "伤害" # Can also translate as "Attack"
     health: "健康值"
     speed: "速度"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    skills: "Skills"
+    regeneration: "恢复"
+    range: "攻击范围" # As in "attack or visual range"
+    blocks: "格挡" # As in "this shield blocks this much damage"
+    skills: "技能"
 
   save_load:
     granularity_saved_games: "保存"
@@ -351,8 +351,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
-#    volume_label: "Volume"
-#    music_label: "Music"
+    volume_label: "音量"
+    music_label: "音乐"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
 #    autorun_description: "Control automatic code execution."
@@ -367,12 +367,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
 #    editor_config_livecompletion_label: "Live Autocompletion"
 #    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
-    editor_config_invisibles_label: "显示隐藏的"
-    editor_config_invisibles_description: "显示诸如空格或TAB键。"
+    editor_config_invisibles_label: "显示空白字符"
+    editor_config_invisibles_description: "显示空格或TAB键等空白字符。"
     editor_config_indentguides_label: "显示缩进提示"
     editor_config_indentguides_description: "显示一条竖线以使缩进更明显。"
-    editor_config_behaviors_label: "聪明的行为"
-    editor_config_behaviors_description: "自动完成括号，大括号和引号。"
+    editor_config_behaviors_label: "智能匹配符号"
+    editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 
   about:
     why_codecombat: "为什么选择 CodeCombat?"
@@ -493,9 +493,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     find_us: "通过这些站点联系我们"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
-#    social_facebook: "Like CodeCombat on Facebook"
-#    social_twitter: "Follow CodeCombat on Twitter"
-#    social_gplus: "Join CodeCombat on Google+"
+    social_facebook: "关注 CodeCombat 的 Facebook 主页"
+    social_twitter: "关注 CodeCombat 的 Twitter"
+    social_gplus: "关注 CodeCombat 的 Google+ 主页"
 #    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
     contribute_to_the_project: "为项目做贡献"
 
