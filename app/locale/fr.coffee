@@ -64,10 +64,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     next: "Suivant" # Go from choose hero to choose inventory before playing a level
     change_hero: "Changer le Héro" # Go back from choose inventory to choose hero
     choose_inventory: "Équiper des objets"
+#    buy_gems: "Buy Gems"
     older_campaigns: "Anciennes Campagnes"
     anonymous: "Joueur anonyme"
     level_difficulty: "Difficulté: "
     campaign_beginner: "Campagne du Débutant"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Choisissez votre niveau" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
     adventurer_forum: "le forum de l'Aventurier"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     logging_in: "Connecter"
     log_out: "Déconnexion"
     recover: "Récupérer son compte"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "Créer un compte pour sauvegarder votre progression"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     medium: "Moyen"
     hard: "Difficile"
     player: "Joueur"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "seconde"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     choose_inventory: "Équiper des Objets"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
   choose_hero:
     choose_hero: "Choisissez votre Héro"
     programming_language: "Langage de programmation"
     programming_language_description: "Quel langage de programmation voullez-vous utiliser?"
+#    default: "Default"
+#    experimental: "Experimental"
     python_blurb: "Simple mais puissant, idéal pour les débutants et les experts."
     javascript_blurb: "Le langage du web. (Pas le même que Java.)"
     coffeescript_blurb: "Une syntaxe Javascript plus agréable."

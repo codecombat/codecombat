@@ -64,10 +64,14 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
+#    buy_gems: "Buy Gems"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Складність: "
     campaign_beginner: "Кампанія для початківців"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Оберіть свій рівень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Ви можете грати у будь-який рівень з наведених нижче або обговорювати рівні на "
     adventurer_forum: "форумі Шукачів пригод"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "українська мова", englishDesc
     logging_in: "Вхід в акаунт"
     log_out: "Вийти"
     recover: "відновити акаунт"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "Створити акаунт, щоб зберегти прогрес"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     medium: "Середній"
     hard: "Важкий"
     player: "Гравець"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "Секунда"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    choose_inventory: "Equip Items"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+#    default: "Default"
+#    experimental: "Experimental"
 #    python_blurb: "Simple yet powerful, great for beginners and experts."
 #    javascript_blurb: "The language of the web. (Not the same as Java.)"
 #    coffeescript_blurb: "Nicer JavaScript syntax."

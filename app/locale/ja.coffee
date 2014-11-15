@@ -64,10 +64,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
+#    buy_gems: "Buy Gems"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "難易度: "
     campaign_beginner: "初心者のキャンペーン"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     logging_in: "ログイン中"
     log_out: "ログアウト"
     recover: "パスワードを忘れた場合はこちら"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "進行状況保存用のアカウント作成"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    medium: "Medium"
 #    hard: "Hard"
 #    player: "Player"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
 #  units:
 #    second: "second"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    choose_inventory: "Equip Items"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+#    default: "Default"
+#    experimental: "Experimental"
 #    python_blurb: "Simple yet powerful, great for beginners and experts."
 #    javascript_blurb: "The language of the web. (Not the same as Java.)"
 #    coffeescript_blurb: "Nicer JavaScript syntax."

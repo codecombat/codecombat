@@ -11,7 +11,7 @@ block append content
       .grid-layout
         each achievements, category in achievementsByCategory
           .row
-            h2.achievement-category-title(data-i18n="category_#{category}")=category
+            h2.achievement-category-title(data-i18n="achievements.category_#{category}")=category
             each achievement, index in achievements
               - var title = achievement.i18nName();
               - var description = achievement.i18nDescription();

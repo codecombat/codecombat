@@ -12,14 +12,13 @@ module.exports = class ThangType extends CocoModel
   @heroes:
     captain: '529ec584c423d4e83b000014'
     knight: '529ffbf1cf1818f2be000001'
-    librarian: '52fbf74b7e01835453bd8d8e'
-    equestrian: '52e95b4222efc8e70900175d'
-    'potion-master': '52e9adf7427172ae56002172'
-    thoktar: '52a00542cf1818f2be000006'
-    'robot-walker': '5301696ad82649ec2c0c9b0d'
-    'michael-heasell': '53e126a4e06b897606d38bef'
-    'ian-elliott': '53e12be0d042f23505c3023b'
+    'samurai': '53e12be0d042f23505c3023b'
     'ninja': '52fc0ed77e01835453bd8f6c'
+    'forest-archer': '5466d4f2417c8b48a9811e87'
+    trapper: '5466d449417c8b48a9811e83'
+    librarian: '52fbf74b7e01835453bd8d8e'
+    'potion-master': '52e9adf7427172ae56002172'
+    sorcerer: '52fd1524c7e6cf99160e7bc9'
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
@@ -260,7 +259,7 @@ module.exports = class ThangType extends CocoModel
       createjs.Ticker.removeEventListener 'tick', @tick
       @tick = null
     stage
-    
+
   getVectorPortraitStage: (size=100) ->
     return unless @actions
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
@@ -336,10 +335,12 @@ module.exports = class ThangType extends CocoModel
       return console.warn @get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)'
     unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
       return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
+    unless programmableConfig = _.find(components, original: LevelComponent.ProgrammableID)?.config
+      return console.warn @get('name'), 'is not a Programmable hero, but you are asking for its hero stats.'
     @classStatAverages ?=
       attack: {Warrior: 7.5, Ranger: 5, Wizard: 2.5}
       health: {Warrior: 7.5, Ranger: 5, Wizard: 3.5}
-    stats = {skills: []}  # TODO: find skills
+    stats = {}
     rawNumbers = attack: equipsConfig.attackDamageFactor ? 1, health: equipsConfig.maxHealthFactor ? 1, speed: movesConfig.maxSpeed
     for prop in ['attack', 'health']
       stat = rawNumbers[prop]
@@ -349,11 +350,15 @@ module.exports = class ThangType extends CocoModel
         classSpecificScore = stat * 5
       classAverage = @classStatAverages[prop][@get('heroClass')]
       stats[prop] = Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+
     minSpeed = 4
     maxSpeed = 16
     speedRange = maxSpeed - minSpeed
     speedPoints = rawNumbers.speed - minSpeed
     stats.speed = Math.round(20 * speedPoints / speedRange) / 2 / 10
+
+    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
+
     stats
 
   getFrontFacingStats: ->

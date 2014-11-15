@@ -314,7 +314,7 @@
     restricted: "(restricted in this level)"
     equip: "Equip"
     unequip: "Unequip"
-    
+
   buy_gems:
     few_gems: 'A few gems'
     pile_gems: 'Pile of gems'
@@ -324,6 +324,8 @@
     choose_hero: "Choose Your Hero"
     programming_language: "Programming Language"
     programming_language_description: "Which programming language do you want to use?"
+    default: "Default"
+    experimental: "Experimental"
     python_blurb: "Simple yet powerful, great for beginners and experts."
     javascript_blurb: "The language of the web. (Not the same as Java.)"
     coffeescript_blurb: "Nicer JavaScript syntax."
