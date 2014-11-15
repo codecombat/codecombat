@@ -95,9 +95,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     logging_in: "A Iniciar Sessão"
     log_out: "Sair"
     recover: "recuperar conta"
-    authenticate_gplus: "Autenticar o G+"
+    authenticate_gplus: "Autenticar G+"
     load_profile: "Carregar Perfil do G+"
-    load_email: "Carregar E-maild do G+"
+    load_email: "Carregar E-mail do G+"
     finishing: "A terminar"
 
   signup:
