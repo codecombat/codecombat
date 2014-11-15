@@ -64,14 +64,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     next: "Seguinte" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Comprar Gemas"
     older_campaigns: "Campanhas Mais Antigas"
     anonymous: "Jogador Anónimo"
     level_difficulty: "Dificuldade: "
     campaign_beginner: "Campanha para Iniciantes"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "Nós adicionamos cinco níveis por semana."
+    awaiting_levels_adventurer: "Regista-te como Aventureiro"
+    awaiting_levels_adventurer_suffix: "para seres o primeiro a jogar níveis novos."
     choose_your_level: "Escolhe o Teu Nível" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Podes saltar para um dos níveis abaixo ou discutir os níveis no "
     adventurer_forum: "fórum do Aventureiro"
@@ -95,10 +95,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     logging_in: "A Iniciar Sessão"
     log_out: "Sair"
     recover: "recuperar conta"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    authenticate_gplus: "Autenticar o G+"
+    load_profile: "Carregar Perfil do G+"
+    load_email: "Carregar E-maild do G+"
+    finishing: "A terminar"
 
   signup:
     create_account_title: "Criar Conta para Guardar Progresso"
@@ -172,7 +172,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     medium: "Médio"
     hard: "Difícil"
     player: "Jogador"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Nível" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "segundo"
@@ -307,25 +307,25 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     choose_inventory: "Equipar Itens"
     equipped_item: "Equipado"
     available_item: "Disponível"
-#    restricted_title: "Restricted"
+    restricted_title: "Restrito"
     should_equip: "(clica duas vezes para equipares)"
     equipped: "(equipado)"
     locked: "(bloqueado)"
     restricted: "(restrito neste nível)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "Equipar"
+    unequip: "Desequipar"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
+  buy_gems:
+    few_gems: "Algumas gemas"
+    pile_gems: "Pilha de gemas"
+    chest_gems: "Arca de gemas"
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
     programming_language: "Linguagem de Programação"
     programming_language_description: "Que linguagem de programação queres usar?"
-#    default: "Default"
-#    experimental: "Experimental"
+    default: "Predefinida"
+    experimental: "Experimental"
     python_blurb: "Simples mas poderoso; ótimo para iniciantes e peritos."
     javascript_blurb: "A linguagem da web. (Não é o mesmo que Java.)"
     coffeescript_blurb: "Javascript com sintaxe mais agradável."
