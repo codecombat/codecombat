@@ -64,10 +64,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     next: "İleri" # Go from choose hero to choose inventory before playing a level
     change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
     choose_inventory: "Ögeleri Giy"
+#    buy_gems: "Buy Gems"
     older_campaigns: "Daha Eski Görevler"
     anonymous: "Anonim Oyuncu"
     level_difficulty: "Zorluk: "
     campaign_beginner: "Acemi Seferi"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Seviye Seçimi" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Aşağıdaki seviyelerden birini doğrudan oynayabilirsiniz, veya seviye ile ilgili "
     adventurer_forum: "Maceracı forumunda"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     logging_in: "Giriş Yapılıyor"
     log_out: "Çıkış Yap"
     recover: "hesabı kurtar."
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "İlerlemenizi Kaydetmek için Hesap Oluşturun"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     medium: "Normal"
     hard: "Zor"
     player: "Oyuncu"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "saniye"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     choose_inventory: "Ögeleri Donan"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
   choose_hero:
     choose_hero: "Kahramanınızı Seçin"
     programming_language: "Programlama Dili"
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
+#    default: "Default"
+#    experimental: "Experimental"
     python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir."
     javascript_blurb: "Web'in dili."
     coffeescript_blurb: "Daha iyi JavaScript sözdizimi."

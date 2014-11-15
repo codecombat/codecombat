@@ -64,10 +64,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
+#    buy_gems: "Buy Gems"
     older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
     adventurer_forum: "冒险者论坛"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     logging_in: "正在登录"
     log_out: "登出"
     recover: "找回账户"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "创建一个账户来保存进度"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     medium: "中等"
     hard: "困难"
     player: "玩家"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "秒"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     choose_inventory: "装备道具"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
     programming_language: "编程语言"
     programming_language_description: "您希望使用那门编程语言?"
+#    default: "Default"
+#    experimental: "Experimental"
     python_blurb: "简单而强大, Python是一个伟大的通用编程语言。"
     javascript_blurb: "为web开发而生的语言。"
     coffeescript_blurb: "一种更好的JavaScript语法."

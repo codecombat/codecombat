@@ -64,10 +64,14 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
+#    buy_gems: "Buy Gems"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "難度："
     campaign_beginner: "新手打仗"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "揀關數" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "下底個關數候爾揀，要勿聊聊上頭箇許關數。到"
     adventurer_forum: "冒險者論壇"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     logging_in: "徠搭登進"
     log_out: "登出"
     recover: "賬號尋轉"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "做新賬號來存進度"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     medium: "公道"
     hard: "煩難"
     player: "來個人"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "秒"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    choose_inventory: "Equip Items"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
+#    default: "Default"
+#    experimental: "Experimental"
 #    python_blurb: "Simple yet powerful, great for beginners and experts."
 #    javascript_blurb: "The language of the web. (Not the same as Java.)"
 #    coffeescript_blurb: "Nicer JavaScript syntax."

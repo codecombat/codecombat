@@ -64,10 +64,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     next: "Següent" # Go from choose hero to choose inventory before playing a level
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objectes"
+#    buy_gems: "Buy Gems"
     older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
     campaign_beginner: "Campanya del principiant"
+#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Escull el teu nivell" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Pots saltar a qualsevols dels nivells de més abaix, o discutir els nivells de més amunt."
     adventurer_forum: "El fòrum de l'aventurer"
@@ -91,6 +95,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     logging_in: "Iniciant Sessió"
     log_out: "Tancar Sessió"
     recover: "Recuperar un compte"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "Crear un compte per tal de guardar els progressos"
@@ -164,6 +172,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     medium: "Intermedi"
     hard: "Difícil"
     player: "Jugador"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "segon"
@@ -298,15 +307,25 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     choose_inventory: "Equipar objectes"
 #    equipped_item: "Equipped"
 #    available_item: "Available"
+#    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
   choose_hero:
     choose_hero: "Escull el teu heroi"
     programming_language: "Llenguatge de programació"
     programming_language_description: "Quin llenguatge de programació vols utilitzar?"
+#    default: "Default"
+#    experimental: "Experimental"
     python_blurb: "Simple però poderós, Python és un bon llenguatge d'us general."
     javascript_blurb: "El llenguatge de les webs."
     coffeescript_blurb: "Sintaxi JavaScript millorat."

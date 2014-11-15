@@ -64,6 +64,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     next: "Выбрать" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     choose_inventory: "Выбрать предметы"
+#    buy_gems: "Buy Gems"
     older_campaigns: "Старые кампании"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
@@ -94,6 +95,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     logging_in: "Вход..."
     log_out: "Выйти"
     recover: "восстановить аккаунт"
+#    authenticate_gplus: "Authenticate G+"
+#    load_profile: "Load G+ Profile"
+#    load_email: "Load G+ Email"
+#    finishing: "Finishing"
 
   signup:
     create_account_title: "Создать аккаунт, чтобы сохранить прогресс"
@@ -167,6 +172,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     medium: "Нормально"
     hard: "Сложно"
     player: "Игрок"
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "секунда"
@@ -301,15 +307,25 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_inventory: "Выбрать предметы"
     equipped_item: "Выбранный"
     available_item: "Доступно"
+#    restricted_title: "Restricted"
     should_equip: "(двойной клик чтобы одеть)"
     equipped: "(выбранный)"
     locked: "(заблокированный)"
     restricted: "(запрещен в этом уровне)"
+#    equip: "Equip"
+#    unequip: "Unequip"
+
+#  buy_gems:
+#    few_gems: "A few gems"
+#    pile_gems: "Pile of gems"
+#    chest_gems: "Chest of gems"
 
   choose_hero:
     choose_hero: "Выберите героя"
     programming_language: "Язык программирования"
     programming_language_description: "Какой язык программирования вы хотите использовать?"
+#    default: "Default"
+#    experimental: "Experimental"
     python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения."
     javascript_blurb: "Язык для Сети."
     coffeescript_blurb: "Улучшенный синтаксис JavaScript."
