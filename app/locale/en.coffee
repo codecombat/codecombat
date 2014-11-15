@@ -745,6 +745,8 @@
     amount_achieved: "Amount"
     achievement: "Achievement"
     category_contributor: "Contributor"
+    category_ladder: "Ladder"
+    category_level: "Level"
     category_miscellaneous: "Miscellaneous"
     category_levels: "Levels"
     category_undefined: "Uncategorized"
