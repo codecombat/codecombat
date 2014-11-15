@@ -83,7 +83,7 @@ module.exports = class InventoryModal extends ModalView
 
     # sort into one of the four groups
     locked = not (item.get('original') in me.items())
-    locked = false if me.get('slug') is 'nick'
+    #locked = false if me.get('slug') is 'nick'
 
     if locked and item.get('slug') isnt 'simple-boots'
       @itemGroups.lockedItems.add(item)

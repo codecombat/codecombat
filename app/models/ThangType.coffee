@@ -260,7 +260,7 @@ module.exports = class ThangType extends CocoModel
       createjs.Ticker.removeEventListener 'tick', @tick
       @tick = null
     stage
-    
+
   getVectorPortraitStage: (size=100) ->
     return unless @actions
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
@@ -336,10 +336,12 @@ module.exports = class ThangType extends CocoModel
       return console.warn @get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)'
     unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
       return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
+    unless programmableConfig = _.find(components, original: LevelComponent.ProgrammableID)?.config
+      return console.warn @get('name'), 'is not a Programmable hero, but you are asking for its hero stats.'
     @classStatAverages ?=
       attack: {Warrior: 7.5, Ranger: 5, Wizard: 2.5}
       health: {Warrior: 7.5, Ranger: 5, Wizard: 3.5}
-    stats = {skills: []}  # TODO: find skills
+    stats = {}
     rawNumbers = attack: equipsConfig.attackDamageFactor ? 1, health: equipsConfig.maxHealthFactor ? 1, speed: movesConfig.maxSpeed
     for prop in ['attack', 'health']
       stat = rawNumbers[prop]
@@ -349,11 +351,15 @@ module.exports = class ThangType extends CocoModel
         classSpecificScore = stat * 5
       classAverage = @classStatAverages[prop][@get('heroClass')]
       stats[prop] = Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+
     minSpeed = 4
     maxSpeed = 16
     speedRange = maxSpeed - minSpeed
     speedPoints = rawNumbers.speed - minSpeed
     stats.speed = Math.round(20 * speedPoints / speedRange) / 2 / 10
+
+    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
+
     stats
 
   getFrontFacingStats: ->

@@ -28,7 +28,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @confirmButtonI18N = options.confirmButtonI18N ? "common.save"
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName']
+    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName','i18n']
     @heroes.comparator = 'gems'
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
@@ -75,7 +75,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
   initCodeLanguageList: (hadEverChosenHero) ->
     @codeLanguageList = [
-      {id: 'python', name: 'Python (Default)'}
+      {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript'}
     ]
@@ -86,9 +86,9 @@ module.exports = class PlayHeroesModal extends ModalView
     # Group 1 isn't shown experimental languages in hero modal when launching beginner campaign level
     testGroup = me.getExperimentalLangGroup()
     if hadEverChosenHero? or testGroup isnt 1
-      @codeLanguageList.push id: 'clojure', name: 'Clojure (Experimental)'
-      @codeLanguageList.push id: 'lua', name: 'Lua (Experimental)'
-      @codeLanguageList.push id: 'io', name: 'Io (Experimental)'
+      @codeLanguageList.push id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"
+      @codeLanguageList.push id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"
+      @codeLanguageList.push id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"
     unless hadEverChosenHero? or testGroup is -1
       window.tracker?.trackEvent 'Heroes Modal', experimentalLangGroup: testGroup
 
