@@ -141,8 +141,8 @@ module.exports = class LevelPlaybackView extends CocoView
       catch error
         console.warn('error disabling scrubber', error)
       @timePopup?.disable()
-    $('#volume-button', @$el).removeClass('disabled')
-    @$el.addClass 'controls-disabled'
+      $('#volume-button', @$el).removeClass('disabled')
+      @$el.addClass 'controls-disabled'
 
   onEnableControls: (e) ->
     return if @realTime
@@ -154,7 +154,7 @@ module.exports = class LevelPlaybackView extends CocoView
       catch error
         console.warn('error enabling scrubber', error)
       @timePopup?.enable()
-    @$el.removeClass 'controls-disabled'
+      @$el.removeClass 'controls-disabled'
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
