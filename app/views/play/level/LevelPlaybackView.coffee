@@ -133,7 +133,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @lastLoadedFrameCount = loadedFrameCount
 
   onDisableControls: (e) ->
-    if not e.controls or 'playback' in e.controls
+    if not e.controls or ('playback' in e.controls)
       @disabled = true
       $('button', @$el).addClass('disabled')
       try
@@ -146,7 +146,7 @@ module.exports = class LevelPlaybackView extends CocoView
 
   onEnableControls: (e) ->
     return if @realTime
-    if not e.controls or 'playback' in e.controls
+    if not e.controls or ('playback' in e.controls)
       @disabled = false
       $('button', @$el).removeClass('disabled')
       try
