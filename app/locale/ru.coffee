@@ -53,9 +53,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     items: "Предметы" # Tooltip on item shop button from /play
     unlock: "Разблокировать" # For purchasing items and heroes
     confirm: "Подтвердить"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
+    owned: "Уже есть" # For items you own
+    locked: "Заблокировано"
+    available: "Доступно"
     skills_granted: "Умение получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
     achievements: "Достижения" # Tooltip on achievement list button from /play
@@ -68,6 +68,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     campaign_beginner: "Кампания для новичков"
+    awaiting_levels_adventurer_prefix: "Мы выпускаем по 5 уровней в неделю."
+    awaiting_levels_adventurer: "Зарегистрируйтесь в качестве Искателя приключений"
+    awaiting_levels_adventurer_suffix: "чтобы первым поиграть в новые уровни."
     choose_your_level: "Выберите ваш уровень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Вы можете зайти на любой из этих уровней, а также обсудить уровни на "
     adventurer_forum: "форуме Искателей приключений"
@@ -107,7 +110,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   recover:
     recover_account_title: "Восстановить аккаунт"
     send_password: "Отправить пароль для восстановления"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Письмо с паролем отправлено."
 
   items:
     primary: "Основное"
@@ -191,14 +194,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restart: "Перезапустить"
     goals: "Цели"
     goal: "Цель"
-#    running: "Running..."
+    running: "Выполняется..."
     success: "Успешно!"
     incomplete: "Не завершено"
     timed_out: "Время истекло"
     failing: "Неудача"
     action_timeline: "График действий"
     click_to_select: "Выберите персонажа, щёлкнув на нём"
-#    reload: "Reload"
+    reload: "Перезагрузить"
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
@@ -227,21 +230,21 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
-    tome_submit_button: "Отправить"
+    tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код для этого метода" # Title text for individual method reload button.
     tome_select_method: "Выбрать метод"
     tome_see_all_methods: "Показать все методы, доступные для редактирования" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
-#    tome_current_method: "Current Method"
+    tome_current_method: "Текущий метод"
     hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
     loading_start: "Начать уровень"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Исправьте Ваш Код"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -274,7 +277,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_talk_is_cheap: "Слова ничего не стоят. Покажи мне код. - Linus Torvalds"
     tip_first_language: "Наиболее катастрофическая вещь, которую вы можете выучить - ваш первый язык программирования. - Alan Kay"
     tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+    tip_hofstadters_law: "Закон Хофштадтера: Любое дело всегда длится дольше, чем ожидается, даже если учесть закон Хофштадтера."
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     customize_wizard: "Настройки волшебника"
@@ -290,14 +293,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_hero_caption: "Выбор героя, языка"
     save_load_caption: "... и посмотреть историю"
     options_caption: "Выбор настроек"
-#    guide_caption: "Docs and tips"
+    guide_caption: "Документы и советы"
     multiplayer_caption: "Играй с друзьями!"
     auth_caption: "Сохранить прогресс."
 
   inventory:
     choose_inventory: "Выбрать предметы"
     equipped_item: "Выбранный"
-    available_item: "Доступный"
+    available_item: "Доступно"
     should_equip: "(двойной клик чтобы одеть)"
     equipped: "(выбранный)"
     locked: "(заблокированный)"
@@ -446,8 +449,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     space: "Пробел"
     enter: "Enter"
     escape: "Escape"
-#    shift: "Shift"
-#    run_code: "Run current code."
+    shift: "Shift"
+    run_code: "Выполнить текущий код."
     run_real_time: "Запустить в реальном времени."
     continue_script: "Продолжить текущий скрипт."
     skip_scripts: "Пропустить все возможные скрипты."
