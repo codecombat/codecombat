@@ -558,7 +558,7 @@ module.exports = Surface = class Surface extends CocoClass
     @playing = false  # Will start when countdown is done.
     if @heroLank
       @previousCameraZoom = @camera.zoom
-      @camera.zoomTo @heroLank.sprite, 4, 3000
+      @camera.zoomTo @heroLank.sprite, 2, 3000
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime

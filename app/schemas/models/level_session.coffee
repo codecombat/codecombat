@@ -126,6 +126,7 @@ _.extend LevelSessionSchema.properties,
         pos: c.object {required: ['x', 'y']},
           x: {type: 'number'}
           y: {type: 'number'}
+        source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
 
   code:
     type: 'object'

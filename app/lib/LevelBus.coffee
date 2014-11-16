@@ -138,8 +138,9 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     # Record the flag history.
     state = @session.get('state')
-    return if _.isEqual state.flagHistory, e.world.flagHistory
-    state.flagHistory = e.world.flagHistory
+    flagHistory = (flag for flag in e.world.flagHistory when flag.source isnt 'code')
+    return if _.isEqual state.flagHistory, flagHistory
+    state.flagHistory = flagHistory
     @changedSessionProperties.state = true
     @session.set('state', state)
     @saveSession()

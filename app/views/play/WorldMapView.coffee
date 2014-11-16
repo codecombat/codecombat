@@ -688,7 +688,6 @@ forest = [
     type: 'hero'
     id: 'coinucopia'
     description: 'Start playing in real-time with input flags as you collect gold coins!'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'copper-meadows'
     x: 77.54

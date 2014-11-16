@@ -59,7 +59,7 @@ module.exports = class LevelFlagsView extends CocoView
     pos = x: e.worldPos.x, y: e.worldPos.y
     delay = if @realTimeFlags then multiplayerFlagDelay else 0
     now = @world.dt * @world.frames.length
-    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: now + delay, active: true
+    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: now + delay, active: true, source: 'click'
     @flags[@flagColor] = flag
     @flagHistory.push flag
     @realTimeFlags?.create flag
@@ -74,7 +74,7 @@ module.exports = class LevelFlagsView extends CocoView
     delete @flags[e.color]
     delay = if @realTimeFlags then multiplayerFlagDelay else 0
     now = @world.dt * @world.frames.length
-    flag = player: me.id, team: me.team, color: e.color, time: now + delay, active: false
+    flag = player: me.id, team: me.team, color: e.color, time: now + delay, active: false, source: 'click'
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
     #console.log e.color, 'deleted at time', flag.time
@@ -104,6 +104,7 @@ module.exports = class LevelFlagsView extends CocoView
         pos: e.get('pos')
         time: e.get('time')
         active: e.get('active')
+        #source: 'click'? e.get('source')? nothing?
       @flagHistory.push flag
       Backbone.Mediator.publish 'level:flag-updated', flag
 
