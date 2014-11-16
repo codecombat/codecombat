@@ -33,7 +33,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     shift = $.i18n.t 'keyboard_shortcuts.shift'
     context.beautifyShortcutVerbose = "#{ctrl}+#{shift}+B: #{$.i18n.t 'keyboard_shortcuts.beautify'}"
     context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
-    context.includeSpellList = @options.includeSpellList
+    context.includeSpellList = @options.level.get('slug') in ['break-the-prison', 'zone-of-danger', 'k-means-cluster-wars', 'brawlwood', 'dungeon-arena', 'sky-span', 'minimax-tic-tac-toe']
     context.codeLanguage = @options.codeLanguage
     context.levelType = @options.level.get 'type', true
     context
