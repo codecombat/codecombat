@@ -6,8 +6,7 @@ module.exports = class WaitingScreen extends CocoClass
     'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
-    'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
-    'real-time-multiplayer:left-game': 'onLeftRealTimeMultiplayerGame'
+    'real-time-multiplayer:player-status': 'onRealTimeMultiplayerPlayerStatus'
 
   constructor: (options) ->
     super()
@@ -49,7 +48,6 @@ module.exports = class WaitingScreen extends CocoClass
     @dimLayer.alpha = 0
     createjs.Tween.removeTweens @dimLayer
     createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
-    @updateText()
     @layer.addChild @dimLayer
 
   hide: ->
@@ -58,27 +56,10 @@ module.exports = class WaitingScreen extends CocoClass
     createjs.Tween.removeTweens @dimLayer
     createjs.Tween.get(@dimLayer).to({alpha: 0}, 500).call => @layer.removeChild @dimLayer unless @destroyed
 
-  updateText: ->
-    if @multiplayerSession
-      players = new RealTimeCollection('multiplayer_level_sessions/' + @multiplayerSession.id + '/players')
-      players.each (player) =>
-        if player.id isnt me.id
-          name = player.get('name')
-          @text.text = "Waiting for #{name}..."
+  onRealTimeMultiplayerPlayerStatus: (e) -> @text.text = e.status
 
-  onRealTimePlaybackWaiting: (e) ->
-    @show()
+  onRealTimePlaybackWaiting: (e) -> @show()
 
-  onRealTimePlaybackStarted: (e) ->
-    @hide()
+  onRealTimePlaybackStarted: (e) -> @hide()
 
-  onRealTimePlaybackEnded: (e) ->
-    @hide()
-
-  onJoinedRealTimeMultiplayerGame: (e) ->
-    @multiplayerSession = e.session
-    
-  onLeftRealTimeMultiplayerGame: (e) ->
-    if @multiplayerSession
-      @multiplayerSession.off()
-      @multiplayerSession = null
+  onRealTimePlaybackEnded: (e) -> @hide()

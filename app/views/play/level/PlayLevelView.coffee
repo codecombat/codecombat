@@ -97,6 +97,9 @@ module.exports = class PlayLevelView extends RootView
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
+    
+    @opponentSessionID = @getQueryVariable('opponent')
+    @opponentSessionID ?= @options.opponent
 
     $(window).on 'resize', @onWindowResize
     @saveScreenshot = _.throttle @saveScreenshot, 30000
@@ -131,7 +134,7 @@ module.exports = class PlayLevelView extends RootView
   load: ->
     @loadStartTime = new Date()
     @god = new God debugWorker: true
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable('team')
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team')
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
 
   trackLevelLoadEnd: ->
@@ -170,7 +173,7 @@ module.exports = class PlayLevelView extends RootView
   onWorldNecessitiesLoaded: ->
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = @getQueryVariable('team') ? @world.teamForPlayer(0)
+    team = @getQueryVariable('team') ?  @session.get('team') ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -190,6 +193,8 @@ module.exports = class PlayLevelView extends RootView
     @level = @levelLoader.level
     @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
+    # TODO: Update terminology to always be opponentSession or otherSession
+    # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
     @worldLoadFakeResources = []  # first element (0) is 1%, last (100) is 100%
     for percent in [1 .. 100]
@@ -211,7 +216,8 @@ module.exports = class PlayLevelView extends RootView
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells', @otherSession.get('teamSpells'))
-    opponentCode = @otherSession?.get('transpiledCode') or {}
+    # hero-ladder levels use code instead of transpiledCode
+    opponentCode = @otherSession?.get('transpiledCode') or @otherSession?.get('code') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
@@ -232,6 +238,7 @@ module.exports = class PlayLevelView extends RootView
     team = team?.team unless _.isString team
     team ?= 'humans'
     me.team = team
+    @session.set 'team', team
     Backbone.Mediator.publish 'level:team-set', team: team  # Needed for scripts
     @team = team
 
@@ -248,7 +255,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    if @level.get('type') in ['ladder', 'hero-ladder']
+    if @level.get('type') in ['hero-ladder']
       @insertSubView new MultiplayerStatusView levelID: @levelID, session: @session, level: @level
     @insertSubView new ProblemAlertView {}
     worldName = utils.i18n @level.attributes, 'name'
@@ -283,7 +290,7 @@ module.exports = class PlayLevelView extends RootView
       @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session})
       @setupManager.open()
 
-    @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['ladder', 'hero-ladder']
+    @onRealTimeMultiplayerLevelLoaded() if e.level.get('type') in ['hero-ladder']
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
@@ -342,6 +349,9 @@ module.exports = class PlayLevelView extends RootView
     @removeSubView @loadingView
     @loadingView = null
     @playAmbientSound()
+    if @options.realTimeMultiplayerSessionID?
+      Backbone.Mediator.publish 'playback:real-time-playback-waiting', {}
+      @realTimeMultiplayerContinueGame @options.realTimeMultiplayerSessionID
     application.tracker?.trackEvent 'Play Level', Action: 'Start Level', levelID: @levelID
 
   playAmbientSound: ->
@@ -540,7 +550,9 @@ module.exports = class PlayLevelView extends RootView
 
   onSubmissionComplete: =>
     return if @destroyed
-    Backbone.Mediator.publish 'level:show-victory', showModal: true if @goalManager.checkOverallStatus() is 'success'
+    # TODO: Show a victory dialog specific to hero-ladder level
+    if @goalManager.checkOverallStatus() is 'success' and not @options.realTimeMultiplayerSessionID?
+      Backbone.Mediator.publish 'level:show-victory', showModal: true 
 
   destroy: ->
     @levelLoader?.destroy()
@@ -572,6 +584,8 @@ module.exports = class PlayLevelView extends RootView
   #   Updates real-time multiplayer player state
   #   Cleans up old sessions (sets state to 'finished')
   #   Real-time multiplayer cast handshake
+  #   Swap teams on game joined, if necessary
+  #   Reload PlayLevelView on real-time submit, automatically continue game and real-time playback
   #
   # It monitors these:
   #   Real-time multiplayer sessions
@@ -585,19 +599,23 @@ module.exports = class PlayLevelView extends RootView
   #   @realTimeOpponent - Current real-time multiplayer opponent
   #   @realTimePlayers - Real-time players for current real-time multiplayer game session
   #   @realTimeSessionCollection - Collection of all real-time multiplayer sessions
+  #   @options.realTimeMultiplayerSessionID - Need to continue an existing real-time multiplayer session
   #
   # TODO: Move this code to it's own file, or possibly the LevelBus
-  # TODO: save settings somewhere reasonable
+  # TODO: Save settings somewhere reasonable
+  # TODO: Ditch backfire and just use Firebase directly.  Easier to debug, richer APIs (E.g. presence stuff).
 
-  onRealTimeMultiplayerLevelLoaded: (session) ->
+  onRealTimeMultiplayerLevelLoaded: ->
+    return if @realTimePlayerStatus?
     return if me.get('anonymous')
-    players = new RealTimeCollection('multiplayer_players/' + @levelID)
-    players.create
-      id: me.id
-      name: me.get('name')
-      state: 'playing'
-      created: new Date().toISOString()
-      heartbeat: new Date().toISOString()
+    unless @options.realTimeMultiplayerSessionID?
+      players = new RealTimeCollection('multiplayer_players/' + @levelID)
+      players.create
+        id: me.id
+        name: me.get('name')
+        state: 'playing'
+        created: new Date().toISOString()
+        heartbeat: new Date().toISOString()
     @realTimePlayerStatus = new RealTimeModel('multiplayer_players/' + @levelID + '/' + me.id)
     @timerMultiplayerHeartbeatID = setInterval @onRealTimeMultiplayerHeartbeat, 60 * 1000
     @cleanupRealTimeSessions()
@@ -608,6 +626,7 @@ module.exports = class PlayLevelView extends RootView
     @realTimeSessionCollection.each @cleanupRealTimeSession
 
   cleanupRealTimeSession: (session) =>
+    return if @options.realTimeMultiplayerSessionID? and @options.realTimeMultiplayerSessionID is session.id
     if session.get('state') isnt 'finished'
       players = new RealTimeCollection 'multiplayer_level_sessions/' + session.id + '/players'
       players.each (player) =>
@@ -618,21 +637,34 @@ module.exports = class PlayLevelView extends RootView
           session.set 'state', 'finished'
 
   onRealTimeMultiplayerLevelUnloaded: ->
-    clearInterval @timerMultiplayerHeartbeatID if @timerMultiplayerHeartbeatID?
+    # console.log 'PlayLevelView onRealTimeMultiplayerLevelUnloaded'
+    if @timerMultiplayerHeartbeatID?
+      clearInterval @timerMultiplayerHeartbeatID
+      @timerMultiplayerHeartbeatID = null
     if @realTimeSessionCollection?
       @realTimeSessionCollection.off 'add', @cleanupRealTimeSession
       @realTimeSessionCollection = null
+
+    # TODO: similar to game ending cleanup
+    if @realTimeOpponent?
+      @realTimeOpponent.off 'change', @onRealTimeOpponentChanged
+      @realTimeOpponent = null
+    if @realTimePlayers?
+      @realTimePlayers.off 'add', @onRealTimePlayerAdded
+      @realTimePlayers = null
+    if @realTimeSession?
+      @realTimeSession.off 'change', @onRealTimeSessionChanged
+      @realTimeSession = null
+    if @realTimePlayerGameStatus?
+      @realTimePlayerGameStatus = null
+    if @realTimePlayerStatus?
+      @realTimePlayerStatus = null
 
   onRealTimeMultiplayerHeartbeat: =>
     @realTimePlayerStatus.set 'heartbeat', new Date().toISOString() if @realTimePlayerStatus
 
   onRealTimeMultiplayerCreatedGame: (e) ->
-    # Watch external multiplayer session
-    @realTimeSession = new RealTimeModel 'multiplayer_level_sessions/' + e.session.id
-    @realTimeSession.on 'change', @onRealTimeSessionChanged
-    @realTimePlayers = new RealTimeCollection 'multiplayer_level_sessions/' + e.session.id + '/players'
-    @realTimePlayers.on 'add', @onRealTimePlayerAdded
-    @realTimePlayerGameStatus = new RealTimeModel 'multiplayer_level_sessions/' + e.session.id + '/players/' + me.id
+    @joinRealTimeMultiplayerGame e
     @realTimePlayerGameStatus.set 'state', 'coding'
     @realTimePlayerStatus.set 'state', 'available'
     Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Waiting for opponent..'
@@ -662,32 +694,71 @@ module.exports = class PlayLevelView extends RootView
         console.info 'Real-time multiplayer opponent left the game'
         opponentID = @realTimeOpponent.id
         @realTimeGameEnded()
-        Backbone.Mediator.publish 'real-time-multiplayer:left-game', id: opponentID
+        Backbone.Mediator.publish 'real-time-multiplayer:left-game', userID: opponentID
       when 'submitted'
         # TODO: What should this message say?
-        Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: @realTimeOpponent.get('name') + ' waiting for your code..'
+        Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: @realTimeOpponent.get('name') + ' waiting for your code'
+
+  joinRealTimeMultiplayerGame: (e) ->
+    unless @realTimeSession?
+      # TODO: Necessary for real-time multiplayer sessions?
+      @session.set('submittedCodeLanguage', @session.get('codeLanguage'))
+      @session.save()
+
+      @realTimeSession = new RealTimeModel 'multiplayer_level_sessions/' + e.realTimeSessionID
+      @realTimeSession.on 'change', @onRealTimeSessionChanged
+      @realTimePlayers = new RealTimeCollection 'multiplayer_level_sessions/' + e.realTimeSessionID + '/players'
+      @realTimePlayers.on 'add', @onRealTimePlayerAdded
+      @realTimePlayerGameStatus = new RealTimeModel 'multiplayer_level_sessions/' + e.realTimeSessionID + '/players/' + me.id
+    # TODO: Follow up in MultiplayerView to see if double joins can be avoided
+    # else
+    #   console.error 'Joining real-time multiplayer game with an existing @realTimeSession.'
 
   onRealTimeMultiplayerJoinedGame: (e) ->
     # console.log 'PlayLevelView onRealTimeMultiplayerJoinedGame', e
-    if e.id is me.id
-      @realTimeSession = new RealTimeModel 'multiplayer_level_sessions/' + e.session.id
-      @realTimeSession.set 'state', 'coding'
-      @realTimeSession.on 'change', @onRealTimeSessionChanged
-      @realTimePlayers = new RealTimeCollection 'multiplayer_level_sessions/' + e.session.id + '/players'
-      @realTimePlayers.on 'add', @onRealTimePlayerAdded
-      @realTimePlayerGameStatus = new RealTimeModel 'multiplayer_level_sessions/' + e.session.id + '/players/' + me.id
-      @realTimePlayerGameStatus.set 'state', 'coding'
-      @realTimePlayerStatus.set 'state', 'unavailable'
-      for id, player of e.session.get('players')
+    @joinRealTimeMultiplayerGame e
+    @realTimePlayerGameStatus.set 'state', 'coding'
+    @realTimePlayerStatus.set 'state', 'unavailable'
+    unless @realTimeOpponent?
+      for id, player of @realTimeSession.get('players')
         if id isnt me.id
-          @realTimeOpponent = new RealTimeModel 'multiplayer_level_sessions/' + e.session.id + '/players/' + id
+          @realTimeOpponent = new RealTimeModel 'multiplayer_level_sessions/' + e.realTimeSessionID + '/players/' + id
+          @realTimeOpponent.on 'change', @onRealTimeOpponentChanged
           Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Playing against ' + player.name
+    unless @realTimeOpponent?
+      console.error 'Did not find an oppoonent in onRealTimeMultiplayerJoinedGame.'
+    @updateTeam()
 
   onRealTimeMultiplayerLeftGame: (e) ->
     # console.log 'PlayLevelView onRealTimeMultiplayerLeftGame', e
-    if e.id? and e.id is me.id
+    if e.userID? and e.userID is me.id
       @realTimePlayerGameStatus.set 'state', 'left'
       @realTimeGameEnded()
+
+  realTimeMultiplayerContinueGame: (realTimeSessionID) ->
+    # console.log 'PlayLevelView realTimeMultiplayerContinueGame', realTimeSessionID, me.id
+    Backbone.Mediator.publish 'real-time-multiplayer:joined-game', realTimeSessionID: realTimeSessionID
+
+    console.info 'Setting my game status to ready'
+    @realTimePlayerGameStatus.set 'state', 'ready'
+
+    if @realTimeOpponent.get('state') is 'ready'
+      @realTimeOpponentIsReady()
+    else
+      console.info 'Waiting for opponent to be ready'
+      @realTimeOpponent.on 'change', @realTimeOpponentMaybeReady
+
+  realTimeOpponentMaybeReady: =>
+    # console.log 'PlayLevelView realTimeOpponentMaybeReady'
+    if @realTimeOpponent.get('state') is 'ready'
+      @realTimeOpponent.off 'change', @realTimeOpponentMaybeReady
+      @realTimeOpponentIsReady()
+  
+  realTimeOpponentIsReady: =>
+    console.info 'All real-time multiplayer players are ready!'
+    @realTimeSession.set 'state', 'running'
+    Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Battling ' + @realTimeOpponent.get('name')
+    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   realTimeGameEnded: ->
     if @realTimeOpponent?
@@ -707,9 +778,21 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: ''
 
   onRealTimeMultiplayerCast: (e) ->
+    # console.log 'PlayLevelView onRealTimeMultiplayerCast', e
     unless @realTimeSession
       console.error 'onRealTimeMultiplayerCast without a multiplayerSession'
       return
+
+    # Set submissionCount for created real-time multiplayer session
+    if me.id is @realTimeSession.get('creator')
+      sessionState = @session.get('state')
+      if sessionState?
+        submissionCount = sessionState.submissionCount
+        console.info 'Setting multiplayer submissionCount to', submissionCount
+        @realTimeSession.set 'submissionCount', submissionCount
+      else
+        console.error 'Failed to read sessionState in onRealTimeMultiplayerCast'
+
     players = new RealTimeCollection('multiplayer_level_sessions/' + @realTimeSession.id + '/players')
     myPlayer = opponentPlayer = null
     players.each (player) ->
@@ -719,10 +802,8 @@ module.exports = class PlayLevelView extends RootView
         opponentPlayer = player
     if myPlayer
       console.info 'Submitting my code'
-      myPlayer.set 'code', @session.get('code')
-      myPlayer.set 'codeLanguage', @session.get('codeLanguage')
+      @session.patch()
       myPlayer.set 'state', 'submitted'
-      myPlayer.set 'team', me.team
     else
       console.error 'Did not find my player in onRealTimeMultiplayerCast'
     if opponentPlayer
@@ -738,6 +819,9 @@ module.exports = class PlayLevelView extends RootView
           state = opponentPlayer.get('state')
           if state in ['submitted', 'ready']
             @realTimeOpponentSubmittedCode opponentPlayer, myPlayer
+            opponentPlayer.off 'change'
+    else
+      console.error 'Did not find opponent player in onRealTimeMultiplayerCast'
 
   onRealTimeMultiplayerPlaybackEnded: ->
     if @realTimeSession?
@@ -747,19 +831,77 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Playing against ' + @realTimeOpponent.get('name')
 
   realTimeOpponentSubmittedCode: (opponentPlayer, myPlayer) =>
-    # Save opponent's code
-    Backbone.Mediator.publish 'real-time-multiplayer:new-opponent-code', {codeLanguage: opponentPlayer.get('codeLanguage'), code: opponentPlayer.get('code'), team: opponentPlayer.get('team')}
-    # I'm ready to rumble
-    myPlayer.set 'state', 'ready'
-    if opponentPlayer.get('state') is 'ready'
-      console.info 'All real-time multiplayer players are ready!'
-      @realTimeSession.set 'state', 'running'
-      Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Battling ' + @realTimeOpponent.get('name')
-    else
-      # Wait for opponent to be ready
-      opponentPlayer.on 'change', (e) =>
-        if opponentPlayer.get('state') is 'ready'
-          opponentPlayer.off 'change'
-          console.info 'All real-time multiplayer players are ready!'
-          @realTimeSession.set 'state', 'running'
-          Backbone.Mediator.publish 'real-time-multiplayer:player-status', status: 'Battling ' + @realTimeOpponent.get('name')
+    # console.log 'PlayLevelView realTimeOpponentSubmittedCode', @realTimeSession.id, opponentPlayer.get('level_session')
+    # Read submissionCount for joined real-time multiplayer session
+    if me.id isnt @realTimeSession.get('creator')
+      sessionState = @session.get('state') ? {}
+      newSubmissionCount = @realTimeSession.get 'submissionCount'
+      if newSubmissionCount?
+        # TODO: This isn't always getting updated where the random seed generation uses it.
+        sessionState.submissionCount = parseInt newSubmissionCount
+        console.info 'Got multiplayer submissionCount', sessionState.submissionCount
+        @session.set 'state', sessionState 
+        @session.patch()
+
+    # Reload this level so the opponent session can easily be wired up
+    Backbone.Mediator.publish 'router:navigate',
+      route: "/play/level/#{@levelID}"
+      viewClass: PlayLevelView
+      viewArgs: [{supermodel: @supermodel, autoUnveil: true, realTimeMultiplayerSessionID: @realTimeSession.id, opponent: opponentPlayer.get('level_session'), team: @team}, @levelID]
+
+  updateTeam: ->
+    # If not creator, and same team as creator, then switch teams
+    # TODO: Assumes there are only 'humans' and 'ogres'
+
+    unless @realTimeOpponent?
+      console.error 'Tried to switch teams without a real-time opponent.'
+      return
+    unless @realTimeSession?
+      console.error 'Tried to switch teams without a real-time session.'
+      return
+    return if me.id is @realTimeSession.get('creator')
+
+    oldTeam = @realTimeOpponent.get('team')
+    return unless oldTeam is @session.get('team') 
+
+    # Need to switch to other team
+    newTeam = if oldTeam is 'humans' then 'ogres' else 'humans'
+    console.info "Switching from team #{oldTeam} to #{newTeam}"
+
+    # Move code from old team to new team
+    # Assumes teamSpells has matching spells for each team
+    # TODO: Similar to code in loadOpponentTeam, consolidate?
+    code = @session.get 'code'
+    teamSpells = @session.get 'teamSpells'
+    for oldSpellKey in teamSpells[oldTeam]
+      [oldThang, oldSpell] = oldSpellKey.split '/'
+      oldCode = code[oldThang]?[oldSpell]
+      continue unless oldCode?
+      # Move oldCode to new team under same spell
+      for newSpellKey in teamSpells[newTeam]
+        [newThang, newSpell] = newSpellKey.split '/'
+        if newSpell is oldSpell
+          # Found spell location under new team
+          console.log "Swapping spell=#{oldSpell} from #{oldThang} to #{newThang}"
+          if code[newThang]?[oldSpell]?
+            # Option 1: have a new spell to swap
+            code[oldThang][oldSpell] = code[newThang][oldSpell]
+          else
+            # Option 2: no new spell to swap
+            delete code[oldThang][oldSpell]
+          code[newThang] = {} unless code[newThang]?
+          code[newThang][oldSpell] = oldCode
+          break
+
+    @setTeam newTeam # Sets @session 'team'
+    sessionState = @session.get('state')
+    if sessionState?
+    # TODO: Don't hard code thangID
+      sessionState.selected = if newTeam is 'humans' then 'Hero Placeholder' else 'Hero Placeholder 1'
+      @session.set 'state', sessionState 
+    @session.set 'code', code
+    @session.patch()
+
+    if sessionState?
+      # TODO: Don't hardcode spellName
+      Backbone.Mediator.publish 'level:select-sprite', thangID: sessionState.selected, spellName: 'plan'

@@ -38,7 +38,8 @@ LevelSessionSchema.pre 'save', (next) ->
 LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubscribed']
 LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                                                  'levelName', 'creatorName', 'levelID', 'screenshot',
-                                                 'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime', 'heroConfig']
+                                                 'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 
+                                                 'unsubscribed', 'playtime', 'heroConfig', 'team']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
 LevelSessionSchema.index {user: 1, changed: -1}, {sparse: true, name: 'last played index'}
