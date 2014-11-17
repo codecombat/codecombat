@@ -63,14 +63,8 @@ module.exports = class CastButtonView extends CocoView
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastRealTimeButtonClick: (e) ->
-    if @multiplayerSession
+    if @inRealTimeMultiplayerSession
       Backbone.Mediator.publish 'real-time-multiplayer:manual-cast', {}
-      # Wait for multiplayer session to be up and running
-      @multiplayerSession.on 'change', (e) =>
-        if @multiplayerSession.get('state') is 'running'
-          # Real-time multiplayer session is ready to go, so resume normal cast
-          @multiplayerSession.off 'change'
-          Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     else
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
@@ -149,12 +143,10 @@ module.exports = class CastButtonView extends CocoView
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
 
   onJoinedRealTimeMultiplayerGame: (e) ->
-    @multiplayerSession = e.session
+    @inRealTimeMultiplayerSession = true
 
   onLeftRealTimeMultiplayerGame: (e) ->
-    if @multiplayerSession
-      @multiplayerSession.off 'change'
-      @multiplayerSession = null
+    @inRealTimeMultiplayerSession = false
 
   initButtonTextABTest: ->
     return if me.isAdmin()

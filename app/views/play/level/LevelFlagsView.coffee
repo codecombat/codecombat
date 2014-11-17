@@ -84,13 +84,14 @@ module.exports = class LevelFlagsView extends CocoView
     @world = @options.world = event.world
 
   onJoinedMultiplayerGame: (e) ->
-    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.session.id + '/flagHistory')
+    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.realTimeSessionID + '/flagHistory')
     @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
     @realTimeFlags.on 'remove', @onRealTimeMultiplayerFlagRemoved
 
   onLeftMultiplayerGame: (e) ->
     if @realTimeFlags
-      @realTimeFlags.off()
+      @realTimeFlags.off  'add', @onRealTimeMultiplayerFlagAdded
+      @realTimeFlags.off 'remove', @onRealTimeMultiplayerFlagRemoved
       @realTimeFlags = null
 
   onRealTimeMultiplayerFlagAdded: (e) =>

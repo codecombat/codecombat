@@ -26,7 +26,7 @@ module.exports = class MultiplayerView extends CocoView
     @level = options.level
     @session = options.session
     @listenTo @session, 'change:multiplayer', @updateLinkSection
-    @watchRealTimeSessions()
+    @watchRealTimeSessions() if @level?.get('type') in ['hero-ladder']
 
   destroy: ->
     @realTimeSessions?.off 'add', @onRealTimeSessionAdded
@@ -46,15 +46,16 @@ module.exports = class MultiplayerView extends CocoView
       c.readyToRank = @session?.readyToRank()
 
     # Real-time multiplayer stuff
-    c.levelID = @session.get('levelID')
-    c.realTimeSessions = @realTimeSessions
-    c.currentRealTimeSession = @currentRealTimeSession if @currentRealTimeSession
-    c.realTimeSessionPlayers = @realTimeSessionsPlayers if @realTimeSessionsPlayers
-    # console.log 'MultiplayerView getRenderData', c.levelID
-    # console.log 'realTimeSessions', c.realTimeSessions
-    # console.log c.realTimeSessions.at(c.realTimeSessions.length - 1).get('state') if c.realTimeSessions.length > 0
-    # console.log 'currentRealTimeSession', c.currentRealTimeSession
-    # console.log 'realTimeSessionPlayers', c.realTimeSessionPlayers
+    if @level?.get('type') in ['hero-ladder']
+      c.levelID = @session.get('levelID')
+      c.realTimeSessions = @realTimeSessions
+      c.currentRealTimeSession = @currentRealTimeSession if @currentRealTimeSession
+      c.realTimeSessionsPlayers = @realTimeSessionsPlayers if @realTimeSessionsPlayers
+      # console.log 'MultiplayerView getRenderData', c.levelID
+      # console.log 'realTimeSessions', c.realTimeSessions
+      # console.log c.realTimeSessions.at(c.realTimeSessions.length - 1).get('state') if c.realTimeSessions.length > 0
+      # console.log 'currentRealTimeSession', c.currentRealTimeSession
+      # console.log 'realTimeSessionPlayers', c.realTimeSessionsPlayers
 
     c
 
@@ -134,7 +135,9 @@ module.exports = class MultiplayerView extends CocoView
           # console.log 'MultiplayerView found current real-time session', rts
           @currentRealTimeSession = new RealTimeModel('multiplayer_level_sessions/' + rts.id)
           @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
-          Backbone.Mediator.publish 'real-time-multiplayer:joined-game', id: me.id, session: @currentRealTimeSession
+          
+          # TODO: Is this necessary?  Shouldn't everyone already know we joined a game at this point?
+          Backbone.Mediator.publish 'real-time-multiplayer:joined-game', realTimeSessionID: @currentRealTimeSession.id
 
   onRealTimeSessionAdded: (rts) =>
     @watchRealTimeSession rts
@@ -168,8 +171,13 @@ module.exports = class MultiplayerView extends CocoView
     @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
     # TODO: s.id === @currentRealTimeSession.id ?
     players = new RealTimeCollection('multiplayer_level_sessions/' + @currentRealTimeSession.id + '/players')
-    players.create id: me.id, state: 'coding', name: @session.get('creatorName'), team: @session.get('team')
-    Backbone.Mediator.publish 'real-time-multiplayer:created-game', session: @currentRealTimeSession
+    players.create 
+      id: me.id
+      state: 'coding'
+      name: @session.get('creatorName')
+      team: @session.get('team')
+      level_session: @session.id
+    Backbone.Mediator.publish 'real-time-multiplayer:created-game', realTimeSessionID: @currentRealTimeSession.id
     @render()
 
   onJoinRealTimeGame: (e) ->
@@ -178,17 +186,31 @@ module.exports = class MultiplayerView extends CocoView
     @currentRealTimeSession = @realTimeSessions.get(item.id)
     @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
     if @realTimeSessionsPlayers[item.id]
-      @realTimeSessionsPlayers[item.id].create id: me.id, state: 'coding', name: @session.get('creatorName'), team: @session.get('team')
+      
+      # TODO: SpellView updateTeam() should take care of this team swap update in the real-time multiplayer session
+      creatorID = @currentRealTimeSession.get('creator')
+      creator = @realTimeSessionsPlayers[item.id].get(creatorID)
+      creatorTeam = creator.get('team')
+      myTeam = @session.get('team') 
+      if myTeam is creatorTeam
+        myTeam = if creatorTeam is 'humans' then 'ogres' else 'humans'
+      
+      @realTimeSessionsPlayers[item.id].create 
+        id: me.id
+        state: 'coding'
+        name: me.get('name')
+        team: myTeam
+        level_session: @session.id
     else
       console.error 'MultiplayerView onJoinRealTimeGame did not have a players collection', @currentRealTimeSession
-    Backbone.Mediator.publish 'real-time-multiplayer:joined-game', id: me.id, session: @currentRealTimeSession
+    Backbone.Mediator.publish 'real-time-multiplayer:joined-game', realTimeSessionID: @currentRealTimeSession.id
     @render()
 
   onLeaveRealTimeGame: (e) ->
     if @currentRealTimeSession
       @currentRealTimeSession.off 'change', @onCurrentRealTimeSessionChanged
       @currentRealTimeSession = null
-      Backbone.Mediator.publish 'real-time-multiplayer:left-game', id: me.id
+      Backbone.Mediator.publish 'real-time-multiplayer:left-game', userID: me.id
     else
       console.error "Tried to leave a game with no currentMultiplayerSession"
     @render()

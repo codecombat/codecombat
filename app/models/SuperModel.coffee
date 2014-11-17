@@ -28,7 +28,10 @@ module.exports = class SuperModel extends Backbone.Model
     unfinished
 
   loadModel: (model, name, fetchOptions, value=1) ->
-    cachedModel = @getModelByURL(model.getURL())
+    # hero-ladder levels need remote opponent_session for latest session data (e.g. code)
+    # Can't apply to everything since other features rely on cached models being more recent (E.g. level_session)
+    # E.g.#2 heroConfig isn't necessarily saved to db in world map inventory modal, so we need to load the cached session on level start
+    cachedModel = @getModelByURL(model.getURL()) unless fetchOptions?.cache is false and name is 'opponent_session'
     if cachedModel
       if cachedModel.loaded
         res = @addModelResource(cachedModel, name, fetchOptions, 0)
