@@ -67,7 +67,7 @@ module.exports = class InventoryModal extends ModalView
     @itemGroups.availableItems = new Backbone.Collection()
     @itemGroups.restrictedItems = new Backbone.Collection()
     @itemGroups.lockedItems = new Backbone.Collection()
-    itemGroup.comparator = 'gems' for itemGroup in _.values @itemGroups
+    itemGroup.comparator = ((m) -> m.get('gems') ? m.get('tier')) for itemGroup in _.values @itemGroups
 
     equipped = _.values(@equipment)
     @sortItem(item, equipped) for item in @items.models
@@ -89,6 +89,7 @@ module.exports = class InventoryModal extends ModalView
       @itemGroups.lockedItems.add(item)
       item.classes.push 'locked'
       item.classes.push 'silhouette' if item.isSilhouettedItem()
+      item.classes.push 'hidden' unless item.get('gems')
     else if item.get('slug') in _.values(LevelOptions[@options.levelID]?.restrictedGear ? {})
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
