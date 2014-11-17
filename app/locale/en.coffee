@@ -319,6 +319,9 @@
     few_gems: 'A few gems'
     pile_gems: 'Pile of gems'
     chest_gems: 'Chest of gems'
+    purchasing: 'Purchasing...'
+    declined: 'Your card was declined'
+    retrying: 'Server error, retrying.'
 
   choose_hero:
     choose_hero: "Choose Your Hero"

@@ -52,3 +52,8 @@ module.exports =
   
   'buy-gems-modal:purchase-initiated': c.object {required: ['productID']},
     productID: { type: 'string' }
+
+  'stripe:received-token': c.object { required: ['token'] },
+    token: { type: 'object', properties: {
+      id: {type: 'string'}
+    }}

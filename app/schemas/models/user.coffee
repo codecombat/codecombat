@@ -270,6 +270,7 @@ _.extend UserSchema.properties,
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
   spent: {type: 'number'}
+  stripeCustomerID: { type: 'string' }
 
 c.extendBasicProperties UserSchema, 'user'
 
