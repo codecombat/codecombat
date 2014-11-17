@@ -594,7 +594,7 @@ module.exports = class PlayLevelView extends RootView
     players = new RealTimeCollection('multiplayer_players/' + @levelID)
     players.create
       id: me.id
-      name: session.get('creatorName')
+      name: me.get('name')
       state: 'playing'
       created: new Date().toISOString()
       heartbeat: new Date().toISOString()

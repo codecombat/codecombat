@@ -62,7 +62,7 @@ module.exports = class God extends CocoClass
 
   onTomeCast: (e) ->
     @lastSubmissionCount = e.submissionCount
-    @lastFlagHistory = e.flagHistory
+    @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @createWorld e.spells, e.preload, e.realTime
 
   createWorld: (spells, preload, realTime) ->

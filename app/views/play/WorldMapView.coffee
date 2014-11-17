@@ -688,7 +688,6 @@ forest = [
     type: 'hero'
     id: 'coinucopia'
     description: 'Start playing in real-time with input flags as you collect gold coins!'
-    disabled: not me.isAdmin()
     nextLevels:
       continue: 'copper-meadows'
     x: 77.54
@@ -698,8 +697,7 @@ forest = [
     name: 'Copper Meadows'
     type: 'hero'
     id: 'copper-meadows'
-    description: 'grab the coins'
-    disabled: not me.isAdmin()
+    description: 'This level exercises: if/else, object members, variables, flag placement, and collection.'
     nextLevels:
       continue: 'drop-the-flag'
     x: 77.54
@@ -709,43 +707,39 @@ forest = [
     name: 'Drop the Flag'
     type: 'hero'
     id: 'drop-the-flag'
-    description: 'it is hot'
-    disabled: not me.isAdmin()
+    description: 'This level exercises: flag position, object members.'
     nextLevels:
       continue: 'deadly-pursuit'
     x: 77.54
-    y: 50.94
+    y: 45.94
   }
   {
     name: 'Deadly Pursuit'
     type: 'hero'
     id: 'deadly-pursuit'
-    description: 'what is a dirt nap? it is death.'
-    disabled: not me.isAdmin()
+    description: 'This level exercises: if/else, flag placement and timing, item collection.'
     nextLevels:
       continue: 'rich-forager'
     x: 77.54
-    y: 40.94
+    y: 35.94
   }
   {
     name: 'Rich Forager'
     type: 'hero'
     id: 'rich-forager'
-    description: 'if i were a rich man'
-    disabled: not me.isAdmin()
+    description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
       continue: 'multiplayer-treasure-grove'
     x: 77.54
-    y: 45.94
+    y: 25.94
   }
   {
     name: 'Multiplayer Treasure Grove'
-    type: 'hero'
+    type: 'hero-ladder'
     id: 'multiplayer-treasure-grove'
-    description: 'show em who is the professional boss'
-    disabled: not me.isAdmin()
-    x: 77.54
-    y: 35.94
+    description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
+    x: 67.54
+    y: 25.94
   }
   {
     name: 'Dueling Grounds'

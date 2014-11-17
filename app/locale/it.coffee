@@ -56,15 +56,15 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     owned: "In tuo possesso" # For items you own
     locked: "Bloccato"
     available: "Disponibile"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Abilità Fornite" # Property documentation details
     heroes: "Eroi" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
+    achievements: "Imprese" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Impostazioni" # Tooltip on settings button from /play
     next: "Procedi" # Go from choose hero to choose inventory before playing a level
     change_hero: "Cambia Eroe" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Compra Gemme"
     older_campaigns: "Campagne precedenti"
     anonymous: "Giocatore Anonimo"
     level_difficulty: "Difficoltà: "
@@ -110,7 +110,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     sign_up: "Registrati"
     log_in: "Accedi con la password"
     social_signup: "Oppure puoi registrarti con Facebook o Google+:"
-#    required: "You need to log in before you can go that way."
+    required: "Effettua l'accesso per proseguire."
 
   recover:
     recover_account_title: "Recupera account"

@@ -74,6 +74,7 @@ module.exports =
     pos: c.object {required: ['x', 'y']},
       x: {type: 'number'}
       y: {type: 'number'}
+    source: {type: 'string', enum: ['click', 'code']}
 
   'level:next-game-pressed': c.object {}
 
