@@ -36,6 +36,7 @@ AchievablePlugin = (schema, options) ->
       for achievement in loadedAchievements[category]
         do (achievement) ->
           query = achievement.get('query')
+          return log.warn("Empty achievement query for #{achievement.get('name')}.") if _.isEmpty query
           isRepeatable = achievement.get('proportionalTo')?
           alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)

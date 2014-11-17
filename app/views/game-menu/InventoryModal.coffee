@@ -67,7 +67,7 @@ module.exports = class InventoryModal extends ModalView
     @itemGroups.availableItems = new Backbone.Collection()
     @itemGroups.restrictedItems = new Backbone.Collection()
     @itemGroups.lockedItems = new Backbone.Collection()
-    itemGroup.comparator = 'gems' for itemGroup in _.values @itemGroups
+    itemGroup.comparator = ((m) -> m.get('gems') ? m.get('tier')) for itemGroup in _.values @itemGroups
 
     equipped = _.values(@equipment)
     @sortItem(item, equipped) for item in @items.models
@@ -89,6 +89,7 @@ module.exports = class InventoryModal extends ModalView
       @itemGroups.lockedItems.add(item)
       item.classes.push 'locked'
       item.classes.push 'silhouette' if item.isSilhouettedItem()
+      item.classes.push 'hidden' unless item.get('gems')
     else if item.get('slug') in _.values(LevelOptions[@options.levelID]?.restrictedGear ? {})
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
@@ -375,8 +376,8 @@ module.exports = class InventoryModal extends ModalView
           #continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level  # ... when we make it so that you can buy it
           equipped = equipment[slot]
           continue if equipped and not (
-            (item is 'builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
-            (item in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['builders-hammer']) or
+            (item is 'crude-builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
+            (item in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['crude-builders-hammer']) or
             (item is 'leather-boots' and equipped is gear['simple-boots']) or
             (item is 'simple-boots' and equipped is gear['leather-boots'])
           )
@@ -463,7 +464,7 @@ gear =
   'leather-belt': '5437002a7beba4a82024a97d'
   'programmaticon-i': '53e4108204c00d4607a89f78'
   'crude-glasses': '53e238df53457600003e3f0b'
-  'builders-hammer': '53f4e6e3d822c23505b74f42'
+  'crude-builders-hammer': '53f4e6e3d822c23505b74f42'
   'long-sword': '544d7d1f8494308424f564a3'
   'sundial-wristwatch': '53e2396a53457600003e3f0f'
   'bronze-shield': '544c310ae0017993fce214bf'

@@ -170,29 +170,29 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer', torso: 'leather-tunic'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', torso: 'leather-tunic'}
     restrictedGear: {'right-hand': 'simple-sword'}
   'defense-of-plainswood':
     hidesRealTimePlayback: true
     hidesCodeToolbar: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {'right-hand': 'simple-sword'}
   'winding-trail':
     hidesRealTimePlayback: true
     hidesCodeToolbar: true
-    requiredGear: {feet: 'leather-boots', 'right-hand': 'builders-hammer'}
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'thornbush-farm':
-    requiredGear: {feet: 'leather-boots', 'right-hand': 'builders-hammer', eyes: 'crude-glasses'}
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', eyes: 'crude-glasses'}
     hidesCodeToolbar: true
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'back-to-back':
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'ogre-encampment':
     requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'builders-hammer'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'woodland-cleaver':
     requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'wooden-shield', wrists: 'sundial-wristwatch', feet: 'leather-boots'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
@@ -212,14 +212,14 @@ module.exports = LevelOptions =
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses'}
     restrictedGear: {}
   'drop-the-flag':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
+    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {'right-hand': 'longsword'}
   'deadly-pursuit':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'builders-hammer'}
+    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {'right-hand': 'longsword'}
   'rich-forager':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'longsword', 'left-hand': 'bronze-shield'}
-    restrictedGear: {'right-hand': 'builders-hammer'}
+    restrictedGear: {'right-hand': 'crude-builders-hammer'}
   'multiplayer-treasure-grove':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic'}
     restrictedGear: {}

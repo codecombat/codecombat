@@ -558,7 +558,7 @@ module.exports = Surface = class Surface extends CocoClass
     @playing = false  # Will start when countdown is done.
     if @heroLank
       @previousCameraZoom = @camera.zoom
-      @camera.zoomTo @heroLank.sprite, 2, 3000
+      #@camera.zoomTo @heroLank.sprite, 2, 3000  # This makes flag placement hard, now that we're only rarely using this as a coolcam.
 
   onRealTimePlaybackEnded: (e) ->
     return unless @realTime

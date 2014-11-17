@@ -23,12 +23,12 @@ class EarnedAchievementHandler extends Handler
     ids = req.query.achievementIDs
     if (not ids) or (ids.length is 0)
       return @sendBadInputError(res, 'For a get-by-achievement-ids request, need to provide ids.')
-      
+
     ids = ids.split(',')
     for id in ids
       if not Handler.isID(id)
         return @sendBadInputError(res, "Not a MongoDB ObjectId: #{id}")
-        
+
     query.achievement = {$in: ids}
     EarnedAchievement.find query, (err, earnedAchievements) ->
       return @sendDatabaseError(res, err) if err
@@ -121,6 +121,7 @@ class EarnedAchievementHandler extends Handler
               return doneWithAchievement new Error "Model with collection '#{achievement.get 'collection'}' doesn't exist." unless model?
 
               finalQuery = _.clone achievement.get 'query'
+              return doneWithAchievement() if _.isEmpty finalQuery
               finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hex string IDs
               finalQuery.$or[0][achievement.userField] = userID
               finalQuery.$or[1][achievement.userField] = mongoose.Types.ObjectId userID

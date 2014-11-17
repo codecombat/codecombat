@@ -116,8 +116,8 @@ module.exports = class HeroVictoryModal extends ModalView
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
     @continueLevelLink = @getNextLevelLink 'continue'
-    @morePracticeLevelLink = me.isAdmin() and @getNextLevelLink 'more_practice'
-    @skipAheadLevelLink = me.isAdmin() and @getNextLevelLink 'skip_ahead'
+    @morePracticeLevelLink = @getNextLevelLink 'more_practice'
+    @skipAheadLevelLink = @getNextLevelLink 'skip_ahead'
     c.continueButtons = [
       {key: 'skip_ahead', link: @skipAheadLevelLink, 'choice-explicit': 'skip', 'choice-implicit': 'too_easy'}
       {key: 'continue', link: @continueLevelLink, 'choice-explicit': 'next_level', 'choice-implicit': 'just_right'}

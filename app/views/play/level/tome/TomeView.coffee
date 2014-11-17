@@ -161,7 +161,7 @@ module.exports = class TomeView extends CocoView
     sessionState = @options.session.get('state') ? {}
     if realTime
       sessionState.submissionCount = (sessionState.submissionCount ? 0) + 1
-      sessionState.flagHistory = _.filter sessionState.flagHistory ? [], (event) => event.team isnt @options.session.get('team')
+      sessionState.flagHistory = _.filter sessionState.flagHistory ? [], (event) => event.team isnt (@options.session.get('team') ? 'humans')
       @options.session.set 'state', sessionState
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? []
 
