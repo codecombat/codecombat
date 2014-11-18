@@ -143,15 +143,18 @@ module.exports = class User extends CocoModel
         application.tracker.identify experimentalLangGroup: @experimentalLangGroup
     @experimentalLangGroup
 
-  getHighlightArrowSoundGroup: ->
-    return @highlightArrowGroup if @highlightArrowGroup
-    group = me.get('testGroupNumber') % 8
-    @highlightArrowGroup = switch group
-      when 0, 1, 2, 3 then 'sound-off'
-      when 4, 5, 6, 7 then 'sound-on'
-    @highlightArrowGroup = 'sound-off' if me.isAdmin()
-    application.tracker.identify highlightArrowGroup: @highlightArrowGroup unless me.isAdmin()
-    @highlightArrowGroup
+  ## Test complete; feel free to repurpose for another test.
+  # https://mixpanel.com/report/227350/segmentation/#action:segment,arb_event:'Saw%20Victory',bool_op:and,chart_type:bar,from_date:-17,segfilter:!((filter:(operand:!('Dungeons%20of%20Kithgard'),operator:%3D%3D),property:level,selected_property_type:string,type:string),(filter:(operand:'',operator:set),property:highlightArrowGroup,selected_property_type:string,type:string),(property:highlightArrowGroup,selected_property_type:string,type:string)),segment_type:string,to_date:0,type:unique,unit:day
+  # https://www.dropbox.com/s/jot1ikz7nk7jti5/Screenshot%202014-11-18%2008.04.00.png?dl=0
+  #getHighlightArrowSoundGroup: ->
+  #  return @highlightArrowGroup if @highlightArrowGroup
+  #  group = me.get('testGroupNumber') % 8
+  #  @highlightArrowGroup = switch group
+  #    when 0, 1, 2, 3 then 'sound-off'
+  #    when 4, 5, 6, 7 then 'sound-on'
+  #  @highlightArrowGroup = 'sound-off' if me.isAdmin()
+  #  application.tracker.identify highlightArrowGroup: @highlightArrowGroup unless me.isAdmin()
+  #  @highlightArrowGroup
 
   getKithmazeGroup: ->
     return @kithmazeGroup if @kithmazeGroup
