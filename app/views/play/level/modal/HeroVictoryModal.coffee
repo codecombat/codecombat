@@ -298,7 +298,7 @@ module.exports = class HeroVictoryModal extends ModalView
     skipPrompt ||= not (@skipAheadLevelLink or @morePractiveLevelLink) and me.getBranchingGroup() is 'choice-explicit'
     if skipPrompt
       # Preserve the supermodel as we navigate back to the world map.
-      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelCampaign()]
+      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
     else
       # Hide everything except the buttons prompting them for which kind of next level to do
       @$el.find('.modal-footer, .modal-body > *').hide()
@@ -309,10 +309,10 @@ module.exports = class HeroVictoryModal extends ModalView
     route = $(e.target).data('href') or "/play/#{@getNextLevelCampaign()}"
     application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup(), route: route
     # Preserve the supermodel as we navigate back to world map.
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}, @getNextLevelCampaign()]
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
 
   onClickReturnToLadder: (e) ->
     e.preventDefault()
     route = $(e.target).data('href')
     # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}, @level.get('slug')]
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]

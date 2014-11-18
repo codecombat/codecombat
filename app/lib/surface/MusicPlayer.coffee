@@ -25,6 +25,7 @@ module.exports = class MusicPlayer extends CocoClass
     @onPlayMusic(@standingBy) if @standingBy
 
   onPlayMusic: (e) ->
+    return if application.isIPadApp  # Hard to measure, but just guessing this will save memory.
     src = e.file
     src = "/file#{e.file}#{AudioPlayer.ext}"
     if (not e.file) or src is @currentMusic?.src

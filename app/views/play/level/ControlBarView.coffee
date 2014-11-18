@@ -16,6 +16,7 @@ module.exports = class ControlBarView extends CocoView
     'bus:player-states-changed': 'onPlayerStatesChanged'
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
+    'ipad:memory-warning': 'onIPadMemoryWarning'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -56,7 +57,7 @@ module.exports = class ControlBarView extends CocoView
     if c.isMultiplayerLevel = @isMultiplayerLevel
       c.multiplayerStatus = @multiplayerStatusManager?.status
     c.spectateGame = @spectateGame
-    @homeViewArgs = [{supermodel: @supermodel}]
+    @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder']
       levelID = @level.get('slug').replace /\-tutorial$/, ''
       @homeLink = c.homeLink = '/play/ladder/' + levelID
@@ -104,6 +105,9 @@ module.exports = class ControlBarView extends CocoView
     for campaign in require('views/play/WorldMapView').campaigns
       for level in campaign.levels
         return campaign.id if level.id is slug
+
+  onIPadMemoryWarning: (e) ->
+    @hasReceivedMemoryWarning = true
 
   destroy: ->
     @setupManager?.destroy()
