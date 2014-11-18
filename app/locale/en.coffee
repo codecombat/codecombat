@@ -207,6 +207,8 @@
     failing: "Failing"
     action_timeline: "Action Timeline"
     click_to_select: "Click on a unit to select it."
+    control_bar_multiplayer: "Multiplayer"
+    control_bar_join_game: "Join Game"
     reload: "Reload"
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
