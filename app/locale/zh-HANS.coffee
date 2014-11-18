@@ -49,13 +49,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_as: "扮演" # Ladder page
     spectate: "旁观他人的游戏" # Ladder page
     players: "玩家" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "已经玩过的时间" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
     unlock: "解锁" # For purchasing items and heroes
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"
-#    available: "Available"
+    available: "可用"
     skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
@@ -64,14 +64,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
-#    buy_gems: "Buy Gems"
+    buy_gems: "购买宝石"
     older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer_prefix: "我们每周开放五个关卡"
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_suffix: "做第一个玩新关卡的人"
     choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
     adventurer_forum: "冒险者论坛"
@@ -95,10 +95,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     logging_in: "正在登录"
     log_out: "登出"
     recover: "找回账户"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    authenticate_gplus: "通过G+授权"
+    load_profile: "载入G+资料"
+    load_email: "载入G+ Email"
+    finishing: "完成"
 
   signup:
     create_account_title: "创建一个账户来保存进度"
@@ -118,8 +118,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "主要的"
+    secondary: "次要的"
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
@@ -218,12 +218,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_rate_the_level: "评估关卡：" # Only in old-style levels.
     victory_return_to_ladder: "返回"
     victory_play_continue: "继续游戏"
-#    victory_play_skip: "Skip Ahead"
+    victory_play_skip: "跳过并继续"
     victory_play_next_level: "下一关"
 #    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
+    victory_play_too_easy: "太简单"
+    victory_play_just_right: "刚刚好"
+    victory_play_too_hard: "太难"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "返回主页" # Only in old-style levels.
     victory_review: "给我们反馈！" # Only in old-style levels.
@@ -295,25 +295,25 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     guide_tab: "使用向导"
     multiplayer_tab: "多人游戏"
 #    auth_tab: "Sign Up"
-#    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
+    inventory_caption: "装备你的英雄"
+    choose_hero_caption: "选择英雄和语言"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
-#    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
+    guide_caption: "文档和提示"
+    multiplayer_caption: "与你的朋友一起玩!"
     auth_caption: "保存进度"
 
   inventory:
     choose_inventory: "装备道具"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
+    equipped_item: "已装备"
+    available_item: "可用"
 #    restricted_title: "Restricted"
     should_equip: "(双击装备此道具)"
     equipped: "(已装备)"
     locked: "(需解锁)"
     restricted: "(本关卡不得使用)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "装备"
+    unequip: "取消装备"
 
 #  buy_gems:
 #    few_gems: "A few gems"
@@ -353,8 +353,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "音量"
     music_label: "音乐"
-#    music_description: "Turn background music on/off."
-#    autorun_label: "Autorun"
+    music_description: "开/关背景音乐"
+    autorun_label: "自动运行"
 #    autorun_description: "Control automatic code execution."
     editor_config: "编辑器配置"
     editor_config_title: "编辑器配置"
@@ -464,10 +464,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     keyboard_shortcuts: "热键"
     space: "空格"
     enter: "回车"
-#    escape: "Escape"
-#    shift: "Shift"
-#    run_code: "Run current code."
-#    run_real_time: "Run in real time."
+    escape: "Esc"
+    shift: "Shift"
+    run_code: "运行当前代码"
+    run_real_time: "实时运行"
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
     toggle_playback: "继续/暂停按钮"
@@ -478,7 +478,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "利用标准编码格式美化你的代码。"
-#    maximize_editor: "Maximize/minimize code editor."
+    maximize_editor: "最大化/最小化代码编辑器"
     move_wizard: "在关卡中移动你的巫师角色。"
 
   community:
@@ -701,7 +701,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    no_ranked_matches_pre: "No ranked matches for the "
 #    no_ranked_matches_post: " team! Play against some competitors and then come back here to get your game ranked."
     choose_opponent: "选择一个对手"
-#    select_your_language: "Select your language!"
+    select_your_language: "选择你使用的语言!"
     tutorial_play: "玩教程"
     tutorial_recommended: "如果你从未玩过的话,推荐先玩下教程"
     tutorial_skip: "跳过教材"
