@@ -189,7 +189,7 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
       exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     addCommand
-      # TODO: Restrict to beginner campaign levels
+      # TODO: Restrict to beginner campaign levels, possibly with a CampaignOptions similar to LevelOptions
       name: 'enter-skip-delimiters'
       bindKey: 'Enter|Return'
       exec: =>
@@ -202,6 +202,10 @@ module.exports = class SpellView extends CocoView
             newRange.setEnd newRange.end.row, newRange.end.column + delimMatch[1].length
             @aceSession.selection.setSelectionRange newRange
         @ace.execCommand 'insertstring', '\n'
+    addCommand
+      name: 'disable-spaces'
+      bindKey: 'Space'
+      exec: => @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
 
   fillACE: ->
     @ace.setValue @spell.source
