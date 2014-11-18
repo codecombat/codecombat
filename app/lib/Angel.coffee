@@ -130,7 +130,7 @@ module.exports = class Angel extends CocoClass
     eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'
     if finished
       @shared.world = world
-    Backbone.Mediator.publish eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame
+    Backbone.Mediator.publish eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame, finished: finished
     if finished
       for scriptNote in @shared.world.scriptNotes
         Backbone.Mediator.publish scriptNote.channel, scriptNote.event

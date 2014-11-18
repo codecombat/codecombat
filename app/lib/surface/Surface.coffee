@@ -455,7 +455,10 @@ module.exports = Surface = class Surface extends CocoClass
       else
         @fastForwardingToFrame = @fastForwardingSpeed = null
 #    console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
-    @updatePaths()
+    if event.finished
+      @updatePaths()
+    else
+      @hidePaths()
 
   onIdleChanged: (e) ->
     @setPaused e.idle unless @ended

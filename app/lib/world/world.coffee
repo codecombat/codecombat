@@ -472,9 +472,13 @@ module.exports = class World
 
     perf.t1 = now()
     if w.thangs.length
-      for thangConfig in o.thangs when not w.thangMap[thangConfig.id]
-        w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap, level.levelComponents)
-        w.setThang thang
+      for thangConfig in o.thangs
+        if thang = w.thangMap[thangConfig.id]
+          for prop, val of thangConfig.finalState
+            thang[prop] = val
+        else
+          w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap, level.levelComponents)
+          w.setThang thang
     else
       w.thangs = (Thang.deserialize(thang, w, classMap, level.levelComponents) for thang in o.thangs)
       w.setThang thang for thang in w.thangs
