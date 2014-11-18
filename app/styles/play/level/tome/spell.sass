@@ -91,7 +91,7 @@
       background-color: rgba(255, 255, 255, 0.4)
 
     .ace_content
-      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
+      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error, .problem-line
         position: absolute
     .executing
       // https://github.com/codecombat/codecombat/issues/6
@@ -108,11 +108,11 @@
 
     +keyframes(pulseRedBackground)
       from
-        background-color: rgba(255, 45, 27, 0.25)
+        background-color: rgba(255, 45, 27, 0.4)
       50%
-        background-color: rgba(255, 45, 27, 0.125)
+        background-color: rgba(255, 45, 27, 0.2)
       to
-        background-color: rgba(255, 45, 27, 0.25)
+        background-color: rgba(255, 45, 27, 0.4)
 
     // problem-marker-#{@aetherProblem.level} set in Problem.coffee
     .problem-marker-info
@@ -120,9 +120,10 @@
     .problem-marker-warning
       background-color: rgba(100, 65, 20, 0.25)
     .problem-marker-error
+      background-color: rgba(255, 45, 27, 0.5)
+    .problem-line
       // TODO: Pulses too quickly during playback
       @include animation(pulseRedBackground 1s infinite)
-
 
     &:not(.playback-ended)
       .executing:not(.ace_gutter-cell)
