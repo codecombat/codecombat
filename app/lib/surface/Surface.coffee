@@ -125,7 +125,7 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLCanvas[0].addEventListener 'mouseup', @onMouseUp
     @webGLCanvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing # TODO: figure this stuff out
-    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
+#    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED # TODO: Reenable once this is fixed: https://github.com/CreateJS/EaselJS/issues/516
     createjs.Ticker.setFPS @options.frameRate
     @onResize()
 

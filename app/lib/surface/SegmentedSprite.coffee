@@ -13,7 +13,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->
     @spriteSheet.mcPool ?= {}
-    @initialize(@spriteSheet)
+    super(@spriteSheet)
     @addEventListener 'tick', @handleTick
 
   destroy: ->
