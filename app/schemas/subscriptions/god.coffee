@@ -24,6 +24,7 @@ worldUpdatedEventSchema = c.object {required: ['world', 'firstWorld', 'goalState
   goalStates: goalStatesSchema
   team: {type: 'string'}
   firstChangedFrame: {type: 'integer', minimum: 0}
+  finished: {type: 'boolean'}
 
 module.exports =
   'god:user-code-problem': c.object {required: ['problem']},

@@ -1,15 +1,15 @@
 module.exports = nativeDescription: "български език", englishDescription: "Bulgarian", translation:
   home:
     slogan: "Научи се да програмираш, докато играеш игра "
-    no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стар. Съжалявам!" # Warning that only shows up in IE8 and older
+    no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стари версии. Съжалявам!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи!" # Warning that shows up on mobile devices
     play: "Играй" # The big play button that just starts playing a level
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
+    old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" #"Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи." # "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
+    for_beginners: "За начинаещи" # "For Beginners"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
+    for_developers: "За разработчици" # "For Developers" # Not currently shown on home page.
 
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
@@ -19,16 +19,16 @@ module.exports = nativeDescription: "български език", englishDescri
     forum: "Форум"
     account: "Сметката"
     profile: "Профил"
-#    stats: "Stats"
+    stats: "Статистики"
 #    code: "Code"
 #    admin: "Admin" # Only shows up when you are an admin
     home: "Начало"
-#    contribute: "Contribute"
+    contribute: "Допринеси" # "Contribute"
 #    legal: "Legal"
     about: "За нас"
     contact: "Контакти"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
+    twitter_follow: "Започни да следиш" # "Follow"
+    teachers: "Учители" # "Teachers"
 
   modal:
     close: "Затвори"
@@ -38,23 +38,23 @@ module.exports = nativeDescription: "български език", englishDescri
     page_not_found: "Страницата не е намерена"
 
   diplomat_suggestion:
-    title: "Дай да помогни да преводи CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+    title: "Помогни да преведем CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Имаме нужда от твоите езикови познания!" # "We need your language skills."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Bulgarian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Bulgarian."
     missing_translations: "Until we can translate everything into Bulgarian, you'll see English when Bulgarian isn't available."
-    learn_more: "Научи повече за ставане Дипломат"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Научи повече за това как да станеш Дипломат"
+    subscribe_as_diplomat: "Стани дипломат" # "Subscribe as a Diplomat"
 
   play:
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    items: "Предмети" # "Items" # Tooltip on item shop button from /play
+    unlock: "Отключи" # "Unlock" # For purchasing items and heroes
+    confirm: "Потвърди"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
+    locked: "Заключено"
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
@@ -64,27 +64,27 @@ module.exports = nativeDescription: "български език", englishDescri
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
-#    campaign_beginner: "Beginner Campaign"
+    buy_gems: "Купи скъпоценни камъни" # "Buy Gems"
+    older_campaigns: "Предишни капмании" # "Older Campaigns"
+    anonymous: "Анонимен играч" # "Anonymous Player"
+    level_difficulty: "Трудност" # "Difficulty: "
+    campaign_beginner: "Кампания за начинаещи" # "Beginner Campaign"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer: "Стани Приключенец" # "Sign up as an Adventurer"
+    awaiting_levels_adventurer_suffix: "за да бъдеш първият, който играе нови нива." # "to be the first to play new levels."
     choose_your_level: "Избери своето ниво" # The rest of this section is the old play view at /play-old and isn't very important.
 #    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
-#    adventurer_forum: "the Adventurer forum"
+    adventurer_forum: "Приключенският форум" # "the Adventurer forum"
 #    adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Предишни кампании за начинаещи" # "Old Beginner Campaign"
 #    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
-#    campaign_dev: "Random Harder Levels"
+    campaign_dev: "Случайни трудни нива" # "Random Harder Levels"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
 #    campaign_multiplayer: "Multiplayer Arenas"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
+    campaign_classic_algorithms: "Класически алгоритми" # "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
@@ -101,27 +101,27 @@ module.exports = nativeDescription: "български език", englishDescri
 #    finishing: "Finishing"
 
   signup:
-    create_account_title: "Создавай нов сметката за да записва прогрес"
+    create_account_title: "Създавай нов акаунт, за да запазиш прогреса си"
     description: "Е безплатен. Само ще трабва неколко неща и ти ще си готов:"
-    email_announcements: "Получава анонци през имейл"
+    email_announcements: "Получава анонси по имейл"
 #    coppa: "13+ or non-USA "
     coppa_why: "(Защо?)"
     creating: "Създаване на профил..."
     sign_up: "Регистриране"
     log_in: "Вход с парола"
-    social_signup: "Или, можеш да зарегистрираваш през Facebook или G+:"
-    required: "Трабва да влезиш преди можеш да ходиш на там."
+    social_signup: "Или, можеш да се регистрираш през Facebook или G+:"
+    required: "Трабва да влезеш преди можеш да ходиш на там."
 
   recover:
     recover_account_title: "Възстанови Акаунт"
     send_password: "Изпрати парола за възстановяване"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Писмото за възстановяване на парола е изпратено." # "Recovery email sent."
 
 #  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
 #    armor: "Armor"
-#    accessories: "Accessories"
+    accessories: "Аксесоари" # "Accessories"
 #    misc: "Misc"
 #    books: "Books"
 
@@ -132,8 +132,8 @@ module.exports = nativeDescription: "български език", englishDescri
     send: "Изпрати"
     cancel: "Отказ"
     save: "Запис"
-    publish: "Публикирай"
-    create: "Создавай"
+    publish: "Публикувай"
+    create: "Създай"
 #    manual: "Manual"
 #    fork: "Fork"
 #    play: "Play" # When used as an action verb, like "Play next level"
@@ -145,11 +145,11 @@ module.exports = nativeDescription: "български език", englishDescri
   general:
     and: "и"
     name: "Име"
-#    date: "Date"
+    date: "Дата" # "Date"
 #    body: "Body"
     version: "Версия"
 #    commit_msg: "Commit Message"
-#    version_history: "Version History"
+    version_history: "Предишни версии" # "Version History"
 #    version_history_for: "Version History for: "
 #    result: "Result"
     results: "Резултати"
@@ -157,7 +157,7 @@ module.exports = nativeDescription: "български език", englishDescri
     or: "или"
 #    subject: "Subject"
     email: "Email"
-#    password: "Password"
+    password: "Парола" # "Password"
     message: "Съобщение"
 #    code: "Code"
 #    ladder: "Ladder"
@@ -405,10 +405,10 @@ module.exports = nativeDescription: "български език", englishDescri
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+    cla_agree: "СЪГЛАСЕН СЪМ" # "I AGREE"
 
 #  contact:
-#    contact_us: "Contact CodeCombat"
+    contact_us: "Свържи се с CodeCombat" # "Contact CodeCombat"
 #    welcome: "Good to hear from you! Use this form to send us email. "
 #    contribute_prefix: "If you're interested in contributing, check out our "
 #    contribute_page: "contribute page"
@@ -430,17 +430,17 @@ module.exports = nativeDescription: "български език", englishDescri
 #    password_tab: "Password"
 #    emails_tab: "Emails"
 #    admin: "Admin"
-#    new_password: "New Password"
+    new_password: "Нова парола" # "New Password"
 #    new_password_verify: "Verify"
 #    email_subscriptions: "Email Subscriptions"
 #    email_subscriptions_none: "No Email Subscriptions."
-#    email_announcements: "Announcements"
+    email_announcements: "Съобщения" # "Announcements"
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."
-#    email_notifications: "Notifications"
+    email_notifications: "Известия" # "Notifications"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
 #    email_any_notes: "Any Notifications"
 #    email_any_notes_description: "Disable to stop all activity notification emails."
-#    email_news: "News"
+    email_news: "Новини" # "News"
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
 #    contributor_emails: "Contributor Class Emails"

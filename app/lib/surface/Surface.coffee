@@ -1,5 +1,5 @@
 CocoClass = require 'lib/CocoClass'
-path = require './path'
+TrailMaster = require './TrailMaster'
 Dropper = require './Dropper'
 AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'lib/auth'
@@ -181,7 +181,6 @@ module.exports = Surface = class Surface extends CocoClass
     framesDropped = 0
     while true
       Dropper.tick()
-      @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
       if frameAdvanced and @playing
@@ -210,7 +209,6 @@ module.exports = Surface = class Surface extends CocoClass
     @updateState @currentFrame isnt oldFrame
     @drawCurrentFrame e
     @onFrameChanged()
-    @updatePaths() if (@totalFramesDrawn % 4) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
     Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
     mib = @webGLStage.mouseInBounds
     if @mouseInBounds isnt mib
@@ -456,7 +454,11 @@ module.exports = Surface = class Surface extends CocoClass
         @fastForwardingSpeed = lag / intendedLag
       else
         @fastForwardingToFrame = @fastForwardingSpeed = null
-    #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
+#    console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
+    if event.finished
+      @updatePaths()
+    else
+      @hidePaths()
 
   onIdleChanged: (e) ->
     @setPaused e.idle unless @ended
@@ -540,10 +542,12 @@ module.exports = Surface = class Surface extends CocoClass
 
   #- Camera focus on hero
   focusOnHero: ->
+    hadHero = @heroLank
     @heroLank = @lankBoss.lankFor 'Hero Placeholder'
     if me.team is 'ogres'
       # TODO: do this for real
       @heroLank = @lankBoss.lankFor 'Hero Placeholder 1'
+    @updatePaths() if not hadHero
 
   #- Real-time playback
 
@@ -576,22 +580,16 @@ module.exports = Surface = class Surface extends CocoClass
 
 
 
-  #- Paths - TODO: move to LankBoss? but only update on frame drawing instead of on every frame update?
-
   updatePaths: ->
-    return # TODO: Get paths working again with WebGL
-    return unless @options.paths
-    return if @casting
+    return unless @options.paths and @heroLank
+    return unless me.isAdmin() # TODO: Fix world thang points, targets, then remove this
     @hidePaths()
-    selectedThang = @lankBoss.selectedLank?.thang
     return if @world.showPaths is 'never'
-    return if @world.showPaths is 'paused' and @playing
-    return if @world.showPaths is 'selected' and not selectedThang
-    @trailmaster ?= new path.Trailmaster @camera
-    selectedOnly = @playing and @world.showPaths is 'selected'
-    @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @lankBoss.lanks, selectedOnly
+    layerAdapter = @lankBoss.layerAdapters['Path']
+    @trailmaster ?= new TrailMaster @camera, layerAdapter
+    @paths = @trailmaster.generatePaths @world, @heroLank.thang
     @paths.name = 'paths'
-    @lankBoss.layerAdapters['Path'].addChild @paths
+    layerAdapter.addChild @paths
 
   hidePaths: ->
     return if not @paths
@@ -699,6 +697,7 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.clear()
     @webGLStage.clear()
     @musicPlayer?.destroy()
+    @trailmaster?.destroy()
     @normalStage.removeAllChildren()
     @webGLStage.removeAllChildren()
     @webGLStage.removeEventListener 'stagemousemove', @onMouseMove
