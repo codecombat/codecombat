@@ -690,37 +690,39 @@ this.createjs = this.createjs||{};
 (function() {
 	"use strict";
 
+
 // constructor:
-/**
- * The Ticker provides  a centralized tick or heartbeat broadcast at a set interval. Listeners can subscribe to the tick
- * event to be notified when a set time interval has elapsed.
- *
- * Note that the interval that the tick event is called is a target interval, and may be broadcast at a slower interval
- * during times of high CPU load. The Ticker class uses a static interface (ex. <code>Ticker.getPaused()</code>) and
- * should not be instantiated.
- *
- * <h4>Example</h4>
- *
- *      createjs.Ticker.addEventListener("tick", handleTick);
- *      function handleTick(event) {
- *          // Actions carried out each frame
- *          if (!event.paused) {
- *              // Actions carried out when the Ticker is not paused.
- *          }
- *      }
- *
- * To update a stage every tick, the {{#crossLink "Stage"}}{{/crossLink}} instance can also be used as a listener, as
- * it will automatically update when it receives a tick event:
- *
- *      createjs.Ticker.addEventListener("tick", stage);
- *
- * @class Ticker
- * @uses EventDispatcher
- * @static
- **/
-var Ticker = function() {
-	throw "Ticker cannot be instantiated.";
-};
+	/**
+	 * The Ticker provides  a centralized tick or heartbeat broadcast at a set interval. Listeners can subscribe to the tick
+	 * event to be notified when a set time interval has elapsed.
+	 *
+	 * Note that the interval that the tick event is called is a target interval, and may be broadcast at a slower interval
+	 * during times of high CPU load. The Ticker class uses a static interface (ex. <code>Ticker.getPaused()</code>) and
+	 * should not be instantiated.
+	 *
+	 * <h4>Example</h4>
+	 *
+	 *      createjs.Ticker.addEventListener("tick", handleTick);
+	 *      function handleTick(event) {
+	 *          // Actions carried out each frame
+	 *          if (!event.paused) {
+	 *              // Actions carried out when the Ticker is not paused.
+	 *          }
+	 *      }
+	 *
+	 * To update a stage every tick, the {{#crossLink "Stage"}}{{/crossLink}} instance can also be used as a listener, as
+	 * it will automatically update when it receives a tick event:
+	 *
+	 *      createjs.Ticker.addEventListener("tick", stage);
+	 *
+	 * @class Ticker
+	 * @uses EventDispatcher
+	 * @static
+	 **/
+	function Ticker() {
+		throw "Ticker cannot be instantiated.";
+	}
+
 
 // constants:
 	/**
@@ -769,8 +771,8 @@ var Ticker = function() {
 	 **/
 	Ticker.TIMEOUT = "timeout";
 
-// events:
 
+// static events:
 	/**
 	 * Dispatched each tick. The event will be dispatched to each listener even when the Ticker has been paused using
 	 * {{#crossLink "Ticker/setPaused"}}{{/crossLink}}.
@@ -792,6 +794,7 @@ var Ticker = function() {
 	 * 	you could determine the amount of time that the Ticker has been paused since initialization with time-runTime.
 	 * @since 0.6.0
 	 */
+
 
 // public static properties:
 	/**
@@ -833,6 +836,7 @@ var Ticker = function() {
 	 */
 	Ticker.maxDelta = 0;
 
+
 // mix-ins:
 	// EventDispatcher methods:
 	Ticker.removeEventListener = null;
@@ -847,8 +851,8 @@ var Ticker = function() {
 		return Ticker._addEventListener.apply(Ticker, arguments);
 	};
 
+
 // private static properties:
-	
 	/** 
 	 * @property _paused
 	 * @type {Boolean}
@@ -937,8 +941,8 @@ var Ticker = function() {
 	 **/
 	Ticker._raf = true;
 
+
 // public static methods:
-	
 	/**
 	 * Starts the tick. This is called automatically when the first listener is added.
 	 * @method init
@@ -1147,6 +1151,7 @@ var Ticker = function() {
 		return  Ticker._ticks - (pauseable ?Ticker._pausedTicks : 0);
 	};
 
+
 // private static methods:
 	/**
 	 * @method _handleSynch
@@ -1154,12 +1159,11 @@ var Ticker = function() {
 	 * @protected
 	 **/
 	Ticker._handleSynch = function() {
-		var time = Ticker._getTime() - Ticker._startTime;
 		Ticker._timerId = null;
 		Ticker._setupTick();
 
 		// run if enough time has elapsed, with a little bit of flexibility to be early:
-		if (time - Ticker._lastTime >= (Ticker._interval-1)*0.97) {
+		if (Ticker._getTime() - Ticker._lastTime >= (Ticker._interval-1)*0.97) {
 			Ticker._tick();
 		}
 	};
@@ -1252,7 +1256,8 @@ var Ticker = function() {
 		return (now&&now.call(performance))||(new Date().getTime());
 	};
 
-createjs.Ticker = Ticker;
+
+	createjs.Ticker = Ticker;
 }());
 /*
 * Tween
