@@ -124,7 +124,7 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span', 'dueling-grounds', 'cavern-survival', 'intuit-tf2014']
+  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span', 'dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
   levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
     #fetch random games here

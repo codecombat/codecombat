@@ -392,20 +392,29 @@ self.onWorldLoaded = function onWorldLoaded() {
     self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus});
   var t1 = new Date();
   var diff = t1 - self.t0;
-  if (self.world.headless)
+  if(self.world.headless)
     return console.log('Headless simulation completed in ' + diff + 'ms.');
 
+  var worldEnded = self.world.ended;
+  var totalFrames = self.world.totalFrames;
   var transferableSupported = self.transferableSupported();
   try {
     var serialized = self.world.serialize();
   }
   catch(error) {
     console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
+    self.destroyWorld();
+    return;
   }
+  //self.serialized = serialized;  // Testing peak memory usage
+  //return;  // Testing peak memory usage
+  if(worldEnded)
+    // Make sure we clean up memory as soon as possible, since we just used the most ever and don't want to crash.
+    self.destroyWorld();
 
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
-  var messageType = self.world.ended ? 'new-world' : 'some-frames-serialized';
+  var messageType = worldEnded ? 'new-world' : 'some-frames-serialized';
   try {
     var message = {type: messageType, serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
     if(transferableSupported)
@@ -417,13 +426,16 @@ self.onWorldLoaded = function onWorldLoaded() {
     console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
 
-  if(self.world.ended) {
+  if(worldEnded) {
     var t3 = new Date();
-    console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
-    self.world.goalManager.destroy();
-    self.world.destroy();
-    self.world = null;
+    console.log("And it was so: (" + (diff / totalFrames).toFixed(3) + "ms per frame,", totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
   }
+};
+
+self.destroyWorld = function destroyWorld() {
+  self.world.goalManager.destroy();
+  self.world.destroy();
+  self.world = null;
 };
 
 self.onWorldPreloaded = function onWorldPreloaded() {

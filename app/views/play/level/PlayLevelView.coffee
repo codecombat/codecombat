@@ -97,7 +97,7 @@ module.exports = class PlayLevelView extends RootView
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
-    
+
     @opponentSessionID = @getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
 
@@ -369,7 +369,7 @@ module.exports = class PlayLevelView extends RootView
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if not @level or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
       Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
       Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
@@ -552,7 +552,7 @@ module.exports = class PlayLevelView extends RootView
     return if @destroyed
     # TODO: Show a victory dialog specific to hero-ladder level
     if @goalManager.checkOverallStatus() is 'success' and not @options.realTimeMultiplayerSessionID?
-      Backbone.Mediator.publish 'level:show-victory', showModal: true 
+      Backbone.Mediator.publish 'level:show-victory', showModal: true
 
   destroy: ->
     @levelLoader?.destroy()
@@ -753,7 +753,7 @@ module.exports = class PlayLevelView extends RootView
     if @realTimeOpponent.get('state') is 'ready'
       @realTimeOpponent.off 'change', @realTimeOpponentMaybeReady
       @realTimeOpponentIsReady()
-  
+
   realTimeOpponentIsReady: =>
     console.info 'All real-time multiplayer players are ready!'
     @realTimeSession.set 'state', 'running'
@@ -840,7 +840,7 @@ module.exports = class PlayLevelView extends RootView
         # TODO: This isn't always getting updated where the random seed generation uses it.
         sessionState.submissionCount = parseInt newSubmissionCount
         console.info 'Got multiplayer submissionCount', sessionState.submissionCount
-        @session.set 'state', sessionState 
+        @session.set 'state', sessionState
         @session.patch()
 
     # Reload this level so the opponent session can easily be wired up
@@ -862,7 +862,7 @@ module.exports = class PlayLevelView extends RootView
     return if me.id is @realTimeSession.get('creator')
 
     oldTeam = @realTimeOpponent.get('team')
-    return unless oldTeam is @session.get('team') 
+    return unless oldTeam is @session.get('team')
 
     # Need to switch to other team
     newTeam = if oldTeam is 'humans' then 'ogres' else 'humans'
@@ -898,7 +898,7 @@ module.exports = class PlayLevelView extends RootView
     if sessionState?
     # TODO: Don't hard code thangID
       sessionState.selected = if newTeam is 'humans' then 'Hero Placeholder' else 'Hero Placeholder 1'
-      @session.set 'state', sessionState 
+      @session.set 'state', sessionState
     @session.set 'code', code
     @session.patch()
 
