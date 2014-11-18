@@ -68,10 +68,6 @@ LevelHandler = class LevelHandler extends Handler
       if req.query.team?
         sessionQuery.team = req.query.team
 
-      # TODO: generalize this for levels based on their teams
-      else if level.get('type') in ['ladder', 'hero-ladder']
-        sessionQuery.team = 'humans'
-
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?

@@ -8,21 +8,26 @@ sendwithus = require '../sendwithus'
 hipchat = require '../hipchat'
 config = require '../../server_config'
 request = require 'request'
+stripe = require('stripe')(config.stripe.secretKey)
+async = require 'async'
 
 products = {
   'gems_5': {
-    amount: 500
+    amount: 499
     gems: 5000
+    id: 'gems_5'
   }
   
   'gems_10': {
-    amount: 1000
+    amount: 999
     gems: 11000
+    id: 'gems_10'
   }
   
   'gems_20': {
-    amount: 2000
+    amount: 1999
     gems: 25000
+    id: 'gems_20'
   }
 }
 
@@ -45,9 +50,16 @@ PaymentHandler = class PaymentHandler extends Handler
     appleLocalPrice = req.body.apple?.localPrice
     stripeToken = req.body.stripe?.token
     stripeTimestamp = parseInt(req.body.stripe?.timestamp)
+    productID = req.body.productID
     
-    if not (appleReceipt or stripeTimestamp)
-      return @sendBadInputError(res, 'Need either apple.rawReceipt or stripe.timestamp')
+    if not (appleReceipt or (stripeTimestamp and productID))
+      return @sendBadInputError(res, 'Need either apple.rawReceipt or stripe.timestamp and productID')
+      
+    if stripeTimestamp and not productID
+      return @sendBadInputError(res, 'Need productID if paying with Stripe.')
+
+    if stripeTimestamp and (not stripeToken) and (not user.get('stripeCustomerID'))
+      return @sendBadInputError(res, 'Need stripe.token if new customer.')
       
     if appleReceipt
       if not appleTransactionID
@@ -55,7 +67,10 @@ PaymentHandler = class PaymentHandler extends Handler
       @handleApplePaymentPost(req, res, appleReceipt, appleTransactionID, appleLocalPrice)
       
     else
-      @handleStripePaymentPost(req, res, stripeTimestamp, stripeToken)
+      @handleStripePaymentPost(req, res, stripeTimestamp, productID, stripeToken)
+      
+      
+  #- Apple payments
       
   handleApplePaymentPost: (req, res, receipt, transactionID, localPrice) ->
     formFields = { 'receipt-data': receipt }
@@ -87,8 +102,6 @@ PaymentHandler = class PaymentHandler extends Handler
         payment.set 'service', 'ios'
         product = products[transaction.product_id]
 
-        product ?= _.values(products)[0] # TEST 
-
         payment.set 'amount', product.amount
         payment.set 'gems', product.gems
         payment.set 'ios', {
@@ -110,10 +123,123 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
     
-  handleStripePaymentPost: (req, res, timestamp, token) ->
-    console.log 'lol not implemented yet'
-    @sendNotFoundError(res)
+  #- Stripe payments
     
+  handleStripePaymentPost: (req, res, timestamp, productID, token) ->
+    
+    # First, make sure we save the payment info as a Customer object, if we haven't already.
+    if not req.user.get('stripeCustomerID')
+      stripe.customers.create({
+        card: token
+        description: req.user._id + ''
+      }).then(((customer) =>
+        req.user.set('stripeCustomerID', customer.id)
+        req.user.save((err) =>
+          return @sendDatabaseError(res, err) if err
+          @beginStripePayment(req, res, timestamp, productID)
+        )
+        ),
+        (err) =>
+          return @sendDatabaseError(res, err)
+      )
+    
+    else
+      @beginStripePayment(req, res, timestamp, productID)
+      
+
+  beginStripePayment: (req, res, timestamp, productID) ->
+    product = products[productID]
+
+    async.parallel([
+      ((callback) ->
+        criteria = { recipient: req.user._id, 'stripe.timestamp': timestamp }
+        Payment.findOne(criteria).exec((err, payment) =>
+          callback(err, payment)
+        )
+      ),
+      ((callback) ->
+        stripe.charges.list({customer: req.user.get('stripeCustomerID')}, (err, recentCharges) =>
+          return callback(err) if err
+          charge = _.find recentCharges.data, (c) -> c.metadata.timestamp is timestamp
+          callback(null, charge)
+        )
+      )
+    ],
+      
+      ((err, results) =>
+        return @sendDatabaseError(res, err) if err 
+        [payment, charge] = results
+  
+        if not (payment or charge)
+          # Proceed normally from the beginning
+          @chargeStripe(req, res, payment, product)
+            
+        else if charge and not payment
+          # Initialized Payment. Start from charging.
+          @recordStripeCharge(req, res, payment, product, charge)
+  
+        else
+          # Charged Stripe and recorded it. Recalculate gems to make sure credited the purchase.
+          @recalculateGemsFor(req.user, (err) =>
+              return @sendDatabaseError(res, err) if err
+              @sendSuccess(res, @formatEntity(req, payment))
+          )
+      )
+    )
+
+    
+  chargeStripe: (req, res, payment, product) ->
+    stripe.charges.create({
+      amount: product.amount
+      currency: 'usd'
+      customer: req.user.get('stripeCustomerID')
+      metadata: {
+        productID: product.id
+        userID: req.user._id + ''
+        gems: product.gems
+        timestamp: parseInt(req.body.stripe?.timestamp)
+      }
+      receipt_email: req.user.get('email')
+    }).then(
+      # success case
+      ((charge) => @recordStripeCharge(req, res, payment, product, charge)),
+      
+      # error case
+      ((err) =>
+        if err.type in ['StripeCardError', 'StripeInvalidRequestError']
+          @sendError(res, 402, err.message)
+        else
+          @sendDatabaseError(res, 'Error charging card, please retry.'))
+    )
+    
+    
+  recordStripeCharge: (req, res, payment, product, charge) ->
+    return @sendError(res, 500, 'Fake db error for testing.') if req.body.breakAfterCharging
+    payment = @makeNewInstance(req)
+    payment.set 'service', 'stripe'
+    payment.set 'productID', req.body.productID
+    payment.set 'amount', product.amount
+    payment.set 'gems', product.gems
+    payment.set 'stripe', {
+      customerID: req.user.get('stripeCustomerID')
+      timestamp: parseInt(req.body.stripe.timestamp)
+      chargeID: charge.id
+    }
+
+    validation = @validateDocumentInput(payment.toObject())
+    return @sendBadInputError(res, validation.errors) if validation.valid is false
+    payment.save((err) =>
+
+      # Credit gems
+      return @sendDatabaseError(res, err) if err
+      @incrementGemsFor(req.user, product.gems, (err) =>
+        return @sendDatabaseError(res, err) if err
+        @sendCreated(res, @formatEntity(req, payment))
+      )
+    )
+
+    
+  #- Incrementing/recalculating gems
     
   incrementGemsFor: (user, gems, done) ->
     purchased = _.clone(user.get('purchased'))

@@ -1,5 +1,7 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/modal/buy-gems-modal'
+stripeHandler = require 'lib/services/stripe'
+utils = require 'lib/utils'
 
 module.exports = class BuyGemsModal extends ModalView
   id: 'buy-gems-modal'
@@ -7,20 +9,22 @@ module.exports = class BuyGemsModal extends ModalView
   plain: true
 
   originalProducts: [
-    { price: '$4.99', gems: 5000, id: 'gems_5', i18n: 'buy_gems.few_gems' }
-    { price: '$9.99', gems: 11000, id: 'gems_10', i18n: 'buy_gems.pile_gems' }
-    { price: '$19.99', gems: 25000, id: 'gems_20', i18n: 'buy_gems.chest_gems' }
+    { price: '$4.99', gems: 5000, amount: 499, id: 'gems_5', i18n: 'buy_gems.few_gems' }
+    { price: '$9.99', gems: 11000, amount: 999, id: 'gems_10', i18n: 'buy_gems.pile_gems' }
+    { price: '$19.99', gems: 25000, amount: 1999, id: 'gems_20', i18n: 'buy_gems.chest_gems' }
   ]
 
   subscriptions:
     'ipad:products': 'onIPadProducts'
     'ipad:iap-complete': 'onIAPComplete'
+    'stripe:received-token': 'onStripeReceivedToken'
 
   events:
     'click .product button': 'onClickProductButton'
 
   constructor: (options) ->
     super(options)
+    @state = 'standby'
     if application.isIPadApp
       @products = []
       Backbone.Mediator.publish 'buy-gems-modal:update-products'
@@ -30,6 +34,7 @@ module.exports = class BuyGemsModal extends ModalView
   getRenderData: ->
     c = super()
     c.products = @products
+    c.state = @state
     return c
 
   onIPadProducts: (e) ->
@@ -43,15 +48,48 @@ module.exports = class BuyGemsModal extends ModalView
     @render()
 
   onClickProductButton: (e) ->
-    productID = $(e.target).closest('button.product').val()
-    console.log 'purchasing', _.find @products, { id: productID }
+    productID = $(e.target).closest('button').val()
+    product = _.find @products, { id: productID }
 
     if application.isIPadApp
       Backbone.Mediator.publish 'buy-gems-modal:purchase-initiated', { productID: productID }
 
     else
       application.tracker?.trackEvent 'Started purchase', {productID:productID}, ['Google Analytics']
-      alert('Not yet implemented, but thanks for trying!')
+      stripeHandler.open({
+        description: $.t(product.i18n)
+        amount: product.amount
+      })
+      
+    @productBeingPurchased = product
+    
+  onStripeReceivedToken: (e) ->
+    @timestampForPurchase = new Date().getTime()
+    data = {
+      productID: @productBeingPurchased.id
+      stripe: {
+        token: e.token.id
+        timestamp: @timestampForPurchase
+      }
+    }
+    @state = 'purchasing'
+    @render()
+    jqxhr = $.post('/db/payment', data)
+    jqxhr.done(=>
+      document.location.reload()
+    )
+    jqxhr.fail(=>
+      if jqxhr.status is 402
+        @state = 'declined'
+        @stateMessage = arguments[2]
+      else if jqxhr.status is 500
+        @state = 'retrying'
+        f = _.bind @onStripeReceivedToken, @, e
+        _.delay f, 2000
+      else
+        @state = 'unknown_error'
+      @render()
+    )
 
   onIAPComplete: (e) ->
     product = _.find @products, { id: e.productID }

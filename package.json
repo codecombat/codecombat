@@ -69,7 +69,8 @@
     "aether": "~0.2.39",
     "JASON": "~0.1.3",
     "JQDeferred": "~2.1.0",
-    "jsondiffpatch": "0.1.17"
+    "jsondiffpatch": "0.1.17",
+    "stripe": "~2.9.0"
   },
   "devDependencies": {
     "jade": "0.33.x",

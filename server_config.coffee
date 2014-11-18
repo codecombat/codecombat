@@ -18,8 +18,10 @@ config.mongo =
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
 
 config.apple =
-  #verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
-  verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://buy.itunes.apple.com/verifyReceipt'
+  verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
+  
+config.stripe =
+  secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
 
 config.redis =
   port: process.env.COCO_REDIS_PORT or 6379

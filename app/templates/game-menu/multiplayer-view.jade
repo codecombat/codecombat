@@ -22,7 +22,7 @@ if !ladderGame
 if ladderGame
   if me.get('anonymous')
     p(data-i18n="multiplayer.multiplayer_sign_in_leaderboard") Sign in or create an account and get your solution on the leaderboard.
-  else if readyToRank
+  else if realTimeSessions && realTimeSessionsPlayers
     button#create-game-button Create Game
 
     hr
@@ -37,7 +37,7 @@ if ladderGame
           span(style="margin:10px")= currentRealTimeSession.id
           button#leave-game-button(data-item=item) Leave Game
         div
-          - var players = realTimeSessionPlayers[currentRealTimeSession.id]
+          - var players = realTimeSessionsPlayers[currentRealTimeSession.id]
           if players
             span(style="margin:10px") Players:
             - for (var i=0; i < players.length; i++) {
@@ -61,7 +61,7 @@ if ladderGame
           - continue
         if levelID === realTimeSessions.at(i).get('levelID') && realTimeSessions.at(i).get('state') === 'creating'
           - var id = realTimeSessions.at(i).get('id')
-          - var players = realTimeSessionPlayers[id]
+          - var players = realTimeSessionsPlayers[id]
           if players && players.length === 1
             - noOpenGames = false
             - var creatorName = realTimeSessions.at(i).get('creatorName')

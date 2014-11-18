@@ -8,6 +8,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
   amount: { type: 'integer', description: 'Payment in cents.' }
   created: c.date({title: 'Created', readOnly: true})
   gems: { type: 'integer', description: 'The number of gems acquired.' }
+  productID: { enum: ['gems_5', 'gems_10', 'gems_20']}
   
   ios: c.object({title: 'iOS IAP Data'}, {
     transactionID: { type: 'string' }
@@ -17,7 +18,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
   
   stripe: c.object({title: 'Stripe Data'}, {
     timestamp: { type: 'integer', description: 'Unique identifier provided by the client, to guard against duplicate payments.' }
-    transactionID: { type: 'string' }
+    chargeID: { type: 'string' }
     customerID: { type: 'string' }
   })
 })

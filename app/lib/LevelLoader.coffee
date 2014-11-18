@@ -56,7 +56,6 @@ module.exports = class LevelLoader extends CocoClass
   onLevelLoaded: ->
     @loadSession()
     @populateLevel()
-    Backbone.Mediator.publish 'level:loaded', level: @level, team: @team ? 'humans'
 
   # Session Loading
 
@@ -72,7 +71,7 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
-      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
+      @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
       @opponentSession = @opponentSessionResource.model
 
     if @session.loaded
@@ -90,6 +89,9 @@ module.exports = class LevelLoader extends CocoClass
 
   loadDependenciesForSession: (session) ->
     if session is @session
+      # hero-ladder games require the correct session team in level:loaded
+      team = @team ? @session.get('team')
+      Backbone.Mediator.publish 'level:loaded', level: @level, team: team
       Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession

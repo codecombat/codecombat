@@ -237,8 +237,12 @@ module.exports = class TomeView extends CocoView
       @cast()
 
   onSelectPrimarySprite: (e) ->
-    # TODO: this may not be correct
-    Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder'
+    # This is only fired by PlayLevelView for hero levels currently
+    # TODO: Don't hard code these hero names
+    if @options.session.get('team') is 'ogres'
+      Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder 1'
+    else
+      Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder'
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells

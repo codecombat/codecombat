@@ -46,20 +46,18 @@ module.exports = class Spell
       @source = @originalSource = p.aiSource
     @thangs = {}
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, worker: @worker}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker}
       @view.render()  # Get it ready and code loaded in advance
       @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, codeLanguage: @language, level: options.level
       @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
-    Backbone.Mediator.subscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode, @
 
   destroy: ->
     @view?.destroy()
     @tabView?.destroy()
     @thangs = null
     @worker = null
-    Backbone.Mediator.unsubscribe 'real-time-multiplayer:new-opponent-code', @onNewOpponentCode, @
 
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
@@ -187,21 +185,12 @@ module.exports = class Spell
 
   shouldUseTranspiledCode: ->
     # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
+    return false if @levelType is 'hero-ladder'
     return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
     return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
     false
-
-  onNewOpponentCode: (e) ->
-    return unless @spellKey and @canWrite e.team
-    if e.codeLanguage and e.code
-      [thangSlug, methodSlug] = @spellKey.split '/'
-      if opponentCode = e.code[thangSlug]?[methodSlug]
-        @source = opponentCode
-        @updateLanguageAether e.codeLanguage
-    else
-      console.error 'Spell onNewOpponentCode did not receive code', e
 
   createProblemContext: (thang) ->
     # Create problemContext Aether can use to craft better error messages

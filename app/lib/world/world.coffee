@@ -17,6 +17,7 @@ REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
+EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
 
 module.exports = class World
@@ -237,13 +238,19 @@ module.exports = class World
 
   loadThangFromLevel: (thangConfig, levelComponents, thangTypes, equipBy=null) ->
     components = []
-    for component in thangConfig.components
+    for component, componentIndex in thangConfig.components
       componentModel = _.find levelComponents, (c) ->
         c.original is component.original and c.version.major is (component.majorVersion ? 0)
       componentClass = @loadClassFromCode componentModel.js, componentModel.name, 'component'
       components.push [componentClass, component.config]
-      if equipBy and component.original is ITEM_ORIGINAL
-        component.config.ownerID = equipBy
+      if component.original is ITEM_ORIGINAL
+        isItem = true
+        component.config.ownerID = equipBy if equipBy
+      else if component.original is EXISTS_ORIGINAL
+        existsConfigIndex = componentIndex
+    if isItem and existsConfigIndex?
+      # For memory usage performance, make sure these don't get any tracked properties assigned.
+      components[existsConfigIndex][1] = {exists: false, stateless: true}
     thangTypeOriginal = thangConfig.thangType
     thangTypeModel = _.find thangTypes, (t) -> t.original is thangTypeOriginal
     return console.error thangConfig.id ? equipBy, 'could not find ThangType for', thangTypeOriginal unless thangTypeModel
@@ -347,6 +354,7 @@ module.exports = class World
 
   serialize: ->
     # Code hotspot; optimize it
+    @freeMemoryBeforeFinalSerialization() if @ended
     startFrame = @framesSerializedSoFar
     endFrame = @frames.length
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
@@ -437,6 +445,7 @@ module.exports = class World
     o.scriptNotes = (sn.serialize() for sn in @scriptNotes)
     if o.scriptNotes.length > 200
       console.log 'Whoa, serializing a lot of WorldScriptNotes here:', o.scriptNotes.length
+    @freeMemoryAfterEachSerialization() unless @ended
     {serializedWorld: o, transferableObjects: [o.storageBuffer], startFrame: startFrame, endFrame: endFrame}
 
   @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, level, streamingWorld) ->
@@ -534,6 +543,13 @@ module.exports = class World
       else
         console.log 'No frames were changed out of all', @frames.length
     firstChangedFrame
+
+  freeMemoryBeforeFinalSerialization: ->
+    @levelComponents = null
+    @thangTypes = null
+
+  freeMemoryAfterEachSerialization: ->
+    @frames[i] = null for frame, i in @frames when i < @frames.length - 1
 
   pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
     # Optimized
