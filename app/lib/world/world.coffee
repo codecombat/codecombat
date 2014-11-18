@@ -551,7 +551,7 @@ module.exports = class World
   freeMemoryAfterEachSerialization: ->
     @frames[i] = null for frame, i in @frames when i < @frames.length - 1
 
-  pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
+  pointsForThang: (thangID, camera=null) ->
     # Optimized
     @pointsForThangCache ?= {}
     cacheKey = thangID
@@ -570,16 +570,7 @@ module.exports = class World
       allPoints.reverse()
       @pointsForThangCache[cacheKey] = allPoints
 
-    points = []
-    [lastX, lastY] = [null, null]
-    for frameIndex in [Math.floor(frameStart / resolution) ... Math.ceil(frameEnd / resolution)]
-      x = allPoints[frameIndex * 2 * resolution]
-      y = allPoints[frameIndex * 2 * resolution + 1]
-      continue if x is lastX and y is lastY
-      lastX = x
-      lastY = y
-      points.push x, y
-    points
+    return allPoints
 
   actionsForThang: (thangID, keepIdle=false) ->
     # Optimized
