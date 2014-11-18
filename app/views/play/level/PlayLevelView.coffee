@@ -36,7 +36,6 @@ GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
-MultiplayerStatusView = require './MultiplayerStatusView'
 LevelSetupManager = require 'lib/LevelSetupManager'
 
 PROFILE_ME = false
@@ -255,8 +254,6 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    if @level.get('type') in ['hero-ladder']
-      @insertSubView new MultiplayerStatusView levelID: @levelID, session: @session, level: @level
     @insertSubView new ProblemAlertView {}
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
