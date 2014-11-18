@@ -68,13 +68,17 @@ module.exports = class Level extends CocoModel
       placeholders = {}
       placeholdersUsed = {}
       placeholderThangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
-      for defaultPlaceholderComponent in placeholderThangType.get('components')
-        placeholders[defaultPlaceholderComponent.original] = defaultPlaceholderComponent
-      for thangComponent in levelThang.components
-        placeholders[thangComponent.original] = thangComponent
-      levelThang.components = []  # We have stored the placeholder values, so we can inherit everything else.
-      heroThangType = session?.get('heroConfig')?.thangType
-      levelThang.thangType = heroThangType if heroThangType
+      unless placeholderThangType
+        console.error "Couldn't find placeholder ThangType for the hero!"
+        isHero = false
+      else
+        for defaultPlaceholderComponent in placeholderThangType.get('components')
+          placeholders[defaultPlaceholderComponent.original] = defaultPlaceholderComponent
+        for thangComponent in levelThang.components
+          placeholders[thangComponent.original] = thangComponent
+        levelThang.components = []  # We have stored the placeholder values, so we can inherit everything else.
+        heroThangType = session?.get('heroConfig')?.thangType
+        levelThang.thangType = heroThangType if heroThangType
 
     thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType, (m) -> m.get('components')?)
 
