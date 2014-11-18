@@ -30,7 +30,9 @@
                   button.btn.equip-item(data-i18n="inventory.equip")
               .clearfix
             
-            #double-click-hint.alert.alert-info(data-i18n="inventory.should_equip")
+            #double-click-hint.alert.alert-info
+              span.glyphicon.glyphicon-info-sign.spr
+              span(data-i18n="inventory.should_equip")
             
             if itemGroups.restrictedItems.models.length
               h4#restricted-description(data-i18n="inventory.restricted_title")
