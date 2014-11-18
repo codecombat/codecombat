@@ -149,7 +149,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    body: "Body"
     version: "Версия"
 #    commit_msg: "Commit Message"
-    version_history "Предишни версии" # "Version History"
+    version_history: "Предишни версии" # "Version History"
 #    version_history_for: "Version History for: "
 #    result: "Result"
     results: "Резултати"
