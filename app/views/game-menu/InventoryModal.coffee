@@ -127,6 +127,7 @@ module.exports = class InventoryModal extends ModalView
     @insertSubView(@itemDetailsView)
     @requireLevelEquipment()
     @$el.find('.nano').nanoScroller({alwaysVisible: true})
+    @onSelectionChanged()
 
   afterInsert: ->
     super()
@@ -330,6 +331,10 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#unequipped .item.active')
 
   onSelectionChanged: ->
+    heroClass = @selectedHero?.get('heroClass')
+    itemsCanBeEquipped = @$el.find('#unequipped .item.available:not(.equipped)').filter('.'+heroClass).length
+    toShow = @$el.find('#double-click-hint, #available-description')
+    if itemsCanBeEquipped then toShow.removeClass('secret') else toShow.addClass('secret')
     @delegateEvents()
 
 
@@ -393,7 +398,6 @@ module.exports = class InventoryModal extends ModalView
           @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
           @$el.find(availableSlotSelector).addClass 'should-equip'
           @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-          @$el.find('#double-click-hint').removeClass('secret')
           @remainingRequiredEquipment.push slot: slot, item: gear[item]
       if hadRequired and not @remainingRequiredEquipment.length
         @endHighlight()
