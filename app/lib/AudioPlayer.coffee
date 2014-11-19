@@ -104,7 +104,6 @@ class AudioPlayer extends CocoClass
 
   hasLoadedSound: (filename, name) ->
     return false unless filename of cache
-    console.info 'has loaded sound? well it is in the cache...', filename, name
     return false unless createjs.Sound.loadComplete filename
     true
 
