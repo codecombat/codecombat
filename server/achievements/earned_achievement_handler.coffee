@@ -16,7 +16,26 @@ class EarnedAchievementHandler extends Handler
 
   get: (req, res) ->
     return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
-    super(arguments...)
+    query = { user: req.user._id+''}
+
+    projection = {}
+    if req.query.project
+      projection[field] = 1 for field in req.query.project.split(',')
+
+    q = EarnedAchievement.find(query, projection)
+
+    skip = parseInt(req.query.skip)
+    if skip? and skip < 1000000
+      q.skip(skip)
+
+    limit = parseInt(req.query.limit)
+    if limit? and limit < 1000
+      q.limit(limit)
+
+    q.exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      documents = (@formatEntity(req, doc) for doc in documents)
+      @sendSuccess(res, documents)
 
   getByAchievementIDs: (req, res) ->
     query = { user: req.user._id+''}
