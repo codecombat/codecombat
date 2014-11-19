@@ -34,7 +34,7 @@ module.exports = class ProblemAlertView extends CocoView
   getRenderData: (context={}) ->
     context = super context
     if @problem?
-      format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
+      format = (s) -> marked(s.replace(/</g, '&lt;').replace(/>/g, '&gt;')) if s?
       context.message = format @problem.aetherProblem.message
       context.hint = format @problem.aetherProblem.hint
     context
