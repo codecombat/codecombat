@@ -75,6 +75,7 @@ module.exports = LevelOptions =
     requiredCode: ['Brak']
   'favorable-odds':
     disableSpaces: true
+    hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
     hidesSay: true
@@ -84,6 +85,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots'}
   'the-raised-sword':
     disableSpaces: true
+    hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
     hidesSay: true
