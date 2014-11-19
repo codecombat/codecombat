@@ -1,5 +1,5 @@
 h4
-  span= doc.shortName
+  span.prop-name= doc.shortName
   |  - 
   code.prop-type= doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type
   if doc.type != 'function'
