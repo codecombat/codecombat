@@ -118,8 +118,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送."
 
   items:
-    primary: "首选"#"Primary"
-    secondary: "次选"#Secondary"
+    primary: "右手"#"Primary"
+    secondary: "左手"#Secondary"
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
