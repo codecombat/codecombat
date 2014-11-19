@@ -98,7 +98,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     authenticate_gplus: "使用 G+ 授权"#Authenticate G+"
     load_profile: "载入 G+ 档案" # Load G+ Profile"
     load_email: "载入 G+ 电子邮件" #Load G+ Email"
-    finishing: "完成" #Finishing"
+    finishing: "完成..." #Finishing"
 
   signup:
     create_account_title: "创建一个账户来保存进度"
