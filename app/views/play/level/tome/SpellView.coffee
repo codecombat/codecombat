@@ -394,7 +394,7 @@ module.exports = class SpellView extends CocoView
     @focus() if cast
 
   onCodeReload: (e) ->
-    return unless e.spell is @spell
+    return unless e.spell is @spell or not e.spell
     @reloadCode true
     @ace.clearSelection()
     _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)

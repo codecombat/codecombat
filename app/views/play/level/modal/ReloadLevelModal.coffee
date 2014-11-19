@@ -6,4 +6,10 @@ module.exports = class ReloadLevelModal extends ModalView
   template: template
 
   events:
-    'click #restart-level-confirm-button': -> Backbone.Mediator.publish 'level:restart', {}
+    'click #restart-level-confirm-button': 'onClickRestart'
+
+  onClickRestart: (e) ->
+    if key.shift
+      Backbone.Mediator.publish 'level:restart', {}
+    else
+      Backbone.Mediator.publish 'tome:reload-code', {}

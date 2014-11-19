@@ -35,7 +35,7 @@ module.exports =
 
   'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
 
-  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: ['spell']},
+  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
     spell: {type: 'object'}
 
   'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
