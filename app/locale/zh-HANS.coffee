@@ -12,7 +12,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_developers: "适合开发者" # Not currently shown on home page.
 
   nav:
-    play: "开始游戏" # The top nav bar entry where players choose which levels to play
+    play: "关卡选择" # The top nav bar entry where players choose which levels to play
     community: "社区"
     editor: "编辑器"
     blog: "博客"
@@ -249,7 +249,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
     loading_ready: "载入完成!"
-    loading_start: "关卡开始"
+    loading_start: "开战"
     problem_alert_title: "修正你的代码"
     time_current: "现在:"
     time_total: "最大:"
@@ -315,7 +315,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     equip: "装备"
     unequip: "取消装备"
 
-    buy_gems: "购买宝石"
+  buy_gems: 
     few_gems: "几个宝石"
     pile_gems: "一堆宝石"
     chest_gems: "一箱宝石"
