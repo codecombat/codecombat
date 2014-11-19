@@ -1,5 +1,6 @@
 module.exports = LevelOptions =
   'dungeons-of-kithgard':
+    disableSpaces: true
     hidesSubmitUntilRun: true
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -10,6 +11,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots'}
   'gems-in-the-deep':
+    disableSpaces: true
     hidesSubmitUntilRun: true
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -20,6 +22,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots'}
   'shadow-guard':
+    disableSpaces: true
     hidesSubmitUntilRun: true
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -30,6 +33,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword'}
   'kounter-kithwise':
+    disableSpaces: true
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -48,6 +52,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'forgetful-gemsmith':
+    disableSpaces: true
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -57,6 +62,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'true-names':
+    disableSpaces: true
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -66,6 +72,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', waist: 'leather-belt'}
     restrictedGear: {feet: 'leather-boots'}
   'favorable-odds':
+    disableSpaces: true
     hidesRunShortcut: true
     hidesHUD: true
     hidesSay: true
@@ -74,6 +81,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
     restrictedGear: {feet: 'leather-boots'}
   'the-raised-sword':
+    disableSpaces: true
     hidesRunShortcut: true
     hidesHUD: true
     hidesSay: true

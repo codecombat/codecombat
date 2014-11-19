@@ -17,6 +17,7 @@ module.exports = class GameMenuModal extends ModalView
     'change input.select': 'onSelectionChanged'
     'shown.bs.tab #game-menu-nav a': 'onTabShown'
     'click #change-hero-tab': -> @trigger 'change-hero'
+    'click #close-modal': 'hide'
 
   constructor: (options) ->
     super options

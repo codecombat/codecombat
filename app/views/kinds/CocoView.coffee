@@ -99,7 +99,7 @@ module.exports = class CocoView extends Backbone.View
       @$el.find(selector).replaceWith(newTemplate.find(selector))
     @delegateEvents()
     @$el.i18n()
-  
+
   render: ->
     return @ unless me
     view.destroy() for id, view of @subviews
@@ -358,8 +358,6 @@ module.exports = class CocoView extends Backbone.View
   animatePointer: =>
     $pointer = @getPointer()
     $pointer.css transition: 'all 0.6s ease-out', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)"
-    if me.getHighlightArrowSoundGroup() is 'sound-on'
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.5
     setTimeout (=> $pointer.css transition: 'all 0.4s ease-in', transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)"), 800
 
   endHighlight: ->

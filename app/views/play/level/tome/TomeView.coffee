@@ -222,7 +222,8 @@ module.exports = class TomeView extends CocoView
     if spellName
       spell = _.find selectedThangSpells, {name: spellName}
     else
-      spell = _.find selectedThangSpells, (spell) -> true  # Just grab one
+      spell = _.find selectedThangSpells, (spell) -> spell.canWrite()
+      spell ?= _.find selectedThangSpells, (spell) -> spell.canRead()
     spell
 
   reloadAllCode: ->

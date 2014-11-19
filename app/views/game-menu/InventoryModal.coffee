@@ -20,9 +20,10 @@ module.exports = class InventoryModal extends ModalView
 
   events:
     'click .item-slot': 'onItemSlotClick'
-    'click #unequipped img.item': 'onUnequippedItemClick'
-    'doubletap #unequipped img.item': 'onUnequippedItemDoubleClick'
-    'doubletap .item-slot img.item': 'onEquippedItemDoubleClick'
+    'click #unequipped .item': 'onUnequippedItemClick'
+    'doubletap #unequipped .item': 'onUnequippedItemDoubleClick'
+    'doubletap .item-slot .item': 'onEquippedItemDoubleClick'
+    'click button.equip-item': 'onClickEquipItemButton'
     'shown.bs.modal': 'onShown'
     'click #choose-hero-button': 'onClickChooseHero'
     'click #play-level-button': 'onClickPlayLevel'
@@ -126,6 +127,7 @@ module.exports = class InventoryModal extends ModalView
     @insertSubView(@itemDetailsView)
     @requireLevelEquipment()
     @$el.find('.nano').nanoScroller({alwaysVisible: true})
+    @onSelectionChanged()
 
   afterInsert: ->
     super()
@@ -137,7 +139,7 @@ module.exports = class InventoryModal extends ModalView
   #- Draggable logic
 
   setUpDraggableEventsForAvailableEquipment: ->
-    for availableItemEl in @$el.find('#unequipped img.item')
+    for availableItemEl in @$el.find('#unequipped .item')
       availableItemEl = $(availableItemEl)
       continue if availableItemEl.hasClass('locked') or availableItemEl.hasClass('restricted')
       dragHelper = availableItemEl.clone().addClass('draggable-item')
@@ -201,12 +203,12 @@ module.exports = class InventoryModal extends ModalView
 
   onUnequippedItemClick: (e) ->
     return if @justDoubleClicked
-    itemEl = $(e.target).closest('img.item')
+    itemEl = $(e.target).closest('.item')
     @selectUnequippedItem(itemEl)
 
   onUnequippedItemDoubleClick: (e) ->
-    item = $(e.target).closest('img.item')
-    return if item.hasClass('locked') or item.hasClass('restricted')
+    itemEl = $(e.target).closest('.item')
+    return if itemEl.hasClass('locked') or itemEl.hasClass('restricted')
     @equipSelectedItem()
     @justDoubleClicked = true
     _.defer => @justDoubleClicked = false
@@ -214,6 +216,11 @@ module.exports = class InventoryModal extends ModalView
   onEquippedItemDoubleClick: -> @unequipSelectedItem()
   onClickEquipItemViewed: -> @equipSelectedItem()
   onClickUnequipItemViewed: -> @unequipSelectedItem()
+
+  onClickEquipItemButton: (e) ->
+    itemEl = $(e.target).closest('.item')
+    @selectUnequippedItem(itemEl)
+    @equipSelectedItem()
 
   onUnlockButtonClicked: (e) ->
     button = $(e.target).closest('button')
@@ -249,7 +256,7 @@ module.exports = class InventoryModal extends ModalView
   selectItemSlot: (slotEl) ->
     @clearSelection()
     slotEl.addClass('selected')
-    selectedSlotItemID = slotEl.find('img.item').data('item-id')
+    selectedSlotItemID = slotEl.find('.item').data('item-id')
     item = @items.get(selectedSlotItemID)
     if item then @showItemDetails(item, 'unequip')
     @onSelectionChanged()
@@ -270,7 +277,7 @@ module.exports = class InventoryModal extends ModalView
     selectedItemEl.effect('transfer', to: slotEl, duration: 500, easing: 'easeOutCubic')
     unequipped = @unequipItemFromSlot(slotEl)
     selectedItemEl.addClass('equipped')
-    slotEl.append(selectedItemEl.clone())
+    slotEl.append(selectedItemEl.find('img').clone().addClass('item').data('item-id', selectedItem.id))
     @clearSelection()
     @showItemDetails(selectedItem, 'unequip')
     slotEl.addClass('selected')
@@ -302,17 +309,17 @@ module.exports = class InventoryModal extends ModalView
     @hideItemDetails()
 
   unequipItemFromSlot: (slotEl) ->
-    itemEl = slotEl.find('img.item')
+    itemEl = slotEl.find('.item')
     itemIDToUnequip = itemEl.data('item-id')
     return unless itemIDToUnequip
     itemEl.remove()
-    @$el.find("#unequipped img.item[data-item-id=#{itemIDToUnequip}]").removeClass('equipped')
+    @$el.find("#unequipped .item[data-item-id=#{itemIDToUnequip}]").removeClass('equipped')
 
   deselectAllSlots: ->
     @$el.find('#equipped .item-slot.selected').removeClass('selected')
 
   deselectAllUnequippedItems: ->
-    @$el.find('#unequipped img.item').removeClass('active')
+    @$el.find('#unequipped .item').removeClass('active')
 
   getSlot: (name) ->
     @$el.find(".item-slot[data-slot=#{name}]")
@@ -321,9 +328,13 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#equipped .item-slot.selected')
 
   getSelectedUnequippedItem: ->
-    @$el.find('#unequipped img.item.active')
+    @$el.find('#unequipped .item.active')
 
   onSelectionChanged: ->
+    heroClass = @selectedHero?.get('heroClass')
+    itemsCanBeEquipped = @$el.find('#unequipped .item.available:not(.equipped)').filter('.'+heroClass).length
+    toShow = @$el.find('#double-click-hint, #available-description')
+    if itemsCanBeEquipped then toShow.removeClass('secret') else toShow.addClass('secret')
     @delegateEvents()
 
 
@@ -340,7 +351,7 @@ module.exports = class InventoryModal extends ModalView
     config = {}
     for slot in @$el.find('.item-slot')
       slotName = $(slot).data('slot')
-      slotItemID = $(slot).find('img.item').data('item-id')
+      slotItemID = $(slot).find('.item').data('item-id')
       continue unless slotItemID
       item = _.find @items.models, {id:slotItemID}
       config[slotName] = item.get('original')
@@ -387,7 +398,6 @@ module.exports = class InventoryModal extends ModalView
           @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
           @$el.find(availableSlotSelector).addClass 'should-equip'
           @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-          @$el.find('#double-click-hint').removeClass('secret')
           @remainingRequiredEquipment.push slot: slot, item: gear[item]
       if hadRequired and not @remainingRequiredEquipment.length
         @endHighlight()

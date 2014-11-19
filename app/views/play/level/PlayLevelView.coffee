@@ -36,7 +36,6 @@ GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
-MultiplayerStatusView = require './MultiplayerStatusView'
 LevelSetupManager = require 'lib/LevelSetupManager'
 
 PROFILE_ME = false
@@ -78,6 +77,7 @@ module.exports = class PlayLevelView extends RootView
     'real-time-multiplayer:joined-game': 'onRealTimeMultiplayerJoinedGame'
     'real-time-multiplayer:left-game': 'onRealTimeMultiplayerLeftGame'
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
+    'ipad:memory-warning': 'onIPadMemoryWarning'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -255,8 +255,6 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    if @level.get('type') in ['hero-ladder']
-      @insertSubView new MultiplayerStatusView levelID: @levelID, session: @session, level: @level
     @insertSubView new ProblemAlertView {}
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
@@ -438,7 +436,7 @@ module.exports = class PlayLevelView extends RootView
 
   showVictory: ->
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session}
+    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning}
     ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then HeroVictoryModal else VictoryModal
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
@@ -462,7 +460,7 @@ module.exports = class PlayLevelView extends RootView
     Backbone.Mediator.publish 'router:navigate', {
       route: nextLevelURL,
       viewClass: PlayLevelView,
-      viewArgs: [{supermodel: @supermodel}, nextLevelID]}
+      viewArgs: [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}, nextLevelID]}
 
   getNextLevel: ->
     return null unless nextLevelOriginal = @level.get('nextLevel')?.original
@@ -905,3 +903,6 @@ module.exports = class PlayLevelView extends RootView
     if sessionState?
       # TODO: Don't hardcode spellName
       Backbone.Mediator.publish 'level:select-sprite', thangID: sessionState.selected, spellName: 'plan'
+
+  onIPadMemoryWarning: (e) ->
+    @hasReceivedMemoryWarning = true

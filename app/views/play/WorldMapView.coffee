@@ -31,6 +31,8 @@ module.exports = class WorldMapView extends RootView
     'click #volume-button': 'onToggleVolume'
 
   constructor: (options, @terrain) ->
+    if options and application.isIPAdApp  # TODO: later only clear the SuperModel if it has received a memory warning (not in app store yet)
+      options.supermodel = null
     @terrain ?= 'dungeon' # or 'forest'
     super options
     @nextLevel = @getQueryVariable 'next'
@@ -282,6 +284,7 @@ module.exports = class WorldMapView extends RootView
     storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
+    return  # Don't do this because these two have feature images, so we don't need the raw vector data for them. Later they'll all have feature images...
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url

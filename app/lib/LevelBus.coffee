@@ -211,10 +211,12 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
-  onNewGoalStates: ({goalStates}) ->
+  onNewGoalStates: (e) ->
     # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
+    goalStates = e.goalStates
     return console.error("Somehow trying to save null goal states!", newGoalStates) if _.find(newGoalStates, (gs) -> not gs.status)
 
+    return unless e.overallStatus is 'success'
     newGoalStates = goalStates
     state = @session.get('state')
     oldGoalStates = state.goalStates or {}

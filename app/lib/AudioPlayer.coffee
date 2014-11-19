@@ -123,7 +123,7 @@ class AudioPlayer extends CocoClass
     return if filename of cache
     name ?= filename
     # SoundJS flips out if you try to register the same file twice
-    createjs.Sound.registerSound(filename, name, 1, true)  # 1: 1 channel, true: should preload
+    result = createjs.Sound.registerSound(filename, name, 1)  # 1: 1 channel
     cache[filename] = new Media(name)
 
   # PROGRESS CALLBACKS

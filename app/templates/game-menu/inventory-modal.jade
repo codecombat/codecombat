@@ -25,21 +25,27 @@
             if itemGroups.availableItems.models.length
               h4#available-description(data-i18n="inventory.available_item")
               for item in itemGroups.availableItems.models
-                img.item(src=item.getPortraitURL(), class=item.classes, data-item-id=item.id)
+                .item.available(class=item.classes, data-item-id=item.id)
+                  img(src=item.getPortraitURL())
+                  button.btn.equip-item(data-i18n="inventory.equip")
               .clearfix
             
-            #double-click-hint.alert.alert-info.secret(data-i18n="inventory.should_equip")
+            #double-click-hint.alert.alert-info
+              span.glyphicon.glyphicon-info-sign.spr
+              span(data-i18n="inventory.should_equip")
             
             if itemGroups.restrictedItems.models.length
               h4#restricted-description(data-i18n="inventory.restricted_title")
               for item in itemGroups.restrictedItems.models
-                img.item(src=item.getPortraitURL(), class=item.classes, data-item-id=item.id)
+                .item(class=item.classes, data-item-id=item.id)
+                  img(src=item.getPortraitURL())
               .clearfix
-      
+            
             if itemGroups.lockedItems.models.length
               h4#locked-description(data-i18n="play.locked")
               for item in itemGroups.lockedItems.models
-                img.item(src=item.getPortraitURL(), class=item.classes, data-item-id=item.id)
+                .item(class=item.classes, data-item-id=item.id)
+                  img(src=item.getPortraitURL())
               .clearfix
 
     #item-details-view

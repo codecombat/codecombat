@@ -44,7 +44,6 @@ module.exports = class ItemDetailsView extends CocoView
         @listenToOnce docs, 'sync', @onDocsLoaded
 
     @render()
-    @$el.find('.nano:visible').nanoScroller()
 
   onDocsLoaded: (levelComponents) ->
     for component in levelComponents.models
@@ -54,6 +53,10 @@ module.exports = class ItemDetailsView extends CocoView
         else
           @propDocs[propDoc.name] = propDoc
     @render()
+    
+  afterRender: ->
+    super()
+    @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
 
   getRenderData: ->
     c = super()

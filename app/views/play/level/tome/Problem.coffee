@@ -10,7 +10,7 @@ module.exports = class Problem
     Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp
 
   destroy: ->
-    @removeMarkerRange()
+    @removeMarkerRanges()
     @userCodeProblem.off() if @userCodeProblem
 
   buildAnnotation: ->
@@ -27,14 +27,23 @@ module.exports = class Problem
   buildMarkerRange: ->
     return unless @aetherProblem.range
     [start, end] = @aetherProblem.range
-    clazz = "problem-marker-#{@aetherProblem.level}"
-    @markerRange = new Range start.row, start.col, end.row, end.col
-    @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start
-    @markerRange.end = @ace.getSession().getDocument().createAnchor @markerRange.end
-    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'fullLine'
+    textClazz = "problem-marker-#{@aetherProblem.level}"
+    @textMarkerRange = new Range start.row, start.col, end.row, end.col
+    @textMarkerRange.start = @ace.getSession().getDocument().createAnchor @textMarkerRange.start
+    @textMarkerRange.end = @ace.getSession().getDocument().createAnchor @textMarkerRange.end
+    @textMarkerRange.id = @ace.getSession().addMarker @textMarkerRange, textClazz, 'text'
+    lineClazz = "problem-line"
+    @lineMarkerRange = new Range start.row, start.col, end.row, end.col
+    @lineMarkerRange.start = @ace.getSession().getDocument().createAnchor @lineMarkerRange.start
+    @lineMarkerRange.end = @ace.getSession().getDocument().createAnchor @lineMarkerRange.end
+    @lineMarkerRange.id = @ace.getSession().addMarker @lineMarkerRange, lineClazz, 'fullLine'
 
-  removeMarkerRange: ->
-    return unless @markerRange
-    @ace.getSession().removeMarker @markerRange.id
-    @markerRange.start.detach()
-    @markerRange.end.detach()
+  removeMarkerRanges: ->
+    if @textMarkerRange
+      @ace.getSession().removeMarker @textMarkerRange.id
+      @textMarkerRange.start.detach()
+      @textMarkerRange.end.detach()
+    if @lineMarkerRange
+      @ace.getSession().removeMarker @lineMarkerRange.id
+      @lineMarkerRange.start.detach()
+      @lineMarkerRange.end.detach()
