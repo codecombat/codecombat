@@ -86,7 +86,9 @@ module.exports = class InventoryModal extends ModalView
     locked = not (item.get('original') in me.items())
     locked = false if me.get('slug') is 'nick'
 
-    if locked and item.get('slug') isnt 'simple-boots'
+    if not item.getFrontFacingStats().props.length and not _.size item.getFrontFacingStats().stats  # Temp: while there are placeholder items
+      null  # Don't put into a collection
+    else if locked and item.get('slug') isnt 'simple-boots'
       @itemGroups.lockedItems.add(item)
       item.classes.push 'locked'
       item.classes.push 'silhouette' if item.isSilhouettedItem()

@@ -53,7 +53,7 @@ module.exports = class ItemDetailsView extends CocoView
         else
           @propDocs[propDoc.name] = propDoc
     @render()
-    
+
   afterRender: ->
     super()
     @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
