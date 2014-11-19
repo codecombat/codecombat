@@ -50,6 +50,8 @@ class CocoModel extends Backbone.Model
     @loading = false
     @jqxhr = null
     @loadFromBackup()
+    
+  getCreationDate: -> new Date(parseInt(@id.slice(0,8), 16)*1000)
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 

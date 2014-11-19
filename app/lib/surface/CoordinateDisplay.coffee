@@ -6,6 +6,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     'surface:mouse-over': 'onMouseOver'
     'surface:stage-mouse-down': 'onMouseDown'
     'camera:zoom-updated': 'onZoomUpdated'
+    'level:flag-color-selected': 'onFlagColorSelected'
 
   constructor: (options) ->
     super()
@@ -59,6 +60,9 @@ module.exports = class CoordinateDisplay extends createjs.Container
   onZoomUpdated: (e) ->
     @hide()
     @show()
+
+  onFlagColorSelected: (e) ->
+    @placingFlag = Boolean e.color
 
   hide: ->
     return unless @label.parent
@@ -154,6 +158,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @y = sup.y
     @addChild @background
     @addChild @label
-    @addChild @pointMarker
+    @addChild @pointMarker unless @placingFlag
     @updateCache()
     Backbone.Mediator.publish 'surface:coordinates-shown', {}

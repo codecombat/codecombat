@@ -394,7 +394,7 @@ module.exports = class SpellView extends CocoView
     @focus() if cast
 
   onCodeReload: (e) ->
-    return unless e.spell is @spell
+    return unless e.spell is @spell or not e.spell
     @reloadCode true
     @ace.clearSelection()
     _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
@@ -450,7 +450,8 @@ module.exports = class SpellView extends CocoView
       _.throttle @updateLines, 500
       _.throttle @hideProblemAlert, 500
     ]
-    onSignificantChange.push _.debounce @checkRequiredCode, 1500 if requiredCodePerLevel[@options.level.get('slug')]
+    onSignificantChange.push _.debounce @checkRequiredCode, 750 if LevelOptions[@options.level.get('slug')]?.requiredCode
+    onSignificantChange.push _.debounce @checkSuspectCode, 750 if LevelOptions[@options.level.get('slug')]?.suspectCode
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'code-change', volume: 0.5
@@ -881,12 +882,25 @@ module.exports = class SpellView extends CocoView
   checkRequiredCode: =>
     return if @destroyed
     source = @getSource().replace @singleLineCommentRegex(), ''
-    for requiredCodeFragment in requiredCodePerLevel[@options.level.get('slug')]
+    requiredCodeFragments = LevelOptions[@options.level.get('slug')].requiredCode
+    for requiredCodeFragment in requiredCodeFragments
+      # Could make this obey regular expressions like suspectCode if needed
       if source.indexOf(requiredCodeFragment) is -1
         @warnedCodeFragments ?= {}
         unless @warnedCodeFragments[requiredCodeFragment]
           Backbone.Mediator.publish 'tome:required-code-fragment-deleted', codeFragment: requiredCodeFragment
         @warnedCodeFragments[requiredCodeFragment] = true
+
+  checkSuspectCode: =>
+    return if @destroyed
+    source = @getSource().replace @singleLineCommentRegex(), ''
+    suspectCodeFragments = LevelOptions[@options.level.get('slug')].suspectCode
+    for suspectCodeFragment in suspectCodeFragments
+      if suspectCodeFragment.pattern.test source
+        @warnedCodeFragments ?= {}
+        unless @warnedCodeFragments[suspectCodeFragment.name]
+          Backbone.Mediator.publish 'tome:suspect-code-fragment-added', codeFragment: suspectCodeFragment.name, codeLanguage: @spell.language
+        @warnedCodeFragments[suspectCodeFragment] = true
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -900,11 +914,3 @@ module.exports = class SpellView extends CocoView
     @debugView?.destroy()
     $(window).off 'resize', @onWindowResize
     super()
-
-
-requiredCodePerLevel =
-  'dungeons-of-kithgard': ['moveRight']
-  'true-names': ['Brak']
-  'the-first-kithmaze': ['loop']
-  'haunted-kithmaze': ['loop']
-  'lowly-kithmen': ['findNearestEnemy']
