@@ -14,6 +14,7 @@ module.exports = class TrailMaster extends CocoClass
   constructor: (@camera, @layerAdapter) ->
     super()
     @tweenedSprites = []
+    @tweens = []
     @listenTo @layerAdapter, 'new-spritesheet', -> @generatePaths(@world, @thang)
 
   generatePaths: (@world, @thang) ->
@@ -32,6 +33,7 @@ module.exports = class TrailMaster extends CocoClass
   cleanUp: ->
     createjs.Tween.removeTweens(sprite) for sprite in @tweenedSprites
     @tweenedSprites = []
+    @tweens = []
 
   createGraphics: ->
     color = @colorForThang(@thang.team, PAST_PATH_ALPHA)
@@ -96,12 +98,19 @@ module.exports = class TrailMaster extends CocoClass
       sprite.y = y
       container.addChild(sprite)
       if lastSprite and options.animate
-        createjs.Tween.get(lastSprite, {loop: true}).to({x:x, y:y}, 1000)
+        tween = createjs.Tween.get(lastSprite, {loop: true}).to({x:x, y:y}, 1000)
         @tweenedSprites.push lastSprite
+        @tweens.push tween
       lastSprite = sprite
       
     @logged = true
     container
+    
+  play: ->
+    tween.setPaused(false) for tween in @tweens
+    
+  stop: ->
+    tween.setPaused(true) for tween in @tweens
   
   destroy: ->
     @cleanUp()
