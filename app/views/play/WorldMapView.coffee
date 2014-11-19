@@ -773,3 +773,4 @@ if me.getKithmazeGroup() is 'the-first-kithmaze'
   _.remove dungeon, id: 'haunted-kithmaze'
 else
   _.remove dungeon, id: 'the-first-kithmaze'
+  _.find(dungeon, id: 'the-raised-sword').nextLevels.continue = 'haunted-kithmaze'
