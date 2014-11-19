@@ -1,18 +1,18 @@
 PAST_PATH_ALPHA = 0.75
 PAST_PATH_WIDTH = 5
-FUTURE_PATH_ALPHA = 0.4
-FUTURE_PATH_WIDTH = 2
+FUTURE_PATH_ALPHA = 0.75
+FUTURE_PATH_WIDTH = 4
 TARGET_ALPHA = 1
 TARGET_WIDTH = 10
 FUTURE_PATH_INTERVAL_DIVISOR = 4
-PAST_PATH_INTERVAL_DIVISOR = 2 
+PAST_PATH_INTERVAL_DIVISOR = 2
 
 Camera = require './Camera'
 CocoClass = require 'lib/CocoClass'
 
 module.exports = class TrailMaster extends CocoClass
   world: null
-  
+
   constructor: (@camera, @layerAdapter) ->
     super()
     @tweenedSprites = []
@@ -31,24 +31,25 @@ module.exports = class TrailMaster extends CocoClass
     pathDisplayObject.addChild @createTargets()
     @generatingPaths = false
     return pathDisplayObject
-    
+
   cleanUp: ->
     createjs.Tween.removeTweens(sprite) for sprite in @tweenedSprites
     @tweenedSprites = []
     @tweens = []
 
   createGraphics: ->
-    @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA))
-    @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA))
-    @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, @colorForThang(@thang.team, FUTURE_PATH_ALPHA))
-    
-  cachePathDot: (width, color) ->
-    key = "path-dot-#{width}-#{color}"
-    color = createjs.Graphics.getRGB(color...)
+    @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
+    @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
+    @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
+
+  cachePathDot: (width, fillColor, strokeColor) ->
+    key = "path-dot-#{width}-#{fillColor}-#{strokeColor}"
+    fillColor = createjs.Graphics.getRGB(fillColor...)
+    strokeColor = createjs.Graphics.getRGB(strokeColor...)
     unless key in @layerAdapter.spriteSheet.getAnimations()
       circle = new createjs.Shape()
       radius = width/2
-      circle.graphics.setStrokeStyle(width/5).beginFill(color).beginStroke('#000000').drawCircle(0, 0, radius)
+      circle.graphics.setStrokeStyle(width/5).beginFill(fillColor).beginStroke(strokeColor).drawCircle(0, 0, radius)
       @layerAdapter.addCustomGraphic(key, circle, [-radius*1.5, -radius*1.5, radius*3, radius*3])
     return key
 
@@ -58,7 +59,7 @@ module.exports = class TrailMaster extends CocoClass
     rgb = [0, 0, 255] if team is 'ogres'
     rgb.push(alpha)
     return rgb
-      
+
   createPastPath: ->
     return unless points = @world.pointsForThang @thang.id, @camera
     interval = Math.max(1, parseInt(@world.frameRate / PAST_PATH_INTERVAL_DIVISOR))
@@ -85,13 +86,13 @@ module.exports = class TrailMaster extends CocoClass
       sprite.y = sup.y
       container.addChild(sprite)
     return container
-  
+
   createPath: (points, options={}) ->
     options = options or {}
     interval = options.interval or 8
     key = options.frameKey or @pastDotKey
     container = new createjs.SpriteContainer(@layerAdapter.spriteSheet)
-      
+
     for x, i in points by interval * 2
       y = points[i + 1]
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
@@ -106,16 +107,16 @@ module.exports = class TrailMaster extends CocoClass
         @tweenedSprites.push lastSprite
         @tweens.push tween
       lastSprite = sprite
-      
+
     @logged = true
     container
-    
+
   play: ->
     tween.setPaused(false) for tween in @tweens
-    
+
   stop: ->
     tween.setPaused(true) for tween in @tweens
-  
+
   destroy: ->
     @cleanUp()
     super()
