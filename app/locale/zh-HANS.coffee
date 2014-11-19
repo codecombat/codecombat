@@ -49,13 +49,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_as: "扮演" # Ladder page
     spectate: "旁观他人的游戏" # Ladder page
     players: "玩家" # Hover over a level on /play
-    hours_played: "已经玩过的时间" # Hover over a level on /play
+    hours_played: "游戏时长" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
     unlock: "解锁" # For purchasing items and heroes
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"
-    available: "可用"
+    available: "可用" # Available
     skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
@@ -64,14 +64,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
-    buy_gems: "购买宝石"
+    buy_gems: "购买宝石" # Buy Gems
     older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
     awaiting_levels_adventurer_prefix: "我们每周开放五个关卡"
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-    awaiting_levels_adventurer_suffix: "做第一个玩新关卡的人"
+    awaiting_levels_adventurer: "注册成为冒险家" #"Sign up as an Adventurer"
+    awaiting_levels_adventurer_suffix: "来优先尝试新关卡" #to be the first to play new levels."
     choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
     adventurer_forum: "冒险者论坛"
@@ -86,8 +86,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
     campaign_classic_algorithms: "经典算法"
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "森林战役" #Forest Campaign"
+    campaign_dungeon: "地牢战役" #Dungeon Campaign"
 
   login:
     sign_up: "注册"
@@ -95,10 +95,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     logging_in: "正在登录"
     log_out: "登出"
     recover: "找回账户"
-    authenticate_gplus: "通过G+授权"
-    load_profile: "载入G+资料"
-    load_email: "载入G+ Email"
-    finishing: "完成"
+    authenticate_gplus: "使用 G+ 授权"#Authenticate G+"
+    load_profile: "载入 G+ 档案" # Load G+ Profile"
+    load_email: "载入 G+ 电子邮件" #Load G+ Email"
+    finishing: "完成" #Finishing"
 
   signup:
     create_account_title: "创建一个账户来保存进度"
@@ -118,8 +118,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送."
 
   items:
-    primary: "主要的"
-    secondary: "次要的"
+    primary: "右手"#"Primary"
+    secondary: "左手"#Secondary"
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
@@ -172,7 +172,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     medium: "中等"
     hard: "困难"
     player: "玩家"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "等级" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "秒"
@@ -193,7 +193,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   play_level:
     done: "完成"
     home: "主页" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "等级" # Like "Level: Dungeons of Kithgard"
     skip: "跳过"
     game_menu: "游戏菜单"
     guide: "指南"
