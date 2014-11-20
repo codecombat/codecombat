@@ -51,7 +51,7 @@ module.exports = class SpellPaletteView extends CocoView
       @entryGroupElements = {}
       for group, entries of @entryGroups
         @entryGroupElements[group] = itemGroup = $('<div class="property-entry-item-group"></div>').appendTo @$el.find('.properties')
-        itemGroup.append $('<img class="item-image"></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2) if entries[0].options.item?.getPortraitURL
+        itemGroup.append $('<img class="item-image" draggable=false></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2) if entries[0].options.item?.getPortraitURL
         for entry in entries
           itemGroup.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover

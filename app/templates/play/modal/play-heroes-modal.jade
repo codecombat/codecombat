@@ -1,7 +1,7 @@
 .modal-dialog
   .modal-content
 
-    img(src="/images/pages/play/modal/heroes-background.png")#play-heroes-background
+    img(src="/images/pages/play/modal/heroes-background.png", draggable="false")#play-heroes-background
     
     h1(data-i18n="choose_hero.choose_hero")
 
@@ -15,13 +15,13 @@
             li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : ""))
               .hero-avatar
               if hero.locked
-                img.lock-indicator(src="/images/pages/game-menu/lock.png")
+                img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
       .carousel-inner
         for hero in heroes
           div(class="item hero-item" + (hero.locked ? " locked" : ""), data-hero-id=hero.get('original'))
             canvas.hero-canvas
             .hero-feature-image
-              img
+              img(draggable="false")
             .hero-stats
               h2= hero.name
               .hero-description= hero.description
