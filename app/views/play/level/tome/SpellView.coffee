@@ -253,7 +253,7 @@ module.exports = class SpellView extends CocoView
         if doc?.snippets?[e.language]
           entry =
             content: doc.snippets[e.language].code
-            meta: 'press enter'
+            meta: 'press tab'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
           if doc.name is 'findNearestEnemy'
