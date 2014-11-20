@@ -91,7 +91,9 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     @saveIfAllDone()
 
   saveIfAllDone: =>
+    console.debug 'Save if all done. Person loaded:', @personLoaded, 'and email loaded:', @emailLoaded
     return unless @personLoaded and @emailLoaded
+    console.debug 'Email, gplusID:', me.get('email'), me.get('gplusID')
     return unless me.get('email') and me.get('gplusID')
 
     Backbone.Mediator.publish 'auth:logging-in-with-gplus', {}
@@ -104,12 +106,16 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     patch.email = me.get('email')
     wasAnonymous = me.get('anonymous')
     @trigger 'logging-into-codecombat'
+    console.debug('Logging into GPlus.')
     me.save(patch, {
       patch: true
       type: 'PUT'
-      error: backboneFailure,
+      error: ->
+        console.debug('Logging into GPlus fail.', arguments)
+        backboneFailure(arguments...)
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
       success: (model) ->
+        console.debug('GPLus login success!')
         window.location.reload() if wasAnonymous and not model.get('anonymous')
     })
 

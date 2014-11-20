@@ -9,6 +9,7 @@ module.exports =
     thang: {type: 'object'}
     killer: {type: 'object'}
     killerHealth: {type: ['number', 'undefined']}
+    maxHealth: {type: 'number'}
 
   'world:thang-touched-goal': c.object {required: ['actor', 'touched']},
     replacedNoteChain: {type: 'array'}

@@ -3,7 +3,7 @@
   .gradient.vertical-gradient.right-gradient
   .gradient.horizontal-gradient.bottom-gradient
   .gradient.vertical-gradient.left-gradient
-  img.map-background(src="/images/pages/play/map_" + mapType + ".jpg", alt="")
+  img.map-background(src="/images/pages/play/map_" + mapType + ".jpg", alt="", draggable="false")
 
   - var seenNext = nextLevel;
   each level in campaign.levels
@@ -43,10 +43,10 @@
 .game-controls.header-font
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+  button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
   if me.get('anonymous') === false
     button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
   if me.isAdmin()
-    button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
     button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
     button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   else if me.get('anonymous', true)

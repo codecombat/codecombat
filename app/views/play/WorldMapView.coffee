@@ -102,7 +102,7 @@ module.exports = class WorldMapView extends RootView
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
-    context.forestIsAvailable = '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
+    context.forestIsAvailable = @startedForestLevel or '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
     context
 
   afterRender: ->
@@ -131,8 +131,10 @@ module.exports = class WorldMapView extends RootView
     @openModalView authModal
 
   onSessionsLoaded: (e) ->
+    forestLevels = (f.id for f in forest)
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+      @startedForestLevel = true if session.get('levelID') in forestLevels
     if @nextLevel and @levelStatusMap[@nextLevel] is 'complete'
       @nextLevel = null
     @render()
@@ -771,3 +773,4 @@ if me.getKithmazeGroup() is 'the-first-kithmaze'
   _.remove dungeon, id: 'haunted-kithmaze'
 else
   _.remove dungeon, id: 'the-first-kithmaze'
+  _.find(dungeon, id: 'the-raised-sword').nextLevels.continue = 'haunted-kithmaze'

@@ -472,9 +472,13 @@ module.exports = class World
 
     perf.t1 = now()
     if w.thangs.length
-      for thangConfig in o.thangs when not w.thangMap[thangConfig.id]
-        w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap, level.levelComponents)
-        w.setThang thang
+      for thangConfig in o.thangs
+        if thang = w.thangMap[thangConfig.id]
+          for prop, val of thangConfig.finalState
+            thang[prop] = val
+        else
+          w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap, level.levelComponents)
+          w.setThang thang
     else
       w.thangs = (Thang.deserialize(thang, w, classMap, level.levelComponents) for thang in o.thangs)
       w.setThang thang for thang in w.thangs
@@ -551,7 +555,7 @@ module.exports = class World
   freeMemoryAfterEachSerialization: ->
     @frames[i] = null for frame, i in @frames when i < @frames.length - 1
 
-  pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
+  pointsForThang: (thangID, camera=null) ->
     # Optimized
     @pointsForThangCache ?= {}
     cacheKey = thangID
@@ -570,16 +574,7 @@ module.exports = class World
       allPoints.reverse()
       @pointsForThangCache[cacheKey] = allPoints
 
-    points = []
-    [lastX, lastY] = [null, null]
-    for frameIndex in [Math.floor(frameStart / resolution) ... Math.ceil(frameEnd / resolution)]
-      x = allPoints[frameIndex * 2 * resolution]
-      y = allPoints[frameIndex * 2 * resolution + 1]
-      continue if x is lastX and y is lastY
-      lastX = x
-      lastY = y
-      points.push x, y
-    points
+    return allPoints
 
   actionsForThang: (thangID, keepIdle=false) ->
     # Optimized

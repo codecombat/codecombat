@@ -210,6 +210,7 @@ module.exports = class LevelPlaybackView extends CocoView
   onProgressHover: (e, offsetX) ->
     timeRatio = @$progressScrubber.width() / @totalTime
     offsetX ?= e.clientX - $(e.target).closest('#timeProgress').offset().left
+    offsetX = Math.max 0, offsetX
     @newTime = offsetX / timeRatio
     @updatePopupContent()
     @timePopup?.onHover e

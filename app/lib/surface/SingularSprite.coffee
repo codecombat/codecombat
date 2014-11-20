@@ -6,7 +6,7 @@ module.exports = class SingularSprite extends createjs.Sprite
   childMovieClips: null
   
   constructor: (@spriteSheet, @thangType, @spriteSheetPrefix, @resolutionFactor=SPRITE_RESOLUTION_FACTOR) ->
-    @initialize(@spriteSheet)
+    super(@spriteSheet)
     
   destroy: -> 
     @removeAllEventListeners()

@@ -71,7 +71,7 @@
     .property-entry-item-group
       display: inline-block
       min-height: 38px
-      max-width: 212px
+      width: 212px
       @include flexbox()
       @include flex-wrap()
       @include flex-center()
@@ -93,3 +93,8 @@
         width: 174px
         width: -webkit-calc(100% - 38px)
         width: calc(100% - 38px)
+
+@media only screen and (max-width: 1100px)
+  #spell-palette-view
+    // Make sure we have enough room for at least two columns
+    padding-left: 12px

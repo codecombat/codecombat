@@ -106,11 +106,11 @@ $itemSlotGridHeight: 70px
       //  opacity: 0.5
 
       &.selected
-        .placeholder, img.item
+        .placeholder, .item
           border-color: rgb(81,153,236)
           background-color: rgb(81,153,236)
           @include box-shadow(0 0 10px rgb(81,153,236))
-        img.item
+        .item
           background: rgb(81,153,236)
   
       &.should-equip
@@ -269,7 +269,7 @@ $itemSlotGridHeight: 70px
         .placeholder
           background-position: (-2 * $itemSlotInnerWidth) 0px
   
-      img.item
+      .item
         position: absolute
         left: -2px
         top: -2px
@@ -299,7 +299,7 @@ $itemSlotGridHeight: 70px
     
   //- Available equipment
    
-  &.Warrior #unequipped img.item:not(.Warrior), &.Ranger #unequipped img.item:not(.Ranger), &.Wizard #unequipped img.item:not(.Wizard)
+  &.Warrior #unequipped .item:not(.Warrior), &.Ranger #unequipped .item:not(.Ranger), &.Wizard #unequipped .item:not(.Wizard)
     // Our code hides and shows (modifies display), but we can be invisible this other way.
     visibility: hidden
     position: absolute
@@ -313,7 +313,14 @@ $itemSlotGridHeight: 70px
     padding: 9px 0 9px 9px
 
     #double-click-hint
-      margin: 20px 50px 70px 0
+      margin: 20px 40px 60px 0
+      border: 3px solid #8585f4
+      padding: 5px
+      font-weight: bold
+      .glyphicon
+        margin-right: 5px
+        position: relative
+        top: 2px
     
     h4
       clear: both
@@ -323,14 +330,28 @@ $itemSlotGridHeight: 70px
       text-transform: uppercase
       font-weight: bold
  
-    img.item
+    .item 
       float: left
       border: 1px solid black
       margin: 3px
       padding: 1px
+      position: relative
       width: 60px
-      height: 60px
-      cursor: pointer
+
+      img
+        width: 56px
+        height: 56px
+        display: block
+      
+      button
+        width: 100%
+        height: 17px
+        border: 1px solid rgb(46,46,46)
+        background: white
+        font-size: 11px
+        border-radius: 1px
+        padding: 0
+
 
       &.active
         background-color: rgb(81,153,236)
@@ -417,6 +438,9 @@ $itemSlotGridHeight: 70px
     #selected-item-unlock-button
       left: 646px
 
+    .unequippable
+      display: none
+
 
   //- Equip/unequip/extra
 
@@ -437,3 +461,7 @@ $itemSlotGridHeight: 70px
       border: 3px solid rgb(46,46,46)
       background: white
       font-size: 16px
+      
+    #equip-item-viewed
+      background: rgb(84,128,44)
+      color: white

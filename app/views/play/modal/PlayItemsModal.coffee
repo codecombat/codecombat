@@ -89,7 +89,7 @@ module.exports = class PlayItemsModal extends ModalView
       model.affordable = cost <= gemsOwned
       model.silhouetted = not model.owned and model.isSilhouettedItem()
       model.level = model.levelRequiredForItem() if model.get('tier')?
-      model.equippable = 'Warrior' in model.getAllowedHeroClasses()  # Temp: while there are no wizards/rangers
+      model.unequippable = not ('Warrior' in model.getAllowedHeroClasses())  # Temp: while there are no wizards/rangers
       model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 

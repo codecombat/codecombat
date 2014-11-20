@@ -35,7 +35,7 @@ module.exports =
 
   'tome:toggle-spell-list': c.object {title: 'Toggle Spell List', description: 'Published when you toggle the dropdown for a thang\'s spells'}
 
-  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: ['spell']},
+  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
     spell: {type: 'object'}
 
   'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
@@ -121,6 +121,10 @@ module.exports =
 
   'tome:required-code-fragment-deleted': c.object {title: 'Required Code Fragment Deleted', description: 'Published when a required code fragment is deleted from the sample code.', required: ['codeFragment']},
     codeFragment: {type: 'string'}
+
+  'tome:suspect-code-fragment-added': c.object {title: 'Suspect Code Fragment Added', description: 'Published when a suspect code fragment is added to the sample code.', required: ['codeFragment']},
+    codeFragment: {type: 'string'}
+    codeLanguage: {type: 'string'}
 
   'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
     winnable: {type: 'boolean'}

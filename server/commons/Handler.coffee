@@ -129,6 +129,10 @@ module.exports = class Handler
       term = req.query.term
       matchedObjects = []
       filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
+
+      skip = parseInt(req.query.skip)
+      limit = parseInt(req.query.limit)
+
       if @modelClass.schema.uses_coco_permissions and req.user
         filters.push {filter: {index: req.user.get('id')}}
       projection = null
@@ -158,7 +162,14 @@ module.exports = class Handler
         else
           args = [filter.filter]
           args.push projection if projection
-          @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
+          q = @modelClass.find(args...)
+          if skip? and skip < 1000000
+            q.skip(skip)
+          if limit? and limit < FETCH_LIMIT
+            q.limit(limit)
+          else
+            q.limit(FETCH_LIMIT)
+          q.exec callback
     # if it's not a text search but the user is an admin, let him try stuff anyway
     else if req.user?.isAdmin()
       # admins can send any sort of query down the wire

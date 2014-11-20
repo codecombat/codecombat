@@ -250,11 +250,13 @@ module.exports = class ThangType extends CocoModel
     stage.update()
     stage.startTalking = ->
       sprite.gotoAndPlay 'portrait'
+      return  # TODO: causes infinite recursion in new EaselJS
       return if @tick
       @tick = (e) => @update(e)
       createjs.Ticker.addEventListener 'tick', @tick
     stage.stopTalking = ->
       sprite.gotoAndStop 'portrait'
+      return  # TODO: just breaks in new EaselJS
       @update()
       createjs.Ticker.removeEventListener 'tick', @tick
       @tick = null

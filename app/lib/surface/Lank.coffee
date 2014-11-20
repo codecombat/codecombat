@@ -491,6 +491,7 @@ module.exports = Lank = class Lank extends CocoClass
       bar = createProgressBar(healthColor)
       @options.floatingLayer.addCustomGraphic(key, bar, bar.bounds)
 
+    hadHealthBar = @healthBar
     @healthBar = new createjs.Sprite(@options.floatingLayer.spriteSheet)
     @healthBar.gotoAndStop(key)
     offset = @getOffset 'aboveHead'
@@ -499,6 +500,8 @@ module.exports = Lank = class Lank extends CocoClass
     @options.floatingLayer.addChild @healthBar
     @updateHealthBar()
     @lastHealth = null
+    if not hadHealthBar
+      @listenTo @options.floatingLayer, 'new-spritesheet', @addHealthBar
 
   getActionProp: (prop, subProp, def=null) ->
     # Get a property or sub-property from an action, falling back to ThangType
@@ -664,7 +667,9 @@ module.exports = Lank = class Lank extends CocoClass
   updateLabels: ->
     return unless @thang
     blurb = if @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales
-    @addLabel 'say', Label.STYLE_SAY if blurb
+    blurb = null if blurb in ['For Thoktar!', 'Bones!', 'Behead!', 'Destroy!', 'Die, humans!']  # Let's just hear, not see, these ones.
+    labelStyle = if /Hero Placeholder/.test(@thang.id) then Label.STYLE_DIALOGUE else Label.STYLE_SAY
+    @addLabel 'say', labelStyle if blurb
     if @labels.say?.setText blurb
       @notifySpeechUpdated blurb: blurb
     label.update() for name, label of @labels
