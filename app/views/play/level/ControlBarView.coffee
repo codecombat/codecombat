@@ -22,6 +22,7 @@ module.exports = class ControlBarView extends CocoView
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
     'click #game-menu-button': 'showGameMenuModal'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
+    'click .levels-link-area': 'onClickHome'
     'click .home a': 'onClickHome'
     'click .multiplayer-area': 'onClickMultiplayer'
 
@@ -142,7 +143,7 @@ class MultiplayerStatusManager
     # @playersCollection?.off 'add', @onPlayerAdded
     # player.off 'change', @onPlayerChanged for id, player of @players
 
-  onMultiplayerPlayerStatus: (e) => 
+  onMultiplayerPlayerStatus: (e) =>
     @status = e.status
     @statusChangedCallback()
 
@@ -151,10 +152,10 @@ class MultiplayerStatusManager
   #     @players[player.id] = new RealTimeModel('multiplayer_players/' + @levelID + '/' + player.id)
   #     @players[player.id].on 'change', @onPlayerChanged
   #   @countPlayers player
-  # 
+  #
   # onPlayerChanged: (player) =>
   #   @countPlayers player
-  # 
+  #
   # countPlayers: (changedPlayer) =>
   #   # TODO: save this stale hearbeat threshold setting somewhere
   #   staleHeartbeat = new Date()
