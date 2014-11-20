@@ -200,7 +200,7 @@ UserSchema.statics.editableProperties = [
   'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
-  'heroConfig'
+  'heroConfig', 'iosUDID'
 ]
 
 UserSchema.plugin plugins.NamedPlugin
