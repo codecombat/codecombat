@@ -79,7 +79,7 @@ module.exports = class LevelHUDView extends CocoView
     wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
     wrapper.addClass "team-#{team}"
     if thangType.get('raster')
-      wrapper.empty().append($('<img />').addClass('avatar').attr('src', '/file/'+thangType.get('raster')))
+      wrapper.empty().append($('<img draggable="false"/>').addClass('avatar').attr('src', '/file/'+thangType.get('raster')))
     else
       return unless stage = thangType.getPortraitStage options, 100
       newCanvas = $(stage.canvas).addClass('thang-canvas avatar')
@@ -87,7 +87,7 @@ module.exports = class LevelHUDView extends CocoView
       stage.update()
       @stage?.stopTalking()
       @stage = stage
-    wrapper.append($('<img />').addClass('avatar-frame').attr('src', '/images/level/thang_avatar_frame.png'))
+    wrapper.append($('<img draggable="false" />').addClass('avatar-frame').attr('src', '/images/level/thang_avatar_frame.png'))
 
   onThangBeganTalking: (e) ->
     return unless @stage and @thang is e.thang

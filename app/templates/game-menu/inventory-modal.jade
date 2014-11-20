@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    img(src="/images/pages/play/modal/inventory-background.png")#play-items-modal-narrow-bg
+    img(src="/images/pages/play/modal/inventory-background.png", draggable="false")#play-items-modal-narrow-bg
 
     div#gems-count-container
       span#gems-count.big-font= gems
@@ -38,14 +38,14 @@
               h4#restricted-description(data-i18n="inventory.restricted_title")
               for item in itemGroups.restrictedItems.models
                 .item(class=item.classes, data-item-id=item.id)
-                  img(src=item.getPortraitURL())
+                  img(src=item.getPortraitURL(), draggable="false")
               .clearfix
             
             if itemGroups.lockedItems.models.length
               h4#locked-description(data-i18n="play.locked")
               for item in itemGroups.lockedItems.models
                 .item(class=item.classes, data-item-id=item.id)
-                  img(src=item.getPortraitURL())
+                  img(src=item.getPortraitURL(), draggable="false")
               .clearfix
 
     #item-details-view

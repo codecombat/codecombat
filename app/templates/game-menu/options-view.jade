@@ -1,7 +1,7 @@
 #player-avatar-container(title="Click to change your avatar")
   if !me.get('photoURL')
     .editable-icon.glyphicon.glyphicon-pencil
-  img.profile-photo(src=me.getPhotoURL(230))
+  img.profile-photo(src=me.getPhotoURL(230), draggable="false")
   .form-group
     input#player-name.profile-caption(name="playerName", type="text", value=me.get('name', true))
 
@@ -32,7 +32,7 @@
     span.help-block(data-i18n="options.autorun_description") Control automatic code execution.
   
 
-  img.hr(src="/images/pages/play/modal/hr.png")
+  img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
 
   h3(data-i18n="options.editor_config_title") Editor Configuration
   
