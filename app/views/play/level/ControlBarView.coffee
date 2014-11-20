@@ -7,6 +7,7 @@ RealTimeModel = require 'models/RealTimeModel'
 RealTimeCollection = require 'collections/RealTimeCollection'
 LevelSetupManager = require 'lib/LevelSetupManager'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
+CampaignOptions = require 'lib/CampaignOptions'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -67,7 +68,7 @@ module.exports = class ControlBarView extends CocoView
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
-      campaign = @getCampaignForSlug @level.get 'slug'
+      campaign = CampaignOptions.getCampaignForSlug @level.get 'slug'
       if campaign isnt 'dungeon'
         @homeLink += '/' + campaign
         @homeViewArgs.push campaign
@@ -101,11 +102,6 @@ module.exports = class ControlBarView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'controls-disabled', not enabled
-
-  getCampaignForSlug: (slug) ->
-    for campaign in require('views/play/WorldMapView').campaigns
-      for level in campaign.levels
-        return campaign.id if level.id is slug
 
   onIPadMemoryWarning: (e) ->
     @hasReceivedMemoryWarning = true
