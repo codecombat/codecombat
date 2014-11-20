@@ -126,8 +126,6 @@ module.exports = class AuthModal extends ModalView
     step.done = false for step in @gplusAuthSteps
     handler = application.gplusHandler
     
-    @renderGPlusAuthChecklist()
-    
     @listenToOnce handler, 'logged-in', ->
       @gplusAuthSteps[0].done = true
       @renderGPlusAuthChecklist()
