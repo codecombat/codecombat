@@ -792,7 +792,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    system: "System"
 #    systems: "Systems"
     component: "组件"
-   components: "组件"
+    components: "组件"
     thang: "物品"
     thangs: "物品"
 #    level_session: "Your Session"
