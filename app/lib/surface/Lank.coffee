@@ -491,6 +491,7 @@ module.exports = Lank = class Lank extends CocoClass
       bar = createProgressBar(healthColor)
       @options.floatingLayer.addCustomGraphic(key, bar, bar.bounds)
 
+    hadHealthBar = @healthBar
     @healthBar = new createjs.Sprite(@options.floatingLayer.spriteSheet)
     @healthBar.gotoAndStop(key)
     offset = @getOffset 'aboveHead'
@@ -499,6 +500,8 @@ module.exports = Lank = class Lank extends CocoClass
     @options.floatingLayer.addChild @healthBar
     @updateHealthBar()
     @lastHealth = null
+    if not hadHealthBar
+      @listenTo @options.floatingLayer, 'new-spritesheet', @addHealthBar
 
   getActionProp: (prop, subProp, def=null) ->
     # Get a property or sub-property from an action, falling back to ThangType

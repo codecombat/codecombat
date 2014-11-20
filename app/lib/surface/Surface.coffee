@@ -258,7 +258,9 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.round(progress * (@world.frames.length - 1)), @world.frames.length - 1)
+    @scrubbingTo = Math.round(progress * (@world.frames.length - 1))
+    @scrubbingTo = Math.max @scrubbingTo, 1
+    @scrubbingTo = Math.min @scrubbingTo, @world.frames.length - 1
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -402,7 +404,7 @@ module.exports = Surface = class Surface extends CocoClass
     @playing = (e ? {}).playing ? true
     @setPlayingCalled = true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
-      @currentFrame = 0
+      @currentFrame = 1  # Go back to the beginning (but not frame 0, that frame is weird)
     if @fastForwardingToFrame and not @playing
       @fastForwardingToFrame = null
 
