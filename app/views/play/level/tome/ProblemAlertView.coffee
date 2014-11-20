@@ -35,7 +35,17 @@ module.exports = class ProblemAlertView extends CocoView
     context = super context
     if @problem?
       format = (s) -> marked(s.replace(/</g, '&lt;').replace(/>/g, '&gt;')) if s?
-      context.message = format @problem.aetherProblem.message
+      message = @problem.aetherProblem.message
+      # Add time to problem message if hint is for a missing null check
+      # NOTE: This may need to be updated with Aether error hint changes
+      if @problem.aetherProblem.hint? and /(?:null|undefined)/.test @problem.aetherProblem.hint
+        age = @problem.aetherProblem.userInfo?.age
+        if age?
+          if /^Line \d+:/.test message
+            message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
+          else
+            message = "Time #{age.toFixed(1)}: #{message}"
+      context.message = format message
       context.hint = format @problem.aetherProblem.hint
     context
 
