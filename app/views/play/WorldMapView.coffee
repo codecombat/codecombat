@@ -1,6 +1,7 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/play/world-map-view'
 LevelSession = require 'models/LevelSession'
+EarnedAchievement = require 'models/EarnedAchievement'
 CocoCollection = require 'collections/CocoCollection'
 AudioPlayer = require 'lib/AudioPlayer'
 LevelSetupManager = require 'lib/LevelSetupManager'
@@ -39,6 +40,23 @@ module.exports = class WorldMapView extends RootView
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
+    
+    # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
+    @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
+    @listenToOnce @earnedAchievements, 'sync', ->
+      earned = me.get('earned')
+      addedSomething = false
+      for m in @earnedAchievements.models
+        continue unless loadedEarned = m.get('earnedRewards')
+        for group in ['heroes', 'levels', 'items']
+          continue unless loadedEarned[group]
+          for reward in loadedEarned[group]
+            if reward not in earned[group]
+              console.warn 'Filling in a gap for reward', group, reward
+              earned[group].push(reward)
+              addedSomething = true
+    @supermodel.loadCollection(@earnedAchievements, 'achievements')
+    
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
