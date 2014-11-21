@@ -90,6 +90,7 @@ module.exports = class AuthModal extends ModalView
     userObject.emails.generalNews.enabled = subscribe
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
+    Backbone.Mediator.publish "auth:signed-up"
     window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
     createUser userObject, null, window.nextLevelURL
