@@ -131,13 +131,12 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
-      # passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-      # No easy way to selectively cancel shift+space, since we don't get access to the event.
-      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+      readOnly: true
       exec: =>
         if @scriptRunning
           Backbone.Mediator.publish 'level:shift-space-pressed', {}
@@ -147,34 +146,44 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
-      exec: -> Backbone.Mediator.publish 'level:escape-pressed', {}
+      readOnly: true
+      exec: ->
+        console.log 'esc pressed'
+        Backbone.Mediator.publish 'level:escape-pressed', {}
     addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-grid', {}
     addCommand
       name: 'toggle-debug'
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-debug', {}
     addCommand
       name: 'toggle-pathfinding'
       bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-pathfinding', {}
     addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:scrub-forward', {}
     addCommand
       name: 'level-scrub-back'
       bindKey: {win: 'Ctrl-[', mac: 'Command-[|Ctrl-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:scrub-back', {}
     addCommand
       name: 'spell-step-forward'
       bindKey: {win: 'Ctrl-Alt-]', mac: 'Command-Alt-]|Ctrl-Alt-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'tome:spell-step-forward', {}
     addCommand
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'tome:spell-step-backward', {}
     addCommand
       name: 'spell-beautify'
@@ -815,10 +824,11 @@ module.exports = class SpellView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled and @writable
     disabled = not enabled
-    $('body').focus() if disabled and $(document.activeElement).is('.ace_text-input')
+    wasFocused = @ace.isFocused()
     @ace.setReadOnly disabled
     @ace[if disabled then 'setStyle' else 'unsetStyle'] 'disabled'
     @toggleBackground()
+    $('body').focus() if disabled and wasFocused
 
   toggleBackground: =>
     # TODO: make the background an actual background and do the CSS trick
