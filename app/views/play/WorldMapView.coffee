@@ -612,9 +612,31 @@ forest = [
     original: '5446cb40ce01c23e05ecf027'
     description: 'Stay alive and navigate through the forest.'
     nextLevels:
-      continue: 'thornbush-farm'
+      continue: 'endangered-burl'
     x: 39.03
     y: 54.97
+  }
+  {
+    name: 'Endangered Burl'
+    type: 'hero'
+    id: 'endangered-burl'
+    original: ''
+    description: 'Hunt ogres in the woods, but watch out for lumbering beasts.'
+    nextLevels:
+      continue: 'village-guard'
+    x: 41.09
+    y: 43.75
+  }
+  {
+    name: 'Village Guard'
+    type: 'hero'
+    id: 'village-guard'
+    original: '546e91b8a4b7840000ee92dc'
+    description: 'Defend a village from marauding munchkin mayhem.'
+    nextLevels:
+      continue: 'thornbush-farm'
+    x: 48.09
+    y: 42.75
   }
   {
     name: 'Thornbush Farm'
