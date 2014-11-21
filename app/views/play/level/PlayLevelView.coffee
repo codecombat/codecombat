@@ -431,7 +431,6 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackEvent 'Saw Victory',
         level: @level.get('name')
         label: @level.get('name')
-        getDirectFirstGroup: me.getDirectFirstGroup()
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->
