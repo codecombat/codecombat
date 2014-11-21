@@ -148,6 +148,7 @@ module.exports = class CastButtonView extends CocoView
   onLeftRealTimeMultiplayerGame: (e) ->
     @inRealTimeMultiplayerSession = false
 
+  # https://mixpanel.com/report/227350/segmentation/#action:segment,arb_event:'Saw%20Victory',bool_op:or,chart_type:bar,from_date:-9,segfilter:!((filter:(operand:!('Ogre%20Encampment'),operator:%3D%3D),property:level,selected_property_type:string,type:string),(property:castButtonTextGroup,selected_property_type:number,type:number)),segment_type:number,to_date:0,type:unique,unit:day
   initButtonTextABTest: ->
     return if me.isAdmin()
     return unless $.i18n.lng() is 'en-US'

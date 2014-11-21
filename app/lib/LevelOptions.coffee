@@ -217,6 +217,7 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+    requiredCode: ['topEnemy']
   'back-to-back':
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}

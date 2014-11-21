@@ -810,6 +810,7 @@ module.exports = class SpellView extends CocoView
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, @writable
   toggleControls: (e, enabled) ->
+    return if @destroyed
     return if e?.controls and not ('editor' in e.controls)
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled and @writable
