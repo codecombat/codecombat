@@ -52,6 +52,12 @@ describe '/db/payment', ->
             done()
           )
 
+    it 'prevents other users from reusing payment receipts', (done) ->
+      loginSam ->
+        request.post {uri: paymentURL, json: firstApplePayment}, (err, res, body) ->
+          expect(res.statusCode).toBe 403
+          done()
+
     it 'processes only the transactionID that is given', (done) ->
       loginJoe ->
         request.post {uri: paymentURL, json: secondApplePayment}, (err, res, body) ->

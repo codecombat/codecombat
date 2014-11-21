@@ -40,7 +40,7 @@ module.exports = class WorldMapView extends RootView
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
-    
+
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
     @listenToOnce @earnedAchievements, 'sync', ->
@@ -56,7 +56,7 @@ module.exports = class WorldMapView extends RootView
               earned[group].push(reward)
               addedSomething = true
     @supermodel.loadCollection(@earnedAchievements, 'achievements')
-    
+
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
@@ -136,7 +136,7 @@ module.exports = class WorldMapView extends RootView
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
         pos = @$el.find('.level.next').offset()
-        @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top + 250
+        @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top
         @manuallyPositionedLevelInfoID = levelID
 
   afterInsert: ->
@@ -203,6 +203,7 @@ module.exports = class WorldMapView extends RootView
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
     @adjustLevelInfoPosition e
     @endHighlight()
+    @manuallyPositionedLevelInfoID = false
 
   onMouseLeaveLevel: (e) ->
     return if application.isIPadApp

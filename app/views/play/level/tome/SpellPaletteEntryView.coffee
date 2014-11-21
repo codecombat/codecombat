@@ -37,10 +37,11 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRender: ->
     super()
     @$el.addClass(@doc.type)
+    placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
     @$el.popover(
       animation: false
       html: true
-      placement: 'left'
+      placement: placement
       trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
       content: @docFormatter.formatPopover()
       container: 'body'

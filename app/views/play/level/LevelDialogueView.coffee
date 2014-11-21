@@ -19,13 +19,10 @@ module.exports = class LevelDialogueView extends CocoView
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {}
 
-  onFrameChanged: (e) ->
-    @timeProgress = e.progress
-    @update()
-
   onSpriteDialogue: (e) ->
     return unless e.message
     @$el.addClass 'active speaking'
+    $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
 
     window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message}, ['Google Analytics']
@@ -35,6 +32,7 @@ module.exports = class LevelDialogueView extends CocoView
 
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
+    $('body').removeClass('dialogue-view-active')
 
   setMessage: (message, mood, responses) ->
     message = marked message
