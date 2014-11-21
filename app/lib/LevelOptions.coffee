@@ -205,16 +205,17 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'endangered-burl':
-    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', eyes: 'crude-glasses'}
+    hidesRealTimePlayback: true
     hidesCodeToolbar: true
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'village-guard':
-    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', eyes: 'crude-glasses'}
     hidesCodeToolbar: true
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'thornbush-farm':
-    requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', eyes: 'crude-glasses'}
     hidesCodeToolbar: true
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'back-to-back':
     hidesCodeToolbar: true
