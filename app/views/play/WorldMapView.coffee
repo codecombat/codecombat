@@ -50,7 +50,7 @@ module.exports = class WorldMapView extends RootView
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
-    window.tracker?.trackEvent 'World Map', Action: 'Loaded'
+    window.tracker?.trackEvent 'World Map', Action: 'Loaded', ['Google Analytics']
 
   destroy: ->
     @setupManager?.destroy()
@@ -154,7 +154,7 @@ module.exports = class WorldMapView extends RootView
         levelElement = $(target).parents('.level')
         levelID = levelElement.data('level-id')
         @startLevel levelElement
-      window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup
+      window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup, ['Google Analytics']
     else
       @ABTestSkipHighlight = false
 
@@ -184,12 +184,12 @@ module.exports = class WorldMapView extends RootView
         levelElement = $(e.target).parents('.level')
         levelID = levelElement.data('level-id')
         @startLevel levelElement
-        window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelID
+        window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelID, ['Google Analytics']
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     @startLevel levelElement
-    window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelElement.data('level-id')
+    window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelElement.data('level-id'), ['Google Analytics']
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()

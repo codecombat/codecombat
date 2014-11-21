@@ -78,19 +78,10 @@ module.exports = class PlayHeroesModal extends ModalView
       {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript'}
+      {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
+      {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
+      {id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
     ]
-
-    # A/B test showing experimental languages on first hero select
-    # Group -1 is not participating
-    # Group 0 is original behavior
-    # Group 1 isn't shown experimental languages in hero modal when launching beginner campaign level
-    testGroup = me.getExperimentalLangGroup()
-    if hadEverChosenHero? or testGroup isnt 1
-      @codeLanguageList.push id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"
-      @codeLanguageList.push id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"
-      @codeLanguageList.push id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"
-    unless hadEverChosenHero? or testGroup is -1
-      window.tracker?.trackEvent 'Heroes Modal', experimentalLangGroup: testGroup
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'

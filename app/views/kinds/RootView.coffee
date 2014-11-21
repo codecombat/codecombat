@@ -61,7 +61,7 @@ module.exports = class RootView extends CocoView
   onClickAnchor: (e) ->
     return if @destroyed
     anchorText = e?.currentTarget?.text
-    window.tracker?.trackEvent 'Homepage', Action: anchorText if @id is 'home-view' and anchorText
+    window.tracker?.trackEvent 'Homepage', Action: anchorText, ['Google Analytics'] if @id is 'home-view' and anchorText
     @toggleModal e
 
   showLoading: ($el) ->
