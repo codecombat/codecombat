@@ -12,7 +12,7 @@ class EarnedAchievementHandler extends Handler
 
   # Don't allow POSTs or anything yet
   hasAccess: (req) ->
-    req.method is 'GET' # or req.user.isAdmin()
+    req.method in ['GET', 'POST'] # or req.user.isAdmin()
 
   get: (req, res) ->
     return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
@@ -36,6 +36,41 @@ class EarnedAchievementHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
+      
+  post: (req, res) ->
+    achievementID = req.body.achievement
+    triggeredBy = req.body.triggeredBy
+    collection = req.body.collection
+    if collection isnt 'level.sessions'
+      return @sendBadInputError(res, 'Only doing level session achievements for now.')
+      
+    model = mongoose.modelNameByCollection(collection)
+    
+    async.parallel({
+      achievement: (callback) ->
+        Achievement.findById achievementID, (err, achievement) -> callback(err, achievement)
+        
+      trigger: (callback) ->
+        model.findById triggeredBy, (err, trigger) -> callback(err, trigger)
+          
+      earned: (callback) ->
+        q = { achievement: achievementID, user: req.user._id+'' }
+        EarnedAchievement.findOne q, (err, earned) -> callback(err, earned)
+    }, (err, { achievement, trigger, earned } ) =>
+      return @sendDatabaseError(res, err) if err
+      if earned
+        return @sendSuccess(res, earned.toObject())
+      if not achievement
+        return @sendNotFoundError(res, 'Could not find achievement.')
+      if not trigger
+        return @sendNotFoundError(res, 'Could not find trigger.')
+      if achievement.get('proportionalTo')
+        return @sendBadInputError(res, 'Cannot currently do this to repeatable docs...')
+      EarnedAchievement.createForAchievement(achievement, trigger, null, (earnedAchievementDoc) =>
+        @sendSuccess(res, earnedAchievementDoc.toObject())
+      )
+        
+    )
 
   getByAchievementIDs: (req, res) ->
     query = { user: req.user._id+''}

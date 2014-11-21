@@ -40,60 +40,8 @@ AchievablePlugin = (schema, options) ->
           isRepeatable = achievement.get('proportionalTo')?
           alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)
-          #log.debug 'isRepeatable: ' + isRepeatable
-          #log.debug 'alreadyAchieved: ' +  alreadyAchieved
-          #log.debug 'newlyAchieved: ' + newlyAchieved
-
-          userObjectID = doc.get(achievement.get('userField'))
-          userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
-
-          if newlyAchieved and (not alreadyAchieved or isRepeatable)
-            earned =
-              user: userID
-              achievement: achievement._id.toHexString()
-              achievementName: achievement.get 'name'
-              earnedRewards: achievement.get 'rewards'
-
-            worth = achievement.get('worth') ? 10
-            earnedPoints = 0
-            wrapUp = ->
-              # Update user's experience points
-              update = {$inc: {points: earnedPoints}}
-              for rewardType, rewards of achievement.get('rewards') ? {}
-                if rewardType is 'gems'
-                  update.$inc['earned.gems'] = rewards if rewards
-                else if rewards.length
-                  update.$addToSet ?= {}
-                  update.$addToSet["earned.#{rewardType}"] = $each: rewards
-              User.update {_id: userID}, update, {}, (err, count) ->
-                log.error err if err?
-
-            if isRepeatable
-              #log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
-              proportionalTo = achievement.get 'proportionalTo'
-              originalAmount = if originalDocObj then util.getByPath(originalDocObj, proportionalTo) or 0 else 0
-              newAmount = docObj[proportionalTo]
-
-              if originalAmount isnt newAmount
-                expFunction = achievement.getExpFunction()
-                earned.notified = false
-                earned.achievedAmount = newAmount
-                earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
-                earned.previouslyAchievedAmount = originalAmount
-                EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
-                  return log.debug err if err?
-
-                earnedPoints = earned.earnedPoints
-                #log.debug earnedPoints
-                wrapUp()
-
-            else # not alreadyAchieved
-              #log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
-              earned.earnedPoints = worth
-              (new EarnedAchievement(earned)).save (err, doc) ->
-                return log.error err if err?
-                earnedPoints = worth
-                wrapUp()
+          return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
+          EarnedAchievement.createForAchievement(achievement, doc, originalDocObj)
 
     delete before[doc.id] if doc.id of before
 
