@@ -104,7 +104,8 @@ module.exports = class User extends CocoModel
       when 2 then 'choice-explicit'
       when 3 then 'choice-implicit'
     @branchingGroup = 'choice-explicit' if me.isAdmin()
-    application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()
+    @branchingGroup = 'no-practice'  # paused A/B test
+    #application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()  # paused A/B test
     @branchingGroup
 
   getCastButtonTextGroup: ->

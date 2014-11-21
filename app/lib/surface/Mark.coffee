@@ -43,7 +43,7 @@ module.exports = class Mark extends CocoClass
     @layer.updateLayerOrder()
 #    @updatePosition()
     @update()
-    
+
   toggle: (to) ->
     to = !!to
     return @ if to is @on
@@ -154,7 +154,7 @@ module.exports = class Mark extends CocoClass
         shape.graphics.drawRect bounds...
       shape.graphics.endFill()
       @layer.addCustomGraphic(key, shape, bounds)
-    alpha = @lank.thang?.alpha ? 1 
+    alpha = @lank.thang?.alpha ? 1
     width = (@lank.thang?.width ? 0) + 0.5
     height = (@lank.thang?.height ? 0) + 0.5
     longest = Math.max width, height
@@ -250,7 +250,7 @@ module.exports = class Mark extends CocoClass
     @sprite = markLank.sprite
     @markLank = markLank
     @listenTo @markLank, 'new-sprite', (@sprite) ->
-    
+
   loadThangType: ->
     name = @thangType
     @thangType = new ThangType()
@@ -275,6 +275,7 @@ module.exports = class Mark extends CocoClass
     if @name is 'highlight' and @highlightDelay and not @highlightTween
       @sprite.visible = false
       @highlightTween = createjs.Tween.get(@sprite).to({}, @highlightDelay).call =>
+        return if @destroyed
         @sprite.visible = true
         @highlightDelay = @highlightTween = null
     @updateAlpha @alpha if @name in ['shadow', 'bounds']
