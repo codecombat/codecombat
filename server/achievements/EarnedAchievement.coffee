@@ -1,6 +1,7 @@
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/earned_achievement'
 util = require '../../app/lib/utils'
+log = require 'winston'
 
 EarnedAchievementSchema = new mongoose.Schema({
   notified:
@@ -68,6 +69,6 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
     (new EarnedAchievement(earned)).save (err, doc) ->
       return log.error err if err?
       earnedPoints = worth
-      wrapUp(doc)  
+      wrapUp(doc)
 
 module.exports = EarnedAchievement = mongoose.model('EarnedAchievement', EarnedAchievementSchema)
