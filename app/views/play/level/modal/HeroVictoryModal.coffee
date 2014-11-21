@@ -73,20 +73,26 @@ module.exports = class HeroVictoryModal extends ModalView
       earnedAchievements.sizeShouldBe = achievementIDs.length
       res = @supermodel.loadCollection(earnedAchievements, 'earned_achievements')
       @earnedAchievements = res.model
-      @listenTo @earnedAchievements, 'sync', ->
-        if (new Date() - @waitingToContinueSince) > 20 * 1000
-          # In case there is some network problem, like we saw with CloudFlare + school proxies, we'll let them keep playing.
-          application.tracker?.trackEvent 'Unlocking Failed', level: @level.get('slug'), label: @level.get('slug')
-          window.levelUnlocksNotWorking = true
-          @readyToContinue = true
-          @updateSavingProgressStatus()
-        else if @earnedAchievements.models.length < @earnedAchievements.sizeShouldBe
-          @earnedAchievements.fetch()
-        else
-          @listenToOnce me, 'sync', ->
-            @readyToContinue = true
-            @updateSavingProgressStatus()
-          me.fetch() unless me.loading
+      @listenToOnce @earnedAchievements, 'sync', ->
+        @newEarnedAchievements = []
+        recorded = (earned.get('achievement') for earned in @earnedAchievements.length)
+        for achievement in @achievements.models
+          continue unless achievement.completed
+          earnedObjects = []
+          if achievement.id not in recorded
+            ea = new EarnedAchievement({
+              collection: achievement.get('collection')
+              triggeredBy: @session.id
+              achievement: achievement.id
+            })
+            ea.save()
+            @newEarnedAchievements.push ea
+            @listenToOnce ea, 'sync', ->
+              if _.all((ea.id for ea in @newEarnedAchievements))
+                @listenToOnce me, 'sync', ->
+                  @readyToContinue = true
+                  @updateSavingProgressStatus()
+                me.fetch() unless me.loading
     else
       @readyToContinue = true
 

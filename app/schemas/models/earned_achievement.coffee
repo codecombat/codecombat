@@ -24,6 +24,7 @@ module.exports =
             }
           ]
       collection: type: 'string'
+      triggeredBy: c.objectId()
       achievementName: type: 'string'
       created: type: 'date'
       changed: type: 'date'

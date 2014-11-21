@@ -38,7 +38,7 @@ AchievementSchema.statics.earnedAchievements = {}
 AchievementSchema.statics.loadAchievements = (done) ->
   AchievementSchema.statics.resetAchievements()
   Achievement = require('../achievements/Achievement')
-  query = Achievement.find({})
+  query = Achievement.find({collection: {$ne: 'level.sessions'}})
   query.exec (err, docs) ->
     _.each docs, (achievement) ->
       category = achievement.get 'collection'
