@@ -342,6 +342,7 @@ module.exports = Surface = class Surface extends CocoClass
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended', {}
+      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
     else if @currentFrame < @world.totalFrames and @ended
       @ended = false
       @setPaused false
@@ -586,7 +587,6 @@ module.exports = Surface = class Surface extends CocoClass
 
   updatePaths: ->
     return unless @options.paths and @heroLank
-    return unless me.isAdmin() # TODO: Fix world thang points, targets, then remove this
     @hidePaths()
     return if @world.showPaths is 'never'
     layerAdapter = @lankBoss.layerAdapters['Path']
