@@ -22,7 +22,7 @@ describe '/auth/login', ->
         throw err if err
         done()
 
-  it 'allows logging in by iosUDID', (done) ->
+  it 'allows logging in by iosIdentifierForVendor', (done) ->
     req = request.post(getURL('/db/user'),
     (error, response) ->
       expect(response).toBeDefined()
@@ -32,11 +32,11 @@ describe '/auth/login', ->
         done()
       )
       form = req.form()
-      form.append('username', '0123456789012345678901234567890123456789')
+      form.append('username', '012345678901234567890123456789012345')
       form.append('password', '12345')
     )
     form = req.form()
-    form.append('iosUDID', '0123456789012345678901234567890123456789')
+    form.append('iosIdentifierForVendor', '012345678901234567890123456789012345')
     form.append('password', '12345')
   
   it 'clears Users', (done) ->

@@ -17,8 +17,8 @@ module.exports.setup = (app) ->
     (username, password, done) ->
       
       # kind of a hacky way to make it possible for iPads to 'log in' with their unique device id
-      if username.length is 40 and '@' not in username # must be a UDID
-        q = { iosUDID: username }
+      if username.length is 36 and '@' not in username # must be an identifier for vendor
+        q = { iosIdentifierForVendor: username }
       else
         q = { emailLower: username.toLowerCase() }
       
