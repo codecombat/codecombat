@@ -52,7 +52,7 @@ AchievablePlugin = (schema, options) ->
               user: userID
               achievement: achievement._id.toHexString()
               achievementName: achievement.get 'name'
-              earnedRewarsd: achievement.get 'rewards'
+              earnedRewards: achievement.get 'rewards'
 
             worth = achievement.get('worth') ? 10
             earnedPoints = 0

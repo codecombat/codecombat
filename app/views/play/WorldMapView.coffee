@@ -89,7 +89,7 @@ module.exports = class WorldMapView extends RootView
       level.x ?= 10 + 80 * Math.random()
       level.y ?= 10 + 80 * Math.random()
       level.locked = index > 0 and not me.ownsLevel level.original
-      window.levelUnlocksNotWorking = true if level.locked and (level.id is @nextLevel or (level.id is 'haunted-kithmaze' and @nextLevel is 'the-first-kithmaze'))  # Temporary
+      window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
       level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.disabled = false if @levelStatusMap[level.id] in ['started', 'complete']
@@ -113,7 +113,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or @ABTestSkipHighlight or not @supermodel.finished()
+    unless window.currentModal or not @supermodel.finished()
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -138,25 +138,6 @@ module.exports = class WorldMapView extends RootView
     if @nextLevel and @levelStatusMap[@nextLevel] is 'complete'
       @nextLevel = null
     @render()
-    @initABTestAutoFirstLevel()
-
-  initABTestAutoFirstLevel: ->
-    # A/B testing directly navigating to first level
-    # Excluding admins and users who have already started
-    # TODO: Cleanup @afterRender when this test is finished
-    firstLevelID = 'dungeons-of-kithgard'
-    testGroup = me.getDirectFirstGroup()
-    unless @nextLevel? or (firstLevelID of @levelStatusMap) or testGroup is -1
-      @ABTestSkipHighlight = testGroup is 1
-      if testGroup is 1
-        target = $("a[data-level-id='" + firstLevelID + "']")
-        return if $(target).attr('disabled') or $(target).parent().hasClass 'locked'
-        levelElement = $(target).parents('.level')
-        levelID = levelElement.data('level-id')
-        @startLevel levelElement
-      window.tracker?.trackEvent 'World Map', levelID: firstLevelID, directFirstGroup: testGroup, ['Google Analytics']
-    else
-      @ABTestSkipHighlight = false
 
   onClickMap: (e) ->
     @$levelInfo?.hide()
@@ -425,21 +406,21 @@ dungeon = [
     x: 85
     y: 20
     nextLevels:
-      continue: 'the-first-kithmaze'
+      continue: 'haunted-kithmaze'
   }
-  {
-    name: 'The First Kithmaze'
-    type: 'hero'
-    id: 'the-first-kithmaze'
-    original: '5418b9d64c16460000ab9ab4'
-    description: 'The builders of Kithgard constructed many mazes to confuse travelers.'
-    x: 78
-    y: 29
-    nextLevels:
-      more_practice: 'descending-further'
-      continue: 'the-second-kithmaze'
-      skip_ahead: 'dread-door'
-  }
+  #{
+  #  name: 'The First Kithmaze'
+  #  type: 'hero'
+  #  id: 'the-first-kithmaze'
+  #  original: '5418b9d64c16460000ab9ab4'
+  #  description: 'The builders of Kithgard constructed many mazes to confuse travelers.'
+  #  x: 78
+  #  y: 29
+  #  nextLevels:
+  #    more_practice: 'descending-further'
+  #    continue: 'the-second-kithmaze'
+  #    skip_ahead: 'dread-door'
+  #}
   {
     name: 'Haunted Kithmaze'
     type: 'hero'
@@ -789,10 +770,3 @@ WorldMapView.campaigns = campaigns = [
   {id: 'dungeon', name: 'Dungeon Campaign', levels: dungeon }
   {id: 'forest', name: 'Forest Campaign', levels: forest }
 ]
-
-# A/B testing first kithmaze level: The First Kithmaze vs. Haunted Kithmaze
-if me.getKithmazeGroup() is 'the-first-kithmaze'
-  _.remove dungeon, id: 'haunted-kithmaze'
-else
-  _.remove dungeon, id: 'the-first-kithmaze'
-  _.find(dungeon, id: 'the-raised-sword').nextLevels.continue = 'haunted-kithmaze'

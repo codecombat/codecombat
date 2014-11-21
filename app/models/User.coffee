@@ -118,40 +118,4 @@ module.exports = class User extends CocoModel
         application.tracker.identify castButtonTextGroup: @castButtonTextGroup
     @castButtonTextGroup
 
-  getDirectFirstGroup: ->
-    # Group -1 is not participating
-    # Group 0 is original behavior
-    # Group 1 goes directly to first level if new user
-    # Targetting users with testGroupNumber < 128
-    unless @directFirstGroup?
-      if me.isAdmin() or me.get('testGroupNumber') >= 128
-        @directFirstGroup = -1
-      else
-        @directFirstGroup = me.get('testGroupNumber') % 2
-        application.tracker.identify directFirstGroup: @directFirstGroup
-    @directFirstGroup
-
-  ## Test complete; feel free to repurpose for another test.
-  # https://mixpanel.com/report/227350/segmentation/#action:segment,arb_event:'Saw%20Victory',bool_op:and,chart_type:bar,from_date:-17,segfilter:!((filter:(operand:!('Dungeons%20of%20Kithgard'),operator:%3D%3D),property:level,selected_property_type:string,type:string),(filter:(operand:'',operator:set),property:highlightArrowGroup,selected_property_type:string,type:string),(property:highlightArrowGroup,selected_property_type:string,type:string)),segment_type:string,to_date:0,type:unique,unit:day
-  # https://www.dropbox.com/s/jot1ikz7nk7jti5/Screenshot%202014-11-18%2008.04.00.png?dl=0
-  #getHighlightArrowSoundGroup: ->
-  #  return @highlightArrowGroup if @highlightArrowGroup
-  #  group = me.get('testGroupNumber') % 8
-  #  @highlightArrowGroup = switch group
-  #    when 0, 1, 2, 3 then 'sound-off'
-  #    when 4, 5, 6, 7 then 'sound-on'
-  #  @highlightArrowGroup = 'sound-off' if me.isAdmin()
-  #  application.tracker.identify highlightArrowGroup: @highlightArrowGroup unless me.isAdmin()
-  #  @highlightArrowGroup
-
-  getKithmazeGroup: ->
-    return @kithmazeGroup if @kithmazeGroup
-    group = me.get('testGroupNumber') % 16
-    @kithmazeGroup = switch group
-      when 0, 1, 2, 3, 4, 5, 6, 7 then 'the-first-kithmaze'
-      when 8, 9, 10, 11, 12, 13, 14, 15 then 'haunted-kithmaze'
-    @kithmazeGroup = 'haunted-kithmaze' if me.isAdmin()
-    application.tracker.identify kithmazeGroup: @kithmazeGroup unless me.isAdmin()
-    @kithmazeGroup
-
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96]
