@@ -378,11 +378,13 @@ module.exports = class InventoryModal extends ModalView
           unless itemModel and heroClass in itemModel.classes
             console.log 'Unequipping', itemModel.get('heroClass'), 'item', itemModel.get('name'), 'from slot due to class restrictions.'
             @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
+            delete equipment[slot]
       for slot, item of restrictedGear
         equipped = equipment[slot]
         if equipped and equipped is gear[restrictedGear[slot]]
           console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
+          delete equipment[slot]
       if heroClass is 'Warrior'
         # After they switch to a ranger or wizard, we stop being so finicky about gear.
         for slot, item of requiredGear
