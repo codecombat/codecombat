@@ -7,6 +7,7 @@ RealTimeModel = require 'models/RealTimeModel'
 RealTimeCollection = require 'collections/RealTimeCollection'
 LevelSetupManager = require 'lib/LevelSetupManager'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
+CampaignOptions = require 'lib/CampaignOptions'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -22,6 +23,7 @@ module.exports = class ControlBarView extends CocoView
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
     'click #game-menu-button': 'showGameMenuModal'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
+    'click .levels-link-area': 'onClickHome'
     'click .home a': 'onClickHome'
     'click .multiplayer-area': 'onClickMultiplayer'
 
@@ -66,7 +68,7 @@ module.exports = class ControlBarView extends CocoView
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
       @homeViewClass = require 'views/play/WorldMapView'
-      campaign = @getCampaignForSlug @level.get 'slug'
+      campaign = CampaignOptions.getCampaignForSlug @level.get 'slug'
       if campaign isnt 'dungeon'
         @homeLink += '/' + campaign
         @homeViewArgs.push campaign
@@ -100,11 +102,6 @@ module.exports = class ControlBarView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'controls-disabled', not enabled
-
-  getCampaignForSlug: (slug) ->
-    for campaign in require('views/play/WorldMapView').campaigns
-      for level in campaign.levels
-        return campaign.id if level.id is slug
 
   onIPadMemoryWarning: (e) ->
     @hasReceivedMemoryWarning = true
@@ -142,7 +139,7 @@ class MultiplayerStatusManager
     # @playersCollection?.off 'add', @onPlayerAdded
     # player.off 'change', @onPlayerChanged for id, player of @players
 
-  onMultiplayerPlayerStatus: (e) => 
+  onMultiplayerPlayerStatus: (e) =>
     @status = e.status
     @statusChangedCallback()
 
@@ -151,10 +148,10 @@ class MultiplayerStatusManager
   #     @players[player.id] = new RealTimeModel('multiplayer_players/' + @levelID + '/' + player.id)
   #     @players[player.id].on 'change', @onPlayerChanged
   #   @countPlayers player
-  # 
+  #
   # onPlayerChanged: (player) =>
   #   @countPlayers player
-  # 
+  #
   # countPlayers: (changedPlayer) =>
   #   # TODO: save this stale hearbeat threshold setting somewhere
   #   staleHeartbeat = new Date()

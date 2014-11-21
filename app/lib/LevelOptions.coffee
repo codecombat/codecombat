@@ -204,6 +204,14 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+  'endangered-burl':
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', eyes: 'crude-glasses'}
+    hidesCodeToolbar: true
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
+  'village-guard':
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', eyes: 'crude-glasses'}
+    hidesCodeToolbar: true
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'thornbush-farm':
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', eyes: 'crude-glasses'}
     hidesCodeToolbar: true
@@ -235,12 +243,12 @@ module.exports = LevelOptions =
     restrictedGear: {}
   'drop-the-flag':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {'right-hand': 'longsword'}
+    restrictedGear: {'right-hand': 'long-sword'}
   'deadly-pursuit':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {'right-hand': 'longsword'}
+    restrictedGear: {'right-hand': 'long-sword'}
   'rich-forager':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'longsword', 'left-hand': 'bronze-shield'}
+    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield'}
     restrictedGear: {'right-hand': 'crude-builders-hammer'}
   'multiplayer-treasure-grove':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic'}

@@ -8,6 +8,7 @@ utils = require 'lib/utils'
 ThangType = require 'models/ThangType'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 AudioPlayer = require 'lib/AudioPlayer'
+CampaignOptions = require 'lib/CampaignOptions'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -265,16 +266,11 @@ module.exports = class HeroVictoryModal extends ModalView
       for level in campaign.levels
         return level if level.id is slug
 
-  getCampaignForSlug: (slug) ->
-    for campaign in require('views/play/WorldMapView').campaigns
-      for level in campaign.levels
-        return campaign.id if level.id is slug
-
   getNextLevelCampaign: ->
     # Wouldn't handle skipping/more practice across campaign boundaries, but we don't do that.
-    campaign = @getCampaignForSlug @level.get 'slug'
+    campaign = CampaignOptions.getCampaignForSlug @level.get 'slug'
     if nextLevelSlug = @getNextLevel 'continue'
-      campaign = @getCampaignForSlug nextLevelSlug
+      campaign = CampaignOptions.getCampaignForSlug nextLevelSlug
     campaign or 'dungeon'
 
   getNextLevelLink: (type) ->

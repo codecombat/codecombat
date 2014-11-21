@@ -9,6 +9,7 @@ SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
+CampaignOptions = require 'lib/CampaignOptions'
 LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class SpellView extends CocoView
@@ -216,6 +217,7 @@ module.exports = class SpellView extends CocoView
     # TODO: Turn on more autocompletion based on level sophistication
     # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
     # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
+    popupFontSizePx = CampaignOptions.getOption(@options.level.get('slug'), 'autocompleteFontSizePx') ? 16
     @zatanna = new Zatanna @ace,
       basic: false
       liveCompletion: false
@@ -226,7 +228,7 @@ module.exports = class SpellView extends CocoView
         text: @autocomplete
       autoLineEndings:
         javascript: ';'
-      popupFontSizePx: 16
+      popupFontSizePx: popupFontSizePx
       popupWidthPx: 380
 
   updateAutocomplete: (@autocomplete) ->
@@ -253,7 +255,7 @@ module.exports = class SpellView extends CocoView
         if doc?.snippets?[e.language]
           entry =
             content: doc.snippets[e.language].code
-            meta: 'press enter'
+            meta: 'press tab'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
           if doc.name is 'findNearestEnemy'

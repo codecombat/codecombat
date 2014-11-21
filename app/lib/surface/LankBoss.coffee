@@ -224,8 +224,8 @@ module.exports = class LankBoss extends CocoClass
         item = @world.getThangByID itemID
         unless item.equipped
           console.log thang.id, 'equipping', item, 'in', thang.slot, 'Surface-side, but it cannot equip?' unless item.equip
-          item.equip()
-          itemsJustEquipped.push item
+          item.equip?()
+          itemsJustEquipped.push item if item.equip
     return itemsJustEquipped
 
   cacheObstacles: (updatedObstacles=null) ->

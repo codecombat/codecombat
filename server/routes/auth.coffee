@@ -15,7 +15,14 @@ module.exports.setup = (app) ->
 
   authentication.use(new LocalStrategy(
     (username, password, done) ->
-      User.findOne({emailLower: username.toLowerCase()}).exec((err, user) ->
+      
+      # kind of a hacky way to make it possible for iPads to 'log in' with their unique device id
+      if username.length is 36 and '@' not in username # must be an identifier for vendor
+        q = { iosIdentifierForVendor: username }
+      else
+        q = { emailLower: username.toLowerCase() }
+      
+      User.findOne(q).exec((err, user) ->
         return done(err) if err
         return done(null, false, {message: 'not found', property: 'email'}) if not user
         passwordReset = (user.get('passwordReset') or '').toLowerCase()

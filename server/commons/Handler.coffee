@@ -10,7 +10,7 @@ hipchat = require '../hipchat'
 deltasLib = require '../../app/lib/deltas'
 
 PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
-FETCH_LIMIT = 500
+FETCH_LIMIT = 1000  # So many ThangTypes
 
 module.exports = class Handler
   # subclasses should override these properties

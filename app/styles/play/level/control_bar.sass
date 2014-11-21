@@ -23,6 +23,7 @@
     left: 40px
     width: 160px
     text-align: center
+    cursor: pointer
     
     a.levels-link
       margin: 0
@@ -38,8 +39,11 @@
         color: $control-yellow
         text-shadow: 1px 1px 0px rgb(143, 123, 62)
 
-      &:hover .glyphicon
-        color: $control-yellow-highlight
+    &:hover
+      a.levels-link
+        text-decoration: underline
+        .glyphicon
+          color: $control-yellow-highlight
 
   .left-cap, .right-cap, .center-chain, .right-chain, .wood-background
     position: absolute
