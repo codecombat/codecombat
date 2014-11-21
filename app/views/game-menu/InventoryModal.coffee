@@ -84,7 +84,7 @@ module.exports = class InventoryModal extends ModalView
 
     # sort into one of the four groups
     locked = not (item.get('original') in me.items())
-    #locked = false if me.get('slug') is 'nick'
+    locked = false if me.get('slug') is 'nick'
 
     if not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats) and not locked  # Temp: while there are placeholder items
       null  # Don't put into a collection
