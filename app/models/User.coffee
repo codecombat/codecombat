@@ -131,19 +131,6 @@ module.exports = class User extends CocoModel
         application.tracker.identify directFirstGroup: @directFirstGroup
     @directFirstGroup
 
-  getExperimentalLangGroup: ->
-    # Group -1 is not participating
-    # Group 0 is original behavior
-    # Group 1 isn't shown experimental languages in hero modal when launching beginner campaign level
-    # Targetting users with testGroupNumber >= 128
-    unless @experimentalLangGroup?
-      if me.isAdmin() or me.get('testGroupNumber') < 128
-        @experimentalLangGroup = -1
-      else
-        @experimentalLangGroup = me.get('testGroupNumber') % 2
-        application.tracker.identify experimentalLangGroup: @experimentalLangGroup
-    @experimentalLangGroup
-
   ## Test complete; feel free to repurpose for another test.
   # https://mixpanel.com/report/227350/segmentation/#action:segment,arb_event:'Saw%20Victory',bool_op:and,chart_type:bar,from_date:-17,segfilter:!((filter:(operand:!('Dungeons%20of%20Kithgard'),operator:%3D%3D),property:level,selected_property_type:string,type:string),(filter:(operand:'',operator:set),property:highlightArrowGroup,selected_property_type:string,type:string),(property:highlightArrowGroup,selected_property_type:string,type:string)),segment_type:string,to_date:0,type:unique,unit:day
   # https://www.dropbox.com/s/jot1ikz7nk7jti5/Screenshot%202014-11-18%2008.04.00.png?dl=0
