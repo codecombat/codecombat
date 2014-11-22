@@ -216,6 +216,37 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: => @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
+    addCommand
+      name: 'throttle-backspaces'
+      bindKey: 'Backspace'
+      exec: =>
+        # Throttle the backspace speed
+        # Slow to 500ms when whitespace at beginning of line is first encountered
+        # Slow to 100ms for remaining whitespace at beginning of line
+        # Rough testing showed backspaces happen at 150ms when tapping.
+        # Backspace speed varies by system when holding, 30ms on fastest Macbook setting.
+        unless CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'backspaceThrottle')
+          @ace.remove "left"
+          return
+        
+        nowDate = Date.now()
+        if @aceSession.selection.isEmpty()
+          cursor = @ace.getCursorPosition()
+          line = @aceDoc.getLine(cursor.row)
+          if /^\s*$/.test line.substring(0, cursor.column)
+            @backspaceThrottleMs ?= 500
+            # console.log "SpellView @backspaceThrottleMs=#{@backspaceThrottleMs}"
+            # console.log 'SpellView lastBackspace diff', nowDate - @lastBackspace if @lastBackspace?
+            if not @lastBackspace? or nowDate - @lastBackspace > @backspaceThrottleMs
+              @backspaceThrottleMs = 100
+              @lastBackspace = nowDate
+              @ace.remove "left"
+            return
+        @backspaceThrottleMs = null
+        @lastBackspace = nowDate
+        @ace.remove "left"
+          
+
 
   fillACE: ->
     @ace.setValue @spell.source

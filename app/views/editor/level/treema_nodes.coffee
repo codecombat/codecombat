@@ -289,5 +289,4 @@ module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode e
 
   processThangType: (thangType) ->
     return unless itemComponent = _.find thangType.get('components'), {original: LevelComponent.ItemID}
-    return unless itemComponent.config?.slots?.length
-    @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config.slots
+    @constructor.thangTypes.push name: thangType.get('name'), original: thangType.get('original'), slots: itemComponent.config?.slots ? ['right-hand']
