@@ -249,7 +249,7 @@ module.exports = LevelOptions =
     restrictedGear: {eyes: 'crude-glasses'}
   'shrapnel':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'weak-charge', wrists: 'sundial-wristwatch'}
-    restrictedGear: {eyes: 'crude-glasses', 'left-hand': 'swift-dagger'}
+    restrictedGear: {eyes: 'crude-glasses', 'left-hand': 'crude-dagger'}
 
   # Wizard branch
   'arcane-ally':

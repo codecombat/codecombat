@@ -387,7 +387,9 @@ module.exports = class InventoryModal extends ModalView
           console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
           delete equipment[slot]
-      if heroClass is 'Warrior'
+      if (heroClass is 'Warrior' or
+          (heroClass is 'Ranger' and @options.levelID in ['swift-dagger', 'shrapnel']) or
+          (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender']))
         # After they switch to a ranger or wizard, we stop being so finicky about gear.
         for slot, item of requiredGear
           continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
@@ -479,6 +481,7 @@ gear =
   'leather-boots': '53e2384453457600003e3f07'
   'leather-belt': '5437002a7beba4a82024a97d'
   'programmaticon-i': '53e4108204c00d4607a89f78'
+  'programmaticon-ii': '546e25d99df4a17d0d449be1'
   'crude-glasses': '53e238df53457600003e3f0b'
   'crude-builders-hammer': '53f4e6e3d822c23505b74f42'
   'long-sword': '544d7d1f8494308424f564a3'
@@ -488,3 +491,9 @@ gear =
   'basic-flags': '545bacb41e649a4495f887da'
   'roughedge': '544d7d918494308424f564a7'
   'sharpened-sword': '544d7deb8494308424f564ab'
+  'crude-crossbow': '544d7ffd8494308424f564c3'
+  'crude-dagger': '544d952b8494308424f56517'
+  'weak-charge': '544d957d8494308424f5651f'
+  'enchanted-stick': '544d87188494308424f564f1'
+  'unholy-tome-i': '546374bc3839c6e02811d308'
+  'book-of-life-i': '546375653839c6e02811d30b'

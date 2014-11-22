@@ -730,7 +730,7 @@ forest = [
     name: 'Swift Dagger'
     type: 'hero'
     id: 'swift-dagger'
-    description: 'Deal damage from a distance with a new hero.'
+    description: 'Deal damage from a distance with your new hero.'
     nextLevels:
       continue: 'shrapnel'
     disabled: not me.isAdmin()
