@@ -231,12 +231,37 @@ module.exports = LevelOptions =
   'shield-rush':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {'left-hand': 'wooden-shield'}
+
+  # Warrior branch
   'peasant-protection':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses'}
   'munchkin-swarm':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {}
+
+  # Ranger branch
+  'munchkin-harvest':
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    restrictedGear: {}
+  'swift-dagger':
+    requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'crude-dagger', wrists: 'sundial-wristwatch'}
+    restrictedGear: {eyes: 'crude-glasses'}
+  'shrapnel':
+    requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'weak-charge', wrists: 'sundial-wristwatch'}
+    restrictedGear: {eyes: 'crude-glasses', 'left-hand': 'swift-dagger'}
+
+  # Wizard branch
+  'arcane-ally':
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    restrictedGear: {eyes: 'crude-glasses'}
+  'touch-of-death':
+    requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'unholy-tome-i', wrists: 'sundial-wristwatch'}
+    restrictedGear: {}
+  'bonemender':
+    requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'book-of-life-i', wrists: 'sundial-wristwatch'}
+    restrictedGear: {'left-hand': 'unholy-tome-i'}
+
   'coinucopia':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags'}
     restrictedGear: {}
@@ -254,4 +279,7 @@ module.exports = LevelOptions =
     restrictedGear: {'right-hand': 'crude-builders-hammer'}
   'multiplayer-treasure-grove':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate'}
+    restrictedGear: {}
+  'siege-of-stonehold':
+    requiredGear: {}
     restrictedGear: {}
