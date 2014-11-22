@@ -88,10 +88,13 @@ PaymentHandler = class PaymentHandler extends Handler
         
       #- Check existence
       transactionID = transaction.transaction_id
-      criteria = { recipient: req.user._id, 'ios.transactionID': transactionID }
+      criteria = { 'ios.transactionID': transactionID }
       Payment.findOne(criteria).exec((err, payment) =>
         
         if payment
+          unless payment.get('recipient').equals(req.user._id)
+            return @sendForbiddenError(res)
+
           @recalculateGemsFor(req.user, (err) =>
             return @sendDatabaseError(res, err) if err
             @sendSuccess(res, @formatEntity(req, payment))

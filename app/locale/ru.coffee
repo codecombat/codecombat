@@ -64,7 +64,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     next: "Выбрать" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     choose_inventory: "Выбрать предметы"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Купить самоцветы"
     older_campaigns: "Старые кампании"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
@@ -172,7 +172,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     medium: "Нормально"
     hard: "Сложно"
     player: "Игрок"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Уровень" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "секунда"
@@ -315,17 +315,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
+  buy_gems:
+    few_gems: "Немного самоцветов"
+    pile_gems: "Кучка самоцветов"
+    chest_gems: "Сундук с самоцветами"
 
   choose_hero:
     choose_hero: "Выберите героя"
     programming_language: "Язык программирования"
     programming_language_description: "Какой язык программирования вы хотите использовать?"
-#    default: "Default"
-#    experimental: "Experimental"
+    default: "По умолчанию"
+    experimental: "Экспериментальный"
     python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения."
     javascript_blurb: "Язык для Сети."
     coffeescript_blurb: "Улучшенный синтаксис JavaScript."
@@ -647,9 +647,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     diplomat_launch_url: "запуска в октябре"
     diplomat_introduction_suf: "было то, что есть значительная заинтересованность в CodeCombat в других странах! Мы создаём корпус переводчиков, стремящихся превратить один набор слов в другой набор слов для максимальной доступности CodeCombat по всему миру. Если вы любите видеть контент до официального выхода и получать эти уровни для ваших соотечественников как можно скорее, этот класс для вас."
     diplomat_attribute_1: "Свободное владение английским языком и языком, на который вы хотели бы переводить. При передаче сложных идей важно иметь сильную хватку в обоих!"
-#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
-#    diplomat_i18n_page: "translations page"
-#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
+    diplomat_i18n_page_prefix: "Вы можете начать переводить уровни, посетив нашу"
+    diplomat_i18n_page: "страницу переводчиков"
+    diplomat_i18n_page_suffix: ", или перевести наш интерфейс и сайт на GitHub."
     diplomat_join_pref_github: "Найдите файл локализации вашего языка "
     diplomat_github_url: "на GitHub"
     diplomat_join_suf_github: ", отредактируйте его онлайн и отправьте запрос на подтверждение изменений. Кроме того, установите флажок ниже, чтобы быть в курсе новых разработок интернационализации!"

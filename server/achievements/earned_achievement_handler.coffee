@@ -67,7 +67,7 @@ class EarnedAchievementHandler extends Handler
       if achievement.get('proportionalTo')
         return @sendBadInputError(res, 'Cannot currently do this to repeatable docs...')
       EarnedAchievement.createForAchievement(achievement, trigger, null, (earnedAchievementDoc) =>
-        @sendSuccess(res, earnedAchievementDoc.toObject())
+        @sendCreated(res, earnedAchievementDoc.toObject())
       )
         
     )

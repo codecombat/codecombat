@@ -6,8 +6,10 @@ CampaignList = require('views/play/WorldMapView').campaigns
 options =
   'default':
     autocompleteFontSizePx: 16
+    backspaceThrottle: false
   'dungeon':
     autocompleteFontSizePx: 20
+    backspaceThrottle: true
 
 module.exports = CampaignOptions =
   getCampaignForSlug: (slug) ->

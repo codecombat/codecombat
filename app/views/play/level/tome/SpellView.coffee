@@ -131,13 +131,12 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
-      # passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-      # No easy way to selectively cancel shift+space, since we don't get access to the event.
-      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+      readOnly: true
       exec: =>
         if @scriptRunning
           Backbone.Mediator.publish 'level:shift-space-pressed', {}
@@ -147,34 +146,44 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
-      exec: -> Backbone.Mediator.publish 'level:escape-pressed', {}
+      readOnly: true
+      exec: ->
+        console.log 'esc pressed'
+        Backbone.Mediator.publish 'level:escape-pressed', {}
     addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-grid', {}
     addCommand
       name: 'toggle-debug'
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-debug', {}
     addCommand
       name: 'toggle-pathfinding'
       bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-pathfinding', {}
     addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:scrub-forward', {}
     addCommand
       name: 'level-scrub-back'
       bindKey: {win: 'Ctrl-[', mac: 'Command-[|Ctrl-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'level:scrub-back', {}
     addCommand
       name: 'spell-step-forward'
       bindKey: {win: 'Ctrl-Alt-]', mac: 'Command-Alt-]|Ctrl-Alt-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'tome:spell-step-forward', {}
     addCommand
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
+      readOnly: true
       exec: -> Backbone.Mediator.publish 'tome:spell-step-backward', {}
     addCommand
       name: 'spell-beautify'
@@ -207,6 +216,37 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: => @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
+    addCommand
+      name: 'throttle-backspaces'
+      bindKey: 'Backspace'
+      exec: =>
+        # Throttle the backspace speed
+        # Slow to 500ms when whitespace at beginning of line is first encountered
+        # Slow to 100ms for remaining whitespace at beginning of line
+        # Rough testing showed backspaces happen at 150ms when tapping.
+        # Backspace speed varies by system when holding, 30ms on fastest Macbook setting.
+        unless CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'backspaceThrottle')
+          @ace.remove "left"
+          return
+        
+        nowDate = Date.now()
+        if @aceSession.selection.isEmpty()
+          cursor = @ace.getCursorPosition()
+          line = @aceDoc.getLine(cursor.row)
+          if /^\s*$/.test line.substring(0, cursor.column)
+            @backspaceThrottleMs ?= 500
+            # console.log "SpellView @backspaceThrottleMs=#{@backspaceThrottleMs}"
+            # console.log 'SpellView lastBackspace diff', nowDate - @lastBackspace if @lastBackspace?
+            if not @lastBackspace? or nowDate - @lastBackspace > @backspaceThrottleMs
+              @backspaceThrottleMs = 100
+              @lastBackspace = nowDate
+              @ace.remove "left"
+            return
+        @backspaceThrottleMs = null
+        @lastBackspace = nowDate
+        @ace.remove "left"
+          
+
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -253,8 +293,15 @@ module.exports = class SpellView extends CocoView
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
+          content = doc.snippets[e.language].code
+          if /loop/.test(content) and LevelOptions[@options.level.get('slug')]?.moveRightLoopSnippet
+            # Replace default loop snippet with an embedded moveRight()
+            content = switch e.language
+              when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
+              when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
+              else content
           entry =
-            content: doc.snippets[e.language].code
+            content: content
             meta: 'press tab'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
@@ -810,14 +857,16 @@ module.exports = class SpellView extends CocoView
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, @writable
   toggleControls: (e, enabled) ->
+    return if @destroyed
     return if e?.controls and not ('editor' in e.controls)
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled and @writable
     disabled = not enabled
-    $('body').focus() if disabled and $(document.activeElement).is('.ace_text-input')
+    wasFocused = @ace.isFocused()
     @ace.setReadOnly disabled
     @ace[if disabled then 'setStyle' else 'unsetStyle'] 'disabled'
     @toggleBackground()
+    $('body').focus() if disabled and wasFocused
 
   toggleBackground: =>
     # TODO: make the background an actual background and do the CSS trick

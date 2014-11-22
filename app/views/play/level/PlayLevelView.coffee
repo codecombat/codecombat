@@ -78,6 +78,7 @@ module.exports = class PlayLevelView extends RootView
     'real-time-multiplayer:left-game': 'onRealTimeMultiplayerLeftGame'
     'real-time-multiplayer:manual-cast': 'onRealTimeMultiplayerCast'
     'ipad:memory-warning': 'onIPadMemoryWarning'
+    'store:item-purchased': 'onItemPurchased'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -431,7 +432,6 @@ module.exports = class PlayLevelView extends RootView
       application.tracker?.trackEvent 'Saw Victory',
         level: @level.get('name')
         label: @level.get('name')
-        getDirectFirstGroup: me.getDirectFirstGroup()
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->
@@ -906,3 +906,13 @@ module.exports = class PlayLevelView extends RootView
 
   onIPadMemoryWarning: (e) ->
     @hasReceivedMemoryWarning = true
+
+  onItemPurchased: (e) ->
+    heroConfig = @session.get('heroConfig') ? {}
+    inventory = heroConfig.inventory ? {}
+    slot = e.item.getAllowedSlots()[0]
+    if slot and not inventory[slot]
+      # Open up the inventory modal so they can equip the new item
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
+      @setupManager.open()

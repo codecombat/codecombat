@@ -90,6 +90,7 @@ module.exports = class AuthModal extends ModalView
     userObject.emails.generalNews.enabled = subscribe
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
+    Backbone.Mediator.publish "auth:signed-up", {}
     window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
     createUser userObject, null, window.nextLevelURL
@@ -125,7 +126,7 @@ module.exports = class AuthModal extends ModalView
   onClickGPlusLogin: ->
     step.done = false for step in @gplusAuthSteps
     handler = application.gplusHandler
-    
+
     @listenToOnce handler, 'logged-in', ->
       @gplusAuthSteps[0].done = true
       @renderGPlusAuthChecklist()
@@ -141,7 +142,7 @@ module.exports = class AuthModal extends ModalView
       @listenToOnce handler, 'logging-into-codecombat', ->
         @gplusAuthSteps[3].done = true
         @renderGPlusAuthChecklist()
-     
+
   renderGPlusAuthChecklist: ->
     template = require 'templates/modal/auth-modal-gplus-checklist'
     el = $(template({steps: @gplusAuthSteps}))

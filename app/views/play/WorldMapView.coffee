@@ -40,7 +40,7 @@ module.exports = class WorldMapView extends RootView
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
-    
+
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
     @listenToOnce @earnedAchievements, 'sync', ->
@@ -56,7 +56,7 @@ module.exports = class WorldMapView extends RootView
               earned[group].push(reward)
               addedSomething = true
     @supermodel.loadCollection(@earnedAchievements, 'achievements')
-    
+
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
@@ -110,6 +110,7 @@ module.exports = class WorldMapView extends RootView
       window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
       level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
+      level.locked = false if me.get('slug') is 'nick'
       level.disabled = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.practice
@@ -136,7 +137,7 @@ module.exports = class WorldMapView extends RootView
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
         pos = @$el.find('.level.next').offset()
-        @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top + 250
+        @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top
         @manuallyPositionedLevelInfoID = levelID
 
   afterInsert: ->
@@ -203,6 +204,7 @@ module.exports = class WorldMapView extends RootView
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
     @adjustLevelInfoPosition e
     @endHighlight()
+    @manuallyPositionedLevelInfoID = false
 
   onMouseLeaveLevel: (e) ->
     return if application.isIPadApp
@@ -688,7 +690,9 @@ forest = [
       continue: 'peasant-protection'
     x: 58.54
     y: 66.73
-   }
+  }
+
+  # Warrior branch
   {
     name: 'Peasant Protection'
     type: 'hero'
@@ -709,6 +713,77 @@ forest = [
     x: 71.19
     y: 63.61
   }
+
+  # Ranger branch
+  {
+    name: 'Munchkin Harvest'
+    type: 'hero'
+    id: 'munchkin-harvest'
+    description: 'Join forces with a new hero: Amara Arrowhead.'
+    nextLevels:
+      continue: 'swift-dagger'
+    disabled: not me.isAdmin()
+    x: 64.37
+    y: 69.18
+  }
+  {
+    name: 'Swift Dagger'
+    type: 'hero'
+    id: 'swift-dagger'
+    description: 'Deal damage from a distance with your new hero.'
+    nextLevels:
+      continue: 'shrapnel'
+    disabled: not me.isAdmin()
+    x: 66
+    y: 75.61
+  }
+  {
+    name: 'Shrapnel'
+    type: 'hero'
+    id: 'shrapnel'
+    description: 'Explore the explosive arts.'
+    nextLevels:
+      continue: 'coinucopia'
+    disabled: not me.isAdmin()
+    x: 67
+    y: 81
+  }
+
+  # Wizard branch
+  {
+    name: 'Arcane Ally'
+    type: 'hero'
+    id: 'arcane-ally'
+    description: 'Stand your ground against large ogres with a new hero: Ms. Hushbaum.'
+    nextLevels:
+      continue: 'touch-of-death'
+    disabled: not me.isAdmin()
+    x: 64.37
+    y: 55.18
+  }
+  {
+    name: 'Touch of Death'
+    type: 'hero'
+    id: 'touch-of-death'
+    description: 'Learn your first spell to siphon life from your foes.'
+    nextLevels:
+      continue: 'bonemender'
+    disabled: not me.isAdmin()
+    x: 65
+    y: 48
+  }
+  {
+    name: 'Bonemender'
+    type: 'hero'
+    id: 'bonemender'
+    description: 'Cast regeneration on allied soldiers to withstand a siege.'
+    nextLevels:
+      continue: 'coinucopia'
+    disabled: not me.isAdmin()
+    x: 66
+    y: 40
+  }
+
   {
     name: 'Coinucopia'
     type: 'hero'
@@ -756,6 +831,17 @@ forest = [
     description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
       continue: 'multiplayer-treasure-grove'
+    x: 77.54
+    y: 25.94
+  }
+  {
+    name: 'Siege of Stonehold'
+    type: 'hero'
+    id: 'siege-of-stonehold'
+    description: 'Unlock the desert world, if you are strong enough to win this epic battle!'
+    #nextLevels:
+    #  continue: ''
+    disabled: not me.isAdmin()
     x: 77.54
     y: 25.94
   }
