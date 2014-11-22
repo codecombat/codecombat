@@ -108,6 +108,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
+    moveRightLoopSnippet: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
     requiredCode: ['loop']
@@ -123,6 +124,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
+    moveRightLoopSnippet: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'dread-door':

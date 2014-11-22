@@ -293,8 +293,15 @@ module.exports = class SpellView extends CocoView
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
+          content = doc.snippets[e.language].code
+          if /loop/.test(content) and LevelOptions[@options.level.get('slug')]?.moveRightLoopSnippet
+            # Replace default loop snippet with an embedded moveRight()
+            content = switch e.language
+              when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
+              when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
+              else content
           entry =
-            content: doc.snippets[e.language].code
+            content: content
             meta: 'press tab'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
