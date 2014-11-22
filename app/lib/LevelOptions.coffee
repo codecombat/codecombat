@@ -91,7 +91,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {feet: 'leather-boots'}
   'the-first-kithmaze':
     hidesRunShortcut: true
@@ -137,14 +137,14 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', torso: 'leather-tunic'}
+    requiredGear: {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {feet: 'leather-boots'}
   'master-of-names':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {feet: 'leather-boots'}
     requiredCode: ['findNearestEnemy']
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
@@ -153,7 +153,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'leather-tunic'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {feet: 'leather-boots'}
     requiredCode: ['findNearestEnemy']
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
@@ -162,7 +162,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'leather-boots'}
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
   'tactical-strike':
@@ -170,7 +170,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', eyes: 'crude-glasses'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'leather-boots'}
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
   'the-final-kithmaze':
@@ -178,21 +178,21 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
   'the-gauntlet':
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'leather-tunic', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'leather-boots'}
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
   'kithgard-gates':
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
-    requiredGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', torso: 'leather-tunic'}
+    requiredGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {'right-hand': 'simple-sword'}
   'defense-of-plainswood':
     hidesRealTimePlayback: true
@@ -220,22 +220,22 @@ module.exports = LevelOptions =
     requiredCode: ['topEnemy']
   'back-to-back':
     hidesCodeToolbar: true
-    requiredGear: {feet: 'leather-boots', torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
+    requiredGear: {feet: 'leather-boots', torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'ogre-encampment':
-    requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'woodland-cleaver':
-    requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'wooden-shield', wrists: 'sundial-wristwatch', feet: 'leather-boots'}
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'wooden-shield', wrists: 'sundial-wristwatch', feet: 'leather-boots'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
   'shield-rush':
-    requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {'left-hand': 'wooden-shield'}
   'peasant-protection':
-    requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses'}
   'munchkin-swarm':
-    requiredGear: {torso: 'leather-tunic', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {}
   'coinucopia':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags'}
@@ -250,8 +250,8 @@ module.exports = LevelOptions =
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {'right-hand': 'long-sword'}
   'rich-forager':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield'}
+    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield'}
     restrictedGear: {'right-hand': 'crude-builders-hammer'}
   'multiplayer-treasure-grove':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'leather-tunic'}
+    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {}

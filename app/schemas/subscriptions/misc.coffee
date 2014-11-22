@@ -29,6 +29,9 @@ module.exports =
 
   'modal:closed': c.object {}
 
+  'modal:open-modal-view': c.object {required: ['modalPath']},
+    modalPath: {type: 'string'}
+
   'router:navigate': c.object {required: ['route']},
     route: {type: 'string'}
     view: {type: 'object'}
@@ -49,7 +52,7 @@ module.exports =
     progress: {type: 'number', minimum: 0, maximum: 1}
 
   'buy-gems-modal:update-products': { }
-  
+
   'buy-gems-modal:purchase-initiated': c.object {required: ['productID']},
     productID: { type: 'string' }
 
@@ -57,3 +60,7 @@ module.exports =
     token: { type: 'object', properties: {
       id: {type: 'string'}
     }}
+
+  'store:item-purchased': c.object {required: ['item', 'itemSlug']},
+    item: {type: 'object'}
+    itemSlug: {type: 'string'}

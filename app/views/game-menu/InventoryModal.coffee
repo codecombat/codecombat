@@ -247,6 +247,8 @@ module.exports = class InventoryModal extends ModalView
       @delegateEvents()
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)
+
+      Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
@@ -388,7 +390,7 @@ module.exports = class InventoryModal extends ModalView
       if heroClass is 'Warrior'
         # After they switch to a ranger or wizard, we stop being so finicky about gear.
         for slot, item of requiredGear
-          #continue if item is 'leather-tunic' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level  # ... when we make it so that you can buy it
+          continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
           equipped = equipment[slot]
           continue if equipped and not (
             (item is 'crude-builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
@@ -473,7 +475,7 @@ module.exports = class InventoryModal extends ModalView
 gear =
   'simple-boots': '53e237bf53457600003e3f05'
   'simple-sword': '53e218d853457600003e3ebe'
-  'leather-tunic': '53e22eac53457600003e3efc'
+  'tarnished-bronze-breastplate': '53e22eac53457600003e3efc'
   'leather-boots': '53e2384453457600003e3f07'
   'leather-belt': '5437002a7beba4a82024a97d'
   'programmaticon-i': '53e4108204c00d4607a89f78'

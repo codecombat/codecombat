@@ -90,7 +90,7 @@ module.exports = class PlayItemsModal extends ModalView
       model.silhouetted = not model.owned and model.isSilhouettedItem()
       model.level = model.levelRequiredForItem() if model.get('tier')?
       model.unequippable = not ('Warrior' in model.getAllowedHeroClasses())  # Temp: while there are no wizards/rangers
-      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size model.getFrontFacingStats().stats and not model.owned  # Temp: while there are placeholder items
+      model.comingSoon = not model.getFrontFacingStats().props.length and not _.size(model.getFrontFacingStats().stats) and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
     if needMore
@@ -112,6 +112,7 @@ module.exports = class PlayItemsModal extends ModalView
     @$el.find('.nano:visible').nanoScroller({alwaysVisible: true})
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
+    @$el.find("a[href='#item-category-armor']").click()  # Start on armor tab, if it's there.
 
   onHidden: ->
     super()
@@ -156,6 +157,8 @@ module.exports = class PlayItemsModal extends ModalView
       #- ...then rerender key bits
       @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
       @itemDetailsView.render()
+
+      Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->

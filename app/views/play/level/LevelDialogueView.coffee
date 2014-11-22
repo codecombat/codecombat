@@ -15,9 +15,17 @@ module.exports = class LevelDialogueView extends CocoView
 
   events:
     'click': 'onClick'
+    'click a': 'onClickLink'
 
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {}
+
+  onClickLink: (e) ->
+    route = $(e.target).attr('href')
+    if route and /item-store/.test route
+      PlayItemsModal = require 'views/play/modal/PlayItemsModal'
+      @openModalView new PlayItemsModal supermodel: @supermodal
+      e.stopPropagation()
 
   onSpriteDialogue: (e) ->
     return unless e.message
