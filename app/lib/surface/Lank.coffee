@@ -104,7 +104,8 @@ module.exports = Lank = class Lank extends CocoClass
       @sprite.destroy?()
       if parent = @sprite.parent
         parent.removeChild @sprite
-        parent.addChild newSprite
+        if parent.spriteSheet is newSprite.spriteSheet
+          parent.addChild newSprite
 
     # get the lank to update things
     for prop in ['lastPos', 'currentRootAction']
