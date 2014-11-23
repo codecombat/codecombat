@@ -102,6 +102,7 @@ LevelHandler = class LevelHandler extends Handler
       # of model, like in this case. Refactor to move that logic to the model instead.
 
   getMySessions: (req, res, slugOrID) ->
+    return @sendForbiddenError(res) if not req.user
     findParameters = {}
     if Handler.isID slugOrID
       findParameters['_id'] = slugOrID
@@ -271,6 +272,7 @@ LevelHandler = class LevelHandler extends Handler
     @doGetFeedback req, res, levelID, false
 
   getAllFeedback: (req, res, levelID) ->
+    return @sendNotFoundError(res) unless req.user
     @doGetFeedback req, res, levelID, true
 
   doGetFeedback: (req, res, levelID, multiple) ->

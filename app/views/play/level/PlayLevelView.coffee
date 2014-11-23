@@ -4,6 +4,7 @@ template = require 'templates/play/level'
 ThangType = require 'models/ThangType'
 utils = require 'lib/utils'
 storage = require 'lib/storage'
+{createAetherOptions} = require 'lib/aether_utils'
 
 # tools
 Surface = require 'lib/surface/Surface'
@@ -217,8 +218,7 @@ module.exports = class PlayLevelView extends RootView
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells', @otherSession.get('teamSpells'))
-    # hero-ladder levels use code instead of transpiledCode
-    opponentCode = @otherSession?.get('transpiledCode') or @otherSession?.get('code') or {}
+    opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
@@ -571,7 +571,20 @@ module.exports = class PlayLevelView extends RootView
     @onRealTimeMultiplayerLevelUnloaded()
     super()
 
-  # Real-time Multiplayer ######################################################
+  onIPadMemoryWarning: (e) ->
+    @hasReceivedMemoryWarning = true
+
+  onItemPurchased: (e) ->
+    heroConfig = @session.get('heroConfig') ? {}
+    inventory = heroConfig.inventory ? {}
+    slot = e.item.getAllowedSlots()[0]
+    if slot and not inventory[slot]
+      # Open up the inventory modal so they can equip the new item
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
+      @setupManager.open()
+
+  # Start Real-time Multiplayer ######################################################
   #
   # This view acts as a hub for the real-time multiplayer session for the current level.
   #
@@ -800,6 +813,21 @@ module.exports = class PlayLevelView extends RootView
         opponentPlayer = player
     if myPlayer
       console.info 'Submitting my code'
+      # Transpile code
+      # Copied from scripts/transpile.coffee
+      # TODO: Should this live somewhere else?
+      transpiledCode = {}
+      for thang, spells of @session.get('code')
+        transpiledCode[thang] = {}
+        for spellID, spell of spells
+          spellName = thang + '/' + spellID
+          continue if @session.get('teamSpells') and not (spellName in @session.get('teamSpells')[@session.get('team')])
+          # console.log "PlayLevelView Transpiling spell #{spellName}"
+          aetherOptions = createAetherOptions functionName: spellID, codeLanguage: @session.get('submittedCodeLanguage')
+          aether = new Aether aetherOptions
+          transpiledCode[thang][spellID] = aether.transpile spell
+      # console.log "PlayLevelView transpiled code", transpiledCode
+      @session.set 'transpiledCode', transpiledCode
       @session.patch()
       myPlayer.set 'state', 'submitted'
     else
@@ -904,15 +932,4 @@ module.exports = class PlayLevelView extends RootView
       # TODO: Don't hardcode spellName
       Backbone.Mediator.publish 'level:select-sprite', thangID: sessionState.selected, spellName: 'plan'
 
-  onIPadMemoryWarning: (e) ->
-    @hasReceivedMemoryWarning = true
-
-  onItemPurchased: (e) ->
-    heroConfig = @session.get('heroConfig') ? {}
-    inventory = heroConfig.inventory ? {}
-    slot = e.item.getAllowedSlots()[0]
-    if slot and not inventory[slot]
-      # Open up the inventory modal so they can equip the new item
-      @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
-      @setupManager.open()
+# End Real-time Multiplayer ######################################################

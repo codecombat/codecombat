@@ -10,6 +10,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_beginners: "Новичкам"
     multiplayer: "Мультиплеер" # Not currently shown on home page
     for_developers: "Разработчикам" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     failing: "Неудача"
     action_timeline: "График действий"
     click_to_select: "Выберите персонажа, щёлкнув на нём"
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
     reload: "Перезагрузить"
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     few_gems: "Немного самоцветов"
     pile_gems: "Кучка самоцветов"
     chest_gems: "Сундук с самоцветами"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     range: "Зона" # As in "attack or visual range"
     blocks: "Блокирует" # As in "this shield blocks this much damage"
     skills: "Умения"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Сохранено"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     amount_achieved: "Количество"
     achievement: "Достижение"
     category_contributor: "Помощь"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Помощь"
     category_levels: "Уровни"
     category_undefined: "Неопределено"

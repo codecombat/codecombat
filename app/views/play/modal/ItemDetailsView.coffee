@@ -3,6 +3,7 @@ template = require 'templates/play/modal/item-details-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 
+{downTheChain} = require 'lib/world/world_utils'
 utils = require 'lib/utils'
 
 module.exports = class ItemDetailsView extends CocoView
@@ -21,6 +22,7 @@ module.exports = class ItemDetailsView extends CocoView
       @item.affordable = me.gems() >= @item.get('gems')
       @item.owned = me.ownsItem @item.get('original')
       @item.comingSoon = not @item.getFrontFacingStats().props.length and not _.size @item.getFrontFacingStats().stats  # Temp: while there are placeholder items
+      @componentConfigs = (c.config for c in @item.get('components') when c.config)
 
       stats = @item.getFrontFacingStats()
       props = (p for p in stats.props when not @propDocs[p])
@@ -78,15 +80,22 @@ module.exports = class ItemDetailsView extends CocoView
           description = description.replace(/#{spriteName}/g, 'hero')
           if fact = stats.stats.shieldDefenseFactor
             description = description.replace(/#{shieldDefensePercent}%/g, fact.display)
-          ## We don't have the full components loaded here, so we can't really get most of these values.
-          #description = description.replace /#{([^.]+?)}/g, (match, keyChain) ->
-          #  console.log 'gotta find', keyChain, 'from', match, 'and have', stats
-          #  match
+          if prop is 'buildTypes'
+            buildsConfig = _.find @componentConfigs, 'buildables'
+            description = description.replace '#{buildTypes}', "`[\"#{_.keys(buildsConfig.buildables).join('\", \"')}\"]`"
+          # We don't have the full components loaded here, so we can't really get most of these values.
+          componentConfigs = @componentConfigs ? []
+          description = description.replace /#{([^.]+?)}/g, (match, keyChain) ->
+            for componentConfig in componentConfigs
+              if value = downTheChain componentConfig, keyChain
+                return value
+            #console.log 'gotta find', keyChain, 'from', match
+            match
           description = description.replace(/#{(.+?)}/g, '`$1`')
           description = $(marked(description)).html()
 
         c.props.push {
-          name: _.string.humanize prop
+          name: prop
           description: description or '...'
         }
     c

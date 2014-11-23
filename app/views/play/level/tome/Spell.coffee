@@ -185,7 +185,6 @@ module.exports = class Spell
 
   shouldUseTranspiledCode: ->
     # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return false if @levelType is 'hero-ladder'
     return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.

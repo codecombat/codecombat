@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     for_beginners: "Para principiantes"
     multiplayer: "Multixogador" # Not currently shown on home page
     for_developers: "Para programadores" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Xogar" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     failing: "Fallando"
     action_timeline: "Cronoloxía de Acción"
     click_to_select: "Preme nunha unidade para seleccionala"
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
 #    reload: "Reload"
     reload_title: "Recargar todo o código?"
     reload_really: "Estás seguro que queres reiniciar o nivel?"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Selecciona o teu Heroe"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Habilidades"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Gardado"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     amount_achieved: "Cantidade"
     achievement: "Logro"
     category_contributor: "Contribuidor"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Miscelánea"
     category_levels: "Niveis"
     category_undefined: "Sen categorizar"

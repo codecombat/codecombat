@@ -296,6 +296,9 @@ $itemSlotGridHeight: 70px
     width: $itemSlotSize * 1.2
     height: $itemSlotSize * 1.2
 
+    button
+      display: none
+
     
   //- Available equipment
    
@@ -381,8 +384,9 @@ $itemSlotGridHeight: 70px
         //  display: inline
     
       &.restricted
-        background-color: rgba(255, 80, 67, 0.25)
+        background-color: rgba(190, 190, 190, 1)
         cursor: default
+        @include filter(contrast(50%) brightness(100%))
     
         //.item-view
         //  cursor: default

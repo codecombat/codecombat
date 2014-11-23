@@ -10,6 +10,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
@@ -55,7 +56,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"
-    available: "可用" # Available
+    available: "可用"
     skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
@@ -64,14 +65,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
-    buy_gems: "购买宝石" # Buy Gems
+    buy_gems: "购买宝石"
     older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
     awaiting_levels_adventurer_prefix: "我们每周开放五个关卡"
-    awaiting_levels_adventurer: "注册成为冒险家" #"Sign up as an Adventurer"
-    awaiting_levels_adventurer_suffix: "来优先尝试新关卡" #to be the first to play new levels."
+    awaiting_levels_adventurer: "注册成为冒险家"
+    awaiting_levels_adventurer_suffix: "来优先尝试新关卡"
     choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
     adventurer_forum: "冒险者论坛"
@@ -86,8 +87,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
     campaign_classic_algorithms: "经典算法"
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
-    campaign_forest: "森林战役" #Forest Campaign"
-    campaign_dungeon: "地牢战役" #Dungeon Campaign"
+    campaign_forest: "森林战役"
+    campaign_dungeon: "地牢战役"
 
   login:
     sign_up: "注册"
@@ -95,10 +96,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     logging_in: "正在登录"
     log_out: "登出"
     recover: "找回账户"
-    authenticate_gplus: "使用 G+ 授权"#Authenticate G+"
-    load_profile: "载入 G+ 档案" # Load G+ Profile"
-    load_email: "载入 G+ 电子邮件" #Load G+ Email"
-    finishing: "完成..." #Finishing"
+    authenticate_gplus: "使用 G+ 授权"
+    load_profile: "载入 G+ 档案"
+    load_email: "载入 G+ 电子邮件"
+    finishing: "完成..."
 
   signup:
     create_account_title: "创建一个账户来保存进度"
@@ -118,8 +119,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recovery_sent: "找回账户邮件已发送."
 
   items:
-    primary: "右手"#"Primary"
-    secondary: "左手"#Secondary"
+    primary: "右手"
+    secondary: "左手"
     armor: "盔甲"
     accessories: "配饰"
     misc: "辅助道具"
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     failing: "失败"
     action_timeline: "行动时间轴"
     click_to_select: "点击选择一个单元。"
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
     reload: "重载"
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
@@ -315,10 +318,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     equip: "装备"
     unequip: "取消装备"
 
-  buy_gems: 
+  buy_gems:
     few_gems: "几个宝石"
     pile_gems: "一堆宝石"
     chest_gems: "一箱宝石"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     range: "攻击范围" # As in "attack or visual range"
     blocks: "格挡" # As in "this shield blocks this much damage"
     skills: "技能"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "保存"
@@ -698,7 +722,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     rank_last_submitted: "已提交"
     help_simulate: "模拟游戏需要帮助？"
     code_being_simulated: "你的新代码正在被其他玩家模拟评分。这个将会刷新，作为一个新游戏开始。"
-    # no_ranked_matches_pre: "No ranked matches for the "
+#    no_ranked_matches_pre: "No ranked matches for the "
 #    no_ranked_matches_post: " team! Play against some competitors and then come back here to get your game ranked."
     choose_opponent: "选择一个对手"
     select_your_language: "选择你使用的语言!"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     amount_achieved: "数量"
     achievement: "成就"
     category_contributor: "贡献"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "其他"
     category_levels: "等级"
     category_undefined: "未分类"
