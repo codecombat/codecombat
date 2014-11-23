@@ -34,15 +34,14 @@
 
   button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.skip") Skip
 
-.footer
-  .content
-    p(class='footer-link-text')
-      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Contact
-    if explainHourOfCode
-      // Does not show up unless lang is en-US.
-      div.hour-of-code-explanation
-        | The 'Hour of Code' is a nationwide initiative by 
-        a(href="http://csedweek.org") Computer Science Education Week
-        |  and 
-        a(href="http://code.org") Code.org
-        |  to introduce millions of students to one hour of computer science and computer programming.
+#play-footer
+  p(class='footer-link-text')
+    a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Contact
+  if explainHourOfCode
+    // Does not show up unless lang is en-US.
+    div.hour-of-code-explanation
+      | The 'Hour of Code' is a nationwide initiative by 
+      a(href="http://csedweek.org") Computer Science Education Week
+      |  and 
+      a(href="http://code.org") Code.org
+      |  to introduce millions of students to one hour of computer science and computer programming.

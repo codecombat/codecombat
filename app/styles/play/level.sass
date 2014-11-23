@@ -3,8 +3,6 @@
 
 body.is-playing
   background-color: black
-  .footer
-    background-color: black
 
 $level-resize-transition-time: 0.5s
 
@@ -145,13 +143,6 @@ $level-resize-transition-time: 0.5s
       &.btn-#{nth($tuple, 1)}
         @include banner-button(nth($tuple, 2), #FFF)
 
-  .footer .footer-link-text a
-    @include opacity(0.75)
-    @include transition(opacity .10s linear)
-
-    &:hover, &:active
-      @include opacity(1)
-    
   $GI: 0.5  // gradient intensity; can tweak this 0-1
 
   .gradient
@@ -194,20 +185,33 @@ $level-resize-transition-time: 0.5s
     height: 100%
     width: 2%
 
-  .footer
+  #play-footer
+    text-align: center
+    font-family: "Open Sans Condensed"
+    font-variant: small-caps
+    font-size: 25px
+    padding: 10px 0
+    @include transition(opacity .10s linear)
+    @include opacity(0.6)
+
+    &:hover
+      @include opacity(1)
+
+    a
+      @include opacity(0.75)
+      @include transition(opacity .10s linear)
+      color: white
+  
+      &:hover, &:active
+        @include opacity(1)
+    
     @media screen and (min-aspect-ratio: 17/10)
       display: none
 
-    &:not(:hover)
-      @include opacity(0.6)
- 
     .hour-of-code-explanation
       margin-top: 5px
       color: white
       font-size: 12px
-
-      &:not(:hover)
-        @include opacity(0.75)
 
       a
         color: white
@@ -249,7 +253,7 @@ body.ipad #level-view
   height: 1024px * (589 / 924) + 50px
   overflow: hidden
 
-  #code-area, .footer, #thang-hud
+  #code-area, #play-footer, #thang-hud
     display: none
 
   #level-chat-view
