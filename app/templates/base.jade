@@ -1,47 +1,48 @@
-#site-nav
-  img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-  div#site-nav-links
-    a(href="/")
-      span.glyphicon.glyphicon-home
-    a(href="/about", data-i18n="nav.about")
-    a(href='/play/ladder', data-i18n="home.multiplayer")
-    a(href='/community', data-i18n="nav.community")
-    a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
-    a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
-
-    if me.get('anonymous') === false
-      span.dropdown
-        button.btn.btn-sm.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
-          if me.get('photoURL')
-            img.account-settings-image(src=me.getPhotoURL(18), alt="")
-          else
-            i.glyphicon.glyphicon-user
-          span.spl.spr(data-i18n="nav.account" href="/account") Account
-          span.caret
-        ul.dropdown-menu(role="menu")
-          li.user-dropdown-header
-            span.user-level= me.level()
-            a(href="/user/#{me.getSlugOrID()}")
-              img.img-circle(src="#{me.getPhotoURL()}" alt="")
-            h3=me.displayName()
-          li.user-dropdown-body
-            .col-xs-4.text-center
-              a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile") Profile
-            .col-xs-4.text-center
-              a(href="/user/#{me.getSlugOrID()}/stats" data-i18n="nav.stats") Stats
-            .col-xs-4.text-center
-              a.disabled(data-i18n="nav.code") Code
-          li.user-dropdown-footer
-            .pull-left
-              a.btn.btn-default.btn-flat(href="/account" data-i18n="nav.account") Account
-            .pull-right
-              button#logout-button.btn.btn-default.btn-flat(data-i18n="login.log_out") Log Out
-
-    else
-      button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
-      button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
-    select.language-dropdown.form-control
-
+block header
+  #site-nav
+    img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+    div#site-nav-links
+      a(href="/")
+        span.glyphicon.glyphicon-home
+      a(href="/about", data-i18n="nav.about")
+      a(href='/play/ladder', data-i18n="home.multiplayer")
+      a(href='/community', data-i18n="nav.community")
+      a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
+      a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
+  
+      if me.get('anonymous') === false
+        span.dropdown
+          button.btn.btn-sm.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
+            if me.get('photoURL')
+              img.account-settings-image(src=me.getPhotoURL(18), alt="")
+            else
+              i.glyphicon.glyphicon-user
+            span.spl.spr(data-i18n="nav.account" href="/account") Account
+            span.caret
+          ul.dropdown-menu(role="menu")
+            li.user-dropdown-header
+              span.user-level= me.level()
+              a(href="/user/#{me.getSlugOrID()}")
+                img.img-circle(src="#{me.getPhotoURL()}" alt="")
+              h3=me.displayName()
+            li.user-dropdown-body
+              .col-xs-4.text-center
+                a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile") Profile
+              .col-xs-4.text-center
+                a(href="/user/#{me.getSlugOrID()}/stats" data-i18n="nav.stats") Stats
+              .col-xs-4.text-center
+                a.disabled(data-i18n="nav.code") Code
+            li.user-dropdown-footer
+              .pull-left
+                a.btn.btn-default.btn-flat(href="/account" data-i18n="nav.account") Account
+              .pull-right
+                button#logout-button.btn.btn-default.btn-flat(data-i18n="login.log_out") Log Out
+  
+      else
+        button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
+        button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
+      select.language-dropdown.form-control
+  
 
 block outer_content
   #site-content-area
