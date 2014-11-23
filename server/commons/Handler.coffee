@@ -56,7 +56,7 @@ module.exports = class Handler
     isBrandNew = req.method is 'POST' and not req.body.original
     props = props.concat @postEditableProperties if isBrandNew
 
-    if @modelClass.schema.uses_coco_permissions
+    if @modelClass.schema.uses_coco_permissions and req.user
       # can only edit permissions if this is a brand new property,
       # or you are an owner of the old one
       isOwner = document.getAccessForUserObjectId(req.user._id) is 'owner'
@@ -523,7 +523,7 @@ module.exports = class Handler
 
   # This is not a Mongoose user
   projectionForUser: (req, model, ownerID) ->
-    return {} if 'privateProperties' not of model or req.user._id + '' is ownerID + '' or req.user.isAdmin()
+    return {} if 'privateProperties' not of model or req.user?._id + '' is ownerID + '' or req.user.isAdmin()
     projection = {}
     projection[field] = 0 for field in model.privateProperties
     projection

@@ -224,6 +224,7 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
+    return @sendForbiddenError(res) unless req.user
     return @sendForbiddenError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     query = creator: userID, levelID: {$in: ['criss-cross', 'gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
     projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
@@ -241,7 +242,7 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless userID?
       query = creator: userID + ''
-      isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
+      isAuthorized = req.user?._id+'' is userID or req.user?.isAdmin()
       projection = {}
       if req.query.project
         projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
@@ -278,9 +279,9 @@ UserHandler = class UserHandler extends Handler
 
   trackActivity: (req, res, userID, activityName, increment=1) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'
-    isMe = userID is req.user._id + ''
-    isAuthorized = isMe or req.user.isAdmin()
-    isAuthorized ||= ('employer' in (req.user.get('permissions') ? [])) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
+    isMe = userID is req.user?._id + ''
+    isAuthorized = isMe or req.user?.isAdmin()
+    isAuthorized ||= ('employer' in (req.user?.get('permissions') ? [])) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
     return @sendForbiddenError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
@@ -322,6 +323,7 @@ UserHandler = class UserHandler extends Handler
         res.end()
 
   getCandidates: (req, res) ->
+    return @sendForbiddenError(res) unless req.user
     authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     months = if req.user.isAdmin() then 12 else 2
     since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
@@ -356,7 +358,7 @@ UserHandler = class UserHandler extends Handler
     true
 
   getEmployers: (req, res) ->
-    return @sendForbiddenError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
     query = {employerAt: {$exists: true, $ne: ''}}
     selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
     User.find(query).select(selection).lean().exec (err, documents) =>
@@ -379,7 +381,7 @@ UserHandler = class UserHandler extends Handler
     hash.digest('hex')
 
   getRemark: (req, res, userID) ->
-    return @sendForbiddenError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
     query = user: userID
     projection = null
     if req.query.project
@@ -392,7 +394,7 @@ UserHandler = class UserHandler extends Handler
 
   searchForUser: (req, res) ->
     # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
-    return @sendForbiddenError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
     search = req.body.search
     query = email: {$exists: true}, $or: [
       {emailLower: search}
@@ -605,7 +607,7 @@ UserHandler = class UserHandler extends Handler
     @statRecalculators[statName] done
 
   recalculate: (req, res, statName) ->
-    return @sendForbiddenError(res) unless req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
     log.debug 'recalculate'
     return @sendNotFoundError(res) unless statName of @statRecalculators
     @recalculateStats statName

@@ -12,6 +12,7 @@ class EarnedAchievementHandler extends Handler
 
   # Don't allow POSTs or anything yet
   hasAccess: (req) ->
+    return false unless req.user
     req.method in ['GET', 'POST'] # or req.user.isAdmin()
 
   get: (req, res) ->
