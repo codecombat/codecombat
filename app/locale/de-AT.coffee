@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    failing: "Failing"
     action_timeline: "Aktionszeitstrahl"
     click_to_select: "Klicke auf eine Einheit, um sie auszuwählen."
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
 #    reload: "Reload"
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Gespeichert"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     amount_achieved: "Anzahl"
     achievement: "Achievement"
 #    category_contributor: "Contributor"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Sonstiges"
     category_levels: "Level"
     category_undefined: "ohne Kategorie"

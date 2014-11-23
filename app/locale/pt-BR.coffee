@@ -10,6 +10,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador" # Not currently shown on home page
     for_developers: "Para Desenvolvedores" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Jogar" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     failing: "Falta"
     action_timeline: "Linha do Tempo das Ações"
     click_to_select: "Clique em um personagem para selecioná-lo."
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
 #    reload: "Reload"
     reload_title: "Recarregar Todo o Código?"
     reload_really: "Você tem certeza que quer reiniciar o estágio?"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Escolha seu Herói"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Salvo"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     amount_achieved: "Montante"
     achievement: "Conquista"
     category_contributor: "Cotribuidor"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Diversos"
     category_levels: "Níveis"
     category_undefined: "Sem categoria"

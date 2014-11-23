@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     failing: "Fehlgeschlagen"
     action_timeline: "Aktionszeitstrahl"
     click_to_select: "Klicke auf eine Einheit, um sie auszuwählen."
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
     reload: "Neu laden"
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     few_gems: "Ein paar Edelsteine"
     pile_gems: "Stapel von Edelsteinen"
     chest_gems: "Kiste von Edelsteinen"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     range: "Reichweite" # As in "attack or visual range"
     blocks: "Blockieren" # As in "this shield blocks this much damage"
     skills: "Fähigkeiten"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Gespeichert"
@@ -587,7 +611,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     page_title: "Mitwirken"
     character_classes_title: "Charakter Klassen"
     introduction_desc_intro: "Wir haben hohe Erwartungen für CodeCombat."
-#   introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
+#    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
     introduction_desc_github_url: "CodeCombat ist komplett OpenSource"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
     introduction_desc_ending: "Wir hoffen du nimmst an unserer Party teil!"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     amount_achieved: "Anzahl"
     achievement: "Achievement"
     category_contributor: "Mitwirkender"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Sonstiges"
     category_levels: "Level"
     category_undefined: "ohne Kategorie"
