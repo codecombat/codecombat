@@ -188,7 +188,7 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-    restrictedGear: {feet: 'leather-boots'}
+    restrictedGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer'}
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
   'kithgard-gates':
     hidesSay: true
