@@ -7,6 +7,7 @@ c.extendNamedProperties ThangTypeSchema  # name first
 ShapeObjectSchema = c.object {title: 'Shape'},
   fc: {type: 'string', title: 'Fill Color'}
   lf: {type: 'array', title: 'Linear Gradient Fill'}
+  rf: {type: 'array', title: 'Radial Gradient Fill'}
   ls: {type: 'array', title: 'Linear Gradient Stroke'}
   p: {type: 'string', title: 'Path'}
   de: {type: 'array', title: 'Draw Ellipse'}

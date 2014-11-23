@@ -52,7 +52,7 @@ module.exports = class SpriteParser
         container.bounds[0] -= @width / 2
         container.bounds[1] -= @height / 2
       [shapeKeys, localShapes] = @getShapesFromBlock container, source
-      localContainers = @getContainersFromMovieClip container, source
+      localContainers = @getContainersFromMovieClip container, source, true # Added true because anya attack was breaking, but might break other imports
       addChildArgs = @getAddChildCallArguments container, source
       instructions = []
       for bn in addChildArgs
@@ -248,9 +248,13 @@ module.exports = class SpriteParser
       if fillCall.callee.property.name is 'lf'
         linearGradientFillSource = @subSourceFromRange fillCall.parent.range, source
         linearGradientFill = @grabFunctionArguments linearGradientFillSource.replace(/.*?lf\(/, 'lf('), true
+      else if fillCall.callee.property.name is 'rf'
+        radialGradientFillSource = @subSourceFromRange fillCall.parent.range, source
+        radialGradientFill = @grabFunctionArguments radialGradientFillSource.replace(/.*?lf\(/, 'lf('), true
       else
         fillColor = fillCall.arguments[0]?.value ? null
-        console.error 'What is this?! Not a fill!' unless fillCall.callee.property.name is 'f'
+        callName = fillCall.callee.property.name
+        console.error 'What is this?! Not a fill!', callName unless callName is 'f'
       strokeCall = node.parent.parent.parent.parent
       if strokeCall.object.callee.property.name is 'ls'
         linearGradientStrokeSource = @subSourceFromRange strokeCall.parent.range, source
@@ -301,6 +305,7 @@ module.exports = class SpriteParser
       shape.ss = strokeStyle if strokeStyle
       shape.fc = fillColor if fillColor
       shape.lf = linearGradientFill if linearGradientFill
+      shape.rf = radialGradientFill if radialGradientFill
       shape.ls = linearGradientStroke if linearGradientStroke
       if name.search('shape') isnt -1 and shape.fc is 'rgba(0,0,0,0.451)' and not shape.ss and not shape.sc
         console.log 'Skipping a shadow', name, shape, 'because we\'re doing shadows separately now.'
