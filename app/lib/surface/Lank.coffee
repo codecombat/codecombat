@@ -692,6 +692,11 @@ module.exports = Lank = class Lank extends CocoClass
     return true if /^attack /.test m
     return true if /^Repeating loop/.test m
     return true if /^findNearestEnemy/.test m
+    @previouslySaidMessages ?= {}
+    t0 = @previouslySaidMessages[m] ? 0
+    t1 = new Date()
+    @previouslySaidMessages[m] = t1
+    return true if t1 - t0 < 5 * 1000
     false
 
   playSounds: (withDelay=true, volume=1.0) ->

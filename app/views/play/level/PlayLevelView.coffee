@@ -88,6 +88,7 @@ module.exports = class PlayLevelView extends RootView
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
+    'esc': 'onEscapePressed'
 
   # Initial Setup #############################################################
 
@@ -388,6 +389,10 @@ module.exports = class PlayLevelView extends RootView
 
   onCtrlS: (e) ->
     e.preventDefault()
+
+  onEscapePressed: (e) ->
+    return unless @$el.hasClass 'real-time'
+    Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world

@@ -263,6 +263,7 @@ module.exports = LevelOptions =
   'bonemender':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'book-of-life-i', wrists: 'sundial-wristwatch'}
     restrictedGear: {'left-hand': 'unholy-tome-i'}
+    requiredCode: ['canCast']
 
   'coinucopia':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags'}
