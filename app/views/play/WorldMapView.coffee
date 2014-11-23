@@ -351,8 +351,8 @@ dungeon = [
     id: 'shadow-guard'
     original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
-    x: 41
-    y: 13
+    x: 44
+    y: 11
     nextLevels:
       more_practice: 'kounter-kithwise'
       continue: 'forgetful-gemsmith'
@@ -363,8 +363,8 @@ dungeon = [
     id: 'kounter-kithwise'
     original: '54527a6257e83800009730c7'
     description: 'Practice your evasion skills with more guards.'
-    x: 50
-    y: 14
+    x: 55
+    y: 11
     nextLevels:
       #more_practice: 'crawlways-of-kithgard'
       continue: 'forgetful-gemsmith'
@@ -388,8 +388,8 @@ dungeon = [
     id: 'forgetful-gemsmith'
     original: '544a98f62d002f0000fe331a'
     description: 'Grab even more gems as you practice moving.'
-    x: 63
-    y: 13
+    x: 66
+    y: 11
     nextLevels:
       continue: 'true-names'
   }
@@ -399,8 +399,8 @@ dungeon = [
     id: 'true-names'
     original: '541875da4c16460000ab990f'
     description: 'Learn an enemy\'s true name to defeat it.'
-    x: 74
-    y: 14
+    x: 76
+    y: 13
     nextLevels:
       more_practice: 'favorable-odds'
       continue: 'the-raised-sword'
@@ -472,8 +472,8 @@ dungeon = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 59
-    y: 25
+    x: 58
+    y: 23
     nextLevels:
       continue: 'dread-door'
   }
@@ -483,8 +483,8 @@ dungeon = [
     id: 'dread-door'
     original: '5418d40f4c16460000ab9ac2'
     description: 'Behind a dread door lies a chest full of riches.'
-    x: 60
-    y: 34
+    x: 59
+    y: 32
     nextLevels:
       continue: 'known-enemy'
   }
@@ -494,8 +494,8 @@ dungeon = [
     id: 'known-enemy'
     original: '5452adea57e83800009730ee'
     description: 'Begin to use variables in your battles.'
-    x: 68
-    y: 42
+    x: 67
+    y: 39
     nextLevels:
       continue: 'master-of-names'
   }
@@ -517,8 +517,8 @@ dungeon = [
     id: 'lowly-kithmen'
     original: '541b24511ccc8eaae19f3c1f'
     description: 'Now that you can see them, they\'re everywhere!'
-    x: 86
-    y: 43
+    x: 85
+    y: 40
     nextLevels:
       continue: 'closing-the-distance'
       skip_ahead: 'the-final-kithmaze'
@@ -553,8 +553,8 @@ dungeon = [
     id: 'the-final-kithmaze'
     original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
-    x: 81.93
-    y: 65.86
+    x: 83
+    y: 68
     nextLevels:
       more_practice: 'the-gauntlet'
       continue: 'kithgard-gates'
