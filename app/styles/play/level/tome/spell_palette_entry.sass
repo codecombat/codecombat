@@ -55,6 +55,23 @@ body:not(.dialogue-view-active)
   // Only those popovers which are our direct children (spell documentation)
   max-width: 600px
 
+  // Jiggle animation
+  // TODO: consolidate with problem_alert.sass jiggle
+  +keyframes(jiggle)
+    0%
+      transform: rotate(0deg)
+    25%
+      transform: rotate(1deg)
+    50%
+      transform: rotate(0deg)
+    75%
+      transform: rotate(-1deg)
+    100%
+      transform: rotate(0deg)
+
+  &.jiggling
+    @include animation(jiggle .3s infinite)
+
   &.pinned
     left: auto !important
     top: 50px !important
