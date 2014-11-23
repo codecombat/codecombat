@@ -842,8 +842,8 @@ forest = [
     #nextLevels:
     #  continue: ''
     disabled: not me.isAdmin()
-    x: 77.54
-    y: 25.94
+    x: 83.87
+    y: 18.89
   }
   {
     name: 'Multiplayer Treasure Grove'
