@@ -126,6 +126,10 @@ module.exports =
     codeFragment: {type: 'string'}
     codeLanguage: {type: 'string'}
 
+  'tome:suspect-code-fragment-deleted': c.object {title: 'Suspect Code Fragment Deleted', description: 'Published when a suspect code fragment is deleted from the sample code.', required: ['codeFragment']},
+    codeFragment: {type: 'string'}
+    codeLanguage: {type: 'string'}
+
   'tome:winnability-updated': c.object {title: 'Winnability Updated', description: 'When we think we can now win (or can no longer win), we may want to emphasize the submit button versus the run button (or vice versa), so this fires when we get new goal states (even preloaded goal states) suggesting success or failure change.', required: ['winnable']},
     winnable: {type: 'boolean'}
 

@@ -228,7 +228,7 @@ module.exports = class SpellView extends CocoView
         unless CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'backspaceThrottle')
           @ace.remove "left"
           return
-        
+
         nowDate = Date.now()
         if @aceSession.selection.isEmpty()
           cursor = @ace.getCursorPosition()
@@ -245,7 +245,7 @@ module.exports = class SpellView extends CocoView
         @backspaceThrottleMs = null
         @lastBackspace = nowDate
         @ace.remove "left"
-          
+
 
 
   fillACE: ->
@@ -946,12 +946,18 @@ module.exports = class SpellView extends CocoView
     return if @destroyed
     source = @getSource().replace @singleLineCommentRegex(), ''
     suspectCodeFragments = LevelOptions[@options.level.get('slug')].suspectCode
+    detectedSuspectCodeFragmentNames = []
     for suspectCodeFragment in suspectCodeFragments
       if suspectCodeFragment.pattern.test source
         @warnedCodeFragments ?= {}
         unless @warnedCodeFragments[suspectCodeFragment.name]
           Backbone.Mediator.publish 'tome:suspect-code-fragment-added', codeFragment: suspectCodeFragment.name, codeLanguage: @spell.language
-        @warnedCodeFragments[suspectCodeFragment] = true
+        @warnedCodeFragments[suspectCodeFragment.name] = true
+        detectedSuspectCodeFragmentNames.push suspectCodeFragment.name
+    for lastDetectedSuspectCodeFragmentName in @lastDetectedSuspectCodeFragmentNames ? []
+      unless lastDetectedSuspectCodeFragmentName in detectedSuspectCodeFragmentNames
+        Backbone.Mediator.publish 'tome:suspect-code-fragment-deleted', codeFragment: lastDetectedSuspectCodeFragmentName, codeLanguage: @spell.language
+    @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
