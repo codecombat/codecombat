@@ -130,7 +130,7 @@ module.exports = class DocFormatter
       else
         v = window[@doc.owner][@doc.name]  # grab Math or Vector
     if @doc.type is 'number' and not _.isNaN v
-      if v == Math.round v
+      if v is Math.round v
         return v
       if _.isNumber v
         return v.toFixed 2
@@ -165,5 +165,7 @@ module.exports = class DocFormatter
     return null unless action
     cooldowns = cooldown: action.cooldown, specificCooldown: action.specificCooldown, name: actionName, type: type
     for prop in ['range', 'radius', 'duration', 'damage']
-      cooldowns[prop] = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      cooldowns[prop] = v = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      if _.isNumber(v) and v isnt Math.round v
+        cooldowns[prop] = v.toFixed 2
     cooldowns

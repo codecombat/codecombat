@@ -90,6 +90,16 @@ $level-resize-transition-time: 0.5s
     z-index: 2
     @include transition($level-resize-transition-time ease-out)
 
+    &.grabbable:not(.flag-color-selected)
+      cursor: -moz-grab
+      cursor: -webkit-grab
+      cursor: grab
+
+      &:active
+        cursor: -moz-grabbing
+        cursor: -webkit-grabbing
+        cursor: grabbing
+
     &.flag-color-selected
       cursor: crosshair
 
