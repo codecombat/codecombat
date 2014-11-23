@@ -28,7 +28,6 @@ module.exports = class CastButtonView extends CocoView
     @levelID = options.levelID
     @castShortcut = '⇧↵'
     @levelOptions = LevelOptions[@options.levelID] ? {}
-    @initButtonTextABTest() unless @levelOptions.hidesRealTimePlayback
 
   getRenderData: (context={}) ->
     context = super context
@@ -38,8 +37,6 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
     context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
-    # A/B test submit button text
-    context.testSubmitText = @testButtonsText.submit if @testGroup? and @testGroup isnt 0
     context
 
   afterRender: ->
@@ -115,19 +112,14 @@ module.exports = class CastButtonView extends CocoView
     , (castable) =>
       Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
       @castButton.toggleClass('castable', castable).toggleClass('casting', @casting)
-
-      # A/B testing cast button text for en-US
-      unless @testGroup? and @testGroup isnt 0
-        if @casting
-          castText = $.i18n.t('play_level.tome_cast_button_running')
-        else if castable or true
-          castText = $.i18n.t('play_level.tome_cast_button_run')
-          unless @levelOptions.hidesRunShortcut  # Hide for first few.
-            castText += ' ' + @castShortcut
-        else
-          castText = $.i18n.t('play_level.tome_cast_button_ran')
+      if @casting
+        castText = $.i18n.t('play_level.tome_cast_button_running')
+      else if castable or true
+        castText = $.i18n.t('play_level.tome_cast_button_run')
+        unless @levelOptions.hidesRunShortcut  # Hide for first few.
+          castText += ' ' + @castShortcut
       else
-        castText = @testButtonsText.run
+        castText = $.i18n.t('play_level.tome_cast_button_ran')
       @castButton.text castText
       #@castButton.prop 'disabled', not castable
 
@@ -147,25 +139,3 @@ module.exports = class CastButtonView extends CocoView
 
   onLeftRealTimeMultiplayerGame: (e) ->
     @inRealTimeMultiplayerSession = false
-
-  # https://mixpanel.com/report/227350/segmentation/#action:segment,arb_event:'Saw%20Victory',bool_op:or,chart_type:bar,from_date:-9,segfilter:!((filter:(operand:!('Ogre%20Encampment'),operator:%3D%3D),property:level,selected_property_type:string,type:string),(property:castButtonTextGroup,selected_property_type:number,type:number)),segment_type:number,to_date:0,type:unique,unit:day
-  initButtonTextABTest: ->
-    return if me.isAdmin()
-    return unless $.i18n.lng() is 'en-US'
-    # A/B test buttons text
-    # Only testing 'en-US' for simplicity and it accounts for a significant % of users
-    # Test group 0 is existing behavior
-    # Intentionally leaving out cast shortcut for test groups for simplicity
-    @testGroup = me.getCastButtonTextGroup()
-    @testButtonsText = switch @testGroup
-      when 0 then run: 'Run/Running', submit: 'Submit'
-      when 1 then run: 'Run', submit: 'Submit'
-      when 2 then run: 'Test', submit: 'Submit'
-      when 3 then run: 'Run', submit: 'Continue'
-      when 4 then run: 'Test', submit: 'Continue'
-      when 5 then run: 'Run', submit: 'Finish'
-      when 6 then run: 'Test', submit: 'Finish'
-    application.tracker?.trackEvent 'Cast Button',
-      levelID: @levelID
-      castButtonText: @testButtonsText.run + ' ' + @testButtonsText.submit
-      castButtonTextGroup: @testGroup
