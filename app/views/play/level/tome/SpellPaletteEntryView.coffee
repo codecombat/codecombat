@@ -78,7 +78,14 @@ module.exports = class SpellPaletteEntryView extends CocoView
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>
-    return if @options.level.get('type', true) is 'hero'  # No need for confusing docs pinning on hero levels.
+    if @options.level.get('type', true) is 'hero'
+      # Jiggle instead of pin for hero levels
+      jigglyPopover = $('.spell-palette-popover.popover')
+      jigglyPopover.addClass 'jiggling'
+      pauseJiggle = =>
+        jigglyPopover.removeClass 'jiggling'
+      _.delay pauseJiggle, 1000
+      return
     if key.shift
       Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return

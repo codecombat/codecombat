@@ -1,12 +1,19 @@
 extends /templates/base
 
-block content
+block outer_content
+  #spacer
+  
+  a#play-button(href="/play", data-i18n="common.play")
 
-  h1#site-slogan(data-i18n="home.slogan") Learn to Code by Playing a Game
+  //#or-ipad(data-i18n="home.or_ipad")
+  
+  //img(src="/images/pages/home/app_store_badge.svg")#apple-store-button
+  
+  #slogan(data-i18n="home.slogan")
 
   .alert.alert-danger.lt-ie9
     strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 8 or older. Sorry!
-
+  
   if isMobile
     .alert.alert-danger.mobile
       strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
@@ -16,11 +23,3 @@ block content
       br
       span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
   
-  a#beginner-campaign(href="/play")
-    div.game-mode-wrapper
-      img(src="/images/pages/home/play_img.png").img-rounded
-      h3(data-i18n="home.campaign") Campaign
-      h4(data-i18n="home.for_beginners") For Beginners
-      .play-text(data-i18n="home.play") Play
-
-  .clearfix
