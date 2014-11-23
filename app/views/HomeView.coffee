@@ -11,7 +11,7 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
-    'click #beginner-campaign': 'onClickBeginnerCampaign'
+    'click #play-button': 'onClickBeginnerCampaign'
 
   constructor: ->
     super()

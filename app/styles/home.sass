@@ -3,87 +3,56 @@
 
 #home-view
   
-  h1
+  #spacer
+    height: 750px
+    
+  #play-button, #or-ipad, #apple-store-button, #slogan, .alert
     text-align: center
-    margin-top: 0
-    
-  .game-mode-wrapper
-    position: relative
-    margin-bottom: 60px
-    
-    img
-      display: block
-      margin: 0 auto
-      @include transition(box-shadow .50s ease-in-out)
-      border-radius: 11px
-
-    text-shadow: 2px 2px 5px black
-    
-    h3
-      color: $yellow
-      position: absolute
-      top: 10px
-      left: 40px
-      font-size: 70px
-      margin-top: 0
-      
-    h4
-      color: #e8d9c5
-      position: absolute
-      top: 75px
-      left: 140px
-      font-size: 30px
-      margin-top: 0
-      
-    .play-text
-      position: absolute
-      right: 45px
-      bottom: -25px
-      color: $yellow
-      font-size: 90px
-      font-family: Open Sans Condensed
-      font-variant: small-caps
-      @include transition(color .25s ease-in-out)
-          
-    &:hover div, &.hovered div
-      color: lighten($yellow, 20%)
-    &:hover img, &.hovered img
-      filter: brightness(1.2)
-      -webkit-filter: brightness(1.2)
-      box-shadow: 0 0 15px black
-
-    .code-language-logo
-      background-color: transparent
-      background-repeat: no-repeat
-      position: absolute
-      right: 35px
-      top: 15px
-      width: 50px
-      height: 50px
-
-      &.inverted
-        filter: invert(100%)
-        -webkit-filter: invert(100%)
+    text-transform: uppercase
+    font-weight: bold
+    position: absolute
+    margin-right: auto
+    margin-left: auto
+    left: 0
+    right: 0
+    font-weight: bold
   
-@media only screen and (max-width: 768px)
-  #home-view
-    #site-slogan
-      font-size: 30px
-      margin-bottom: 30px
-    .game-mode-wrapper
-      width: 100%
-      img
-        width: 100%
-      .play-text
-        position: absolute
-        right: 15px
-        bottom: -15px
-        color: $yellow
-        font-size: 50px
-        font-family: Open Sans Condensed
-        font-variant: small-caps
-        @include transition(color .10s linear)
-     
-  h1
+  #play-button
     text-align: center
-    margin-top: 0
+    padding-top: 170px
+    font-size: 50px
+    color: rgb(255,253,149)
+    text-shadow: 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black, 0 0 6px black,0 0 6px black,0 0 6px black,0 0 6px black
+    top: 308px
+    width: 218px
+    height: 219px
+    background-image: url(/images/pages/home/play_button.png)
+    background-position: 0 219px
+    
+    &:hover
+      background-position: 0 0
+      color: rgb(230,180,75)
+      text-decoration: none
+    
+  #or-ipad
+    top: 540px
+    color: rgb(119,101,84)
+    font-size: 17px
+    max-width: 211px
+    
+  #apple-store-button
+    top: 593px
+    height: 63px
+
+  #slogan
+    top: 681px
+    height: 132px
+    width: 276px
+    padding: 15px
+    font-size: 28px
+    line-height: 32px
+    color: rgb(50,40,31)
+    
+  .alert
+    top: 213px
+    border: 5px solid darkred

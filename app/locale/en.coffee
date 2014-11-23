@@ -10,6 +10,7 @@
     for_beginners: "For Beginners"
     multiplayer: "Multiplayer"  # Not currently shown on home page
     for_developers: "For Developers"  # Not currently shown on home page.
+    or_ipad: "Or download for iPad"
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play

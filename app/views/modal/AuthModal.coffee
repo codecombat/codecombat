@@ -27,6 +27,7 @@ module.exports = class AuthModal extends ModalView
   constructor: (options) ->
     @onNameChange = _.debounce @checkNameExists, 500
     super options
+    @mode = options.mode if options.mode
 
   getRenderData: ->
     c = super()
