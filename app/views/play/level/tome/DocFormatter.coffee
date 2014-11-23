@@ -100,6 +100,9 @@ module.exports = class DocFormatter
       if val = obj[prop]
         context = @doc.context
         obj[prop] = val = utils.i18n obj, prop
+        # For multiplexed-by-both-code-and-spoken-language objects, now also get code language again.
+        if _.isObject val
+          obj[prop] = val = obj[prop]?[@options.language]
         if @doc.i18n
           spokenLanguage = me.get 'preferredLanguage'
           while spokenLanguage

@@ -7,17 +7,17 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
 
   buildTranslationList: ->
     lang = @selectedLanguage
-    
+
     propDocs = @model.get('propertyDocumentation')
-    
+
     for propDoc, propDocIndex in propDocs
-      
+
       #- Component property descriptions
       if i18n = propDoc.i18n
         path = ["propertyDocumentation", propDocIndex]
         if _.isObject propDoc.description
-          for progLang, description of propDoc
-            @wrapRow "#{propDoc.name} description (#{progLang})", [progLang, 'description'], description, i18n[lang]?[progLang]?.description, path, 'markdown'
+          for progLang, description of propDoc.description
+            @wrapRow "#{propDoc.name} description (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
         else if _.isString propDoc.description
           @wrapRow "#{propDoc.name} description", ['description'], propDoc.description, i18n[lang]?.description, path, 'markdown'
         if context = propDoc.context
@@ -29,8 +29,8 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
         path = ["propertyDocumentation", propDocIndex, "returns"]
         d = propDoc.returns.description
         if _.isObject d
-          for progLang, description of d
-            @wrapRow "#{propDoc.name} return val (#{progLang})", [progLang, 'description'], description, i18n[lang]?[progLang]?.description, path, 'markdown'
+          for progLang, description of d.description
+            @wrapRow "#{propDoc.name} return val (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
         else if _.isString d
           @wrapRow "#{propDoc.name} return val", ['description'], d, i18n[lang]?.description, path, 'markdown'
 
@@ -40,8 +40,7 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
           if i18n = argDoc.i18n
             path = ["propertyDocumentation", propDocIndex, 'args', argIndex]
             if _.isObject argDoc.description
-              for progLang, description of argDoc
-                @wrapRow "#{propDoc.name} arg description #{argDoc.name} (#{progLang})", [progLang, 'description'], description, i18n[lang]?[progLang]?.description, path, 'markdown'
+              for progLang, description of argDoc.description
+                @wrapRow "#{propDoc.name} arg description #{argDoc.name} (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
             else if _.isString argDoc.description
               @wrapRow "#{propDoc.name} arg description #{argDoc.name}", ['description'], argDoc.description, i18n[lang]?.description, path, 'markdown'
- 
