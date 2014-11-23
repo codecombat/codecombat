@@ -1,4 +1,8 @@
+@import "app/styles/mixins"
+
 #play-achievements-modal
+  .modal-dialog
+    width: 800px
 
   .modal-header
     padding-bottom: 20px
@@ -16,6 +20,7 @@
     position: relative
     border: 2px solid rgb(75,75,75)
     padding: 2px
+    @include opacity(0.75)
     
     h3
       margin: 0 0 0 50px
@@ -27,7 +32,7 @@
 
     .panel-body
       padding: 5px 150px 5px 5px
-      border: 2px solid rgb(150,150,150)
+      //border: 2px solid rgb(150,150,150)  // Chloe's suggestion to not have this
       
     .created
       position: absolute
@@ -43,6 +48,7 @@
     background: rgb(50,40,33)
     border: 5px solid rgb(26,21,17)
     padding: 0
+    @include opacity(1)
     
     h3
       color: white

@@ -7,10 +7,10 @@
 
   - var seenNext = nextLevel;
   each level in campaign.levels
-    if true || !level.hidden
+    if !level.hidden
       - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled && (!level.practice || me.getBranchingGroup() == 'all-practice'));
       - seenNext = seenNext || next;
-      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name)
+      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
       div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.id] || "")
       .level-info-container(data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)

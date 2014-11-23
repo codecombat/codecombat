@@ -11,17 +11,16 @@ PAGE_SIZE = 200
 module.exports = class PlayAchievementsModal extends ModalView
   className: 'modal fade play-modal'
   template: template
-  modalWidthPercent: 90
   id: 'play-achievements-modal'
   plain: true
-  
+
   earnedMap: {}
 
   constructor: (options) ->
     super options
     @achievements = new Backbone.Collection()
     earnedMap = {}
-    
+
     achievementsFetcher = new CocoCollection([], {url: '/db/achievement', model: Achievement})
     achievementsFetcher.setProjection([
       'name'
@@ -32,10 +31,10 @@ module.exports = class PlayAchievementsModal extends ModalView
       'rewards'
       'collection'
     ])
-    
+
     earnedAchievementsFetcher = new CocoCollection([], {url: '/db/earned_achievement', model: EarnedAchievement})
     earnedAchievementsFetcher.setProjection([ 'achievement' ])
-    
+
     achievementsFetcher.skip = 0
     achievementsFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
     earnedAchievementsFetcher.skip = 0
@@ -46,7 +45,7 @@ module.exports = class PlayAchievementsModal extends ModalView
 
     @supermodel.loadCollection(achievementsFetcher, 'achievement')
     @supermodel.loadCollection(earnedAchievementsFetcher, 'achievement')
-    
+
     @onEverythingLoaded = _.after(2, @onEverythingLoaded)
 
   onAchievementsLoaded: (fetcher) ->
