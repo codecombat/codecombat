@@ -53,7 +53,7 @@
                       // Temp, while we only have Warriors: prevent them from buying non-Warrior stuff
                       span.big-font.unequippable= item.get('heroClass')
                     else
-                      button.btn.unlock-button.big-font(data-i18n="play.unlock", disabled=!item.affordable, data-item-id=item.id)
+                      button.btn.unlock-button.big-font(data-i18n="play.unlock", data-item-id=item.id)
               .clearfix
               
     #item-details-view

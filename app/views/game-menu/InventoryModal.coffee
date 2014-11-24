@@ -1,5 +1,6 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/game-menu/inventory-modal'
+buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -8,6 +9,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ItemDetailsView = require 'views/play/modal/ItemDetailsView'
 Purchase = require 'models/Purchase'
 LevelOptions = require 'lib/LevelOptions'
+BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 
 hasGoneFullScreenOnce = false
 
@@ -31,6 +33,8 @@ module.exports = class InventoryModal extends ModalView
     'click #equip-item-viewed': 'onClickEquipItemViewed'
     'click #unequip-item-viewed': 'onClickUnequipItemViewed'
     'click #close-modal': 'hide'
+    'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
+    'click': 'onClickedSomewhere'
 
   shortcuts:
     'esc': 'clearSelection'
@@ -223,40 +227,6 @@ module.exports = class InventoryModal extends ModalView
     itemEl = $(e.target).closest('.item')
     @selectUnequippedItem(itemEl)
     @equipSelectedItem()
-
-  onUnlockButtonClicked: (e) ->
-    button = $(e.target).closest('button')
-    if button.hasClass('confirm')
-      item = @items.get($(e.target).data('item-id'))
-      purchase = Purchase.makeFor(item)
-      purchase.save()
-
-      #- set local changes to mimic what should happen on the server...
-      purchased = me.get('purchased') ? {}
-      purchased.items ?= []
-      purchased.items.push(item.get('original'))
-
-      me.set('purchased', purchased)
-      me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
-
-      #- ...then rerender key bits
-      @itemGroups.lockedItems.remove(item)
-      # Redo all item sorting to make sure that we don't clobber state changes since last render.
-      equipped = _.values @getCurrentEquipmentConfig()
-      @sortItem(item, equipped) for item in @items.models
-      @renderSelectors('#unequipped', '#gems-count')
-
-      @requireLevelEquipment()
-      @delegateEvents()
-      @setUpDraggableEventsForAvailableEquipment()
-      @itemDetailsView.setItem(item)
-
-      Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
-    else
-      button.addClass('confirm').text($.i18n.t('play.confirm'))
-      @$el.one 'click', (e) ->
-        button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
-
 
   #- Select/equip higher-level, all encompassing methods the callbacks all use
 
@@ -470,7 +440,70 @@ module.exports = class InventoryModal extends ModalView
     else
       callback?()
 
+  #- TODO: DRY this between PlayItemsModal and InventoryModal
+
+  onUnlockButtonClicked: (e) ->
+    e.stopPropagation()
+    button = $(e.target).closest('button')
+    item = @items.get(button.data('item-id'))
+    affordable = item.affordable
+    if not affordable
+      @askToBuyGems button
+    else if button.hasClass('confirm')
+      purchase = Purchase.makeFor(item)
+      purchase.save()
+
+      #- set local changes to mimic what should happen on the server...
+      purchased = me.get('purchased') ? {}
+      purchased.items ?= []
+      purchased.items.push(item.get('original'))
+
+      me.set('purchased', purchased)
+      me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
+
+      #- ...then rerender key bits
+      @itemGroups.lockedItems.remove(item)
+      # Redo all item sorting to make sure that we don't clobber state changes since last render.
+      equipped = _.values @getCurrentEquipmentConfig()
+      @sortItem(item, equipped) for item in @items.models
+      @renderSelectors('#unequipped', '#gems-count')
+
+      @requireLevelEquipment()
+      @delegateEvents()
+      @setUpDraggableEventsForAvailableEquipment()
+      @itemDetailsView.setItem(item)
+
+      Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
+    else
+      button.addClass('confirm').text($.i18n.t('play.confirm'))
+      @$el.one 'click', (e) ->
+        button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
+
+  askToBuyGems: (unlockButton) ->
+    if me.getGemPromptGroup() is 'no-prompt'
+      return @openModalView new BuyGemsModal()
+    @$el.find('.unlock-button').popover 'destroy'
+    popoverTemplate = buyGemsPromptTemplate {}
+    unlockButton.popover(
+      animation: true
+      trigger: 'manual'
+      placement: 'top'
+      content: ' '  # template has it
+      container: @$el
+      template: popoverTemplate
+    ).popover 'show'
+    popover = unlockButton.data('bs.popover')
+    popover?.$tip?.i18n()
+
+  onBuyGemsPromptButtonClicked: (e) ->
+    @openModalView new BuyGemsModal()
+
+  onClickedSomewhere: (e) ->
+    return if @destroyed
+    @$el.find('.unlock-button').popover 'destroy'
+
   destroy: ->
+    @$el.find('.unlock-button').popover 'destroy'
     @stage?.removeAllChildren()
     super()
 

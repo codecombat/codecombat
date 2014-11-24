@@ -1,6 +1,8 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/modal/play-items-modal'
+buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
+BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
@@ -46,7 +48,9 @@ module.exports = class PlayItemsModal extends ModalView
     'click .item': 'onItemClicked'
     'shown.bs.tab': 'onTabClicked'
     'click .unlock-button': 'onUnlockButtonClicked'
+    'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
+    'click': 'onClickedSomewhere'
 
   constructor: (options) ->
     super options
@@ -89,7 +93,7 @@ module.exports = class PlayItemsModal extends ModalView
       model.affordable = cost <= gemsOwned
       model.silhouetted = not model.owned and model.isSilhouettedItem()
       model.level = model.levelRequiredForItem() if model.get('tier')?
-      model.unequippable = not ('Warrior' in model.getAllowedHeroClasses())  # Temp: while there are no wizards/rangers
+      model.unequippable = not _.intersection(me.getHeroClasses(), model.getAllowedHeroClasses()).length
       model.comingSoon = not model.getFrontFacingStats().props.length and not _.size(model.getFrontFacingStats().stats) and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
@@ -140,9 +144,14 @@ module.exports = class PlayItemsModal extends ModalView
     $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
 
   onUnlockButtonClicked: (e) ->
+    e.stopPropagation()
     button = $(e.target).closest('button')
-    if button.hasClass('confirm')
-      item = @idToItem[$(e.target).data('item-id')]
+    item = @idToItem[button.data('item-id')]
+    affordable = item.affordable
+    if not affordable
+      @askToBuyGems button
+    else if button.hasClass('confirm')
+
       purchase = Purchase.makeFor(item)
       purchase.save()
 
@@ -163,3 +172,29 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
+
+  askToBuyGems: (unlockButton) ->
+    if me.getGemPromptGroup() is 'no-prompt'
+      return @openModalView new BuyGemsModal()
+    @$el.find('.unlock-button').popover 'destroy'
+    popoverTemplate = buyGemsPromptTemplate {}
+    unlockButton.popover(
+      animation: true
+      trigger: 'manual'
+      content: ' '  # template has it
+      container: @$el
+      template: popoverTemplate
+    ).popover 'show'
+    popover = unlockButton.data('bs.popover')
+    popover?.$tip?.i18n()
+
+  onBuyGemsPromptButtonClicked: (e) ->
+    @openModalView new BuyGemsModal()
+
+  onClickedSomewhere: (e) ->
+    return if @destroyed
+    @$el.find('.unlock-button').popover 'destroy'
+
+  destroy: ->
+    @$el.find('.unlock-button').popover 'destroy'
+    super()

@@ -95,6 +95,13 @@ module.exports = class User extends CocoModel
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
+  getHeroClasses: ->
+    idsToSlugs = _.invert ThangType.heroes
+    myHeroSlugs = (idsToSlugs[id] for id in @heroes())
+    myHeroClasses = []
+    myHeroClasses.push heroClass for heroClass, heroSlugs of ThangType.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
+    myHeroClasses
+
   getBranchingGroup: ->
     return @branchingGroup if @branchingGroup
     group = me.get('testGroupNumber') % 4
@@ -106,5 +113,15 @@ module.exports = class User extends CocoModel
     @branchingGroup = 'choice-explicit' if me.isAdmin()
     application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()
     @branchingGroup
+
+  getGemPromptGroup: ->
+    return @gemPromptGroup if @gemPromptGroup
+    group = me.get('testGroupNumber') % 8
+    @gemPromptGroup = switch group
+      when 0, 1, 2, 3 then 'prompt'
+      when 4, 5, 6, 7 then 'no-prompt'
+    @gemPromptGroup = 'prompt' if me.isAdmin()
+    application.tracker.identify gemPromptGroup: @gemPromptGroup unless me.isAdmin()
+    @gemPromptGroup
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96]
