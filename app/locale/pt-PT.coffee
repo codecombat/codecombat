@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador" # Not currently shown on home page
     for_developers: "Para Programadores" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Ou descarrega para iPad"
 
   nav:
     play: "Níveis" # The top nav bar entry where players choose which levels to play
@@ -208,8 +208,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     failing: "A falhar"
     action_timeline: "Linha do Tempo de Ações"
     click_to_select: "Clica numa unidade para selecioná-la."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_multiplayer: "Multijogador"
+    control_bar_join_game: "Entrar no Jogo"
     reload: "Recarregar"
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
@@ -322,9 +322,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     few_gems: "Algumas gemas"
     pile_gems: "Pilha de gemas"
     chest_gems: "Arca de gemas"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
+    purchasing: "A adquirir..."
+    declined: "O teu cartão foi recusado."
+    retrying: "Erro do servidor, a tentar novamente."
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -351,23 +351,23 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     blocks: "Bloqueia" # As in "this shield blocks this much damage"
     skills: "Habilidades"
 
-#  skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-#    read_only: "read-only"
-#    action_name: "name"
-#    action_cooldown: "Takes"
-#    action_specific_cooldown: "Cooldown"
-#    action_damage: "Damage"
-#    action_range: "Range"
-#    action_radius: "Radius"
-#    action_duration: "Duration"
-#    example: "Example"
-#    ex: "ex" # Abbreviation of "example"
-#    current_value: "Current Value"
-#    default_value: "Default value"
-#    parameters: "Parameters"
-#    returns: "Returns"
-#    granted_by: "Granted by"
+  skill_docs:
+    writable: "escrevível" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "apenas leitura"
+    action_name: "nome"
+    action_cooldown: "Demora"
+    action_specific_cooldown: "Tempo de Recarga"
+    action_damage: "Dano"
+    action_range: "Alcance"
+    action_radius: "Raio"
+    action_duration: "Duração"
+    example: "Exemplo"
+    ex: "ex" # Abbreviation of "example"
+    current_value: "Valor Atual"
+    default_value: "Valor Predefinido"
+    parameters: "Parâmetros"
+    returns: "Devolve"
+    granted_by: "Garantido por"
 
   save_load:
     granularity_saved_games: "Guardados"
@@ -769,8 +769,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     amount_achieved: "Quantidade"
     achievement: "Conquista"
     category_contributor: "Contribuidor"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
+    category_ladder: "Classificação"
+    category_level: "Nível"
     category_miscellaneous: "Vários"
     category_levels: "Níveis"
     category_undefined: "Sem Categoria"
