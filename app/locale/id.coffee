@@ -1,42 +1,42 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
-#  home:
+  home:
 #    slogan: "Learn to Code by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
-#    play: "Play" # The big play button that just starts playing a level
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    no_ie: "Maaf, CodeCombat tidak bisa dijalankan pada Internet Explorer 8 dan sebelumnya" # Warning that only shows up in IE8 and older
+    no_mobile: "Maaf. CodeCombat tidak dibuat untuk perangkat mobile" # Warning that shows up on mobile devices
+    play: "Play" # The big play button that just starts playing a level
+    old_browser: "Uh oh, Maaf. Versi broser anda terlalu lama " # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Anda bisa mencoba, tapi mungkin tidak akan berjalan."
+    campaign: "Campaign"
+    for_beginners: "Pemula"
+    multiplayer: "Multiplayer" # Not currently shown on home page
+    for_developers: "Developers" # Not currently shown on home page.
+    or_ipad: "atau download untuk iPad"
 
-#  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
-#    home: "Home"
+  nav:
+    play: "Levels" # The top nav bar entry where players choose which levels to play
+    community: "Community"
+    editor: "Editor"
+    blog: "Blog"
+    forum: "Forum"
+    account: "Akun"
+    profile: "Profile"
+    stats: "Mulai"
+    code: "Code"
+    admin: "Admin" # Only shows up when you are an admin
+    home: "Home"
 #    contribute: "Contribute"
-#    legal: "Legal"
+    legal: "Legal"
 #    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
+    contact: "Kontak"
+    twitter_follow: "Follow"
 #    teachers: "Teachers"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "Close"
+    okay: "Okay"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "Alamat tidak ditemukan"
 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
@@ -46,22 +46,22 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  play:
+  play:
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    confirm: "Konfirmasi"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
+    locked: "Terkunci"
+    available: "Trsedia"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    account: "Akun" # Tooltip on account button from /play
+    settings: "Settings" # Tooltip on settings button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
@@ -70,10 +70,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    anonymous: "Anonymous Player"
 #    level_difficulty: "Difficulty: "
 #    campaign_beginner: "Beginner Campaign"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer_prefix:"Kami meliris lima level per minggu"
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    choose_your_level: "Choose Your Level" # The rest of this section is the old play view at /play-old and isn't very important.
+    choose_your_level: "Pilih Level Anda" # The rest of this section is the old play view at /play-old and isn't very important.
 #    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
 #    adventurer_forum: "the Adventurer forum"
 #    adventurer_suffix: "."
@@ -81,7 +81,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
 #    campaign_dev: "Random Harder Levels"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
-#    campaign_multiplayer: "Multiplayer Arenas"
+    campaign_multiplayer: "Arena Multiplayer"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
@@ -90,11 +90,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
 
-#  login:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    logging_in: "Logging In"
-#    log_out: "Log Out"
+  login:
+    sign_up: "Buat Akun"
+    log_in: "Masuk"
+    logging_in: "Logging In"
+    log_out: "Keluar"
 #    recover: "recover account"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
@@ -106,7 +106,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    description: "It's free. Just need a couple things and you'll be good to go:"
 #    email_announcements: "Receive announcements by email"
 #    coppa: "13+ or non-USA "
-#    coppa_why: "(Why?)"
+#    coppa_why: "(Kenapa?)"
 #    creating: "Creating Account..."
 #    sign_up: "Sign Up"
 #    log_in: "log in with password"
