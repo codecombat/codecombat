@@ -389,7 +389,12 @@ module.exports = class ThangType extends CocoModel
         props = props.concat config.programmableSnippets
     for stat, value of stats when not value?
       stats[stat] = name: stat, display: '???'
-    props: props, stats: stats
+    statKeys = _.keys(stats)
+    statKeys.sort()
+    props.sort()
+    sortedStats = {}
+    sortedStats[key] = stats[key] for key in statKeys
+    props: props, stats: sortedStats
 
   formatStatDisplay: (name, modifiers) ->
     i18nKey = {
@@ -402,6 +407,7 @@ module.exports = class ThangType extends CocoModel
       visualRange: 'range'
       throwDamage: 'attack'
       throwRange: 'range'
+      bashDamage: 'attack'
     }[name]
 
     if i18nKey

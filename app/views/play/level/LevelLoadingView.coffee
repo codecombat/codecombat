@@ -13,6 +13,9 @@ module.exports = class LevelLoadingView extends CocoView
   subscriptions:
     'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
 
+  shortcuts:
+    'enter': 'onEnterPressed'
+
   afterRender: ->
     super()
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
@@ -75,6 +78,11 @@ module.exports = class LevelLoadingView extends CocoView
   onClickStartLevel: (e) =>
     return if @destroyed
     @unveil()
+
+  onEnterPressed: (e) ->
+    return unless @shownReady and not @$el.hasClass 'unveiled'
+    @startUnveiling()
+    @onClickStartLevel()
 
   unveil: ->
     return if @$el.hasClass 'unveiled'

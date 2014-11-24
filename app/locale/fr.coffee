@@ -10,6 +10,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     for_beginners: "Pour débutants"
     multiplayer: "Multijoueurs" # Not currently shown on home page
     for_developers: "Pour développeurs" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Jouer" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     failing: "Échec"
     action_timeline: "Action sur la ligne de temps"
     click_to_select: "Clique sur une unité pour la sélectionner."
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
 #    reload: "Reload"
     reload_title: "Recharger tout le code?"
     reload_really: "Êtes-vous sûr de vouloir recharger ce niveau et retourner au début?"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Choisissez votre Héro"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Compétences"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Sauvegardé"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     amount_achieved: "Quantité"
     achievement: "Succès"
     category_contributor: "Contributeur"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Divers"
     category_levels: "Niveaux"
     category_undefined: "Non classé"

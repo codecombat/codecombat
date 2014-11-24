@@ -24,6 +24,7 @@ module.exports = class MultiplayerView extends CocoView
   constructor: (options) ->
     super(options)
     @level = options.level
+    @levelID = @level?.get 'slug'
     @session = options.session
     @listenTo @session, 'change:multiplayer', @updateLinkSection
     @watchRealTimeSessions() if @level?.get('type') in ['hero-ladder']
@@ -39,7 +40,7 @@ module.exports = class MultiplayerView extends CocoView
     c.joinLink = "#{document.location.href.replace(/\?.*/, '').replace('#', '')}?session=#{@session.id}"
     c.multiplayer = @session.get 'multiplayer'
     c.team = @session.get 'team'
-    c.levelSlug = @level?.get 'slug'
+    c.levelSlug = @levelID
     # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
     if @level?.get('type') in ['ladder', 'hero-ladder']
       c.ladderGame = true
@@ -71,7 +72,7 @@ module.exports = class MultiplayerView extends CocoView
     e.target.select()
 
   onGameSubmitted: (e) ->
-    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
+    ladderURL = "/play/ladder/#{@levelID}#my-matches"
     Backbone.Mediator.publish 'router:navigate', route: ladderURL
 
   updateLinkSection: ->
@@ -104,13 +105,14 @@ module.exports = class MultiplayerView extends CocoView
   #   @realTimeSessionsPlayers - Collection of player lists for active real-time multiplayer sessions
   #   @realTimeSessions - Active real-time multiplayer sessions
   #   @currentRealTimeSession - Our current real-time multiplayer session
+  #
+  # TODO: Ditch backfire and just use Firebase directly.  Easier to debug, richer APIs (E.g. presence stuff).
 
   watchRealTimeSessions: ->
     # Setup monitoring of real-time multiplayer level sessions
     @realTimeSessionsPlayers = {}
     # TODO: only request sessions for this level, !team, etc.
-    # TODO: move this to multiplayer_level_sessions/#{levelID}/
-    @realTimeSessions = new RealTimeCollection('multiplayer_level_sessions/')
+    @realTimeSessions = new RealTimeCollection("multiplayer_level_sessions/#{@levelID}")
     @realTimeSessions.on 'add', @onRealTimeSessionAdded
     @realTimeSessions.each (rts) => @watchRealTimeSession rts
 
@@ -120,9 +122,9 @@ module.exports = class MultiplayerView extends CocoView
     # console.log 'MultiplayerView watchRealTimeSession', rts
     # Setup monitoring of players for given session
     # TODO: verify we need this
-    realTimeSession = new RealTimeModel('multiplayer_level_sessions/' + rts.id)
+    realTimeSession = new RealTimeModel("multiplayer_level_sessions/#{@levelID}/#{rts.id}")
     realTimeSession.on 'change', @onRealTimeSessionChanged
-    @realTimeSessionsPlayers[rts.id] = new RealTimeCollection('multiplayer_level_sessions/' + rts.id + '/players')
+    @realTimeSessionsPlayers[rts.id] = new RealTimeCollection("multiplayer_level_sessions/#{@levelID}/#{rts.id}/players")
     @realTimeSessionsPlayers[rts.id].on 'add', @onRealTimePlayerAdded
     @findCurrentRealTimeSession rts
 
@@ -133,7 +135,7 @@ module.exports = class MultiplayerView extends CocoView
       @realTimeSessionsPlayers[rts.id].each (player) =>
         if player.id is me.id and player.get('state') isnt 'left'
           # console.log 'MultiplayerView found current real-time session', rts
-          @currentRealTimeSession = new RealTimeModel('multiplayer_level_sessions/' + rts.id)
+          @currentRealTimeSession = new RealTimeModel("multiplayer_level_sessions/#{@levelID}/#{rts.id}")
           @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
           
           # TODO: Is this necessary?  Shouldn't everyone already know we joined a game at this point?
@@ -170,7 +172,7 @@ module.exports = class MultiplayerView extends CocoView
     @currentRealTimeSession = @realTimeSessions.get(s.id)
     @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
     # TODO: s.id === @currentRealTimeSession.id ?
-    players = new RealTimeCollection('multiplayer_level_sessions/' + @currentRealTimeSession.id + '/players')
+    players = new RealTimeCollection("multiplayer_level_sessions/#{@levelID}/#{@currentRealTimeSession.id}/players")
     players.create 
       id: me.id
       state: 'coding'

@@ -10,6 +10,7 @@
     for_beginners: "For Beginners"
     multiplayer: "Multiplayer"  # Not currently shown on home page
     for_developers: "For Developers"  # Not currently shown on home page.
+    or_ipad: "Or download for iPad"
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
@@ -349,6 +350,24 @@
     range: "Range" # As in "attack or visual range"
     blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Skills"
+
+  skill_docs:
+    writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "read-only"
+    action_name: "name"
+    action_cooldown: "Takes"
+    action_specific_cooldown: "Cooldown"
+    action_damage: "Damage"
+    action_range: "Range"
+    action_radius: "Radius"
+    action_duration: "Duration"
+    example: "Example"
+    ex: "ex"  # Abbreviation of "example"
+    current_value: "Current Value"
+    default_value: "Default value"
+    parameters: "Parameters"
+    returns: "Returns"
+    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Saved"

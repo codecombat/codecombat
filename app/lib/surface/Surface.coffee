@@ -384,6 +384,11 @@ module.exports = Surface = class Surface extends CocoClass
     if @ended
       @setPaused false
       @surfaceZoomPauseTimeout = _.delay (=> @setPaused true), 3000
+    @zoomedIn = e.zoom > e.minZoom * 1.1
+    @updateGrabbability()
+
+  updateGrabbability: ->
+    @webGLCanvas.toggleClass 'grabbable', @zoomedIn and not @playing and not @disabled
 
   onDisableControls: (e) ->
     return if e.controls and not ('surface' in e.controls)
@@ -400,6 +405,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   setDisabled: (@disabled) ->
     @lankBoss.disabled = @disabled
+    @updateGrabbability()
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
@@ -408,6 +414,7 @@ module.exports = Surface = class Surface extends CocoClass
       @currentFrame = 1  # Go back to the beginning (but not frame 0, that frame is weird)
     if @fastForwardingToFrame and not @playing
       @fastForwardingToFrame = null
+    @updateGrabbability()
 
   onSetTime: (e) ->
     toFrame = @currentFrame

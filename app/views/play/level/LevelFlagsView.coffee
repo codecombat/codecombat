@@ -33,6 +33,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   constructor: (options) ->
     super options
+    @levelID = options.levelID
     @world = options.world
 
   onRealTimePlaybackStarted: (e) ->
@@ -84,7 +85,7 @@ module.exports = class LevelFlagsView extends CocoView
     @world = @options.world = event.world
 
   onJoinedMultiplayerGame: (e) ->
-    @realTimeFlags = new RealTimeCollection('multiplayer_level_sessions/' + e.realTimeSessionID + '/flagHistory')
+    @realTimeFlags = new RealTimeCollection("multiplayer_level_sessions/#{@levelID}/#{e.realTimeSessionID}/flagHistory")
     @realTimeFlags.on 'add', @onRealTimeMultiplayerFlagAdded
     @realTimeFlags.on 'remove', @onRealTimeMultiplayerFlagRemoved
 

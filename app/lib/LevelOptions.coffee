@@ -108,6 +108,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
+    moveRightLoopSnippet: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
     requiredCode: ['loop']
@@ -123,6 +124,7 @@ module.exports = LevelOptions =
     hidesSay: true
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
+    moveRightLoopSnippet: true
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'dread-door':
@@ -186,7 +188,7 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate', 'programming-book': 'programmaticon-i', eyes: 'crude-glasses'}
-    restrictedGear: {feet: 'leather-boots'}
+    restrictedGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer'}
     suspectCode: [{name: 'lone-find-nearest-enemy', pattern: /^[ ]*(self|this|@)?[:.]?findNearestEnemy()/m}]
   'kithgard-gates':
     hidesSay: true
@@ -261,6 +263,7 @@ module.exports = LevelOptions =
   'bonemender':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'book-of-life-i', wrists: 'sundial-wristwatch'}
     restrictedGear: {'left-hand': 'unholy-tome-i'}
+    requiredCode: ['canCast']
 
   'coinucopia':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags'}

@@ -25,7 +25,8 @@ module.exports = class RootView extends CocoView
     'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
-    'click .auth-button': 'onClickAuthButton'
+    'click .signup-button': 'onClickSignupButton'
+    'click .login-button': 'onClickLoginButton'
     'click a': 'onClickAnchor'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
@@ -54,11 +55,16 @@ module.exports = class RootView extends CocoView
     subview = new WizardSettingsModal {}
     @openModalView subview
 
-  onClickAuthButton: ->
+  onClickSignupButton: ->
     AuthModal = require 'views/modal/AuthModal'
-    window.tracker?.trackEvent 'Homepage', Action: 'Auth Modal' if @id is 'home-view'
-    @openModalView new AuthModal {}
-
+    window.tracker?.trackEvent 'Homepage', Action: 'Signup Modal' if @id is 'home-view'
+    @openModalView new AuthModal {mode: 'signup'}
+    
+  onClickLoginButton: ->
+    AuthModal = require 'views/modal/AuthModal'
+    window.tracker?.trackEvent 'Homepage', Action: 'Login Modal' if @id is 'home-view'
+    @openModalView new AuthModal {mode: 'login'}
+    
   onClickAnchor: (e) ->
     return if @destroyed
     anchorText = e?.currentTarget?.text
@@ -84,11 +90,15 @@ module.exports = class RootView extends CocoView
 
   getRenderData: ->
     c = super()
-    c.showBackground = @showBackground
     c.usesSocialMedia = @usesSocialMedia
     c
 
   afterRender: ->
+    if @$el.find('#site-nav').length # hack...
+      @$el.addClass('site-chrome')
+      if @showBackground
+        @$el.addClass('show-background')
+      
     super(arguments...)
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
@@ -110,12 +120,8 @@ module.exports = class RootView extends CocoView
 
   buildLanguages: ->
     $select = @$el.find('.language-dropdown').empty()
-    if $select.hasClass('fancified')
-      $select.parent().find('.options, .trigger').remove()
-      $select.unwrap().removeClass('fancified')
     preferred = me.get('preferredLanguage', true)
     @addLanguagesToSelect($select, preferred)
-    $select.fancySelect().parent().find('.trigger').addClass('header-font')
     $('body').attr('lang', preferred)
 
   addLanguagesToSelect: ($select, initialVal) ->

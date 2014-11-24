@@ -116,7 +116,7 @@ module.exports.PermissionsPlugin = (schema) ->
     allowed = allowed[method] or []
 
     for permission in @permissions
-      if permission.target is 'public' or actor._id.equals(permission.target)
+      if permission.target is 'public' or actor?._id.equals(permission.target)
         return true if permission.access in allowed
 
     return false

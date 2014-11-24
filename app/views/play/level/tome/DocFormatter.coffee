@@ -100,6 +100,9 @@ module.exports = class DocFormatter
       if val = obj[prop]
         context = @doc.context
         obj[prop] = val = utils.i18n obj, prop
+        # For multiplexed-by-both-code-and-spoken-language objects, now also get code language again.
+        if _.isObject val
+          obj[prop] = val = obj[prop]?[@options.language]
         if @doc.i18n
           spokenLanguage = me.get 'preferredLanguage'
           while spokenLanguage
@@ -113,12 +116,17 @@ module.exports = class DocFormatter
             obj[prop] = _.template val, context
           catch e
             console.error "Couldn't create docs template of", val, "\nwith context", context, "\nError:", e
+        obj[prop] = @replaceSpriteName obj[prop]  # Do this before using the template, otherwise marked might get us first.
 
   formatPopover: ->
     content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
-    content = content.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
+    content = @replaceSpriteName content
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+
+  replaceSpriteName: (s) ->
+    # Prefer type, and excluded the quotes we'd get with @formatValue
+    s.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName
 
   formatValue: (v) ->
     return null if @doc.type is 'snippet'
@@ -130,7 +138,7 @@ module.exports = class DocFormatter
       else
         v = window[@doc.owner][@doc.name]  # grab Math or Vector
     if @doc.type is 'number' and not _.isNaN v
-      if v == Math.round v
+      if v is Math.round v
         return v
       if _.isNumber v
         return v.toFixed 2
@@ -165,5 +173,7 @@ module.exports = class DocFormatter
     return null unless action
     cooldowns = cooldown: action.cooldown, specificCooldown: action.specificCooldown, name: actionName, type: type
     for prop in ['range', 'radius', 'duration', 'damage']
-      cooldowns[prop] = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      cooldowns[prop] = v = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      if _.isNumber(v) and v isnt Math.round v
+        cooldowns[prop] = v.toFixed 2
     cooldowns

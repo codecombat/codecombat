@@ -10,6 +10,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_beginners: "Новичкам"
     multiplayer: "Мультиплеер" # Not currently shown on home page
     for_developers: "Разработчикам" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
@@ -64,7 +65,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     next: "Выбрать" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     choose_inventory: "Выбрать предметы"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Купить самоцветы"
     older_campaigns: "Старые кампании"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
@@ -172,7 +173,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     medium: "Нормально"
     hard: "Сложно"
     player: "Игрок"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Уровень" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "секунда"
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     failing: "Неудача"
     action_timeline: "График действий"
     click_to_select: "Выберите персонажа, щёлкнув на нём"
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
     reload: "Перезагрузить"
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
@@ -315,17 +318,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
+  buy_gems:
+    few_gems: "Немного самоцветов"
+    pile_gems: "Кучка самоцветов"
+    chest_gems: "Сундук с самоцветами"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
     choose_hero: "Выберите героя"
     programming_language: "Язык программирования"
     programming_language_description: "Какой язык программирования вы хотите использовать?"
-#    default: "Default"
-#    experimental: "Experimental"
+    default: "По умолчанию"
+    experimental: "Экспериментальный"
     python_blurb: "Пусть простой, но мощный, Python - прекрасный язык программирования общего применения."
     javascript_blurb: "Язык для Сети."
     coffeescript_blurb: "Улучшенный синтаксис JavaScript."
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     range: "Зона" # As in "attack or visual range"
     blocks: "Блокирует" # As in "this shield blocks this much damage"
     skills: "Умения"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
   save_load:
     granularity_saved_games: "Сохранено"
@@ -647,9 +671,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     diplomat_launch_url: "запуска в октябре"
     diplomat_introduction_suf: "было то, что есть значительная заинтересованность в CodeCombat в других странах! Мы создаём корпус переводчиков, стремящихся превратить один набор слов в другой набор слов для максимальной доступности CodeCombat по всему миру. Если вы любите видеть контент до официального выхода и получать эти уровни для ваших соотечественников как можно скорее, этот класс для вас."
     diplomat_attribute_1: "Свободное владение английским языком и языком, на который вы хотели бы переводить. При передаче сложных идей важно иметь сильную хватку в обоих!"
-#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
-#    diplomat_i18n_page: "translations page"
-#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
+    diplomat_i18n_page_prefix: "Вы можете начать переводить уровни, посетив нашу"
+    diplomat_i18n_page: "страницу переводчиков"
+    diplomat_i18n_page_suffix: ", или перевести наш интерфейс и сайт на GitHub."
     diplomat_join_pref_github: "Найдите файл локализации вашего языка "
     diplomat_github_url: "на GitHub"
     diplomat_join_suf_github: ", отредактируйте его онлайн и отправьте запрос на подтверждение изменений. Кроме того, установите флажок ниже, чтобы быть в курсе новых разработок интернационализации!"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     amount_achieved: "Количество"
     achievement: "Достижение"
     category_contributor: "Помощь"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
     category_miscellaneous: "Помощь"
     category_levels: "Уровни"
     category_undefined: "Неопределено"

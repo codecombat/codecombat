@@ -46,10 +46,12 @@ module.exports = class SpellPaletteEntryView extends CocoView
       content: @docFormatter.formatPopover()
       container: 'body'
       template: @overridePopoverTemplate
-    ).on 'show.bs.popover', =>
+    ).on 'shown.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
       soundIndex = Math.floor(Math.random() * 4)
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-#{soundIndex}", volume: 0.75
+      popover = @$el.data('bs.popover')
+      popover?.$tip?.i18n()
 
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
@@ -78,7 +80,14 @@ module.exports = class SpellPaletteEntryView extends CocoView
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>
-    return if @options.level.get('type', true) is 'hero'  # No need for confusing docs pinning on hero levels.
+    if @options.level.get('type', true) is 'hero'
+      # Jiggle instead of pin for hero levels
+      jigglyPopover = $('.spell-palette-popover.popover')
+      jigglyPopover.addClass 'jiggling'
+      pauseJiggle = =>
+        jigglyPopover.removeClass 'jiggling'
+      _.delay pauseJiggle, 1000
+      return
     if key.shift
       Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return

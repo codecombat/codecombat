@@ -265,21 +265,6 @@ $gameControlMargin: 30px
     .tooltip
       font-size: 24px
 
-  .old-levels
-    position: absolute
-    bottom: 5%
-    left: 1%
-    z-index: 3
-
-    a
-      font-size: 24px
-      color: #eee
-      text-decoration: underline
-
-      &:hover
-        color: white
-        text-shadow: 1px 1px 0px black
-
   .user-status
     position: absolute
     bottom: 1%
@@ -321,6 +306,8 @@ $gameControlMargin: 30px
 body:not(.ipad) #world-map-view
   .level-info-container
     pointer-events: none
+
+  
 
 body.ipad #world-map-view
   // iPad only supports up to Kithgard Gates for now.

@@ -23,6 +23,7 @@ module.exports =  # /app/lib/surface
     camera: {type: 'object'}
     zoom: {type: 'number', minimum: 0, exclusiveMinimum: true}
     surfaceViewport: {type: 'object'}
+    minZoom: {type: 'number', minimum: 0, exclusiveMinimum: true}
 
   'camera:set-camera': c.object {},
     pos: c.object {required: ['x', 'y']},

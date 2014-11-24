@@ -240,10 +240,13 @@ module.exports = class InventoryModal extends ModalView
       me.set('spent', (me.get('spent') ? 0) + item.get('gems'))
 
       #- ...then rerender key bits
-      @requireLevelEquipment()
       @itemGroups.lockedItems.remove(item)
-      @sortItem(item)
-      @renderSelectors("#unequipped", "#gems-count")
+      # Redo all item sorting to make sure that we don't clobber state changes since last render.
+      equipped = _.values @getCurrentEquipmentConfig()
+      @sortItem(item, equipped) for item in @items.models
+      @renderSelectors('#unequipped', '#gems-count')
+
+      @requireLevelEquipment()
       @delegateEvents()
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)

@@ -57,6 +57,7 @@ module.exports = class LevelHUDView extends CocoView
     if not thang? and not @thang? then return
     if thang? and @thang? and thang.id is @thang.id then return
     if thang? and @hidesHUD and thang.id isnt 'Hero Placeholder' then return  # Don't let them find the names of their opponents this way
+    return unless thang  # Don't let them deselect anything, ever.
     @thang = thang
     @thangType = thangType
     return unless @thang

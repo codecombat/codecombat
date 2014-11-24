@@ -173,6 +173,8 @@ module.exports = class Thang
   getLankOptions: ->
     colorConfigs = @teamColors or @world?.getTeamColors() or {}
     options = {colorConfig: {}}
+    if @id is 'Hero Placeholder' and not @world.getThangByID 'Hero Placeholder 1'
+      return options  # No team colors for heroes on single-player levels
     if @team and teamColor = colorConfigs[@team]
       options.colorConfig.team = teamColor
     if @color and color = @grabColorConfig @color

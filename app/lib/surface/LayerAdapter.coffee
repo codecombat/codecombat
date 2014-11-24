@@ -95,12 +95,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if aLank = a.lank
       if aThang = aLank.thang
         aPos = aThang.pos
-        if aThang.health < 0
+        if aThang.health < 0 and aThang.pos.z <= aThang.depth / 2
+          # Nice for not being knee deep in the dead, just not nice for ogres flying behind trees when exploded
           --az
     if bLank = b.lank
       if bThang = bLank.thang
         bPos = bThang.pos
-        if bThang.health < 0
+        if bThang.health < 0 and bThang.pos.z <= bThang.depth / 2
           --bz
     if az is bz
       return 0 unless aPos and bPos

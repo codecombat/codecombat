@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     for_beginners: "Για αρχάριους"
     multiplayer: "Πολλαπλοί Παίκτες" # Not currently shown on home page
     for_developers: "Για προγραμματιστές" # Not currently shown on home page.
+#    or_ipad: "Or download for iPad"
 
   nav:
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
@@ -207,6 +208,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    failing: "Failing"
     action_timeline: "Χρονοδιάγραμμα δράσης"
     click_to_select: "Κάντε κλικ σε μια μονάδα για να το επιλέξετε."
+#    control_bar_multiplayer: "Multiplayer"
+#    control_bar_join_game: "Join Game"
 #    reload: "Reload"
     reload_title: "Ανανέωση όλου του κωδικά;"
     reload_really: "Είστε σίγουροι ότι θέλετε να φορτώσετε αυτό το επίπεδο από την αρχή;"
@@ -319,6 +322,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
+#    purchasing: "Purchasing..."
+#    declined: "Your card was declined"
+#    retrying: "Server error, retrying."
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -344,6 +350,24 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
+
+#  skill_docs:
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+#    read_only: "read-only"
+#    action_name: "name"
+#    action_cooldown: "Takes"
+#    action_specific_cooldown: "Cooldown"
+#    action_damage: "Damage"
+#    action_range: "Range"
+#    action_radius: "Radius"
+#    action_duration: "Duration"
+#    example: "Example"
+#    ex: "ex" # Abbreviation of "example"
+#    current_value: "Current Value"
+#    default_value: "Default value"
+#    parameters: "Parameters"
+#    returns: "Returns"
+#    granted_by: "Granted by"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
@@ -745,6 +769,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    amount_achieved: "Amount"
 #    achievement: "Achievement"
 #    category_contributor: "Contributor"
+#    category_ladder: "Ladder"
+#    category_level: "Level"
 #    category_miscellaneous: "Miscellaneous"
 #    category_levels: "Levels"
 #    category_undefined: "Uncategorized"

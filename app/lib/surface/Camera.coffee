@@ -285,7 +285,7 @@ module.exports = class Camera extends CocoClass
     @currentTarget = target
     viewportDifference = @updateViewports target
     if viewportDifference > 0.1  # Roughly 0.1 pixel difference in what we can see
-      Backbone.Mediator.publish 'camera:zoom-updated', camera: @, zoom: @zoom, surfaceViewport: @surfaceViewport
+      Backbone.Mediator.publish 'camera:zoom-updated', camera: @, zoom: @zoom, surfaceViewport: @surfaceViewport, minZoom: @minZoom
 
   boundTarget: (pos, zoom) ->
     # Given an {x, y} in Surface coordinates, return one that will keep our viewport on the Surface.

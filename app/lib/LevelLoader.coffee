@@ -330,6 +330,8 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
+      if @level.get('type', true) is 'hero' and thang.id is 'Hero Placeholder'
+        continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team
           @thangTypeTeams[thang.thangType] ?= []

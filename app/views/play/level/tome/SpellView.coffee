@@ -228,7 +228,7 @@ module.exports = class SpellView extends CocoView
         unless CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'backspaceThrottle')
           @ace.remove "left"
           return
-        
+
         nowDate = Date.now()
         if @aceSession.selection.isEmpty()
           cursor = @ace.getCursorPosition()
@@ -245,7 +245,7 @@ module.exports = class SpellView extends CocoView
         @backspaceThrottleMs = null
         @lastBackspace = nowDate
         @ace.remove "left"
-          
+
 
 
   fillACE: ->
@@ -293,8 +293,15 @@ module.exports = class SpellView extends CocoView
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
+          content = doc.snippets[e.language].code
+          if /loop/.test(content) and LevelOptions[@options.level.get('slug')]?.moveRightLoopSnippet
+            # Replace default loop snippet with an embedded moveRight()
+            content = switch e.language
+              when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
+              when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
+              else content
           entry =
-            content: doc.snippets[e.language].code
+            content: content
             meta: 'press tab'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
@@ -793,6 +800,7 @@ module.exports = class SpellView extends CocoView
         @decoratedGutter[row] = ''
     lastExecuted = _.last executed
     showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not LevelOptions[@options.level.get('slug')]?.hidesCodeToolbar  # Hide for a while
+    showToolbarView = false  # TODO: fix toolbar styling in new design to have some space for it
 
     if showToolbarView
       statementIndex = Math.max 0, lastExecuted.length - 1
@@ -939,12 +947,18 @@ module.exports = class SpellView extends CocoView
     return if @destroyed
     source = @getSource().replace @singleLineCommentRegex(), ''
     suspectCodeFragments = LevelOptions[@options.level.get('slug')].suspectCode
+    detectedSuspectCodeFragmentNames = []
     for suspectCodeFragment in suspectCodeFragments
       if suspectCodeFragment.pattern.test source
         @warnedCodeFragments ?= {}
         unless @warnedCodeFragments[suspectCodeFragment.name]
           Backbone.Mediator.publish 'tome:suspect-code-fragment-added', codeFragment: suspectCodeFragment.name, codeLanguage: @spell.language
-        @warnedCodeFragments[suspectCodeFragment] = true
+        @warnedCodeFragments[suspectCodeFragment.name] = true
+        detectedSuspectCodeFragmentNames.push suspectCodeFragment.name
+    for lastDetectedSuspectCodeFragmentName in @lastDetectedSuspectCodeFragmentNames ? []
+      unless lastDetectedSuspectCodeFragmentName in detectedSuspectCodeFragmentNames
+        Backbone.Mediator.publish 'tome:suspect-code-fragment-deleted', codeFragment: lastDetectedSuspectCodeFragmentName, codeLanguage: @spell.language
+    @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
