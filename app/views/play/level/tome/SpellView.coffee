@@ -800,6 +800,7 @@ module.exports = class SpellView extends CocoView
         @decoratedGutter[row] = ''
     lastExecuted = _.last executed
     showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not LevelOptions[@options.level.get('slug')]?.hidesCodeToolbar  # Hide for a while
+    showToolbarView = false  # TODO: fix toolbar styling in new design to have some space for it
 
     if showToolbarView
       statementIndex = Math.max 0, lastExecuted.length - 1
