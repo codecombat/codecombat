@@ -4,8 +4,9 @@
 #home-view
   
   #spacer
-    //height: 750px  // No one could see this; let's shrink it as much as we can.
-    height: 606px
+    height: 626px
+    @media screen and ( max-height: 800px )
+      height: 376px
     
   #play-button, #or-ipad, #apple-store-button, #slogan, .alert
     text-align: center
@@ -27,6 +28,9 @@
     top: 308px
     width: 218px
     height: 219px
+    @media screen and ( max-height: 800px )
+      top: 78px
+      
     background-image: url(/images/pages/home/play_button.png)
     background-position: 0 219px
     
@@ -40,10 +44,16 @@
     color: rgb(119,101,84)
     font-size: 17px
     max-width: 211px
+
+    @media screen and ( max-height: 800px )
+      top: 310px
     
   #apple-store-button
     top: 593px
     height: 63px
+
+    @media screen and ( max-height: 800px )
+      top: 363px
 
   #slogan
     top: 681px
@@ -53,6 +63,9 @@
     font-size: 28px
     line-height: 32px
     color: rgb(50,40,31)
+
+    @media screen and ( max-height: 800px )
+      top: 451px
     
   .alert
     top: 213px

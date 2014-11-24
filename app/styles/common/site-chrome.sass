@@ -6,9 +6,16 @@
   &.show-background
     background: url(/images/pages/base/background.jpg) top center no-repeat    
     background-color: rgb(150,202,68)
+    
+    @media screen and ( max-height: 800px )
+      background-position: center -226px
+      
   padding-top: 185px
   max-width: 1920px
   margin: 0 auto
+
+  @media screen and ( max-height: 800px )
+    padding-top: 50px
 
   //- Nav
   
@@ -22,7 +29,10 @@
     text-align: center
     min-width: 1024px
     z-index: 1
-
+    
+    @media screen and ( max-height: 800px )
+      top: -80px
+      
     #nav-logo
       position: absolute
       margin-right: auto
@@ -30,6 +40,15 @@
       left: 0
       right: 0
       top: -45px
+      
+      @media screen and ( max-height: 800px )
+        display: none
+      
+    #small-nav-logo
+      display: none
+      @media screen and ( max-height: 800px )
+        display: inline-block
+        height: 30px
       
     #site-nav-links
       position: absolute
