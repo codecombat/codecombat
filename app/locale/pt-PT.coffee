@@ -352,22 +352,22 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     skills: "Habilidades"
 
   skill_docs:
-    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-    read_only: "read-only"
-    action_name: "name"
-    action_cooldown: "Takes"
-    action_specific_cooldown: "Cooldown"
-    action_damage: "Damage"
-    action_range: "Range"
-    action_radius: "Radius"
-    action_duration: "Duration"
+    writable: "escrevível" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "apenas leitura"
+    action_name: "nome"
+    action_cooldown: "Demora"
+    action_specific_cooldown: "Tempo de Recarga"
+    action_damage: "Dano"
+    action_range: "Alcance"
+    action_radius: "Raio"
+    action_duration: "Duração"
     example: "Exemplo"
     ex: "ex" # Abbreviation of "example"
-    current_value: "Valor Atualnt Value"
-    default_value: "Default value"
-    parameters: "Parameters"
-    returns: "Returns"
-    granted_by: "Granted by"
+    current_value: "Valor Atual"
+    default_value: "Valor Predefinido"
+    parameters: "Parâmetros"
+    returns: "Devolve"
+    granted_by: "Garantido por"
 
   save_load:
     granularity_saved_games: "Guardados"
