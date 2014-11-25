@@ -7,7 +7,13 @@ cache = {}
 rot13 = (s) -> s.replace /[A-z]/g, (c) -> String.fromCharCode c.charCodeAt(0) + (if c.toUpperCase() <= 'M' then 13 else -13)
 swears = (rot13 s for s in ['nefrubyr', 'nffubyr', 'onfgneq', 'ovgpu', 'oybbql', 'obyybpxf', 'ohttre', 'pbpx', 'penc', 'phag', 'qnza', 'qnea', 'qvpx', 'qbhpur', 'snt', 'shpx', 'cvff', 'chffl', 'fuvg', 'fyhg', 'svqqyrfgvpxf'])
 
-createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.FlashPlugin, createjs.HTMLAudioPlugin])
+# IE(11, 10, 9) throws an exception if createjs.FlashPlugin is undefined
+# Chrome and Firefox don't seem to care that it's undefined
+if createjs.FlashPlugin?
+  soundPlugins = [createjs.WebAudioPlugin, createjs.FlashPlugin, createjs.HTMLAudioPlugin]
+else
+  soundPlugins = [createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]
+createjs.Sound.registerPlugins(soundPlugins)
 
 class Manifest
   constructor: -> @storage = {}
