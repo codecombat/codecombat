@@ -232,7 +232,9 @@ module.exports = class ThangType extends CocoModel
     stage?.toDataURL()
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
-    return unless @isFullyLoaded()
+    canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
+    stage = new createjs.Stage(canvas[0])
+    return stage unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
@@ -242,8 +244,6 @@ module.exports = class ThangType extends CocoModel
       spriteSheet = @buildSpriteSheet(options)
     return if _.isString spriteSheet
     return unless spriteSheet
-    canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
-    stage = new createjs.Stage(canvas[0])
     sprite = new createjs.Sprite(spriteSheet)
     pt = @actions.portrait?.positions?.registration
     sprite.regX = pt?.x or 0
