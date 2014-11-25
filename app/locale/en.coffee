@@ -792,6 +792,12 @@
     recently_played: "Recently Played"
     no_recent_games: "No games played during the past two weeks."
     payments: "Payments"
+    service_apple: "Apple"
+    service_web: "Web"
+    paid_on: "Paid On"
+    service: "Service"
+    price: "Price"
+    gems: "Gems"
 
   loading_error:
     could_not_load: "Error loading from server"
