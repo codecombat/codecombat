@@ -1,26 +1,22 @@
-RootView = require 'views/kinds/RootView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/account/account-settings-view'
 {me} = require 'lib/auth'
 forms = require 'lib/forms'
 User = require 'models/User'
 AuthModal = require 'views/modal/AuthModal'
 
-module.exports = class AccountSettingsView extends RootView
+module.exports = class AccountSettingsView extends CocoView
   id: 'account-settings-view'
   template: template
-  changedFields: [] # DOM input fields
+  className: 'countainer-fluid'
 
   events:
     'change .panel input': 'onInputChanged'
     'change #name': 'checkNameExists'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
     'click .profile-photo': 'onEditProfilePhoto'
-    'click #save-button': 'save'
     'click #upload-photo-button': 'onEditProfilePhoto'
     
-  shortcuts:
-    'enter': 'save'
-
   constructor: (options) ->
     super options
     require('lib/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
@@ -42,7 +38,7 @@ module.exports = class AccountSettingsView extends RootView
   
   onInputChanged: (e) ->
     $(e.target).addClass 'changed'
-    return @enableSaveButton()
+    @trigger 'input-changed'
 
   toggleEmailSubscriptions: =>
     subs = @getSubscriptions()
@@ -95,23 +91,6 @@ module.exports = class AccountSettingsView extends RootView
       onSaved uploadingPath
     
     
-  #- Save button enable/disable
-
-  enableSaveButton: ->
-    $('#save-button', @$el)
-      .addClass 'btn-info'
-      .removeClass 'disabled btn-danger'
-      .removeAttr 'disabled'
-      .text 'Save'
-
-  disableSaveButton: ->
-    $('#save-button', @$el)
-      .addClass 'disabled'
-      .removeClass 'btn-danger btn-info'
-      .attr 'disabled', "true"
-      .text 'No Changes'
-
-
   #- Misc
 
   getSubscriptions: ->
@@ -123,7 +102,7 @@ module.exports = class AccountSettingsView extends RootView
     
   #- Saving changes
     
-  save: (e) ->
+  save: ->
     $('#settings-tabs input').removeClass 'changed'
     forms.clearFormAlerts(@$el)
     @grabData()
@@ -138,17 +117,16 @@ module.exports = class AccountSettingsView extends RootView
 
     res = me.patch()
     return unless res
-    save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
-      .removeClass('btn-danger').addClass('btn-success').show()
 
-    res.error ->
+    res.error =>
       errors = JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, errors)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
-      save.text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving')).removeClass('btn-success').addClass('btn-danger', 500)
+      @trigger 'save-user-error'
     res.success (model, response, options) =>
-      @changedFields = []
-      save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-success btn-info', 1000).attr('disabled', 'true')
+      @trigger 'save-user-success'
+
+    @trigger 'save-user-began'
 
   grabData: ->
     @grabPasswordData()
