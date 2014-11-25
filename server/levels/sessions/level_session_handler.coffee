@@ -14,7 +14,7 @@ class LevelSessionHandler extends Handler
 
   formatEntity: (req, document) ->
     documentObject = super(req, document)
-    if req.user.isAdmin() or req.user.id is document.creator or ('employer' in (req.user.get('permissions') ? []))
+    if req.user?.isAdmin() or req.user?.id is document.creator or ('employer' in (req.user?.get('permissions') ? []))
       return documentObject
     else
       return _.omit documentObject, @privateProperties
