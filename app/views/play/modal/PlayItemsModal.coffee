@@ -67,6 +67,7 @@ module.exports = class PlayItemsModal extends ModalView
       'rasterIcon'
       'gems'
       'tier'
+      'description'
       'i18n'
       'heroClass'
     ]

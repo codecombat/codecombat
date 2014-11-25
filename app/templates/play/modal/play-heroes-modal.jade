@@ -62,7 +62,6 @@
             span.gem.gem-20
   
         else if visibleHero.locked
-          //#locked-hero-explanation= lockedExplanation
           #locked-hero-explanation
             h2
               span= visibleHero.name
@@ -74,7 +73,6 @@
           .form
             .form-group.select-group
               span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
-              //label.control-label(for="option-code-language", data-i18n="choose_hero.programming_language") Programming Language
               select#option-code-language(name="code-language")
                 for option in codeLanguages
                   option(value=option.id, selected=codeLanguage === option.id)= option.name
