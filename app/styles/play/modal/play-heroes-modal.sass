@@ -91,8 +91,9 @@ $heroCanvasHeight: 265px
             left: 21px
             top: 18px
 
-          &.locked
+          &.locked:not(.purchasable)
             .hero-avatar
+              background-color: goldenrod
               @include filter(contrast(50%) brightness(65%))
 
             .lock-indicator
@@ -101,6 +102,10 @@ $heroCanvasHeight: 265px
               left: 30%
               top: 30%
               @include filter(invert(90%))
+
+          &.purchasable
+            .hero-avatar
+              background-color: goldenrod
 
 
   //- Small transformations to jumble the hero icons a little
@@ -142,7 +147,7 @@ $heroCanvasHeight: 265px
   #hero-carousel
     .hero-item
 
-      &.locked
+      &.locked:not(.purchasable)
         @include opacity(0.6)
 
       canvas, .hero-feature-image
@@ -236,6 +241,60 @@ $heroCanvasHeight: 265px
       .glyphicon
         @include scaleXY(-1, 1)
 
+  //- Different footer states
+
+  #purchasable-hero-explanation
+    position: absolute
+    left: 32px
+    top: 532px
+    width: 541px
+    height: 97px
+    padding: 10px 40px
+
+    h2
+      color: #333
+      text-align: center
+
+  #locked-hero-explanation
+    position: absolute
+    left: 32px
+    top: 527px
+    width: 541px
+    height: 102px
+    padding: 10px 40px
+    text-align: center
+
+    h2
+      color: #333
+      margin-top: 12px
+      margin-bottom: 5px
+
+  #purchase-hero-button
+    width: 209px
+    height: 110px
+    position: absolute
+    left: 588px
+    top: 522px
+    line-height: 100px
+    text-align: center
+    text-transform: uppercase
+    font-size: 24.5px
+    font-family: Open Sans Condensed
+    color: white
+    border: 3px solid rgb(7,65,83)
+    background: rgb(0,119,168)
+    border-radius: 0
+    
+    &:disabled
+      background: rgb(72, 106, 113)
+      opacity: 1
+      color: rgba(255,255,255, 0.4)
+
+    > *
+      @include opacity(0.9)
+
+    &:hover > *
+      @include opacity(1)
 
   //- Programming select box
   

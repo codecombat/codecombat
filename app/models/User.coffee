@@ -86,8 +86,8 @@ module.exports = class User extends CocoModel
     gemsEarned + gemsPurchased - gemsSpent
 
   heroes: ->
-    heroes = (me.get('earned')?.heroes ? []).concat(me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight])
-    heroes = _.values ThangType.heroes if me.isAdmin()
+    heroes = (me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight])
+    #heroes = _.values ThangType.heroes if me.isAdmin()
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? [])

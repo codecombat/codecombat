@@ -12,13 +12,13 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : ""))
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : ""))
               .hero-avatar
-              if hero.locked
+              if hero.locked && !hero.purchasable
                 img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
       .carousel-inner
         for hero in heroes
-          div(class="item hero-item" + (hero.locked ? " locked" : ""), data-hero-id=hero.get('original'))
+          div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : ""), data-hero-id=hero.get('original'))
             canvas.hero-canvas
             .hero-feature-image
               img(draggable="false")
@@ -28,7 +28,7 @@
               
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.status')
-                .stat-value(data-i18n=hero.locked ? 'play.locked' : 'play.available')
+                .stat-value(data-i18n=hero.purchasable ? 'play.purchasable' : (hero.locked ? 'play.locked' : 'play.available'))
                 
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.weapons')
@@ -50,14 +50,33 @@
         span.glyphicon.glyphicon-play
       a.right(role="button", data-slide="next", href="#hero-carousel")
         span.glyphicon.glyphicon-play
-    
-    
-    .form
-      .form-group.select-group
-        span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
-        //label.control-label(for="option-code-language", data-i18n="choose_hero.programming_language") Programming Language
-        select#option-code-language(name="code-language")
-          for option in codeLanguages
-            option(value=option.id, selected=codeLanguage === option.id)= option.name
-            
-    a#confirm-button(data-i18n=confirmButtonI18N)
+
+    #hero-footer
+      if visibleHero
+        if visibleHero.purchasable
+          #purchasable-hero-explanation
+            h2(data-i18n="choose_hero.available_for_purchase") Available for Purchase
+          button.btn.unlock-button#purchase-hero-button
+            span.spr(data-i18n="play.unlock") Unlock
+            span= visibleHero.get('gems')
+            span.gem.gem-20
+  
+        else if visibleHero.locked
+          //#locked-hero-explanation= lockedExplanation
+          #locked-hero-explanation
+            h2
+              span= visibleHero.name
+              span.spl(data-i18n="play.locked") Locked
+            span.spr(data-i18n="choose_hero.level_to_unlock") Level to unlock:
+            strong= visibleHero.unlockLevelName || '???'
+  
+        else if visibleHero.loaded
+          .form
+            .form-group.select-group
+              span.help-block(data-i18n="choose_hero.programming_language_description") Which programming language do you want to use?
+              //label.control-label(for="option-code-language", data-i18n="choose_hero.programming_language") Programming Language
+              select#option-code-language(name="code-language")
+                for option in codeLanguages
+                  option(value=option.id, selected=codeLanguage === option.id)= option.name
+                  
+          a#confirm-button(data-i18n=confirmButtonI18N)

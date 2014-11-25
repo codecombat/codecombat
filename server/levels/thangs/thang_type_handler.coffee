@@ -31,6 +31,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'heroClass'
     'tier'
     'extendedName'
+    'unlockLevelName'
   ]
 
   hasAccess: (req) ->

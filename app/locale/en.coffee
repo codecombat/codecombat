@@ -52,12 +52,13 @@
     players: "players"  # Hover over a level on /play
     hours_played: "hours played"  # Hover over a level on /play
     items: "Items"  # Tooltip on item shop button from /play
-    unlock: "Unlock" # For purchasing items and heroes
+    unlock: "Unlock"  # For purchasing items and heroes
     confirm: "Confirm"
-    owned: "Owned" # For items you own
+    owned: "Owned"  # For items you own
     locked: "Locked"
+    purchasable: "Purchasable"  # For a hero you unlocked but haven't purchased
     available: "Available"
-    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Skills Granted"  # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
     achievements: "Achievements"  # Tooltip on achievement list button from /play
     account: "Account"  # Tooltip on account button from /play
@@ -350,9 +351,11 @@
     health: "Health"
     speed: "Speed"
     regeneration: "Regeneration"
-    range: "Range" # As in "attack or visual range"
-    blocks: "Blocks" # As in "this shield blocks this much damage"
+    range: "Range"  # As in "attack or visual range"
+    blocks: "Blocks"  # As in "this shield blocks this much damage"
     skills: "Skills"
+    available_for_purchase: "Available for Purchase"
+    level_to_unlock: "Level to unlock:"
 
   skill_docs:
     writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
