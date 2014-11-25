@@ -19,6 +19,7 @@ module.exports = class ItemDetailsView extends CocoView
     if @item
       @spellDocs = {}
       @item.name = utils.i18n @item.attributes, 'name'
+      @item.description = utils.i18n @item.attributes, 'description'
       @item.affordable = me.gems() >= @item.get('gems')
       @item.owned = me.ownsItem @item.get('original')
       @item.comingSoon = not @item.getFrontFacingStats().props.length and not _.size @item.getFrontFacingStats().stats  # Temp: while there are placeholder items

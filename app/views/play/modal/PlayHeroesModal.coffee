@@ -1,10 +1,13 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/modal/play-heroes-modal'
+buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 AudioPlayer = require 'lib/AudioPlayer'
 utils = require 'lib/utils'
+BuyGemsModal = require 'views/play/modal/BuyGemsModal'
+Purchase = require 'models/Purchase'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -16,6 +19,9 @@ module.exports = class PlayHeroesModal extends ModalView
     'change #option-code-language': 'onCodeLanguageChanged'
     'click #close-modal': 'hide'
     'click #confirm-button': 'saveAndHide'
+    'click .unlock-button': 'onUnlockButtonClicked'
+    'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
+    'click': 'onClickedSomewhere'
 
   shortcuts:
     'left': -> @$el.find('#hero-carousel').carousel('prev') if @heroes.models.length and not @$el.hasClass 'secret'
@@ -210,6 +216,65 @@ module.exports = class PlayHeroesModal extends ModalView
   onCodeLanguageChanged: (e) ->
     @codeLanguage = @$el.find('#option-code-language').val()
     @codeLanguageChanged = true
+
+
+  #- Purchasing the hero
+
+  onUnlockButtonClicked: (e) ->
+    e.stopPropagation()
+    button = $(e.target).closest('button')
+    affordable = @visibleHero.get('gems') <= me.gems()
+    if not affordable
+      @askToBuyGems button
+    else if button.hasClass('confirm')
+
+      purchase = Purchase.makeFor(@visibleHero)
+      purchase.save()
+
+      #- set local changes to mimic what should happen on the server...
+      purchased = me.get('purchased') ? {}
+      purchased.heroes ?= []
+      purchased.heroes.push(@visibleHero.get('original'))
+      me.set('purchased', purchased)
+      me.set('spent', (me.get('spent') ? 0) + @visibleHero.get('gems'))
+
+      #- ...then rerender visible hero
+      heroEntry = @$el.find(".hero-item[data-hero-id='#{@visibleHero.get('original')}']")
+      heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n()
+      heroEntry.removeClass 'locked purchasable'
+      @rerenderFooter()
+
+      Backbone.Mediator.publish 'store:hero-purchased', hero: @visibleHero, heroSlug: @visibleHero.get('slug')
+    else
+      button.addClass('confirm').text($.i18n.t('play.confirm'))
+      @$el.one 'click', (e) ->
+        button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
+
+  askToBuyGems: (unlockButton) ->
+    if me.getGemPromptGroup() is 'no-prompt'
+      return @openModalView new BuyGemsModal()
+    @$el.find('.unlock-button').popover 'destroy'
+    popoverTemplate = buyGemsPromptTemplate {}
+    unlockButton.popover(
+      animation: true
+      trigger: 'manual'
+      placement: 'left'
+      content: ' '  # template has it
+      container: @$el
+      template: popoverTemplate
+    ).popover 'show'
+    popover = unlockButton.data('bs.popover')
+    popover?.$tip?.i18n()
+
+  onBuyGemsPromptButtonClicked: (e) ->
+    @openModalView new BuyGemsModal()
+
+  onClickedSomewhere: (e) ->
+    return if @destroyed
+    @$el.find('.unlock-button').popover 'destroy'
+
+
+  #- Exiting
 
   saveAndHide: ->
     hero = @selectedHero.get('original')

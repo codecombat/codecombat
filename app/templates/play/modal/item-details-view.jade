@@ -18,6 +18,9 @@
             div.stat= stat.display
           img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
 
+        if item.description
+          .item-description= item.description
+
         if props.length
           #skills
             h3.big-font(data-i18n="play.skills_granted")
