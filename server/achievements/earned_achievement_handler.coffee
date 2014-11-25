@@ -17,6 +17,8 @@ class EarnedAchievementHandler extends Handler
 
   get: (req, res) ->
     return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
+    unless req.user
+      return @sendDatabaseError(res, "You need to have a user to view earned achievements")
     query = { user: req.user._id+''}
 
     projection = {}
