@@ -28,23 +28,28 @@ module.exports = class PlayHeroesModal extends ModalView
     @confirmButtonI18N = options.confirmButtonI18N ? "common.save"
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName','i18n']
+    @heroes.setProjection ['original','name','slug','soundTriggers','featureImage','gems','heroClass','description','components','extendedName','unlockLevelName','i18n']
     @heroes.comparator = 'gems'
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}
     @session = options.session
     @initCodeLanguageList options.hadEverChosenHero
+    @heroAnimationInterval = setInterval @animateHeroes, 2500
 
   onHeroesLoaded: ->
-    for hero in @heroes.models
-      hero.name = utils.i18n hero.attributes, 'extendedName' # or whatever the property name ends up being
-      hero.name ?= utils.i18n hero.attributes, 'name'
-      hero.description = utils.i18n hero.attributes, 'description'
-      original = hero.get('original')
-      hero.locked = original not in [ThangType.heroes.captain, ThangType.heroes.knight] and not me.ownsHero(original)
-      hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
-      hero.stats = hero.getHeroStats()
+    @formatHero hero for hero in @heroes.models
+
+  formatHero: (hero) ->
+    hero.name = utils.i18n hero.attributes, 'extendedName' # or whatever the property name ends up being
+    hero.name ?= utils.i18n hero.attributes, 'name'
+    hero.description = utils.i18n hero.attributes, 'description'
+    hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
+    original = hero.get('original')
+    hero.locked = not me.ownsHero(original)
+    hero.purchasable = hero.locked and (original in (me.get('earned')?.heroes ? []))
+    hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
+    hero.stats = hero.getHeroStats()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -53,6 +58,7 @@ module.exports = class PlayHeroesModal extends ModalView
     context.codeLanguages = @codeLanguageList
     context.codeLanguage = @codeLanguage = @options?.session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     context.confirmButtonI18N = @confirmButtonI18N
+    context.visibleHero = @visibleHero
     context
 
   afterRender: ->
@@ -72,6 +78,11 @@ module.exports = class PlayHeroesModal extends ModalView
     @$el.find('.hero-stat').tooltip()
     @buildCodeLanguages()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+
+  rerenderFooter: ->
+    @formatHero @visibleHero
+    @renderSelectors '#hero-footer'
+    @buildCodeLanguages()
 
   initCodeLanguageList: (hadEverChosenHero) ->
     @codeLanguageList = [
@@ -93,7 +104,8 @@ module.exports = class PlayHeroesModal extends ModalView
     @preloadHero heroIndex + 1
     @preloadHero heroIndex - 1
     @selectedHero = hero unless hero.locked
-    $('#choose-inventory-button').prop 'disabled', hero.locked
+    @visibleHero = hero
+    @rerenderFooter()
     @trigger 'hero-loaded', {hero: hero}
 
   getFullHero: (original) ->
@@ -111,7 +123,8 @@ module.exports = class PlayHeroesModal extends ModalView
 
   loadHero: (hero, heroIndex, preloading=false) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
-    if featureImage = hero.get 'featureImage'
+    # TODO: make sure we are going to axe featureImage, then remove this
+    if false and featureImage = hero.get 'featureImage'
       $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
       $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-feature-image").show().find('img').prop('src', '/file/' + featureImage)
       @playSelectionSound hero unless preloading
@@ -129,26 +142,52 @@ module.exports = class PlayHeroesModal extends ModalView
       builder = new SpriteBuilder(fullHero)
       movieClip = builder.buildMovieClip(fullHero.get('actions').attack?.animation ? fullHero.get('actions').idle.animation)
       movieClip.scaleX = movieClip.scaleY = canvas.prop('height') / 120  # Average hero height is ~110px tall at normal resolution
-      if fullHero.get('name') in ['Knight', 'Robot Walker']  # These are too big, so shrink them.
-        movieClip.scaleX *= 0.7
-        movieClip.scaleY *= 0.7
       movieClip.regX = -fullHero.get('positions').registration.x
       movieClip.regY = -fullHero.get('positions').registration.y
       movieClip.x = canvas.prop('width') * 0.5
       movieClip.y = canvas.prop('height') * 0.925  # This is where the feet go.
+      if fullHero.get('name') is 'Knight'
+        movieClip.scaleX *= 0.7
+        movieClip.scaleY *= 0.7
+      if fullHero.get('name') is 'Potion Master'
+        movieClip.scaleX *= 0.9
+        movieClip.scaleY *= 0.9
+        movieClip.regX *= 1.1
+        movieClip.regY *= 1.4
+      if fullHero.get('name') is 'Samurai'
+        movieClip.scaleX *= 0.7
+        movieClip.scaleY *= 0.7
+        movieClip.regX *= 1.2
+        movieClip.regY *= 1.35
+      if fullHero.get('name') is 'Librarian'
+        movieClip.regX *= 0.7
+        movieClip.regY *= 1.2
+      if fullHero.get('name') is 'Sorcerer'
+        movieClip.scaleX *= 0.9
+        movieClip.scaleY *= 0.9
+        movieClip.regX *= 1.15
+        movieClip.regY *= 1.3
+
       stage = new createjs.Stage(canvas[0])
       @stages[heroIndex] = stage
       stage.addChild movieClip
       stage.update()
+      movieClip.loop = false
       movieClip.gotoAndPlay 0
       unless preloading
         createjs.Ticker.addEventListener 'tick', stage
         @playSelectionSound hero
+      @rerenderFooter()
     if fullHero.loaded
       _.defer onLoaded
     else
       @listenToOnce fullHero, 'sync', onLoaded
     fullHero
+
+  animateHeroes: =>
+    return unless @visibleHero
+    heroIndex = Math.max 0, _.findIndex(@heroes.models, ((hero) => hero.get('original') is @visibleHero.get('original')))
+    @stages[heroIndex]?.children?[0]?.gotoAndPlay? 0
 
   playSelectionSound: (hero) ->
     return if @$el.hasClass 'secret'
@@ -208,6 +247,7 @@ module.exports = class PlayHeroesModal extends ModalView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
   destroy: ->
+    clearInterval @heroAnimationInterval
     for heroIndex, stage of @stages
       createjs.Ticker.removeEventListener "tick", stage
       stage.removeAllChildren()

@@ -9,7 +9,7 @@
       span.glyphicon.glyphicon-remove
 
     #equipped
-      if selectedHero
+      if selectedHero && selectedHero.get('featureImage')
         img(src="/file/"+selectedHero.get('featureImage'))#hero-image
 
       for slot in ['head', 'eyes', 'neck', 'torso', 'gloves', 'wrists', 'left-hand', 'right-hand', 'waist', 'feet', 'left-ring', 'right-ring', 'minion', 'flag', 'pet', 'programming-book', 'misc-0', 'misc-1']

@@ -14,3 +14,4 @@ module.exports = class ThangTypeI18NView extends I18NEditModelView
       @wrapRow('Name', ['name'], name, i18n[lang]?.name, [])
       @wrapRow('Description', ['description'], @model.get('description'), i18n[lang]?.description, [], 'markdown')
       @wrapRow('Extended Hero Name', ['extendedName'], @model.get('extendedName'), i18n[lang]?.extendedName, [])
+      @wrapRow('Unlock Level Name', ['unlockLevelName'], @model.get('unlockLevelName'), i18n[lang]?.unlockLevelName, [])

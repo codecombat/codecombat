@@ -22,7 +22,7 @@ connectToScoringQueue = ->
     queues.queueClient.registerQueue 'scoring', {}, (error, data) ->
       if error? then throw new Error "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
-      log.info 'Connected to scoring task queue!'
+      #log.info 'Connected to scoring task queue!'
 
 module.exports.messagesInQueueCount = (req, res) ->
   scoringTaskQueue.totalMessagesInQueue (err, count) ->
@@ -189,10 +189,10 @@ module.exports.getTwoGames = (req, res) ->
                 'creator': session.creator
                 'totalScore': session.totalScore
               taskObject.sessions.push sessionInformation
-            console.log 'Dispatching random game between', taskObject.sessions[0].creatorName, 'and', taskObject.sessions[1].creatorName
+            #console.log 'Dispatching random game between', taskObject.sessions[0].creatorName, 'and', taskObject.sessions[1].creatorName
             sendResponseObject req, res, taskObject
   else
-    console.log "Directly simulating #{humansGameID} vs. #{ogresGameID}."
+    #console.log "Directly simulating #{humansGameID} vs. #{ogresGameID}."
     LevelSession.findOne(_id: humansGameID).select(selection).lean().exec (err, humanSession) =>
       if err? then return errors.serverError(res, 'Couldn\'t find the human game')
       LevelSession.findOne(_id: ogresGameID).select(selection).lean().exec (err, ogreSession) =>
@@ -217,7 +217,7 @@ module.exports.getTwoGames = (req, res) ->
 
 module.exports.recordTwoGames = (req, res) ->
   sessions = req.body.sessions
-  console.log 'Recording non-chained result of', sessions?[0]?.name, sessions[0]?.metrics?.rank, 'and', sessions?[1]?.name, sessions?[1]?.metrics?.rank
+  #console.log 'Recording non-chained result of', sessions?[0]?.name, sessions[0]?.metrics?.rank, 'and', sessions?[1]?.name, sessions?[1]?.metrics?.rank
 
   yetiGuru = clientResponseObject: req.body, isRandomMatch: true
   async.waterfall [
@@ -608,7 +608,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
 updateUserSimulationCounts = (reqUserID, callback) ->
   incrementUserSimulationCount reqUserID, 'simulatedBy', (err) =>
     if err? then return callback err
-    console.log 'Incremented user simulation count!'
+    #console.log 'Incremented user simulation count!'
     unless @isRandomMatch
       incrementUserSimulationCount @levelSession.creator, 'simulatedFor', callback
     else
@@ -648,7 +648,7 @@ determineIfSessionShouldContinueAndUpdateLog = (cb) ->
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
       if ratio > 0.33
         cb 'shouldn\'t continue'
-        console.log "Ratio(#{ratio}) is bad, ending simulation"
+        #console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
         #console.log "Ratio(#{ratio}) is good, so continuing simulations"
         cb null
