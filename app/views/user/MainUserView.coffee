@@ -1,7 +1,7 @@
 UserView = require 'views/kinds/UserView'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
-template = require 'templates/user/user_home'
+template = require 'templates/user/main-user-view'
 {me} = require 'lib/auth'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
@@ -15,6 +15,9 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class MainUserView extends UserView
   id: 'user-home'
   template: template
+  
+  events:
+    'click .more-button': 'onClickMoreButton'
 
   constructor: (userID, options) ->
     super options
@@ -54,3 +57,8 @@ module.exports = class MainUserView extends UserView
       @supermodel.loadCollection @levelSessions, 'levelSessions'
       @supermodel.loadCollection @earnedAchievements, 'earnedAchievements'
     super()
+
+  onClickMoreButton: (e) ->
+    panel = $(e.target).closest('.panel')
+    panel.find('tr.hide').removeClass('hide')
+    panel.find('.panel-footer').remove()

@@ -99,9 +99,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
-    'user/:slugOrID/stats': go('user/AchievementsView')
     'user/:slugOrID/profile': go('user/JobProfileView')
-    #'user/:slugOrID/code': go('user/CodeView')
 
     '*name': 'showNotFoundView'
 

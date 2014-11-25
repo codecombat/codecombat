@@ -1,5 +1,5 @@
 View = require 'views/kinds/RootView'
-template = require 'templates/account/account_home'
+template = require 'templates/account/main-account-view'
 {me} = require 'lib/auth'
 User = require 'models/User'
 AuthModalView = require 'views/modal/AuthModal'
@@ -7,7 +7,7 @@ RecentlyPlayedCollection = require 'collections/RecentlyPlayedCollection'
 ThangType = require 'models/ThangType'
 
 module.exports = class MainAccountView extends View
-  id: 'account-home'
+  id: 'main-account-view'
   template: template
 
   constructor: (options) ->

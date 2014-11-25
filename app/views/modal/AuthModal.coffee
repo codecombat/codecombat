@@ -25,6 +25,7 @@ module.exports = class AuthModal extends ModalView
     'auth:logging-in-with-facebook': 'onLoggingInWithFacebook'
 
   constructor: (options) ->
+    options ?= {}
     @onNameChange = _.debounce @checkNameExists, 500
     super options
     @mode = options.mode if options.mode
