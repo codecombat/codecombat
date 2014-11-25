@@ -14,3 +14,15 @@ module.exports.sendHipChatMessage = sendHipChatMessage = (message) ->
   request.post {uri: url, json: form}, (err, res, body) ->
     return log.error 'Error sending HipChat patch request:', err or body if err or /error/i.test body
     #log.info "Got HipChat patch response:", body
+
+module.exports.sendTowerHipChatMessage = sendTowerHipChatMessage = (message) ->
+  return unless key = config.hipchatTowerAPIKey
+  roomID = 318356
+  form =
+    color: 'red'
+    notify: true
+    message: message
+    messageFormat: 'html'
+  url = "https://api.hipchat.com/v2/room/#{roomID}/notification?auth_token=#{key}"
+  request.post {uri: url, json: form}, (err, res, body) ->
+    return log.error 'Error sending HipChat Tower message:', err or body if err or /error/i.test body

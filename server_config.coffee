@@ -48,7 +48,7 @@ config.mail =
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
 
 config.hipchatAPIKey = process.env.COCO_HIPCHAT_API_KEY or ''
-
+config.hipchatTowerAPIKey = process.env.COCO_HIPCHAT_TOWER_API_KEY or ''
 config.queue =
   accessKeyId: process.env.COCO_AWS_ACCESS_KEY_ID or ''
   secretAccessKey: process.env.COCO_AWS_SECRET_ACCESS_KEY or ''

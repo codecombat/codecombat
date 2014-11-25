@@ -13,6 +13,7 @@ logging = require './server/commons/logging'
 config = require './server_config'
 auth = require './server/routes/auth'
 UserHandler = require './server/users/user_handler'
+hipchat = require './server/hipchat'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require 'jsondiffpatch'
 
@@ -38,6 +39,14 @@ developmentLogging = (tokens, req, res) ->
   elapsedColor = if elapsed < 500 then 90 else 31
   "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
 
+setupErrorMiddleware = (app) ->
+  app.use (err, req, res, next) ->
+    if err
+      res.status(500).send(error: "Something went wrong!")
+      hipchat.sendTowerHipChatMessage("The server crashed. Stack trace: <br> <code>#{err.stack}</code>")
+      console.log "Got a server error: #{err.stack}"
+    else
+      next(err)
 setupExpressMiddleware = (app) ->
   if config.isProduction
     express.logger.format('prod', productionLogging)
@@ -101,6 +110,7 @@ exports.setupMiddleware = (app) ->
   setupOneSecondDelayMiddleware app
   setupTrailingSlashRemovingMiddleware app
   setupRedirectMiddleware app
+  setupErrorMiddleware app
 
 ###Routing function implementations###
 
