@@ -35,19 +35,19 @@ module.exports = class PlayAccountModal extends ModalView
 
   onInputChanged: ->
     @$el.find('#save-button')
-    .text($.i18n.t('common.save', defaultValue: 'Save'))
-    .addClass 'btn-info'
-    .removeClass 'disabled btn-danger'
-    .removeAttr 'disabled'
+      .text($.i18n.t('common.save', defaultValue: 'Save'))
+      .addClass 'btn-info'
+      .removeClass 'disabled btn-danger'
+      .removeAttr 'disabled'
 
   onUserSaveBegan: ->
     @$el.find('#save-button')
-    .text($.i18n.t('common.saving', defaultValue: 'Saving...'))
-    .removeClass('btn-danger')
-    .addClass('btn-success').show()
+      .text($.i18n.t('common.saving', defaultValue: 'Saving...'))
+      .removeClass('btn-danger')
+      .addClass('btn-success').show()
 
   onUserSaveError: ->
     @$el.find('#save-button')
-    .text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving'))
-    .removeClass('btn-success')
-    .addClass('btn-danger', 500)
+      .text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving'))
+      .removeClass('btn-success')
+      .addClass('btn-danger', 500)
