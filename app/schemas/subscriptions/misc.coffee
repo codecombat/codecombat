@@ -64,3 +64,7 @@ module.exports =
   'store:item-purchased': c.object {required: ['item', 'itemSlug']},
     item: {type: 'object'}
     itemSlug: {type: 'string'}
+
+  'store:hero-purchased': c.object {required: ['hero', 'heroSlug']},
+    hero: {type: 'object'}
+    heroSlug: {type: 'string'}
