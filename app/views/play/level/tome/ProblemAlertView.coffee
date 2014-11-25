@@ -77,7 +77,7 @@ module.exports = class ProblemAlertView extends CocoView
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'error_appear', volume: 1.0
     pauseJiggle = =>
       @$el?.removeClass 'jiggling'
-    _.delay pauseJiggle, 2000
+    _.delay pauseJiggle, 1000
 
   onHideProblemAlert: ->
     @onRemoveClicked()

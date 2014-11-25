@@ -96,10 +96,10 @@
     logging_in: "Logging In"
     log_out: "Log Out"
     recover: "recover account"
-    authenticate_gplus: 'Authenticate G+'
-    load_profile: 'Load G+ Profile'
-    load_email: 'Load G+ Email'
-    finishing: 'Finishing'
+    authenticate_gplus: "Authenticate G+"
+    load_profile: "Load G+ Profile"
+    load_email: "Load G+ Email"
+    finishing: "Finishing"
 
   signup:
     create_account_title: "Create Account to Save Progress"
@@ -319,12 +319,15 @@
     unequip: "Unequip"
 
   buy_gems:
-    few_gems: 'A few gems'
-    pile_gems: 'Pile of gems'
-    chest_gems: 'Chest of gems'
-    purchasing: 'Purchasing...'
-    declined: 'Your card was declined'
-    retrying: 'Server error, retrying.'
+    few_gems: "A few gems"
+    pile_gems: "Pile of gems"
+    chest_gems: "Chest of gems"
+    purchasing: "Purchasing..."
+    declined: "Your card was declined"
+    retrying: "Server error, retrying."
+    prompt_title: "Not Enough Gems"
+    prompt_body: "Do you want to get more?"
+    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "Choose Your Hero"

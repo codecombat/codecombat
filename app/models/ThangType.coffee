@@ -19,6 +19,10 @@ module.exports = class ThangType extends CocoModel
     librarian: '52fbf74b7e01835453bd8d8e'
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
+  @heroClasses:
+    Warrior: ['captain', 'knight', 'samurai']
+    Ranger: ['ninja', 'forest-archer', 'trapper']
+    Wizard: ['librarian', 'potion-master', 'sorcerer']
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
@@ -435,7 +439,7 @@ module.exports = class ThangType extends CocoModel
     name: name, display: display
 
   isSilhouettedItem: ->
-    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get 'gems'
+    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems') or @get('tier')
     console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
     tier = @get 'tier'
     if tier?
@@ -446,5 +450,8 @@ module.exports = class ThangType extends CocoModel
 
   levelRequiredForItem: ->
     return console.error "Trying to determine what level is required for #{@get('name')}, but it has no tier." unless @get('tier')?
-    tier = @get 'tier'
-    me.constructor.levelForTier(Math.pow(tier, 0.7))
+    itemTier = @get 'tier'
+    playerTier = itemTier / 2.5
+    playerLevel = me.constructor.levelForTier playerTier
+    #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
+    playerLevel

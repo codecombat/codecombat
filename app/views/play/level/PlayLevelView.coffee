@@ -697,7 +697,7 @@ module.exports = class PlayLevelView extends RootView
     data = snapshot.val()
     if data? and data.id isnt me.id
       @realTimeOpponentData = data
-      console.log 'PlayLevelView onRealTimePlayerAdded opponent', @realTimeOpponentData, @realTimePlayersData
+      # console.log 'PlayLevelView onRealTimePlayerAdded opponent', @realTimeOpponentData, @realTimePlayersData
       @realTimePlayersData[@realTimeOpponentData.id] = @realTimeOpponentData
       if @realTimeSessionData?.state is 'creating'
         @realTimeSessionRef.update 'state': 'coding'
@@ -758,7 +758,7 @@ module.exports = class PlayLevelView extends RootView
     #   console.error 'Joining real-time multiplayer game with an existing @realTimeSessionRef.'
 
   onRealTimeMultiplayerJoinedGame: (e) ->
-    console.log 'PlayLevelView onRealTimeMultiplayerJoinedGame', e
+    # console.log 'PlayLevelView onRealTimeMultiplayerJoinedGame', e
     @joinRealTimeMultiplayerGame e
     @realTimePlayerGameRef.update 'state': 'coding'
     @realTimePlayerRef.update 'state': 'unavailable'
@@ -828,7 +828,7 @@ module.exports = class PlayLevelView extends RootView
     if me.id is @realTimeSessionData.creator
       sessionState = @session.get('state')
       if sessionState?
-        submissionCount = sessionState.submissionCount
+        submissionCount = sessionState.submissionCount ? 0
         console.info 'Setting multiplayer submissionCount to', submissionCount
         @realTimeSessionRef.update 'submissionCount': submissionCount
       else
@@ -849,9 +849,13 @@ module.exports = class PlayLevelView extends RootView
         transpiledCode[thang][spellID] = aether.transpile spell
     # console.log "PlayLevelView transpiled code", transpiledCode
     @session.set 'transpiledCode', transpiledCode
+    permissions = @session.get 'permissions' ? []
+    unless _.find(permissions, (p) -> p.target is 'public' and p.access is 'read')
+      permissions.push target:'public', access:'read'
+      @session.set 'permissions', permissions
     @session.patch()
     @realTimePlayerGameRef.update 'state': 'submitted'
-    
+
     console.info 'Other player is', @realTimeOpponentData.state
     if @realTimeOpponentData.state in ['submitted', 'ready']
       @realTimeOpponentSubmittedCode @realTimeOpponentData, @realTimePlayerGameData
@@ -926,7 +930,7 @@ module.exports = class PlayLevelView extends RootView
         [newThang, newSpell] = newSpellKey.split '/'
         if newSpell is oldSpell
           # Found spell location under new team
-          console.log "Swapping spell=#{oldSpell} from #{oldThang} to #{newThang}"
+          # console.log "Swapping spell=#{oldSpell} from #{oldThang} to #{newThang}"
           if code[newThang]?[oldSpell]?
             # Option 1: have a new spell to swap
             code[oldThang][oldSpell] = code[newThang][oldSpell]
