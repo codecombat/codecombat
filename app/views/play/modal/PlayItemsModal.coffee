@@ -54,7 +54,6 @@ module.exports = class PlayItemsModal extends ModalView
 
   constructor: (options) ->
     super options
-    me.set('spent', 0)
     @items = new Backbone.Collection()
     @itemCategoryCollections = {}
 
