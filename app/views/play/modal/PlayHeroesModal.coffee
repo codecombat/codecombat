@@ -246,6 +246,7 @@ module.exports = class PlayHeroesModal extends ModalView
       heroEntry = @$el.find(".hero-item[data-hero-id='#{@visibleHero.get('original')}']")
       heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n()
       heroEntry.removeClass 'locked purchasable'
+      @selectedHero = @visibleHero
       @rerenderFooter()
 
       Backbone.Mediator.publish 'store:hero-purchased', hero: @visibleHero, heroSlug: @visibleHero.get('slug')
