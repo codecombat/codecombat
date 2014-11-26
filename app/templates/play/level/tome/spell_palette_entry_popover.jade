@@ -62,25 +62,28 @@ if !selectedMethod
       strong
         span(data-i18n="skill_docs.example") Example
         | :
-      div!= marked("```\n" + doc.example + "```")
+      .docs-ace-container
+        .docs-ace= doc.example
   else if doc.type == 'function' && argumentExamples.length
     p.example
       strong
         span(data-i18n="skill_docs.example") Example
         | :
       div
-        if language == 'javascript'
-          code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
-        else if language == 'coffeescript'
-          code= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + doc.name + ' ' + argumentExamples.join(', ')
-        else if language == 'python'
-          code= doc.ownerName + '.' + doc.name + '(' + argumentExamples.join(', ') + ')'
-        else if language == 'clojure'
-          code= '(.' + doc.name + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
-        else if language == 'lua'
-          code= doc.ownerName + ':' + doc.name + '(' + argumentExamples.join(', ') + ')'
-        else if language == 'io'
-          code= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + doc.name + '(' + argumentExamples.join(', ') + ')'
+        .docs-ace-container
+          .docs-ace
+            if language == 'javascript'
+              span= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
+            else if language == 'coffeescript'
+              span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + doc.name + ' ' + argumentExamples.join(', ')
+            else if language == 'python'
+              span= doc.ownerName + '.' + doc.name + '(' + argumentExamples.join(', ') + ')'
+            else if language == 'clojure'
+              span= '(.' + doc.name + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+            else if language == 'lua'
+              span= doc.ownerName + ':' + doc.name + '(' + argumentExamples.join(', ') + ')'
+            else if language == 'io'
+              span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + doc.name + '(' + argumentExamples.join(', ') + ')'
 
 if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
   p.value

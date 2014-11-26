@@ -51,3 +51,4 @@ functionParameters =
   initializeCentroids: []
   update: []
   getNearestEnemy: []
+  die: []
