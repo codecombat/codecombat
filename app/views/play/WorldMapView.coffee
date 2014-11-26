@@ -728,7 +728,6 @@ forest = [
     description: 'Join forces with a new hero: Amara Arrowhead.'
     nextLevels:
       continue: 'swift-dagger'
-    disabled: not me.isAdmin()
     x: 64.37
     y: 69.18
   }
@@ -740,7 +739,6 @@ forest = [
     description: 'Deal damage from a distance with your new hero.'
     nextLevels:
       continue: 'shrapnel'
-    disabled: not me.isAdmin()
     x: 66
     y: 75.61
   }
@@ -752,7 +750,6 @@ forest = [
     description: 'Explore the explosive arts.'
     nextLevels:
       continue: 'coinucopia'
-    disabled: not me.isAdmin()
     x: 67
     y: 81
   }
@@ -766,7 +763,6 @@ forest = [
     description: 'Stand your ground against large ogres with a new hero: Ms. Hushbaum.'
     nextLevels:
       continue: 'touch-of-death'
-    disabled: not me.isAdmin()
     x: 64.37
     y: 55.18
   }
@@ -778,7 +774,6 @@ forest = [
     description: 'Learn your first spell to siphon life from your foes.'
     nextLevels:
       continue: 'bonemender'
-    disabled: not me.isAdmin()
     x: 65
     y: 48
   }
@@ -790,7 +785,6 @@ forest = [
     description: 'Cast regeneration on allied soldiers to withstand a siege.'
     nextLevels:
       continue: 'coinucopia'
-    disabled: not me.isAdmin()
     x: 66
     y: 40
   }

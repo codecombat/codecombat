@@ -20,7 +20,7 @@ module.exports = class SpellView extends CocoView
   eventsSuppressed: true
   writable: true
 
-  editModes:
+  @editModes:
     'javascript': 'ace/mode/javascript'
     'coffeescript': 'ace/mode/coffee'
     'python': 'ace/mode/python'
@@ -91,7 +91,7 @@ module.exports = class SpellView extends CocoView
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode @editModes[@spell.language]
+    @aceSession.setMode SpellView.editModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode 'unix'
@@ -324,7 +324,7 @@ module.exports = class SpellView extends CocoView
 
     # window.zatannaInstance = @zatanna
     # window.snippetEntries = snippetEntries
-    lang = @editModes[e.language].substr 'ace/mode/'.length
+    lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
 
   onMultiplayerChanged: ->
@@ -904,8 +904,8 @@ module.exports = class SpellView extends CocoView
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
-    @aceSession.setMode @editModes[e.language]
-    @zatanna?.set 'language', @editModes[e.language].substr('ace/mode/')
+    @aceSession.setMode SpellView.editModes[e.language]
+    @zatanna?.set 'language', SpellView.editModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault

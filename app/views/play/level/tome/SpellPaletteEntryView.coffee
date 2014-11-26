@@ -3,6 +3,7 @@ template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
+SpellView = require 'views/play/level/tome/SpellView'
 
 module.exports = class SpellPaletteEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
@@ -28,6 +29,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @docFormatter = new DocFormatter options
     @doc = @docFormatter.doc
     @doc.initialHTML = @docFormatter.formatPopover()
+    @aceEditors = []
 
   getRenderData: ->
     c = super()
@@ -52,6 +54,31 @@ module.exports = class SpellPaletteEntryView extends CocoView
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: "spell-palette-entry-open-#{soundIndex}", volume: 0.75
       popover = @$el.data('bs.popover')
       popover?.$tip?.i18n()
+      codeLanguage = @options.language
+      oldEditor.destroy() for oldEditor in @aceEditors
+      @aceEditors = []
+      aceEditors = @aceEditors
+      popover?.$tip?.find('.docs-ace').each ->
+        contents = $(@).text()
+        editor = ace.edit @
+        editor.setOptions maxLines: Infinity
+        editor.setReadOnly true
+        editor.setTheme 'ace/theme/textmate'
+        editor.setShowPrintMargin false
+        editor.setShowFoldWidgets false
+        editor.setHighlightActiveLine false
+        editor.setHighlightActiveLine false
+        editor.setBehavioursEnabled false
+        editor.renderer.setShowGutter false
+        editor.setValue contents
+        editor.clearSelection()
+        session = editor.getSession()
+        session.setUseWorker false
+        session.setMode SpellView.editModes[codeLanguage]
+        session.setWrapLimitRange null
+        session.setUseWrapMode true
+        session.setNewLineMode 'unix'
+        aceEditors.push editor
 
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
@@ -121,4 +148,5 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @togglePinned() if @popoverPinned
     @$el.popover 'destroy'
     @$el.off()
+    oldEditor.destroy() for oldEditor in @aceEditors
     super()
