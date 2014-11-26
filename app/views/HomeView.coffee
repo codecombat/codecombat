@@ -39,3 +39,7 @@ module.exports = class HomeView extends RootView
 
   afterInsert: ->
     super(arguments...)
+    if me.isAdmin() and me.get('slug') is 'nick'
+      LevelSetupManager = require 'lib/LevelSetupManager'
+      setupManager = new LevelSetupManager levelID: 'dungeons-of-kithgard', hadEverChosenHero: true, parent: @
+      setupManager.open()

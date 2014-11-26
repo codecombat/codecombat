@@ -54,6 +54,7 @@ module.exports = class InventoryModal extends ModalView
       'components'
       'original'
       'rasterIcon'
+      'dollImages'
       'gems'
       'tier'
       'description'
