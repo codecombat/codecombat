@@ -47,6 +47,7 @@ module.exports = class I18NEditModelView extends RootView
     @hush = true
     $select = @$el.find('#language-select').empty()
     @addLanguagesToSelect($select, @selectedLanguage)
+    @$el.find('option[value="en-US"]').remove()
     @hush = false
     editors = []
 
@@ -123,6 +124,9 @@ module.exports = class I18NEditModelView extends RootView
   onLanguageSelectChanged: (e) ->
     return if @hush
     @selectedLanguage = $(e.target).val()
+    if @selectedLanguage
+      me.set('preferredLanguage', @selectedLanguage)
+      me.patch()
     @render()
     
   onSubmitPatch: (e) ->

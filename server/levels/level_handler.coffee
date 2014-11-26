@@ -310,6 +310,7 @@ LevelHandler = class LevelHandler extends Handler
       @sendSuccess res, data
 
   hasAccessToDocument: (req, document, method=null) ->
+    method ?= req.method
     return true if method is null or method is 'get'
     super(req, document, method)
 

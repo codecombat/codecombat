@@ -48,7 +48,13 @@ module.exports = class Handler
     flattened = deltasLib.flattenDelta(delta)
     _.all flattened, (delta) ->
       # sometimes coverage gets moved around... allow other changes to happen to i18nCoverage
-      return _.isArray(delta.o) and (('i18n' in delta.dataPath and delta.o.length is 1) or 'i18nCoverage' in delta.dataPath)
+      return false unless _.isArray(delta.o)
+      return true if 'i18nCoverage' in delta.dataPath
+      return false unless delta.o.length is 1
+      index = delta.deltaPath.indexOf('i18n')
+      return false if index is -1
+      return false if delta.deltaPath[index+1] is 'en-US'
+      return true
 
   formatEntity: (req, document) -> document?.toObject()
   getEditableProperties: (req, document) ->
