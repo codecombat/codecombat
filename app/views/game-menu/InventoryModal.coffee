@@ -205,10 +205,12 @@ module.exports = class InventoryModal extends ModalView
 
   onItemSlotClick: (e) ->
     return if @remainingRequiredEquipment?.length  # Don't let them select a slot if we need them to first equip some require gear.
+    @playSound 'menu-button-click'
     @selectItemSlot($(e.target).closest('.item-slot'))
 
   onUnequippedItemClick: (e) ->
     return if @justDoubleClicked
+    @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
     @selectUnequippedItem(itemEl)
 
@@ -224,6 +226,7 @@ module.exports = class InventoryModal extends ModalView
   onClickUnequipItemViewed: -> @unequipSelectedItem()
 
   onClickEquipItemButton: (e) ->
+    @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
     @selectUnequippedItem(itemEl)
     @equipSelectedItem()
@@ -403,11 +406,13 @@ module.exports = class InventoryModal extends ModalView
     super()
 
   onClickChooseHero: ->
+    @playSound 'menu-button-click'
     @hide()
     @trigger 'choose-hero-click'
 
   onClickPlayLevel: (e) ->
     return if @$el.find('#play-level-button').prop 'disabled'
+    @playSound 'menu-button-click'
     @showLoading()
     ua = navigator.userAgent.toLowerCase()
     unless hasGoneFullScreenOnce or (/safari/.test(ua) and not /chrome/.test(ua)) or $(window).height() >= 658  # Min vertical resolution needed at 1366px wide
@@ -440,7 +445,7 @@ module.exports = class InventoryModal extends ModalView
     else
       callback?()
 
-  #- TODO: DRY this between PlayItemsModal and InventoryModal
+  #- TODO: DRY this between PlayItemsModal and InventoryModal and PlayHeroesModal
 
   onUnlockButtonClicked: (e) ->
     e.stopPropagation()
@@ -448,8 +453,10 @@ module.exports = class InventoryModal extends ModalView
     item = @items.get(button.data('item-id'))
     affordable = item.affordable
     if not affordable
+      @playSound 'menu-button-click'
       @askToBuyGems button
     else if button.hasClass('confirm')
+      @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)
       purchase.save()
 
@@ -475,6 +482,7 @@ module.exports = class InventoryModal extends ModalView
 
       Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
+      @playSound 'menu-button-unlock-start'
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
@@ -496,6 +504,7 @@ module.exports = class InventoryModal extends ModalView
     popover?.$tip?.i18n()
 
   onBuyGemsPromptButtonClicked: (e) ->
+    @playSound 'menu-button-click'
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

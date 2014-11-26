@@ -63,6 +63,7 @@ module.exports = class OptionsView extends CocoView
     me.set 'volume', volume
     @$el.find('#option-volume-value').text (volume * 100).toFixed(0) + '%'
     Backbone.Mediator.publish 'level:set-volume', volume: volume
+    @playSound 'menu-button-click'  # Could have another volume-indicating noise
 
   onHidden: ->
     if @playerName and @playerName isnt me.get('name')
@@ -109,6 +110,7 @@ module.exports = class OptionsView extends CocoView
 
   onEditProfilePhoto: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
+    @playSound 'menu-button-click'
     photoContainer = @$el.find('.profile-photo')
     onSaving = =>
       photoContainer.addClass('saving')

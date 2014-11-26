@@ -50,23 +50,27 @@ module.exports = class AuthModal extends ModalView
     _.delay (=> $('input:visible:first', @$el).focus()), 500
 
   onSignupInstead: (e) ->
+    @playSound 'menu-button-click'
     @mode = 'signup'
     @previousFormInputs = forms.formToObject @$el
     @render()
     _.delay application.router.renderLoginButtons, 500
 
   onLoginInstead: (e) ->
+    @playSound 'menu-button-click'
     @mode = 'login'
     @previousFormInputs = forms.formToObject @$el
     @render()
     _.delay application.router.renderLoginButtons, 500
 
   onSubmitForm: (e) ->
+    @playSound 'menu-button-click'
     e.preventDefault()
     if @mode is 'login' then @loginAccount() else @createAccount()
     false
 
   checkAge: (e) ->
+    @playSound 'menu-button-click'
     $('#signup-button', @$el).prop 'disabled', not $(e.target).prop('checked')
 
   loginAccount: ->
@@ -116,6 +120,7 @@ module.exports = class AuthModal extends ModalView
         forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
 
   onGitHubLoginClicked: ->
+    @playSound 'menu-button-click'
     Backbone.Mediator.publish 'auth:log-in-with-github', {}
 
   gplusAuthSteps: [
@@ -126,6 +131,7 @@ module.exports = class AuthModal extends ModalView
   ]
 
   onClickGPlusLogin: ->
+    @playSound 'menu-button-click'
     step.done = false for step in @gplusAuthSteps
     handler = application.gplusHandler
 

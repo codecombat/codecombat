@@ -31,6 +31,7 @@ module.exports = class HomeView extends RootView
     c
 
   onClickBeginnerCampaign: (e) ->
+    @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
     window.tracker?.trackEvent 'Homepage', Action: 'Play'

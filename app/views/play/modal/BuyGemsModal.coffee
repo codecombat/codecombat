@@ -48,6 +48,7 @@ module.exports = class BuyGemsModal extends ModalView
     @render()
 
   onClickProductButton: (e) ->
+    @playSound 'menu-button-click'
     productID = $(e.target).closest('button').val()
     product = _.find @products, { id: productID }
 
@@ -60,9 +61,9 @@ module.exports = class BuyGemsModal extends ModalView
         description: $.t(product.i18n)
         amount: product.amount
       })
-      
+
     @productBeingPurchased = product
-    
+
   onStripeReceivedToken: (e) ->
     @timestampForPurchase = new Date().getTime()
     data = {

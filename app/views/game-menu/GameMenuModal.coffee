@@ -51,15 +51,15 @@ module.exports = class GameMenuModal extends ModalView
       firstView = (@subviews.options_view)
     firstView.$el.addClass 'active'
     firstView.onShown?()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @playSound 'game-menu-open'
     @$el.find('.nano:visible').nanoScroller()
 
   onTabShown: (e) ->
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-tab-switch', volume: 1
+    @playSound 'game-menu-tab-switch'
     @subviews[e.target.hash.substring(1).replace(/-/g, '_')].onShown?()
 
   onHidden: ->
     super()
     subview.onHidden?() for subviewKey, subview of @subviews
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    @playSound 'game-menu-close'
     Backbone.Mediator.publish 'music-player:exit-menu', {}

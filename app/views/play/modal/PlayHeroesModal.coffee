@@ -225,9 +225,10 @@ module.exports = class PlayHeroesModal extends ModalView
     button = $(e.target).closest('button')
     affordable = @visibleHero.get('gems') <= me.gems()
     if not affordable
+      @playSound 'menu-button-click'
       @askToBuyGems button
     else if button.hasClass('confirm')
-
+      @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(@visibleHero)
       purchase.save()
 
@@ -246,6 +247,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
       Backbone.Mediator.publish 'store:hero-purchased', hero: @visibleHero, heroSlug: @visibleHero.get('slug')
     else
+      @playSound 'menu-button-unlock-start'
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
@@ -267,6 +269,7 @@ module.exports = class PlayHeroesModal extends ModalView
     popover?.$tip?.i18n()
 
   onBuyGemsPromptButtonClicked: (e) ->
+    @playSound 'menu-button-click'
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

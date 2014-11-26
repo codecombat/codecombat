@@ -137,7 +137,7 @@ module.exports = class MultiplayerView extends CocoView
           # console.log 'MultiplayerView found current real-time session', rts
           @currentRealTimeSession = new RealTimeModel("multiplayer_level_sessions/#{@levelID}/#{rts.id}")
           @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
-          
+
           # TODO: Is this necessary?  Shouldn't everyone already know we joined a game at this point?
           Backbone.Mediator.publish 'real-time-multiplayer:joined-game', realTimeSessionID: @currentRealTimeSession.id
 
@@ -162,6 +162,7 @@ module.exports = class MultiplayerView extends CocoView
     @render?()
 
   onCreateRealTimeGame: ->
+    @playSound 'menu-button-click'
     s = @realTimeSessions.create {
       creator: @session.get('creator')
       creatorName: @session.get('creatorName')
@@ -173,7 +174,7 @@ module.exports = class MultiplayerView extends CocoView
     @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
     # TODO: s.id === @currentRealTimeSession.id ?
     players = new RealTimeCollection("multiplayer_level_sessions/#{@levelID}/#{@currentRealTimeSession.id}/players")
-    players.create 
+    players.create
       id: me.id
       state: 'coding'
       name: @session.get('creatorName')
@@ -184,20 +185,21 @@ module.exports = class MultiplayerView extends CocoView
 
   onJoinRealTimeGame: (e) ->
     return if @currentRealTimeSession
+    @playSound 'menu-button-click'
     item  = @$el.find(e.target).data('item')
     @currentRealTimeSession = @realTimeSessions.get(item.id)
     @currentRealTimeSession.on 'change', @onCurrentRealTimeSessionChanged
     if @realTimeSessionsPlayers[item.id]
-      
+
       # TODO: SpellView updateTeam() should take care of this team swap update in the real-time multiplayer session
       creatorID = @currentRealTimeSession.get('creator')
       creator = @realTimeSessionsPlayers[item.id].get(creatorID)
       creatorTeam = creator.get('team')
-      myTeam = @session.get('team') 
+      myTeam = @session.get('team')
       if myTeam is creatorTeam
         myTeam = if creatorTeam is 'humans' then 'ogres' else 'humans'
-      
-      @realTimeSessionsPlayers[item.id].create 
+
+      @realTimeSessionsPlayers[item.id].create
         id: me.id
         state: 'coding'
         name: me.get('name')
@@ -209,6 +211,7 @@ module.exports = class MultiplayerView extends CocoView
     @render()
 
   onLeaveRealTimeGame: (e) ->
+    @playSound 'menu-button-click'
     if @currentRealTimeSession
       @currentRealTimeSession.off 'change', @onCurrentRealTimeSessionChanged
       @currentRealTimeSession = null

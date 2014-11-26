@@ -27,6 +27,7 @@ module.exports = class ContactModal extends ModalView
     'click #contact-submit-button': 'contact'
 
   contact: ->
+    @playSound 'menu-button-click'
     forms.clearFormAlerts @$el
     contactMessage = forms.formToObject @$el
     res = tv4.validateMultiple contactMessage, contactSchema

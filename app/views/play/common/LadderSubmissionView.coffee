@@ -48,6 +48,7 @@ module.exports = class LadderSubmissionView extends CocoView
 
   rankSession: (e) ->
     return unless @session.readyToRank()
+    @playSound 'menu-button-click'
     @setRankingButtonText 'submitting'
     success = =>
       @setRankingButtonText 'submitted' unless @destroyed
@@ -87,4 +88,5 @@ module.exports = class LadderSubmissionView extends CocoView
     transpiledCode
 
   onHelpSimulate: ->
+    @playSound 'menu-button-click'
     $('a[href="#simulate"]').tab('show')

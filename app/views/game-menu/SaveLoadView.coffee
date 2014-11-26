@@ -19,6 +19,7 @@ module.exports = class SaveLoadView extends CocoView
     super()
 
   onSaveGranularityChanged: (e) ->
+    @playSound 'menu-button-click'
     toShow = $(e.target).val()
     @$el.find('.save-list, .save-pane').hide()
     @$el.find('.save-list.' + toShow + ', .save-pane.' + toShow).show()
