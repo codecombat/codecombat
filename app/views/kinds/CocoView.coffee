@@ -341,10 +341,11 @@ module.exports = class CocoView extends Backbone.View
 
     @pointerRadialDistance = -47
     @pointerRotation = options.rotation ? Math.atan2(@$el.outerWidth() * 0.5 - targetLeft, targetTop - @$el.outerHeight() * 0.5)
+    initialScale = Math.max 1, 20 - me.level()
     $pointer.css
       opacity: 1.0
       transition: 'none'
-      transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px) scale(20)"
+      transform: "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px) scale(#{initialScale})"
       top: targetTop - 50
       left: targetLeft - 50
     _.defer =>
