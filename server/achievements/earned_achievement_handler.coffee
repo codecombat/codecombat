@@ -61,19 +61,45 @@ class EarnedAchievementHandler extends Handler
         EarnedAchievement.findOne q, (err, earned) -> callback(err, earned)
     }, (err, { achievement, trigger, earned } ) =>
       return @sendDatabaseError(res, err) if err
-      if earned
-        return @sendSuccess(res, earned.toObject())
       if not achievement
         return @sendNotFoundError(res, 'Could not find achievement.')
-      if not trigger
+      else if not trigger
         return @sendNotFoundError(res, 'Could not find trigger.')
-      if achievement.get('proportionalTo')
+      else if earned
+        achievementEarned = achievement.get('rewards')
+        actuallyEarned = earned.get('earnedRewards')
+        if not _.isEqual(achievementEarned, actuallyEarned)
+          earned.set('earnedRewards', achievementEarned)
+          earned.save((err) =>
+            return @sendDatabaseError(res, err) if err
+            @upsertNonNumericRewards(req.user, achievement, (err) =>
+              return @sendDatabaseError(res, err) if err
+              return @sendSuccess(res, earned.toObject())
+            )
+          )
+        else
+          @upsertNonNumericRewards(req.user, achievement, (err) =>
+            return @sendDatabaseError(res, err) if err
+            return @sendSuccess(res, earned.toObject())
+          )
+      else if achievement.get('proportionalTo')
         return @sendBadInputError(res, 'Cannot currently do this to repeatable docs...')
-      EarnedAchievement.createForAchievement(achievement, trigger, null, (earnedAchievementDoc) =>
-        @sendCreated(res, earnedAchievementDoc.toObject())
-      )
-        
+      else
+        EarnedAchievement.createForAchievement(achievement, trigger, null, (earnedAchievementDoc) =>
+          @sendCreated(res, earnedAchievementDoc.toObject())
+        )
     )
+    
+  upsertNonNumericRewards: (user, achievement, done) ->
+    update = {}
+    for rewardType, rewards of achievement.get('rewards') ? {}
+      continue if rewardType is 'gems'
+      if rewards.length
+        update.$addToSet ?= {}
+        update.$addToSet["earned.#{rewardType}"] = $each: rewards
+    User.update {_id: user._id}, update, {}, (err, count) ->
+      log.error err if err?
+      done?(err)
 
   getByAchievementIDs: (req, res) ->
     query = { user: req.user._id+''}

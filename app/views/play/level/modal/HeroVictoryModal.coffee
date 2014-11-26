@@ -64,37 +64,24 @@ module.exports = class HeroVictoryModal extends ModalView
       thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
 
-    if achievementIDs.length
-      url = "/db/earned_achievement?view=get-by-achievement-ids&achievementIDs=#{achievementIDs.join(',')}"
-      earnedAchievements = new CocoCollection([], {
-        url: url
-        model: EarnedAchievement
+    @newEarnedAchievements = []
+    for achievement in @achievements.models
+      continue unless achievement.completed
+      ea = new EarnedAchievement({
+        collection: achievement.get('collection')
+        triggeredBy: @session.id
+        achievement: achievement.id
       })
-      earnedAchievements.sizeShouldBe = achievementIDs.length
-      res = @supermodel.loadCollection(earnedAchievements, 'earned_achievements')
-      @earnedAchievements = res.model
-      @listenToOnce @earnedAchievements, 'sync', ->
-        @newEarnedAchievements = []
-        recorded = (earned.get('achievement') for earned in @earnedAchievements.length)
-        for achievement in @achievements.models
-          continue unless achievement.completed
-          earnedObjects = []
-          if achievement.id not in recorded
-            ea = new EarnedAchievement({
-              collection: achievement.get('collection')
-              triggeredBy: @session.id
-              achievement: achievement.id
-            })
-            ea.save()
-            @newEarnedAchievements.push ea
-            @listenToOnce ea, 'sync', ->
-              if _.all((ea.id for ea in @newEarnedAchievements))
-                @listenToOnce me, 'sync', ->
-                  @readyToContinue = true
-                  @updateSavingProgressStatus()
-                me.fetch() unless me.loading
-    else
-      @readyToContinue = true
+      ea.save()
+      @newEarnedAchievements.push ea
+      @listenToOnce ea, 'sync', ->
+        if _.all((ea.id for ea in @newEarnedAchievements))
+          @listenToOnce me, 'sync', ->
+            @readyToContinue = true
+            @updateSavingProgressStatus()
+          me.fetch() unless me.loading
+            
+    @readyToContinue = true if not @achievements.models.length
 
   getRenderData: ->
     c = super()
