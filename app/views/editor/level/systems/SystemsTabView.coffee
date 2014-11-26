@@ -128,17 +128,26 @@ module.exports = class SystemsTabView extends CocoView
 
   onTerrainChanged: (e) ->
     defaultPathfinding = e.terrain in ['Dungeon', 'Indoor']
-    return unless AI = @systemsTreema.get 'original=528110f30268d018e3000001'
-    return if AI.config?.findsPaths is defaultPathfinding
-    AI.config ?= {}
-    AI.config.findsPaths = defaultPathfinding
-    @systemsTreema.set 'original=528110f30268d018e3000001', AI
-    noty {
-      text: "AI System defaulted pathfinding to #{defaultPathfinding} for terrain #{e.terrain}."
-      layout: 'topCenter'
-      timeout: 5000
-      type: 'information'
-    }
+    changed = false
+    if AI = @systemsTreema.get 'original=528110f30268d018e3000001'
+      unless AI.config?.findsPaths is defaultPathfinding
+        AI.config ?= {}
+        AI.config.findsPaths = defaultPathfinding
+        @systemsTreema.set 'original=528110f30268d018e3000001', AI
+        changed = true
+    if Vision = @systemsTreema.get 'original=528115040268d018e300001b'
+      unless Vision.config?.checksLineOfSight is defaultPathfinding
+        Vision.config ?= {}
+        Vision.config.checksLineOfSight = defaultPathfinding
+        @systemsTreema.set 'original=528115040268d018e300001b', Vision
+        changed = true
+    if changed
+      noty {
+        text: "AI/Vision System defaulted pathfinding/line-of-sight to #{defaultPathfinding} for terrain #{e.terrain}."
+        layout: 'topCenter'
+        timeout: 5000
+        type: 'information'
+      }
 
   buildDefaultSystems: ->
     [
