@@ -39,7 +39,12 @@ module.exports = class Angel extends CocoClass
 
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
-  log: (args...) -> console.info "|#{@shared.godNick}'s #{@nick}|", args...
+  log: -> 
+    # console.info.apply is undefined in IE9, CofeeScript splats invocation won't work.
+    # http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
+    message = "|#{@shared.godNick}'s #{@nick}|"
+    message += " #{arg}" for arg in arguments
+    console.info message
 
   testWorker: =>
     return if @destroyed
@@ -238,7 +243,13 @@ module.exports = class Angel extends CocoClass
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
     work.testWorld = testWorld = new World work.userCodeMap
+    work.testWorld.levelSessionIDs = work.levelSessionIDs
+    work.testWorld.submissionCount = work.submissionCount
+    work.testWorld.flagHistory = work.flagHistory ? []
     testWorld.loadFromLevel work.level
+    work.testWorld.preloading = work.preload
+    work.testWorld.headless = work.headless
+    work.testWorld.realTime = work.realTime
     if @shared.goalManager
       testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
@@ -254,7 +265,7 @@ module.exports = class Angel extends CocoClass
     work.testWorld.goalManager.worldGenerationEnded() if work.testWorld.ended
     serialized = testWorld.serialize()
     window.BOX2D_ENABLED = false
-    World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, work.level, serialized.endFrame
+    World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame, work.level
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.serializedWorld.frames
 
