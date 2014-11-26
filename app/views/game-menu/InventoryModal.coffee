@@ -72,7 +72,7 @@ module.exports = class InventoryModal extends ModalView
     @itemGroups.availableItems = new Backbone.Collection()
     @itemGroups.restrictedItems = new Backbone.Collection()
     @itemGroups.lockedItems = new Backbone.Collection()
-    itemGroup.comparator = ((m) -> m.get('gems') ? m.get('tier')) for itemGroup in _.values @itemGroups
+    itemGroup.comparator = ((m) -> m.get('tier') ? m.get('gems')) for itemGroup in _.values @itemGroups
 
     equipped = _.values(@equipment)
     @sortItem(item, equipped) for item in @items.models

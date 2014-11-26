@@ -87,7 +87,7 @@ module.exports = class PlayItemsModal extends ModalView
       category = slotToCategory[model.getAllowedSlots()[0]] or 'misc'
       @itemCategoryCollections[category] ?= new Backbone.Collection()
       collection = @itemCategoryCollections[category]
-      collection.comparator = (m) -> m.get('gems') ? m.get('tier')
+      collection.comparator = (m) -> m.get('tier') ? m.get('gems')
       collection.add(model)
       model.name = utils.i18n model.attributes, 'name'
       model.affordable = cost <= gemsOwned
