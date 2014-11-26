@@ -210,7 +210,7 @@ module.exports = LevelOptions =
     hidesRealTimePlayback: true
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'village-guard':
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
@@ -244,7 +244,7 @@ module.exports = LevelOptions =
 
   # Ranger branch
   'munchkin-harvest':
-    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {}
   'swift-dagger':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'crude-dagger', wrists: 'sundial-wristwatch'}
@@ -255,7 +255,7 @@ module.exports = LevelOptions =
 
   # Wizard branch
   'arcane-ally':
-    requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
+    requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses'}
   'touch-of-death':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'unholy-tome-i', wrists: 'sundial-wristwatch'}
