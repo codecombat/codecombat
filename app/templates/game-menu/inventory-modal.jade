@@ -46,6 +46,10 @@
               for item in itemGroups.lockedItems.models
                 .item(class=item.classes, data-item-id=item.id)
                   img(src=item.getPortraitURL(), draggable="false")
+                  if item.level
+                    .required-level
+                      span(data-i18n="general.player_level")
+                      span.spl= item.level
               .clearfix
 
     #item-details-view

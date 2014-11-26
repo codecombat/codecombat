@@ -103,6 +103,9 @@ module.exports = class InventoryModal extends ModalView
     else
       @itemGroups.availableItems.add(item)
 
+    # level to unlock
+    item.level = item.levelRequiredForItem() if item.get('tier')?
+
   onLoaded: ->
     # Both items and session have been loaded.
     @onItemsLoaded()
@@ -210,8 +213,9 @@ module.exports = class InventoryModal extends ModalView
 
   onUnequippedItemClick: (e) ->
     return if @justDoubleClicked
-    @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
+    return if itemEl.hasClass('silhouette')
+    @playSound 'menu-button-click'
     @selectUnequippedItem(itemEl)
 
   onUnequippedItemDoubleClick: (e) ->

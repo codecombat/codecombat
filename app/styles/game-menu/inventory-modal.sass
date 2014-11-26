@@ -341,7 +341,7 @@ $itemSlotGridHeight: 70px
       position: relative
       width: 60px
 
-      &:not(.equipped):not(.restricted):not(.locked):not(.silhouette)
+      &:not(.equipped):not(.restricted):not(.silhouette)
         cursor: pointer
 
         &:hover
@@ -367,6 +367,18 @@ $itemSlotGridHeight: 70px
         border-radius: 1px
         padding: 0
         @include transition(0.1s ease)
+
+      .required-level
+        @include opacity(0)
+        @include transition(0.6s ease-in)
+        pointer-events: none
+        font-size: 14px
+        text-align: center
+        width: 100%
+        bottom: 20px
+        top: inherit
+        position: absolute
+        color: white
 
       &.active
         background-color: rgb(81,153,236)
@@ -409,14 +421,18 @@ $itemSlotGridHeight: 70px
         //.status-message .restricted-message
         //  display: inline
     
-      &.locked
-        //background-color: gray
+      &.locked:not(:hover)
+        @include filter(contrast(75%))
         
       &.silhouette
-        pointer-events: none
-        @include filter(contrast(25%) brightness(25%))
-        opacity: 0.5
-      
+        img
+          @include filter(contrast(25%) brightness(25%))
+          opacity: 0.5
+
+        &:hover
+          .required-level
+            @include opacity(1)
+            text-shadow: 0 1px 0 black, 1px 0 0 black, 0 -1px 0 black, -1px 0 0 black
     
   //- Hero/Play buttons
 
