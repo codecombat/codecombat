@@ -72,6 +72,7 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.find('.start-level-button').removeClass 'secret'
 
   startUnveiling: (e) ->
+    @playSound 'menu-button-click'
     Backbone.Mediator.publish 'level:loading-view-unveiling', {}
     _.delay @onClickStartLevel, 1000  # If they never mouse-up for the click (or a modal shows up and interrupts the click), do it anyway.
 

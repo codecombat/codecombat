@@ -49,6 +49,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   onFlagSelected: (e) ->
     return unless @realTime
+    @playSound 'menu-button-click' if e.color
     color = if e.color is @flagColor then null else e.color
     @flagColor = color
     Backbone.Mediator.publish 'level:flag-color-selected', color: color
@@ -57,6 +58,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   onStageMouseDown: (e) ->
     return unless @flagColor and @realTime
+    @playSound 'menu-button-click'  # TODO: different flag placement sound?
     pos = x: e.worldPos.x, y: e.worldPos.y
     delay = if @realTimeFlags then multiplayerFlagDelay else 0
     now = @world.dt * @world.frames.length

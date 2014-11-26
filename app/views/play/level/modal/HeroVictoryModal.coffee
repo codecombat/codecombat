@@ -293,6 +293,7 @@ module.exports = class HeroVictoryModal extends ModalView
     levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
 
   onClickContinue: (e) ->
+    @playSound 'menu-button-click'
     nextLevelLink = @continueLevelLink
     if me.getBranchingGroup() is 'all-practice' and @morePracticeLevelLink
       nextLevelLink = @morePracticeLevelLink
@@ -307,6 +308,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @$el.find('.next-levels-prompt').show()
 
   onClickNextLevelBranch: (e) ->
+    @playSound 'menu-button-click'
     e.preventDefault()
     route = $(e.target).data('href') or "/play/#{@getNextLevelCampaign()}"
     application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup(), route: route
@@ -314,6 +316,7 @@ module.exports = class HeroVictoryModal extends ModalView
     Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
 
   onClickReturnToLadder: (e) ->
+    @playSound 'menu-button-click'
     e.preventDefault()
     route = $(e.target).data('href')
     # Preserve the supermodel as we navigate back to the ladder.

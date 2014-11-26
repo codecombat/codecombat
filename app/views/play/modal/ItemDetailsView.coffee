@@ -69,7 +69,7 @@ module.exports = class ItemDetailsView extends CocoView
       c.stats = _.values(stats.stats)
       _.last(c.stats).isLast = true if c.stats.length
       c.props = []
-      stats.props = stats.props.concat _.keys @spellDocs
+      stats.props = _.union stats.props, _.keys @spellDocs
       codeLanguage = (me.get('aceConfig') ? {}).language or 'python'
       for prop in stats.props
         doc = @propDocs[prop] ? @spellDocs[prop] ? {}

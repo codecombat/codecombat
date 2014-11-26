@@ -83,6 +83,7 @@ module.exports = class ProblemAlertView extends CocoView
     @onRemoveClicked()
 
   onRemoveClicked: ->
+    @playSound 'menu-button-click'
     @$el.hide()
 
   onWindowResize: (e) =>

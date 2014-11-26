@@ -3,6 +3,12 @@ PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 InventoryModal = require 'views/game-menu/InventoryModal'
 LevelSession = require 'models/LevelSession'
 SuperModel = require 'models/SuperModel'
+ThangType = require 'models/ThangType'
+LevelOptions = require 'lib/LevelOptions'
+
+lastHeroesEarned = me.get('earned')?.heroes ? []
+lastHeroesPurchased = me.get('purchased')?.heroes ? []
+
 
 module.exports = class LevelSetupManager extends CocoClass
 
@@ -46,9 +52,19 @@ module.exports = class LevelSetupManager extends CocoClass
 
   open: ->
     firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal
+    if (not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
+        not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? []))
+      console.log 'Showing hero picker because heroes earned/purchased has changed.'
+      firstModal = @heroesModal
+    else if allowedHeroSlugs = LevelOptions[@options.levelID]?.allowedHeroes
+      unless _.find(allowedHeroSlugs, (slug) -> ThangType.heroes[slug] is me.get('heroConfig')?.thangType)
+        firstModal = @heroesModal
+    lastHeroesEarned = me.get('earned')?.heroes ? []
+    lastHeroesPurchased = me.get('purchased')?.heroes ? []
+
     @options.parent.openModalView(firstModal)
     #    @inventoryModal.onShown() # replace?
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @playSound 'game-menu-open'
 
 
   #- Modal events

@@ -8,6 +8,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 utils = require 'lib/utils'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 Purchase = require 'models/Purchase'
+LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -54,6 +55,8 @@ module.exports = class PlayHeroesModal extends ModalView
     original = hero.get('original')
     hero.locked = not me.ownsHero(original)
     hero.purchasable = hero.locked and (original in (me.get('earned')?.heroes ? []))
+    if @options.levelID and allowedHeroSlugs = LevelOptions[@options.levelID]?.allowedHeroes
+      hero.restricted = not (hero.get('slug') in allowedHeroSlugs)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
     hero.stats = hero.getHeroStats()
 
@@ -225,9 +228,10 @@ module.exports = class PlayHeroesModal extends ModalView
     button = $(e.target).closest('button')
     affordable = @visibleHero.get('gems') <= me.gems()
     if not affordable
+      @playSound 'menu-button-click'
       @askToBuyGems button
     else if button.hasClass('confirm')
-
+      @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(@visibleHero)
       purchase.save()
 
@@ -246,6 +250,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
       Backbone.Mediator.publish 'store:hero-purchased', hero: @visibleHero, heroSlug: @visibleHero.get('slug')
     else
+      @playSound 'menu-button-unlock-start'
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
@@ -267,6 +272,7 @@ module.exports = class PlayHeroesModal extends ModalView
     popover?.$tip?.i18n()
 
   onBuyGemsPromptButtonClicked: (e) ->
+    @playSound 'menu-button-click'
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

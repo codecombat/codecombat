@@ -127,6 +127,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onItemClicked: (e) ->
     return if $(e.target).closest('.unlock-button').length
+    @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
     wasSelected = itemEl.hasClass('selected')
     @$el.find('.item.selected').removeClass('selected')
@@ -141,6 +142,7 @@ module.exports = class PlayItemsModal extends ModalView
     @itemDetailsView.setItem(item)
 
   onTabClicked: (e) ->
+    @playSound 'game-menu-tab-switch'
     $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
 
   onUnlockButtonClicked: (e) ->
@@ -149,9 +151,10 @@ module.exports = class PlayItemsModal extends ModalView
     item = @idToItem[button.data('item-id')]
     affordable = item.affordable
     if not affordable
+      @playSound 'menu-button-click'
       @askToBuyGems button
     else if button.hasClass('confirm')
-
+      @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)
       purchase.save()
 
@@ -169,6 +172,7 @@ module.exports = class PlayItemsModal extends ModalView
 
       Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
+      @playSound 'menu-button-unlock-start'
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
@@ -189,6 +193,7 @@ module.exports = class PlayItemsModal extends ModalView
     popover?.$tip?.i18n()
 
   onBuyGemsPromptButtonClicked: (e) ->
+    @playSound 'menu-button-click'
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

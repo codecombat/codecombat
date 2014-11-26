@@ -247,6 +247,7 @@
     tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
+    tome_help: "Help"
     tome_current_method: "Current Method"
     hud_continue_short: "Continue"
     code_saved: "Code Saved"
@@ -356,6 +357,7 @@
     skills: "Skills"
     available_for_purchase: "Available for Purchase"
     level_to_unlock: "Level to unlock:"
+    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
     writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this

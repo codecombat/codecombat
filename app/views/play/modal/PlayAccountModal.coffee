@@ -21,7 +21,7 @@ module.exports = class PlayAccountModal extends ModalView
   afterRender: ->
     super()
     return unless @supermodel.finished()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
+    @playSound 'game-menu-open'
     @accountSettingsView = new AccountSettingsView()
     @insertSubView(@accountSettingsView)
     @listenTo @accountSettingsView, 'input-changed', @onInputChanged
@@ -31,7 +31,7 @@ module.exports = class PlayAccountModal extends ModalView
 
   onHidden: ->
     super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
+    @playSound 'game-menu-close'
 
   onInputChanged: ->
     @$el.find('#save-button')

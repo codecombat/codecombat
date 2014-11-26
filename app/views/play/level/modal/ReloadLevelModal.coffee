@@ -9,6 +9,7 @@ module.exports = class ReloadLevelModal extends ModalView
     'click #restart-level-confirm-button': 'onClickRestart'
 
   onClickRestart: (e) ->
+    @playSound 'menu-button-click'
     if key.shift
       Backbone.Mediator.publish 'level:restart', {}
     else

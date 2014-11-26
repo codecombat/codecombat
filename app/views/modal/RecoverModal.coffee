@@ -28,6 +28,7 @@ module.exports = class RecoverModal extends ModalView
     super options
 
   recoverAccount: (e) =>
+    @playSound 'menu-button-click'
     forms.clearFormAlerts(@$el)
     email = (forms.formToObject @$el).email
     return unless email

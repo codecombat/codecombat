@@ -341,6 +341,18 @@ $itemSlotGridHeight: 70px
       position: relative
       width: 60px
 
+      &:not(.equipped):not(.restricted):not(.silhouette)
+        cursor: pointer
+
+        &:hover
+          padding: 0
+          img
+            margin: 1px
+          button
+            margin-top: -2px
+            height: 19px
+            font-size: 12px
+
       img
         width: 56px
         height: 56px
@@ -354,10 +366,27 @@ $itemSlotGridHeight: 70px
         font-size: 11px
         border-radius: 1px
         padding: 0
+        @include transition(0.1s ease)
 
+      .required-level
+        @include opacity(0)
+        @include transition(0.6s ease-in)
+        pointer-events: none
+        font-size: 14px
+        text-align: center
+        width: 100%
+        bottom: 20px
+        top: inherit
+        position: absolute
+        color: white
 
       &.active
         background-color: rgb(81,153,236)
+
+        button
+          background-color: lighten(rgb(89,136,47), 10%)
+          box-shadow: 1px 1px 4px #333
+          color: white
     
         //.status-message .should-equip-message
         //  display: inline
@@ -375,7 +404,6 @@ $itemSlotGridHeight: 70px
       &.equipped
         background-color: #ff5
         display: none
-        cursor: default
     
         //.item-view
         //  cursor: default
@@ -385,7 +413,6 @@ $itemSlotGridHeight: 70px
     
       &.restricted
         background-color: rgba(190, 190, 190, 1)
-        cursor: default
         @include filter(contrast(50%) brightness(100%))
     
         //.item-view
@@ -394,16 +421,18 @@ $itemSlotGridHeight: 70px
         //.status-message .restricted-message
         //  display: inline
     
-      &.locked
-        cursor: default
-        //background-color: gray
+      &.locked:not(:hover)
+        @include filter(contrast(75%))
         
       &.silhouette
-        cursor: default
-        pointer-events: none
-        @include filter(contrast(25%) brightness(25%))
-        opacity: 0.5
-      
+        img
+          @include filter(contrast(25%) brightness(25%))
+          opacity: 0.5
+
+        &:hover
+          .required-level
+            @include opacity(1)
+            text-shadow: 0 1px 0 black, 1px 0 0 black, 0 -1px 0 black, -1px 0 0 black
     
   //- Hero/Play buttons
 
