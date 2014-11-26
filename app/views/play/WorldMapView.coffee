@@ -621,7 +621,7 @@ forest = [
     name: 'Endangered Burl'
     type: 'hero'
     id: 'endangered-burl'
-    original: ''
+    original: '546e97033f1c1c1be898402b'
     description: 'Hunt ogres in the woods, but watch out for lumbering beasts.'
     nextLevels:
       continue: 'village-guard'
@@ -665,6 +665,7 @@ forest = [
     name: 'Ogre Encampment'
     type: 'hero'
     id: 'ogre-encampment'
+    original: '5456b3c8d5ada30000525605'
     description: 'Recover stolen treasure from an ogre encampment.'
     nextLevels:
       continue: 'woodland-cleaver'
@@ -675,6 +676,7 @@ forest = [
     name: 'Woodland Cleaver'
     type: 'hero'
     id: 'woodland-cleaver'
+    original: '5456bb8dd5ada30000525613'
     description: 'Use your new cleave ability to fend off munchkins.'
     nextLevels:
       continue: 'shield-rush'
@@ -685,6 +687,7 @@ forest = [
     name: 'Shield Rush'
     type: 'hero'
     id: 'shield-rush'
+    original: '5459570bb4461871053292f5'
     description: 'Combine cleave and shield to endure an ogre onslaught.'
     nextLevels:
       continue: 'peasant-protection'
@@ -697,6 +700,7 @@ forest = [
     name: 'Peasant Protection'
     type: 'hero'
     id: 'peasant-protection'
+    original: '545ec477e7f60fd6c55760e9'
     description: 'Stay close to Victor.'
     nextLevels:
       continue: 'munchkin-swarm'
@@ -707,6 +711,7 @@ forest = [
     name: 'Munchkin Swarm'
     type: 'hero'
     id: 'munchkin-swarm'
+    original: '545edba9e7f60fd6c5576133'
     description: 'Loot a gigantic chest while surrounded by a swarm of ogre munchkins.'
     nextLevels:
       continue: 'coinucopia'
@@ -719,6 +724,7 @@ forest = [
     name: 'Munchkin Harvest'
     type: 'hero'
     id: 'munchkin-harvest'
+    original: '5470001860f6cc376131525d'
     description: 'Join forces with a new hero: Amara Arrowhead.'
     nextLevels:
       continue: 'swift-dagger'
@@ -730,6 +736,7 @@ forest = [
     name: 'Swift Dagger'
     type: 'hero'
     id: 'swift-dagger'
+    original: '54701f7860f6cc37613152a1'
     description: 'Deal damage from a distance with your new hero.'
     nextLevels:
       continue: 'shrapnel'
@@ -741,6 +748,7 @@ forest = [
     name: 'Shrapnel'
     type: 'hero'
     id: 'shrapnel'
+    original: '5470291c60f6cc37613152d1'
     description: 'Explore the explosive arts.'
     nextLevels:
       continue: 'coinucopia'
@@ -754,6 +762,7 @@ forest = [
     name: 'Arcane Ally'
     type: 'hero'
     id: 'arcane-ally'
+    original: '5470b98ceb739dbc9d2402c7'
     description: 'Stand your ground against large ogres with a new hero: Ms. Hushbaum.'
     nextLevels:
       continue: 'touch-of-death'
@@ -765,6 +774,7 @@ forest = [
     name: 'Touch of Death'
     type: 'hero'
     id: 'touch-of-death'
+    original: '5470ca33eb739dbc9d2402ee'
     description: 'Learn your first spell to siphon life from your foes.'
     nextLevels:
       continue: 'bonemender'
@@ -776,6 +786,7 @@ forest = [
     name: 'Bonemender'
     type: 'hero'
     id: 'bonemender'
+    original: '5470d013eb739dbc9d240323'
     description: 'Cast regeneration on allied soldiers to withstand a siege.'
     nextLevels:
       continue: 'coinucopia'
@@ -788,6 +799,7 @@ forest = [
     name: 'Coinucopia'
     type: 'hero'
     id: 'coinucopia'
+    original: '545bb1181e649a4495f887df'
     description: 'Start playing in real-time with input flags as you collect gold coins!'
     nextLevels:
       continue: 'copper-meadows'
@@ -798,6 +810,7 @@ forest = [
     name: 'Copper Meadows'
     type: 'hero'
     id: 'copper-meadows'
+    original: '5462491c688f333d05d8af38'
     description: 'This level exercises: if/else, object members, variables, flag placement, and collection.'
     nextLevels:
       continue: 'drop-the-flag'
@@ -808,6 +821,7 @@ forest = [
     name: 'Drop the Flag'
     type: 'hero'
     id: 'drop-the-flag'
+    original: '54626472f3c64b7b0598590c'
     description: 'This level exercises: flag position, object members.'
     nextLevels:
       continue: 'deadly-pursuit'
@@ -818,6 +832,7 @@ forest = [
     name: 'Deadly Pursuit'
     type: 'hero'
     id: 'deadly-pursuit'
+    original: '54626f270cacde3f055434ac'
     description: 'This level exercises: if/else, flag placement and timing, item collection.'
     nextLevels:
       continue: 'rich-forager'
@@ -828,6 +843,7 @@ forest = [
     name: 'Rich Forager'
     type: 'hero'
     id: 'rich-forager'
+    original: '546283ddfdd66af405fa8209'
     description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
       continue: 'multiplayer-treasure-grove'
@@ -838,6 +854,7 @@ forest = [
     name: 'Siege of Stonehold'
     type: 'hero'
     id: 'siege-of-stonehold'
+    original: '54712072eb739dbc9d24034b'
     description: 'Unlock the desert world, if you are strong enough to win this epic battle!'
     #nextLevels:
     #  continue: ''
@@ -849,6 +866,7 @@ forest = [
     name: 'Multiplayer Treasure Grove'
     type: 'hero-ladder'
     id: 'multiplayer-treasure-grove'
+    original: '5469643c37600b40e0e09c5b'
     description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
     x: 67.54
     y: 25.94
