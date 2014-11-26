@@ -192,7 +192,8 @@ module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
 module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
-  user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'lastIP', req.connection.remoteAddress
 
 createMailOptions = (receiver, password) ->

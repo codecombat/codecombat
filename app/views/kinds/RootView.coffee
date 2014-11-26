@@ -76,7 +76,7 @@ module.exports = class RootView extends CocoView
     @openModalView new ModalClass {}
 
   showLoading: ($el) ->
-    $el ?= @$el.find('.main-content-area')
+    $el ?= @$el.find('#site-content-area')
     super($el)
 
   afterInsert: ->

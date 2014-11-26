@@ -21,10 +21,10 @@ module.exports = class CocoRouter extends Backbone.Router
     'about': go('AboutView')
 
     'account': go('account/MainAccountView')
-    'account/settings': go('account/AccountSettingsView')
+    'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
     'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
-    #'account/payment'
+    'account/payments': go('account/PaymentsView')
 
     'admin': go('admin/MainAdminView')
     'admin/candidates': go('admin/CandidatesView')
@@ -99,9 +99,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
-    'user/:slugOrID/stats': go('user/AchievementsView')
     'user/:slugOrID/profile': go('user/JobProfileView')
-    #'user/:slugOrID/code': go('user/CodeView')
 
     '*name': 'showNotFoundView'
 

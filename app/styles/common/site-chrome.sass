@@ -6,9 +6,16 @@
   &.show-background
     background: url(/images/pages/base/background.jpg) top center no-repeat    
     background-color: rgb(150,202,68)
+    
+    @media screen and ( max-height: 800px )
+      background-position: center -226px
+      
   padding-top: 185px
   max-width: 1920px
   margin: 0 auto
+
+  @media screen and ( max-height: 800px )
+    padding-top: 50px
 
   //- Nav
   
@@ -22,7 +29,10 @@
     text-align: center
     min-width: 1024px
     z-index: 1
-
+    
+    @media screen and ( max-height: 800px )
+      top: -80px
+      
     #nav-logo
       position: absolute
       margin-right: auto
@@ -31,22 +41,31 @@
       right: 0
       top: -45px
       
+      @media screen and ( max-height: 800px )
+        display: none
+      
+    #small-nav-logo
+      display: none
+      @media screen and ( max-height: 800px )
+        display: inline-block
+        height: 30px
+      
     #site-nav-links
       position: absolute
       bottom: 21px
       left: 0
       right: 0
     
-    a
-      color: rgb(158,135,119)
-      &:hover
-        color: $white
+      & > a
+        color: rgb(158,135,119)
+        &:hover
+          color: $white
 
-    a, button, select
-      font-size: 18px
-      text-transform: uppercase
-      font-family: Open Sans Condensed
-      margin: 0 7px
+      & > a, button, select
+        font-size: 18px
+        text-transform: uppercase
+        font-family: Open Sans Condensed
+        margin: 0 7px
       
     button, select
       position: relative
@@ -81,57 +100,44 @@
         width: 18px
 
       .dropdown-menu
-        //left: auto  // this busts it, not sure why it's in
-        width: 280px
+        width: 180px
         padding: 0px
         border-radius: 0px
-        font-family: Open Sans Condensed
-        font-variant: small-caps
   
-        > .user-dropdown-header
-          position: relative
+        .user-dropdown-header
           background: #E4CF8C
           height: 160px
           padding: 10px
           text-align: center
           color: black
           border-bottom: #32281e 1px solid
-          > a:hover
-            background-color: transparent
+          
           img
             border: #e3be7a 8px solid
             height: 98px // Includes the border
             &:hover
               box-shadow: 0 0 20px #e3be7a
-          > h3
+          
+          h3
+            font-variant: small-caps
+            font-family: Open Sans Condensed
             margin-top: 10px
             text-shadow: 2px 2px 3px white
             color: #31281E
+            
           .user-level
             position: absolute
             top: 73px
-            right: 86px
+            right: 40px
             color: gold
             text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
   
-        .user-dropdown-body
+        li
           color: black
-          padding: 15px
-          letter-spacing: 1px
-          font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif
-          +clearfix()
-  
-        .user-dropdown-footer
-          padding: 10px
-          margin-left: 0px
-          font-size: 14px
-          +clearfix()
-  
-          .btn-flat
-            border: #ddd 1px solid
-            border-radius: 0px
-            margin: 0px
+          font-size: 16px
       
+        #logout-button
+          font-weight: bold
     
   //- Content
     
@@ -141,6 +147,7 @@
     width: 1024px
     border: 5px solid rgb(110,88,41)
     padding: 20px 12px
+    min-height: 300px
 
     
   //- Footer

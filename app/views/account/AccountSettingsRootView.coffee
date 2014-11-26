@@ -1,37 +1,25 @@
-ModalView = require 'views/kinds/ModalView'
-template = require 'templates/play/modal/play-account-modal'
-AccountSettingsView = require 'views/account/AccountSettingsView'
+RootView = require 'views/kinds/RootView'
+template = require 'templates/account/account-settings-root-view'
+AccountSettingsView = require './AccountSettingsView'
 
-module.exports = class PlayAccountModal extends ModalView
-  className: 'modal fade play-modal'
+module.exports = class AccountSettingsRootView extends RootView
+  id: "account-settings-root-view"
   template: template
-  plain: true
-  id: 'play-account-modal'
-
+  
   events:
     'click #save-button': -> @accountSettingsView.save()
 
-  constructor: (options) ->
-    super options
-
-  getRenderData: (context={}) ->
-    context = super(context)
-    context
+  shortcuts:
+    'enter': -> @
 
   afterRender: ->
     super()
-    return unless @supermodel.finished()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
     @accountSettingsView = new AccountSettingsView()
     @insertSubView(@accountSettingsView)
     @listenTo @accountSettingsView, 'input-changed', @onInputChanged
     @listenTo @accountSettingsView, 'save-user-began', @onUserSaveBegan
-    @listenTo @accountSettingsView, 'save-user-success', @hide
+    @listenTo @accountSettingsView, 'save-user-success', @onUserSaveSuccess
     @listenTo @accountSettingsView, 'save-user-error', @onUserSaveError
-
-  onHidden: ->
-    super()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-close', volume: 1
 
   onInputChanged: ->
     @$el.find('#save-button')
@@ -46,8 +34,15 @@ module.exports = class PlayAccountModal extends ModalView
       .removeClass('btn-danger')
       .addClass('btn-success').show()
 
+  onUserSaveSuccess: ->
+    @$el.find('#save-button')
+      .text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved'))
+      .removeClass('btn-success btn-info', 1000)
+      .attr('disabled', 'true')
+
   onUserSaveError: ->
     @$el.find('#save-button')
       .text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving'))
       .removeClass('btn-success')
       .addClass('btn-danger', 500)
+

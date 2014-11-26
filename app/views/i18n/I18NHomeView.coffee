@@ -19,7 +19,7 @@ module.exports = class I18NHomeView extends RootView
 
   constructor: (options) ->
     super(options)
-    @selectedLanguage = me.get('preferredLanguage', true)
+    @selectedLanguage = me.get('preferredLanguage') or ''
 
     #-
     @aggregateModels = new Backbone.Collection()
@@ -92,7 +92,12 @@ module.exports = class I18NHomeView extends RootView
   afterRender: ->
     super()
     @addLanguagesToSelect(@$el.find('#language-select'), @selectedLanguage)
+    @$el.find('option[value="en-US"]').remove()
 
   onLanguageSelectChanged: (e) ->
     @selectedLanguage = $(e.target).val()
+    if @selectedLanguage
+      # simplest solution, see if this actually ends up being not what people want
+      me.set('preferredLanguage', @selectedLanguage)
+      me.patch()
     @render()

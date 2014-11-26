@@ -14,17 +14,8 @@ block append content
                 span(data-i18n="user.favorite_prefix") Favorite language is
                 strong.favorite-language= favoriteLanguage
                 span(data-i18n="user.favorite_postfix") .
-          .btn-group-vertical.profile-menu
-            a.btn.btn-default(href="/user/#{user.getSlugOrID()}/profile")
-              i.glyphicon.glyphicon-briefcase
-              span(data-i18n="account_settings.job_profile") Job Profile
-            a.btn.btn-default(href="/user/#{user.getSlugOrID()}/stats")
-              i.glyphicon.glyphicon-certificate
-              span(data-i18n="user.stats") Stats
-            a.btn.btn-default.disabled(href="#")
-              i.glyphicon.glyphicon-pencil
-              span(data-i18n="general.code") Code
-        - var emails = user.get('emails')
+        - var emails = user.getEnabledEmails()
+        // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails
           ul.contributor-categories
             //li.contributor-category
@@ -69,9 +60,11 @@ block append content
                 th.col-xs-4(data-i18n="resources.level") Level
                 th.col-xs-4(data-i18n="user.last_played") Last Played
                 th.col-xs-4(data-i18n="user.status") Status
-              each session in singlePlayerSessions
+              - var count = 0
+              each session, index in singlePlayerSessions
                 if session.get('levelName')
-                  tr
+                  tr(class=count > 4 ? 'hide' : '')
+                    - count++;
                     td
                       a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
                     td= moment(session.get('changed')).fromNow()
@@ -79,6 +72,9 @@ block append content
                       td(data-i18n="user.status_completed") Completed
                     else
                       td(data-i18n="user.status_unfinished") Unfinished
+            if count > 4
+              .panel-footer
+                button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
           else
             .panel-body
               p(data-i18n="user.no_singleplayer") No Singleplayer games played yet.
@@ -94,17 +90,20 @@ block append content
                 th.col-xs-4(data-i18n="resources.level") Level
                 th.col-xs-4(data-i18n="user.last_played") Last Played
                 th.col-xs-4(data-i18n="general.score") Score
-              each session in multiPlayerSessions
-                tr
+              each session, index in multiPlayerSessions
+                tr(class=index > 4 ? 'hide' : '')
                   td
                     - var posturl = ''
                     - if (session.get('team')) posturl = '?team=' + session.get('team')
                     a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
                   td= moment(session.get('changed')).fromNow()
                   if session.get('totalScore')
-                    td= session.get('totalScore') * 100
+                    td= parseInt(session.get('totalScore') * 100)
                   else
                     td(data-i18n="user.status_unfinished") Unfinished
+            if multiPlayerSessions.length > 4
+              .panel-footer
+                button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
           else
             .panel-body
               p(data-i18n="user.no_multiplayer") No Multiplayer games played yet.
@@ -123,11 +122,15 @@ block append content
                 th.col-xs-4(data-i18n="achievements.achievement") Achievement
                 th.col-xs-4(data-i18n="achievements.last_earned") Last Earned
                 th.col-xs-4(data-i18n="achievements.amount_achieved") Amount
-              each achievement in earnedAchievements.models
-                tr
+              each achievement, index in earnedAchievements.models
+                tr(class=index > 4 ? 'hide' : '')
                   td= achievement.get('achievementName')
                   td= moment().format("MMMM Do YYYY", achievement.get('changed'))
                   if achievement.get('achievedAmount')
                     td= achievement.get('achievedAmount')
                   else
                     td
+            if earnedAchievements.length > 4
+              .panel-footer
+                button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
+
