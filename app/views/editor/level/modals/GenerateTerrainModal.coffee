@@ -15,6 +15,10 @@ clusters = {
     'thangs': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
     'margin': 0.5
     }
+  'tree_stands': {
+    'thangs': ['Tree Stand 1', 'Tree Stand 2', 'Tree Stand 3', 'Tree Stand 4', 'Tree Stand 5', 'Tree Stand 6']
+    'margin': 3
+  }
   'shrubs': {
     'thangs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
     'margin': 0.5
@@ -165,10 +169,10 @@ presets = {
   'grassy': {
     'terrainName': 'Grass'
     'type':'grassy'
-    'borders':'trees'
+    'borders':'tree_stands'
     'borderNoise':1
-    'borderSize':0
-    'borderThickness':3
+    'borderSize':2
+    'borderThickness':2
     'floors':'grass_floor'
     'decorations': {
       'hero': {
