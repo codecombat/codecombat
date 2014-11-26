@@ -249,9 +249,11 @@ module.exports = LevelOptions =
   'swift-dagger':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'crude-dagger', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses'}
+    allowedHeroes: ['ninja', 'trapper', 'forest-archer']
   'shrapnel':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'weak-charge', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses', 'left-hand': 'crude-dagger'}
+    allowedHeroes: ['ninja', 'trapper', 'forest-archer']
 
   # Wizard branch
   'arcane-ally':
@@ -260,10 +262,12 @@ module.exports = LevelOptions =
   'touch-of-death':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'unholy-tome-i', wrists: 'sundial-wristwatch'}
     restrictedGear: {}
+    allowedHeroes: ['librarian', 'potion-master', 'sorcerer']
   'bonemender':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'book-of-life-i', wrists: 'sundial-wristwatch'}
     restrictedGear: {'left-hand': 'unholy-tome-i'}
     requiredCode: ['canCast']
+    allowedHeroes: ['librarian', 'potion-master', 'sorcerer']
 
   'coinucopia':
     requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags'}

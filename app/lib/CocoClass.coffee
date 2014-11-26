@@ -81,3 +81,6 @@ module.exports = class CocoClass
   stopListeningToShortcuts: ->
     return unless key?
     key.deleteScope(@scope)
+
+  playSound: (trigger, volume=1) ->
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume

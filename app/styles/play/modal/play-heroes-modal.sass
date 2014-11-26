@@ -107,6 +107,11 @@ $heroCanvasHeight: 265px
             .hero-avatar
               background-color: goldenrod
 
+          &.restricted
+            @include opacity(0.25)
+            .hero-avatar
+              background-color: black
+
 
   //- Small transformations to jumble the hero icons a little
   
@@ -147,7 +152,7 @@ $heroCanvasHeight: 265px
   #hero-carousel
     .hero-item
 
-      &.locked:not(.purchasable)
+      &.locked:not(.purchasable), &.restricted
         @include opacity(0.6)
 
       canvas, .hero-feature-image
@@ -255,7 +260,7 @@ $heroCanvasHeight: 265px
       color: #333
       text-align: center
 
-  #locked-hero-explanation
+  #locked-hero-explanation, #restricted-hero-explanation
     position: absolute
     left: 32px
     top: 527px

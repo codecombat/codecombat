@@ -12,13 +12,13 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : ""))
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""))
               .hero-avatar
               if hero.locked && !hero.purchasable
                 img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
       .carousel-inner
         for hero in heroes
-          div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : ""), data-hero-id=hero.get('original'))
+          div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))
             canvas.hero-canvas
             .hero-feature-image
               img(draggable="false")
@@ -28,7 +28,7 @@
               
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.status')
-                .stat-value.hero-status-value(data-i18n=hero.purchasable ? 'play.purchasable' : (hero.locked ? 'play.locked' : 'play.available'))
+                .stat-value.hero-status-value(data-i18n=hero.restricted ? 'inventory.restricted_title' : (hero.purchasable ? 'play.purchasable' : (hero.locked ? 'play.locked' : 'play.available')))
                 
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.weapons')
@@ -53,7 +53,14 @@
 
     #hero-footer
       if visibleHero
-        if visibleHero.purchasable
+        if visibleHero.restricted
+          #restricted-hero-explanation
+            h2
+              span= visibleHero.name
+              span.spl(data-i18n="inventory.restricted_title") Restricted
+            span.spr(data-i18n="choose_hero.restricted_to_certain_heroes") Only certain heroes can play this level.
+  
+        else if visibleHero.purchasable
           #purchasable-hero-explanation
             h2(data-i18n="choose_hero.available_for_purchase") Available for Purchase
           button.btn.unlock-button#purchase-hero-button
