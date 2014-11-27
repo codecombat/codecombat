@@ -323,8 +323,8 @@ playerCreated = [
     name: "IFC - Videira"
     difficulty: 3
     id: 'ifc-videira'
-    image: ''
-    description: 'Nível inspirado em IFC - Videira.'
+    image: '/file/db/level/52602ecb026e8481e7000001/generic_1.png'
+    description: 'A level inspired by IFC Videira. - by Leonardo Meneguzzi.'
   }
 ]
 
