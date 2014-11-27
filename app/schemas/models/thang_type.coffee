@@ -133,6 +133,8 @@ _.extend ThangTypeSchema.properties,
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
   containerIcon: { type: 'string' }
   featureImage: { type: 'string', format: 'image-file', title: 'Feature Image' }
+  featureImageHair: { type: 'string', format: 'image-file', title: 'Feature Image Hair' }
+  featureImageThumb: { type: 'string', format: 'image-file', title: 'Feature Image Thumb' }
   dollImages: c.object { title: 'Paper Doll Images' },
     male: { type: 'string', format: 'image-file', title: ' Male' }
     female: { type: 'string', format: 'image-file', title: ' Female' }

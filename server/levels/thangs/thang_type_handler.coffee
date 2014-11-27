@@ -23,6 +23,8 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'raster'
     'rasterIcon'
     'featureImage'
+    'featureImageHair'
+    'featureImageThumb'
     'dollImages'
     'spriteType'
     'i18nCoverage'
