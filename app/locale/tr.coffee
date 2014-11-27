@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     for_beginners: "Yeni Başlayanlar için"
     multiplayer: "Çoklu-oyuncu Kipi" # Not currently shown on home page
     for_developers: "Geliştiriciler için" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Ya da iPad için indir"
 
   nav:
     play: "Oyna" # The top nav bar entry where players choose which levels to play
@@ -201,16 +201,16 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     restart: "Yeniden başlat"
     goals: "Hedefler"
     goal: "Amaç"
-#    running: "Running..."
+    running: "Çalıştırılıyor..."
     success: "Başarılı!"
     incomplete: "Tamamlanmamış"
     timed_out: "Süre bitti"
     failing: "Başarısız"
     action_timeline: "Eylem Çizelgesi"
     click_to_select: "Birimi seçmek için üzerine tıklayın."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "Çoklu Oyuncu"
+    control_bar_join_game: "Oyuna Katıl"
+    reload: "Yeniden Yükle"
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
