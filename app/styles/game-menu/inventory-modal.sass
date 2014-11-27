@@ -1,8 +1,9 @@
 @import "app/styles/mixins"
 
-$itemSlotSize: 55px
+$itemSlotSize: 48px
 $itemSlotInnerWidth: $itemSlotSize - 4
-$itemSlotGridHeight: 70px
+$itemSlotGridWidth: 51px
+$itemSlotGridHeight: 51px
 
 .ui-effects-transfer
   outline: 2px solid #28f
@@ -83,15 +84,6 @@ $itemSlotGridHeight: 70px
     height: 450px
     overflow: hidden
 
-    #hero-image
-      @include filter(contrast(0%) brightness(0%))
-      opacity: 0.4
-      width: 225px
-      height: 410px
-      position: absolute
-      left: 10px
-      top: 20px
-
     .item-slot
       width: $itemSlotSize
       height: $itemSlotSize
@@ -101,6 +93,7 @@ $itemSlotGridHeight: 70px
       position: relative
       cursor: pointer
       @include transition(0.5s ease)
+      z-index: 20
 
       //&.disabled
       //  opacity: 0.5
@@ -134,36 +127,36 @@ $itemSlotGridHeight: 70px
         background-image: url(/images/pages/game-menu/slot-icons.png)
   
 
-      // A terrible awful bit of styling, but will be gone or messed around with soon anyway
+      // Positioning the slots manually
+
+      &[data-slot]
+        position: absolute
+        top: 10px
+        left: 10px
 
       &[data-slot="misc-1"]
         display: none // hiding for now
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 3)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 3)
         .placeholder
           background-position: (-0 * $itemSlotInnerWidth) 0px
   
       &[data-slot="misc-0"]
         display: none // hiding for now
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 2)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 2)
         .placeholder
           background-position: (-4 * $itemSlotInnerWidth) 0px
 
-
       &[data-slot="minion"]
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 1)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-1 * $itemSlotInnerWidth) 0px
   
       &[data-slot="programming-book"]
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 4)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-3 * $itemSlotInnerWidth) 0px
   
@@ -172,100 +165,86 @@ $itemSlotGridHeight: 70px
       //  background-position: (-2 * $itemSlotInnerWidth) 0px
   
       &[data-slot="wrists"]
-        position: absolute
-        left: 20px
-        top: 20px + ($itemSlotGridHeight * 2.5)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-5 * $itemSlotInnerWidth) 0px
   
       &[data-slot="left-ring"]
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 2)
+        left: 10px + ($itemSlotGridWidth * 4)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-6 * $itemSlotInnerWidth) 0px
   
       &[data-slot="right-ring"]
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 3)
+        left: 10px + ($itemSlotGridWidth * 1)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-7 * $itemSlotInnerWidth) 0px
   
       &[data-slot="torso"]
-        position: absolute
-        left: 90px
-        top: 20px + ($itemSlotGridHeight * 3)
+        left: 10px + ($itemSlotGridWidth * 5)
+        top: 15px + ($itemSlotGridHeight * 2)
         .placeholder
           background-position: (-8 * $itemSlotInnerWidth) 0px
   
       &[data-slot="feet"]
-        position: absolute
-        left: 90px
-        top: 20px + ($itemSlotGridHeight * 5)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 7.2)
         .placeholder
           background-position: (-9 * $itemSlotInnerWidth) 0px
   
       &[data-slot="neck"]
-        position: absolute
-        left: 90px
-        top: 20px + ($itemSlotGridHeight * 2)
+        left: 10px + ($itemSlotGridWidth * 3)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-10 * $itemSlotInnerWidth) 0px
   
       &[data-slot="waist"]
-        position: absolute
-        left: 90px
-        top: 20px + ($itemSlotGridHeight * 4)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 1)
         .placeholder
           background-position: (-11 * $itemSlotInnerWidth) 0px
   
       &[data-slot="eyes"]
-        position: absolute
-        left: 90px
-        top: 20px + $itemSlotGridHeight
+        left: 10px + ($itemSlotGridWidth * 2)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-12 * $itemSlotInnerWidth) 0px
   
       &[data-slot="head"]
-        position: absolute
-        left: 90px
-        top: 20px
+        left: 10px + ($itemSlotGridWidth * 5)
+        top: 15px + ($itemSlotGridHeight * 1)
         .placeholder
           background-position: (-13 * $itemSlotInnerWidth) 0px
         
       &[data-slot="pet"]
-        position: absolute
-        left: 250px
-        top: 20px
+        left: 10px + ($itemSlotGridWidth * 5)
+        top: 15px + ($itemSlotGridHeight * 7.2)
         .placeholder
           background-position: (-14 * $itemSlotInnerWidth) 0px
   
       &[data-slot="gloves"]
-        position: absolute
-        left: 160px
-        top: 20px + ($itemSlotGridHeight * 2.5)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 2)
         .placeholder
           background-position: (-15 * $itemSlotInnerWidth) 0px
   
       &[data-slot="left-hand"]
-        position: absolute
-        left: 160px
-        top: 20px + ($itemSlotGridHeight * 3.5)
+        left: 10px + ($itemSlotGridWidth * 5)
+        top: 15px + ($itemSlotGridHeight * 3)
         .placeholder
           background-position: (-16 * $itemSlotInnerWidth) 0px
   
       &[data-slot="right-hand"]
-        position: absolute
-        left: 20px
-        top: 20px + ($itemSlotGridHeight * 3.5)
+        left: 10px + ($itemSlotGridWidth * 0)
+        top: 15px + ($itemSlotGridHeight * 3)
         .placeholder
           background-position: (-17 * $itemSlotInnerWidth) 0px
   
       &[data-slot="flag"]
-        position: absolute
-        left: 250px
-        top: 20px + ($itemSlotGridHeight * 5)
+        left: 10px + ($itemSlotGridWidth * 5)
+        top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
           background-position: (-2 * $itemSlotInnerWidth) 0px
   
@@ -498,3 +477,130 @@ $itemSlotGridHeight: 70px
     #equip-item-viewed
       background: rgb(84,128,44)
       color: white
+
+  //- Paper doll positioning
+
+  #hero-image
+    //@include filter(contrast(0%) brightness(0%))
+    //opacity: 0.4
+    //width: 225px
+    display: block
+    position: absolute
+    z-index: 12
+
+    &.male
+      left: 65px
+      bottom: 31px
+
+    &.female
+      left: 80px
+      bottom: 31px
+
+  #hero-image-hair
+    position: absolute
+    z-index: 16
+
+    &.female
+      left: 103px
+      bottom: 218px
+
+    &.male
+      left: 124px
+      bottom: 228px
+
+  #hero-image-thumb
+    position: absolute
+    z-index: 16
+
+    &.female
+      left: 81px
+      bottom: 150px
+      @include rotate(-15deg)
+
+    &.male
+      left: 68px
+      bottom: 121px
+      @include rotate(-15deg)
+
+  .doll-image
+    position: absolute
+    z-index: 15
+
+    &.feet
+      z-index: 13
+
+      &.female
+        left: 101px
+        bottom: 37px
+
+      &.male
+        left: 98px
+        bottom: 37px
+
+    &.right-hand
+      &.female
+        left: 48px
+        bottom: 132px
+        @include rotate(-15deg)
+        
+      &.male
+        left: 40px
+        bottom: 111px
+        @include rotate(-15deg)
+
+    &.left-hand
+      z-index: 17
+      &.female
+        left: 193px
+        bottom: 72px
+        
+      &.male
+        left: 193px
+        bottom: 72px
+
+    &.torso
+      z-index: 14
+
+      &.female
+        left: 72px
+        bottom: 105px
+        
+      &.male
+        left: 55px
+        bottom: 69px
+
+    &.gloves
+      z-index: 15
+
+      &.female
+        left: 78px
+        bottom: 133px
+
+        &.female-thumb
+          z-index: 16
+          left: 81px
+          bottom: 150px
+          @include rotate(-15deg)
+        
+      &.male
+        left: 65px
+        bottom: 109px
+
+        &.male-thumb
+          z-index: 16
+          left: 68px
+          bottom: 121px
+          @include rotate(-15deg)
+        
+    &.head
+      z-index: 16
+
+      &.female
+        left: 72px
+        bottom: 105px
+        
+      &.male
+        left: 119px
+        bottom: 180px
+
+

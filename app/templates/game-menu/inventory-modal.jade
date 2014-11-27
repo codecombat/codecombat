@@ -10,7 +10,11 @@
 
     #equipped
       if selectedHero && selectedHero.get('featureImage')
-        img(src="/file/"+selectedHero.get('featureImage'))#hero-image
+        img(src="/file/"+selectedHero.get('featureImage'), draggable="false")#hero-image
+        if selectedHero.get('featureImageHair')
+          img(src="/file/"+selectedHero.get('featureImageHair'), draggable="false")#hero-image-hair
+        if selectedHero.get('featureImageThumb')
+          img(src="/file/"+selectedHero.get('featureImageThumb'), draggable="false")#hero-image-thumb
 
       for slot in ['head', 'eyes', 'neck', 'torso', 'gloves', 'wrists', 'left-hand', 'right-hand', 'waist', 'feet', 'left-ring', 'right-ring', 'minion', 'flag', 'pet', 'programming-book', 'misc-0', 'misc-1']
         .item-slot(data-slot=slot)
