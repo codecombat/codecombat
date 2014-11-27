@@ -76,7 +76,7 @@ module.exports = class DiplomatView extends ContributeClassView
     bg: []             # български език, Bulgarian
     no: ['bardeh', 'torehaug']             # Norsk, Norwegian
     nn: []             # Norwegian (Nynorsk), Norwegian Nynorsk
-    nb: ['mcclane654']             # Norsk Bokmål, Norwegian (Bokmål)
+    nb: ['ebirkenes','mcclane654']             # Norsk Bokmål, Norwegian (Bokmål)
     he: ['OverProgram', 'monetita']             # עברית, Hebrew
     lt: []             # lietuvių kalba, Lithuanian
     sr: []             # српски, Serbian
