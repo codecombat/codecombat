@@ -4,13 +4,13 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     no_ie: "CodeCombat kjører ikke på IE8 eller eldre. Beklager!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ble ikke designet for mobile enheter, og vil kanskje ikke virke!" # Warning that shows up on mobile devices
     play: "Spill" # The big play button that just starts playing a level
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
+    old_browser: "Å nei, nettleseren din er for gammel til å kjøre CodeCombat. Beklager!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Du kan prøve likevel, men det vil kanskje ikke virke."
 #    campaign: "Campaign"
-    for_beginners: "For begynnere"
+    for_beginners: "For nybegynnere"
     multiplayer: "Flerspiller" # Not currently shown on home page
     for_developers: "For Utviklere" # Not currently shown on home page.
-    or_ipad: "Eller last ned for iPad"
+    or_ipad: "Eller last ned til iPad"
 
   nav:
     play: "Spill" # The top nav bar entry where players choose which levels to play
@@ -51,10 +51,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     spectate: "Vær tilskuer" # Ladder page
     players: "spillere" # Hover over a level on /play
     hours_played: "Timer spilt" # Hover over a level on /play
-    items: "Gjenstander" # Tooltip on item shop button from /play
+    items: "Utstyr" # Tooltip on item shop button from /play
     unlock: "Lås opp" # For purchasing items and heroes
     confirm: "Bekreft"
-#    owned: "Owned" # For items you own
+    owned: "Eid" #"Owned" # For items you own
     locked: "Låst"
     available: "Tilgjengelig"
 #    skills_granted: "Skills Granted" # Property documentation details
@@ -63,7 +63,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     account: "Bruker" # Tooltip on account button from /play
     settings: "Innstillinger" # Tooltip on settings button from /play
     next: "Neste" # Go from choose hero to choose inventory before playing a level
-    change_hero: "Endre Helt" # Go back from choose inventory to choose hero
+    change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
     choose_inventory: "Ta i bruk gjenstander" # "Equip Items"
     buy_gems: "Kjøp Juveler"
     older_campaigns: "Gamle felttog" # "Older Campaigns"
@@ -240,7 +240,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tome_cast_button_running: "Kjører"
     tome_cast_button_ran: "Kjørte"
     tome_submit_button: "Send inn"
-    tome_reload_method: "Last inn igjen opprinnelig kode for denne metoden" #"Reload original code for this method" # Title text for individual method reload button.
+    tome_reload_method: "Tilbakestill denne metoden til den orginale koden" #"Reload original code for this method" # Title text for individual method reload button.
     tome_select_method: "Velg en metode"
     tome_see_all_methods: "Se alle metodene du kan redigere" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Velg Noe for å " #FIXME
@@ -260,24 +260,24 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     infinite_loop_try_again: "Prøv igjen"
     infinite_loop_reset_level: "Tilbakestill Brett" #"Reset Level"
     infinite_loop_comment_out: "Kommenter ut koden min"
-    tip_toggle_play: "Skift mellom spill og pause Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ og Ctrl+] spoler bakover og forover."
-    tip_guide_exists: "Click på guiden inne i spillmenyen (på toppen av siden) for nyttig informasjon" # "Click the gui    tip_guide_exists: "Sjekk Guiden i spillmenyen på toppen av siden for nyttig informasjon."
+    tip_toggle_play: "Ctrl+P er play/pause" #"Toggle play/paused with Ctrl+P."
+    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] spoler bakover og fremover på tidslinjen." #"Ctrl+[ and Ctrl+] rewind and fast-forward."
+    tip_guide_exists: "Sjekk Guiden i spillmenyen på toppen av siden for nyttig informasjon." #"Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat er 100% åpen kildekode!"
     tip_beta_launch: "CodeCombat ble lansert i betautgave i oktober 2013." #"CodeCombat launched its beta in October, 2013."
     tip_think_solution: "Tenk på løsningen, ikke på problemet."
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
-#    tip_forums: "Head over to the forums and tell us what you think!"
+    tip_forums: "Stikk innom forumene og fortell oss hva du synes!" #"Head over to the forums and tell us what you think!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
 #    tip_morale_improves: "Loading will continue until morale improves."
-#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+    tip_all_species: "Vi tror på like muligheter til å lære programmering for alle arter." #"We believe in equal opportunities to learn programming for all species."
 #    tip_reticulating: "Reticulating spines."
 #    tip_harry: "Yer a Wizard, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
     tip_munchkin: "Hvis du ikke spiser grønnsakene dine kommer en munchkin og tar deg når du sover" # "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
-    tip_binary: "Det er bare 10 typer mennesker i verden: De som forstår binært og de som ikke gjør det."
+    tip_binary: "Det finnes 10 typer mennesker i verden: de som forstår binærtall, og de som ikke gjør det."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
 #    tip_no_try: "Do. Or do not. There is no try. - Yoda"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
@@ -294,8 +294,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   game_menu:
 #    inventory_tab: "Inventory"
     save_load_tab: "Lagre/lastse"
+#    save_load_tab: "Save/Load"
     options_tab: "Innstillinger"
     guide_tab: "Guide"
+#    guide_tab: "Guide"
     multiplayer_tab: "Flerspiller"
     auth_tab: "Lag konto" #"Sign Up"
     inventory_caption: "Utstyr helten din" #"Equip your hero"
@@ -318,10 +320,13 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     equip: "Bruk" #"Equip"
     unequip: "Ta av"
 
-  buy_gems:
-    few_gems: "Noen få edelstener"
-    pile_gems: "Haug av edelstener"
-    chest_gems: "Kiste med edelstener"
+  buy_gems: #FIXME
+#    few_gems: "A few gems"
+    few_gems: "Noen få juveler"
+#    pile_gems: "Pile of gems"
+    pile_gems: "En haug juveler"
+#    chest_gems: "Chest of gems"
+    chest_gems: "Kiste med juveler"
     purchasing: "Kjøper..."
     declined: "Kortet ditt ble avvist"
     retrying: "Server-feil, prøver igjen."
@@ -359,7 +364,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    action_specific_cooldown: "Cooldown"
     action_damage: "Skade"
     action_range: "Rekkevidde"
-    action_radius: "Radius"
+#    action_radius: "Radius"
     action_duration: "Varighet"
     example: "Eksempel"
     ex: "f.eks." # Abbreviation of "example"
@@ -452,7 +457,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   account_settings:
     title: "Kontoinnstillinger"
-    not_logged_in: "Logg inn eller opprett en konto for å endre innstillingene dine."
+    not_logged_in: "Logg inn eller lag en konto for å endre innstillingene dine."
     autosave: "Endringer lagres automatisk"
     me_tab: "Meg"
     picture_tab: "Bilde"
@@ -461,23 +466,25 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     emails_tab: "Epost"
 #    admin: "Admin"
     new_password: "Nytt Passord"
-    new_password_verify: "Verifiser"
+    new_password_verify: "Bekreft passord"
     email_subscriptions: "Epost Abonnement"
-#    email_subscriptions_none: "No Email Subscriptions."
+    email_subscriptions_none: "Ingen Epost Abonnement."
     email_announcements: "Kunngjøringer"
     email_announcements_description: "Få epost om siste nytt og utvikling fra CodeCombat."
-#    email_notifications: "Notifications"
+    email_notifications: "Varsler"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
-#    email_any_notes: "Any Notifications"
-#    email_any_notes_description: "Disable to stop all activity notification emails."
+    email_notifications_summary: "Innstillinger for personlige, automatiske epostvarsler relatert til din CodeCombat aktivitet."
+    email_any_notes: "Alle Varsler" #"Any Notifications"
+    email_any_notes_description: "Skru av for å stoppe alle aktivitetsvarsler" #"Disable to stop all activity notification emails."
     email_news: "Nyheter"
-#    email_recruit_notes: "Job Opportunities"
+    email_recruit_notes: "Jobbtilbud" #"Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
-    contributor_emails: "Contributor Klasse Epost" #FIXME!
-    contribute_prefix: "Vi leter etter folk som vil delta på festen vår! Sjekk ut " #FIXME
-    contribute_page: "bidra siden" #FIXME
+    email_recruit_notes_description: "Hvis du spiller veldig godt kontakter vi deg kanskje angående en (bedre) jobb."
+    contributor_emails: "Epost for bidragsyter-klasser"
+    contribute_prefix: "Vi leter etter folk som vil være med på festen vår! Sjekk ut " #FIXME
+    contribute_page: "bidragssiden"
     contribute_suffix: " for å finne ut mer."
-    email_toggle: "Vis Alle"
+    email_toggle: "Alle på/av"
     error_saving: "Lagring Feilet"
     saved: "Endringer Lagret"
     password_mismatch: "Passordene er ikke like."
@@ -501,8 +508,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
     toggle_playback: "Play/Pause."
-#    scrub_playback: "Scrub back and forward through time."
-#    single_scrub_playback: "Scrub back and forward through time by a single frame."
+    scrub_playback: "Spol tiden frem og tilbake" #"Scrub back and forward through time."
+    single_scrub_playback: "Spol tiden frem og tilbake, steg for steg" #"Scrub back and forward through time by a single frame."
 #    scrub_execution: "Scrub through current spell execution."
 #    toggle_debug: "Toggle debug display."
 #    toggle_grid: "Toggle grid overlay."
@@ -529,7 +536,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     social_discource: "Diskuter CodeCombat i forumet vårt på Discourse" #"Join the discussion on our Discourse forum"
     social_facebook: "Lik CodeCombat på Facebook"
     social_twitter: "Følg CodeCombat på Twitter"
-#    social_gplus: "Join CodeCombat on Google+" #FIXME
+    social_gplus: "Følg CodeCombat på Google+"
     social_hipchat: "Chat med oss i det åpne CodeCombat rommet på HipChat"
     contribute_to_the_project: "Bidra på prosjektet"
 
@@ -613,7 +620,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
 
-#  article:
+  article:
     edit_btn_preview: "Forhåndsvis"
     edit_article_title: "Rediger Artikkel"
 
@@ -705,9 +712,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  ladder:
+  ladder:
 #    please_login: "Please log in first before playing a ladder game."
-    my_matches: "Mine Kamper"
+    my_matches: "Mine kamper"
     simulate: "Simuler"
     simulation_explanation: "Ved å simulere spill kan du få ditt spill rangert raskere!" #"By simulating games you can get your game ranked faster!"
     simulate_games: "Simuler Spill!"
@@ -716,21 +723,21 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     games_simulated_for: "Spill simulert for deg:"
     games_simulated: "Spill simulert"
     games_played: "Spill spilt"
-#    ratio: "Ratio"
-#    leaderboard: "Leaderboard"
-#    battle_as: "Battle as "
+    ratio: "Forhold"
+    leaderboard: "Poengtavle" #"Leaderboard"
+    battle_as: "Kjemp som " #"Battle as "
     summary_your: "Ditt "
     summary_matches: "Kamper - "
     summary_wins: " Seire, "
     summary_losses: " Tap"
     rank_no_code: "Ingen ny kode å rangere"
-    rank_my_game: "Ranger Spillet Mitt!"
-#    rank_submitting: "Submitting..."
-#    rank_submitted: "Submitted for Ranking"
-    rank_failed: "Rangering Feilet"
-    rank_being_ranked: "Spillet Blir Rangert"
-#    rank_last_submitted: "submitted "
-    help_simulate: "Hjelp til å simulere spill?"
+    rank_my_game: "Ranger spillet mitt!"
+    rank_submitting: "Sender inn..."
+    rank_submitted: "Sendt inn for rangering"
+    rank_failed: "Rangering feilet"
+    rank_being_ranked: "Spillet blir rangert"
+    rank_last_submitted: "innsendt "
+    help_simulate: "Hjelpe til å simulere spill?"
 #    code_being_simulated: "Your new code is being simulated by other players for ranking. This will refresh as new matches come in."
     code_being_simulated: "Koden din blir simulert av andre spillere for rangering. Listen vil bli oppdatert når nye resultater kommer inn."
 #    no_ranked_matches_pre: "No ranked matches for the "
@@ -742,17 +749,17 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tutorial_play: "Play Tutorial"
     tutorial_recommended: "Anbefalt hvis du ikke har spilt før" #"Recommended if you've never played before"
 #    tutorial_skip: "Skip Tutorial"
-#    tutorial_not_sure: "Not sure what's going on?"
+    tutorial_not_sure: "Usikker på hva som foregår?" #"Not sure what's going on?"
 #    tutorial_play_first: "Play the Tutorial first."
-#    simple_ai: "Simple AI"
+    simple_ai: "Enkel AI"
     warmup: "Oppvarming"
     friends_playing: "Venner som spiller" #"Friends Playing"
     log_in_for_friends: "Logg inn for å spille med vennene dine" #"Log in to play with your friends!"
 #    social_connect_blurb: "Connect and play against your friends!"
-#    invite_friends_to_battle: "Invite your friends to join you in battle!"
+    invite_friends_to_battle: "Inviter vennene dine til å møte deg i strid!" #"Invite your friends to join you in battle!"
 #    fight: "Fight!"
-    watch_victory: "Se seieren din" #"Watch your victory"
-#    defeat_the: "Defeat the"
+    watch_victory: "Se seieren" #"Watch your victory"
+    defeat_the: "Overvinn" #"Defeat the"
     tournament_ends: "Turneringen slutter" #"Tournament ends"
     tournament_ended: "Turneringen sluttet " #"Tournament ended"
     tournament_rules: "Turneringsregler" #"Tournament Rules"
