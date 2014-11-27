@@ -10,7 +10,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "或者下载iPad版本" # Or download for iPad
 
   nav:
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
@@ -208,8 +208,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     failing: "失败"
     action_timeline: "行动时间轴"
     click_to_select: "点击选择一个单元。"
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_multiplayer: "多人游戏"
+    control_bar_join_game: "加入游戏"
     reload: "重载"
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
