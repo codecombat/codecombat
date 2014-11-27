@@ -69,3 +69,12 @@ block modal-footer-content
       button.btn.btn-primary.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
       button.btn.btn-success.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.victory_play_continue") Continue
+
+  if showHourOfCodeDoneButton
+    .hour-of-code-done
+      hr
+      a.image-link(href="http://code.org/api/hour/finish")
+        img(src="/images/level/csedweek-logo-final-small.jpg", alt="CS Ed Week Hour of Code", title="I'm finished with my Hour of Code", width=80)
+      strong(data-i18n="play_level.victory_hour_of_code_done") Are You Done?
+      a.text-link(href="http://code.org/api/hour/finish")
+        span(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I'm finished with my Hour of Code!

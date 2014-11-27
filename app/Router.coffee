@@ -15,8 +15,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @initializeSocialMediaServices = _.once @initializeSocialMediaServices
 
   routes:
-    '': go('HomeView')  # This will go somewhere deprecated when FrontView is done.
-    'front': go('FrontView')  # This will become '' when it is done.
+    '': go('HomeView')
 
     'about': go('AboutView')
 
@@ -85,7 +84,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'play-old': go('play/MainPlayView')  # This used to be 'play'.
     'play': go('play/WorldMapView')
-    'play-hero': go('play/WorldMapView')  # Legacy URL for /play; leave up until start of 2015, I guess.
     'play/ladder/:levelID': go('play/ladder/LadderView')
     'play/ladder': go('play/ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')

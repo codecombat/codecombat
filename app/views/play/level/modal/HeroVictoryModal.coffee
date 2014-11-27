@@ -80,7 +80,7 @@ module.exports = class HeroVictoryModal extends ModalView
             @readyToContinue = true
             @updateSavingProgressStatus()
           me.fetch() unless me.loading
-            
+
     @readyToContinue = true if not @achievements.models.length
 
   getRenderData: ->
@@ -117,6 +117,23 @@ module.exports = class HeroVictoryModal extends ModalView
       {key: 'continue', link: @continueLevelLink, 'choice-explicit': 'next_level', 'choice-implicit': 'just_right'}
       {key: 'more_practice', link: @morePracticeLevelLink, 'choice-explicit': 'more_practice', 'choice-implicit': 'too_hard'}
     ]
+
+    elapsed = (new Date() - new Date(me.get('dateCreated')))
+    isHourOfCode = me.get('hourOfCode') or elapsed < 120 * 60 * 1000
+    # Later we should only check me.get('hourOfCode'), but for now so much traffic comes in that we just assume it.
+    if isHourOfCode
+      # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
+      enough = elapsed >= 20 * 60 * 1000
+      tooMuch = elapsed > 120 * 60 * 1000
+      showDone = elapsed >= 30 * 60 * 1000 and not tooMuch
+      if enough and not tooMuch and not me.get('hourOfCodeComplete')
+        $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))
+        me.set 'hourOfCodeComplete', true  # Note that this will track even for players who don't have hourOfCode set.
+        me.patch()
+        window.tracker?.trackEvent 'Hour of Code Finish', {}
+      # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
+      c.showHourOfCodeDoneButton = me.get('hourOfCode') and showDone
+
     return c
 
   afterRender: ->

@@ -93,8 +93,6 @@ module.exports = class PlayLevelView extends RootView
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-    if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
-      @setUpHourOfCode()
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
@@ -113,12 +111,6 @@ module.exports = class PlayLevelView extends RootView
     else
       @load()
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID, ['Google Analytics']
-
-  setUpHourOfCode: ->
-    me.set 'hourOfCode', true
-    me.patch()
-    $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
-    application.tracker?.trackEvent 'Hour of Code Begin', {}
 
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
@@ -152,10 +144,6 @@ module.exports = class PlayLevelView extends RootView
   getRenderData: ->
     c = super()
     c.world = @world
-    if me.get('hourOfCode') and me.get('preferredLanguage', true) is 'en-US'
-      # Show the Hour of Code footer explanation until it's been more than a day
-      elapsed = (new Date() - new Date(me.get('dateCreated')))
-      c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
   afterRender: ->
@@ -606,7 +594,7 @@ module.exports = class PlayLevelView extends RootView
   #   Current real-time multiplayer session
   #   Internal multiplayer create/joined/left events
   #
-  # Real-time state variables. 
+  # Real-time state variables.
   # Each Ref is Firebase reference, and may have a matching Data suffixed variable with the latest data received.
   #   @realTimePlayerRef - User's real-time multiplayer player for this level
   #   @realTimePlayerGameRef - User's current real-time multiplayer player game session
@@ -727,7 +715,7 @@ module.exports = class PlayLevelView extends RootView
 
       @realTimeSessionRef = new Firebase "#{@multiplayerFireHost}multiplayer_level_sessions/#{@levelID}/#{e.realTimeSessionID}"
       @realTimePlayersRef = @realTimeSessionRef.child 'players'
-      
+
       # Look for opponent
       @realTimeSessionRef.once 'value', (multiplayerSessionSnapshot) =>
         if @realTimeSessionData = multiplayerSessionSnapshot.val()
@@ -751,7 +739,7 @@ module.exports = class PlayLevelView extends RootView
           console.error 'Could not lookup multiplayer session data.'
         @realTimeSessionRef.on 'value', @onRealTimeSessionChanged
 
-      @realTimePlayerGameRef = @realTimeSessionRef.child "players/#{me.id}" 
+      @realTimePlayerGameRef = @realTimeSessionRef.child "players/#{me.id}"
 
     # TODO: Follow up in MultiplayerView to see if double joins can be avoided
     # else
@@ -817,7 +805,7 @@ module.exports = class PlayLevelView extends RootView
     unless @realTimeSessionRef?
       console.error 'Real-time multiplayer cast without multiplayer session.'
       return
-    unless @realTimeSessionData? 
+    unless @realTimeSessionData?
       console.error 'Real-time multiplayer cast without multiplayer data.'
       return
     unless @realTimePlayersData?
