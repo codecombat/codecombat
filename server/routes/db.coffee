@@ -2,6 +2,7 @@ log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 mongoose = require 'mongoose'
+hipchat = require '../hipchat'
 
 module.exports.setup = (app) ->
   # This is hacky and should probably get moved somewhere else, I dunno
@@ -41,10 +42,12 @@ module.exports.setup = (app) ->
       return handler.patch(req, res, parts[1]) if req.route.method is 'patch' and parts[1]?
       handler[req.route.method](req, res, parts[1..]...)
     catch error
-      log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
+      errorMessage = "Error trying db method #{req?.route?.method} route #{parts} from #{name}: #{error}"
+      log.error(errorMessage)
       log.error(error)
       log.error(error.stack)
-      errors.notFound(res, "Route #{req.path} not found.")
+      hipchat.sendTowerHipChatMessage errorMessage
+      errors.notFound(res, "Route #{req?.path} not found.")
 
 getSchema = (req, res, moduleName) ->
   try
