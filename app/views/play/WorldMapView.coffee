@@ -70,7 +70,7 @@ module.exports = class WorldMapView extends RootView
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
-    window.tracker?.trackEvent 'World Map', Action: 'Loaded', ['Google Analytics']
+    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', ['Google Analytics']
 
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
     elapsed = (new Date() - new Date(me.get('dateCreated')))
@@ -192,12 +192,12 @@ module.exports = class WorldMapView extends RootView
         levelElement = $(e.target).parents('.level')
         levelID = levelElement.data('level-id')
         @startLevel levelElement
-        window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelID, ['Google Analytics']
+        window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelID, ['Google Analytics']
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     @startLevel levelElement
-    window.tracker?.trackEvent 'World Map', Action: 'Play Level', levelID: levelElement.data('level-id'), ['Google Analytics']
+    window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelElement.data('level-id'), ['Google Analytics']
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()

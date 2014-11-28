@@ -15,7 +15,7 @@ module.exports = class HomeView extends RootView
 
   constructor: ->
     super()
-    window.tracker?.trackEvent 'Homepage', Action: 'Loaded'
+    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage', ['Google Analytics']
     if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
       @setUpHourOfCode()
     elapsed = (new Date() - new Date(me.get('dateCreated')))
@@ -41,7 +41,7 @@ module.exports = class HomeView extends RootView
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    window.tracker?.trackEvent 'Homepage', Action: 'Play'
+    window.tracker?.trackEvent 'Click Play', category: 'Homepage'
     window.open '/play', '_blank'
 
   afterInsert: ->

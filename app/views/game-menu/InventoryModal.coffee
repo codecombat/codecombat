@@ -428,7 +428,7 @@ module.exports = class InventoryModal extends ModalView
       hasGoneFullScreenOnce = true
     @updateConfig =>
       @trigger? 'play-click'
-    window.tracker?.trackEvent 'Play Level Modal', Action: 'Play', ['Google Analytics']
+    window.tracker?.trackEvent 'Inventory Play', category: 'Play Level', ['Google Analytics']
 
   updateConfig: (callback, skipSessionSave) ->
     sessionHeroConfig = @options.session.get('heroConfig') ? {}

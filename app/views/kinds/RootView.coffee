@@ -47,7 +47,7 @@ module.exports = class RootView extends CocoView
 
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out")
-    window.tracker?.trackEvent 'Homepage', Action: 'Log Out' if @id is 'home-view'
+    window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
 
   showWizardSettingsModal: ->
@@ -57,18 +57,18 @@ module.exports = class RootView extends CocoView
 
   onClickSignupButton: ->
     AuthModal = require 'views/modal/AuthModal'
-    window.tracker?.trackEvent 'Homepage', Action: 'Signup Modal' if @id is 'home-view'
+    window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'signup'}
     
   onClickLoginButton: ->
     AuthModal = require 'views/modal/AuthModal'
-    window.tracker?.trackEvent 'Homepage', Action: 'Login Modal' if @id is 'home-view'
+    window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'login'}
     
   onClickAnchor: (e) ->
     return if @destroyed
     anchorText = e?.currentTarget?.text
-    window.tracker?.trackEvent 'Homepage', Action: anchorText, ['Google Analytics'] if @id is 'home-view' and anchorText
+    window.tracker?.trackEvent anchorText, category: 'Homepage', ['Google Analytics'] if @id is 'home-view' and anchorText
     @toggleModal e
 
   onOpenModalView: (e) ->
