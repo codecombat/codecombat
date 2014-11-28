@@ -319,6 +319,13 @@ playerCreated = [
     image: '/file/db/level/526711d9add4f8965f000002/hunter_triplets_icon.png'
     description: 'There is a horde of ogres marching on your village.  Stay out of reach and use your bow to take them out! - by Danny Whittaker'
   }
+  {
+    name: "IFC - Videira"
+    difficulty: 3
+    id: 'ifc-videira'
+    image: '/file/db/level/52602ecb026e8481e7000001/generic_1.png'
+    description: 'A level inspired by IFC Videira. - by Leonardo Meneguzzi.'
+  }
 ]
 
 campaigns = [

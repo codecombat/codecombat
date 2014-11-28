@@ -12,7 +12,7 @@ module.exports = class Tracker
 
   identify: (traits) ->
     console.log 'Would identify', traits if debugAnalytics
-    return unless me and @isProduction and analytics?
+    return unless me and @isProduction and analytics? and not me.isAdmin()
     # https://segment.io/docs/methods/identify
     traits ?= {}
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'wizardColor1', 'testGroupNumber', 'gender']
@@ -20,14 +20,14 @@ module.exports = class Tracker
     analytics.identify me.id, traits
 
   trackPageView: ->
-    return unless @isProduction and analytics?
+    return unless @isProduction and analytics? and not me.isAdmin()
     url = Backbone.history.getFragment()
     console.log 'Going to track visit for', "/#{url}" if debugAnalytics
     analytics.pageview "/#{url}"
 
   trackEvent: (event, properties, includeProviders=null) =>
     console.log 'Would track analytics event:', event, properties if debugAnalytics
-    return unless me and @isProduction and analytics?
+    return unless me and @isProduction and analytics? and not me.isAdmin()
     console.log 'Going to track analytics event:', event, properties if debugAnalytics
     properties = properties or {}
     context = {}

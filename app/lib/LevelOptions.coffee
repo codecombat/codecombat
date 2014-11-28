@@ -141,6 +141,7 @@ module.exports = LevelOptions =
     hidesRealTimePlayback: true
     requiredGear: {'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {feet: 'leather-boots'}
+    suspectCode: [{name: 'enemy-in-quotes', pattern: /['"]enemy/m}]  # '
   'master-of-names':
     hidesHUD: true
     hidesSay: true

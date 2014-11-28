@@ -133,6 +133,17 @@ _.extend ThangTypeSchema.properties,
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
   containerIcon: { type: 'string' }
   featureImage: { type: 'string', format: 'image-file', title: 'Feature Image' }
+  featureImageHair: { type: 'string', format: 'image-file', title: 'Feature Image Hair' }
+  featureImageThumb: { type: 'string', format: 'image-file', title: 'Feature Image Thumb' }
+  dollImages: c.object { title: 'Paper Doll Images' },
+    male: { type: 'string', format: 'image-file', title: ' Male' }
+    female: { type: 'string', format: 'image-file', title: ' Female' }
+    maleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male)' }
+    femaleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female)' }
+    maleRanger: { type: 'string', format: 'image-file', title: 'Glove (Male Ranger)' }
+    maleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male Ranger)' }
+    femaleRanger: { type: 'string', format: 'image-file', title: 'Glove (Female Ranger)' }
+    femaleRangeThumbr: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:

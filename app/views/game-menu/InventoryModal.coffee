@@ -54,6 +54,7 @@ module.exports = class InventoryModal extends ModalView
       'components'
       'original'
       'rasterIcon'
+      'dollImages'
       'gems'
       'tier'
       'description'
@@ -144,6 +145,7 @@ module.exports = class InventoryModal extends ModalView
     @canvasHeight = @$el.find('canvas').innerHeight()
     @inserted = true
     @requireLevelEquipment()
+    @onEquipmentChanged()
 
   #- Draggable logic
 
@@ -269,6 +271,7 @@ module.exports = class InventoryModal extends ModalView
     @makeEquippedSlotDraggable slotEl
     @requireLevelEquipment()
     @onSelectionChanged()
+    @onEquipmentChanged()
 
   unequipSelectedItem: ->
     slotEl = @getSelectedSlot()
@@ -283,7 +286,7 @@ module.exports = class InventoryModal extends ModalView
     @showItemDetails(item, 'equip')
     @requireLevelEquipment()
     @onSelectionChanged()
-
+    @onEquipmentChanged()
 
   #- Select/equip helpers
 
@@ -399,6 +402,7 @@ module.exports = class InventoryModal extends ModalView
     @$el.removeClass('Warrior Ranger Wizard').addClass(@selectedHero.get('heroClass'))
     @requireLevelEquipment()
     @render()
+    @onEquipmentChanged()
 
   onShown: ->
     # Called when we switch tabs to this within the modal
@@ -515,13 +519,56 @@ module.exports = class InventoryModal extends ModalView
     return if @destroyed
     @$el.find('.unlock-button').popover 'destroy'
 
+
+  #- Paper doll equipment updating
+  onEquipmentChanged: ->
+    @removeDollImages()
+    heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
+    gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
+    equipment = @getCurrentEquipmentConfig()
+    slotsWithImages = []
+    for slot, original of equipment
+      item = _.find @items.models, (item) -> item.get('original') is original
+      continue unless dollImages = item?.get('dollImages')
+      didAdd = @addDollImage slot, dollImages, heroClass, gender
+      slotsWithImages.push slot if didAdd
+    @$el.find('#hero-image, #hero-image-hair, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
+    @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
+    @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
+
+  removeDollImages: ->
+    @$el.find('.doll-image').remove()
+
+  addDollImage: (slot, dollImages, heroClass, gender) ->
+    heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
+    gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
+    didAdd = false
+    if slot is 'gloves'
+      if heroClass is 'Ranger'
+        imageKeys = ["#{gender}#{heroClass}", "#{gender}#{heroClass}Thumb"]
+      else
+        imageKeys = ["#{gender}", "#{gender}Thumb"]
+    else
+      imageKeys = [gender]
+    for imageKey in imageKeys
+      imageURL = dollImages[imageKey]
+      if not imageURL
+        console.log "Hmm, should have #{slot} #{imageKey} paper doll image, but don't have it."
+      else
+        imageEl = $('<img>').attr('src', "/file/#{imageURL}").addClass("doll-image #{slot} #{heroClass} #{gender} #{_.string.underscored(imageKey).replace(/_/g, '-')}").attr('draggable', false)
+        @$el.find('#equipped').append imageEl
+        didAdd = true
+    didAdd
+
   destroy: ->
     @$el.find('.unlock-button').popover 'destroy'
     @stage?.removeAllChildren()
     super()
 
 
-
+heroGenders =
+  male: ['knight', 'samurai', 'trapper', 'potion-master']
+  female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer']
 
 gear =
   'simple-boots': '53e237bf53457600003e3f05'

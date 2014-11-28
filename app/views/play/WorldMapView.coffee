@@ -10,6 +10,8 @@ MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'lib/storage'
 AuthModal = require 'views/modal/AuthModal'
 
+trackedHourOfCode = false
+
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession
@@ -69,6 +71,12 @@ module.exports = class WorldMapView extends RootView
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
     window.tracker?.trackEvent 'World Map', Action: 'Loaded', ['Google Analytics']
+
+    # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
+    elapsed = (new Date() - new Date(me.get('dateCreated')))
+    if not trackedHourOfCode and not me.get('hourOfCode') and elapsed < 5 * 60 * 1000
+      $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
+      trackedHourOfCode = true
 
   destroy: ->
     @setupManager?.destroy()

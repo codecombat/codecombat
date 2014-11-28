@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     for_beginners: "Yeni Başlayanlar için"
     multiplayer: "Çoklu-oyuncu Kipi" # Not currently shown on home page
     for_developers: "Geliştiriciler için" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Ya da iPad için indir"
 
   nav:
     play: "Oyna" # The top nav bar entry where players choose which levels to play
@@ -52,11 +52,11 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     players: "oyuncu" # Hover over a level on /play
     hours_played: "saat oynandı" # Hover over a level on /play
     items: "Ögeler" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    available: "Available"
+    unlock: "Kilidi aç" # For purchasing items and heroes
+    confirm: "Devam et"
+    owned: "Sahipsin" # For items you own
+    locked: "Kilitli"
+    available: "Açık"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Kahramanlar" # Tooltip on hero shop button from /play
     achievements: "Başarımlar" # Tooltip on achievement list button from /play
@@ -65,13 +65,13 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     next: "İleri" # Go from choose hero to choose inventory before playing a level
     change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
     choose_inventory: "Ögeleri Giy"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Taş satın a"
     older_campaigns: "Daha Eski Görevler"
     anonymous: "Anonim Oyuncu"
     level_difficulty: "Zorluk: "
     campaign_beginner: "Acemi Seferi"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer: "Maceracı olmak için kayıt ol"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Seviye Seçimi" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Aşağıdaki seviyelerden birini doğrudan oynayabilirsiniz, veya seviye ile ilgili "
@@ -87,8 +87,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     campaign_player_created_description: "<a href=\"/contribute#artisan\">Zanaatkâr Büyücüler</a>in yaratıcılıklarına karşı mücadele etmek için..."
     campaign_classic_algorithms: "Klasik Algoritmalar"
     campaign_classic_algorithms_description: "... Bilgisayar Bilimleri'nde öğrendiğiniz en yaygın algoritmalar."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "Orman Senaryosu"
+    campaign_dungeon: "Zindan Senaryosu"
 
   login:
     sign_up: "Hesap Oluştur"
@@ -119,12 +119,12 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     recovery_sent: "Kurtarma e-postası gönderildi."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Birincil"
+    secondary: "İkincil"
     armor: "Zırh"
     accessories: "Aksesuarlar"
     misc: "Çeşitli"
-#    books: "Books"
+    books: "Kitaplar"
 
   common:
     loading: "Yükleniyor..."
@@ -137,7 +137,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     create: "Oluştur"
     manual: "El ile"
     fork: "Çatalla"
-    play: "Oyna" # When used as an action verb, like "Play next level"
+    play: "Oyna" # When used as an action verb, like "Sonraki Seviyeyi Oyna"
     retry: "Yeniden Dene"
     watch: "İzle"
     unwatch: "İzlemeyi Bırak"
@@ -201,16 +201,16 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     restart: "Yeniden başlat"
     goals: "Hedefler"
     goal: "Amaç"
-#    running: "Running..."
+    running: "Çalıştırılıyor..."
     success: "Başarılı!"
     incomplete: "Tamamlanmamış"
     timed_out: "Süre bitti"
     failing: "Başarısız"
     action_timeline: "Eylem Çizelgesi"
     click_to_select: "Birimi seçmek için üzerine tıklayın."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "Çoklu Oyuncu"
+    control_bar_join_game: "Oyuna Katıl"
+    reload: "Yeniden Yükle"
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
@@ -247,13 +247,13 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_available_spells: "Kullanılabilir Büyüler"
     tome_your_skills: "Yetenekleriniz"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "Devam"
     code_saved: "Kod Kaydedildi"
     skip_tutorial: "Atla (ESC)"
     keyboard_shortcuts: "Klavye Kısayolları"
     loading_ready: "Hazır!"
     loading_start: "Seviyeyi Başlat"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Kodunu Düzelt"
     time_current: "Şimdi:"
     time_total: "Max:"
     time_goto: "Git:"
@@ -308,20 +308,20 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   inventory:
     choose_inventory: "Ögeleri Donan"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
+    equipped_item: "Giyilmiş"
+    available_item: "Açık"
 #    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
+    should_equip: "(iki kere tıklayarak giy)"
+    equipped: "(giyildi)"
+    locked: "(kitli)"
 #    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "Giy"
+    unequip: "Çıkar"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
+  buy_gems:
+    few_gems: "Bir avuç taş"
+    pile_gems: "Bir Torba"
+    chest_gems: "Sandık dolusu taş"
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
@@ -330,7 +330,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     choose_hero: "Kahramanınızı Seçin"
     programming_language: "Programlama Dili"
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
-#    default: "Default"
+#    default: "Normal"
 #    experimental: "Experimental"
     python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir."
     javascript_blurb: "Web'in dili."
@@ -347,8 +347,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     health: "Sağlık"
     speed: "Hız"
 #    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
+    range: "Menzil" # As in "attack or visual range"
+    blocks: "Blok" # As in "this shield blocks this much damage"
     skills: "Yetenekler"
 
 #  skill_docs:

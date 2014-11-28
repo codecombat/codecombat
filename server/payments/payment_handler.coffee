@@ -271,7 +271,7 @@ PaymentHandler = class PaymentHandler extends Handler
 
   sendPaymentHipChatMessage: (options) ->
     try
-      message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service'}."
+      message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service')}."
       hipchat.sendHipChatMessage message
     catch e
       log.error "Couldn't send HipChat message on payment because of error: #{e}"
