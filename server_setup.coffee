@@ -43,7 +43,9 @@ setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
     if err
       res.status(500).send(error: "Something went wrong!")
-      hipchat.sendTowerHipChatMessage("The server crashed. Path: #{req.path}, Stack trace: <br> <code>#{err.stack}</code>")
+      message = "Express got an error. Path: #{req.path}, message: #{err.message}"
+      log.error "#{message}, stack: #{err.stack}"
+      hipchat.sendTowerHipChatMessage(message)
     else
       next(err)
 setupExpressMiddleware = (app) ->
