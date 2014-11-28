@@ -60,7 +60,7 @@ module.exports = Lank = class Lank extends CocoClass
   constructor: (@thangType, options) ->
     super()
     spriteName = @thangType.get('name')
-    @isMissile = /(Missile|Arrow|Spear)/.test(spriteName) and not /Tower/.test(spriteName)
+    @isMissile = /(Missile|Arrow|Spear)/.test(spriteName) and not /(Tower|Charge)/.test(spriteName)
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     if @thang?
@@ -326,7 +326,10 @@ module.exports = Lank = class Lank extends CocoClass
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
+    if @thang?.spriteName is 'Beam'
+      @scaleFactorX = newScaleFactorX
+      @scaleFactorY = newScaleFactorY
+    else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
       @targetScaleFactorX = newScaleFactorX
       @targetScaleFactorY = newScaleFactorY
       createjs.Tween.removeTweens(@)

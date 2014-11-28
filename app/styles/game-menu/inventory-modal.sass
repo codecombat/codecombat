@@ -480,10 +480,7 @@ $itemSlotGridHeight: 51px
 
   //- Paper doll positioning
 
-  #hero-image
-    //@include filter(contrast(0%) brightness(0%))
-    //opacity: 0.4
-    //width: 225px
+  #hero-image, #hero-image-head, #hero-image-hair, #hero-image-thumb
     display: block
     position: absolute
     z-index: 12
@@ -496,111 +493,110 @@ $itemSlotGridHeight: 51px
       left: 80px
       bottom: 31px
 
+  #hero-image-head
+    z-index: 16
   #hero-image-hair
-    position: absolute
-    z-index: 16
-
-    &.female
-      left: 103px
-      bottom: 218px
-
-    &.male
-      left: 124px
-      bottom: 228px
-
+    z-index: 17
   #hero-image-thumb
-    position: absolute
     z-index: 16
 
-    &.female
-      left: 81px
-      bottom: 150px
-      @include rotate(-15deg)
-
-    &.male
-      left: 68px
-      bottom: 121px
-      @include rotate(-15deg)
+    //&.female
+    //  left: 81px
+    //  bottom: 150px
+    //  @include rotate(-15deg)
+    //
+    //&.male
+    //  left: 68px
+    //  bottom: 121px
+    //  @include rotate(-15deg)
 
   .doll-image
     position: absolute
     z-index: 15
 
+    &.male
+      left: 65px
+      bottom: 31px
+
+    &.female
+      left: 80px
+      bottom: 31px
+
     &.feet
       z-index: 13
 
-      &.female
-        left: 101px
-        bottom: 37px
+      //&.female
+      //  left: 101px
+      //  bottom: 37px
+      //
+      //&.male
+      //  left: 98px
+      //  bottom: 37px
 
-      &.male
-        left: 98px
-        bottom: 37px
-
-    &.right-hand
-      &.female
-        left: 48px
-        bottom: 132px
-        @include rotate(-15deg)
-        
-      &.male
-        left: 40px
-        bottom: 111px
-        @include rotate(-15deg)
+    //&.right-hand
+      //&.female
+      //  left: 48px
+      //  bottom: 132px
+      //  @include rotate(-15deg)
+      //  
+      //&.male
+      //  left: 40px
+      //  bottom: 111px
+      //  @include rotate(-15deg)
 
     &.left-hand
       z-index: 17
-      &.female
-        left: 193px
-        bottom: 72px
-        
-      &.male
-        left: 193px
-        bottom: 72px
+      //&.female
+      //  left: 193px
+      //  bottom: 72px
+      //  
+      //&.male
+      //  left: 193px
+      //  bottom: 72px
 
     &.torso
       z-index: 14
 
-      &.female
-        left: 72px
-        bottom: 105px
-        
-      &.male
-        left: 55px
-        bottom: 69px
+      //&.female
+      //  left: 72px
+      //  bottom: 105px
+      //  
+      //&.male
+      //  left: 55px
+      //  bottom: 69px
 
     &.gloves
       z-index: 15
 
       &.female
-        left: 78px
-        bottom: 133px
-
         &.female-thumb
           z-index: 16
-          left: 81px
-          bottom: 150px
-          @include rotate(-15deg)
+      //  left: 78px
+      //  bottom: 133px
+        
+      //    left: 81px
+      //    bottom: 150px
+      //    @include rotate(-15deg)
         
       &.male
-        left: 65px
-        bottom: 109px
-
         &.male-thumb
           z-index: 16
-          left: 68px
-          bottom: 121px
-          @include rotate(-15deg)
+      //  left: 65px
+      //  bottom: 109px
+        
+      //    left: 68px
+      //    bottom: 121px
+      //    @include rotate(-15deg)
         
     &.head
-      z-index: 16
+      z-index: 17
 
-      &.female
-        left: 72px
-        bottom: 105px
-        
-      &.male
-        left: 119px
-        bottom: 180px
+      //&.female
+      //  left: 72px
+      //  bottom: 105px
+      //  
+      //&.male
+      //  left: 119px
+      //  bottom: 180px
 
 
