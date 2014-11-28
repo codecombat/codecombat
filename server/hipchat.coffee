@@ -16,6 +16,9 @@ module.exports.sendHipChatMessage = sendHipChatMessage = (message) ->
     #log.info "Got HipChat patch response:", body
 
 module.exports.sendTowerHipChatMessage = sendTowerHipChatMessage = (message) ->
+  secondsFromEpoch = Math.floor(new Date().getTime() / 1000)
+  link = "<a href=\"https://papertrailapp.com/groups/488214/events?time=#{secondsFromEpoch}\">PaperTrail</a>"
+  message = "#{message} #{link}"
   return unless key = config.hipchatTowerAPIKey
   roomID = 318356
   form =
