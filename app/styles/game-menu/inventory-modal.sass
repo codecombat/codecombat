@@ -500,15 +500,15 @@ $itemSlotGridHeight: 51px
   #hero-image-thumb
     z-index: 16
 
-    //&.female
-    //  left: 81px
-    //  bottom: 150px
-    //  @include rotate(-15deg)
-    //
-    //&.male
-    //  left: 68px
-    //  bottom: 121px
-    //  @include rotate(-15deg)
+    &.female
+      @include rotate(-15deg)
+      left: 66px
+      bottom: 54px
+
+    &.male
+      @include rotate(-15deg)
+      left: 53px
+      bottom: 54px
 
   .doll-image
     position: absolute
@@ -525,45 +525,22 @@ $itemSlotGridHeight: 51px
     &.feet
       z-index: 13
 
-      //&.female
-      //  left: 101px
-      //  bottom: 37px
-      //
-      //&.male
-      //  left: 98px
-      //  bottom: 37px
+    &.right-hand
+      @include rotate(-15deg)
+      &.female
+        left: 66px
+        bottom: 54px
 
-    //&.right-hand
-      //&.female
-      //  left: 48px
-      //  bottom: 132px
-      //  @include rotate(-15deg)
-      //  
-      //&.male
-      //  left: 40px
-      //  bottom: 111px
-      //  @include rotate(-15deg)
+      &.male
+        left: 55px
+        bottom: 63px
+        @include rotate(-15deg)
 
     &.left-hand
       z-index: 17
-      //&.female
-      //  left: 193px
-      //  bottom: 72px
-      //  
-      //&.male
-      //  left: 193px
-      //  bottom: 72px
 
     &.torso
       z-index: 14
-
-      //&.female
-      //  left: 72px
-      //  bottom: 105px
-      //  
-      //&.male
-      //  left: 55px
-      //  bottom: 69px
 
     &.gloves
       z-index: 15
@@ -571,32 +548,16 @@ $itemSlotGridHeight: 51px
       &.female
         &.female-thumb
           z-index: 16
-      //  left: 78px
-      //  bottom: 133px
-        
-      //    left: 81px
-      //    bottom: 150px
-      //    @include rotate(-15deg)
+          @include rotate(-15deg)
+          left: 66px
+          bottom: 54px
         
       &.male
         &.male-thumb
           z-index: 16
-      //  left: 65px
-      //  bottom: 109px
-        
-      //    left: 68px
-      //    bottom: 121px
-      //    @include rotate(-15deg)
+          @include rotate(-15deg)
+          left: 53px
+          bottom: 54px
         
     &.head
       z-index: 17
-
-      //&.female
-      //  left: 72px
-      //  bottom: 105px
-      //  
-      //&.male
-      //  left: 119px
-      //  bottom: 180px
-
-
