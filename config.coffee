@@ -184,6 +184,7 @@ for file in coffeeFiles
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.coffee', '.js').replace('./app', 'javascripts/app')
   exports.config.files.javascripts.joinTo[outputFile] = inputFile
+  console.log 'output file?', outputFile
   
 numBundles = 0
   
@@ -198,6 +199,7 @@ for file in jadeFiles
   possibleViewFilePath = outputFile.replace(templateFileName, viewFileName).replace('/templates/', '/views/')
   if exports.config.files.javascripts.joinTo[possibleViewFilePath]
     exports.config.files.templates.joinTo[possibleViewFilePath] = inputFile
+    console.log 'bundling', inputFile, 'to', possibleViewFilePath
     numBundles += 1
 
 console.log 'Bundled', numBundles, 'templates with their views.' 

@@ -16,7 +16,7 @@ ThangTypeColorsTabView = require './ThangTypeColorsTabView'
 PatchesView = require 'views/editor/PatchesView'
 ForkModal = require 'views/editor/ForkModal'
 VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 

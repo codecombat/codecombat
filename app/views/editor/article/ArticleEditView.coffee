@@ -2,7 +2,7 @@ RootView = require 'views/core/RootView'
 VersionHistoryView = require './ArticleVersionsModal'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 require 'views/modal/RevertModal'
 

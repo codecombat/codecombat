@@ -1,4 +1,4 @@
-VersionsModal = require 'views/modal/VersionsModal'
+VersionsModal = require 'views/editor/modal/VersionsModal'
 
 module.exports = class SystemVersionsModal extends VersionsModal
   id: 'editor-system-versions-view'

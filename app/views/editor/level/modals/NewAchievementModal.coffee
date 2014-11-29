@@ -1,4 +1,4 @@
-NewModelModal = require 'views/modal/NewModelModal'
+NewModelModal = require 'views/editor/modal/NewModelModal'
 template = require 'templates/editor/level/modal/new-achievement'
 forms = require 'core/forms'
 Achievement = require 'models/Achievement'

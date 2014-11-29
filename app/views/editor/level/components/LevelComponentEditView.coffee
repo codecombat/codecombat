@@ -3,7 +3,7 @@ template = require 'templates/editor/level/component/level-component-edit-view'
 LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 
 module.exports = class LevelComponentEditView extends CocoView
   id: 'level-component-edit-view'

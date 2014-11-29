@@ -1,4 +1,4 @@
-VersionsModal = require 'views/modal/VersionsModal'
+VersionsModal = require 'views/editor/modal/VersionsModal'
 
 module.exports = class ThangTypeVersionsModal extends VersionsModal
   id: 'editor-thang-versions-view'
