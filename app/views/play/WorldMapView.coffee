@@ -220,6 +220,7 @@ module.exports = class WorldMapView extends RootView
     return if @manuallyPositionedLevelInfoID and levelID isnt @manuallyPositionedLevelInfoID
     @$el.find(".level-info-container[data-level-id='#{levelID}']").hide()
     @manuallyPositionedLevelInfoID = null
+    @$levelInfo = null
 
   onMouseMoveMap: (e) ->
     return if application.isIPadApp
