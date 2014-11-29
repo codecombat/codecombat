@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/modal/revert'
+template = require 'templates/modal/revert-modal'
 CocoModel = require 'models/CocoModel'
 
 module.exports = class RevertModal extends ModalView

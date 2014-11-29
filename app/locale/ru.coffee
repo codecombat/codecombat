@@ -10,7 +10,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_beginners: "Новичкам"
     multiplayer: "Мультиплеер" # Not currently shown on home page
     for_developers: "Разработчикам" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Или скачайте на iPad"
 
   nav:
     play: "Уровни" # The top nav bar entry where players choose which levels to play
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     confirm: "Подтвердить"
     owned: "Уже есть" # For items you own
     locked: "Заблокировано"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Можно купить" # For a hero you unlocked but haven't purchased
     available: "Доступно"
     skills_granted: "Умение получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
@@ -209,8 +209,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     failing: "Неудача"
     action_timeline: "График действий"
     click_to_select: "Выберите персонажа, щёлкнув на нём"
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_multiplayer: "Мультиплеер"
+    control_bar_join_game: "Присоединиться"
     reload: "Перезагрузить"
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
-#    tome_help: "Help"
+    tome_help: "Помощь"
     tome_current_method: "Текущий метод"
     hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
@@ -324,12 +324,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     few_gems: "Немного самоцветов"
     pile_gems: "Кучка самоцветов"
     chest_gems: "Сундук с самоцветами"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    purchasing: "Покупка..."
+    declined: "Ваша карта отклонена"
+    retrying: "Ошибка сервера, пробуем еще раз."
+    prompt_title: "Не хватает самоцветов"
+    prompt_body: "Хотите еще?"
+    prompt_button: "Войти в магазин"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -355,9 +355,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     range: "Зона" # As in "attack or visual range"
     blocks: "Блокирует" # As in "this shield blocks this much damage"
     skills: "Умения"
-#    available_for_purchase: "Available for Purchase"
+    available_for_purchase: "Доступно для покупки"
 #    level_to_unlock: "Level to unlock:"
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    restricted_to_certain_heroes: "Только определенные герои могут играть этот уровень."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -410,9 +410,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     why_codecombat: "Почему CodeCombat?"
     why_paragraph_1: "Нужно научиться программировать? Вам не нужны уроки. Вам нужно написать много кода и прекрасно провести время, делая это."
     why_paragraph_2_prefix: "Вот где программирование. Это должно быть весело. Не забавно, вроде"
-    why_paragraph_2_italic: "вау, значок,"
+    why_paragraph_2_italic: "\"вау, значок\","
     why_paragraph_2_center: "а"
-    why_paragraph_2_italic_caps: "НЕТ, МАМ, Я ДОЛЖЕН ПРОЙТИ УРОВЕНЬ!"
+    why_paragraph_2_italic_caps: "\"НЕТ, МАМ, Я ДОЛЖЕН ПРОЙТИ УРОВЕНЬ!\""
     why_paragraph_2_suffix: "Вот, почему CodeCombat - мультиплеерная игра, а не курс уроков в игровой форме. Мы не остановимся, пока вы не потеряете голову - в данном случае, это хорошо."
     why_paragraph_3: "Если вы собираетесь увлечься какой-нибудь игрой, увлекитесь этой и станьте одним из волшебников века информационных технологий."
     press_title: "Блогерам/Прессе"
@@ -777,8 +777,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     amount_achieved: "Количество"
     achievement: "Достижение"
     category_contributor: "Помощь"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
+    category_ladder: "Ладдер"
+    category_level: "Уровень"
     category_miscellaneous: "Помощь"
     category_levels: "Уровни"
     category_undefined: "Неопределено"
@@ -850,7 +850,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
     user_remark: "Пользовательские поправки"
-#    user_remarks: "User Remarks"
+    user_remarks: "Пользовательские поправки"
     versions: "Версии"
     items: "Предметы"
     heroes: "Герои"

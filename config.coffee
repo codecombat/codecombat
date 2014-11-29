@@ -10,29 +10,6 @@ commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-requ
 regJoin = (s) -> new RegExp(s.replace(/\//, '[\\\/\\\\]'))
 
 
-#- Find all .coffee and .jade files in /app
-  
-dirStack = ['./app']
-coffeeFiles = []
-jadeFiles = []
-
-while dirStack.length
-  dir = dirStack.pop()
-  contents = fs.readdirSync(dir)
-  for file in contents
-    fullPath = "#{dir}/#{file}"
-    stat = fs.statSync(fullPath)
-    if stat.isDirectory()
-      dirStack.push(fullPath)
-    else
-      if _.str.endsWith(file, '.coffee')
-        coffeeFiles.push(fullPath)
-      else if _.str.endsWith(file, '.jade')
-        jadeFiles.push(fullPath)
-    
-console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files."
-
-
 #- Build the config
 
 exports.config =
@@ -102,6 +79,8 @@ exports.config =
         #- test, demo libraries
         'javascripts/test-app.js': regJoin('^test/app/')
         'javascripts/demo-app.js': regJoin('^test/demo/')
+        
+        #- More output files are generated at the below
 
       order:
         before: [
@@ -180,6 +159,27 @@ exports.config =
       defn = if path in needHeaders then commonjsHeader else ''
       return defn
 
+
+#- Find all .coffee and .jade files in /app
+
+dirStack = ['./app']
+coffeeFiles = []
+jadeFiles = []
+
+while dirStack.length
+  dir = dirStack.pop()
+  contents = fs.readdirSync(dir)
+  for file in contents
+    fullPath = "#{dir}/#{file}"
+    stat = fs.statSync(fullPath)
+    if stat.isDirectory()
+      dirStack.push(fullPath)
+    else
+      if _.str.endsWith(file, '.coffee')
+        coffeeFiles.push(fullPath)
+      else if _.str.endsWith(file, '.jade')
+        jadeFiles.push(fullPath)
+
 for file in coffeeFiles
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.coffee', '.js').replace('./app', 'javascripts/app')
@@ -200,4 +200,4 @@ for file in jadeFiles
     exports.config.files.templates.joinTo[possibleViewFilePath] = inputFile
     numBundles += 1
 
-console.log 'Bundled', numBundles, 'templates with their views.' 
+console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files (bundled #{numBundles} of them together)." 
