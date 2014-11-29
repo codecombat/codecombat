@@ -2,7 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/versions'
 DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
-nameLoader = require 'lib/NameLoader'
+nameLoader = require 'core/NameLoader'
 CocoCollection = require 'collections/CocoCollection'
 deltasLib = require 'core/deltas'
 
