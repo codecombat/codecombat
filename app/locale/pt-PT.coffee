@@ -56,7 +56,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     confirm: "Confirmar"
     owned: "Obtido" # For items you own
     locked: "Bloqueado"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Adquirível" # For a hero you unlocked but haven't purchased
     available: "Disponível"
     skills_granted: "Habilidades Garantidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_select_a_thang: "Seleciona Alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
-#    tome_help: "Help"
+    tome_help: "Ajuda"
     tome_current_method: "Método Atual"
     hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
@@ -327,9 +327,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     purchasing: "A adquirir..."
     declined: "O teu cartão foi recusado."
     retrying: "Erro do servidor, a tentar novamente."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    prompt_title: "Sem Gemas Suficientes"
+    prompt_body: "Queres obter mais?"
+    prompt_button: "Entra na Loja"
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -355,9 +355,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     range: "Alcance" # As in "attack or visual range"
     blocks: "Bloqueia" # As in "this shield blocks this much damage"
     skills: "Habilidades"
-#    available_for_purchase: "Available for Purchase"
-#    level_to_unlock: "Level to unlock:"
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    available_for_purchase: "Disponível para Aquirir"
+    level_to_unlock: "Nível para desbloquear:"
+    restricted_to_certain_heroes: "Apenas certos heróis podem jogar este nível."
 
   skill_docs:
     writable: "escrevível" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -793,13 +793,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   account:
     recently_played: "Jogados Recentemente"
     no_recent_games: "Sem jogos jogados nas passadas duas semanas."
-#    payments: "Payments"
-#    service_apple: "Apple"
-#    service_web: "Web"
-#    paid_on: "Paid On"
-#    service: "Service"
-#    price: "Price"
-#    gems: "Gems"
+    payments: "Pagamentos"
+    service_apple: "Apple"
+    service_web: "Web"
+    paid_on: "Pago Em"
+    service: "Serviço"
+    price: "Preço"
+    gems: "Gemas"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
@@ -932,16 +932,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    use_list_2: "If used on a website, include a link near the usage, for example underneath an image, or in a general attributions page where you might also mention other Creative Commons works and open source software being used on the site. Something that's already clearly referencing CodeCombat, such as a blog post mentioning CodeCombat, does not need some separate attribution."
 #    art_paragraph_2: "If the content being used is created not by CodeCombat but instead by a user of codecombat.com, attribute them instead, and follow attribution directions provided in that resource's description if there are any."
     rights_title: "Direitos Reservados"
-#    rights_desc: "All rights are reserved for Levels themselves. This includes"
+    rights_desc: "Todos os direitos estão reservados aos próprios Níveis. Isto inclui"
     rights_scripts: "Scripts"
-    rights_unit: "Configuração da unidade"
-    rights_description: "Descrição"
-#    rights_writings: "Writings"
-#    rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
+    rights_unit: "Configurações das unidades"
+    rights_description: "Descrições"
+    rights_writings: "Textos"
+    rights_media: "Mídia (sons, música) e quaisquer outros conteúdos criativos feitos especificamente para esse Nível e que não foram disponibilizados para a criação de Níveis."
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
-#    nutshell_title: "In a Nutshell"
-#    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
-#    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
+    nutshell_title: "Resumidamente"
+    nutshell_description: "Qualquer um dos recursos que fornecemos no Editor de Níveis são de uso livre para criares Níveis. Mas reservamos o direito de distribuição restrita dos próprios Níveis (que são criados em codecombat.com) pelo que podemos cobrar por eles no futuro, se for isso que acabar por acontecer."
+    canonical: "A versão Inglesa deste documento é a versão definitiva e soberana. Se houver discrepâncias entre traduções, o documento Inglês prevalece."
 
   ladder_prizes:
     title: "Prémios do Torneio" # This section was for an old tournament and doesn't need new translations now.
