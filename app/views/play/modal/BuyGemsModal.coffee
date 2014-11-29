@@ -35,6 +35,7 @@ module.exports = class BuyGemsModal extends ModalView
     c = super()
     c.products = @products
     c.state = @state
+    c.stateMessage = @stateMessage
     return c
 
   onIPadProducts: (e) ->
@@ -89,6 +90,7 @@ module.exports = class BuyGemsModal extends ModalView
         _.delay f, 2000
       else
         @state = 'unknown_error'
+        @stateMessage = "#{jqxhr.status}: #{jqxhr.responseText}"
       @render()
     )
 

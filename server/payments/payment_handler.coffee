@@ -36,6 +36,17 @@ PaymentHandler = class PaymentHandler extends Handler
   editableProperties: []
   postEditableProperties: ['purchased']
   jsonSchema: require '../../app/schemas/models/payment.schema'
+  
+  get: (req, res) ->
+    return res.send([]) unless req.user
+    q = Payment.find({recipient:req.user._id})
+    q.exec((err, payments) ->
+      return @sendDatabaseError(res, err) if err
+      res.send(payments)
+    )
+    
+  logPaymentError: (req, msg) ->
+    console.warn "Payment Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
 
   makeNewInstance: (req) ->
     payment = super(req)
@@ -53,16 +64,20 @@ PaymentHandler = class PaymentHandler extends Handler
     productID = req.body.productID
 
     if not (appleReceipt or (stripeTimestamp and productID))
+      @logPaymentError(req, "Missing data. Apple? #{!!appleReceipt}. Stripe timestamp? #{!!stripeTimestamp}. Product id? #{!!productID}.")
       return @sendBadInputError(res, 'Need either apple.rawReceipt or stripe.timestamp and productID')
 
     if stripeTimestamp and not productID
+      @logPaymentError(req, 'Missing stripe productID')
       return @sendBadInputError(res, 'Need productID if paying with Stripe.')
 
     if stripeTimestamp and (not stripeToken) and (not user.get('stripeCustomerID'))
+      @logPaymentError(req, 'Missing stripe token')
       return @sendBadInputError(res, 'Need stripe.token if new customer.')
 
     if appleReceipt
       if not appleTransactionID
+        @logPaymentError(req, 'Missing apple transaction id')
         return @sendBadInputError(res, 'Apple purchase? Need to specify which transaction.')
       @handleApplePaymentPost(req, res, appleReceipt, appleTransactionID, appleLocalPrice)
 
@@ -80,11 +95,14 @@ PaymentHandler = class PaymentHandler extends Handler
     verifyReq = request.post({url: config.apple.verifyURL, json: formFields}, (err, verifyRes, body) =>
       if err or not body?.receipt?.in_app or (not body?.bundle_id is 'com.codecombat.CodeCombat')
         console.warn 'apple receipt error?', err, body
+        @logPaymentError(req, 'Unable to verify apple receipt')
         @sendBadInputError(res, 'Unable to verify Apple receipt.')
         return
 
       transaction = _.find body.receipt.in_app, { transaction_id: transactionID }
-      return @sendBadInputError(res, 'Invalid transactionID.') unless transaction
+      unless transaction
+        @logPaymentError(req, 'Missing transaction given id.')
+        return @sendBadInputError(res, 'Invalid transactionID.')
 
       #- Check existence
       transactionID = transaction.transaction_id
@@ -93,10 +111,13 @@ PaymentHandler = class PaymentHandler extends Handler
 
         if payment
           unless payment.get('recipient').equals(req.user._id)
+            @logPaymentError(req, 'Cross user apple payment.')
             return @sendForbiddenError(res)
 
           @recalculateGemsFor(req.user, (err) =>
-            return @sendDatabaseError(res, err) if err
+            if err
+              @logPaymentError(req, 'Apple recalc db error.'+err)
+              return @sendDatabaseError(res, err)
             @sendSuccess(res, @formatEntity(req, payment))
           )
           return
@@ -114,11 +135,18 @@ PaymentHandler = class PaymentHandler extends Handler
         }
 
         validation = @validateDocumentInput(payment.toObject())
-        return @sendBadInputError(res, validation.errors) if validation.valid is false
+        if validation.valid is false
+          @logPaymentError(req, 'Invalid apple payment object.')
+          return @sendBadInputError(res, validation.errors)
+          
         payment.save((err) =>
-          return @sendDatabaseError(res, err) if err
+          if err
+            @logPaymentError(req, 'Apple payment save error.'+err)
+            return @sendDatabaseError(res, err)
           @incrementGemsFor(req.user, product.gems, (err) =>
-            return @sendDatabaseError(res, err) if err
+            if err
+              @logPaymentError(req, 'Apple incr db error.'+err)
+              return @sendDatabaseError(res, err)
             @sendPaymentHipChatMessage user: req.user, payment: payment
             @sendCreated(res, @formatEntity(req, payment))
           )
@@ -139,11 +167,14 @@ PaymentHandler = class PaymentHandler extends Handler
       }).then(((customer) =>
         req.user.set('stripeCustomerID', customer.id)
         req.user.save((err) =>
-          return @sendDatabaseError(res, err) if err
+          if err
+            @logPaymentError(req, 'Stripe customer id save db error. '+err)
+            return @sendDatabaseError(res, err)
           @beginStripePayment(req, res, timestamp, productID)
         )
         ),
         (err) =>
+          @logPaymentError(req, 'Stripe customer creation error. '+err)
           return @sendDatabaseError(res, err)
       )
 
@@ -171,7 +202,9 @@ PaymentHandler = class PaymentHandler extends Handler
     ],
 
       ((err, results) =>
-        return @sendDatabaseError(res, err) if err
+        if err
+          @logPaymentError(req, 'Stripe async load db error. '+err)
+          return @sendDatabaseError(res, err) 
         [payment, charge] = results
 
         if not (payment or charge)
@@ -185,7 +218,9 @@ PaymentHandler = class PaymentHandler extends Handler
         else
           # Charged Stripe and recorded it. Recalculate gems to make sure credited the purchase.
           @recalculateGemsFor(req.user, (err) =>
-              return @sendDatabaseError(res, err) if err
+              if err
+                @logPaymentError(req, 'Stripe recalc db error. '+err)
+                return @sendDatabaseError(res, err)
               @sendPaymentHipChatMessage user: req.user, payment: payment
               @sendSuccess(res, @formatEntity(req, payment))
           )
@@ -214,6 +249,7 @@ PaymentHandler = class PaymentHandler extends Handler
         if err.type in ['StripeCardError', 'StripeInvalidRequestError']
           @sendError(res, 402, err.message)
         else
+          @logPaymentError(req, 'Stripe charge error. '+err)
           @sendDatabaseError(res, 'Error charging card, please retry.'))
     )
 
@@ -232,13 +268,17 @@ PaymentHandler = class PaymentHandler extends Handler
     }
 
     validation = @validateDocumentInput(payment.toObject())
-    return @sendBadInputError(res, validation.errors) if validation.valid is false
+    if validation.valid is false
+      @logPaymentError(req, 'Invalid stripe payment object.')
+      return @sendBadInputError(res, validation.errors)
     payment.save((err) =>
 
       # Credit gems
       return @sendDatabaseError(res, err) if err
       @incrementGemsFor(req.user, product.gems, (err) =>
-        return @sendDatabaseError(res, err) if err
+        if err
+          @logPaymentError(req, 'Stripe incr db error. '+err)
+          return @sendDatabaseError(res, err)
         @sendCreated(res, @formatEntity(req, payment))
       )
     )
