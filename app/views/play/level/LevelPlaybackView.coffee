@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/playback'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class LevelPlaybackView extends CocoView

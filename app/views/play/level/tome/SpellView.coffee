@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 filters = require 'lib/image_filter'
 Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager

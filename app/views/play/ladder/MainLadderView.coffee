@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/play/ladder_home'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'

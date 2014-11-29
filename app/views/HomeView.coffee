@@ -1,10 +1,5 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/home'
-WizardLank = require 'lib/surface/WizardLank'
-ThangType = require 'models/ThangType'
-Simulator = require 'lib/simulator/Simulator'
-
-{me} = require '/lib/auth'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -15,7 +10,7 @@ module.exports = class HomeView extends RootView
 
   constructor: ->
     super()
-    window.tracker?.trackEvent 'Homepage', Action: 'Loaded'
+    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage', ['Google Analytics']
     if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
       @setUpHourOfCode()
     elapsed = (new Date() - new Date(me.get('dateCreated')))
@@ -41,16 +36,12 @@ module.exports = class HomeView extends RootView
     @playSound 'menu-button-click'
     e.preventDefault()
     e.stopImmediatePropagation()
-    window.tracker?.trackEvent 'Homepage', Action: 'Play'
+    window.tracker?.trackEvent 'Click Play', category: 'Homepage'
     window.open '/play', '_blank'
 
   afterInsert: ->
     super(arguments...)
     @$el.addClass 'hour-of-code' if @explainsHourOfCode
-    if me.isAdmin() and me.get('slug') is 'nick'
-      LevelSetupManager = require 'lib/LevelSetupManager'
-      setupManager = new LevelSetupManager levelID: 'dungeons-of-kithgard', hadEverChosenHero: true, parent: @
-      setupManager.open()
 
   setUpHourOfCode: ->
     elapsed = (new Date() - new Date(me.get('dateCreated')))

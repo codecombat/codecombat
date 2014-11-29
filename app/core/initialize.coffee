@@ -1,24 +1,24 @@
 Backbone.Mediator.setValidationEnabled false
-app = require 'application'
+app = require 'core/application'
 
 channelSchemas =
-  'auth': require './schemas/subscriptions/auth'
-  'bus': require './schemas/subscriptions/bus'
-  'editor': require './schemas/subscriptions/editor'
-  'errors': require './schemas/subscriptions/errors'
-  'ipad': require './schemas/subscriptions/ipad'
-  'misc': require './schemas/subscriptions/misc'
-  'multiplayer': require './schemas/subscriptions/multiplayer'
-  'play': require './schemas/subscriptions/play'
-  'surface': require './schemas/subscriptions/surface'
-  'tome': require './schemas/subscriptions/tome'
-  'god': require './schemas/subscriptions/god'
-  'scripts': require './schemas/subscriptions/scripts'
-  'world': require './schemas/subscriptions/world'
+  'auth': require 'schemas/subscriptions/auth'
+  'bus': require 'schemas/subscriptions/bus'
+  'editor': require 'schemas/subscriptions/editor'
+  'errors': require 'schemas/subscriptions/errors'
+  'ipad': require 'schemas/subscriptions/ipad'
+  'misc': require 'schemas/subscriptions/misc'
+  'multiplayer': require 'schemas/subscriptions/multiplayer'
+  'play': require 'schemas/subscriptions/play'
+  'surface': require 'schemas/subscriptions/surface'
+  'tome': require 'schemas/subscriptions/tome'
+  'god': require 'schemas/subscriptions/god'
+  'scripts': require 'schemas/subscriptions/scripts'
+  'world': require 'schemas/subscriptions/world'
 
 definitionSchemas =
-  'bus': require './schemas/definitions/bus'
-  'misc': require './schemas/definitions/misc'
+  'bus': require 'schemas/definitions/bus'
+  'misc': require 'schemas/definitions/misc'
 
 init = ->
   setupConsoleLogging()
@@ -33,7 +33,7 @@ init = ->
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
-  treemaExt = require 'treema-ext'
+  treemaExt = require 'core/treema-ext'
   treemaExt.setup()
 
 handleNormalUrls = ->
@@ -70,20 +70,13 @@ setUpBackboneMediator = ->
         webkit.messageHandlers.backboneEventHandler?.postMessage channel: arguments[0], event: serializeForIOS(arguments[1] ? {})
 
 setUpMoment = ->
-  {me} = require 'lib/auth'
+  {me} = require 'core/auth'
   moment.lang me.get('preferredLanguage', true), {}
   me.on 'change:preferredLanguage', (me) ->
     moment.lang me.get('preferredLanguage', true), {}
 
 initializeUtilityServices = ->
-  services = [
-    #'./lib/services/filepicker'  # Not until needed
-    './lib/services/segmentio'
-  ]
-
-  for service in services
-    service = require service
-    service()
+  require('core/services/segmentio')()
 
 setupConsoleLogging = ->
   unless console.debug

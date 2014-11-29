@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/cast_button'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class CastButtonView extends CocoView

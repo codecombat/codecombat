@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/problem_alert'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'

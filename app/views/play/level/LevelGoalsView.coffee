@@ -1,7 +1,7 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/goals'
-{me} = require 'lib/auth'
-utils = require 'lib/utils'
+{me} = require 'core/auth'
+utils = require 'core/utils'
 
 stateIconMap =
   success: 'glyphicon-ok'

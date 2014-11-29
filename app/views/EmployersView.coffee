@@ -1,7 +1,7 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/employers'
 User = require 'models/User'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 

@@ -1,5 +1,5 @@
 SuperModel = require 'models/SuperModel'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'

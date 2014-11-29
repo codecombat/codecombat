@@ -1,7 +1,7 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/game-menu/inventory-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 ItemView = require './ItemView'
@@ -91,7 +91,7 @@ module.exports = class InventoryModal extends ModalView
     locked = not (item.get('original') in me.items())
     #locked = false if me.get('slug') is 'nick'
 
-    if not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats) and not locked  # Temp: while there are placeholder items
+    if not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats) and locked  # Temp: while there are placeholder items
       null  # Don't put into a collection
     else if locked and item.get('slug') isnt 'simple-boots'
       @itemGroups.lockedItems.add(item)
@@ -428,7 +428,7 @@ module.exports = class InventoryModal extends ModalView
       hasGoneFullScreenOnce = true
     @updateConfig =>
       @trigger? 'play-click'
-    window.tracker?.trackEvent 'Play Level Modal', Action: 'Play', ['Google Analytics']
+    window.tracker?.trackEvent 'Inventory Play', category: 'Play Level', ['Google Analytics']
 
   updateConfig: (callback, skipSessionSave) ->
     sessionHeroConfig = @options.session.get('heroConfig') ? {}
@@ -532,7 +532,7 @@ module.exports = class InventoryModal extends ModalView
       continue unless dollImages = item?.get('dollImages')
       didAdd = @addDollImage slot, dollImages, heroClass, gender
       slotsWithImages.push slot if didAdd
-    @$el.find('#hero-image, #hero-image-hair, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
+    @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 

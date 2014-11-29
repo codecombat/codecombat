@@ -1,6 +1,6 @@
 SpellView = require './SpellView'
 SpellListTabEntryView = require './SpellListTabEntryView'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 {createAetherOptions} = require 'lib/aether_utils'
 
 module.exports = class Spell

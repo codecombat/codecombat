@@ -71,7 +71,7 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', waist: 'leather-belt'}
-    restrictedGear: {feet: 'leather-boots'}
+    restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
     requiredCode: ['Brak']
   'favorable-odds':
     disableSpaces: true
@@ -82,7 +82,7 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
-    restrictedGear: {feet: 'leather-boots'}
+    restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'the-raised-sword':
     disableSpaces: true
     hidesPlayButton: true
@@ -92,7 +92,7 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate'}
-    restrictedGear: {feet: 'leather-boots'}
+    restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'the-first-kithmaze':
     hidesRunShortcut: true
     hidesHUD: true

@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class PointChooser extends CocoClass
   constructor: (@options) ->

@@ -28,23 +28,46 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="/stylesheets/app.css">
 
-  <script src="/lib/ace/ace.js"></script>
+  <script src="/lib/ace/ace.js" defer></script>
   <!--[if IE 9]><script src="/javascripts/box2d.js"></script><![endif]-->
-  <script src="/javascripts/vendor.js"></script>
-  <script src="/javascripts/aether.js"></script>
-  <script src="/javascripts/app.js"></script> <!-- it's all Backbone! -->
-  <script>$(function() { FastClick.attach(document.body); });</script>
+  <script src="/javascripts/vendor.js" defer></script>
+  <script src="/javascripts/aether.js" defer></script>
+  <script src="/javascripts/app.js" defer></script> <!-- it's all Backbone! -->
   <script>
-    window.userObject = "userObjectTag";
+    onLoad = function() {
+      FastClick.attach(document.body);
+      window.userObject = "userObjectTag";
+      require('core/initialize');
+    }
   </script>
-  <script>require('initialize');</script>
 
 </head>
-<body class="nano clearfix">
+<body class="nano clearfix" onload="onLoad();">
   <div id="fb-root"></div>
 
-  <div id="page-container" class="nano-content"></div>
+  <div id="page-container" class="nano-content">
+  </div>
 
   <div id="modal-wrapper" class="modal-content"></div>
+
+  <div class="modal fade" id="module-loading-list">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">LOADING</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="panel panel-primary" id="module-loading-list">-->
+    <!--<div class="panel-heading">-->
+      <!--<div class="panel-title">LOADING</div>-->
+    <!--</div>-->
+    <!--<ul class="list-group"></ul>-->
+  <!--</div>-->
 </body>
 </html>

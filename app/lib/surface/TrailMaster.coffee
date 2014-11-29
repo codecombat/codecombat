@@ -8,7 +8,7 @@ FUTURE_PATH_INTERVAL_DIVISOR = 4
 PAST_PATH_INTERVAL_DIVISOR = 2
 
 Camera = require './Camera'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class TrailMaster extends CocoClass
   world: null

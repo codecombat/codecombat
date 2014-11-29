@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/game-menu/item-view'
 
 module.exports = class ItemView extends CocoView

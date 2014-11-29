@@ -1,7 +1,7 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/recover'
-forms = require 'lib/forms'
-{genericFailure} = require 'lib/errors'
+forms = require 'core/forms'
+{genericFailure} = require 'core/errors'
 
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->

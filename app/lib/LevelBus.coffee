@@ -1,7 +1,7 @@
 Bus = require './Bus'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 LevelSession = require 'models/LevelSession'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 module.exports = class LevelBus extends Bus
 

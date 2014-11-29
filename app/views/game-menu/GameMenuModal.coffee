@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/game-menu/game-menu-modal'
 submenuViews = [
   require 'views/game-menu/SaveLoadView'

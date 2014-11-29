@@ -1,5 +1,5 @@
 # Template for classes with common functions, like hooking into the Mediator.
-utils = require './utils'
+utils = require './../core/utils'
 classCount = 0
 makeScopeName = -> "class-scope-#{classCount++}"
 doNothing = ->

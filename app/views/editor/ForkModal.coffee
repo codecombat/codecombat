@@ -1,6 +1,6 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/fork-modal'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 
 module.exports = class ForkModal extends ModalView
   id: 'fork-modal'

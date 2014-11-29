@@ -6,7 +6,10 @@ LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 
-RootView = require 'views/kinds/RootView'
+# in the template, but need to require to load them
+require 'views/modal/RevertModal'
+
+RootView = require 'views/core/RootView'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangTypeVersionsModal = require './ThangTypeVersionsModal'
 ThangTypeColorsTabView = require './ThangTypeColorsTabView'
@@ -15,7 +18,7 @@ ForkModal = require 'views/editor/ForkModal'
 VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
-storage = require 'lib/storage'
+storage = require 'core/storage'
 
 CENTER = {x: 200, y: 300}
 

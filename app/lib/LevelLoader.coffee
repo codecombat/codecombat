@@ -6,9 +6,9 @@ LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
 
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-app = require 'application'
+app = require 'core/application'
 World = require 'lib/world/world'
 
 # This is an initial stab at unifying loading and setup into a single place which can

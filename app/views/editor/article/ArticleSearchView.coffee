@@ -1,4 +1,4 @@
-SearchView = require 'views/kinds/SearchView'
+SearchView = require 'views/common/SearchView'
 
 module.exports = class ArticleSearchView extends SearchView
   id: 'editor-article-home-view'

@@ -1,5 +1,5 @@
-CocoView = require 'views/kinds/CocoView'
-CocoClass = require 'lib/CocoClass'
+CocoView = require 'views/core/CocoView'
+CocoClass = require 'core/CocoClass'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'

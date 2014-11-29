@@ -1,10 +1,14 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
+
+# in the template, but need to require them to load them
+require 'views/modal/RevertModal'
+require 'views/editor/level/modals/GenerateTerrainModal'
 
 ThangsTabView = require './thangs/ThangsTabView'
 SettingsTabView = require './settings/SettingsTabView'
@@ -20,7 +24,7 @@ VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
 SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
-storage = require 'lib/storage'
+storage = require 'core/storage'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'

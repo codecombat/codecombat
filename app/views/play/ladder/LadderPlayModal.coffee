@@ -1,7 +1,7 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 LeaderboardCollection = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 

@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/play-account-modal'
 AccountSettingsView = require 'views/account/AccountSettingsView'
 

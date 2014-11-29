@@ -1,5 +1,5 @@
-RootView = require 'views/kinds/RootView'
-template = require 'templates/kinds/user'
+RootView = require 'views/core/RootView'
+template = require 'templates/common/user'
 User = require 'models/User'
 
 module.exports = class UserView extends RootView

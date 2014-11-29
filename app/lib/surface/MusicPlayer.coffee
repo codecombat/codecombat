@@ -1,6 +1,6 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 CROSSFADE_LENGTH = 1500
 MUSIC_VOLUME = 0.6

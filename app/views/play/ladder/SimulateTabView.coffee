@@ -1,8 +1,8 @@
-CocoView = require 'views/kinds/CocoView'
-CocoClass = require 'lib/CocoClass'
+CocoView = require 'views/core/CocoView'
+CocoClass = require 'core/CocoClass'
 SimulatorsLeaderboardCollection = require 'collections/SimulatorsLeaderboardCollection'
 Simulator = require 'lib/simulator/Simulator'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class SimulateTabView extends CocoView
   id: 'simulate-tab-view'

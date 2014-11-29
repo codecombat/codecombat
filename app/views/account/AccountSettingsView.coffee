@@ -1,7 +1,7 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/account/account-settings-view'
-{me} = require 'lib/auth'
-forms = require 'lib/forms'
+{me} = require 'core/auth'
+forms = require 'core/forms'
 User = require 'models/User'
 AuthModal = require 'views/modal/AuthModal'
 
@@ -19,7 +19,7 @@ module.exports = class AccountSettingsView extends CocoView
     
   constructor: (options) ->
     super options
-    require('lib/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
+    require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     @uploadFilePath = "db/user/#{me.id}"
 
   afterInsert: ->

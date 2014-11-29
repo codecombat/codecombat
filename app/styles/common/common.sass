@@ -292,3 +292,27 @@ html.no-borderimage
 
 body > iframe[src^="https://apis.google.com"]
   display: none
+
+#module-loading-list
+  .modal-content
+    background: white
+    border-shadow: 2px 2px 10px black
+  
+  ul
+    max-height: 500px
+    overflow: scroll
+  
+  li
+    padding: 2px 15px
+    font-size: 10px
+    .glyphicon
+      margin-right: 10px
+    
+    &.loading
+      .glyphicon-ok
+        display: none
+        
+    &.success
+      font-weight: bold
+      .glyphicon-minus
+        display: none

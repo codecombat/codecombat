@@ -1,16 +1,16 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 {teamDataFromLevel} = require './utils'
-{me} = require 'lib/auth'
-application = require 'application'
+{me} = require 'core/auth'
+application = require 'core/application'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
 SimulateTabView = require './SimulateTabView'
 LadderPlayModal = require './LadderPlayModal'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 HIGHEST_SCORE = 1000000
 

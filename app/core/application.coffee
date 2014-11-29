@@ -1,10 +1,10 @@
-FacebookHandler = require 'lib/FacebookHandler'
-GPlusHandler = require 'lib/GPlusHandler'
-GitHubHandler = require 'lib/GitHubHandler'
-locale = require 'locale/locale'  # TODO: don't require all of these? Might be slow. (Haven't checked.)
-{me} = require 'lib/auth'
-Tracker = require 'lib/Tracker'
-CocoView = require 'views/kinds/CocoView'
+FacebookHandler = require 'core/social-handlers/FacebookHandler'
+GPlusHandler = require 'core/social-handlers/GPlusHandler'
+GitHubHandler = require 'core/social-handlers/GitHubHandler'
+ModuleLoader = require 'core/ModuleLoader'
+locale = require 'locale/locale'
+{me} = require 'core/auth'
+Tracker = require 'core/Tracker'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -35,7 +35,7 @@ preload = (arrayOfImages) ->
     $('<img/>')[0].src = @
 
 Application = initialize: ->
-  Router = require('Router')
+  Router = require('core/Router')
   @isProduction = -> document.location.href.search('codecombat.com') isnt -1
   @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('iPad') isnt -1
   $('body').addClass 'ipad' if @isIPadApp
@@ -43,6 +43,8 @@ Application = initialize: ->
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
   @githubHandler = new GitHubHandler()
+  @moduleLoader = new ModuleLoader()
+  @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
   $(document).bind 'keydown', preventBackspace
   preload(COMMON_FILES)
   $.i18n.init {

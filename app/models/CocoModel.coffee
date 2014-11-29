@@ -1,5 +1,5 @@
-storage = require 'lib/storage'
-deltasLib = require 'lib/deltas'
+storage = require 'core/storage'
+deltasLib = require 'core/deltas'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -333,7 +333,15 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
-    NewAchievementCollection = require '../collections/NewAchievementCollection' # Nasty mutual inclusion if put on top
+
+    CocoCollection = require 'collections/CocoCollection'
+    Achievement = require 'models/Achievement'
+    
+    class NewAchievementCollection extends CocoCollection
+      model: Achievement
+      initialize: (me = require('core/auth').me) ->
+        @url = "/db/user/#{me.id}/achievements?notified=false"
+
     achievements = new NewAchievementCollection
     achievements.fetch
       success: (collection) ->

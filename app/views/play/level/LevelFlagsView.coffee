@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-flags-view'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
 multiplayerFlagDelay = 0.5  # Long, static second delay for now; should be more than enough.

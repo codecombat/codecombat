@@ -3,7 +3,7 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
 
 module.exports = class Angel extends CocoClass

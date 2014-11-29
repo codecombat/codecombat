@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
 module.exports = class WaitingScreen extends CocoClass

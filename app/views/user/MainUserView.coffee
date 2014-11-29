@@ -1,8 +1,8 @@
-UserView = require 'views/kinds/UserView'
+UserView = require 'views/common/UserView'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
 template = require 'templates/user/main-user-view'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
 class LevelSessionsCollection extends CocoCollection

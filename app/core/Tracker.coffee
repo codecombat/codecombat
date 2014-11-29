@@ -1,4 +1,4 @@
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 debugAnalytics = false
 
@@ -25,18 +25,29 @@ module.exports = class Tracker
     console.log 'Going to track visit for', "/#{url}" if debugAnalytics
     analytics.pageview "/#{url}"
 
-  trackEvent: (event, properties, includeProviders=null) =>
-    console.log 'Would track analytics event:', event, properties if debugAnalytics
+  trackEvent: (action, properties, includeProviders=null) =>
+    # 'action' is a string
+    # Google Analytics properties format: {category: 'Account', label: 'Premium', value: 50 }
+    # https://segment.com/docs/integrations/google-analytics/#track
+    # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#Anatomy
+    # Mixpanel properties format: whatever you want unlike GA
+    # https://segment.com/docs/integrations/mixpanel/
+    console.log 'Would track analytics event:', action, properties if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
-    console.log 'Going to track analytics event:', event, properties if debugAnalytics
+    console.log 'Going to track analytics event:', action, properties if debugAnalytics
     properties = properties or {}
     context = {}
+
+    # TODO: Restrict providers, if given includeProviders
+    # TODO: This method may not work anymore, because it is not referenced in the segment.io docs
+    # TODO: Can double check in Mixpanel
+    # TODO: https://segment.com/docs/api/tracking/track/
     if includeProviders
       context.providers = {'All': false}
       for provider in includeProviders
         context.providers[provider] = true
-    event.label = properties.label if properties.label
-    analytics?.track event, properties, context
+
+    analytics?.track action, properties, context
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
     # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming

@@ -1,6 +1,6 @@
 SuperModel = require 'models/SuperModel'
-utils = require 'lib/utils'
-CocoClass = require 'lib/CocoClass'
+utils = require 'core/utils'
+CocoClass = require 'core/CocoClass'
 loadingScreenTemplate = require 'templates/loading'
 loadingErrorTemplate = require 'templates/loading_error'
 

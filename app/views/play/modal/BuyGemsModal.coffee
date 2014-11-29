@@ -1,7 +1,7 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/buy-gems-modal'
-stripeHandler = require 'lib/services/stripe'
-utils = require 'lib/utils'
+stripeHandler = require 'core/services/stripe'
+utils = require 'core/utils'
 
 module.exports = class BuyGemsModal extends ModalView
   id: 'buy-gems-modal'

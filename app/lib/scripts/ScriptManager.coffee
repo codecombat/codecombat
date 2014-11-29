@@ -1,5 +1,5 @@
-CocoClass = require 'lib/CocoClass'
-CocoView = require 'views/kinds/CocoView'
+CocoClass = require 'core/CocoClass'
+CocoView = require 'views/core/CocoView'
 {scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
 
 allScriptModules = []

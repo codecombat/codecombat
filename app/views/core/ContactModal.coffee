@@ -1,8 +1,8 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/contact'
 
-forms = require 'lib/forms'
-{sendContactMessage} = require 'lib/contact'
+forms = require 'core/forms'
+{sendContactMessage} = require 'core/contact'
 
 contactSchema =
   additionalProperties: false

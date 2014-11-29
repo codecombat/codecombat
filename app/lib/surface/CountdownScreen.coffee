@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class CountdownScreen extends CocoClass
   subscriptions:

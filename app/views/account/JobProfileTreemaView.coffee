@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/account/job_profile'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class JobProfileTreemaView extends CocoView
   id: 'job-profile-view'

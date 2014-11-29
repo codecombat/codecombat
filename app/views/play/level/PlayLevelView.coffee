@@ -1,9 +1,9 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/play/level'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
-utils = require 'lib/utils'
-storage = require 'lib/storage'
+utils = require 'core/utils'
+storage = require 'core/storage'
 {createAetherOptions} = require 'lib/aether_utils'
 
 # tools
@@ -110,7 +110,7 @@ module.exports = class PlayLevelView extends RootView
       setTimeout f, 100
     else
       @load()
-      application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID, ['Google Analytics']
+      application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID, ['Google Analytics']
 
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
@@ -135,9 +135,8 @@ module.exports = class PlayLevelView extends RootView
     @loadEndTime = new Date()
     loadDuration = @loadEndTime - @loadStartTime
     console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
-    application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
+    application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration, ['Google Analytics']
     application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
-    application.tracker?.trackEvent 'Play Level', Action: 'Loaded', levelID: @levelID
 
   # CocoView overridden methods ###############################################
 
@@ -338,7 +337,7 @@ module.exports = class PlayLevelView extends RootView
     if @options.realTimeMultiplayerSessionID?
       Backbone.Mediator.publish 'playback:real-time-playback-waiting', {}
       @realTimeMultiplayerContinueGame @options.realTimeMultiplayerSessionID
-    application.tracker?.trackEvent 'Play Level', Action: 'Start Level', levelID: @levelID
+    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID
 
   playAmbientSound: ->
     return if @ambientSound
@@ -421,6 +420,7 @@ module.exports = class PlayLevelView extends RootView
     victoryTime = (new Date()) - @loadEndTime
     if victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
       application.tracker?.trackEvent 'Saw Victory',
+        category: 'Play Level'
         level: @level.get('name')
         label: @level.get('name')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
@@ -438,12 +438,12 @@ module.exports = class PlayLevelView extends RootView
     @tome.reloadAllCode()
     Backbone.Mediator.publish 'level:restarted', {}
     $('#level-done-button', @$el).hide()
-    application.tracker?.trackEvent 'Confirmed Restart', level: @level.get('name'), label: @level.get('name')
+    application.tracker?.trackEvent 'Confirmed Restart', category: 'Play Level', level: @level.get('name'), label: @level.get('name')
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
-    application.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @level.get('name'), label: @level.get('name')
+    application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name')
 
   onPlayNextLevel: ->
     nextLevelID = @getNextLevelID()

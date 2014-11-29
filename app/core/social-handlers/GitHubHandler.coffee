@@ -1,6 +1,6 @@
-CocoClass = require 'lib/CocoClass'
-{me} = require 'lib/auth'
-storage = require 'lib/storage'
+CocoClass = require 'core/CocoClass'
+{me} = require 'core/auth'
+storage = require 'core/storage'
 
 module.exports = class GitHubHandler extends CocoClass
   scopes: 'user:email'

@@ -1,7 +1,7 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/game-menu/guide-view'
 Article = require 'models/Article'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 # let's implement this once we have the docs database schema set up
 

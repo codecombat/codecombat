@@ -1,9 +1,9 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/game-menu/options-view'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 
 module.exports = class OptionsView extends CocoView
   id: 'options-view'
@@ -35,7 +35,7 @@ module.exports = class OptionsView extends CocoView
     @onNameChange = _.debounce(@checkNameExists, 500)
     @on 'nameChanged', @onNameChange
     @playerName = me.get 'name'
-    require('lib/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
+    require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     super options
 
   getRenderData: (c={}) ->

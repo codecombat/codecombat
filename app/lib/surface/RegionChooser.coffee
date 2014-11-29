@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Camera = require './Camera'
 
 module.exports = class RegionChooser extends CocoClass

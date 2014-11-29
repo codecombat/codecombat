@@ -1,10 +1,10 @@
 CocoModel = require 'models/CocoModel'
 CocoCollection = require 'collections/CocoCollection'
-{me} = require('lib/auth')
+{me} = require('core/auth')
 locale = require 'locale/locale'
 
 initializeFilePicker = ->
-  require('lib/services/filepicker')() unless window.application.isIPadApp
+  require('core/services/filepicker')() unless window.application.isIPadApp
 
 class DateTimeTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-date-time'

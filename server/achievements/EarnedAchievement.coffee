@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/earned_achievement'
-util = require '../../app/lib/utils'
+util = require '../../app/core/utils'
 log = require 'winston'
 
 EarnedAchievementSchema = new mongoose.Schema({

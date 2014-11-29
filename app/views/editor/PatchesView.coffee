@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/patches'
 PatchesCollection = require 'collections/PatchesCollection'
 nameLoader = require 'lib/NameLoader'

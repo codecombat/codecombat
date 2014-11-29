@@ -1,8 +1,8 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 TrailMaster = require './TrailMaster'
 Dropper = require './Dropper'
 AudioPlayer = require 'lib/AudioPlayer'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 Camera = require './Camera'
 CameraBorder = require './CameraBorder'
 Layer = require('./LayerAdapter')

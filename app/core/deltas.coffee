@@ -1,4 +1,4 @@
-SystemNameLoader = require './SystemNameLoader'
+SystemNameLoader = require './../core/SystemNameLoader'
 ###
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched

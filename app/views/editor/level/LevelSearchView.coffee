@@ -1,4 +1,4 @@
-SearchView = require 'views/kinds/SearchView'
+SearchView = require 'views/common/SearchView'
 
 module.exports = class LevelSearchView extends SearchView
   id: 'editor-level-home-view'

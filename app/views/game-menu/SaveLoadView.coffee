@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/game-menu/save-load-view'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 
 module.exports = class SaveLoadView extends CocoView

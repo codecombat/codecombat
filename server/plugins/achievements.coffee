@@ -1,7 +1,7 @@
 mongoose = require 'mongoose'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
-util = require '../../app/lib/utils'
+util = require '../../app/core/utils'
 log = require 'winston'
 
 # Warning: To ensure proper functioning one must always `find` documents before saving them.

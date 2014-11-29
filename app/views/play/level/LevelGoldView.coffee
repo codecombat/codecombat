@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/gold'
 teamTemplate = require 'templates/play/level/team_gold'
 

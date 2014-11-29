@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/legal'
 
 module.exports = class LegalView extends RootView

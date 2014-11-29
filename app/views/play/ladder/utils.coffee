@@ -1,4 +1,4 @@
-{hslToHex} = require 'lib/utils'
+{hslToHex} = require 'core/utils'
 
 module.exports.teamDataFromLevel = (level) ->
   alliedSystem = _.find level.get('systems', true), (value) -> value.config?.teams?

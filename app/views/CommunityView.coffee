@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/community'
 
 module.exports = class CommunityView extends RootView

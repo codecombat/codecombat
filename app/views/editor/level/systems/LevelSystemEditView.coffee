@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/system/level-system-edit-view'
 LevelSystem = require 'models/LevelSystem'
 SystemVersionsModal = require 'views/editor/level/systems/SystemVersionsModal'

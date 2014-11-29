@@ -1,6 +1,6 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'

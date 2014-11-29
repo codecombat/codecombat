@@ -1,5 +1,5 @@
 CocoModel = require './CocoModel'
-utils = require '../lib/utils'
+utils = require '../core/utils'
 
 module.exports = class Achievement extends CocoModel
   @className: 'Achievement'

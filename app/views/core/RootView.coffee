@@ -3,12 +3,12 @@
 
 CocoView = require './CocoView'
 
-{logoutUser, me} = require('lib/auth')
+{logoutUser, me} = require('core/auth')
 locale = require 'locale/locale'
 
 Achievement = require 'models/Achievement'
-AchievementPopup = require 'views/achievements/AchievementPopup'
-utils = require 'lib/utils'
+AchievementPopup = require 'views/core/AchievementPopup'
+utils = require 'core/utils'
 
 # TODO remove
 
@@ -47,7 +47,7 @@ module.exports = class RootView extends CocoView
 
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out")
-    window.tracker?.trackEvent 'Homepage', Action: 'Log Out' if @id is 'home-view'
+    window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
 
   showWizardSettingsModal: ->
@@ -57,18 +57,18 @@ module.exports = class RootView extends CocoView
 
   onClickSignupButton: ->
     AuthModal = require 'views/modal/AuthModal'
-    window.tracker?.trackEvent 'Homepage', Action: 'Signup Modal' if @id is 'home-view'
+    window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'signup'}
     
   onClickLoginButton: ->
     AuthModal = require 'views/modal/AuthModal'
-    window.tracker?.trackEvent 'Homepage', Action: 'Login Modal' if @id is 'home-view'
+    window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'login'}
     
   onClickAnchor: (e) ->
     return if @destroyed
     anchorText = e?.currentTarget?.text
-    window.tracker?.trackEvent 'Homepage', Action: anchorText, ['Google Analytics'] if @id is 'home-view' and anchorText
+    window.tracker?.trackEvent anchorText, category: 'Homepage', ['Google Analytics'] if @id is 'home-view' and anchorText
     @toggleModal e
 
   onOpenModalView: (e) ->
@@ -139,9 +139,17 @@ module.exports = class RootView extends CocoView
     newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
+    
+    loading = application.moduleLoader.loadLanguage(me.get('preferredLanguage', true))
+    if loading
+      @listenToOnce application.moduleLoader, 'load-complete', @onLanguageLoaded
+    else
+      @onLanguageLoaded()
+    
+  onLanguageLoaded: ->
     @render()
-    unless newLang.split('-')[0] is 'en'
-      DiplomatModal = require 'views/modal/DiplomatSuggestionModal'
+    unless me.get('preferredLanguage').split('-')[0] is 'en'
+      DiplomatModal = require 'views/core/DiplomatSuggestionModal'
       @openModalView(new DiplomatModal())
 
   saveLanguage: (newLang) ->
