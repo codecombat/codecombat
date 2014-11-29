@@ -139,8 +139,16 @@ module.exports = class RootView extends CocoView
     newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
+    
+    loading = application.moduleLoader.loadLanguage(me.get('preferredLanguage', true))
+    if loading
+      @listenToOnce application.moduleLoader, 'load-complete', @onLanguageLoaded
+    else
+      @onLanguageLoaded()
+    
+  onLanguageLoaded: ->
     @render()
-    unless newLang.split('-')[0] is 'en'
+    unless me.get('preferredLanguage').split('-')[0] is 'en'
       DiplomatModal = require 'views/modal/DiplomatSuggestionModal'
       @openModalView(new DiplomatModal())
 

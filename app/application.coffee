@@ -1,10 +1,10 @@
 FacebookHandler = require 'lib/FacebookHandler'
 GPlusHandler = require 'lib/GPlusHandler'
 GitHubHandler = require 'lib/GitHubHandler'
-locale = require 'locale/locale'  # TODO: don't require all of these? Might be slow. (Haven't checked.)
+ModuleLoader = require 'ModuleLoader'
+locale = require 'locale/locale'
 {me} = require 'lib/auth'
 Tracker = require 'lib/Tracker'
-CocoView = require 'views/kinds/CocoView'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -43,6 +43,8 @@ Application = initialize: ->
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
   @githubHandler = new GitHubHandler()
+  @moduleLoader = new ModuleLoader()
+  @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
   $(document).bind 'keydown', preventBackspace
   preload(COMMON_FILES)
   $.i18n.init {

@@ -105,8 +105,12 @@ module.exports = class CocoRouter extends Backbone.Router
     window.location.href = window.location.href
 
   routeDirectly: (path, args) ->
-    path = "views/#{path}"
+    path = "views/#{path}" if not _.str.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
+    if not ViewClass and application.moduleLoader.load(path)
+      @listenToOnce application.moduleLoader, 'load-complete', ->
+        @routeDirectly(path, args)
+      return
     return @openView @notFoundView() if not ViewClass
     view = new ViewClass({}, args...)  # options, then any path fragment args
     view.render()
@@ -148,11 +152,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
   initializeSocialMediaServices: ->
     return if application.testing or application.demoing
-    services = [
-      './lib/services/facebook'
-      './lib/services/google'
-      './lib/services/twitter'
-    ]
+    require('./lib/services/facebook')()
+    require('./lib/services/google')()
+    require('./lib/services/twitter')()
 
     for service in services
       service = require service

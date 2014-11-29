@@ -1,10 +1,5 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/home'
-WizardLank = require 'lib/surface/WizardLank'
-ThangType = require 'models/ThangType'
-Simulator = require 'lib/simulator/Simulator'
-
-{me} = require '/lib/auth'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -47,10 +42,6 @@ module.exports = class HomeView extends RootView
   afterInsert: ->
     super(arguments...)
     @$el.addClass 'hour-of-code' if @explainsHourOfCode
-    if me.isAdmin() and me.get('slug') is 'nick'
-      LevelSetupManager = require 'lib/LevelSetupManager'
-      setupManager = new LevelSetupManager levelID: 'dungeons-of-kithgard', hadEverChosenHero: true, parent: @
-      setupManager.open()
 
   setUpHourOfCode: ->
     elapsed = (new Date() - new Date(me.get('dateCreated')))

@@ -112,8 +112,13 @@ exports.setupMiddleware = (app) ->
   setupTrailingSlashRemovingMiddleware app
   setupRedirectMiddleware app
   setupErrorMiddleware app
-
+  setupJavascript404s app
+  
 ###Routing function implementations###
+
+setupJavascript404s = (app) ->
+  app.get '/javascripts/*', (req, res) ->
+    res.status(404).send('Not found')
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->

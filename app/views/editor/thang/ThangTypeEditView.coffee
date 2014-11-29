@@ -6,6 +6,9 @@ LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 
+# in the template, but need to require to load them
+require 'views/modal/RevertModal'
+
 RootView = require 'views/kinds/RootView'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangTypeVersionsModal = require './ThangTypeVersionsModal'

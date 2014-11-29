@@ -6,6 +6,10 @@ World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
 
+# in the template, but need to require them to load them
+require 'views/modal/RevertModal'
+require 'views/editor/level/modals/GenerateTerrainModal'
+
 ThangsTabView = require './thangs/ThangsTabView'
 SettingsTabView = require './settings/SettingsTabView'
 ScriptsTabView = require './scripts/ScriptsTabView'

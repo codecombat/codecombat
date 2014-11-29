@@ -4,6 +4,9 @@ Patch = require 'models/Patch'
 template = require 'templates/i18n/i18n-edit-model-view'
 deltasLib = require 'lib/deltas'
 
+# in the template, but need to require to load them
+require 'modal/RevertModal'
+
 module.exports = class I18NEditModelView extends RootView
   className: 'editor i18n-edit-model-view'
   template: template
