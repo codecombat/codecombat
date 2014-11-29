@@ -10,7 +10,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
     for_developers: "适合开发者" # Not currently shown on home page.
-    or_ipad: "或者下载iPad版本" # Or download for iPad
+    or_ipad: "或者下载iPad版本"
 
   nav:
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
@@ -56,6 +56,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
     available: "可用"
     skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
@@ -246,6 +247,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
     tome_your_skills: "你的技能"
+#    tome_help: "Help"
     tome_current_method: "当前方法"
     hud_continue_short: "继续"
     code_saved: "代码已保存"
@@ -325,6 +327,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -350,6 +355,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     range: "攻击范围" # As in "attack or visual range"
     blocks: "格挡" # As in "this shield blocks this much damage"
     skills: "技能"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   account:
     recently_played: "最近玩过的关卡"
     no_recent_games: "最近两个星期没有玩过游戏。"
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
   loading_error:
     could_not_load: "载入失败"

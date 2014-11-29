@@ -56,6 +56,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     confirm: "Devam et"
     owned: "Sahipsin" # For items you own
     locked: "Kilitli"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
     available: "Açık"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Kahramanlar" # Tooltip on hero shop button from /play
@@ -137,7 +138,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     create: "Oluştur"
     manual: "El ile"
     fork: "Çatalla"
-    play: "Oyna" # When used as an action verb, like "Sonraki Seviyeyi Oyna"
+    play: "Oyna" # When used as an action verb, like "Play next level"
     retry: "Yeniden Dene"
     watch: "İzle"
     unwatch: "İzlemeyi Bırak"
@@ -246,6 +247,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_select_a_thang: "Birini seç..."
     tome_available_spells: "Kullanılabilir Büyüler"
     tome_your_skills: "Yetenekleriniz"
+#    tome_help: "Help"
 #    tome_current_method: "Current Method"
     hud_continue_short: "Devam"
     code_saved: "Kod Kaydedildi"
@@ -325,12 +327,15 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "Kahramanınızı Seçin"
     programming_language: "Programlama Dili"
     programming_language_description: "Hangi programlama dilini kullanmak istiyorsunuz?"
-#    default: "Normal"
+#    default: "Default"
 #    experimental: "Experimental"
     python_blurb: "Basit ancak güçlü. Python mükemmel bir genel amaçlı dildir."
     javascript_blurb: "Web'in dili."
@@ -350,6 +355,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     range: "Menzil" # As in "attack or visual range"
     blocks: "Blok" # As in "this shield blocks this much damage"
     skills: "Yetenekler"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   account:
     recently_played: "En Son Oynananlar"
     no_recent_games: "Son iki hafta içerisinde hiç oyun oynanmadı."
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
   loading_error:
     could_not_load: "Yüklenemiyor"

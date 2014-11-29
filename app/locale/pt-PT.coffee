@@ -56,6 +56,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     confirm: "Confirmar"
     owned: "Obtido" # For items you own
     locked: "Bloqueado"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
     available: "Disponível"
     skills_granted: "Habilidades Garantidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -246,6 +247,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_select_a_thang: "Seleciona Alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
+#    tome_help: "Help"
     tome_current_method: "Método Atual"
     hud_continue_short: "Continuar"
     code_saved: "Código Guardado"
@@ -325,6 +327,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     purchasing: "A adquirir..."
     declined: "O teu cartão foi recusado."
     retrying: "Erro do servidor, a tentar novamente."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -350,6 +355,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     range: "Alcance" # As in "attack or visual range"
     blocks: "Bloqueia" # As in "this shield blocks this much damage"
     skills: "Habilidades"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
     writable: "escrevível" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   account:
     recently_played: "Jogados Recentemente"
     no_recent_games: "Sem jogos jogados nas passadas duas semanas."
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"

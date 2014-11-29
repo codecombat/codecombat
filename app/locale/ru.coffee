@@ -56,6 +56,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     confirm: "Подтвердить"
     owned: "Уже есть" # For items you own
     locked: "Заблокировано"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
     available: "Доступно"
     skills_granted: "Умение получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
@@ -246,6 +247,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
+#    tome_help: "Help"
     tome_current_method: "Текущий метод"
     hud_continue_short: "Продолжить"
     code_saved: "Код сохранен"
@@ -325,6 +327,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "Выберите героя"
@@ -350,6 +355,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     range: "Зона" # As in "attack or visual range"
     blocks: "Блокирует" # As in "this shield blocks this much damage"
     skills: "Умения"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   account:
     recently_played: "Недавно сыграно"
     no_recent_games: "Нет сыгранных игр за последние две недели."
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"

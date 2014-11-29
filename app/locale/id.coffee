@@ -56,6 +56,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     confirm: "Konfirmasi"
 #    owned: "Owned" # For items you own
     locked: "Terkunci"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
     available: "Trsedia"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
@@ -70,7 +71,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    anonymous: "Anonymous Player"
 #    level_difficulty: "Difficulty: "
 #    campaign_beginner: "Beginner Campaign"
-    awaiting_levels_adventurer_prefix:"Kami meliris lima level per minggu"
+    awaiting_levels_adventurer_prefix: "Kami meliris lima level per minggu"
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Pilih Level Anda" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -101,12 +102,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
 
-#  signup:
+  signup:
 #    create_account_title: "Create Account to Save Progress"
 #    description: "It's free. Just need a couple things and you'll be good to go:"
 #    email_announcements: "Receive announcements by email"
 #    coppa: "13+ or non-USA "
-#    coppa_why: "(Kenapa?)"
+    coppa_why: "(Kenapa?)"
 #    creating: "Creating Account..."
 #    sign_up: "Sign Up"
 #    log_in: "log in with password"
@@ -246,6 +247,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    tome_your_skills: "Your Skills"
+#    tome_help: "Help"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
 #    code_saved: "Code Saved"
@@ -325,6 +327,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -350,6 +355,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    skills: "Skills"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #  account:
 #    recently_played: "Recently Played"
 #    no_recent_games: "No games played during the past two weeks."
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
