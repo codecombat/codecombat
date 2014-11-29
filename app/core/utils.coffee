@@ -130,3 +130,13 @@ module.exports.kindaEqual = compare = (l, r) ->
     return true
   else
     return false
+
+# Fast, basic way to replace text in an element when you don't need much.
+# http://stackoverflow.com/a/4962398/540620
+if document?
+  dummy = document.createElement 'div'
+  dummy.innerHTML = 'text'
+  TEXT = if dummy.textContent is 'text' then 'textContent' else 'innerText'
+  module.exports.replaceText = (elems, text) ->
+    elem[TEXT] = text for elem in elems
+    null
