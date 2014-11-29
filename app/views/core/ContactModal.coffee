@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/modal/contact'
+template = require 'templates/core/contact'
 
 forms = require 'core/forms'
 {sendContactMessage} = require 'core/contact'

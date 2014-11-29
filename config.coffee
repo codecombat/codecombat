@@ -140,17 +140,7 @@ exports.config =
     templates:
       defaultExtension: 'jade'
       joinTo:
-        'javascripts/app.js': [
-          regJoin('^app/templates/core')
-          'app/templates/modal/error.jade'
-          'app/templates/not_found.jade'
-          'app/templates/achievements/achievement-popup.jade'
-          'app/templates/loading.jade'
-          'app/templates/loading_error.jade'
-          'app/templates/modal/contact.jade'
-          'app/templates/modal/modal_base.jade'
-          'app/templates/modal/diplomat_suggestion.jade'
-        ]
+        'javascripts/app.js': regJoin('^app/templates/core')
         'javascripts/app/views/play.js': regJoin('^app/templates/play')
         'javascripts/app/views/game-menu.js': regJoin('^app/templates/game-menu')
         'javascripts/app/views/editor.js': regJoin('^app/templates/editor')
