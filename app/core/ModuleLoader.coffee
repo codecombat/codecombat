@@ -7,8 +7,7 @@ LOG = false
 module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   @WADS = [
-    'lib/world'
-    'lib/surface'
+    'lib'
     'views/play'
     'views/game-menu'
     'views/editor'
@@ -67,8 +66,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     if @queue.progress is 1
       $('#module-loading-list').modal('hide')
       @recentPaths.sort()
-      console.log @recentPaths.join('\n')
-      console.log 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
+      console.debug @recentPaths.join('\n')
+      console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
   parseDependencies: (raw) ->
@@ -88,7 +87,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
         continue if dep is 'memwatch'
         continue if _.string.startsWith(dep, 'ace/')
         dependencies.push(dep)
-        console.log dep if LOG
+        console.debug dep if LOG
     console.groupEnd() if LOG
     return dependencies
 

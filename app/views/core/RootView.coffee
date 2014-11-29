@@ -56,12 +56,12 @@ module.exports = class RootView extends CocoView
     @openModalView subview
 
   onClickSignupButton: ->
-    AuthModal = require 'views/modal/AuthModal'
+    AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'signup'}
     
   onClickLoginButton: ->
-    AuthModal = require 'views/modal/AuthModal'
+    AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'login'}
     

@@ -93,7 +93,7 @@ module.exports = class LadderView extends RootView
     @openModalView modal
 
   showApologeticSignupModal: ->
-    AuthModal = require 'views/modal/AuthModal'
+    AuthModal = require 'views/core/AuthModal'
     @openModalView(new AuthModal({showRequiredError: true}))
 
   onClickedLink: (e) ->
