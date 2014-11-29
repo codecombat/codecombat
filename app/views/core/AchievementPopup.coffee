@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/achievements/achievement-popup'
 User = require '../../models/User'
 Achievement = require '../../models/Achievement'

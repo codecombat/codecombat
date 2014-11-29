@@ -1,5 +1,5 @@
-CocoClass = require 'lib/CocoClass'
-{me} = require 'lib/auth'
+CocoClass = require 'core/CocoClass'
+{me} = require 'core/auth'
 LayerAdapter = require './LayerAdapter'
 IndieLank = require 'lib/surface/IndieLank'
 WizardLank = require 'lib/surface/WizardLank'

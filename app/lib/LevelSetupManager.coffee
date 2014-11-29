@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 InventoryModal = require 'views/game-menu/InventoryModal'
 LevelSession = require 'models/LevelSession'

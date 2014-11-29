@@ -1,10 +1,10 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 {createProgressBar} = require './sprite_utils'
 Camera = require './Camera'
 Mark = require './Mark'
 Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =

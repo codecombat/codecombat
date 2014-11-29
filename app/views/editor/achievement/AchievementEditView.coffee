@@ -1,10 +1,10 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
-AchievementPopup = require 'views/achievements/AchievementPopup'
+AchievementPopup = require 'views/core/AchievementPopup'
 ConfirmModal = require 'views/modal/ConfirmModal'
-errors = require 'lib/errors'
-app = require 'application'
+errors = require 'core/errors'
+app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
 
 module.exports = class AchievementEditView extends RootView

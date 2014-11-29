@@ -1,5 +1,5 @@
-{backboneFailure, genericFailure} = require 'lib/errors'
-RootView = require 'views/kinds/RootView'
+{backboneFailure, genericFailure} = require 'core/errors'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin'
 
 module.exports = class MainAdminView extends RootView

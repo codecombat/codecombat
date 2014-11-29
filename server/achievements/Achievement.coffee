@@ -1,7 +1,7 @@
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/achievement'
 log = require 'winston'
-utils = require '../../app/lib/utils'
+utils = require '../../app/core/utils'
 plugins = require('../plugins/plugins')
 AchievablePlugin = require '../plugins/achievements'
 TreemaUtils = require '../../bower_components/treema/treema-utils.js'

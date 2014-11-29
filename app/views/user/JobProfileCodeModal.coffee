@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/account/job_profile_code_modal'
 LevelSessionCodeView = require 'views/common/LevelSessionCodeView'
 

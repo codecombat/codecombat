@@ -1,8 +1,8 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/patch_modal'
 DeltaView = require 'views/editor/DeltaView'
-auth = require 'lib/auth'
-deltasLib = require 'lib/deltas'
+auth = require 'core/auth'
+deltasLib = require 'core/deltas'
 
 module.exports = class PatchModal extends ModalView
   id: 'patch-modal'

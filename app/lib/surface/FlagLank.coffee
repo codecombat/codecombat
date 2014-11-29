@@ -1,5 +1,5 @@
 IndieLank = require 'lib/surface/IndieLank'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class FlagLank extends IndieLank
   subscriptions:

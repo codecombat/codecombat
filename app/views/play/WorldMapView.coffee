@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/play/world-map-view'
 LevelSession = require 'models/LevelSession'
 EarnedAchievement = require 'models/EarnedAchievement'
@@ -7,7 +7,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
-storage = require 'lib/storage'
+storage = require 'core/storage'
 AuthModal = require 'views/modal/AuthModal'
 
 trackedHourOfCode = false

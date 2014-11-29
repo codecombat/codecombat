@@ -1,5 +1,5 @@
-CocoClass = require 'lib/CocoClass'
-utils = require 'lib/utils'
+CocoClass = require 'core/CocoClass'
+utils = require 'core/utils'
 
 module.exports = class GoalManager extends CocoClass
   # The Goal Manager is created both on the main thread and

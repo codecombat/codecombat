@@ -1,8 +1,8 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/play/spectate'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 World = require 'lib/world/world'
 

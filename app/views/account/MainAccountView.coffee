@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/account/main-account-view'
 
 module.exports = class MainAccountView extends RootView

@@ -1,4 +1,4 @@
-{hexToHSL, hslToHex} = require 'lib/utils'
+{hexToHSL, hslToHex} = require 'core/utils'
 
 module.exports = class SpriteBuilder
   constructor: (@thangType, @options) ->

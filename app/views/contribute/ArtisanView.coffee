@@ -1,6 +1,6 @@
 ContributeClassView = require './ContributeClassView'
 template = require 'templates/contribute/artisan'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class ArtisanView extends ContributeClassView
   id: 'artisan-view'

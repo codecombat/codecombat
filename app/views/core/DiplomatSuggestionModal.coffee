@@ -1,7 +1,7 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/diplomat_suggestion'
-{me} = require 'lib/auth'
-forms = require 'lib/forms'
+{me} = require 'core/auth'
+forms = require 'core/forms'
 
 module.exports = class DiplomatSuggestionModal extends ModalView
   id: 'diplomat-suggestion-modal'

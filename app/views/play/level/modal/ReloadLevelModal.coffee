@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/play/level/modal/reload-level-modal'
 
 module.exports = class ReloadLevelModal extends ModalView

@@ -1,5 +1,5 @@
-RootView = require 'views/kinds/RootView'
-ModalView = require 'views/kinds/ModalView'
+RootView = require 'views/core/RootView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/demo'
 requireUtils = require 'lib/requireUtils'
 

@@ -1,9 +1,9 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/settings_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'

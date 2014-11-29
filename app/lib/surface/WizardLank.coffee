@@ -1,5 +1,5 @@
 IndieLank = require 'lib/surface/IndieLank'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 module.exports = class WizardLank extends IndieLank
   # Wizard targets are constantly changing, so a simple tween doesn't work.

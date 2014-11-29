@@ -443,7 +443,7 @@ UserHandler = class UserHandler extends Handler
   # I don't like leaking big variables, could remove this for readability
   # Meant for passing into MongoDB
   {isMiscPatch, isTranslationPatch} = do ->
-    deltas = require '../../app/lib/deltas'
+    deltas = require '../../app/core/deltas'
 
     isMiscPatch: (obj) ->
       expanded = deltas.flattenDelta obj.get 'delta'

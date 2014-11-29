@@ -4,6 +4,9 @@ _.str = require 'underscore.string'
 sysPath = require 'path'
 fs = require('fs')
 commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-require-definition/require.js', {encoding: 'utf8'})
+
+
+#- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
 regJoin = (s) -> new RegExp(s.replace(/\//, '[\\\/\\\\]'))
 
 
@@ -55,45 +58,15 @@ exports.config =
         #- app.js, the first file that is loaded. These modules are required to initialize the client.
         'javascripts/app.js': [
 
-          # IMPORTANT: if you add to this, make sure you also add any other dependencies
+          # IMPORTANT: if you add to this, make sure you also add any other dependencies,
+          # or better yet, put them in a 'core' folder.
           regJoin('^app/schemas')
           regJoin('^app/models')
           regJoin('^app/collections')
-
+          regJoin('^app/core')
+          regJoin('^app/views/core')
           'app/locale/locale.coffee'
-
-          'app/application.coffee'
-          'app/initialize.coffee'
-          'app/Router.coffee'
-          'app/ModuleLoader.coffee'
-          'app/treema-ext.coffee'
-
-          'app/collections/NewAchievementCollection.coffee'
-          'app/collections/CocoCollection.coffee'
-          
-          'app/lib/FacebookHandler.coffee'
-          'app/lib/GPlusHandler.coffee'
-          'app/lib/GitHubHandler.coffee'
-          'app/lib/auth.coffee'
-          'app/lib/Tracker.coffee'
-          'app/lib/CocoClass.coffee'
-          'app/lib/errors.coffee'
-          'app/lib/storage.coffee'
-          'app/lib/utils.coffee'
-          'app/lib/forms.coffee'
-          'app/lib/deltas.coffee'
-          'app/lib/contact.coffee'
-          'app/lib/sprites/SpriteBuilder.coffee'
-          'app/lib/SystemNameLoader.coffee'
-          regJoin('^app/lib/services')
-
-          regJoin('^app/views/kinds')
-          'app/views/NotFoundView.coffee'
-          'app/views/achievements/AchievementPopup.coffee'
-          'app/views/modal/ContactModal.coffee'
-          'app/views/modal/NewModelModal.coffee'
-          'app/views/modal/RevertModal.coffee'
-          'app/views/modal/DiplomatSuggestionModal.coffee'
+          'app/lib/sprites/SpriteBuilder.coffee' # loaded by ThangType
         ]
         
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
@@ -104,38 +77,33 @@ exports.config =
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
         
         #- world.js, used by the worker to generate the world in game
-        'javascripts/world.js': ///^(
-          (app[\/\\]lib[\/\\]world(?![\/\\]test))
-          |(app[\/\\]lib[\/\\]CocoClass.coffee)
-          |(app[\/\\]lib[\/\\]utils.coffee)
-          |(vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3)
-          |(vendor[\/\\]scripts[\/\\]string_score.js)
-          |(bower_components[\/\\]underscore.string)
-        )///
+        'javascripts/world.js': [
+          regJoin('^app/lib/world(?!/test)')
+          regJoin('^app/core/CocoClass.coffee')
+          regJoin('^app/core/utils.coffee')
+          regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
+          regJoin('^vendor/scripts/string_score.js')
+          regJoin('^bower_components/underscore.string')
+        ]
 
         #- vendor.js, all the vendor libraries
-        'javascripts/vendor.js': ///^(
-          vendor[\/\\](?!scripts[\/\\]Box2d)
-          |bower_components[\/\\](?!aether)
-        )///
+        'javascripts/vendor.js': [
+          regJoin('^vendor/(?!scripts/Box2d)')
+          regJoin('^bower_components/(?!aether)')
+        ]
         
         #- Other vendor libraries in separate bunches
-        'javascripts/box2d.js': ///^(
-          # Include box2dweb for profiling and IE9
-          # Vector renamed to Box2DVector to avoid name collisions
-          # TODO: move this to assets/lib since we're not really joining anything here?
-          (vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3)
-        )///
-        'javascripts/lodash.js': ///^(
-          (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
-        )///
-        'javascripts/aether.js': ///^(
-          (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
-        )///
+
+        # Include box2dweb for profiling and IE9
+        # Vector renamed to Box2DVector to avoid name collisions
+        # TODO: move this to assets/lib since we're not really joining anything here?
+        'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
+        'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
+        'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
         
         #- test, demo libraries
-        'javascripts/test-app.js': /^test[\/\\]app/
-        'javascripts/demo-app.js': /^test[\/\\]demo/
+        'javascripts/test-app.js': regJoin('^test/app/')
+        'javascripts/demo-app.js': regJoin('^test/demo/')
 
       order:
         before: [
@@ -181,10 +149,6 @@ exports.config =
           'app/templates/loading_error.jade'
           'app/templates/modal/contact.jade'
           'app/templates/modal/modal_base.jade'
-          'app/templates/kinds/search.jade'
-          'app/templates/modal/new_model.jade'
-          'app/templates/modal/revert.jade'
-          'app/templates/kinds/user.jade'
           'app/templates/modal/diplomat_suggestion.jade'
         ]
         'javascripts/app/views/play.js': regJoin('^app/templates/play')

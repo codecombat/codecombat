@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Camera = require './Camera'
 ThangType = require 'models/ThangType'
 markThangTypes = {}

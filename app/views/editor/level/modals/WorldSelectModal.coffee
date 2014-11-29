@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/world-select-modal'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'

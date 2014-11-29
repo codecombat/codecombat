@@ -1,10 +1,10 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/play-achievements-modal'
 CocoCollection = require 'collections/CocoCollection'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
 
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 PAGE_SIZE = 200
 

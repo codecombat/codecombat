@@ -7,7 +7,7 @@ Patch = require '../patches/Patch'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
 hipchat = require '../hipchat'
-deltasLib = require '../../app/lib/deltas'
+deltasLib = require '../../app/core/deltas'
 
 PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
 FETCH_LIMIT = 1000  # So many ThangTypes

@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/thang/vector-icon-setup-modal'
 
 module.exports = class VectorIconSetupModal extends ModalView

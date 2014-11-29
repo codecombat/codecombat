@@ -1,4 +1,4 @@
-SearchView = require 'views/kinds/SearchView'
+SearchView = require 'views/common/SearchView'
 
 module.exports = class AchievementSearchView extends SearchView
   id: 'editor-achievement-home-view'

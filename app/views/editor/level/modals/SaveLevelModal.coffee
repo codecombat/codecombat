@@ -1,11 +1,11 @@
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 template = require 'templates/editor/level/save'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
-deltasLib = require 'lib/deltas'
+deltasLib = require 'core/deltas'
 
 module.exports = class SaveLevelModal extends SaveVersionModal
   template: template

@@ -1,10 +1,10 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/versions'
 DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
 nameLoader = require 'lib/NameLoader'
 CocoCollection = require 'collections/CocoCollection'
-deltasLib = require 'lib/deltas'
+deltasLib = require 'core/deltas'
 
 class VersionsViewCollection extends CocoCollection
   url: ''

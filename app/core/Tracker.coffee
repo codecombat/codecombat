@@ -1,4 +1,4 @@
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 debugAnalytics = false
 

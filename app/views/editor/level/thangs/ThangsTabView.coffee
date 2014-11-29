@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 AddThangsView = require './AddThangsView'
 thangs_template = require 'templates/editor/level/thangs-tab-view'
 Level = require 'models/Level'

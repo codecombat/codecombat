@@ -1,8 +1,8 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/system/new'
 LevelSystem = require 'models/LevelSystem'
-forms = require 'lib/forms'
-{me} = require 'lib/auth'
+forms = require 'core/forms'
+{me} = require 'core/auth'
 
 module.exports = class NewLevelSystemModal extends ModalView
   id: 'editor-level-system-new-modal'

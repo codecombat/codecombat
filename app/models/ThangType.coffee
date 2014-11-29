@@ -2,7 +2,7 @@ CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
 
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 buildQueue = []
 

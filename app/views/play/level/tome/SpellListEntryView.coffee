@@ -1,6 +1,6 @@
 # TODO: This still needs a way to send problem states to its Thang
 
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 ThangAvatarView = require 'views/play/level/ThangAvatarView'
 SpellListEntryThangsView = require 'views/play/level/tome/SpellListEntryThangsView'
 template = require 'templates/play/level/tome/spell_list_entry'

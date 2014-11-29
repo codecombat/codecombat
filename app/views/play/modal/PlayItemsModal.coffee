@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/play-items-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
@@ -9,7 +9,7 @@ ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 Purchase = require 'models/Purchase'
 
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 PAGE_SIZE = 200
 

@@ -6,7 +6,7 @@ block content
     if user && viewName
       ol.breadcrumb
         li
-          a(href="/user/#{user.getSlugOrID()}") #{user.displayName()}
+          a(href="/user#{user.getSlugOrID()}") #{user.displayName()}
         li.active
           | #{viewName}
     if !user || user.loading

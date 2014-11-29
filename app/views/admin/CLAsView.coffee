@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/clas'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'

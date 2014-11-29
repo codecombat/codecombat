@@ -1,7 +1,7 @@
 GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
-util = require 'lib/utils'
+util = require 'core/utils'
 ThangType = require './ThangType'
 
 module.exports = class User extends CocoModel

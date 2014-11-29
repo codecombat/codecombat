@@ -1,9 +1,9 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/play/level'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
-utils = require 'lib/utils'
-storage = require 'lib/storage'
+utils = require 'core/utils'
+storage = require 'core/storage'
 {createAetherOptions} = require 'lib/aether_utils'
 
 # tools

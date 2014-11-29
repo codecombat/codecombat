@@ -19,7 +19,7 @@
 ###
 
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
 

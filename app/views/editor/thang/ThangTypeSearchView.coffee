@@ -1,4 +1,4 @@
-SearchView = require 'views/kinds/SearchView'
+SearchView = require 'views/common/SearchView'
 
 module.exports = class ThangTypeSearchView extends SearchView
   id: 'thang-type-home-view'

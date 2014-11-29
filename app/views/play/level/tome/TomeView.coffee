@@ -27,9 +27,9 @@
 # The SpellListView shows spells to which your team has read or readwrite access.
 # It doubles as a Thang selector, since it's there when nothing is selected.
 
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/tome'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 Spell = require './Spell'
 SpellListView = require './SpellListView'
 SpellPaletteView = require './SpellPaletteView'

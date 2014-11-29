@@ -1,13 +1,13 @@
-UserView = require 'views/kinds/UserView'
+UserView = require 'views/common/UserView'
 template = require 'templates/account/profile'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 JobProfileContactModal = require 'views/modal/JobProfileContactModal'
 JobProfileTreemaView = require 'views/account/JobProfileTreemaView'
 UserRemark = require 'models/UserRemark'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 ModelModal = require 'views/modal/ModelModal'
 JobProfileCodeModal = require './JobProfileCodeModal'
 
@@ -56,7 +56,7 @@ module.exports = class JobProfileView extends UserView
   constructor: (options, userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     @onRemarkChanged = _.debounce @onRemarkChanged, 1000
-    require('lib/services/filepicker')()  # Initialize if needed
+    require('core/services/filepicker')()  # Initialize if needed
     super userID, options
 
   onLoaded: ->

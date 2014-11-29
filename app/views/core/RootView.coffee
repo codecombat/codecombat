@@ -3,12 +3,12 @@
 
 CocoView = require './CocoView'
 
-{logoutUser, me} = require('lib/auth')
+{logoutUser, me} = require('core/auth')
 locale = require 'locale/locale'
 
 Achievement = require 'models/Achievement'
-AchievementPopup = require 'views/achievements/AchievementPopup'
-utils = require 'lib/utils'
+AchievementPopup = require 'views/core/AchievementPopup'
+utils = require 'core/utils'
 
 # TODO remove
 
@@ -149,7 +149,7 @@ module.exports = class RootView extends CocoView
   onLanguageLoaded: ->
     @render()
     unless me.get('preferredLanguage').split('-')[0] is 'en'
-      DiplomatModal = require 'views/modal/DiplomatSuggestionModal'
+      DiplomatModal = require 'views/core/DiplomatSuggestionModal'
       @openModalView(new DiplomatModal())
 
   saveLanguage: (newLang) ->

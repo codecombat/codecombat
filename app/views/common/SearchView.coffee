@@ -1,7 +1,7 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 NewModelModal = require 'views/modal/NewModelModal'
-template = require 'templates/kinds/search'
-app = require 'application'
+template = require 'templates/common/search'
+app = require 'core/application'
 
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->

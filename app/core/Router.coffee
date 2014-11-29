@@ -1,7 +1,7 @@
 gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 # TODO: Move to GPlusHandler
 
-NotFoundView = require('views/NotFoundView')
+NotFoundView = require('views/core/NotFoundView')
 
 go = (path) -> -> @routeDirectly path, arguments
 
@@ -152,13 +152,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
   initializeSocialMediaServices: ->
     return if application.testing or application.demoing
-    require('./lib/services/facebook')()
-    require('./lib/services/google')()
-    require('./lib/services/twitter')()
-
-    for service in services
-      service = require service
-      service()
+    require('core/services/facebook')()
+    require('core/services/google')()
+    require('core/services/twitter')()
 
   renderLoginButtons: =>
     @initializeSocialMediaServices()

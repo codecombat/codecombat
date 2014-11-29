@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
@@ -24,7 +24,7 @@ VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentsDocumentationView = require 'views/docs/ComponentsDocumentationView'
 SystemsDocumentationView = require 'views/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
-storage = require 'lib/storage'
+storage = require 'core/storage'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'

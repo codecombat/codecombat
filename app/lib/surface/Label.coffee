@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class Label extends CocoClass
   @STYLE_DIALOGUE = 'dialogue'  # A speech bubble from a script

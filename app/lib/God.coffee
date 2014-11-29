@@ -4,7 +4,7 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Angel = require 'lib/Angel'
 
 module.exports = class God extends CocoClass

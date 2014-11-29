@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/account/payments-view'
 CocoCollection = require 'collections/CocoCollection'
 Payment = require 'models/Payment'

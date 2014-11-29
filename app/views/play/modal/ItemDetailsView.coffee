@@ -1,10 +1,10 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/modal/item-details-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 
 {downTheChain} = require 'lib/world/world_utils'
-utils = require 'lib/utils'
+utils = require 'core/utils'
 
 module.exports = class ItemDetailsView extends CocoView
   id: "item-details-view"

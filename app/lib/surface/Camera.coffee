@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 # If I were the kind of math major who remembered his math, this would all be done with matrix transforms.
 

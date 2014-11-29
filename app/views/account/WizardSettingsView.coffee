@@ -1,9 +1,9 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/account/wizard_settings'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-{hslToHex, hexToHSL} = require 'lib/utils'
+{hslToHex, hexToHSL} = require 'core/utils'
 
 module.exports = class WizardSettingsView extends CocoView
   id: 'wizard-settings-view'

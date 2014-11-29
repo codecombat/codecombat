@@ -1,4 +1,4 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/system/add'
 availableSystemTemplate = require 'templates/editor/level/system/available_system'
 LevelSystem = require 'models/LevelSystem'

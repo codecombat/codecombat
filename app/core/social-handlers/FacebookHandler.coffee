@@ -1,7 +1,7 @@
-CocoClass = require 'lib/CocoClass'
-{me} = require 'lib/auth'
-{backboneFailure} = require 'lib/errors'
-storage = require 'lib/storage'
+CocoClass = require 'core/CocoClass'
+{me} = require 'core/auth'
+{backboneFailure} = require 'core/errors'
+storage = require 'core/storage'
 
 # facebook user object props to
 userPropsToSave =

@@ -1,6 +1,6 @@
-{backboneFailure, genericFailure, parseServerError} = require 'lib/errors'
+{backboneFailure, genericFailure, parseServerError} = require 'core/errors'
 User = require 'models/User'
-storage = require 'lib/storage'
+storage = require 'core/storage'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
 
 init = ->

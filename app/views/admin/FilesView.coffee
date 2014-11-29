@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/files'
 tableTemplate = require 'templates/admin/files_table'
 
@@ -12,7 +12,7 @@ module.exports = class FilesView extends RootView
 
   afterRender: ->
     super()
-    require('lib/services/filepicker')()  # Initialize if needed
+    require('core/services/filepicker')()  # Initialize if needed
     @loadFiles()
 
   onFileChosen: (InkBlob) =>

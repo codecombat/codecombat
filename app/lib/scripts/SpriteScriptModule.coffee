@@ -1,6 +1,6 @@
 ScriptModule = require './ScriptModule'
-{me} = require 'lib/auth'
-utils = require 'lib/utils'
+{me} = require 'core/auth'
+utils = require 'core/utils'
 
 module.exports = class SpritesScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
