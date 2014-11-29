@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/modal/recover'
+template = require 'templates/core/recover-modal'
 forms = require 'core/forms'
 {genericFailure} = require 'core/errors'
 
