@@ -18,7 +18,7 @@ class EarnedAchievementHandler extends Handler
   get: (req, res) ->
     return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
     unless req.user
-      return @sendDatabaseError(res, "You need to have a user to view earned achievements")
+      return @sendForbiddenError(res, "You need to have a user to view earned achievements")
     query = { user: req.user._id+''}
 
     projection = {}
@@ -39,23 +39,23 @@ class EarnedAchievementHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
-      
+
   post: (req, res) ->
     achievementID = req.body.achievement
     triggeredBy = req.body.triggeredBy
     collection = req.body.collection
     if collection isnt 'level.sessions'
       return @sendBadInputError(res, 'Only doing level session achievements for now.')
-      
+
     model = mongoose.modelNameByCollection(collection)
-    
+
     async.parallel({
       achievement: (callback) ->
         Achievement.findById achievementID, (err, achievement) -> callback(err, achievement)
-        
+
       trigger: (callback) ->
         model.findById triggeredBy, (err, trigger) -> callback(err, trigger)
-          
+
       earned: (callback) ->
         q = { achievement: achievementID, user: req.user._id+'' }
         EarnedAchievement.findOne q, (err, earned) -> callback(err, earned)
@@ -89,7 +89,7 @@ class EarnedAchievementHandler extends Handler
           @sendCreated(res, earnedAchievementDoc.toObject())
         )
     )
-    
+
   upsertNonNumericRewards: (user, achievement, done) ->
     update = {}
     for rewardType, rewards of achievement.get('rewards') ? {}

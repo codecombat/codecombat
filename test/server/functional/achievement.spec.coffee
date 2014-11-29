@@ -121,7 +121,7 @@ describe 'Achievement', ->
       done()
 
 # TODO: Took level achievements out of this auto achievement business, so fix these tests
-      
+
 describe 'Level Session Achievement', ->
   it 'does not generate earned achievements automatically, they need to be created manually', (done) ->
     unittest.getNormalJoe (joe) ->
@@ -133,11 +133,11 @@ describe 'Level Session Achievement', ->
         expect(err).toBeNull()
         expect(session).toBeDefined()
         expect(session.creator).toBe(session.creator)
-          
+
         EarnedAchievement.find {}, (err, earnedAchievements) ->
           expect(err).toBeNull()
           expect(earnedAchievements.length).toBe(0)
-          
+
           json = {achievement: unlockable._id, triggeredBy: session._id, collection: 'level.sessions'}
           request.post {uri: getURL('/db/earned_achievement'), json: json}, (err, res, body) ->
             expect(res.statusCode).toBe(201)
@@ -149,7 +149,7 @@ describe 'Level Session Achievement', ->
             expect(body.previouslyAchievedAmount).toBeUndefined()
             done()
 
-            
+
 describe 'Achieving Achievements', ->
   it 'wait for achievements to be loaded', (done) ->
     Achievement.loadAchievements (achievements) ->
@@ -174,12 +174,13 @@ describe 'Achieving Achievements', ->
         expect(docs.length).toBe(1)
         achievement = docs[0]
 
-        expect(achievement.get 'achievement').toBe repeatable._id
-        expect(achievement.get 'user').toBe joe._id.toHexString()
-        expect(achievement.get 'notified').toBeFalsy()
-        expect(achievement.get 'earnedPoints').toBe 2 * repeatable.worth
-        expect(achievement.get 'achievedAmount').toBe 2
-        expect(achievement.get 'previouslyAchievedAmount').toBeFalsy()
+        if achievement
+          expect(achievement.get 'achievement').toBe repeatable._id
+          expect(achievement.get 'user').toBe joe._id.toHexString()
+          expect(achievement.get 'notified').toBeFalsy()
+          expect(achievement.get 'earnedPoints').toBe 2 * repeatable.worth
+          expect(achievement.get 'achievedAmount').toBe 2
+          expect(achievement.get 'previouslyAchievedAmount').toBeFalsy()
         done()
 
   it 'verify that the repeatable achievement with complex exp has been earned', (done) ->
@@ -189,8 +190,9 @@ describe 'Achieving Achievements', ->
         expect(docs.length).toBe 1
         achievement = docs[0]
 
-        expect(achievement.get 'achievedAmount').toBe 2
-        expect(achievement.get 'earnedPoints').toBe (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
+        if achievement
+          expect(achievement.get 'achievedAmount').toBe 2
+          expect(achievement.get 'earnedPoints').toBe (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
 
         done()
 
