@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
 LevelOptions = require 'lib/LevelOptions'
+utils = require 'core/utils'
 
 module.exports = class LevelHUDView extends CocoView
   id: 'thang-hud'
@@ -104,7 +105,7 @@ module.exports = class LevelHUDView extends CocoView
       name = {knight: 'Tharin', captain: 'Anya', librarian: 'Hushbaum', sorcerer: 'Pender', 'potion-master': 'Omarn', samurai: 'Hattori', ninja: 'Amara'}[@thang.type] ? 'Hero'
     else
       name = if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id
-    @$el.find('.thang-name').text name
+    utils.replaceText @$el.find('.thang-name'), name
     props = @$el.find('.thang-props')
     props.find('.prop').remove()
     #propNames = _.without @thang.hudProperties ? [], 'action'
@@ -145,7 +146,7 @@ module.exports = class LevelHUDView extends CocoView
       labelText = prop + ': ' + @formatValue(prop, val) + ' / ' + @formatValue(prop, max)
       if regen
         labelText += ' (+' + @formatValue(prop, regen) + '/s)'
-      pel.find('.bar-prop-value').text(Math.round(max)) if max
+      utils.replaceText pel.find('.bar-prop-value'), Math.round(val)
     else
       s = @formatValue(prop, val)
       labelText = "#{prop}: #{s}"
@@ -153,7 +154,7 @@ module.exports = class LevelHUDView extends CocoView
         cooldown = @thang.actions.attack.cooldown
         dps = @thang.attackDamage / cooldown
         labelText += " / #{cooldown.toFixed(2)}s (DPS: #{dps.toFixed(2)})"
-      pel.find('.prop-value').text s
+      utils.replaceText pel.find('.prop-value'), s
     pel.attr 'title', labelText
     pel
 

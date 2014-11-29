@@ -298,6 +298,8 @@ module.exports = class Handler
 
   getLatestVersion: (req, res, original, version) ->
     # can get latest overall version, latest of a major version, or a specific version
+    return @sendBadInputError(res, 'Invalid MongoDB id: '+original) if not Handler.isID(original)
+      
     query = { 'original': mongoose.Types.ObjectId(original) }
     if version?
       version = version.split('.')

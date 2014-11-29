@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/game-menu/guide-view'
+template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
 utils = require 'core/utils'
 

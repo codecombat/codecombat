@@ -1,8 +1,8 @@
 SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
-loadingScreenTemplate = require 'templates/loading'
-loadingErrorTemplate = require 'templates/loading_error'
+loadingScreenTemplate = require 'templates/core/loading'
+loadingErrorTemplate = require 'templates/core/loading-error'
 
 lastToggleModalCall = 0
 visibleModal = null

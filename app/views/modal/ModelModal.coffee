@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/modal/model'
+template = require 'templates/modal/model-modal'
 
 module.exports = class ModelModal extends ModalView
   id: 'model-modal'

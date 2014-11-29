@@ -7,7 +7,7 @@ module.exports = class ModalView extends CocoView
   modalWidthPercent: null
   plain: false
   instant: false
-  template: require 'templates/modal/modal_base'
+  template: require 'templates/core/modal-base'
 
   events:
     'click a': 'toggleModal'

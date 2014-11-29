@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/community'
+template = require 'templates/community-view'
 
 module.exports = class CommunityView extends RootView
   id: 'community-view'

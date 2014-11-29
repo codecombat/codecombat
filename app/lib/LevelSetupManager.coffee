@@ -1,6 +1,6 @@
 CocoClass = require 'core/CocoClass'
 PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
-InventoryModal = require 'views/game-menu/InventoryModal'
+InventoryModal = require 'views/play/menu/InventoryModal'
 LevelSession = require 'models/LevelSession'
 SuperModel = require 'models/SuperModel'
 ThangType = require 'models/ThangType'

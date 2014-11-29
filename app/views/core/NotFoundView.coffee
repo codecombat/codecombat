@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/not_found'
+template = require 'templates/core/not-found'
 
 module.exports = class NotFoundView extends RootView
   id: 'not-found-view'

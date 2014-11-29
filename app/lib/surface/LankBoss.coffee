@@ -192,7 +192,7 @@ module.exports = class LankBoss extends CocoClass
     updatedObstacles = []
     itemsJustEquipped = []
     for thang in @world.thangs when thang.exists and thang.pos
-      itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang
+      itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang if thang.equip
       if lank = @lanks[thang.id]
         lank.setThang thang  # make sure Lank has latest Thang
       else

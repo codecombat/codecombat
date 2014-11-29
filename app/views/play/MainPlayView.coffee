@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/main-play-view'
+template = require 'templates/play/main-play-view'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 

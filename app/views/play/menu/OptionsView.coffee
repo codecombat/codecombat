@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/game-menu/options-view'
+template = require 'templates/play/menu/options-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 User = require 'models/User'

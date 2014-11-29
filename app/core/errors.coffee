@@ -1,4 +1,4 @@
-errorModalTemplate = require 'templates/modal/error'
+errorModalTemplate = require 'templates/core/error'
 {applyErrorsToForm} = require 'core/forms'
 
 module.exports.parseServerError = (text) ->
@@ -42,7 +42,7 @@ module.exports.connectionFailure = connectionFailure = ->
   showErrorModal(html)
 
 showErrorModal = (html) ->
-  # TODO: make a views/modal/error_modal view for this to use so the template can reuse templates/modal/modal_base?
+  # TODO: make a views/modal/error_modal view for this to use so the template can reuse templates/core/modal-base?
   $('#modal-wrapper').html(html)
   $('.modal:visible').modal('hide')
   $('#modal-error').modal('show')

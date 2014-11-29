@@ -42,7 +42,10 @@ developmentLogging = (tokens, req, res) ->
 setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
     if err
-      res.status(500).send(error: "Something went wrong!")
+      if err.status and 400 <= err.status < 500
+        res.status(err.status).send("Error #{err.status}")
+        return
+      res.status(err.status ? 500).send(error: "Something went wrong!")
       message = "Express error: #{req.method} #{req.path}: #{err.message}"
       log.error "#{message}, stack: #{err.stack}"
       hipchat.sendTowerHipChatMessage(message)

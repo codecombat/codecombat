@@ -72,7 +72,6 @@ exports.config =
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
         'javascripts/app/lib.js': regJoin('^app/lib')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
-        'javascripts/app/views/game-menu.js': regJoin('^app/views/game-menu')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
         
         #- world.js, used by the worker to generate the world in game
@@ -140,17 +139,7 @@ exports.config =
     templates:
       defaultExtension: 'jade'
       joinTo:
-        'javascripts/app.js': [
-          regJoin('^app/templates/core')
-          'app/templates/modal/error.jade'
-          'app/templates/not_found.jade'
-          'app/templates/achievements/achievement-popup.jade'
-          'app/templates/loading.jade'
-          'app/templates/loading_error.jade'
-          'app/templates/modal/contact.jade'
-          'app/templates/modal/modal_base.jade'
-          'app/templates/modal/diplomat_suggestion.jade'
-        ]
+        'javascripts/app.js': regJoin('^app/templates/core')
         'javascripts/app/views/play.js': regJoin('^app/templates/play')
         'javascripts/app/views/game-menu.js': regJoin('^app/templates/game-menu')
         'javascripts/app/views/editor.js': regJoin('^app/templates/editor')
@@ -195,8 +184,20 @@ for file in coffeeFiles
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.coffee', '.js').replace('./app', 'javascripts/app')
   exports.config.files.javascripts.joinTo[outputFile] = inputFile
-
+  
+numBundles = 0
+  
 for file in jadeFiles
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.jade', '.js').replace('./app', 'javascripts/app')
-  exports.config.files.templates.joinTo[outputFile] = inputFile 
+  exports.config.files.templates.joinTo[outputFile] = inputFile
+
+  #- If a view template name matches its view, bundle it in there.
+  templateFileName = outputFile.match(/[^/]+$/)[0]
+  viewFileName = _.str.capitalize(_.str.camelize(templateFileName))
+  possibleViewFilePath = outputFile.replace(templateFileName, viewFileName).replace('/templates/', '/views/')
+  if exports.config.files.javascripts.joinTo[possibleViewFilePath]
+    exports.config.files.templates.joinTo[possibleViewFilePath] = inputFile
+    numBundles += 1
+
+console.log 'Bundled', numBundles, 'templates with their views.' 
