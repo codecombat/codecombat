@@ -49,7 +49,7 @@
     button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
     button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   else if me.get('anonymous', true)
-    button.btn.settings(data-toggle='coco-modal', data-target='modal/AuthModal', data-i18n="[title]play.settings")
+    button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
   // Don't show these things, they are bad and take us out of the game. Just wait until the new ones work.
   //else
   //  a.btn.achievements(href="/user/#{me.getSlugOrID()}/stats", data-i18n="[title]play.achievements")
@@ -63,7 +63,7 @@
   span.spr= me.level()
   if me.get('anonymous')
     span.spr(data-i18n="play.anonymous_player") Anonymous Player
-    button.btn.btn-default.btn-flat.btn-sm(data-toggle='coco-modal', data-target='modal/AuthModal', data-i18n="login.log_in")
+    button.btn.btn-default.btn-flat.btn-sm(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="login.log_in")
   else
     span.spr= me.get('name')
     button#logout-button.btn.btn-default.btn-flat.btn-sm(data-i18n="login.log_out") Log Out

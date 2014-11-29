@@ -82,7 +82,7 @@ module.exports = class ThangsTabView extends CocoView
     return context unless @supermodel.finished()
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
-    thangTypes = _.reject thangTypes, kind: 'Mark'
+    thangTypes = _.reject thangTypes, (tt) -> tt.kind in ['Mark', undefined]
     groupMap = {}
     for thangType in thangTypes
       groupMap[thangType.kind] ?= []

@@ -8,7 +8,7 @@ LevelSetupManager = require 'lib/LevelSetupManager'
 ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
-AuthModal = require 'views/modal/AuthModal'
+AuthModal = require 'views/core/AuthModal'
 
 trackedHourOfCode = false
 

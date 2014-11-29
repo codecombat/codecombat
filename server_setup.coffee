@@ -43,7 +43,7 @@ setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
     if err
       res.status(500).send(error: "Something went wrong!")
-      message = "Express got an error. Path: #{req.path}, message: #{err.message}"
+      message = "Express error: #{req.method} #{req.path}: #{err.message}"
       log.error "#{message}, stack: #{err.stack}"
       hipchat.sendTowerHipChatMessage(message)
     else
@@ -113,7 +113,7 @@ exports.setupMiddleware = (app) ->
   setupRedirectMiddleware app
   setupErrorMiddleware app
   setupJavascript404s app
-  
+
 ###Routing function implementations###
 
 setupJavascript404s = (app) ->

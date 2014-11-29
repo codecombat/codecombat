@@ -56,6 +56,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
@@ -65,7 +66,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Comprar Gems"
     older_campaigns: "Campanhas antigas"
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
@@ -201,7 +202,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     restart: "Reiniciar"
     goals: "Objetivos"
     goal: "Objetivo"
-#    running: "Running..."
+    running: "Rodando..."
     success: "Sucesso!"
     incomplete: "Incompleto"
     timed_out: "Tempo esgotado"
@@ -210,7 +211,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     click_to_select: "Clique em um personagem para selecioná-lo."
 #    control_bar_multiplayer: "Multiplayer"
 #    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    reload: "Recarregar"
     reload_title: "Recarregar Todo o Código?"
     reload_really: "Você tem certeza que quer reiniciar o estágio?"
     reload_confirm: "Recarregar Tudo"
@@ -246,14 +247,15 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
+#    tome_help: "Help"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    code_saved: "Código Salvo"
     skip_tutorial: "Pular (esc)"
     keyboard_shortcuts: "Teclas de atalho"
     loading_ready: "Pronto!"
     loading_start: "Iniciar fase"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Altere seu Código"
     time_current: "Agora:"
     time_total: "Máximo:"
     time_goto: "Ir para:"
@@ -304,7 +306,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     options_caption: "Configurar preferências"
     guide_caption: "Documentos e dicas"
     multiplayer_caption: "Jogue com seus amigos!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Salve seu progresso."
 
   inventory:
     choose_inventory: "Equipar itens"
@@ -325,6 +327,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "Escolha seu Herói"
@@ -346,10 +351,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    attack: "Damage" # Can also translate as "Attack"
     health: "Vida"
     speed: "Velocidade"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
+    regeneration: "Cura"
+    range: "Ataque" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    skills: "Skills"
+    skills: "Habilidades"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
   account:
     recently_played: "Jogos Recentes"
     no_recent_games: "Não foram feitos jogos durante duas semanas."
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"

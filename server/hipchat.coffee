@@ -4,6 +4,7 @@ log = require 'winston'
 
 module.exports.sendHipChatMessage = sendHipChatMessage = (message) ->
   return unless key = config.hipchatAPIKey
+  return unless config.isProduction
   roomID = 254598
   form =
     color: 'yellow'
@@ -20,6 +21,7 @@ module.exports.sendTowerHipChatMessage = sendTowerHipChatMessage = (message) ->
   link = "<a href=\"https://papertrailapp.com/groups/488214/events?time=#{secondsFromEpoch}\">PaperTrail</a>"
   message = "#{message} #{link}"
   return unless key = config.hipchatTowerAPIKey
+  return unless config.isProduction
   roomID = 318356
   form =
     color: 'red'

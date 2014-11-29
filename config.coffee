@@ -70,8 +70,7 @@ exports.config =
         ]
         
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
-        'javascripts/app/lib/surface.js': regJoin('^app/lib/surface')
-        'javascripts/app/lib/world.js': regJoin('^app/lib/world')
+        'javascripts/app/lib.js': regJoin('^app/lib')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
         'javascripts/app/views/game-menu.js': regJoin('^app/views/game-menu')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
@@ -142,6 +141,7 @@ exports.config =
       defaultExtension: 'jade'
       joinTo:
         'javascripts/app.js': [
+          regJoin('^app/templates/core')
           'app/templates/modal/error.jade'
           'app/templates/not_found.jade'
           'app/templates/achievements/achievement-popup.jade'

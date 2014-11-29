@@ -56,6 +56,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
@@ -246,6 +247,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_select_a_thang: "Selecciona a alguien para "
     tome_available_spells: "Hechizos disponibles"
     tome_your_skills: "Tus Habilidades"
+#    tome_help: "Help"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
     code_saved: "Codigo Salvado"
@@ -325,6 +327,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Do you want to get more?"
+#    prompt_button: "Enter Shop"
 
   choose_hero:
     choose_hero: "Selecciona tu Heroe"
@@ -350,6 +355,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
     skills: "Habilidades"
+#    available_for_purchase: "Available for Purchase"
+#    level_to_unlock: "Level to unlock:"
+#    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -785,6 +793,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   account:
     recently_played: "Jugado Recientemente"
     no_recent_games: "No he jugado juegos en las ultimas dos semanas."
+#    payments: "Payments"
+#    service_apple: "Apple"
+#    service_web: "Web"
+#    paid_on: "Paid On"
+#    service: "Service"
+#    price: "Price"
+#    gems: "Gems"
 
   loading_error:
     could_not_load: "Error al cargar desde el servidor."

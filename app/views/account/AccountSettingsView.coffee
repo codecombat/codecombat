@@ -3,7 +3,7 @@ template = require 'templates/account/account-settings-view'
 {me} = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
-AuthModal = require 'views/modal/AuthModal'
+AuthModal = require 'views/core/AuthModal'
 
 module.exports = class AccountSettingsView extends CocoView
   id: 'account-settings-view'

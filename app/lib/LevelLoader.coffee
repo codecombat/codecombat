@@ -100,7 +100,9 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDependenciesRegistered ?= {}
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
-    heroConfig ?= {inventory: {}, thangType: '529ffbf1cf1818f2be000001'}  # If all else fails, assign Tharin as the hero.
+    heroConfig ?= {}
+    heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
+    heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
     if heroResource = @maybeLoadURL(url, ThangType, 'thang')
