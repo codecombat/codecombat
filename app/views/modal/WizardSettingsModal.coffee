@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/modal/wizard_settings'
+template = require 'templates/modal/wizard-settings-modal'
 WizardLank = require 'lib/surface/WizardLank'
 ThangType = require 'models/ThangType'
 {me} = require 'core/auth'

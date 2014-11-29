@@ -64,7 +64,7 @@ exports.config =
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
           regJoin('^vendor/(?!scripts/Box2d)')
-          regJoin('^bower_components/(?!aether)')
+          regJoin('^bower_components/(?!(aether|d3))')
         ]
         
         #- Other vendor libraries in separate bunches
@@ -75,6 +75,9 @@ exports.config =
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
         'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
+        
+        # Any vendor libraries we don't want the client to load immediately
+        'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
         
         #- test, demo libraries
         'javascripts/test-app.js': regJoin('^test/app/')

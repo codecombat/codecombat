@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/account/wizard_settings'
+template = require 'templates/account/wizard-settings-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
