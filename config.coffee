@@ -174,6 +174,8 @@ exports.config =
         no_unnecessary_fat_arrows:
           level: 'ignore'
     uglify:
+      mangle:
+        except: ['require']
       output:
         semicolons: false
     sass:

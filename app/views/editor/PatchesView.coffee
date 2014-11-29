@@ -1,7 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/patches'
 PatchesCollection = require 'collections/PatchesCollection'
-nameLoader = require 'lib/NameLoader'
+nameLoader = require 'core/NameLoader'
 PatchModal = require './PatchModal'
 
 module.exports = class PatchesView extends CocoView
