@@ -1,10 +1,10 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/game-menu/game-menu-modal'
+template = require 'templates/play/menu/game-menu-modal'
 submenuViews = [
-  require 'views/game-menu/SaveLoadView'
-  require 'views/game-menu/OptionsView'
-  require 'views/game-menu/GuideView'
-  require 'views/game-menu/MultiplayerView'
+  require 'views/play/menu/SaveLoadView'
+  require 'views/play/menu/OptionsView'
+  require 'views/play/menu/GuideView'
+  require 'views/play/menu/MultiplayerView'
 ]
 
 module.exports = class GameMenuModal extends ModalView

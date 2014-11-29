@@ -2,11 +2,11 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/control_bar'
 {me} = require 'core/auth'
 
-GameMenuModal = require 'views/game-menu/GameMenuModal'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 RealTimeModel = require 'models/RealTimeModel'
 RealTimeCollection = require 'collections/RealTimeCollection'
 LevelSetupManager = require 'lib/LevelSetupManager'
-GameMenuModal = require 'views/game-menu/GameMenuModal'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 CampaignOptions = require 'lib/CampaignOptions'
 
 module.exports = class ControlBarView extends CocoView

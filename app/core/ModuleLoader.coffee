@@ -9,7 +9,6 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
   @WADS = [
     'lib'
     'views/play'
-    'views/game-menu'
     'views/editor'
   ]
 

@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/game-menu/inventory-modal'
+template = require 'templates/play/menu/inventory-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'

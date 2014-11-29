@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/game-menu/multiplayer-view'
+template = require 'templates/play/menu/multiplayer-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
