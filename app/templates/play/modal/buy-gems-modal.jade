@@ -25,6 +25,7 @@
           
       if state === 'unknown_error'
         #error-alert.alert.alert-danger.alert-dismissible
-          span(data-i18n="loading_error.unknown")
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= stateMessage
