@@ -72,7 +72,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       @trigger 'load-complete'
       
   parseDependencies: (raw) ->
-    bits = raw.match(/(require\(\'([^)]+)\')|(register\(\".+\")/g) or []
+    bits = raw.match(/(require\(['"](.+?)['"])|(register\(['"].+?['"])/g) or []
     rootFolder = null
     dependencies = []
     for bit in bits
