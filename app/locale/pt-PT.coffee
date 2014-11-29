@@ -329,7 +329,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrying: "Erro do servidor, a tentar novamente."
     prompt_title: "Sem Gemas Suficientes"
     prompt_body: "Queres obter mais?"
-    prompt_button: "Entrar na Loja"
+    prompt_button: "Entra na Loja"
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -932,16 +932,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    use_list_2: "If used on a website, include a link near the usage, for example underneath an image, or in a general attributions page where you might also mention other Creative Commons works and open source software being used on the site. Something that's already clearly referencing CodeCombat, such as a blog post mentioning CodeCombat, does not need some separate attribution."
 #    art_paragraph_2: "If the content being used is created not by CodeCombat but instead by a user of codecombat.com, attribute them instead, and follow attribution directions provided in that resource's description if there are any."
     rights_title: "Direitos Reservados"
-    rights_desc: "Todos os direitos estão reservedos aos próprios Níveis. Isto inclui"
+    rights_desc: "Todos os direitos estão reservados aos próprios Níveis. Isto inclui"
     rights_scripts: "Scripts"
     rights_unit: "Configurações das unidades"
     rights_description: "Descrições"
     rights_writings: "Textos"
-    rights_media: "Mídia (sons, música) e quaisquer outros conteúdos creativos feitos especificamente para esse Nível e que não foram disponibilizados para a criação de Níveis."
+    rights_media: "Mídia (sons, música) e quaisquer outros conteúdos criativos feitos especificamente para esse Nível e que não foram disponibilizados para a criação de Níveis."
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "Resumidamente"
     nutshell_description: "Qualquer um dos recursos que fornecemos no Editor de Níveis são de uso livre para criares Níveis. Mas reservamos o direito de distribuição restrita dos próprios Níveis (que são criados em codecombat.com) pelo que podemos cobrar por eles no futuro, se for isso que acabar por acontecer."
-    canonical: "A versão Inglesa deste documento é a versão definitiva e sobera. Se houver discrepâncias entre traduções, o documento Inglês prevalece."
+    canonical: "A versão Inglesa deste documento é a versão definitiva e soberana. Se houver discrepâncias entre traduções, o documento Inglês prevalece."
 
   ladder_prizes:
     title: "Prémios do Torneio" # This section was for an old tournament and doesn't need new translations now.
