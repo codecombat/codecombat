@@ -19,11 +19,21 @@ module.exports = class Tracker
       traits[userTrait] ?= me.get(userTrait)
     analytics.identify me.id, traits
 
-  trackPageView: ->
+  trackPageView: (name=null, includeIntegrations=null) ->
+    # Google Analytics does not support event-based funnels, so we have to use virtual pageviews instead
+    # https://support.google.com/analytics/answer/1032720?hl=en
+    # https://segment.com/docs/libraries/analytics.js/#page
+    unless name?
+      name = Backbone.history.getFragment()
+    console.log "Would track analytics pageview: /#{name}" if debugAnalytics
     return unless @isProduction and analytics? and not me.isAdmin()
-    url = Backbone.history.getFragment()
-    console.log 'Going to track visit for', "/#{url}" if debugAnalytics
-    analytics.pageview "/#{url}"
+    if includeIntegrations
+      options.integrations = {'All': false}
+      for integration in includeIntegrations
+        options.integrations[integration] = true
+      analytics.page null, "/#{name}", null, options
+    else
+      analytics.page "/#{name}"
 
   trackEvent: (action, properties, includeIntegrations=null) =>
     # 'action' is a string
@@ -34,7 +44,6 @@ module.exports = class Tracker
     # https://segment.com/docs/integrations/mixpanel/
     console.log 'Would track analytics event:', action, properties if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
-    console.log 'Going to track analytics event:', action, properties if debugAnalytics
     properties = properties or {}
     context = {}
     if includeIntegrations
