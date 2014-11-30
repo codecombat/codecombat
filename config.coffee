@@ -63,8 +63,8 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript))')
-          regJoin('^bower_components/(?!(aether|d3|difflib|diffview))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview))')
+          regJoin('^bower_components/(?!(aether|d3))')
         ]
         
         #- Other vendor libraries in separate bunches
