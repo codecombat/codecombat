@@ -2,6 +2,58 @@ ContributeClassView = require './ContributeClassView'
 template = require 'templates/contribute/diplomat'
 {me} = require 'core/auth'
 
+require("locale/en")
+require("locale/en-US")
+require("locale/en-GB")
+require("locale/en-AU")
+require("locale/ru")
+require("locale/de-DE")
+require("locale/de-AT")
+require("locale/de-CH")
+require("locale/es-419")
+require("locale/es-ES")
+require("locale/zh-HANS")
+require("locale/zh-HANT")
+require("locale/zh-WUU-HANS")
+require("locale/zh-WUU-HANT")
+require("locale/fr")
+require("locale/ja")
+require("locale/ar")
+require("locale/pt-BR")
+require("locale/pt-PT")
+require("locale/pl")
+require("locale/it")
+require("locale/tr")
+require("locale/nl-BE")
+require("locale/nl-NL")
+require("locale/fa")
+require("locale/cs")
+require("locale/sv")
+require("locale/id")
+require("locale/el")
+require("locale/ro")
+require("locale/vi")
+require("locale/hu")
+require("locale/th")
+require("locale/da")
+require("locale/ko")
+require("locale/sk")
+require("locale/sl")
+require("locale/fi")
+require("locale/bg")
+require("locale/no")
+require("locale/nn")
+require("locale/nb")
+require("locale/he")
+require("locale/lt")
+require("locale/sr")
+require("locale/uk")
+require("locale/hi")
+require("locale/ur")
+require("locale/ms")
+require("locale/ca")
+require("locale/gl")
+
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
   template: template
@@ -19,6 +71,7 @@ module.exports = class DiplomatView extends ContributeClassView
     totalStrings = @countStrings @locale.en
     languageStats = {}
     for languageCode, language of @locale
+      continue if languageCode is 'update'
       languageStats[languageCode] =
         githubURL: "https://github.com/codecombat/codecombat/blob/master/app/locale/#{languageCode}.coffee"
         completion: @countStrings(language) / totalStrings
