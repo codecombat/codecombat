@@ -10,6 +10,7 @@ Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './LevelThangEditView'
 ComponentsCollection = require 'collections/ComponentsCollection'
+require 'vendor/treema'
 
 # Moving the screen while dragging thangs constants
 MOVE_MARGIN = 0.15

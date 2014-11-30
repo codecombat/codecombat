@@ -8,6 +8,7 @@ ComponentsCollection = require 'collections/ComponentsCollection'
 ThangComponentConfigView = require './ThangComponentConfigView'
 AddThangComponentsModal = require './AddThangComponentsModal'
 nodes = require '../level/treema_nodes'
+require 'vendor/treema'
 
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'

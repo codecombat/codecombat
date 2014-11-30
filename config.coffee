@@ -16,7 +16,12 @@ exports.config =
   
   paths:
     public: 'public'
-    watched: ['app', 'vendor', 'test/app', 'test/demo']
+    watched: [
+      'app', 
+      'vendor', 
+      'test/app', 
+      'test/demo'
+    ]
     
   conventions:
     ignored: (path) -> _.str.startsWith(sysPath.basename(path), '_')
@@ -64,7 +69,8 @@ exports.config =
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
           regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview))')
-          regJoin('^bower_components/(?!(aether|d3))')
+          regJoin('^bower_components/(?!(aether|d3|treema))')
+          'bower_components/treema/treema-utils.js'
         ]
         
         #- Other vendor libraries in separate bunches
@@ -81,6 +87,7 @@ exports.config =
         'javascripts/app/vendor/coffeescript.js': 'vendor/scripts/coffeescript.js'
         'javascripts/app/vendor/difflib.js': 'vendor/scripts/difflib.js'
         'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
+        'javascripts/app/vendor/treema.js': regJoin('^bower_components/treema\\.js')
         
         #- test, demo libraries
         'javascripts/test-app.js': regJoin('^test/app/')

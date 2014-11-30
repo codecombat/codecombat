@@ -10,6 +10,7 @@ UserRemark = require 'models/UserRemark'
 forms = require 'core/forms'
 ModelModal = require 'views/modal/ModelModal'
 JobProfileCodeModal = require './JobProfileCodeModal'
+require 'vendor/treema'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"

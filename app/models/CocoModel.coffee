@@ -78,7 +78,7 @@ class CocoModel extends Backbone.Model
     thisTV4 = tv4.freshApi()
     thisTV4.addSchema('#', @schema())
     thisTV4.addSchema('metaschema', require('schemas/metaschema'))
-    TreemaNode.utils.populateDefaults(clone, @schema(), thisTV4)
+    TreemaUtils.populateDefaults(clone, @schema(), thisTV4)
     @attributesWithDefaults = clone
     duration = new Date() - t0
     console.debug "Populated defaults for #{@type()}#{if @attributes.name then ' ' + @attributes.name else ''} in #{duration}ms" if duration > 10

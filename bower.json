@@ -71,6 +71,13 @@
         "src/formatters/html.css"
       ]
     },
+    "treema": {
+      "main": [
+        "treema.js",
+        "treema.css",
+        "treema-utils.js"
+      ]
+    },
     "jquery.tablesorter": {
       "main": [
         "js/jquery.tablesorter.js",
