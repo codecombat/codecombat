@@ -154,7 +154,7 @@ class EarnedAchievementHandler extends Handler
     Achievement.find filter, (err, achievements) ->
       callback?(err) if err?
       callback?(new Error 'No achievements to recalculate') unless achievements.length
-      log.info "Recalculating a total of #{achievements.length} achievements..."
+      #log.info "Recalculating a total of #{achievements.length} achievements..."
 
       # Fetch every single user. This tends to get big so do it in a streaming fashion.
       userStream = User.find().sort('_id').stream()

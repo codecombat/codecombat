@@ -94,14 +94,20 @@ module.exports = class PlayHeroesModal extends ModalView
     @buildCodeLanguages()
 
   initCodeLanguageList: (hadEverChosenHero) ->
-    @codeLanguageList = [
-      {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
-      {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript'}
-      {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
-      {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
-      {id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
-    ]
+    if application.isIPadApp
+      @codeLanguageList = [
+        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
+        {id: 'javascript', name: 'JavaScript'}
+      ]
+    else
+      @codeLanguageList = [
+        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
+        {id: 'javascript', name: 'JavaScript'}
+        {id: 'coffeescript', name: 'CoffeeScript'}
+        {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
+      ]
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'
