@@ -87,7 +87,7 @@ exports.config =
         'javascripts/app/vendor/coffeescript.js': 'vendor/scripts/coffeescript.js'
         'javascripts/app/vendor/difflib.js': 'vendor/scripts/difflib.js'
         'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
-        'javascripts/app/vendor/treema.js': regJoin('^bower_components/treema\\.js')
+        'javascripts/app/vendor/treema.js': 'bower_components/treema/treema.js'
         
         #- test, demo libraries
         'javascripts/test-app.js': regJoin('^test/app/')
