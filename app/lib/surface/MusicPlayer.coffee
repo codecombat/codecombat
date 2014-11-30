@@ -86,8 +86,7 @@ module.exports = class MusicPlayer extends CocoClass
     return if @inMenu
     @inMenu = true
     @previousMusic = @currentMusic
-    terrain = (e.terrain ? 'Dungeon').toLowerCase()
-    file = "/music/music-menu-#{terrain}"
+    file = "/music/music-menu"
     Backbone.Mediator.publish 'music-player:play-music', file: file, play: true, delay: 1000
 
   onExitMenu: (e) ->

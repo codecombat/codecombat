@@ -63,7 +63,7 @@ module.exports = class WorldMapView extends RootView
     @getLevelPlayCounts()
     $(window).on 'resize', @onWindowResize
     @playAmbientSound()
-    @probablyCachedMusic = storage.load("loaded-menu-music-#{@terrain}")
+    @probablyCachedMusic = storage.load("loaded-menu-music")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
     @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
     @hadEverChosenHero = me.get('heroConfig')?.thangType
@@ -280,9 +280,9 @@ module.exports = class WorldMapView extends RootView
 
   playMusic: ->
     @musicPlayer = new MusicPlayer()
-    musicFile = {dungeon: '/music/music-menu-dungeon', forest: '/music/music-menu-grass'}[@terrain]
+    musicFile = '/music/music-menu'
     Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
-    storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
+    storage.save("loaded-menu-music", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
     for heroID in ['captain', 'knight']
