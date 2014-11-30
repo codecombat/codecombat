@@ -249,36 +249,20 @@ module.exports = class WorldMapView extends RootView
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
     mapWidth = if @terrain is 'dungeon' then 2350 else 2500
-    iPadWidth = 2048
     aspectRatio = mapWidth / mapHeight
-    iPadAspectRatio = iPadWidth / iPadHeight
     pageWidth = $(window).width()
     pageHeight = $(window).height()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
-    iPadWidthRatio = pageWidth / iPadWidth
-    if @terrain is 'dungeon'
-      # Make sure we can see almost the whole map, fading to background in one dimension.
-      if heightRatio <= iPadWidthRatio
-        # Full width, full height, left and right margin
-        resultingHeight = pageHeight
-        resultingWidth = resultingHeight * aspectRatio
-      else if iPadWidthRatio < heightRatio * (iPadAspectRatio / aspectRatio)
-        # Cropped width, full height, left and right margin
-        resultingWidth = pageWidth
-        resultingHeight = resultingWidth / aspectRatio
-      else
-        # Cropped width, full height, top and bottom margin
-        resultingWidth = pageWidth * aspectRatio / iPadAspectRatio
-        resultingHeight = resultingWidth / aspectRatio
+    # Make sure we can see the whole map, fading to background in one dimension.
+    if heightRatio <= widthRatio
+      # Left and right margin
+      resultingHeight = pageHeight
+      resultingWidth = resultingHeight * aspectRatio
     else
-      # Scale it in either dimension so that we're always full on one of the dimensions.
-      if heightRatio > widthRatio
-        resultingHeight = pageHeight
-        resultingWidth = resultingHeight * aspectRatio
-      else
-        resultingWidth = pageWidth
-        resultingHeight = resultingWidth / aspectRatio
+      # Top and bottom margin
+      resultingWidth = pageWidth
+      resultingHeight = resultingWidth / aspectRatio
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
