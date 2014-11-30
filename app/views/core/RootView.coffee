@@ -46,7 +46,7 @@ module.exports = class RootView extends CocoView
         success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
 
   logoutAccount: ->
-    Backbone.Mediator.publish("auth:logging-out")
+    Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
 
@@ -59,12 +59,12 @@ module.exports = class RootView extends CocoView
     AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'signup'}
-    
+
   onClickLoginButton: ->
     AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'login'}
-    
+
   onClickAnchor: (e) ->
     return if @destroyed
     anchorText = e?.currentTarget?.text
@@ -98,7 +98,7 @@ module.exports = class RootView extends CocoView
       @$el.addClass('site-chrome')
       if @showBackground
         @$el.addClass('show-background')
-      
+
     super(arguments...)
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
@@ -139,13 +139,13 @@ module.exports = class RootView extends CocoView
     newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
-    
+
     loading = application.moduleLoader.loadLanguage(me.get('preferredLanguage', true))
     if loading
       @listenToOnce application.moduleLoader, 'load-complete', @onLanguageLoaded
     else
       @onLanguageLoaded()
-    
+
   onLanguageLoaded: ->
     @render()
     unless me.get('preferredLanguage').split('-')[0] is 'en'

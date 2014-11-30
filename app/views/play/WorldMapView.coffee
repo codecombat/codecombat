@@ -66,7 +66,6 @@ module.exports = class WorldMapView extends RootView
     @probablyCachedMusic = storage.load("loaded-menu-music-#{@terrain}")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
     @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
-    @preloadTopHeroes()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
@@ -94,7 +93,7 @@ module.exports = class WorldMapView extends RootView
       return if @destroyed
       for level in levelPlayCounts
         @levelPlayCountMap[level._id] = playtime: level.playtime, sessions: level.sessions
-      @render() if @supermodel.finished()
+      @render() if @fullyRendered
 
     levelIDs = []
     for campaign in campaigns
@@ -107,6 +106,12 @@ module.exports = class WorldMapView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
+
+  onLoaded: ->
+    return if @fullyRendered
+    @fullyRendered = true
+    @render()
+    @preloadTopHeroes() unless me.get('heroConfig')?.thangType
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -140,7 +145,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or not @supermodel.finished()
+    unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -296,7 +301,6 @@ module.exports = class WorldMapView extends RootView
     storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
-    return  # Don't do this because these two have feature images, so we don't need the raw vector data for them. Later they'll all have feature images...
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url
