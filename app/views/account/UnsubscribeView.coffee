@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/account/unsubscribe'
+template = require 'templates/account/unsubscribe-view'
 {me} = require 'core/auth'
 
 module.exports = class UnsubscribeView extends RootView

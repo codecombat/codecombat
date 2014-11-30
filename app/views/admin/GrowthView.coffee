@@ -2,6 +2,8 @@ RootView = require 'views/core/RootView'
 template = require 'templates/admin/growth'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
+require 'vendor/d3'
+
 # Growth View ###################
 #
 # Display interesting growth data.

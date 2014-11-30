@@ -1,9 +1,9 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/account/job_profile_code_modal'
+template = require 'templates/account/job-profile-code-modal'
 LevelSessionCodeView = require 'views/common/LevelSessionCodeView'
 
 module.exports = class JobProfileCodeModal extends ModalView
-  id: 'job_profile_code_modal'
+  id: 'job-profile-code-modal'
   template: template
   modalWidthPercent: 90
   plain: true

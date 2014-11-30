@@ -1,5 +1,5 @@
 UserView = require 'views/common/UserView'
-template = require 'templates/account/profile'
+template = require 'templates/account/job-profile-view'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
