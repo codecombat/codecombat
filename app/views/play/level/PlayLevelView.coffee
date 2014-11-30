@@ -136,6 +136,7 @@ module.exports = class PlayLevelView extends RootView
     loadDuration = @loadEndTime - @loadStartTime
     console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
     application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration, ['Google Analytics']
+    application.tracker?.trackPageView "level-loaded/#{@levelID}", ['Google Analytics']
     application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   # CocoView overridden methods ###############################################
@@ -269,6 +270,7 @@ module.exports = class PlayLevelView extends RootView
     @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and not (e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
 
   onSessionLoaded: (e) ->
+    Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
     if e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] and not _.size e.session.get('heroConfig')?.inventory ? {}
       @setupManager?.destroy()
@@ -424,6 +426,7 @@ module.exports = class PlayLevelView extends RootView
         category: 'Play Level'
         level: @level.get('name')
         label: @level.get('name')
+      application.tracker?.trackPageView "level-completed/#{@levelID}", ['Google Analytics']
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->

@@ -19,13 +19,23 @@ module.exports = class Tracker
       traits[userTrait] ?= me.get(userTrait)
     analytics.identify me.id, traits
 
-  trackPageView: ->
+  trackPageView: (name=null, includeIntegrations=null) ->
+    # Google Analytics does not support event-based funnels, so we have to use virtual pageviews instead
+    # https://support.google.com/analytics/answer/1032720?hl=en
+    # https://segment.com/docs/libraries/analytics.js/#page
+    unless name?
+      name = Backbone.history.getFragment()
+    console.log "Would track analytics pageview: /#{name}" if debugAnalytics
     return unless @isProduction and analytics? and not me.isAdmin()
-    url = Backbone.history.getFragment()
-    console.log 'Going to track visit for', "/#{url}" if debugAnalytics
-    analytics.pageview "/#{url}"
+    if includeIntegrations
+      options.integrations = {'All': false}
+      for integration in includeIntegrations
+        options.integrations[integration] = true
+      analytics.page null, "/#{name}", null, options
+    else
+      analytics.page "/#{name}"
 
-  trackEvent: (action, properties, includeProviders=null) =>
+  trackEvent: (action, properties, includeIntegrations=null) =>
     # 'action' is a string
     # Google Analytics properties format: {category: 'Account', label: 'Premium', value: 50 }
     # https://segment.com/docs/integrations/google-analytics/#track
@@ -34,19 +44,13 @@ module.exports = class Tracker
     # https://segment.com/docs/integrations/mixpanel/
     console.log 'Would track analytics event:', action, properties if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
-    console.log 'Going to track analytics event:', action, properties if debugAnalytics
     properties = properties or {}
     context = {}
-
-    # TODO: Restrict providers, if given includeProviders
-    # TODO: This method may not work anymore, because it is not referenced in the segment.io docs
-    # TODO: Can double check in Mixpanel
-    # TODO: https://segment.com/docs/api/tracking/track/
-    if includeProviders
-      context.providers = {'All': false}
-      for provider in includeProviders
-        context.providers[provider] = true
-
+    if includeIntegrations
+      # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
+      context.integrations = {'All': false}
+      for integration in includeIntegrations
+        context.integrations[integration] = true
     analytics?.track action, properties, context
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->

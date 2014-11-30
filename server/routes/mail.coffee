@@ -58,8 +58,6 @@ candidateUpdateProfileTask = ->
     async.each timeRanges, emailTimeRange.bind({mailTaskName: mailTaskName}), (err) ->
       if err
         log.error "There was an error sending the candidate profile update reminder emails: #{err}"
-      else
-        log.info "Completed mail task #{mailTaskName}"
       lockManager.releaseLock mailTaskName, (err) ->
         if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
 
@@ -126,7 +124,7 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
         company_name: "CodeCombat"
         user_profile: "http://codecombat.com/account/profile/#{candidate._id}"
         recipient_address: encodeURIComponent(candidate.email)
-    log.info "Sending #{@timeRange.name} update reminder to #{context.recipient.name}(#{context.recipient.address})"
+    #log.info "Sending #{@timeRange.name} update reminder to #{context.recipient.name}(#{context.recipient.address})"
     newSentMail =
       mailTask: @mailTaskName
       user: candidate._id
@@ -156,8 +154,6 @@ unapprovedCandidateFinishProfileTask = ->
     async.each timeRanges, emailUnapprovedCandidateTimeRange.bind({mailTaskName: mailTaskName}), (err) ->
       if err
         log.error "There was an error sending the candidate profile update reminder emails: #{err}"
-      else
-        log.info "Completed mail task #{mailTaskName}"
       lockManager.releaseLock mailTaskName, (err) ->
         if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
 
@@ -221,7 +217,7 @@ sendReminderEmailToUnapprovedCandidate = (candidate, sendEmailCallback) ->
     email_data:
       user_profile: "http://codecombat.com/account/profile/#{candidate._id}"
       recipient_address: encodeURIComponent(candidate.email)
-  log.info "Sending #{@timeRange.name} finish profile reminder to #{context.recipient.name}(#{context.recipient.address})"
+  #log.info "Sending #{@timeRange.name} finish profile reminder to #{context.recipient.name}(#{context.recipient.address})"
   newSentMail =
     mailTask: @mailTaskName
     user: candidate._id
@@ -244,8 +240,6 @@ internalCandidateUpdateTask = ->
     emailInternalCandidateUpdateReminder.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error sending the internal candidate update reminder.: #{err}"
-      else
-        log.info "Sent internal candidate update reminder email!"
       lockManager.releaseLock mailTaskName, (err) ->
         if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
 
@@ -293,7 +287,7 @@ sendInternalCandidateUpdateReminder = (candidate, cb) ->
       name: "The CodeCombat Team"
     email_data:
       new_candidate_profile: "http://codecombat.com/account/profile/#{candidate._id}"
-  log.info "Sending candidate updated reminder for #{candidate.jobProfile.name}"
+  #log.info "Sending candidate updated reminder for #{candidate.jobProfile.name}"
   newSentMail =
     mailTask: @mailTaskName
     user: candidate._id
@@ -316,8 +310,6 @@ employerNewCandidatesAvailableTask = ->
     emailEmployerNewCandidatesAvailable.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error completing the new candidates available task: #{err}"
-      else
-        log.info "Completed the employer new candidates available task!"
       lockManager.releaseLock mailTaskName, (err) ->
         if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
 
@@ -418,8 +410,6 @@ emailUserRemarkTaskRemindersTask = ->
     emailUserRemarkTaskReminders.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error completing the #{mailTaskName}: #{err}"
-      else
-        log.info "Completed the #{mailTaskName}"
       lockManager.releaseLock mailTaskName, (err) ->
         if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
 
@@ -492,7 +482,7 @@ sendUserRemarkTaskEmail = (task, cb) ->
           candidate_name: user.jobProfile?.name ? "(Name not listed in job profile)"
           candidate_link: "http://codecombat.com/account/profile/#{task.user}"
           due_date: task.date
-      log.info "Sending recruitment task reminder to #{contact.email}"
+      #log.info "Sending recruitment task reminder to #{contact.email}"
       newSentMail =
         mailTask: mailTaskName
         user: task.contact
@@ -547,7 +537,7 @@ isRequestFromDesignatedCronHandler = (req, res) ->
 
 
 handleLadderUpdate = (req, res) ->
-  log.info('Going to see about sending ladder update emails.')
+  #log.info('Going to see about sending ladder update emails.')
   requestIsFromDesignatedCronHandler = DEBUGGING or isRequestFromDesignatedCronHandler req, res
   return unless requestIsFromDesignatedCronHandler
 
@@ -573,7 +563,7 @@ handleLadderUpdate = (req, res) ->
         if err
           log.error "Couldn't fetch ladder updates for #{findParameters}\nError: #{err}"
           return errors.serverError res, "Ladder update email query failed: #{JSON.stringify(err)}"
-        log.info "Found #{results.length} ladder sessions to email updates about for #{daysAgo} day(s) ago."
+        #log.info "Found #{results.length} ladder sessions to email updates about for #{daysAgo} day(s) ago."
         sendLadderUpdateEmail result, now, daysAgo for result in results
 
 sendLadderUpdateEmail = (session, now, daysAgo) ->
@@ -583,10 +573,10 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       return
     allowNotes = user.isEmailSubscriptionEnabled 'anyNotes'
     unless user.get('email') and allowNotes and not session.unsubscribed
-      log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{user.get('emailSubscriptions')}, #{user.get('emails')} - session unsubscribed: #{session.unsubscribed}"
+      #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{user.get('emailSubscriptions')}, #{user.get('emails')} - session unsubscribed: #{session.unsubscribed}"
       return
     unless session.levelName
-      log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had no levelName in it."
+      #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had no levelName in it."
       return
     name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
     name = 'Wizard' if not name or name is 'Anoner'
@@ -622,7 +612,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
           defeat: defeatContext
           victory: victoryContext
           levelVersions: levelVersionsContext
-      log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} losses since #{daysAgo} day(s) ago."
+      #log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} losses since #{daysAgo} day(s) ago."
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
 

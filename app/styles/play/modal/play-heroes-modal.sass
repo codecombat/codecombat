@@ -28,11 +28,24 @@ $heroCanvasHeight: 265px
     left: 154px
     top: 25px
     margin: 0
-    width: 450px
+    width: 350px
     text-align: center
     color: rgb(254,188,68)
     font-size: 38px
     text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
+
+
+  //- Gems count
+
+  #gems-count-container
+    position: absolute
+    right: 39px
+    top: 470px
+
+    #gems-count
+      font-family: 'Open Sans Condensed'
+      font-size: 24.5px
+      color: lighten(rgb(1,64,91), 50%)
 
 
   //- Close modal button
@@ -248,7 +261,7 @@ $heroCanvasHeight: 265px
 
   //- Different footer states
 
-  #purchasable-hero-explanation
+  #purchasable-hero-explanation, #loading-hero-explanation
     position: absolute
     left: 32px
     top: 532px

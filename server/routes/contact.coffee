@@ -6,14 +6,12 @@ User = require '../users/User'
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     return res.end() unless req.user
-    log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
+    #log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     if config.isProduction
       createMailOptions req.body.email, req.body.message, req.user, req.body.recipientID, req.body.subject, (options) ->
         mail.transport.sendMail options, (error, response) ->
           if error
             log.error "Error sending mail: #{error.message or error}"
-          else
-            log.info "Mail sent successfully. Response: #{response.message}"
     return res.end()
 
 createMailOptions = (sender, message, user, recipientID, subject, done) ->

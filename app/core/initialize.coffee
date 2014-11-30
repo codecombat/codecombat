@@ -33,8 +33,6 @@ init = ->
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
-  treemaExt = require 'core/treema-ext'
-  treemaExt.setup()
 
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/

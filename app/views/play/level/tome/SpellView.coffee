@@ -77,6 +77,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @fillACE()
+    @lockDefaultCode()
     if @session.get('multiplayer')
       @createFirepad()
     else
@@ -142,7 +143,6 @@ module.exports = class SpellView extends CocoView
           Backbone.Mediator.publish 'level:shift-space-pressed', {}
         else
           @ace.insert ' '
-
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
@@ -252,6 +252,83 @@ module.exports = class SpellView extends CocoView
     @ace.setValue @spell.source
     @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
+
+  lockDefaultCode: (force=false) ->
+    # TODO: Lock default indent for an empty line?
+    return unless LevelOptions[@options.level.get('slug')]?.lockDefaultCode or CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'lockDefaultCode')
+    return unless @spell.source is @spell.originalSource or force
+
+    console.info 'Locking down default code.'
+
+    intersects = =>
+      return true for range in @readOnlyRanges when @ace.getSelectionRange().intersects(range)
+      false
+      
+    intersectsLeft = =>
+      leftRange = @ace.getSelectionRange().clone()
+      if leftRange.start.column > 0
+        leftRange.setStart leftRange.start.row, leftRange.start.column - 1
+      else if leftRange.start.row > 0
+        leftRange.setStart leftRange.start.row - 1, 0
+      return true for range in @readOnlyRanges when leftRange.intersects(range)
+      false
+
+    preventReadonly = (next) ->
+      return true if intersects()
+      next?()
+
+    interceptCommand = (obj, method, wrapper) ->
+      orig = obj[method]
+      obj[method] = ->
+        args = Array.prototype.slice.call arguments
+        wrapper => orig.apply obj, args
+      obj[method]
+
+    finishRange = (row, startRow, startColumn) =>
+      range = new Range startRow, startColumn, row, @aceSession.getLine(row).length - 1
+      range.start = @aceDoc.createAnchor range.start
+      range.end = @aceDoc.createAnchor range.end
+      range.end.$insertRight = true
+      @readOnlyRanges.push range
+
+    # Create a read-only range for each chunk of text not separated by an empty line
+    @readOnlyRanges = []
+    startRow = startColumn = null
+    for row in [0...@aceSession.getLength()]
+      unless /^\s*$/.test @aceSession.getLine(row)
+        unless startRow? and startColumn?
+          startRow = row
+          startColumn = 0
+      else
+        if startRow? and startColumn?
+          finishRange row - 1, startRow, startColumn
+          startRow = startColumn = null
+    if startRow? and startColumn?
+      finishRange @aceSession.getLength() - 1, startRow, startColumn 
+
+    # Override write operations that intersect with default code
+    interceptCommand @ace, 'onPaste', preventReadonly
+    interceptCommand @ace, 'onCut', preventReadonly
+    # TODO: can we use interceptCommand for this too?  'exec' and 'onExec' did not work.
+    @ace.commands.on 'exec', (e) =>
+      e.stopPropagation()
+      e.preventDefault()
+      if e.command.name is 'insertstring'and intersects()
+        @zatanna?.off?()
+        return false
+      if e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()
+        @zatanna?.off?()
+        return false
+      if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
+        if intersects()
+          @ace.navigateDown 1
+          @ace.navigateLineStart()
+          return false
+        else if e.command.name in ['Enter', 'Return']
+          @ace.execCommand 'enter-skip-delimiters'
+          return false
+      @zatanna?.on?()
+      e.command.exec e.editor, e.args or {}
 
   initAutocomplete: (@autocomplete) ->
     # TODO: Turn on more autocompletion based on level sophistication
@@ -450,6 +527,7 @@ module.exports = class SpellView extends CocoView
 
   reloadCode: (cast=true) ->
     @updateACEText @spell.originalSource
+    @lockDefaultCode true
     @recompile cast
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
 

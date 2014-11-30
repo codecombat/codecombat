@@ -7,9 +7,11 @@ options =
   'default':
     autocompleteFontSizePx: 16
     backspaceThrottle: false
+    lockDefaultCode: false
   'dungeon':
     autocompleteFontSizePx: 20
     backspaceThrottle: true
+    lockDefaultCode: true
 
 module.exports = CampaignOptions =
   getCampaignForSlug: (slug) ->

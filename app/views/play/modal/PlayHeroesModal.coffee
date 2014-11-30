@@ -68,6 +68,7 @@ module.exports = class PlayHeroesModal extends ModalView
     context.codeLanguage = @codeLanguage = @options?.session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     context.confirmButtonI18N = @confirmButtonI18N
     context.visibleHero = @visibleHero
+    context.gems = me.gems()
     context
 
   afterRender: ->
@@ -92,16 +93,23 @@ module.exports = class PlayHeroesModal extends ModalView
     @formatHero @visibleHero
     @renderSelectors '#hero-footer'
     @buildCodeLanguages()
+    @$el.find('#gems-count-container').toggle Boolean @visibleHero.purchasable
 
   initCodeLanguageList: (hadEverChosenHero) ->
-    @codeLanguageList = [
-      {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
-      {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript'}
-      {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
-      {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
-      {id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
-    ]
+    if application.isIPadApp
+      @codeLanguageList = [
+        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
+        {id: 'javascript', name: 'JavaScript'}
+      ]
+    else
+      @codeLanguageList = [
+        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
+        {id: 'javascript', name: 'JavaScript'}
+        {id: 'coffeescript', name: 'CoffeeScript'}
+        {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
+      ]
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'

@@ -66,7 +66,6 @@ module.exports = class WorldMapView extends RootView
     @probablyCachedMusic = storage.load("loaded-menu-music-#{@terrain}")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
     @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
-    @preloadTopHeroes()
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
@@ -94,7 +93,7 @@ module.exports = class WorldMapView extends RootView
       return if @destroyed
       for level in levelPlayCounts
         @levelPlayCountMap[level._id] = playtime: level.playtime, sessions: level.sessions
-      @render() if @supermodel.finished()
+      @render() if @fullyRendered
 
     levelIDs = []
     for campaign in campaigns
@@ -107,6 +106,12 @@ module.exports = class WorldMapView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
+
+  onLoaded: ->
+    return if @fullyRendered
+    @fullyRendered = true
+    @render()
+    @preloadTopHeroes() unless me.get('heroConfig')?.thangType
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -140,7 +145,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or not @supermodel.finished()
+    unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -244,36 +249,20 @@ module.exports = class WorldMapView extends RootView
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
     mapWidth = if @terrain is 'dungeon' then 2350 else 2500
-    iPadWidth = 2048
     aspectRatio = mapWidth / mapHeight
-    iPadAspectRatio = iPadWidth / iPadHeight
     pageWidth = $(window).width()
     pageHeight = $(window).height()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
-    iPadWidthRatio = pageWidth / iPadWidth
-    if @terrain is 'dungeon'
-      # Make sure we can see almost the whole map, fading to background in one dimension.
-      if heightRatio <= iPadWidthRatio
-        # Full width, full height, left and right margin
-        resultingHeight = pageHeight
-        resultingWidth = resultingHeight * aspectRatio
-      else if iPadWidthRatio < heightRatio * (iPadAspectRatio / aspectRatio)
-        # Cropped width, full height, left and right margin
-        resultingWidth = pageWidth
-        resultingHeight = resultingWidth / aspectRatio
-      else
-        # Cropped width, full height, top and bottom margin
-        resultingWidth = pageWidth * aspectRatio / iPadAspectRatio
-        resultingHeight = resultingWidth / aspectRatio
+    # Make sure we can see the whole map, fading to background in one dimension.
+    if heightRatio <= widthRatio
+      # Left and right margin
+      resultingHeight = pageHeight
+      resultingWidth = resultingHeight * aspectRatio
     else
-      # Scale it in either dimension so that we're always full on one of the dimensions.
-      if heightRatio > widthRatio
-        resultingHeight = pageHeight
-        resultingWidth = resultingHeight * aspectRatio
-      else
-        resultingWidth = pageWidth
-        resultingHeight = resultingWidth / aspectRatio
+      # Top and bottom margin
+      resultingWidth = pageWidth
+      resultingHeight = resultingWidth / aspectRatio
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
@@ -296,7 +285,6 @@ module.exports = class WorldMapView extends RootView
     storage.save("loaded-menu-music-#{@terrain}", true) unless @probablyCachedMusic
 
   preloadTopHeroes: ->
-    return  # Don't do this because these two have feature images, so we don't need the raw vector data for them. Later they'll all have feature images...
     for heroID in ['captain', 'knight']
       url = "/db/thang.type/#{ThangType.heroes[heroID]}/version"
       continue if @supermodel.getModel url

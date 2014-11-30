@@ -214,10 +214,12 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'village-guard':
     hidesCodeToolbar: true
+    lockDefaultCode: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
   'thornbush-farm':
     hidesCodeToolbar: true
+    lockDefaultCode: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
     requiredCode: ['topEnemy']

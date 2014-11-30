@@ -4,7 +4,8 @@
 $mapHeight: 1536
 $forestMapWidth: 2500
 $dungeonMapWidth: 2350
-$forestMapSeaBackground: #71bad0
+$forestMapSeaBackground: rgba(113, 186, 208, 1)
+$forestMapSeaBackgroundTransparent: rgba(113, 186, 208, 0)
 $dungeonMapCaveBackground: rgba(68, 54, 45, 1)
 $dungeonMapCaveBackgroundTransparent: rgba(68, 54, 45, 0)
 $levelDotWidth: 2%
@@ -33,41 +34,61 @@ $gameControlMargin: 30px
   height: 100%
   position: absolute
 
+  .gradient
+    position: absolute
+    z-index: 0
+
+    &.horizontal-gradient
+      left: 0
+      right: 0
+      height: 3%
+
+    &.vertical-gradient
+      top: 0
+      bottom: 0
+      width: 3%
+
+    &.top-gradient
+      top: 0
+
+    &.right-gradient
+      right: 0
+
+    &.bottom-gradient
+      bottom: 0
+
+    &.left-gradient
+      left: 0
+
   &.forest
     background-color: $forestMapSeaBackground
+
+    .top-gradient
+      background: linear-gradient(to bottom, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
+
+    .right-gradient
+      background: linear-gradient(to left, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
+
+    .bottom-gradient
+      background: linear-gradient(to top, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
+
+    .left-gradient
+      background: linear-gradient(to right, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
 
   &.dungeon
     background-color: $dungeonMapCaveBackground
 
-    .gradient
-      position: absolute
-      z-index: 0
+    .top-gradient
+      background: linear-gradient(to bottom, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
 
-      &.horizontal-gradient
-        left: 0
-        right: 0
-        height: 3%
+    .right-gradient
+      background: linear-gradient(to left, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
 
-      &.vertical-gradient
-        top: 0
-        bottom: 0
-        width: 3%
+    .bottom-gradient
+      background: linear-gradient(to top, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
 
-      &.top-gradient
-        top: 0
-        background: linear-gradient(to bottom, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-  
-      &.right-gradient
-        right: 0
-        background: linear-gradient(to left, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-
-      &.bottom-gradient
-        bottom: 0
-        background: linear-gradient(to top, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-  
-      &.left-gradient
-        left: 0
-        background: linear-gradient(to right, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
+    .left-gradient
+      background: linear-gradient(to right, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
 
   .map
     position: relative
@@ -157,6 +178,9 @@ $gameControlMargin: 30px
         margin-left: 2 * -0.5 * $levelClickRadius
         margin-top: 2 * -0.5 * $levelClickRadius
         border-radius: 2 * $levelClickRadius
+
+    .tooltip
+      z-index: 2
 
     .level-info-container
       display: none

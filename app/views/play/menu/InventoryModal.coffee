@@ -140,6 +140,7 @@ module.exports = class InventoryModal extends ModalView
     @requireLevelEquipment()
     @$el.find('.nano').nanoScroller({alwaysVisible: true})
     @onSelectionChanged()
+    @onEquipmentChanged()
 
   afterInsert: ->
     super()
@@ -147,7 +148,6 @@ module.exports = class InventoryModal extends ModalView
     @canvasHeight = @$el.find('canvas').innerHeight()
     @inserted = true
     @requireLevelEquipment()
-    @onEquipmentChanged()
 
   #- Draggable logic
 
@@ -260,7 +260,12 @@ module.exports = class InventoryModal extends ModalView
     selectedItem = @items.get(selectedItemEl.data('item-id'))
     return unless selectedItem
     allowedSlots = selectedItem.getAllowedSlots()
-    slotEl = @$el.find(".item-slot[data-slot='#{allowedSlots[0]}']")
+    firstSlot = unequippedSlot = null
+    for allowedSlot in allowedSlots
+      slotEl = @$el.find(".item-slot[data-slot='#{allowedSlot}']")
+      firstSlot ?= slotEl
+      unequippedSlot ?= slotEl unless slotEl.find('img').length
+    slotEl = unequippedSlot ? firstSlot
     selectedItemEl.effect('transfer', to: slotEl, duration: 500, easing: 'easeOutCubic')
     unequipped = @unequipItemFromSlot(slotEl)
     selectedItemEl.addClass('equipped')

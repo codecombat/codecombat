@@ -30,6 +30,8 @@ module.exports = class HomeView extends RootView
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
     c.explainsHourOfCode = @explainsHourOfCode
+    c.isMobile = @isMobile()
+    c.isIPadBrowser = @isIPadBrowser()
     c
 
   onClickBeginnerCampaign: (e) ->

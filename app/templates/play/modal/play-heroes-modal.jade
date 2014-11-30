@@ -5,6 +5,11 @@
     
     h1(data-i18n="choose_hero.choose_hero")
 
+    div#gems-count-container
+      span#gems-count
+        .gem.gem-20
+        span.spl= gems
+
     div#close-modal
       span.glyphicon.glyphicon-remove
 
@@ -53,7 +58,11 @@
 
     #hero-footer
       if visibleHero
-        if visibleHero.restricted
+        if !visibleHero.get('original')
+          #loading-hero-explanation
+            h2(data-i18n="common.loading") Loading...
+
+        else if visibleHero.restricted
           #restricted-hero-explanation
             h2
               span= visibleHero.name

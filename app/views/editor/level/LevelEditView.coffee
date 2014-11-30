@@ -27,6 +27,7 @@ LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 
 require 'vendor/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
+require 'vendor/treema'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'

@@ -85,6 +85,12 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
+    # get treema set up only when the library loads, if it loads
+    if e.item.id is 'vendor/treema'
+      console.log 'setting up treema-ext'
+      treemaExt = require 'core/treema-ext'
+      treemaExt.setup()
+
   parseDependencies: (raw) ->
     bits = raw.match(/(require\(['"](.+?)['"])|(register\(['"].+?['"])/g) or []
     rootFolder = null

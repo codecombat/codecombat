@@ -4,6 +4,7 @@ template = require 'templates/editor/component/thang-component-config-view'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 nodes = require '../level/treema_nodes'
+require 'vendor/treema'
 
 module.exports = class ThangComponentConfigView extends CocoView
   className: 'thang-component-config-view'
