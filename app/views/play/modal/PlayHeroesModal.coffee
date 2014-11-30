@@ -68,6 +68,7 @@ module.exports = class PlayHeroesModal extends ModalView
     context.codeLanguage = @codeLanguage = @options?.session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     context.confirmButtonI18N = @confirmButtonI18N
     context.visibleHero = @visibleHero
+    context.gems = me.gems()
     context
 
   afterRender: ->
@@ -92,6 +93,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @formatHero @visibleHero
     @renderSelectors '#hero-footer'
     @buildCodeLanguages()
+    @$el.find('#gems-count-container').toggle Boolean @visibleHero.purchasable
 
   initCodeLanguageList: (hadEverChosenHero) ->
     if application.isIPadApp
