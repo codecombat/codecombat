@@ -39,7 +39,7 @@
                   else
                     strong.big-font= item.name
                     img.item-img(src=item.getPortraitURL(), draggable="false")
-                    img.item-shadow(src=item.getPortraitURL(), draggable="false")
+                    //img.item-shadow(src=item.getPortraitURL(), draggable="false")  // Not performant, takes too much memory with filter
                   
                   if item.owned
                     span.big-font.owned(data-i18n="play.owned")
@@ -50,7 +50,6 @@
                       img(src="/images/common/gem.png", draggable="false")
                       span.big-font= item.get('gems')
                     if item.unequippable
-                      // Temp, while we only have Warriors: prevent them from buying non-Warrior stuff
                       span.big-font.unequippable= item.get('heroClass')
                     else
                       button.btn.unlock-button.big-font(data-i18n="play.unlock", data-item-id=item.id)
