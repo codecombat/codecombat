@@ -84,8 +84,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'play-old': go('play/MainPlayView')  # This used to be 'play'.
     'play': go('play/WorldMapView')
-    'play/ladder/:levelID': go('play/ladder/LadderView')
-    'play/ladder': go('play/ladder/MainLadderView')
+    'play/ladder/:levelID': go('ladder/LadderView')
+    'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/WorldMapView')
@@ -185,6 +185,14 @@ module.exports = class CocoRouter extends Backbone.Router
     window.tracker?.trackPageView()
 
   onNavigate: (e) ->
+    if _.isString e.viewClass
+      ViewClass = @tryToLoadModule e.viewClass
+      if not ViewClass and application.moduleLoader.load(e.viewClass)
+        @listenToOnce application.moduleLoader, 'load-complete', ->
+          @onNavigate(e)
+        return
+      e.viewClass = ViewClass
+
     manualView = e.view or e.viewClass
     if (e.route is document.location.pathname) and not manualView
       return document.location.reload()

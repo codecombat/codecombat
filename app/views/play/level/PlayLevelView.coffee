@@ -340,6 +340,7 @@ module.exports = class PlayLevelView extends RootView
     application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID
 
   playAmbientSound: ->
+    return if @destroyed
     return if @ambientSound
     return unless file = {Dungeon: 'ambient-dungeon', Grass: 'ambient-grass'}[@level.get('terrain')]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"

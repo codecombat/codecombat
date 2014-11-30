@@ -63,18 +63,18 @@ module.exports = class ControlBarView extends CocoView
     if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder']
       levelID = @level.get('slug').replace /\-tutorial$/, ''
       @homeLink = c.homeLink = '/play/ladder/' + levelID
-      @homeViewClass = require 'views/play/ladder/LadderView'
+      @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
-      @homeViewClass = require 'views/play/WorldMapView'
+      @homeViewClass = 'views/play/WorldMapView'
       campaign = CampaignOptions.getCampaignForSlug @level.get 'slug'
       if campaign isnt 'dungeon'
         @homeLink += '/' + campaign
         @homeViewArgs.push campaign
     else
       @homeLink = c.homeLink = '/'
-      @homeViewClass = require 'views/HomeView'
+      @homeViewClass = 'views/HomeView'
     c.editorLink = "/editor/level/#{@level.get('slug')}"
     c.homeLink = @homeLink
     c

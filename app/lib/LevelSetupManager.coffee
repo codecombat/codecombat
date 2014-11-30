@@ -89,8 +89,8 @@ module.exports = class LevelSetupManager extends CocoClass
 
   onInventoryModalPlayClicked: ->
     @navigatingToPlay = true
-    PlayLevelView = require 'views/play/level/PlayLevelView'
-    LadderView = require 'views/play/ladder/LadderView'
+    PlayLevelView = 'views/play/level/PlayLevelView'
+    LadderView = 'views/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
     Backbone.Mediator.publish 'router:navigate', {
       route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
