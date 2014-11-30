@@ -25,7 +25,7 @@ module.exports = class Tracker
     console.log 'Going to track visit for', "/#{url}" if debugAnalytics
     analytics.pageview "/#{url}"
 
-  trackEvent: (action, properties, includeProviders=null) =>
+  trackEvent: (action, properties, includeIntegrations=null) =>
     # 'action' is a string
     # Google Analytics properties format: {category: 'Account', label: 'Premium', value: 50 }
     # https://segment.com/docs/integrations/google-analytics/#track
@@ -37,16 +37,11 @@ module.exports = class Tracker
     console.log 'Going to track analytics event:', action, properties if debugAnalytics
     properties = properties or {}
     context = {}
-
-    # TODO: Restrict providers, if given includeProviders
-    # TODO: This method may not work anymore, because it is not referenced in the segment.io docs
-    # TODO: Can double check in Mixpanel
-    # TODO: https://segment.com/docs/api/tracking/track/
-    if includeProviders
-      context.providers = {'All': false}
-      for provider in includeProviders
-        context.providers[provider] = true
-
+    if includeIntegrations
+      # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
+      context.integrations = {'All': false}
+      for integration in includeIntegrations
+        context.integrations[integration] = true
     analytics?.track action, properties, context
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
