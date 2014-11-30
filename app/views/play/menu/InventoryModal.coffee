@@ -140,6 +140,7 @@ module.exports = class InventoryModal extends ModalView
     @requireLevelEquipment()
     @$el.find('.nano').nanoScroller({alwaysVisible: true})
     @onSelectionChanged()
+    @onEquipmentChanged()
 
   afterInsert: ->
     super()
@@ -147,7 +148,6 @@ module.exports = class InventoryModal extends ModalView
     @canvasHeight = @$el.find('canvas').innerHeight()
     @inserted = true
     @requireLevelEquipment()
-    @onEquipmentChanged()
 
   #- Draggable logic
 
