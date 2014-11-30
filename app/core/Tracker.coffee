@@ -28,7 +28,7 @@ module.exports = class Tracker
     console.log "Would track analytics pageview: /#{name}" if debugAnalytics
     return unless @isProduction and analytics? and not me.isAdmin()
     if includeIntegrations
-      options.integrations = {'All': false}
+      options = integrations: {'All': false}
       for integration in includeIntegrations
         options.integrations[integration] = true
       analytics.page null, "/#{name}", null, options
