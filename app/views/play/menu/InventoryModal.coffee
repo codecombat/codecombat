@@ -94,10 +94,12 @@ module.exports = class InventoryModal extends ModalView
     if not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats) and locked  # Temp: while there are placeholder items
       null  # Don't put into a collection
     else if locked and item.get('slug') isnt 'simple-boots'
-      @itemGroups.lockedItems.add(item)
       item.classes.push 'locked'
-      item.classes.push 'silhouette' if item.isSilhouettedItem()
-      item.classes.push 'hidden' unless item.get('gems')
+      if item.isSilhouettedItem or not item.get('gems')
+        # Don't even load/show these--don't add to a collection. (Bandwidth optimization.)
+        null
+      else
+        @itemGroups.lockedItems.add(item)
     else if item.get('slug') in _.values(LevelOptions[@options.levelID]?.restrictedGear ? {})
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
@@ -216,7 +218,6 @@ module.exports = class InventoryModal extends ModalView
   onUnequippedItemClick: (e) ->
     return if @justDoubleClicked
     itemEl = $(e.target).closest('.item')
-    return if itemEl.hasClass('silhouette')
     @playSound 'menu-button-click'
     @selectUnequippedItem(itemEl)
 

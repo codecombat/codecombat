@@ -270,14 +270,15 @@
   .item-img
     z-index: 1
 
-  .item-shadow
-    left: 5px
-    @include filter(contrast(0%) brightness(0%))
-    opacity: 0.2
+  // Not performant, takes too much memory with filter.
+  //.item-shadow
+  //  left: 5px
+  //  @include filter(contrast(0%) brightness(0%))
+  //  opacity: 0.2
     
   .item-silhouette
-    @include filter(contrast(0%) brightness(0%))
-    opacity: 0.3
+    opacity: 0.2
+    //@include filter(contrast(0%) brightness(0%))
 
   .required-level
     position: absolute

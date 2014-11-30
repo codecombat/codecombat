@@ -260,7 +260,7 @@ module.exports = class HeroVictoryModal extends ModalView
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: @supermodel}, @level.get('slug')]
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, @level.get('slug')]
 
   playSelectionSound: (hero, preload=false) ->
     return unless sounds = hero.get('soundTriggers')?.selected
@@ -324,4 +324,4 @@ module.exports = class HeroVictoryModal extends ModalView
     e.preventDefault()
     route = $(e.target).data('href')
     # Preserve the supermodel as we navigate back to the ladder.
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/ladder/LadderView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
+    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]

@@ -59,15 +59,25 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   onFileLoad: (e) =>
     $("#module-loading-list li[data-path='#{e.item.id}']").removeClass('loading').addClass('success')
-    have = window.require.list()
-    console.group('Dependencies', e.item.id) if LOG
-    @recentLoadedBytes += e.rawResult.length
-    dependencies = @parseDependencies(e.rawResult)
-    console.groupEnd() if LOG
-    missing = _.difference dependencies, have
-    @load(module, false) for module in missing
-    locale.update() if _.string.startsWith(e.item.id, 'locale')
+
+    # load dependencies if it's not a vendor library
+    if not _.string.startsWith(e.item.id, 'vendor')
+      have = window.require.list()
+      console.group('Dependencies', e.item.id) if LOG
+      @recentLoadedBytes += e.rawResult.length
+      dependencies = @parseDependencies(e.rawResult)
+      console.groupEnd() if LOG
+      missing = _.difference dependencies, have
+      @load(module, false) for module in missing
+
+    # update locale data
+    if _.string.startsWith(e.item.id, 'locale')
+      locale.update()
+      
+    # just a bit of cleanup to get the script objects out of the body element
     $(e.result).remove()
+    
+    # a module and its dependencies have loaded!
     if @queue.progress is 1
       $('#module-loading-list').modal('hide')
       @recentPaths.sort()
@@ -96,6 +106,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     console.groupEnd() if LOG
     return dependencies
 
+  # basically ripped out of commonjs definition
   expand: (root, name) ->
     results = []
     if /^\.\.?(\/|$)/.test(name)

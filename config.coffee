@@ -63,8 +63,8 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/(?!scripts/Box2d)')
-          regJoin('^bower_components/(?!(aether|d3))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript))')
+          regJoin('^bower_components/(?!(aether|d3|difflib|diffview))')
         ]
         
         #- Other vendor libraries in separate bunches
@@ -78,6 +78,9 @@ exports.config =
         
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
+        'javascripts/app/vendor/coffeescript.js': 'vendor/scripts/coffeescript.js'
+        'javascripts/app/vendor/difflib.js': 'vendor/scripts/difflib.js'
+        'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
         
         #- test, demo libraries
         'javascripts/test-app.js': regJoin('^test/app/')

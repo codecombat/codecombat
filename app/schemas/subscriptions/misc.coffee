@@ -35,7 +35,7 @@ module.exports =
   'router:navigate': c.object {required: ['route']},
     route: {type: 'string'}
     view: {type: 'object'}
-    viewClass: {type: 'function'}
+    viewClass: {type: ['function', 'string']}
     viewArgs: {type: 'array'}
 
   'router:navigated': c.object {required: ['route']},
