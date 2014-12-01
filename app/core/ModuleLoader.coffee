@@ -77,7 +77,13 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       
     # just a bit of cleanup to get the script objects out of the body element
     $(e.result).remove()
-    
+
+    # get treema set up only when the library loads, if it loads
+    if e.item.id is 'vendor/treema'
+      console.log 'setting up treema-ext'
+      treemaExt = require 'core/treema-ext'
+      treemaExt.setup()
+
     # a module and its dependencies have loaded!
     if @queue.progress is 1
       $('#module-loading-list').modal('hide')
@@ -86,11 +92,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
-    # get treema set up only when the library loads, if it loads
-    if e.item.id is 'vendor/treema'
-      console.log 'setting up treema-ext'
-      treemaExt = require 'core/treema-ext'
-      treemaExt.setup()
+    @trigger 'loaded', e.item
 
   parseDependencies: (raw) ->
     bits = raw.match(/(require\(['"](.+?)['"])|(register\(['"].+?['"])/g) or []

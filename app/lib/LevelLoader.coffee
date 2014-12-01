@@ -89,6 +89,16 @@ module.exports = class LevelLoader extends CocoClass
 
   loadDependenciesForSession: (session) ->
     if session is @session
+      codeLanguage = session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+      modulePath = "vendor/aether-#{codeLanguage}"
+      loading = application.moduleLoader.load(modulePath)
+      if loading
+        @languageModuleResource = @supermodel.addSomethingResource 'language_module'
+        @listenTo application.moduleLoader, 'loaded', (e) ->
+          if e.id is modulePath
+            @languageModuleResource.markLoaded()
+            @stopListening application.moduleLoader
+      
       # hero-ladder games require the correct session team in level:loaded
       team = @team ? @session.get('team')
       Backbone.Mediator.publish 'level:loaded', level: @level, team: team
