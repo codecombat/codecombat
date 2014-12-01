@@ -69,7 +69,9 @@ module.exports = class WorldMapView extends RootView
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
-    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', ['Google Analytics']
+    # A/B Test hiding locked levels
+    # window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', ['Google Analytics']
+    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', hideLockedLevelsGroup: me.getHideLockedLevelsGroup()
 
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
     elapsed = (new Date() - new Date(me.get('dateCreated')))
@@ -135,6 +137,8 @@ module.exports = class WorldMapView extends RootView
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
     context.forestIsAvailable = @startedForestLevel or '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
+    # A/B Test hiding locked levels
+    context.hideLockedLevels = me.getHideLockedLevelsGroup() is 'hide'
     context
 
   afterRender: ->
