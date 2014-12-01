@@ -44,7 +44,7 @@ module.exports = class LevelLoadingView extends CocoView
     goalCount = 0
     for goalID, goal of @level.get('goals') when (not goal.team or goal.team is e.team) and not goal.hiddenGoal
       name = utils.i18n goal, 'name'
-      goalList.append $('<li class="list-group-item">' + name + '</li>')
+      goalList.append $('<li>' + name + '</li>')
       ++goalCount
     if goalCount
       goalContainer.removeClass('secret')
@@ -68,8 +68,8 @@ module.exports = class LevelLoadingView extends CocoView
       @unveil()
     else
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
-      @$el.find('.progress').addClass 'active progress-striped'
-      @$el.find('.start-level-button').removeClass 'secret'
+      @$el.find('.progress').hide()
+      @$el.find('.start-level-button').show()
 
   startUnveiling: (e) ->
     @playSound 'menu-button-click'
