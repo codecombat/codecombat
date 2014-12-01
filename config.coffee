@@ -37,7 +37,7 @@ exports.config =
         # //# sourceMappingURL=/javascripts/app.js.map
         # So we remove the ones that have public in them.
         exec = require('child_process').exec
-        for file in files
+        for file in files when /\.js/.test file.path
           exec "perl -pi -e 's/\\/\\/# sourceMappingURL=public.*//g' #{file.path}"
         exec c
 
