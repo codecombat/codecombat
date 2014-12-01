@@ -64,6 +64,24 @@ console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+var myImportScripts = importScripts;
+
+var languagesImported = {};
+var ensureLanguageImported = function(language) {
+  if (languagesImported[language]) return;
+  if (language === 'javascript') return;  // Only has JSHint, but we don't need to lint here.
+  myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  languagesImported[language] = true;
+};
+
+var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
+  for (var thangID in userCodeMap)
+    for (var spellName in userCodeMap[thangID]) {
+      var language = userCodeMap[thangID][spellName].originalOptions.language;
+      ensureLanguageImported(language);
+    }
+};
+
 
 var restricted = ["XMLHttpRequest", "Worker"];
 if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
@@ -283,6 +301,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     self.debugt0 = new Date();
     self.logsLogged = 0;
 
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
@@ -347,6 +366,7 @@ self.runWorld = function runWorld(args) {
   self.logsLogged = 0;
 
   try {
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     self.world = new World(args.userCodeMap);
     self.world.levelSessionIDs = args.levelSessionIDs;
     self.world.submissionCount = args.submissionCount;
