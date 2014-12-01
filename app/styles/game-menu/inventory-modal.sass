@@ -163,8 +163,8 @@ $itemSlotGridHeight: 51px
           background-position: (-4 * $itemSlotInnerWidth) 0px
 
       &[data-slot="minion"]
-        left: 10px + ($itemSlotGridWidth * 0)
-        top: 15px + ($itemSlotGridHeight * 0)
+        left: 10px + ($itemSlotGridWidth * 5)
+        top: 15px + ($itemSlotGridHeight * 1)
         .placeholder
           background-position: (-1 * $itemSlotInnerWidth) 0px
   
@@ -172,15 +172,11 @@ $itemSlotGridHeight: 51px
         left: 10px + ($itemSlotGridWidth * 0)
         top: 15px + ($itemSlotGridHeight * 0)
         .placeholder
-          background-position: (-3 * $itemSlotInnerWidth) 0px
-  
-      // Only for wizards...
-      //&[data-slot="spellbook"] .placeholder
-      //  background-position: (-2 * $itemSlotInnerWidth) 0px
+          background-position: (-2 * $itemSlotInnerWidth) 0px
   
       &[data-slot="wrists"]
         left: 10px + ($itemSlotGridWidth * 0)
-        top: 15px + ($itemSlotGridHeight * 0)
+        top: 15px + ($itemSlotGridHeight * 2)
         .placeholder
           background-position: (-5 * $itemSlotInnerWidth) 0px
   
@@ -198,7 +194,7 @@ $itemSlotGridHeight: 51px
   
       &[data-slot="torso"]
         left: 10px + ($itemSlotGridWidth * 5)
-        top: 15px + ($itemSlotGridHeight * 2)
+        top: 15px + ($itemSlotGridHeight * 3)
         .placeholder
           background-position: (-8 * $itemSlotInnerWidth) 0px
   
@@ -228,7 +224,7 @@ $itemSlotGridHeight: 51px
   
       &[data-slot="head"]
         left: 10px + ($itemSlotGridWidth * 5)
-        top: 15px + ($itemSlotGridHeight * 1)
+        top: 15px + ($itemSlotGridHeight * 2)
         .placeholder
           background-position: (-13 * $itemSlotInnerWidth) 0px
         
@@ -240,19 +236,19 @@ $itemSlotGridHeight: 51px
   
       &[data-slot="gloves"]
         left: 10px + ($itemSlotGridWidth * 0)
-        top: 15px + ($itemSlotGridHeight * 2)
+        top: 15px + ($itemSlotGridHeight * 3)
         .placeholder
           background-position: (-15 * $itemSlotInnerWidth) 0px
   
       &[data-slot="left-hand"]
         left: 10px + ($itemSlotGridWidth * 5)
-        top: 15px + ($itemSlotGridHeight * 3)
+        top: 15px + ($itemSlotGridHeight * 4)
         .placeholder
           background-position: (-16 * $itemSlotInnerWidth) 0px
-  
+
       &[data-slot="right-hand"]
         left: 10px + ($itemSlotGridWidth * 0)
-        top: 15px + ($itemSlotGridHeight * 3)
+        top: 15px + ($itemSlotGridHeight * 4)
         .placeholder
           background-position: (-17 * $itemSlotInnerWidth) 0px
   
@@ -271,6 +267,18 @@ $itemSlotGridHeight: 51px
         height: $itemSlotSize
         border: 2px solid black
         background-color: white
+
+  &.Wizard #equipped .item-slot
+    &[data-slot="right-hand"] .placeholder
+      background-position: (-20 * $itemSlotInnerWidth) 0px
+    &[data-slot="left-hand"] .placeholder
+      background-position: (-3 * $itemSlotInnerWidth) 0px
+
+  &.Ranger #equipped .item-slot
+    &[data-slot="right-hand"] .placeholder
+      background-position: (-18 * $itemSlotInnerWidth) 0px
+    &[data-slot="left-hand"] .placeholder
+      background-position: (-19 * $itemSlotInnerWidth) 0px
 
       
   //- dragging styling 
