@@ -13,25 +13,34 @@ regJoin = (s) -> new RegExp(s.replace(/\//, '[\\\/\\\\]'))
 #- Build the config
 
 exports.config =
-  
+
   paths:
     public: 'public'
     watched: [
-      'app', 
-      'vendor', 
-      'test/app', 
+      'app',
+      'vendor',
+      'test/app',
       'test/demo'
     ]
-    
+
   conventions:
     ignored: (path) -> _.str.startsWith(sysPath.basename(path), '_')
-    
+
   sourceMaps: 'absoluteUrl'
-  
+
   overrides:
     production:
       sourceMaps: 'absoluteUrl'
-      
+      onCompile: (files) ->
+        # For some reason, production brunch produces two entries, the first of which is wrong:
+        # //# sourceMappingURL=public/javascripts/app.js.map
+        # //# sourceMappingURL=/javascripts/app.js.map
+        # So we remove the ones that have public in them.
+        exec = require('child_process').exec
+        for file in files
+          exec "perl -pi -e 's/\\/\\/# sourceMappingURL=public.*//g' #{file.path}"
+        exec c
+
   files:
     javascripts:
       defaultExtension: 'coffee'
@@ -50,12 +59,12 @@ exports.config =
           'app/locale/locale.coffee'
           'app/lib/sprites/SpriteBuilder.coffee' # loaded by ThangType
         ]
-        
+
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
         'javascripts/app/lib.js': regJoin('^app/lib')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
-        
+
         #- world.js, used by the worker to generate the world in game
         'javascripts/world.js': [
           regJoin('^app/lib/world(?!/test)')
@@ -72,7 +81,7 @@ exports.config =
           regJoin('^bower_components/(?!(aether|d3|treema))')
           'bower_components/treema/treema-utils.js'
         ]
-        
+
         #- Other vendor libraries in separate bunches
 
         # Include box2dweb for profiling and IE9
@@ -81,18 +90,18 @@ exports.config =
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
         'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
-        
+
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
         'javascripts/app/vendor/coffeescript.js': 'vendor/scripts/coffeescript.js'
         'javascripts/app/vendor/difflib.js': 'vendor/scripts/difflib.js'
         'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
         'javascripts/app/vendor/treema.js': 'bower_components/treema/treema.js'
-        
+
         #- test, demo libraries
         'javascripts/test-app.js': regJoin('^test/app/')
         'javascripts/demo-app.js': regJoin('^test/demo/')
-        
+
         #- More output files are generated at the below
 
       order:
@@ -117,7 +126,7 @@ exports.config =
           'vendor/scripts/async.js'
           'vendor/scripts/jquery-ui-1.11.1.js.custom.js'
         ]
-        
+
     stylesheets:
       defaultExtension: 'sass'
       joinTo:
@@ -127,7 +136,7 @@ exports.config =
           'app/styles/bootstrap/*'
           'vendor/styles/nanoscroller.scss'
         ]
-        
+
     templates:
       defaultExtension: 'jade'
       joinTo:
@@ -172,7 +181,6 @@ exports.config =
       defn = if path in needHeaders then commonjsHeader else ''
       return defn
 
-
 #- Find all .coffee and .jade files in /app
 
 dirStack = ['./app']
@@ -197,9 +205,9 @@ for file in coffeeFiles
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.coffee', '.js').replace('./app', 'javascripts/app')
   exports.config.files.javascripts.joinTo[outputFile] = inputFile
-  
+
 numBundles = 0
-  
+
 for file in jadeFiles
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.jade', '.js').replace('./app', 'javascripts/app')
@@ -213,4 +221,4 @@ for file in jadeFiles
     exports.config.files.templates.joinTo[possibleViewFilePath] = inputFile
     numBundles += 1
 
-console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files (bundled #{numBundles} of them together)." 
+console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files (bundled #{numBundles} of them together)."
