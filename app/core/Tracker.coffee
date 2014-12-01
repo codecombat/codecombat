@@ -31,7 +31,7 @@ module.exports = class Tracker
       options = integrations: {'All': false}
       for integration in includeIntegrations
         options.integrations[integration] = true
-      analytics.page null, "/#{name}", null, options
+      analytics.page "/#{name}", {}, options
     else
       analytics.page "/#{name}"
 
