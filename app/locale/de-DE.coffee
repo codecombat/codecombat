@@ -680,9 +680,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     diplomat_launch_url: "Launch im Oktober"
     diplomat_introduction_suf: "ist das es ein großes Interesse an CodeCombat in anderen Ländern gibt! Wir stellen eine Truppe von Übersetzern zusammen, die gewillt sind einen Satz Wörten in einen anderen Satz Wörter umzuwandeln um CodeCombat der Welt so zugänglich wie möglich zu machen. Wenn du es magst eine Vorschau von zukünftigem Content zu erhalten und diese Level so schnell wie möglich deinen Landsleuten zur Verfügung zu stellen, dann ist diese Klasse vielleicht für dich."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
-#    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
-#    diplomat_i18n_page: "translations page"
-#    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
+    diplomat_i18n_page_prefix: "Du kanns anfangen unsere Levels zu übersetzen, indem du auf unsere"
+    diplomat_i18n_page: "Übersetzungs-Seite"
+    diplomat_i18n_page_suffix: "gehst, oder unsere Schnittstelle und Webseite bei GitHub benutzt."
     diplomat_join_pref_github: "Finde deine Sprachdatei "
     diplomat_github_url: "bei GitHub"
     diplomat_join_suf_github: ", editiere sie online und reiche einen Pull Request ein. Außerdem, hake die Checkbox unten an um über neue Entwicklungen bei der Internationalisierung auf dem laufenden zu bleiben!"
@@ -844,7 +844,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     thang_names: "Thang Namen"
     files: "Dateien"
     top_simulators: "Top Simulatoren"
-#    source_document: "Source Document"
+    source_document: "Quelldokument"
     document: "Dokument"
     sprite_sheet: "Sprite Sheet"
     employers: "Arbeitgeber"
@@ -1086,7 +1086,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     player_code: "Spieler Code"
 
   employers:
-#    deprecation_warning_title: "Sorry, CodeCombat is not recruiting right now."
+    deprecation_warning_title: "Leider sucht CodeCombat derzeit keine neuen Mitarbeiter."
 #    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
     hire_developers_not_credentials: "Stellen Sie Entwickler ein, nicht Qualifikationen." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
     get_started: "Legen Sie los"
