@@ -116,6 +116,7 @@ class CocoModel extends Backbone.Model
 
   save: (attrs, options) ->
     options ?= {}
+    originalOptions = _.cloneDeep(options)
     options.headers ?= {}
     options.headers['X-Current-Path'] = document.location?.pathname ? 'unknown'
     success = options.success
@@ -128,6 +129,10 @@ class CocoModel extends Backbone.Model
       CocoModel.pollAchievements()
       options.success = options.error = null  # So the callbacks can be garbage-collected.
     options.error = (model, res) =>
+      if res.status is 0
+        msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
+        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+        return _.delay((f = => @save(attrs, originalOptions)), 3000)
       error(@, res) if error
       return unless @notyErrors
       errorMessage = "Error saving #{@get('name') ? @type()}"
