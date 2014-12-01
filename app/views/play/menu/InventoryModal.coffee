@@ -95,7 +95,7 @@ module.exports = class InventoryModal extends ModalView
       null  # Don't put into a collection
     else if locked and item.get('slug') isnt 'simple-boots'
       item.classes.push 'locked'
-      if item.isSilhouettedItem or not item.get('gems')
+      if item.isSilhouettedItem() or not item.get('gems')
         # Don't even load/show these--don't add to a collection. (Bandwidth optimization.)
         null
       else
