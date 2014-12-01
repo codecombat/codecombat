@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     play: "Spill" # The big play button that just starts playing a level
     old_browser: "Å nei, nettleseren din er for gammel til å kjøre CodeCombat. Beklager!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kan prøve likevel, men det vil kanskje ikke virke."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
 #    campaign: "Campaign"
     for_beginners: "For nybegynnere"
     multiplayer: "Flerspiller" # Not currently shown on home page
@@ -802,14 +803,15 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    gems: "Gems"
 
   loading_error:
-    connection_failure: "Tilkobling feilet." #"Connection failed."
-    unauthorized: "Du må være pålogget. Har du informasjonskapsler (cookies) skrudd på?" #"You need to be signed in. Do you have cookies disabled?"
-    forbidden: "Du har ikke tilgang" #"You do not have the permissions."
+#    could_not_load: "Error loading from server"
+    connection_failure: "Tilkobling feilet."
+    unauthorized: "Du må være pålogget. Har du informasjonskapsler (cookies) skrudd på?"
+    forbidden: "Du har ikke tilgang"
     not_found: "Ikke funnet."
-    not_allowed: "Metoden er ikke tillat" #"Method not allowed."
-    timeout: "Tidsavbrudd på server" #"Server timeout."
+    not_allowed: "Metoden er ikke tillat"
+    timeout: "Tidsavbrudd på server"
     conflict: "Ressurskonflikt."
-    bad_input: "Feil i inndata" #"Bad input."
+    bad_input: "Feil i inndata"
     server_error: "Server feil."
     unknown: "Ukjent feil."
 

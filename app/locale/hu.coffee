@@ -6,6 +6,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play: "Játssz!" # The big play button that just starts playing a level
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Kampány"
     for_beginners: "Kezdőknek"
 #    multiplayer: "Multiplayer" # Not currently shown on home page

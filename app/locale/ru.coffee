@@ -6,6 +6,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play: "Играть" # The big play button that just starts playing a level
     old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Кампания"
     for_beginners: "Новичкам"
     multiplayer: "Мультиплеер" # Not currently shown on home page

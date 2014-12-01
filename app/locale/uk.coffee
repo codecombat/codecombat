@@ -6,6 +6,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     play: "Грати" # The big play button that just starts playing a level
     old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Кампанія"
     for_beginners: "Для новачків"
     multiplayer: "Командна гра" # Not currently shown on home page

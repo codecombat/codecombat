@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     play: "Oyna" # The big play button that just starts playing a level
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Senaryo Kipi"
     for_beginners: "Yeni Başlayanlar için"
     multiplayer: "Çoklu-oyuncu Kipi" # Not currently shown on home page

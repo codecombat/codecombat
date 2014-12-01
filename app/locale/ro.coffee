@@ -6,6 +6,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     play: "Joacă" # The big play button that just starts playing a level
     old_browser: "Mda , browser-ul tău este prea vechi pentru CodeCombat. Scuze!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Poți să încerci oricum ,dar probabil nu o să meargă."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Campanie"
     for_beginners: "Pentru Începători"
     multiplayer: "Multiplayer" # Not currently shown on home page

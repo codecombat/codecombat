@@ -6,6 +6,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     play: "Graj" # The big play button that just starts playing a level
     old_browser: "Wygląda na to, że twoja przeglądarka jest zbyt stara, by obsłużyć CodeCombat. Wybacz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Możesz spróbowac mimo tego, ale prawdopodobnie gra nie będzie działać."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Kampania"
     for_beginners: "Dla początkujących"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
