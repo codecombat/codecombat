@@ -225,7 +225,7 @@ module.exports.recordTwoGames = (req, res) ->
     updateSessions.bind(yetiGuru)
     indexNewScoreArray.bind(yetiGuru)
     addMatchToSessions.bind(yetiGuru)
-    updateUserSimulationCounts.bind(yetiGuru, req.user._id)
+    updateUserSimulationCounts.bind(yetiGuru, req.user?._id)
   ], (err, successMessageObject) ->
     if err? then return errors.serverError res, "There was an error recording the single game:#{err}"
     sendResponseObject req, res, {'message': 'The single game was submitted successfully!'}
@@ -450,7 +450,7 @@ module.exports.processTaskResult = (req, res) ->
       updateSessions.bind(yetiGuru)
       indexNewScoreArray.bind(yetiGuru)
       addMatchToSessions.bind(yetiGuru)
-      updateUserSimulationCounts.bind(yetiGuru, req.user._id)
+      updateUserSimulationCounts.bind(yetiGuru, req.user?._id)
       determineIfSessionShouldContinueAndUpdateLog.bind(yetiGuru)
       findNearestBetterSessionID.bind(yetiGuru)
       addNewSessionsToQueue.bind(yetiGuru)
@@ -615,6 +615,7 @@ updateUserSimulationCounts = (reqUserID, callback) ->
       callback null
 
 incrementUserSimulationCount = (userID, type, callback) =>
+  return callback null unless userID
   inc = {}
   inc[type] = 1
   User.update {_id: userID}, {$inc: inc}, (err, affected) ->

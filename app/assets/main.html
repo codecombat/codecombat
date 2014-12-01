@@ -34,9 +34,15 @@
   <script src="/javascripts/aether.js" defer></script>
   <script src="/javascripts/app.js" defer></script> <!-- it's all Backbone! -->
   <script>
+    
+    // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
+    window.userObject = "userObjectTag";
+    window.me = {
+      get: function(attribute) { return window.userObject[attribute]; }
+    }
+
     onLoad = function() {
       FastClick.attach(document.body);
-      window.userObject = "userObjectTag";
       require('core/initialize');
     }
   </script>

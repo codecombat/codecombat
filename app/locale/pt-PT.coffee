@@ -6,7 +6,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     play: "Jogar" # The big play button that just starts playing a level
     old_browser: "Ups, o teu navegador é demasiado antigo para que o CodeCombat funcione. Desculpa!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Mesmo assim podes tentar, mas provavelmente não irá funcionar."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Más notícias: o CodeCombat não funciona no navegador do iPad. Boas notícias: a nossa aplicação nativa para iPad está à espera da aprovação da Apple."
     campaign: "Campanha"
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador" # Not currently shown on home page
@@ -915,9 +915,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cla_url: "CLA"
     contributor_description_suffix: "com o qual deves concordar antes de contribuir."
     code_title: "Código - MIT"
-#    code_description_prefix: "All code owned by CodeCombat or hosted on codecombat.com, both in the GitHub repository or in the codecombat.com database, is licensed under the"
+    code_description_prefix: "Todo o código do CodeCombat ou hospedado em codecombat.com, tanto no repositório do GitHub como na base de dados de codecombat.com, está resguardado sob a"
     mit_license_url: "licença do MIT"
-#    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
+    code_description_suffix: "Isto inclui todo o código dentro dos Sistemas e dos Componentes, o qual é disponibilizado pelo CodeCombat para a criação de níveis."
     art_title: "Arte/Música - Creative Commons "
     art_description_prefix: "Todos os conteúdos comuns estão disponíveis à luz da"
     cc_license_url: "Licença 'Creative Commons Attribution 4.0 International'"

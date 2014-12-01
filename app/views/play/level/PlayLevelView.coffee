@@ -417,7 +417,6 @@ module.exports = class PlayLevelView extends RootView
   onShowVictory: (e) ->
     $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     @showVictory() if e.showModal
-    setTimeout(@preloadNextLevel, 3000)
     return if @victorySeen
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
@@ -457,14 +456,10 @@ module.exports = class PlayLevelView extends RootView
       viewClass: PlayLevelView,
       viewArgs: [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}, nextLevelID]}
 
-  getNextLevel: ->
-    return null unless nextLevelOriginal = @level.get('nextLevel')?.original
-    levels = @supermodel.getModels(Level)
-    return l for l in levels when l.get('original') is nextLevelOriginal
-
   getNextLevelID: ->
-    return null unless nextLevel = @getNextLevel()
-    nextLevelID = nextLevel.get('slug') or nextLevel.id
+    for campaign in require('views/play/WorldMapView').campaigns
+      for level in campaign.levels
+        return level.nextLevels?.continue if level.id is @level.get('slug')
 
   getNextLevelURL: ->
     return null unless @getNextLevelID()
@@ -482,14 +477,6 @@ module.exports = class PlayLevelView extends RootView
     else
       @bus.removeFirebaseData =>
         @bus.disconnect()
-
-  preloadNextLevel: =>
-    # TODO: Loading models in the middle of gameplay causes stuttering. Most of the improvement in loading time is simply from passing the supermodel from this level to the next, but if we can find a way to populate the level early without it being noticeable, that would be even better.
-#    return if @destroyed
-#    return if @preloaded
-#    nextLevel = @getNextLevel()
-#    @supermodel.populateModel nextLevel
-#    @preloaded = true
 
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.

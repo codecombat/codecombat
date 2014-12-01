@@ -176,7 +176,7 @@ module.exports = class LevelLoader extends CocoClass
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Article, 'article'
-    if obj = @level.get 'nextLevel'
+    if obj = @level.get 'nextLevel'  # TODO: update to get next level from campaigns, not this old property
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
