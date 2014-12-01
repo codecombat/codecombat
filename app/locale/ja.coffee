@@ -6,6 +6,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     play: "ゲームスタート" # The big play button that just starts playing a level
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "キャンペーンモード"
     for_beginners: "初心者向け"
     multiplayer: "マルチプレイヤー" # Not currently shown on home page

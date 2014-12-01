@@ -6,6 +6,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     play: "시작" # The big play button that just starts playing a level
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다." # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "시도해볼 수는 있겠지만..안될 수도 있습니다."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "캠페인"
     for_beginners: "초보자용"
     multiplayer: "멀티플레이어" # Not currently shown on home page

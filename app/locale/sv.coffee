@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     play: "Spela" # The big play button that just starts playing a level
     old_browser: "Oj då, din webbläsare är för gammal för att köra CodeCombat. Förlåt!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kan försöka ändå, men det kommer nog inte fungera."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Kampanj"
     for_beginners: "För nybörjare"
     multiplayer: "Flera spelare" # Not currently shown on home page

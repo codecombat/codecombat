@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     play: "Play" # The big play button that just starts playing a level
     old_browser: "Uh oh, Maaf. Versi broser anda terlalu lama " # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Anda bisa mencoba, tapi mungkin tidak akan berjalan."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Campaign"
     for_beginners: "Pemula"
     multiplayer: "Multiplayer" # Not currently shown on home page

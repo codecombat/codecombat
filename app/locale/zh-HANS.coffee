@@ -6,6 +6,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play: "开始游戏" # The big play button that just starts playing a level
     old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "你可以继续重试下去，但八成不起作用，更新浏览器吧亲～"
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "战役模式"
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page

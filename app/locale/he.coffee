@@ -6,6 +6,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play: "שחק" # The big play button that just starts playing a level
     old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "אתה יכול לנסות בכול מקרה אבל זה כנראה לא יעבוד."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "מסע"
     for_beginners: "למתחילים"
     multiplayer: "רב-משתתפים" # Not currently shown on home page

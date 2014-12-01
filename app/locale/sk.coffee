@@ -6,6 +6,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     play: "Hraj" # The big play button that just starts playing a level
     old_browser: "Ajaj, prehliadač je príliš starý. CodeCombat na ňom nepôjde. Je nám to ľúto!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Skúsiť sa to dá, ale asi to nepôjde."
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Ťaženie"
     for_beginners: "Pre začiatočníkov"
 #    multiplayer: "Multiplayer" # Not currently shown on home page

@@ -6,6 +6,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     play: "遊戲開打" # The big play button that just starts playing a level
     old_browser: "啊耶, 爾個瀏覽器忒老哉, 嘸處運行 CodeCombat。對弗住險！" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "爾試叻好試多遍，不過嘸大用場個。"
+#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "打仗模式"
     for_beginners: "適合學起頭個人"
     multiplayer: "聚隊打遊戲" # Not currently shown on home page
