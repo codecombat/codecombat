@@ -151,8 +151,15 @@ module.exports = class CocoView extends Backbone.View
   onResourceLoadFailed: (e) ->
     r = e.resource
     if r.jqxhr?.status is 0
-      @warnConnectionError()
-      return _.delay (=> r.load()), 3000
+      r.retries ?= 0
+      r.retries += 1
+      if r.retries > 20
+        msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
+        noty text: msg, layout: 'center', type: 'error', killer: true
+        return
+      else
+        @warnConnectionError()
+        return _.delay (=> r.load()), 3000
         
     @$el.find('.loading-container .errors').append(loadingErrorTemplate({
       status: r.jqxhr?.status
