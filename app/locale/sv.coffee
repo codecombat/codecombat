@@ -50,29 +50,29 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   play:
     play_as: "Spela som " # Ladder page
     spectate: "Titta på" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    players: "spelare" # Hover over a level on /play
+    hours_played: "timmar spelade" # Hover over a level on /play
+    items: "Föremål" # Tooltip on item shop button from /play
+    unlock: "Lås upp" # For purchasing items and heroes
+    confirm: "Bekräfta"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    locked: "Låst"
+    purchasable: "Till salu" # For a hero you unlocked but haven't purchased
+    available: "Tillgänglig"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "Hjältar" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    account: "Konto" # Tooltip on account button from /play
+    settings: "Inställningar" # Tooltip on settings button from /play
+    next: "Nästa" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Byt Hjälte" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Köp ädelstenar"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "Anonym Spelare"
     level_difficulty: "Svårighetsgrad: "
     campaign_beginner: "Nybörjarkampanj"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer_prefix: "Vi släpper fem nya nivåer varje vecka."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Välj din nivå" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -118,7 +118,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   recover:
     recover_account_title: "Återskapa ditt konto"
     send_password: "Skicka återskapningslösenord"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Återskapningslösenord skickat."
 
 #  items:
 #    primary: "Primary"
@@ -140,7 +140,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     manual: "Manuellt"
     fork: "Förgrena"
     play: "Spela" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
+    retry: "Försök igen"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
@@ -148,7 +148,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   general:
     and: "och"
     name: "Namn"
-#    date: "Date"
+    date: "Datum"
     body: "Kropp"
     version: "Version"
     commit_msg: "Förbindelsemeddelande"
@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     results: "Resultat"
     description: "Beskrivning"
     or: "eller"
-#    subject: "Subject"
+    subject: "Ämne"
     email: "E-post"
     password: "Lösenord"
     message: "Meddelande"
@@ -174,7 +174,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     easy: "Lätt"
     medium: "Medium"
     hard: "Svår"
-#    player: "Player"
+    player: "Spelare"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
@@ -198,11 +198,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     home: "Hem" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
 #    skip: "Skip"
-#    game_menu: "Game Menu"
+    game_menu: "Spelmeny"
     guide: "Guide"
     restart: "Börja om"
     goals: "Mål"
-#    goal: "Goal"
+    goal: "Mål"
 #    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
@@ -295,13 +295,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     customize_wizard: "Skräddarsy trollkarl"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    inventory_tab: "Utrustning"
+    save_load_tab: "Spara/Ladda"
+    options_tab: "Inställningar"
+    guide_tab: "Guide"
     multiplayer_tab: "Flerspelareläge"
-#    auth_tab: "Sign Up"
-#    inventory_caption: "Equip your hero"
+    auth_tab: "Registrera dig"
+    inventory_caption: "Utrusta din hjälte"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
