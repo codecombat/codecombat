@@ -51,7 +51,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     })
     return true
 
-  loadLanguage: (langCode) ->  
+  loadLanguage: (langCode='en-US') ->  
     loading = @load("locale/#{langCode}")
     firstBit = langCode[...2]
     return loading if firstBit is langCode
