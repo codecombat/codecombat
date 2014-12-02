@@ -31,14 +31,14 @@
                   if item.silhouetted && !item.owned
                     span.glyphicon.glyphicon-lock.bolder
                     span.glyphicon.glyphicon-lock
-                    img.item-silhouette(draggable="false") // dynamically loaded by view on scroll
+                    img.item-silhouette(draggable="false")
                     if item.level
                       .required-level
                         div(data-i18n="general.player_level")
                         div= item.level
                   else
                     strong.big-font= item.name
-                    img.item-img(draggable="false") // dynamically loaded by view on scroll
+                    img.item-img(draggable="false")
                   
                   if item.owned
                     span.big-font.owned(data-i18n="play.owned")
