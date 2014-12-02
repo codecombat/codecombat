@@ -1,3 +1,5 @@
+@import "app/styles/mixins"
+
 #item-details-view
 
   .nano-content
@@ -42,6 +44,9 @@
 
     .item-shadow
       top: 25px
+      left: 5px
+      @include filter(contrast(0%) brightness(0%))
+      opacity: 0.2
 
     img.hr
       width: 80%

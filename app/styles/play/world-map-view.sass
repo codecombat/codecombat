@@ -159,6 +159,11 @@ $gameControlMargin: 30px
         margin-bottom: -2 * $levelDotShadowHeight / 3
 
     .level:hover
+      // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
+      // TODO: The dot looks like it's jumping.
+      // TODO: -moz-transform: scaleY(0.75) didn't do anything
+      // TODO: Does not break Chrome's oval.
+      -moz-transform: rotate(0)
       margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
 

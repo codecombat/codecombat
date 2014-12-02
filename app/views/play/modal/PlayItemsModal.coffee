@@ -51,8 +51,10 @@ module.exports = class PlayItemsModal extends ModalView
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
+    'update .tab-pane .nano': 'onScrollItemPane'
 
   constructor: (options) ->
+    @onScrollItemPane = _.throttle(_.bind(@onScrollItemPane, @), 200)
     super options
     @items = new Backbone.Collection()
     @itemCategoryCollections = {}
@@ -143,7 +145,21 @@ module.exports = class PlayItemsModal extends ModalView
 
   onTabClicked: (e) ->
     @playSound 'game-menu-tab-switch'
-    $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
+    nano = $($(e.target).attr('href')).find('.nano')
+    nano.nanoScroller({alwaysVisible: true})
+    @paneNanoContent = nano.find('.nano-content')
+    @onScrollItemPane()
+
+  onScrollItemPane: ->
+    # dynamically load visible items when the user scrolls enough to see them
+    items = @paneNanoContent.find('.item:not(.loaded)')
+    threshold = @paneNanoContent.height() + 100
+    for itemEl in items
+      itemEl = $(itemEl)
+      if itemEl.position().top < threshold
+        $(itemEl).addClass('loaded')
+        item = @idToItem[itemEl.data('item-id')]
+        itemEl.find('.item-silhouette, .item-img').attr('src', item.getPortraitURL())
 
   onUnlockButtonClicked: (e) ->
     e.stopPropagation()

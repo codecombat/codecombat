@@ -116,11 +116,13 @@ class CocoModel extends Backbone.Model
 
   save: (attrs, options) ->
     options ?= {}
+    originalOptions = _.cloneDeep(options)
     options.headers ?= {}
     options.headers['X-Current-Path'] = document.location?.pathname ? 'unknown'
     success = options.success
     error = options.error
     options.success = (model, res) =>
+      @retries = 0
       @trigger 'save:success', @
       success(@, res) if success
       @markToRevert() if @_revertAttributes
@@ -128,6 +130,17 @@ class CocoModel extends Backbone.Model
       CocoModel.pollAchievements()
       options.success = options.error = null  # So the callbacks can be garbage-collected.
     options.error = (model, res) =>
+      if res.status is 0
+        @retries ?= 0
+        @retries += 1
+        if @retries > 20
+          msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
+          noty text: msg, layout: 'center', type: 'error', killer: true
+          return
+        else
+          msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
+          noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          return _.delay((f = => @save(attrs, originalOptions)), 3000)
       error(@, res) if error
       return unless @notyErrors
       errorMessage = "Error saving #{@get('name') ? @type()}"

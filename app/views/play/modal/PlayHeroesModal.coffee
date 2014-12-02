@@ -293,7 +293,7 @@ module.exports = class PlayHeroesModal extends ModalView
       if @session.get('codeLanguage') isnt @codeLanguage
         @session.set('codeLanguage', @codeLanguage)
         changed = true
-        Backbone.Mediator.publish 'tome:change-language', language: @codeLanguage, reload: true
+        #Backbone.Mediator.publish 'tome:change-language', language: @codeLanguage, reload: true  # We'll reload the PlayLevelView instead.
 
       @session.patch() if changed
 

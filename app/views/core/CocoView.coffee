@@ -49,6 +49,7 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'loaded-all', @onLoaded)
     @listenTo(@supermodel, 'update-progress', @updateProgress)
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
+    @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
     super options
 
@@ -149,6 +150,17 @@ module.exports = class CocoView extends Backbone.View
   # Error handling for loading
   onResourceLoadFailed: (e) ->
     r = e.resource
+    if r.jqxhr?.status is 0
+      r.retries ?= 0
+      r.retries += 1
+      if r.retries > 20
+        msg = 'Your computer or our servers appear to be offline. Please try refreshing.'
+        noty text: msg, layout: 'center', type: 'error', killer: true
+        return
+      else
+        @warnConnectionError()
+        return _.delay (=> r.load()), 3000
+        
     @$el.find('.loading-container .errors').append(loadingErrorTemplate({
       status: r.jqxhr?.status
       name: r.name
@@ -157,6 +169,10 @@ module.exports = class CocoView extends Backbone.View
     })).i18n()
     @$el.find('.progress').hide()
 
+  warnConnectionError: ->
+    msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
+    noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+    
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
     # different views may respond to this call, and not all have the resource to reload

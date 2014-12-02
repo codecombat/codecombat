@@ -31,15 +31,14 @@
                   if item.silhouetted && !item.owned
                     span.glyphicon.glyphicon-lock.bolder
                     span.glyphicon.glyphicon-lock
-                    img.item-silhouette(src=item.getPortraitURL(), draggable="false")
+                    img.item-silhouette(draggable="false")
                     if item.level
                       .required-level
                         div(data-i18n="general.player_level")
                         div= item.level
                   else
                     strong.big-font= item.name
-                    img.item-img(src=item.getPortraitURL(), draggable="false")
-                    //img.item-shadow(src=item.getPortraitURL(), draggable="false")  // Not performant, takes too much memory with filter
+                    img.item-img(draggable="false")
                   
                   if item.owned
                     span.big-font.owned(data-i18n="play.owned")

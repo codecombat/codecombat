@@ -88,6 +88,12 @@ exports.config =
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
         'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
+        'javascripts/app/vendor/aether-clojure.js': 'bower_components/aether/build/clojure.js'
+        'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
+        'javascripts/app/vendor/aether-io.js': 'bower_components/aether/build/io.js'
+        'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
+        'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
+        'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
