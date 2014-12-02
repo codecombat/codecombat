@@ -489,9 +489,15 @@ $itemSlotGridHeight: 51px
       left: 65px
       bottom: 31px
 
+      &.Ranger
+        left: -7px
+
     &.female
       left: 80px
       bottom: 31px
+
+      &.Ranger
+        left: -7px
 
   #hero-image-head
     z-index: 16
@@ -500,12 +506,12 @@ $itemSlotGridHeight: 51px
   #hero-image-thumb
     z-index: 16
 
-    &.female
+    &.female:not(.Ranger)
       @include rotate(-15deg)
       left: 66px
       bottom: 54px
 
-    &.male
+    &.male:not(.Ranger)
       @include rotate(-15deg)
       left: 53px
       bottom: 54px
@@ -525,7 +531,7 @@ $itemSlotGridHeight: 51px
     &.feet
       z-index: 13
 
-    &.right-hand
+    &.right-hand:not(.Ranger)
       @include rotate(-15deg)
       &.female
         left: 66px
@@ -542,7 +548,7 @@ $itemSlotGridHeight: 51px
     &.torso
       z-index: 14
 
-    &.gloves
+    &.gloves:not(.Ranger)
       z-index: 15
 
       &.female
