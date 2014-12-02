@@ -109,7 +109,7 @@ describe '/db/payment', ->
             expect(body.purchaser).toBe(joeID)
             User.findById(joe.get('_id'), (err, user) ->
               expect(user.get('purchased').gems).toBe(5000)
-              expect(user.get('stripeCustomerID')).toBe(body.stripe.customerID)
+              expect(user.get('stripe').customerID).toBe(body.stripe.customerID)
               done()
             )
       )

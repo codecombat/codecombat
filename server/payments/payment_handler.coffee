@@ -71,7 +71,7 @@ PaymentHandler = class PaymentHandler extends Handler
       @logPaymentError(req, 'Missing stripe productID')
       return @sendBadInputError(res, 'Need productID if paying with Stripe.')
 
-    if stripeTimestamp and (not stripeToken) and (not user.get('stripeCustomerID'))
+    if stripeTimestamp and (not stripeToken) and (not req.user.get('stripe')?.customerID)
       @logPaymentError(req, 'Missing stripe token')
       return @sendBadInputError(res, 'Need stripe.token if new customer.')
 
@@ -160,12 +160,14 @@ PaymentHandler = class PaymentHandler extends Handler
   handleStripePaymentPost: (req, res, timestamp, productID, token) ->
 
     # First, make sure we save the payment info as a Customer object, if we haven't already.
-    if not req.user.get('stripeCustomerID')
+    if not req.user.get('stripe')?.customerID
       stripe.customers.create({
         card: token
         description: req.user._id + ''
       }).then(((customer) =>
-        req.user.set('stripeCustomerID', customer.id)
+        stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+        stripeInfo.customerID = customer.id
+        req.user.set('stripe', stripeInfo)
         req.user.save((err) =>
           if err
             @logPaymentError(req, 'Stripe customer id save db error. '+err)
@@ -193,7 +195,7 @@ PaymentHandler = class PaymentHandler extends Handler
         )
       ),
       ((callback) ->
-        stripe.charges.list({customer: req.user.get('stripeCustomerID')}, (err, recentCharges) =>
+        stripe.charges.list({customer: req.user.get('stripe')?.customerID}, (err, recentCharges) =>
           return callback(err) if err
           charge = _.find recentCharges.data, (c) -> c.metadata.timestamp is timestamp
           callback(null, charge)
@@ -232,7 +234,7 @@ PaymentHandler = class PaymentHandler extends Handler
     stripe.charges.create({
       amount: product.amount
       currency: 'usd'
-      customer: req.user.get('stripeCustomerID')
+      customer: req.user.get('stripe')?.customerID
       metadata: {
         productID: product.id
         userID: req.user._id + ''
@@ -262,7 +264,7 @@ PaymentHandler = class PaymentHandler extends Handler
     payment.set 'amount', product.amount
     payment.set 'gems', product.gems
     payment.set 'stripe', {
-      customerID: req.user.get('stripeCustomerID')
+      customerID: req.user.get('stripe')?.customerID
       timestamp: parseInt(req.body.stripe.timestamp)
       chargeID: charge.id
     }
