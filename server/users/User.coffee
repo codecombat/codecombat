@@ -204,6 +204,7 @@ UserSchema.statics.editableProperties = [
 ]
 
 UserSchema.plugin plugins.NamedPlugin
+UserSchema.index({'stripe.subscriptionID':1}, {unique: true, sparse: true})
 
 module.exports = User = mongoose.model('User', UserSchema)
 

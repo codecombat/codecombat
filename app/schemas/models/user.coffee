@@ -275,8 +275,9 @@ _.extend UserSchema.properties,
   
   stripe: c.object {}, {
     customerID: { type: 'string' }
-    subscription: { enum: ['basic'] }
-    token: { type: 'string' } 
+    planID: { enum: ['basic'] }
+    subscriptionID: { type: 'string' }
+    token: { type: 'string' }
   }
 
 c.extendBasicProperties UserSchema, 'user'

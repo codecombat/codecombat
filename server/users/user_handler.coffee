@@ -11,6 +11,7 @@ log = require 'winston'
 moment = require 'moment'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
+SubscriptionHandler = require '../payments/subscription_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
@@ -105,6 +106,23 @@ UserHandler = class UserHandler extends Handler
         return callback({res: r, code: 409}) if otherUser
         user.set('name', req.body.name)
         callback(null, req, user)
+        
+    # Subscription setting
+    (req, user, callback) ->
+      hasPlan = user.get('stripe')?.planID?
+      wantsPlan = req.body.stripe?.planID?
+      
+      return callback(null, req, user) if hasPlan is wantsPlan
+      if wantsPlan and not hasPlan
+        SubscriptionHandler.subscribeUser(req, user, (err) ->
+          return callback(err) if err
+          return callback(null, req, user)
+        )
+      else if hasPlan and not wantsPlan
+        SubscriptionHandler.unsubscribeUser(req, user, (err) ->
+          return callback(err) if err
+          return callback(null, req, user)
+        )
   ]
 
   getById: (req, res, id) ->

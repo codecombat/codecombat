@@ -20,6 +20,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
     timestamp: { type: 'integer', description: 'Unique identifier provided by the client, to guard against duplicate payments.' }
     chargeID: { type: 'string' }
     customerID: { type: 'string' }
+    invoiceID: { type: 'string' }
   })
 })
 

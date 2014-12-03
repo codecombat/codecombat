@@ -24,10 +24,10 @@ module.exports = class Handler
 
   constructor: ->
     # TODO The second 'or' is for backward compatibility only is for backward compatibility only
-    @privateProperties = @modelClass.privateProperties or @privateProperties or []
-    @editableProperties = @modelClass.editableProperties or @editableProperties or []
-    @postEditableProperties = @modelClass.postEditableProperties or @postEditableProperties or []
-    @jsonSchema = @modelClass.jsonSchema or @jsonSchema or {}
+    @privateProperties = @modelClass?.privateProperties or @privateProperties or []
+    @editableProperties = @modelClass?.editableProperties or @editableProperties or []
+    @postEditableProperties = @modelClass?.postEditableProperties or @postEditableProperties or []
+    @jsonSchema = @modelClass?.jsonSchema or @jsonSchema or {}
 
   # subclasses should override these methods
   hasAccess: (req) -> true
@@ -336,6 +336,7 @@ module.exports = class Handler
       return @sendNotFoundError(res) unless document?
       return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
       @doWaterfallChecks req, document, (err, document) =>
+        return if err is true
         return @sendError(res, err.code, err.res) if err
         @saveChangesToDocument req, document, (err) =>
           return @sendBadInputError(res, err.errors) if err?.valid is false
