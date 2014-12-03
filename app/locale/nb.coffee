@@ -62,7 +62,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Helter" # Tooltip on hero shop button from /play
     achievements: "Prestasjoner" # Tooltip on achievement list button from /play
-    account: "Bruker" # Tooltip on account button from /play
+    account: "Konto" # Tooltip on account button from /play
     settings: "Innstillinger" # Tooltip on settings button from /play
     next: "Neste" # Go from choose hero to choose inventory before playing a level
     change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
@@ -204,7 +204,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     goals: "Mål"
     goal: "Mål"
     running: "Kjører..."
-    success: "Vellykket!"
+    success: "Suksess!"
     incomplete: "Ufullstendig"
     timed_out: "Tiden er ute"
     failing: "Mislykkes"
@@ -212,10 +212,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     click_to_select: "Klikk på en enhet for å velge den."
     control_bar_multiplayer: "Flerspiller"
 #    control_bar_join_game: "Join Game"
-#    reload: "Reload"
-    reload_title: "Laste all koden på nytt?"
-    reload_really: "Er du sikker på at du vil laste dette nivået på nytt, tilbake til begynnelsen?"
-    reload_confirm: "Last Alle på Nytt"
+    reload: "Tilbakestill"
+    reload_title: "Tilbakestille all koden?"
+    reload_really: "Er du sikker på at du vil tilbakestille dette brettet til begynnelsen?"
+    reload_confirm: "Tilbakestill alt"
     victory_title_prefix: ""
     victory_title_suffix: " Ferdig"
     victory_sign_up: "Tegn deg på for Oppdateringer"
@@ -269,15 +269,15 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_open_source: "CodeCombat er 100% åpen kildekode!"
     tip_beta_launch: "CodeCombat ble lansert i betautgave i oktober 2013."
     tip_think_solution: "Tenk på løsningen, ikke på problemet."
-#    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
-#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
+    tip_theory_practice: "I teorien er det ikke forskjell på teori og praksis, men i praksis er det. - Yogi Berra"
+    tip_error_free: "Det er to måter å skrive feilfrie programmer på; bare den tredje virker. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
     tip_forums: "Stikk innom forumene og fortell oss hva du synes!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
 #    tip_morale_improves: "Loading will continue until morale improves."
     tip_all_species: "Vi tror på like muligheter til å lære programmering for alle arter."
 #    tip_reticulating: "Reticulating spines."
-#    tip_harry: "Yer a Wizard, "
+     tip_harry: "Du er en trollmann, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
     tip_munchkin: "Hvis du ikke spiser grønnsakene dine kommer en munchkin og tar deg når du sover"
     tip_binary: "Det finnes 10 typer mennesker i verden: de som forstår binærtall, og de som ikke gjør det."
@@ -285,11 +285,11 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tip_no_try: "Do. Or do not. There is no try. - Yoda"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
-#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+    tip_impossible: "Det virker alltid umulig før det er gjort. - Nelson Mandela"
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+    tip_hofstadters_law: "Hofstadters Lov: Ting tar alltid lenger tid enn du tror, selv når du tar Hofstadters Lov med i beregningen."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     customize_wizard: "Tilpass Trollmann"
@@ -317,9 +317,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     should_equip: "(dobbel-klikk for å bruke)"
     equipped: "(i bruk)"
     locked: "(låst)"
-    restricted: "(Ikke tilgjengelig i dette nivået)"
+    restricted: "(Ikke tilgjengelig på dette brettet)"
     equip: "Bruk"
-    unequip: "Ta av"
+    unequip: "Ikke bruk"
 
   buy_gems:
     few_gems: "Noen få juveler"
@@ -361,14 +361,14 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-    read_only: "kun-lese"
+    writable: "skrivbar" #"writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "skrivebeskyttet" #"read-only"
     action_name: "navn"
-#    action_cooldown: "Takes"
+    action_cooldown: "Tar"
     action_specific_cooldown: "Gjenopplading"
     action_damage: "Skade"
     action_range: "Rekkevidde"
-#    action_radius: "Radius"
+    action_radius: "Radius"
     action_duration: "Varighet"
     example: "Eksempel"
     ex: "f.eks." # Abbreviation of "example"
@@ -436,8 +436,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    save_version_title: "Save New Version"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
+    cla_url: "CLA"
+    cla_suffix: "."
 #    cla_agree: "I AGREE"
 
   contact:
@@ -485,11 +485,11 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     saved: "Endringer Lagret"
     password_mismatch: "Passordene er ikke like."
     password_repeat: "Vennligst gjenta passordet."
-#    job_profile: "Job Profile" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
+    job_profile: "Jobb Profil" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
-#    sample_profile: "See a sample profile"
-#    view_profile: "View Your Profile"
+    sample_profile: "Se en eksempelprofil" #"See a sample profile"
+    view_profile: "Vis Profilen" #"View Your Profile"
     wizard_tab: "Trollmann"
     wizard_color: "Farge på Trollmannens Klær"
 
@@ -752,9 +752,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tournament_ends: "Turneringen slutter"
     tournament_ended: "Turneringen sluttet "
     tournament_rules: "Turneringsregler"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
-#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
-#    tournament_blurb_blog: "on our blog"
+    tournament_blurb: "Skriv kode, samle gull, bygg hærer, knus fiender, vinn premier, og oppgrader karrieren din i vår $40,000 Greed turnering! Sjekk detaljene på"
+    tournament_blurb_criss_cross: "Vinn bud, bygg stier, overlist motstandere, ta juveler, og oppgrader karrieren din i vår Criss-Cross turnering! Sjekk detaljene på"
+    tournament_blurb_blog: "bloggen vår"
     rules: "Regler"
     winners: "Vinnere"
 
