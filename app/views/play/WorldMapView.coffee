@@ -835,8 +835,8 @@ forest = [
     description: 'This level exercises: if/else, flag placement and timing, item collection.'
     nextLevels:
       continue: 'rich-forager'
-    x: 81
-    y: 87
+    x: 74.5
+    y: 92
   }
   {
     name: 'Rich Forager'
@@ -846,8 +846,8 @@ forest = [
     description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
       continue: 'multiplayer-treasure-grove'
-    x: 87
-    y: 82
+    x: 80
+    y: 88
   }
   {
     name: 'Siege of Stonehold'
@@ -858,8 +858,8 @@ forest = [
     #nextLevels:
     #  continue: ''
     disabled: not me.isAdmin()
-    x: 93
-    y: 78
+    x: 85.5
+    y: 83.5
   }
   {
     name: 'Multiplayer Treasure Grove'
