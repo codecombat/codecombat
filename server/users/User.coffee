@@ -94,9 +94,11 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
   params.email = if existingProps then {leid: existingProps.leid} else {email: doc.get('email')}
-  params.merge_vars = {groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]}
+  params.merge_vars = {
+    groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]
+    'new-email': doc.get('email')
+  }
   params.update_existing = true
-  params.double_optin = true
 
   onSuccess = (data) ->
     doc.set('mailChimp', data)
@@ -181,8 +183,12 @@ UserSchema.pre('save', (next) ->
 )
 
 UserSchema.post 'save', (doc) ->
+  doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
   UserSchema.statics.updateMailChimp(doc)
 
+UserSchema.post 'init', (doc) ->
+  doc.startingEmails = _.cloneDeep(doc.get('emails'))
+  
 UserSchema.statics.hashPassword = (password) ->
   password = password.toLowerCase()
   shasum = crypto.createHash('sha512')
