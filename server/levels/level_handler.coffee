@@ -30,6 +30,7 @@ LevelHandler = class LevelHandler extends Handler
     'terrain'
     'i18nCoverage'
     'loadingTip'
+    'requiresSubscription'
   ]
 
   postEditableProperties: ['name']
