@@ -2,15 +2,15 @@
 # npm install -g cofmon
 # Then you can paste CoffeeScript into it.
 
-nDays = 1
-dayOffset = 0.3
+nDays = 3
+dayOffset = 0.2
 now = new Date()
 startDate = new Date(now - 86400 * 1000 * (nDays + dayOffset))
 endDate =   new Date(now - 86400 * 1000 * dayOffset)
 
-users = db.users.find({dateCreated: {$gt: startDate, $lt: endDate}}, {_id: 1, name: 1, testGroupNumber: 1}).toArray()
+users = db.users.find({dateCreated: {$gt: startDate, $lt: endDate}}, {_id: 1, name: 1, testGroupNumber: 1, email: true}).toArray()
 goodUsers = []
-for user in users
+for user in users when user.email
   totalPlaytime = 0
   sessions = db.level.sessions.find({creator: '' + user._id}, {playtime: 1, levelID: 1}).toArray()
   firstSessions = []
