@@ -277,7 +277,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tip_morale_improves: "Loading will continue until morale improves."
     tip_all_species: "Vi tror på like muligheter til å lære programmering for alle arter."
 #    tip_reticulating: "Reticulating spines."
-     tip_harry: "Du er en trollmann, "
+    tip_harry: "Du er en trollmann, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
     tip_munchkin: "Hvis du ikke spiser grønnsakene dine kommer en munchkin og tar deg når du sover"
     tip_binary: "Det finnes 10 typer mennesker i verden: de som forstår binærtall, og de som ikke gjør det."
