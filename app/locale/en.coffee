@@ -349,6 +349,7 @@
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     subscribe_button: "Subscribe Now"
     stripe_description: "Monthly Subscription"
+    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
     choose_hero: "Choose Your Hero"
