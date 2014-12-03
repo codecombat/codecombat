@@ -600,8 +600,8 @@ forest = [
     description: 'Protect the peasants from the pursuing ogres.'
     nextLevels:
       continue: 'winding-trail'
-    x: 32.63
-    y: 53.69
+    x: 18
+    y: 37
   }
   {
     name: 'Winding Trail'
@@ -611,8 +611,8 @@ forest = [
     description: 'Stay alive and navigate through the forest.'
     nextLevels:
       continue: 'endangered-burl'
-    x: 39.03
-    y: 54.97
+    x: 24
+    y: 35
   }
   {
     name: 'Endangered Burl'
@@ -622,8 +622,8 @@ forest = [
     description: 'Hunt ogres in the woods, but watch out for lumbering beasts.'
     nextLevels:
       continue: 'village-guard'
-    x: 41.09
-    y: 43.75
+    x: 29
+    y: 35
   }
   {
     name: 'Village Guard'
@@ -633,8 +633,8 @@ forest = [
     description: 'Defend a village from marauding munchkin mayhem.'
     nextLevels:
       continue: 'thornbush-farm'
-    x: 48.09
-    y: 42.75
+    x: 33
+    y: 37
   }
   {
     name: 'Thornbush Farm'
@@ -644,8 +644,8 @@ forest = [
     description: 'Determine refugee peasant from ogre when defending the farm.'
     nextLevels:
       continue: 'back-to-back'
-    x: 44.09
-    y: 57.75
+    x: 37
+    y: 40
   }
   {
     name: 'Back to Back'
@@ -655,8 +655,8 @@ forest = [
     description: 'Patrol the village entrances, but stay defensive.'
     nextLevels:
       continue: 'ogre-encampment'
-    x: 40.14
-    y: 63.96
+    x: 39
+    y: 47.5
   }
   {
     name: 'Ogre Encampment'
@@ -666,8 +666,8 @@ forest = [
     description: 'Recover stolen treasure from an ogre encampment.'
     nextLevels:
       continue: 'woodland-cleaver'
-    x: 46.48
-    y: 70.92
+    x: 39
+    y: 55
    }
   {
     name: 'Woodland Cleaver'
@@ -677,8 +677,8 @@ forest = [
     description: 'Use your new cleave ability to fend off munchkins.'
     nextLevels:
       continue: 'shield-rush'
-    x: 52.32
-    y: 70.80
+    x: 39.5
+    y: 61
    }
   {
     name: 'Shield Rush'
@@ -688,8 +688,8 @@ forest = [
     description: 'Combine cleave and shield to endure an ogre onslaught.'
     nextLevels:
       continue: 'peasant-protection'
-    x: 58.54
-    y: 66.73
+    x: 42
+    y: 68
   }
 
   # Warrior branch
@@ -701,8 +701,8 @@ forest = [
     description: 'Stay close to Victor.'
     nextLevels:
       continue: 'munchkin-swarm'
-    x: 64.37
-    y: 62.18
+    x: 44.5
+    y: 75.5
   }
   {
     name: 'Munchkin Swarm'
@@ -712,8 +712,8 @@ forest = [
     description: 'Loot a gigantic chest while surrounded by a swarm of ogre munchkins.'
     nextLevels:
       continue: 'coinucopia'
-    x: 71.19
-    y: 63.61
+    x: 49
+    y: 81
   }
 
   # Ranger branch
@@ -725,8 +725,8 @@ forest = [
     description: 'Join forces with a new hero: Amara Arrowhead.'
     nextLevels:
       continue: 'swift-dagger'
-    x: 64.37
-    y: 69.18
+    x: 38
+    y: 72
   }
   {
     name: 'Swift Dagger'
@@ -736,8 +736,8 @@ forest = [
     description: 'Deal damage from a distance with your new hero.'
     nextLevels:
       continue: 'shrapnel'
-    x: 66
-    y: 75.61
+    x: 33
+    y: 72
   }
   {
     name: 'Shrapnel'
@@ -747,8 +747,8 @@ forest = [
     description: 'Explore the explosive arts.'
     nextLevels:
       continue: 'coinucopia'
-    x: 67
-    y: 81
+    x: 28
+    y: 73
   }
 
   # Wizard branch
@@ -760,8 +760,8 @@ forest = [
     description: 'Stand your ground against large ogres with a new hero: Ms. Hushbaum.'
     nextLevels:
       continue: 'touch-of-death'
-    x: 64.37
-    y: 55.18
+    x: 47
+    y: 71
   }
   {
     name: 'Touch of Death'
@@ -771,8 +771,8 @@ forest = [
     description: 'Learn your first spell to siphon life from your foes.'
     nextLevels:
       continue: 'bonemender'
-    x: 65
-    y: 48
+    x: 52
+    y: 70
   }
   {
     name: 'Bonemender'
@@ -782,8 +782,8 @@ forest = [
     description: 'Cast regeneration on allied soldiers to withstand a siege.'
     nextLevels:
       continue: 'coinucopia'
-    x: 66
-    y: 40
+    x: 58
+    y: 67
   }
 
   {
@@ -794,8 +794,8 @@ forest = [
     description: 'Start playing in real-time with input flags as you collect gold coins!'
     nextLevels:
       continue: 'copper-meadows'
-    x: 77.54
-    y: 65.94
+    x: 56
+    y: 82
   }
   {
     name: 'Copper Meadows'
@@ -805,8 +805,8 @@ forest = [
     description: 'This level exercises: if/else, object members, variables, flag placement, and collection.'
     nextLevels:
       continue: 'drop-the-flag'
-    x: 77.54
-    y: 55.94
+    x: 60
+    y: 86
   }
   {
     name: 'Drop the Flag'
@@ -816,8 +816,8 @@ forest = [
     description: 'This level exercises: flag position, object members.'
     nextLevels:
       continue: 'deadly-pursuit'
-    x: 77.54
-    y: 45.94
+    x: 65.5
+    y: 91
   }
   {
     name: 'Deadly Pursuit'
@@ -827,8 +827,8 @@ forest = [
     description: 'This level exercises: if/else, flag placement and timing, item collection.'
     nextLevels:
       continue: 'rich-forager'
-    x: 77.54
-    y: 35.94
+    x: 81
+    y: 87
   }
   {
     name: 'Rich Forager'
@@ -838,8 +838,8 @@ forest = [
     description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
       continue: 'multiplayer-treasure-grove'
-    x: 77.54
-    y: 25.94
+    x: 87
+    y: 82
   }
   {
     name: 'Siege of Stonehold'
@@ -850,8 +850,8 @@ forest = [
     #nextLevels:
     #  continue: ''
     disabled: not me.isAdmin()
-    x: 83.87
-    y: 18.89
+    x: 93
+    y: 78
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -859,8 +859,8 @@ forest = [
     id: 'multiplayer-treasure-grove'
     original: '5469643c37600b40e0e09c5b'
     description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
-    x: 67.54
-    y: 25.94
+    x: 56.5
+    y: 20
   }
   {
     name: 'Dueling Grounds'
@@ -869,8 +869,8 @@ forest = [
     original: '5442ba0e1e835500007eb1c7'
     description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
     disabled: not me.isAdmin()
-    x: 25.5
-    y: 77.5
+    x: 83
+    y: 23
   }
 ]
 
