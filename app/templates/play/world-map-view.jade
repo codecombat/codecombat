@@ -62,7 +62,7 @@
   span.spl.spr(data-i18n="general.player_level")
   span.spr= me.level()
   if me.get('anonymous')
-    span.spr(data-i18n="play.anonymous_player") Anonymous Player
+    span.spr(data-i18n="play.anonymous") Anonymous Player
     button.btn.btn-default.btn-flat.btn-sm(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="login.log_in")
   else
     span.spr= me.get('name')
@@ -72,3 +72,16 @@ button.btn.btn-lg.btn-inverse#volume-button(title="Adjust volume")
   .glyphicon.glyphicon-volume-off
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up
+
+h1#campaign-status
+  if mapType == 'dungeon'
+    span.spr(data-i18n="play.campaign_dungeon")
+  else if mapType == 'forest'
+    span.spr(data-i18n="play.campaign_forest")
+  | -
+  if requiresSubscription
+    span.spl(data-i18n="play.subscription_required")
+  else if mapType == 'dungeon'
+    span.spl(data-i18n="play.free")
+  else
+    span.spl(data-i18n="play.subscribed")

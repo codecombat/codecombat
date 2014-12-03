@@ -25,6 +25,9 @@ module.exports = class WorldMapView extends RootView
   id: 'world-map-view'
   template: template
 
+  subscriptions:
+    'subscribe-modal:subscribed': 'onSubscribed'
+
   events:
     'click .map-background': 'onClickMap'
     'click .level a': 'onClickLevel'
@@ -118,6 +121,10 @@ module.exports = class WorldMapView extends RootView
     if @requiresSubscription
       _.delay (=> @openModalView? new SubscribeModal() unless window.currentModal), 2000
 
+  onSubscribed: ->
+    @requiresSubscription = false
+    @render()
+
   getRenderData: (context={}) ->
     context = super(context)
     context.campaign = _.find campaigns, { id: @terrain }
@@ -140,6 +147,7 @@ module.exports = class WorldMapView extends RootView
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
     context.forestIsAvailable = @startedForestLevel or '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
+    context.requiresSubscription = @requiresSubscription
     context
 
   afterRender: ->
