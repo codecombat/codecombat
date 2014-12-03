@@ -79,6 +79,7 @@ module.exports = class Handler
   sendNotFoundError: (res, message) -> errors.notFound(res, message)
   sendMethodNotAllowed: (res, message) -> errors.badMethod(res, @allowedMethods, message)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
+  sendPaymentRequiredError: (res, message) -> errors.paymentRequired(res, message)
   sendDatabaseError: (res, err) ->
     return @sendError(res, err.code, err.response) if err.response and err.code
     log.error "Database error, #{err}"
