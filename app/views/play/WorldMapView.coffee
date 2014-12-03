@@ -9,6 +9,7 @@ ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
+SubscribeModal = require 'views/play/modal/SubscribeModal'
 
 trackedHourOfCode = false
 
@@ -77,6 +78,8 @@ module.exports = class WorldMapView extends RootView
       $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       trackedHourOfCode = true
 
+    @requiresSubscription = me.isAdmin() and @terrain isnt 'dungeon' and not me.get('stripe')?.subscriptionID
+
   destroy: ->
     @setupManager?.destroy()
     $(window).off 'resize', @onWindowResize
@@ -112,6 +115,8 @@ module.exports = class WorldMapView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
+    if @requiresSubscription
+      _.delay (=> @openModalView? new SubscribeModal() unless window.currentModal), 2000
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -145,7 +150,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or not @fullyRendered
+    unless window.currentModal or not @fullyRendered or @requiresSubscription
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -182,20 +187,23 @@ module.exports = class WorldMapView extends RootView
     e.preventDefault()
     e.stopPropagation()
     @$levelInfo?.hide()
+    levelElement = $(e.target).parents('.level')
+    levelID = levelElement.data('level-id')
+    campaign = _.find campaigns, id: @terrain
+    level = _.find campaign.levels, id: levelID
     if application.isIPadApp
-      levelID = $(e.target).parents('.level').data('level-id')
       @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
       @adjustLevelInfoPosition e
       @endHighlight()
     else
-      if $(e.target).attr('disabled')
+      if @requiresSubscription
+        @openModalView new SubscribeModal()
+      else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return
       else if $(e.target).parent().hasClass 'locked'
         return
       else
-        levelElement = $(e.target).parents('.level')
-        levelID = levelElement.data('level-id')
         @startLevel levelElement
         window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelID, ['Google Analytics']
 

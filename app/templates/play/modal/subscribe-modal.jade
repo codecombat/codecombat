@@ -1,0 +1,41 @@
+.modal-dialog
+  .modal-content
+    if state === 'purchasing'
+      .alert.alert-info(data-i18n="buy_gems.purchasing")
+    
+    else if state === 'retrying'
+      #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
+
+    else
+      img(src="/images/pages/play/modal/subscribe-background.png")#subscribe-background
+
+      h1(data-i18n="subscribe.subscribe_title") Subscribe
+
+      div#close-modal
+        span.glyphicon.glyphicon-remove
+
+      #selling-points
+        #point-levels.point
+          .blurb 25 more levels. 5 new levels every week.
+        #point-heroes.point
+          .blurb 13 more heroes to unleash on the ogre hordes.
+        #point-items.point
+          .blurb 275 items to unlock and explore.
+        #point-gems.point
+          .blurb Subscribers get 3500 bonus gems per month.
+
+      button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_button")
+        span $9.99/mo - Subscribe
+                
+      if state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;      
+          
+      if state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= stateMessage

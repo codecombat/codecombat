@@ -332,6 +332,11 @@
     prompt_body: "Do you want to get more?"
     prompt_button: "Enter Shop"
 
+  subscribe:
+    subscribe_title: "Subscribe"
+    subscribe_button: "$9.99/mo - Subscribe"
+    stripe_description: "Monthly Subscription"
+
   choose_hero:
     choose_hero: "Choose Your Hero"
     programming_language: "Programming Language"
