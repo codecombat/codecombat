@@ -32,6 +32,9 @@ module.exports = class HomeView extends RootView
     c.explainsHourOfCode = @explainsHourOfCode
     c.isMobile = @isMobile()
     c.isIPadBrowser = @isIPadBrowser()
+    c.playText = $.i18n.t('home.try_it', false)
+    if c.playText is 'home.try_it'
+      c.playText = $.i18n.t 'home.play'  # Temporary fallback for not having many try_it translations yet.
     c
 
   onClickBeginnerCampaign: (e) ->

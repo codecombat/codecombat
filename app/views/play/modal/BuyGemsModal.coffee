@@ -57,7 +57,7 @@ module.exports = class BuyGemsModal extends ModalView
       Backbone.Mediator.publish 'buy-gems-modal:purchase-initiated', { productID: productID }
 
     else
-      application.tracker?.trackEvent 'Started purchase', {productID:productID}, ['Google Analytics']
+      application.tracker?.trackEvent 'Started purchase', { productID: productID }
       stripeHandler.open({
         description: $.t(product.i18n)
         amount: product.amount

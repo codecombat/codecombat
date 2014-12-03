@@ -485,15 +485,15 @@ $itemSlotGridHeight: 51px
     position: absolute
     z-index: 12
 
-    &.male
-      left: 65px
+    &.female
+      left: 80px
       bottom: 31px
 
       &.Ranger
         left: -7px
 
-    &.female
-      left: 80px
+    &.male
+      left: 65px
       bottom: 31px
 
       &.Ranger
@@ -541,6 +541,13 @@ $itemSlotGridHeight: 51px
         left: 55px
         bottom: 63px
         @include rotate(-15deg)
+
+    &.right-hand.Ranger
+      &.female
+        left: -7px
+
+      &.male
+        left: -7px
 
     &.left-hand
       z-index: 17
