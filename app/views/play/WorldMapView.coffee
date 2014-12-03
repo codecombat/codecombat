@@ -452,7 +452,6 @@ dungeon = [
   #  nextLevels:
   #    more_practice: 'descending-further'
   #    continue: 'the-second-kithmaze'
-  #    skip_ahead: 'dread-door'
   #}
   {
     name: 'Haunted Kithmaze'
@@ -465,7 +464,6 @@ dungeon = [
     nextLevels:
       more_practice: 'descending-further'
       continue: 'the-second-kithmaze'
-      skip_ahead: 'dread-door'
   }
   {
     name: 'Descending Further'
@@ -522,7 +520,6 @@ dungeon = [
     y: 46
     nextLevels:
       continue: 'lowly-kithmen'
-      skip_ahead: 'closing-the-distance'
   }
   {
     name: 'Lowly Kithmen'
@@ -534,7 +531,6 @@ dungeon = [
     y: 40
     nextLevels:
       continue: 'closing-the-distance'
-      skip_ahead: 'the-final-kithmaze'
   }
   {
     name: 'Closing the Distance'
@@ -601,7 +597,6 @@ dungeon = [
     id: 'cavern-survival'
     original: '544437e0645c0c0000c3291d'
     description: 'Stay alive longer than your opponent amidst hordes of ogres!'
-    disabled: not me.isAdmin()
     x: 17.54
     y: 78.39
   }
@@ -884,7 +879,6 @@ forest = [
     id: 'dueling-grounds'
     original: '5442ba0e1e835500007eb1c7'
     description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
-    disabled: not me.isAdmin()
     x: 83
     y: 23
   }
