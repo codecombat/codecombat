@@ -466,7 +466,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     new_password: "Nueva Contraseña"
     new_password_verify: "Verificar"
     email_subscriptions: "Suscripciones de Email"
-    email_subscriptions_none: "No tienes subcripciones."
+    email_subscriptions_none: "No tienes suscripciones."
     email_announcements: "Noticias"
     email_announcements_description: "Recibe correos electrónicos con las últimas noticias y desarrollos de CodeCombat."
     email_notifications: "Notificaciones"

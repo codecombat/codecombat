@@ -69,6 +69,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onSubscriptionSuccess: ->
     application.tracker?.trackEvent 'Finished subscription purchase', {}
+    Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
     @hide()
 

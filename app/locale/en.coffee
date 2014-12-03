@@ -69,6 +69,11 @@
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     choose_inventory: "Equip Items"
     buy_gems: "Buy Gems"
+    campaign_forest: "Forest Campaign"
+    campaign_dungeon: "Dungeon Campaign"
+    subscription_required: "Subscription Required"
+    free: "Free"
+    subscribed: "Subscribed"
     older_campaigns: "Older Campaigns"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
@@ -90,8 +95,6 @@
     campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Classic Algorithms"
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-    campaign_forest: "Forest Campaign"
-    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Create Account"
