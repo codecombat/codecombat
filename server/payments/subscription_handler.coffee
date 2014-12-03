@@ -38,8 +38,11 @@ class SubscriptionHandler extends Handler
           )
         ),
       (err) =>
-        @logSubscriptionError(req, 'Stripe customer creation error. '+err)
-        return done({res: 'Database error.', code: 500})
+        if err.type in ['StripeCardError', 'StripeInvalidRequestError']
+          done({res: 'Card error', code: 402})
+        else
+          @logSubscriptionError(req, 'Stripe customer creation error. '+err)
+          return done({res: 'Database error.', code: 500})
       )
 
     else

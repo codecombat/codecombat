@@ -95,6 +95,21 @@ describe '/db/user, editing stripe property', ->
   joeData = null
   firstSubscriptionID = null
       
+  it 'returns client error when a token fails to charge', (done) ->
+    stripe.tokens.create {
+      card: { number: '4000000000000002', exp_month: 12, exp_year: 2020, cvc: '123' }
+    }, (err, token) ->
+      stripeTokenID = token.id
+      loginJoe (joe) ->
+        joeData = joe.toObject()
+        joeData.stripe = {
+          token: stripeTokenID
+          planID: 'basic'
+        }
+        request.put {uri: userURL, json: joeData }, (err, res, body) ->
+          expect(res.statusCode).toBe(402)
+          done()
+          
   it 'creates a subscription when you put a token and plan', (done) ->
     stripe.tokens.create {
       card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
