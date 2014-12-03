@@ -65,10 +65,10 @@ class SubscriptionHandler extends Handler
           @checkForExistingSubscription(req, user, customer, done)
       )
 
-  
+
   checkForExistingSubscription: (req, user, customer, done) ->
     if subscription = customer.subscriptions?.data?[0]
-      
+
       if subscription.cancel_at_period_end
         # Things are a little tricky here. Can't re-enable a cancelled subscription,
         # so it needs to be deleted, but also don't want to charge for the new subscription immediately.
@@ -84,22 +84,22 @@ class SubscriptionHandler extends Handler
             if err
               @logSubscriptionError(req, 'Stripe customer plan setting error. '+err)
               return done({res: 'Database error.', code: 500})
-    
+
             @updateUser(req, user, customer.subscriptions.data[0], false, done)
 
       else
         # can skip creating the subscription
         return @updateUser(req, user, customer.subscriptions.data[0], false, done)
-      
+
     else
       stripe.customers.update req.user.get('stripe').customerID, { plan: 'basic' }, (err, customer) =>
         if err
           @logSubscriptionError(req, 'Stripe customer plan setting error. '+err)
           return done({res: 'Database error.', code: 500})
-        
+
         @updateUser(req, user, customer.subscriptions.data[0], true, done)
-      
-      
+
+
   updateUser: (req, user, subscription, increment, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})
     stripeInfo.planID = 'basic'
@@ -120,8 +120,8 @@ class SubscriptionHandler extends Handler
         @logSubscriptionError(req, 'Stripe user plan saving error. '+err)
         return done({res: 'Database error.', code: 500})
       return done()
-    
-      
+
+
   unsubscribeUser: (req, user, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe'))
     stripe.customers.cancelSubscription stripeInfo.customerID, stripeInfo.subscriptionID, { at_period_end: true }, (err) =>
@@ -136,6 +136,6 @@ class SubscriptionHandler extends Handler
           @logSubscriptionError(req, 'User save unsubscribe error. '+err)
           return done({res: 'Database error.', code: 500})
         return done()
-    
+
 
 module.exports = new SubscriptionHandler()
