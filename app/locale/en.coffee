@@ -335,14 +335,16 @@
 
   subscribe:
     subscribe_title: "Subscribe"
-    levels: "25 more levels, with 5 new levels every week!"
-    heroes: "Unlock more heroes, including wizards and rangers!"
-    gems: "Subscribers get 3500 bonus gems per month!"
-    items: "Unlock the coding power of 275 new items!"
-    parents: "Parents"
-    parents_title: "Your child should learn to code."
-    parents_blurb: "Invest in your child's education by teaching her to program with CodeCombat. It's just $9.99/mo, and that comes with personal email support, cancellation with a click, and a 100% money-back guarantee."
-    subscribe_button: "$9.99/mo - Subscribe"
+    levels: "Unlock 25 levels! With 5 new ones every week!"
+    heroes: "More powerful heroes!"
+    gems: "3500 bonus gems every month!"
+    items: "Over 250 bonus items!"
+    parents: "For Parents"
+    parents_title: "Your child will learn to code."
+    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+    parents_blurb2: "For 9.99/mo, they get new challenges and personal email support from professional programmers."
+    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+    subscribe_button: "Subscribe Now"
     stripe_description: "Monthly Subscription"
 
   choose_hero:

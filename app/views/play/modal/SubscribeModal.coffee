@@ -32,7 +32,9 @@ module.exports = class SubscribeModal extends ModalView
   afterRender: ->
     super()
     popoverTitle = $.i18n.t 'subscribe.parents_title'
-    popoverContent = $.i18n.t 'subscribe.parents_blurb'
+    popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
     @$el.find('#parents-info').popover(
       animation: true
       html: true
