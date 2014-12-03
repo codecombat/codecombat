@@ -104,7 +104,7 @@ module.exports = class User extends CocoModel
 
   getBranchingGroup: ->
     return @branchingGroup if @branchingGroup
-    return 'no-practice'  # A/B test paused for school testing
+    return 'all-practice'  # A/B test paused for Hour of Code
     group = me.get('testGroupNumber') % 4
     @branchingGroup = switch group
       when 0 then 'no-practice'
