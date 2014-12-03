@@ -321,12 +321,12 @@ module.exports = class SpellView extends CocoView
         return false
       if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
         if intersects()
-          @ace.navigateDown 1
-          @ace.navigateLineStart()
+          e.editor.navigateDown 1
+          e.editor.navigateLineStart()
           return false
-        else if e.command.name in ['Enter', 'Return']
-          @ace.execCommand 'enter-skip-delimiters'
-          return false
+        else if e.command.name in ['Enter', 'Return'] and not e.editor?.completer?.popup?.isOpen
+          @zatanna?.on?()
+          return e.editor.execCommand 'enter-skip-delimiters'
       @zatanna?.on?()
       e.command.exec e.editor, e.args or {}
 
@@ -379,7 +379,7 @@ module.exports = class SpellView extends CocoView
               else content
           entry =
             content: content
-            meta: 'press tab'
+            meta: 'press enter'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
           if doc.name is 'findNearestEnemy'
