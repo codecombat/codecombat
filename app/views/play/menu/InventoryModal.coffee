@@ -363,7 +363,7 @@ module.exports = class InventoryModal extends ModalView
       @remainingRequiredEquipment = []
       @$el.find('.should-equip').removeClass('should-equip')
       inWorldMap = $('#world-map-view').length
-      if heroClass = @selectedHero?.get('heroClass')
+      if @supermodel.finished() and heroClass = @selectedHero?.get('heroClass')
         for slot, item of _.clone equipment
           itemModel = @items.findWhere original: item
           unless itemModel and heroClass in itemModel.classes
@@ -528,10 +528,11 @@ module.exports = class InventoryModal extends ModalView
 
   #- Paper doll equipment updating
   onEquipmentChanged: ->
+    equipment = @getCurrentEquipmentConfig()
+    return unless _.size(equipment) and @supermodel.finished()
     @removeDollImages()
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
-    equipment = @getCurrentEquipmentConfig()
     slotsWithImages = []
     for slot, original of equipment
       item = _.find @items.models, (item) -> item.get('original') is original
@@ -541,6 +542,8 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
+
+    @equipment = @options.equipment = equipment
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()
