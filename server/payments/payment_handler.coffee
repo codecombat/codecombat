@@ -56,6 +56,9 @@ PaymentHandler = class PaymentHandler extends Handler
     payment
 
   post: (req, res) ->
+    if (not req.user) or req.user.isAnonymous()
+      return @sendForbiddenError(res)
+    
     appleReceipt = req.body.apple?.rawReceipt
     appleTransactionID = req.body.apple?.transactionID
     appleLocalPrice = req.body.apple?.localPrice

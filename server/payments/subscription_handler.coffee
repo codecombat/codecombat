@@ -16,6 +16,9 @@ class SubscriptionHandler extends Handler
     console.warn "Subscription Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
 
   subscribeUser: (req, user, done) ->
+    if (not req.user) or req.user.isAnonymous()
+      return done({res: 'You must be signed in to subscribe.', code: 403})
+
     stripeToken = req.body.stripe?.token
     extantCustomerID = user.get('stripe')?.customerID
     if not (stripeToken or extantCustomerID)

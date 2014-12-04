@@ -13,7 +13,7 @@ block content
   if subscribed
     button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
     .payment-status(data-i18n="account.status_subscribed")
-  else
+  else if !me.isAnonymous()
     button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe") Subscribe
     if active
       .payment-status(data-i18n="account.status_unsubscribed_active")
