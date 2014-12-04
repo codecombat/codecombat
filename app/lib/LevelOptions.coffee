@@ -216,80 +216,80 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     lockDefaultCode: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'thornbush-farm':
     hidesCodeToolbar: true
     lockDefaultCode: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
     requiredCode: ['topEnemy']
   'back-to-back':
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'ogre-encampment':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'simple-sword', 'left-hand': 'wooden-shield'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'woodland-cleaver':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'wooden-shield', wrists: 'sundial-wristwatch', feet: 'leather-boots'}
-    restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'shield-rush':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-    restrictedGear: {'left-hand': 'wooden-shield'}
+    restrictedGear: {'left-hand': 'wooden-shield', 'programming-book': 'programmaticon-i'}
 
   # Warrior branch
   'peasant-protection':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-    restrictedGear: {eyes: 'crude-glasses'}
+    restrictedGear: {eyes: 'crude-glasses', 'programming-book': 'programmaticon-i'}
   'munchkin-swarm':
     requiredGear: {torso: 'tarnished-bronze-breastplate', waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-    restrictedGear: {}
+    restrictedGear: {'programming-book': 'programmaticon-i'}
 
   # Ranger branch
   'munchkin-harvest':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-    restrictedGear: {}
+    restrictedGear: {'programming-book': 'programmaticon-i'}
   'swift-dagger':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'crude-dagger', wrists: 'sundial-wristwatch'}
-    restrictedGear: {eyes: 'crude-glasses'}
+    restrictedGear: {eyes: 'crude-glasses', 'programming-book': 'programmaticon-i'}
     allowedHeroes: ['ninja', 'trapper', 'forest-archer']
   'shrapnel':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'weak-charge', wrists: 'sundial-wristwatch'}
-    restrictedGear: {eyes: 'crude-glasses', 'left-hand': 'crude-dagger'}
+    restrictedGear: {eyes: 'crude-glasses', 'left-hand': 'crude-dagger', 'programming-book': 'programmaticon-i'}
     allowedHeroes: ['ninja', 'trapper', 'forest-archer']
 
   # Wizard branch
   'arcane-ally':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
-    restrictedGear: {eyes: 'crude-glasses'}
+    restrictedGear: {eyes: 'crude-glasses', 'programming-book': 'programmaticon-i'}
   'touch-of-death':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'unholy-tome-i', wrists: 'sundial-wristwatch'}
-    restrictedGear: {}
+    restrictedGear: {'programming-book': 'programmaticon-i'}
     allowedHeroes: ['librarian', 'potion-master', 'sorcerer']
   'bonemender':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'book-of-life-i', wrists: 'sundial-wristwatch'}
-    restrictedGear: {'left-hand': 'unholy-tome-i'}
+    restrictedGear: {'left-hand': 'unholy-tome-i', 'programming-book': 'programmaticon-i'}
     requiredCode: ['canCast']
     allowedHeroes: ['librarian', 'potion-master', 'sorcerer']
 
   'coinucopia':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags'}
-    restrictedGear: {}
+    requiredGear: {'programming-book': 'programmaticon-ii', feet: 'leather-boots', flag: 'basic-flags'}
+    restrictedGear: {'programming-book': 'programmaticon-i'}
   'copper-meadows':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses'}
-    restrictedGear: {}
+    requiredGear: {'programming-book': 'programmaticon-ii', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses'}
+    restrictedGear: {'programming-book': 'programmaticon-i'}
   'drop-the-flag':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {'right-hand': 'long-sword'}
+    requiredGear: {'programming-book': 'programmaticon-ii', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {'right-hand': 'long-sword', 'programming-book': 'programmaticon-i'}
   'deadly-pursuit':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {'right-hand': 'long-sword'}
+    requiredGear: {'programming-book': 'programmaticon-ii', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', 'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {'right-hand': 'long-sword', 'programming-book': 'programmaticon-i'}
   'rich-forager':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield'}
-    restrictedGear: {'right-hand': 'crude-builders-hammer'}
+    requiredGear: {'programming-book': 'programmaticon-ii', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield'}
+    restrictedGear: {'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'multiplayer-treasure-grove':
-    requiredGear: {'programming-book': 'programmaticon-i', feet: 'leather-boots', 'programming-book': 'programmaticon-ii', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate'}
-    restrictedGear: {}
+    requiredGear: {'programming-book': 'programmaticon-ii', feet: 'leather-boots', flag: 'basic-flags', eyes: 'wooden-glasses', torso: 'tarnished-bronze-breastplate'}
+    restrictedGear: {'programming-book': 'programmaticon-i'}
   'siege-of-stonehold':
     requiredGear: {}
     restrictedGear: {}
