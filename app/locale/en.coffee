@@ -820,6 +820,9 @@
     service: "Service"
     price: "Price"
     gems: "Gems"
+    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
   loading_error:
     could_not_load: "Error loading from server"
