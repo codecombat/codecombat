@@ -17,7 +17,7 @@ module.exports = class PaymentsView extends RootView
 
   constructor: (options) ->
     super(options)
-    @payments = new CocoCollection([], { url: '/db/payment', model: Payment })
+    @payments = new CocoCollection([], { url: '/db/payment', model: Payment, comparator:'_id' })
     @supermodel.loadCollection(@payments, 'payments')
 
   getRenderData: ->
