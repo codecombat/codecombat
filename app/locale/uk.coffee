@@ -1,28 +1,28 @@
 module.exports = nativeDescription: "українська мова", englishDescription: "Ukrainian", translation:
   home:
     slogan: "Навчіться програмувати, граючи у гру"
-    no_ie: "На жаль, CodeCombat не працює в IE8 чи більш старих версіях!" # Warning that only shows up in IE8 and older
+    no_ie: "На жаль, CodeCombat не працює в IE8 та старіших версіях!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!" # Warning that shows up on mobile devices
     play: "Грати" # The big play button that just starts playing a level
-    old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "Вибачте, але ваш браузер занадто старий для гри CodeCombat" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Кампанія"
     for_beginners: "Для новачків"
     multiplayer: "Командна гра" # Not currently shown on home page
     for_developers: "Для розробників" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Або завантажте на iPad"
 
   nav:
     play: "Грати" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    community: "Спільнота"
     editor: "Редактор"
-    blog: "Блог"
+    blog: "Блоґ"
     forum: "Форум"
     account: "Акаунт"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    profile: "Профіль"
+    stats: "Статистика"
+    code: "Код"
     admin: "Адміністратор" # Only shows up when you are an admin
     home: "На головну"
     contribute: "Співпраця"
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     about: "Про нас"
     contact: "Контакти"
     twitter_follow: "Фоловити"
-#    teachers: "Teachers"
+    teachers: "Учителі"
 
   modal:
     close: "Закрити"
@@ -45,41 +45,41 @@ module.exports = nativeDescription: "українська мова", englishDesc
     pitch_body: "Ми створюємо CodeCombat англійською, але в нас вже є гравці по всьому світі. Багато хто з них хоче грати українською, але не говорить англійською, тому, якщо ви знаєте обидві мови, обміркуйте можливість стати Дипломатом і допомогти перекласти сайт CodeCombat та всі рівні українською."
     missing_translations: "Поки ми не переклали все українською, ви будете бачити англійський текст там, де українська ще недоступна."
     learn_more: "Дізнатися, як стати Дипломатом"
-    subscribe_as_diplomat: "Записатися в Дипломати"
+    subscribe_as_diplomat: "Записатись в Дипломати"
 
   play:
     play_as: "Грати як" # Ladder page
     spectate: "Спостерігати" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    players: "гравці" # Hover over a level on /play
+    hours_played: "годин зіграно" # Hover over a level on /play
+    items: "Предмети" # Tooltip on item shop button from /play
+    unlock: "Розблокувати" # For purchasing items and heroes
+    confirm: "Підтвердити"
+    owned: "у власності" # For items you own
+    locked: "Заблоковано"
+    purchasable: "Можна придбати" # For a hero you unlocked but haven't purchased
+    available: "Доступно"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
+    heroes: "Герої" # Tooltip on hero shop button from /play
+    achievements: "Досягнення" # Tooltip on achievement list button from /play
+    account: "Акаунт" # Tooltip on account button from /play
+    settings: "Налаштування" # Tooltip on settings button from /play
+    next: "Далі" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Змінити героя" # Go back from choose inventory to choose hero
+    choose_inventory: "Одягнути предмети"
 #    buy_gems: "Buy Gems"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Старі кампанії"
+    anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
     campaign_beginner: "Кампанія для початківців"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "Ми випускаємо 5 рівнів на тиждень."
+    awaiting_levels_adventurer: "Увійди як Шукач пригод"
+    awaiting_levels_adventurer_suffix: "стань перших хто їх спробує."
     choose_your_level: "Оберіть свій рівень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Ви можете грати у будь-який рівень з наведених нижче або обговорювати рівні на "
     adventurer_forum: "форумі Шукачів пригод"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Стара кампанія для початківців"
     campaign_old_beginner_description: "... у якій ви навчитеся магії програмування."
     campaign_dev: "Випадкові складніші рівні"
     campaign_dev_description: "... в яких ви вивчите інтерфейс, одночасно роблячи щось складніше."
@@ -87,7 +87,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     campaign_multiplayer_description: "... в яких ви програмуєте віч-на-віч із іншими гравцями."
     campaign_player_created: "Рівні, створені гравцями"
     campaign_player_created_description: "... у яких ви змагаєтесь у креативності із вашими друзями-<a href=\"/contribute#artisan\">Архітекторами</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
+    campaign_classic_algorithms: "Класичні алгоритми"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
@@ -98,10 +98,10 @@ module.exports = nativeDescription: "українська мова", englishDesc
     logging_in: "Вхід в акаунт"
     log_out: "Вийти"
     recover: "відновити акаунт"
-#    authenticate_gplus: "Authenticate G+"
+    authenticate_gplus: "Авторизація G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    finishing: "Завершення"
 
   signup:
     create_account_title: "Створити акаунт, щоб зберегти прогрес"
@@ -118,22 +118,22 @@ module.exports = nativeDescription: "українська мова", englishDesc
   recover:
     recover_account_title: "Відновити акаунт"
     send_password: "Надіслати пароль відновлення"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Лист для відновлення надіслано."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Основна"
+    secondary: "Додаткова"
+    armor: "Броня"
+    accessories: "Прикраси"
+    misc: "Різне"
+    books: "Книги"
 
   common:
     loading: "Завантаження..."
     saving: "Збереження..."
     sending: "Надсилання..."
     send: "Надіслано"
-    cancel: "Відміна"
+    cancel: "Скасувати"
     save: "Зберегти"
     publish: "Опублікувати"
     create: "Створити"
@@ -142,18 +142,18 @@ module.exports = nativeDescription: "українська мова", englishDesc
     play: "Грати" # When used as an action verb, like "Play next level"
     retry: "Повтор"
     watch: "Стежити"
-    unwatch: "Нестежити"
-#    submit_patch: "Submit Patch"
+    unwatch: "Не стежити"
+    submit_patch: "Надіслати патч"
 
   general:
     and: "та"
     name: "Ім’я"
-#    date: "Date"
+    date: "Дата"
     body: "Тіло"
     version: "Версія"
     commit_msg: "Доручити повідомлення"
     version_history: "Історія"
-    version_history_for: "Версія історії для: "
+    version_history_for: "Історія версій для: "
     result: "Результат"
     results: "Результати"
     description: "Опис"
@@ -175,87 +175,87 @@ module.exports = nativeDescription: "українська мова", englishDesc
     medium: "Середній"
     hard: "Важкий"
     player: "Гравець"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Рівень" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "Секунда"
-    seconds: "Секунди"
+    seconds: "Секунд"
     minute: "Хвилина"
-    minutes: "Хвилини"
+    minutes: "Хвилин"
     hour: "Година"
-    hours: "Години"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+    hours: "Годин"
+    day: "день"
+    days: "днів"
+    week: "тиждень"
+    weeks: "тижнів"
+    month: "місяць"
+    months: "місяців"
+    year: "рік"
+    years: "років"
 
   play_level:
     done: "Готово"
     home: "На головну" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    level: "Рівень" # Like "Level: Dungeons of Kithgard"
+    skip: "Пропустити"
+    game_menu: "Ігрове меню"
     guide: "Посібник"
     restart: "Перезавантажити"
     goals: "Цілі"
-#    goal: "Goal"
-#    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
-#    failing: "Failing"
+    goal: "Ціль"
+    running: "Виконання..."
+    success: "Успішно!"
+    incomplete: "Незавершено"
+    timed_out: "Час очікування минува"
+    failing: "Невдало"
     action_timeline: "Лінія часу"
     click_to_select: "Клікніть на юніті, щоб обрати його."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "Мультиплеєр"
+    control_bar_join_game: "Приєднатись до гри"
+    reload: "Перезавантажити "
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
     victory_title_prefix: ""
     victory_title_suffix: " закінчено"
-    victory_sign_up: "Підписатися на оновлення"
+    victory_sign_up: "Підписатись на оновлення"
     victory_sign_up_poke: "Хочете отримувати останні новини на email? Створіть безкоштовний акаунт, і ми будемо тримати вас у курсі!"
     victory_rate_the_level: "Оцінити рівень: " # Only in old-style levels.
     victory_return_to_ladder: "Повернутись до таблиці рівнів"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Продовжити"
 #    victory_play_skip: "Skip Ahead"
     victory_play_next_level: "Наступний рівень"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_more_practice: "Більше практики"
+    victory_play_too_easy: "Надто легко"
+    victory_play_just_right: "Якраз добре"
+    victory_play_too_hard: "Надто складно"
+    victory_saving_progress: "Триває збереження прогресу"
     victory_go_home: "На головну" # Only in old-style levels.
     victory_review: "Розкажіть нам більше!" # Only in old-style levels.
     victory_hour_of_code_done: "Ви закінчили?"
-    victory_hour_of_code_done_yes: "Так, я закінчив свою Годину Коду!"
+    victory_hour_of_code_done_yes: "Так, я закінчив Годину Коду!"
     guide_title: "Посібник"
-    tome_minion_spells: "Закляття ваших міньонів" # Only in old-style levels.
-    tome_read_only_spells: "Закляття тільки для читання" # Only in old-style levels.
+    tome_minion_spells: "Заклинання ваших міньонів" # Only in old-style levels.
+    tome_read_only_spells: "Заклинання тільки для читання" # Only in old-style levels.
     tome_other_units: "Інші юніти" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
+    tome_cast_button_run: "Виконати"
+    tome_cast_button_running: "Виконання"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
+    tome_submit_button: "Надіслати"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
+    tome_select_method: "Оберіть метод"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Оберіть когось для "
-    tome_available_spells: "Доступні закляття"
-#    tome_your_skills: "Your Skills"
-#    tome_help: "Help"
-#    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    tome_available_spells: "Доступні заклинання"
+    tome_your_skills: "Ваші вміння"
+    tome_help: "Допомога"
+    tome_current_method: "Поточний метод"
+    hud_continue_short: "Продовжити"
+    code_saved: "Код збережено"
     skip_tutorial: "Пропустити (esc)"
-#    keyboard_shortcuts: "Key Shortcuts"
+    keyboard_shortcuts: "Клавіатурні скорочення"
     loading_ready: "Готово!"
-#    loading_start: "Start Level"
+    loading_start: "Розпочати рівень"
 #    problem_alert_title: "Fix Your Code"
     time_current: "Зараз:"
     time_total: "Найбільше:"
@@ -295,9 +295,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
     customize_wizard: "Налаштування персонажа"
 
   game_menu:
-#    inventory_tab: "Inventory"
+    inventory_tab: "Інвентар"
 #    save_load_tab: "Save/Load"
-#    options_tab: "Options"
+    options_tab: "Параметри"
 #    guide_tab: "Guide"
     multiplayer_tab: "Мультиплеєр"
 #    auth_tab: "Sign Up"
@@ -384,8 +384,8 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
-#    volume_label: "Volume"
-#    music_label: "Music"
+    volume_label: "Гучність"
+    music_label: "Музика"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
 #    autorun_description: "Control automatic code execution."
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    editor_config_level_language_description: "Define the programming language for this particular level."
 #    editor_config_default_language_label: "Default Programming Language"
 #    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
-    editor_config_keybindings_label: "Комбінаційї клавіш"
+    editor_config_keybindings_label: "Комбінації клавіш"
     editor_config_keybindings_default: "За замовчуванням (Ace)"
     editor_config_keybindings_description: "Додайте додаткові скорочення відомі Вам із загальних редакторів."
 #    editor_config_livecompletion_label: "Live Autocompletion"
@@ -423,13 +423,13 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    team: "Team"
 #    george_title: "CEO"
 #    george_blurb: "Businesser"
-#    scott_title: "Programmer"
+    scott_title: "Програміст"
 #    scott_blurb: "Reasonable One"
-#    nick_title: "Programmer"
+    nick_title: "Програміст"
 #    nick_blurb: "Motivation Guru"
-#    michael_title: "Programmer"
+    michael_title: "Програміст"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Programmer"
+    matt_title: "Програміст"
 #    matt_blurb: "Bicyclist"
 
   versions:
@@ -449,7 +449,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     forum_prefix: "Для будь-яких публичних обговорень, будь ласка, використовуйте "
     forum_page: "наш форум"
     forum_suffix: "."
-    send: "Надіслати фідбек"
+    send: "Надіслати відгук"
     contact_candidate: "Сконтактуватись з кандидатом" # Deprecated
     recruitment_reminder: "Використовуйте цю форму щоб перейти до кандидатів з котрими Ви б хотіли провести співбесіду. Пам‘ятайте, що CodeCombat знімає 18% ЗП за перший рік. Плата проводиться за наймом співробітника і підлягає відшкодуванню протягом 90 днів якщо,працівник не залишить роботу. Часткова зайнятість,дистанційна робота, та наймані працівники не оплачуються, так само як інтерни." # Deprecated
 
@@ -459,7 +459,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     autosave: "Зміни зберігаються автоматично"
     me_tab: "Я"
     picture_tab: "Аватар"
-#    upload_picture: "Upload a picture"
+    upload_picture: "Відвантажити зображення"
     password_tab: "Пароль"
     emails_tab: "Email-адреси"
     admin: "Aдмін"
@@ -473,7 +473,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
 #    email_any_notes: "Any Notifications"
 #    email_any_notes_description: "Disable to stop all activity notification emails."
-#    email_news: "News"
+    email_news: "Новини"
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
     contributor_emails: "Підписки за класами учасників"
@@ -493,12 +493,12 @@ module.exports = nativeDescription: "українська мова", englishDesc
     wizard_tab: "Персонаж"
     wizard_color: "Колір одягу персонажа"
 
-#  keyboard_shortcuts:
-#    keyboard_shortcuts: "Keyboard Shortcuts"
-#    space: "Space"
-#    enter: "Enter"
-#    escape: "Escape"
-#    shift: "Shift"
+  keyboard_shortcuts:
+    keyboard_shortcuts: "Клавіатурні скорочення"
+    space: "Пробіл"
+    enter: "Enter"
+    escape: "Escape"
+    shift: "Shift"
 #    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
@@ -551,15 +551,15 @@ module.exports = nativeDescription: "українська мова", englishDesc
     article_title: "Редактор статей"
     thang_title: "Редактор об'єктів"
     level_title: "Редактор рівнів"
-#    achievement_title: "Achievement Editor"
+    achievement_title: "Редактор досягнень"
     back: "Назад"
     revert: "Повернутись"
     revert_models: "Моделі повернення"
 #    pick_a_terrain: "Pick A Terrain"
 #    small: "Small"
 #    grassy: "Grassy"
-    fork_title: "Нова версія Форк"
-    fork_creating: "Створення Форк..."
+    fork_title: "Форк нової версії"
+    fork_creating: "Створення форку..."
 #    generate_terrain: "Generate Terrain"
     more: "Більше"
     wiki: "Wiki"
@@ -570,14 +570,13 @@ module.exports = nativeDescription: "українська мова", englishDesc
     level_tab_settings: "Налаштування"
     level_tab_components: "Компоненти"
     level_tab_systems: "Системи"
-#    level_tab_docs: "Documentation"
+    level_tab_docs: "Документація"
     level_tab_thangs_title: "Поточні об'єкти"
     level_tab_thangs_all: "Усі"
     level_tab_thangs_conditions: "Початковий статус"
     level_tab_thangs_add: "Додати об'єкти"
     delete: "Видалити"
-    duplicate: "Копіювати"
-#    rotate: "Rotate"
+    rotate: "Повернути"
     level_settings_title: "Налаштування"
     level_component_tab_title: "Поточні компоненти"
     level_component_btn_new: "Створити новий компонент"
@@ -773,33 +772,33 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    favorite_prefix: "Favorite language is "
 #    favorite_postfix: "."
 
-#  achievements:
+  achievements:
 #    last_earned: "Last Earned"
 #    amount_achieved: "Amount"
-#    achievement: "Achievement"
+    achievement: "Досягнення"
 #    category_contributor: "Contributor"
 #    category_ladder: "Ladder"
-#    category_level: "Level"
+    category_level: "Рівень"
 #    category_miscellaneous: "Miscellaneous"
-#    category_levels: "Levels"
+    category_levels: "Рівні"
 #    category_undefined: "Uncategorized"
 #    current_xp_prefix: ""
-#    current_xp_postfix: " in total"
+    current_xp_postfix: " загалом"
 #    new_xp_prefix: ""
 #    new_xp_postfix: " earned"
 #    left_xp_prefix: ""
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-#  account:
+  account:
 #    recently_played: "Recently Played"
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
-#    service_apple: "Apple"
-#    service_web: "Web"
+    service_apple: "Apple"
+    service_web: "Веб"
 #    paid_on: "Paid On"
-#    service: "Service"
-#    price: "Price"
+    service: "Сервіс"
+    price: "Ціна"
 #    gems: "Gems"
 
 #  loading_error:
@@ -815,34 +814,34 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    server_error: "Server error."
 #    unknown: "Unknown error."
 
-#  resources:
-#    sessions: "Sessions"
+  resources:
+    sessions: "Сесії"
 #    your_sessions: "Your Sessions"
-#    level: "Level"
+    level: "Рівень"
 #    social_network_apis: "Social Network APIs"
 #    facebook_status: "Facebook Status"
 #    facebook_friends: "Facebook Friends"
 #    facebook_friend_sessions: "Facebook Friend Sessions"
 #    gplus_friends: "G+ Friends"
 #    gplus_friend_sessions: "G+ Friend Sessions"
-#    leaderboard: "Leaderboard"
+    leaderboard: "Таблиця лідерів"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
-#    patches: "Patches"
+    patches: "Патчі"
 #    patched_model: "Source Document"
 #    model: "Model"
-#    system: "System"
-#    systems: "Systems"
+    system: "Система"
+    systems: "Системи"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
 #    thangs: "Thangs"
 #    level_session: "Your Session"
 #    opponent_session: "Opponent Session"
-#    article: "Article"
+    article: "Стаття"
 #    user_names: "User Names"
 #    thang_names: "Thang Names"
-#    files: "Files"
+    files: "Файли"
 #    top_simulators: "Top Simulators"
 #    source_document: "Source Document"
 #    document: "Document"
@@ -852,7 +851,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    user_remarks: "User Remarks"
-#    versions: "Versions"
+    versions: "Версії"
 #    items: "Items"
 #    heroes: "Heroes"
 #    wizard: "Wizard"
@@ -982,8 +981,8 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.
-#    edit_profile: "Edit Profile"
-#    done_editing: "Done Editing"
+    edit_profile: "Редагувати профіль"
+    done_editing: "Завершити редагування"
     profile_for_prefix: "Профіль для "
     profile_for_suffix: ""
 #    featured: "Featured"
@@ -994,8 +993,8 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    active: "Looking for interview offers now"
 #    inactive: "Not looking for offers right now"
 #    complete: "complete"
-#    next: "Next"
-#    next_city: "city?"
+    next: "Далі"
+    next_city: "місто?"
 #    next_country: "pick your country."
 #    next_name: "name?"
 #    next_short_description: "write a short description."
@@ -1019,9 +1018,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    basics_active_help: "Want interview offers right now?"
 #    basics_job_title: "Desired Job Title"
 #    basics_job_title_help: "What role are you looking for?"
-#    basics_city: "City"
+    basics_city: "Місто"
 #    basics_city_help: "City you want to work in (or live in now)."
-#    basics_country: "Country"
+    basics_country: "Країна"
 #    basics_country_help: "Country you want to work in (or live in now)."
 #    basics_visa: "US Work Status"
 #    basics_visa_help: "Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)"
@@ -1039,7 +1038,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    short_description_blurb: "Add a tagline to help an employer quickly learn more about you."
 #    short_description: "Tagline"
 #    short_description_help: "Who are you, and what are you looking for? 140 characters max."
-#    skills_header: "Skills"
+    skills_header: "Навички"
 #    skills_help: "Tag relevant developer skills in order of proficiency."
 #    long_description_header: "Describe your desired position"
 #    long_description_blurb: "Tell employers how awesome you are and what role you want."
@@ -1092,15 +1091,15 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    get_started: "Get Started"
 #    already_screened: "We've already technically screened all our candidates"
 #    filter_further: ", but you can also filter further:"
-#    filter_visa: "Visa"
+    filter_visa: "Visa"
 #    filter_visa_yes: "US Authorized"
 #    filter_visa_no: "Not Authorized"
 #    filter_education_top: "Top School"
 #    filter_education_other: "Other"
-#    filter_role_web_developer: "Web Developer"
-#    filter_role_software_developer: "Software Developer"
-#    filter_role_mobile_developer: "Mobile Developer"
-#    filter_experience: "Experience"
+    filter_role_web_developer: "веб-розробник"
+    filter_role_software_developer: "розробник програм"
+    filter_role_mobile_developer: "мобільний розробник"
+    filter_experience: "Досвід"
 #    filter_experience_senior: "Senior"
 #    filter_experience_junior: "Junior"
 #    filter_experience_recent_grad: "Recent Grad"
