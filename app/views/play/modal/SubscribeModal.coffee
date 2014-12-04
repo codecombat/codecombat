@@ -50,7 +50,7 @@ module.exports = class SubscribeModal extends ModalView
     @playSound 'menu-button-click'
     application.tracker?.trackEvent 'Started subscription purchase', {}
     stripeHandler.open({
-      description: $.i18n.t 'subscribe.stripe_description'
+      description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount
     })
 
