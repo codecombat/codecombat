@@ -197,3 +197,12 @@ describe '/db/user, editing stripe property', ->
           expect(user.get('stripe').subscriptionID).toBeUndefined()
           expect(user.get('stripe').planID).toBeUndefined()
           done()
+          
+  it "updates the customer's email when you change the user's email", (done) ->
+    joeData.email = 'newEmail@gmail.com'
+    request.put {uri: userURL, json: joeData }, (err, res, body) ->
+      f = -> stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
+        console.log 'customer?', customer
+        expect(customer.email).toBe('newEmail@gmail.com')
+        done()
+      setTimeout(f, 500) # bit of a race condition here, response returns before stripe has been updated

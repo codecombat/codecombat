@@ -15,7 +15,7 @@ module.exports.setup = (app) ->
         stripe.customers.retrieve invoice.customer, (err, customer) =>
           return res.send(500, '') if err
           
-          userID = customer.description
+          userID = customer.metadata.id
           User.findById userID, (err, user) =>
             return res.send(500, '') if err
             return res.send(200) if not user # just for the sake of testing...

@@ -25,7 +25,11 @@ class SubscriptionHandler extends Handler
     if stripeToken
       stripe.customers.create({
         card: stripeToken
-        description: req.user._id + ''
+        email: req.user.get('email')
+        metadata: {
+          id: req.user._id + ''
+          slug: req.user.get('slug')
+        }
       }).then(((customer) =>
           stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
           stripeInfo.customerID = customer.id

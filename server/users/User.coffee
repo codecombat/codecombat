@@ -6,6 +6,9 @@ mail = require '../commons/mail'
 log = require 'winston'
 plugins = require '../plugins/plugins'
 
+config = require '../../server_config'
+stripe = require('stripe')(config.stripe.secretKey)
+
 sendwithus = require '../sendwithus'
 delighted = require '../delighted'
 
@@ -76,12 +79,17 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
   return emails[newName]?.enabled
 
-UserSchema.statics.updateMailChimp = (doc, callback) ->
+UserSchema.statics.updateServiceSettings = (doc, callback) ->
   return callback?() unless isProduction or GLOBAL.testing
   return callback?() if doc.updatedMailChimp
   return callback?() unless doc.get('email')
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
+  
+  if emailChanged and customerID = doc.get('stripe')?.customerID
+    stripe.customers.update customerID, {email:doc.get('email')}, (err, customer) ->
+      console.error('Error updating stripe customer...', err) if err
+  
   return callback?() unless emailChanged or doc.newsSubsChanged
 
   newGroups = []
@@ -184,7 +192,7 @@ UserSchema.pre('save', (next) ->
 
 UserSchema.post 'save', (doc) ->
   doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
-  UserSchema.statics.updateMailChimp(doc)
+  UserSchema.statics.updateServiceSettings(doc)
 
 UserSchema.post 'init', (doc) ->
   doc.startingEmails = _.cloneDeep(doc.get('emails'))
