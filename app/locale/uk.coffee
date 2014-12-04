@@ -772,7 +772,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    favorite_prefix: "Favorite language is "
 #    favorite_postfix: "."
 
-achievements:
+  achievements:
 #    last_earned: "Last Earned"
 #    amount_achieved: "Amount"
     achievement: "Досягнення"
@@ -790,7 +790,7 @@ achievements:
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-account:
+  account:
 #    recently_played: "Recently Played"
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
@@ -814,7 +814,7 @@ account:
 #    server_error: "Server error."
 #    unknown: "Unknown error."
 
-resources:
+  resources:
     sessions: "Сесії"
 #    your_sessions: "Your Sessions"
     level: "Рівень"
