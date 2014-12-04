@@ -103,7 +103,7 @@ _.extend UserSchema.properties,
   emailHash: {type: 'string'}
 
   #Internationalization stuff
-  preferredLanguage: {type: 'string', 'enum': c.getLanguageCodeArray()}
+  preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
