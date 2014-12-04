@@ -4,6 +4,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     no_ie: "CodeCombat nie działa na Internet Explorer 8 lub starszym. Przepraszamy!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat nie został zaprojektowany dla urządzeń przenośnych więc może nie działać!" # Warning that shows up on mobile devices
     play: "Graj" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Wygląda na to, że twoja przeglądarka jest zbyt stara, by obsłużyć CodeCombat. Wybacz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Możesz spróbowac mimo tego, ale prawdopodobnie gra nie będzie działać."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Poziom trudności: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     campaign_player_created_description: "... w których walczysz przeciwko dziełom <a href=\"/contribute#artisan\">Czarodziejów Rzemieślników</a>"
     campaign_classic_algorithms: "Algorytmy klasyczne"
     campaign_classic_algorithms_description: "... gdzie nauczysz się najpopularniejszych alogrytmów w Informatyce."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Stwórz konto"
@@ -331,6 +335,21 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +820,9 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -886,6 +908,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   legal:
     page_title: "Nota prawna"
     opensource_intro: "CodeCombat jest całkowicie darmowe i całkowicie open source."
+#    opensource_intro_2: "CodeCombat completely open source."
     opensource_description_prefix: "Zajrzyj na "
     github_url: "nasz GitHub"
     opensource_description_center: "i pomóż, jeśli tylko masz ochotę! CodeCombat bazuje na dziesiątkach projektów open source - kochamy je wszystkie. Wpadnij na "
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     practices_title: "Ludzkim językiem"
     practices_description: "Oto nasze obietnice wobec ciebie, gracza, wyrażone po polsku, bez prawniczego żargonu."
     privacy_title: "Prywatność"
-    privacy_description: "Nie będziemy sprzedawać żadnych z twoich prywatnych informacji. Planujemy w pewnym momencie zarobić trochę pieniędzy dzięki rekrutacjom, ale możesz spać spokojnie - nie będziemy rozpowszechniać twoich osobistych informacji zainteresowanym firmom bez twojej jednoznacznej zgody."
+#    privacy_description_2: "We will not sell any of your personal information."
     security_title: "Bezpieczeństwo"
     security_description: "Z całych sił staramy się zabezpieczyć twoje prywatne informacje. Jako że jesteśmy projektem open source, każdy może sprawdzić i ulepszyć nasz system zabezpieczeń."
     email_title: "E-mail"
@@ -903,12 +926,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     email_description_suffix: "lub poprzez linki w e-mailach, które wysyłamy, możesz zmienić swoje ustawienia i w prosty sposób wypisać się z subskrypcji w dowolnym momencie."
     cost_title: "Koszty"
     cost_description: "W tym momencie CodeCombat jest w stu procentach darmowe! Jednym z naszych głównych celów jest, by utrzymać taki stan rzeczy, aby jak najwięcej ludzi miało dostęp do gry, bez względu na ich zasobność. Jeśli nadejdą gorsze dni, dopuszczamy możliwość wprowadzenia płatnych subskrypcji lub pobierania opłat za część zawartości, ale wolelibyśmy, by tak się nie stało. Przy odrobinie szczęścia, uda nam się podtrzymać obecną sytuację dzięki:"
-    recruitment_title: "Rekrutacji"
-    recruitment_description_prefix: "Dzięki CodeCombat, staniesz się potężnym czarodziejem - nie tylko w grze, ale również w prawdziwym życiu."
-    url_hire_programmers: "Firmy nie nadążają z zatrudnianiem programistów"
-    recruitment_description_suffix: "więc kiedy tylko odpowiednio się wyszkolisz i wyrazisz zgodę, zaprezentujemy twoje programistyczne dokonania tysiącom pracodawców tylko czekających, by dać ci pracę. Oni płacą nam trochę, tobie"
-    recruitment_description_italic: "dużo"
-    recruitment_description_ending: "strona pozostaje darmowa i wszyscy są szczęśliwi. Tak wygląda plan."
+#    cost_description_2: "CodeCombat is free to play in the dungeon campaign, with a $9.99/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Prawa autorskie i licencje"
     contributor_title: "Umowa licencyjna dla współtwórców (CLA)"
     contributor_description_prefix: "Wszyscy współtwórcy, zarówno ci ze strony jak i ci z GitHuba, podlegają naszemu"

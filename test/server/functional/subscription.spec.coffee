@@ -91,6 +91,14 @@ describe '/db/user, editing stripe property', ->
       throw err if err
       done()
 
+  it 'denies anonymous users trying to subscribe', (done) ->
+    request.get getURL('/auth/whoami'), (err, res, body) ->
+      body = JSON.parse(body)
+      body.stripe = { planID: 'basic', token: '12345' }
+      request.put {uri: userURL, json: body}, (err, res, body) ->
+        expect(res.statusCode).toBe 403
+        done()
+
   #- shared data between tests
   joeData = null
   firstSubscriptionID = null
@@ -202,7 +210,6 @@ describe '/db/user, editing stripe property', ->
     joeData.email = 'newEmail@gmail.com'
     request.put {uri: userURL, json: joeData }, (err, res, body) ->
       f = -> stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
-        console.log 'customer?', customer
         expect(customer.email).toBe('newEmail@gmail.com')
         done()
       setTimeout(f, 500) # bit of a race condition here, response returns before stripe has been updated

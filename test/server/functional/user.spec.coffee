@@ -28,7 +28,7 @@ describe 'Server user object', ->
     expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
     done()
 
-describe 'User.updateMailChimp', ->
+describe 'User.updateServiceSettings', ->
   makeMC = (callback) ->
     GLOBAL.mc =
       lists:
@@ -40,7 +40,7 @@ describe 'User.updateMailChimp', ->
       done()
 
     user = new User({emailSubscriptions: ['announcement'], email: 'tester@gmail.com'})
-    User.updateMailChimp(user)
+    User.updateServiceSettings(user)
 
 describe 'POST /db/user', ->
 
@@ -342,7 +342,7 @@ describe 'Statistics', ->
     session = new LevelSession
       name: 'Beat Gandalf'
       permissions: simplePermissions
-      state: completed: true
+      state: complete: true
 
     unittest.getNormalJoe (joe) ->
       expect(joe.get 'stats.gamesCompleted').toBeUndefined()

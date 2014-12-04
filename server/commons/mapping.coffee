@@ -1,4 +1,5 @@
 module.exports.handlers =
+  'analytics_users_active': 'analytics/analytics_users_active_handler'
   'article': 'articles/article_handler'
   'level': 'levels/level_handler'
   'level_component': 'levels/components/level_component_handler'

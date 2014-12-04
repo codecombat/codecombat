@@ -249,6 +249,7 @@ module.exports = LevelOptions =
   'munchkin-harvest':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {'programming-book': 'programmaticon-i'}
+    allowedHeroes: ['captain', 'knight', 'samurai']
   'swift-dagger':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'crude-crossbow', 'left-hand': 'crude-dagger', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses', 'programming-book': 'programmaticon-i'}
@@ -262,6 +263,7 @@ module.exports = LevelOptions =
   'arcane-ally':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'long-sword', 'left-hand': 'bronze-shield', wrists: 'sundial-wristwatch'}
     restrictedGear: {eyes: 'crude-glasses', 'programming-book': 'programmaticon-i'}
+    allowedHeroes: ['captain', 'knight', 'samurai']
   'touch-of-death':
     requiredGear: {waist: 'leather-belt', 'programming-book': 'programmaticon-ii', eyes: 'wooden-glasses', 'right-hand': 'enchanted-stick', 'left-hand': 'unholy-tome-i', wrists: 'sundial-wristwatch'}
     restrictedGear: {'programming-book': 'programmaticon-i'}

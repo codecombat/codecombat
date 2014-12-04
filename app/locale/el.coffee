@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     no_ie: "Το CodeCombat δεν τρέχει σε Internet Explorer 9 ή παλαιότερη έκδοση. Συγνώμη!" # Warning that only shows up in IE8 and older
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!" # Warning that shows up on mobile devices
     play: "Παίξε" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξει το CodeCombat. Συγνώμη!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Μπορείτε να δοκιμάσετε, αλλά πιθανότατα να μην λειτουργήσει."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
     choose_inventory: "Εξοπλίσου με Αντικείμενα"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
     older_campaigns: "Παλαιότερες Εκστρατείες"
     anonymous: "Ανώνυμοι Παίκτες"
     level_difficulty: "Δυσκολία: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     campaign_player_created_description: "... στην οποία μάχεστε ενάντια στην δημιουργικότητα των συναδέλφων <a href=\"/contribute#artisan\">Τεχνιτών Μάγων</a>."
     campaign_classic_algorithms: "Κλασσικοί Αλγόριθμοι"
     campaign_classic_algorithms_description: "... στο οποίο μαθαίνετε του πιο δημοφιλής αλγορίθμους της Επιστήμης της Πληροφορικής."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Δημιουργία Λογαριασμού"
@@ -331,6 +335,21 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +820,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -886,6 +908,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is free to play and completely open source."
+#    opensource_intro_2: "CodeCombat completely open source."
 #    opensource_description_prefix: "Check out "
 #    github_url: "our GitHub"
 #    opensource_description_center: "and help out if you like! CodeCombat is built on dozens of open source projects, and we love them. See "
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    practices_title: "Respectful Best Practices"
 #    practices_description: "These are our promises to you, the player, in slightly less legalese."
 #    privacy_title: "Privacy"
-#    privacy_description: "We will not sell any of your personal information. We intend to make money through recruitment eventually, but rest assured we will not distribute your personal information to interested companies without your explicit consent."
+#    privacy_description_2: "We will not sell any of your personal information."
 #    security_title: "Security"
 #    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
 #    email_title: "Email"
@@ -903,12 +926,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
 #    cost_description: "Currently, CodeCombat is 100% free! One of our main goals is to keep it that way, so that as many people can play as possible, regardless of place in life. If the sky darkens, we might have to charge subscriptions or for some content, but we'd rather not. With any luck, we'll be able to sustain the company with:"
-#    recruitment_title: "Recruitment"
-#    recruitment_description_prefix: "Here on CodeCombat, you're going to become a powerful wizard–not just in the game, but also in real life."
-#    url_hire_programmers: "No one can hire programmers fast enough"
-#    recruitment_description_suffix: "so once you've sharpened your skills and if you agree, we will demo your best coding accomplishments to the thousands of employers who are drooling for the chance to hire you. They pay us a little, they pay you"
-#    recruitment_description_italic: "a lot"
-#    recruitment_description_ending: "the site remains free and everybody's happy. That's the plan."
+#    cost_description_2: "CodeCombat is free to play in the dungeon campaign, with a $9.99/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

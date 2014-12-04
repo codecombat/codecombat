@@ -68,12 +68,17 @@
               span= visibleHero.name
               span.spl(data-i18n="inventory.restricted_title") Restricted
             span.spr(data-i18n="choose_hero.restricted_to_certain_heroes") Only certain heroes can play this level.
+          button.btn.disabled.btn-illustrated#restricted-hero-button(data-i18n="inventory.restricted_title") Restricted
   
         else if visibleHero.purchasable
           #purchasable-hero-explanation
             h2(data-i18n="choose_hero.available_for_purchase") Available for Purchase
           button.btn.unlock-button#purchase-hero-button
             span.spr(data-i18n="play.unlock") Unlock
+            - if(!visibleHero.get('gems')) {
+            -   console.error('Huh, we loaded the hero with no gem cost.');
+            -   visibleHero.set('gems', {ninja: 400, librarian: 400}[visibleHero.get('slug')] || 1000);
+            - }
             span= visibleHero.get('gems')
             span.gem.gem-20
   

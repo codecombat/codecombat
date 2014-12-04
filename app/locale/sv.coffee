@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     no_ie: "CodeCombat fungerar tyvärr inte i IE8 eller äldre." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat är inte designat för mobila enhter och fungerar kanske inte!" # Warning that shows up on mobile devices
     play: "Spela" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Oj då, din webbläsare är för gammal för att köra CodeCombat. Förlåt!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kan försöka ändå, men det kommer nog inte fungera."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -50,29 +51,34 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   play:
     play_as: "Spela som " # Ladder page
     spectate: "Titta på" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    players: "spelare" # Hover over a level on /play
+    hours_played: "timmar spelade" # Hover over a level on /play
+    items: "Föremål" # Tooltip on item shop button from /play
+    unlock: "Lås upp" # For purchasing items and heroes
+    confirm: "Bekräfta"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    locked: "Låst"
+    purchasable: "Till salu" # For a hero you unlocked but haven't purchased
+    available: "Tillgänglig"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "Hjältar" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    account: "Konto" # Tooltip on account button from /play
+    settings: "Inställningar" # Tooltip on settings button from /play
+    next: "Nästa" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Byt Hjälte" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Köp ädelstenar"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "Anonym Spelare"
     level_difficulty: "Svårighetsgrad: "
     campaign_beginner: "Nybörjarkampanj"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer_prefix: "Vi släpper fem nya nivåer varje vecka."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Välj din nivå" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     campaign_player_created_description: "... i vilken du tävlar mot kreativiteten hos  andra <a href=\"/contribute#artisan\">Hantverkare</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Skapa konto"
@@ -118,7 +122,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   recover:
     recover_account_title: "Återskapa ditt konto"
     send_password: "Skicka återskapningslösenord"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Återskapningslösenord skickat."
 
 #  items:
 #    primary: "Primary"
@@ -140,7 +144,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     manual: "Manuellt"
     fork: "Förgrena"
     play: "Spela" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
+    retry: "Försök igen"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
@@ -148,7 +152,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   general:
     and: "och"
     name: "Namn"
-#    date: "Date"
+    date: "Datum"
     body: "Kropp"
     version: "Version"
     commit_msg: "Förbindelsemeddelande"
@@ -158,7 +162,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     results: "Resultat"
     description: "Beskrivning"
     or: "eller"
-#    subject: "Subject"
+    subject: "Ämne"
     email: "E-post"
     password: "Lösenord"
     message: "Meddelande"
@@ -174,7 +178,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     easy: "Lätt"
     medium: "Medium"
     hard: "Svår"
-#    player: "Player"
+    player: "Spelare"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
@@ -198,11 +202,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     home: "Hem" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
 #    skip: "Skip"
-#    game_menu: "Game Menu"
+    game_menu: "Spelmeny"
     guide: "Guide"
     restart: "Börja om"
     goals: "Mål"
-#    goal: "Goal"
+    goal: "Mål"
 #    running: "Running..."
 #    success: "Success!"
 #    incomplete: "Incomplete"
@@ -295,13 +299,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     customize_wizard: "Skräddarsy trollkarl"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    inventory_tab: "Utrustning"
+    save_load_tab: "Spara/Ladda"
+    options_tab: "Inställningar"
+    guide_tab: "Guide"
     multiplayer_tab: "Flerspelareläge"
-#    auth_tab: "Sign Up"
-#    inventory_caption: "Equip your hero"
+    auth_tab: "Registrera dig"
+    inventory_caption: "Utrusta din hjälte"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
@@ -331,6 +335,21 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +820,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -886,6 +908,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   legal:
     page_title: "Juridik"
     opensource_intro: "CodeCombat är gratis att spela och helt öppen programvara."
+#    opensource_intro_2: "CodeCombat completely open source."
     opensource_description_prefix: "Spana in "
     github_url: "vår GitHub"
     opensource_description_center: " och hjälp till om du vill! CodeCombat är byggt på dussintals projekt med öppen källkod, och vi älskar dem. Se "
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     practices_title: "Respektfulla \"best practices\""
     practices_description: "Dessa är våra löften till dig, spelaren, på lite mindre juristspråk."
     privacy_title: "Integritet"
-    privacy_description: "Vi kommer inte att sälja någon av din personliga information. Vi har för avsikt att tjäna pengar genom rekrytering så småningom, men var så säker på att vi inte kommer att distribuera din personliga information till intresserade företag utan ditt explicita samtycke."
+#    privacy_description_2: "We will not sell any of your personal information."
     security_title: "Säkerhet"
     security_description: "Vi strävar efter att hålla din personliga information säker. Eftersom vår källkod är öppen är vår det fritt fram för vem som helst att granska och förbättra våra säkerhetssystem."
     email_title: "Email"
@@ -903,12 +926,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     email_description_suffix: "eller genom länkar i mailen vi skickar kan du ändra dina inställningar och lätt avprenumerera när som helst."
     cost_title: "Kostnad"
     cost_description: "För närvarande är CodeCombat 100 % gratis! Ett av våra främsta mål är att behålla det så, så att så många som möjligt kan spela, oavsett plats i livet. Om himlen mörknar, kanske vi behöver ta betalt för prenumerationer eller något innehåll, men helst slipper vi det. Med lite tur lyckas vi hålla liv i företag med:"
-    recruitment_title: "Rekrytering"
-    recruitment_description_prefix: "Här på CodeCombat kommer du att bli en mäktig trollkarl - inte bara i spelet, utan också i verkliga livet."
-    url_hire_programmers: "Ingen kan anställa programmerare tillräckligt snabbt"
-    recruitment_description_suffix: "så när du har vässat dina kunskaper, och om du godkänner, kommer vi att demonstrera dina största kodbedrifter för de tusentals arbetsgivare som dreglar över chansen att anställa dig. De betalar oss lite, de betalar dig"
-    recruitment_description_italic: "mycket"
-    recruitment_description_ending: "sajten fortsätter vara gratis och alla är nöjda. Det är planen."
+#    cost_description_2: "CodeCombat is free to play in the dungeon campaign, with a $9.99/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Upphovsrätt och licenser"
     contributor_title: "Överenskommelse för bidragarlicens"
     contributor_description_prefix: "Alla bidrag, både på sajten och på vårt GitHub-repo, faller under vår"

@@ -20,13 +20,13 @@ module.exports = class LevelSetupManager extends CocoClass
       @fillSessionWithDefaults()
     else
       @loadSession()
-    @loadModals()
 
   loadSession: ->
     url = "/db/level/#{@options.levelID}/session"
     #url += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
     @session = new LevelSession().setURL url
     onSessionSync = ->
+      return if @destroyed
       @session.url = -> '/db/level.session/' + @id
       @fillSessionWithDefaults()
     @listenToOnce @session, 'sync', onSessionSync
@@ -37,6 +37,7 @@ module.exports = class LevelSetupManager extends CocoClass
   fillSessionWithDefaults: ->
     heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
     @session.set('heroConfig', heroConfig)
+    @loadModals()
 
   loadModals: ->
     # build modals and prevent them from disappearing.
@@ -49,8 +50,13 @@ module.exports = class LevelSetupManager extends CocoClass
     @listenToOnce @heroesModal, 'hero-loaded', @onceHeroLoaded
     @listenTo @inventoryModal, 'choose-hero-click', @onChooseHeroClicked
     @listenTo @inventoryModal, 'play-click', @onInventoryModalPlayClicked
+    @modalsLoaded = true
+    if @waitingToOpen
+      @waitingToOpen = false
+      @open()
 
   open: ->
+    return @waitingToOpen = true unless @modalsLoaded
     firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal
     if (not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
         not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? []))
@@ -70,7 +76,7 @@ module.exports = class LevelSetupManager extends CocoClass
   #- Modal events
 
   onceHeroLoaded: (e) ->
-    @inventoryModal.setHero(e.hero)
+    @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
     @options.parent.openModalView(@inventoryModal)
@@ -99,6 +105,6 @@ module.exports = class LevelSetupManager extends CocoClass
     }
 
   destroy: ->
-    @heroesModalDestroy.call @heroesModal unless @heroesModal.destroyed
-    @inventoryModalDestroy.call @inventoryModal unless @inventoryModal.destroyed
+    @heroesModalDestroy?.call @heroesModal unless @heroesModal?.destroyed
+    @inventoryModalDestroy?.call @inventoryModal unless @inventoryModal?.destroyed
     super()

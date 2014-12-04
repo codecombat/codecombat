@@ -54,9 +54,10 @@ PurchaseHandler = class PurchaseHandler extends Handler
           
         else
           super(req, res)
-    
+
   onPostSuccess: (req) ->
     @addPurchaseToUser(req)
+    req.user?.saveActiveUser 'purchase'
 
   addPurchaseToUser: (req) ->
     user = req.user
@@ -80,7 +81,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
       spent = hadSpent = user.get('spent') ? 0
       spent += item.get('gems')
       user.set('spent', spent)
-      
+
       user.save()
- 
+
 module.exports = new PurchaseHandler()

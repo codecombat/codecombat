@@ -56,6 +56,9 @@ PaymentHandler = class PaymentHandler extends Handler
     payment
 
   post: (req, res) ->
+    if (not req.user) or req.user.isAnonymous()
+      return @sendForbiddenError(res)
+    
     appleReceipt = req.body.apple?.rawReceipt
     appleTransactionID = req.body.apple?.transactionID
     appleLocalPrice = req.body.apple?.localPrice
@@ -80,10 +83,13 @@ PaymentHandler = class PaymentHandler extends Handler
         @logPaymentError(req, 'Missing apple transaction id')
         return @sendBadInputError(res, 'Apple purchase? Need to specify which transaction.')
       @handleApplePaymentPost(req, res, appleReceipt, appleTransactionID, appleLocalPrice)
-
+      @onPostSuccess req
     else
       @handleStripePaymentPost(req, res, stripeTimestamp, productID, stripeToken)
+      @onPostSuccess req
 
+  onPostSuccess: (req) ->
+    req.user?.saveActiveUser 'payment'
 
   #- Apple payments
 

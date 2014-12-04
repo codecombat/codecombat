@@ -31,6 +31,12 @@ describe '/db/payment', ->
       done()
 
   describe 'posting Apple IAPs', ->
+    
+    it 'denies anonymous users trying to pay', (done) ->
+      request.get getURL('/auth/whoami'), ->
+        request.post {uri: paymentURL, json: firstApplePayment}, (err, res, body) ->
+          expect(res.statusCode).toBe 403
+          done()
       
     it 'creates a payment object and credits gems to the user', (done) ->
       loginJoe ->

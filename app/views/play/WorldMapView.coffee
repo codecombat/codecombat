@@ -120,7 +120,11 @@ module.exports = class WorldMapView extends RootView
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     if @requiresSubscription
       modal = if me.get('anonymous') then AuthModal else SubscribeModal
-      _.delay (=> @openModalView? new modal() unless window.currentModal), 2000
+      _.delay => 
+        @openModalView? new modal() unless window.currentModal
+        if modal is SubscribeModal
+          window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'world map loadded'
+      , 2000
 
   onSubscribed: ->
     @requiresSubscription = false
@@ -208,6 +212,8 @@ module.exports = class WorldMapView extends RootView
       if @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
         modal = if me.get('anonymous') then AuthModal else SubscribeModal
         @openModalView new modal()
+        if modal is SubscribeModal
+          window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked'
       else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return

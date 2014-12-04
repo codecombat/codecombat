@@ -173,3 +173,5 @@ module.exports =
 
   'level:hero-selection-updated': c.object {required: ['hero']},
     hero: {type: 'object'}
+
+  'level:subscription-required': c.object {}

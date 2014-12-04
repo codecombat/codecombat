@@ -4,6 +4,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_ie: "抱歉！ Internet Explorer 8 等旧式预览器无法使用本网站。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到最好的体验！" # Warning that shows up on mobile devices
     play: "开始游戏" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "你可以继续重试下去，但八成不起作用，更新浏览器吧亲～"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
     buy_gems: "购买宝石"
+    campaign_forest: "森林战役"
+    campaign_dungeon: "地牢战役"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
     older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
     campaign_classic_algorithms: "经典算法"
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
-    campaign_forest: "森林战役"
-    campaign_dungeon: "地牢战役"
 
   login:
     sign_up: "注册"
@@ -331,6 +335,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -801,6 +820,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
   loading_error:
     could_not_load: "载入失败"
@@ -886,6 +908,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   legal:
     page_title: "法律"
     opensource_intro: "CodeCombat 是一个自由发挥，完全开源的项目。"
+#    opensource_intro_2: "CodeCombat completely open source."
     opensource_description_prefix: "查看 "
     github_url: "我们的 GitHub"
     opensource_description_center: "并做你想做的修改吧！CodeCombat 是构筑在几十个开源项目之上的，我们爱它们。请查阅"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     practices_title: "尊重最佳实践"
     practices_description: "这是我们对您的承诺，即玩家，尽管这在法律用语中略显不足。"
     privacy_title: "隐私"
-    privacy_description: "我们不会出售您的任何个人信息。我们计划最终通过招聘来盈利，但请您放心，未经您的明确同意，我们不会将您的个人信息出售有兴趣的公司。"
+#    privacy_description_2: "We will not sell any of your personal information."
     security_title: "安全"
     security_description: "我们竭力保证您的个人信息安全性。作为一个开源项目，任何人都可以检讨并改善我们自由开放的网站的安全性。"
     email_title: "电子邮件"
@@ -903,12 +926,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_description_suffix: "或者我们发送的邮件中的链接，您可以随时更改您的偏好设置或者随时取消订阅。"
     cost_title: "花费"
     cost_description: "目前来说，CodeCombat 是完全免费的！我们的主要目标之一也是保持目前这种方式，让尽可能多的人玩得更好，不论是否是生活中。如果天空变暗，我们可能会对某些内容采取订阅收费，但我们宁愿不那么做。运气好的话，我们可以维持公司，通过："
-    recruitment_title: "招募"
-    recruitment_description_prefix: "在 CodeCombat 这里，你将得以成为一名法力强大的“巫师”，不只是在游戏中，更在生活中。"
-    url_hire_programmers: "没有人能以足够快速度招聘程序员，"
-    recruitment_description_suffix: "所以一旦你的技能成熟并且得到你的同意，我们将战士你的最佳编码成就给上万名雇主，希望他们垂涎欲滴。而他们支付给我们一点点报酬，并且付给你工资，"
-    recruitment_description_italic: "“一大笔”"
-    recruitment_description_ending: "。而这网站也就能保持免费，皆大欢喜。计划就是这样。"
+#    cost_description_2: "CodeCombat is free to play in the dungeon campaign, with a $9.99/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "版权与许可"
     contributor_title: "贡献者许可协议"
     contributor_description_prefix: "所有对本网站或是 GitHub 代码库的贡献都依照我们的"

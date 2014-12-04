@@ -112,6 +112,8 @@ module.exports = class LevelLoadingView extends CocoView
   onClickStartSubscription: (e) ->
     modal = if me.get('anonymous') then AuthModal else SubscribeModal
     @openModalView new modal()
+    if modal is SubscribeModal
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading'
 
   onSubscribed: ->
     document.location.reload()

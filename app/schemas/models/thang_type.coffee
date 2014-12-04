@@ -137,6 +137,7 @@ _.extend ThangTypeSchema.properties,
     head: { type: 'string', format: 'image-file', title: 'Head' }
     hair: { type: 'string', format: 'image-file', title: 'Hair' }
     thumb: { type: 'string', format: 'image-file', title: 'Thumb' }
+    wizardHand: { type: 'string', format: 'image-file', title: 'Wizard Hand' }
   dollImages: c.object { title: 'Paper Doll Images' },
     male: { type: 'string', format: 'image-file', title: ' Male' }
     female: { type: 'string', format: 'image-file', title: ' Female' }
@@ -145,7 +146,7 @@ _.extend ThangTypeSchema.properties,
     maleRanger: { type: 'string', format: 'image-file', title: 'Glove (Male Ranger)' }
     maleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male Ranger)' }
     femaleRanger: { type: 'string', format: 'image-file', title: 'Glove (Female Ranger)' }
-    femaleRangeThumbr: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
+    femaleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
     maleBack: { type: 'string', format: 'image-file', title: ' Male Back' }
     femaleBack: { type: 'string', format: 'image-file', title: ' Female Back' }
   colorGroups: c.object

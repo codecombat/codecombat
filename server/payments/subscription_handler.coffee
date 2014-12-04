@@ -16,6 +16,9 @@ class SubscriptionHandler extends Handler
     console.warn "Subscription Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
 
   subscribeUser: (req, user, done) ->
+    if (not req.user) or req.user.isAnonymous()
+      return done({res: 'You must be signed in to subscribe.', code: 403})
+
     stripeToken = req.body.stripe?.token
     extantCustomerID = user.get('stripe')?.customerID
     if not (stripeToken or extantCustomerID)
@@ -103,7 +106,6 @@ class SubscriptionHandler extends Handler
 
         @updateUser(req, user, customer.subscriptions.data[0], true, done)
 
-
   updateUser: (req, user, subscription, increment, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})
     stripeInfo.planID = 'basic'
@@ -123,8 +125,8 @@ class SubscriptionHandler extends Handler
       if err
         @logSubscriptionError(req, 'Stripe user plan saving error. '+err)
         return done({res: 'Database error.', code: 500})
+      req.user?.saveActiveUser 'subscribe'
       return done()
-
 
   unsubscribeUser: (req, user, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe'))
@@ -139,7 +141,7 @@ class SubscriptionHandler extends Handler
         if err
           @logSubscriptionError(req, 'User save unsubscribe error. '+err)
           return done({res: 'Database error.', code: 500})
+          req.user?.saveActiveUser 'unsubscribe'
         return done()
-
 
 module.exports = new SubscriptionHandler()

@@ -552,7 +552,7 @@ UserHandler = class UserHandler extends Handler
         usersTotal += 1
         userID = user.get('_id').toHexString()
 
-        LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
+        LevelSession.count {creator: userID, 'state.complete': true}, (err, count) ->
           update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
           User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 

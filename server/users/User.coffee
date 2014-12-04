@@ -5,6 +5,7 @@ crypto = require 'crypto'
 mail = require '../commons/mail'
 log = require 'winston'
 plugins = require '../plugins/plugins'
+AnalyticsUsersActive = require '../analytics/AnalyticsUsersActive'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -162,7 +163,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.methods.register = (done) ->
   @set('anonymous', false)
-  @set('permissions', ['admin']) if not isProduction
+  @set('permissions', ['admin']) if not isProduction and not GLOBAL.testing
   if (name = @get 'name')? and name isnt ''
     unconflictName name, (err, uniqueName) =>
       return done err if err
@@ -176,6 +177,38 @@ UserSchema.methods.register = (done) ->
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
   delighted.addDelightedUser @
+  @saveActiveUser 'register'
+
+UserSchema.statics.saveActiveUser = (id, event, done=null) ->
+  id = mongoose.Types.ObjectId id if _.isString id
+  @findById id, (err, user) ->
+    if err?
+      log.error err
+    else
+      user?.saveActiveUser event
+    done?()
+
+UserSchema.methods.saveActiveUser = (event, done=null) ->
+  try
+    return done?() if @isAdmin()
+    userID = @get('_id')
+    
+    # Create if no active user entry for today
+    today = new Date()
+    minDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
+    AnalyticsUsersActive.findOne({created: {$gte: minDate}, creator: mongoose.Types.ObjectId(userID)}).exec (err, activeUser) ->
+      if err?
+        log.error "saveActiveUser error retrieving active users: #{err}"
+      else if not activeUser
+        newActiveUser = new AnalyticsUsersActive()
+        newActiveUser.set 'creator', userID
+        newActiveUser.set 'event', event
+        newActiveUser.save (err) ->
+          log.error "Level session saveActiveUser error saving active user: #{err}" if err?
+      done?()
+  catch err
+    log.error err
+    done?()
 
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())
