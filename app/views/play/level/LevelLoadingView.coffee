@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
 utils = require 'core/utils'
 SubscribeModal = require 'views/play/modal/SubscribeModal'
+AuthModal = require 'views/core/AuthModal'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -109,7 +110,8 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.subscription-required').show()
 
   onClickStartSubscription: (e) ->
-    @openModalView new SubscribeModal()
+    modal = if me.get('anonymous') then AuthModal else SubscribeModal
+    @openModalView new modal()
 
   onSubscribed: ->
     document.location.reload()
