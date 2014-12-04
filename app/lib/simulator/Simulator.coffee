@@ -5,13 +5,6 @@ GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
 
-require 'vendor/aether-javascript'
-require 'vendor/aether-python'
-require 'vendor/aether-coffeescript'
-require 'vendor/aether-lua'
-require 'vendor/aether-clojure'
-require 'vendor/aether-io'
-
 module.exports = class Simulator extends CocoClass
   constructor: (@options) ->
     @options ?= {}
