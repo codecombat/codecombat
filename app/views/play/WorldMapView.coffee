@@ -205,7 +205,7 @@ module.exports = class WorldMapView extends RootView
       @adjustLevelInfoPosition e
       @endHighlight()
     else
-      if @requiresSubscription
+      if @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
         modal = if me.get('anonymous') then AuthModal else SubscribeModal
         @openModalView new modal()
       else if $(e.target).attr('disabled')
@@ -775,6 +775,7 @@ forest = [
       continue: 'touch-of-death'
     x: 47
     y: 71
+    adventurer: true
   }
   {
     name: 'Touch of Death'
@@ -786,6 +787,7 @@ forest = [
       continue: 'bonemender'
     x: 52
     y: 70
+    adventurer: true
   }
   {
     name: 'Bonemender'
@@ -797,6 +799,7 @@ forest = [
       continue: 'coinucopia'
     x: 58
     y: 67
+    adventurer: true
   }
 
   {
@@ -853,6 +856,7 @@ forest = [
       continue: 'multiplayer-treasure-grove'
     x: 80
     y: 88
+    adventurer: true
   }
   {
     name: 'Siege of Stonehold'
@@ -865,6 +869,7 @@ forest = [
     disabled: not me.isAdmin()
     x: 85.5
     y: 83.5
+    adventurer: true
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -874,6 +879,7 @@ forest = [
     description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
     x: 56.5
     y: 20
+    adventurer: true
   }
   {
     name: 'Dueling Grounds'
@@ -883,6 +889,7 @@ forest = [
     description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
     x: 83
     y: 23
+    adventurer: true
   }
 ]
 
