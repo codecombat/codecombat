@@ -152,7 +152,7 @@ module.exports = class AuthModal extends ModalView
         @renderGPlusAuthChecklist()
 
   renderGPlusAuthChecklist: ->
-    template = require 'templates/modal/auth-modal-gplus-checklist'
+    template = require 'templates/core/auth-modal-gplus-checklist'
     el = $(template({steps: @gplusAuthSteps}))
     el.i18n()
     @$el.find('.modal-body:visible').empty().append(el)
