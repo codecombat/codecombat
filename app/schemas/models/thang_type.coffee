@@ -137,6 +137,7 @@ _.extend ThangTypeSchema.properties,
     head: { type: 'string', format: 'image-file', title: 'Head' }
     hair: { type: 'string', format: 'image-file', title: 'Hair' }
     thumb: { type: 'string', format: 'image-file', title: 'Thumb' }
+    wizardHand: { type: 'string', format: 'image-file', title: 'Wizard Hand' }
   dollImages: c.object { title: 'Paper Doll Images' },
     male: { type: 'string', format: 'image-file', title: ' Male' }
     female: { type: 'string', format: 'image-file', title: ' Female' }
