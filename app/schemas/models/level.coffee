@@ -251,6 +251,7 @@ _.extend LevelSchema.properties,
   type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop'])
   terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
+  requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

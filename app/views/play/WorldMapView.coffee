@@ -9,6 +9,7 @@ ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
+SubscribeModal = require 'views/play/modal/SubscribeModal'
 
 trackedHourOfCode = false
 
@@ -23,6 +24,9 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class WorldMapView extends RootView
   id: 'world-map-view'
   template: template
+
+  subscriptions:
+    'subscribe-modal:subscribed': 'onSubscribed'
 
   events:
     'click .map-background': 'onClickMap'
@@ -77,6 +81,8 @@ module.exports = class WorldMapView extends RootView
       $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       trackedHourOfCode = true
 
+    @requiresSubscription = @terrain isnt 'dungeon' and not me.get('stripe')?.subscriptionID
+
   destroy: ->
     @setupManager?.destroy()
     $(window).off 'resize', @onWindowResize
@@ -112,6 +118,12 @@ module.exports = class WorldMapView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
+    if @requiresSubscription
+      _.delay (=> @openModalView? new SubscribeModal() unless window.currentModal), 2000
+
+  onSubscribed: ->
+    @requiresSubscription = false
+    @render()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -135,6 +147,7 @@ module.exports = class WorldMapView extends RootView
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
     context.forestIsAvailable = @startedForestLevel or '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
+    context.requiresSubscription = @requiresSubscription
     context
 
   afterRender: ->
@@ -145,7 +158,7 @@ module.exports = class WorldMapView extends RootView
       @$el.find('.level').tooltip()
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or not @fullyRendered
+    unless window.currentModal or not @fullyRendered or @requiresSubscription
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -182,20 +195,23 @@ module.exports = class WorldMapView extends RootView
     e.preventDefault()
     e.stopPropagation()
     @$levelInfo?.hide()
+    levelElement = $(e.target).parents('.level')
+    levelID = levelElement.data('level-id')
+    campaign = _.find campaigns, id: @terrain
+    level = _.find campaign.levels, id: levelID
     if application.isIPadApp
-      levelID = $(e.target).parents('.level').data('level-id')
       @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
       @adjustLevelInfoPosition e
       @endHighlight()
     else
-      if $(e.target).attr('disabled')
+      if @requiresSubscription
+        @openModalView new SubscribeModal()
+      else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return
       else if $(e.target).parent().hasClass 'locked'
         return
       else
-        levelElement = $(e.target).parents('.level')
-        levelID = levelElement.data('level-id')
         @startLevel levelElement
         window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelID, ['Google Analytics']
 
@@ -436,7 +452,6 @@ dungeon = [
   #  nextLevels:
   #    more_practice: 'descending-further'
   #    continue: 'the-second-kithmaze'
-  #    skip_ahead: 'dread-door'
   #}
   {
     name: 'Haunted Kithmaze'
@@ -449,7 +464,6 @@ dungeon = [
     nextLevels:
       more_practice: 'descending-further'
       continue: 'the-second-kithmaze'
-      skip_ahead: 'dread-door'
   }
   {
     name: 'Descending Further'
@@ -506,7 +520,6 @@ dungeon = [
     y: 46
     nextLevels:
       continue: 'lowly-kithmen'
-      skip_ahead: 'closing-the-distance'
   }
   {
     name: 'Lowly Kithmen'
@@ -518,7 +531,6 @@ dungeon = [
     y: 40
     nextLevels:
       continue: 'closing-the-distance'
-      skip_ahead: 'the-final-kithmaze'
   }
   {
     name: 'Closing the Distance'
@@ -585,7 +597,6 @@ dungeon = [
     id: 'cavern-survival'
     original: '544437e0645c0c0000c3291d'
     description: 'Stay alive longer than your opponent amidst hordes of ogres!'
-    disabled: not me.isAdmin()
     x: 17.54
     y: 78.39
   }
@@ -600,8 +611,8 @@ forest = [
     description: 'Protect the peasants from the pursuing ogres.'
     nextLevels:
       continue: 'winding-trail'
-    x: 32.63
-    y: 53.69
+    x: 18
+    y: 37
   }
   {
     name: 'Winding Trail'
@@ -611,8 +622,8 @@ forest = [
     description: 'Stay alive and navigate through the forest.'
     nextLevels:
       continue: 'endangered-burl'
-    x: 39.03
-    y: 54.97
+    x: 24
+    y: 35
   }
   {
     name: 'Endangered Burl'
@@ -622,8 +633,8 @@ forest = [
     description: 'Hunt ogres in the woods, but watch out for lumbering beasts.'
     nextLevels:
       continue: 'village-guard'
-    x: 41.09
-    y: 43.75
+    x: 29
+    y: 35
   }
   {
     name: 'Village Guard'
@@ -633,8 +644,8 @@ forest = [
     description: 'Defend a village from marauding munchkin mayhem.'
     nextLevels:
       continue: 'thornbush-farm'
-    x: 48.09
-    y: 42.75
+    x: 33
+    y: 37
   }
   {
     name: 'Thornbush Farm'
@@ -644,8 +655,8 @@ forest = [
     description: 'Determine refugee peasant from ogre when defending the farm.'
     nextLevels:
       continue: 'back-to-back'
-    x: 44.09
-    y: 57.75
+    x: 37
+    y: 40
   }
   {
     name: 'Back to Back'
@@ -655,8 +666,8 @@ forest = [
     description: 'Patrol the village entrances, but stay defensive.'
     nextLevels:
       continue: 'ogre-encampment'
-    x: 40.14
-    y: 63.96
+    x: 39
+    y: 47.5
   }
   {
     name: 'Ogre Encampment'
@@ -666,8 +677,8 @@ forest = [
     description: 'Recover stolen treasure from an ogre encampment.'
     nextLevels:
       continue: 'woodland-cleaver'
-    x: 46.48
-    y: 70.92
+    x: 39
+    y: 55
    }
   {
     name: 'Woodland Cleaver'
@@ -677,8 +688,8 @@ forest = [
     description: 'Use your new cleave ability to fend off munchkins.'
     nextLevels:
       continue: 'shield-rush'
-    x: 52.32
-    y: 70.80
+    x: 39.5
+    y: 61
    }
   {
     name: 'Shield Rush'
@@ -688,8 +699,8 @@ forest = [
     description: 'Combine cleave and shield to endure an ogre onslaught.'
     nextLevels:
       continue: 'peasant-protection'
-    x: 58.54
-    y: 66.73
+    x: 42
+    y: 68
   }
 
   # Warrior branch
@@ -701,8 +712,8 @@ forest = [
     description: 'Stay close to Victor.'
     nextLevels:
       continue: 'munchkin-swarm'
-    x: 64.37
-    y: 62.18
+    x: 44.5
+    y: 75.5
   }
   {
     name: 'Munchkin Swarm'
@@ -712,8 +723,8 @@ forest = [
     description: 'Loot a gigantic chest while surrounded by a swarm of ogre munchkins.'
     nextLevels:
       continue: 'coinucopia'
-    x: 71.19
-    y: 63.61
+    x: 49
+    y: 81
   }
 
   # Ranger branch
@@ -725,8 +736,8 @@ forest = [
     description: 'Join forces with a new hero: Amara Arrowhead.'
     nextLevels:
       continue: 'swift-dagger'
-    x: 64.37
-    y: 69.18
+    x: 38
+    y: 72
   }
   {
     name: 'Swift Dagger'
@@ -736,8 +747,8 @@ forest = [
     description: 'Deal damage from a distance with your new hero.'
     nextLevels:
       continue: 'shrapnel'
-    x: 66
-    y: 75.61
+    x: 33
+    y: 72
   }
   {
     name: 'Shrapnel'
@@ -747,8 +758,8 @@ forest = [
     description: 'Explore the explosive arts.'
     nextLevels:
       continue: 'coinucopia'
-    x: 67
-    y: 81
+    x: 28
+    y: 73
   }
 
   # Wizard branch
@@ -760,8 +771,8 @@ forest = [
     description: 'Stand your ground against large ogres with a new hero: Ms. Hushbaum.'
     nextLevels:
       continue: 'touch-of-death'
-    x: 64.37
-    y: 55.18
+    x: 47
+    y: 71
   }
   {
     name: 'Touch of Death'
@@ -771,8 +782,8 @@ forest = [
     description: 'Learn your first spell to siphon life from your foes.'
     nextLevels:
       continue: 'bonemender'
-    x: 65
-    y: 48
+    x: 52
+    y: 70
   }
   {
     name: 'Bonemender'
@@ -782,8 +793,8 @@ forest = [
     description: 'Cast regeneration on allied soldiers to withstand a siege.'
     nextLevels:
       continue: 'coinucopia'
-    x: 66
-    y: 40
+    x: 58
+    y: 67
   }
 
   {
@@ -794,8 +805,8 @@ forest = [
     description: 'Start playing in real-time with input flags as you collect gold coins!'
     nextLevels:
       continue: 'copper-meadows'
-    x: 77.54
-    y: 65.94
+    x: 56
+    y: 82
   }
   {
     name: 'Copper Meadows'
@@ -805,8 +816,8 @@ forest = [
     description: 'This level exercises: if/else, object members, variables, flag placement, and collection.'
     nextLevels:
       continue: 'drop-the-flag'
-    x: 77.54
-    y: 55.94
+    x: 60
+    y: 86
   }
   {
     name: 'Drop the Flag'
@@ -816,8 +827,8 @@ forest = [
     description: 'This level exercises: flag position, object members.'
     nextLevels:
       continue: 'deadly-pursuit'
-    x: 77.54
-    y: 45.94
+    x: 65.5
+    y: 91
   }
   {
     name: 'Deadly Pursuit'
@@ -827,8 +838,8 @@ forest = [
     description: 'This level exercises: if/else, flag placement and timing, item collection.'
     nextLevels:
       continue: 'rich-forager'
-    x: 77.54
-    y: 35.94
+    x: 74.5
+    y: 92
   }
   {
     name: 'Rich Forager'
@@ -838,8 +849,8 @@ forest = [
     description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
       continue: 'multiplayer-treasure-grove'
-    x: 77.54
-    y: 25.94
+    x: 80
+    y: 88
   }
   {
     name: 'Siege of Stonehold'
@@ -850,8 +861,8 @@ forest = [
     #nextLevels:
     #  continue: ''
     disabled: not me.isAdmin()
-    x: 83.87
-    y: 18.89
+    x: 85.5
+    y: 83.5
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -859,8 +870,8 @@ forest = [
     id: 'multiplayer-treasure-grove'
     original: '5469643c37600b40e0e09c5b'
     description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
-    x: 67.54
-    y: 25.94
+    x: 56.5
+    y: 20
   }
   {
     name: 'Dueling Grounds'
@@ -868,9 +879,8 @@ forest = [
     id: 'dueling-grounds'
     original: '5442ba0e1e835500007eb1c7'
     description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
-    disabled: not me.isAdmin()
-    x: 25.5
-    y: 77.5
+    x: 83
+    y: 23
   }
 ]
 

@@ -163,7 +163,11 @@ PaymentHandler = class PaymentHandler extends Handler
     if not req.user.get('stripe')?.customerID
       stripe.customers.create({
         card: token
-        description: req.user._id + ''
+        email: req.user.get('email')
+        metadata: {
+          id: req.user._id + ''
+          slug: req.user.get('slug')
+        }
       }).then(((customer) =>
         stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
         stripeInfo.customerID = customer.id

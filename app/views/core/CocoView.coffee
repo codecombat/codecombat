@@ -150,6 +150,7 @@ module.exports = class CocoView extends Backbone.View
   # Error handling for loading
   onResourceLoadFailed: (e) ->
     r = e.resource
+    return if r.jqxhr?.status is 402 # payment-required failures are handled separately
     if r.jqxhr?.status is 0
       r.retries ?= 0
       r.retries += 1

@@ -2,15 +2,15 @@
 # npm install -g cofmon
 # Then you can paste CoffeeScript into it.
 
-nDays = 1
-dayOffset = 0.3
+nDays = 3
+dayOffset = 0.2
 now = new Date()
 startDate = new Date(now - 86400 * 1000 * (nDays + dayOffset))
 endDate =   new Date(now - 86400 * 1000 * dayOffset)
 
-users = db.users.find({dateCreated: {$gt: startDate, $lt: endDate}}, {_id: 1, name: 1, testGroupNumber: 1}).toArray()
+users = db.users.find({dateCreated: {$gt: startDate, $lt: endDate}}, {_id: 1, name: 1, testGroupNumber: 1, email: true}).toArray()
 goodUsers = []
-for user in users
+for user in users when user.email
   totalPlaytime = 0
   sessions = db.level.sessions.find({creator: '' + user._id}, {playtime: 1, levelID: 1}).toArray()
   firstSessions = []
@@ -89,5 +89,76 @@ rs0:PRIMARY> levelUserCounts;
   "grab-the-mushroom" : 2,
   "gold-rush" : 1,
   "criss-cross" : 1,
+}
+"""
+
+# With usernames, 3 days instead of 1:
+"""
+Found 532 users who played more than an hour out of 277828.
+>
+> print("Levels by number of users completing:");
+Levels by number of users completing:
+>
+> levelUserCounts;
+{
+  "dungeons-of-kithgard" : 524,
+  "gems-in-the-deep" : 513,
+  "shadow-guard" : 515,
+  "kounter-kithwise" : 229,
+  "forgetful-gemsmith" : 520,
+  "true-names" : 516,
+  "favorable-odds" : 216,
+  "the-raised-sword" : 504,
+  "haunted-kithmaze" : 494,
+  "the-second-kithmaze" : 472,
+  "dread-door" : 475,
+  "known-enemy" : 463,
+  "master-of-names" : 440,
+  "lowly-kithmen" : 403,
+  "closing-the-distance" : 393,
+  "tactical-strike" : 139,
+  "the-final-kithmaze" : 321,
+  "the-gauntlet" : 113,
+  "kithgard-gates" : 253,
+  "defense-of-plainswood" : 236,
+  "descending-further" : 200,
+  "winding-trail" : 196,
+  "endangered-burl" : 133,
+  "village-guard" : 118,
+  "thornbush-farm" :  89,
+  "back-to-back" :  77,
+  "ogre-encampment" :  66,
+  "woodland-cleaver" :  56,
+  "shield-rush" :  32,
+  "peasant-protection" :  30,
+  "munchkin-swarm" :  28,
+  "munchkin-harvest" :   9,
+  "swift-dagger" :   3,
+  "shrapnel" :   1,
+  "arcane-ally" :  10,
+  "bonemender" :   4,
+  "coinucopia" :  21,
+  "copper-meadows" :  17,
+  "drop-the-flag" :  11,
+  "deadly-pursuit" :  13,
+  "rich-forager" :   6,
+
+  "undefined" :   8,
+  "dungeon-arena-tutorial" :   8,
+  "dungeon-arena" :   8,
+  "grab-the-mushroom" :   6,
+  "gold-rush" :   6,
+  "criss-cross" :   4,
+  "rescue-mission" :   3,
+  "touch-of-death" :   2,
+  "taunt-the-guards" :   1,
+  "taunt" :   1,
+  "sky-span" :   1,
+  "greed" :   1,
+  "dungeon-battle" :   1,
+  "drink-me" :   1,
+  "cowardly-taunt" :   1,
+  "bubble-sort-bootcamp-battle" :   1,
+  "break-the-prison" :   1
 }
 """

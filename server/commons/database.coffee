@@ -3,7 +3,7 @@ winston = require 'winston'
 mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
 
-testing = '--unittest' in process.argv
+global.testing = testing = '--unittest' in process.argv
 
 
 module.exports.connect = () ->

@@ -41,9 +41,11 @@ class CocoModel extends Backbone.Model
     clone.set($.extend(true, {}, if withChanges then @attributes else @_revertAttributes))
     clone
 
-  onError: ->
+  onError: (level, jqxhr) ->
     @loading = false
     @jqxhr = null
+    if jqxhr.status is 402
+      Backbone.Mediator.publish 'level:subscription-required'
 
   onLoaded: ->
     @loaded = true

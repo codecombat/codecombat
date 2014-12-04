@@ -15,6 +15,11 @@ module.exports.forbidden = (res, message='Forbidden') ->
   log.debug "403: #{message}"
   res.send 403, message
   res.end()
+  
+module.exports.paymentRequired = (res, message='Payment required') ->
+  log.debug "402: #{message}"
+  res.send 402, message
+  res.end()
 
 module.exports.notFound = (res, message='Not found.') ->
   res.send 404, message

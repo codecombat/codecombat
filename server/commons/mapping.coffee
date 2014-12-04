@@ -30,6 +30,7 @@ module.exports.routes =
     'routes/sprites'
     'routes/queue'
     'routes/stacklead'
+    'routes/stripe'
   ]
 
 mongoose = require 'mongoose'

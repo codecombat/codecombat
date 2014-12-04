@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
 utils = require 'core/utils'
+SubscribeModal = require 'views/play/modal/SubscribeModal'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -9,9 +10,12 @@ module.exports = class LevelLoadingView extends CocoView
   events:
     'mousedown .start-level-button': 'startUnveiling'  # Split into two for animation smoothness.
     'click .start-level-button': 'onClickStartLevel'
+    'click .start-subscription-button': 'onClickStartSubscription'
 
   subscriptions:
     'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
+    'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription to start playing.
+    'subscribe-modal:subscribed': 'onSubscribed'
 
   shortcuts:
     'enter': 'onEnterPressed'
@@ -99,3 +103,13 @@ module.exports = class LevelLoadingView extends CocoView
   onUnveilEnded: =>
     return if @destroyed
     Backbone.Mediator.publish 'level:loading-view-unveiled', view: @
+
+  onSubscriptionRequired: (e) ->
+    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.subscription-required').show()
+
+  onClickStartSubscription: (e) ->
+    @openModalView new SubscribeModal()
+
+  onSubscribed: ->
+    document.location.reload()
