@@ -342,7 +342,7 @@ describe 'Statistics', ->
     session = new LevelSession
       name: 'Beat Gandalf'
       permissions: simplePermissions
-      state: completed: true
+      state: complete: true
 
     unittest.getNormalJoe (joe) ->
       expect(joe.get 'stats.gamesCompleted').toBeUndefined()

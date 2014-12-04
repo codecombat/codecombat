@@ -103,7 +103,6 @@ class SubscriptionHandler extends Handler
 
         @updateUser(req, user, customer.subscriptions.data[0], true, done)
 
-
   updateUser: (req, user, subscription, increment, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})
     stripeInfo.planID = 'basic'
@@ -123,8 +122,8 @@ class SubscriptionHandler extends Handler
       if err
         @logSubscriptionError(req, 'Stripe user plan saving error. '+err)
         return done({res: 'Database error.', code: 500})
+      req.user?.saveActiveUser 'subscribe'
       return done()
-
 
   unsubscribeUser: (req, user, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe'))
@@ -139,7 +138,7 @@ class SubscriptionHandler extends Handler
         if err
           @logSubscriptionError(req, 'User save unsubscribe error. '+err)
           return done({res: 'Database error.', code: 500})
+          req.user?.saveActiveUser 'unsubscribe'
         return done()
-
 
 module.exports = new SubscriptionHandler()

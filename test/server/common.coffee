@@ -24,6 +24,7 @@ GLOBAL.tv4 = require 'tv4' # required for TreemaUtils to work
 # _.str = require 'underscore.string'
 
 models_path = [
+  '../../server/analytics/AnalyticsUsersActive'
   '../../server/articles/Article'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'

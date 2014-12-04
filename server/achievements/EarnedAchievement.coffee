@@ -71,4 +71,6 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
       earnedPoints = worth
       wrapUp(doc)
 
+  User.saveActiveUser userID, "achievement"
+
 module.exports = EarnedAchievement = mongoose.model('EarnedAchievement', EarnedAchievementSchema)
