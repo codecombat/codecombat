@@ -296,6 +296,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_hofstadters_law: "Hofstadters Lov: Ting tar alltid lenger tid enn du tror, selv når du tar Hofstadters Lov med i beregningen."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Tilpass Trollmann"
 
   game_menu:

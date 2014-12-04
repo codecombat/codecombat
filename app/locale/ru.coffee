@@ -296,6 +296,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_hofstadters_law: "Закон Хофштадтера: Любое дело всегда длится дольше, чем ожидается, даже если учесть закон Хофштадтера."
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Настройки волшебника"
 
   game_menu:
@@ -376,13 +377,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     blocks: "Блокирует" # As in "this shield blocks this much damage"
     skills: "Умения"
     available_for_purchase: "Доступно для покупки"
-    level_to_unlock: "Разблокируется на уровне:" # ToDo: check in interface
+    level_to_unlock: "Разблокируется на уровне:"
     restricted_to_certain_heroes: "Только определенные герои могут играть этот уровень."
 
   skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
-    action_name: "имя" # ToDo: check in interface
+    action_name: "имя"
     action_cooldown: "Применяется"
     action_specific_cooldown: "Восстановление"
     action_damage: "Повреждения"

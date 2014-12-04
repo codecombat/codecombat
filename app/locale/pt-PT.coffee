@@ -296,6 +296,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_hofstadters_law: "Lei de Hofstadter: Tudo demora sempre mais do que pensas, mesmo quando levas em conta a Lei de Hofstadter."
     tip_premature_optimization: "Uma otimização permatura é a raíz de todo o mal. - Donald Knuth"
     tip_brute_force: "Quando em dúvida, usa a força bruta. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Personalizar Feiticeiro"
 
   game_menu:

@@ -296,6 +296,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_hofstadters_law: "Hofstadter's Gesetz: Es dauert immer länger als erwartet, auch wenn du Hofstadter's Gesetz anwendest."
     tip_premature_optimization: "Vorzeitige Optimierung ist die Wurzel allen Übels (oder mindestens des meisten) bei der Programmierung - Donald Knuth"
     tip_brute_force: "Verwende im Zweifelsfall rohe Gewalt. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Bearbeite den Zauberer"
 
   game_menu:
