@@ -263,7 +263,7 @@ module.exports = class SpellView extends CocoView
     intersects = =>
       return true for range in @readOnlyRanges when @ace.getSelectionRange().intersects(range)
       false
-      
+
     intersectsLeft = =>
       leftRange = @ace.getSelectionRange().clone()
       if leftRange.start.column > 0
@@ -304,7 +304,7 @@ module.exports = class SpellView extends CocoView
           finishRange row - 1, startRow, startColumn
           startRow = startColumn = null
     if startRow? and startColumn?
-      finishRange @aceSession.getLength() - 1, startRow, startColumn 
+      finishRange @aceSession.getLength() - 1, startRow, startColumn
 
     # Override write operations that intersect with default code
     interceptCommand @ace, 'onPaste', preventReadonly
@@ -530,6 +530,7 @@ module.exports = class SpellView extends CocoView
     @lockDefaultCode true
     @recompile cast
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
+    @updateLines()
 
   recompileIfNeeded: =>
     @recompile() if @recompileNeeded

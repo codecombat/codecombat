@@ -102,7 +102,7 @@ module.exports = class World
     if @realTime and not @countdownFinished
       @realTimeSpeedFactor = 1
       unless @showsCountdown
-        if @levelID in ['thornbush-farm', 'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm']
+        if @levelID in ['village-guard', 'thornbush-farm', 'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm', 'munchkin-harvest', 'swift-dagger', 'shrapnel', 'arcane-ally', 'touch-of-death', 'bonemender']
           @realTimeSpeedFactor = 3
       if @showsCountdown
         return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
