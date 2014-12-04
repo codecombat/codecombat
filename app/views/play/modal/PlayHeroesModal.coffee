@@ -148,7 +148,8 @@ module.exports = class PlayHeroesModal extends ModalView
       return hero
     fullHero = @getFullHero hero.get 'original'
     onLoaded = =>
-      return unless canvas = $(".hero-item[data-hero-id='#{fullHero.get('original')}'] canvas")
+      canvas = $(".hero-item[data-hero-id='#{fullHero.get('original')}'] canvas")
+      return unless canvas.length  # Don't render it if it's not on the screen.
       canvas.show().prop width: @canvasWidth, height: @canvasHeight
       builder = new SpriteBuilder(fullHero)
       movieClip = builder.buildMovieClip(fullHero.get('actions').attack?.animation ? fullHero.get('actions').idle.animation)
