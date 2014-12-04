@@ -493,7 +493,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     wizard_tab: "Персонаж"
     wizard_color: "Колір одягу персонажа"
 
-keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Клавіатурні скорочення"
     space: "Пробіл"
     enter: "Enter"
