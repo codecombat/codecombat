@@ -345,7 +345,7 @@
     parents: "For Parents"
     parents_title: "Your child will learn to code."
     parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-    parents_blurb2: "For 9.99/mo, they get new challenges and personal email support from professional programmers."
+    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     subscribe_button: "Subscribe Now"
     stripe_description: "Monthly Subscription"
