@@ -20,7 +20,6 @@ module.exports = class LevelSetupManager extends CocoClass
       @fillSessionWithDefaults()
     else
       @loadSession()
-    #@loadModals()
 
   loadSession: ->
     url = "/db/level/#{@options.levelID}/session"
