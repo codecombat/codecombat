@@ -257,6 +257,7 @@ module.exports = class SpellView extends CocoView
     # TODO: Lock default indent for an empty line?
     return unless LevelOptions[@options.level.get('slug')]?.lockDefaultCode or CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'lockDefaultCode')
     return unless @spell.source is @spell.originalSource or force
+    return if @spell.language in ['javascript', 'lua', 'clojure', 'io']  # Only works for languages without closing delimeters on blocks currently
 
     console.info 'Locking down default code.'
 
