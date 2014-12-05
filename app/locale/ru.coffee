@@ -318,7 +318,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     choose_inventory: "Выбрать предметы"
     equipped_item: "Выбранный"
     available_item: "Доступно"
-    restricted_title: "Ограниченный"
+    restricted_title: "Ограничено"
     should_equip: "(двойной клик чтобы надеть)"
     equipped: "(выбранный)"
     locked: "(заблокированный)"
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     subscribe_title: "Подпишись"
-    levels: "Разблокируй 25 уровней!. И еще 5 каждую неделю!"
+    levels: "Разблокируйте 25 уровней! И еще 5 каждую неделю!"
     heroes: "Более сильные герои!"
     gems: "3500 бонусных самоцветов каждый месяц!"
     items: "Более 250 бонусных предметов!"
@@ -381,8 +381,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     restricted_to_certain_heroes: "Только определенные герои могут играть этот уровень."
 
   skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-#    read_only: "read-only"
+    writable: "доступно для записи" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "только чтение"
     action_name: "имя"
     action_cooldown: "Применяется"
     action_specific_cooldown: "Восстановление"
@@ -525,8 +525,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     skip_scripts: "Пропустить все возможные скрипты."
     toggle_playback: "Переключить проигрывание/паузу."
     scrub_playback: "Перемотка назад и вперед во времени."
-    single_scrub_playback: "Scrub back and forward through time by a single frame."
-    scrub_execution: "Scrub through current spell execution."
+    single_scrub_playback: "Покадровая перемотка назад и вперед."
+    scrub_execution: "Перескочить через выполнение текущего заклинания."
     toggle_debug: "Включить отображение отладки."
     toggle_grid: "Включить наложение сетки."
     toggle_pathfinding: "Включить путевой оверлей.."
@@ -536,21 +536,21 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   community:
     main_title: "Сообщество CodeCombat"
-#    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
-#    level_editor_prefix: "Use the CodeCombat"
-#    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
-#    thang_editor_prefix: "We call units within the game 'thangs'. Use the"
-#    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
-#    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
-#    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
-#    find_us: "Find us on these sites"
-#    social_blog: "Read the CodeCombat blog on Sett"
-#    social_discource: "Join the discussion on our Discourse forum"
-#    social_facebook: "Like CodeCombat on Facebook"
-#    social_twitter: "Follow CodeCombat on Twitter"
-#    social_gplus: "Join CodeCombat on Google+"
-#    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
-#    contribute_to_the_project: "Contribute to the project"
+    introduction: "Просмотрите ниже способы втянуться и решите, что для вас звучит наиболее весело и интересно. Мы с нетерпением ожидаем совместной работы с вами!"
+    level_editor_prefix: "Используйте"
+    level_editor_suffix: "CodeCombat чтобы создавать и редактировать уровни. Пользователи могут создавать уровни для своих одноклассников, друзей, хакатонов, студентов, братьев и сестер. Если создание нового уровня звучит устрашающе, вы можете начать, ответвившись от одного из наших!"
+    thang_editor_prefix: "Мы называем единицы внутри игры 'предметами'. Используйте"
+    thang_editor_suffix: "чтобы изменять ресурсы игры. Позволяйте единицам бросать снаряды, измените направление анимации, очки здоровья или загрузите свои собственные векторные изображения."
+    article_editor_prefix: "Увдели ошибку в нашей документации? Хотите сделать инструкции к вашим творениям? Посмотрите"
+    article_editor_suffix: "и помогите игрокам CodeCombat получить максимум от их времяпрепровождения."
+    find_us: "Найдите нас на этих сайтах"
+    social_blog: "Читайте блог CodeCombat на Sett"
+    social_discource: "Присоединяйтесь к обсуждению на нашем форуме"
+    social_facebook: "Оцените CodeCombat на Facebook"
+    social_twitter: "Следуйте за CodeCombat на Twitter"
+    social_gplus: "Присоединяйтесь к CodeCombat на Google+"
+    social_hipchat: "Общайтесь с нами в публичной чат-комнате CodeCombat на HipChat"
+    contribute_to_the_project: "Сотрудничайте с проектом"
 
   classes:
     archmage_title: "Архимаг"
@@ -630,7 +630,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
-#    pop_i18n: "Populate I18N"
+    pop_i18n: "Популяризируйте I18N"
 
   article:
     edit_btn_preview: "Предпросмотр"
