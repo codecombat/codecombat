@@ -4,7 +4,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!" # Warning that shows up on mobile devices
     play: "Играть" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Попробуй!" # Alternate wording for Play button
     old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
     ipad_browser: "Плохие новости: CodeCombat не запускается в браузере IPad. Хорошие новости: наше нативное приложение для IPad ожидает одобрения от Apple."
@@ -105,7 +105,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     authenticate_gplus: "Войти через G+"
     load_profile: "Загрузить профиль G+"
     load_email: "Загрузить G+ почту"
-#    finishing: "Finishing"
+    finishing: "Завершение"
 
   signup:
     create_account_title: "Создать аккаунт, чтобы сохранить прогресс"
@@ -296,7 +296,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_hofstadters_law: "Закон Хофштадтера: Любое дело всегда длится дольше, чем ожидается, даже если учесть закон Хофштадтера."
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_extrapolation: "Есть два типа людей: те, кто могут экстраполировать неполные данные..."
     customize_wizard: "Настройки волшебника"
 
   game_menu:
@@ -337,20 +337,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     prompt_body: "Хотите еще?"
     prompt_button: "Войти в магазин"
 
-#  subscribe:
-#    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
-#    parents: "For Parents"
-#    parents_title: "Your child will learn to code."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+  subscribe:
+    subscribe_title: "Подпишись"
+    levels: "Разблокируй 25 уровней!. И еще 5 каждую неделю!"
+    heroes: "Более сильные герои!"
+    gems: "3500 бонусных самоцветов каждый месяц!"
+    items: "Более 250 бонусных предметов!"
+    parents: "Для Родителей"
+    parents_title: "Ваш ребенок научиться программировать."
+    parents_blurb1: "С CodeCombat ваш ребенок учится через написание реального кода. Начиная с изучения простых команд, продолжая более продвинутыми темами."
+    parents_blurb2: "За $9.99/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
+    parents_blurb3: "Без риска: 100% гарантия возрата денег, возможность отписаться в 1 клик."
+    subscribe_button: "Подпишись сейчас"
+    stripe_description: "Месячная подписка"
+    subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
 
   choose_hero:
     choose_hero: "Выберите героя"
