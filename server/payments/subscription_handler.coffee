@@ -20,7 +20,7 @@ class SubscriptionHandler extends Handler
     if (not req.user) or req.user.isAnonymous()
       return done({res: 'You must be signed in to subscribe.', code: 403})
 
-    token = req.body.stripe?.token
+    token = req.body.stripe.token
     customerID = user.get('stripe')?.customerID
     if not (token or customerID)
       @logSubscriptionError(req, 'Missing stripe token or customer ID.')
@@ -29,6 +29,10 @@ class SubscriptionHandler extends Handler
     if token
       if customerID
         stripe.customers.update customerID, { card: token }, (err, customer) =>
+          if err or not customer
+            # should not happen outside of test and production polluting each other
+            @logSubscriptionError(req, 'Cannot find customer: ', +customer.id + '\n\n' + err)
+            return done({res: 'Cannot find customer.', code: 404})
           @checkForExistingSubscription(req, user, customer, done)
           
       else

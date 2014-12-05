@@ -110,8 +110,10 @@ UserHandler = class UserHandler extends Handler
         
     # Subscription setting
     (req, user, callback) ->
+      return callback(null, req, user) unless req.headers['x-change-plan'] # ensure only saves that are targeted at changing the subscription actually affect the subscription
+      return callback(null, req, user) unless req.body.stripe
       hasPlan = user.get('stripe')?.planID?
-      wantsPlan = req.body.stripe?.planID?
+      wantsPlan = req.body.stripe.planID?
       
       return callback(null, req, user) if hasPlan is wantsPlan
       if wantsPlan and not hasPlan
@@ -127,9 +129,10 @@ UserHandler = class UserHandler extends Handler
 
     # Discount setting
     (req, user, callback) ->
+      return callback(null, req, user) unless req.body.stripe
       return callback(null, req, user) unless req.user?.isAdmin()
       hasCoupon = user.get('stripe')?.couponID
-      wantsCoupon = req.body.stripe?.couponID
+      wantsCoupon = req.body.stripe.couponID
 
       return callback(null, req, user) if hasCoupon is wantsCoupon
       if wantsCoupon and (hasCoupon isnt wantsCoupon)
