@@ -908,8 +908,7 @@
 
   legal:
     page_title: "Legal"
-    opensource_intro: "CodeCombat is free to play and completely open source."
-    opensource_intro_2: "CodeCombat completely open source."
+    opensource_intro: "CodeCombat is completely open source."
     opensource_description_prefix: "Check out "
     github_url: "our GitHub"
     opensource_description_center: "and help out if you like! CodeCombat is built on dozens of open source projects, and we love them. See "
@@ -918,7 +917,7 @@
     practices_title: "Respectful Best Practices"
     practices_description: "These are our promises to you, the player, in slightly less legalese."
     privacy_title: "Privacy"
-    privacy_description_2: "We will not sell any of your personal information."
+    privacy_description: "We will not sell any of your personal information."
     security_title: "Security"
     security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
     email_title: "Email"
