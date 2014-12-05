@@ -296,6 +296,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_hofstadters_law: "侯世达定律：做事所花费的时间总是比你预期的要长，即使你的预期中考虑了侯世达定律。"
     tip_premature_optimization: "过早的优化是万恶之源。 - 高德纳"
     tip_brute_force: "拿不准时就用穷举法。 - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "自定义向导"
 
   game_menu:

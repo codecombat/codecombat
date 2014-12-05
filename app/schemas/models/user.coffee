@@ -278,6 +278,9 @@ _.extend UserSchema.properties,
     planID: { enum: ['basic'] }
     subscriptionID: { type: 'string' }
     token: { type: 'string' }
+    couponID: { type: 'string' }
+    discountID: { type: 'string' }
+    free: { type: ['boolean', 'string'], format: 'date-time' }
   }
 
 c.extendBasicProperties UserSchema, 'user'

@@ -296,6 +296,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     tip_hofstadters_law: "Ley de Hofstadter: Siempre toma más tiempo del que esperas, inclso cuando tienes en cuenta la ley de Hofstadter."
     tip_premature_optimization: "La optimización prematura es la raíz de la maldad. - Donald Knuth"
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Personalizar Hechicero"
 
   game_menu:

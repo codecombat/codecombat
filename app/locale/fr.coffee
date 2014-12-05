@@ -296,6 +296,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_hofstadters_law: "Loi de Hofstadter: Il faut toujours plus de temps que prévu, même si vous prenez en compte la loi de Hofstadter."
     tip_premature_optimization: "L'optimisation prématurée est la racine de tous les maux. - Donald Knuth"
     tip_brute_force: "En cas de doute, utiliser la force brute. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Personnaliser le magicien"
 
   game_menu:

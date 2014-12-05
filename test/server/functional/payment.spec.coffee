@@ -82,6 +82,7 @@ describe '/db/payment', ->
     joeID = null
     timestamp = new Date().getTime()
     stripeTokenID = null
+    joeData = null
 
     it 'clears the db first', (done) ->
       clearModels [User, Payment], (err) ->
@@ -131,6 +132,34 @@ describe '/db/payment', ->
             done()
           )
         )
+        
+    it 'allows a new charge on the existing customer', (done) ->
+      data = { productID: 'gems_5', stripe: { timestamp: new Date().getTime() } }
+      request.post {uri: paymentURL, json: data }, (err, res, body) ->
+        expect(res.statusCode).toBe 201
+        Payment.count {}, (err, count) ->
+          expect(count).toBe(2)
+          User.findById joeID, (err, user) ->
+            joeData = user.toObject()
+            expect(user.get('purchased').gems).toBe(10000)
+            done()
+            
+    it "updates the customer's card when you submit a new token", (done) ->
+      stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
+        originalCustomerID = customer.id
+        originalCardID = customer.cards.data[0].id
+        stripe.tokens.create {
+            card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          data = { productID: 'gems_5', stripe: { timestamp: new Date().getTime(), token: token.id } }
+          request.post {uri: paymentURL, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe(201)
+            User.findById joeID, (err, user) ->
+              joeData = user.toObject()
+              expect(joeData.stripe.customerID).toBe(originalCustomerID)
+              stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
+                expect(customer.cards.data[0].id).not.toBe(originalCardID)
+                done()
 
     it 'clears the db', (done) ->
       clearModels [User, Payment], (err) ->

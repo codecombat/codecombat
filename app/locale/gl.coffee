@@ -296,6 +296,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
     tip_premature_optimization: "A optimizacion prematura é a raíz de todo mal. - Donald Knuth"
     tip_brute_force: "Cando hai dúbidas, usa a forza bruta. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Persoalizar Mago"
 
   game_menu:
