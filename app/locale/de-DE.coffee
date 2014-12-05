@@ -641,7 +641,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     character_classes_title: "Charakter Klassen"
     introduction_desc_intro: "Wir haben hohe Erwartungen für CodeCombat."
     introduction_desc_pref: "Wir wollen ein Ort sein, an dem sich Programmierer aller coleur treffen, um gemeinsam zu spielen und zu lernen. Wo sie andere in die wunderbare Welt des Programmierens einführen, und dabei die besten Aspekte der Programmierer-Community verkörpern. Wir können und wollen dies nicht alleine tun. Projekte wie GitHub, Stack Overflow and Linux leben von den großartigen Leuten die sie bauen und nutzen. Darum ist, "
-    introduction_desc_github_url: "CodeCombat komplett OpenSource"
+    introduction_desc_github_url: "CodeCombat ist komplett OpenSource"
     introduction_desc_suf: ". Wir wollen es dir so einfach und vielfältig wie irgend möglich machen, dich an diesem Projekt zu beteiligen. Damit es genauso zu deinem Projekt wird, wie zu unserem."
     introduction_desc_ending: "Wir hoffen du nimmst an unserer Party teil!"
     introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
