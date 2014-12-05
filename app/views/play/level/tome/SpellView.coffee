@@ -273,6 +273,15 @@ module.exports = class SpellView extends CocoView
       return true for range in @readOnlyRanges when leftRange.intersects(range)
       false
 
+    intersectsRight = =>
+      rightRange = @ace.getSelectionRange().clone()
+      if rightRange.end.column < @aceDoc.getLine(rightRange.end.row).length
+        rightRange.setEnd rightRange.end.row, rightRange.end.column + 1
+      else if rightRange.start.row < @aceDoc.getLength() - 1
+        rightRange.setEnd rightRange.end.row + 1, 0
+      return true for range in @readOnlyRanges when rightRange.intersects(range)
+      false
+
     preventReadonly = (next) ->
       return true if intersects()
       next?()
@@ -284,27 +293,10 @@ module.exports = class SpellView extends CocoView
         wrapper => orig.apply obj, args
       obj[method]
 
-    finishRange = (row, startRow, startColumn) =>
-      range = new Range startRow, startColumn, row, @aceSession.getLine(row).length - 1
-      range.start = @aceDoc.createAnchor range.start
-      range.end = @aceDoc.createAnchor range.end
-      range.end.$insertRight = true
-      @readOnlyRanges.push range
-
-    # Create a read-only range for each chunk of text not separated by an empty line
     @readOnlyRanges = []
-    startRow = startColumn = null
-    for row in [0...@aceSession.getLength()]
-      unless /^\s*$/.test @aceSession.getLine(row)
-        unless startRow? and startColumn?
-          startRow = row
-          startColumn = 0
-      else
-        if startRow? and startColumn?
-          finishRange row - 1, startRow, startColumn
-          startRow = startColumn = null
-    if startRow? and startColumn?
-      finishRange @aceSession.getLength() - 1, startRow, startColumn
+    lines = @aceDoc.getAllLines()
+    lastRow = row for line, row in lines when not /^\s*$/.test(line)
+    @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1 if lastRow?
 
     # Override write operations that intersect with default code
     interceptCommand @ace, 'onPaste', preventReadonly
@@ -317,6 +309,9 @@ module.exports = class SpellView extends CocoView
         @zatanna?.off?()
         return false
       if e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()
+        @zatanna?.off?()
+        return false
+      if e.command.name is 'del' and intersectsRight()
         @zatanna?.off?()
         return false
       if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
