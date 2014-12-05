@@ -4,15 +4,15 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     no_ie: "CodeCombat läuft nicht im IE8 oder älteren Browsern. Tut uns Leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
     play: "Spielen" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Versuchs mal" # Alternate wording for Play button
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Schlechte Nachricht: CodeCombat funktioniert nicht im iPad browser. Gute Nachricht: unsere eigene iPad app wartet nur noch auf die genehmigung durch Apple."
     campaign: "Kampagne"
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Oder lade es fürs iPad herunter"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -58,7 +58,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     confirm: "Bestätigen"
     owned: "im Besitz" # For items you own
     locked: "Gesperrt"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Käuflich" # For a hero you unlocked but haven't purchased
     available: "Verfügbar"
     skills_granted: "Verfügbare Fähigkeiten" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
@@ -71,9 +71,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     buy_gems: "Edelsteine kaufen"
     campaign_forest: "Forest Kampagne"
     campaign_dungeon: "Dungeon Kampagne"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    subscription_required: "Abonnement benötigt"
+    free: "Kostenlos"
+    subscribed: "Abonniert"
     older_campaigns: "Ältere Kampagne"
     anonymous: "Anonymer Spieler"
     level_difficulty: "Schwierigkeit: "
@@ -296,7 +296,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_hofstadters_law: "Hofstadter's Gesetz: Es dauert immer länger als erwartet, auch wenn du Hofstadter's Gesetz anwendest."
     tip_premature_optimization: "Vorzeitige Optimierung ist die Wurzel allen Übels (oder mindestens des meisten) bei der Programmierung - Donald Knuth"
     tip_brute_force: "Verwende im Zweifelsfall rohe Gewalt. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_extrapolation: "Es gibt nur zwei Sorten Menschen, diejenigen die aus unvollständigen Informationen Schlüsse ziehen können, ..."
     customize_wizard: "Bearbeite den Zauberer"
 
   game_menu:
@@ -337,20 +337,20 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_body: "Benötigst du mehr?"
     prompt_button: "Laden betreten"
 
-#  subscribe:
-#    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
-#    parents: "For Parents"
-#    parents_title: "Your child will learn to code."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+  subscribe:
+    subscribe_title: "Abonnieren"
+    levels: "25 weitere level! Und 5 neue jede Woche!"
+    heroes: "Stärkere Helden!"
+    gems: "3500 bonus Edelsteine jeden Monat!"
+    items: "Über 250 bonus Gegenstände!"
+    parents: "Für Eltern"
+    parents_title: "Dein Kind lernt zu programmieren."
+    parents_blurb1: "Mit CodeCombat, lernt dein Kind richtige Programme zu schreiben. Es fängt mit einfachen Befehlen an, und schreitet ganz unmerklich zu schwierigeren Themen fort."
+    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."
+    parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
+    subscribe_button: "Abonniere jetzt"
+    stripe_description: "Monatsabo"
+    subscription_required_to_play: "Leider musst du ein Abo haben um dieses Level spielen zu können."
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -620,16 +620,16 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     new_thang_title_login: "Melde dich an um einen neuen Thang-Typen zu erstellen"
     new_level_title_login: "Melde dich an um ein neues Level zu erstellen"
     new_achievement_title: "Erstelle ein neues Achievement"
-    new_achievement_title_login: "Melde dich an um ein neues Achievement zu erstellen"
+    new_achievement_title_login: "Melde dich an um einen neuen Erfolg zu erstellen"
     article_search_title: "Durchsuche Artikel hier"
     thang_search_title: "Durchsuche Thang-Typen hier"
     level_search_title: "Durchsuche Levels hier"
-    achievement_search_title: "Durchsuche Achievements"
+    achievement_search_title: "Durchsuche Erfolge"
     read_only_warning2: "Warnung: Du kannst hier keine Änderungen speichern, weil du nicht angemeldet bist."
-    no_achievements: "Es wurden noch keine Achievements zu diesem Level hinzugefügt."
-#    achievement_query_misc: "Key achievement off of miscellanea"
-#    achievement_query_goals: "Key achievement off of level goals"
-#    level_completion: "Level Completion"
+    no_achievements: "Es wurden noch keine Erfolge zu diesem Level hinzugefügt."
+    achievement_query_misc: "Sonstige Schlüsselerfolge"
+    achievement_query_goals: "Level Erfolge"
+    level_completion: "abgeschlossene Level"
 #    pop_i18n: "Populate I18N"
 
   article:
@@ -640,19 +640,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     page_title: "Mitwirken"
     character_classes_title: "Charakter Klassen"
     introduction_desc_intro: "Wir haben hohe Erwartungen für CodeCombat."
-#    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
-    introduction_desc_github_url: "CodeCombat ist komplett OpenSource"
-#    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
+    introduction_desc_pref: "Wir wollen ein Ort sein, an dem sich Programmierer aller coleur treffen, um gemeinsam zu spielen und zu lernen. Wo sie andere in die wunderbare Welt des Programmierens einführen, und dabei die besten Aspekte der Programmierer-Community verkörpern. Wir können und wollen dies nicht alleine tun. Projekte wie GitHub, Stack Overflow and Linux leben von den großartigen Leuten die sie bauen und nutzen. Darum ist, "
+    introduction_desc_github_url: "CodeCombat komplett OpenSource"
+    introduction_desc_suf: ". Wir wollen es dir so einfach und vielfältig wie irgend möglich machen, dich an diesem Projekt zu beteiligen. Damit es genauso zu deinem Projekt wird, wie zu unserem."
     introduction_desc_ending: "Wir hoffen du nimmst an unserer Party teil!"
     introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
     alert_account_message_intro: "Hey du!"
     alert_account_message: "Um Klassen-Emails abonnieren zu können, musst du dich zuerst anmelden."
-#    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
-#    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
+    archmage_summary: "Magst du an den Spielegrafiken mitgestalten? Am User Interface Design, Datenbank- und Server Organisation, Mehrspieler Netzwerk. Oder doch lieber helfen die Physics-, Sound, oder Spieleengine zu optimieren? Möchtest du helfen ein Spiel zu programmieren, mit dem andere das lernen worin du schon gut bist? Es gibt viel zu tun, und wenn du ein erfahrener Programmierer bist, und an CodeCombat mitentwickeln willst, dann ist dies deine Klasse. Wir freuen uns auf dich, wenn wir gemeinsam das beste Programmierspiel aller Zeiten erstellen."
+    archmage_introduction: "Mit das Beste am Spiele schreiben ist, das man so viele unterschiedliche Dinge zusammen bringen muß. Graphik, Sound, Real-Time Networking, Soziales Miteinander, und natürlich viele der eher alltäglichen Aspekte des Programmierens. Vom einfachen Datenbank-Management, und der Server Administration, über user interface Design und Realisierung. Es ist viel zu tun, und wenn du ein erfahrener Programmierer bist, mit einem Interesse wirklich tief in die wesentlichen details von CodeCombat abzutauchen, dann könnte dies deine Klasse sein. Deine Hilf ist gefragt, wenn wir gemeinsam das beste Programmierspiel aller Zeiten schreiben."
     class_attributes: "Klassenattribute"
     archmage_attribute_1_pref: "Kentnisse in "
-#    archmage_attribute_1_suf: ", or a desire to learn. Most of our code is in this language. If you're a fan of Ruby or Python, you'll feel right at home. It's JavaScript, but with a nicer syntax."
-#    archmage_attribute_2: "Some experience in programming and personal initiative. We'll help you get oriented, but we can't spend much time training you."
+    archmage_attribute_1_suf: ", oder ein intensiver Lernwille. Der größte Teil unseres Codes ist in dieser Sprache geschrieben. Wenn du bereits mit Ruby oder Python vertraut bist, wirst du dich gleich zu hause fühlen. Es ist wie JavaScript, aber mit einer angenehmeren Syntax."
+    archmage_attribute_2: "Vorhandene Erfahrung im Programmieren, und wichtig, Eigeninitiative. Wir werden dir helfen dich zurecht zu finden, aber wir haben leider nicht die Zeit dich intensiv anzulernen."
 #    how_to_join: "How To Join"
     join_desc_1: "Jeder kann mithelfen! Schau dir unseren "
     join_desc_2: "um anzufangen, und hake die Checkbox unten an um dich als mutiger Erzmagier einzutragen und über die neuesten Nachrichten per Email zu erhalten. Möchtest du dich darüber unterhalten was zu tun ist oder wie du dich besser beteiligen kannst? "
