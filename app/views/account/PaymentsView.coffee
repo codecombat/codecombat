@@ -30,6 +30,7 @@ module.exports = class PaymentsView extends RootView
   onClickStartSubscription: (e) ->
     @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'payments view'
+    window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
 
   onSubscribed: ->
     document.location.reload()
