@@ -293,10 +293,16 @@ module.exports = class SpellView extends CocoView
         wrapper => orig.apply obj, args
       obj[method]
 
+    if @lockedCodeMarkerID?
+      @aceSession.removeMarker @lockedCodeMarkerID
+      @lockedCodeMarkerID = null
+
     @readOnlyRanges = []
     lines = @aceDoc.getAllLines()
     lastRow = row for line, row in lines when not /^\s*$/.test(line)
-    @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1 if lastRow?
+    if lastRow?
+      @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1
+      @lockedCodeMarkerID = @aceSession.addMarker @readOnlyRanges[0], 'locked-code', 'fullLine'
 
     # Override write operations that intersect with default code
     interceptCommand @ace, 'onPaste', preventReadonly
