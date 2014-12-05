@@ -75,7 +75,7 @@ describe '/db/user, editing stripe.couponID property', ->
       loginJoe (joe) ->
         joeData.stripe.token = stripeTokenID
         joeData.stripe.planID = 'basic'
-        request.put {uri: userURL, json: joeData }, (err, res, body) ->
+        request.put {uri: userURL, json: joeData, headers: {'X-Change-Plan': 'true'} }, (err, res, body) ->
           joeData = body
           expect(res.statusCode).toBe(200)
           stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->

@@ -60,14 +60,14 @@ module.exports = class SubscribeModal extends ModalView
     @state = 'purchasing'
     @render()
 
-    stripe = me.get('stripe') ? {}
+    stripe = _.clone(me.get('stripe') ? {})
     stripe.planID = @product.planID
     stripe.token = e.token.id
     me.set 'stripe', stripe
 
     @listenToOnce me, 'sync', @onSubscriptionSuccess
     @listenToOnce me, 'error', @onSubscriptionError
-    me.save()
+    me.patch({headers: {'X-Change-Plan': 'true'}})
 
   onSubscriptionSuccess: ->
     application.tracker?.trackEvent 'Finished subscription purchase', {}

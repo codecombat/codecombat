@@ -36,7 +36,8 @@ module.exports = class PaymentsView extends RootView
     document.location.reload()
 
   onClickEndSubscription: (e) ->
-    stripe = me.get('stripe')
+    stripe = _.clone(me.get('stripe'))
     delete stripe.planID
-    me.save()
+    me.set('stripe', stripe)
+    me.patch({headers: {'X-Change-Plan': 'true'}})
     @listenToOnce me, 'sync', -> document.location.reload()
