@@ -346,7 +346,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents: "Für Eltern"
     parents_title: "Dein Kind lernt zu programmieren."
     parents_blurb1: "Mit CodeCombat, lernt dein Kind richtige Programme zu schreiben. Es fängt mit einfachen Befehlen an, und schreitet ganz unmerklich zu schwierigeren Themen fort."
-    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."
+    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."  # Please update based on new wording from en.coffee
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
     subscribe_button: "Abonniere jetzt"
     stripe_description: "Monatsabo"
