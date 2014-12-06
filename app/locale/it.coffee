@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     victory_rate_the_level: "Vota il livello: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continua"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Gioca il prossimo livello"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Torna alla pagina iniziale" # Only in old-style levels.
     victory_review: "Dicci di più!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-#    title: "Wizard Settings"
-    customize_avatar: "Personalizza il tuo personaggio"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
-    clothes: "Abbigliamento"
-#    trim: "Trim"
-#    cloud: "Cloud"
-#    team: "Team"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
-    saturation: "Saturazione"
-    lightness: "Luminosità"
 
   account_profile:
     settings: "Impostazioni" # We are not actively recruiting right now, so there's no need to add new translations for this section.

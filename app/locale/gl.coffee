@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     victory_rate_the_level: "Puntúa este nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver á Clasificación"
     victory_play_continue: "Continuar"
-    victory_play_skip: "Saltar animación"
-    victory_play_next_level: "Xogar o seguinte nivel"
-    victory_play_more_practice: "Máis Práctica"
-    victory_play_too_easy: "Demasiado doado"
-    victory_play_just_right: "Xusto"
-    victory_play_too_hard: "Demasiado dificil"
     victory_saving_progress: "Gardando Progreso"
     victory_go_home: "Ir ao Inicio" # Only in old-style levels.
     victory_review: "Contanos máis!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     one_month_discount: "desconto do 30%: elixe entre Rails ou HTML"
     license: "licenza"
     oreilly: "ebook da túa escolla"
-
-  wizard_settings:
-    title: "Axustes do mago"
-    customize_avatar: "Persoaliza o teu Avatar"
-    active: "Activo"
-    color: "Cor"
-    group: "Grupo"
-    clothes: "Roupa"
-    trim: "Decoración"
-    cloud: "Nube"
-    team: "Equipo"
-    spell: "Feitizo"
-    boots: "Botas"
-    hue: "Matiz"
-    saturation: "Saturación"
-    lightness: "Brilo"
 
   account_profile:
     settings: "Configuración" # We are not actively recruiting right now, so there's no need to add new translations for this section.

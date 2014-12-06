@@ -227,12 +227,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_rate_the_level: "Apreciază nivelul: " # Only in old-style levels.
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Joacă nivelul următor"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Acasă" # Only in old-style levels.
     victory_review: "Spune-ne mai multe!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Setări Wizard"
-    customize_avatar: "Personalizează-ți Avatarul"
-    active: "Activ"
-    color: "Culoare"
-    group: "Grup"
-    clothes: "Haine"
-    trim: "Margine"
-    cloud: "Nor"
-    team: "Echipa"
-    spell: "Vrajă"
-    boots: "Încălțăminte"
-    hue: "Nuanță"
-    saturation: "Saturație"
-    lightness: "Luminozitate"
 
   account_profile:
     settings: "Setări" # We are not actively recruiting right now, so there's no need to add new translations for this section.

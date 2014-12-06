@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_rate_the_level: "Classifica este nível: " # Only in old-style levels.
     victory_return_to_ladder: "Voltar à Classificação"
     victory_play_continue: "Continuar"
-    victory_play_skip: "Passar à Frente"
-    victory_play_next_level: "Jogar Próximo Nível"
-    victory_play_more_practice: "Mais Treino"
-    victory_play_too_easy: "Muito Fácil"
-    victory_play_just_right: "Perfeito"
-    victory_play_too_hard: "Muito Difícil"
     victory_saving_progress: "A Guardar o Progresso"
     victory_go_home: "Ir para o Início" # Only in old-style levels.
     victory_review: "Conta-nos mais!" # Only in old-style levels.
@@ -925,7 +919,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     email_settings_url: "tuas definições de e-mail"
     email_description_suffix: "ou através de ligações presentes nos e-mails que enviamos, podes mudar as tuas preferências e parar a tua subscrição facilmente, em qualquer momento."
     cost_title: "Custo"
-#    cost_description: "CodeCombat is free to play in the dungeon campaign, with a $9.99 USD/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a $9.99 USD/mo subscription for access to extra level branches and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Direitos Autorais e Licensas"
     contributor_title: "Contrato de Licença do Contribuinte (CLA)"
     contributor_description_prefix: "Todas as contribuições, tanto no sítio como no nosso repositório GitHub, estão sujeitas ao nosso"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     one_month_discount: "desconto de 30%: escolhe Rails ou HTML"
     license: "licença"
     oreilly: "ebook à tua escolha"
-
-  wizard_settings:
-    title: "Definições do Feiticeiro"
-    customize_avatar: "Personaliza o Teu Avatar"
-    active: "Ativo"
-    color: "Cor"
-    group: "Grupo"
-    clothes: "Roupas"
-    trim: "Pormenores"
-    cloud: "Nuvem"
-    team: "Equipa"
-    spell: "Feitiço"
-    boots: "Botas"
-    hue: "Tom"
-    saturation: "Saturação"
-    lightness: "Brilho"
 
   account_profile:
     settings: "Definições" # We are not actively recruiting right now, so there's no need to add new translations for this section.

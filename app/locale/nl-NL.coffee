@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_rate_the_level: "Beoordeel het level: " # Only in old-style levels.
     victory_return_to_ladder: "Keer terug naar de ladder"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Speel Volgend Level"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ga naar Home" # Only in old-style levels.
     victory_review: "Vertel ons meer!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Tovenaar instellingen"
-    customize_avatar: "Bewerk je avatar"
-    active: "Actief"
-    color: "Kleur"
-    group: "Groep"
-    clothes: "Kleren"
-    trim: "Trim"
-    cloud: "Wolk"
-    team: "Team"
-    spell: "Spreuk"
-    boots: "Laarzen"
-    hue: "Hue"
-    saturation: "Saturatie"
-    lightness: "Helderheid"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.

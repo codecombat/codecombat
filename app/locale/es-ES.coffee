@@ -227,12 +227,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_rate_the_level: "Puntúa este nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver a Clasificación"
     victory_play_continue: "Continuar"
-    victory_play_skip: "Saltar animacion"
-    victory_play_next_level: "Jugar el siguiente nivel"
-    victory_play_more_practice: "Mas Practica"
-    victory_play_too_easy: "Demasiado facil"
-    victory_play_just_right: "Justo"
-    victory_play_too_hard: "Demasiado dificil"
     victory_saving_progress: "Salvando Progreso"
     victory_go_home: "Ir a Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     one_month_discount: "descuento del 30%: elige entre Rails o HTML"
     license: "licencia"
     oreilly: "ebook de tu eleccion"
-
-  wizard_settings:
-    title: "Ajustes del mago"
-    customize_avatar: "Personaliza tu Avatar"
-    active: "Activo"
-    color: "Color"
-    group: "Grupo"
-    clothes: "Ropa"
-    trim: "Decoración"
-    cloud: "Nube"
-    team: "Equipo"
-    spell: "Hechizo"
-    boots: "Botas"
-    hue: "Matiz"
-    saturation: "Saturación"
-    lightness: "Brillo"
 
   account_profile:
     settings: "Configuración" # We are not actively recruiting right now, so there's no need to add new translations for this section.

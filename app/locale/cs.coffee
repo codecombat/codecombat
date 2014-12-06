@@ -15,7 +15,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     or_ipad: "Nebo stáhnout pro iPad"
 
   nav:
-    play: "Úrovně" # The top nav bar entry where players choose which levels to playc
+    play: "Úrovně" # The top nav bar entry where players choose which levels to play
     community: "Komunita"
     editor: "Editor"
     blog: "Blog"
@@ -227,12 +227,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_rate_the_level: "Ohodnoťte tuto úroveň: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Hrát další úroveň"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Přejít domů" # Only in old-style levels.
     victory_review: "Připomínky!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   subscribe:
     subscribe_title: "Předplacení"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -823,7 +817,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    gems: "Gems"
 #    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
-#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat předplatným!"
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Nastavení Kouzelníka"
-    customize_avatar: "Upravte vás Avatar"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
-#    clothes: "Clothes"
-#    trim: "Trim"
-#    cloud: "Cloud"
-#    team: "Team"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.

@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     victory_rate_the_level: "Bedøm nivået: " # Only in old-style levels.
     victory_return_to_ladder: "Tilbake til stige"
     victory_play_continue: "Fortsett"
-    victory_play_skip: "Hopp Over"
-    victory_play_next_level: "Spill neste brett"
-    victory_play_more_practice: "Mer trening"
-    victory_play_too_easy: "For lett"
-    victory_play_just_right: "Passe vanskelig"
-    victory_play_too_hard: "For vanskelig"
     victory_saving_progress: "Lagrer framskritt"
     victory_go_home: "Gå Hjem" # Only in old-style levels.
     victory_review: "Fortell oss mer!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Innstillinger for Trollmannen"
-    customize_avatar: "Tilpass figuren"
-    active: "Aktiv"
-    color: "Farge"
-    group: "Gruppe"
-    clothes: "Klær"
-    trim: "Detaljer"
-    cloud: "Sky"
-    team: "Lag"
-    spell: "Magi"
-    boots: "Støvler"
-    hue: "Fargetone"
-    saturation: "Metning"
-    lightness: "Lyshet"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.

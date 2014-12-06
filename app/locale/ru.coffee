@@ -226,6 +226,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
+#    victory_play_continue: "Continue"
     victory_saving_progress: "Процесс сохранения"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
@@ -973,22 +974,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Настройки волшебника"
-    customize_avatar: "Изменить свой аватар"
-    active: "Активно"
-    color: "Цвет"
-    group: "Группа"
-    clothes: "Одежда"
-    trim: "Отделка"
-    cloud: "Облако"
-    team: "Команда"
-    spell: "Заклинание"
-    boots: "Обувь"
-    hue: "Оттенок"
-    saturation: "Насыщенность"
-    lightness: "Светлость"
 
   account_profile:
     settings: "Настойки" # We are not actively recruiting right now, so there's no need to add new translations for this section.

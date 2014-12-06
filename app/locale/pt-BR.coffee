@@ -227,12 +227,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     victory_rate_the_level: "Avalie o estágio: " # Only in old-style levels.
     victory_return_to_ladder: "Retornar para a Ladder"
     victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Jogar o próximo estágio"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Ir à página inicial" # Only in old-style levels.
     victory_review: "Diga-nos mais!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     one_month_discount: "desconto de 30%: escolha Rails ou HTML"
     license: "licença"
     oreilly: "ebook de sua escolha"
-
-  wizard_settings:
-    title: "Configurações do Feiticeiro"
-    customize_avatar: "Personalize o seu Avatar"
-    active: "Ativo"
-    color: "Cor"
-    group: "Grupo"
-    clothes: "Roupas"
-    trim: "Aparar"
-    cloud: "Nuvem"
-    team: "Time"
-    spell: "Feitiço"
-    boots: "Botas"
-    hue: "Matiz"
-    saturation: "Saturação"
-    lightness: "Luminosidade"
 
   account_profile:
     settings: "Configurações" # We are not actively recruiting right now, so there's no need to add new translations for this section.

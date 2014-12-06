@@ -227,12 +227,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
     victory_rate_the_level: "Оцінити рівень: " # Only in old-style levels.
     victory_return_to_ladder: "Повернутись до таблиці рівнів"
     victory_play_continue: "Продовжити"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Наступний рівень"
-    victory_play_more_practice: "Більше практики"
-    victory_play_too_easy: "Надто легко"
-    victory_play_just_right: "Якраз добре"
-    victory_play_too_hard: "Надто складно"
     victory_saving_progress: "Триває збереження прогресу"
     victory_go_home: "На головну" # Only in old-style levels.
     victory_review: "Розкажіть нам більше!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Налаштування"
-    customize_avatar: "Налаштувати аватар"
-    active: "Діючий"
-    color: "Колір"
-    group: "Група"
-    clothes: "Одяг"
-    trim: "Оздоблення"
-    cloud: "Хмаринка"
-    team: "Команда"
-    spell: "Закляття"
-    boots: "Черевики"
-    hue: "Відтінок"
-    saturation: "Насиченість"
-    lightness: "Яскравість"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.

@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
     victory_return_to_ladder: "Zurück zur Rangliste"
     victory_play_continue: "Fortsetzen"
-    victory_play_skip: "Überspringen"
-    victory_play_next_level: "Spiel das nächste Level"
-    victory_play_more_practice: "Mehr Training"
-    victory_play_too_easy: "Zu einfach"
-    victory_play_just_right: "Genau richtig"
-    victory_play_too_hard: "Zu schwer"
     victory_saving_progress: "Fortschritt speichern"
     victory_go_home: "Geh auf die Startseite" # Only in old-style levels.
     victory_review: "Erzähl uns davon!" # Only in old-style levels.
@@ -346,7 +340,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents: "Für Eltern"
     parents_title: "Dein Kind lernt zu programmieren."
     parents_blurb1: "Mit CodeCombat, lernt dein Kind richtige Programme zu schreiben. Es fängt mit einfachen Befehlen an, und schreitet ganz unmerklich zu schwierigeren Themen fort."
-    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."  # Please update based on new wording from en.coffee
+    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
     subscribe_button: "Abonniere jetzt"
     stripe_description: "Monatsabo"
@@ -678,7 +672,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     artisan_subscribe_desc: "Erhalte Emails über Level-Editor Updates und Ankündigungen."
     adventurer_summary: "Dein Job: du bist der tank. Du wirst einstecken müssen, als gäbe es kein Morgen. Du wirst, fluchen, schwitzen und verzweifeln. Wir brauchen Leute, die unsere nagelneuen Level ausprobieren, und alle Bugs durchleiden. Spieldesign ist ein langer Prozeß, und niemand macht beim ersten Versuch alles richtig. Aber wenn du mithelfen willst, und aushalten kannst, dann sei dabei. Denn nur mit dieser deiner Klasse, gibt es beim zweiten, dritten, x-ten versuch ein besseres Level."
     adventurer_introduction: "Dein Job: du bist der tank. Du wirst einstecken müssen, als gäbe es kein Morgen. Du wirst, fluchen, schwitzen und verzweifeln. Wir brauchen Leute, die unsere nagelneuen Level ausprobieren, und alle Bugs durchleiden. Spieldesign ist ein langer Prozeß, und niemand macht beim ersten Versuch alles richtig. Aber wenn du mithelfen willst, und aushalten kannst, dann sei dabei. Denn nur mit dieser deiner Klasse, gibt es beim zweiten, dritten, x-ten versuch ein besseres Level."
-    adventurer_attribute_1: "Ein Heißhunger nach Wissen. Du willst lernen wie man programmiert, und wir wollen es dir beibringen. Oder genauer, du willst es dir selber beibringen (und wir dir dabei helfen)."#    adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."
+    adventurer_attribute_1: "Ein Heißhunger nach Wissen. Du willst lernen wie man programmiert, und wir wollen es dir beibringen. Oder genauer, du willst es dir selber beibringen (und wir dir dabei helfen)."
     adventurer_attribute_2: "Charismatisch. Sei rücksichtsvoll aber deutlich, wenn du erklärst was verbessert werden muß. Und gib Tipps wie dies umzusetzen ist."
     adventurer_join_pref: "Schließ dich entweder mit einem Handwerker zusammen (oder rekrutiere einen!), oder klicke unten das Kästchen an, um emails zu erhalten wenn wir neue Level zum testen haben. Wir werden dies auch über unsere Netzwerke veröffentlichen, wie z.B."
     adventurer_forum_url: "unser Forum"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     one_month_discount: "30% Rabatt: Wähle entweder Rails oder HTML"
     license: "Lizenz"
     oreilly: "Ebook deiner Wahl"
-
-  wizard_settings:
-    title: "Zauberer Einstellungen"
-    customize_avatar: "Individualisiere deinen Avatar"
-    active: "Aktiv"
-    color: "Farbe"
-    group: "Gruppe"
-    clothes: "Kleidung"
-    trim: "Applikationen"
-    cloud: "Wolke"
-    team: "Team"
-    spell: "Zauber"
-    boots: "Stiefel"
-    hue: "Farbton"
-    saturation: "Sättigung"
-    lightness: "Helligkeit"
 
   account_profile:
     settings: "Einstellungen" # We are not actively recruiting right now, so there's no need to add new translations for this section.

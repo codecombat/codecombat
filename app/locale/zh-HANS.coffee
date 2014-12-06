@@ -227,12 +227,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_rate_the_level: "评估关卡：" # Only in old-style levels.
     victory_return_to_ladder: "返回"
     victory_play_continue: "继续游戏"
-    victory_play_skip: "跳过并继续"
-    victory_play_next_level: "下一关"
-    victory_play_more_practice: "更多练习"
-    victory_play_too_easy: "太简单"
-    victory_play_just_right: "刚刚好"
-    victory_play_too_hard: "太难"
     victory_saving_progress: "保存进度"
     victory_go_home: "返回主页" # Only in old-style levels.
     victory_review: "给我们反馈！" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "设置向导"
-    customize_avatar: "设置你的头像"
-    active: "启用"
-    color: "颜色"
-    group: "类别"
-    clothes: "衣服"
-    trim: "条纹"
-    cloud: "云"
-    team: "队伍"
-    spell: "法球"
-    boots: "鞋子"
-    hue: "颜色"
-    saturation: "饱和度"
-    lightness: "亮度"
 
   account_profile:
     settings: "设置" # We are not actively recruiting right now, so there's no need to add new translations for this section.

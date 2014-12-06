@@ -227,12 +227,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_rate_the_level: "箇關評價：" # Only in old-style levels.
     victory_return_to_ladder: "走轉"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "下關"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "轉到主頁" # Only in old-style levels.
     victory_review: "搭我裏反應！" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "定做獻路人"
-    customize_avatar: "設定人頭照"
-    active: "開起"
-    color: "顏色"
-    group: "分類"
-    clothes: "衣裳"
-    trim: "格子"
-    cloud: "雲"
-    team: "隊"
-    spell: "魔法球"
-    boots: "鞋"
-    hue: "顏色"
-    saturation: "飽和度"
-    lightness: "亮度"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.
