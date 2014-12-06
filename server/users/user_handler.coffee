@@ -230,8 +230,18 @@ UserHandler = class UserHandler extends Handler
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @searchForUser(req, res) if args[1] is 'admin_search'
+    return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @sendNotFoundError(res)
     super(arguments...)
+
+  getStripeInfo: (req, res, handle) ->
+    @getDocumentForIdOrSlug handle, (err, user) =>
+      return @sendNotFoundError(res) if not user
+      return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or req.user.get('_id').equals(user.get('_id')))
+      return @sendNotFoundError(res) #if not customerID = user.get('stripe')?.customerID
+      stripe.customers.retrieve customerID, (err, customer) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, JSON.stringify(customer, null, '\t'))
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user

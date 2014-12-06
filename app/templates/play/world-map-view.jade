@@ -8,7 +8,7 @@
   - var seenNext = nextLevel;
   each level in campaign.levels
     if !level.hidden
-      - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled && (!level.practice || me.getBranchingGroup() == 'all-practice'));
+      - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled);
       - seenNext = seenNext || next;
       div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
@@ -73,15 +73,15 @@ button.btn.btn-lg.btn-inverse#volume-button(title="Adjust volume")
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up
 
-h1#campaign-status
-  if mapType == 'dungeon'
-    span.spr(data-i18n="play.campaign_dungeon")
-  else if mapType == 'forest'
-    span.spr(data-i18n="play.campaign_forest")
-  | -
-  if requiresSubscription
-    span.spl(data-i18n="play.subscription_required")
-  else if mapType == 'dungeon'
-    span.spl(data-i18n="play.free")
-  else
-    span.spl(data-i18n="play.subscribed")
+//h1#campaign-status
+//  if mapType == 'dungeon'
+//    span.spr(data-i18n="play.campaign_dungeon")
+//  else if mapType == 'forest'
+//    span.spr(data-i18n="play.campaign_forest")
+//  | -
+//  if requiresSubscription
+//    span.spl(data-i18n="play.subscription_required")
+//  else if mapType == 'dungeon'
+//    span.spl(data-i18n="play.free")
+//  else
+//    span.spl(data-i18n="play.subscribed")

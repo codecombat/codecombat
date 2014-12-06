@@ -107,9 +107,6 @@
     .executed
       background-color: rgba(110, 110, 110, 0.12)
 
-    .locked-code
-      border: 1px dashed rgba(53, 45, 34, 0.5)
-
     +keyframes(pulseRedBackground)
       from
         background-color: rgba(255, 45, 27, 0.4)
@@ -174,6 +171,9 @@
       .ace_bracket
         // Override faint gray
         border-color: #BFF
+
+      .locked-code
+        border: 1px dashed rgba(53, 45, 34, 0.5)
 
     // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
     //.ace_identifier

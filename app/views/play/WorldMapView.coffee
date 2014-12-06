@@ -81,7 +81,7 @@ module.exports = class WorldMapView extends RootView
       $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       trackedHourOfCode = true
 
-    @requiresSubscription = @terrain isnt 'dungeon' and not me.get('stripe')?.subscriptionID
+    @requiresSubscription = @terrain isnt 'dungeon' and not me.isPremium()
 
   destroy: ->
     @setupManager?.destroy()
@@ -118,14 +118,6 @@ module.exports = class WorldMapView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
-    if @requiresSubscription
-      modal = if me.get('anonymous') then AuthModal else SubscribeModal
-      _.delay => 
-        @openModalView? new modal() unless window.currentModal
-        if modal is SubscribeModal
-          window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'world map loadded'
-          window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
-      , 2000
 
   onSubscribed: ->
     @requiresSubscription = false
@@ -144,9 +136,8 @@ module.exports = class WorldMapView extends RootView
       level.locked = false if me.get('slug') is 'nick'
       level.disabled = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
-      if level.practice
-        level.color = 'rgb(80, 130, 200)' unless me.getBranchingGroup() is 'all-practice'
-        level.hidden = true if me.getBranchingGroup() is 'no-practice'
+      if level.requiresSubscription
+        level.color = 'rgb(80, 130, 200)'
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
@@ -161,10 +152,16 @@ module.exports = class WorldMapView extends RootView
     @onWindowResize()
     unless application.isIPadApp
       _.defer => @$el?.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
-      @$el.find('.level').tooltip()
+      @$el.find('.level').tooltip().each ->
+        return unless me.isAdmin()
+        $(@).draggable().on 'dragstop', ->
+          bg = $('.map-background')
+          x = ($(@).offset().left - bg.offset().left + $(@).outerWidth() / 2) / bg.width()
+          y = 1 - ($(@).offset().top - bg.offset().top + $(@).outerHeight() / 2) / bg.height()
+          console.log "#{$(@).data('level-id')}\n    x: #{(100 * x).toFixed(2)}\n    y: #{(100 * y).toFixed(2)}\n"
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
-    unless window.currentModal or not @fullyRendered or @requiresSubscription
+    unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
         @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -210,7 +207,7 @@ module.exports = class WorldMapView extends RootView
       @adjustLevelInfoPosition e
       @endHighlight()
     else
-      if @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
+      if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
         modal = if me.get('anonymous') then AuthModal else SubscribeModal
         @openModalView new modal()
         if modal is SubscribeModal
@@ -376,8 +373,8 @@ dungeon = [
     id: 'shadow-guard'
     original: '54174347844506ae0195a0b8'
     description: 'Evade the Kithgard minion.'
-    x: 44
-    y: 11
+    x: 40.54
+    y: 11.03
     nextLevels:
       more_practice: 'kounter-kithwise'
       continue: 'forgetful-gemsmith'
@@ -388,33 +385,34 @@ dungeon = [
     id: 'kounter-kithwise'
     original: '54527a6257e83800009730c7'
     description: 'Practice your evasion skills with more guards.'
-    x: 55
-    y: 11
+    x: 35.37
+    y: 20.61
     nextLevels:
-      #more_practice: 'crawlways-of-kithgard'
+      continue: 'crawlways-of-kithgard'
+    practice: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Crawlways of Kithgard'
+    type: 'hero'
+    id: 'crawlways-of-kithgard'
+    original: '545287ef57e83800009730d5'
+    description: 'Dart in and grab the gem–at the right moment.'
+    x: 36.48
+    y: 29.03
+    nextLevels:
       continue: 'forgetful-gemsmith'
     practice: true
+    requiresSubscription: true
   }
-  #{
-  #  name: 'Crawlways of Kithgard'
-  #  type: 'hero'
-  #  #  id: 'crawlways-of-kithgard'
-  #  original: '545287ef57e83800009730d5'
-  #  description: 'Dart in and grab the gem–at the right moment.'
-  #  x: 57
-  #  y: 12
-  #  nextLevels:
-  #    continue: 'true-names'
-  #  practice: true
-  #}
   {
     name: 'Forgetful Gemsmith'
     type: 'hero'
     id: 'forgetful-gemsmith'
     original: '544a98f62d002f0000fe331a'
     description: 'Grab even more gems as you practice moving.'
-    x: 66
-    y: 11
+    x: 54.98
+    y: 10.53
     nextLevels:
       continue: 'true-names'
   }
@@ -424,8 +422,8 @@ dungeon = [
     id: 'true-names'
     original: '541875da4c16460000ab990f'
     description: 'Learn an enemy\'s true name to defeat it.'
-    x: 76
-    y: 13
+    x: 68.44
+    y: 10.70
     nextLevels:
       more_practice: 'favorable-odds'
       continue: 'the-raised-sword'
@@ -436,11 +434,12 @@ dungeon = [
     id: 'favorable-odds'
     original: '5452972f57e83800009730de'
     description: 'Test out your battle skills by defeating more munchkins.'
-    x: 80.85
-    y: 16
+    x: 88.25
+    y: 14.92
     nextLevels:
       continue: 'the-raised-sword'
     practice: true
+    requiresSubscription: true
   }
   {
     name: 'The Raised Sword'
@@ -448,23 +447,11 @@ dungeon = [
     id: 'the-raised-sword'
     original: '5418aec24c16460000ab9aa6'
     description: 'Learn to equip yourself for combat.'
-    x: 85
-    y: 20
+    x: 81.51
+    y: 17.92
     nextLevels:
       continue: 'haunted-kithmaze'
   }
-  #{
-  #  name: 'The First Kithmaze'
-  #  type: 'hero'
-  #  id: 'the-first-kithmaze'
-  #  original: '5418b9d64c16460000ab9ab4'
-  #  description: 'The builders of Kithgard constructed many mazes to confuse travelers.'
-  #  x: 78
-  #  y: 29
-  #  nextLevels:
-  #    more_practice: 'descending-further'
-  #    continue: 'the-second-kithmaze'
-  #}
   {
     name: 'Haunted Kithmaze'
     type: 'hero'
@@ -478,16 +465,31 @@ dungeon = [
       continue: 'the-second-kithmaze'
   }
   {
+    name: 'Riddling Kithmaze'
+    type: 'hero'
+    id: 'riddling-kithmaze'
+    original: '5418b9d64c16460000ab9ab4'
+    description: 'If at first you go astray, change your loop to find the way.'
+    x: 69.97
+    y: 28.03
+    nextLevels:
+      more_practice: 'descending-further'
+      continue: 'the-second-kithmaze'
+    practice: true
+    requiresSubscription: true
+  }
+  {
     name: 'Descending Further'
     type: 'hero'
     id: 'descending-further'
     original: '5452a84d57e83800009730e4'
     description: 'Another day, another maze.'
-    x: 70
-    y: 28
+    x: 61.68
+    y: 22.80
     nextLevels:
       continue: 'the-second-kithmaze'
     practice: true
+    requiresSubscription: true
   }
   {
     name: 'The Second Kithmaze'
@@ -495,8 +497,8 @@ dungeon = [
     id: 'the-second-kithmaze'
     original: '5418cf256bae62f707c7e1c3'
     description: 'Many have tried, few have found their way through this maze.'
-    x: 58
-    y: 23
+    x: 54.49
+    y: 26.49
     nextLevels:
       continue: 'dread-door'
   }
@@ -506,8 +508,8 @@ dungeon = [
     id: 'dread-door'
     original: '5418d40f4c16460000ab9ac2'
     description: 'Behind a dread door lies a chest full of riches.'
-    x: 59
-    y: 32
+    x: 60.52
+    y: 33.70
     nextLevels:
       continue: 'known-enemy'
   }
@@ -562,11 +564,12 @@ dungeon = [
     id: 'tactical-strike'
     original: '5452cfa706a59e000067e4f5'
     description: 'They\'re, uh, coming right for us! Sneak up behind them.'
-    x: 88.65
-    y: 63.06
+    x: 83.23
+    y: 52.73
     nextLevels:
       continue: 'the-final-kithmaze'
     practice: true
+    requiresSubscription: true
   }
   {
     name: 'The Final Kithmaze'
@@ -574,8 +577,8 @@ dungeon = [
     id: 'the-final-kithmaze'
     original: '541b434e1ccc8eaae19f3c33'
     description: 'To escape you must find your way through an Elder Kithman\'s maze.'
-    x: 83
-    y: 68
+    x: 86.95
+    y: 64.70
     nextLevels:
       more_practice: 'the-gauntlet'
       continue: 'kithgard-gates'
@@ -586,11 +589,12 @@ dungeon = [
     id: 'the-gauntlet'
     original: '5452d8b906a59e000067e4fa'
     description: 'Rush for the stairs, battling foes at every turn.'
-    x: 84.89
-    y: 73.88
+    x: 76.50
+    y: 72.69
     nextLevels:
       continue: 'kithgard-gates'
     practice: true
+    requiresSubscription: true
   }
   {
     name: 'Kithgard Gates'
@@ -658,6 +662,8 @@ forest = [
       continue: 'thornbush-farm'
     x: 33
     y: 37
+    practice: true
+    requiresSubscription: true
   }
   {
     name: 'Thornbush Farm'
@@ -750,6 +756,7 @@ forest = [
       continue: 'swift-dagger'
     x: 38
     y: 72
+    requiresSubscription: true
   }
   {
     name: 'Swift Dagger'
@@ -761,6 +768,7 @@ forest = [
       continue: 'shrapnel'
     x: 33
     y: 72
+    requiresSubscription: true
   }
   {
     name: 'Shrapnel'
@@ -772,6 +780,7 @@ forest = [
       continue: 'coinucopia'
     x: 28
     y: 73
+    requiresSubscription: true
   }
 
   # Wizard branch
@@ -786,6 +795,7 @@ forest = [
     x: 47
     y: 71
     adventurer: true
+    requiresSubscription: true
   }
   {
     name: 'Touch of Death'
@@ -798,6 +808,7 @@ forest = [
     x: 52
     y: 70
     adventurer: true
+    requiresSubscription: true
   }
   {
     name: 'Bonemender'
@@ -810,6 +821,7 @@ forest = [
     x: 58
     y: 67
     adventurer: true
+    requiresSubscription: true
   }
 
   {
@@ -855,6 +867,7 @@ forest = [
       continue: 'rich-forager'
     x: 74.5
     y: 92
+    requiresSubscription: true
   }
   {
     name: 'Rich Forager'
@@ -867,6 +880,7 @@ forest = [
     x: 80
     y: 88
     adventurer: true
+    requiresSubscription: true
   }
   {
     name: 'Siege of Stonehold'
@@ -880,6 +894,7 @@ forest = [
     x: 85.5
     y: 83.5
     adventurer: true
+    requiresSubscription: true
   }
   {
     name: 'Multiplayer Treasure Grove'

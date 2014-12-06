@@ -42,11 +42,6 @@ block modal-body-content
                 img(src=item.getPortraitURL())
               .reward-text= animate ? 'New Item' : item.get('name')
 
-  .next-levels-prompt
-    for button in continueButtons
-      - var enabled = Boolean(button.link != '/play' || me.getBranchingGroup() == 'choice-implicit' || button.key == 'continue');
-      button.btn.btn-success.btn-lg.world-map-button.next-level-branch-button(data-href=button.link, disabled=!enabled, data-dismiss="modal", data-i18n="play_level.victory_play_" + button[me.getBranchingGroup()], data-branch-key=button.key)
-
 block modal-footer-content
   if me.get('anonymous')
     p.sign-up-poke.hide

@@ -346,7 +346,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents: "Für Eltern"
     parents_title: "Dein Kind lernt zu programmieren."
     parents_blurb1: "Mit CodeCombat, lernt dein Kind richtige Programme zu schreiben. Es fängt mit einfachen Befehlen an, und schreitet ganz unmerklich zu schwierigeren Themen fort."
-    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."
+    parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen email support von professionellen Programmierern."  # Please update based on new wording from en.coffee
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
     subscribe_button: "Abonniere jetzt"
     stripe_description: "Monatsabo"
@@ -641,7 +641,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     character_classes_title: "Charakter Klassen"
     introduction_desc_intro: "Wir haben hohe Erwartungen für CodeCombat."
     introduction_desc_pref: "Wir wollen ein Ort sein, an dem sich Programmierer aller coleur treffen, um gemeinsam zu spielen und zu lernen. Wo sie andere in die wunderbare Welt des Programmierens einführen, und dabei die besten Aspekte der Programmierer-Community verkörpern. Wir können und wollen dies nicht alleine tun. Projekte wie GitHub, Stack Overflow and Linux leben von den großartigen Leuten die sie bauen und nutzen. Darum ist, "
-    introduction_desc_github_url: "CodeCombat komplett OpenSource"
+    introduction_desc_github_url: "CodeCombat ist komplett OpenSource"
     introduction_desc_suf: ". Wir wollen es dir so einfach und vielfältig wie irgend möglich machen, dich an diesem Projekt zu beteiligen. Damit es genauso zu deinem Projekt wird, wie zu unserem."
     introduction_desc_ending: "Wir hoffen du nimmst an unserer Party teil!"
     introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"

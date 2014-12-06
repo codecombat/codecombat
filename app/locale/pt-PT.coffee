@@ -346,7 +346,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     parents: "Para Educadores"
     parents_title: "O teu educando vai aprender a programar."
     parents_blurb1: "Com o CodeCombat, o teu educando aprende ao escrever código real. Começa por aprender comandos simples e progride para tópicos mais avançados."
-    parents_blurb2: "Por $9.99 USD/mês, recebe novos desafios todas as semanas e suporte pessoal, via e-mail, de programadores profissionais."
+    parents_blurb2: "Por $9.99 USD/mês, recebe novos desafios todas as semanas e suporte pessoal, via e-mail, de programadores profissionais."  # Please update based on new wording from en.coffee
     parents_blurb3: "Sem Risco: 100% de garantia de devolução do dinheiro, com anulação fácil de 1 clique."
     subscribe_button: "Subscrever Agora"
     stripe_description: "Subscrição Mensal"

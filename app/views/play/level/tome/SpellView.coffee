@@ -257,7 +257,6 @@ module.exports = class SpellView extends CocoView
     # TODO: Lock default indent for an empty line?
     return unless LevelOptions[@options.level.get('slug')]?.lockDefaultCode or CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'lockDefaultCode')
     return unless @spell.source is @spell.originalSource or force
-    return if @spell.language in ['javascript', 'lua', 'clojure', 'io']  # Only works for languages without closing delimeters on blocks currently
 
     console.info 'Locking down default code.'
 
@@ -294,16 +293,50 @@ module.exports = class SpellView extends CocoView
         wrapper => orig.apply obj, args
       obj[method]
 
-    if @lockedCodeMarkerID?
-      @aceSession.removeMarker @lockedCodeMarkerID
-      @lockedCodeMarkerID = null
 
+    finishRange = (row, startRow, startColumn) =>
+      range = new Range startRow, startColumn, row, @aceSession.getLine(row).length - 1
+      range.start = @aceDoc.createAnchor range.start
+      range.end = @aceDoc.createAnchor range.end
+      range.end.$insertRight = true
+      @readOnlyRanges.push range
+
+    # Remove previous locked code highlighting
+    if @lockedCodeMarkerIDs?
+      @aceSession.removeMarker marker for marker in @lockedCodeMarkerIDs
+    @lockedCodeMarkerIDs = []
+
+    # Create locked default code text ranges
     @readOnlyRanges = []
-    lines = @aceDoc.getAllLines()
-    lastRow = row for line, row in lines when not /^\s*$/.test(line)
-    if lastRow?
-      @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1
-      @lockedCodeMarkerID = @aceSession.addMarker @readOnlyRanges[0], 'locked-code', 'fullLine'
+    if @spell.language in ['python', 'coffeescript']  
+      # Lock contiguous section of default code
+      # Only works for languages without closing delimeters on blocks currently
+      lines = @aceDoc.getAllLines()
+      lastRow = row for line, row in lines when not /^\s*$/.test(line)
+      if lastRow?
+        @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1
+
+    # TODO: Highlighting does not work for multiple ranges
+    # TODO: Everything looks correct except the actual result.
+    # TODO: https://github.com/codecombat/codecombat/issues/1852
+    # else
+    #   # Create a read-only range for each chunk of text not separated by an empty line
+    #   startRow = startColumn = null
+    #   for row in [0...@aceSession.getLength()]
+    #     unless /^\s*$/.test @aceSession.getLine(row)
+    #       unless startRow? and startColumn?
+    #         startRow = row
+    #         startColumn = 0
+    #     else
+    #       if startRow? and startColumn?
+    #         finishRange row - 1, startRow, startColumn
+    #         startRow = startColumn = null
+    #   if startRow? and startColumn?
+    #     finishRange @aceSession.getLength() - 1, startRow, startColumn
+
+    # Highlight locked ranges
+    for range in @readOnlyRanges
+      @lockedCodeMarkerIDs.push @aceSession.addMarker range, 'locked-code', 'fullLine'
 
     # Override write operations that intersect with default code
     interceptCommand @ace, 'onPaste', preventReadonly
