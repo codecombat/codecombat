@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_rate_the_level: "Betygsätt nivån: " # Only in old-style levels.
     victory_return_to_ladder: "Gå tillbaka till stegen"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Spela nästa nivå"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Gå hem" # Only in old-style levels.
     victory_review: "Berätta mer!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Trollkarlsinställningar"
-    customize_avatar: "Skräddarsy din avatar"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
-    clothes: "Kläder"
-    trim: "Dekorationer"
-    cloud: "Moln"
-#    team: "Team"
-    spell: "Trollformel"
-    boots: "Stövlar"
-    hue: "Nyans"
-    saturation: "Mättnad"
-    lightness: "Ljusstyrka"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.

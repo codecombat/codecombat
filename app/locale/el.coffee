@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_rate_the_level: "Βαθμολογήστε το επίπεδο: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Παίξε το επόμενο επίπεδο"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Πηγαίνετε στην Αρχική" # Only in old-style levels.
     victory_review: "Πείτε μας περισσότερα!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -925,7 +919,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_settings_url: "your email settings"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
-#    cost_description: "CodeCombat is free to play in the dungeon campaign, with a $9.99 USD/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for all of its core levels, with a $9.99 USD/mo subscription for access to extra level branches and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Ρυθμίσεις Μάγου"
-    customize_avatar: "Διαμόρφωσε το  Avatar σου"
-    active: "Ενεργό"
-    color: "Χρώμα"
-    group: "Ομάδα"
-    clothes: "Ρούχα"
-    trim: "Τελείωμα"
-    cloud: "Σύννεφο"
-    team: "Ομάδα"
-    spell: "Ξόρκι"
-    boots: "Μπότες"
-    hue: "Απόχρωση"
-    saturation: "Κορεσμός"
-    lightness: "Φωτεινότητα"
 
   account_profile:
     settings: "Ρυθμίσεις" # We are not actively recruiting right now, so there's no need to add new translations for this section.

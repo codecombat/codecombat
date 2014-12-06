@@ -226,13 +226,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
-    victory_play_continue: "Продолжить"
-    victory_play_skip: "Пропустить"
-    victory_play_next_level: "Следующий уровень"
-    victory_play_more_practice: "Попрактиковаться еще"
-    victory_play_too_easy: "Очень легко"
-    victory_play_just_right: "То, что надо"
-    victory_play_too_hard: "Очень сложно"
+#    victory_play_continue: "Continue"
     victory_saving_progress: "Процесс сохранения"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
@@ -339,14 +333,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     subscribe_title: "Подпишись"
-    levels: "Разблокируйте 25 уровней! И еще 5 каждую неделю!"
+    levels: "Разблокируйте 17 уровней! И еще 5 каждую неделю!"
     heroes: "Более сильные герои!"
     gems: "3500 бонусных самоцветов каждый месяц!"
     items: "Более 250 бонусных предметов!"
     parents: "Для Родителей"
     parents_title: "Ваш ребенок научиться программировать."
     parents_blurb1: "С CodeCombat ваш ребенок учится через написание реального кода. Начиная с изучения простых команд, продолжая более продвинутыми темами."
-    parents_blurb2: "За $9.99/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."  # Please update based on new wording from en.coffee
+    parents_blurb2: "За $9.99 USD/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
     parents_blurb3: "Без риска: 100% гарантия возрата денег, возможность отписаться в 1 клик."
     subscribe_button: "Подпишись сейчас"
     stripe_description: "Месячная подписка"
@@ -541,7 +535,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_editor_suffix: "CodeCombat чтобы создавать и редактировать уровни. Пользователи могут создавать уровни для своих одноклассников, друзей, хакатонов, студентов, братьев и сестер. Если создание нового уровня звучит устрашающе, вы можете начать, ответвившись от одного из наших!"
     thang_editor_prefix: "Мы называем единицы внутри игры 'предметами'. Используйте"
     thang_editor_suffix: "чтобы изменять ресурсы игры. Позволяйте единицам бросать снаряды, измените направление анимации, очки здоровья или загрузите свои собственные векторные изображения."
-    article_editor_prefix: "Увдели ошибку в нашей документации? Хотите сделать инструкции к вашим творениям? Посмотрите"
+    article_editor_prefix: "Увидели ошибку в нашей документации? Хотите сделать инструкции к вашим творениям? Посмотрите"
     article_editor_suffix: "и помогите игрокам CodeCombat получить максимум от их времяпрепровождения."
     find_us: "Найдите нас на этих сайтах"
     social_blog: "Читайте блог CodeCombat на Sett"
@@ -917,7 +911,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     practices_title: "Уважаемые лучшие практики"
     practices_description: "Это наши обещания тебе, игроку, менее юридическим языком."
     privacy_title: "Конфиденциальность"
-#    privacy_description: "We will not sell any of your personal information."
+    privacy_description: "Мы не будем продавать ничего из ваших персональных данных."
     security_title: "Безопасность"
     security_description: "Мы стремимся сохранить вашу личную информацию в безопасности. Как проект с открытым исходным кодом, наш сайт открыт для всех в вопросах пересмотра и совершенствования систем безопасности."
     email_title: "Email"
@@ -925,7 +919,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     email_settings_url: "ваши email настройки"
     email_description_suffix: "или через ссылки в email-ах, которые мы отправляем, вы можете изменить предпочтения и легко отписаться в любой момент."
     cost_title: "Стоимость"
-    #cost_description: "В настоящее время, CodeCombat 100% бесплатен! Одной из наших главных целей является сохранить его таким, чтобы как можно больше людей могли играть, независимо от места в жизни. Если небо потемнеет, мы, возможно, введём подписки, возможно, только на некоторый контент, но нам не хотелось бы. Если повезёт, мы сможем поддерживать компанию, используя"  # Please update based on new wording from en.coffee
+    cost_description: "CodeCombat бесплатен для игры на базовых уровнях, с подпиской за $9.99 USD/месяц вы получите доступ к дополнительным ветвям уровней и 3500 бонусным самоцветам в месяц. Вы можете отказаться в 1 клик, и мы предлагаем 100% гарантию возврата денег."
     copyrights_title: "Авторские права и лицензии"
     contributor_title: "Лицензионное соглашение соавторов"
     contributor_description_prefix: "Все вклады, как на сайте, так и на нашем репозитории GitHub, подпадают под наше"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Настройки волшебника"
-    customize_avatar: "Изменить свой аватар"
-    active: "Активно"
-    color: "Цвет"
-    group: "Группа"
-    clothes: "Одежда"
-    trim: "Отделка"
-    cloud: "Облако"
-    team: "Команда"
-    spell: "Заклинание"
-    boots: "Обувь"
-    hue: "Оттенок"
-    saturation: "Насыщенность"
-    lightness: "Светлость"
 
   account_profile:
     settings: "Настойки" # We are not actively recruiting right now, so there's no need to add new translations for this section.

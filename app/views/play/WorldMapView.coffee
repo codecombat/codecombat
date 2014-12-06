@@ -208,11 +208,9 @@ module.exports = class WorldMapView extends RootView
       @endHighlight()
     else
       if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
-        modal = if me.get('anonymous') then AuthModal else SubscribeModal
-        @openModalView new modal()
-        if modal is SubscribeModal
-          window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked'
-          window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
+        @openModalView new SubscribeModal()
+        window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked'
+        window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
       else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return

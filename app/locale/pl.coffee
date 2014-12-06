@@ -227,12 +227,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     victory_rate_the_level: "Oceń poziom: " # Only in old-style levels.
     victory_return_to_ladder: "Powrót do drabinki"
 #    victory_play_continue: "Continue"
-#    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Przejdź na następny poziom"
-#    victory_play_more_practice: "More Practice"
-#    victory_play_too_easy: "Too Easy"
-#    victory_play_just_right: "Just Right"
-#    victory_play_too_hard: "Too Hard"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "Powrót do strony głównej" # Only in old-style levels.
     victory_review: "Powiedz nam coś więcej!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Ustawienia czarodzieja"
-    customize_avatar: "Personalizuj swój awatar"
-    active: "Aktywuj"
-    color: "Kolor"
-    group: "Rodzaj"
-    clothes: "Ubrania"
-    trim: "Dodatki"
-    cloud: "Chmura"
-    team: "Drużyna"
-    spell: "Zaklęcie"
-    boots: "Buty"
-    hue: "Odcień"
-    saturation: "Nasycenie"
-    lightness: "Jasność"
 
   account_profile:
     settings: "Ustawienia" # We are not actively recruiting right now, so there's no need to add new translations for this section.

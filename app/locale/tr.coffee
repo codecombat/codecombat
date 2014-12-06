@@ -227,12 +227,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     victory_rate_the_level: "Seviyeyi oyla:" # Only in old-style levels.
     victory_return_to_ladder: "Merdivene Dön"
     victory_play_continue: "Devam Et"
-    victory_play_skip: "İleri Atla"
-    victory_play_next_level: "Sonraki Seviyeyi Oyna: "
-    victory_play_more_practice: "Daha Fazla Alıştırma"
-    victory_play_too_easy: "Çok Kolay"
-    victory_play_just_right: "Tam Kıvamında"
-    victory_play_too_hard: "Çok Zor"
     victory_saving_progress: "İlerlemeyi Kaydediliyor"
     victory_go_home: "Anasayfaya Git" # Only in old-style levels.
     victory_review: "Daha fazla söyleyin!" # Only in old-style levels.
@@ -339,7 +333,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -980,22 +974,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Sihirbaz Ayarları"
-    customize_avatar: "Avatar'ınızı Özelleştirin"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
-    clothes: "Kıyafet"
-    trim: "Süs"
-    cloud: "Püs"
-#    team: "Team"
-    spell: "Büyü"
-    boots: "Çizme"
-    hue: "Ton"
-    saturation: "Doyum"
-    lightness: "Parlaklık"
 
   account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.

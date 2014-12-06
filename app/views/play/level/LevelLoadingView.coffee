@@ -2,7 +2,6 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
 utils = require 'core/utils'
 SubscribeModal = require 'views/play/modal/SubscribeModal'
-AuthModal = require 'views/core/AuthModal'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -110,11 +109,9 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.subscription-required').show()
 
   onClickStartSubscription: (e) ->
-    modal = if me.get('anonymous') then AuthModal else SubscribeModal
-    @openModalView new modal()
-    if modal is SubscribeModal
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading'
-      window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
+    @openModalView new SubscribeModal()
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading'
+    window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
 
   onSubscribed: ->
     document.location.reload()

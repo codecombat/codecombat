@@ -975,22 +975,6 @@
     license: "license"
     oreilly: "ebook of your choice"
 
-  wizard_settings:
-    title: "Wizard Settings"
-    customize_avatar: "Customize Your Avatar"
-    active: "Active"
-    color: "Color"
-    group: "Group"
-    clothes: "Clothes"
-    trim: "Trim"
-    cloud: "Cloud"
-    team: "Team"
-    spell: "Spell"
-    boots: "Boots"
-    hue: "Hue"
-    saturation: "Saturation"
-    lightness: "Lightness"
-
   account_profile:
     settings: "Settings"  # We are not actively recruiting right now, so there's no need to add new translations for this section.
     edit_profile: "Edit Profile"

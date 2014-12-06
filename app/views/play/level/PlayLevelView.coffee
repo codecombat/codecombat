@@ -62,12 +62,10 @@ module.exports = class PlayLevelView extends RootView
     'level:reload-from-data': 'onLevelReloadFromData'
     'level:reload-thang-type': 'onLevelReloadThangType'
     'level:play-next-level': 'onPlayNextLevel'
-    'level:edit-wizard-settings': 'showWizardSettingsModal'
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
-    'level:loaded': 'onLevelLoaded'
     'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -265,10 +263,6 @@ module.exports = class PlayLevelView extends RootView
 
   # Load Completed Setup ######################################################
 
-  onLevelLoaded: (e) ->
-    # Just the level has been loaded by the level loader
-    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and not (e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
-
   onSessionLoaded: (e) ->
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
@@ -365,13 +359,9 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'level:set-time', time: 0
       Backbone.Mediator.publish 'level:set-playing', playing: true
     else
-      if state.frame and @level.get('type', true) isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
-        Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
       if state.selected
         # TODO: Should also restore selected spell here by saving spellName
         Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
-      if state.playing?
-        Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
   # callbacks
 

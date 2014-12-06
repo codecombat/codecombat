@@ -45,14 +45,14 @@ class CocoModel extends Backbone.Model
     @loading = false
     @jqxhr = null
     if jqxhr.status is 402
-      Backbone.Mediator.publish 'level:subscription-required'
+      Backbone.Mediator.publish 'level:subscription-required', {}
 
   onLoaded: ->
     @loaded = true
     @loading = false
     @jqxhr = null
     @loadFromBackup()
-    
+
   getCreationDate: -> new Date(parseInt(@id.slice(0,8), 16)*1000)
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
@@ -351,7 +351,7 @@ class CocoModel extends Backbone.Model
 
     CocoCollection = require 'collections/CocoCollection'
     Achievement = require 'models/Achievement'
-    
+
     class NewAchievementCollection extends CocoCollection
       model: Achievement
       initialize: (me = require('core/auth').me) ->

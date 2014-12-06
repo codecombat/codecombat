@@ -152,6 +152,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onScrollItemPane: ->
     # dynamically load visible items when the user scrolls enough to see them
+    return console.error "Couldn't update scroll, since paneNanoContent wasn't initialized." unless @paneNanoContent
     items = @paneNanoContent.find('.item:not(.loaded)')
     threshold = @paneNanoContent.height() + 100
     for itemEl in items
