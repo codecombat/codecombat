@@ -68,6 +68,11 @@ class SubscriptionHandler extends Handler
 
   checkForExistingSubscription: (req, user, customer, done) ->
     couponID = user.get('stripe')?.couponID
+    
+    # SALE LOGIC
+    # overwrite couponID with another for everyone-sales
+    # couponID = 'hoc_bonanza' if not couponID
+    
     if subscription = customer.subscriptions?.data?[0]
 
       if subscription.cancel_at_period_end
