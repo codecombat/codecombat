@@ -2,8 +2,6 @@
 # the stripe property in the user with what's being stored in Stripe.
 
 Handler = require '../commons/Handler'
-config = require '../../server_config'
-stripe = require('stripe')(config.stripe.secretKey)
 discountHandler = require './discount_handler'
 
 subscriptions = {

@@ -8,7 +8,6 @@ sendwithus = require '../sendwithus'
 hipchat = require '../hipchat'
 config = require '../../server_config'
 request = require 'request'
-stripe = require('stripe')(config.stripe.secretKey)
 async = require 'async'
 
 products = {

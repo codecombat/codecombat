@@ -16,6 +16,8 @@ UserHandler = require './server/users/user_handler'
 hipchat = require './server/hipchat'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require 'jsondiffpatch'
+global.stripe = require('stripe')(config.stripe.secretKey)
+
 
 productionLogging = (tokens, req, res) ->
   status = res.statusCode
