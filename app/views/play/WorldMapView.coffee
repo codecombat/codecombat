@@ -82,7 +82,6 @@ module.exports = class WorldMapView extends RootView
       trackedHourOfCode = true
 
     @requiresSubscription = @terrain isnt 'dungeon' and not me.get('stripe')?.subscriptionID
-    @requiresSubscription = true
 
   destroy: ->
     @setupManager?.destroy()
