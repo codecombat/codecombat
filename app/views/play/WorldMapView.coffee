@@ -457,7 +457,7 @@ dungeon = [
     x: 78
     y: 29
     nextLevels:
-      continue: 'descending-further'
+      continue: 'the-second-kithmaze'
   }
   {
     name: 'Riddling Kithmaze'
