@@ -167,8 +167,6 @@ module.exports =
       ]
     timedOut: {type: 'boolean'}
 
-  'level:edit-wizard-settings': c.object {}
-
   'level:hero-config-changed': c.object {}
 
   'level:hero-selection-updated': c.object {required: ['hero']},

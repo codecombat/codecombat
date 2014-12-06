@@ -50,11 +50,6 @@ module.exports = class RootView extends CocoView
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
 
-  showWizardSettingsModal: ->
-    WizardSettingsModal = require('views/modal/WizardSettingsModal')
-    subview = new WizardSettingsModal {}
-    @openModalView subview
-
   onClickSignupButton: ->
     AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'

@@ -62,12 +62,10 @@ module.exports = class PlayLevelView extends RootView
     'level:reload-from-data': 'onLevelReloadFromData'
     'level:reload-thang-type': 'onLevelReloadThangType'
     'level:play-next-level': 'onPlayNextLevel'
-    'level:edit-wizard-settings': 'showWizardSettingsModal'
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiling': 'onLoadingViewUnveiling'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
-    'level:loaded': 'onLevelLoaded'
     'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-waiting': 'onRealTimePlaybackWaiting'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -264,10 +262,6 @@ module.exports = class PlayLevelView extends RootView
     @bus.connect() if @session.get('multiplayer')
 
   # Load Completed Setup ######################################################
-
-  onLevelLoaded: (e) ->
-    # Just the level has been loaded by the level loader
-    @showWizardSettingsModal() if not me.get('name') and not @isIPadApp() and not (e.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
 
   onSessionLoaded: (e) ->
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
