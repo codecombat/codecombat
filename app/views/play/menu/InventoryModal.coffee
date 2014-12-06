@@ -337,7 +337,7 @@ module.exports = class InventoryModal extends ModalView
     @$el.find("##{showExtra}-item-viewed").removeClass('secret')
 
   hideItemDetails: ->
-    @itemDetailsView.setItem(null)
+    @itemDetailsView?.setItem(null)
     @$el.find('#item-details-extra > *').addClass('secret')
 
   getCurrentEquipmentConfig: ->
