@@ -291,7 +291,6 @@
     tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
     tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Customize Wizard"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -504,8 +503,6 @@
     job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
     sample_profile: "See a sample profile"
     view_profile: "View Your Profile"
-    wizard_tab: "Wizard"
-    wizard_color: "Wizard Clothes Color"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +523,6 @@
     toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximize/minimize code editor."
-    move_wizard: "Move your Wizard around the level."
 
   community:
     main_title: "CodeCombat Community"
@@ -872,7 +868,6 @@
     versions: "Versions"
     items: "Items"
     heroes: "Heroes"
-    wizard: "Wizard"
     achievement: "Achievement"
     clas: "CLAs"
     play_counts: "Play Counts"
