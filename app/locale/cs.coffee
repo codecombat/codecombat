@@ -337,8 +337,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
 
-#  subscribe:
-#    subscribe_title: "Předplacení"
+  subscribe:
+    subscribe_title: "Předplacení"
 #    levels: "Unlock 25 levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
@@ -348,9 +348,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Předplatit"
-#    stripe_description: "Měsíční předplatné"
-#    subscription_required_to_play: "Pro hraní této úrovně potřebujete předplatné."
+    subscribe_button: "Předplatit"
+    stripe_description: "Měsíční předplatné"
+    subscription_required_to_play: "Pro hraní této úrovně potřebujete předplatné."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -486,7 +486,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     new_password: "Nové heslo"
     new_password_verify: "Potvrdit"
     email_subscriptions: "Odebírat emailem"
-#    email_subscriptions_none: "Žádné odebírání emailem."
+    email_subscriptions_none: "Žádné odebírání emailem."
     email_announcements: "Oznámení"
     email_announcements_description: "Zasílat emaily o posledních novinkách a o postupu ve vývoji CodeCombat."
 #    email_notifications: "Notifications"
