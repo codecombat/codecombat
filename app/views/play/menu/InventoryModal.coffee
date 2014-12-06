@@ -528,18 +528,18 @@ module.exports = class InventoryModal extends ModalView
 
   #- Paper doll equipment updating
   onEquipmentChanged: ->
+    heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
+    gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
+    @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     equipment = @getCurrentEquipmentConfig()
     return unless _.size(equipment) and @supermodel.finished()
     @removeDollImages()
-    heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     slotsWithImages = []
     for slot, original of equipment
       item = _.find @items.models, (item) -> item.get('original') is original
       continue unless dollImages = item?.get('dollImages')
       didAdd = @addDollImage slot, dollImages, heroClass, gender
       slotsWithImages.push slot if didAdd
-    @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
