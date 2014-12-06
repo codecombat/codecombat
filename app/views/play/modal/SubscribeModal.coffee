@@ -2,6 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
+AuthModal = require 'views/core/AuthModal'
 
 module.exports = class SubscribeModal extends ModalView
   id: 'subscribe-modal'
@@ -49,6 +50,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onClickPurchaseButton: (e) ->
     @playSound 'menu-button-click'
+    return @openModalView new AuthModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started subscription purchase', {}
     application.tracker?.trackPageView "subscription/start-purchase", ['Google Analytics']
     stripeHandler.open({
