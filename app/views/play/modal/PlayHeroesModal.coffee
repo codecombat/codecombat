@@ -287,7 +287,9 @@ module.exports = class PlayHeroesModal extends ModalView
   #- Exiting
 
   saveAndHide: ->
-    hero = @selectedHero.get('original')
+    hero = @selectedHero?.get('original')
+    unless hero
+      console.error 'Somehow we tried to hide without having a hero selected yet...'
 
     if @session
       changed = @updateHeroConfig(@session, hero)
@@ -311,6 +313,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @trigger?('confirm-click', hero: @selectedHero)
 
   updateHeroConfig: (model, hero) ->
+    return false unless hero
     heroConfig = _.clone(model.get('heroConfig')) or {}
     if heroConfig.thangType isnt hero
       heroConfig.thangType = hero
