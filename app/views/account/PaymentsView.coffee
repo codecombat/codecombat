@@ -24,7 +24,7 @@ module.exports = class PaymentsView extends RootView
     c = super()
     c.payments = @payments
     c.subscribed = me.get('stripe')?.planID
-    c.active = me.get('stripe')?.subscriptionID
+    c.active = me.isPremium()
     c
 
   onClickStartSubscription: (e) ->

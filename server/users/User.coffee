@@ -179,6 +179,13 @@ UserSchema.methods.register = (done) ->
   delighted.addDelightedUser @
   @saveActiveUser 'register'
 
+UserSchema.methods.isPremium = ->
+  return false unless stripe = @get('stripe')
+  return true if stripe.subscriptionID
+  return true if stripe.free is true
+  return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+  return false
+
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   id = mongoose.Types.ObjectId id if _.isString id
   @findById id, (err, user) ->

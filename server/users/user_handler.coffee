@@ -236,9 +236,9 @@ UserHandler = class UserHandler extends Handler
 
   getStripeInfo: (req, res, handle) ->
     @getDocumentForIdOrSlug handle, (err, user) =>
-      return @notFoundError(res) if not user
+      return @sendNotFoundError(res) if not user
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or req.user.get('_id').equals(user.get('_id')))
-      return @notFoundError(res) if not customerID = user.get('stripe')?.customerID
+      return @sendNotFoundError(res) #if not customerID = user.get('stripe')?.customerID
       stripe.customers.retrieve customerID, (err, customer) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, JSON.stringify(customer, null, '\t'))
