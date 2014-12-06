@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     no_ie: "CodeCombat kjører ikke på IE8 eller eldre. Beklager!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ble ikke designet for mobile enheter, og vil kanskje ikke virke!" # Warning that shows up on mobile devices
     play: "Spill" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Å nei, nettleseren din er for gammel til å kjøre CodeCombat. Beklager!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kan prøve likevel, men det vil kanskje ikke virke."
     ipad_browser: "Dårlige nyheter: CodeCombat kjører ikke i nettleseren på iPad. Gode nyheter: iPad appen vår venter bare på godkjenning av Apple."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
     choose_inventory: "Ta i bruk gjenstander"
     buy_gems: "Kjøp Juveler"
+    campaign_forest: "Skogsfelttog"
+    campaign_dungeon: "Katakombefelttog"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
     older_campaigns: "Gamle felttog"
     anonymous: "Anonym Spiller"
     level_difficulty: "Vanskelighetsgrad: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     campaign_player_created_description: "... hvor du kjemper mot kreativiteten til en av dine medspillende <a href=\"/contribute#artisan\">Artisan Trollmenn</a>."
     campaign_classic_algorithms: "Klassiske Algoritmer"
     campaign_classic_algorithms_description: "... hvor du lærer noen av de mest populære algoritmene innen programmering"
-    campaign_forest: "Skogsfelttog"
-    campaign_dungeon: "Katakombefelttog"
 
   login:
     sign_up: "Lag konto"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_hofstadters_law: "Hofstadters Lov: Ting tar alltid lenger tid enn du tror, selv når du tar Hofstadters Lov med i beregningen."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Tilpass Trollmann"
 
   game_menu:
@@ -332,6 +337,21 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     prompt_body: "Har du lyst på flere?"
     prompt_button: "Til Butikken"
 
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
+
   choose_hero:
     choose_hero: "Velg Din Helt"
     programming_language: "Programmeringsspråk"
@@ -361,7 +381,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     restricted_to_certain_heroes: "Bare noen helter kan spille dette brettet."
 
   skill_docs:
-    writable: "skrivbar" #"writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+    writable: "skrivbar" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "skrivebeskyttet"
     action_name: "navn"
     action_cooldown: "Tar"
@@ -488,8 +508,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     job_profile: "Jobb Profil" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
-    sample_profile: "Se en eksempelprofil" #"See a sample profile"
-    view_profile: "Vis Profilen" #"View Your Profile"
+    sample_profile: "Se en eksempelprofil"
+    view_profile: "Vis Profilen"
     wizard_tab: "Trollmann"
     wizard_color: "Farge på Trollmannens Klær"
 
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     service: "Tjeneste"
     price: "Pris"
     gems: "Juveler"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
   loading_error:
     could_not_load: "Feil ved lasting fra server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     practices_title: "Respektfulle \"Best Practices\""
     practices_description: "Dette er våre løfter til deg som spiller, på litt mindre juridisk språk."
     privacy_title: "Personvern"
-    privacy_description: "Vi kommer ikke til å selge noen av dine personlige opplysninger. Vi planlegger å tjene penger på rekruttering en dag, men du kan føle deg helt trygg på at vi ikke vil gi ut dine personlige opplysninger til interesserte arbeidsgivere uten eksplisitt godkjenning fra deg."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Sikkerhet"
     security_description: "Vi gjør alt vi kan for å beskytte dine personlige opplysninger. Som et åpen kildekode-prosjekt kan hvem som helst inspisere og forbedre sikkerhetssystemene våre."
     email_title: "Epost"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     email_description_suffix: "eller via linker i epostene vi sender til deg, kan du endre hvilke eposter du ønsker å motta og enkelt avslutte abonnementet når som helst."
     cost_title: "Pris"
     cost_description: "For øyeblikket er CodeCombat 100% gratis! Et av hovedmålene våre er å fortsette med det, sånn at flest mulig kan spille, uavhengig av livssituasjon. Hvis ting går dårlig må vi kanskje begynne å ta betalt for abonnement eller annet innhold, men vi vil helst slippe. Med litt flaks vil vi klare å holde selskapet i live med:"
-    recruitment_title: "Rekruttering"
-    recruitment_description_prefix: "Her på CodeCombat kommer du til å bli en mektig trollmann – ikke bare i spillet, men også i virkeligheten."
-    url_hire_programmers: "Arbeidsgivere klarer ikke å ansette programmerere raskt nok"
-    recruitment_description_suffix: "så når du har skjerpet kunnskapene dine, og hvis du godkjenner det, kommer vi til å vise frem de beste kodeprestasjonene dine til de tusenvis av arbeidsgivere som sikler over sjansen til å ansette deg. De betaler oss litt, de betaler deg"
-    recruitment_description_italic: "mye"
-    recruitment_description_ending: "CodeCombat forblir gratis og alle er fornøyd. Det er planen."
     copyrights_title: "Kopirettigheter og lisenser"
     contributor_title: "Lisensavtale for bidragsytere"
     contributor_description_prefix: "Alle bidrag, både gjort gjennom brukergrensesnittet og i kodelageret på GitHub, er underlagt vår"

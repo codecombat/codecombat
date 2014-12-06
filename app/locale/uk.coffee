@@ -4,6 +4,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     no_ie: "На жаль, CodeCombat не працює в IE8 та старіших версіях!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!" # Warning that shows up on mobile devices
     play: "Грати" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Вибачте, але ваш браузер занадто старий для гри CodeCombat" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "українська мова", englishDesc
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     choose_inventory: "Одягнути предмети"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
     older_campaigns: "Старі кампанії"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
     campaign_player_created_description: "... у яких ви змагаєтесь у креативності із вашими друзями-<a href=\"/contribute#artisan\">Архітекторами</a>."
     campaign_classic_algorithms: "Класичні алгоритми"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "створити акаунт"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Налаштування персонажа"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -576,6 +596,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     level_tab_thangs_conditions: "Початковий статус"
     level_tab_thangs_add: "Додати об'єкти"
     delete: "Видалити"
+#    duplicate: "Duplicate"
     rotate: "Повернути"
     level_settings_title: "Налаштування"
     level_component_tab_title: "Поточні компоненти"
@@ -800,6 +821,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
     service: "Сервіс"
     price: "Ціна"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -893,7 +917,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     practices_title: "Шановні найкращі гравці"
 #    practices_description: "These are our promises to you, the player, in slightly less legalese."
     privacy_title: "Конфіденційність"
-    privacy_description: "Ми не продаватимемо ніяку вашу особисту інформацію. Ми маємо намір заробити гроші за допомогою кінцевого результату, але будьте впевнені, ми не будемо поширювати Вашу особисту інформацію для зацікавлених компаній без вашої явної згоди."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Безпека"
     security_description: "Ми прагнемо зберегти вашу особисту інформацію в безпеці. Як проект з відкритим кодом, наш сайт є вільно відкритим для всіх, щоб переглянути та удосконалити наші системи безпеки."
     email_title: "Email"
@@ -902,12 +926,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
     email_description_suffix: "або через посилання в повідомленням котрі ми присилаємо, ви можете змінити ваші уподобання і легко відмовитись від підписки в будь-який час."
     cost_title: "Вартість"
     cost_description: "На даний час, CodeCombat є безкоштовним на усі 100%! Однією з наших цілей є рухатись у цьому ж напрямку, так що у цю гру можуть грати стільки людей, наскільки це можливо, незалежно від місця проживання. Якщо настануть важкі часи, ми будем змушені стягувати плату за певний контент, але ми б не хотіли цього. Якщо пощастить, ми зможемо підтримувати компанію разом з:"
-    recruitment_title: "Доповнення"
-    recruitment_description_prefix: "Тут у CodeCombat, ви станете могутнім чарівником не лише у грі, але також і у реальному житті."
-    url_hire_programmers: "Ніхто не може найняти програмістів одразу"
-    recruitment_description_suffix: "отже як тільки ви заточите свої навики, і якщо ви погодитесь, ми продемонструєм ваші найкращі досягнення у кодуванні тисячам роботодавців котрі пускають слюні щоб не впустити можливості найняти вас. Вони платять нам не багато, вони платять вам"
-    recruitment_description_italic: "багато"
-    recruitment_description_ending: "сайт залишиться безкоштовним і кожен буде задоволеним. Такий план."
     copyrights_title: "Авторські права та ліцензії"
     contributor_title: "Авторська ліцензійна згода"
     contributor_description_prefix: "Усі права, як на сайті так і у нашому сховищі GitHub, є у відповідності з нашими"

@@ -227,12 +227,6 @@
     victory_rate_the_level: "Rate the level: "  # Only in old-style levels.
     victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continue"
-    victory_play_skip: "Skip Ahead"
-    victory_play_next_level: "Play Next Level"
-    victory_play_more_practice: "More Practice"
-    victory_play_too_easy: "Too Easy"
-    victory_play_just_right: "Just Right"
-    victory_play_too_hard: "Too Hard"
     victory_saving_progress: "Saving Progress"
     victory_go_home: "Go Home"  # Only in old-style levels.
     victory_review: "Tell us more!"  # Only in old-style levels.
@@ -296,6 +290,7 @@
     tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
     tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
     tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Customize Wizard"
 
   game_menu:
@@ -338,14 +333,14 @@
 
   subscribe:
     subscribe_title: "Subscribe"
-    levels: "Unlock 25 levels! With 5 new ones every week!"
+    levels: "Unlock 17 extra levels! With 5 new ones every week!"
     heroes: "More powerful heroes!"
     gems: "3500 bonus gems every month!"
     items: "Over 250 bonus items!"
     parents: "For Parents"
     parents_title: "Your child will learn to code."
     parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-    parents_blurb2: "For 9.99/mo, they get new challenges every week and personal email support from professional programmers."
+    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     subscribe_button: "Subscribe Now"
     stripe_description: "Monthly Subscription"
@@ -907,8 +902,7 @@
 
   legal:
     page_title: "Legal"
-    opensource_intro: "CodeCombat is free to play and completely open source."
-    opensource_intro_2: "CodeCombat completely open source."
+    opensource_intro: "CodeCombat is completely open source."
     opensource_description_prefix: "Check out "
     github_url: "our GitHub"
     opensource_description_center: "and help out if you like! CodeCombat is built on dozens of open source projects, and we love them. See "
@@ -917,7 +911,7 @@
     practices_title: "Respectful Best Practices"
     practices_description: "These are our promises to you, the player, in slightly less legalese."
     privacy_title: "Privacy"
-    privacy_description_2: "We will not sell any of your personal information."
+    privacy_description: "We will not sell any of your personal information."
     security_title: "Security"
     security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
     email_title: "Email"
@@ -925,8 +919,7 @@
     email_settings_url: "your email settings"
     email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
     cost_title: "Cost"
-    cost_description: "Currently, CodeCombat is 100% free! One of our main goals is to keep it that way, so that as many people can play as possible, regardless of place in life. If the sky darkens, we might have to charge subscriptions or for some content, but we'd rather not. With any luck, we'll be able to sustain the company with:"
-    cost_description_2: "CodeCombat is free to play in the dungeon campaign, with a $9.99/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+    cost_description: "CodeCombat is free to play for all of its core levels, with a $9.99 USD/mo subscription for access to extra level branches and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Copyrights and Licenses"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

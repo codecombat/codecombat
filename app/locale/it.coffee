@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     no_ie: "CodeCombat non supporta Internet Explorer 8 o browser precedenti. Ci dispiace!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat non è stato progettato per dispositivi mobile e potrebbe non funzionare!" # Warning that shows up on mobile devices
     play: "Gioca" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Accidenti, il tuo browser è troppo vecchio per giocare a CodeCombat. Mi spiace!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puoi provare lo stesso, ma probabilmente non funzionerà."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     change_hero: "Cambia Eroe" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Compra Gemme"
+    campaign_forest: "Campagna nella Foresta"
+    campaign_dungeon: "Campagna nelle Segrete"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
     older_campaigns: "Campagne precedenti"
     anonymous: "Giocatore Anonimo"
     level_difficulty: "Difficoltà: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     campaign_player_created_description: "... nei quali affronterai la creatività dei tuoi compagni <a href=\"/contribute#artisan\">Stregoni Artigiani</a>."
     campaign_classic_algorithms: "Algoritmi classici"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-    campaign_forest: "Campagna nella Foresta"
-    campaign_dungeon: "Campagna nelle Segrete"
 
   login:
     sign_up: "Crea account"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Personalizza il mago"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     practices_title: "Buone pratiche di rispetto"
     practices_description: "Queste sono le promesse che ti facciamo, come giocatore, in linguaggio un po' meno legale."
     privacy_title: "Privacy"
-    privacy_description: "Non venderemo le tue info personali. Intendiamo far soldi eventualmente tramite assunzioni, ma sta' sicuro che non distribuiremo le tue info personali a ditte interessate senza il tuo consenso esplicito."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Sicurezza"
     security_description: "Facciamo tutto il possibile per tenere sicure le tue informazioni. Essendo un progetto open source, il nostro sito è aperto liberamente a chiunque per controllare e migliorare i nostri sistemi di sicurezza."
     email_title: "Email"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     email_description_suffix: "o con i link contenuti nei messaggi puoi cambiare le tue preferenze o cancellarti facilmente in qualsiasi momento."
     cost_title: "Costi"
     cost_description: "In questo momento CodeCombat è totalmente gratis! Uno dei nostri obiettivi principali è di mantenerlo così, in modo che più persone possibile ci possano giocare, in qualsiasi condizione. Se le cose si mettessero male, potremmo essere costretti a far pagare l'iscrizione ad alcuni contenuti; ma preferiremmo di no. In ogni caso saremo in grado di sostenere la ditta con:"
-    recruitment_title: "Assunzioni"
-    recruitment_description_prefix: "Qui in CodeCombat, diventerai un vero mago - non solo nel gioco, ma anche nella vita reale."
-    url_hire_programmers: "Nessuno riesce a trovare abbastanza programmatori"
-    recruitment_description_suffix: "quindi quando avrai perfezionato le tue capacità, se sei d'accordo, invieremo dei campioni dei tuoi migliori risultati di programmazione a qualcuna delle migliaia di ditte che muoiono dalla voglia di assumerti. Ci pagheranno qualcosa, ti pagheranno"
-    recruitment_description_italic: "tantissimo"
-    recruitment_description_ending: "il sito resta gratuito e tutti siamo contenti. Ecco il progetto."
     copyrights_title: "Diritti e licenze"
     contributor_title: "Accordo di licenza per i contributori (CLA)"
     contributor_description_prefix: "Tutti i contributi, qui sul sito e sul deposito GitHub, sono soggetti al nostro"

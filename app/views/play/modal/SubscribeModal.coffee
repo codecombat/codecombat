@@ -45,10 +45,12 @@ module.exports = class SubscribeModal extends ModalView
       container: @$el
     ).on 'shown.bs.popover', =>
       application.tracker?.trackEvent 'Subscription parent hover', {}
+      application.tracker?.trackPageView "subscription/parent-hover", ['Google Analytics']
 
   onClickPurchaseButton: (e) ->
     @playSound 'menu-button-click'
     application.tracker?.trackEvent 'Started subscription purchase', {}
+    application.tracker?.trackPageView "subscription/start-purchase", ['Google Analytics']
     stripeHandler.open({
       description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount
@@ -58,17 +60,18 @@ module.exports = class SubscribeModal extends ModalView
     @state = 'purchasing'
     @render()
 
-    stripe = me.get('stripe') ? {}
+    stripe = _.clone(me.get('stripe') ? {})
     stripe.planID = @product.planID
     stripe.token = e.token.id
     me.set 'stripe', stripe
 
     @listenToOnce me, 'sync', @onSubscriptionSuccess
     @listenToOnce me, 'error', @onSubscriptionError
-    me.save()
+    me.patch({headers: {'X-Change-Plan': 'true'}})
 
   onSubscriptionSuccess: ->
     application.tracker?.trackEvent 'Finished subscription purchase', {}
+    application.tracker?.trackPageView "subscription/finish-purchase", ['Google Analytics']
     Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
     @hide()

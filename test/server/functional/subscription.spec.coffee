@@ -85,6 +85,7 @@ describe '/db/user, editing stripe property', ->
   stripe = require('stripe')(config.stripe.secretKey)
   userURL = getURL('/db/user')
   webhookURL = getURL('/stripe/webhook')
+  headers = {'X-Change-Plan': 'true'}
 
   it 'clears the db first', (done) ->
     clearModels [User, Payment], (err) ->
@@ -95,7 +96,7 @@ describe '/db/user, editing stripe property', ->
     request.get getURL('/auth/whoami'), (err, res, body) ->
       body = JSON.parse(body)
       body.stripe = { planID: 'basic', token: '12345' }
-      request.put {uri: userURL, json: body}, (err, res, body) ->
+      request.put {uri: userURL, json: body, headers: headers}, (err, res, body) ->
         expect(res.statusCode).toBe 403
         done()
 
@@ -114,7 +115,7 @@ describe '/db/user, editing stripe property', ->
           token: stripeTokenID
           planID: 'basic'
         }
-        request.put {uri: userURL, json: joeData }, (err, res, body) ->
+        request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
           expect(res.statusCode).toBe(402)
           done()
           
@@ -129,7 +130,7 @@ describe '/db/user, editing stripe property', ->
           token: stripeTokenID
           planID: 'basic'
         }
-        request.put {uri: userURL, json: joeData }, (err, res, body) ->
+        request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
           joeData = body
           expect(res.statusCode).toBe(200)
           expect(joeData.purchased.gems).toBe(3500)
@@ -156,7 +157,7 @@ describe '/db/user, editing stripe property', ->
  
   it 'schedules the stripe subscription to be cancelled when stripe.planID is removed from the user', (done) ->
     delete joeData.stripe.planID
-    request.put {uri: userURL, json: joeData }, (err, res, body) ->
+    request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
       joeData = body
       expect(res.statusCode).toBe(200)
       expect(joeData.stripe.subscriptionID).toBeDefined()
@@ -170,7 +171,7 @@ describe '/db/user, editing stripe property', ->
   
   it 'allows you to sign up again using the same customer ID as before, no token necessary', (done) ->
     joeData.stripe.planID = 'basic'
-    request.put {uri: userURL, json: joeData }, (err, res, body) ->
+    request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
       joeData = body
     
       expect(res.statusCode).toBe(200)
@@ -208,7 +209,7 @@ describe '/db/user, editing stripe property', ->
           
   it "updates the customer's email when you change the user's email", (done) ->
     joeData.email = 'newEmail@gmail.com'
-    request.put {uri: userURL, json: joeData }, (err, res, body) ->
+    request.put {uri: userURL, json: joeData, headers: headers }, (err, res, body) ->
       f = -> stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
         expect(customer.email).toBe('newEmail@gmail.com')
         done()

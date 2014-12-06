@@ -102,19 +102,6 @@ module.exports = class User extends CocoModel
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangType.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
 
-  getBranchingGroup: ->
-    return @branchingGroup if @branchingGroup
-    return 'all-practice'  # A/B test paused for Hour of Code
-    group = me.get('testGroupNumber') % 4
-    @branchingGroup = switch group
-      when 0 then 'no-practice'
-      when 1 then 'all-practice'
-      when 2 then 'choice-explicit'
-      when 3 then 'choice-implicit'
-    @branchingGroup = 'choice-explicit' if me.isAdmin()
-    application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()
-    @branchingGroup
-
   getGemPromptGroup: ->
     return @gemPromptGroup if @gemPromptGroup
     group = me.get('testGroupNumber') % 8

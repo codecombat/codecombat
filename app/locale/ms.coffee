@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 8 dan terdahulu. Maaf!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet dan tidak akan berfungsi!" # Warning that shows up on mobile devices
     play: "Mula" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Anda boleh mencuba, tapi mungkin ia tidak akan berfungsi."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
 #    level_difficulty: "Difficulty: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Buat Akaun"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
 #    customize_wizard: "Customize Wizard"
 
 #  game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    practices_title: "Respectful Best Practices"
 #    practices_description: "These are our promises to you, the player, in slightly less legalese."
 #    privacy_title: "Privacy"
-#    privacy_description: "We will not sell any of your personal information. We intend to make money through recruitment eventually, but rest assured we will not distribute your personal information to interested companies without your explicit consent."
+#    privacy_description: "We will not sell any of your personal information."
 #    security_title: "Security"
 #    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
 #    email_title: "Email"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
     cost_description: "Buat masa ini, CodeCombat adalah 100% percuma! salah satu daripada tujuan kami adalah untuk membiarkan ia sebegitu, supaya ramai boleh bermain, di mana sahaja mereka berada. Jikalau langit menjadi gelap untuk kami, kami akan mengecaj untuk langganan atau untuk beberapa muatan, tapi kami lebih suka untuk tidak berbuat demikian. Jika kami bernasib baik, kami dapat menanggung syarikat kami dengan:"
-#    recruitment_title: "Recruitment"
-#    recruitment_description_prefix: "Here on CodeCombat, you're going to become a powerful wizard–not just in the game, but also in real life."
-#    url_hire_programmers: "No one can hire programmers fast enough"
-#    recruitment_description_suffix: "so once you've sharpened your skills and if you agree, we will demo your best coding accomplishments to the thousands of employers who are drooling for the chance to hire you. They pay us a little, they pay you"
-#    recruitment_description_italic: "a lot"
-#    recruitment_description_ending: "the site remains free and everybody's happy. That's the plan."
     copyrights_title: "Hakcipta dan Pemelesenan"
     contributor_title: "Persetujuan Lesen Penyumbang"
     contributor_description_prefix: "Kesemua sumbangan, termasuk di dalam laman dan di dalam repositiri GitHub, tertakluk kepada"

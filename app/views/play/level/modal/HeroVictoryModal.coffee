@@ -21,7 +21,6 @@ module.exports = class HeroVictoryModal extends ModalView
 
   events:
     'click #continue-button': 'onClickContinue'
-    'click .next-level-branch-button': 'onClickNextLevelBranch'
     'click .return-to-ladder-button': 'onClickReturnToLadder'
 
   constructor: (options) ->
@@ -110,13 +109,6 @@ module.exports = class HeroVictoryModal extends ModalView
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
     @continueLevelLink = @getNextLevelLink 'continue'
-    @morePracticeLevelLink = @getNextLevelLink 'more_practice'
-    @skipAheadLevelLink = @getNextLevelLink 'skip_ahead'
-    c.continueButtons = [
-      {key: 'skip_ahead', link: @skipAheadLevelLink, 'choice-explicit': 'skip', 'choice-implicit': 'too_easy'}
-      {key: 'continue', link: @continueLevelLink, 'choice-explicit': 'next_level', 'choice-implicit': 'just_right'}
-      {key: 'more_practice', link: @morePracticeLevelLink, 'choice-explicit': 'more_practice', 'choice-implicit': 'too_hard'}
-    ]
 
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     isHourOfCode = me.get('hourOfCode') or elapsed < 120 * 60 * 1000
@@ -290,34 +282,15 @@ module.exports = class HeroVictoryModal extends ModalView
     return link unless nextLevel = @getNextLevel type
     "#{link}?next=#{nextLevel}"
 
-  # Branching group testing
-
   getNextLevel: (type) ->
     levelInfo = @getLevelInfoForSlug @level.get 'slug'
-    levelInfo?.nextLevels?[type]  # 'more_practice', 'skip_ahead', 'continue'
+    levelInfo?.nextLevels?[type]  # 'continue'; TODO: refactor to not have the object and just use single nextLevel property
 
   onClickContinue: (e) ->
     @playSound 'menu-button-click'
     nextLevelLink = @continueLevelLink
-    if me.getBranchingGroup() is 'all-practice' and @morePracticeLevelLink
-      nextLevelLink = @morePracticeLevelLink
-    skipPrompt = me.getBranchingGroup() in ['no-practice', 'all-practice']
-    skipPrompt ||= not (@skipAheadLevelLink or @morePractiveLevelLink) and me.getBranchingGroup() is 'choice-explicit'
-    if skipPrompt
-      # Preserve the supermodel as we navigate back to the world map.
-      Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
-    else
-      # Hide everything except the buttons prompting them for which kind of next level to do
-      @$el.find('.modal-footer, .modal-body > *').hide()
-      @$el.find('.next-levels-prompt').show()
-
-  onClickNextLevelBranch: (e) ->
-    @playSound 'menu-button-click'
-    e.preventDefault()
-    route = $(e.target).data('href') or "/play/#{@getNextLevelCampaign()}"
-    application.tracker?.trackEvent 'Branch Selected', level: @level.get('slug'), label: @level.get('slug'), branch: $(e.target).data('branch-key'), branchingGroup: me.getBranchingGroup(), route: route
-    # Preserve the supermodel as we navigate back to world map.
-    Backbone.Mediator.publish 'router:navigate', route: route, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
+    # Preserve the supermodel as we navigate back to the world map.
+    Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
 
   onClickReturnToLadder: (e) ->
     @playSound 'menu-button-click'

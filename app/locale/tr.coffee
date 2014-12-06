@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     no_ie: "CodeCombat maalesef Internet Explorer 8 veya daha eski sürümlerde çalışmaz." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir." # Warning that shows up on mobile devices
     play: "Oyna" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
     choose_inventory: "Ögeleri Giy"
     buy_gems: "Taş satın a"
+    campaign_forest: "Orman Senaryosu"
+    campaign_dungeon: "Zindan Senaryosu"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
     older_campaigns: "Daha Eski Görevler"
     anonymous: "Anonim Oyuncu"
     level_difficulty: "Zorluk: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     campaign_player_created_description: "<a href=\"/contribute#artisan\">Zanaatkâr Büyücüler</a>in yaratıcılıklarına karşı mücadele etmek için..."
     campaign_classic_algorithms: "Klasik Algoritmalar"
     campaign_classic_algorithms_description: "... Bilgisayar Bilimleri'nde öğrendiğiniz en yaygın algoritmalar."
-    campaign_forest: "Orman Senaryosu"
-    campaign_dungeon: "Zindan Senaryosu"
 
   login:
     sign_up: "Hesap Oluştur"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Sihirbazı Düzenle"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
     choose_hero: "Kahramanınızı Seçin"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
   loading_error:
     could_not_load: "Yüklenemiyor"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     practices_title: "Saygı Çerçevesinde En İyi Uygulamalar"
     practices_description: "Saygıdeğer oyuncu, bunlar size verdiğimiz sözlerimizdir. Daha kolay anlaşılması açısından özet haline indirgenmiştir."
     privacy_title: "Mahremiyet"
-    privacy_description: "Hiçbir kişisel bilginizi pazarlamayacağız. Asıl amacımız işe alımlar ile para kazanmaktır. Nihai olarak, sizin onayınız olmadan, veriniz ile ilgilenen hiçbir şirket ile bilgi satışına dair pazarlık yapmayacağımıza dair sizi temin ederiz"
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Güvenlik"
     security_description: "Kişisel bilgilerinizi güvende tutmak için mücadele ediyoruz. Açık kaynaklı bir proje olarak, sitemiz herkesin görüşüne açıktır ve güvenlik sistemimizin geliştirilmesine yardımcı olabilirsiniz."
     email_title: "Eposta"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     email_description_suffix: "ister size gönderdiğimiz epostadaki linklerden, tercihlerinizi değiştirebilir ve aboneliğinizi anında iptal edebilirsiniz."
     cost_title: "Ücret"
     cost_description: "Şu anda CodeCombat tamamıyla ücretsiz! Esas amaçlarımızdan biri bu şekilde devam etmek, bu sayede hayattaki konumu fark etmeksizin olabildiğince çok insan oynayarak kodlamayı öğrenebilir. Eğer koşullar olumsuz yönde değişirse, abonelik veya bazı içerikler için belirli ücretler talep edilebilir, ama bunu tercih etmeyiz. Temennimiz şudur ki, şirketi şu biçimde sürdürmeye devam edebiliriz:"
-    recruitment_title: "İşe Alım"
-    recruitment_description_prefix: "CodeCombat'te, kudretli bir büyücü haline geleceksiniz–sadece oyunda değil, gerçek hayatta da."
-    url_hire_programmers: "Kimse yeterince hızlı bir şekilde programcı işe alamaz,"
-    recruitment_description_suffix: "bu sebeple, becerilerinizi yeterince geliştirdiğinizde ve siz de kabul ettiğiniz takdirde, becerilerinize dair kısa bir tanıtımı, sizi işe almak için can atan kişilere göndereceğiz. Bize biraz, size"
-    recruitment_description_italic: "bayağı ödeyecekler"
-    recruitment_description_ending: "böylece site ücretsiz kalacak ve herkes memnun olacak. Plan bu."
     copyrights_title: "Telif Hakları ve Lisanslar"
     contributor_title: "Katılımcı Lisans Sözleşmesi"
     contributor_description_prefix: "GitHub ve siteye yapılan tüm katılımlar, devam etmeden önce kabul etmeniz gereken"

@@ -4,6 +4,7 @@
 Handler = require '../commons/Handler'
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
+discountHandler = require './discount_handler'
 
 subscriptions = {
   basic: {
@@ -12,68 +13,63 @@ subscriptions = {
 }
 
 class SubscriptionHandler extends Handler
-  logSubscriptionError: (req, msg) ->
-    console.warn "Subscription Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
+  logSubscriptionError: (user, msg) ->
+    console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   subscribeUser: (req, user, done) ->
-    if (not req.user) or req.user.isAnonymous()
+    if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
       return done({res: 'You must be signed in to subscribe.', code: 403})
 
-    stripeToken = req.body.stripe?.token
-    extantCustomerID = user.get('stripe')?.customerID
-    if not (stripeToken or extantCustomerID)
-      @logSubscriptionError(req, 'Missing stripe token or customer ID.')
+    token = req.body.stripe.token
+    customerID = user.get('stripe')?.customerID
+    if not (token or customerID)
+      @logSubscriptionError(user, 'Missing stripe token or customer ID.')
       return done({res: 'Missing stripe token or customer ID.', code: 422})
 
-    if stripeToken
-      stripe.customers.create({
-        card: stripeToken
-        email: req.user.get('email')
-        metadata: {
-          id: req.user._id + ''
-          slug: req.user.get('slug')
+    if token
+      if customerID
+        stripe.customers.update customerID, { card: token }, (err, customer) =>
+          if err or not customer
+            # should not happen outside of test and production polluting each other
+            @logSubscriptionError(user, 'Cannot find customer: ', +customer.id + '\n\n' + err)
+            return done({res: 'Cannot find customer.', code: 404})
+          @checkForExistingSubscription(req, user, customer, done)
+          
+      else
+        newCustomer = {
+          card: token
+          email: user.get('email')
+          metadata: { id: user._id + '', slug: user.get('slug') }
         }
-      }).then(((customer) =>
-          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+
+        stripe.customers.create newCustomer, (err, customer) =>
+          if err
+            if err.type in ['StripeCardError', 'StripeInvalidRequestError']
+              return done({res: 'Card error', code: 402})
+            else
+              @logSubscriptionError(user, 'Stripe customer creation error. '+err)
+              return done({res: 'Database error.', code: 500})
+            
+          stripeInfo = _.cloneDeep(user.get('stripe') ? {})
           stripeInfo.customerID = customer.id
-          req.user.set('stripe', stripeInfo)
-          req.user.save((err) =>
+          user.set('stripe', stripeInfo)
+          user.save (err) =>
             if err
-              @logSubscriptionError(req, 'Stripe customer id save db error. '+err)
+              @logSubscriptionError(user, 'Stripe customer id save db error. '+err)
               return done({res: 'Database error.', code: 500})
             @checkForExistingSubscription(req, user, customer, done)
-          )
-        ),
-      (err) =>
-        if err.type in ['StripeCardError', 'StripeInvalidRequestError']
-          done({res: 'Card error', code: 402})
-        else
-          @logSubscriptionError(req, 'Stripe customer creation error. '+err)
-          return done({res: 'Database error.', code: 500})
-      )
 
     else
-      stripe.customers.retrieve(extantCustomerID, (err, customer) =>
+      stripe.customers.retrieve(customerID, (err, customer) =>
         if err
-          @logSubscriptionError(req, 'Stripe customer creation error. '+err)
+          @logSubscriptionError(user, 'Stripe customer creation error. '+err)
           return done({res: 'Database error.', code: 500})
-        else if not customer
-          # TODO: what actually happens when you try to retrieve a customer and it DNE?
-          @logSubscriptionError(req, 'Stripe customer id is missing! '+err)
-          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-          delete stripeInfo.customerID
-          req.user.set('stripe', stripeInfo)
-          req.user.save (err) =>
-            if err
-              @logSubscriptionError(req, 'Stripe customer id delete db error. '+err)
-              return done({res: 'Database error.', code: 500})
-            @subscribeUser(req, done)
-        else
-          @checkForExistingSubscription(req, user, customer, done)
+        @checkForExistingSubscription(req, user, customer, done)
       )
 
 
   checkForExistingSubscription: (req, user, customer, done) ->
+    couponID = user.get('stripe')?.couponID
     if subscription = customer.subscriptions?.data?[0]
 
       if subscription.cancel_at_period_end
@@ -83,34 +79,38 @@ class SubscriptionHandler extends Handler
         # subscription a trial period that ends when the cancelled subscription would have ended.
         stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) =>
           if err
-            @logSubscriptionError(req, 'Stripe cancel subscription error. '+err)
+            @logSubscriptionError(user, 'Stripe cancel subscription error. '+err)
             return done({res: 'Database error.', code: 500})
 
           options = { plan: 'basic', trial_end: subscription.current_period_end }
-          stripe.customers.update req.user.get('stripe').customerID, options, (err, customer) =>
+          options.coupon = couponID if couponID
+          stripe.customers.update user.get('stripe').customerID, options, (err, customer) =>
             if err
-              @logSubscriptionError(req, 'Stripe customer plan setting error. '+err)
+              @logSubscriptionError(user, 'Stripe customer plan setting error. '+err)
               return done({res: 'Database error.', code: 500})
 
-            @updateUser(req, user, customer.subscriptions.data[0], false, done)
+            @updateUser(req, user, customer, false, done)
 
       else
         # can skip creating the subscription
-        return @updateUser(req, user, customer.subscriptions.data[0], false, done)
+        return @updateUser(req, user, customer, false, done)
 
     else
-      stripe.customers.update req.user.get('stripe').customerID, { plan: 'basic' }, (err, customer) =>
+      options = { plan: 'basic' }
+      options.coupon = couponID if couponID
+      stripe.customers.update user.get('stripe').customerID, options, (err, customer) =>
         if err
-          @logSubscriptionError(req, 'Stripe customer plan setting error. '+err)
+          @logSubscriptionError(user, 'Stripe customer plan setting error. '+err)
           return done({res: 'Database error.', code: 500})
 
-        @updateUser(req, user, customer.subscriptions.data[0], true, done)
+        @updateUser(req, user, customer, true, done)
 
-  updateUser: (req, user, subscription, increment, done) ->
+  updateUser: (req, user, customer, increment, done) ->
+    subscription = customer.subscriptions.data[0]
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})
     stripeInfo.planID = 'basic'
     stripeInfo.subscriptionID = subscription.id
-    stripeInfo.customerID = subscription.customer
+    stripeInfo.customerID = customer.id
     req.body.stripe = stripeInfo # to make sure things work for admins, who are mad with power
     user.set('stripe', stripeInfo)
 
@@ -123,25 +123,25 @@ class SubscriptionHandler extends Handler
 
     user.save (err) =>
       if err
-        @logSubscriptionError(req, 'Stripe user plan saving error. '+err)
+        @logSubscriptionError(user, 'Stripe user plan saving error. '+err)
         return done({res: 'Database error.', code: 500})
-      req.user?.saveActiveUser 'subscribe'
+      user?.saveActiveUser 'subscribe'
       return done()
 
   unsubscribeUser: (req, user, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe'))
     stripe.customers.cancelSubscription stripeInfo.customerID, stripeInfo.subscriptionID, { at_period_end: true }, (err) =>
       if err
-        @logSubscriptionError(req, 'Stripe cancel subscription error. '+err)
+        @logSubscriptionError(user, 'Stripe cancel subscription error. '+err)
         return done({res: 'Database error.', code: 500})
       delete stripeInfo.planID
       user.set('stripe', stripeInfo)
       req.body.stripe = stripeInfo
       user.save (err) =>
         if err
-          @logSubscriptionError(req, 'User save unsubscribe error. '+err)
+          @logSubscriptionError(user, 'User save unsubscribe error. '+err)
           return done({res: 'Database error.', code: 500})
-          req.user?.saveActiveUser 'unsubscribe'
+          user?.saveActiveUser 'unsubscribe'
         return done()
 
 module.exports = new SubscriptionHandler()

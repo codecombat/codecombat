@@ -4,6 +4,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     no_ie: "CodeCombat nu merge pe Internet Explorer 8 sau mai vechi. Scuze!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargă!" # Warning that shows up on mobile devices
     play: "Joacă" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Mda , browser-ul tău este prea vechi pentru CodeCombat. Scuze!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Poți să încerci oricum ,dar probabil nu o să meargă."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Dificultate: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     campaign_player_created_description: "... în care ai ocazia să testezi creativitatea colegilor tai <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Crează cont"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Personalizează Wizard-ul"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     practices_title: "Convenții"
     practices_description: "Acestea sunt promisiunile noastre către tine, jucătorul, fără așa mulți termeni legali."
     privacy_title: "Confidenţialitate şi termeni"
-    privacy_description: "Noi nu vom vinde nici o informație personală. Intenționăm să obținem profit prin recrutare eventual, dar stați liniștiți , nu vă vom vinde informațiile personale companiilor interesate fără consimțământul vostru explicit."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Securitate"
     security_description: "Ne străduim să vă protejăm informațiile personale. Fiind un proiect open-source, site-ul nostru oferă oricui posibilitatea de a ne revizui și îmbunătăți sistemul de securitate."
     email_title: "Email"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     email_description_suffix: " sau prin link-urile din email-urile care vi le trimitem, puteți să schimbați preferințele și să vâ dezabonați oricând."
     cost_title: "Cost"
     cost_description: "Momentan, CodeCombat este 100% gratis! Unul dintre obiectele noastre principale este să îl menținem așa, astfel încât să poată juca cât mai mulți oameni. Dacă va fi nevoie , s-ar putea să percepem o plată pentru o pentru anumite servici,dar am prefera să nu o facem. Cu puțin noroc, vom putea susține compania cu:"
-    recruitment_title: "Recrutare"
-    recruitment_description_prefix: "Aici la CodeCombat, vei deveni un vrăjitor puternic nu doar în joc, ci și în viața reală."
-    url_hire_programmers: "Nimeni nu poate angaja programatori destul de rapid"
-    recruitment_description_suffix: "așa că odată ce ți-ai dezvoltat abilitățile și esti de acord, noi vom trimite un demo cu cele mai bune realizări ale tale către miile de angajatori care se omoară să pună mâna pe tine. Pe noi ne plătesc puțin, pe tine te vor plăti"
-    recruitment_description_italic: "mult"
-    recruitment_description_ending: "site-ul rămâne gratis și toată lumea este fericită. Acesta este planul."
     copyrights_title: "Drepturi de autor și licențe"
     contributor_title: "Acord de licență Contributor"
     contributor_description_prefix: "Toți contribuitorii, atât pe site cât și pe GitHub-ul nostru, sunt supuși la"

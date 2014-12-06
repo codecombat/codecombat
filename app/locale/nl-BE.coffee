@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Moeilijkheidsgraad: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Account maken"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Pas Tovenaar aan"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     practices_title: "Goede Respectvolle gewoonten"
     practices_description: "Dit zijn onze beloften aan u, de speler, in een iets minder juridische jargon."
     privacy_title: "Privacy"
-    privacy_description: "We zullen nooit jouw persoonlijke informatie verkopen. We willen in verloop van tijd geld verdienen dankzij aanwervingen, maar je mag op je beide oren slapen dat wij nooit jouw persoonlijke informatie zullen verspreiden aan geïnteresseerde bedrijven zonder dat jij daar expliciet mee akkoord gaat."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Beveiliging"
     security_description: "We streven ernaar om jouw persoonlijke informatie veilig te bewaren. Onze website is open en beschikbaar voor iedereen, opdat ons beveiliging systeem kan worden nagekeken en geoptimaliseerd door iedereen die dat wil. Dit alles is mogelijk doordat we volledig open source en transparant zijn."
     email_title: "E-mail"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     email_description_suffix: "of via urls in de emails die wij verzenden, kan je jouw instellingen wijzigen en ten allen tijden uitschrijven."
     cost_title: "Kosten"
     cost_description: "Momenteel is CodeCombat 100% gratis! Één van onze doestellingen is om dit zo te houden, opdat zoveel mogelijk mensen kunnen spelen, onafhankelijk van waar je leeft of wie je bent. Als het financieel moeilijker wordt, kan het mogelijk zijn dat we gaan beginnen met abonnementen of een prijs zetten op bepaalde zaken, maar we streven ernaar om dit te voorkomen. Met een beetje geluk zullen we dit voor altijd kunnen garanderen met:"
-    recruitment_title: "Aanwervingen"
-    recruitment_description_prefix: "Hier bij CodeCombat, ga je ontplooien tot een krachtige tovenoor-niet enkel virtueel, maar ook in het echt."
-    url_hire_programmers: "Niemand kan snel genoeg programmeurs aanwerven"
-    recruitment_description_suffix: "dus eenmaal je jouw vaardigheden hebt aangescherp en ermee akkoord gaat, zullen we jouw beste programmeer prestaties voorstellen aan duizenden werkgevers die niet kunnen wachten om jou aan te werven. Zij betalen ons een beetje, maar betalen jou"
-    recruitment_description_italic: "enorm veel"
-    recruitment_description_ending: "de site blijft volledig gratis en iedereen is gelukkig. Dat is het plan."
     copyrights_title: "Auteursrechten en licenties"
     contributor_title: "Licentieovereenkomst voor vrijwilligers"
     contributor_description_prefix: "Alle bijdragen, zowel op de website als op onze GitHub repository, vallen onder onze"

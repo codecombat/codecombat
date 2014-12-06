@@ -4,6 +4,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     no_ie: "CodeCombat funktioniert uf InternetExplorer 8 und älter nid. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat isch nid für mobili Grät entwicklet worde und funktioniert vilicht nid!" # Warning that shows up on mobile devices
     play: "Spiele" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Uh oh, din Browser isch z alt zum CodeCombat spiele. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du chasches gliich probiere, aber es funktioniert worschinli nid."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Schwierigkeit: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     campaign_player_created_description: "... i dene du gege d Kreativität vome <a href=\"/contribute#artisan\">Handwerker Zauberer</a> kämpfsch."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Account erstelle"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Zauberer apasse"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     practices_title: "Respektvolli bewährti Praxis"
     practices_description: "Das sind üsi Verspreche a dich, de Spieler, in bitz weniger Fachchinesisch."
     privacy_title: "Dateschutz"
-    privacy_description: "Mir verchaufed kei vo dine persönliche Informatione. Mir hend vor zum irgendwenn durch Rekrutierig Geld z verdiene, aber bis versicheret, dass mir nid dini persönliche Date a interessierti Firmene wiiter gebed ohni dis usdrücklich Iverständnis."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Sicherheit"
     security_description: "Mir bemühed üs, dini persönliche Informatione sicher ufzbewahre. Als es Open Source Projekt isch üsi Siite offe für jede, wo gern möcht üsi Security System besichtige und verbessere."
     email_title: "E-Mail"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     email_description_suffix: "oder dur d Links i de E-Mails wo mir schicked, chasch du jederziit dini Preferänze ändere und dich ganz eifach us de Mailing-Liste neh."
     cost_title: "Chöste"
     cost_description: "Im Moment isch CodeCombat 100% gratis! Eis vo üsne Hauptziel isch, dass das so bliibt, damit so viel Lüüt wie möglich chönd spiele, egal wo sie sich im Lebe befinded. Sötted dunkli Wolke am Horizont ufzieh chas sii, dass mir müed en Teil vom Inhalt chostepflichtig mache, aber es isch üs lieber, wenn da nid passiert. Mit chli Glück werded mir fähig sii, s Unternehme ufrecht z erhalte und zwor mit:"
-    recruitment_title: "Rekrutierig"
-    recruitment_description_prefix: "Do uf CodeCombat wirsch du en mächtige Zauberer - nid nur ingame, sonder au im echte Lebe."
-    url_hire_programmers: "Niemer cha Programmierer schnell gnueg astelle"
-    recruitment_description_suffix: "das heisst, sobald du dini Fähigkeite gschärft hesch, und wenn du zuestimmsch, werded mir dini beste Programmiererfolg de tuusige vo Arbeitgeber zeige, wo nur druf warted, dich chöne azstelle. Sie zahled üs es bitz öppis, sie zahled dir"
-    recruitment_description_italic: "ziemli viel"
-    recruitment_description_ending: "d Siite bliibt gratis und alli sind glücklich. Das isch de Plan."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

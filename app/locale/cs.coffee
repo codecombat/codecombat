@@ -4,6 +4,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 8 nebo starším." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!" # Warning that shows up on mobile devices
     play: "Hrát" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Obtížnost: "
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     campaign_player_created_description: "...ve kterých bojujete proti kreativitě ostatních <a href=\"/contribute#artisan\">Zdatných Kouzelníků</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "Vytvořit účet"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "Upravit Kouzelníka"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     practices_title: "Doporučené postupy"
     practices_description: "Toto je příslib našeho přístupu v jednoduchém jazyce."
     privacy_title: "Soukromí"
-    privacy_description: "Neprodáme vaše osobní informace. Náš plán na zhodnocení je založen na poskytování pracovních příležitostí, přesto si můžete být jisti, že vaše osobní informace nebudou distribuovány bez vašeho plného souhlasu."
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "Zabezpečení"
     security_description: "Usilujeme o to, abychom udrželi vaše osobní informace v bezpečí. Jako otevřený projekt jsme přístupni komukoliv k provedení kontroly kódu pro zlepšení našich bezpečnostních systémů."
     email_title: "Email"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     email_description_suffix: "nebo skrze odkazy v odeslaných emailech si můžete nastavit nebo se kdykoliv odhlásit z naší korespondence."
     cost_title: "Cena"
     cost_description: "Momentálně je CodeCombat 100% zdarma! Naší snahou je udržet přístup zdarma, abychom dali možnost hrát co největšímu množství lidí. V případě nutnosti budeme muset přejít na placený vstup nebo platbu za přístup k určitému obsahu, ale raději bychom se tomu vyhnuli. S trochou štěstí doufáme v následující plán monetizace:"
-    recruitment_title: "Nábor"
-    recruitment_description_prefix: "Zde na CodeCombatu se stanete mocným kouzelníkem a to nejen ve hře, ale i v reálném životě."
-    url_hire_programmers: "O dobré programátory je stále velký zájem "
-    recruitment_description_suffix: "takže až se vypracujete a pokud budete souhlasit, budeme demonstrovat vaše nejlepší programátorské úspěchy tisícovkám zaměstnavatelů, kteří by vás rádi zaměstnali. Ti nám zaplatí něco málo, ale vám pak zaplatí "
-    recruitment_description_italic: "daleko více,"
-    recruitment_description_ending: "tato hra zůstane zdarma a všichni budou spokojeni. Takový je plán."
     copyrights_title: "Copyrights a Licence"
     contributor_title: "Licenční ujednání přispívatelů (CLA)"
     contributor_description_prefix: "Všichni přispívatelé jak na webu tak do projektu na GitHubu spadají pod naše "

@@ -166,29 +166,34 @@ PaymentHandler = class PaymentHandler extends Handler
   handleStripePaymentPost: (req, res, timestamp, productID, token) ->
 
     # First, make sure we save the payment info as a Customer object, if we haven't already.
-    if not req.user.get('stripe')?.customerID
-      stripe.customers.create({
-        card: token
-        email: req.user.get('email')
-        metadata: {
-          id: req.user._id + ''
-          slug: req.user.get('slug')
-        }
-      }).then(((customer) =>
-        stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-        stripeInfo.customerID = customer.id
-        req.user.set('stripe', stripeInfo)
-        req.user.save((err) =>
-          if err
-            @logPaymentError(req, 'Stripe customer id save db error. '+err)
-            return @sendDatabaseError(res, err)
+    if token
+      customerID = req.user.get('stripe')?.customerID
+      
+      if customerID
+        # old customer, new token. Save it.
+        stripe.customers.update customerID, { card: token }, (err, customer) =>
           @beginStripePayment(req, res, timestamp, productID)
-        )
-        ),
-        (err) =>
-          @logPaymentError(req, 'Stripe customer creation error. '+err)
-          return @sendDatabaseError(res, err)
-      )
+          
+      else
+        newCustomer = {
+          card: token
+          email: req.user.get('email')
+          metadata: { id: req.user._id + '', slug: req.user.get('slug') }
+        }
+        
+        stripe.customers.create newCustomer, (err, customer) =>
+          if err
+            @logPaymentError(req, 'Stripe customer creation error. '+err)
+            return @sendDatabaseError(res, err)
+          
+          stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
+          stripeInfo.customerID = customer.id
+          req.user.set('stripe', stripeInfo)
+          req.user.save (err) =>
+            if err
+              @logPaymentError(req, 'Stripe customer id save db error. '+err)
+              return @sendDatabaseError(res, err)
+            @beginStripePayment(req, res, timestamp, productID)
 
     else
       @beginStripePayment(req, res, timestamp, productID)

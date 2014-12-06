@@ -4,6 +4,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     no_ie: "對弗住！箇網站叻 Internet Explorer 8 箇粒老個瀏覽器嘸處用。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat 勿是照手機設備設計個，怪得嘸數达弗到頂讚個享受！" # Warning that shows up on mobile devices
     play: "遊戲開打" # The big play button that just starts playing a level
+#    try_it: "Try It" # Alternate wording for Play button
     old_browser: "啊耶, 爾個瀏覽器忒老哉, 嘸處運行 CodeCombat。對弗住險！" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "爾試叻好試多遍，不過嘸大用場個。"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -68,6 +69,11 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_forest: "Forest Campaign"
+#    campaign_dungeon: "Dungeon Campaign"
+#    subscription_required: "Subscription Required"
+#    free: "Free"
+#    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "難度："
@@ -89,8 +95,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     campaign_player_created_description: "……徠箇搭爾好搭爾夥計造起來個賭打 <a href=\"/contribute#artisan\">技術相幫</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 
   login:
     sign_up: "註冊"
@@ -292,6 +296,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     customize_wizard: "自設定獻路人"
 
   game_menu:
@@ -331,6 +336,21 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+
+#  subscribe:
+#    subscribe_title: "Subscribe"
+#    levels: "Unlock 25 levels! With 5 new ones every week!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    subscribe_button: "Subscribe Now"
+#    stripe_description: "Monthly Subscription"
+#    subscription_required_to_play: "You'll need a subscription to play this level."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -801,6 +821,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
+#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
   loading_error:
     could_not_load: "讀取失敗"
@@ -894,7 +917,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     practices_title: "尊重最讚真做"
     practices_description: "箇是我裏對爾個保證，也佩是攪個人，徠法律用語裏向望起扣搭弗足相。"
     privacy_title: "隱私"
-    privacy_description: "我裏弗會畀爾個任何情報賣爻。我裏划算最後用招聘來得利，爾也放心，空是爾朆明确講肯，我裏弗會畀爾個私人情報賣畀有意個公司。"
+#    privacy_description: "We will not sell any of your personal information."
     security_title: "安全"
     security_description: "我裏儘話保證爾個個人隱私安全。當開源項目，管感爾都好檢查搭改進我裏自由開放個網站個安全。"
     email_title: "電子郵箱"
@@ -903,12 +926,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     email_description_suffix: "要勿我裏發畀爾個信裏向有鏈接，爾随低2都好改偏向設定要勿取消訂閱。"
     cost_title: "花銷"
     cost_description: "目前來講，CodeCombat 是全個免費個！我裏個大目標之一也是保持目前箇種方式，讓越多越好個人攪功還好，弗管是弗是生活裏向。空把天黯落來，我裏嘸數會畀訂一許內容收費，不過我裏能可弗馨妝。運道好個話，我裏好開公司，通過："
-    recruitment_title: "招兵買馬"
-    recruitment_description_prefix: "來 CodeCombat 搭，爾會變做一個法力高強個“巫師”，弗單單徠遊戲裏，來生活當中也是。"
-    url_hire_programmers: "嘸人招程序員有得快爻，"
-    recruitment_description_suffix: "怪得只講爾手藝讚起爻咦經過爾同意，我裏會畀爾最好個編碼成果畀講萬個僱主望，希望渠裏眼紅。渠裏解眼功夫鈿畀我裏，薪水發畀爾，"
-    recruitment_description_italic: "“一大袋”"
-    recruitment_description_ending: "。箇網站也佩好一直免費，兩門進。划算佩馨寧。"
     copyrights_title: "版權搭許可"
     contributor_title: "貢獻者許可協議"
     contributor_description_prefix: "所有對本網站要勿 GitHub 代碼庫個努力都照我裏個"

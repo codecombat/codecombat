@@ -12,6 +12,7 @@ moment = require 'moment'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 SubscriptionHandler = require '../payments/subscription_handler'
+DiscountHandler = require '../payments/discount_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
@@ -109,8 +110,10 @@ UserHandler = class UserHandler extends Handler
         
     # Subscription setting
     (req, user, callback) ->
+      return callback(null, req, user) unless req.headers['x-change-plan'] # ensure only saves that are targeted at changing the subscription actually affect the subscription
+      return callback(null, req, user) unless req.body.stripe
       hasPlan = user.get('stripe')?.planID?
-      wantsPlan = req.body.stripe?.planID?
+      wantsPlan = req.body.stripe.planID?
       
       return callback(null, req, user) if hasPlan is wantsPlan
       if wantsPlan and not hasPlan
@@ -123,6 +126,26 @@ UserHandler = class UserHandler extends Handler
           return callback(err) if err
           return callback(null, req, user)
         )
+
+    # Discount setting
+    (req, user, callback) ->
+      return callback(null, req, user) unless req.body.stripe
+      return callback(null, req, user) unless req.user?.isAdmin()
+      hasCoupon = user.get('stripe')?.couponID
+      wantsCoupon = req.body.stripe.couponID
+
+      return callback(null, req, user) if hasCoupon is wantsCoupon
+      if wantsCoupon and (hasCoupon isnt wantsCoupon)
+        DiscountHandler.discountUser(req, user, (err) ->
+          return callback(err) if err
+          return callback(null, req, user)
+        )
+      else if hasCoupon and not wantsCoupon
+        DiscountHandler.removeDiscountFromCustomer(req, user, (err) ->
+          return callback(err) if err
+          return callback(null, req, user)
+        )
+
   ]
 
   getById: (req, res, id) ->
