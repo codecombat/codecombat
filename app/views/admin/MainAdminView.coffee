@@ -1,6 +1,7 @@
 {backboneFailure, genericFailure} = require 'core/errors'
 RootView = require 'views/core/RootView'
 template = require 'templates/admin'
+AdministerUserModal = require 'views/admin/AdministerUserModal'
 
 module.exports = class MainAdminView extends RootView
   id: 'admin-view'
@@ -12,6 +13,7 @@ module.exports = class MainAdminView extends RootView
     'click #enter-espionage-mode': 'enterEspionageMode'
     'click #user-search-button': 'searchForUser'
     'click #increment-button': 'incrementUserAttribute'
+    'click #user-search-result': 'onClickUserSearchResult'
 
   checkForFormSubmissionEnterPress: (e) ->
     if e.which is 13 and @$el.find('#espionage-name-or-email').val() isnt ''
@@ -47,7 +49,7 @@ module.exports = class MainAdminView extends RootView
   onSearchRequestSuccess: (users) =>
     result = ''
     if users.length
-      result = ("<tr><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anoner')}</td><td>#{_.escape(user.email)}</td></tr>" for user in users)
+      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anoner')}</td><td>#{_.escape(user.email)}</td></tr>" for user in users)
       result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#user-search-result').html(result)
 
@@ -59,3 +61,7 @@ module.exports = class MainAdminView extends RootView
     val = $('#increment-field').val()
     me.set(val, me.get(val) + 1)
     me.save()
+    
+  onClickUserSearchResult: (e) ->
+    userID = $(e.target).closest('tr').data('user-id')
+    @openModalView new AdministerUserModal({}, userID) if userID

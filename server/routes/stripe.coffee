@@ -2,9 +2,10 @@ config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
 User = require '../users/User'
 Payment = require '../payments/Payment'
+errors = require '../commons/errors'
 
 module.exports.setup = (app) ->
-  app.post '/stripe/webhook', (req, res, next) ->
+  app.post '/stripe/webhook', (req, res) ->
     if req.body.type is 'invoice.payment_succeeded' # if they actually paid, give em some gems
 
       invoiceID = req.body.data.object.id
@@ -62,3 +63,12 @@ module.exports.setup = (app) ->
 
     else # ignore all other notifications
       return res.send(200, '')
+      
+  app.get '/stripe/coupons', (req, res) ->
+    return errors.forbidden(res) unless req.user?.isAdmin()
+    stripe.coupons.list {limit: 100}, (err, coupons) ->
+      return errors.serverError(res) if err
+      res.send(200, coupons.data)
+      return res.end()
+      
+    
