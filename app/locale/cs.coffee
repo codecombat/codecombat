@@ -4,26 +4,26 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 8 nebo starším." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!" # Warning that shows up on mobile devices
     play: "Hrát" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    try_it: "Vyzkoušet" # Alternate wording for Play button
+    old_browser: "Váš prohlížeč je příliš starý na to, aby spustil CodeCombat. Omlouváme se!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Můžete to zkusit, ale pravděpodobně to nebude fungovat."
+    ipad_browser: "Špatné zprávy: CodeCombat neběží na iPad v prohlížeči. Dobré zprávy: naše iPad aplikace čeká na schválení od Apple."
+    campaign: "Kampaň"
+    for_beginners: "Pro začátečníky"
+    multiplayer: "Hra více hráčů" # Not currently shown on home page
+    for_developers: "Pro vývojáře" # Not currently shown on home page.
+    or_ipad: "Nebo stáhnout pro iPad"
 
   nav:
-    play: "Úrovně" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    play: "Úrovně" # The top nav bar entry where players choose which levels to playc
+    community: "Komunita"
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "Účet"
+    profile: "Profil"
+    stats: "Statistiky"
+    code: "Kód"
     admin: "Admin" # Only shows up when you are an admin
     home: "Domů"
     contribute: "Přispívat"
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     about: "O programu"
     contact: "Kontakt"
     twitter_follow: "Sledovat na twitteru"
-#    teachers: "Teachers"
+    teachers: "Učitelé"
 
   modal:
     close: "Zavřít"
@@ -49,43 +49,43 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     subscribe_as_diplomat: "Přihlásit se jako Diplomat"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    play_as: "Hrát jako" # Ladder page
+    spectate: "Dívat se" # Ladder page
+    players: "hráči" # Hover over a level on /play
+    hours_played: "hodin nahráno" # Hover over a level on /play
+    items: "Předměty" # Tooltip on item shop button from /play
+    unlock: "Odemknout" # For purchasing items and heroes
+    confirm: "Potvrdit"
+    owned: "Vlastněné" # For items you own
+    locked: "Zamčené"
+    purchasable: "Zakoupitelné" # For a hero you unlocked but haven't purchased
+    available: "Dostupné"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    heroes: "Hrdinové" # Tooltip on hero shop button from /play
+    achievements: "Úspěchy" # Tooltip on achievement list button from /play
+    account: "Účet" # Tooltip on account button from /play
+    settings: "Nastavení" # Tooltip on settings button from /play
+    next: "Další" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Změnit hrdinu" # Go back from choose inventory to choose hero
+    choose_inventory: "Vyzbrojit se předměty"
+    buy_gems: "Zakoupit drahokamy"
+    campaign_forest: "Lesní kampaň"
+    campaign_dungeon: "Jeskynní kampaň"
+    subscription_required: "Předplatné vyžadováno"
+    free: "Zdarma"
+    subscribed: "Předplaceno"
+    older_campaigns: "Starší kampaně"
+    anonymous: "Anonymní hráč"
     level_difficulty: "Obtížnost: "
-    campaign_beginner: "Začátečnická úroveň"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    campaign_beginner: "Začátečnická kampaň"
+    awaiting_levels_adventurer_prefix: "Vypouštíme pět úrovní každý týden."
+    awaiting_levels_adventurer: "Přihlašte se jako Dobrodruh"
+    awaiting_levels_adventurer_suffix: "abyste jako první hráli nejnovější úrovně."
     choose_your_level: "Zvolte si úroveň" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Můžete přejít do dalších úrovní, nebo debatovat o úrovních na "
     adventurer_forum: "fóru Dobrodruhů"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Starší začátečnická kampaň"
     campaign_old_beginner_description: "...ve které se naučíte kouzla programování."
     campaign_dev: "Náhodné težší úrovně"
     campaign_dev_description: "...ve kterých se dozvíte více o prostředí při plnění těžších úkolů."
@@ -93,19 +93,19 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     campaign_multiplayer_description: "...ve které programujete proti jiným hráčům."
     campaign_player_created: "Uživatelsky vytvořené úrovně"
     campaign_player_created_description: "...ve kterých bojujete proti kreativitě ostatních <a href=\"/contribute#artisan\">Zdatných Kouzelníků</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "Klasické algoritmy"
+    campaign_classic_algorithms_description: "... ve kterých se naučíte nejoblíbenější algoritmy v IT."
 
   login:
     sign_up: "Vytvořit účet"
     log_in: "Přihlásit"
-#    logging_in: "Logging In"
+    logging_in: "Přihlašování"
     log_out: "Odhlásit"
     recover: "obnovit účet"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    finishing: "Dokončování"
 
   signup:
     create_account_title: "Vytvořit účet k uložení úrovně"
@@ -338,7 +338,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    prompt_button: "Enter Shop"
 
 #  subscribe:
-#    subscribe_title: "Subscribe"
+#    subscribe_title: "Předplacení"
 #    levels: "Unlock 25 levels! With 5 new ones every week!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
@@ -348,9 +348,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+#    subscribe_button: "Předplatit"
+#    stripe_description: "Měsíční předplatné"
+#    subscription_required_to_play: "Pro hraní této úrovně potřebujete předplatné."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -485,8 +485,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    admin: "Admin"
     new_password: "Nové heslo"
     new_password_verify: "Potvrdit"
-    email_subscriptions: "Doručovat emailem"
-#    email_subscriptions_none: "No Email Subscriptions."
+    email_subscriptions: "Odebírat emailem"
+#    email_subscriptions_none: "Žádné odebírání emailem."
     email_announcements: "Oznámení"
     email_announcements_description: "Zasílat emaily o posledních novinkách a o postupu ve vývoji CodeCombat."
 #    email_notifications: "Notifications"
@@ -823,7 +823,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    gems: "Gems"
 #    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
-#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat předplatným!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
