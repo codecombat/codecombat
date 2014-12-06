@@ -81,7 +81,7 @@ module.exports = class WorldMapView extends RootView
       $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       trackedHourOfCode = true
 
-    @requiresSubscription = @terrain isnt 'dungeon' and not me.isPremium()
+    @requiresSubscription = not me.isPremium()
 
   destroy: ->
     @setupManager?.destroy()
