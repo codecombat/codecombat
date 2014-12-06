@@ -226,13 +226,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
-    victory_play_continue: "Продолжить"
-    victory_play_skip: "Пропустить"
-    victory_play_next_level: "Следующий уровень"
-    victory_play_more_practice: "Попрактиковаться еще"
-    victory_play_too_easy: "Очень легко"
-    victory_play_just_right: "То, что надо"
-    victory_play_too_hard: "Очень сложно"
     victory_saving_progress: "Процесс сохранения"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
@@ -339,7 +332,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     subscribe_title: "Подпишись"
-    levels: "Разблокируйте 25 уровней! И еще 5 каждую неделю!"
+    levels: "Разблокируйте 17 уровней! И еще 5 каждую неделю!"
     heroes: "Более сильные герои!"
     gems: "3500 бонусных самоцветов каждый месяц!"
     items: "Более 250 бонусных предметов!"
