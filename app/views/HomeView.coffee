@@ -23,7 +23,7 @@ module.exports = class HomeView extends RootView
     if $.browser
       majorVersion = $.browser.versionNumber
       c.isOldBrowser = true if $.browser.mozilla && majorVersion < 21
-      c.isOldBrowser = true if $.browser.chrome && majorVersion < 17
+      c.isOldBrowser = true if $.browser.chrome && majorVersion < 25
       c.isOldBrowser = true if $.browser.safari && majorVersion < 6
     else
       console.warn 'no more jquery browser version...'

@@ -150,6 +150,10 @@ module.exports = class PlayHeroesModal extends ModalView
     onLoaded = =>
       canvas = $(".hero-item[data-hero-id='#{fullHero.get('original')}'] canvas")
       return unless canvas.length  # Don't render it if it's not on the screen.
+      unless fullHero.get 'raw'
+        console.error "Couldn't make animation for #{fullHero.get('name')} with attributes #{_.cloneDeep(fullHero.attributes)}. Was it loaded with an improper projection or something?", fullHero
+        @rerenderFooter()
+        return
       canvas.show().prop width: @canvasWidth, height: @canvasHeight
       builder = new SpriteBuilder(fullHero)
       movieClip = builder.buildMovieClip(fullHero.get('actions').attack?.animation ? fullHero.get('actions').idle.animation)

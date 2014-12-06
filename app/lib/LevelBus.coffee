@@ -17,9 +17,7 @@ module.exports = class LevelBus extends Bus
     'script:state-changed': 'onScriptStateChanged'
     'script:ended': 'onScriptEnded'
     'script:reset': 'onScriptReset'
-    'surface:frame-changed': 'onFrameChanged'
     'surface:sprite-selected': 'onSpriteSelected'
-    'level:set-playing': 'onSetPlaying'
     'level:show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
@@ -179,26 +177,10 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @saveSession()
 
-  onFrameChanged: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.frame = e.frame
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
   onSpriteSelected: (e) ->
     return unless @onPoint()
     state = @session.get('state')
     state.selected = e.thang?.id or null
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
-  onSetPlaying: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.playing = e.playing
     @session.set('state', state)
     @changedSessionProperties.state = true
     @saveSession()

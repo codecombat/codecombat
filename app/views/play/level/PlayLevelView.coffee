@@ -359,13 +359,9 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'level:set-time', time: 0
       Backbone.Mediator.publish 'level:set-playing', playing: true
     else
-      if state.frame and @level.get('type', true) isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
-        Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
       if state.selected
         # TODO: Should also restore selected spell here by saving spellName
         Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
-      if state.playing?
-        Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
   # callbacks
 

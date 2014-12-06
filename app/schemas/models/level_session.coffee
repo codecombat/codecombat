@@ -83,9 +83,9 @@ _.extend LevelSessionSchema.properties,
         'string'
       ]
     playing:
-      type: 'boolean'
+      type: 'boolean'  # Not tracked any more
     frame:
-      type: 'number'
+      type: 'number'  # Not tracked any more
     thangs:
       type: 'object'
       additionalProperties:
