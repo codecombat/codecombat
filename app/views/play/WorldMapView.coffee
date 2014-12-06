@@ -353,7 +353,6 @@ dungeon = [
     y: 15.5
     nextLevels:
       continue: 'gems-in-the-deep'
-      skip_ahead: 'shadow-guard'
   }
   {
     name: 'Gems in the Deep'
@@ -365,7 +364,6 @@ dungeon = [
     y: 12
     nextLevels:
       continue: 'shadow-guard'
-      skip_ahead: 'forgetful-gemsmith'
   }
   {
     name: 'Shadow Guard'
@@ -376,7 +374,6 @@ dungeon = [
     x: 40.54
     y: 11.03
     nextLevels:
-      more_practice: 'kounter-kithwise'
       continue: 'forgetful-gemsmith'
   }
   {
@@ -425,7 +422,6 @@ dungeon = [
     x: 68.44
     y: 10.70
     nextLevels:
-      more_practice: 'favorable-odds'
       continue: 'the-raised-sword'
   }
   {
@@ -461,8 +457,7 @@ dungeon = [
     x: 78
     y: 29
     nextLevels:
-      more_practice: 'descending-further'
-      continue: 'the-second-kithmaze'
+      continue: 'descending-further'
   }
   {
     name: 'Riddling Kithmaze'
@@ -473,8 +468,7 @@ dungeon = [
     x: 69.97
     y: 28.03
     nextLevels:
-      more_practice: 'descending-further'
-      continue: 'the-second-kithmaze'
+      continue: 'descending-further'
     practice: true
     requiresSubscription: true
   }
@@ -555,7 +549,6 @@ dungeon = [
     x: 93
     y: 47
     nextLevels:
-      more_practice: 'tactical-strike'
       continue: 'the-final-kithmaze'
   }
   {
@@ -580,7 +573,6 @@ dungeon = [
     x: 86.95
     y: 64.70
     nextLevels:
-      more_practice: 'the-gauntlet'
       continue: 'kithgard-gates'
   }
   {
@@ -648,7 +640,7 @@ forest = [
     original: '546e97033f1c1c1be898402b'
     description: 'Hunt ogres in the woods, but watch out for lumbering beasts.'
     nextLevels:
-      continue: 'village-guard'
+      continue: 'thornbush-farm'
     x: 29
     y: 35
   }
