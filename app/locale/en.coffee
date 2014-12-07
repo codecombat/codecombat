@@ -101,23 +101,25 @@
     log_in: "Log In"
     logging_in: "Logging In"
     log_out: "Log Out"
-    recover: "recover account"
+    forgot_password: "Forgot your password?"
     authenticate_gplus: "Authenticate G+"
     load_profile: "Load G+ Profile"
     load_email: "Load G+ Email"
     finishing: "Finishing"
+    sign_in_with_facebook: "Sign in with Facebook"
+    sign_in_with_gplus: "Sign in with G+"
+    signup_switch: "Want to create an account?"
 
   signup:
     create_account_title: "Create Account to Save Progress"
     description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "Receive announcements by email"
-    coppa: "13+ or non-USA "
-    coppa_why: "(Why?)"
     creating: "Creating Account..."
     sign_up: "Sign Up"
     log_in: "log in with password"
     social_signup: "Or, you can sign up through Facebook or G+:"
     required: "You need to log in before you can go that way."
+    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Recover Account"
