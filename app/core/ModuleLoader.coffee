@@ -24,10 +24,12 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       return func(name, loaderPath)
     _.extend wrapped, window.require # for functions like 'list'
     window.require = wrapped
+    @updateProgress = _.throttle _.bind(@updateProgress, @), 700
+    @lastShownProgress = 0
 
   load: (path, first=true) ->
+    $('#module-load-progress').css('opacity', 1)
     if first
-      $('#module-loading-list ul').empty()
       @recentPaths = []
       @recentLoadedBytes = 0
       
@@ -35,14 +37,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     wad = _.find ModuleLoader.WADS, (wad) -> _.string.startsWith(path, wad)
     path = wad if wad
     return false if @loaded[path]
-    $('#module-loading-list').modal('show') if first
     @loaded[path] = true
     @recentPaths.push(path)
-    li = $("<li class='list-group-item loading' data-path='#{path}'>#{path}</li>")
-      .prepend($("<span class='glyphicon glyphicon-minus'></span>"))
-      .prepend($("<span class='glyphicon glyphicon-ok'></span>"))
-    ul = $('#module-loading-list ul')
-    ul.append(li).scrollTop(ul[0].scrollHeight)
     console.debug 'Loading js file:', "/javascripts/app/#{path}.js" if LOG
     @queue.loadFile({
       id: path
@@ -59,8 +55,6 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     return @load("locale/#{firstBit}", false) or loading
 
   onFileLoad: (e) =>
-    $("#module-loading-list li[data-path='#{e.item.id}']").removeClass('loading').addClass('success')
-
     # load dependencies if it's not a vendor library
     if not _.string.startsWith(e.item.id, 'vendor')
       have = window.require.list()
@@ -80,19 +74,25 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
     # get treema set up only when the library loads, if it loads
     if e.item.id is 'vendor/treema'
-      console.log 'setting up treema-ext'
       treemaExt = require 'core/treema-ext'
       treemaExt.setup()
 
     # a module and its dependencies have loaded!
     if @queue.progress is 1
-      $('#module-loading-list').modal('hide')
       @recentPaths.sort()
       console.debug @recentPaths.join('\n')
       console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
     @trigger 'loaded', e.item
+    
+    @updateProgress()
+    
+  updateProgress: ->
+    return if @queue.progress < @lastShownProgress
+    $('#module-load-progress .progress-bar').css('width', (100*@queue.progress)+'%')
+    if @queue.progress is 1 
+      $('#module-load-progress').css('opacity', 0)
 
   parseDependencies: (raw) ->
     bits = raw.match(/(require\(['"](.+?)['"])|(register\(['"].+?['"])/g) or []

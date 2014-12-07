@@ -53,10 +53,20 @@ module.exports = class SubscribeModal extends ModalView
     return @openModalView new AuthModal() if me.get('anonymous')
     application.tracker?.trackEvent 'Started subscription purchase', {}
     application.tracker?.trackPageView "subscription/start-purchase", ['Google Analytics']
-    stripeHandler.open({
+    options = {
       description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount
-    })
+    }
+
+    # SALE LOGIC
+    # overwrite amount with sale price
+    # maybe also put in another description with details about how long it lasts, etc
+#    options = {
+#      description: 'Subscription. Half price for three months!'
+#      amount: 499
+#    }
+
+    stripeHandler.open(options)
 
   onStripeReceivedToken: (e) ->
     @state = 'purchasing'

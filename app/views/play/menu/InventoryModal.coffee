@@ -35,6 +35,7 @@ module.exports = class InventoryModal extends ModalView
     'click #close-modal': 'hide'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click': 'onClickedSomewhere'
+    'update #unequipped .nano': 'onScrollUnequipped'
 
   shortcuts:
     'esc': 'clearSelection'
@@ -44,6 +45,7 @@ module.exports = class InventoryModal extends ModalView
   #- Setup
 
   initialize: (options) ->
+    @onScrollUnequipped = _.throttle(_.bind(@onScrollUnequipped, @), 200)
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
     # TODO: switch to item store loading system?
@@ -121,6 +123,7 @@ module.exports = class InventoryModal extends ModalView
     context.itemGroups = @itemGroups
     context.slots = @slots
     context.selectedHero = @selectedHero
+    context.selectedHeroClass = @selectedHero?.get('heroClass')
     context.equipment = _.clone @equipment
     context.equipment[slot] = @items.findWhere {original: itemOriginal} for slot, itemOriginal of context.equipment
     context.gems = me.gems()
@@ -524,6 +527,21 @@ module.exports = class InventoryModal extends ModalView
   onClickedSomewhere: (e) ->
     return if @destroyed
     @$el.find('.unlock-button').popover 'destroy'
+    
+    
+  #- Dynamic portrait loading
+
+  onScrollUnequipped: ->
+    # dynamically load visible items when the user scrolls enough to see them
+    nanoContent = @$el.find('#unequipped .nano-content')
+    items = nanoContent.find('.item:visible:not(.loaded)')
+    threshold = nanoContent.height() + 100
+    for itemEl in items
+      itemEl = $(itemEl)
+      if itemEl.position().top < threshold
+        itemEl.addClass('loaded')
+        item = @items.get(itemEl.data('item-id'))
+        itemEl.find('img').attr('src', item.getPortraitURL())
 
 
   #- Paper doll equipment updating
@@ -544,6 +562,7 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
+    @onScrollUnequipped()
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()
