@@ -4,7 +4,7 @@ module.exports = nativeDescription: "български език", englishDescri
     no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стари версии. Съжалявам!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи!" # Warning that shows up on mobile devices
     play: "Играй" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+#    try_it: "Опитай!" # Alternate wording for Play button
     old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -12,7 +12,7 @@ module.exports = nativeDescription: "български език", englishDescri
     for_beginners: "За начинаещи"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "За разработчици" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+#    or_ipad: "Или изтегли за iPad"
 
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
@@ -23,8 +23,8 @@ module.exports = nativeDescription: "български език", englishDescri
     account: "Сметката"
     profile: "Профил"
     stats: "Статистики"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
+#    code: "Код"
+#    admin: "Администратор" # Only shows up when you are an admin
     home: "Начало"
     contribute: "Допринеси"
 #    legal: "Legal"
@@ -49,14 +49,14 @@ module.exports = nativeDescription: "български език", englishDescri
     subscribe_as_diplomat: "Стани дипломат"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+#    play_as: "Играй с" # Ladder page
+#    spectate: "Наблюдавай" # Ladder page
+#    players: "Играчи" # Hover over a level on /play
+#    hours_played: "Играни часове" # Hover over a level on /play
     items: "Предмети" # Tooltip on item shop button from /play
     unlock: "Отключи" # For purchasing items and heroes
     confirm: "Потвърди"
-#    owned: "Owned" # For items you own
+#    owned: "Притежавани" # For items you own
     locked: "Заключено"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
