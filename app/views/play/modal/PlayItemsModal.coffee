@@ -202,6 +202,7 @@ module.exports = class PlayItemsModal extends ModalView
     unlockButton.popover(
       animation: true
       trigger: 'manual'
+      placement: 'top'
       content: ' '  # template has it
       container: @$el
       template: popoverTemplate
