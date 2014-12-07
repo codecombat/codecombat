@@ -3,6 +3,7 @@ cache = {}
 CocoModel = require './CocoModel'
 util = require 'core/utils'
 ThangType = require './ThangType'
+Level = require './Level'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -90,7 +91,7 @@ module.exports = class User extends CocoModel
     #heroes = _.values ThangType.heroes if me.isAdmin()
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
-  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? [])
+  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(Level.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()

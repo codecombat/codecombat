@@ -6,6 +6,9 @@ ThangType = require './ThangType'
 module.exports = class Level extends CocoModel
   @className: 'Level'
   @schema: require 'schemas/models/level'
+  @levels:
+    'dungeons-of-kithgard': '5411cb3769152f1707be029c'
+    'defense-of-plainswood': '541b67f71ccc8eaae19f3c62'
   urlRoot: '/db/level'
 
   serialize: (supermodel, session, otherSession, cached=false) ->
