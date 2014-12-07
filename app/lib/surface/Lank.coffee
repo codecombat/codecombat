@@ -691,10 +691,10 @@ module.exports = Lank = class Lank extends CocoClass
     Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned ? 0)}
 
   shouldMuteMessage: (m) ->
-    return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
-    return true if /^attack /.test m
-    return true if /^Repeating loop/.test m
-    return true if /^findNearestEnemy/.test m
+    return false if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
+    #return true if /^attack /.test m
+    #return true if /^Repeating loop/.test m
+    #return true if /^findNearestEnemy/.test m
     @previouslySaidMessages ?= {}
     t0 = @previouslySaidMessages[m] ? 0
     t1 = new Date()

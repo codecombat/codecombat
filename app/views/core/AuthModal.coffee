@@ -14,11 +14,11 @@ module.exports = class AuthModal extends ModalView
     # login buttons
     'click #switch-to-signup-button': 'onSignupInstead'
     'click #switch-to-login-button': 'onLoginInstead'
-    'click #confirm-age': 'checkAge'
     'click #github-login-button': 'onGitHubLoginClicked'
     'submit': 'onSubmitForm' # handles both submit buttons
     'keyup #name': 'onNameChange'
     'click #gplus-login-button': 'onClickGPlusLogin'
+    'click #close-modal': 'hide'
 
   subscriptions:
     'errors:server-error': 'onServerError'
@@ -40,9 +40,12 @@ module.exports = class AuthModal extends ModalView
       application.tracker.trackEvent 'Started Signup', authModalTitle: c.title, descriptionOn: c.descriptionOn
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
-    c.onEmployersPage = Backbone.history.fragment is "employers"
     c.me = me
     c
+
+  afterRender: ->
+    super()
+    @$el.toggleClass('signup', @mode is 'signup').toggleClass('login', @mode is 'login')
 
   afterInsert: ->
     super()
@@ -69,10 +72,6 @@ module.exports = class AuthModal extends ModalView
     if @mode is 'login' then @loginAccount() else @createAccount()
     false
 
-  checkAge: (e) ->
-    @playSound 'menu-button-click'
-    $('#signup-button', @$el).prop 'disabled', not $(e.target).prop('checked')
-
   loginAccount: ->
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
@@ -85,7 +84,6 @@ module.exports = class AuthModal extends ModalView
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     delete userObject.subscribe
-    delete userObject['confirm-age']
     delete userObject.name if userObject.name is ''
     userObject.name = @suggestedName if @suggestedName
     for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']

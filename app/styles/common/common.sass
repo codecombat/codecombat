@@ -246,17 +246,50 @@ kbd
   font-weight: bold
   color: rgb(248, 197, 146)
 
+  &.btn-lg
+    border-width: 14px 20px 20px 20px
+
+  &.btn-primary
+    border-image-source: url(/images/common/button-background-primary-active-border.png)
+  &.btn-success
+    border-image-source: url(/images/common/button-background-success-active-border.png)
+  &.btn-warning
+    border-image-source: url(/images/common/button-background-warning-active-border.png)
+  &.btn-danger
+    border-image-source: url(/images/common/button-background-danger-active-border.png)
+
   &:hover
     color: lighten(rgb(248, 197, 146), 5%)
 
   &:active
-    border-image: url(/images/common/button-background-pressed-border.png) 14 16 16 20 fill round
-    padding: 2px 0 0 2px
-    border-width: 7px 8px 8px 10px
+    &.btn-lg
+      border-image-source: url(/images/common/button-background-pressed-border.png)
+    &:not(.btn-lg)
+      border-image: url(/images/common/button-background-pressed-border.png) 14 16 16 20 fill round
+      padding: 2px 0 0 2px
+      border-width: 7px 8px 8px 10px
+
+    &.btn-primary
+      border-image-source: url(/images/common/button-background-primary-pressed-border.png)
+    &.btn-success
+      border-image-source: url(/images/common/button-background-success-pressed-border.png)
+    &.btn-warning
+      border-image-source: url(/images/common/button-background-warning-pressed-border.png)
+    &.btn-danger
+      border-image-source: url(/images/common/button-background-danger-pressed-border.png)
 
   &.disabled, &:disabled
     border-image: url(/images/common/button-background-disabled-border.png) 14 20 20 20 fill round
     @include opacity(1)
+
+    &.btn-primary
+      border-image-source: url(/images/common/button-background-primary-disabled-border.png)
+    &.btn-success
+      border-image-source: url(/images/common/button-background-success-disabled-border.png)
+    &.btn-warning
+      border-image-source: url(/images/common/button-background-warning-disabled-border.png)
+    &.btn-danger
+      border-image-source: url(/images/common/button-background-danger-disabled-border.png)
 
     > *
       @include opacity(0.5)
@@ -281,38 +314,53 @@ html.no-borderimage
     background-size: 100% 100%
     padding: 7px 10px 10px 10px
     
+    &.btn-primary
+      background-image: url(/images/common/button-background-primary-active.png)
+    &.btn-success
+      background-image: url(/images/common/button-background-success-active.png)
+    &.btn-warning
+      background-image: url(/images/common/button-background-warning-active.png)
+    &.btn-danger
+      background-image: url(/images/common/button-background-danger-active.png)
+
     &:active
       background-image: url(/images/common/button-background-pressed.png)
       padding: 9px 8px 8px 12px
       border: 0
 
+      &.btn-primary
+        background-image: url(/images/common/button-background-primary-pressed.png)
+      &.btn-success
+        background-image: url(/images/common/button-background-success-pressed.png)
+      &.btn-warning
+        background-image: url(/images/common/button-background-warning-pressed.png)
+      &.btn-danger
+        background-image: url(/images/common/button-background-danger-pressed.png)
+
     &.disabled, &:disabled
       background-image: url(/images/common/button-background-disabled.png)
+
+      &.btn-primary
+        background-image: url(/images/common/button-background-primary-disabled.png)
+      &.btn-success
+        background-image: url(/images/common/button-background-success-disabled.png)
+      &.btn-warning
+        background-image: url(/images/common/button-background-warning-disabled.png)
+      &.btn-danger
+        background-image: url(/images/common/button-background-danger-disabled.png)
 
 
 body > iframe[src^="https://apis.google.com"]
   display: none
 
-#module-loading-list
-  .modal-content
-    background: white
-    border-shadow: 2px 2px 10px black
+#module-load-progress
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  height: 5px
+  z-index: 1
+  transition: 1s
   
-  ul
-    max-height: 500px
-    overflow: scroll
-  
-  li
-    padding: 2px 15px
-    font-size: 10px
-    .glyphicon
-      margin-right: 10px
-    
-    &.loading
-      .glyphicon-ok
-        display: none
-        
-    &.success
-      font-weight: bold
-      .glyphicon-minus
-        display: none
+  .progress-bar
+    background-color: lightblue
