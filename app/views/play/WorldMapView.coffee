@@ -141,8 +141,10 @@ module.exports = class WorldMapView extends RootView
         level.color = 'rgb(80, 130, 200)'
       level.hidden = level.locked or level.disabled
 
-    # put lower levels in last, so in the world map they layer over one another properly.
-    context.campaign.levels = (_.sortBy context.campaign.levels, 'y').reverse()
+    ## put lower levels in last, so in the world map they layer over one another properly.
+    #context.campaign.levels = (_.sortBy context.campaign.levels, 'y').reverse()
+    # Actually, there's some logic that depends on the order of iteration of levels to determine
+    # which one to do next when you're coming here not from a level; can we do this another way?
 
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
