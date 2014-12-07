@@ -4,10 +4,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_ie: "抱歉！ Internet Explorer 8 等旧式预览器无法使用本网站。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到最好的体验！" # Warning that shows up on mobile devices
     play: "开始游戏" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "尝试一下" # Alternate wording for Play button
     old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "你可以继续重试下去，但八成不起作用，更新浏览器吧亲～"
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "坏消息: CodeCombat 无法在iPad的浏览器中运行。好消息：我们的iPad应用正在等待苹果公司审批。"
     campaign: "战役模式"
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
@@ -58,7 +58,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "可购买" # For a hero you unlocked but haven't purchased
     available: "可用"
     skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
@@ -71,9 +71,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     buy_gems: "购买宝石"
     campaign_forest: "森林战役"
     campaign_dungeon: "地牢战役"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    subscription_required: "需订阅"
+    free: "免费"
+    subscribed: "已订阅"
     older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
@@ -236,9 +236,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
     tome_other_units: "其他单元" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+    tome_cast_button_run: "运行"
+    tome_cast_button_running: "正在运行"
+    tome_cast_button_ran: "运行过"
     tome_submit_button: "提交"
     tome_reload_method: "重载该方法的原始代码" # Title text for individual method reload button.
     tome_select_method: "选择方法"
@@ -246,7 +246,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
     tome_your_skills: "你的技能"
-#    tome_help: "Help"
+    tome_help: "帮助"
     tome_current_method: "当前方法"
     hud_continue_short: "继续"
     code_saved: "代码已保存"
@@ -324,27 +324,27 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     few_gems: "几个宝石"
     pile_gems: "一堆宝石"
     chest_gems: "一箱宝石"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    purchasing: "正在付款..."
+    declined: "您的卡片被拒绝"
+    retrying: "服务器错误，请重试"
+    prompt_title: "没有足够数量的宝石"
+    prompt_body: "还需要更多吗？"
+    prompt_button: "进入商店"
 
-#  subscribe:
-#    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
-#    parents: "For Parents"
-#    parents_title: "Your child will learn to code."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+  subscribe:
+    subscribe_title: "订阅"
+    levels: "多解锁17个关卡！每周解锁5个新关卡！"
+    heroes: "更多强大的英雄！"
+    gems: "每月多3500宝石奖励！"
+    items: "超过250个物品奖励！"
+    parents: "致家长"
+    parents_title: "您的孩子将要学习编写程序。"
+    parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
+    parents_blurb2: "每月支付99美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
+    parents_blurb3: "无风险承诺：100%退款，一键退订。"
+    subscribe_button: "现在订阅"
+    stripe_description: "每月订阅"
+    subscription_required_to_play: "订阅后可开始本关"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -370,27 +370,27 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     range: "攻击范围" # As in "attack or visual range"
     blocks: "格挡" # As in "this shield blocks this much damage"
     skills: "技能"
-#    available_for_purchase: "Available for Purchase"
-#    level_to_unlock: "Level to unlock:"
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    available_for_purchase: "可以购买"
+    level_to_unlock: "未解锁关卡："
+    restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
 
-#  skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-#    read_only: "read-only"
-#    action_name: "name"
-#    action_cooldown: "Takes"
-#    action_specific_cooldown: "Cooldown"
-#    action_damage: "Damage"
-#    action_range: "Range"
-#    action_radius: "Radius"
-#    action_duration: "Duration"
-#    example: "Example"
-#    ex: "ex" # Abbreviation of "example"
-#    current_value: "Current Value"
-#    default_value: "Default value"
-#    parameters: "Parameters"
-#    returns: "Returns"
-#    granted_by: "Granted by"
+  skill_docs:
+    writable: "可写" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "只读"
+    action_name: "名称"
+    action_cooldown: "释放时间"
+    action_specific_cooldown: "冷却时间"
+    action_damage: "攻击力"
+    action_range: "范围"
+    action_radius: "半径"
+    action_duration: "持续时间"
+    example: "例程"
+    ex: "例如" # Abbreviation of "example"
+    current_value: "当前值"
+    default_value: "默认值"
+    parameters: "参数"
+    returns: "返回值"
+    granted_by: "技能来自"
 
   save_load:
     granularity_saved_games: "保存"
@@ -729,7 +729,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     games_simulated_for: "待你模拟玩的游戏:"
     games_simulated: "游戏已模拟"
     games_played: "已玩过"
-#    ratio: "Ratio"
+    ratio: "通过率"
     leaderboard: "排行榜"
     battle_as: "我要加入这一方 "
     summary_your: "你 "
@@ -813,8 +813,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
-#    price: "Price"
-#    gems: "Gems"
+    price: "价格"
+    gems: "宝石"
 #    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
@@ -878,17 +878,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    play_counts: "Play Counts"
     feedback: "反馈"
 
-#  delta:
-#    added: "Added"
-#    modified: "Modified"
-#    deleted: "Deleted"
-#    moved_index: "Moved Index"
-#    text_diff: "Text Diff"
+  delta:
+    added: "被添加"
+    modified: "被修改"
+    deleted: "被删除"
+    moved_index: "被移动的索引"
+    text_diff: "文本变化"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
-#    no_changes: "No Changes"
+    no_changes: "没有变化"
 
-#  guide:
-#    temp: "Temp"
+  guide:
+    temp: "临时"
 
   multiplayer:
     multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon. Until then, it's not important to translate.
