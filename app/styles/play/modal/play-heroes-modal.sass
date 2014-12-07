@@ -4,7 +4,8 @@
 $heroCanvasHeight: 265px
 
 #play-heroes-modal
-  
+  @include user-select(none)
+
   //- Clear modal defaults
   
   .modal-dialog
@@ -187,6 +188,7 @@ $heroCanvasHeight: 265px
 
       .hero-stats
         color: white
+        @include user-select(initial)
 
         h2
           margin-top: 0px
@@ -260,6 +262,9 @@ $heroCanvasHeight: 265px
         @include scaleXY(-1, 1)
 
   //- Different footer states
+
+  #hero-footer
+    @include user-select(initial)
 
   #purchasable-hero-explanation, #loading-hero-explanation
     position: absolute
