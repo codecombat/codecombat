@@ -299,7 +299,7 @@ module.exports = class WorldMapView extends RootView
       Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
       return
     @ambientSound = createjs.Sound.play src, loop: -1, volume: 0.1
-    createjs.Tween.get(@ambientSound).to({volume: 1.0}, 1000)
+    createjs.Tween.get(@ambientSound).to({volume: 0.5}, 1000)
 
   playMusic: ->
     @musicPlayer = new MusicPlayer()

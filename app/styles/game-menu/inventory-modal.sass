@@ -543,7 +543,18 @@ $itemSlotGridHeight: 51px
       &.male
         left: 55px
         bottom: 63px
-        @include rotate(-15deg)
+
+    &.right-hand.female.Ranger[src="/file/db/thang.type/53f4e6e3d822c23505b74f42/warrior_female.png"]
+      // Special-case Builder's Hammer, since we don't yet have ranger-specific hand exports for it
+      @include rotate(180deg)
+      left: -95px
+      bottom: -89px
+
+    &.right-hand.male.Ranger[src="/file/db/thang.type/53f4e6e3d822c23505b74f42/warrior_male.png"]
+      // Special-case Builder's Hammer, since we don't yet have ranger-specific hand exports for it
+      @include rotate(180deg)
+      left: -138px
+      bottom: -55px
 
     &.left-hand
       z-index: 17
