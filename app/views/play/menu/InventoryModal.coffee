@@ -446,7 +446,7 @@ module.exports = class InventoryModal extends ModalView
     patchSession = patchMe = false
     patchSession ||= not _.isEqual inventory, sessionHeroConfig.inventory
     sessionHeroConfig.inventory = inventory
-    if hero = @selectedHero.get('original')
+    if hero = @selectedHero?.get('original')
       patchSession ||= not _.isEqual hero, sessionHeroConfig.thangType
       sessionHeroConfig.thangType = hero
     patchMe ||= not _.isEqual inventory, lastHeroConfig.inventory
@@ -527,8 +527,8 @@ module.exports = class InventoryModal extends ModalView
   onClickedSomewhere: (e) ->
     return if @destroyed
     @$el.find('.unlock-button').popover 'destroy'
-    
-    
+
+
   #- Dynamic portrait loading
 
   onScrollUnequipped: ->

@@ -253,13 +253,19 @@ kbd
     border-image-source: url(/images/common/button-background-primary-active-border.png)
   &.btn-success
     border-image-source: url(/images/common/button-background-success-active-border.png)
+    color: darken(white, 5%)
   &.btn-warning
     border-image-source: url(/images/common/button-background-warning-active-border.png)
+    color: darken(white, 5%)
   &.btn-danger
     border-image-source: url(/images/common/button-background-danger-active-border.png)
 
   &:hover
     color: lighten(rgb(248, 197, 146), 5%)
+    &.btn-success
+      color: white
+    &.btn-warning
+      color: white
 
   &:active
     &.btn-lg
