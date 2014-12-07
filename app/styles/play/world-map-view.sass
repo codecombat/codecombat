@@ -141,6 +141,29 @@ $gameControlMargin: 30px
       &.complete
         border: 3px solid gold
         @include box-shadow(0px 0px 35px skyblue)
+        
+      img.banner
+        position: absolute
+        bottom: 38%
+        left: -50%
+        width: 200%
+        pointer-events: none
+        
+      img.star
+        width: 100%
+        bottom: 7%
+        position: absolute
+        pointer-events: none
+        
+      .glyphicon-star
+        position: absolute
+        color: lightblue
+        font-size: 21px
+        left: 1.5px
+        
+      &.started .glyphicon-star
+        left: 0.5px
+        
 
     .level-shadow
       z-index: 1

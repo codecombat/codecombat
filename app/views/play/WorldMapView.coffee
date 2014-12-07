@@ -138,6 +138,11 @@ module.exports = class WorldMapView extends RootView
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription
         level.color = 'rgb(80, 130, 200)'
+      level.hidden = level.locked or level.disabled
+    
+    # put lower levels in last, so in the world map they layer over one another properly.  
+    context.campaign.levels = (_.sortBy context.campaign.levels, 'y').reverse()
+    
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
