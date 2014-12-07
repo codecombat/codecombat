@@ -76,6 +76,14 @@ class AudioPlayer extends CocoClass
     return sound if sound = say[message]
     if _.string.startsWith message, 'attack'
       return sound if sound = say.attack
+    if message.indexOf("i-dont-see-anyone") isnt -1
+      return sound if sound = say['i-dont-see-anyone']
+    if message.indexOf("i-see-you") isnt -1
+      return sound if sound = say['i-see-you']
+    if message.indexOf("repeating-loop") isnt -1
+      return sound if sound = say['repeating-loop']
+    if /move(up|down|left|right)/.test message
+      return sound if sound = say["move-#{message[4...]}"]
     defaults = say.defaultSimlish
     if say.swearingSimlish?.length and _.find(swears, (s) -> message.search(s) isnt -1)
       defaults = say.swearingSimlish
