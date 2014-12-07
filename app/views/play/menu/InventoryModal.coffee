@@ -496,6 +496,7 @@ module.exports = class InventoryModal extends ModalView
       @delegateEvents()
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)
+      @onScrollUnequipped()
 
       Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
@@ -550,6 +551,7 @@ module.exports = class InventoryModal extends ModalView
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     equipment = @getCurrentEquipmentConfig()
+    @onScrollUnequipped()
     return unless _.size(equipment) and @supermodel.finished()
     @removeDollImages()
     slotsWithImages = []
@@ -562,7 +564,6 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
-    @onScrollUnequipped()
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()
