@@ -489,7 +489,7 @@ module.exports = class InventoryModal extends ModalView
       @itemGroups.lockedItems.remove(item)
       # Redo all item sorting to make sure that we don't clobber state changes since last render.
       equipped = _.values @getCurrentEquipmentConfig()
-      @sortItem(item, equipped) for item in @items.models
+      @sortItem(otherItem, equipped) for otherItem in @items.models
       @renderSelectors('#unequipped', '#gems-count')
 
       @requireLevelEquipment()
