@@ -222,6 +222,7 @@
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
+    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Complete"
     victory_sign_up: "Sign Up to Save Progress"
@@ -234,6 +235,8 @@
     victory_review: "Tell us more!"  # Only in old-style levels.
     victory_hour_of_code_done: "Are You Done?"
     victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+    victory_experience_gained: "XP Gained"
+    victory_gems_gained: "Gems Gained"
     guide_title: "Guide"
     tome_minion_spells: "Your Minions' Spells"  # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spells"  # Only in old-style levels.

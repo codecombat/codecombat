@@ -10,6 +10,7 @@ MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
 SubscribeModal = require 'views/play/modal/SubscribeModal'
+Level = require 'models/Level'
 
 trackedHourOfCode = false
 
@@ -126,10 +127,10 @@ module.exports = class WorldMapView extends RootView
   getRenderData: (context={}) ->
     context = super(context)
     context.campaign = _.find campaigns, { id: @terrain }
-    for level, index in context.campaign.levels
+    for level in context.campaign.levels
       level.x ?= 10 + 80 * Math.random()
       level.y ?= 10 + 80 * Math.random()
-      level.locked = index > 0 and not me.ownsLevel level.original
+      level.locked = not me.ownsLevel level.original
       window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
       level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
@@ -138,12 +139,17 @@ module.exports = class WorldMapView extends RootView
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription
         level.color = 'rgb(80, 130, 200)'
+      level.hidden = level.locked or level.disabled
+
+    # put lower levels in last, so in the world map they layer over one another properly.
+    context.campaign.levels = (_.sortBy context.campaign.levels, 'y').reverse()
+
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
-    context.forestIsAvailable = @startedForestLevel or '541b67f71ccc8eaae19f3c62' in (me.get('earned')?.levels or [])
+    context.forestIsAvailable = @startedForestLevel or (Level.levels['defense-of-plainswood'] in (me.get('earned')?.levels or []))
     context.requiresSubscription = @requiresSubscription
     context
 
@@ -345,7 +351,7 @@ dungeon = [
     name: 'Dungeons of Kithgard'
     type: 'hero'
     id: 'dungeons-of-kithgard'
-    original: '528110f30268d018e3000001'
+    original: '5411cb3769152f1707be029c'
     description: 'Grab the gem, but touch nothing else. Start here.'
     x: 14
     y: 15.5

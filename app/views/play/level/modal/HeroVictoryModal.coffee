@@ -9,6 +9,8 @@ ThangType = require 'models/ThangType'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 AudioPlayer = require 'lib/AudioPlayer'
 CampaignOptions = require 'lib/CampaignOptions'
+User = require 'models/User'
+utils = require 'core/utils'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -36,6 +38,8 @@ module.exports = class HeroVictoryModal extends ModalView
     @listenToOnce @achievements, 'sync', @onAchievementsLoaded
     @readyToContinue = false
     @waitingToContinueSince = new Date()
+    @previousXP = me.get 'points', true
+    @previousLevel = me.level()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
 
   destroy: ->
@@ -47,6 +51,7 @@ module.exports = class HeroVictoryModal extends ModalView
     super()
 
   onAchievementsLoaded: ->
+    @$el.toggleClass 'full-achievements', @achievements.models.length is 3
     thangTypeOriginals = []
     achievementIDs = []
     for achievement in @achievements.models
@@ -133,6 +138,7 @@ module.exports = class HeroVictoryModal extends ModalView
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
+    @updateXPBars 0
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory-title-appear'  # TODO: actually add this
@@ -196,7 +202,8 @@ module.exports = class HeroVictoryModal extends ModalView
       totalXP = @totalXPAnimated + newXP
       if totalXP isnt @lastTotalXP
         panel.textEl.text('+' + newXP)
-        @XPEl.text('+' + totalXP)
+        @XPEl.text(totalXP)
+        @updateXPBars(totalXP)
         xpTrigger = 'xp-' + (totalXP % 6)  # 6 xp sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
         @lastTotalXP = totalXP
@@ -205,7 +212,7 @@ module.exports = class HeroVictoryModal extends ModalView
       totalGems = @totalGemsAnimated + newGems
       if totalGems isnt @lastTotalGems
         panel.textEl.text('+' + newGems)
-        @gemEl.text('+' + totalGems)
+        @gemEl.text(totalGems)
         gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2
         @lastTotalGems = totalGems
@@ -236,6 +243,32 @@ module.exports = class HeroVictoryModal extends ModalView
       return 0.5 * t * t
     --t
     -0.5 * (t * (t - 2) - 1)
+
+  updateXPBars: (achievedXP) ->
+    previousXP = @previousXP
+    previousLevel = @previousLevel
+
+    currentXP = previousXP + achievedXP
+    currentLevel = User.levelFromExp currentXP
+    currentLevelXP = User.expForLevel currentLevel
+
+    nextLevel = currentLevel + 1
+    nextLevelXP = User.expForLevel nextLevel
+
+    leveledUp = currentLevel > previousLevel
+    totalXPNeeded = nextLevelXP - currentLevelXP
+    alreadyAchievedPercentage = 100 * (previousXP - currentLevelXP) / totalXPNeeded
+    alreadyAchievedPercentage = 0 if alreadyAchievedPercentage < 0  # In case of level up
+    if leveledUp
+      newlyAchievedPercentage = 100 * (currentXP - currentLevelXP) / totalXPNeeded
+    else
+      newlyAchievedPercentage = 100 * achievedXP / totalXPNeeded
+
+    xpEl = $('#xp-wrapper')
+    xpBarJustEarned = xpEl.find('.xp-bar-already-achieved').css('width', alreadyAchievedPercentage + '%')
+    xpBarTotal = xpEl.find('.xp-bar-total').css('width', (alreadyAchievedPercentage + newlyAchievedPercentage) + '%')
+    levelLabel = xpEl.find('.level')
+    utils.replaceText levelLabel, currentLevel
 
   endSequentialAnimations: ->
     clearInterval @sequentialAnimationInterval

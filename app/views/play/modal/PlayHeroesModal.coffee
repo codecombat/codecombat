@@ -87,7 +87,6 @@ module.exports = class PlayHeroesModal extends ModalView
     @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[heroIndex]
     @$el.find('.hero-stat').tooltip()
     @buildCodeLanguages()
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'game-menu-open', volume: 1
 
   rerenderFooter: ->
     @formatHero @visibleHero

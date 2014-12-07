@@ -446,7 +446,7 @@ module.exports = class InventoryModal extends ModalView
     patchSession = patchMe = false
     patchSession ||= not _.isEqual inventory, sessionHeroConfig.inventory
     sessionHeroConfig.inventory = inventory
-    if hero = @selectedHero.get('original')
+    if hero = @selectedHero?.get('original')
       patchSession ||= not _.isEqual hero, sessionHeroConfig.thangType
       sessionHeroConfig.thangType = hero
     patchMe ||= not _.isEqual inventory, lastHeroConfig.inventory
@@ -489,13 +489,14 @@ module.exports = class InventoryModal extends ModalView
       @itemGroups.lockedItems.remove(item)
       # Redo all item sorting to make sure that we don't clobber state changes since last render.
       equipped = _.values @getCurrentEquipmentConfig()
-      @sortItem(item, equipped) for item in @items.models
+      @sortItem(otherItem, equipped) for otherItem in @items.models
       @renderSelectors('#unequipped', '#gems-count')
 
       @requireLevelEquipment()
       @delegateEvents()
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)
+      @onScrollUnequipped()
 
       Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
@@ -527,8 +528,8 @@ module.exports = class InventoryModal extends ModalView
   onClickedSomewhere: (e) ->
     return if @destroyed
     @$el.find('.unlock-button').popover 'destroy'
-    
-    
+
+
   #- Dynamic portrait loading
 
   onScrollUnequipped: ->
@@ -550,6 +551,7 @@ module.exports = class InventoryModal extends ModalView
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     equipment = @getCurrentEquipmentConfig()
+    @onScrollUnequipped()
     return unless _.size(equipment) and @supermodel.finished()
     @removeDollImages()
     slotsWithImages = []
@@ -562,7 +564,6 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
-    @onScrollUnequipped()
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()
