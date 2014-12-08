@@ -33,11 +33,6 @@ module.exports = class AuthModal extends ModalView
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
-    c.title = {0: 'short', 1: 'long'}[me.get('testGroupNumber') % 2]
-    c.descriptionOn = {0: 'yes', 1: 'no'}[Math.floor(me.get('testGroupNumber')/2) % 2]
-    if @mode is 'signup'
-      application.tracker.identify authModalTitle: c.title
-      application.tracker.trackEvent 'Started Signup', authModalTitle: c.title, descriptionOn: c.descriptionOn
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
     c.me = me

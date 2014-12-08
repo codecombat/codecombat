@@ -111,8 +111,6 @@
     signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Create Account to Save Progress"
-    description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "Receive announcements by email"
     creating: "Creating Account..."
     sign_up: "Sign Up"
