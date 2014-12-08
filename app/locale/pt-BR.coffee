@@ -4,7 +4,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Experimente" # Alternate wording for Play button
     old_browser: "Ops, seu navegador é muito antigo para rodar o CodeCombat. Desculpe!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Você pode tentar de qualquer forma, mas provavelmente não irá funcionar."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Items"
     buy_gems: "Comprar Gems"
-#    campaign_forest: "Forest Campaign"
+    campaign_forest: "Campanha da Floresta"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
     campaign_beginner: "Campanha Iniciante"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer_prefix: "Nós liberamos cinco níveis por semana."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     choose_your_level: "Escolha seu estágio" # The rest of this section is the old play view at /play-old and isn't very important.
@@ -102,10 +102,10 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     logging_in: "Entrando"
     log_out: "Sair"
     recover: "Recuperar sua conta"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    authenticate_gplus: "Autenticar com G+"
+    load_profile: "Carregar Perfil do G+"
+    load_email: "Carregar email do G+"
+    finishing: "Terminando"
 
   signup:
     create_account_title: "Criar conta para salvar progresso"
@@ -125,12 +125,12 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     recovery_sent: "Email de recuperação enviado."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primário"
+    secondary: "Secundário"
     armor: "Armadura"
     accessories: "Accessórios"
     misc: "Diversos"
-#    books: "Books"
+    books: "Livros"
 
   common:
     loading: "Carregando..."
@@ -179,7 +179,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     medium: "Médio"
     hard: "Difícil"
     player: "Jogador"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Nível" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "segundo"
@@ -200,7 +200,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
   play_level:
     done: "Pronto"
     home: "Início" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Fase" # Like "Level: Dungeons of Kithgard"
     skip: "Pular"
     game_menu: "Menu do Jogo"
     guide: "Guia"
@@ -214,7 +214,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     failing: "Falta"
     action_timeline: "Linha do Tempo das Ações"
     click_to_select: "Clique em um personagem para selecioná-lo."
-#    control_bar_multiplayer: "Multiplayer"
+    control_bar_multiplayer: "Multijogador"
 #    control_bar_join_game: "Join Game"
     reload: "Recarregar"
     reload_title: "Recarregar Todo o Código?"
@@ -227,7 +227,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     victory_rate_the_level: "Avalie o estágio: " # Only in old-style levels.
     victory_return_to_ladder: "Retornar para a Ladder"
     victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_saving_progress: "Salvando Progresso"
     victory_go_home: "Ir à página inicial" # Only in old-style levels.
     victory_review: "Diga-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminou?"
@@ -246,9 +246,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
-#    tome_help: "Help"
-#    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    tome_help: "Ajuda"
+    tome_current_method: "Método Atual"
+    hud_continue_short: "Continue"
     code_saved: "Código Salvo"
     skip_tutorial: "Pular (esc)"
     keyboard_shortcuts: "Teclas de atalho"
@@ -290,7 +290,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tip_hofstadters_law: "Lei de Hofstadter: Sempre demora mais do que você espera, mesmo quando você leva em consideração a Lei de Hofstadter."
     tip_premature_optimization: "Uma otimização permatura é a raíz de todos os males. - Donald Knuth"
     tip_brute_force: "Na dúvida, utilize força bruta. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_extrapolation: "Existem dois tipos de pessoas: os que se irritam com informações incompletas..."
     customize_wizard: "Personalize o feiticeiro"
 
   game_menu:
@@ -299,7 +299,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     options_tab: "Opções"
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
-#    auth_tab: "Sign Up"
+    auth_tab: "Cadastrar"
     inventory_caption: "Equipar seu herói"
     choose_hero_caption: "Escolha seu herói, linguagem"
     save_load_caption: "... e visualizar o histórico"
@@ -310,15 +310,15 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 
   inventory:
     choose_inventory: "Equipar itens"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equipped_item: "Equipado"
+    available_item: "Disponível"
+    restricted_title: "Restrito"
+    should_equip: "(Duplo clique para Equipar)"
+    equipped: "(equipado)"
+    locked: "(Bloqueado)"
+    restricted: "(restrito nesta fase)"
+    equip: "Equipar"
+    unequip: "Desequipar"
 
 #  buy_gems:
 #    few_gems: "A few gems"
@@ -360,10 +360,10 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     io_blurb: "Simples mas obscura."
     status: "Status"
     weapons: "Armas"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
+    weapons_warrior: "Espadas - Curto alcançe, Sem magia"
+    weapons_ranger: "Balestras, Armas - Longo alcançe, Sem magia"
+    weapons_wizard: "Varinhas, Cajados - Longo alcançe, Magia"
+    attack: "Dano" # Can also translate as "Attack"
     health: "Vida"
     speed: "Velocidade"
     regeneration: "Cura"
@@ -513,7 +513,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     enter: "Enter"
     escape: "Esc"
     shift: "Shift"
-#    run_code: "Run current code."
+    run_code: "Rodando código atual."
     run_real_time: "Rodar em tempo real."
     continue_script: "Pular script atual."
     skip_scripts: "Pular todos os scripts puláveis."
@@ -591,7 +591,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     level_tab_thangs_add: "Adicionar Thangs"
     delete: "Excluir"
     duplicate: "Duplicar"
-#    rotate: "Rotate"
+    rotate: "Rotacionar"
     level_settings_title: "Configurações"
     level_component_tab_title: "Componentess Atuais"
     level_component_btn_new: "Criar Novo Componente"
@@ -911,7 +911,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     practices_title: "Respeitáveis Boas Práticas"
     practices_description: "Essas são nossas promessas para você, o jogador, de uma maneira menos jurídica."
     privacy_title: "Privacidade"
-#    privacy_description: "We will not sell any of your personal information."
+    privacy_description: "Nós nâo venderemos suas informações pessoaos."
     security_title: "Segurança"
     security_description: "Nós lutamos para manter suas informações pessoais a salvo.Como um projeto de código aberto, nosso site é aberto para qualquer um rever e melhorar nossos sistemas de segurança."
     email_title: "Email"
