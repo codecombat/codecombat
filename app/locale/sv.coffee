@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     log_in: "Logga in"
     logging_in: "Loggar In"
     log_out: "Logga ut"
-    recover: "Glömt lösenord"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Skapa ett konto för att spara dina framsteg"
-    description: "Det är gratis. Vi behöver bara lite information och sen är du redo att börja:"
     email_announcements: "Mottag nyheter via e-post"
-    coppa: "13+ eller ej i USA"
-    coppa_why: " (Varför?)"
     creating: "Skapar konto..."
     sign_up: "Skapa konto"
     log_in: "logga in med lösenord"
     social_signup: "Eller så kan du logga in genom facebook eller g+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Återskapa ditt konto"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     reload_title: "Ladda om all kod?"
     reload_really: "Är du säker på att du vill ladda om nivån från början?"
     reload_confirm: "Ladda om allt"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: " Genomförd"
     victory_sign_up: "Registrera dig för att få uppdateringar"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_review: "Berätta mer!" # Only in old-style levels.
     victory_hour_of_code_done: "Är du klar?"
     victory_hour_of_code_done_yes: "Ja, jag är klar med min Hour of Code!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor" # Only in old-style levels.
     tome_read_only_spells: "Skrivskyddade förmågor" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Skräddarsy trollkarl"
 
   game_menu:
     inventory_tab: "Utrustning"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: "Trollkarl"
-    wizard_color: "Trollkarlens klädfärg"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     log_in: "Inloggen"
     logging_in: "Bezig met inloggen"
     log_out: "Uitloggen"
-    recover: "account herstellen"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Maak een account aan om je vooruitgang op te slaan"
-    description: "Het is gratis. We hebben maar een paar dingen nodig en dan kan je aan de slag:"
     email_announcements: "Ontvang aankondigingen via email"
-    coppa: "13+ of niet uit de VS"
-    coppa_why: "(Waarom?)"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
     social_signup: "Of je kunt je registreren met Facebook of G+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Compleet"
     victory_sign_up: "Schrijf je in om je vooruitgang op te slaan"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_review: "Vertel ons meer!" # Only in old-style levels.
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spreuken" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Pas Tovenaar aan"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden."
     sample_profile: "Bekijk een voorbeeld kandidaat-profiel"
     view_profile: "Bekijk je eigen kandidaat-profiel"
-    wizard_tab: "Tovenaar"
-    wizard_color: "Tovenaar Kleding Kleur"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
   community:
     main_title: "CodeCombat Gemeenschap"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

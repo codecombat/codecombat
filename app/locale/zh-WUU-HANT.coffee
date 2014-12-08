@@ -101,23 +101,23 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     log_in: "登進去"
     logging_in: "徠搭登進"
     log_out: "登出"
-    recover: "賬號尋轉"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "做新賬號來存進度"
-    description: "免費省力咦快進："
     email_announcements: "用電子郵箱收通知"
-    coppa: "13歲以上要勿美國外"
-    coppa_why: " 爲何？"
     creating: "徠搭做賬號……"
     sign_up: "註冊"
     log_in: "登進"
     social_signup: "要勿，爾好用Facebook搭G+註冊："
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "賬號尋轉"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     reload_title: "轉讀取全部個代碼？"
     reload_really: "準定轉讀取箇關，回轉到扣起頭？"
     reload_confirm: "轉讀取全部"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: "妝下落"
     victory_sign_up: "存檔進度"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_review: "搭我裏反應！" # Only in old-style levels.
     victory_hour_of_code_done: "爾妝下落爻噃？"
     victory_hour_of_code_done_yes: "正是, 妝下落爻！"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "指南"
     tome_minion_spells: "下手個咒語" # Only in old-style levels.
     tome_read_only_spells: "只讀個咒語" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "自設定獻路人"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     job_profile_explanation: "爾好！填箇許訊息，我裏會用渠幫爾尋一份軟件開發個工作。"
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: ""
-    wizard_color: "巫師 衣裳 顏色"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

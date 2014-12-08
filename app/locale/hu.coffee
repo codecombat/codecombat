@@ -101,23 +101,23 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     log_in: "Bejelentkezés"
     logging_in: "Bejelentkezés"
     log_out: "Kijelentkezés"
-    recover: "meglévő fiók visszaállítása"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Csatlakozz G+ profillal"
     load_profile: "Töltsd be G+ Profilod"
     load_email: "Töltsd be G+ Emaileket"
     finishing: "Befejezés"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Hozz létre egy fiókot a változások mentéséhez"
-    description: "Teljesen ingyenes. Csak néhány dologra lesz szükségünk és már kezdheted is a játékot:"
     email_announcements: "Szeretnél kapni hírlevelet?"
-    coppa: "Elmúltál már 13? (Vagy az USA-n kívül élsz?)"
-    coppa_why: "(Miért?)"
     creating: "Fiók létrehozása"
     sign_up: "Regisztráció"
     log_in: "Belépés meglévő fiókkal"
     social_signup: "De regisztrálhatsz a Facebook-on vagy a G+:-on keresztül is."
     required: "Csak akkor mehetsz arra, ha már bejelentkeztél."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Meglévő fiók visszaállítása"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előlről szeretnéd kezdeni az egész pályát?"
     reload_confirm: "Előlről az egészet"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: "Kész"
     victory_sign_up: "Regisztrálj a friss infókért"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_review: "Mondd el a véleményedet!" # Only in old-style levels.
     victory_hour_of_code_done: "Készen vagy?"
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Útmutató"
     tome_minion_spells: "Egységeid varázslatai" # Only in old-style levels.
     tome_read_only_spells: "Csak olvasható varázslatok" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Varázsló testreszabása"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     job_profile_explanation: "Szió! Töltsd ki ezt és majd kapcsolatba lépünk veled és keresünk neked egy szoftware fejlesztői állást."
     sample_profile: "Nézz meg egy mintaprofilt!"
     view_profile: "Nézd meg a profilodat!"
-    wizard_tab: "Varázsló"
-    wizard_color: "Varázslód színe"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

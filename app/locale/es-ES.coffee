@@ -101,23 +101,23 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     log_in: "Entrar"
     logging_in: "Entrando..."
     log_out: "Salir"
-    recover: "recuperar cuenta"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Autenticar G+"
     load_profile: "Cargar perfil G+"
     load_email: "Cargar correo G+"
     finishing: "Finalizando"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Crea una cuenta para guardar tu progreso"
-    description: "¡Es gratis!. ¡Solo necesitamos un par de cosas y listo para comenzar!"
     email_announcements: "Recibir noticias por correo electrónico"
-    coppa: "Soy mayor de 13 o de fuera de los Estados Unidos"
-    coppa_why: "(¿Por qué?)"
     creating: "Creando cuenta..."
     sign_up: "Registrarse"
     log_in: "Iniciar sesión con contraseña"
     social_signup: "O, puedes acceder a través de tu cuenta de Facebook o G+:"
     required: "Tienes que estar reginstrado antes de poder seguir por aquí."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Recuperar Cuenta"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     reload_title: "¿Recargar todo el código?"
     reload_really: "¿Estas seguro que quieres reiniciar el nivel?"
     reload_confirm: "Recargarlo todo"
+#    victory: "Victory"
     victory_title_prefix: "¡"
     victory_title_suffix: " Completado!"
     victory_sign_up: "Regístrate para recibir actualizaciones."
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Ya terminaste?"
     victory_hour_of_code_done_yes: "Si, ¡He terminado con mi hora de código!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guía"
     tome_minion_spells: "Los hechizos de tus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de solo lectura" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_premature_optimization: "La optimizacion prematura es la raiz de todo mal. - Donald Knuth"
     tip_brute_force: "Cuando haya dudas, usa la fuerza bruta. - Ken Thompson"
     tip_extrapolation: "Existen solo dos clases de personas: aquellos que pueden extrapolar desde información incompleta..."
-    customize_wizard: "Personalizar Mago"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -333,6 +335,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   subscribe:
     subscribe_title: "Suscríbete"
+#    unsubscribe: "Unsubscribe"
     levels: "¡Desbloquea 17 niveles adicionales! ¡5 nuevos cada semana!"
     heroes: "¡Más heroes poderosos!"
     gems: "¡3500 joyas adicionales cada mes!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     job_profile_explanation: "¡Hola! Rellena esto y estaremos en contacto para hablar sobre encontrarte un trabajo como desarrollador de software."
     sample_profile: "Mira un perfil de ejemplo"
     view_profile: "Mira tu perfil"
-    wizard_tab: "Mago"
-    wizard_color: "Color de la ropa del Mago"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atajos de teclado"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Embellece tu código estandarizando el formato."
     maximize_editor: "Maximizar/minimizar editor de codigo."
-    move_wizard: "Mover a tu hechicero por el nivel."
 
   community:
     main_title: "Comunidad de CodeCombat"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     versions: "Versiones"
     items: "Objetos"
     heroes: "Heroes"
-    wizard: "Mago"
     achievement: "Logro"
     clas: "Clasess"
     play_counts: "Contador de Juegos"

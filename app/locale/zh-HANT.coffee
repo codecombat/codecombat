@@ -101,23 +101,23 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     log_in: "登入"
 #    logging_in: "Logging In"
     log_out: "登出"
-    recover: "找回帳號"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "建立帳號儲存進度"
-    description: "登入以儲存遊戲進度："
     email_announcements: "通過郵件接收通知"
-    coppa: "13歲以上或非美國公民"
-    coppa_why: "爲什麽？"
     creating: "帳號建立中..."
     sign_up: "註冊"
     log_in: "登入"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "復原帳號"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     reload_title: "重新載入程式碼？"
     reload_really: "確定重設所有的程式碼？"
     reload_confirm: "重設所有程式碼"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: " 完成"
     victory_sign_up: "保存進度"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     victory_review: "給我們回饋！" # Only in old-style levels.
     victory_hour_of_code_done: "你完成了嗎？"
     victory_hour_of_code_done_yes: "是的，我完成了我的程式碼！"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "指南"
     tome_minion_spells: "助手的咒語" # Only in old-style levels.
     tome_read_only_spells: "唯讀的咒語" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "自定義巫師"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: "巫師"
-    wizard_color: "巫師 衣服 顏色"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

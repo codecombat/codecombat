@@ -101,23 +101,23 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     log_in: "Přihlásit"
     logging_in: "Přihlašování"
     log_out: "Odhlásit"
-    recover: "obnovit účet"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
     finishing: "Dokončování"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Vytvořit účet k uložení úrovně"
-    description: "Registrace je zdarma. Vyplňte pouze několik údajů:"
     email_announcements: "Dostávat novinky emailem"
-    coppa: "starší  13 let nebo nejste z USA "
-    coppa_why: "(Proč?)"
     creating: "Vytvářím účet..."
     sign_up: "Přihlášení"
     log_in: "zadejte vaše heslo"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Obnovení účtu"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     reload_title: "Znovunačíst veškerý kód?"
     reload_really: "Opravdu chcete resetovat tuto úroveň do počátečního stavu?"
     reload_confirm: "Znovu načíst vše"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: " Hotovo"
     victory_sign_up: "Přihlásit se pro uložení postupu"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_review: "Připomínky!" # Only in old-style levels.
     victory_hour_of_code_done: "Skončili jste?"
     victory_hour_of_code_done_yes: "Ano, pro dnešek jsem skončil!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Průvodce"
     tome_minion_spells: "Vaše oblíbená kouzla" # Only in old-style levels.
     tome_read_only_spells: "Kouzla jen pro čtení" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Upravit Kouzelníka"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   subscribe:
     subscribe_title: "Předplacení"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: "Kouzelník"
-    wizard_color: "Barva Kouzelníkova oblečení"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

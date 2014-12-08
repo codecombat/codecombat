@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     log_in: "Logg inn"
     logging_in: "Logger inn"
     log_out: "Logg ut"
-    recover: "glemt passord"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Autentiser G+"
     load_profile: "Last G+ Profil"
     load_email: "Last G+ Epost"
     finishing: "Fullfører"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Opprett konto for å lagre fremgang"
-    description: "Det er gratis. Vi trenger bare noen få detaljer, så er du klar:"
     email_announcements: "Motta kunngjøringer på epost"
-    coppa: "13+ år eller ikke fra USA"
-    coppa_why: "(Hvorfor?)"
     creating: "Oppretter Konto..."
     sign_up: "Lag konto"
     log_in: "logg inn med passord"
     social_signup: "Eller du kan registrere deg med Facebook eller Google+:"
     required: "Du må være logget inn for å gå dit."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Tilbakestill Passord"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     reload_title: "Tilbakestille all koden?"
     reload_really: "Er du sikker på at du vil tilbakestille dette brettet til begynnelsen?"
     reload_confirm: "Tilbakestill alt"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Ferdig"
     victory_sign_up: "Tegn deg på for Oppdateringer"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     victory_review: "Fortell oss mer!" # Only in old-style levels.
     victory_hour_of_code_done: "Er du ferdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er ferdig med min Kodetime!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guide"
     tome_minion_spells: "Din Minions' Trylleformularer" # Only in old-style levels.
     tome_read_only_spells: "Kun-Lesbare Trylleformularer" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Tilpass Trollmann"
 
   game_menu:
     inventory_tab: "Utstyr"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
     sample_profile: "Se en eksempelprofil"
     view_profile: "Vis Profilen"
-    wizard_tab: "Trollmann"
-    wizard_color: "Farge på Trollmannens Klær"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Hurtigtaster"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     toggle_pathfinding: "Skru på/av stifinnervindu"
     beautify: "Gjør koden penere med standard formattering."
     maximize_editor: "Maksimer/minimer kode editor."
-    move_wizard: "Flytt trollmannen din rundt på brettet."
 
   community:
     main_title: "CodeCombat Fellesskapet"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     versions: "Versjoner"
     items: "Gjenstander"
     heroes: "Helter"
-    wizard: "Trollmann"
     achievement: "Prestasjon"
     clas: "CLAer"
 #    play_counts: "Play Counts"

@@ -101,23 +101,23 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Salir"
-    recover: "recuperar cuenta"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Crear Cuenta para Guardar el Progreso"
-    description: "Es gratis. Solo necesitas un par de cosas y estarás listo para comenzar:"
     email_announcements: "Recibe noticias por email"
-    coppa: "más de 13 años o fuera de los Estados Unidos"
-    coppa_why: "(¿Por qué?)"
     creating: "Creando Cuenta..."
     sign_up: "Registrarse"
     log_in: "Inicia sesión con tu contraseña"
     social_signup: "O, puedes conectarte a través de Facebook o G+:"
     required: "Necesitas entrar a tu cuenta antes de continuar."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     reload_title: "¿Recargar Todo el Código?"
     reload_really: "¿Estás seguro de que quieres empezar este nivel desde el principio?"
     reload_confirm: "Recargar Todo"
+#    victory: "Victory"
     victory_title_prefix: "¡"
     victory_title_suffix: " Completo!"
     victory_sign_up: "Registrate para recibir actualizaciones"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Has acabado?"
     victory_hour_of_code_done_yes: "¡Si, he terminado con mi Hora de Código!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de Sólo Lectura" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     tip_premature_optimization: "La optimización prematura es la raíz de la maldad. - Donald Knuth"
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Personalizar Hechicero"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     job_profile_explanation: "¡Hola! Llena esto, y te contactaremos acerca de encontrar un trabajo como desarrollador de software."
     sample_profile: "Mira un perfil de ejemplo"
     view_profile: "Ver tu perfil"
-    wizard_tab: "Hechicero"
-    wizard_color: "Color de Ropas del Hechicero"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Hacer bello tu código estandarizando formato."
     maximize_editor: "Maximizar/minimizar editor de código."
-    move_wizard: "Mover tu hechizero en el nivel."
 
   community:
     main_title: "Comunidad CodeCombat"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

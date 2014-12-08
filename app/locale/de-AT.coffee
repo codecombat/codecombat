@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     log_in: "Einloggen"
     logging_in: "Logge ein"
     log_out: "Ausloggen"
-    recover: "Account wiederherstellen"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Account anlegen, um Fortschritt zu speichern"
-    description: "Es ist kostenlos. Nur noch ein paar Dinge, dann kannst Du loslegen."
     email_announcements: "Erhalte Benachrichtigungen per Email"
-    coppa: "Älter als 13 oder nicht aus den USA"
-    coppa_why: "(Warum?)"
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
     log_in: "mit Passwort einloggen"
     social_signup: "oder, du registriest dich über Facebook oder G+:"
     required: "Du musst dich vorher einloggen um dort hin zu gehen."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Account Wiederherstellung"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
     victory_sign_up: "Melde Dich an, um Fortschritte zu speichern"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     victory_review: "Erzähl uns davon!" # Only in old-style levels.
     victory_hour_of_code_done: "Bist Du fertig?"
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Anleitung"
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte" # Only in old-style levels.
     tome_read_only_spells: "Nur-lesen Zauberspüche" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Bearbeite den Zauberer"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     job_profile_explanation: "Hi! Fülle dies aus und wir melden uns bei dir bezüglich des Auffindens eines Jobs als Programmierer"
     sample_profile: "Ein Beispielprofil ansehen"
     view_profile: "Dein Profil ansehen"
-    wizard_tab: "Zauberer"
-    wizard_color: "Die Farbe der Kleidung des Zauberers"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Tastaturkürzel"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     toggle_pathfinding: "Wegfindungs-Overlay an/aus."
     beautify: "Verschönere deinen Code durch die Standardisierung der Formatierung."
     maximize_editor: "Maximiere/Minimiere Code Editor."
-    move_wizard: "Bewege deinen Zauberer durch das Level."
 
   community:
     main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     versions: "Versionen"
     items: "Gegenstände"
     heroes: "Helden"
-    wizard: "Zauberer"
     achievement: "Achievement"
     clas: "CLAs"
 #    play_counts: "Play Counts"

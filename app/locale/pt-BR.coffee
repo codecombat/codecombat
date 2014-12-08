@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Sair"
-    recover: "Recuperar sua conta"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Criar conta para salvar progresso"
-    description: "É grátis. Precisamos apenas de umas coisinhas e você estará pronto para seguir:"
     email_announcements: "Receber notícias por email."
-    coppa: "acima de 13 anos ou não estadunidense"
-    coppa_why: "(Por quê?)"
     creating: "Criando a nova conta..."
     sign_up: "Criar conta"
     log_in: "Entre com a senha"
     social_signup: "Ou, você pode fazer login pelo Facebook ou G+:"
     required: "Você precisa fazer login antes de ir por esse caminho."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Recuperar conta"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     reload_title: "Recarregar Todo o Código?"
     reload_really: "Você tem certeza que quer reiniciar o estágio?"
     reload_confirm: "Recarregar Tudo"
+#    victory: "Victory"
     victory_title_prefix: " Vitória "
     victory_title_suffix: " Completado!"
     victory_sign_up: "Assine para atualizações"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_review: "Diga-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados" # Only in old-style levels.
     tome_read_only_spells: "Magias não editáveis" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_premature_optimization: "Uma otimização permatura é a raíz de todos os males. - Donald Knuth"
     tip_brute_force: "Na dúvida, utilize força bruta. - Ken Thompson"
     tip_extrapolation: "Existem dois tipos de pessoa: aqueles que podem extrapolar apartir de dados incompletos..."
-    customize_wizard: "Personalize o feiticeiro"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -333,6 +335,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   subscribe:
     subscribe_title: "Inscrever-se"
+#    unsubscribe: "Unsubscribe"
     levels: "Desbloqueie 17 níveis extras! Com 5 novos toda semana!"
     heroes: "Mais poderosos heróis!"
     gems: "3500 gemas bônus todo mês!"
@@ -350,7 +353,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     choose_hero: "Escolha seu Herói"
     programming_language: "Linguagem de Programação"
     programming_language_description: "Qual Linguagem de Programação você gostaria de usar?"
-#    default: "Padrão"
+#    default: "Default"
     experimental: "Experimental"
     python_blurb: "Simples mas poderosa, Python é uma linguagem de programação de uso geral."
     javascript_blurb: "A linguagem da web."
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     job_profile_explanation: "Olá! Preencha tudo e iremos entrar em contato sobre encontrar um trabalho como desenvolvedor de software."
     sample_profile: "Veja um perfil de exemplo"
     view_profile: "Visualizar seu perfil"
-    wizard_tab: "Feiticeiro"
-    wizard_color: "Cor das Roupas do Feiticeiro"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atalhos do Teclado"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     toggle_pathfinding: "Ligar/desligar exibição do pathfinding (caminho)."
     beautify: "Embeleze seu código a partir da padronização de formatação."
     maximize_editor: "Maximizar/minimizar editor de código."
-    move_wizard: "Mova o Wizard pelo nível."
 
   community:
     main_title: "Comunidade CodeCombat"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     versions: "Versões"
     items: "Itens"
     heroes: "Heróis"
-    wizard: "Assistente"
     achievement: "Conquista"
     clas: "CLAs"
     play_counts: "Contagem de Jogos"

@@ -101,23 +101,23 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "Connexion"
     logging_in: "Connecter"
     log_out: "Déconnexion"
-    recover: "Récupérer son compte"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Authentication G+"
     load_profile: "Charger profil G+"
     load_email: "Charger Email G+"
     finishing: "Finalisation"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Créer un compte pour sauvegarder votre progression"
-    description: "C'est gratuit. Simplement quelques informations et vous pourrez commencer :"
     email_announcements: "Recevoir les annonces par email"
-    coppa: "13+ ou hors É-U"
-    coppa_why: "(Pourquoi?)"
     creating: "Création du compte en cours..."
     sign_up: "S'abonner"
     log_in: "se connecter avec votre mot de passe"
     social_signup: "Ou, vous pouvez vous identifier avec Facecook ou G+:"
     required: "Vous devez être connecté pour voir cela"
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -179,7 +179,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     medium: "Moyen"
     hard: "Difficile"
     player: "Joueur"
-    player_level: "Niveau" # Level Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "seconde"
@@ -200,7 +200,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   play_level:
     done: "Fait"
     home: "Accueil" # Not used any more, will be removed soon.
-    level: "Niveau" # Level Like "Level: Dungeons of Kithgard"
+    level: "Niveau" # Like "Level: Dungeons of Kithgard"
     skip: "Passer"
     game_menu: "Menu du jeu"
     guide: "Guide"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     reload_title: "Recharger tout le code?"
     reload_really: "Êtes-vous sûr de vouloir recharger ce niveau et retourner au début?"
     reload_confirm: "Tout recharger"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Terminé"
     victory_sign_up: "Inscrivez-vous pour recevoir les mises à jour"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_review: "Dites-nous en plus!" # Only in old-style levels.
     victory_hour_of_code_done: "Déjà fini ?"
     victory_hour_of_code_done_yes: "Oui, j'ai fini mon heure de code!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guide"
     tome_minion_spells: "Les sorts de vos soldats" # Only in old-style levels.
     tome_read_only_spells: "Sorts en lecture-seule" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_premature_optimization: "L'optimisation prématurée est la racine de tous les maux. - Donald Knuth"
     tip_brute_force: "En cas de doute, utiliser la force brute. - Ken Thompson"
     tip_extrapolation: "Il y a seulement deux types de personnes : celles qui peuvent extrapoler à partir de données incomplètes..."
-    customize_wizard: "Personnaliser le magicien"
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -333,6 +335,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   subscribe:
     subscribe_title: "Inscription"
+#    unsubscribe: "Unsubscribe"
     levels: "Débloquer 17 niveaux supplémentaires ! Et 5 nouveaux chaque semaines!"
     heroes: "Héros plus puissants!"
     gems: "3500 gemmes en bonus chaque mois !"
@@ -368,7 +371,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     speed: "Vitesse"
     regeneration: "Régénération"
     range: "Portée" # As in "attack or visual range"
-    blocks: "Absorbe" # Blocks As in "this shield blocks this much damage"
+    blocks: "Absorbe" # As in "this shield blocks this much damage"
     skills: "Compétences"
     available_for_purchase: "Disponible à l'achat"
     level_to_unlock: "Niveau à débloquer:"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     job_profile_explanation: "Salut! Remplissez-le et nous prendrons contact pour vous trouver un emploi de développeur de logiciels."
     sample_profile: "Voir un exemple de profil"
     view_profile: "Voir votre profil"
-    wizard_tab: "Magicien"
-    wizard_color: "Couleur des vêtements du Magicien"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Raccourcis Clavier"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Embellissez votre code en normalisant sa mise en forme."
     maximize_editor: "Maximiser/minimiser l'éditeur de code."
-    move_wizard: "Déplacer votre Magicien à travers le niveau."
 
   community:
     main_title: "Communauté CodeCombat"
@@ -811,7 +811,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     payments: "Paiements"
 #    service_apple: "Apple"
 #    service_web: "Web"
-#    paid_on: "Payé"
+#    paid_on: "Paid On"
 #    service: "Service"
     price: "Prix"
     gems: "Gemmes"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     versions: "Versions"
     items: "Objets"
     heroes: "Héros"
-    wizard: "Magicien"
     achievement: "Succès"
 #    clas: "CLAs"
     play_counts: "Nombre de parties"

@@ -101,23 +101,23 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     log_in: "Log In"
     logging_in: "Se conectează"
     log_out: "Log Out"
-    recover: "recuperează cont"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Crează cont pentru a salva progresul"
-    description: "Este gratis. Doar un scurt formular inainte si poți continua:"
     email_announcements: "Primește notificări prin email"
-    coppa: "13+ sau non-USA "
-    coppa_why: "(De ce?)"
     creating: "Se creează contul..."
     sign_up: "Înscrie-te"
     log_in: "loghează-te cu parola"
     social_signup: "Sau, te poți inregistra cu Facebook sau G+:"
     required: "Trebuie să te înregistrezi înaite să parcurgi acest drum."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Recuperează Cont"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     reload_title: "Reîncarcă tot codul?"
     reload_really: "Ești sigur că vrei să reîncarci nivelul de la început?"
     reload_confirm: "Reload All"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Terminat"
     victory_sign_up: "Înscrie-te pentru a salva progresul"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_review: "Spune-ne mai multe!" # Only in old-style levels.
     victory_hour_of_code_done: "Ai terminat?"
     victory_hour_of_code_done_yes: "Da, am terminat Hour of Code™!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Ghid"
     tome_minion_spells: "Vrăjile Minion-ilor tăi" # Only in old-style levels.
     tome_read_only_spells: "Vrăji Read-Only" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Personalizează Wizard-ul"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
     sample_profile: "Vezi un profil exemplu"
     view_profile: "Vizualizează Profilul"
-    wizard_tab: "Wizard"
-    wizard_color: "Culoare haine pentru Wizard"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

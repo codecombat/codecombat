@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     log_in: "Giriş Yap"
     logging_in: "Giriş Yapılıyor"
     log_out: "Çıkış Yap"
-    recover: "hesabı kurtar."
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "İlerlemenizi Kaydetmek için Hesap Oluşturun"
-    description: "Kayıt ücretsizdir. Aşağıdakileri doldurmanız yeterli:"
     email_announcements: "E-posta duyurularını almak istiyorum"
-    coppa: "13 yaşından üzerindeyim, veya ABD'de yaşamıyorum"
-    coppa_why: "(Bu nedir?)"
     creating: "Hesap oluşturuluyor..."
     sign_up: "Kaydol"
     log_in: "buradan giriş yapabilirsiniz."
     social_signup: "veya Facebook ya da G+ ile oturum açabilirsiniz:"
     required: "Buraya gidebilmeniz için oturum açmanız gerekli."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Hesabı Kurtar"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: "Tamamlandı "
     victory_sign_up: "İlerlemeyi Kaydetmek için Kaydolun"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     victory_review: "Daha fazla söyleyin!" # Only in old-style levels.
     victory_hour_of_code_done: "Bitirdiniz mi?"
     victory_hour_of_code_done_yes: "Evet, Kod Saatimi (Hour of Code) bitirdim!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Rehber"
     tome_minion_spells: "Minyonlarınızın Büyüleri" # Only in old-style levels.
     tome_read_only_spells: "Salt Okunur Büyüler" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Sihirbazı Düzenle"
 
   game_menu:
     inventory_tab: "Envanter"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
     sample_profile: "Örnek bir profil gör"
     view_profile: "Kendi Profilinize Bakın"
-    wizard_tab: "Sihirbaz"
-    wizard_color: "Sihirbaz Kıyafeti Rengi"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Klavye Kısayolları"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
   community:
     main_title: "CodeCombat Topluluğu"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
