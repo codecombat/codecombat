@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     log_in: "Увійти"
     logging_in: "Вхід в акаунт"
     log_out: "Вийти"
-    recover: "відновити акаунт"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Авторизація G+"
     load_profile: "Завантажити профіль G+"
     load_email: "Завантажити email G+"
     finishing: "Завершення"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Створити акаунт, щоб зберегти прогрес"
-    description: "Це безкоштовно. Просто зробіть кілька простих кроків, щоб бути готовим до гри:"
     email_announcements: "Отримувати анонси на email"
-    coppa: "Ви старші 13 років або живете не в США"
-    coppa_why: "(Чому?)"
     creating: "Створення акаунта..."
     sign_up: "Реєстрація"
     log_in: "вхід з паролем"
     social_signup: "Або Ви можете створити акаунт через Facebook або G+:"
     required: "Вам потрібно увійти щоби виконати цю дію."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Відновити акаунт"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " завершено"
     victory_sign_up: "Підписатись на оновлення"
@@ -227,17 +228,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_rate_the_level: "Оцінити рівень: " # Only in old-style levels.
     victory_return_to_ladder: "Повернутись до таблиці рівнів"
     victory_play_continue: "Продовжити"
-    victory_play_skip: "Пропустити все"
-    victory_play_next_level: "Наступний рівень"
-    victory_play_more_practice: "Більше практики"
-    victory_play_too_easy: "Надто легко"
-    victory_play_just_right: "Якраз добре"
-    victory_play_too_hard: "Надто складно"
     victory_saving_progress: "Триває збереження прогресу"
     victory_go_home: "На головну" # Only in old-style levels.
     victory_review: "Розкажіть нам більше!" # Only in old-style levels.
     victory_hour_of_code_done: "Ви закінчили?"
     victory_hour_of_code_done_yes: "Так, я закінчив Годину Коду!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Посібник"
     tome_minion_spells: "Заклинання ваших міньонів" # Only in old-style levels.
     tome_read_only_spells: "Заклинання тільки для читання" # Only in old-style levels.
@@ -297,7 +294,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_premature_optimization: "Передчасна оптимізація – корінь усього зла. - Дональд Кнут"
     tip_brute_force: "Якщо ви сумніваєтесь, використовуйте перебір - Кен Томсон"
     tip_extrapolation: "Існує 2 типи людей: які можуть екстраполюватись від неповних даних..."
-    customize_wizard: "Налаштування персонажа"
 
   game_menu:
     inventory_tab: "Інвентар"
@@ -339,6 +335,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   subscribe:
     subscribe_title: "Взяти абонемент"
+#    unsubscribe: "Unsubscribe"
     levels: "Розблокуйте 25 рівнів! Та отримуйте 5 нових кожного тижня!"
     heroes: "Більше могутніх героїв!"
     gems: "Щомісячний бонус у 3500 самоцвітів!"
@@ -510,8 +507,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     job_profile_explanation: "Привіт! Заповніть це і ми зв’яжемось з Вами знайшовши для Вас роботу розробника ПЗ."
     sample_profile: "Дивитись зразок профілю"
     view_profile: "Переглянути Ваш профіль"
-    wizard_tab: "Персонаж"
-    wizard_color: "Колір одягу персонажа"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Клавіатурні скорочення"
@@ -532,7 +527,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Зроби код красивішим стандартизуючи його форматування."
     maximize_editor: "Згортання/розширення редактора коду."
-#    move_wizard: "Move your Wizard around the level."
 
   community:
     main_title: "Спільноти CodeCombat"
@@ -878,7 +872,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     versions: "Версії"
     items: "Предмети"
     heroes: "Герої"
-#    wizard: "Wizard"
     achievement: "Досягнення"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
@@ -980,22 +973,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "ліцензія"
 #    oreilly: "ebook of your choice"
-
-  wizard_settings:
-    title: "Налаштування"
-    customize_avatar: "Налаштувати аватар"
-    active: "Діючий"
-    color: "Колір"
-    group: "Група"
-    clothes: "Одяг"
-    trim: "Оздоблення"
-    cloud: "Хмаринка"
-    team: "Команда"
-    spell: "Закляття"
-    boots: "Черевики"
-    hue: "Відтінок"
-    saturation: "Насиченість"
-    lightness: "Яскравість"
 
   account_profile:
     settings: "Налаштування" # We are not actively recruiting right now, so there's no need to add new translations for this section.

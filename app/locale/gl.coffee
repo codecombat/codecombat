@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     log_in: "Entrar"
     logging_in: "Entrando..."
     log_out: "Sair"
-    recover: "Recuperar conta"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Crea unha conta para gardar o teu progreso"
-    description: "É de balde!. Só precisamos un par de cousas e xa podes comenzar!"
     email_announcements: "Recibir noticias por correo electrónico"
-    coppa: "Son maior de 13 anos ou de fora dos Estados Unidos"
-    coppa_why: "(Por que?)"
     creating: "Creando conta..."
     sign_up: "Rexistrarse"
     log_in: "Iniciar sesión con contrasinal"
     social_signup: "Ou, podes acceder a través da túa conta de Facebook ou G+:"
     required: "Tes que estar rexistrado antes de poder seguir por aquí."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     reload_title: "Recargar todo o código?"
     reload_really: "Estás seguro que queres reiniciar o nivel?"
     reload_confirm: "Recargalo todo"
+#    victory: "Victory"
     victory_title_prefix: "¡"
     victory_title_suffix: " Completado!"
     victory_sign_up: "Rexístrate para recibir actualizacións."
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     victory_review: "Contanos máis!" # Only in old-style levels.
     victory_hour_of_code_done: "Xa remataches?"
     victory_hour_of_code_done_yes: "Si, rematei coa miña hora de código!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guía"
     tome_minion_spells: "Os feitizos dos de teus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Feitizos de so lectura" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     tip_premature_optimization: "A optimizacion prematura é a raíz de todo mal. - Donald Knuth"
     tip_brute_force: "Cando hai dúbidas, usa a forza bruta. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Persoalizar Mago"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     job_profile_explanation: "Oola! Enche isto e estaremos en contacto para falar sobre atoparche un traballo como desenvolvedor de software."
     sample_profile: "Mira un perfil de exemplo"
     view_profile: "Mira o teu perfil"
-    wizard_tab: "Mago"
-    wizard_color: "Cor da roupa do Mago"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atallos de teclado"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Embelece o teu código estandarizando o formato."
     maximize_editor: "Maximizar/minimizar editor de código."
-    move_wizard: "Mover ao teu feiticeiro polo nivel."
 
   community:
     main_title: "Comunidade de CodeCombat"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     versions: "Versións"
     items: "Obxectos"
     heroes: "Heroes"
-    wizard: "Mago"
     achievement: "Logro"
     clas: "Clases"
     play_counts: "Contador de Xogos"

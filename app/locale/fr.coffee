@@ -4,15 +4,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_ie: "CodeCombat ne fonctionnera pas sous Internet Explorer 8 ou moins. Désolé !" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat n'a pas été créé pour les plateformes mobiles donc il est possible qu'il ne fonctionne pas correctement ! " # Warning that shows up on mobile devices
     play: "Jouer" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Essayer" # Alternate wording for Play button
     old_browser: "Oh oh, votre navigateur est trop vieux pour executer CodeCombat. Désolé!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Vous pouvez essayer quand même, mais celà ne marchera probablement pas."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Mauvaise nouvelle : CodeCombat ne fonctionne pas dans le navigateur iPad.Bonne nouvelle : notre application est en cours de validation par Apple"
     campaign: "Campagne"
     for_beginners: "Pour débutants"
     multiplayer: "Multijoueurs" # Not currently shown on home page
     for_developers: "Pour développeurs" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Ou télécharger pour iPad"
 
   nav:
     play: "Jouer" # The top nav bar entry where players choose which levels to play
@@ -22,8 +22,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     forum: "Forum"
     account: "Compte"
     profile: "Profil"
-#    stats: "Stats"
-#    code: "Code"
+    stats: "Stats"
+    code: "Code"
     admin: "Admin" # Only shows up when you are an admin
     home: "Accueil"
     contribute: "Contribuer"
@@ -54,13 +54,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     players: "joueurs" # Hover over a level on /play
     hours_played: "heures jouées" # Hover over a level on /play
     items: "Objets" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
+    unlock: "Déverrouiller" # For purchasing items and heroes
+    confirm: "Confirmer"
+    owned: "Acquis" # For items you own
+    locked: "Verrouillé"
+    purchasable: "Achetable" # For a hero you unlocked but haven't purchased
+    available: "Disponible"
+    skills_granted: "Compétences acquises" # Property documentation details
     heroes: "Héros" # Tooltip on hero shop button from /play
     achievements: "Succès" # Tooltip on achievement list button from /play
     account: "Compte" # Tooltip on account button from /play
@@ -71,9 +71,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     buy_gems: "Acheter des gemmes"
     campaign_forest: "Campagne de la forêt"
     campaign_dungeon: "Compagne du donjon"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    subscription_required: "Enregistrement nécessaire"
+    free: "Gratuit"
+    subscribed: "Enregistré"
     older_campaigns: "Anciennes Campagnes"
     anonymous: "Joueur anonyme"
     level_difficulty: "Difficulté: "
@@ -101,23 +101,23 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "Connexion"
     logging_in: "Connecter"
     log_out: "Déconnexion"
-    recover: "Récupérer son compte"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Authentication G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    load_profile: "Charger profil G+"
+    load_email: "Charger Email G+"
+    finishing: "Finalisation"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Créer un compte pour sauvegarder votre progression"
-    description: "C'est gratuit. Simplement quelques informations et vous pourrez commencer :"
     email_announcements: "Recevoir les annonces par email"
-    coppa: "13+ ou hors É-U"
-    coppa_why: "(Pourquoi?)"
     creating: "Création du compte en cours..."
     sign_up: "S'abonner"
     log_in: "se connecter avec votre mot de passe"
     social_signup: "Ou, vous pouvez vous identifier avec Facecook ou G+:"
     required: "Vous devez être connecté pour voir cela"
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   general:
     and: "et"
     name: "Nom"
-#    date: "Date"
+    date: "Date"
     body: "Corps"
     version: "Version"
     commit_msg: "Message de mise à jour"
@@ -179,7 +179,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     medium: "Moyen"
     hard: "Difficile"
     player: "Joueur"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "seconde"
@@ -200,14 +200,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   play_level:
     done: "Fait"
     home: "Accueil" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Niveau" # Like "Level: Dungeons of Kithgard"
     skip: "Passer"
     game_menu: "Menu du jeu"
     guide: "Guide"
     restart: "Relancer"
     goals: "Objectifs"
     goal: "Objectif"
-#    running: "Running..."
+    running: "en cours..."
     success: "Succès"
     incomplete: "Incomplet"
     timed_out: "Plus de temps"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     reload_title: "Recharger tout le code?"
     reload_really: "Êtes-vous sûr de vouloir recharger ce niveau et retourner au début?"
     reload_confirm: "Tout recharger"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Terminé"
     victory_sign_up: "Inscrivez-vous pour recevoir les mises à jour"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_review: "Dites-nous en plus!" # Only in old-style levels.
     victory_hour_of_code_done: "Déjà fini ?"
     victory_hour_of_code_done_yes: "Oui, j'ai fini mon heure de code!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guide"
     tome_minion_spells: "Les sorts de vos soldats" # Only in old-style levels.
     tome_read_only_spells: "Sorts en lecture-seule" # Only in old-style levels.
@@ -290,14 +293,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_hofstadters_law: "Loi de Hofstadter: Il faut toujours plus de temps que prévu, même si vous prenez en compte la loi de Hofstadter."
     tip_premature_optimization: "L'optimisation prématurée est la racine de tous les maux. - Donald Knuth"
     tip_brute_force: "En cas de doute, utiliser la force brute. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Personnaliser le magicien"
+    tip_extrapolation: "Il y a seulement deux types de personnes : celles qui peuvent extrapoler à partir de données incomplètes..."
 
   game_menu:
     inventory_tab: "Inventaire"
     save_load_tab: "Sauvegarder/Charger"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    options_tab: "Options"
+    guide_tab: "Guide"
     multiplayer_tab: "Multijoueur"
     auth_tab: "S'inscrire"
     inventory_caption: "Équipez votre héro"
@@ -312,39 +314,40 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     choose_inventory: "Équiper des Objets"
     equipped_item: "Equipé"
     available_item: "Disponible"
-#    restricted_title: "Restricted"
+    restricted_title: "Limité"
     should_equip: "(double-clic pour s'équiper)"
     equipped: "(équipé)"
     locked: "(vérouillé)"
     restricted: "(vérrouillé à ce niveau)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "Equiper"
+    unequip: "Retirer"
 
   buy_gems:
     few_gems: "Quelques gemmes"
     pile_gems: "Pile de gemmes"
     chest_gems: "Coffre de gemmes"
     purchasing: "Achat..."
-#    declined: "Your card was declined"
+    declined: "Votre carte a été refusée"
     retrying: "Erreur serveur, nouvel tentative."
     prompt_title: "Pas assez de gemmes"
     prompt_body: "En voulez-vous plus?"
     prompt_button: "Entrer dans la boutique"
 
-#  subscribe:
-#    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
-#    parents: "For Parents"
-#    parents_title: "Your child will learn to code."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+  subscribe:
+    subscribe_title: "Inscription"
+#    unsubscribe: "Unsubscribe"
+    levels: "Débloquer 17 niveaux supplémentaires ! Et 5 nouveaux chaque semaines!"
+    heroes: "Héros plus puissants!"
+    gems: "3500 gemmes en bonus chaque mois !"
+    items: "Plus de 250 objets en bonus !"
+    parents: "Pour les parents"
+    parents_title: "Votre enfant va apprendre à programmer."
+    parents_blurb1: "Avec CodeCombat, votre enfant apprend en écrisant de vrais programmes. Ils commencent en apprenant des instructions simples, puis progressent sur des thèmes plus complexes."
+    parents_blurb2: "Pour $9.99 USD/mois, ils obtiennent de nouveaux défis chaque semaine et le support par email de programmeurs professionnels."
+    parents_blurb3: "Pas de risque : garantie 100% remboursé, désinscription facile en 1-clic."
+    subscribe_button: "Inscrivez-vous maintenant"
+    stripe_description: "Inscription mensuelle"
+    subscription_required_to_play: "Vous avez besoin d'une inscription pour jouer à ce niveau."
 
   choose_hero:
     choose_hero: "Choisissez votre Héro"
@@ -368,7 +371,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     speed: "Vitesse"
     regeneration: "Régénération"
     range: "Portée" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
+    blocks: "Absorbe" # As in "this shield blocks this much damage"
     skills: "Compétences"
     available_for_purchase: "Disponible à l'achat"
     level_to_unlock: "Niveau à débloquer:"
@@ -379,18 +382,18 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     read_only: "lecture seulement"
     action_name: "nom"
 #    action_cooldown: "Takes"
-#    action_specific_cooldown: "Cooldown"
+    action_specific_cooldown: "Refroidissement"
     action_damage: "Dégat"
     action_range: "Portée"
     action_radius: "Rayon"
     action_duration: "Durée"
     example: "Exemple"
-#    ex: "ex" # Abbreviation of "example"
+    ex: "ex" # Abbreviation of "example"
     current_value: "Valeur actuelle"
     default_value: "Valeur par défaut"
     parameters: "Paramètres"
-#    returns: "Returns"
-#    granted_by: "Granted by"
+    returns: "Retour"
+    granted_by: "Accordé par"
 
   save_load:
     granularity_saved_games: "Sauvegardé"
@@ -398,7 +401,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   options:
     general_options: "Options Générales" # Check out the Options tab in the Game Menu while playing a level
-#    volume_label: "Volume"
+    volume_label: "Volume"
     music_label: "Musique"
     music_description: "Arrêter/Reprendre la musique de fond."
     autorun_label: "Auto-exécution"
@@ -504,15 +507,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     job_profile_explanation: "Salut! Remplissez-le et nous prendrons contact pour vous trouver un emploi de développeur de logiciels."
     sample_profile: "Voir un exemple de profil"
     view_profile: "Voir votre profil"
-    wizard_tab: "Magicien"
-    wizard_color: "Couleur des vêtements du Magicien"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Raccourcis Clavier"
     space: "Espace"
     enter: "Entrer"
     escape: "Echap"
-#    shift: "Shift"
+    shift: "Shift"
     run_code: "Exécuter le code actuel."
     run_real_time: "Exécuter en temps réel."
     continue_script: "Continuer le script passé courant."
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Embellissez votre code en normalisant sa mise en forme."
     maximize_editor: "Maximiser/minimiser l'éditeur de code."
-    move_wizard: "Déplacer votre Magicien à travers le niveau."
 
   community:
     main_title: "Communauté CodeCombat"
@@ -773,7 +773,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     winners: "Gagnants"
 
   user:
-#    stats: "Stats"
+    stats: "Stats"
     singleplayer_title: "Niveaux solo"
     multiplayer_title: "Niveaux multijoueurs"
     achievements_title: "Succès"
@@ -785,25 +785,25 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_multiplayer: "Aucunes parties multijoueur pour le moment"
     no_achievements: "Pas de succès encore gagnés."
     favorite_prefix: "Langage favori :"
-#    favorite_postfix: "."
+    favorite_postfix: "."
 
   achievements:
     last_earned: "Dernièrement gagné"
     amount_achieved: "Quantité"
     achievement: "Succès"
     category_contributor: "Contributeur"
-#    category_ladder: "Ladder"
+    category_ladder: "Echelon"
     category_level: "Niveau"
     category_miscellaneous: "Divers"
     category_levels: "Niveaux"
     category_undefined: "Non classé"
-#    current_xp_prefix: ""
+    current_xp_prefix: ""
     current_xp_postfix: " au total"
-#    new_xp_prefix: ""
+    new_xp_prefix: ""
     new_xp_postfix: " gagné"
-#    left_xp_prefix: ""
+    left_xp_prefix: ""
     left_xp_infix: " jusqu'au niveau "
-#    left_xp_postfix: ""
+    left_xp_postfix: ""
 
   account:
     recently_played: "Jouées récemment"
@@ -815,9 +815,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    service: "Service"
     price: "Prix"
     gems: "Gemmes"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
-#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
-#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+    status_subscribed: "Vous vous êtes inscrit pour $9.99 USD/mois. Merci de votre aide !"
+    status_unsubscribed_active: "Vous n'êtes pas inscrit et ne serez pas facturé, mais votre compte est toujours actif."
+    status_unsubscribed: "Obtenez l'accès à de nouveaux niveaux, héros, objets et gemmes en bonu avec une inscription à CodeCombat !"
 
   loading_error:
     could_not_load: "Erreur de chargement du serveur"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     versions: "Versions"
     items: "Objets"
     heroes: "Héros"
-    wizard: "Magicien"
     achievement: "Succès"
 #    clas: "CLAs"
     play_counts: "Nombre de parties"
@@ -911,7 +910,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     practices_title: "Bonnes pratiques"
     practices_description: "Ce sont les promesses que nous vous faisons à vous, le joueur, en jargon un peu juridique."
     privacy_title: "Vie privée"
-#    privacy_description: "We will not sell any of your personal information."
+    privacy_description: "Nous ne vendons aucunes de vos informations personnelles."
     security_title: "Sécurité"
     security_description: "Nous faisons tout notre possible pour conserver la confidentialité de vos informations personnelles. En tant que projet open source, notre site est ouvert à tous ceux qui souhaitent examiner et améliorer nos systèmes de sécurité."
     email_title: "Email"
@@ -1085,12 +1084,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     deprecation_warning: "Nous nous concentrons sur les niveaux pour débutants au lieu de trouver des développeurs experts pour le moment."
 #    hire_developers_not_credentials: "Hire developers, not credentials." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
     get_started: "Commencer"
-#    already_screened: "We've already technically screened all our candidates"
+    already_screened: "Nous avons déjà examiné techniquement tous les candidats"
 #    filter_further: ", but you can also filter further:"
     filter_visa: "Visa"
     filter_visa_yes: "US Authorisé"
     filter_visa_no: "Non autorisé"
-#    filter_education_top: "Top School"
+    filter_education_top: "Ecole supérieure"
     filter_education_other: "Autre"
     filter_role_web_developer: "Développeur Webr"
     filter_role_software_developer: "Développeur logiciel"
@@ -1127,7 +1126,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     inactive_developers: "Développeurs inactifs"
 
   admin:
-#    av_espionage: "Espionage" # Really not important to translate /admin controls.
+    av_espionage: "Espionnage" # Really not important to translate /admin controls.
     av_espionage_placeholder: "Email ou nom d'utilisateur"
     av_usersearch: "Recherche d'utilisateurs"
     av_usersearch_placeholder: "Email, nom d'utilisateur, nom, peu importe"

@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     log_in: "Logg inn"
 #    logging_in: "Logging In"
     log_out: "Logg ut"
-    recover: "Gjenåpne konto"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
-    description: "Det er gratis. Trenger bare litt informasjon så er du klar:"
     email_announcements: "Motta nyhetsbrev på epost"
-    coppa: "over 13 år eller bor ikke i USA"
-    coppa_why: "(Hvorfor?)"
     creating: "Oppretter konto..."
     sign_up: "Registrer deg"
     log_in: "Logg inn med passord"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
 #  recover:
 #    recover_account_title: "Recover Account"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     reload_title: "Laste all koden på nytt?"
     reload_really: "Er du sikker på at du vil laste dette nivået på nytt, tilbake til begynnelsen?"
     reload_confirm: "Last alle på nytt"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: " Ferdig"
     victory_sign_up: "Logg deg inn for oppdateringer"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     victory_review: "Fortell oss mer!" # Only in old-style levels.
     victory_hour_of_code_done: "Er du ferdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er ferdig med min time i koding!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guide"
     tome_minion_spells: "Din Minions' Trylleformularer" # Only in old-style levels.
     tome_read_only_spells: "Kun-lesbare trylleformularer" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Tilpass trollmann"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: "Trollmann"
-    wizard_color: "Farge på trollmannens klær"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

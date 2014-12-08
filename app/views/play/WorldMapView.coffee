@@ -87,6 +87,7 @@ module.exports = class WorldMapView extends RootView
 
   destroy: ->
     @setupManager?.destroy()
+    @$el.find('.ui-draggable').draggable 'destroy'
     $(window).off 'resize', @onWindowResize
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.

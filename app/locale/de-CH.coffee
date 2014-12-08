@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     log_in: "Ilogge"
     logging_in: "Am Ilogge"
     log_out: "Uslogge"
-    recover: "Account wiederherstelle"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Erstell en Account zum din Fortschritt speichere"
-    description: "Es isch gratis. Nur no es paar Sache und denn chas los goh:"
     email_announcements: "Akündigunge per Mail erhalte"
-    coppa: "13+ or Nicht-Amerikaner "
-    coppa_why: "(Warum?)"
     creating: "Account wird erstellt..."
     sign_up: "Registriere"
     log_in: "Mit Passwort ilogge"
     social_signup: "Du chasch dich au mit Facebook oder G+ registriere:"
     required: "Du muesch dich zersch ilogge befor du det dure chasch"
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Account wiederherstelle"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     reload_title: "De ganze Code neu lade?"
     reload_really: "Bisch sicher du willsch level neu lade bis zrugg zum Afang?"
     reload_confirm: "Alles neu lade"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: " Vollständig"
     victory_sign_up: "Meld dich ah zum din Fortschritt speichere"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     victory_review: "Verzell üs meh!" # Only in old-style levels.
     victory_hour_of_code_done: "Bisch fertig?"
     victory_hour_of_code_done_yes: "Jo, ich bin fertig mit mim Hour of Code™!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Handbuech"
     tome_minion_spells: "Zaubersprüch vo dine Minions" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Zaubersprüch" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Zauberer apasse"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: "Zauberer"
-    wizard_color: "Zaubererchleid Farb"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Shortcuts uf de Tastatur"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     toggle_pathfinding: "Wegfinder ischalte/usschalte."
     beautify: "Mach din Code schöner, indem du sini Formatierig standartisiersch."
 #    maximize_editor: "Maximize/minimize code editor."
-    move_wizard: "Beweg din Zauberer durs Level."
 
   community:
     main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

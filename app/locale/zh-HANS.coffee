@@ -101,23 +101,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     log_in: "登录"
     logging_in: "正在登录"
     log_out: "登出"
-    recover: "找回账户"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "使用 G+ 授权"
     load_profile: "载入 G+ 档案"
     load_email: "载入 G+ 电子邮件"
     finishing: "完成..."
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "创建一个账户来保存进度"
-    description: "免费而且简单易学："
     email_announcements: "通过邮件接收通知"
-    coppa: "13岁以上或非美国用户"
-    coppa_why: " 为什么？"
     creating: "账户创建中……"
     sign_up: "注册"
     log_in: "登录"
     social_signup: "或者，你可以通过Facebook或G+注册："
     required: "在做这件事情之前你必须先注册。"
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "找回账户"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " 完成"
     victory_sign_up: "保存进度"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_review: "给我们反馈！" # Only in old-style levels.
     victory_hour_of_code_done: "你完成了吗?"
     victory_hour_of_code_done_yes: "是的, 完成了!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_premature_optimization: "过早的优化是万恶之源。 - 高德纳"
     tip_brute_force: "拿不准时就用穷举法。 - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "自定义向导"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -333,6 +335,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     subscribe_title: "订阅"
+#    unsubscribe: "Unsubscribe"
     levels: "多解锁17个关卡！每周解锁5个新关卡！"
     heroes: "更多强大的英雄！"
     gems: "每月多3500宝石奖励！"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     job_profile_explanation: "你好! 请填写下列信息, 我们将使用它帮你寻找一份软件开发的工作."
     sample_profile: "查看示例"
     view_profile: "浏览个人信息"
-    wizard_tab: "巫师"
-    wizard_color: "巫师 衣服 颜色"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "快捷键"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     toggle_pathfinding: "显示/关闭路径寻找提示"
     beautify: "利用标准编码格式美化你的代码。"
     maximize_editor: "最大化/最小化代码编辑器"
-    move_wizard: "在关卡中移动你的巫师角色。"
 
   community:
     main_title: "CodeCombat 社区"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    versions: "Versions"
     items: "物品"
     heroes: "英雄"
-    wizard: "巫师"
     achievement: "成就"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

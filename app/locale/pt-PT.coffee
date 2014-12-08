@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     log_in: "Iniciar Sessão"
     logging_in: "A Iniciar Sessão"
     log_out: "Sair"
-    recover: "recuperar conta"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Autenticar G+"
     load_profile: "Carregar Perfil do G+"
     load_email: "Carregar E-mail do G+"
     finishing: "A terminar"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Criar Conta para Guardar Progresso"
-    description: "É grátis. Só são necessárias umas coisas e fica tudo pronto:"
     email_announcements: "Receber anúncios por e-mail"
-    coppa: "Mais de 13 anos ou não estado-unidense "
-    coppa_why: "(Porquê?)"
     creating: "A Criar Conta..."
     sign_up: "Registar"
     log_in: "iniciar sessão com palavra-passe"
     social_signup: "Ou podes registar-te através do Facebook ou do Google+:"
     required: "Precisas de iniciar sessão antes de prosseguir dessa forma."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
     reload_confirm: "Recarregar Tudo"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Concluído"
     victory_sign_up: "Criar Conta para Guardar Progresso"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_review: "Conta-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminaste?"
     victory_hour_of_code_done_yes: "Sim, terminei a minha Hora do Código™!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions" # Only in old-style levels.
     tome_read_only_spells: "Feitiços Apenas de Leitura" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_premature_optimization: "Uma otimização permatura é a raíz de todo o mal. - Donald Knuth"
     tip_brute_force: "Quando em dúvida, usa a força bruta. - Ken Thompson"
     tip_extrapolation: "Há apenas dois tipos de pessoas: aquelas que conseguem tirar uma conclusão a partir de dados reduzidos..."
-    customize_wizard: "Personalizar Feiticeiro"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -333,6 +335,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     subscribe_title: "Subscrever"
+#    unsubscribe: "Unsubscribe"
     levels: "Desbloqueia 25 níveis! Com mais 5 novos por semana!"
     heroes: "Heróis mais poderosos!"
     gems: "3500 gemas de bónus todos os meses!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     job_profile_explanation: "Olá! Preenche isto e entraremos em contacto contigo sobre encontrar um emprego de desenvolvedor de software para ti."
     sample_profile: "Vê um exemplo de perfil"
     view_profile: "Vê o Teu Perfil"
-    wizard_tab: "Feiticeiro"
-    wizard_color: "Cor das Roupas do Feiticeiro"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atalhos de Teclado"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     toggle_pathfinding: "Ativar/desativar a sobreposição do encontrador de caminho."
     beautify: "Embelezar o código ao estandardizar a formatação."
     maximize_editor: "Maximizar/minimizar o editor de código."
-    move_wizard: "Mover o Feiticeiro pelo nível."
 
   community:
     main_title: "Comunidade do CodeCombat"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     versions: "Versões"
     items: "Itens"
     heroes: "Heróis"
-    wizard: "Feiticeiro"
     achievement: "Conquista"
     clas: "CLAs"
     play_counts: "Número de Jogos"

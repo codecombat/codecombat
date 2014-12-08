@@ -101,23 +101,23 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     log_in: "ลงชื่อเข้าใช้"
     logging_in: "กำลังเข้าสู่ระบบ"
     log_out: "ลงชื่อออก"
-    recover: "กู้บัญชีการใช้งาน"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "สร้างบัญชีใหม่เพื่อบันทึกความก้าวหน้า"
-#    description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "รับข่าวสารผ่านทางอีเมลล์"
-#    coppa: "13+ or non-USA "
-    coppa_why: "(ทำไม?)"
     creating: "กำลังสร้างบัญชีใหม่..."
     sign_up: "สมัคร"
     log_in: "เข้าสู่ระบบด้วยรหัสผ่าน"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
 #  recover:
 #    recover_account_title: "Recover Account"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: "เสร็จสิ้น"
     victory_sign_up: "สมัครสมาชิกเพื่ออัพเดท"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    victory_review: "Tell us more!" # Only in old-style levels.
     victory_hour_of_code_done: "เสร็จหรือยัง?"
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
 #    guide_title: "Guide"
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-#    customize_wizard: "Customize Wizard"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-#    wizard_tab: "Wizard"
-#    wizard_color: "Wizard Clothes Color"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

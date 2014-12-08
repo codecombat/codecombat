@@ -101,23 +101,23 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     log_in: "로그인"
     logging_in: "로그인 중"
     log_out: "로그아웃"
-    recover: "계정 복구"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "진행 상황을 저장하기 위해서 새 계정을 생성합니다"
-    description: "이것은 무료입니다. 계속 진행하기 위해서 간단한 몇가지만 적어주세요"
     email_announcements: "안내 사항을 메일로 받겠습니다"
-    coppa: "13살 이상 또는 미국 외 거주자"
-    coppa_why: "(왜?)"
     creating: "계정을 생성 중입니다..."
     sign_up: "등록"
     log_in: "비밀번호로 로그인"
     social_signup: "또는 페이스북이나 구글 플러스로 계정을 만들 수 있습니다."
     required: "진행하기 전에 로그인이 필요합니다."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "계정 복구"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     reload_title: "모든 코드가 다시 로딩 되었나요?"
     reload_really: "모든 레벨 초기화합니다. 확실한가요?"
     reload_confirm: "모두 초기화"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " 완료"
     victory_sign_up: "진행사항 저장을 위해 등록하세요"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "가이드"
     tome_minion_spells: "미니언의 마법" # Only in old-style levels.
     tome_read_only_spells: "읽기 전용 마법" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "사용자 정의 마법사"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
     view_profile: "나의 프로필 보기"
-    wizard_tab: "마법사"
-    wizard_color: "마법사 옷 색깔"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "단축키"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
   community:
     main_title: "코드 컴뱃 커뮤니티"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

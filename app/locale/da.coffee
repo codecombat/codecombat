@@ -101,23 +101,23 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     log_in: "Log Ind"
 #    logging_in: "Logging In"
     log_out: "Log Ud"
-    recover: "genskab konto"
+#    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Opret en konto for at gemme dit fremskridt"
-    description: "Det er gratis. Du skal bare indtaste et par ting, så er du klar til at komme igang:"
     email_announcements: "Modtag nyheder på email"
-    coppa: "13+ eller ikke-USA"
-    coppa_why: "(Hvorfor?)"
     creating: "Opretter Konto..."
     sign_up: "Registrer"
     log_in: "Log ind med password"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
 #    required: "You need to log in before you can go that way."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "genskab konto"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     reload_title: "Genindlæs alt kode?"
     reload_really: "Er du sikker på at du ønsker at genindlæse denne bane helt fra begyndelsen?"
     reload_confirm: "Genindlæs alt"
+#    victory: "Victory"
 #    victory_title_prefix: ""
     victory_title_suffix: " Færdig"
     victory_sign_up: "Opret dig for at gemme dit fremskridt"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_review: "Fortæl os mere!" # Only in old-style levels.
     victory_hour_of_code_done: "Er du færdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er færdig med min Kodetime!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Instruktioner"
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-    customize_wizard: "Tilpas troldmand"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -333,7 +335,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
-#    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+#    unsubscribe: "Unsubscribe"
+#    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"
 #    items: "Over 250 bonus items!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
-    wizard_tab: "Troldmand"
-    wizard_color: "Farve på Troldmandstøj"
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
-#    move_wizard: "Move your Wizard around the level."
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    versions: "Versions"
 #    items: "Items"
 #    heroes: "Heroes"
-#    wizard: "Wizard"
 #    achievement: "Achievement"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"

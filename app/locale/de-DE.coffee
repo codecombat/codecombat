@@ -101,23 +101,23 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     log_in: "Einloggen"
     logging_in: "Logge ein"
     log_out: "Ausloggen"
-    recover: "Account wiederherstellen"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Authentifiziere G+"
     load_profile: "Lade G+ Profil"
     load_email: "Lade G+ Email"
     finishing: "Fertigstellen"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Account anlegen, um Fortschritt zu speichern"
-    description: "Es ist kostenlos. Nur noch ein paar Dinge, dann kannst Du loslegen."
     email_announcements: "Erhalte Benachrichtigungen per Email"
-    coppa: "Älter als 13 oder nicht aus den USA"
-    coppa_why: "(Warum?)"
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
     log_in: "mit Passwort einloggen"
     social_signup: "oder, du registrierst dich über Facebook oder G+:"
     required: "Du musst dich vorher einloggen um dort hin zu gehen."
+#    login_switch: "Already have an account?"
 
   recover:
     recover_account_title: "Account Wiederherstellung"
@@ -220,6 +220,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
+#    victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
     victory_sign_up: "Melde Dich an, um Fortschritte zu speichern"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_review: "Erzähl uns davon!" # Only in old-style levels.
     victory_hour_of_code_done: "Bist Du fertig?"
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
+#    victory_experience_gained: "XP Gained"
+#    victory_gems_gained: "Gems Gained"
     guide_title: "Anleitung"
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte" # Only in old-style levels.
     tome_read_only_spells: "Nur-lesen Zauberspüche" # Only in old-style levels.
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_premature_optimization: "Vorzeitige Optimierung ist die Wurzel allen Übels (oder mindestens des meisten) bei der Programmierung - Donald Knuth"
     tip_brute_force: "Verwende im Zweifelsfall rohe Gewalt. - Ken Thompson"
     tip_extrapolation: "Es gibt nur zwei Sorten Menschen, diejenigen die aus unvollständigen Informationen Schlüsse ziehen können, ..."
-    customize_wizard: "Bearbeite den Zauberer"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -333,6 +335,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   subscribe:
     subscribe_title: "Abonnieren"
+#    unsubscribe: "Unsubscribe"
     levels: "25 weitere level! Und 5 neue jede Woche!"
     heroes: "Stärkere Helden!"
     gems: "3500 bonus Edelsteine jeden Monat!"
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     job_profile_explanation: "Hi! Fülle dies aus und wir melden uns bei dir bezüglich des Auffindens eines Jobs als Programmierer"
     sample_profile: "Ein Beispielprofil ansehen"
     view_profile: "Dein Profil ansehen"
-    wizard_tab: "Zauberer"
-    wizard_color: "Die Farbe der Kleidung des Zauberers"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Tastaturkürzel"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     toggle_pathfinding: "Wegfindungs-Overlay an/aus."
     beautify: "Verschönere deinen Code durch die Standardisierung der Formatierung."
     maximize_editor: "Maximiere/Minimiere Code Editor."
-    move_wizard: "Bewege deinen Zauberer durch das Level."
 
   community:
     main_title: "CodeCombat Community"
@@ -872,7 +872,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     versions: "Versionen"
     items: "Gegenstände"
     heroes: "Helden"
-    wizard: "Zauberer"
     achievement: "Achievement"
     clas: "CLAs"
     play_counts: "Anzahl Spiele"
@@ -940,9 +939,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     art_other: "Jegliche oder alle kreative nicht-Code Arbeit, die zur Verfügung gestellt wird, wenn Level erstellt werden."
 #    art_access: "Currently there is no universal, easy system for fetching these assets. In general, fetch them from the URLs as used by the site, contact us for assistance, or help us in extending the site to make these assets more easily accessible."
 #    art_paragraph_1: "For attribution, please name and link to codecombat.com near where the source is used or where appropriate for the medium. For example:"
-#    art_paragraph_2: "If the content being used is created not by CodeCombat but instead by a user of codecombat.com, attribute them instead, and follow attribution directions provided in that resource's description if there are any."
     use_list_1: "Wenn in einem Film verwendet, nenne codecombat.com in den Credits/Abspann"
     use_list_2: "Wenn auf einer Webseite verwendet, füge einen Link nahe bei der Verwendung ein, z.B. unter einem Bild oder in der generellen Beitragsseite, wo auch andere Creative Commons Werke und Open Source Software genannt wird, die auf der Seite verwendet wird. Wenn deutlich auf CodeCombat Bezug genommen wird, wie z.B. in einem Blogeintrag, in dem CodeCombat erwähnt wird, dann muss CodeCombat nicht separat belegt werden."
+#    art_paragraph_2: "If the content being used is created not by CodeCombat but instead by a user of codecombat.com, attribute them instead, and follow attribution directions provided in that resource's description if there are any."
     rights_title: "Rechte vorbehalten"
     rights_desc: "Alle Rechte vorbehalten für die Level selbst. Dies beinhaltet"
     rights_scripts: "Skripte"
