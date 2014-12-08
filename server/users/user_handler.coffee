@@ -107,14 +107,14 @@ UserHandler = class UserHandler extends Handler
         return callback({res: r, code: 409}) if otherUser
         user.set('name', req.body.name)
         callback(null, req, user)
-        
+
     # Subscription setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.headers['x-change-plan'] # ensure only saves that are targeted at changing the subscription actually affect the subscription
       return callback(null, req, user) unless req.body.stripe
       hasPlan = user.get('stripe')?.planID?
       wantsPlan = req.body.stripe.planID?
-      
+
       return callback(null, req, user) if hasPlan is wantsPlan
       if wantsPlan and not hasPlan
         SubscriptionHandler.subscribeUser(req, user, (err) ->
@@ -375,6 +375,7 @@ UserHandler = class UserHandler extends Handler
 
   getCandidates: (req, res) ->
     return @sendForbiddenError(res) unless req.user
+    return @sendForbiddenError(res)  # No one can view the candidates, since in a rush, we deleted their index!
     authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
     months = if req.user.isAdmin() then 12 else 2
     since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
@@ -410,6 +411,7 @@ UserHandler = class UserHandler extends Handler
 
   getEmployers: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
+    return @sendForbiddenError(res)  # No one can view the employers, since in a rush, we deleted their index!
     query = {employerAt: {$exists: true, $ne: ''}}
     selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
     User.find(query).select(selection).lean().exec (err, documents) =>
