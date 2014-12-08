@@ -19,6 +19,13 @@ class CocoModel extends Backbone.Model
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
+    # IE9 doesn't expose console object unless debugger tools are loaded
+    unless console?
+      window.console =
+        info: ->
+        log: ->
+        error: ->
+        debug: ->
     console.debug = console.log unless console.debug # Needed for IE10 and earlier
 
   setProjection: (project) ->

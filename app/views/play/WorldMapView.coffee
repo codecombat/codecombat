@@ -74,6 +74,7 @@ module.exports = class WorldMapView extends RootView
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
+    @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', ['Google Analytics']
 
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
@@ -141,8 +142,10 @@ module.exports = class WorldMapView extends RootView
         level.color = 'rgb(80, 130, 200)'
       level.hidden = level.locked or level.disabled
 
-    # put lower levels in last, so in the world map they layer over one another properly.
-    context.campaign.levels = (_.sortBy context.campaign.levels, 'y').reverse()
+    ## put lower levels in last, so in the world map they layer over one another properly.
+    #context.campaign.levels = (_.sortBy context.campaign.levels, 'y').reverse()
+    # Actually, there's some logic that depends on the order of iteration of levels to determine
+    # which one to do next when you're coming here not from a level; can we do this another way?
 
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
@@ -167,6 +170,7 @@ module.exports = class WorldMapView extends RootView
           console.log "#{$(@).data('level-id')}\n    x: #{(100 * x).toFixed(2)}\n    y: #{(100 * y).toFixed(2)}\n"
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
+    @updateHero()
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
@@ -345,6 +349,12 @@ module.exports = class WorldMapView extends RootView
         newI = 2
     @updateVolume volumes[newI]
 
+  updateHero: ->
+    return unless hero = me.get('heroConfig')?.thangType
+    for slug, original of ThangType.heroes when original is hero
+      @$el.find('.player-hero-icon').removeClass().addClass('player-hero-icon ' + slug)
+      return
+    console.error "WorldMapView hero update couldn't find hero slug for original:", hero
 
 dungeon = [
   {

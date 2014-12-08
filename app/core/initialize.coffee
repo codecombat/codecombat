@@ -77,6 +77,13 @@ initializeUtilityServices = ->
   require('core/services/segmentio')()
 
 setupConsoleLogging = ->
+  # IE9 doesn't expose console object unless debugger tools are loaded
+  unless console?
+    window.console =
+      info: ->
+      log: ->
+      error: ->
+      debug: ->
   unless console.debug
     # Needed for IE10 and earlier
     console.debug = console.log

@@ -140,12 +140,12 @@ table.table
 
 body[lang='ja']
   h1, h2, h3, h4, h5, h6
-    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', sans-serif
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif
     font-variant: small-caps
     letter-spacing: -1px !important
 
   .header-font
-    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', sans-serif
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif
     font-variant: small-caps
     letter-spacing: -1px !important
 
@@ -216,6 +216,10 @@ kbd
     width: 25px
     height: 25px
 
+  &.gem-30
+    width: 30px
+    height: 30px
+
   &.gem-40
     width: 40px
     height: 40px
@@ -225,6 +229,7 @@ kbd
     height: 60px
 
 .popover
+  border-style: solid
   border-image: url(/images/level/popover_background.png) 29 39 fill stretch
   border-width: 15px 20px
   .arrow
@@ -238,16 +243,19 @@ kbd
   border: 0
   border-radius: 0
   @include box-shadow(none)
+  border-style: solid
   border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
   border-width: 7px 10px 10px 10px
   padding: 0
-  font-family: Open Sans Condensed
+  font-family: $headings-font-family
   text-transform: uppercase
   font-weight: bold
   color: rgb(248, 197, 146)
 
   &.btn-lg
     border-width: 14px 20px 20px 20px
+    height: 60px
+    line-height: 34px
 
   &.btn-primary
     border-image-source: url(/images/common/button-background-primary-active-border.png)
