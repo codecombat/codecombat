@@ -119,7 +119,7 @@ module.exports = class DiplomatView extends ContributeClassView
     el: ['Stergios']             # ελληνικά, Greek
     ro: []             # limba română, Romanian
     vi: ['An Nguyen Hoang Thien']             # Tiếng Việt, Vietnamese
-    hu: ['ferpeter', 'csuvsaregal', 'atlantisguru', 'Anon', 'kinez', 'bbeasmile']             # magyar, Hungarian
+    hu: ['ferpeter', 'csuvsaregal', 'atlantisguru', 'Anon', 'kinez', 'bbeasmile', 'divaDseidnA']             # magyar, Hungarian
     th: ['Kamolchanok Jittrepit']             # ไทย, Thai
     da: ['Einar Rasmussen', 'sorsjen', 'Randi Hillerøe', 'Anon', 'Silwing', 'Rahazan', 'marc-portier']             # dansk, Danish
     ko: ['Melondonut']             # 한국어, Korean
