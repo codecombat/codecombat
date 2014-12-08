@@ -4,7 +4,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 8, vagy korábbi verzióit. Bocsi!" # Warning that only shows up in IE8 and older
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen." # Warning that shows up on mobile devices
     play: "Játssz!" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Tegyél próbát!": "Try It" # Alternate wording for Play button
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -12,7 +12,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     for_beginners: "Kezdőknek"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Fejlesztőknek" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Vagy töltsd le iPadra"
 
   nav:
     play: "Játék" # The top nav bar entry where players choose which levels to play
@@ -20,10 +20,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     editor: "Szerkesztő"
     blog: "Blog"
     forum: "Fórum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "Fiók"
+    profile: "Profil"
+    stats: "Statisztika"
+    code: "Kód"
     admin: "Admin" # Only shows up when you are an admin
     home: "Kezdőlap"
     contribute: "Segítségnyújtás"
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     about: "Rólunk"
     contact: "Kapcsolat"
     twitter_follow: "Követés"
-#    teachers: "Teachers"
+    teachers: "Tanárok"
 
   modal:
     close: "Mégse"
@@ -50,31 +50,31 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   play:
     play_as: "Játssz mint" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    spectate: "Néző" # Ladder page
+    players: "Játékosok" # Hover over a level on /play
+    hours_played: "Játékidő" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
 #    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    owned: "Megszerzett" # For items you own
+    locked: "Lezárva"
+    purchasable: "Megvehetvő" # For a hero you unlocked but haven't purchased
+    available: "Elérhető"
+    skills_granted: "Elnyert képességek" # Property documentation details
+    heroes: "Hősök" # Tooltip on hero shop button from /play
+    achievements: "Eredmények" # Tooltip on achievement list button from /play
+    account: "Fiók" # Tooltip on account button from /play
+    settings: "Beállítások" # Tooltip on settings button from /play
+    next: "Következő" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    campaign_forest: "Erdei Kampány"
+#    campaign_dungeon: "Várbörtön Kampány"
 #    subscription_required: "Subscription Required"
-#    free: "Free"
+    free: "Ingyenes"
 #    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
+    older_campaigns: "Régebbi Kampányok"
 #    anonymous: "Anonymous Player"
     level_difficulty: "Nehézség: "
     campaign_beginner: "Kezdő Kampány"
@@ -85,7 +85,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     adventurer_prefix: "Továbbugorhatsz bármelyik pályára, amit lent látsz. Vagy megbeszélheted a pályát a többiekkel "
     adventurer_forum: "a Kalandozók Fórumán"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Régi Kezdő Kampány"
     campaign_old_beginner_description: "... amelyben megtanulhatod a programozás varázslatait."
     campaign_dev: "Véletlenszerű Nehezebb Pályák"
     campaign_dev_description: "... amelyekben kicsit nehezebb dolgokkal nézhetsz szembe."
@@ -93,8 +93,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
     campaign_player_created: "Játékosok pályái"
     campaign_player_created_description: "...melyekben <a href=\"/contribute#artisan\">Művészi Varázsló</a> társaid ellen kűzdhetsz."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "Klasszikus Algoritmus"
+    campaign_classic_algorithms_description: "... amiben megtanulod a legnépszerűbb számítástudományi algoritmusokat."
 
   login:
     sign_up: "Regisztráció"
@@ -108,7 +108,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    finishing: "Finishing"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Hozz létre egy fiókot a változások mentéséhez"
     description: "Teljesen ingyenes. Csak néhány dologra lesz szükségünk és már kezdheted is a játékot:"
     email_announcements: "Szeretnél kapni hírlevelet?"
     coppa: "Elmúltál már 13? (Vagy az USA-n kívül élsz?)"
@@ -149,37 +149,37 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
+  general:
+    and: "és"
+    name: "Név"
+    date: "Dátum"
 #    body: "Body"
-#    version: "Version"
+    version: "Verzió"
 #    commit_msg: "Commit Message"
 #    version_history: "Version History"
 #    version_history_for: "Version History for: "
-#    result: "Result"
-#    results: "Results"
-#    description: "Description"
-#    or: "or"
-#    subject: "Subject"
+    result: "Eredmény"
+    results: "Eredmények"
+    description: "Leírás"
+    or: "vagy"
+    subject: "Tárgy"
 #    email: "Email"
-#    password: "Password"
+    password: "Jelszó"
 #    message: "Message"
 #    code: "Code"
-#    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Opponent"
-#    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    ladder: "Ranglétra"
+    when: "Mikor"
+    opponent: "Ellenfél"
+    rank: "Rang"
+    score: "Pont"
+    win: "Győzelem"
+    loss: "Vereség"
+    tie: "Döntetlen"
+    easy: "Könnyű"
+    medium: "Közepes"
+    hard: "Nehéz"
+    player: "Játékos"
+    player_level: "Szint" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "másodperc"
@@ -200,22 +200,22 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   play_level:
     done: "Kész"
     home: "Kezdőlap" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    level: "Szint" # Like "Level: Dungeons of Kithgard"
+    skip: "Ugrás"
+    game_menu: "Játék Menü"
     guide: "Segítség"
     restart: "Előlről"
     goals: "Célok"
-#    goal: "Goal"
-#    running: "Running..."
+    goal: "Cél"
+    running: "Futás..."
     success: "Sikerült!"
     incomplete: "Hiányos"
     timed_out: "Kifutottál az időből"
-#    failing: "Failing"
+    failing: "Bukás"
     action_timeline: "Akció - Idővonal"
     click_to_select: "Kattints egy egységre, hogy kijelöld!"
 #    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_join_game: "Csatlakozz"
 #    reload: "Reload"
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előlről szeretnéd kezdeni az egész pályát?"
@@ -225,9 +225,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_sign_up: "Regisztrálj a friss infókért"
     victory_sign_up_poke: "Szeretnéd, ha levelet küldenénk neked az újításokról? Regisztrálj ingyen egy fiókot, és nem maradsz le semmiről!"
     victory_rate_the_level: "Értékeld a pályát: " # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_return_to_ladder: "Vissza a ranglétrához"
+    victory_play_continue: "Tavább"
+    victory_saving_progress: "Folyamat mentése"
     victory_go_home: "Vissza a kezdőoldalra" # Only in old-style levels.
     victory_review: "Mondd el a véleményedet!" # Only in old-style levels.
     victory_hour_of_code_done: "Készen vagy?"
@@ -236,12 +236,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_minion_spells: "Egységeid varázslatai" # Only in old-style levels.
     tome_read_only_spells: "Csak olvasható varázslatok" # Only in old-style levels.
     tome_other_units: "Egyéb egységek" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
+    tome_cast_button_run: "Fuss"
+    tome_cast_button_running: "Futás"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
+    tome_reload_method: "Eredeti Módszer újratöltése" # Title text for individual method reload button.
+    tome_select_method: "Válassz Módszert"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Válassz ki valakit "
     tome_available_spells: "Elérhető varázslatok"

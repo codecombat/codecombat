@@ -308,7 +308,7 @@ module.exports = class SpellView extends CocoView
 
     # Create locked default code text ranges
     @readOnlyRanges = []
-    if @spell.language in ['python', 'coffeescript']  
+    if @spell.language in ['python', 'coffeescript']
       # Lock contiguous section of default code
       # Only works for languages without closing delimeters on blocks currently
       lines = @aceDoc.getAllLines()
@@ -730,6 +730,10 @@ module.exports = class SpellView extends CocoView
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
+    if Math.random() > 0.01
+      # Let's only save a tiny fraction of these during HoC to reduce writes.
+      return
+
     # Save new problem
     @userCodeProblem = new UserCodeProblem()
     @userCodeProblem.set 'code', aether.raw
