@@ -147,7 +147,7 @@ module.exports = class PlayLevelView extends RootView
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil, level: @level  # May not have @level loaded yet
+    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil, level: @levelLoader?.level ? @level  # May not have @level loaded yet
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
     $('body').bind('touchmove', false) if @isIPadApp()

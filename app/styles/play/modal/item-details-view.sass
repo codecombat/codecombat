@@ -107,3 +107,16 @@
   .unequippable
     position: absolute
 
+
+body:not([lang^='en'])
+  #item-details-view
+    #item-details-body
+      .stat-row
+        text-align: center
+
+        .stat-label, .stat
+          position: initial
+          display: inline-block
+
+        .stat-label
+          margin-right: 8px

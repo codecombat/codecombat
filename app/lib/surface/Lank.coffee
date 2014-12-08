@@ -691,10 +691,13 @@ module.exports = Lank = class Lank extends CocoClass
     Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned ? 0)}
 
   shouldMuteMessage: (m) ->
+    if me.getAnnouncesActionAudioGroup() in ['no-audio', 'just-take-damage']
+      return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
+      return true if /^attack /.test m
+      return true if /^Repeating loop/.test m
+      return true if /^findNearestEnemy/.test m
+
     return false if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
-    #return true if /^attack /.test m
-    #return true if /^Repeating loop/.test m
-    #return true if /^findNearestEnemy/.test m
     @previouslySaidMessages ?= {}
     t0 = @previouslySaidMessages[m] ? 0
     t1 = new Date()
@@ -704,7 +707,10 @@ module.exports = Lank = class Lank extends CocoClass
 
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
-      @playSound event, withDelay, volume
+      if event is 'take-damage' and me.getAnnouncesActionAudioGroup() in ['no-audio', 'without-take-damage']
+        null  # Skip playing it
+      else
+        @playSound event, withDelay, volume
       if event is 'pay-bounty-gold' and @thang.bountyGold > 25 and @thang.team isnt me.team
         AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
