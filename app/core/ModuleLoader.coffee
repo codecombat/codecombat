@@ -20,6 +20,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     wrapped = _.wrap window.require, (func, name, loaderPath) ->
       # vendor libraries aren't actually wrapped with common.js, so short circuit those requires
       return {} if _.string.startsWith(name, 'vendor/')
+      return {} if name is 'tests'
       name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
       return func(name, loaderPath)
     _.extend wrapped, window.require # for functions like 'list'

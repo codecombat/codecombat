@@ -1,4 +1,4 @@
-FacebookHandler = require 'lib/FacebookHandler'
+FacebookHandler = require 'core/social-handlers/FacebookHandler'
 
 mockAuthEvent =
   response:

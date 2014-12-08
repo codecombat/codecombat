@@ -1,5 +1,5 @@
 describe 'Utility library', ->
-  util = require 'lib/utils'
+  util = require 'core/utils'
 
   describe 'i18n', ->
     beforeEach ->

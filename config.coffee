@@ -76,7 +76,7 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine))')
           regJoin('^bower_components/(?!(aether|d3|treema))')
           'bower_components/treema/treema-utils.js'
         ]
@@ -102,15 +102,23 @@ exports.config =
         'javascripts/app/vendor/difflib.js': 'vendor/scripts/difflib.js'
         'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
         'javascripts/app/vendor/treema.js': 'bower_components/treema/treema.js'
+        'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
 
         #- test, demo libraries
-        'javascripts/test-app.js': regJoin('^test/app/')
+        'javascripts/app/tests.js': regJoin('^test/app/')
         'javascripts/demo-app.js': regJoin('^test/demo/')
 
         #- More output files are generated at the below
 
       order:
         before: [
+          # jasmine-bundle.js ordering
+          'vendor/scripts/jasmine.js'
+          'vendor/scripts/jasmine-html.js'
+          'vendor/scripts/jasmine-boot.js'
+          'vendor/scripts/jasmine-mock-ajax.js'
+          
+          # vendor.js ordering
           'bower_components/jquery/dist/jquery.js'
           'bower_components/lodash/dist/lodash.js'
           'bower_components/backbone/backbone.js'

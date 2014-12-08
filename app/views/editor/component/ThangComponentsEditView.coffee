@@ -36,10 +36,6 @@ DEFAULT_COMPONENTS =
   Mark: []
   Item: [LC('Item')]
 
-class ItemThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type?view=items&project=original,name,version,slug,kind,components'
-  model: ThangType
-
 module.exports = class ThangComponentsEditView extends CocoView
   id: 'thang-components-edit-view'
   template: template
