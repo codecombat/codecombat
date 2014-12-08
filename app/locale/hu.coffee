@@ -124,7 +124,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     send_password: "Küldj Új Jelszót"
     recovery_sent: "Új jelszó elküldve."
 
-#  items:
+  items:
     primary: "Elsődleges"
     secondary: "Másodlagos"
     armor: "Vért"
