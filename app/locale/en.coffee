@@ -111,8 +111,6 @@
     signup_switch: "Want to create an account?"
 
   signup:
-    create_account_title: "Create Account to Save Progress"
-    description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "Receive announcements by email"
     creating: "Creating Account..."
     sign_up: "Sign Up"
@@ -337,7 +335,8 @@
 
   subscribe:
     subscribe_title: "Subscribe"
-    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+    unsubscribe: "Unsubscribe"
+    levels: "Get more practice with bonus levels!"
     heroes: "More powerful heroes!"
     gems: "3500 bonus gems every month!"
     items: "Over 250 bonus items!"

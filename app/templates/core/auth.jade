@@ -9,10 +9,7 @@
     if mode === 'login'
       h1(data-i18n="login.log_in") Log In
     if mode === 'signup'
-      if title === 'short'
-        h1(data-i18n="login.sign_up") Create Account
-      else
-        h1(data-i18n="signup.create_account_title").long-title Create Account to Save Progress
+      h1(data-i18n="login.sign_up") Create Account
 
     div#close-modal
       span.glyphicon.glyphicon-remove
@@ -23,9 +20,6 @@
     if showRequiredError
       .alert.alert-success
         span(data-i18n="signup.required") You need to log in before you can that way.
-
-    else if mode === 'signup' && descriptionOn === "yes"
-          p(data-i18n="signup.description") It's free. Just need a couple things and you'll be good to go:
 
     form.form
       .form-group

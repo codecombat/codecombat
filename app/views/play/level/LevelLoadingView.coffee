@@ -110,7 +110,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   onClickStartSubscription: (e) ->
     @openModalView new SubscribeModal()
-    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading'
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading', level: @options.level ? 'unknown'
     window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
 
   onSubscribed: ->
