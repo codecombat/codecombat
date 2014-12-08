@@ -335,7 +335,7 @@
 
   subscribe:
     subscribe_title: "Subscribe"
-    levels: "Unlock 17 extra levels! With 5 new ones every week!"
+    levels: "Get more practice with bonus levels!"
     heroes: "More powerful heroes!"
     gems: "3500 bonus gems every month!"
     items: "Over 250 bonus items!"
