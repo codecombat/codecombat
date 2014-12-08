@@ -28,7 +28,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     home: "Inicio"
     contribute: "Contribuir"
     legal: "Legal"
-    about: "Sobre"
+    about: "Acerca"
     contact: "Contacto"
     twitter_follow: "Seguir"
     teachers: "Profesores"
