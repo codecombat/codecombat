@@ -63,7 +63,7 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   newSubs[newName].enabled = enabled
   @set('emails', newSubs)
   @newsSubsChanged = true if newName in mail.NEWS_GROUPS
-  
+
 UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
   gemsPurchased = @get('purchased')?.gems ? 0
@@ -86,11 +86,13 @@ UserSchema.statics.updateServiceSettings = (doc, callback) ->
   return callback?() unless doc.get('email')
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
-  
+
   if emailChanged and customerID = doc.get('stripe')?.customerID
-    stripe.customers.update customerID, {email:doc.get('email')}, (err, customer) ->
+    unless stripe?.customers
+      console.error('Oh my god, Stripe is not imported correctly-how could we have done this (again)?')
+    stripe?.customers?.update customerID, {email:doc.get('email')}, (err, customer) ->
       console.error('Error updating stripe customer...', err) if err
-  
+
   return callback?() unless emailChanged or doc.newsSubsChanged
 
   newGroups = []
@@ -180,10 +182,10 @@ UserSchema.methods.register = (done) ->
   @saveActiveUser 'register'
 
 UserSchema.methods.isPremium = ->
-  return false unless stripe = @get('stripe')
-  return true if stripe.subscriptionID
-  return true if stripe.free is true
-  return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+  return false unless stripeObject = @get('stripe')
+  return true if stripeObject.subscriptionID
+  return true if stripeObject.free is true
+  return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
   return false
 
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
@@ -199,7 +201,7 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
   try
     return done?() if @isAdmin()
     userID = @get('_id')
-    
+
     # Create if no active user entry for today
     today = new Date()
     minDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
@@ -236,7 +238,7 @@ UserSchema.post 'save', (doc) ->
 
 UserSchema.post 'init', (doc) ->
   doc.startingEmails = _.cloneDeep(doc.get('emails'))
-  
+
 UserSchema.statics.hashPassword = (password) ->
   password = password.toLowerCase()
   shasum = crypto.createHash('sha512')
