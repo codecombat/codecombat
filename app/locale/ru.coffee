@@ -101,23 +101,23 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     log_in: "Войти"
     logging_in: "Вход..."
     log_out: "Выйти"
-    recover: "восстановить аккаунт"
-    authenticate_gplus: "Войти через G+"
+    forgot_password: "Забыли пароль?"
+    authenticate_gplus: "Аутентификация G+"
     load_profile: "Загрузить профиль G+"
     load_email: "Загрузить G+ почту"
     finishing: "Завершение"
+    sign_in_with_facebook: "Войти через Facebook"
+    sign_in_with_gplus: "Войти через G+"
+    signup_switch: "Хотите создать аккаунт?"
 
   signup:
-    create_account_title: "Создать аккаунт, чтобы сохранить прогресс"
-    description: "Это бесплатно. Нужна лишь пара вещей, и вы сможете продолжить путешествие:"
     email_announcements: "Получать оповещения по email"
-    coppa: "Вы старше 13 лет или живёте не в США "
-    coppa_why: "(почему?)"
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
     social_signup: "Или вы можете зарегистрироваться через Facebook или G+:"
     required: "Войдите для того, чтобы продолжить."
+    login_switch: "Уже есть аккаунт?"
 
   recover:
     recover_account_title: "Восстановить аккаунт"
@@ -220,9 +220,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
+    victory: "Победа"
     victory_title_prefix: "Уровень "
     victory_title_suffix: " завершён"
-    victory_sign_up: "Зарегистрироваться"
+    victory_sign_up: "Зарегистрируйтесь, чтобы сохранить прогресс"
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
@@ -232,6 +233,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
     victory_hour_of_code_done: "Вы закончили?"
     victory_hour_of_code_done_yes: "Да, я закончил мой Час Кода™!"
+    victory_experience_gained: "Опыта получено"
+    victory_gems_gained: "Самоцветов получено"
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
     tome_read_only_spells: "Заклинания только для чтения" # Only in old-style levels.
@@ -254,7 +257,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
     loading_start: "Начать уровень"
-    problem_alert_title: "Исправьте Ваш Код"
+    problem_alert_title: "Исправьте ваш Код"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
@@ -263,7 +266,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     infinite_loop_comment_out: "Закомментировать мой код"
     tip_toggle_play: "Переключайте воспроизведение/паузу комбинацией Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ и Ctrl+] - перемотка назад и вперёд."
-    tip_guide_exists: "Щёлкните \"руководство\" наверху страницы для получения полезной информации."
+    tip_guide_exists: "Щёлкните руководство внутри меню (наверху страницы) для получения полезной информации."
     tip_open_source: "Исходный код CodeCombat открыт на 100%!"
     tip_beta_launch: "CodeCombat запустил бета-тестирование в октябре 2013 года."
     tip_think_solution: "Думайте о решении, а не о проблеме."
@@ -291,7 +294,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     tip_extrapolation: "Есть два типа людей: те, кто могут экстраполировать неполные данные..."
-    customize_wizard: "Настройки волшебника"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -333,12 +335,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     subscribe_title: "Подпишись"
-    levels: "Разблокируйте 17 уровней! И еще 5 каждую неделю!"
+    unsubscribe: "Отписаться"
+    levels: "Получите больше практики с бонусными уровнями!"
     heroes: "Более сильные герои!"
     gems: "3500 бонусных самоцветов каждый месяц!"
     items: "Более 250 бонусных предметов!"
     parents: "Для Родителей"
-    parents_title: "Ваш ребенок научиться программировать."
+    parents_title: "Ваш ребенок научится программировать."
     parents_blurb1: "С CodeCombat ваш ребенок учится через написание реального кода. Начиная с изучения простых команд, продолжая более продвинутыми темами."
     parents_blurb2: "За $9.99 USD/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
     parents_blurb3: "Без риска: 100% гарантия возрата денег, возможность отписаться в 1 клик."
@@ -504,8 +507,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     job_profile_explanation: "Привет! Заполните это, и мы свяжемся с вами при нахождении работы разработчика программного обеспечения для вас."
     sample_profile: "Посмотреть пример профиля"
     view_profile: "Просмотр вашего профиля"
-    wizard_tab: "Волшебник"
-    wizard_color: "Цвет одежды волшебника"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Горячие клавиши"
@@ -526,7 +527,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     toggle_pathfinding: "Включить путевой оверлей.."
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
     maximize_editor: "Развернуть/свернуть редактор кода."
-    move_wizard: "Перемещайте своего Волшебника по уровню."
 
   community:
     main_title: "Сообщество CodeCombat"
@@ -767,7 +767,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_ended: "Турнир закончился"
     tournament_rules: "Правила турнира"
     tournament_blurb: "Пишите код, собирайте золото, стройте армию, крушите противников, получайте призы и улучшайте вашу карьеру в нашем \"$40,000 турнире жадности\"! Узнайте больше"
-#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
+    tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_blog: "в нашем блоге"
     rules: "Правила"
     winners: "Победители"
@@ -866,13 +866,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    sprite_sheet: "Sprite Sheet"
     employers: "Работники"
     candidates: "Кандидаты"
-#    candidate_sessions: "Candidate Sessions"
+    candidate_sessions: "Сессии кандидатов"
     user_remark: "Пользовательские поправки"
     user_remarks: "Пользовательские поправки"
     versions: "Версии"
     items: "Предметы"
     heroes: "Герои"
-    wizard: "Волшебник"
     achievement: "Достижение"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
