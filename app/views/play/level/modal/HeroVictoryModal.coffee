@@ -270,6 +270,10 @@ module.exports = class HeroVictoryModal extends ModalView
     levelLabel = xpEl.find('.level')
     utils.replaceText levelLabel, currentLevel
 
+    if leveledUp and (not @displayedLevel or currentLevel > @displayedLevel)
+      @playSound 'level-up'
+    @displayedLevel = currentLevel
+
   endSequentialAnimations: ->
     clearInterval @sequentialAnimationInterval
     @animationComplete = true
