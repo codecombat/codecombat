@@ -55,6 +55,7 @@ exports.config =
           regJoin('^app/core')
           regJoin('^app/views/core')
           'app/locale/locale.coffee'
+          'app/locale/en.coffee'
           'app/lib/sprites/SpriteBuilder.coffee' # loaded by ThangType
         ]
 
