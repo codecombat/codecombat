@@ -110,7 +110,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    sign_in_with_gplus: "Sign in with G+"
 #    signup_switch: "Want to create an account?"
 
-  signup:
+#  signup:
 #    email_announcements: "Receive announcements by email"
 #    creating: "Creating Account..."
 #    sign_up: "Sign Up"
