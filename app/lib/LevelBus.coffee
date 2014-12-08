@@ -29,7 +29,8 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})
+    #@saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # not during HoC apparently
+    @saveSession = _.debounce(@reallySaveSession, 10000, {maxWait: 30000})
     @playerIsIdle = false
 
   init: ->
