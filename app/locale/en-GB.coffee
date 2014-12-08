@@ -132,8 +132,8 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    misc: "Misc"
 #    books: "Books"
 
-  common:
-    loading: "Loading..."
+#  common:
+#    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
 #    send: "Send"
@@ -197,7 +197,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    year: "year"
 #    years: "years"
 
-  play_level:
+#  play_level:
 #    done: "Done"
 #    home: "Home" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
@@ -470,7 +470,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
-  account_settings:
+#  account_settings:
 #    title: "Account Settings"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    autosave: "Changes Save Automatically"
