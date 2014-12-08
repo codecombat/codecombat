@@ -63,16 +63,19 @@
   //  a.btn.settings(href='/account', data-i18n="[title]play.settings")
   
 .user-status.header-font
-  span.gem.gem-20
-  span#gems-count.spr= me.gems()
-  span.spl.spr(data-i18n="general.player_level")
-  span.spr= me.level()
-  if me.get('anonymous')
-    span.spr(data-i18n="play.anonymous") Anonymous Player
-    button.btn.btn-default.btn-flat.btn-sm(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="login.log_in")
-  else
-    span.spr= me.get('name')
-    button#logout-button.btn.btn-default.btn-flat.btn-sm(data-i18n="login.log_out") Log Out
+  .user-status-line
+    span.gem.gem-30
+    span#gems-count.spr= me.gems()
+    span.player-level-icon
+    span.player-level.spr= me.level()
+    span.player-hero-icon
+    if me.get('anonymous')
+      span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
+      button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+      button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+    else
+      span.player-name.spr= me.get('name')
+      button#logout-button.btn.btn-default.btn-flat.btn-sm(data-i18n="login.log_out") Log Out
 
 button.btn.btn-lg.btn-inverse#volume-button(title="Adjust volume")
   .glyphicon.glyphicon-volume-off

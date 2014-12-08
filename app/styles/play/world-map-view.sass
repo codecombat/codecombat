@@ -321,15 +321,69 @@ $gameControlMargin: 30px
 
   .user-status
     position: absolute
-    bottom: 1%
-    left: 1%
+    bottom: 16px
+    left: 8px
     text-align: center
     font-size: 24px
     color: white
-    text-shadow: 1px 1px 0px black
+    text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
+    height: 32px
+    line-height: 32px
 
-    button
-      margin-left: 10px
+    .user-status-line
+      position: relative
+  
+      button.btn.btn-illustrated
+        margin-left: 10px
+        min-width: 90px
+        height: 32px
+        color: white
+
+      .gem, .player-level-icon, .player-hero-icon
+        position: absolute
+        top: 1px
+
+      #gems-count
+        margin-left: 40px
+
+      .player-level
+        margin-left: 34px
+
+      .player-name
+        margin-left: 45px
+
+      $spriteSheetSize: 30px
+  
+      .player-level-icon, .player-hero-icon
+        background: transparent url(/images/pages/play/play-spritesheet.png)
+        background-size: cover
+        background-position: (-2 * $spriteSheetSize) 0
+        display: inline-block
+        width: 30px
+        height: 30px
+        margin: 0px 2px
+
+      .player-hero-icon
+        margin-left: 10px
+        background-position: (-4 * $spriteSheetSize) 0
+
+        &.knight
+          background-position: (-5 * $spriteSheetSize) 0
+        &.librarian
+          background-position: (-6 * $spriteSheetSize) 0
+        &.ninja
+          background-position: (-7 * $spriteSheetSize) 0
+        &.potion-master
+          background-position: (-8 * $spriteSheetSize) 0
+        &.samurai
+          background-position: (-9 * $spriteSheetSize) 0
+        &.trapper
+          background-position: (-10 * $spriteSheetSize) 0
+        &.forest-archer
+          background-position: (-11 * $spriteSheetSize) 0
+        &.sorcerer
+          background-position: (-12 * $spriteSheetSize) 0
+      
 
   #volume-button
     position: absolute
