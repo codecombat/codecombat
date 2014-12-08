@@ -7,7 +7,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     try_it: "Tegyél próbát!" # Alternate wording for Play button
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
-    ipad_browser: "Rossy hír. CodeCombat nem fut iPadon böngészőben. Jó hír: a hivatalos iPad applikációnk csak az Apple jóváhagyására vár."
+    ipad_browser: "Rossz hír. CodeCombat nem fut iPadon böngészőben. Jó hír: a hivatalos iPad applikációnk csak az Apple jóváhagyására vár."
     campaign: "Kampány"
     for_beginners: "Kezdőknek"
     multiplayer: "Többjátékos" # Not currently shown on home page
@@ -101,14 +101,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     log_in: "Bejelentkezés"
     logging_in: "Bejelentkezés"
     log_out: "Kijelentkezés"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Elfelejtetted a jelszavad?"
     authenticate_gplus: "Csatlakozz G+ profillal"
     load_profile: "Töltsd be G+ Profilod"
     load_email: "Töltsd be G+ Emaileket"
     finishing: "Befejezés"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+   sign_in_with_facebook: "Jelentkezz be Facebook-kal"
+    sign_in_with_gplus: "Jelentkezz be G+-szal"
+    signup_switch: "Hozz létre egy fiókot!"
 
   signup:
     email_announcements: "Szeretnél kapni hírlevelet?"
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     log_in: "Belépés meglévő fiókkal"
     social_signup: "De regisztrálhatsz a Facebook-on vagy a G+:-on keresztül is."
     required: "Csak akkor mehetsz arra, ha már bejelentkeztél."
-#    login_switch: "Already have an account?"
+    login_switch: "Már van fiókod?"
 
   recover:
     recover_account_title: "Meglévő fiók visszaállítása"
@@ -157,7 +157,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     version: "Verzió"
 #    commit_msg: "Commit Message"
     version_history: "Verzió történet"
-#    version_history_for: "Version History for: "
+    version_history_for: "Verzió története ennek: "
     result: "Eredmény"
     results: "Eredmények"
     description: "Leírás"
@@ -216,11 +216,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     click_to_select: "Kattints egy egységre, hogy kijelöld!"
     control_bar_multiplayer: "Többjátékos"
     control_bar_join_game: "Csatlakozz"
-#    reload: "Reload"
+    reload: "Újratöltés"
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előlről szeretnéd kezdeni az egész pályát?"
     reload_confirm: "Előlről az egészet"
-#    victory: "Victory"
+    victory: "Győzelem"
 #    victory_title_prefix: ""
     victory_title_suffix: "Kész"
     victory_sign_up: "Regisztrálj a friss infókért"
@@ -233,8 +233,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_review: "Mondd el a véleményedet!" # Only in old-style levels.
     victory_hour_of_code_done: "Készen vagy?"
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "Szerzett tapasztalat"
+    victory_gems_gained: "Szerzett Drágakövek"
     guide_title: "Útmutató"
     tome_minion_spells: "Egységeid varázslatai" # Only in old-style levels.
     tome_read_only_spells: "Csak olvasható varázslatok" # Only in old-style levels.
@@ -274,11 +274,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_error_free: "Két módon lehet hibátlan programot írni. De csak a harmadik működik. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
     tip_forums: "Irány a fórumok, és mondd el mit gondolsz!!"
-#    tip_baby_coders: "In the future, even babies will be Archmages."
-#    tip_morale_improves: "Loading will continue until morale improves."
+    tip_baby_coders: "A jövőben még a bébik is Főmágusok lesznek."
+    tip_morale_improves: "A töltés addig folytatódik, amíg a morál javul."
     tip_all_species: "Hisszük, hogy minden fajnak egyenlő lehetőségekkel kell bírnia a programozás megtanulására."
 #    tip_reticulating: "Reticulating spines."
-#    tip_harry: "Yer a Wizard, "
+   tip_harry: "Te, Mágus, "
     tip_great_responsibility: "Nagy kódolási képességgel nagy hibaelhárítási felelősség jár."
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
     tip_binary: "A világon csak 10 féle ember van: azok, akik értik a kettes számrendszert és azok, akik nem.."
