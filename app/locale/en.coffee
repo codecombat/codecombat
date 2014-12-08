@@ -335,6 +335,7 @@
 
   subscribe:
     subscribe_title: "Subscribe"
+    unsubscribe: "Unsubscribe"
     levels: "Get more practice with bonus levels!"
     heroes: "More powerful heroes!"
     gems: "3500 bonus gems every month!"
