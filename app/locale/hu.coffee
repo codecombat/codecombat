@@ -278,7 +278,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_morale_improves: "A töltés addig folytatódik, amíg a morál javul."
     tip_all_species: "Hisszük, hogy minden fajnak egyenlő lehetőségekkel kell bírnia a programozás megtanulására."
 #    tip_reticulating: "Reticulating spines."
-   tip_harry: "Te, Mágus, "
+    tip_harry: "Te, Mágus, "
     tip_great_responsibility: "Nagy kódolási képességgel nagy hibaelhárítási felelősség jár."
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
     tip_binary: "A világon csak 10 féle ember van: azok, akik értik a kettes számrendszert és azok, akik nem.."
