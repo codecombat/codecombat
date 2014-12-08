@@ -412,6 +412,7 @@ module.exports = class ThangType extends CocoModel
       throwDamage: 'attack'
       throwRange: 'range'
       bashDamage: 'attack'
+      backstabDamage: 'backstab'
     }[name]
 
     if i18nKey

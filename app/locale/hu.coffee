@@ -106,7 +106,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     load_profile: "Töltsd be G+ Profilod"
     load_email: "Töltsd be G+ Emaileket"
     finishing: "Befejezés"
-   sign_in_with_facebook: "Jelentkezz be Facebook-kal"
+    sign_in_with_facebook: "Jelentkezz be Facebook-kal"
     sign_in_with_gplus: "Jelentkezz be G+-szal"
     signup_switch: "Hozz létre egy fiókot!"
 

@@ -295,3 +295,14 @@ module.exports = LevelOptions =
   'siege-of-stonehold':
     requiredGear: {}
     restrictedGear: {}
+
+  # Desert
+  'the-dunes':
+    requiredGear: {}
+    restrictedGear: {}
+  'the-mighty-sand-yak':
+    requiredGear: {}
+    restrictedGear: {}
+  'oasis':
+    requiredGear: {}
+    restrictedGear: {}

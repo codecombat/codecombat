@@ -372,6 +372,7 @@
     regeneration: "Regeneration"
     range: "Range"  # As in "attack or visual range"
     blocks: "Blocks"  # As in "this shield blocks this much damage"
+    backstab: "Backstab"  # As in "this dagger does this much backstab damage"
     skills: "Skills"
     available_for_purchase: "Available for Purchase"
     level_to_unlock: "Level to unlock:"
