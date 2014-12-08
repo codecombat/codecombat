@@ -39,7 +39,7 @@ module.exports = class Tracker
       for integration in includeIntegrations
         options.integrations[integration] = true
 
-    console.log "Would track analytics pageview: '/#{name}'", properties, options if debugAnalytics
+    console.log "Would track analytics pageview: '/#{name}'", properties, options, includeIntegrations if debugAnalytics
     return unless @isProduction and analytics? and not me.isAdmin()
 
     # Ok to pass empty properties, but maybe not options
@@ -58,7 +58,7 @@ module.exports = class Tracker
     # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#Anatomy
     # Mixpanel properties format: whatever you want unlike GA
     # https://segment.com/docs/integrations/mixpanel/
-    console.log 'Would track analytics event:', action, properties if debugAnalytics
+    console.log 'Would track analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
     properties = properties or {}
     context = {}
