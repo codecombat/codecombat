@@ -26,6 +26,7 @@ module.exports = class ControlBarView extends CocoView
     'click .levels-link-area': 'onClickHome'
     'click .home a': 'onClickHome'
     'click .multiplayer-area': 'onClickMultiplayer'
+    'click #control-bar-sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
     @worldName = options.worldName
@@ -94,6 +95,10 @@ module.exports = class ControlBarView extends CocoView
 
   onClickMultiplayer: (e) ->
     @openModalView new GameMenuModal showTab: 'multiplayer', level: @level, session: @session, supermodel: @supermodel
+
+  onClickSignupButton: ->
+    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
+    window.tracker?.trackPageView "signup/play-level", ['Google Analytics']
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

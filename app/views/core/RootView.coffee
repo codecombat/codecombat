@@ -52,7 +52,17 @@ module.exports = class RootView extends CocoView
 
   onClickSignupButton: ->
     AuthModal = require 'views/core/AuthModal'
-    window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
+    switch @id
+      when 'home-view'
+        window.tracker?.trackEvent 'Started Signup', category: 'Homepage', label: 'Homepage'
+        window.tracker?.trackPageView "signup/homepage", ['Google Analytics']
+      when 'world-map-view'
+        # TODO: add campaign data
+        window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
+        window.tracker?.trackPageView "signup/world-map", ['Google Analytics']
+      else
+        window.tracker?.trackEvent 'Started Signup', label: 'unknown'
+        window.tracker?.trackPageView "signup/unknown", ['Google Analytics']
     @openModalView new AuthModal {mode: 'signup'}
 
   onClickLoginButton: ->
