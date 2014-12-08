@@ -61,7 +61,7 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
         window.tracker?.trackPageView "signup/start", ['Google Analytics']
       else
-        window.tracker?.trackEvent 'Started Signup', label: 'unknown'
+        window.tracker?.trackEvent 'Started Signup', label: @id
         window.tracker?.trackPageView "signup/start", ['Google Analytics']
     @openModalView new AuthModal {mode: 'signup'}
 
