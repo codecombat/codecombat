@@ -495,7 +495,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     email_any_notes_description: "Вимкніть аби заборонити сповіщення на email."
     email_news: "Новини"
     email_recruit_notes: "Ваканція роботи"
-#    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
+    email_recruit_notes_description: "Якщо ти граеш дуже добре, ми можемо запропонувати тобі (кращу) роботу."
     contributor_emails: "Підписки за класами учасників"
     contribute_prefix: "Нам потрібні люди, які приєднаються до нашої команди! Зайдіть на "
     contribute_page: "сторінку учасників,"
