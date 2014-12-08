@@ -1,4 +1,5 @@
 ModalView = require 'views/core/ModalView'
+AuthModal = require 'views/core/AuthModal'
 template = require 'templates/play/menu/game-menu-modal'
 submenuViews = [
   require 'views/play/menu/SaveLoadView'
@@ -18,6 +19,7 @@ module.exports = class GameMenuModal extends ModalView
     'shown.bs.tab #game-menu-nav a': 'onTabShown'
     'click #change-hero-tab': -> @trigger 'change-hero'
     'click #close-modal': 'hide'
+    'click .auth-tab': 'onClickSignupButton'
 
   constructor: (options) ->
     super options
@@ -63,3 +65,10 @@ module.exports = class GameMenuModal extends ModalView
     subview.onHidden?() for subviewKey, subview of @subviews
     @playSound 'game-menu-close'
     Backbone.Mediator.publish 'music-player:exit-menu', {}
+    
+  onClickSignupButton: (e) ->
+    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Game Menu', level: @options.levelID
+    window.tracker?.trackPageView "signup/start", ['Google Analytics']
+    # TODO: Default already seems to be prevented.  Need to be explicit?
+    e.preventDefault()
+    @openModalView new AuthModal {mode: 'signup'}
