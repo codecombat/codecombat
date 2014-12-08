@@ -58,7 +58,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    confirm: "Confirm"
     owned: "Megszerzett" # For items you own
     locked: "Lezárva"
-   purchasable: "Megvehetvő" # For a hero you unlocked but haven't purchased
+    purchasable: "Megvehetvő" # For a hero you unlocked but haven't purchased
     available: "Elérhető"
     skills_granted: "Elnyert képességek" # Property documentation details
     heroes: "Hősök" # Tooltip on hero shop button from /play
@@ -149,8 +149,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  general:
-    and: "és" 
+  general:
+    and: "és"
     name: "Név"
     date: "Dátum"
 #    body: "Body"
@@ -241,7 +241,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
     tome_reload_method: "Eredeti Módszer újratöltése" # Title text for individual method reload button.
-   tome_select_method: "Válassz Módszert"
+    tome_select_method: "Válassz Módszert"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Válassz ki valakit "
     tome_available_spells: "Elérhető varázslatok"
