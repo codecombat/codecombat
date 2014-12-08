@@ -331,7 +331,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     prompt_body: "En voulez-vous plus?"
     prompt_button: "Entrer dans la boutique"
 
-#  subscribe:
+  subscribe:
     subscribe_title: "Inscription"
     levels: "Débloquer 17 niveaux supplémentaires ! Et 5 nouveaux chaque semaines!"
     heroes: "Héros plus puissants!"

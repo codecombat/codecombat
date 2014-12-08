@@ -534,6 +534,7 @@ module.exports = class InventoryModal extends ModalView
 
   onScrollUnequipped: ->
     # dynamically load visible items when the user scrolls enough to see them
+    return if @destroyed
     nanoContent = @$el.find('#unequipped .nano-content')
     items = nanoContent.find('.item:visible:not(.loaded)')
     threshold = nanoContent.height() + 100
@@ -591,6 +592,9 @@ module.exports = class InventoryModal extends ModalView
 
   destroy: ->
     @$el.find('.unlock-button').popover 'destroy'
+    @$el.find('.ui-droppable').droppable 'destroy'
+    @$el.find('.ui-draggable').draggable('destroy').off 'dragstart'
+    @$el.find('.item-slot').off 'dragstart'
     @stage?.removeAllChildren()
     super()
 
