@@ -226,7 +226,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_sign_up_poke: "Хотите сохранить ваш код? Создайте бесплатный аккаунт!"
     victory_rate_the_level: "Оцените уровень:" # Only in old-style levels.
     victory_return_to_ladder: "Вернуться к ладдеру"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Продолжить"
     victory_saving_progress: "Процесс сохранения"
     victory_go_home: "На главную" # Only in old-style levels.
     victory_review: "Расскажите нам больше!" # Only in old-style levels.
@@ -811,13 +811,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     payments: "Платежи"
     service_apple: "Apple"
     service_web: "Web"
-#    paid_on: "Paid On"
-#    service: "Service"
+    paid_on: "Оплачено"
+    service: "Сервис"
     price: "Цена"
     gems: "Самоцветы"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
-#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
-#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+    status_subscribed: "В данный момент вы подписаны за $9.99 USD/месяц. Спасибо за вашу поддержку!"
+    status_unsubscribed_active: "Вы не подписаны, и счет не будет выставлен, однако ваш аккаунт все еще активен."
+    status_unsubscribed: "Получите доступ к новым уровням, героям, предметам и бонусным самоцветам с подпиской CodeCombat!"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"
@@ -902,7 +902,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   legal:
     page_title: "Юридическая информация"
-    opensource_intro: "CodeCombat - бесплатный проект с полностью открытым исходным кодом."
+    opensource_intro: "CodeCombat - проект с полностью открытым исходным кодом."
     opensource_description_prefix: "Посмотрите "
     github_url: "наш GitHub"
     opensource_description_center: "и посодействуйте, если вам понравилось! CodeCombat построен на десятках проектов с открытым кодом, и мы любим их. Загляните в "
@@ -911,7 +911,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     practices_title: "Уважаемые лучшие практики"
     practices_description: "Это наши обещания тебе, игроку, менее юридическим языком."
     privacy_title: "Конфиденциальность"
-    privacy_description: "Мы не будем продавать ничего из ваших персональных данных."
+    privacy_description: "Мы не будем продавать ваши персональные данные."
     security_title: "Безопасность"
     security_description: "Мы стремимся сохранить вашу личную информацию в безопасности. Как проект с открытым исходным кодом, наш сайт открыт для всех в вопросах пересмотра и совершенствования систем безопасности."
     email_title: "Email"
