@@ -27,7 +27,7 @@ module.exports = class MultiplayerView extends CocoView
     @levelID = @level?.get 'slug'
     @session = options.session
     @listenTo @session, 'change:multiplayer', @updateLinkSection
-    @watchRealTimeSessions() if @level?.get('type') in ['hero-ladder']
+    @watchRealTimeSessions() if @level?.get('type') in ['hero-ladder'] and me.isAdmin()
 
   destroy: ->
     @realTimeSessions?.off 'add', @onRealTimeSessionAdded
@@ -47,7 +47,7 @@ module.exports = class MultiplayerView extends CocoView
       c.readyToRank = @session?.readyToRank()
 
     # Real-time multiplayer stuff
-    if @level?.get('type') in ['hero-ladder']
+    if @level?.get('type') in ['hero-ladder'] and me.isAdmin()
       c.levelID = @session.get('levelID')
       c.realTimeSessions = @realTimeSessions
       c.currentRealTimeSession = @currentRealTimeSession if @currentRealTimeSession

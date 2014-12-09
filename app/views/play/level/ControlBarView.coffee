@@ -35,7 +35,8 @@ module.exports = class ControlBarView extends CocoView
     @levelID = @level.get('slug')
     @spectateGame = options.spectateGame ? false
     super options
-    if @isMultiplayerLevel = @level.get('type') in ['hero-ladder']
+    if @level.get('type') in ['hero-ladder'] and me.isAdmin()
+      @isMultiplayerLevel = true
       @multiplayerStatusManager = new MultiplayerStatusManager @levelID, @onMultiplayerStateChanged
 
   setBus: (@bus) ->
