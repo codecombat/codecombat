@@ -80,6 +80,7 @@ module.exports = class ProblemAlertView extends CocoView
     _.delay pauseJiggle, 1000
 
   onHideProblemAlert: ->
+    return unless @$el.is(':visible')
     @onRemoveClicked()
 
   onRemoveClicked: ->
