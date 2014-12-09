@@ -207,6 +207,11 @@ module.exports = LevelOptions =
     hidesCodeToolbar: true
     requiredGear: {feet: 'leather-boots', 'right-hand': 'crude-builders-hammer'}
     restrictedGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
+  'patrol-buster':
+    hidesRealTimePlayback: true
+    hidesCodeToolbar: true
+    requiredGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-ii', eyes: 'crude-glasses'}
+    restrictedGear: {feet: 'simple-boots', 'right-hand': 'crude-builders-hammer', 'programming-book': 'programmaticon-i'}
   'endangered-burl':
     hidesRealTimePlayback: true
     hidesCodeToolbar: true

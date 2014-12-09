@@ -560,8 +560,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   updateMarks: ->
     return unless @options.camera
-    @addMark 'repair', null, 'repair' if @thang?.errorsOut
-    @marks.repair?.toggle @thang?.errorsOut
+    @addMark 'repair', null, 'repair' if @thang?.erroredOut
+    @marks.repair?.toggle @thang?.erroredOut
 
     if @selected
       @marks[range['name']].toggle true for range in @ranges
