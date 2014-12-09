@@ -32,7 +32,7 @@ class SubscriptionHandler extends Handler
             @logSubscriptionError(user, 'Cannot find customer: ', +customer.id + '\n\n' + err)
             return done({res: 'Cannot find customer.', code: 404})
           @checkForExistingSubscription(req, user, customer, done)
-          
+
       else
         newCustomer = {
           card: token
@@ -47,7 +47,7 @@ class SubscriptionHandler extends Handler
             else
               @logSubscriptionError(user, 'Stripe customer creation error. '+err)
               return done({res: 'Database error.', code: 500})
-            
+
           stripeInfo = _.cloneDeep(user.get('stripe') ? {})
           stripeInfo.customerID = customer.id
           user.set('stripe', stripeInfo)
@@ -68,11 +68,11 @@ class SubscriptionHandler extends Handler
 
   checkForExistingSubscription: (req, user, customer, done) ->
     couponID = user.get('stripe')?.couponID
-    
+
     # SALE LOGIC
     # overwrite couponID with another for everyone-sales
-    # couponID = 'hoc_bonanza' if not couponID
-    
+    couponID = 'hoc_599' if not couponID
+
     if subscription = customer.subscriptions?.data?[0]
 
       if subscription.cancel_at_period_end

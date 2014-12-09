@@ -29,8 +29,10 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    #@saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # not during HoC apparently
-    @saveSession = _.debounce(@reallySaveSession, 10000, {maxWait: 30000})
+    if document.location.href.search('codecombat.com') isnt -1
+      @saveSession = _.debounce(@reallySaveSession, 10000, {maxWait: 30000})  # Save us during HoC
+    else
+      @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # Not this fast during HoC
     @playerIsIdle = false
 
   init: ->
