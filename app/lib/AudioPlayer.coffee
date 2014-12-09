@@ -111,9 +111,6 @@ class AudioPlayer extends CocoClass
       @soundsToPlayWhenLoaded[name] = audioOptions.volume
     audioOptions = @applyPanning audioOptions, pos if @camera and not @camera.destroyed and pos
     instance = createjs.Sound.play name, audioOptions
-    # For some reason, individual sound volume control doesn't work any more.
-    # I tried updating to SoundJS NEXT on 2014-09-10, but couldn't get any sounds to play with that one.
-    #console.log 'got instance with volume', instance.volume, instance._volume, instance.gainNode?.gain.value
     instance
 
   hasLoadedSound: (filename, name) ->

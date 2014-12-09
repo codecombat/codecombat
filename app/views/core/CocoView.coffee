@@ -161,7 +161,7 @@ module.exports = class CocoView extends Backbone.View
       else
         @warnConnectionError()
         return _.delay (=> r.load()), 3000
-        
+
     @$el.find('.loading-container .errors').append(loadingErrorTemplate({
       status: r.jqxhr?.status
       name: r.name
@@ -173,7 +173,7 @@ module.exports = class CocoView extends Backbone.View
   warnConnectionError: ->
     msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-    
+
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
     # different views may respond to this call, and not all have the resource to reload
@@ -424,6 +424,9 @@ module.exports = class CocoView extends Backbone.View
 
   isIPadBrowser: ->
     navigator?.userAgent?.indexOf('iPad') isnt -1
+
+  isFirefox: ->
+    navigator.userAgent.toLowerCase().indexOf('firefox') isnt -1
 
   initSlider: ($el, startValue, changeCallback) ->
     slider = $el.slider({animate: 'fast'})

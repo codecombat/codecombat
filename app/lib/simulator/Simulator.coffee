@@ -10,7 +10,7 @@ module.exports = class Simulator extends CocoClass
     @options ?= {}
     _.extend @, Backbone.Events
     @trigger 'statusUpdate', 'Starting simulation!'
-    @retryDelayInSeconds = 10
+    @retryDelayInSeconds = 2
     @taskURL = '/queue/scoring'
     @simulatedByYou = 0
     @god = new God maxAngels: 1, workerCode: @options.workerCode, headless: true  # Start loading worker.
@@ -85,7 +85,11 @@ module.exports = class Simulator extends CocoClass
 
   processSingleGameResults: (simulationResults) ->
     return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
-    taskResults = @formTaskResultsObject simulationResults
+    try
+      taskResults = @formTaskResultsObject simulationResults
+    catch error
+      console.log "Failed to form task results:", error
+      return @cleanupAndSimulateAnotherTask()
     console.log 'Processing results:', taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
     ogreSessionRank = taskResults.sessions[1].metrics.rank
@@ -237,7 +241,11 @@ module.exports = class Simulator extends CocoClass
 
   processResults: (simulationResults) ->
     return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
-    taskResults = @formTaskResultsObject simulationResults
+    try
+      taskResults = @formTaskResultsObject simulationResults
+    catch error
+      console.log "Failed to form task results:", error
+      return @cleanupAndSimulateAnotherTask()
     unless taskResults.taskID
       console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults
       @cleanupAndSimulateAnotherTask()

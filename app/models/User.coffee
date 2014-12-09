@@ -144,7 +144,7 @@ module.exports = class User extends CocoModel
     @subscribeCopyGroup = switch group
       when 0, 1, 2 then 'original'
       when 3, 4, 5 then 'new'
-    if /^en/.test(@get('preferredLanguage')) and not me.isAdmin()
+    if (not @get('preferredLanguage') or /^en/.test(@get('preferredLanguage'))) and not me.isAdmin()
       application.tracker.identify subscribeCopyGroup: @subscribeCopyGroup
     else
       @subscribeCopyGroup = 'original'
