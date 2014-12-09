@@ -72,6 +72,8 @@ module.exports = class SubscribeModal extends ModalView
       amount: 599
     }
 
+    @purchasedAmount = options.amount
+
     stripeHandler.open(options)
 
   onStripeReceivedToken: (e) ->
@@ -88,7 +90,7 @@ module.exports = class SubscribeModal extends ModalView
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
   onSubscriptionSuccess: ->
-    application.tracker?.trackEvent 'Finished subscription purchase', {}
+    application.tracker?.trackEvent 'Finished subscription purchase', revenue: @purchasedAmount / 100
     application.tracker?.trackPageView "subscription/finish-purchase", ['Google Analytics']
     Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
