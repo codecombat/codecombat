@@ -1,4 +1,5 @@
 ModalView = require 'views/core/ModalView'
+AuthModal = require 'views/core/AuthModal'
 template = require 'templates/play/level/modal/hero-victory-modal'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
@@ -24,6 +25,7 @@ module.exports = class HeroVictoryModal extends ModalView
   events:
     'click #continue-button': 'onClickContinue'
     'click .return-to-ladder-button': 'onClickReturnToLadder'
+    'click .sign-up-button': 'onClickSignupButton'
 
   constructor: (options) ->
     super(options)
@@ -281,7 +283,8 @@ module.exports = class HeroVictoryModal extends ModalView
     Backbone.Mediator.publish 'music-player:enter-menu', terrain: @level.get('terrain', true)
 
   updateSavingProgressStatus: ->
-    return unless @animationComplete
+    # A/B Testing no delay showing the signup and continue buttons in hero victory modal
+    return unless @animationComplete or me.getFastVictoryModalGroup() is 'fast'
     @$el.find('#saving-progress-label').toggleClass('hide', @readyToContinue)
     @$el.find('.next-level-button').toggleClass('hide', not @readyToContinue)
     @$el.find('.sign-up-poke').toggleClass('hide', not @readyToContinue)
@@ -335,3 +338,9 @@ module.exports = class HeroVictoryModal extends ModalView
     route = $(e.target).data('href')
     # Preserve the supermodel as we navigate back to the ladder.
     Backbone.Mediator.publish 'router:navigate', route: route, viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
+
+  onClickSignupButton: (e) ->
+    e.preventDefault()
+    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Hero Victory Modal', level: @level.get('slug')
+    window.tracker?.trackPageView "signup/start", ['Google Analytics']
+    @openModalView new AuthModal {mode: 'signup'}

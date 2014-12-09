@@ -55,14 +55,14 @@ module.exports = class RootView extends CocoView
     switch @id
       when 'home-view'
         window.tracker?.trackEvent 'Started Signup', category: 'Homepage', label: 'Homepage'
-        window.tracker?.trackPageView "signup/homepage", ['Google Analytics']
+        window.tracker?.trackPageView "signup/start", ['Google Analytics']
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
-        window.tracker?.trackPageView "signup/world-map", ['Google Analytics']
+        window.tracker?.trackPageView "signup/start", ['Google Analytics']
       else
-        window.tracker?.trackEvent 'Started Signup', label: 'unknown'
-        window.tracker?.trackPageView "signup/unknown", ['Google Analytics']
+        window.tracker?.trackEvent 'Started Signup', label: @id
+        window.tracker?.trackPageView "signup/start", ['Google Analytics']
     @openModalView new AuthModal {mode: 'signup'}
 
   onClickLoginButton: ->

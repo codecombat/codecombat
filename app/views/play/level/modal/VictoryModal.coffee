@@ -1,4 +1,5 @@
 ModalView = require 'views/core/ModalView'
+AuthModal = require 'views/core/AuthModal'
 template = require 'templates/play/level/modal/victory'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
@@ -15,6 +16,7 @@ module.exports = class VictoryModal extends ModalView
   events:
     'click .next-level-button': 'onPlayNextLevel'
     'click .world-map-button': 'onClickWorldMap'
+    'click .sign-up-button': 'onClickSignupButton'
 
     # review events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -67,6 +69,12 @@ module.exports = class VictoryModal extends ModalView
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: '/play', viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: @supermodel}]
+
+  onClickSignupButton: (e) ->
+    e.preventDefault()
+    window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Victory Modal', level: @level.get('slug')
+    window.tracker?.trackPageView "signup/start", ['Google Analytics']
+    @openModalView new AuthModal {mode: 'signup'}
 
   onGameSubmitted: (e) ->
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"

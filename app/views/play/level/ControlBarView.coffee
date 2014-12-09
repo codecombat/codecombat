@@ -98,7 +98,7 @@ module.exports = class ControlBarView extends CocoView
 
   onClickSignupButton: ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
-    window.tracker?.trackPageView "signup/play-level", ['Google Analytics']
+    window.tracker?.trackPageView "signup/start", ['Google Analytics']
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

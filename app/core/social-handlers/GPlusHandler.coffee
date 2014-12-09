@@ -98,11 +98,10 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
     Backbone.Mediator.publish 'auth:logging-in-with-gplus', {}
     gplusID = me.get('gplusID')
-    window.tracker?.trackEvent 'Google Login'
     window.tracker?.identify()
     patch = {}
     patch[key] = me.get(key) for gplusKey, key of userPropsToSave
-    patch._id = me.id
+    patch._id = beforeID = me.id
     patch.email = me.get('email')
     wasAnonymous = me.get('anonymous')
     @trigger 'logging-into-codecombat'
@@ -111,11 +110,15 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       patch: true
       type: 'PUT'
       error: ->
-        console.debug('Logging into GPlus fail.', arguments)
+        console.warn('Logging into GPlus fail.', arguments)
         backboneFailure(arguments...)
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
       success: (model) ->
-        console.debug('GPLus login success!')
+        console.info('GPLus login success!')
+        window.tracker?.trackEvent 'Google Login', category: "Signup", ['Google Analytics']
+        if model.id is beforeID
+          window.tracker?.trackEvent 'Finished Signup', label: 'GPlus'
+          window.tracker?.trackPageView "signup/finished", ['Google Analytics']
         window.location.reload() if wasAnonymous and not model.get('anonymous')
     })
 

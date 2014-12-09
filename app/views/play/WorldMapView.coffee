@@ -895,8 +895,8 @@ forest = [
     id: 'siege-of-stonehold'
     original: '54712072eb739dbc9d24034b'
     description: 'Unlock the desert world, if you are strong enough to win this epic battle!'
-    #nextLevels:
-    #  continue: ''
+    nextLevels:
+      continue: 'the-dunes'
     disabled: not me.isAdmin()
     x: 85.5
     y: 83.5
@@ -923,6 +923,50 @@ forest = [
     y: 23
     adventurer: true
   }
+
+  {
+    name: 'The Dunes'
+    type: 'hero'
+    id: 'the-dunes'
+    original: '5480b62e1bf0b10000711c59'
+    description: 'Behold, the desert, full of glory, danger, and sand. Lots of sand.'
+    nextLevels:
+      continue: 'the-mighty-sand-yak'
+    disabled: not me.isAdmin()
+    x: 88.66
+    y: 62.61
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'The Mighty Sand Yak'
+    type: 'hero'
+    id: 'the-mighty-sand-yak'
+    original: '5480b9d01bf0b10000711c5f'
+    description: 'In addition to sand, there are also yaks. Sandy yaks. Yak attack, back to back, man that\'s whack.'
+    nextLevels:
+      continue: 'oasis'
+    disabled: not me.isAdmin()
+    x: 81.00
+    y: 55.37
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Oasis'
+    type: 'hero'
+    id: 'oasis'
+    original: '5480ba761bf0b10000711c64'
+    description: 'There is a bit of water in the desert, too. Probably.'
+    #nextLevels:
+    #  continue: ''
+    disabled: not me.isAdmin()
+    x: 92.56
+    y: 40.88
+    adventurer: true
+    requiresSubscription: true
+  }
+
 ]
 
 WorldMapView.campaigns = campaigns = [
