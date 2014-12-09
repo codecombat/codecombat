@@ -927,7 +927,7 @@ this.createjs = this.createjs || {};
 		 * @type {Number}
 		 * @default 0
 		 */
-		this.progress = (total == 0) ? 0 : loaded / total;
+		this.progress = (total == 0) ? 0 : this.loaded / this.total;
 	};
 
 	var p = createjs.extend(ProgressEvent, createjs.Event);
@@ -1288,6 +1288,44 @@ this.createjs = this.createjs || {};
 	};
 
 	/**
+	 * Utility function to check if item is a valid HTMLImageElement
+	 *
+	 * @param item {object}
+	 * @returns {boolean}
+	 */
+	s.isImageTag = function(item) {
+		return item instanceof HTMLImageElement;
+	};
+
+	/**
+	 * Utility function to check if item is a valid HTMLAudioElement
+	 *
+	 * @param item
+	 * @returns {boolean}
+	 */
+	s.isAudioTag = function(item) {
+		if (window.HTMLAudioElement) {
+			return item instanceof HTMLAudioElement;
+		} else {
+			return false;
+		}
+	};
+
+	/**
+	 * Utility function to check if item is a valid HTMLVideoElement
+	 *
+	 * @param item
+	 * @returns {boolean}
+	 */
+	s.isVideoTag = function(item) {
+		if (window.HTMLVideoElement) {
+			return item instanceof HTMLVideoElement;
+		} else {
+			false;
+		}
+	};
+
+	/**
 	 * Determine if a specific type is a text based asset, and should be loaded as UTF-8.
 	 * @method isText
 	 * @param {String} type The item type.
@@ -1322,6 +1360,7 @@ this.createjs = this.createjs || {};
 		if (extension == null) {
 			return createjs.AbstractLoader.TEXT;
 		}
+
 		switch (extension.toLowerCase()) {
 			case "jpeg":
 			case "jpg":
@@ -1455,17 +1494,19 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Defines a POST request, use for a method value when loading data.
-	 *
+	 * @property POST
 	 * @type {string}
+	 * @defaultValue post
 	 */
-	s.POST = 'POST';
+	s.POST = "POST";
 
 	/**
 	 * Defines a GET request, use for a method value when loading data.
-	 *
+	 * @property GET
 	 * @type {string}
+	 * @defaultValue get
 	 */
-	s.GET = 'GET';
+	s.GET = "GET";
 
 	/**
 	 * The preload type for generic binary types. Note that images are loaded as binary files when using XHR.
@@ -1473,6 +1514,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default binary
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.BINARY = "binary";
 
@@ -1483,6 +1525,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default css
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.CSS = "css";
 
@@ -1492,6 +1535,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default image
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.IMAGE = "image";
 
@@ -1506,6 +1550,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default javascript
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.JAVASCRIPT = "javascript";
 
@@ -1518,6 +1563,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default json
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.JSON = "json";
 
@@ -1530,6 +1576,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default jsonp
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.JSONP = "jsonp";
 
@@ -1543,7 +1590,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default manifest
 	 * @static
-	 * @since 0.4.1
+	 * @since 0.6.0
 	 */
 	s.MANIFEST = "manifest";
 
@@ -1554,6 +1601,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default sound
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.SOUND = "sound";
 
@@ -1564,8 +1612,19 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default video
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.VIDEO = "video";
+
+	/**
+	 * The preload type for SpriteSheet files. SpriteSheet files are JSON files that contain string image paths.
+	 * @property SPRITESHEET
+	 * @type {String}
+	 * @default spritesheet
+	 * @static
+	 * @since 0.6.0
+	 */
+	s.SPRITESHEET = "spritesheet";
 
 	/**
 	 * The preload type for SVG files.
@@ -1573,6 +1632,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default svg
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.SVG = "svg";
 
@@ -1583,6 +1643,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default text
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.TEXT = "text";
 
@@ -1592,6 +1653,7 @@ this.createjs = this.createjs || {};
 	 * @type {String}
 	 * @default xml
 	 * @static
+	 * @since 0.6.0
 	 */
 	s.XML = "xml";
 
@@ -1757,7 +1819,7 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Remove all references to this loader.
-	 *
+	 * @method destroy
 	 */
 	p.destroy = function() {
 		if (this._request) {
@@ -1770,6 +1832,8 @@ this.createjs = this.createjs || {};
 		this._item = null;
 		this._rawResult = null;
 		this._result = null;
+
+		this._loadItems = null;
 
 		this.removeAllEventListeners();
 	};
@@ -1808,15 +1872,13 @@ this.createjs = this.createjs || {};
 		var event = null;
 		if (typeof(value) == "number") {
 			this.progress = value;
-			event = new createjs.ProgressEvent();
-			event.loaded = this.progress;
-			event.total = 1;
+			event = new createjs.ProgressEvent(this.progress);
 		} else {
 			event = value;
 			this.progress = value.loaded / value.total;
+			event.progress = this.progress;
 			if (isNaN(this.progress) || this.progress == Infinity) { this.progress = 0; }
 		}
-		event.progress = this.progress;
 		this.hasEventListener("progress") && this.dispatchEvent(event);
 	};
 
@@ -1827,6 +1889,8 @@ this.createjs = this.createjs || {};
 	 */
 	p._sendComplete = function () {
 		if (this._isCanceled()) { return; }
+
+		this.loaded = true;
 
 		var event = new createjs.Event("complete");
 		event.rawResult = this._rawResult;
@@ -1848,7 +1912,7 @@ this.createjs = this.createjs || {};
 	p._sendError = function (event) {
 		if (this._isCanceled() || !this.hasEventListener("error")) { return; }
 		if (event == null) {
-			event = new createjs.Event("error");
+			event = new createjs.ErrorEvent(); // TODO: Populate error
 		}
 		this.dispatchEvent(event);
 	};
@@ -2023,6 +2087,10 @@ this.createjs = this.createjs || {};
 
 	};
 
+	p.cancel = function() {
+
+	};
+
 	createjs.AbstractRequest = createjs.promote(AbstractRequest, "EventDispatcher");
 
 }());
@@ -2071,9 +2139,7 @@ this.createjs = this.createjs || {};
 	};
 
 	p.destroy = function() {
-		this._tag.onreadystatechange = null;
-		this._tag.onload = null;
-
+		this._clean();
 		this._tag = null;
 
 		this.AbstractRequest_destory();
@@ -2097,12 +2163,22 @@ this.createjs = this.createjs || {};
 	};
 
 	p._handleTagComplete = function () {
-		this._tag.onload = null;
-		this._tag.onreadystatechange = null;
 		this._rawResult = this._tag;
 		this._result = this.resultFormatter && this.resultFormatter(this) || this._rawResult;
 
+		this._clean();
+
 		this.dispatchEvent("complete");
+	};
+
+	/**
+	 * Remove event listeners, but don't destory the request object
+	 *
+	 * @private
+	 */
+	p._clean = function() {
+		this._tag.onload = null;
+		this._tag.onreadystatechange = null;
 	};
 
 	/**
@@ -2159,14 +2235,6 @@ this.createjs = this.createjs || {};
 		this.TagRequest_load();
 	};
 
-	p.destroy = function() {
-		this._tag.addEventListener && this._tag.removeEventListener("canplaythrough", this._loadedHandler);
-		this._tag.onstalled = null;
-		this._tag.onprogress = null;
-
-		this.TagRequest_destory();
-	};
-
 	/**
 	 * Handle the readyStateChange event from a tag. We sometimes need this in place of the onload event (mainly SCRIPT
 	 * and LINK tags), but other cases may exist.
@@ -2209,13 +2277,17 @@ this.createjs = this.createjs || {};
 		this.dispatchEvent(newEvent);
 	};
 
-	p._handleTagComplete = function () {
+	/**
+	 *
+	 * @private
+	 */
+	p._clean = function () {
 		this._tag.removeEventListener && this._tag.removeEventListener("canplaythrough", this._loadedHandler);
 		this._tag.onstalled = null;
 		this._tag.onprogress = null;
-		this.TagRequest__handleTagComplete();
-	};
 
+		this.TagRequest__clean();
+	};
 
 	createjs.MediaTagRequest = createjs.promote(MediaTagRequest, "TagRequest");
 
@@ -2309,7 +2381,7 @@ this.createjs = this.createjs || {};
 		}
 	};
 
-	var p = createjs.extend(XHRRequest, createjs.AbstractLoader);
+	var p = createjs.extend(XHRRequest, createjs.AbstractRequest);
 
 // static properties
 	/**
@@ -2355,7 +2427,7 @@ this.createjs = this.createjs || {};
 		return this._response;
 	};
 
-	// Overrides abstract method in AbstractLoader
+	// Overrides abstract method in AbstractRequest
 	p.cancel = function () {
 		this.canceled = true;
 		this._clean();
@@ -2393,9 +2465,7 @@ this.createjs = this.createjs || {};
 				this._request.send(createjs.RequestUtils.formatQueryString(this._item.values));
 			}
 		} catch (error) {
-			var event = new createjs.Event("error");
-			event.error = error;
-			this._sendError(event);
+			this.dispatchEvent(new createjs.ErrorEvent("XHR_SEND", null, error));
 		}
 	};
 
@@ -2464,7 +2534,7 @@ this.createjs = this.createjs || {};
 	 */
 	p._handleLoadStart = function (event) {
 		clearTimeout(this._loadTimeout);
-		this._sendLoadStart();
+		this.dispatchEvent("loadstart");
 	};
 
 	/**
@@ -2475,9 +2545,7 @@ this.createjs = this.createjs || {};
 	 */
 	p._handleAbort = function (event) {
 		this._clean();
-		var newEvent = new createjs.Event("error");
-		newEvent.text = "XHR_ABORTED";
-		this._sendError(newEvent);
+		this.dispatchEvent(new createjs.ErrorEvent("XHR_ABORTED", null, event));
 	};
 
 	/**
@@ -2488,10 +2556,9 @@ this.createjs = this.createjs || {};
 	 */
 	p._handleError = function (event) {
 		this._clean();
-		var newEvent = new createjs.Event("error");
-		newEvent.error = event;
 
-		this._sendError(newEvent);
+
+		this.dispatchEvent(new createjs.ErrorEvent(null, null, event));
 	};
 
 	/**
@@ -2520,15 +2587,16 @@ this.createjs = this.createjs || {};
 		}
 		this.loaded = true;
 
-		if (!this._checkError()) {
-			this._handleError();
+		var error = this._checkError();
+		if (error) {
+			this._handleError(error);
 			return;
 		}
 
 		this._response = this._getResponse();
 		this._clean();
 
-		this._sendComplete();
+		this.dispatchEvent(new createjs.Event("complete"));
 	};
 
 	/**
@@ -2540,11 +2608,8 @@ this.createjs = this.createjs || {};
 	 */
 	p._handleTimeout = function (event) {
 		this._clean();
-		var newEvent = new createjs.Event("error");
-		newEvent.text = "PRELOAD_TIMEOUT";
-		newEvent.error = event;
 
-		this._sendError(event);
+		this.dispatchEvent(new createjs.ErrorEvent("PRELOAD_TIMEOUT", null, event));
 	};
 
 // Protected
@@ -2552,7 +2617,7 @@ this.createjs = this.createjs || {};
 	 * Determine if there is an error in the current load. This checks the status of the request for problem codes. Note
 	 * that this does not check for an actual response. Currently, it only checks for 404 or 0 error code.
 	 * @method _checkError
-	 * @return {Boolean} If the request status returns an error code.
+	 * @return {int} If the request status returns an error code.
 	 * @private
 	 */
 	p._checkError = function () {
@@ -2562,9 +2627,9 @@ this.createjs = this.createjs || {};
 		switch (status) {
 			case 404:   // Not Found
 			case 0:     // Not Loaded
-				return false;
+				return new Error(status);
 		}
-		return true;
+		return null;
 	};
 
 	/**
@@ -2731,6 +2796,11 @@ this.createjs = this.createjs || {};
 		this.AbstractMediaLoader_constructor(loadItem, preferXHR, createjs.AbstractLoader.SOUND);
 
 		this._tagType = "audio";
+
+		if (createjs.RequestUtils.isAudioTag(loadItem) || createjs.RequestUtils.isAudioTag(loadItem.src)) {
+			this._preferXHR = false;
+			this._tag =createjs.RequestUtils.isAudioTag(loadItem)?loadItem:loadItem.src;
+		}
 	};
 
 	var p = createjs.extend(SoundLoader, createjs.AbstractMediaLoader);
@@ -5158,13 +5228,15 @@ this.createjs = this.createjs || {};
 	 * @since 0.6.0
 	 */
 	p.setLoop = function (value) {
-		// remove looping
-		if (this._loop != 0 && value == 0) {
-			this._removeLooping(value);
-		}
-		// add looping
-		if (this._loop == 0 && value != 0) {
-			this._addLooping(value);
+		if(this._playbackResource != null) {
+			// remove looping
+			if (this._loop != 0 && value == 0) {
+				this._removeLooping(value);
+			}
+			// add looping
+			if (this._loop == 0 && value != 0) {
+				this._addLooping(value);
+			}
 		}
 		this._loop = value;
 	};
@@ -5658,7 +5730,7 @@ this.createjs = this.createjs || {};
 	 */
 	p._handlePreloadComplete = function (event) {
 		var src = event.target.getItem().src;
-		this._audioSources[src] = event.target.getResult(false);
+		this._audioSources[src] = event.result;
 		for (var i = 0, l = this._soundInstances[src].length; i < l; i++) {
 			var item = this._soundInstances[src][i];
 			item.setPlaybackResource(this._audioSources[src]);
@@ -5708,12 +5780,10 @@ this.createjs = this.createjs || {};
 	 * @protected
 	 */
 	function Loader(src) {
-		var loaditem = createjs.LoadItem.create(src);
-		this.XHRRequest_constructor(loaditem, true, createjs.AbstractLoader.SOUND);
+		this.AbstractLoader_constructor(src, true, createjs.AbstractLoader.SOUND);
 
-		this._request.responseType = "arraybuffer";
 	};
-	var p = createjs.extend(Loader, createjs.XHRRequest);
+	var p = createjs.extend(Loader, createjs.AbstractLoader);
 
 	/**
 	 * web audio context required for decoding audio
@@ -5731,9 +5801,14 @@ this.createjs = this.createjs || {};
 
 
 // private methods
-	p._handleLoad = function (event) {
+	p._createRequest = function() {
+		this._request = new createjs.XHRRequest(this._item, false);
+		this._request.setResponseType("arraybuffer");
+	};
+
+	p._sendComplete = function (event) {
 		// OJR we leave this wrapped in Loader because we need to reference src and the handler only receives a single argument, the decodedAudio
-		Loader.context.decodeAudioData(this._request.response,
+		Loader.context.decodeAudioData(this._rawResult,
 	         createjs.proxy(this._handleAudioDecoded, this),
 	         createjs.proxy(this._handleError, this));
 	};
@@ -5746,11 +5821,11 @@ this.createjs = this.createjs || {};
 	* @protected
 	*/
 	p._handleAudioDecoded = function (decodedAudio) {
-		this._response = decodedAudio;
-		this.XHRRequest__handleLoad();
+		this._result = decodedAudio;
+		this.AbstractLoader__sendComplete();
 	};
 
-	createjs.WebAudioLoader = createjs.promote(Loader, "XHRRequest");
+	createjs.WebAudioLoader = createjs.promote(Loader, "AbstractLoader");
 }());
 
 //##############################################################################
@@ -5911,6 +5986,7 @@ this.createjs = this.createjs || {};
 	};
 
 	p._addLooping = function() {
+		if (this.playState != createjs.Sound.PLAY_SUCCEEDED) { return; }
 		this._sourceNodeNext = this._createAndPlayAudioNode(this._playbackStartTime, 0);
 	};
 
