@@ -262,7 +262,7 @@ getJasmineRequireObj().AjaxFakeRequest = function() {
 
       responseText: null,
       response: null,
-      responseType: null,
+      responseType: '',
 
       responseValue: function() {
         switch(this.responseType) {
