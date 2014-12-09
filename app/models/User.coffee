@@ -127,6 +127,7 @@ module.exports = class User extends CocoModel
     @fastVictoryModalGroup
 
   getGemPromptGroup: ->
+    # A/B Testing whether extra prompt when low gems leads to more gem purchases
     return @gemPromptGroup if @gemPromptGroup
     group = me.get('testGroupNumber') % 8
     @gemPromptGroup = switch group
@@ -135,6 +136,19 @@ module.exports = class User extends CocoModel
     @gemPromptGroup = 'prompt' if me.isAdmin()
     application.tracker.identify gemPromptGroup: @gemPromptGroup unless me.isAdmin()
     @gemPromptGroup
+
+  getSubscribeCopyGroup: ->
+    # A/B Testing alternate subscribe modal copy
+    return @subscribeCopyGroup if @subscribeCopyGroup
+    group = me.get('testGroupNumber') % 6
+    @subscribeCopyGroup = switch group
+      when 0, 1, 2 then 'original'
+      when 3, 4, 5 then 'new'
+    if /^en/.test(@get('preferredLanguage')) and not me.isAdmin()
+      application.tracker.identify subscribeCopyGroup: @subscribeCopyGroup
+    else
+      @subscribeCopyGroup = 'original'
+    @subscribeCopyGroup
 
   isPremium: ->
     return false unless stripe = @get('stripe')

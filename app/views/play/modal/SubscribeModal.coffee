@@ -28,6 +28,8 @@ module.exports = class SubscribeModal extends ModalView
     c = super()
     c.state = @state
     c.stateMessage = @stateMessage
+    c.price = @product.amount / 100
+    c.BTest = me.getSubscribeCopyGroup() is 'new'
     return c
 
   afterRender: ->
@@ -61,6 +63,7 @@ module.exports = class SubscribeModal extends ModalView
     # SALE LOGIC
     # overwrite amount with sale price
     # maybe also put in another description with details about how long it lasts, etc
+    # NOTE: Do not change this price without updating the context.price in getRenderData
 #    options = {
 #      description: 'Subscription. Half price for three months!'
 #      amount: 499
