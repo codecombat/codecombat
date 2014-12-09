@@ -27,6 +27,8 @@ module.exports = class SimulateTabView extends CocoView
   onLoaded: ->
     super()
     @render()
+    if document.location.hash is '#simulate' and not @simulator
+      @startSimulating()
 
   getRenderData: ->
     ctx = super()
@@ -43,9 +45,18 @@ module.exports = class SimulateTabView extends CocoView
 
   onSimulateButtonClick: (e) ->
     application.tracker?.trackEvent 'Simulate Button Click', {}
+    @startSimulating
+
+  startSimulating: ->
+    @simulationPageRefreshTimeout = _.delay @refreshAndContinueSimulating, 20 * 60 * 1000
+    @simulateNextGame()
     $('#simulate-button').prop 'disabled', true
     $('#simulate-button').text 'Simulating...'
-    @simulateNextGame()
+
+  refreshAndContinueSimulating: =>
+    # We refresh the page every now and again to make sure simulations haven't gotten derailed by bogus games, and that simulators don't hang on to old, stale code or data.
+    document.location.hash = '#simulate'
+    document.location.reload()
 
   simulateNextGame: ->
     unless @simulator
@@ -101,7 +112,7 @@ module.exports = class SimulateTabView extends CocoView
         console.log jqxhr.responseText
 
   destroy: ->
-    clearInterval @refreshInterval
+    clearTimeout @simulationPageRefreshTimeout
     @simulator?.destroy()
     super()
 
