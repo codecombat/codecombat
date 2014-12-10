@@ -101,14 +101,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     log_in: "Einloggen"
     logging_in: "Logge ein"
     log_out: "Ausloggen"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Passwort vergessen?"
     authenticate_gplus: "Authentifiziere G+"
     load_profile: "Lade G+ Profil"
     load_email: "Lade G+ Email"
     finishing: "Fertigstellen"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Melde dich mit Facebook an"
+    sign_in_with_gplus: "Melde dich mit G+ an"
+    signup_switch: "Willst du einen Account erstellen?"
 
   signup:
     email_announcements: "Erhalte Benachrichtigungen per Email"
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     log_in: "mit Passwort einloggen"
     social_signup: "oder, du registrierst dich über Facebook oder G+:"
     required: "Du musst dich vorher einloggen um dort hin zu gehen."
-#    login_switch: "Already have an account?"
+    login_switch: "Du hast schon einen Account?"
 
   recover:
     recover_account_title: "Account Wiederherstellung"
@@ -220,7 +220,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
-#    victory: "Victory"
+    victory: "Triumph"
     victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
     victory_sign_up: "Melde Dich an, um Fortschritte zu speichern"
@@ -335,7 +335,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   subscribe:
     subscribe_title: "Abonnieren"
-#    unsubscribe: "Unsubscribe"
+    unsubscribe: "Abmelden"
     levels: "25 weitere level! Und 5 neue jede Woche!"
     heroes: "Stärkere Helden!"
     gems: "3500 bonus Edelsteine jeden Monat!"
@@ -692,9 +692,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     diplomat_summary: "Es herrscht ein großes Interesse an CodeCombat in anderen Ländern die kein Englisch sprechen! Wir suchen nach Übersetzern die gewillt sind ihre Zeit mit der Übersetzung der Webseite zu verbringen, so dass CodeCombat so schnell wie möglich für alle weltweit zugänglich ist. Wenn du helfen möchtest CodeCombat International zugänglich zu machen, dann ist diese Klasse für dich."
     diplomat_introduction_pref: "Also wenn es eines gibt was wir gelernt haben vom "
     diplomat_launch_url: "Launch im Oktober"
-    diplomat_introduction_suf: "ist das es ein großes Interesse an CodeCombat in anderen Ländern gibt! Wir stellen eine Truppe von Übersetzern zusammen, die gewillt sind einen Satz Wörten in einen anderen Satz Wörter umzuwandeln um CodeCombat der Welt so zugänglich wie möglich zu machen. Wenn du es magst eine Vorschau von zukünftigem Content zu erhalten und diese Level so schnell wie möglich deinen Landsleuten zur Verfügung zu stellen, dann ist diese Klasse vielleicht für dich."
+    diplomat_introduction_suf: "dann ist es, dass es ein großes Interesse an CodeCombat in anderen Ländern gibt! Wir stellen eine Truppe von Übersetzern zusammen, die gewillt sind ein Set Worte in ein anderes Set Worte umzuwandeln um CodeCombat der Welt so zugänglich wie möglich zu machen. Wenn du es magst eine Vorschau von zukünftigem Content zu erhalten und diese Level so schnell wie möglich deinen Landsleuten zur Verfügung zu stellen, dann ist diese Klasse vielleicht für dich."
     diplomat_attribute_1: "Du sprichst/schreibst sowohl Englisch als auch die Sprache deiner Wahl flüssig. Wenn man komplizierte Informationen vermitteln will, muß man BEIDE Sprachen wirklich beherrschen."
-    diplomat_i18n_page_prefix: "Du kanns anfangen unsere Levels zu übersetzen, indem du auf unsere"
+    diplomat_i18n_page_prefix: "Du kannst anfangen unsere Levels zu übersetzen, indem du auf unsere"
     diplomat_i18n_page: "Übersetzungs-Seite"
     diplomat_i18n_page_suffix: "gehst, oder unsere Schnittstelle und Webseite bei GitHub benutzt."
     diplomat_join_pref_github: "Finde deine Sprachdatei "
@@ -881,7 +881,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     added: "hinzugefügt"
     modified: "modifiziert"
     deleted: "gelöscht"
-#    moved_index: "Moved Index"
+    moved_index: "Verschobener Index" # Moved Index
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE KONFLIKT MIT"
     no_changes: "Keine Änderungen"
@@ -937,10 +937,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     art_artwork: "Grafiken"
     art_sprites: "Sprites"
     art_other: "Jegliche oder alle kreative nicht-Code Arbeit, die zur Verfügung gestellt wird, wenn Level erstellt werden."
-#    art_access: "Currently there is no universal, easy system for fetching these assets. In general, fetch them from the URLs as used by the site, contact us for assistance, or help us in extending the site to make these assets more easily accessible."
-#    art_paragraph_1: "For attribution, please name and link to codecombat.com near where the source is used or where appropriate for the medium. For example:"
+    art_access: "Derzeit gibt es kein universelles, einfaches System, um diese Assets to zu holen. Generell kannst du sie von den URLs holen, die auf der Seite verwendet werden. Kontaktiere uns, wenn du hilfe brauchst, oder um uns zu helfen, die Seite auszubauen, um diese Assests leichter zugänglich zu machen." # Currently there is no universal, easy system for fetching these assets. In general, fetch them from the URLs as used by the site, contact us for assistance, or help us in extending the site to make these assets more easily accessible.
+    art_paragraph_1: "Für den Verweis auf CodeCombat, nenne und verlinke bitte die Website codecombat.com nahe der Quelle oder an der Stelle, wo es für das Medium angemessen ist. Zum Beispiel:"
     use_list_1: "Wenn in einem Film verwendet, nenne codecombat.com in den Credits/Abspann"
-    use_list_2: "Wenn auf einer Webseite verwendet, füge einen Link nahe bei der Verwendung ein, z.B. unter einem Bild oder in der generellen Beitragsseite, wo auch andere Creative Commons Werke und Open Source Software genannt wird, die auf der Seite verwendet wird. Wenn deutlich auf CodeCombat Bezug genommen wird, wie z.B. in einem Blogeintrag, in dem CodeCombat erwähnt wird, dann muss CodeCombat nicht separat belegt werden."
+    use_list_2: "Wenn auf einer Webseite verwendet, füge einen Link nahe bei der Verwendung ein, z.B. unter einem Bild oder auf der generellen Beitragsseite, wo auch andere Creative Commons Werke und Open Source Software genannt wird, die auf der Seite verwendet wird. Wenn deutlich auf CodeCombat Bezug genommen wird, wie z.B. in einem Blogeintrag, in dem CodeCombat erwähnt wird, dann muss CodeCombat nicht separat belegt werden."
 #    art_paragraph_2: "If the content being used is created not by CodeCombat but instead by a user of codecombat.com, attribute them instead, and follow attribution directions provided in that resource's description if there are any."
     rights_title: "Rechte vorbehalten"
     rights_desc: "Alle Rechte vorbehalten für die Level selbst. Dies beinhaltet"
@@ -949,9 +949,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     rights_description: "Beschreibung"
     rights_writings: "Schriftliches"
     rights_media: "Medien (Sounds, Musik) und jede andere Form von kreativem Inhalt der spezifisch für das Level ist nicht generell für die Levelerstellung bereitgestellt wird."
-#    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
+    rights_clarification: "Zur Klarstellung: Alles, was im Level Editor zur Verfügung steht, um Levels zu erstellen, unterliegt CC; jedoch nicht der Contend, der mit dem Level Editor erstellt wird oder im Rahmen der Erstellung von Levels hochgeladen wird."
     nutshell_title: "Zusammenfassung"
-#    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
+    nutshell_description: "Jegliche Ressourcen, die wir im Level Editor zur Verfügung stellen, sind für dich frei nutzbar, um Levels zu erstellen. Doch wir behalten uns das Recht vor, die Verbreitung der Levels (welche auf codecombat.com erstellt werden) einzuschränken, so dass in der Zukunft dafür gezahlt werden muss, wenn es das ist, was letztendlich passieren wird."
     canonical: "Die englische Version dieses Dokuments ist die definitive, kanonische Version. Sollte es Unterschiede zwischen den Übersetzungen geben, dann hat das englische Dokument Vorrang."
 
   ladder_prizes:
@@ -1081,7 +1081,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   employers:
     deprecation_warning_title: "Leider sucht CodeCombat derzeit keine neuen Mitarbeiter."
-#    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
+    deprecation_warning: "Wir konzentrieren uns derzeit auf Anfängerlevel, statt Expertendeveloper zu finden."
     hire_developers_not_credentials: "Stellen Sie Entwickler ein, nicht Qualifikationen." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
     get_started: "Legen Sie los"
     already_screened: "Wir haben alle Kandidaten bereits technisch geprüft"
@@ -1137,10 +1137,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     av_entities_active_instances_url: "Aktive Instanzen"
     av_entities_employer_list_url: "Arbeitgeberliste"
     av_entities_candidates_list_url: "Kandidatenliste"
-#    av_entities_user_code_problems_list_url: "User Code Problems List"
+    av_entities_user_code_problems_list_url: "User Code Problem-Liste"
     av_other_sub_title: "Sonstige"
     av_other_debug_base_url: "Base (um base.jade zu debuggen)"
     u_title: "Benutzerliste"
-#    ucp_title: "User Code Problems"
+    ucp_title: "User Code Probleme"
     lg_title: "Letzte Spiele"
     clas: "CLAs"
