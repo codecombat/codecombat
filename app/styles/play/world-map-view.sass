@@ -259,11 +259,11 @@ $gameControlMargin: 30px
       position: absolute
       z-index: 3
       padding: 10px
-      border-width: 15px
+      border-width: 16px 12px
       // Using modernizr-mixin for compat detection
       @include yep(borderimage)
         border-style: solid
-        border-image: url(/images/level/popover_background.png) 18 fill round
+        border-image: url(/images/level/popover_border_background.png) 16 12 fill round
       @include nope(borderimage)
         background-color: rgb(247, 242, 218)
 
