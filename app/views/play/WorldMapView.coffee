@@ -930,11 +930,9 @@ forest = [
     description: 'Unlock the desert world, if you are strong enough to win this epic battle!'
     nextLevels:
       continue: 'the-dunes'
-    disabled: not me.isAdmin()
     x: 85.5
     y: 83.5
     adventurer: true
-    requiresSubscription: true
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -966,7 +964,6 @@ desert = [
     description: 'Behold, the desert, full of glory, danger, and sand. Lots of sand.'
     nextLevels:
       continue: 'the-mighty-sand-yak'
-    disabled: not me.isAdmin()
     x: 8.47
     y: 21.93
     adventurer: true
@@ -980,7 +977,6 @@ desert = [
     description: 'Test your nerves by dodging huge sand yaks on the open dunes!'
     nextLevels:
       continue: 'oasis'
-    disabled: not me.isAdmin()
     x: 16.56
     y: 27.77
     adventurer: true
@@ -994,7 +990,6 @@ desert = [
     description: 'Run a gauntlet of sand yaks to reach oasis and quench your thirst!'
     #nextLevels:
     #  continue: ''
-    disabled: not me.isAdmin()
     x: 23.35
     y: 31.60
     adventurer: true
