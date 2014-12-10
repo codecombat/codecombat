@@ -119,7 +119,7 @@ describe 'LevelLoader', ->
       # first load Tharin by the 'normal' session load
       responses = '/db/level/id': levelWithOgreWithMace
       jasmine.Ajax.requests.sendResponses(responses)
-      responses = '/db/level_session/id': sessionWithTharinWithHelmet
+      responses = '/db/level.session/id': sessionWithTharinWithHelmet
       jasmine.Ajax.requests.sendResponses(responses)
 
       # then try to load Tharin some more

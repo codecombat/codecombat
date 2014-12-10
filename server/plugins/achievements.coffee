@@ -21,10 +21,6 @@ AchievablePlugin = (schema, options) ->
 
   # Check if an achievement has been earned
   schema.post 'save', (doc) ->
-    # sometimes post appears to be called twice. Handle this... 
-    # TODO: Refactor this system to make it request-specific,
-    # perhaps by having POST/PUT requests store the copy on the request object themselves.
-    return if doc.isInit('_id') and not (doc.id of before)
     isNew = not doc.isInit('_id') or not (doc.id of before)
     originalDocObj = before[doc.id] unless isNew
 

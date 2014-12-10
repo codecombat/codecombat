@@ -1,4 +1,4 @@
-deltas = require 'lib/deltas'
+deltas = require 'core/deltas'
 
 describe 'deltas lib', ->
   

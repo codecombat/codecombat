@@ -644,9 +644,21 @@ forest = [
     original: '5446cb40ce01c23e05ecf027'
     description: 'Stay alive and navigate through the forest.'
     nextLevels:
-      continue: 'endangered-burl'
+      continue: 'patrol-buster'
     x: 24
     y: 35
+    adventurer: true
+  }
+  {
+    name: 'Patrol Buster'
+    type: 'hero'
+    id: 'patrol-buster'
+    original: '5487330d84f7b4dac246d440'
+    description: 'Defeat ogre patrols with new, selective targeting skills.'
+    nextLevels:
+      continue: 'thornbush-farm'
+    x: 34
+    y: 25
   }
   {
     name: 'Endangered Burl'

@@ -57,6 +57,7 @@ module.exports = class BuyGemsModal extends ModalView
       Backbone.Mediator.publish 'buy-gems-modal:purchase-initiated', { productID: productID }
 
     else
+      # TODO: rename this event to 'Started gem purchase' after gemPrompt A/B test is over
       application.tracker?.trackEvent 'Started purchase', { productID: productID }
       stripeHandler.open({
         description: $.t(product.i18n)
@@ -78,6 +79,9 @@ module.exports = class BuyGemsModal extends ModalView
     @render()
     jqxhr = $.post('/db/payment', data)
     jqxhr.done(=>
+      application.tracker?.trackEvent 'Finished gem purchase',
+        productID: @productBeingPurchased.id
+        revenue: @productBeingPurchased.amount / 100
       document.location.reload()
     )
     jqxhr.fail(=>

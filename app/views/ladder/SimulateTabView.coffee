@@ -45,7 +45,7 @@ module.exports = class SimulateTabView extends CocoView
 
   onSimulateButtonClick: (e) ->
     application.tracker?.trackEvent 'Simulate Button Click', {}
-    @startSimulating
+    @startSimulating()
 
   startSimulating: ->
     @simulationPageRefreshTimeout = _.delay @refreshAndContinueSimulating, 20 * 60 * 1000

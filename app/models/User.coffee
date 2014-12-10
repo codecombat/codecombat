@@ -128,6 +128,7 @@ module.exports = class User extends CocoModel
 
   getGemPromptGroup: ->
     # A/B Testing whether extra prompt when low gems leads to more gem purchases
+    # TODO: Rename gem purchase event in BuyGemsModal to 'Started gem purchase' after this test is over
     return @gemPromptGroup if @gemPromptGroup
     group = me.get('testGroupNumber') % 8
     @gemPromptGroup = switch group

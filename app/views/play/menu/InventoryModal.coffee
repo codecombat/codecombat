@@ -215,13 +215,13 @@ module.exports = class InventoryModal extends ModalView
 
   onItemSlotClick: (e) ->
     return if @remainingRequiredEquipment?.length  # Don't let them select a slot if we need them to first equip some require gear.
-    @playSound 'menu-button-click'
+    #@playSound 'menu-button-click'
     @selectItemSlot($(e.target).closest('.item-slot'))
 
   onUnequippedItemClick: (e) ->
     return if @justDoubleClicked
     itemEl = $(e.target).closest('.item')
-    @playSound 'menu-button-click'
+    #@playSound 'menu-button-click'
     @selectUnequippedItem(itemEl)
 
   onUnequippedItemDoubleClick: (e) ->

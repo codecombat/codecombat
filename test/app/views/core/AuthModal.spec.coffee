@@ -1,9 +1,9 @@
-AuthModal = require 'views/modal/AuthModal'
-RecoverModal = require 'views/modal/RecoverModal'
+AuthModal = require 'views/core/AuthModal'
+RecoverModal = require 'views/core/RecoverModal'
 
 describe 'AuthModal', ->
   it 'opens the recover modal when you click the recover link', ->
-    m = new AuthModal()
+    m = new AuthModal({mode: 'login'})
     m.render()
     spyOn(m, 'openModalView')
     m.$el.find('#link-to-recover').click()
