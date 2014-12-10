@@ -3,16 +3,16 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     slogan: "Aprende a programar jugando"
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 8 o versiones anteriores." # Warning that only shows up in IE8 and older
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
-    play: "Jugar" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+  play: "Jugar" # The big play button that just starts playing a level
+    try_it: "Pruebalo" # Alternate wording for Play button
     old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo Sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Malas nuevas: CodeCombat no funciona en el navegador en iPad. Buenas nuevas: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
     campaign: "Campaña"
     for_beginners: "Para Principiantes"
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Para Desarrolladores" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "O descargar para iPad"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
@@ -54,13 +54,13 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     players: "jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
     items: "Objetos" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
+    unlock: "Desbloquear" # For purchasing items and heroes
+    confirm: "Confirmar"
+   owned: "Adquirido" # For items you own
+    locked: "Bloqueado"
+    purchasable: "Adquirible" # For a hero you unlocked but haven't purchased
+   available: "Disponible"
+    skills_granted: "Habilidades concedidas" # Property documentation details
     heroes: "Héroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Cuenta" # Tooltip on account button from /play
@@ -68,19 +68,19 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objetos"
-#    buy_gems: "Buy Gems"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+   buy_gems: "Comprar gemas"
+    campaign_forest: "Campaña en el bosque"
+    campaign_dungeon: "Campaña en la cueva"
+    subscription_required: "Suscripción requerida"
+    free: "Gratis"
+   subscribed: "Suscripto"
     older_campaigns: "Campañas previas"
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "Nosotros creamos nuevos niveles por semana"
+    awaiting_levels_adventurer: "Registrate como un aventurero"
+  awaiting_levels_adventurer_suffix: "para ser el primero el jugar nuevos niveles."
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Puedes saltar a cualquier nivel de abajo, o discutir los niveles en "
     adventurer_forum: "el foro del aventurero"
@@ -101,14 +101,14 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Salir"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    forgot_password: "¿Olvidaste la contraseñad?"
+    authenticate_gplus: "Ingresar G+"
+    load_profile: "Cargar Perfil G+ "
+    load_email: "Cargar Mail G+"
+    finishing: "Terminando"
+    sign_in_with_facebook: "Registrate con facebook"
+    sign_in_with_gplus: "Registrate con G+"
+    signup_switch: "¿Quieres crear una cuenta?"
 
   signup:
     email_announcements: "Recibe noticias por email"
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     log_in: "Inicia sesión con tu contraseña"
     social_signup: "O, puedes conectarte a través de Facebook o G+:"
     required: "Necesitas entrar a tu cuenta antes de continuar."
-#    login_switch: "Already have an account?"
+    login_switch: "¿Ya tienes una cuenta?"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -125,12 +125,12 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     recovery_sent: "Correo de recuperación enviado."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primario"
+    secondary: "Secundario"
     armor: "Armadura"
     accessories: "Accesorios"
     misc: "Misc"
-#    books: "Books"
+    books: "Libros"
 
   common:
     loading: "Cargando..."
@@ -179,7 +179,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     medium: "Medio"
     hard: "Difícil"
     player: "Jugador"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Nivel" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "segundo"
@@ -200,27 +200,27 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
   play_level:
     done: "Listo"
     home: "Inicio" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Nivel" # Like "Level: Dungeons of Kithgard"
     skip: "Omitir"
     game_menu: "Menu del Juego"
     guide: "Guia"
     restart: "Reiniciar"
     goals: "Objetivos"
     goal: "Objetivo"
-#    running: "Running..."
+    running: "Andando..."
     success: "¡Éxito!"
     incomplete: "Incompleto"
     timed_out: "Se te acabo el tiempo"
     failing: "Fallando"
     action_timeline: "Cronologia de Accion"
     click_to_select: "Has click en una unidad para seleccionarla."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "Multijugador"
+    control_bar_join_game: "Ingresar al juego"
+    reload: "Recargar"
     reload_title: "¿Recargar Todo el Código?"
     reload_really: "¿Estás seguro de que quieres empezar este nivel desde el principio?"
     reload_confirm: "Recargar Todo"
-#    victory: "Victory"
+   victory: "Victoria"
     victory_title_prefix: "¡"
     victory_title_suffix: " Completo!"
     victory_sign_up: "Registrate para recibir actualizaciones"
@@ -228,13 +228,13 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     victory_rate_the_level: "Valora el nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver a la escalera"
     victory_play_continue: "Continuar"
-#    victory_saving_progress: "Saving Progress"
+   victory_saving_progress: "Guardando Progreso"
     victory_go_home: "Ir al Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Has acabado?"
     victory_hour_of_code_done_yes: "¡Si, he terminado con mi Hora de Código!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP Ganada"
+    victory_gems_gained: "Gemas Ganadas"
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de Sólo Lectura" # Only in old-style levels.
@@ -249,15 +249,15 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     tome_select_a_thang: "Selecciona Alguien para "
     tome_available_spells: "Hechizos Disponibles"
     tome_your_skills: "Tus habilidades"
-#    tome_help: "Help"
-#    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    tome_help: "Ayuda"
+    tome_current_method: "Método actual"
+    hud_continue_short: "Continuar"
+    code_saved: "Código Guardado"
     skip_tutorial: "Saltar (esc)"
     keyboard_shortcuts: "Atajos de teclado"
     loading_ready: "¡Listo!"
     loading_start: "Iniciar nivel"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Arregla tu código"
     time_current: "Ahora:"
     time_total: "Max:"
     time_goto: "Ir a:"
@@ -293,7 +293,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     tip_hofstadters_law: "Ley de Hofstadter: Siempre toma más tiempo del que esperas, inclso cuando tienes en cuenta la ley de Hofstadter."
     tip_premature_optimization: "La optimización prematura es la raíz de la maldad. - Donald Knuth"
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_extrapolation: "Solo hay dos tipos de personas: Esas que pueden extraplolar dese información incompleta..."
 
   game_menu:
     inventory_tab: "Inventario"
@@ -301,60 +301,60 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     options_tab: "Opciones"
     guide_tab: "Guía"
     multiplayer_tab: "Multijugador"
-#    auth_tab: "Sign Up"
+    auth_tab: "Ingresar"
     inventory_caption: "Equipar tu héroe"
     choose_hero_caption: "Elegir héroe, lenguaje"
     save_load_caption: "... y ver historia"
     options_caption: "Hacer ajustes"
     guide_caption: "Documentos y consejos"
     multiplayer_caption: "¡Jugar con amigos!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Guarda tu progreso."
 
   inventory:
     choose_inventory: "Elegir artículos"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equipped_item: "Equipado"
+    available_item: "Disponible"
+    restricted_title: "Restringido"
+    should_equip: "(doble-click para equipar)"
+    equipped: "(equipado)"
+    locked: "(bloqueado)"
+    restricted: "(restringuido en este nivel)"
+    equip: "Equipar"
+    unequip: "Desquipar"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+  buy_gems:
+   few_gems: "Algunas gemas"
+    pile_gems: "Pila de gemas"
+    chest_gems: "Cofre de gemas"
+    purchasing: "Comprando..."
+    declined: "Tu tarjeta fue rechazada"
+    retrying: "Error del servidor, reintentando."
+    prompt_title: "No tiene suficientes gemams"
+    prompt_body: "¿Quieres adquirir más?"
+    prompt_button: "Entrar al Shop"
 
-#  subscribe:
-#    subscribe_title: "Subscribe"
-#    unsubscribe: "Unsubscribe"
-#    levels: "Get more practice with bonus levels!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
-#    parents: "For Parents"
-#    parents_title: "Your child will learn to code."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+  subscribe:
+    subscribe_title: "Suscribirse"
+  unsubscribe: "Desinscribirse"
+    levels: "Ten mas practica con los niveles extras"
+    heroes: "Heroés más poderosos"
+    gems: "3500 gemas extras cada mes"
+    items: "Más de 250 items extras!"
+    parents: "Para padres"
+   parents_title: "Sus hijos van a aprender a Codear."
+    parents_blurb1: "Con CodeCombat, sus hijos aprenderan aprendiendo código real. Ellos empiezan por comandos simples de código, y avanzan a temas más avanzados."
+    parents_blurb2: "por $9.99 USD/mes, ellos adquieren nuevos desafios cada semana y soporte personal via mail de programadores profesionales."
+    parents_blurb3: "No Riesgo: Devolución de dinero 100% garantizado, facil 1-click desinscripción."
+    subscribe_button: "Suscribirse ahora"
+    stripe_description: "Suscripción Mensual"
+    subscription_required_to_play: "Vas a necesitar una suscripción para jugar este nivel."
 
   choose_hero:
     choose_hero: "Elige tu héroe"
     programming_language: "Lenguaje de programación"
     programming_language_description: "¿Qué lenguaje de programación vas a elegir?"
-#    default: "Default"
-#    experimental: "Experimental"
+    default: "por Defecto"
+    experimental: "Experimental"
     python_blurb: "Simple pero poderoso."
     javascript_blurb: "El lenguaje de la web."
     coffeescript_blurb: "Mejor JavaScript."
@@ -363,19 +363,19 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     io_blurb: "Simple pero oscuro."
     status: "Estado"
     weapons: "Armas"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
+    weapons_warrior: "Espadas - Corto Rango, No Magía"
+    weapons_ranger: "Arcos, Armas - Largo Rango, No Magía"
+    weapons_wizard: "Bara magíca - Largo Rango, Magía"
+    attack: "Daño" # Can also translate as "Attack"
     health: "Salud"
     speed: "Velocidad"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    skills: "Skills"
-#    available_for_purchase: "Available for Purchase"
-#    level_to_unlock: "Level to unlock:"
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    regeneration: "Regeneración"
+    range: "Rango" # As in "attack or visual range"
+    blocks: "Bloqueo" # As in "this shield blocks this much damage"
+    skills: "Habilidades"
+    available_for_purchase: "Disponible para compra"
+    level_to_unlock: "Nivel para desbloqueo:"
+    restricted_to_certain_heroes: "Solo heroes especificos pueden jugar este nivel."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
