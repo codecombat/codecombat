@@ -434,7 +434,7 @@ module.exports = class ThangTypeEditView extends RootView
       @lastKind = kind
       Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
       if kind in ['Doodad', 'Floor', 'Wall'] and not @treema.data.terrains
-        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor']  # So editors know to set them.
+        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert']  # So editors know to set them.
 
   onSelectNode: (e, selected) =>
     selected = selected[0]
