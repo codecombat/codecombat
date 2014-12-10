@@ -955,7 +955,7 @@ forest = [
     type: 'hero'
     id: 'the-mighty-sand-yak'
     original: '5480b9d01bf0b10000711c5f'
-    description: 'In addition to sand, there are also yaks. Sandy yaks. Yak attack, back to back, man that\'s whack.'
+    description: 'Test your nerves by dodging huge sand yaks on the open dunes!'
     nextLevels:
       continue: 'oasis'
     disabled: not me.isAdmin()
