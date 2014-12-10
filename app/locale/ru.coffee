@@ -623,7 +623,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_achievements: "Для этого уровня еще не были добавлены достижения."
 #   achievement_query_misc: "Key achievement off of miscellanea"
 #   achievement_query_goals: "Key achievement off of level goals"
-   level_completion: "Завершение уровня"
+    level_completion: "Завершение уровня"
     pop_i18n: "Популяризируйте I18N"
 
   article:
