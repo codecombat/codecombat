@@ -24,6 +24,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/unsubscribe': go('account/UnsubscribeView')
     'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
     'account/payments': go('account/PaymentsView')
+    'account/subscription': go('account/SubscriptionView')
 
     'admin': go('admin/MainAdminView')
     'admin/candidates': go('admin/CandidatesView')

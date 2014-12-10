@@ -10,19 +10,10 @@ block content
       a(href="/account", data-i18n="nav.account")
     li.active(data-i18n="account.payments")
 
-  if subscribed
-    button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
-    .payment-status(data-i18n="account.status_subscribed")
-  else if !me.isAnonymous()
-    button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
-    if active
-      .payment-status(data-i18n="account.status_unsubscribed_active")
-    else
-      .payment-status(data-i18n="account.status_unsubscribed")
-
   if payments.models.length
     table.table.table-striped
       tr
+        th(data-i18n="account.purchased")
         th(data-i18n="account.paid_on")
         th(data-i18n="account.service")
         th(data-i18n="account.price")
@@ -30,7 +21,11 @@ block content
       for payment in payments.models
         - var service = payment.get('service')
         tr
-          td= moment(payment.getCreationDate()).format('lll')
+          if payment.get('productID')
+            td(data-i18n='account.gems')
+          else
+            td(data-i18n='subscribe.stripe_description')
+          td= moment(payment.getCreationDate()).format('l')
           if service === 'ios'
             td(data-i18n="account.service_apple")
             td= payment.get('ios').localPrice
