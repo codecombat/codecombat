@@ -143,7 +143,7 @@ me.getLanguageCodeArray = ->
   return Language.languageCodes
 
 me.getLanguagesObject = -> return Language
-  
+
 me.extendTranslationCoverageProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   schema.properties.i18nCoverage = { title: 'i18n Coverage', type: 'array', items: { type: 'string' }}
@@ -207,7 +207,7 @@ me.activity = me.object {description: 'Stats on an activity'},
   last: me.date()
   count: {type: 'integer', minimum: 0}
 
-me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor'], title: 'Terrain', description: 'Which terrain type this is.'}
+me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor', 'Desert'], title: 'Terrain', description: 'Which terrain type this is.'}
 
 me.HeroConfigSchema = me.object {description: 'Which hero the player is using, equipped with what inventory.'},
   inventory:

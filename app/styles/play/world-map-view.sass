@@ -4,6 +4,9 @@
 $mapHeight: 1536
 $forestMapWidth: 2500
 $dungeonMapWidth: 2350
+$desertMapWidth: 2350
+$desertMapSeaBackground: rgba(113, 186, 208, 1)
+$desertMapSeaBackgroundTransparent: rgba(113, 186, 208, 0)
 $forestMapSeaBackground: rgba(113, 186, 208, 1)
 $forestMapSeaBackgroundTransparent: rgba(113, 186, 208, 0)
 $dungeonMapCaveBackground: rgba(68, 54, 45, 1)
@@ -59,6 +62,21 @@ $gameControlMargin: 30px
 
     &.left-gradient
       left: 0
+
+  &.desert
+    background-color: $desertMapSeaBackground
+
+    .top-gradient
+      background: linear-gradient(to bottom, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
+
+    .right-gradient
+      background: linear-gradient(to left, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
+
+    .bottom-gradient
+      background: linear-gradient(to top, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
+
+    .left-gradient
+      background: linear-gradient(to right, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
 
   &.forest
     background-color: $forestMapSeaBackground
@@ -274,6 +292,16 @@ $gameControlMargin: 30px
       
       &:hover
         text-decoration: none
+      
+      &#desert-link
+        left: 90%
+        top: 18.5%
+        transform: scaleY(-1.5) scaleX(1.5)
+      
+      &#forest-back-link
+        left: 4%
+        top: 74.5%
+        transform: rotate(216deg)
       
       &#forest-link
         left: 94.5%

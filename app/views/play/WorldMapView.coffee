@@ -41,7 +41,7 @@ module.exports = class WorldMapView extends RootView
   constructor: (options, @terrain) ->
     if options and application.isIPAdApp  # TODO: later only clear the SuperModel if it has received a memory warning (not in app store yet)
       options.supermodel = null
-    @terrain ?= 'dungeon' # or 'forest'
+    @terrain ?= 'dungeon' # or 'forest', 'desert'
     super options
     @nextLevel = @getQueryVariable 'next'
     @levelStatusMap = {}
@@ -154,6 +154,7 @@ module.exports = class WorldMapView extends RootView
     context.mapType = _.string.slugify @terrain
     context.nextLevel = @nextLevel
     context.forestIsAvailable = @startedForestLevel or (Level.levels['defense-of-plainswood'] in (me.get('earned')?.levels or []))
+    context.desertIsAvailable = @startedDesertLevel or (Level.levels['the-mighty-sand-yak'] in (me.get('earned')?.levels or []))
     context.requiresSubscription = @requiresSubscription
     context
 
@@ -191,9 +192,11 @@ module.exports = class WorldMapView extends RootView
 
   onSessionsLoaded: (e) ->
     forestLevels = (f.id for f in forest)
+    desertLevels = (f.id for f in desert)
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
       @startedForestLevel = true if session.get('levelID') in forestLevels
+      @startedDesertLevel = true if session.get('levelID') in desertLevels
     if @nextLevel and @levelStatusMap[@nextLevel] is 'complete'
       @nextLevel = null
     @render()
@@ -282,7 +285,7 @@ module.exports = class WorldMapView extends RootView
 
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
-    mapWidth = if @terrain is 'dungeon' then 2350 else 2500
+    mapWidth = {dungeon: 2350, forest: 2500, desert: 2350}[@terrain] or 2350
     aspectRatio = mapWidth / mapHeight
     pageWidth = $(window).width()
     pageHeight = $(window).height()
@@ -303,7 +306,7 @@ module.exports = class WorldMapView extends RootView
 
   playAmbientSound: ->
     return if @ambientSound
-    return unless file = {dungeon: 'ambient-dungeon', forest: 'ambient-map-grass'}[@terrain]
+    return unless file = {dungeon: 'ambient-dungeon', forest: 'ambient-map-grass', desert: 'ambient-desert'}[@terrain]
     src = "/file/interface/#{file}#{AudioPlayer.ext}"
     unless AudioPlayer.getStatus(src)?.loaded
       AudioPlayer.preloadSound src
@@ -647,7 +650,6 @@ forest = [
       continue: 'patrol-buster'
     x: 24
     y: 35
-    adventurer: true
   }
   {
     name: 'Patrol Buster'
@@ -659,6 +661,7 @@ forest = [
       continue: 'thornbush-farm'
     x: 34
     y: 25
+    adventurer: true
   }
   {
     name: 'Endangered Burl'
@@ -813,7 +816,6 @@ forest = [
       continue: 'touch-of-death'
     x: 47
     y: 71
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -826,7 +828,6 @@ forest = [
       continue: 'bonemender'
     x: 52
     y: 70
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -839,7 +840,6 @@ forest = [
       continue: 'coinucopia'
     x: 58
     y: 67
-    adventurer: true
     requiresSubscription: true
   }
 
@@ -872,7 +872,7 @@ forest = [
     original: '54626472f3c64b7b0598590c'
     description: 'This level exercises: flag position, object members.'
     nextLevels:
-      continue: 'deadly-pursuit'
+      continue: 'rich-forager'
     x: 65.5
     y: 91
   }
@@ -895,11 +895,9 @@ forest = [
     original: '546283ddfdd66af405fa8209'
     description: 'This level exercises: if/else if, collection, combat.'
     nextLevels:
-      continue: 'multiplayer-treasure-grove'
+      continue: 'siege-of-stonehold'
     x: 80
     y: 88
-    adventurer: true
-    requiresSubscription: true
   }
   {
     name: 'Siege of Stonehold'
@@ -923,7 +921,6 @@ forest = [
     description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
     x: 56.5
     y: 20
-    adventurer: true
   }
   {
     name: 'Dueling Grounds'
@@ -935,7 +932,9 @@ forest = [
     y: 23
     adventurer: true
   }
+]
 
+desert = [
   {
     name: 'The Dunes'
     type: 'hero'
@@ -945,8 +944,8 @@ forest = [
     nextLevels:
       continue: 'the-mighty-sand-yak'
     disabled: not me.isAdmin()
-    x: 88.66
-    y: 62.61
+    x: 8.47
+    y: 21.93
     adventurer: true
     requiresSubscription: true
   }
@@ -959,34 +958,30 @@ forest = [
     nextLevels:
       continue: 'oasis'
     disabled: not me.isAdmin()
-    x: 81.00
-    y: 55.37
+    x: 16.56
+    y: 27.77
     adventurer: true
-    requiresSubscription: true
+    requiresSubscription: false
   }
   {
     name: 'Oasis'
     type: 'hero'
     id: 'oasis'
     original: '5480ba761bf0b10000711c64'
-    description: 'There is a bit of water in the desert, too. Probably.'
+    description: 'Run a gauntlet of sand yaks to reach oasis and quench your thirst!'
     #nextLevels:
     #  continue: ''
     disabled: not me.isAdmin()
-    x: 92.56
-    y: 40.88
+    x: 23.35
+    y: 31.60
     adventurer: true
-    requiresSubscription: true
+    requiresSubscription: false
   }
 
 ]
 
 WorldMapView.campaigns = campaigns = [
-  #{id: 'beginner', name: 'Beginner Campaign', description: '... in which you learn the wizardry of programming.', levels: tutorials, color: "rgb(255, 80, 60)"}
-  #{id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: arenas, color: "rgb(80, 5, 60)"}
-  #{id: 'dev', name: 'Random Harder Levels', description: '... in which you learn the interface while doing something a little harder.', levels: experienced, color: "rgb(80, 60, 255)"}
-  #{id: 'classic_algorithms' ,name: 'Classic Algorithms', description: '... in which you learn the most popular algorithms in Computer Science.', levels: classicAlgorithms, color: "rgb(110, 80, 120)"}
-  #{id: 'player_created', name: 'Player-Created', description: '... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.', levels: playerCreated, color: "rgb(160, 160, 180)"}
   {id: 'dungeon', name: 'Dungeon Campaign', levels: dungeon }
   {id: 'forest', name: 'Forest Campaign', levels: forest }
+  {id: 'desert', name: 'Desert Campaign', levels: desert }
 ]

@@ -44,6 +44,11 @@
     a#forest-link.glyphicon.glyphicon-share-alt.campaign-switch(href="/play/forest", data-i18n="[title]play.campaign_forest")
   if mapType === 'forest'
     a#dungeon-link.glyphicon.glyphicon-share-alt.campaign-switch(href="/play/dungeon", data-i18n="[title]play.campaign_dungeon")
+    if desertIsAvailable
+      a#desert-link.glyphicon.glyphicon-share-alt.campaign-switch(href="/play/desert", data-i18n="[title]play.campaign_desert")
+  if mapType === 'desert'
+    a#forest-back-link.glyphicon.glyphicon-share-alt.campaign-switch(href="/play/forest", data-i18n="[title]play.campaign_forest")
+      
 
 .game-controls.header-font
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
