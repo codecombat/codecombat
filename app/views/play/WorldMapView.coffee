@@ -141,6 +141,9 @@ module.exports = class WorldMapView extends RootView
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription
         level.color = 'rgb(80, 130, 200)'
+      if level.unlocksHero
+        level.color = 'rgb(0,0,0)'
+        level.unlockedHero = level.unlocksHero.originalID in (me.get('earned')?.heroes or [])
       level.hidden = level.locked or level.disabled
 
     ## put lower levels in last, so in the world map they layer over one another properly.
@@ -441,6 +444,10 @@ dungeon = [
     y: 10.70
     nextLevels:
       continue: 'the-raised-sword'
+    unlocksHero: {
+      img: '/file/db/thang.type/53e12be0d042f23505c3023b/portrait.png'
+      originalID: '53e12be0d042f23505c3023b'
+    }
   }
   {
     name: 'Favorable Odds'
@@ -779,6 +786,10 @@ forest = [
     x: 38
     y: 72
     requiresSubscription: true
+    unlocksHero: {
+      img: '/file/db/thang.type/52fc0ed77e01835453bd8f6c/portrait.png'
+      originalID: '52fc0ed77e01835453bd8f6c'
+    }
   }
   {
     name: 'Swift Dagger'
@@ -817,6 +828,10 @@ forest = [
     x: 47
     y: 71
     requiresSubscription: true
+    unlocksHero: {
+      img: '/file/db/thang.type/52fbf74b7e01835453bd8d8e/portrait.png'
+      originalID: '529ec584c423d4e83b000014'
+    }
   }
   {
     name: 'Touch of Death'
@@ -887,6 +902,10 @@ forest = [
     x: 74.5
     y: 92
     requiresSubscription: true
+    unlocksHero: {
+      img: '/file/db/thang.type/5466d449417c8b48a9811e83/portrait.png'
+      originalID: '5466d449417c8b48a9811e83'
+    }
   }
   {
     name: 'Rich Forager'
@@ -898,6 +917,10 @@ forest = [
       continue: 'siege-of-stonehold'
     x: 80
     y: 88
+    unlocksHero: {
+      img: '/file/db/thang.type/52e9adf7427172ae56002172/portrait.png'
+      originalID: '52e9adf7427172ae56002172'
+    }
   }
   {
     name: 'Siege of Stonehold'
@@ -907,11 +930,9 @@ forest = [
     description: 'Unlock the desert world, if you are strong enough to win this epic battle!'
     nextLevels:
       continue: 'the-dunes'
-    disabled: not me.isAdmin()
     x: 85.5
     y: 83.5
     adventurer: true
-    requiresSubscription: true
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -943,7 +964,6 @@ desert = [
     description: 'Behold, the desert, full of glory, danger, and sand. Lots of sand.'
     nextLevels:
       continue: 'the-mighty-sand-yak'
-    disabled: not me.isAdmin()
     x: 8.47
     y: 21.93
     adventurer: true
@@ -957,7 +977,6 @@ desert = [
     description: 'Test your nerves by dodging huge sand yaks on the open dunes!'
     nextLevels:
       continue: 'oasis'
-    disabled: not me.isAdmin()
     x: 16.56
     y: 27.77
     adventurer: true
@@ -971,7 +990,6 @@ desert = [
     description: 'Run a gauntlet of sand yaks to reach oasis and quench your thirst!'
     #nextLevels:
     #  continue: ''
-    disabled: not me.isAdmin()
     x: 23.35
     y: 31.60
     adventurer: true
