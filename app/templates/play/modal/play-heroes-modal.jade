@@ -20,7 +20,10 @@
             li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""))
               .hero-avatar
               if hero.locked && !hero.purchasable
-                img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
+                if isIE
+                  img.lock-indicator(src="/images/pages/game-menu/lock-processed.png", draggable="false")
+                else
+                  img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
       .carousel-inner
         for hero in heroes
           div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))

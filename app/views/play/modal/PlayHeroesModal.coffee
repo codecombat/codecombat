@@ -69,11 +69,13 @@ module.exports = class PlayHeroesModal extends ModalView
     context.confirmButtonI18N = @confirmButtonI18N
     context.visibleHero = @visibleHero
     context.gems = me.gems()
+    context.isIE = @isIE()
     context
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @$el.find('.hero-avatar').addClass 'ie' if @isIE()
     heroes = @heroes.models
     @$el.find('.hero-indicator').each ->
       heroID = $(@).data('hero-id')
