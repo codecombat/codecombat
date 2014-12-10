@@ -96,7 +96,23 @@ $gameControlMargin: 30px
     .map-background
       width: 100%
       height: 100%
+      background-size: 100%
       @include user-select(none)
+      
+      &.map-dungeon
+        background-image: url('/images/pages/play/map_dungeon_1920.jpg')
+        @media screen and ( max-width: 1366px )
+          background-image: url('/images/pages/play/map_dungeon_1366.jpg')
+
+      &.map-forest
+        background-image: url('/images/pages/play/map_forest_1920.jpg')
+        @media screen and ( max-width: 1366px )
+          background-image: url('/images/pages/play/map_forest_1366.jpg')
+
+      &.map-desert
+        background-image: url('/images/pages/play/map_desert_1920.jpg')
+        @media screen and ( max-width: 1366px )
+          background-image: url('/images/pages/play/map_desert_1366.jpg')
 
     .level, .level-shadow
       position: absolute

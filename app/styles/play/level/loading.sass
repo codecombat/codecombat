@@ -118,11 +118,15 @@
     position: absolute
 
   .left-wing
-    @include wing-background('/images/level/loading_left_wing.png', right)
+    @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
+    @media screen and ( max-width: 1366px )
+      @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
     left: -50%
     @include transition(all $UNVEIL_TIME ease)
 
   .right-wing
-    @include wing-background('/images/level/loading_right_wing.png', left)
+    @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
+    @media screen and ( max-width: 1366px )
+      @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
     right: -50%
     @include transition(all $UNVEIL_TIME ease)
