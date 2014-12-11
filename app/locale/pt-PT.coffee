@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
     buy_gems: "Comprar Gemas"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Campanha da Floresta"
     campaign_dungeon: "Campanha da Masmorra"
     subscription_required: "Subscrição Necessária"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     regeneration: "Regeneração"
     range: "Alcance" # As in "attack or visual range"
     blocks: "Bloqueia" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Habilidades"
-    available_for_purchase: "Disponível para Aquirir"
-    level_to_unlock: "Nível para desbloquear:"
+    available_for_purchase: "Disponível para Aquirir" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Nível para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Apenas certos heróis podem jogar este nível."
 
   skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     recently_played: "Jogados Recentemente"
     no_recent_games: "Sem jogos jogados nas passadas duas semanas."
     payments: "Pagamentos"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pago Em"
     service: "Serviço"
     price: "Preço"
     gems: "Gemas"
-    status_subscribed: "Atualmente, estás subscrito por $9.99 USD/mês. Agradecemos o teu apoio!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
     status_unsubscribed_active: "Não estás subscrito e não te vamos cobrar, mas a tua conta ainda está ativa, por agora."
     status_unsubscribed: "Ganha acesso a novos níveis, heróis, itens e gemas de bónus com uma subscrição do CodeCombat!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     clas: "CLAs"
     play_counts: "Número de Jogos"
     feedback: "Feedback"
+#    payment_info: "Payment Info"
 
   delta:
     added: "Adicionados/as"

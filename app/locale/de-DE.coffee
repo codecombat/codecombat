@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
     buy_gems: "Edelsteine kaufen"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Forest Kampagne"
     campaign_dungeon: "Dungeon Kampagne"
     subscription_required: "Abonnement benötigt"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     regeneration: "Regeneration"
     range: "Reichweite" # As in "attack or visual range"
     blocks: "Blocken" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Fähigkeiten"
-    available_for_purchase: "Zum Kauf verfügbar"
-    level_to_unlock: "Level freizuschalten:"
+    available_for_purchase: "Zum Kauf verfügbar" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Level freizuschalten:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Nur bestimmte Helden können dieses Level spielen."
 
   skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     recently_played: "Kürzlich gespielt"
     no_recent_games: "Keine Spiele in den letzten zwei Wochen gespielt."
     payments: "Zahlungen"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Gezahlt am"
     service: "Service"
     price: "Preis"
     gems: "Edelsteine"
-    status_subscribed: "Du hast momentan ein Abo für $9.99 USD pro Monat. Danke für deine unterstützung!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
     status_unsubscribed_active: "Du hast kein Abo, und bekommst keine Rechnung, aber dein Account ist weiterhin aktiv."
     status_unsubscribed: "Erhalte Zugang zu neuen Leveln, Helden, Gegenständen und Bonus Edelsteinen mit einem CodeCombat Abo!"
 
@@ -876,12 +886,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     clas: "CLAs"
     play_counts: "Anzahl Spiele"
     feedback: "Feedback"
+#    payment_info: "Payment Info"
 
   delta:
     added: "hinzugefügt"
     modified: "modifiziert"
     deleted: "gelöscht"
-    moved_index: "Verschobener Index" # Moved Index
+    moved_index: "Verschobener Index"
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE KONFLIKT MIT"
     no_changes: "Keine Änderungen"
@@ -937,7 +948,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     art_artwork: "Grafiken"
     art_sprites: "Sprites"
     art_other: "Jegliche oder alle kreative nicht-Code Arbeit, die zur Verfügung gestellt wird, wenn Level erstellt werden."
-    art_access: "Derzeit gibt es kein universelles, einfaches System, um diese Assets to zu holen. Generell kannst du sie von den URLs holen, die auf der Seite verwendet werden. Kontaktiere uns, wenn du hilfe brauchst, oder um uns zu helfen, die Seite auszubauen, um diese Assests leichter zugänglich zu machen." # Currently there is no universal, easy system for fetching these assets. In general, fetch them from the URLs as used by the site, contact us for assistance, or help us in extending the site to make these assets more easily accessible.
+    art_access: "Derzeit gibt es kein universelles, einfaches System, um diese Assets to zu holen. Generell kannst du sie von den URLs holen, die auf der Seite verwendet werden. Kontaktiere uns, wenn du hilfe brauchst, oder um uns zu helfen, die Seite auszubauen, um diese Assests leichter zugänglich zu machen."
     art_paragraph_1: "Für den Verweis auf CodeCombat, nenne und verlinke bitte die Website codecombat.com nahe der Quelle oder an der Stelle, wo es für das Medium angemessen ist. Zum Beispiel:"
     use_list_1: "Wenn in einem Film verwendet, nenne codecombat.com in den Credits/Abspann"
     use_list_2: "Wenn auf einer Webseite verwendet, füge einen Link nahe bei der Verwendung ein, z.B. unter einem Bild oder auf der generellen Beitragsseite, wo auch andere Creative Commons Werke und Open Source Software genannt wird, die auf der Seite verwendet wird. Wenn deutlich auf CodeCombat Bezug genommen wird, wie z.B. in einem Blogeintrag, in dem CodeCombat erwähnt wird, dann muss CodeCombat nicht separat belegt werden."

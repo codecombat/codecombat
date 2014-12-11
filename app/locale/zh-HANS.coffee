@@ -69,6 +69,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
     buy_gems: "购买宝石"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "森林战役"
     campaign_dungeon: "地牢战役"
     subscription_required: "需订阅"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     regeneration: "恢复"
     range: "攻击范围" # As in "attack or visual range"
     blocks: "格挡" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "技能"
-    available_for_purchase: "可以购买"
-    level_to_unlock: "未解锁关卡："
+    available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
 
   skill_docs:
@@ -468,7 +470,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forum_suffix: ""
     send: "反馈意见"
     contact_candidate: "联系参选人" # Deprecated
-    recruitment_reminder: "用这张表格来联系你希望面试的求职者。但请记住如果成功雇佣，CodeCombat会收取与这位员工第一年工资的15%等值的佣金。佣金需在雇佣此员工时就付清并且在之后的90天内如果此员工离职则可退款。兼职，远程办公员工，合同工以及实习生都可免除此费用。"
+    recruitment_reminder: "用这张表格来联系你希望面试的求职者。但请记住如果成功雇佣，CodeCombat会收取与这位员工第一年工资的15%等值的佣金。佣金需在雇佣此员工时就付清并且在之后的90天内如果此员工离职则可退款。兼职，远程办公员工，合同工以及实习生都可免除此费用。" # Deprecated
 
   account_settings:
     title: "账户设置"
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recently_played: "最近玩过的关卡"
     no_recent_games: "最近两个星期没有玩过游戏。"
 #    payments: "Payments"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
     price: "价格"
     gems: "宝石"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
     feedback: "反馈"
+#    payment_info: "Payment Info"
 
   delta:
     added: "被添加"
@@ -1002,9 +1013,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next_photo: "添加一张职业的照片（可选）。"
     next_active: "将自己标记为正在寻求工作机会以使自己的名字出现在搜索结果中。"
     example_blog: "你的博客"
-    example_github: "你的GitHub"
+#    example_personal_site: "Personal Site"
     links_header: "个人网站链接"
-#    links_header: "Personal Links"
 #    links_blurb: "Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog."
 #    links_name: "Link Name"
 #    links_name_help: "What are you linking to?"

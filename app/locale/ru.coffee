@@ -373,10 +373,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     regeneration: "Регенерация"
     range: "Зона" # As in "attack or visual range"
     blocks: "Блокирует" # As in "this shield blocks this much damage"
-    backstab: "Со спины"  # As in "this dagger does this much backstab damage"
+    backstab: "Со спины" # As in "this dagger does this much backstab damage"
     skills: "Умения"
-    available_for_purchase: "Доступно для покупки"
-    level_to_unlock: "Разблокируется на уровне:"
+    available_for_purchase: "Доступно для покупки" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Разблокируется на уровне:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Только определенные герои могут играть на этом уровне."
 
   skill_docs:

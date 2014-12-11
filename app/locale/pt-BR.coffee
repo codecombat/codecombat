@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Items"
     buy_gems: "Comprar Gems"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Campanha da Floresta"
     campaign_dungeon: "Campanha do Calabouço"
     subscription_required: "Requer assinatura"
@@ -101,11 +102,14 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Sair"
-    recover: "Recuperar sua conta"
+#    forgot_password: "Forgot your password?"
     authenticate_gplus: "Autenticar com G+"
     load_profile: "Carregar Perfil do G+"
     load_email: "Carregar email do G+"
     finishing: "Terminando"
+#    sign_in_with_facebook: "Sign in with Facebook"
+#    sign_in_with_gplus: "Sign in with G+"
+#    signup_switch: "Want to create an account?"
 
   signup:
     email_announcements: "Receber notícias por email."
@@ -291,7 +295,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_premature_optimization: "Uma otimização permatura é a raíz de todos os males. - Donald Knuth"
     tip_brute_force: "Na dúvida, utilize força bruta. - Ken Thompson"
     tip_extrapolation: "Existem dois tipos de pessoa: aqueles que podem extrapolar apartir de dados incompletos..."
-    customize_wizard: "Personalize o feiticeiro"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -370,9 +373,10 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     regeneration: "Cura"
     range: "Distância de Ataque" # As in "attack or visual range"
     blocks: "Bloqueio" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Habilidades"
-    available_for_purchase: "Disponível para a Compra"
-    level_to_unlock: "Nível para desbloquear:"
+    available_for_purchase: "Disponível para a Compra" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Nível para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Apenas alguns heróis podem jogar esse nível."
 
   skill_docs:
@@ -807,13 +811,21 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     recently_played: "Jogos Recentes"
     no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pago"
     service: "Serviço"
     price: "Preço"
     gems: "Gemas"
-    status_subscribed: "Você é atualmente um assinante por $9.99 USD/mês. Obrigaod pelo apoio!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
     status_unsubscribed_active: "Você não é um assinante e não será cobrado, mas sua conta ainda está ativa."
     status_unsubscribed: "Ganhe acesso a novos níveis,heróis,itens, e gems bônus com uma assinatura CodeCombat!"
 
@@ -874,6 +886,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     clas: "CLAs"
     play_counts: "Contagem de Jogos"
     feedback: "Comentários"
+#    payment_info: "Payment Info"
 
   delta:
     added: "Adicionado"

@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     choose_inventory: "Одягнути предмети"
     buy_gems: "Придбати самоцвіти"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Лісова кампанія"
     campaign_dungeon: "Кампанія підземелля"
     subscription_required: "Потрібен абонемет"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     regeneration: "Відновлення"
     range: "Дистанція" # As in "attack or visual range"
     blocks: "Блокує" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Вміння"
-    available_for_purchase: "Можна придбати"
-    level_to_unlock: "Розблокується на рівні:"
+    available_for_purchase: "Можна придбати" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Розблокується на рівні:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Тільки певні герої можуть грати в цьому рівні."
 
   skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     recently_played: "Нещодавні ігри"
     no_recent_games: "Упродовж останніх двох тижнів не зіграно жодної гри."
     payments: "Платежі"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
     service_apple: "Apple"
     service_web: "Веб"
     paid_on: "Сплачено"
     service: "Сервіс"
     price: "Ціна"
     gems: "Cамоцвіти"
-    status_subscribed: "У Вас зараз дійсна передплата 9,99 USD/міс. Дякуємо за Вашу підтримку!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
     status_unsubscribed_active: "У Вас немає передплати і рахунок Вам не прийде, але Ваш акаунт і далі дійсний."
     status_unsubscribed: "Отримайте доступ до новних рівнів, героїв та бонусів з абонементом CodeCombat!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     clas: "CLA"
     play_counts: "Кількість ігор"
     feedback: "Відгук"
+#    payment_info: "Payment Info"
 
   delta:
     added: "Додано"

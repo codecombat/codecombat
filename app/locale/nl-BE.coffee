@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_desert: "Desert Campaign"
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    regeneration: "Regeneration"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
 #    skills: "Skills"
-#    available_for_purchase: "Available for Purchase"
-#    level_to_unlock: "Level to unlock:"
+#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    recently_played: "Recently Played"
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
+#    payment_info: "Payment Info"
 
 #  delta:
 #    added: "Added"

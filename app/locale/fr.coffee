@@ -69,6 +69,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     change_hero: "Changer le Héro" # Go back from choose inventory to choose hero
     choose_inventory: "Équiper des objets"
     buy_gems: "Acheter des gemmes"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Campagne de la forêt"
     campaign_dungeon: "Compagne du donjon"
     subscription_required: "Enregistrement nécessaire"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     regeneration: "Régénération"
     range: "Portée" # As in "attack or visual range"
     blocks: "Absorbe" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Compétences"
-    available_for_purchase: "Disponible à l'achat"
-    level_to_unlock: "Niveau à débloquer:"
+    available_for_purchase: "Disponible à l'achat" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Niveau à débloquer:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Seulement certains héros peuvent jouer ce niveau."
 
   skill_docs:
@@ -382,7 +384,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     read_only: "lecture seulement"
     action_name: "nom"
 #    action_cooldown: "Takes"
-    action_specific_cooldown: "Rechargement" #cooldown
+    action_specific_cooldown: "Rechargement"
     action_damage: "Dégat"
     action_range: "Portée"
     action_radius: "Rayon"
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     recently_played: "Jouées récemment"
     no_recent_games: "Aucunes parties jouées au cours des deux dernières semaines."
     payments: "Paiements"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Payé"
     service: "Service"
     price: "Prix"
     gems: "Gemmes"
-    status_subscribed: "Vous vous êtes inscrit pour $9.99 USD/mois. Merci de votre aide !"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
     status_unsubscribed_active: "Vous n'êtes pas inscrit et ne serez pas facturé, mais votre compte est toujours actif."
     status_unsubscribed: "Obtenez l'accès à de nouveaux niveaux, héros, objets et gemmes en bonu avec une inscription à CodeCombat !"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     clas: "CLAs"
     play_counts: "Nombre de parties"
     feedback: "Réaction"
+#    payment_info: "Payment Info"
 
   delta:
     added: "Ajouté"

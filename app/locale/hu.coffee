@@ -69,6 +69,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     choose_inventory: "Felszerelés"
     buy_gems: "Vásárolj Drágköveket"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Erdei Kampány"
     campaign_dungeon: "Várbörtön Kampány"
     subscription_required: "Feliratkozást igényel"
@@ -280,7 +281,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_reticulating: "Reticulating spines."
     tip_harry: "Te, Mágus, "
     tip_great_responsibility: "Nagy kódolási képességgel nagy hibaelhárítási felelősség jár."
-    tip_munchkin:"Ha nem eszed meg a zöldségedet, akkor egy máncskin eljön érted álmodban."
+    tip_munchkin: "Ha nem eszed meg a zöldségedet, akkor egy máncskin eljön érted álmodban."
     tip_binary: "A világon csak 10 féle ember van: azok, akik értik a kettes számrendszert és azok, akik nem.."
     tip_commitment_yoda: "A programozónak van a legmélyebb elköteleződése és a legélesebb elméje. - Yoda"
     tip_no_try: "Csináld, vagy ne csináld. Próbálkozás nincs. - Yoda"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    regeneration: "Regeneration"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
 #    skills: "Skills"
-#    available_for_purchase: "Available for Purchase"
-#    level_to_unlock: "Level to unlock:"
+#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:
@@ -411,7 +413,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     editor_config_level_language_label: "Nyelv a szinthez"
     editor_config_level_language_description: "Definiáld a programnyelvet ehhez a szinthez."
     editor_config_default_language_label: "Programnyelv alapbeállítása"
-    editor_config_default_language_description:"Definiáld a programnyelvet, amin szeretnél kódolni, amikor új szintet kezdesz."
+    editor_config_default_language_description: "Definiáld a programnyelvet, amin szeretnél kódolni, amikor új szintet kezdesz."
 #    editor_config_keybindings_label: "Key Bindings"
 #    editor_config_keybindings_default: "Default (Ace)"
 #    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    recently_played: "Recently Played"
 #    no_recent_games: "No games played during the past two weeks."
 #    payments: "Payments"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
+#    payment_info: "Payment Info"
 
 #  delta:
 #    added: "Added"
