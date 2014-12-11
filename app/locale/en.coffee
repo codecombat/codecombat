@@ -375,8 +375,8 @@
     blocks: "Blocks"  # As in "this shield blocks this much damage"
     backstab: "Backstab"  # As in "this dagger does this much backstab damage"
     skills: "Skills"
-    available_for_purchase: "Available for Purchase"
-    level_to_unlock: "Level to unlock:"
+    available_for_purchase: "Available for Purchase"  # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Level to unlock:"  # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Only certain heroes can play this level."
 
   skill_docs:

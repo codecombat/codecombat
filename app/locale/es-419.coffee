@@ -3,7 +3,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     slogan: "Aprende a programar jugando"
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 8 o versiones anteriores." # Warning that only shows up in IE8 and older
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
-  play: "Jugar" # The big play button that just starts playing a level
+    play: "Jugar" # The big play button that just starts playing a level
     try_it: "Pruébalo" # Alternate wording for Play button
     old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo Sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
@@ -56,10 +56,10 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     items: "Objetos" # Tooltip on item shop button from /play
     unlock: "Desbloquear" # For purchasing items and heroes
     confirm: "Confirmar"
-   owned: "Adquirido" # For items you own
+    owned: "Adquirido" # For items you own
     locked: "Bloqueado"
     purchasable: "Adquirible" # For a hero you unlocked but haven't purchased
-   available: "Disponible"
+    available: "Disponible"
     skills_granted: "Habilidades concedidas" # Property documentation details
     heroes: "Héroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
@@ -68,19 +68,19 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objetos"
-   buy_gems: "Comprar gemas"
+    buy_gems: "Comprar gemas"
     campaign_forest: "Campaña en el bosque"
     campaign_dungeon: "Campaña en la cueva"
     subscription_required: "Suscripción requerida"
     free: "Gratis"
-   subscribed: "Suscripto"
+    subscribed: "Suscripto"
     older_campaigns: "Campañas previas"
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
     awaiting_levels_adventurer_prefix: "Nosotros creamos nuevos niveles por semana"
     awaiting_levels_adventurer: "Registrate como un aventurero"
-  awaiting_levels_adventurer_suffix: "para ser el primero el jugar nuevos niveles."
+    awaiting_levels_adventurer_suffix: "para ser el primero el jugar nuevos niveles."
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Puedes saltar a cualquier nivel de abajo, o discutir los niveles en "
     adventurer_forum: "el foro del aventurero"
@@ -220,7 +220,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     reload_title: "¿Recargar Todo el Código?"
     reload_really: "¿Estás seguro de que quieres empezar este nivel desde el principio?"
     reload_confirm: "Recargar Todo"
-   victory: "Victoria"
+    victory: "Victoria"
     victory_title_prefix: "¡"
     victory_title_suffix: " Completo!"
     victory_sign_up: "Registrate para recibir actualizaciones"
@@ -228,7 +228,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     victory_rate_the_level: "Valora el nivel: " # Only in old-style levels.
     victory_return_to_ladder: "Volver a la escalera"
     victory_play_continue: "Continuar"
-   victory_saving_progress: "Guardando Progreso"
+    victory_saving_progress: "Guardando Progreso"
     victory_go_home: "Ir al Inicio" # Only in old-style levels.
     victory_review: "¡Cuéntanos más!" # Only in old-style levels.
     victory_hour_of_code_done: "¿Has acabado?"
@@ -323,7 +323,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     unequip: "Desquipar"
 
   buy_gems:
-   few_gems: "Algunas gemas"
+    few_gems: "Algunas gemas"
     pile_gems: "Pila de gemas"
     chest_gems: "Cofre de gemas"
     purchasing: "Comprando..."
@@ -335,13 +335,13 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
   subscribe:
     subscribe_title: "Suscribirse"
-  unsubscribe: "Desinscribirse"
+    unsubscribe: "Desinscribirse"
     levels: "Ten mas practica con los niveles extras"
     heroes: "Heroés más poderosos"
     gems: "3500 gemas extras cada mes"
     items: "Más de 250 items extras!"
     parents: "Para padres"
-   parents_title: "Sus hijos van a aprender a Codear."
+    parents_title: "Sus hijos van a aprender a Codear."
     parents_blurb1: "Con CodeCombat, sus hijos aprenderan aprendiendo código real. Ellos empiezan por comandos simples de código, y avanzan a temas más avanzados."
     parents_blurb2: "por $9.99 USD/mes, ellos adquieren nuevos desafios cada semana y soporte personal via mail de programadores profesionales."
     parents_blurb3: "No Riesgo: Devolución de dinero 100% garantizado, facil 1-click desinscripción."
