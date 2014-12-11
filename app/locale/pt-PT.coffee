@@ -101,14 +101,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     log_in: "Iniciar Sessão"
     logging_in: "A Iniciar Sessão"
     log_out: "Sair"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Esqueceste a tua palavra-passe?"
     authenticate_gplus: "Autenticar G+"
     load_profile: "Carregar Perfil do G+"
     load_email: "Carregar E-mail do G+"
     finishing: "A terminar"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Iniciar sessão com o Facebook"
+    sign_in_with_gplus: "Iniciar sessão com o G+"
+    signup_switch: "Queres criar uma conta?"
 
   signup:
     email_announcements: "Receber anúncios por e-mail"
@@ -117,11 +117,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     log_in: "iniciar sessão com palavra-passe"
     social_signup: "Ou podes registar-te através do Facebook ou do Google+:"
     required: "Precisas de iniciar sessão antes de prosseguir dessa forma."
-#    login_switch: "Already have an account?"
+    login_switch: "Já tens uma conta?"
 
   recover:
     recover_account_title: "Recuperar Conta"
-    send_password: "Enviar Password de Recuperação"
+    send_password: "Enviar Palavra-passe de Recuperação"
     recovery_sent: "E-mail de recuperação enviado."
 
   items:
@@ -220,7 +220,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
     reload_confirm: "Recarregar Tudo"
-#    victory: "Victory"
+    victory: "Vitória"
     victory_title_prefix: ""
     victory_title_suffix: " Concluído"
     victory_sign_up: "Criar Conta para Guardar Progresso"
@@ -233,8 +233,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_review: "Conta-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminaste?"
     victory_hour_of_code_done_yes: "Sim, terminei a minha Hora do Código™!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP Ganho"
+    victory_gems_gained: "Gemas Ganhas"
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions" # Only in old-style levels.
     tome_read_only_spells: "Feitiços Apenas de Leitura" # Only in old-style levels.
@@ -335,8 +335,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     subscribe_title: "Subscrever"
-#    unsubscribe: "Unsubscribe"
-    levels: "Desbloqueia 25 níveis! Com mais 5 novos por semana!"
+    unsubscribe: "Cancelar Subscrição"
+    levels: "Pratica mais com níveis bónus!"
     heroes: "Heróis mais poderosos!"
     gems: "3500 gemas de bónus todos os meses!"
     items: "Mais de 250 itens de bónus!"
