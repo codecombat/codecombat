@@ -310,7 +310,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     multiplayer_caption: "Játssz a barátaiddal!"
     auth_caption: "Mentsd el a fejlődésed."
 
-#  inventory:
+  inventory:
     choose_inventory: "felszerelési tárgyak"
     equipped_item: "Választott"
     available_item: "Elérhető"
@@ -322,7 +322,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     equip: "Felszerelésbe tesz"
     unequip: "felszerelésből kivesz"
 
-#  buy_gems:
+  buy_gems:
     few_gems: "Néhány drágakő"
     pile_gems: "Halom drágakő"
     chest_gems: "Láda drágakő"
@@ -377,7 +377,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    level_to_unlock: "Level to unlock:"
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
     writable: "írható" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "csak olvasható"
     action_name: "név"
@@ -395,11 +395,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     returns: "Viszontválasz"
     granted_by: "Ajándékozva"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Mentve"
-   granularity_change_history: "Történet"
+    granularity_change_history: "Történet"
 
-#  options:
+  options:
     general_options: "Általános beállítások" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "Hangerő"
     music_label: "Zene"
@@ -424,7 +424,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Automata zárójel és idézet befejezés."
 
-#  about:
+  about:
     why_codecombat: "CodeCombat, de miért?"
     why_paragraph_1: "Ha programozni akarsz tanulni, nem kellenek hozzá tanórák. Csak írnod kell egy csomó kódot és jól érezned magad közben."
     why_paragraph_2_prefix: "Erről szól a programozás. Buli lesz. Nem viccelek."
@@ -508,7 +508,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sample_profile: "Nézz meg egy mintaprofilt!"
     view_profile: "Nézd meg a profilodat!"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Syünet"
     enter: "Enter"
@@ -528,7 +528,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    beautify: "Beautify your code by standardizing its formatting."
     maximize_editor: "Maximális/Minimális kód szerkesztő."
 
-#  community:
+  community:
     main_title: "CodeCombat Közösség"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
@@ -546,7 +546,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
 #    contribute_to_the_project: "Contribute to the project"
 
-#  classes:
+  classes:
     archmage_title: "Főmágus"
     archmage_title_description: "(Kódoló)"
     artisan_title: "Alkotóművész"
@@ -560,7 +560,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     ambassador_title: "Nagykövet"
     ambassador_title_description: "(Támogató)"
 
-#  editor:
+  editor:
     main_title: "CodeCombat Szerkesztők"
     article_title: "Cikk Szerkesztő"
 #    thang_title: "Thang Editor"
@@ -718,7 +718,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  ladder:
+  ladder:
 #    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
@@ -772,7 +772,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     rules: "Szabályok"
     winners: "Győztesek"
 
-#  user:
+  user:
     stats: "Statisztika"
 #    singleplayer_title: "Singleplayer Levels"
 #    multiplayer_title: "Multiplayer Levels"
@@ -787,7 +787,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     favorite_prefix: "A kevenc nyelv "
     favorite_postfix: "."
 
-#  achievements:
+  achievements:
 #    last_earned: "Last Earned"
     amount_achieved: "Mennyiség"
     achievement: "Eredmények"
