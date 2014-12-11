@@ -60,7 +60,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     locked: "Bloqueado"
     purchasable: "Comprável" # For a hero you unlocked but haven't purchased
     available: "Disponível"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Habilidades Concedidas" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
     achievements: "Conquistas" # Tooltip on achievement list button from /play
     account: "Conta" # Tooltip on account button from /play
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Items"
     buy_gems: "Comprar Gems"
-#    campaign_desert: "Desert Campaign"
+    campaign_desert: "Campanha do Deserto"
     campaign_forest: "Campanha da Floresta"
     campaign_dungeon: "Campanha do Calabouço"
     subscription_required: "Requer assinatura"
@@ -102,14 +102,14 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Sair"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Esqueceu sua senha?"
     authenticate_gplus: "Autenticar com G+"
     load_profile: "Carregar Perfil do G+"
     load_email: "Carregar email do G+"
     finishing: "Terminando"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Conectar com Facebook"
+    sign_in_with_gplus: "Conectar com G+"
+    signup_switch: "Deseja Criar uma Conta?"
 
   signup:
     email_announcements: "Receber notícias por email."
@@ -118,7 +118,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     log_in: "Entre com a senha"
     social_signup: "Ou, você pode fazer login pelo Facebook ou G+:"
     required: "Você precisa fazer login antes de ir por esse caminho."
-#    login_switch: "Already have an account?"
+    login_switch: "Já possui uma conta?"
 
   recover:
     recover_account_title: "Recuperar conta"
@@ -221,7 +221,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     reload_title: "Recarregar Todo o Código?"
     reload_really: "Você tem certeza que quer reiniciar o estágio?"
     reload_confirm: "Recarregar Tudo"
-#    victory: "Victory"
+    victory: "Vitória"
     victory_title_prefix: " Vitória "
     victory_title_suffix: " Completado!"
     victory_sign_up: "Assine para atualizações"
@@ -234,8 +234,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_review: "Diga-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP ganho"
+    victory_gems_gained: "Gems ganhas"
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados" # Only in old-style levels.
     tome_read_only_spells: "Magias não editáveis" # Only in old-style levels.
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   subscribe:
     subscribe_title: "Inscrever-se"
-#    unsubscribe: "Unsubscribe"
+    unsubscribe: "Desinscrever-se"
     levels: "Desbloqueie 17 níveis extras! Com 5 novos toda semana!"
     heroes: "Mais poderosos heróis!"
     gems: "3500 gemas bônus todo mês!"
@@ -373,7 +373,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     regeneration: "Cura"
     range: "Distância de Ataque" # As in "attack or visual range"
     blocks: "Bloqueio" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
+    backstab: "Dano de volta" # As in "this dagger does this much backstab damage"
     skills: "Habilidades"
     available_for_purchase: "Disponível para a Compra" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Nível para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
@@ -383,7 +383,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     writable: "gravável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
     action_name: "nome"
-#    action_cooldown: "Takes"
+#    action_cooldown: "Takes" # as in ?
     action_specific_cooldown: "Recarregando"
     action_damage: "Dano"
     action_range: "Distância"
@@ -811,21 +811,21 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     recently_played: "Jogos Recentes"
     no_recent_games: "Não foram feitos jogos durante duas semanas."
     payments: "Pagamentos"
-#    purchased: "Purchased"
-#    subscription: "Subscription"
+    purchased: "Comprado"
+    subscription: "Assinatura"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pago"
     service: "Serviço"
     price: "Preço"
     gems: "Gemas"
-#    active: "Active"
-#    subscribed: "Subscribed"
-#    unsubscribed: "Unsubscribed"
-#    active_until: "Active Until"
-#    cost: "Cost"
-#    next_payment: "Next Payment"
-#    card: "Card"
+    active: "Ativo"
+    subscribed: "Inscrito"
+    unsubscribed: "Desinscrito"
+    active_until: "Ativo até"
+    cost: "Custo"
+    next_payment: "Próximo Pagamento"
+    card: "Cartão"
     status_unsubscribed_active: "Você não é um assinante e não será cobrado, mas sua conta ainda está ativa."
     status_unsubscribed: "Ganhe acesso a novos níveis,heróis,itens, e gems bônus com uma assinatura CodeCombat!"
 
@@ -886,7 +886,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     clas: "CLAs"
     play_counts: "Contagem de Jogos"
     feedback: "Comentários"
-#    payment_info: "Payment Info"
+    payment_info: "Informação de pagamento"
 
   delta:
     added: "Adicionado"
