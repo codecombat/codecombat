@@ -151,6 +151,18 @@ module.exports = class User extends CocoModel
       @subscribeCopyGroup = 'original'
     @subscribeCopyGroup
 
+  getSubscribePriceGroup: ->
+    # Testing alternate displayed subscription price of 1499
+    # NOTE: This grouping logic lives in server/payments/subscription_handler.coffee too.
+    return @subscribePriceGroup if @subscribePriceGroup
+    testStartTime = new Date("2014-12-11T01:00:00.000Z") # 12/10/14 5pm PST time
+    if new Date(me.get('dateCreated')) >= testStartTime
+      @subscribePriceGroup = '1499'
+      application.tracker.identify subscribePriceGroup: @subscribePriceGroup
+    else
+      @subscribePriceGroup = 'control'
+    @subscribePriceGroup
+
   isPremium: ->
     return false unless stripe = @get('stripe')
     return true if stripe.subscriptionID

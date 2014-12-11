@@ -28,8 +28,14 @@ module.exports = class SubscribeModal extends ModalView
     c = super()
     c.state = @state
     c.stateMessage = @stateMessage
-    #c.price = @product.amount / 100
-    c.price = 5.99  # Sale
+
+    # Testing alternate displayed subscription price of 1499
+    unless me.getSubscribePriceGroup() is 'control'
+      c.price = 14.99
+    else
+      c.price = @product.amount / 100
+
+    # A/B Testing alternate subscription copy
     c.BTest = me.getSubscribeCopyGroup() is 'new'
     return c
 
@@ -67,10 +73,17 @@ module.exports = class SubscribeModal extends ModalView
     # overwrite amount with sale price
     # maybe also put in another description with details about how long it lasts, etc
     # NOTE: Do not change this price without updating the context.price in getRenderData
-    options = {
-      description: 'Monthly Subscription (HoC sale)'
-      amount: 599
-    }
+    # options = {
+    #   description: 'Monthly Subscription (HoC sale)'
+    #   amount: 599
+    # }
+
+    # Testing alternate displayed subscription price of 1499
+    unless me.getSubscribePriceGroup() is 'control'
+      options = {
+        description: $.i18n.t('subscribe.stripe_description')
+        amount: 1499
+      }
 
     @purchasedAmount = options.amount
 
