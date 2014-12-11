@@ -886,7 +886,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     merge_conflict_with: "Fusionner les conflits avec"
     no_changes: "Aucuns Changements"
 
-#  guide:
+  guide:
     temp: "Temp"
 
   multiplayer:

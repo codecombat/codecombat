@@ -516,8 +516,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     shift: "Shift"
     run_code: "Виконати поточний код."
     run_real_time: "Виконати в реальному часі."
-#    continue_script: "Продовжити поточний скрипт."
-#    skip_scripts: "Пропустити усі скрипти, які можна пропустити."
+    continue_script: "Продовжити поточний скрипт."
+    skip_scripts: "Пропустити усі скрипти, які можна пропустити."
     toggle_playback: "Перемикач гри/паузи."
 #    scrub_playback: "Scrub back and forward through time."
 #    single_scrub_playback: "Scrub back and forward through time by a single frame."
@@ -624,7 +624,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     achievement_query_misc: "Ключове досягнення випадає з різного"
     achievement_query_goals: "Ключове досягнення випадає з цілей рівня"
     level_completion: "Рівень завершено"
-#    pop_i18n: "Додати I18N"
+    pop_i18n: "Додати I18N"
 
   article:
     edit_btn_preview: "Перегляд"
@@ -881,8 +881,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     added: "Додано"
     modified: "Змінено"
     deleted: "Вилучено"
-#    moved_index: "Переміщено індекс"
-#    text_diff: "Різниця тексту"
+    moved_index: "Переміщено індекс"
+    text_diff: "Різниця тексту"
     merge_conflict_with: "ОБ'ЄДНАТИ КОНФЛІКТ З"
     no_changes: "Без змін"
 
