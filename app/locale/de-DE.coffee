@@ -797,13 +797,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     category_miscellaneous: "Sonstiges"
     category_levels: "Level"
     category_undefined: "ohne Kategorie"
-#    current_xp_prefix: ""
+    current_xp_prefix: ""
     current_xp_postfix: " Gesamt"
-#    new_xp_prefix: ""
+    new_xp_prefix: ""
     new_xp_postfix: " erworben"
-#    left_xp_prefix: ""
+    left_xp_prefix: ""
     left_xp_infix: " bis Level "
-#    left_xp_postfix: ""
+    left_xp_postfix: ""
 
   account:
     recently_played: "Kürzlich gespielt"
