@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_ie: "CodeCombat no funciona en Internet Explorer 8 o versions anteriors. Perdó!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat no ha estat dissenyat per dispositius mòbils i per tant no funcionarà!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Prova'l" # Alternate wording for Play button
     old_browser: "Uh oh, el teu navegador és massa antic per fer funcionar CodeCombat. Perdó!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Pots probar-ho igualment, però el més segur és que no funcioni."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -12,7 +12,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     for_beginners: "Per a principiants"
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Per a Desenvolupadors" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "O descarrèga'l per iPad"
 
   nav:
     play: "Nivells" # The top nav bar entry where players choose which levels to play
@@ -43,10 +43,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desembolupat CodeCombat en Anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
+    pitch_body: "Hem desenvolupat CodeCombat en Anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
     missing_translations: "Fins que puguem traduir-ho tot en Català, veuràs en anglès quant sigui possible."
-    learn_more: "Apren més sobre seru un diplomàtic"
-    subscribe_as_diplomat: "Subscriute com a diplomàtic"
+    learn_more: "Aprèn més sobre seru un diplomàtic"
+    subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
     play_as: "Jugar com" # Ladder page
@@ -54,33 +54,33 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     players: "jugadors" # Hover over a level on /play
     hours_played: "hores de joc" # Hover over a level on /play
     items: "Objectes" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
+    unlock: "Desbloquejar" # For purchasing items and heroes
+    confirm: "Confirmar"
+    owned: "Adquirit" # For items you own
+    locked: "Bloquejat"
+    purchasable: "Comprable" # For a hero you unlocked but haven't purchased
+    available: "Disponible"
+    skills_granted: "Habilitats Garantides" # Property documentation details
     heroes: "Herois" # Tooltip on hero shop button from /play
     achievements: "Triomfs" # Tooltip on achievement list button from /play
-    account: "Conta" # Tooltip on account button from /play
+    account: "Compte" # Tooltip on account button from /play
     settings: "Configuració" # Tooltip on settings button from /play
     next: "Següent" # Go from choose hero to choose inventory before playing a level
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objectes"
-#    buy_gems: "Buy Gems"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    buy_gems: "Comprar Gemes"
+    campaign_forest: "Campanya del Bosc"
+    campaign_dungeon: "Campanya de la Masmorra"
+    subscription_required: "Subscripció necessària"
+    free: "Gratuit"
+    subscribed: "Subscrit"
     older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
     campaign_beginner: "Campanya del principiant"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "Fem cinc nivells per setmana"
+    awaiting_levels_adventurer: "Inicia sessió com aventurer"
+    awaiting_levels_adventurer_suffix: "sigues el primer en jugar els nous nivells"
     choose_your_level: "Escull el teu nivell" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Pots saltar a qualsevols dels nivells de més abaix, o discutir els nivells de més amunt."
     adventurer_forum: "El fòrum de l'aventurer"
@@ -101,14 +101,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     log_in: "Iniciar Sessió"
     logging_in: "Iniciant Sessió"
     log_out: "Tancar Sessió"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
+    forgot_password: "Contrasenya oblidada?"
+    authenticate_gplus: "Inicia amb G+"
+    load_profile: "Carrega un perfil de G+"
 #    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    finishing: "Acabant"
+    sign_in_with_facebook: "Inicia amb Facebook"
+    sign_in_with_gplus: "Inicia amb G+"
+    signup_switch: "Vols crear-te un compte?"
 
   signup:
     email_announcements: "Rebre anuncis via email"
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     log_in: "Iniciar sessió amb la teva contrasenya"
     social_signup: "O, pots iniciar sesió desde Facebook o G+:"
     required: "Neccesites iniciar sesió abans ."
-#    login_switch: "Already have an account?"
+    login_switch: "Ja tens un compte?"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -125,8 +125,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     recovery_sent: "Correu de recuperació de contrasenya enviat."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primari"
+    secondary: "Secundari"
     armor: "Armadura"
     accessories: "Accessoris"
 #    misc: "Misc"
