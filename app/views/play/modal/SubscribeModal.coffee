@@ -45,7 +45,7 @@ module.exports = class SubscribeModal extends ModalView
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
-    popoverContent = popoverContent.replace /9[.,]99/g, '5.99'  # Sale
+    #popoverContent = popoverContent.replace /9[.,]99/g, '5.99'  # Sale
     window.popoverContent = popoverContent
     @$el.find('#parents-info').popover(
       animation: true
