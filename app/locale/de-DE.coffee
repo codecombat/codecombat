@@ -7,12 +7,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     try_it: "Versuchs mal" # Alternate wording for Play button
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
-    ipad_browser: "Schlechte Nachricht: CodeCombat funktioniert nicht im iPad browser. Gute Nachricht: unsere eigene iPad app wartet nur noch auf die genehmigung durch Apple."
+    ipad_browser: "Die schlechte Nachricht: CodeCombat läuft auf dem iPad nicht im Browser. Die gute Nachricht: Unsere iPad App wartet gerade auf die Zustimmung von Apple."
     campaign: "Kampagne"
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    or_ipad: "Oder lade es fürs iPad herunter"
+    or_ipad: "Oder downloade hier für iPad"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -58,7 +58,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     confirm: "Bestätigen"
     owned: "im Besitz" # For items you own
     locked: "Gesperrt"
-    purchasable: "Käuflich" # For a hero you unlocked but haven't purchased
+    purchasable: "Zu kaufen" # For a hero you unlocked but haven't purchased
     available: "Verfügbar"
     skills_granted: "Verfügbare Fähigkeiten" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
@@ -373,8 +373,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     range: "Reichweite" # As in "attack or visual range"
     blocks: "Blocken" # As in "this shield blocks this much damage"
     skills: "Fähigkeiten"
-    available_for_purchase: "Verkäuflich"
-    level_to_unlock: "Benötigtes Level:"
+    available_for_purchase: "Zum Kauf verfügbar"
+    level_to_unlock: "Level freizuschalten:"
     restricted_to_certain_heroes: "Nur bestimmte Helden können dieses Level spielen."
 
   skill_docs:
@@ -388,7 +388,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     action_radius: "Radius"
     action_duration: "Dauer"
     example: "Beispiel"
-    ex: "Bsp." # Abbreviation of "example"
+    ex: "z.B." # Abbreviation of "example"
     current_value: "Aktueller Wert"
     default_value: "Standardwert"
     parameters: "Parameter"
@@ -534,7 +534,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     level_editor_prefix: "Benutze den CodeCombat"
     level_editor_suffix: "um Level zu erstellen oder zu bearbeiten. Benutzer haben bereits Level für ihre Klassen, Freunde, Hackathons, Schüler und Geschwister erstellt. Wenn das Neuerstellen eines Levels abschreckend wirkt, dann kannst du erstmal ein bestehendes kopieren!"
     thang_editor_prefix: "Wir nennen Einheiten innerhalb des Spiels 'Thangs'. Benutze den"
-    thang_editor_suffix: "um die CodeCombat Grafik Dateien zu bearbeiten.  Gib Einheiten die Fähigkeit Projektile zu werfen,  throw projectiles, änder die Richtung einer Animation, die Lebenspunkte einer Einheit, oder lade deine eigenen vector sprites hoch."
+    thang_editor_suffix: "um den CodeCombat Grafikquelltext zu ändern. Erlaube Einheiten Geschosse zu werfen, ändere die Richtung einer Animation, ändere die Trefferpunkte einer Einheit, oder lade deine eigenen Vektorsprite hoch."
     article_editor_prefix: "Hast du einen Fehler in unseren Dokus gefunden? Willst du Anleitungen für deine Kreationen erstellen? Schau dir den"
     article_editor_suffix: "und hilf CodeCombat Spielern das meiste aus ihrer Spielzeit heraus zu bekommen."
     find_us: "Finde uns auf diesen Seiten"
@@ -634,19 +634,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     page_title: "Mitwirken"
     character_classes_title: "Charakter Klassen"
     introduction_desc_intro: "Wir haben hohe Erwartungen für CodeCombat."
-    introduction_desc_pref: "Wir wollen ein Ort sein, an dem sich Programmierer aller coleur treffen, um gemeinsam zu spielen und zu lernen. Wo sie andere in die wunderbare Welt des Programmierens einführen, und dabei die besten Aspekte der Programmierer-Community verkörpern. Wir können und wollen dies nicht alleine tun. Projekte wie GitHub, Stack Overflow and Linux leben von den großartigen Leuten die sie bauen und nutzen. Darum ist, "
-    introduction_desc_github_url: "CodeCombat ist komplett OpenSource"
-    introduction_desc_suf: ". Wir wollen es dir so einfach und vielfältig wie irgend möglich machen, dich an diesem Projekt zu beteiligen. Damit es genauso zu deinem Projekt wird, wie zu unserem."
+    introduction_desc_pref: "Wir wollen der Ort sein, wo die Programmierer jeder Couleur zusammen kommen, um zu lernen und zu spielen, um andere in die wunderbare Welt des Kodens einzuführen und um die besten Aspekte der Gemeinschaft zu spiegeln. Wir können und wollen das nicht alleine tun; der Grund, warum Projekte wie GitHub, Stack Overflow und Linux so großartig sind, sind die Menschen, die sie nutzen und aufbauen. Deswegen"
+    introduction_desc_github_url: "ist CodeCombat komplett OpenSource"
+    introduction_desc_suf: ", und wir haben uns das Ziel gesetzt, so viele Wege wie möglich zu bieten, damit du an diesem Projekt teilnehmen kannst und es zu einem Projekt machen kannst, dass sowohl deines, als auch unseres ist."
     introduction_desc_ending: "Wir hoffen du nimmst an unserer Party teil!"
     introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
     alert_account_message_intro: "Hey du!"
     alert_account_message: "Um Klassen-Emails abonnieren zu können, musst du dich zuerst anmelden."
-    archmage_summary: "Magst du an den Spielegrafiken mitgestalten? Am User Interface Design, Datenbank- und Server Organisation, Mehrspieler Netzwerk. Oder doch lieber helfen die Physics-, Sound, oder Spieleengine zu optimieren? Möchtest du helfen ein Spiel zu programmieren, mit dem andere das lernen worin du schon gut bist? Es gibt viel zu tun, und wenn du ein erfahrener Programmierer bist, und an CodeCombat mitentwickeln willst, dann ist dies deine Klasse. Wir freuen uns auf dich, wenn wir gemeinsam das beste Programmierspiel aller Zeiten erstellen."
-    archmage_introduction: "Mit das Beste am Spiele schreiben ist, das man so viele unterschiedliche Dinge zusammen bringen muß. Graphik, Sound, Real-Time Networking, Soziales Miteinander, und natürlich viele der eher alltäglichen Aspekte des Programmierens. Vom einfachen Datenbank-Management, und der Server Administration, über user interface Design und Realisierung. Es ist viel zu tun, und wenn du ein erfahrener Programmierer bist, mit einem Interesse wirklich tief in die wesentlichen details von CodeCombat abzutauchen, dann könnte dies deine Klasse sein. Deine Hilf ist gefragt, wenn wir gemeinsam das beste Programmierspiel aller Zeiten schreiben."
-    class_attributes: "Klassenattribute"
+    archmage_summary: "Bist du interessiert daran, mit Spielgrafiken, User Interface Design, Datenbaken und Serverorganisation, Multiplayer Networking, Physik, Sound oder Game Engine Performance zu arbeiten? Willst du dabei helfen ein Spiel aufzubauen, welches anderen Menschen hilft, das zu lernen, worin du gut bist? Es gibt viel zu tun und wenn du ein erfahrener Programmierer bist und helfen willst CodeCombat zu entwickeln, dann ist diese Klasse etwas für dich. Wir würden uns wahnsinning über deine Hilfe dabei freuen, das beste Programmierspiel der Welt aufzubauen."
+    archmage_introduction: "Einer der größten Vorteile daran ein Spiel aufzubauen, ist es, dass so viele verschiedene Aspekte mit reinspielen. Grafiken, Sound, echtzeit Networking, Social Networking und natürlich viele der gewöhnlichen Aspekte des Programmierens, von low-level Datenbankmanagement und Server Administration bis hin zum Aufbau von Design und Interface. Es gibt viel zu tun und wenn du ein erfahrener Programmierer bist, mit einer Veranlagung dazu, wirklich knallhart bei CodeCombat einzutauchen, dann könnte diese Klasse etwas für dich sein. Wir würden uns wahnsinnig  über deine Hilfe dabei freuen, das beste Programmierspiel der Welt aufzubauen."
+    class_attributes: "Eigenschaften"
     archmage_attribute_1_pref: "Kentnisse in "
-    archmage_attribute_1_suf: ", oder ein intensiver Lernwille. Der größte Teil unseres Codes ist in dieser Sprache geschrieben. Wenn du bereits mit Ruby oder Python vertraut bist, wirst du dich gleich zu hause fühlen. Es ist wie JavaScript, aber mit einer angenehmeren Syntax."
-    archmage_attribute_2: "Vorhandene Erfahrung im Programmieren, und wichtig, Eigeninitiative. Wir werden dir helfen dich zurecht zu finden, aber wir haben leider nicht die Zeit dich intensiv anzulernen."
+    archmage_attribute_1_suf: ", oder der Drang danach zu lernen. Das meiste unseres Codes ist in dieser Sprache geschrieben. Wenn du ein Fan von Ruby oder Python bist, dann wirst du dich pudelwohl fühlen. Es ist wie JavaScript, nur mit einer angenehmeren Syntax."
+    archmage_attribute_2: "Einige Erfahrung in Programmieren und Eigeninitiative. Wir werden dir helfen dich zu orientieren, aber wir haben nicht Zeit, dich zu trainieren."
     how_to_join: "Wie du mitmachen kannst"
     join_desc_1: "Jeder kann mithelfen! Schau dir unseren "
     join_desc_2: "um anzufangen, und hake die Checkbox unten an um dich als mutiger Erzmagier einzutragen und über die neuesten Nachrichten per Email zu erhalten. Möchtest du dich darüber unterhalten was zu tun ist oder wie du dich besser beteiligen kannst? "
@@ -691,9 +691,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     scribe_subscribe_desc: "Erhalte Emails über Ankündigungen zu schreibenden Artikeln."
     diplomat_summary: "Es herrscht ein großes Interesse an CodeCombat in anderen Ländern die kein Englisch sprechen! Wir suchen nach Übersetzern die gewillt sind ihre Zeit mit der Übersetzung der Webseite zu verbringen, so dass CodeCombat so schnell wie möglich für alle weltweit zugänglich ist. Wenn du helfen möchtest CodeCombat International zugänglich zu machen, dann ist diese Klasse für dich."
     diplomat_introduction_pref: "Also wenn es eines gibt was wir gelernt haben vom "
-    diplomat_launch_url: "Launch im Oktober"
-    diplomat_introduction_suf: "ist das es ein großes Interesse an CodeCombat in anderen Ländern gibt! Wir stellen eine Truppe von Übersetzern zusammen, die gewillt sind einen Satz Wörten in einen anderen Satz Wörter umzuwandeln um CodeCombat der Welt so zugänglich wie möglich zu machen. Wenn du es magst eine Vorschau von zukünftigem Content zu erhalten und diese Level so schnell wie möglich deinen Landsleuten zur Verfügung zu stellen, dann ist diese Klasse vielleicht für dich."
-    diplomat_attribute_1: "Du sprichst/schreibst sowohl Englisch als auch die Sprache deiner Wahl flüssig. Wenn man komplizierte Informationen vermitteln will, muß man BEIDE Sprachen wirklich beherrschen."
+    diplomat_launch_url: "Launch im Oktober,"
+    diplomat_introduction_suf: "dann ist es, dass es ein großes Interesse an CodeCombat in anderen Ländern gibt! Wir stellen eine Truppe von Übersetzern zusammen, die gewillt sind ein Set an Worten in ein anderes Set an Worten umzuwandeln, um CodeCombat so weit wie möglich auf der Welt zugänglich zu machen. Wenn du es magst eine Vorschau von zukünftigem Content zu erhalten und diese Level so schnell wie möglich deinen Landsleuten zur Verfügung zu stellen, dann ist diese Klasse vielleicht etwas für dich."
+    diplomat_attribute_1: "Fließend in Englisch und der Sprache, in die du übersetzen möchtest. Wenn man komplizierte Ideen übermitteln will, dann ist es wichtig, ein klares Verständnis für beide Sprachen zu haben!"
     diplomat_i18n_page_prefix: "Du kanns anfangen unsere Levels zu übersetzen, indem du auf unsere"
     diplomat_i18n_page: "Übersetzungs-Seite"
     diplomat_i18n_page_suffix: "gehst, oder unsere Schnittstelle und Webseite bei GitHub benutzt."
