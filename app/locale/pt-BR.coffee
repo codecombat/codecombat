@@ -4,15 +4,15 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Experimente" # Alternate wording for Play button
     old_browser: "Ops, seu navegador é muito antigo para rodar o CodeCombat. Desculpe!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Você pode tentar de qualquer forma, mas provavelmente não irá funcionar."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Más notícias:CodeCombat não é executado no navegador do iPad. Boas notícias: Nosso app nativo do iPad esta esperando a aprovação da Apple."
     campaign: "Campanha"
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador" # Not currently shown on home page
     for_developers: "Para Desenvolvedores" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Ou baixe para iPad"
 
   nav:
     play: "Jogar" # The top nav bar entry where players choose which levels to play
@@ -54,12 +54,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     players: "jogadores" # Hover over a level on /play
     hours_played: "Horas jogadas" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    unlock: "Desbloquear" # For purchasing items and heroes
+    confirm: "Confirmar"
+    owned: "Possui" # For items you own
+    locked: "Bloqueado"
+    purchasable: "Comprável" # For a hero you unlocked but haven't purchased
+    available: "Disponível"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heróis" # Tooltip on hero shop button from /play
     achievements: "Conquistas" # Tooltip on achievement list button from /play
@@ -69,18 +69,18 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Items"
     buy_gems: "Comprar Gems"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    campaign_forest: "Campanha da Floresta"
+    campaign_dungeon: "Campanha do Calabouço"
+    subscription_required: "Requer assinatura"
+    free: "Gratuito"
+    subscribed: "Assinante"
     older_campaigns: "Campanhas antigas"
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
     campaign_beginner: "Campanha Iniciante"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "Nós liberamos cinco níveis por semana."
+    awaiting_levels_adventurer: "Cadastre-se como um aventureiro"
+    awaiting_levels_adventurer_suffix: "para ser o primeiro a jogar as novas fases."
     choose_your_level: "Escolha seu estágio" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Você pode ir para qualquer um dos estágios abaixo, ou discutir sobre eles no "
     adventurer_forum: "Fórum do Aventureiro"
@@ -101,14 +101,11 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Sair"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    recover: "Recuperar sua conta"
+    authenticate_gplus: "Autenticar com G+"
+    load_profile: "Carregar Perfil do G+"
+    load_email: "Carregar email do G+"
+    finishing: "Terminando"
 
   signup:
     email_announcements: "Receber notícias por email."
@@ -125,12 +122,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     recovery_sent: "Email de recuperação enviado."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primário"
+    secondary: "Secundário"
     armor: "Armadura"
     accessories: "Accessórios"
     misc: "Diversos"
-#    books: "Books"
+    books: "Livros"
 
   common:
     loading: "Carregando..."
@@ -179,7 +176,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     medium: "Médio"
     hard: "Difícil"
     player: "Jogador"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Nível" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "segundo"
@@ -200,7 +197,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   play_level:
     done: "Pronto"
     home: "Início" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Fase" # Like "Level: Dungeons of Kithgard"
     skip: "Pular"
     game_menu: "Menu do Jogo"
     guide: "Guia"
@@ -214,8 +211,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     failing: "Falta"
     action_timeline: "Linha do Tempo das Ações"
     click_to_select: "Clique em um personagem para selecioná-lo."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_multiplayer: "Multijogador"
+    control_bar_join_game: "Juntar-se a uma partida"
     reload: "Recarregar"
     reload_title: "Recarregar Todo o Código?"
     reload_really: "Você tem certeza que quer reiniciar o estágio?"
@@ -228,7 +225,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_rate_the_level: "Avalie o estágio: " # Only in old-style levels.
     victory_return_to_ladder: "Retornar para a progressão"
     victory_play_continue: "Continue"
-    victory_saving_progress: "Salvando progresso"
+    victory_saving_progress: "Salvando Progresso"
     victory_go_home: "Ir à página inicial" # Only in old-style levels.
     victory_review: "Diga-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminou?"
@@ -250,7 +247,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
     tome_help: "Ajuda"
-    tome_current_method: "Método atual"
+    tome_current_method: "Método Atual"
     hud_continue_short: "Continuar"
     code_saved: "Código Salvo"
     skip_tutorial: "Pular (esc)"
@@ -294,6 +291,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_premature_optimization: "Uma otimização permatura é a raíz de todos os males. - Donald Knuth"
     tip_brute_force: "Na dúvida, utilize força bruta. - Ken Thompson"
     tip_extrapolation: "Existem dois tipos de pessoa: aqueles que podem extrapolar apartir de dados incompletos..."
+    customize_wizard: "Personalize o feiticeiro"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -353,7 +351,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     choose_hero: "Escolha seu Herói"
     programming_language: "Linguagem de Programação"
     programming_language_description: "Qual Linguagem de Programação você gostaria de usar?"
-#    default: "Default"
+    default: "Padrão"
     experimental: "Experimental"
     python_blurb: "Simples mas poderosa, Python é uma linguagem de programação de uso geral."
     javascript_blurb: "A linguagem da web."
@@ -591,7 +589,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     level_tab_thangs_add: "Adicionar Thangs"
     delete: "Excluir"
     duplicate: "Duplicar"
-    rotate: "Girar"
+    rotate: "Rotacionar"
     level_settings_title: "Configurações"
     level_component_tab_title: "Componentess Atuais"
     level_component_btn_new: "Criar Novo Componente"
@@ -792,7 +790,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     amount_achieved: "Montante"
     achievement: "Conquista"
     category_contributor: "Cotribuidor"
-    category_ladder: "Progrssão"
+    category_ladder: "Progressão"
     category_level: "Nível"
     category_miscellaneous: "Diversos"
     category_levels: "Níveis"
@@ -815,9 +813,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     service: "Serviço"
     price: "Preço"
     gems: "Gemas"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
-#    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
-#    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+    status_subscribed: "Você é atualmente um assinante por $9.99 USD/mês. Obrigaod pelo apoio!"
+    status_unsubscribed_active: "Você não é um assinante e não será cobrado, mas sua conta ainda está ativa."
+    status_unsubscribed: "Ganhe acesso a novos níveis,heróis,itens, e gems bônus com uma assinatura CodeCombat!"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
@@ -825,7 +823,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     unauthorized: "Você precisa estar autenticado. Você desativou os cookies?"
     forbidden: "Você não possui permissão."
     not_found: "Não encontrado."
-    not_allowed: "Método não permitodo."
+    not_allowed: "Método não permitido."
     timeout: "Tempo de requisição esgotado."
     conflict: "Conflito de recurso."
     bad_input: "Problema de entrada (bad input)."
@@ -910,7 +908,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     practices_title: "Respeitáveis Boas Práticas"
     practices_description: "Essas são nossas promessas para você, o jogador, de uma maneira menos jurídica."
     privacy_title: "Privacidade"
-    privacy_description: "Nós não venderemos nenhuma informação pessoal."
+    privacy_description: "Nós nâo venderemos suas informações pessoaos."
     security_title: "Segurança"
     security_description: "Nós lutamos para manter suas informações pessoais a salvo.Como um projeto de código aberto, nosso site é aberto para qualquer um rever e melhorar nossos sistemas de segurança."
     email_title: "Email"
