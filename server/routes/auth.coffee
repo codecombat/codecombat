@@ -5,8 +5,8 @@ UserHandler = require '../users/user_handler'
 LevelSession = require '../levels/sessions/LevelSession'
 config = require '../../server_config'
 errors = require '../commons/errors'
-mail = require '../commons/mail'
 languages = require '../routes/languages'
+sendwithus = require '../sendwithus'
 
 module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
@@ -103,11 +103,18 @@ module.exports.setup = (app) ->
       user.set('passwordReset', Math.random().toString(36).slice(2, 7).toUpperCase())
       user.save (err) =>
         return errors.serverError(res) if err
-        if config.isProduction
-          options = createMailOptions req.body.email, user.get('passwordReset')
-          mail.transport.sendMail options, (error, response) ->
-            if error
-              console.error "Error sending mail: #{error.message or error}"
+        unless config.unittest
+          context =
+            email_id: sendwithus.templates.generic_email
+            recipient:
+              address: req.body.email
+            email_data:
+              subject: 'CodeCombat Recovery Password'
+              title: 'Recovery Password'
+              content: "<p>Your CodeCombat recovery password for email #{req.body.email} is: #{user.get('passwordReset')}</p><p>Log in at <a href=\"http://codecombat.com/account/settings\">http://codecombat.com/account/settings</a> and change it.</p><p>Hope this helps!</p>"
+          sendwithus.api.send context, (err, result) ->
+            if err
+              console.error "Error sending password reset email: #{err.message or err}"
               return errors.serverError(res) if err
             else
               return res.end()
@@ -195,12 +202,3 @@ module.exports.makeNewUser = makeNewUser = (req) ->
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'lastIP', req.connection.remoteAddress
-
-createMailOptions = (receiver, password) ->
-  # TODO: use email templates here
-  options =
-    from: config.mail.username
-    to: receiver
-    replyTo: config.mail.username
-    subject: '[CodeCombat] Password Reset'
-    text: "You can log into your account with: #{password}"
