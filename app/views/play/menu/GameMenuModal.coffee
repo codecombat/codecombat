@@ -34,6 +34,7 @@ module.exports = class GameMenuModal extends ModalView
     submenus = ["options", "save-load", "guide", "multiplayer"]
     submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
+    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or @level?.get('type') in ['ladder', 'hero-ladder']
     context.showTab = @options.showTab ? submenus[0]
     context.submenus = submenus
     context.iconMap =
