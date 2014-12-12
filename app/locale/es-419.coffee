@@ -539,7 +539,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
-#    find_us: "Find us on these sites"
+#    find_us: "Encuentranos en estos sitios"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Me Gusta CodeCombat en Facebook"
