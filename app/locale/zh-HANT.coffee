@@ -4,10 +4,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     no_ie: "抱歉！Internet Explorer 8 等舊的瀏覽器打不開此網站" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat 不是針對手機設備設計的，所以可能會出問題！" # Warning that shows up on mobile devices
     play: "開始遊戲" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    try_it: "試試看" # Alternate wording for Play button
+    old_browser: "嗯…您的瀏覽器太老了跑不動'程式之戰'，抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "您還是可以試試看，但它應該不能運行。"
+    ipad_browser: "壞消息: 「程式之戰」不能在iPad上的瀏覽器運行。好消息：我們的iPad APP正在等待蘋果公司驗證。"
 #    campaign: "Campaign"
 #    for_beginners: "For Beginners"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
@@ -16,13 +16,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   nav:
     play: "開始遊戲" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    community: "社群"
     editor: "編輯"
     blog: "官方部落格"
     forum: "論壇"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
+    account: "帳號"
+    profile: "帳號資料"
+    stats: "記錄"
 #    code: "Code"
     admin: "系統管理員" # Only shows up when you are an admin
     home: "首頁"
@@ -69,6 +69,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
+#    campaign_desert: "Desert Campaign"
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
@@ -99,10 +100,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   login:
     sign_up: "註冊"
     log_in: "登入"
-#    logging_in: "Logging In"
+    logging_in: "登入中"
     log_out: "登出"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
+    forgot_password: "忘記密碼?"
+    authenticate_gplus: "以G+帳號登入"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
@@ -115,7 +116,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     creating: "帳號建立中..."
     sign_up: "註冊"
     log_in: "登入"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "您也可以使用G+或Facebook帳號註冊:"
 #    required: "You need to log in before you can go that way."
 #    login_switch: "Already have an account?"
 
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    regeneration: "Regeneration"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
 #    skills: "Skills"
-#    available_for_purchase: "Available for Purchase"
-#    level_to_unlock: "Level to unlock:"
+#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     recently_played: "最近玩過"
     no_recent_games: "在過去兩個星期沒有遊戲玩過。"
 #    payments: "Payments"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
 #    price: "Price"
 #    gems: "Gems"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
+#    payment_info: "Payment Info"
 
 #  delta:
 #    added: "Added"

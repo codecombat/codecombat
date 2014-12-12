@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
     choose_inventory: "Ta i bruk gjenstander"
     buy_gems: "Kjøp Juveler"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Skogsfelttog"
     campaign_dungeon: "Katakombefelttog"
 #    subscription_required: "Subscription Required"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     regeneration: "Regenerering"
     range: "Rekkevidde" # As in "attack or visual range"
     blocks: "Blokkerer" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Ferdigheter"
-    available_for_purchase: "Kan Kjøpes"
-    level_to_unlock: "Låses opp på nivå:"
+    available_for_purchase: "Kan Kjøpes" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Låses opp på nivå:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Bare noen helter kan spille dette brettet."
 
   skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     recently_played: "Nylig Spilt"
     no_recent_games: "Ingen spill spilt de siste to ukene."
     payments: "Betalinger"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Betalt den"
     service: "Tjeneste"
     price: "Pris"
     gems: "Juveler"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     clas: "CLAer"
 #    play_counts: "Play Counts"
     feedback: "Tilbakemelding"
+#    payment_info: "Payment Info"
 
   delta:
     added: "Opprettet"

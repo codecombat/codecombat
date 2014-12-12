@@ -69,6 +69,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     change_hero: "Changer le Héro" # Go back from choose inventory to choose hero
     choose_inventory: "Équiper des objets"
     buy_gems: "Acheter des gemmes"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "Campagne de la forêt"
     campaign_dungeon: "Compagne du donjon"
     subscription_required: "Enregistrement nécessaire"
@@ -101,14 +102,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "Connexion"
     logging_in: "Connecter"
     log_out: "Déconnexion"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Mot de passe oublié?"
     authenticate_gplus: "Authentication G+"
     load_profile: "Charger profil G+"
     load_email: "Charger Email G+"
     finishing: "Finalisation"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Connecter avec Facebook"
+    sign_in_with_gplus: "Connecter avec G+"
+    signup_switch: "Voulez-vous créer un compte?"
 
   signup:
     email_announcements: "Recevoir les annonces par email"
@@ -117,7 +118,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "se connecter avec votre mot de passe"
     social_signup: "Ou, vous pouvez vous identifier avec Facecook ou G+:"
     required: "Vous devez être connecté pour voir cela"
-#    login_switch: "Already have an account?"
+    login_switch: "Avez-vous déjà un compte?"
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -220,7 +221,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     reload_title: "Recharger tout le code?"
     reload_really: "Êtes-vous sûr de vouloir recharger ce niveau et retourner au début?"
     reload_confirm: "Tout recharger"
-#    victory: "Victory"
+    victory: "Victoire"
     victory_title_prefix: ""
     victory_title_suffix: " Terminé"
     victory_sign_up: "Inscrivez-vous pour recevoir les mises à jour"
@@ -233,8 +234,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_review: "Dites-nous en plus!" # Only in old-style levels.
     victory_hour_of_code_done: "Déjà fini ?"
     victory_hour_of_code_done_yes: "Oui, j'ai fini mon heure de code!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP gagnée"
+    victory_gems_gained: "Gemmes gagnées"
     guide_title: "Guide"
     tome_minion_spells: "Les sorts de vos soldats" # Only in old-style levels.
     tome_read_only_spells: "Sorts en lecture-seule" # Only in old-style levels.
@@ -335,7 +336,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   subscribe:
     subscribe_title: "Inscription"
-#    unsubscribe: "Unsubscribe"
+    unsubscribe: "Désinscription"
     levels: "Débloquer 17 niveaux supplémentaires ! Et 5 nouveaux chaque semaines!"
     heroes: "Héros plus puissants!"
     gems: "3500 gemmes en bonus chaque mois !"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     regeneration: "Régénération"
     range: "Portée" # As in "attack or visual range"
     blocks: "Absorbe" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Compétences"
-    available_for_purchase: "Disponible à l'achat"
-    level_to_unlock: "Niveau à débloquer:"
+    available_for_purchase: "Disponible à l'achat" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Niveau à débloquer:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Seulement certains héros peuvent jouer ce niveau."
 
   skill_docs:
@@ -382,7 +384,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     read_only: "lecture seulement"
     action_name: "nom"
 #    action_cooldown: "Takes"
-    action_specific_cooldown: "Refroidissement"
+    action_specific_cooldown: "Rechargement"
     action_damage: "Dégat"
     action_range: "Portée"
     action_radius: "Rayon"
@@ -584,7 +586,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_tab_settings: "Paramètres"
     level_tab_components: "Composants"
     level_tab_systems: "Systèmes"
-#    level_tab_docs: "Documentation"
+    level_tab_docs: "Documentation"
     level_tab_thangs_title: "Thangs actuels"
     level_tab_thangs_all: "Tout"
     level_tab_thangs_conditions: "Conditions de départ"
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     recently_played: "Jouées récemment"
     no_recent_games: "Aucunes parties jouées au cours des deux dernières semaines."
     payments: "Paiements"
-#    service_apple: "Apple"
-#    service_web: "Web"
-#    paid_on: "Paid On"
-#    service: "Service"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
+    service_apple: "Apple"
+    service_web: "Web"
+    paid_on: "Payé"
+    service: "Service"
     price: "Prix"
     gems: "Gemmes"
-    status_subscribed: "Vous vous êtes inscrit pour $9.99 USD/mois. Merci de votre aide !"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
     status_unsubscribed_active: "Vous n'êtes pas inscrit et ne serez pas facturé, mais votre compte est toujours actif."
     status_unsubscribed: "Obtenez l'accès à de nouveaux niveaux, héros, objets et gemmes en bonu avec une inscription à CodeCombat !"
 
@@ -852,8 +862,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     systems: "Systèmes"
     component: "Composant"
     components: "Composants"
-#    thang: "Thang"
-#    thangs: "Thangs"
+    thang: "Thang"
+    thangs: "Thangs"
     level_session: "Votre Session"
     opponent_session: "Session de l'adversaire"
     article: "Article"
@@ -873,9 +883,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     items: "Objets"
     heroes: "Héros"
     achievement: "Succès"
-#    clas: "CLAs"
+    clas: "CLAs"
     play_counts: "Nombre de parties"
     feedback: "Réaction"
+#    payment_info: "Payment Info"
 
   delta:
     added: "Ajouté"
@@ -886,8 +897,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     merge_conflict_with: "Fusionner les conflits avec"
     no_changes: "Aucuns Changements"
 
-#  guide:
-#    temp: "Temp"
+  guide:
+    temp: "Temp"
 
   multiplayer:
     multiplayer_title: "Préférences multijoueurs" # We'll be changing this around significantly soon. Until then, it's not important to translate.

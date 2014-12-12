@@ -71,7 +71,7 @@ class SubscriptionHandler extends Handler
 
     # SALE LOGIC
     # overwrite couponID with another for everyone-sales
-    # couponID = 'hoc_599' if not couponID
+    couponID = 'hoc_399' if not couponID
 
     if subscription = customer.subscriptions?.data?[0]
 
@@ -116,11 +116,6 @@ class SubscriptionHandler extends Handler
     stripeInfo.customerID = customer.id
     req.body.stripe = stripeInfo # to make sure things work for admins, who are mad with power
     user.set('stripe', stripeInfo)
-
-    # Testing alternate displayed subscription price of 1499
-    testStartTime = new Date("2014-12-11T01:00:00.000Z")
-    if new Date(user.get('dateCreated')) >= testStartTime
-      stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.subscriptionID, {metadata: {priceTest: '1499'}}
 
     if increment
       purchased = _.clone(user.get('purchased'))

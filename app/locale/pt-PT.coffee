@@ -69,6 +69,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
     buy_gems: "Comprar Gemas"
+    campaign_desert: "Campanha do Deserto"
     campaign_forest: "Campanha da Floresta"
     campaign_dungeon: "Campanha da Masmorra"
     subscription_required: "Subscrição Necessária"
@@ -101,14 +102,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     log_in: "Iniciar Sessão"
     logging_in: "A Iniciar Sessão"
     log_out: "Sair"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Esqueceste a tua palavra-passe?"
     authenticate_gplus: "Autenticar G+"
     load_profile: "Carregar Perfil do G+"
     load_email: "Carregar E-mail do G+"
     finishing: "A terminar"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Iniciar sessão com o Facebook"
+    sign_in_with_gplus: "Iniciar sessão com o G+"
+    signup_switch: "Queres criar uma conta?"
 
   signup:
     email_announcements: "Receber anúncios por e-mail"
@@ -117,11 +118,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     log_in: "iniciar sessão com palavra-passe"
     social_signup: "Ou podes registar-te através do Facebook ou do Google+:"
     required: "Precisas de iniciar sessão antes de prosseguir dessa forma."
-#    login_switch: "Already have an account?"
+    login_switch: "Já tens uma conta?"
 
   recover:
     recover_account_title: "Recuperar Conta"
-    send_password: "Enviar Password de Recuperação"
+    send_password: "Enviar Palavra-passe de Recuperação"
     recovery_sent: "E-mail de recuperação enviado."
 
   items:
@@ -220,7 +221,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     reload_title: "Recarregar o Código Todo?"
     reload_really: "Tens a certeza que queres recarregar este nível de volta ao início?"
     reload_confirm: "Recarregar Tudo"
-#    victory: "Victory"
+    victory: "Vitória"
     victory_title_prefix: ""
     victory_title_suffix: " Concluído"
     victory_sign_up: "Criar Conta para Guardar Progresso"
@@ -233,8 +234,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_review: "Conta-nos mais!" # Only in old-style levels.
     victory_hour_of_code_done: "Terminaste?"
     victory_hour_of_code_done_yes: "Sim, terminei a minha Hora do Código™!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP Ganho"
+    victory_gems_gained: "Gemas Ganhas"
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions" # Only in old-style levels.
     tome_read_only_spells: "Feitiços Apenas de Leitura" # Only in old-style levels.
@@ -335,8 +336,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     subscribe_title: "Subscrever"
-#    unsubscribe: "Unsubscribe"
-    levels: "Desbloqueia 25 níveis! Com mais 5 novos por semana!"
+    unsubscribe: "Cancelar Subscrição"
+    levels: "Pratica mais com níveis bónus!"
     heroes: "Heróis mais poderosos!"
     gems: "3500 gemas de bónus todos os meses!"
     items: "Mais de 250 itens de bónus!"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     regeneration: "Regeneração"
     range: "Alcance" # As in "attack or visual range"
     blocks: "Bloqueia" # As in "this shield blocks this much damage"
+    backstab: "Colateral" # As in "this dagger does this much backstab damage"
     skills: "Habilidades"
-    available_for_purchase: "Disponível para Aquirir"
-    level_to_unlock: "Nível para desbloquear:"
+    available_for_purchase: "Disponível para Aquirir" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Nível para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Apenas certos heróis podem jogar este nível."
 
   skill_docs:
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     recently_played: "Jogados Recentemente"
     no_recent_games: "Sem jogos jogados nas passadas duas semanas."
     payments: "Pagamentos"
+    purchased: "Adquirido"
+    subscription: "Subscrição"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pago Em"
     service: "Serviço"
     price: "Preço"
     gems: "Gemas"
-    status_subscribed: "Atualmente, estás subscrito por $9.99 USD/mês. Agradecemos o teu apoio!"
+    active: "Activa"
+    subscribed: "Subscrito"
+    unsubscribed: "Não Subscrito"
+    active_until: "Ativa Até"
+    cost: "Custo"
+    next_payment: "Próximo Pagamento"
+    card: "Cartão"
     status_unsubscribed_active: "Não estás subscrito e não te vamos cobrar, mas a tua conta ainda está ativa, por agora."
     status_unsubscribed: "Ganha acesso a novos níveis, heróis, itens e gemas de bónus com uma subscrição do CodeCombat!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     clas: "CLAs"
     play_counts: "Número de Jogos"
     feedback: "Feedback"
+    payment_info: "Informações de Pagamento"
 
   delta:
     added: "Adicionados/as"
@@ -912,7 +923,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     privacy_title: "Privacidade"
     privacy_description: "Nós não vamos vender nenhuma das tuas informações pessoais."
     security_title: "Segurança"
-#    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
+    security_description: "Nós lutamos para manter as tuas informações pessoais seguras. Sendo um projeto open source, o nosso sítio tem o código disponível, pelo que qualquer pessoa pode rever e melhorar os nossos sistemas de segurança."
     email_title: "E-mail"
     email_description_prefix: "Nós não te inundaremos com spam. Através das"
     email_settings_url: "tuas definições de e-mail"

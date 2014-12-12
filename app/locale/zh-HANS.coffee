@@ -69,6 +69,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
     buy_gems: "购买宝石"
+#    campaign_desert: "Desert Campaign"
     campaign_forest: "森林战役"
     campaign_dungeon: "地牢战役"
     subscription_required: "需订阅"
@@ -372,9 +373,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     regeneration: "恢复"
     range: "攻击范围" # As in "attack or visual range"
     blocks: "格挡" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "技能"
-    available_for_purchase: "可以购买"
-    level_to_unlock: "未解锁关卡："
+    available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
 
   skill_docs:
@@ -468,7 +470,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forum_suffix: ""
     send: "反馈意见"
     contact_candidate: "联系参选人" # Deprecated
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
+    recruitment_reminder: "用这张表格来联系你希望面试的求职者。但请记住如果成功雇佣，CodeCombat会收取与这位员工第一年工资的15%等值的佣金。佣金需在雇佣此员工时就付清并且在之后的90天内如果此员工离职则可退款。兼职，远程办公员工，合同工以及实习生都可免除此费用。" # Deprecated
 
   account_settings:
     title: "账户设置"
@@ -809,13 +811,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     recently_played: "最近玩过的关卡"
     no_recent_games: "最近两个星期没有玩过游戏。"
 #    payments: "Payments"
+#    purchased: "Purchased"
+#    subscription: "Subscription"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
 #    service: "Service"
     price: "价格"
     gems: "宝石"
-#    status_subscribed: "You're currently subscribed at $9.99 USD/mo. Thanks for your support!"
+#    active: "Active"
+#    subscribed: "Subscribed"
+#    unsubscribed: "Unsubscribed"
+#    active_until: "Active Until"
+#    cost: "Cost"
+#    next_payment: "Next Payment"
+#    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -876,6 +886,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
     feedback: "反馈"
+#    payment_info: "Payment Info"
 
   delta:
     added: "被添加"
@@ -985,25 +996,25 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     looking_for: "寻找"
     last_updated: "最后一次更新："
     contact: "联系"
-    active: "正期待面试offer"
-    inactive: "并不期待面试offer"
+    active: "正在寻求面试机会"
+    inactive: "目前没有在寻找新的工作机会"
     complete: "完成"
     next: "下一步"
     next_city: "城市?"
-    next_country: "选择你的城市。"
-    next_name: "姓名?"
-    next_short_description: "写一个简短的描述"
-    next_long_description: "描述你渴望的职位。"
+    next_country: "选择你所处的国家"
+    next_name: "名字?"
+    next_short_description: "简短描述下你自己。"
+    next_long_description: "描述一下你希望找到何种工作。"
     next_skills: "列出至少五个技能。"
     next_work: "你的过往工作经验"
     next_education: "教育经历"
-#    next_projects: "show off up to three projects you've worked on."
-#    next_links: "add any personal or social links."
-#    next_photo: "add an optional professional photo."
-#    next_active: "mark yourself open to offers to show up in searches."
-#    example_blog: "Blog"
+    next_projects: "展示你曾经参与过的至多3个项目。"
+    next_links: "添加任何个人网站或社交媒体链接。"
+    next_photo: "添加一张职业的照片（可选）。"
+    next_active: "将自己标记为正在寻求工作机会以使自己的名字出现在搜索结果中。"
+    example_blog: "你的博客"
 #    example_personal_site: "Personal Site"
-#    links_header: "Personal Links"
+    links_header: "个人网站链接"
 #    links_blurb: "Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog."
 #    links_name: "Link Name"
 #    links_name_help: "What are you linking to?"

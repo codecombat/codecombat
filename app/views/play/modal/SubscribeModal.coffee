@@ -28,15 +28,12 @@ module.exports = class SubscribeModal extends ModalView
     c = super()
     c.state = @state
     c.stateMessage = @stateMessage
-
-    # Testing alternate displayed subscription price of 1499
-    unless me.getSubscribePriceGroup() is 'control'
-      c.price = 14.99
-    else
-      c.price = @product.amount / 100
+    # c.price = @product.amount / 100
+    c.price = 3.99 # Sale
 
     # A/B Testing alternate subscription copy
     c.BTest = me.getSubscribeCopyGroup() is 'new'
+
     return c
 
   afterRender: ->
@@ -45,8 +42,7 @@ module.exports = class SubscribeModal extends ModalView
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
-    unless me.getSubscribePriceGroup() is 'control'
-      popoverContent = popoverContent.replace /9[.,]99/g, '14.99'
+    popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
     window.popoverContent = popoverContent
     @$el.find('#parents-info').popover(
       animation: true
@@ -74,17 +70,11 @@ module.exports = class SubscribeModal extends ModalView
     # overwrite amount with sale price
     # maybe also put in another description with details about how long it lasts, etc
     # NOTE: Do not change this price without updating the context.price in getRenderData
-    # options = {
-    #   description: 'Monthly Subscription (HoC sale)'
-    #   amount: 599
-    # }
-
-    # Testing alternate displayed subscription price of 1499
-    unless me.getSubscribePriceGroup() is 'control'
-      options = {
-        description: $.i18n.t('subscribe.stripe_description')
-        amount: 1499
-      }
+    # NOTE: And, the popover content if necessary
+    options = {
+      description: 'Monthly Subscription (HoC sale)'
+      amount: 399
+    }
 
     @purchasedAmount = options.amount
 
