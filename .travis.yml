@@ -11,6 +11,7 @@ before_install:
 before_script:
   - "npm install"
   - export DISPLAY=:99.0
+  - export COCO_TRAVIS_TEST=1
   - sh -e /etc/init.d/xvfb start
   - "./node_modules/.bin/bower install"
   - "gem install sass"
