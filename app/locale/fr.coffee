@@ -373,7 +373,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     regeneration: "Régénération"
     range: "Portée" # As in "attack or visual range"
     blocks: "Absorbe" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
+    backstab: "Poignardé" # As in "this dagger does this much backstab damage"
     skills: "Compétences"
     available_for_purchase: "Disponible à l'achat" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Niveau à débloquer:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
@@ -383,7 +383,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "lecture seulement"
     action_name: "nom"
-#    action_cooldown: "Takes"
+    action_cooldown: "Encaisse" #Takes
     action_specific_cooldown: "Rechargement"
     action_damage: "Dégat"
     action_range: "Portée"
@@ -819,13 +819,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     service: "Service"
     price: "Prix"
     gems: "Gemmes"
-#    active: "Active"
-#    subscribed: "Subscribed"
-#    unsubscribed: "Unsubscribed"
-#    active_until: "Active Until"
-#    cost: "Cost"
-#    next_payment: "Next Payment"
-#    card: "Card"
+    active: "Actif"
+    subscribed: "Inscrit"
+    unsubscribed: "Désincrit"
+    active_until: "Actif jusqu'à"
+    cost: "Coût"
+    next_payment: "Prochain paiment"
+    card: "Carte"
     status_unsubscribed_active: "Vous n'êtes pas inscrit et ne serez pas facturé, mais votre compte est toujours actif."
     status_unsubscribed: "Obtenez l'accès à de nouveaux niveaux, héros, objets et gemmes en bonu avec une inscription à CodeCombat !"
 
@@ -886,7 +886,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     clas: "CLAs"
     play_counts: "Nombre de parties"
     feedback: "Réaction"
-#    payment_info: "Payment Info"
+    payment_info: "Info paiement"
 
   delta:
     added: "Ajouté"
