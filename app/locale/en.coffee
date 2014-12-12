@@ -333,6 +333,7 @@
     prompt_title: "Not Enough Gems"
     prompt_body: "Do you want to get more?"
     prompt_button: "Enter Shop"
+    recovered: "Previous gems purchase recovered. Please refresh the page."
 
   subscribe:
     subscribe_title: "Subscribe"

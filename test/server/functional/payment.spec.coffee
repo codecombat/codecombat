@@ -6,6 +6,7 @@ require '../common'
 describe '/db/payment', ->
   request = require 'request'
   paymentURL = getURL('/db/payment')
+  checkChargesURL = getURL('/db/payment/check-stripe-charges')
   
   firstApplePayment = {
     apple: {
@@ -47,7 +48,7 @@ describe '/db/payment', ->
             expect(user.get('purchased').gems).toBe(5000)
             done()
           )
-  
+          
     it 'is idempotent', (done) ->
       loginJoe ->
         request.post {uri: paymentURL, json: firstApplePayment}, (err, res, body) ->
@@ -261,4 +262,37 @@ describe '/db/payment', ->
             done()
       )
 
-      
+  describe '/db/payment/check-stripe-charges', ->
+    stripe = require('stripe')(config.stripe.secretKey)
+
+    it 'clears the db', (done) ->
+      clearModels [User, Payment], (err) ->
+        throw err if err
+        done()
+
+    it 'finds and records charges which are not in our db', (done) ->
+      timestamp = new Date().getTime()
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+
+        data = {
+          productID: 'gems_5'
+          stripe: { token: token.id, timestamp: timestamp }
+          breakAfterCharging: true
+        }
+
+        loginJoe (joe) ->
+          request.post {uri: paymentURL, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe 500
+
+            request.post { uri: checkChargesURL }, (err, res, body) ->
+              expect(res.statusCode).toBe 201
+              Payment.count({}, (err, count) ->
+                expect(count).toBe(1)
+                User.findById(joe.get('_id'), (err, user) ->
+                  expect(user.get('purchased').gems).toBe(5000)
+                  done()
+                )
+              )
+     
