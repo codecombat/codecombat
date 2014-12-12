@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     heroes: "Helde" # Tooltip on hero shop button from /play
     achievements: "Achievements" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
-   settings: "Istellige" # Tooltip on settings button from /play
+    settings: "Istellige" # Tooltip on settings button from /play
     next: "Wiiter" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wächsle" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
@@ -109,7 +109,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     finishing: "Fertigstelle"
     sign_in_with_facebook: "Mit Facebook aamelde"
     sign_in_with_gplus: "Mit G+ aamelde"
-   signup_switch: "Willsch es Account erstelle?"
+    signup_switch: "Willsch es Account erstelle?"
 
   signup:
     email_announcements: "Akündigunge per Mail erhalte"
@@ -150,7 +150,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    unwatch: "Unwatch"
     submit_patch: "Patch ireiche"
 
-#  general:
+  general:
     and: "und"
     name: "Name"
     date: "Datum"
@@ -161,7 +161,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    version_history_for: "Version History for: "
     result: "Resultat"
 #    results: "Results"
-   description: "Beschriibig"
+    description: "Beschriibig"
     or: "oder"
 #    subject: "Subject"
     email: "E-mail"
