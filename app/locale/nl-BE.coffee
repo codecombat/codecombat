@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     forum_prefix: "Voor iets publiekelijks, probeer dan "
     forum_page: "ons forum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Feedback Verzonden"
     contact_candidate: "Contacteer Kandidaat" # Deprecated
     recruitment_reminder: "Gebruik dit formulier om kandidaten te contacteren voor wie je een interesse hebt om te interviewen. Vergeet niet dat CodeCombat een honorarium vraagt van 18% op het eerste-jaarssalaris. Dit honorarium moet betaald worden als de kandidaat wordt aangenomen en kon tot na 90 dagen terugbetaald worden als deze ontslagen wordt in deze periode. Deeltijds-, contract- en thuiswerkers worden van dit honorarium vrijgesteld, alsook interims." # Deprecated

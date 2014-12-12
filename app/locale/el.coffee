@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     forum_prefix: "Για οτιδήποτε δημόσιο, παρακαλούμε δοκίμαστε "
     forum_page: "το φόρουμ μας"
     forum_suffix: ""
+#    where_reply: "Where should we reply?"
     send: "Αποστολή σχολίων"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated

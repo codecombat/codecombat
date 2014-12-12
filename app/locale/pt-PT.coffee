@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     forum_prefix: "Para algo público, por favor usa o "
     forum_page: "nosso fórum"
     forum_suffix: " como alternativa."
+#    where_reply: "Where should we reply?"
     send: "Enviar Feedback"
     contact_candidate: "Contactar Candidato" # Deprecated
     recruitment_reminder: "Usa este formulário para chegares a candidatos que estejas interessado em entrevistar. Lembra-te que o CodeCombat cobra 15% do salário do primeiro ano. A taxa é cobrada no momento da contratação do empregado e é reembolsável durante 90 dias, no caso de o trabalhador não se manter empregado. A empregados em part-time, no estrangeiro e a contrato não são aplicadas taxas, porque são internos." # Deprecated

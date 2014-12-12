@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     forum_prefix: "Du kan også stille spørsmål i våre åpne "
     forum_page: "diskusjonsgrupper"
     forum_suffix: " om du ønsker det. For å få flest mulig svar er det lurt å skrive på engelsk"
+#    where_reply: "Where should we reply?"
     send: "Send tilbakemelding"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated

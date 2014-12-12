@@ -468,6 +468,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     forum_prefix: "Ha publikus dologról van szó, megpróbálhatod a "
     forum_page: "fórumban"
     forum_suffix: " is."
+#    where_reply: "Where should we reply?"
     send: "Visszajelzés küldése"
     contact_candidate: "Vedd fel a kapcsolatot a jelölttel" # Deprecated
     recruitment_reminder: "Használd ezt az űrlapot, hogy tudasd a jelöltekkel, szívesen fogadnád őket egy interjúra. Ne feledd, CodeCombat felszámítja az első évi fizetés 15%-át. A díj a munkavállaló alkalmazásakor esedékes, és 90 napig visszafizetendő, ha a munkavállaó nem marad alkalmazásban. Részidőben, távmunkára és szerződéssel alkalmazottak után nem kell fizetni, valamint gyakornokok után sem." # Deprecated

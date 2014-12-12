@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     forum_prefix: "Para asuntos públicos, por favor usa "
     forum_page: "o noso foro"
     forum_suffix: " no seu lugar."
+#    where_reply: "Where should we reply?"
     send: "Envía o teu comentario"
     contact_candidate: "Contactar Candidato" # Deprecated
     recruitment_reminder: "Usa este formulario para contactar cos candidatos que queiras entrevistar. Recorda que CodeCombat cobrará o 18% do salario durante o primeiro ano. A cuota é pola contratación do empregado e é reembolsable durante 90 días si o empregado non permanece contratado. A tempo parcial, a distancia e os empregados de contrato son gratis, como o son os bolseiros." # Deprecated

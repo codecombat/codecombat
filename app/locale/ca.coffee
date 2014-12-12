@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     forum_prefix: "Per a qualsevol publicació, si us plau prova "
     forum_page: "el nostre fòrum"
     forum_suffix: " sinó"
+#    where_reply: "Where should we reply?"
     send: "Enviar comentari"
     contact_candidate: "Contactar amb el candidat" # Deprecated
     recruitment_reminder: "Utilitza aquest formulari per a contactar amb els candidats que vols entrevistar. Recorda que CodeCombat cobrará el 15% del sou del primer any. El cost es per la contactacio del treballador i es reemborsable durant 90 dies si el treballdor no roman contractat . Temporals, a distancia i treballadors de contracte són gratuits, com els becaris." # Deprecated

@@ -383,7 +383,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "lecture seulement"
     action_name: "nom"
-    action_cooldown: "Encaisse" #Takes
+    action_cooldown: "Encaisse"
     action_specific_cooldown: "Rechargement"
     action_damage: "Dégat"
     action_range: "Portée"
@@ -468,6 +468,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     forum_prefix: "Pour tout sujet d'ordre publique, merci d'utiliser "
     forum_page: "notre forum"
     forum_suffix: " À la place."
+#    where_reply: "Where should we reply?"
     send: "Envoyer un commentaire"
     contact_candidate: "Contacter le candidat" # Deprecated
     recruitment_reminder: "Utilisez ce formulaire pour entrer en contact avec le candidat qui vous interesse. Souvenez-vous que CodeCombat facture 15% de la première année de salaire. Ces frais sont dues à l'embauche de l'employé, ils sont remboursable pendant 90 jours si l'employé ne reste pas employé. Les employés à temps partiel, à distance ou contractuel sont gratuits en tant que stagiaires." # Deprecated

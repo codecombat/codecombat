@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     forum_prefix: "Für alle öffentlichen Themen, benutze stattdessen "
     forum_page: "unser Forum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Sende Feedback"
     contact_candidate: "Kontaktiere Kandidaten" # Deprecated
     recruitment_reminder: "Benutzen Sie dieses Formular um Kontakt zu Kandidaten aufzunehmen, an denen Sie interessiert sind. Bedenken Sie das CodeCombat 15% des ersten Jahresgehaltes berechnet. Diese Gebühr wird fällig wenn Sie den Kandidaten einstellen und ist für 90 Tage rückerstattungsfähig, sollte der Mitarbeiter nicht eingestellt bleiben. Mitarbeiter die für Teilzeit, Remote oder eine Auftragsarbeit eingestellt werden sind kostenlos, das gilt auch für Praktikanten." # Deprecated

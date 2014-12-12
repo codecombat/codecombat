@@ -383,7 +383,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     writable: "gravável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
     action_name: "nome"
-#    action_cooldown: "Takes" # as in ?
+#    action_cooldown: "Takes"
     action_specific_cooldown: "Recarregando"
     action_damage: "Dano"
     action_range: "Distância"
@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     forum_prefix: "Para algo público, por favor acesse "
     forum_page: "nosso fórum"
     forum_suffix: " ao invés disso."
+#    where_reply: "Where should we reply?"
     send: "Enviar opinião"
     contact_candidate: "Contactar Candidato" # Deprecated
     recruitment_reminder: "Utilize esse formulário para entrar em contato com candidatos que você esteja interessado em entrevistar. Lembre-se que o CodeCombat cobra 15% do salário do primeiro ano. A taxa de contratação é cobrada quando da contratação do empregado e é reembolsável por 90 dias, se o empregado não permanece no emprego. Empregados de meio-turno, remotos ou com contrato serão gratuitos como estagiários." # Deprecated

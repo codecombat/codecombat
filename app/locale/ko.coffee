@@ -468,6 +468,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     forum_prefix: "공개적으로 논의할 사항이라면 우리 포럼에서 해주세요 : "
     forum_page: "포럼"
     forum_suffix: " 대신에."
+#    where_reply: "Where should we reply?"
     send: "의견 보내기"
     contact_candidate: "지원자에게 연락하기" # Deprecated
     recruitment_reminder: "인터뷰를 원하는 지원자에게 연락하고자 할 때, 이 양식을 사용해주세요. 코드 컴뱃에게 반드시 첫 해 연봉의 15%를 지급해야합니다. 수수료는 직원을 고용하자마자 즉시 지급되어야 합니다. 한편 90일 이내로 채용이 취소된다면 수수료를 환불받을 수 있습니다. 아르바이트, 재택근무, 계약직은 인턴의 경우와 마찬가지로 수수료가 없습니다." # Deprecated

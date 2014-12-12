@@ -468,6 +468,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forum_prefix: "如果你想发布任何公开的东西, 可以试试"
     forum_page: "我们的论坛"
     forum_suffix: ""
+#    where_reply: "Where should we reply?"
     send: "反馈意见"
     contact_candidate: "联系参选人" # Deprecated
     recruitment_reminder: "用这张表格来联系你希望面试的求职者。但请记住如果成功雇佣，CodeCombat会收取与这位员工第一年工资的15%等值的佣金。佣金需在雇佣此员工时就付清并且在之后的90天内如果此员工离职则可退款。兼职，远程办公员工，合同工以及实习生都可免除此费用。" # Deprecated

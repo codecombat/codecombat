@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     forum_prefix: "Für öffentlichi Sache versuechs mol stattdesse i "
     forum_page: "üsem Forum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Feedback schicke"
     contact_candidate: "Kandidat kontaktiere" # Deprecated
     recruitment_reminder: "Benutz das Formular zum mit Kandidate Kontakt ufneh, i die du interessiert bisch. Bhalt in Erinnerig, dass CodeCombat 15% vom erstjöhrige Lohn verrechnet. De Betrag wird fällig, sobald de Programmierer agstellt wird und chan 90 Täg lang zruggverrechnet werde wenn de Agstellti nid agstellt bliibt. Teilziitarbeit, Fernarbeit und temporäri Agstellti sind chostelos, s gliiche gilt für Interni Mitarbeiter." # Deprecated

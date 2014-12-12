@@ -468,6 +468,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     forum_prefix: "Para cualquier cosa pública, por favor prueba "
     forum_page: "nuestro foro "
     forum_suffix: "en su lugar."
+#    where_reply: "Where should we reply?"
     send: "Enviar Comentario"
     contact_candidate: "Contacta un Candidato" # Deprecated
     recruitment_reminder: "Usa este formulario para llegar a los candidatos que estés interesado en entrevistar. Recuerda que CodeCombat cobra 18% del primer año de salario. Este honorario se debe a la contratación del empleado y reembolsable por 90 días si el empleado no permanece contratado. Tiempo parcial, remoto, y empleados por contrato son gratis, como así también internos." # Deprecated
@@ -807,9 +808,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     left_xp_infix: " hasta el nivel "
     left_xp_postfix: ""
 
-#  account:
+  account:
     recently_played: "Recientemente jugado"
-#    no_recent_games: "No juegos jugados duramente las últimas dos semanas."
+    no_recent_games: "No juegos jugados duramente las últimas dos semanas."
 #    payments: "Payments"
 #    purchased: "Purchased"
     subscription: "Suscripción"
@@ -882,7 +883,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     versions: "Versiones"
     items: "Items"
     heroes: "Héroes"
-#   achievement: "Logros"
+    achievement: "Logros"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
     feedback: "Feedback"
@@ -895,7 +896,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
-#    no_changes: "Sin cambios"
+    no_changes: "Sin cambios"
 
   guide:
     temp: "Temp"
@@ -976,7 +977,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     prizes: "Premios"
     total_value: "Valor Total"
     in_cash: "en dinero"
-#    custom_wizard: "CodeCombat Mago Modificado"
+    custom_wizard: "CodeCombat Mago Modificado"
 #    custom_avatar: "Custom CodeCombat avatar"
 #    heap: "for six months of \"Startup\" access"
     credits: "creditos"

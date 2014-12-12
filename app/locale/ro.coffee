@@ -468,6 +468,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     forum_prefix: "Pentru orice altceva vă rugăm sa incercați "
     forum_page: "forumul nostru"
     forum_suffix: " în schimb."
+#    where_reply: "Where should we reply?"
     send: "Trimite Feedback"
     contact_candidate: "Contacteaza Candidatul" # Deprecated
     recruitment_reminder: "Folosiți acest formular pentru a ajunge la candidații care va intereseaza pentru interviu. CodeCombat percepe 15% din salariu în primul an. Taxa este datorată la angajare și este rambursabilă pentru 90 de zile în cazul în care salariatul nu rămâne angajat. Cele part time, și angajați cu contract la distanță sunt gratuite, așa cum sunt stagiari." # Deprecated
