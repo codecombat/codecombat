@@ -37,6 +37,7 @@ module.exports = class RootView extends CocoView
 
   showNewAchievement: (achievement, earnedAchievement) ->
     return if achievement.get('collection') is 'level.sessions'
+    return if @isIE()  # Some bugs in IE right now, TODO fix soon!
     popup = new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
