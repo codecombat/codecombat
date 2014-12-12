@@ -259,6 +259,8 @@ module.exports = class PlayLevelView extends RootView
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
     @bus.setSpells @tome.spells
+    if @session.get('multiplayer') and not me.isAdmin()
+      @session.set 'multiplayer', false  # Temp: multiplayer has bugged out some sessions, so ignoring it.
     @bus.connect() if @session.get('multiplayer')
 
   # Load Completed Setup ######################################################
