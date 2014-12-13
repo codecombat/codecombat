@@ -322,7 +322,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     multiplayer_caption: "跟朋友一起玩!"
     auth_caption: "儲存進度."
 
-#  inventory:
+  inventory:
     choose_inventory: "裝備物品"
     equipped_item: "已裝備"
     available_item: "可使用"
@@ -334,7 +334,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     equip: "裝備"
     unequip: "脫下"
 
-#  buy_gems:
+  buy_gems:
     few_gems: "一些寶石"
     pile_gems: "一堆寶石"
     chest_gems: "一箱寶石"
