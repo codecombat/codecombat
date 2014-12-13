@@ -656,7 +656,7 @@
     introduction_desc_github_url: "CodeCombat is totally open source"
     introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
     introduction_desc_ending: "We hope you'll join our party!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, and Matt"
     alert_account_message_intro: "Hey there!"
     alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
     archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
