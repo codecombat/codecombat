@@ -28,8 +28,8 @@ module.exports = class SubscribeModal extends ModalView
     c = super()
     c.state = @state
     c.stateMessage = @stateMessage
-    # c.price = @product.amount / 100
-    c.price = 3.99 # Sale
+    c.price = @product.amount / 100
+    #c.price = 3.99 # Sale
 
     # A/B Testing alternate subscription copy
     c.BTest = me.getSubscribeCopyGroup() is 'new'
@@ -42,7 +42,7 @@ module.exports = class SubscribeModal extends ModalView
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
-    popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
+    #popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
     window.popoverContent = popoverContent
     @$el.find('#parents-info').popover(
       animation: true
@@ -71,10 +71,10 @@ module.exports = class SubscribeModal extends ModalView
     # maybe also put in another description with details about how long it lasts, etc
     # NOTE: Do not change this price without updating the context.price in getRenderData
     # NOTE: And, the popover content if necessary
-    options = {
-      description: 'Monthly Subscription (HoC sale)'
-      amount: 399
-    }
+    #options = {
+    #  description: 'Monthly Subscription (HoC sale)'
+    #  amount: 399
+    #}
 
     @purchasedAmount = options.amount
 
