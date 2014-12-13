@@ -146,9 +146,13 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     fork: "Fork"
     play: "Jogar" # When used as an action verb, like "Play next level"
     retry: "Tente novamente"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
     watch: "Observar"
     unwatch: "Não Observar"
     submit_patch: "Enviar arranjo"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "e"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     date: "Data"
     body: "Principal"
     version: "Versão"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Mensagem de Submissão"
+#    review: "Review"
     version_history: "Histórico de Versão"
     version_history_for: "Histórico de Versão para: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Resultado"
     results: "Resultados"
     description: "Descrição"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     prompt_title: "Gemas insulficientes"
     prompt_body: "Você quer conseguir mais gemas?"
     prompt_button: "Entrar na loja"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
   subscribe:
     subscribe_title: "Inscrever-se"
@@ -383,7 +395,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     writable: "gravável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
     action_name: "nome"
-#    action_cooldown: "Takes" # as in ?
+#    action_cooldown: "Takes"
     action_specific_cooldown: "Recarregando"
     action_damage: "Dano"
     action_range: "Distância"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     forum_prefix: "Para algo público, por favor acesse "
     forum_page: "nosso fórum"
     forum_suffix: " ao invés disso."
+#    where_reply: "Where should we reply?"
     send: "Enviar opinião"
     contact_candidate: "Contactar Candidato" # Deprecated
     recruitment_reminder: "Utilize esse formulário para entrar em contato com candidatos que você esteja interessado em entrevistar. Lembre-se que o CodeCombat cobra 15% do salário do primeiro ano. A taxa de contratação é cobrada quando da contratação do empregado e é reembolsável por 90 dias, se o empregado não permanece no emprego. Empregados de meio-turno, remotos ou com contrato serão gratuitos como estagiários." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     more: "Mais"
     wiki: "Wiki"
     live_chat: "Chat Ao Vivo"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Algumas  Opções?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"

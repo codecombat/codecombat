@@ -146,9 +146,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     fork: "派生"
     play: "开始" # When used as an action verb, like "Play next level"
     retry: "重试"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
     watch: "关注"
     unwatch: "取消关注"
     submit_patch: "提交补丁"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "与"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     date: "日期"
     body: "正文"
     version: "版本"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "提交信息"
+#    review: "Review"
     version_history: "版本历史"
     version_history_for: "版本历史: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "结果"
     results: "结果"
     description: "描述"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     prompt_title: "没有足够数量的宝石"
     prompt_body: "还需要更多吗？"
     prompt_button: "进入商店"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
   subscribe:
     subscribe_title: "订阅"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forum_prefix: "如果你想发布任何公开的东西, 可以试试"
     forum_page: "我们的论坛"
     forum_suffix: ""
+#    where_reply: "Where should we reply?"
     send: "反馈意见"
     contact_candidate: "联系参选人" # Deprecated
     recruitment_reminder: "用这张表格来联系你希望面试的求职者。但请记住如果成功雇佣，CodeCombat会收取与这位员工第一年工资的15%等值的佣金。佣金需在雇佣此员工时就付清并且在之后的90天内如果此员工离职则可退款。兼职，远程办公员工，合同工以及实习生都可免除此费用。" # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more: "更多"
     wiki: "维基"
     live_chat: "在线聊天"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "有哪些选项？"
     level_tab_thangs: "物体"
     level_tab_scripts: "脚本"

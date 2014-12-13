@@ -146,9 +146,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     fork: "Förgrena"
     play: "Spela" # When used as an action verb, like "Play next level"
     retry: "Försök igen"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "och"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     date: "Datum"
     body: "Kropp"
     version: "Version"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Förbindelsemeddelande"
+#    review: "Review"
 #    version_history: "Version History"
     version_history_for: "Versionshistorik för: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Resultat"
     results: "Resultat"
     description: "Beskrivning"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     forum_prefix: "För någonting offentligt, var vänlig testa "
     forum_page: "vårt forum"
     forum_suffix: " istället."
+#    where_reply: "Where should we reply?"
     send: "Skicka Feedback"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Några inställningar?"
     level_tab_thangs: "Enheter"
     level_tab_scripts: "Skript"

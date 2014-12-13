@@ -146,9 +146,13 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     fork: "派生"
     play: "開來" # When used as an action verb, like "Play next level"
     retry: "轉試"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "搭"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    date: "Date"
     body: "正文"
     version: "版本"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "提交訊息"
+#    review: "Review"
     version_history: "版本歷史"
     version_history_for: "版本歷史: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "結果"
     results: "結果"
     description: "描述"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     forum_prefix: "假使爾想發佈弗管何物開放個物事, 好試試相"
     forum_page: "我裏個論壇"
     forum_suffix: ""
+#    where_reply: "Where should we reply?"
     send: "提出意見"
     contact_candidate: "搭參選人聯繫" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     more: "無數"
     wiki: "維基"
     live_chat: "上線白嗒"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "有解某條目？"
     level_tab_thangs: "物事"
     level_tab_scripts: "腳本"

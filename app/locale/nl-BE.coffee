@@ -146,9 +146,13 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     fork: "Fork"
     play: "Spelen" # When used as an action verb, like "Play next level"
     retry: "Probeer opnieuw"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "en"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    date: "Date"
     body: "Inhoud"
     version: "Versie"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Commit Bericht"
+#    review: "Review"
     version_history: "Versie geschiedenis"
     version_history_for: "Versie geschiedenis voor: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Resultaat"
     results: "Resultaten"
     description: "Beschrijving"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     forum_prefix: "Voor iets publiekelijks, probeer dan "
     forum_page: "ons forum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Feedback Verzonden"
     contact_candidate: "Contacteer Kandidaat" # Deprecated
     recruitment_reminder: "Gebruik dit formulier om kandidaten te contacteren voor wie je een interesse hebt om te interviewen. Vergeet niet dat CodeCombat een honorarium vraagt van 18% op het eerste-jaarssalaris. Dit honorarium moet betaald worden als de kandidaat wordt aangenomen en kon tot na 90 dagen terugbetaald worden als deze ontslagen wordt in deze periode. Deeltijds-, contract- en thuiswerkers worden van dit honorarium vrijgesteld, alsook interims." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     more: "Meer"
     wiki: "Wiki"
     live_chat: "Live Chat"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Enkele opties?"
     level_tab_thangs: "Elementen"
     level_tab_scripts: "Scripts"

@@ -24,12 +24,17 @@ module.exports = class BuyGemsModal extends ModalView
 
   constructor: (options) ->
     super(options)
+    @timestampForPurchase = new Date().getTime()
     @state = 'standby'
     if application.isIPadApp
       @products = []
       Backbone.Mediator.publish 'buy-gems-modal:update-products'
     else
       @products = @originalProducts
+      $.post '/db/payment/check-stripe-charges', (something, somethingElse, jqxhr) =>
+        if jqxhr.status is 201
+          @state = 'recovered_charge'
+          @render()
 
   getRenderData: ->
     c = super()
@@ -67,7 +72,6 @@ module.exports = class BuyGemsModal extends ModalView
     @productBeingPurchased = product
 
   onStripeReceivedToken: (e) ->
-    @timestampForPurchase = new Date().getTime()
     data = {
       productID: @productBeingPurchased.id
       stripe: {

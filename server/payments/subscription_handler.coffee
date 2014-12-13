@@ -71,7 +71,7 @@ class SubscriptionHandler extends Handler
 
     # SALE LOGIC
     # overwrite couponID with another for everyone-sales
-    couponID = 'hoc_399' if not couponID
+    #couponID = 'hoc_399' if not couponID
 
     if subscription = customer.subscriptions?.data?[0]
 

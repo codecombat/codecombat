@@ -146,9 +146,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     fork: "Bifurcar"
     play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
     watch: "Mirar"
     unwatch: "Pasar"
     submit_patch: "Mandar Parche"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "y"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     date: "Fecha"
     body: "Cuerpo"
     version: "Versión"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Mensaje de Asignación o Commit"
+#    review: "Review"
     version_history: "Historial de versión"
     version_history_for: "Historial de las versiones de: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Resultado"
     results: "Resultados"
     description: "Descripción"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     prompt_title: "Gemas no suficientes"
     prompt_body: "¿Quieres obtener más?"
     prompt_button: "Ingresa a la tienda"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
   subscribe:
     subscribe_title: "Suscríbete"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     forum_prefix: "Para asuntos públicos, por favor usa "
     forum_page: "nuestro foro"
     forum_suffix: " en su lugar."
+#    where_reply: "Where should we reply?"
     send: "Envía tu comentario"
     contact_candidate: "Contactar Candidato" # Deprecated
     recruitment_reminder: "Usa este formulario para contactar con los candidatos que quieras entrevistar. Recuerda que CodeCombat cobrará el 18% del salario durante el primer año. La cuota es por la contratación del empleado y es reembolsable durante 90 días si el empleado no permanece contratado. A tiempo parcial, a distancia y los empleados de contrato son gratis, como lo son los becarios." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     more: "Más"
     wiki: "Wiki"
     live_chat: "Chat en directo"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "¿Algunas opciones?"
     level_tab_thangs: "Objetos"
     level_tab_scripts: "Scripts"

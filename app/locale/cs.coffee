@@ -146,9 +146,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     fork: "Klonovat"
     play: "Přehrát" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "a"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    date: "Date"
     body: "Tělo"
     version: "Verze"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Popisek ukládání"
+#    review: "Review"
 #    version_history: "Version History"
     version_history_for: "Verze historie pro: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
 #    result: "Result"
     results: "Výsledky"
     description: "Popis"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
   subscribe:
     subscribe_title: "Předplacení"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     forum_prefix: "Pro ostatní veřejné věci, prosím zkuste "
     forum_page: "naše fórum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Odeslat připomínku"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Volby?"
     level_tab_thangs: "Thangy"
     level_tab_scripts: "Skripty"

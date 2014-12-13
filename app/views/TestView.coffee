@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/test'
+template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 
 require 'vendor/jasmine-bundle'

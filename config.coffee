@@ -4,6 +4,7 @@ _.str = require 'underscore.string'
 sysPath = require 'path'
 fs = require('fs')
 commonjsHeader = fs.readFileSync('node_modules/brunch/node_modules/commonjs-require-definition/require.js', {encoding: 'utf8'})
+TRAVIS = process.env.COCO_TRAVIS_TEST
 
 
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
@@ -59,6 +60,9 @@ exports.config =
           'app/lib/sprites/SpriteBuilder.coffee' # loaded by ThangType
         ]
 
+        #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
+        'javascripts/whole-app.js': if TRAVIS then regJoin('^app') else []
+
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
         'javascripts/app/lib.js': regJoin('^app/lib')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
@@ -80,6 +84,10 @@ exports.config =
           regJoin('^bower_components/(?!(aether|d3|treema))')
           'bower_components/treema/treema-utils.js'
         ]
+        'javascripts/whole-vendor.js': if TRAVIS then [
+          regJoin('^vendor/scripts/(?!(Box2d|jasmine))')
+          regJoin('^bower_components/(?!aether)')
+        ] else []
 
         #- Other vendor libraries in separate bunches
 
@@ -103,6 +111,7 @@ exports.config =
         'javascripts/app/vendor/diffview.js': 'vendor/scripts/diffview.js'
         'javascripts/app/vendor/treema.js': 'bower_components/treema/treema.js'
         'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
+        'javascripts/app/vendor/jasmine-mock-ajax.js': 'vendor/scripts/jasmine-mock-ajax.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
@@ -157,6 +166,7 @@ exports.config =
         'javascripts/app/views/play.js': regJoin('^app/templates/play')
         'javascripts/app/views/game-menu.js': regJoin('^app/templates/game-menu')
         'javascripts/app/views/editor.js': regJoin('^app/templates/editor')
+        'javascripts/whole-app.js': if TRAVIS then regJoin('^app/templates') else []
 
   framework: 'backbone'
 
@@ -190,6 +200,7 @@ exports.config =
       needHeaders = [
         'public/javascripts/app.js'
         'public/javascripts/world.js'
+        'public/javascripts/whole-app.js'
       ]
       defn = if path in needHeaders then commonjsHeader else ''
       return defn

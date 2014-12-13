@@ -88,15 +88,15 @@ module.exports = class Handler
   sendError: (res, code, message) ->
     errors.custom(res, code, message)
 
-  sendSuccess: (res, message) ->
-    res.send(message)
+  sendSuccess: (res, message='{}') ->
+    res.send 200, message
     res.end()
 
-  sendCreated: (res, message) ->
+  sendCreated: (res, message='{}') ->
     res.send 201, message
     res.end()
 
-  sendAccepted: (res, message) ->
+  sendAccepted: (res, message='{}') ->
     res.send 202, message
     res.end()
 
