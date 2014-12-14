@@ -988,12 +988,163 @@ desert = [
     id: 'oasis'
     original: '5480ba761bf0b10000711c64'
     description: 'Run a gauntlet of sand yaks to reach oasis and quench your thirst!'
-    #nextLevels:
-    #  continue: ''
+    nextLevels:
+      continue: 'sarven-road'
     x: 23.35
     y: 31.60
     adventurer: true
     requiresSubscription: false
+  }
+  {
+    name: 'Sarven Road'
+    type: 'hero'
+    id: 'sarven-road'
+    original: '548c82360ffdc235e80ef04b'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'sarven-gaps'
+    x: 28.36
+    y: 24.59
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Sarven Gaps'
+    type: 'hero'
+    id: 'sarven-gaps'
+    original: '548c8f4a0ffdc235e80ef0a8'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'thunderhooves'
+    x: 21.13
+    y: 9.29
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Thunderhooves'
+    type: 'hero'
+    id: 'thunderhooves'
+    original: '548c90020ffdc235e80ef0ad'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'medical-attention'
+    x: 35.08
+    y: 20.48
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Medical Attention'
+    type: 'hero'
+    id: 'medical-attention'
+    original: '548ce3300ffdc235e80ef0b2'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'minesweeper'
+    x: 42.84
+    y: 21.82
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Minesweeper'
+    type: 'hero'
+    id: 'minesweeper'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'sarven-sentry'
+    x: 47.64
+    y: 12.40
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Sarven Sentry'
+    type: 'hero'
+    id: 'sarven-sentry'
+    original: '548cef7f0ffdc235e80ef0cc'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'keeping-time'
+    x: 51.48
+    y: 26.09
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Keeping Time'
+    type: 'hero'
+    id: 'keeping-time'
+    original: '548cf1a90ffdc235e80ef0d1'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'hoarding-gold'
+    x: 58.42
+    y: 34.14
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Hoarding Gold'
+    type: 'hero'
+    id: 'hoarding-gold'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'decoy-drill'
+    x: 61.73
+    y: 29.51
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Decoy Drill'
+    type: 'hero'
+    id: 'decoy-drill'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'yakstraction'
+    x: 62.05
+    y: 40.44
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Yakstraction'
+    type: 'hero'
+    id: 'yakstraction'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'sarven-brawl'
+    x: 66.46
+    y: 48.87
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Sarven Brawl'
+    type: 'hero'
+    id: 'sarven-brawl'
+    original: '548cf2850ffdc235e80ef0d6'
+    description: 'Coming Soon'
+    #nextLevels:
+    #  continue: ''
+    x: 69.01
+    y: 33.80
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
   }
 
 ]
