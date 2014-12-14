@@ -392,7 +392,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     restricted_to_certain_heroes: "Seulement certains héros peuvent jouer ce niveau."
 
   skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+    writable: "éditable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "lecture seulement"
     action_name: "nom"
     action_cooldown: "Encaisse"
@@ -1118,14 +1118,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     filter_visa_no: "Non autorisé"
     filter_education_top: "Ecole supérieure"
     filter_education_other: "Autre"
-    filter_role_web_developer: "Développeur Webr"
+    filter_role_web_developer: "Développeur Web"
     filter_role_software_developer: "Développeur logiciel"
     filter_role_mobile_developer: "Développeur mobile"
     filter_experience: "Expérience"
     filter_experience_senior: "Senior"
     filter_experience_junior: "Junior"
 #    filter_experience_recent_grad: "Recent Grad"
-#    filter_experience_student: "College Student"
+    filter_experience_student: "Étudiant"
     filter_results: "Résultats"
     start_hiring: "Commencer à embaucher."
 #    reasons: "Three reasons you should hire through us:"
