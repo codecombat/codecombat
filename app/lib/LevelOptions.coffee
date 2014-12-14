@@ -311,10 +311,10 @@ module.exports = LevelOptions =
   'oasis':
     requiredGear: {}
     restrictedGear: {}
-  'savern-road':
+  'sarven-road':
     requiredGear: {}
     restrictedGear: {}
-  'savern-gaps':
+  'sarven-gaps':
     requiredGear: {}
     restrictedGear: {}
   'thunderhooves':
