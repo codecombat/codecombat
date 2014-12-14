@@ -311,3 +311,36 @@ module.exports = LevelOptions =
   'oasis':
     requiredGear: {}
     restrictedGear: {}
+  'savern-road':
+    requiredGear: {}
+    restrictedGear: {}
+  'savern-gaps':
+    requiredGear: {}
+    restrictedGear: {}
+  'thunderhooves':
+    requiredGear: {}
+    restrictedGear: {}
+  'medical-attention':
+    requiredGear: {}  # sense stone
+    restrictedGear: {}
+  'minesweeper':
+    requiredGear: {}
+    restrictedGear: {}
+  'sarven-sentry':
+    requiredGear: {'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {}
+  'keeping-time':
+    requiredGear: {}  # watch
+    restrictedGear: {}
+  'hoarding-gold':
+    requiredGear: {}
+    restrictedGear: {}
+  'decoy-drill':
+    requiredGear: {}  # new builder's hammer
+    restrictedGear: {}
+  'yakstraction':
+    requiredGear: {}  # new builder's hammer
+    restrictedGear: {}
+  'sarven-brawl':
+    requiredGear: {}
+    restrictedGear: {}
