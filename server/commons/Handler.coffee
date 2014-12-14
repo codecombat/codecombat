@@ -53,7 +53,7 @@ module.exports = class Handler
       return false unless delta.o.length is 1
       index = delta.deltaPath.indexOf('i18n')
       return false if index is -1
-      return false if delta.deltaPath[index+1] is 'en-US'
+      return false if delta.deltaPath[index+1] in ['en-US', 'en-UK', 'en-AU']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
       return true
 
   formatEntity: (req, document) -> document?.toObject()
@@ -300,7 +300,7 @@ module.exports = class Handler
   getLatestVersion: (req, res, original, version) ->
     # can get latest overall version, latest of a major version, or a specific version
     return @sendBadInputError(res, 'Invalid MongoDB id: '+original) if not Handler.isID(original)
-      
+
     query = { 'original': mongoose.Types.ObjectId(original) }
     if version?
       version = version.split('.')
