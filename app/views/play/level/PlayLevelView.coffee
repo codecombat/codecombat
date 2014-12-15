@@ -240,7 +240,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    @insertSubView new ProblemAlertView {}
+    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'

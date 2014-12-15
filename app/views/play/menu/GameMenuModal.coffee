@@ -50,6 +50,7 @@ module.exports = class GameMenuModal extends ModalView
     if @options.showTab
       firstView = switch @options.showTab
         when 'multiplayer' then @subviews.multiplayer_view
+        when 'guide' then @subviews.guide_view
     unless firstView?
       firstView = (@subviews.options_view)
     firstView.$el.addClass 'active'

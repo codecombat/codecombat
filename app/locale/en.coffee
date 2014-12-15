@@ -270,6 +270,7 @@
     loading_ready: "Ready!"
     loading_start: "Start Level"
     problem_alert_title: "Fix Your Code"
+    problem_alert_help: "Help"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
