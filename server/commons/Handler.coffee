@@ -23,7 +23,7 @@ module.exports = class Handler
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH']
 
   constructor: ->
-    # TODO The second 'or' is for backward compatibility only is for backward compatibility only
+    # TODO The second 'or' is for backward compatibility only
     @privateProperties = @modelClass?.privateProperties or @privateProperties or []
     @editableProperties = @modelClass?.editableProperties or @editableProperties or []
     @postEditableProperties = @modelClass?.postEditableProperties or @postEditableProperties or []
