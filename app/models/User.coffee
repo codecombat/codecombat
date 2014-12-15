@@ -115,17 +115,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
 
-  getFastVictoryModalGroup: ->
-    # A/B Testing no delay showing the signup and continue buttons in hero victory modal
-    return @fastVictoryModalGroup if @fastVictoryModalGroup
-    group = me.get('testGroupNumber') % 2
-    @fastVictoryModalGroup = switch group
-      when 0 then 'normal'
-      when 1 then 'fast'
-    @fastVictoryModalGroup = 'fast' if me.isAdmin()
-    application.tracker.identify fastVictoryModalGroup: @fastVictoryModalGroup unless me.isAdmin()
-    @fastVictoryModalGroup
-
   getGemPromptGroup: ->
     # A/B Testing whether extra prompt when low gems leads to more gem purchases
     # TODO: Rename gem purchase event in BuyGemsModal to 'Started gem purchase' after this test is over
