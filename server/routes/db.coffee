@@ -7,7 +7,7 @@ hipchat = require '../hipchat'
 module.exports.setup = (app) ->
   # This is hacky and should probably get moved somewhere else, I dunno
   app.get '/db/cla.submissions', (req, res) ->
-    return errors.unauthorized(res, 'You must be an admin to view that information') unless req.user?.isAdmin() or ('github' in req.user?.permissions ? [])
+    return errors.unauthorized(res, 'You must be an admin to view that information') unless req.user?.isAdmin() or ('github' in (req.user?.get('permissions') ? []))
     res.setHeader('Content-Type', 'application/json')
     collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) ->
       return log.error "Couldn't fetch CLA submissions because #{err}" if err
