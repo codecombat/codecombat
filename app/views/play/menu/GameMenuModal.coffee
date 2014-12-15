@@ -69,7 +69,6 @@ module.exports = class GameMenuModal extends ModalView
     
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Game Menu', level: @options.levelID
-    window.tracker?.trackPageView "signup/start", ['Google Analytics']
     # TODO: Default already seems to be prevented.  Need to be explicit?
     e.preventDefault()
     @openModalView new AuthModal {mode: 'signup'}

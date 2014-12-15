@@ -73,7 +73,6 @@ module.exports = class VictoryModal extends ModalView
   onClickSignupButton: (e) ->
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Victory Modal', level: @level.get('slug')
-    window.tracker?.trackPageView "signup/start", ['Google Analytics']
     @openModalView new AuthModal {mode: 'signup'}
 
   onGameSubmitted: (e) ->

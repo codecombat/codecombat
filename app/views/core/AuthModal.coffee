@@ -91,7 +91,6 @@ module.exports = class AuthModal extends ModalView
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     Backbone.Mediator.publish "auth:signed-up", {}
     window.tracker?.trackEvent 'Finished Signup', label: 'CodeCombat'
-    window.tracker?.trackPageView "signup/finished", ['Google Analytics']
     @enableModalInProgress(@$el)
     createUser userObject, null, window.nextLevelURL
 

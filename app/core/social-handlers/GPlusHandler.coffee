@@ -118,7 +118,6 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         window.tracker?.trackEvent 'Google Login', category: "Signup", ['Google Analytics']
         if model.id is beforeID
           window.tracker?.trackEvent 'Finished Signup', label: 'GPlus'
-          window.tracker?.trackPageView "signup/finished", ['Google Analytics']
         window.location.reload() if wasAnonymous and not model.get('anonymous')
     })
 
