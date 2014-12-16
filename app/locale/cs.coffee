@@ -254,7 +254,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Odeslat"
+    tome_submit_button: "Odeslat"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
     tome_select_method: "Vybrat metodu"
     tome_see_all_methods: "Vybrat všechny metody, které mohou být upraveny" # Title text for method list selector (shown when there are multiple programmable methdos).
@@ -280,8 +280,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pro přetočení a rychlý přesun."
     tip_guide_exists: "Klikněte na průvode uvnitř herního menu (nahoře na stránce), pro užitečné informace."
     tip_open_source: "CodeCombat je 100% open source!"
-#    tip_beta_launch: "CodeCombat spustil svoji beta verzi v Říjnu, 2013."
-#    tip_think_solution: "Myslete na řešení, ne na problém."
+    tip_beta_launch: "CodeCombat spustil svoji beta verzi v Říjnu, 2013."
+    tip_think_solution: "Myslete na řešení, ne na problém."
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
