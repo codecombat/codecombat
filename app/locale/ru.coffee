@@ -270,6 +270,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     loading_ready: "Готово!"
     loading_start: "Начать уровень"
     problem_alert_title: "Исправьте ваш Код"
+    problem_alert_help: "Помощь"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
