@@ -134,7 +134,6 @@ module.exports = class PlayLevelView extends RootView
     loadDuration = @loadEndTime - @loadStartTime
     console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
     application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration, ['Google Analytics']
-    application.tracker?.trackPageView "level-loaded/#{@levelID}", ['Google Analytics']
     application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   # CocoView overridden methods ###############################################
@@ -241,7 +240,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new HUDView {level: @level}
     @insertSubView new LevelDialogueView {level: @level}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    @insertSubView new ProblemAlertView {}
+    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
@@ -417,7 +416,6 @@ module.exports = class PlayLevelView extends RootView
         category: 'Play Level'
         level: @level.get('name')
         label: @level.get('name')
-      application.tracker?.trackPageView "level-completed/#{@levelID}", ['Google Analytics']
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->

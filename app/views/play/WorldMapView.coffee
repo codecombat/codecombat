@@ -227,7 +227,6 @@ module.exports = class WorldMapView extends RootView
       if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
         @openModalView new SubscribeModal()
         window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelID
-        window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
       else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return
@@ -236,13 +235,11 @@ module.exports = class WorldMapView extends RootView
       else
         @startLevel levelElement
         window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelID, ['Google Analytics']
-        window.tracker?.trackPageView "world-map/clicked-level/#{levelID}", ['Google Analytics']
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     @startLevel levelElement
     window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelElement.data('level-id'), ['Google Analytics']
-    window.tracker?.trackPageView "world-map/clicked-start-level/#{levelElement.data('level-id')}", ['Google Analytics']
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
