@@ -1051,7 +1051,7 @@ desert = [
     name: 'Minesweeper'
     type: 'hero'
     id: 'minesweeper'
-    original: ''
+    original: '5490cb7c623b972aa26b25a3'
     description: 'Coming Soon'
     nextLevels:
       continue: 'sarven-sentry'
