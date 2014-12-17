@@ -382,7 +382,7 @@ module.exports = class InventoryModal extends ModalView
       for slot, item of requiredGear
         if (slot in ['right-hand', 'left-hand', 'head', 'torso']) and not (heroClass is 'Warrior' or
             (heroClass is 'Ranger' and @options.levelID in ['swift-dagger', 'shrapnel']) or
-            (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender']))
+            (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender'])) and item isnt 'crude-builders-hammer'
           # After they switch to a ranger or wizard, we stop being so finicky about class-specific gear.
           continue
         continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level

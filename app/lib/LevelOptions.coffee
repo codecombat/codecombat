@@ -315,14 +315,14 @@ module.exports = LevelOptions =
     requiredGear: {}
     restrictedGear: {}
   'sarven-gaps':
-    requiredGear: {}
+    requiredGear: {'right-hand': 'crude-builders-hammer'}
     restrictedGear: {}
   'thunderhooves':
-    requiredGear: {}
+    requiredGear: {'right-hand': 'crude-builders-hammer'}
     restrictedGear: {}
   'medical-attention':
-    #requiredGear: {neck: 'polished-sense-stone'}  # We don't have a way to require players to buy it yet.
-    restrictedGear: {}
+    requiredGear: {'right-hand': 'long-sword'}, #neck: 'polished-sense-stone'}  # We don't have a way to require players to buy it yet.
+    restrictedGear: {'right-hand': 'crude-builders-hammer'}
   'minesweeper':
     requiredGear: {}
     restrictedGear: {}
