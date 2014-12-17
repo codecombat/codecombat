@@ -629,6 +629,7 @@ dungeon = [
     description: 'Stay alive longer than your opponent amidst hordes of ogres!'
     x: 17.54
     y: 78.39
+    adventurer: true
   }
 ]
 
@@ -665,8 +666,7 @@ forest = [
       continue: 'thornbush-farm'
     x: 34
     y: 25
-    adventurer: true
-  }
+      }
   {
     name: 'Endangered Burl'
     type: 'hero'
@@ -929,7 +929,6 @@ forest = [
       continue: 'the-dunes'
     x: 85.5
     y: 83.5
-    adventurer: true
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -963,7 +962,6 @@ desert = [
       continue: 'the-mighty-sand-yak'
     x: 8.47
     y: 21.93
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -976,7 +974,6 @@ desert = [
       continue: 'oasis'
     x: 16.56
     y: 27.77
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -989,7 +986,6 @@ desert = [
       continue: 'sarven-road'
     x: 23.35
     y: 31.60
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -997,21 +993,20 @@ desert = [
     type: 'hero'
     id: 'sarven-road'
     original: '548c82360ffdc235e80ef04b'
-    description: 'Coming Soon'
+    description: 'Watch out for ogre scouts on the road as you search for water.'
     nextLevels:
       continue: 'sarven-gaps'
     x: 28.36
     y: 24.59
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Sarven Gaps'
     type: 'hero'
     id: 'sarven-gaps'
     original: '548c8f4a0ffdc235e80ef0a8'
-    description: 'Coming Soon'
+    description: 'Keep the oasis safe by building fences to hold back the enemy.'
     nextLevels:
       continue: 'thunderhooves'
     x: 21.13
@@ -1024,35 +1019,33 @@ desert = [
     type: 'hero'
     id: 'thunderhooves'
     original: '548c90020ffdc235e80ef0ad'
-    description: 'Coming Soon'
+    description: 'Fence off the stampeding sand yaks to reach the next watering hole.'
     nextLevels:
       continue: 'medical-attention'
     x: 35.08
     y: 20.48
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Medical Attention'
     type: 'hero'
     id: 'medical-attention'
     original: '548ce3300ffdc235e80ef0b2'
-    description: 'Coming Soon'
+    description: 'Get help from a helpful wizard while you fend off an ogre attack.'
     nextLevels:
       continue: 'minesweeper'
     x: 42.84
     y: 21.82
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Minesweeper'
     type: 'hero'
     id: 'minesweeper'
     original: '5490cb7c623b972aa26b25a3'
-    description: 'Coming Soon'
+    description: 'Lead a band of hapless peasants through a treacherous canyon while you heroically trigger the mines.'
     nextLevels:
       continue: 'sarven-sentry'
     x: 47.64
