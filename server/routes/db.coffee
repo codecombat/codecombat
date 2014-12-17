@@ -43,10 +43,13 @@ module.exports.setup = (app) ->
       handler[req.route.method](req, res, parts[1..]...)
     catch error
       errorMessage = "Error trying db method #{req?.route?.method} route #{parts} from #{name}: #{error}"
+      # TODO: add user info to this log
       log.error(errorMessage)
       log.error(error)
       log.error(error.stack)
-      hipchat.sendTowerHipChatMessage errorMessage
+      # TODO: Generally ignore this error: error: Error trying db method get route analytics.log.event from undefined: Error: Cannot find module '../undefined'
+      unless "#{parts}" is 'analytics.log.event'
+        hipchat.sendTowerHipChatMessage errorMessage
       errors.notFound(res, "Route #{req?.path} not found.")
 
 getSchema = (req, res, moduleName) ->
