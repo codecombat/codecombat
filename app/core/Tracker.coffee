@@ -71,8 +71,9 @@ module.exports = class Tracker
     analytics?.track action, properties, context
     
     # Log internally too.  Will turn off external event logging when internal logging is sufficient.
-    event = new AnalyticsLogEvent event: action, properties: properties
-    event.save()
+    # TODO: enable this after we figure out what's eating the server CPU
+    # event = new AnalyticsLogEvent event: action, properties: properties
+    # event.save()
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
     # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming
