@@ -106,7 +106,7 @@ module.exports = class Handler
 
   # generic handlers
   get: (req, res) ->
-    @sendForbiddenError(res) if not @hasAccess(req)
+    return @sendForbiddenError(res) if not @hasAccess(req)
 
     specialParameters = ['term', 'project', 'conditions']
 
