@@ -179,6 +179,8 @@ module.exports = class Thang
       options.colorConfig.team = teamColor
     if @color and color = @grabColorConfig @color
       options.colorConfig.color = color
+    if @colors
+      options.colorConfig[colorType] = colorValue for colorType, colorValue of @colors
     options
 
   grabColorConfig: (color) ->
