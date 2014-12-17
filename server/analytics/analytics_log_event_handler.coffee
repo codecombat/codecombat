@@ -10,7 +10,7 @@ class AnalyticsLogEventHandler extends Handler
   ]
 
   hasAccess: (req) ->
-    req.method in ['PUT', 'POST'] or req.user?.isAdmin()
+    req.method in ['POST'] or req.user?.isAdmin()
 
   makeNewInstance: (req) ->
     instance = super(req)

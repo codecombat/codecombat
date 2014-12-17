@@ -306,7 +306,7 @@ module.exports = LevelOptions =
     requiredGear: {}
     restrictedGear: {}
   'the-mighty-sand-yak':
-    requiredGear: {}
+    #requiredGear: {neck: 'rough-sense-stone'}  # Too many players probably won't have this, and we don't have a way to require players to buy it yet.
     restrictedGear: {}
   'oasis':
     requiredGear: {}
@@ -321,7 +321,7 @@ module.exports = LevelOptions =
     requiredGear: {}
     restrictedGear: {}
   'medical-attention':
-    requiredGear: {}  # sense stone
+    #requiredGear: {neck: 'polished-sense-stone'}  # We don't have a way to require players to buy it yet.
     restrictedGear: {}
   'minesweeper':
     requiredGear: {}
