@@ -1,5 +1,5 @@
-Article = require('./Article')
-Handler = require('../commons/Handler')
+Article = require './Article'
+Handler = require '../commons/Handler'
 
 ArticleHandler = class ArticleHandler extends Handler
   modelClass: Article

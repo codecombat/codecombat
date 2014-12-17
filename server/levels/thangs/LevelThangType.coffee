@@ -1,5 +1,5 @@
-mongoose = require('mongoose')
-plugins = require('../../plugins/plugins')
+mongoose = require 'mongoose'
+plugins = require '../../plugins/plugins'
 
 LevelComponentSchema = new mongoose.Schema(
   original: {type: mongoose.Schema.ObjectId, ref: 'level.session'}

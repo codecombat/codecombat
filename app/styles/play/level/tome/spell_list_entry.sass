@@ -1,7 +1,8 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 .spell-list-entry-view
-  code
+  .method-signature
     background-color: transparent
     border: 0
     font-size: 1.1em
@@ -9,30 +10,64 @@
     padding: 4px
 
 .spell-list-entry-view.spell-tab
-  $height: 38px
-  $childMargin: 2px
-  $childSize: $height - 2 * $childMargin
+  $height: 87px
+  $paddingTop: 10px
+  $paddingBottom: 25px
+  $childSize: $height - $paddingTop - $paddingBottom
+  width: 100%
   height: $height
-  width: 80%
-  width: -webkit-calc(100% - 100px)
-  width: calc(100% - 100px)
-  padding: 0px 8px
-  background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
+  padding: $paddingTop 25px $paddingBottom 25px
+  white-space: nowrap
+  position: relative
+  background: transparent url(/images/level/code_editor_top_bar_wood_background.png)
   background-size: 100% 100%
-  text-align: center
+  z-index: 2
+
+  .hinge
+    position: absolute
+    top: 0
+    background: transparent url(/images/level/code_editor_top_bar_hinge.png)
+    width: 24px
+    height: 20px
+    background-size: contain
+
+  .hinge-0
+    left: 20%
+  .hinge-1
+    left: 40%
+  .hinge-2
+    left: 60%
+  .hinge-3
+    left: 80%
 
   &.read-only
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.2) 100%), url(/images/level/code_editor_tab_background.png)
+    background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 100%), url(/images/level/code_editor_top_bar_wood_background.png)
     background-size: 100% 100%
+    > *:not(.spell-tool-buttons)
+      @include opacity(0.5)
   
-  .spell-list-button, .thang-avatar-wrapper, .reload-code, .beautify-code
-    width: $childSize
-    height: $childSize
-    margin: $childMargin
-    box-sizing: border-box
-
-  .spell-list-button, .thang-avatar-wrapper
+  .thang-avatar-view
+    width: $childSize - 10px
+    margin: 5px 0.4vw
+    display: inline-block
     float: left
+
+  .btn.btn-small
+    margin-top: 15px
+    margin-right: 1.3vw
+    font-size: 18px
+
+    .glyphicon
+      font-size: 16px
+    
+  .btn.btn-small.spell-list-button
+    float: left
+    margin-top: 5px
+
+  .spell-tool-buttons
+    position: absolute
+    right: 0px
+    top: 0px
 
   .reload-code
     float: right
@@ -41,22 +76,35 @@
   .beautify-code
     float: right
 
-  .btn.btn-small
-    background: transparent
-    padding: 0
+  .fullscreen-code
+    float: right
+    &:not(.maximized)
+      .glyphicon-resize-small
+        display: none
+    &.maximized
+      .glyphicon-fullscreen
+        display: none
 
-    &:not(:hover)
-      border-color: transparent
-      @include box-shadow(none)
-
-    .icon-chevron-down, .icon-repeat, .icon-magnet
-      margin-top: 7px
-    
   .thang-avatar-wrapper
     border-width: 0
 
-  code
-    margin-top: 7px
+  .method-name-area
+    margin-left: 10px
+    margin-top: 10px
+    text-transform: uppercase
+    display: inline-block
+    font-family: $headings-font-family
+    font-weight: bold
+
+    .method-label
+      font-size: 12px
+      color: rgb(243, 211, 59)
+      margin-bottom: -5px
+
+    .method-signature
+      color: white
+      font-size: 18px
+      padding: 0
 
 .spell-list-entry-view:not(.spell-tab)
   cursor: pointer
@@ -72,7 +120,7 @@
   &.shows-top-divider:not(:first-child)
     border-top: 1px dashed #ccc
 
-  code
+  .method-signature
     margin-top: 5px
 
   .thang-names
@@ -94,3 +142,11 @@
     .thang-avatar-wrapper
       margin: 0 5px 0 0
       //margin: 2px 10px 2px 5px
+
+
+//html.no-borderimage 
+//  .spell-list-entry-view.spell-tab  
+//    border-width: 0
+//    border-image: none
+//    background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
+//    background-size: 100% 100%

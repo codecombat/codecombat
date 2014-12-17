@@ -1,19 +1,19 @@
 describe('GoalManager', ->
   GoalManager = require 'lib/world/GoalManager'
-  killGoal = { name: 'Kill Guy', killThangs: ['Guy1', 'Guy2'], id:'killguy'}
-  saveGoal = { name: 'Save Guy', saveThangs: ['Guy1', 'Guy2'], id:'saveguy'}
-  getToLocGoal = { name: 'Go there', getToLocation: {target:'Frying Pan', who:'Potato'}, id:'id'}
-  keepFromLocGoal = { name: 'Go there', keepFromLocation: {target:'Frying Pan', who:'Potato'}, id:'id'}
-  leaveMapGoal = { name: 'Go away', leaveOffSide: {who:'Yall'}, id:'id'}
-  stayMapGoal =  { name: 'Stay here', keepFromLeavingOffSide: {who:'Yall'}, id:'id'}
-  getItemGoal = { name: 'Mine', getItem: {who:'Grabby', itemID:'Sandwich'}, id:'id'}
-  keepItemGoal = { name: 'Not Yours', keepFromGettingItem: {who:'Grabby', itemID:'Sandwich'}, id:'id'}
+  killGoal = {name: 'Kill Guy', killThangs: ['Guy1', 'Guy2'], id: 'killguy'}
+  saveGoal = {name: 'Save Guy', saveThangs: ['Guy1', 'Guy2'], id: 'saveguy'}
+  getToLocGoal = {name: 'Go there', getToLocation: {target: 'Frying Pan', who: 'Potato'}, id: 'id'}
+  keepFromLocGoal = {name: 'Go there', keepFromLocation: {target: 'Frying Pan', who: 'Potato'}, id: 'id'}
+  leaveMapGoal = {name: 'Go away', leaveOffSide: {who: 'Yall'}, id: 'id'}
+  stayMapGoal =  {name: 'Stay here', keepFromLeavingOffSide: {who: 'Yall'}, id: 'id'}
+  getItemGoal = {name: 'Mine', getItem: {who: 'Grabby', itemID: 'Sandwich'}, id: 'id'}
+  keepItemGoal = {name: 'Not Yours', keepFromGettingItem: {who: 'Grabby', itemID: 'Sandwich'}, id: 'id'}
 
   it('handles kill goal', ->
     gm = new GoalManager()
     gm.setGoals([killGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang:{id:'Guy1'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.killguy.status).toBe('incomplete')
@@ -21,7 +21,7 @@ describe('GoalManager', ->
     expect(goalStates.killguy.killed.Guy2).toBe(false)
     expect(goalStates.killguy.keyFrame).toBe(0)
 
-    gm.submitWorldGenerationEvent('world:thang-died', {thang:{id:'Guy2'}}, 20)
+    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy2'}}, 20)
     goalStates = gm.getGoalStates()
     expect(goalStates.killguy.status).toBe('success')
     expect(goalStates.killguy.killed.Guy1).toBe(true)
@@ -33,7 +33,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([saveGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-died', {thang:{id:'Guy1'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-died', {thang: {id: 'Guy1'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.saveguy.status).toBe('failure')
@@ -65,7 +65,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([getToLocGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-touched-goal', {actor:{id:'Potato'}, touched:{id:'Frying Pan'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-touched-goal', {actor: {id: 'Potato'}, touched: {id: 'Frying Pan'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.id.status).toBe('success')
@@ -76,7 +76,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([keepFromLocGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-touched-goal', {actor:{id:'Potato'}, touched:{id:'Frying Pan'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-touched-goal', {actor: {id: 'Potato'}, touched: {id: 'Frying Pan'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.id.status).toBe('failure')
@@ -105,7 +105,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([leaveMapGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-left-map', {thang:{id:'Yall'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-left-map', {thang: {id: 'Yall'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.id.status).toBe('success')
@@ -116,7 +116,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([stayMapGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-left-map', {thang:{id:'Yall'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-left-map', {thang: {id: 'Yall'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.id.status).toBe('failure')
@@ -145,7 +145,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([getItemGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-collected-item', {actor:{id:'Grabby'}, item:{id:'Sandwich'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-collected-item', {actor: {id: 'Grabby'}, item: {id: 'Sandwich'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.id.status).toBe('success')
@@ -156,7 +156,7 @@ describe('GoalManager', ->
     gm = new GoalManager()
     gm.setGoals([keepItemGoal])
     gm.worldGenerationWillBegin()
-    gm.submitWorldGenerationEvent('world:thang-collected-item', {actor:{id:'Grabby'}, item:{id:'Sandwich'}}, 10)
+    gm.submitWorldGenerationEvent('world:thang-collected-item', {actor: {id: 'Grabby'}, item: {id: 'Sandwich'}}, 10)
     gm.worldGenerationEnded()
     goalStates = gm.getGoalStates()
     expect(goalStates.id.status).toBe('failure')

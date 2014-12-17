@@ -19,16 +19,19 @@ module.exports = class SuperModel extends Backbone.Model
 
   report: ->
     # Useful for debugging why a SuperModel never finishes loading.
-    console.info "SuperModel report ------------------------"
+    console.info 'SuperModel report ------------------------'
     console.info "#{_.values(@resources).length} resources."
     unfinished = []
     for resource in _.values(@resources) when resource
-      console.info '\t', resource.name, "loaded", resource.isLoaded
+      console.info "\t", resource.name, 'loaded', resource.isLoaded
       unfinished.push resource unless resource.isLoaded
     unfinished
 
   loadModel: (model, name, fetchOptions, value=1) ->
-    cachedModel = @getModelByURL(model.getURL())
+    # hero-ladder levels need remote opponent_session for latest session data (e.g. code)
+    # Can't apply to everything since other features rely on cached models being more recent (E.g. level_session)
+    # E.g.#2 heroConfig isn't necessarily saved to db in world map inventory modal, so we need to load the cached session on level start
+    cachedModel = @getModelByURL(model.getURL()) unless fetchOptions?.cache is false and name is 'opponent_session'
     if cachedModel
       if cachedModel.loaded
         res = @addModelResource(cachedModel, name, fetchOptions, 0)
@@ -38,7 +41,6 @@ module.exports = class SuperModel extends Backbone.Model
         res = @addModelResource(cachedModel, name, fetchOptions, value)
         res.markLoading()
         return res
-
     else
       @registerModel(model)
       res = @addModelResource(model, name, fetchOptions, value)
@@ -57,12 +59,16 @@ module.exports = class SuperModel extends Backbone.Model
         res = @addModelResource(cachedCollection, name, fetchOptions, value)
         res.markLoading()
         return res
-
     else
       @addCollection collection
-      @listenToOnce collection, 'sync', (c) ->
-        console.debug 'Registering collection', url
-        @registerCollection c
+      onCollectionSynced = (c) ->
+        if collection.url is c.url
+          @registerCollection c
+        else
+          console.warn 'Sync triggered for collection', c
+          console.warn 'Yet got other object', c
+          @listenToOnce collection, 'sync', onCollectionSynced
+      @listenToOnce collection, 'sync', onCollectionSynced
       res = @addModelResource(collection, name, fetchOptions, value)
       res.load() if not (res.isLoading or res.isLoaded)
       return res
@@ -81,9 +87,14 @@ module.exports = class SuperModel extends Backbone.Model
     modelURL = modelURL() if _.isFunction(modelURL)
     return @models[modelURL] or null
 
+  getModelByOriginal: (ModelClass, original, filter=null) ->
+    _.find @models, (m) ->
+      m.get('original') is original and m.constructor.className is ModelClass.className and (not filter or filter(m))
+
   getModelByOriginalAndMajorVersion: (ModelClass, original, majorVersion=0) ->
     _.find @models, (m) ->
-      m.get('original') is original and m.get('version').major is majorVersion and m.constructor.className is ModelClass.className
+      return unless v = m.get('version')
+      m.get('original') is original and v.major is majorVersion and m.constructor.className is ModelClass.className
 
   getModels: (ModelClass) ->
     # can't use instanceof. SuperModel gets passed between windows, and one window
@@ -111,7 +122,9 @@ module.exports = class SuperModel extends Backbone.Model
     for model, i in collection.models
       cachedModel = @getModelByURL(model.getURL())
       if cachedModel
-        collection.models[i] = cachedModel
+        clone = $.extend true, {}, model.attributes
+        cachedModel.set(clone, {silent: true, fromMerge: true})
+        #console.debug "Updated cached model <#{cachedModel.get('name') or cachedModel.getURL()}> with new data"
       else
         @registerModel(model)
     collection
@@ -122,7 +135,7 @@ module.exports = class SuperModel extends Backbone.Model
     return @progress is 1.0 or not @denom
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
-    modelOrCollection.saveBackups = @shouldSaveBackups(modelOrCollection)
+    modelOrCollection.saveBackups = modelOrCollection.saveBackups or @shouldSaveBackups(modelOrCollection)
     @checkName(name)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
     @storeResource(res, value)
@@ -168,6 +181,8 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     _.defer @updateProgress
     r.clean()
+    @stopListening r, 'failed', @onResourceFailed
+    @trigger 'resource-loaded', r
 
   onResourceFailed: (r) ->
     return unless @resources[r.rid]
@@ -184,6 +199,7 @@ module.exports = class SuperModel extends Backbone.Model
     @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
+    Backbone.Mediator.publish 'supermodel:load-progress-changed', progress: @progress
 
   setMaxProgress: (@maxProgress) ->
   resetProgress: -> @progress = 0
@@ -195,8 +211,6 @@ module.exports = class SuperModel extends Backbone.Model
 
   getResource: (rid) ->
     return @resources[rid]
-
-
 
 class Resource extends Backbone.Model
   constructor: (name, value=1) ->
@@ -230,8 +244,6 @@ class Resource extends Backbone.Model
 
   load: -> @
 
-
-
 class ModelResource extends Resource
   constructor: (modelOrCollection, name, fetchOptions, value)->
     super(name, value)
@@ -253,7 +265,6 @@ class ModelResource extends Resource
     @jqxhr = null
     @model.jqxhr = null
 
-
 class RequestResource extends Resource
   constructor: (name, jqxhrOptions, value) ->
     super(name, value)
@@ -266,7 +277,5 @@ class RequestResource extends Resource
     @jqxhr.done => _.defer => @markLoaded()
     @jqxhr.fail => _.defer => @markFailed()
     @
-
-
 
 class SomethingResource extends Resource

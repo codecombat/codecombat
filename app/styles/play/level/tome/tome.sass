@@ -1,5 +1,5 @@
-@import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 #tome-view
   height: 100%
@@ -37,9 +37,9 @@
 
   .popover
     padding: 10px 10px 30px 10px
-    background: transparent url(/images/level/popover_background.png)
-    background-size: 100% 100%
-    border: 0
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+    border-width: 16px 12px
     @include box-shadow(0 0 0 #000)
 
     h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
@@ -70,3 +70,22 @@
   pre
     display: inline-block
     padding: 5px
+
+// Set z-index of autocomplete popup smaller than the one of popovers
+.ace_editor.ace_autocomplete 
+  z-index: 20 !important
+
+html.no-borderimage
+  #tome-view
+    .popover
+      background: transparent url(/images/level/popover_background.png)
+      background-size: 100% 100%
+      border: 0
+
+#code-area.fullscreen-editor
+  #tome-view
+    .popover.pinned
+      min-width: 600px
+      bottom: inherit
+      right: 50%
+      margin-right: -300px

@@ -4,7 +4,7 @@ div#columns.row
       table.table.table-bordered.table-condensed
 
         tr
-          th(colspan=4, style="color: #{team.primaryColor}")
+          th(colspan=5, style="color: #{team.primaryColor}")
             span(data-i18n="ladder.summary_your") Your 
             |#{team.name}
             |  
@@ -16,16 +16,17 @@ div#columns.row
 
         if team.session
           tr
-            th(colspan=4)
+            th(colspan=5)
               .ladder-submission-view(data-session-id=team.session.id)
 
         if team.scoreHistory
           tr
-            th(colspan=4, style="color: #{team.primaryColor}")
+            th(colspan=5, style="color: #{team.primaryColor}")
               div(class="score-chart-wrapper", data-team-name=team.name, id="score-chart-#{team.name}")
 
         tr
           th(data-i18n="general.result") Result
+          th
           th(data-i18n="general.opponent") Opponent
           th(data-i18n="general.when") When
           th
@@ -38,6 +39,7 @@ div#columns.row
                 span(data-i18n="general.loss").loss Loss
               if match.state === 'tie'
                 span(data-i18n="general.tie").tie Tie
+            td.code-language-cell(style="background-image: url(/images/common/code_languages/" + match.codeLanguage +  "_icon.png)")
             td.name-cell= match.opponentName || "Anonymous"
             td.time-cell= match.when
             td.battle-cell

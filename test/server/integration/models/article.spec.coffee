@@ -8,6 +8,6 @@ describe 'Article', ->
       done()
 
   it 'can be saved', (done) ->
-    article = new Article(name:'List Comprehension', body:"A programmer's best friend.")
+    article = new Article(name: 'List Comprehension', body: "A programmer's best friend.")
     article.save (err) ->
       done()

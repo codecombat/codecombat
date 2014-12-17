@@ -1,5 +1,5 @@
-LevelFeedback = require('./LevelFeedback')
-Handler = require('../../commons/Handler')
+LevelFeedback = require './LevelFeedback'
+Handler = require '../../commons/Handler'
 
 class LevelFeedbackHandler extends Handler
   modelClass: LevelFeedback

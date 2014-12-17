@@ -2,7 +2,7 @@
 {scriptMatchesEventPrereqs} = require './script_event_prereqs'
 
 module.exports = class WorldScriptNote
-  @className: "WorldScriptNote"
+  @className: 'WorldScriptNote'
   constructor: (script, @event, world) ->
     return unless script?
     @invalid = true

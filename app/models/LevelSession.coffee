@@ -1,9 +1,9 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 
 module.exports = class LevelSession extends CocoModel
-  @className: "LevelSession"
+  @className: 'LevelSession'
   @schema: require 'schemas/models/level_session'
-  urlRoot: "/db/level.session"
+  urlRoot: '/db/level.session'
 
   initialize: ->
     super()
@@ -13,10 +13,10 @@ module.exports = class LevelSession extends CocoModel
       @set('state', state)
 
   updatePermissions: ->
-    permissions = @get 'permissions'
+    permissions = @get 'permissions', true
     permissions = (p for p in permissions when p.target isnt 'public')
     if @get('multiplayer')
-      permissions.push {target:'public', access:'write'}
+      permissions.push {target: 'public', access: 'write'}
     @set 'permissions', permissions
 
   getSourceFor: (spellKey) ->
@@ -30,9 +30,26 @@ module.exports = class LevelSession extends CocoModel
     return false unless c1 = @get('code')
     return false unless team = @get('team')
     return true unless c2 = @get('submittedCode')
-    thangSpellArr = (s.split("/") for s in @get('teamSpells')[team])
+    thangSpellArr = (s.split('/') for s in @get('teamSpells')[team])
     for item in thangSpellArr
       thang = item[0]
       spell = item[1]
-      return true if c1[thang][spell] isnt c2[thang][spell]
+      return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
+
+  isMultiplayer: ->
+    @get('team')? # Only multiplayer level sessions have teams defined
+
+  completed: ->
+    @get('state')?.complete || false
+
+  shouldAvoidCorruptData: (attrs) ->
+    return false unless me.team is 'humans'
+    if _.string.startsWith (attrs?.code ? @get('code'))?.anya?.makeBid ? '', 'var __interceptThis'
+      noty text: "Not saving session--it's trying to overwrite Anya's code with transpiled output. Please let us know and help us reproduce this bug!", layout: 'topCenter', type: 'error', killer: false, timeout: 120000
+      return true
+    false
+
+  save: (attrs, options) ->
+    return if @shouldAvoidCorruptData attrs
+    super attrs, options

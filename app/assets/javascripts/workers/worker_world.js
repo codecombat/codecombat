@@ -51,16 +51,44 @@ var console = {
         self.postMessage({type: 'console-log', args: args, id: self.workerID});
       }
       catch(error) {
-        self.postMessage({type: 'console-log', args: ["Could not post log: " + args, error.toString(), error.stack, error.stackTrace], id: self.workerID});
+        try {
+          self.postMessage({type: 'console-log', args: ["Could not post log: " + args, error.toString(), error.stack, error.stackTrace], id: self.workerID});
+        }
+        catch(error2) {
+          self.postMessage({type: 'console-log', args: ["Wow, we had a serious problem trying to console.log something."]});
+        }
       }
     }
   }};  // so that we don't crash when debugging statements happen
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-self.importScripts('/javascripts/world.js', '/javascripts/lodash.js', '/javascripts/aether.js');
+self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+var myImportScripts = importScripts;
 
-var restricted = ["XMLHttpRequest", "importScripts", "Worker"];
+var languagesImported = {};
+var ensureLanguageImported = function(language) {
+  if (languagesImported[language]) return;
+  if (language === 'javascript') return;  // Only has JSHint, but we don't need to lint here.
+  myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  languagesImported[language] = true;
+};
+
+var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
+  for (var thangID in userCodeMap)
+    for (var spellName in userCodeMap[thangID]) {
+      var language = userCodeMap[thangID][spellName].originalOptions.language;
+      ensureLanguageImported(language);
+    }
+};
+
+
+var restricted = ["XMLHttpRequest", "Worker"];
+if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
+    !self.navigator.userAgent.match(/Trident.*rv\:11\./)) {
+  // Can't restrict 'importScripts' in IE11, skip for all IE versions
+  restricted.push("importScripts");
+}
 for(var i = 0; i < restricted.length; ++i) {
   // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
   Object.defineProperty(self, restricted[i], {
@@ -91,7 +119,9 @@ Aether.addGlobal('_', _);
 var serializedClasses = {
     "Thang": self.require('lib/world/thang'),
     "Vector": self.require('lib/world/vector'),
-    "Rectangle": self.require('lib/world/rectangle')
+    "Rectangle": self.require('lib/world/rectangle'),
+    "Ellipse": self.require('lib/world/ellipse'),
+    "LineSegment": self.require('lib/world/line_segment')
 };
 self.currentUserCodeMapCopy = "";
 self.currentDebugWorldFrame = 0;
@@ -271,6 +301,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     self.debugt0 = new Date();
     self.logsLogged = 0;
 
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
@@ -278,6 +309,8 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         try {
             self.debugWorld = new World(args.userCodeMap);
             self.debugWorld.levelSessionIDs = args.levelSessionIDs;
+            self.debugWorld.submissionCount = args.submissionCount;
+            self.debugWorld.flagHistory = args.flagHistory;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
             self.debugWorld.debugging = true;
@@ -293,6 +326,9 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
+        var replacedLoDash = _.runInContext(self);
+        for(var key in replacedLoDash)
+          _[key] = replacedLoDash[key];
     }
     self.debugWorld.totalFrames = args.frame; //hack to work around error checking
     self.currentDebugWorldFrame = args.frame;
@@ -330,12 +366,16 @@ self.runWorld = function runWorld(args) {
   self.logsLogged = 0;
 
   try {
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     self.world = new World(args.userCodeMap);
     self.world.levelSessionIDs = args.levelSessionIDs;
+    self.world.submissionCount = args.submissionCount;
+    self.world.flagHistory = args.flagHistory || [];
     if(args.level)
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
     self.world.headless = args.headless;
+    self.world.realTime = args.realTime;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
@@ -348,30 +388,55 @@ self.runWorld = function runWorld(args) {
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
   Aether.replaceBuiltin("Math", Math);
+  var replacedLoDash = _.runInContext(self);
+  for(var key in replacedLoDash)
+    _[key] = replacedLoDash[key];
   self.postMessage({type: 'start-load-frames'});
-  self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
+  self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress, self.onWorldPreloaded);
+};
+
+self.serializeFramesSoFar = function serializeFramesSoFar() {
+  if(!self.world) return;  // We probably got this message late, after delivering the world.
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  self.onWorldLoaded();
+  self.world.framesSerializedSoFar = self.world.frames.length;
 };
 
 self.onWorldLoaded = function onWorldLoaded() {
-  self.goalManager.worldGenerationEnded();
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  if(self.world.ended)
+    self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
-  self.postMessage({type: 'end-load-frames', goalStates: goalStates});
+  var overallStatus = self.goalManager.checkOverallStatus();
+  if(self.world.ended)
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus});
   var t1 = new Date();
   var diff = t1 - self.t0;
-  if (self.world.headless)
+  if(self.world.headless)
     return console.log('Headless simulation completed in ' + diff + 'ms.');
 
+  var worldEnded = self.world.ended;
+  var totalFrames = self.world.totalFrames;
   var transferableSupported = self.transferableSupported();
   try {
     var serialized = self.world.serialize();
   }
   catch(error) {
     console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
+    self.destroyWorld();
+    return;
   }
+  //self.serialized = serialized;  // Testing peak memory usage
+  //return;  // Testing peak memory usage
+  if(worldEnded)
+    // Make sure we clean up memory as soon as possible, since we just used the most ever and don't want to crash.
+    self.destroyWorld();
+
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
+  var messageType = worldEnded ? 'new-world' : 'some-frames-serialized';
   try {
-    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates};
+    var message = {type: messageType, serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
     if(transferableSupported)
       self.postMessage(message, serialized.transferableObjects);
     else
@@ -380,11 +445,24 @@ self.onWorldLoaded = function onWorldLoaded() {
   catch(error) {
     console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
-  var t3 = new Date();
-  console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+
+  if(worldEnded) {
+    var t3 = new Date();
+    console.log("And it was so: (" + (diff / totalFrames).toFixed(3) + "ms per frame,", totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+  }
+};
+
+self.destroyWorld = function destroyWorld() {
   self.world.goalManager.destroy();
   self.world.destroy();
   self.world = null;
+};
+
+self.onWorldPreloaded = function onWorldPreloaded() {
+  self.goalManager.worldGenerationEnded();
+  var goalStates = self.goalManager.getGoalStates();
+  var overallStatus = self.goalManager.checkOverallStatus();
+  self.postMessage({type: 'end-preload-frames', goalStates: goalStates, overallStatus: overallStatus});
 };
 
 self.onWorldError = function onWorldError(error) {
@@ -428,6 +506,16 @@ self.reportIn = function reportIn() {
 
 self.finalizePreload = function finalizePreload() {
   self.world.finalizePreload(self.onWorldLoaded);
+};
+
+self.addFlagEvent = function addFlagEvent(flagEvent) {
+  if(!self.world) return;
+  self.world.addFlagEvent(flagEvent);
+};
+
+self.stopRealTimePlayback = function stopRealTimePlayback() {
+  if(!self.world) return;
+  self.world.realTime = false;
 };
 
 self.addEventListener('message', function(event) {

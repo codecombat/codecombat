@@ -1,7 +1,7 @@
 componentKeywords = ['attach', 'constructor', 'validateArguments', 'toString', 'isComponent']  # Array is faster than object
 
 module.exports = class Component
-  @className: "Component"
+  @className: 'Component'
   isComponent: true
   constructor: (config) ->
     for key, value of config
@@ -9,7 +9,7 @@ module.exports = class Component
 
   attach: (thang) ->
     # Optimize; this is much of the World constructor time
-    for key, value of @ when key not in componentKeywords and key[0] isnt "_"
+    for key, value of @ when key not in componentKeywords and key[0] isnt '_'
       oldValue = thang[key]
       if typeof oldValue is 'function'
         thang.appendMethod key, value

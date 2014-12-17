@@ -1,4 +1,5 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 .spell-toolbar-view
   position: relative
@@ -16,8 +17,11 @@
     .spell-progress
       position: absolute
       height: 100%
-      width: 40%
-      left: 45%
+      top: -50px
+      width: 65%
+      width: -webkit-calc(85% - 60px)
+      width: calc(85% - 60px)
+      left: 10%
       display: inline-block
       cursor: pointer
       box-sizing: border-box
@@ -61,6 +65,7 @@
       position: absolute
       z-index: 2
       width: 60px
+      top: -50px
       right: 2%
       box-sizing: border-box
       opacity: 0.25
@@ -73,14 +78,24 @@
   
     .metrics
       display: none
-      top: 30px
+      top: 0px
       position: absolute
       z-index: 10
       pointer-events: none
-      padding: 10px
-      background: transparent url(/images/level/popover_background.png)
-      background-size: 100% 100%
+      border-style: solid
+      border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+      padding: 0
+      border-width: 16px 12px
       font-variant: small-caps
       text-overflow: ellipsis
       font-size: 13px
       white-space: nowrap
+
+html.no-borderimage
+  .spell-toolbar-view
+    .metrics
+      top: 30px
+      border: 0
+      background: transparent url(/images/level/popover_background.png)
+      background-size: 100% 100%
+      padding: 10px 20px

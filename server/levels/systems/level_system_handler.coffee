@@ -1,5 +1,5 @@
-LevelSystem = require('./LevelSystem')
-Handler = require('../../commons/Handler')
+LevelSystem = require './LevelSystem'
+Handler = require '../../commons/Handler'
 
 LevelSystemHandler = class LevelSystemHandler extends Handler
   modelClass: LevelSystem

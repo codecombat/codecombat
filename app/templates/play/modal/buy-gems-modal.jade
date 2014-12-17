@@ -1,0 +1,37 @@
+.modal-dialog
+  .modal-content
+    if state === 'purchasing'
+      .alert.alert-info(data-i18n="buy_gems.purchasing")
+    
+    else if state === 'retrying'
+      #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
+
+    else
+      img(src="/images/pages/play/modal/buy-gems-background.png")#buy-gems-background
+
+      #products
+        for product in products
+          .product
+            h4 x#{product.gems}
+            h3(data-i18n=product.i18n)
+            button.btn.btn-illustrated.btn-lg(value=product.id)
+              span= product.price
+                
+      if state === 'declined'
+        #declined-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.declined")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;      
+          
+      if state === 'unknown_error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p(data-i18n="loading_error.unknown")
+          p= stateMessage
+      
+      if state === 'recovered_charge'
+        #recovered-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.recovered")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;

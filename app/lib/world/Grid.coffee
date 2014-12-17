@@ -31,7 +31,7 @@ module.exports = class Grid
     for y in @columns gy - height / 2, gy + height / 2
       for x in @rows gx - width / 2, gx + width / 2
         for thang in @grid[y][x]
-          thangs.push thang if thang.collides and not (thang in thangs) and thang.id isnt "Add Thang Phantom"
+          thangs.push thang if thang.collides and not (thang in thangs) and thang.id isnt 'Add Thang Phantom'
     thangs
 
   clampColumn: (y) ->
@@ -51,4 +51,4 @@ module.exports = class Grid
   toString: ->
     upsideDown = _.clone @grid
     upsideDown.reverse()
-    (((if thangs.length then ("" + thangs.length) else " ") for thangs in row).join(" ") for row in upsideDown).join("\n")
+    (((if thangs.length then ('' + thangs.length) else ' ') for thangs in row).join(' ') for row in upsideDown).join("\n")

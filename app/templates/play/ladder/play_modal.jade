@@ -1,10 +1,16 @@
-extends /templates/modal/modal_base
+extends /templates/core/modal-base
 
 block modal-header-content
   h3(data-i18n="ladder.choose_opponent") Choose an Opponent
 
 block modal-body-content
   
+  h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
+  .form-group.select-group
+    select#tome-language(name="language")
+      for option in languages
+        option(value=option.id selected=(language === option.id))= option.name
+
   div#noob-view.secret
     a(href="/play/level/#{levelID}-tutorial").btn.btn-success.btn-block.btn-lg
       p
@@ -13,13 +19,11 @@ block modal-body-content
     span.btn.btn-primary.btn-block.btn-lg#skip-tutorial-button(data-i18n="ladder.tutorial_skip") Skip Tutorial
 
   div#normal-view
-  
     if tutorialLevelExists
       p.tutorial-suggestion
         strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
         |  
         a(href="/play/level/#{levelID}-tutorial", data-i18n="ladder.tutorial_play_first") Play the tutorial first.
-  
     a(href="/play/level/#{levelID}?team=#{teamID}")
       div.play-option
         img(src=myPortrait).my-icon.only-one
@@ -30,9 +34,9 @@ block modal-body-content
           span= myName
         div.opponent-name.name-label
           span(data-i18n="ladder.simple_ai") Simple AI
+          //span.code-language(style="background-image: url(/images/common/code_languages/javascript_small.png)")
         div.difficulty
           span(data-i18n="ladder.warmup") Warmup
-        div(data-i18n="ladder.vs").vs VS
     
     if challengers.easy
       a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}")
@@ -45,9 +49,10 @@ block modal-body-content
             span= myName
           div.opponent-name.name-label
             span= challengers.easy.opponentName
+            if challengers.easy.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.easy.codeLanguage + "_small.png)")
           div.difficulty
             span(data-i18n="general.easy") Easy
-          div(data-i18n="ladder.vs").vs VS
   
     if challengers.medium
       a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}")
@@ -60,9 +65,10 @@ block modal-body-content
             span= myName
           div.opponent-name.name-label
             span= challengers.medium.opponentName
+            if challengers.medium.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.medium.codeLanguage + "_small.png)")
           div.difficulty
             span(data-i18n="general.medium") Medium
-          div(data-i18n="ladder.vs").vs VS
   
     if challengers.hard
       a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}")
@@ -75,8 +81,9 @@ block modal-body-content
             span= myName
           div.opponent-name.name-label
             span= challengers.hard.opponentName
+            if challengers.hard.codeLanguage
+              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.hard.codeLanguage + "_small.png)")
           div.difficulty
             span(data-i18n="general.hard") Hard
-          div(data-i18n="ladder.vs").vs VS
 
 block modal-footer

@@ -13,6 +13,11 @@ logging = require './server/commons/logging'
 config = require './server_config'
 auth = require './server/routes/auth'
 UserHandler = require './server/users/user_handler'
+hipchat = require './server/hipchat'
+global.tv4 = require 'tv4' # required for TreemaUtils to work
+global.jsondiffpatch = require 'jsondiffpatch'
+global.stripe = require('stripe')(config.stripe.secretKey)
+
 
 productionLogging = (tokens, req, res) ->
   status = res.statusCode
@@ -22,18 +27,40 @@ productionLogging = (tokens, req, res) ->
   else if status >= 300 then color = 36
   elapsed = (new Date()) - req._startTime
   elapsedColor = if elapsed < 500 then 90 else 31
-  if (status isnt 200 and status isnt 204 and status isnt 304 and status isnt 302) or elapsed > 500
+  if (status isnt 200 and status isnt 201 and status isnt 204 and status isnt 304 and status isnt 302) or elapsed > 500
     return "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
   null
 
+developmentLogging = (tokens, req, res) ->
+  status = res.statusCode
+  color = 32
+  if status >= 500 then color = 31
+  else if status >= 400 then color = 33
+  else if status >= 300 then color = 36
+  elapsed = (new Date()) - req._startTime
+  elapsedColor = if elapsed < 500 then 90 else 31
+  "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
+
+setupErrorMiddleware = (app) ->
+  app.use (err, req, res, next) ->
+    if err
+      if err.status and 400 <= err.status < 500
+        res.status(err.status).send("Error #{err.status}")
+        return
+      res.status(err.status ? 500).send(error: "Something went wrong!")
+      message = "Express error: #{req.method} #{req.path}: #{err.message}"
+      log.error "#{message}, stack: #{err.stack}"
+      hipchat.sendTowerHipChatMessage(message)
+    else
+      next(err)
 setupExpressMiddleware = (app) ->
   if config.isProduction
     express.logger.format('prod', productionLogging)
     app.use(express.logger('prod'))
     app.use express.compress filter: (req, res) ->
-      return false if req.headers.host is 'codecombat.com'  # Cloudflare will gzip it for us on codecombat.com
       compressible res.getHeader('Content-Type')
   else
+    express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
   app.use(express.static(path.join(__dirname, 'public')))
   app.use(useragent.express())
@@ -57,7 +84,7 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     # https://github.com/biggora/express-useragent/blob/master/lib/express-useragent.js
     return false unless ua = req.useragent
     return true if ua.isiPad or ua.isiPod or ua.isiPhone or ua.isOpera
-    return false unless ua and ua.Browser in ["Chrome", "Safari", "Firefox", "IE"] and ua.Version
+    return false unless ua and ua.Browser in ['Chrome', 'Safari', 'Firefox', 'IE'] and ua.Version
     b = ua.Browser
     v = parseInt ua.Version.split('.')[0], 10
     return true if b is 'Chrome' and v < 17
@@ -70,18 +97,40 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
     res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
 
+setupRedirectMiddleware = (app) ->
+  app.all '/account/profile/*', (req, res, next) ->
+    nameOrID = req.path.split('/')[3]
+    res.redirect 301, "/user/#{nameOrID}/profile"
+
+setupTrailingSlashRemovingMiddleware = (app) ->
+  app.use (req, res, next) ->
+    # Remove trailing slashes except for in /file/.../ URLs, because those are treated as directory listings.
+    return res.redirect 301, req.url[...-1] if req.url.length > 1 and req.url.slice(-1) is '/' and not /\/file\//.test req.url
+    next()
+
 exports.setupMiddleware = (app) ->
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
+  setupTrailingSlashRemovingMiddleware app
+  setupRedirectMiddleware app
+  setupErrorMiddleware app
+  setupJavascript404s app
 
 ###Routing function implementations###
+
+setupJavascript404s = (app) ->
+  app.get '/javascripts/*', (req, res) ->
+    res.status(404).send('Not found')
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->
     if req.user
       sendMain(req, res)
+      # Disabling for HoC
+#      req.user.set('lastIP', req.connection.remoteAddress)
+#      req.user.save()
     else
       user = auth.makeNewUser(req)
       makeNext = (req, res) -> -> sendMain(req, res)
@@ -93,9 +142,9 @@ sendMain = (req, res) ->
     log.error "Error modifying main.html: #{err}" if err
     # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
     data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/'))
-    res.header "Cache-Control", "no-cache, no-store, must-revalidate"
-    res.header "Pragma", "no-cache"
-    res.header "Expires", 0
+    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+    res.header 'Pragma', 'no-cache'
+    res.header 'Expires', 0
     res.send 200, data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
@@ -128,4 +177,4 @@ exports.setExpressConfigurationOptions = (app) ->
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
   app.set('env', if config.isProduction then 'production' else 'development')
-  app.set('json spaces', 0)
+  app.set('json spaces', 0) if config.isProduction

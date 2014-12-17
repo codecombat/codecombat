@@ -5,7 +5,7 @@ LevelSessionPlayerSchema = c.object
     links: [
       {
         rel: 'extra'
-        href: "/db/user/{($)}"
+        href: '/db/user/{($)}'
       }
     ]
   time:
@@ -13,19 +13,19 @@ LevelSessionPlayerSchema = c.object
   changes:
     type: 'Number'
 
-
-LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion']},
+LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion'], links: [{rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}]},
   original: c.objectId({})
   majorVersion:
     type: 'integer'
     minimum: 0
-    default: 0
-
 
 LevelSessionSchema = c.object
-  title: "Session"
-  description: "A single session for a given level."
-
+  title: 'Session'
+  description: 'A single session for a given level.'
+  default:
+    codeLanguage: 'python'
+    submittedCodeLanguage: 'python'
+    playtime: 0
 
 _.extend LevelSessionSchema.properties,
   # denormalization
@@ -42,7 +42,7 @@ _.extend LevelSessionSchema.properties,
       [
         {
           rel: 'extra'
-          href: "/db/user/{($)}"
+          href: '/db/user/{($)}'
         }
       ]
   created: c.date
@@ -58,6 +58,8 @@ _.extend LevelSessionSchema.properties,
 
   screenshot:
     type: 'string'
+
+  heroConfig: c.HeroConfigSchema
 
   state: c.object {},
     complete:
@@ -81,9 +83,9 @@ _.extend LevelSessionSchema.properties,
         'string'
       ]
     playing:
-      type: 'boolean'
+      type: 'boolean'  # Not tracked any more
     frame:
-      type: 'number'
+      type: 'number'  # Not tracked any more
     thangs:
       type: 'object'
       additionalProperties:
@@ -100,6 +102,31 @@ _.extend LevelSessionSchema.properties,
                   type: 'object'
                 source:
                   type: 'string'
+    goalStates:
+      type: 'object'
+      description: 'Maps Goal ID on a goal state object'
+      additionalProperties:
+        title: 'Goal State'
+        type: 'object'
+        properties:
+          status: enum: ['failure', 'incomplete', 'success']
+    submissionCount:
+      description: 'How many times the session has been submitted for real-time playback (can affect the random seed).'
+      type: 'integer'
+      minimum: 0
+    flagHistory:
+      description: 'The history of flag events during the last real-time playback submission.'
+      type: 'array'
+      items: c.object {required: ['player', 'color', 'time', 'active']},
+        player: {type: 'string'}
+        team: {type: 'string'}
+        color: {type: 'string', enum: ['green', 'black', 'violet']}
+        time: {type: 'number', minimum: 0}
+        active: {type: 'boolean'}
+        pos: c.object {required: ['x', 'y']},
+          x: {type: 'number'}
+          y: {type: 'number'}
+        source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
 
   code:
     type: 'object'
@@ -107,18 +134,16 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
-        format: 'javascript'
-  
+        format: 'code'
+
   codeLanguage:
     type: 'string'
-    default: 'javascript'
-    
+
   playtime:
     type: 'number'
     title: 'Playtime'
-    default: 0
     description: 'The total playtime on this session'
-    
+
   teamSpells:
     type: 'object'
     additionalProperties:
@@ -134,7 +159,7 @@ _.extend LevelSessionSchema.properties,
     type: 'number'
 
   standardDeviation:
-    type:'number'
+    type: 'number'
     minimum: 0
 
   totalScore:
@@ -152,17 +177,18 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   submittedCodeLanguage:
     type: 'string'
-    default: 'javascript'
-    
+
   transpiledCode:
     type: 'object'
     additionalProperties:
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   isRanking:
     type: 'boolean'
@@ -203,7 +229,6 @@ _.extend LevelSessionSchema.properties,
           title: 'Playtime so far'
           description: 'The total seconds of playtime on this session when the match was computed.'
           type: 'number'
-        
         metrics:
           type: 'object'
           title: 'Metrics'
@@ -223,19 +248,19 @@ _.extend LevelSessionSchema.properties,
               sessionID:
                 title: 'Opponent Session ID'
                 description: 'The session ID of an opponent.'
-                type: ['object', 'string','null']
+                type: ['object', 'string', 'null']
               userID:
                 title: 'Opponent User ID'
                 description: 'The user ID of an opponent'
-                type: ['object','string','null']
+                type: ['object', 'string', 'null']
               name:
                 title: 'Opponent name'
                 description: 'The name of the opponent'
-                type: ['string','null']
+                type: ['string', 'null']
               totalScore:
                 title: 'Opponent total score'
                 description: 'The totalScore of a user when the match was computed'
-                type: ['number','string', 'null']
+                type: ['number', 'string', 'null']
               metrics:
                 type: 'object'
                 properties:
@@ -243,11 +268,9 @@ _.extend LevelSessionSchema.properties,
                     title: 'Opponent Rank'
                     description: 'The opponent\'s ranking in a given match'
                     type: 'number'
-
-
-
-
-
+              codeLanguage:
+                type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
+                description: 'What submittedCodeLanguage the opponent used during the match'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'

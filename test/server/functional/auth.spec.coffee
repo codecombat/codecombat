@@ -15,7 +15,31 @@ describe '/auth/whoami', ->
 
 describe '/auth/login', ->
 
-  it 'clears Users first', (done) ->
+  it 'clears Users', (done) ->
+    clearModels [User], (err) ->
+      throw err if err
+      request.get getURL('/auth/whoami'), ->
+        throw err if err
+        done()
+
+  it 'allows logging in by iosIdentifierForVendor', (done) ->
+    req = request.post(getURL('/db/user'),
+    (error, response) ->
+      expect(response).toBeDefined()
+      expect(response.statusCode).toBe(200)
+      req = request.post(urlLogin, (error, response) ->
+        expect(response.statusCode).toBe(200)
+        done()
+      )
+      form = req.form()
+      form.append('username', '012345678901234567890123456789012345')
+      form.append('password', '12345')
+    )
+    form = req.form()
+    form.append('iosIdentifierForVendor', '012345678901234567890123456789012345')
+    form.append('password', '12345')
+  
+  it 'clears Users', (done) ->
     clearModels [User], (err) ->
       throw err if err
       request.get getURL('/auth/whoami'), ->
@@ -56,7 +80,7 @@ describe '/auth/login', ->
   it 'rejects wrong passwords', (done) ->
     req = request.post(urlLogin, (error, response) ->
       expect(response.statusCode).toBe(401)
-      expect(response.body.indexOf("wrong")).toBeGreaterThan(-1)
+      expect(response.body.indexOf('wrong')).toBeGreaterThan(-1)
       done()
     )
     form = req.form()
@@ -72,7 +96,6 @@ describe '/auth/login', ->
     form.append('username', 'scoTT@gmaIL.com')
     form.append('password', 'NaDa')
 
-
 describe '/auth/reset', ->
   passwordReset = ''
 
@@ -85,7 +108,7 @@ describe '/auth/reset', ->
     form = req.form()
     form.append('username', 'scott@gmail.com')
 
-  it 'can\'t reset an unknow user', (done) ->
+  it 'can\'t reset an unknown user', (done) ->
     req = request.post(urlReset, (error, response) ->
       expect(response).toBeDefined()
       expect(response.statusCode).toBe(404)
@@ -143,7 +166,7 @@ describe '/auth/unsubscribe', ->
       request.get getURL('/auth/whoami'), ->
         throw err if err
         done()
-  
+
   it 'removes just recruitment emails if you include ?recruitNotes=1', (done) ->
     loginJoe (joe) ->
       url = getURL('/auth/unsubscribe?recruitNotes=1&email='+joe.get('email'))
@@ -153,3 +176,27 @@ describe '/auth/unsubscribe', ->
           expect(user.get('emails').recruitNotes.enabled).toBe(false)
           expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
           done()
+
+describe '/auth/name', ->
+  url = '/auth/name'
+
+  it 'must provide a name to check with', (done) ->
+    request.get {url: getURL(url + '/'), json: {}}, (err, response) ->
+      expect(err).toBeNull()
+      expect(response.statusCode).toBe 422
+      done()
+
+  it 'can GET a non-conflicting name', (done) ->
+    request.get {url: getURL(url + '/Gandalf'), json: {}}, (err, response) ->
+      expect(err).toBeNull()
+      expect(response.statusCode).toBe 200
+      expect(response.body.name).toBe 'Gandalf'
+      done()
+
+  it 'can GET a new name in case of conflict', (done) ->
+    request.get {url: getURL(url + '/joe'), json: {}}, (err, response) ->
+      expect(err).toBeNull()
+      expect(response.statusCode).toBe 409
+      expect(response.body.name).not.toBe 'joe'
+      expect(response.body.name.length).toBe 4 # 'joe' and a random number
+      done()

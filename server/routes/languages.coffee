@@ -5,13 +5,13 @@ locale = require '../../app/locale/locale'  # requiring from app; will break if 
 module.exports.setup = (app) ->
   app.all '/languages/add/:lang/:namespace', (req, res) ->
     # Should probably store these somewhere
-    log.info "#{req.params.lang}.#{req.params.namespace} missing an i18n key:", req.body
+    #log.info "#{req.params.lang}.#{req.params.namespace} missing an i18n key:", req.body
     res.send('')
     res.end()
 
   app.all '/languages', (req, res) ->
     # Now that these are in the client, not sure when we would use this, but hey
-    return errors.badMethod(res) if req.route.method isnt 'get'
+    return errors.badMethod(res, ['GET']) if req.route.method isnt 'get'
     res.send(languages)
     return res.end()
 
@@ -26,6 +26,11 @@ module.exports.languageCodesLower = languageCodesLower = (code.toLowerCase() for
 # Keep keys lower-case for matching and values with second subtag uppercase like i18next expects
 languageAliases =
   'en': 'en-US'
+  'de': 'de-DE'
+  'es': 'es-ES'
+  'zh': 'zh-HANS'
+  'pt': 'pt-PT'
+  'nl': 'nl-NL'
 
   'zh-cn': 'zh-HANS'
   'zh-hans-cn': 'zh-HANS'
@@ -38,6 +43,7 @@ languageAliases =
   'zh-hant-hk': 'zh-HANT'
   'zh-mo': 'zh-HANT'
   'zh-hant-mo': 'zh-HANT'
+
 
 module.exports.languageCodeFromAcceptedLanguages = languageCodeFromAcceptedLanguages = (acceptedLanguages) ->
   for lang in acceptedLanguages ? []

@@ -1,4 +1,4 @@
-GLOBAL._ = require('lodash')
+GLOBAL._ = require 'lodash'
 
 User = require '../../../server/users/User'
 
@@ -21,4 +21,3 @@ describe 'user', ->
     classicUser.set('permissions', ['user'])
     expect(classicUser.isAdmin()).toBeFalsy()
     done()
-

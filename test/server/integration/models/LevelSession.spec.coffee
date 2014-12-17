@@ -15,5 +15,3 @@ describe 'LevelSession', ->
     session.save (err) ->
       throw err if err
       done()
-
-

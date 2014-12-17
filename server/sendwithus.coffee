@@ -14,4 +14,7 @@ module.exports.templates =
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
   patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
   change_made_notify_watcher: 'tem_7KVkfmv9SZETb25dtHbUtG'
-  one_time_recruiting_email: 'tem_mdFMgtcczHKYu94Jmq68j8'
+  recruiting_email: 'tem_mdFMgtcczHKYu94Jmq68j8'
+  greed_tournament_rank: 'tem_c4KYnk2TriEkkZx5NqqGLG'
+  generic_email: 'tem_JhRnQ4pvTS4KdQjYoZdbei'
+  plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'

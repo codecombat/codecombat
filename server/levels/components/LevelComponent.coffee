@@ -1,6 +1,6 @@
-mongoose = require('mongoose')
-plugins = require('../../plugins/plugins')
-jsonschema = require('../../../app/schemas/models/level_component')
+mongoose = require 'mongoose'
+plugins = require '../../plugins/plugins'
+jsonschema = require '../../../app/schemas/models/level_component'
 
 LevelComponentSchema = new mongoose.Schema {
   description: String
@@ -10,13 +10,18 @@ LevelComponentSchema = new mongoose.Schema {
 LevelComponentSchema.plugin plugins.NamedPlugin
 LevelComponentSchema.plugin plugins.PermissionsPlugin
 LevelComponentSchema.plugin plugins.VersionedPlugin
-LevelComponentSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'description', 'system']}
+LevelComponentSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'searchStrings', 'description']}
 LevelComponentSchema.plugin plugins.PatchablePlugin
-
-LevelComponentSchema.pre 'init', (next) ->
-  return next() unless jsonschema.properties?
-  for prop, sch of jsonschema.properties
-    @set(prop, _.cloneDeep sch.default) if sch.default?
+LevelComponentSchema.plugin plugins.TranslationCoveragePlugin
+LevelComponentSchema.pre('save', (next) ->
+  name = @get('name')
+  strings = _.str.humanize(name).toLowerCase().split(' ')
+  for char, index in name
+    continue if index is 0
+    continue if index is name.length - 1
+    strings.push(name.slice(0,index).toLowerCase())
+  @set('searchStrings', strings.join(' '))
   next()
+)
 
 module.exports = LevelComponent = mongoose.model('level.component', LevelComponentSchema)

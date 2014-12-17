@@ -1,11 +1,12 @@
-Level = require('./Level')
-Session = require('./sessions/LevelSession')
+Level = require './Level'
+Session = require './sessions/LevelSession'
 User = require '../users/User'
-SessionHandler = require('./sessions/level_session_handler')
-Feedback = require('./feedbacks/LevelFeedback')
-Handler = require('../commons/Handler')
-mongoose = require('mongoose')
+SessionHandler = require './sessions/level_session_handler'
+Feedback = require './feedbacks/LevelFeedback'
+Handler = require '../commons/Handler'
+mongoose = require 'mongoose'
 async = require 'async'
+
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
   jsonSchema: require '../../app/schemas/models/level'
@@ -24,6 +25,12 @@ LevelHandler = class LevelHandler extends Handler
     'goals'
     'type'
     'showsGuide'
+    'banner'
+    'employerDescription'
+    'terrain'
+    'i18nCoverage'
+    'loadingTip'
+    'requiresSubscription'
   ]
 
   postEditableProperties: ['name']
@@ -34,18 +41,20 @@ LevelHandler = class LevelHandler extends Handler
     return @getMyLeaderboardRank(req, res, args[0]) if args[1] is 'leaderboard_rank'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
-    return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    return @getAllFeedback(req, res, args[0]) if args[1] is 'all_feedback'
+    return @getRandomSessionPair(req, res, args[0]) if args[1] is 'random_session_pair'
     return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
     return @checkExistence(req, res, args[0]) if args[1] is 'exists'
+    return @getPlayCountsBySlugs(req, res) if args[1] is 'play_counts'
     super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
     @getDocumentForIdOrSlug id, (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level, 'get')
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, level, 'get')
       callback err, level
 
   getSession: (req, res, id) ->
@@ -60,35 +69,31 @@ LevelHandler = class LevelHandler extends Handler
       if req.query.team?
         sessionQuery.team = req.query.team
 
-      # TODO: generalize this for levels based on their teams
-      else if level.get('type') is 'ladder'
-        sessionQuery.team = 'humans'
-
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
+        return @sendPaymentRequiredError(res, err) if (not req.user.isPremium()) and level.get('requiresSubscription') 
         @createAndSaveNewSession sessionQuery, req, res
-
 
   createAndSaveNewSession: (sessionQuery, req, res) =>
     initVals = sessionQuery
 
     initVals.state =
-      complete:false
+      complete: false
       scripts:
-        currentScript:null # will not save empty objects
+        currentScript: null # will not save empty objects
 
     initVals.permissions = [
       {
-        target:req.user.id
-        access:'owner'
+        target: req.user.id
+        access: 'owner'
       }
       {
-        target:'public'
-        access:'write'
+        target: 'public'
+        access: 'write'
       }
     ]
-    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'javascript'
+    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'python'
     session = new Session(initVals)
 
     session.save (err) =>
@@ -99,11 +104,12 @@ LevelHandler = class LevelHandler extends Handler
       # of model, like in this case. Refactor to move that logic to the model instead.
 
   getMySessions: (req, res, slugOrID) ->
+    return @sendForbiddenError(res) if not req.user
     findParameters = {}
     if Handler.isID slugOrID
-      findParameters["_id"] = slugOrID
+      findParameters['_id'] = slugOrID
     else
-      findParameters["slug"] = slugOrID
+      findParameters['slug'] = slugOrID
     selectString = 'original version.major permissions'
     query = Level.findOne(findParameters)
       .select(selectString)
@@ -122,23 +128,23 @@ LevelHandler = class LevelHandler extends Handler
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
-  getHistogramData: (req, res,slug) ->
+  getHistogramData: (req, res, slug) ->
     query = Session.aggregate [
-      {$match: {"levelID":slug, "submitted": true, "team":req.query.team}}
+      {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
       {$project: {totalScore: 1, _id: 0}}
     ]
 
     query.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
-      valueArray = _.pluck data, "totalScore"
+      valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
 
   checkExistence: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
-      findParameters["_id"] = slugOrID
+      findParameters['_id'] = slugOrID
     else
-      findParameters["slug"] = slugOrID
+      findParameters['slug'] = slugOrID
     selectString = 'original version.major permissions'
     query = Level.findOne(findParameters)
     .select(selectString)
@@ -147,15 +153,15 @@ LevelHandler = class LevelHandler extends Handler
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
-      res.send({"exists":true})
+      res.send({'exists': true})
       res.end()
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
 
     sortParameters =
-      "totalScore": req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator']
+      'totalScore': req.query.order
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage']
 
     query = Session
       .find(sessionsQueryParameters)
@@ -180,7 +186,7 @@ LevelHandler = class LevelHandler extends Handler
     [original, version] = id.split '.'
     version = parseInt(version) ? 0
     scoreQuery = {}
-    scoreQuery[if req.query.order is 1 then "$gt" else "$lt"] = req.query.scoreOffset
+    scoreQuery[if req.query.order is 1 then '$gt' else '$lt'] = req.query.scoreOffset
     query =
       level:
         original: original
@@ -203,14 +209,14 @@ LevelHandler = class LevelHandler extends Handler
     return res.send([]) unless friendIDs.length
 
     q = {}
-    q[serviceProperty] = {$in:friendIDs}
+    q[serviceProperty] = {$in: friendIDs}
     query = User.find(q).select("#{serviceProperty} name").lean()
 
     query.exec (err, userResults) ->
       return res.send([]) unless userResults.length
       [id, version] = id.split('.')
       userIDs = (r._id+'' for r in userResults)
-      q = {'level.original':id, 'level.majorVersion': parseInt(version), creator: {$in:userIDs}, totalScore:{$exists:true}}
+      q = {'level.original': id, 'level.majorVersion': parseInt(version), creator: {$in: userIDs}, totalScore: {$exists: true}}
       query = Session.find(q)
       .select('creator creatorName totalScore team')
       .lean()
@@ -225,9 +231,9 @@ LevelHandler = class LevelHandler extends Handler
   getRandomSessionPair: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
-      findParameters["_id"] = slugOrID
+      findParameters['_id'] = slugOrID
     else
-      findParameters["slug"] = slugOrID
+      findParameters['slug'] = slugOrID
     selectString = 'original version'
     query = Level.findOne(findParameters)
     .select(selectString)
@@ -241,17 +247,17 @@ LevelHandler = class LevelHandler extends Handler
         level:
           original: level.original.toString()
           majorVersion: level.version.major
-        submitted:true
+        submitted: true
 
-      query = Session.find(sessionsQueryParameters).distinct("team")
+      query = Session.find(sessionsQueryParameters).distinct('team')
       query.exec (err, teams) =>
         return @sendDatabaseError res, err if err? or not teams
         findTop20Players = (sessionQueryParams, team, cb) ->
-          sessionQueryParams["team"] = team
+          sessionQueryParams['team'] = team
           Session.aggregate [
             {$match: sessionQueryParams}
-            {$project: {"totalScore":1}}
-            {$sort: {"totalScore":-1}}
+            {$project: {'totalScore': 1}}
+            {$sort: {'totalScore': -1}}
             {$limit: 20}
           ], cb
 
@@ -260,21 +266,54 @@ LevelHandler = class LevelHandler extends Handler
           sessions = []
           for mapItem in map
             sessions.push _.sample(mapItem)
-          if map.length != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          if map.length != 2 then return @sendDatabaseError res, 'There aren\'t sessions of 2 teams, so cannot choose random opponents!'
           @sendSuccess res, sessions
 
-
-  getFeedback: (req, res, id) ->
+  getFeedback: (req, res, levelID) ->
     return @sendNotFoundError(res) unless req.user
-    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+    @doGetFeedback req, res, levelID, false
+
+  getAllFeedback: (req, res, levelID) ->
+    return @sendNotFoundError(res) unless req.user
+    @doGetFeedback req, res, levelID, true
+
+  doGetFeedback: (req, res, levelID, multiple) ->
+    @fetchLevelByIDAndHandleErrors levelID, req, res, (err, level) =>
       feedbackQuery =
-        creator: mongoose.Types.ObjectId(req.user.id.toString())
         'level.original': level.original.toString()
         'level.majorVersion': level.version.major
-
-      Feedback.findOne(feedbackQuery).exec (err, doc) =>
+      feedbackQuery.creator = mongoose.Types.ObjectId(req.user.id.toString()) unless multiple
+      fn = if multiple then 'find' else 'findOne'
+      Feedback[fn](feedbackQuery).exec (err, result) =>
         return @sendDatabaseError(res, err) if err
-        return @sendNotFoundError(res) unless doc?
-        @sendSuccess(res, doc)
+        return @sendNotFoundError(res) unless result?
+        @sendSuccess(res, result)
+
+  getPlayCountsBySlugs: (req, res) ->
+    # This is hella slow (4s on my box), so relying on some dumb caching for it.
+    # If we can't make this faster with indexing or something, we might want to maintain the counts another way.
+    levelIDs = req.query.ids or req.body.ids
+    @playCountCache ?= {}
+    @playCountCachedSince ?= new Date()
+    if (new Date()) - @playCountCachedSince > 86400 * 1000  # Dumb cache expiration
+      @playCountCache = {}
+      @playCountCacheSince = new Date()
+    cacheKey = levelIDs.join ','
+    if playCounts = @playCountCache[cacheKey]
+      return @sendSuccess res, playCounts
+    query = Session.aggregate [
+      {$match: {levelID: {$in: levelIDs}}}
+      {$group: {_id: "$levelID", playtime: {$sum: "$playtime"}, sessions: {$sum: 1}}}
+      {$sort: {sessions: -1}}
+    ]
+    query.exec (err, data) =>
+      if err? then return @sendDatabaseError res, err
+      @playCountCache[cacheKey] = data
+      @sendSuccess res, data
+
+  hasAccessToDocument: (req, document, method=null) ->
+    method ?= req.method
+    return true if method is null or method is 'get'
+    super(req, document, method)
 
 module.exports = new LevelHandler()

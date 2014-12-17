@@ -3,7 +3,8 @@
 .level-content
   #control-bar-view
   #canvas-wrapper
-    canvas(width=924, height=589)#surface
+    canvas(width=924, height=589)#webgl-surface
+    canvas(width=924, height=589)#normal-surface
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
   #gold-view.secret.expanded
@@ -13,4 +14,4 @@
 .footer
   .content
     p(class='footer-link-text')
-      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
+      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact

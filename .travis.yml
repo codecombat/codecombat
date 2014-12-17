@@ -11,6 +11,7 @@ before_install:
 before_script:
   - "npm install"
   - export DISPLAY=:99.0
+  - export COCO_TRAVIS_TEST=1
   - sh -e /etc/init.d/xvfb start
   - "./node_modules/.bin/bower install"
   - "gem install sass"
@@ -18,7 +19,7 @@ before_script:
   - "mkdir mongo"
   - "mongod --dbpath=./mongo --fork --logpath ./mongodb.log"
   - "node index.js --unittest &"
-  - "sleep 5" # to give node a chance to start
+  - "sleep 10" # to give node a chance to start
 
 script:
   - "./node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --captureExceptions"

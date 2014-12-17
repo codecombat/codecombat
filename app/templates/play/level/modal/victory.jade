@@ -1,4 +1,4 @@
-extends /templates/modal/modal_base
+extends /templates/core/modal-base
 
 block modal-header-content
   h3
@@ -14,14 +14,16 @@ block modal-footer-content
   if readyToRank
     .ladder-submission-view
   else if level.get('type') === 'ladder'
-    a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_go_ladder") Return to Ladder
+    a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+  else if level.get('type', true) === 'hero'
+    a.btn.btn-success.world-map-button(href="/play-hero", data-dismiss="modal", data-i18n="play_level.victory_play_continue") Continue
   else if hasNextLevel
-    button.btn.btn-primary.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
+    button.btn.btn-success.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
   else
     a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
   if me.get('anonymous')
     p.sign-up-poke
-      button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/signup", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
+      button.btn.btn-success.sign-up-button.btn-large(data-dismiss="modal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
       span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
     p.clearfix
   else

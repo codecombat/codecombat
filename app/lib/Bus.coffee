@@ -1,6 +1,6 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 CHAT_SIZE_LIMIT = 500 # no more than 500 messages
 
@@ -19,16 +19,12 @@ module.exports = Bus = class Bus extends CocoClass
     Bus.activeBuses[@docName] = @
 
   subscriptions:
-    'level-bus-echo-states': 'onEchoStates'
-    'me:synced': 'onMeSynced'
-
-  onEchoStates: ->
-    @notifyStateChanges()
+    'auth:me-synced': 'onMeSynced'
 
   connect: ->
-    Backbone.Mediator.publish 'bus:connecting', {bus:@}
+    Backbone.Mediator.publish 'bus:connecting', {bus: @}
     Firebase.goOnline()
-    @fireRef = new Firebase(Bus.fireHost + "/" + @docName)
+    @fireRef = new Firebase(Bus.fireHost + '/' + @docName)
     @fireRef.once 'value', @onFireOpen
 
   onFireOpen: (snapshot) =>
@@ -36,10 +32,9 @@ module.exports = Bus = class Bus extends CocoClass
       console.log("Leaving '#{@docName}' because class has been destroyed.")
       return
     @init()
-    Backbone.Mediator.publish 'bus:connected', {bus:@}
+    Backbone.Mediator.publish 'bus:connected', {bus: @}
 
   disconnect: ->
-    Firebase.goOffline()
     @fireRef?.off()
     @fireRef = null
     @fireChatRef?.off()
@@ -49,7 +44,7 @@ module.exports = Bus = class Bus extends CocoClass
     @myConnection?.off()
     @myConnection = null
     @joined = false
-    Backbone.Mediator.publish 'bus:disconnected', {bus:@}
+    Backbone.Mediator.publish 'bus:disconnected', {bus: @}
 
   init: ->
     """
@@ -59,7 +54,7 @@ module.exports = Bus = class Bus extends CocoClass
     @firePlayersRef = @fireRef.child('players')
     @join()
     @listenForChanges()
-    @sendMessage("/me joined.", true)
+    @sendMessage('/me joined.', true)
 
   join: ->
     @joined = true
@@ -75,13 +70,13 @@ module.exports = Bus = class Bus extends CocoClass
     @firePlayersRef.on 'child_changed', @onPlayerChanged
 
   onChatAdded: (snapshot) =>
-    Backbone.Mediator.publish('bus:new-message', {message:snapshot.val(), bus:@})
+    Backbone.Mediator.publish('bus:new-message', {message: snapshot.val(), bus: @})
 
   onPlayerJoined: (snapshot) =>
     player = snapshot.val()
     return unless player.connected
     @players[player.id] = player
-    Backbone.Mediator.publish('bus:player-joined', {player:player, bus:@})
+    Backbone.Mediator.publish('bus:player-joined', {player: player, bus: @})
 
   onPlayerLeft: (snapshot) =>
     val = snapshot.val()
@@ -89,7 +84,7 @@ module.exports = Bus = class Bus extends CocoClass
     player = @players[val.id]
     return unless player
     delete @players[player.id]
-    Backbone.Mediator.publish('bus:player-left', {player:player, bus:@})
+    Backbone.Mediator.publish('bus:player-left', {player: player, bus: @})
 
   onPlayerChanged: (snapshot) =>
     player = snapshot.val()
@@ -97,9 +92,9 @@ module.exports = Bus = class Bus extends CocoClass
     @players[player.id] = player
     @onPlayerLeft(snapshot) if wasConnected and not player.connected
     @onPlayerJoined(snapshot) if player.connected and not wasConnected
-    Backbone.Mediator.publish('bus:player-states-changed', {states:@players, bus:@})
+    Backbone.Mediator.publish('bus:player-states-changed', {states: @players, bus: @})
 
-  onMeSynced: =>
+  onMeSynced: ->
     @myConnection?.child('name').set(me.get('name'))
 
   countPlayers: -> _.size(@players)
@@ -118,9 +113,9 @@ module.exports = Bus = class Bus extends CocoClass
   sendMessage: (content, system=false) ->
     MAX_MESSAGE_LENGTH = 400
     message =
-      content:content[... MAX_MESSAGE_LENGTH]
-      authorName:me.displayName()
-      authorID:me.id
+      content: content[... MAX_MESSAGE_LENGTH]
+      authorName: me.displayName()
+      authorID: me.id
       dateMade: new Date()
     message.system = system if system
     @fireChatRef.push(message)
@@ -128,7 +123,7 @@ module.exports = Bus = class Bus extends CocoClass
   # TEARDOWN
 
   destroy: ->
-    @sendMessage("/me left.", true) if @joined
+    @sendMessage('/me left.', true) if @joined
     delete Bus.activeBuses[@docName] if @docName of Bus.activeBuses
     @disconnect()
     super()

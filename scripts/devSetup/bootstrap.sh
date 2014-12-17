@@ -58,7 +58,13 @@ checkDependencies deps[@] basicDependenciesErrorHandling
 if command -v node >/dev/null 2>&1; then
     checkNodeVersion
 fi
-#install git repository
-git clone $repositoryUrl coco
-#python ./coco/scripts/devSetup/setup.py
-echo "Now copy and paste 'sudo python ./coco/scripts/devSetup/setup.py' into the terminal!"
+
+#check if a git repository already exists here
+if [ -d .git ]; then
+  echo "A git repository already exists here!"
+else
+  #install git repository
+  git clone $repositoryUrl coco
+  #python ./coco/scripts/devSetup/setup.py
+  echo "Now copy and paste 'sudo python ./coco/scripts/devSetup/setup.py' into the terminal!"
+fi

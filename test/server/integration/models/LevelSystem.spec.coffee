@@ -3,15 +3,15 @@ require '../../common'
 describe 'LevelSystem', ->
 
   raw =
-    name:'Bashing'
-    description:'Performs Thang bashing updates for Bashes Thangs.'
+    name: 'Bashing'
+    description: 'Performs Thang bashing updates for Bashes Thangs.'
     code: """class Bashing extends System
       constructor: (world) ->
         super world
     """
     codeLanguage: 'coffeescript'
     official: true
-    permissions:simplePermissions
+    permissions: simplePermissions
 
   comp = new LevelSystem(raw)
 

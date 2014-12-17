@@ -1,3 +1,6 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
 #level-victory-modal
   .victory-banner
     float: right
@@ -16,7 +19,7 @@
     float: right
     margin-left: 10px
     
-  .next-level-button
+  .next-level-button, .world-map-button
     float: right
     margin-left: 10px
 
@@ -48,3 +51,11 @@
 
   .modal-header
     text-align: center
+
+body.ipad #level-victory-modal
+  .share-buttons
+    display: none
+
+  .modal-body
+    font-size: 30px
+    font-family: $headings-font-family

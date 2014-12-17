@@ -1,0 +1,49 @@
+extends /templates/base
+
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/account", data-i18n="nav.account")
+    li.active(data-i18n="account.subscription")
+
+  .panel.panel-default
+    .panel-heading
+      if subscribed
+        button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
+      else if !me.isAnonymous()
+        button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+
+    .panel-body
+      table.table.table-striped
+        tr
+          th(data-i18n="user.status") Status
+          td
+            if subscribed
+              strong(data-i18n="account.subscribed")
+            else
+              if active
+                strong(data-i18n="account.active")
+                .text-muted(data-i18n="account.status_unsubscribed_active")
+              else
+                strong(data-i18n="account.unsubscribed")
+                .text-muted(data-i18n="account.status_unsubscribed")
+        if activeUntil
+          tr
+            th(data-i18n="account.active_until")
+            td= moment(activeUntil).format('l')
+        if nextPaymentDate
+          tr
+            th(data-i18n="account.next_payment")
+            td= moment(nextPaymentDate).format('l')
+        if cost
+          tr
+            th(data-i18n="account.cost")
+            td= cost
+        if card
+          tr
+            th(data-i18n="account.card")
+            td= card

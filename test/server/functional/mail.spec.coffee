@@ -23,10 +23,10 @@ describe 'handleProfileUpdate', ->
     expect(u.isEmailSubscriptionEnabled('ambassadorNews')).toBeTruthy()
     expect(u.isEmailSubscriptionEnabled('artisanNews')).toBeTruthy()
     done()
-    
+
 describe 'handleUnsubscribe', ->
   it 'turns off all news and notifications', (done) ->
-    u = new User({generalNews: {enabled:true}, archmageNews: {enabled:true}, anyNotes: {enabled:true}})
+    u = new User({generalNews: {enabled: true}, archmageNews: {enabled: true}, anyNotes: {enabled: true}})
     mail.handleUnsubscribe(u)
     expect(u.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
     expect(u.isEmailSubscriptionEnabled('adventurerNews')).toBeFalsy()

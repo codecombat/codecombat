@@ -1,0 +1,167 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#subscribe-modal
+
+  //- Clear modal defaults
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+
+
+  //- Background
+  #subscribe-background
+    position: absolute
+    top: -61px
+    left: 0px
+
+  #subscribe-gems
+    position: absolute
+    top: 155px
+    right: 65px
+
+
+  //- Header
+  h1
+    position: absolute
+    left: 170px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+    text-transform: uppercase
+  
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+    
+  //- Selling points
+
+  #selling-points
+    position: absolute
+    left: 65px
+    top: 335px
+    width: 650px
+    font-weight: bold
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+    
+    .point
+      width: 150px
+      overflow: none
+      float: left
+      text-align: center
+      margin-right: 10px
+
+    #parents-info
+      position: absolute
+      right: 7px
+      top: 56px
+      text-decoration: underline
+      cursor: pointer
+
+  #selling-points-BTest
+    position: absolute
+    left: 65px
+    top: 150px
+    width: 500px
+    font-weight: normal
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+    
+    .point
+      overflow: none
+      text-align: left
+      margin: 20px
+
+  .popover
+    z-index: 1050
+
+    h3
+      background: transparent
+      border: 0
+      font-size: 30px
+      color: black
+
+
+  //- Purchase button
+
+  .purchase-button
+    position: absolute
+    left: 73px
+    width: 600px
+    height: 70px
+    top: 430px
+    font-size: 32px
+    line-height: 42px
+    border-style: solid
+    border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+      color: white
+
+    &:active
+      border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
+
+        
+  //- Errors
+
+  .alert
+    position: absolute
+    left: 10%
+    width: 80%
+    top: 20px
+    border: 5px solid gray
+
+
+html.no-borderimage #subscribe-modal
+  .purchase-button
+    border: 0
+    background-image: url(/images/level/code_toolbar_submit_button_active.png)
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+  
+    &:hover
+      background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+      border: 0
+
+    &:active
+      background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
+      padding: 9px 8px 8px 12px
+      border: 0
+

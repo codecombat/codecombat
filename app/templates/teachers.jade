@@ -2,110 +2,73 @@ extends /templates/base
 
 block content
 
-  .row
+  p.row
 
     .span5
 
       h2 CodeCombat for Teachers
 
-      p.lead Want to use CodeCombat in your classroom? Great!
+      h3 Preparation
 
-      p It's free, there's no signup required, and we're excited to hear what your students think.
+      p CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to 
+        a(href="http://codecombat.com/play") play through the campaign
+        |  to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer.
 
-      p You should be able to just point your kids at the site and let them play--you don't need to introduce it or cover anything about programming in advance. However, we've made the game pretty hard, because it's a multiplayer game, and players should be able to team up to help each other when they get stuck.
+      p It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat.
 
-      p In a classroom setting, multiplayer is easy: just do pair programming, with two students playing together at one computer taking turns typing. (We also have real-time multiplayer built into the game, but there's no need to use that when you're right next to each other in a classroom.)
-      
-      p
-        | If you're doing the Hour of Code and want to print certificates for your students, 
-        a(href="http://csedweek.org/certificates") go here
-        | .
+      h3 Is it violent?
 
-      p More questions? Get in touch! Feature requests? We'd love to hear them! CodeCombat is new and needs to hear from you to learn what teachers would love to have in their classrooms of programming wizards-to-be.
+      p We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language. If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat.
 
-      h3
-        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact") Contact Us
-    
-    .span5
- 
-      h3 CodeCombat Usage Checklist
+      h3 Is it for girls?
 
-      h4 Age
+      p There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players.
+
+      h3 What do we cover?
+
+      p There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:
+
+        ol
+          li
+            strong Formal notation
+            |  - builds an understanding of the importance of syntax in programming.
+          li
+            strong Calling methods
+            |  - familiarizes students with the syntax of object-oriented method calls.
+          li
+            strong Parameters
+            |  - trains how to pass parameters to functions.
+          li
+            strong Strings
+            |  - teaches students about string notation and passing strings as parameters.
+          li
+            strong Loops
+            |  - develops the abstraction of designing short programs with loops.
+          li
+            strong Variables
+            |  - adds the skill of referencing values that change over time.
+
+      p Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:
+        ol
+          li
+            strong Conditional logic
+            |  - when and how to use if/else to control in-game outcomes.
+          li
+            strong Handling player input
+            |  - responding to input events to create a user interface.
+
+
+      h3 System Requirements
+
+      p Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of your Hour of Code experience:
+
       ul
-        li ✓ College and adult
-        li ✓ High school (14-18)
-        li ✓ Middle school (13+)
-        li ~ Middle school (11-12): can play, but don't register without parental consent
-        li ~ Elementary school (7-10): may require some guidance
-        li ✗ 6 and under: probably too hard
-
-      h4 Browser
-      ul
-        li ✓ Chrome ~17+
-        li ✓ Firefox ~21+
-        li ✓ Safari 6+
-        li ✓ Internet Explorer 10 and 11
-        li ✗ Internet Explorer 8 and 9
-      
-      h4 Operating System
-      ul
-        li ✓ Windows
-        li ✓ Mac
-        li ✓ Linux
-        li ✗ iPhone/iPad/iPod (might work, but not fun to type on mobile)
-        li ✗ Android (not fun to type on mobile)
-
-      h4 Internet Connection
-      ul
-        li ✓ Fast connection
-        li ~ Slow connection (we're working to optimize this)
-        li ✗ Offline
-
-      h4 Computer
-      ul
-        li ✓ Fast computer
-        li ~ Slow computer (we're working to optimize this)
-        li ✗ Old, slow netbook
-      
-      h4 Languages
-      ul
-        li ✓ English - English
-        li ~✓ русский язык, Russian
-        li ~✓ Deutsch, German
-        li ~✓ español (América Latina), Spanish (Latin America)
-        li ~✓ español (ES), Spanish (Spain)
-        li ~✓ 简体中文, Chinese (Simplified)
-        li ~✓ 繁体中文, Chinese (Traditional)
-        li ~✓ français, French
-        li ~✓ 日本語, Japanese
-        li العربية, Arabic
-        li ~✓ português do Brasil, Portuguese (Brazil)
-        li ~✓ Português europeu, Portuguese (Portugal)
-        li ~✓ język polski, Polish
-        li ~✓ italiano, Italian
-        li ~✓ Türkçe, Turkish
-        li ~✓ Nederlands, Dutch
-        li ~ فارسی, Persian
-        li čeština, Czech
-        li ~✓ Svenska, Swedish
-        li ~✓ Bahasa Indonesia, Indonesian
-        li ~✓ ελληνικά, Greek
-        li ~✓ limba română, Romanian
-        li ~ Tiếng Việt, Vietnamese
-        li ~✓ magyar, Hungarian
-        li ~ ไทย, Thai
-        li ~ dansk, Danish
-        li 한국어, Korean
-        li ~ slovenčina, Slovak
-        li ~✓ slovenščina, Slovene
-        li suomi, Finnish
-        li български език, Bulgarian
-        li Norwegian (Nynorsk), Norwegian Nynorsk
-        li ~ Norsk Bokmål, Norwegian (Bokmål)
-        li ~ עברית, Hebrew
-        li lietuvių kalba, Lithuanian
-        li ~✓ српски, Serbian
-        li ~✓ українська мова, Ukranian
-        li मानक हिन्दी, Hindi
-        li ~ اُردُو, Urdu
-        li ~ Bahasa Melayu, Bahasa Malaysia
+        li
+          strong Use newer versions of Chrome or Firefox.
+          |  Although CodeCombat will work on browsers as old as IE9, the performance is not as good. Chrome is best.
+        li
+          strong Use newer computers.
+          |  Older computers, Chromebooks, and netbooks tend to have very few system resources, which makes for a less enjoyable experience. At least 2GB of RAM is required.
+        li
+          strong Allow players to wear headphones/earbuds to hear the audio.
+          |  We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting.

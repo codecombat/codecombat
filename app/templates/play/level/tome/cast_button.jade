@@ -1,15 +1,7 @@
-div.btn-group.btn-group-lg.cast-button-group.dropup
-  .button-progress-overlay
-  button.btn.btn-inverse.banner.cast-button(title=castShortcutVerbose + ": Cast current spell", data-i18n="play_level.tome_cast_button_cast") Spell Cast
-  button.btn.btn-inverse.banner.cast-options-button.dropdown-toggle(data-toggle="dropdown")
-    i.icon-cog.icon-white.big
+button.btn.btn-lg.btn-illustrated.cast-button(title=castVerbose)
+  span(data-i18n="play_level.tome_run_button_ran") Ran
 
-  ul.dropdown-menu.autocast-delays
-    li
-      span.dropdown-menu-header(data-i18n="play_level.tome_autocast_delay") Autocast Delay
-    li.divider
-    li
-      a(data-delay="1000", href="#", data-i18n="common.delay_1_sec") 1 second
-      a(data-delay="3000", href="#", data-i18n="common.delay_3_sec") 3 seconds
-      a(data-delay="5000", href="#", data-i18n="common.delay_5_sec") 5 seconds
-      a(data-delay="90019001", href="#", data-i18n="common.manual") Manual
+button.btn.btn-lg.btn-illustrated.submit-button(title=castRealTimeVerbose, data-i18n="play_level.tome_submit_button") Submit
+
+button.btn.btn-lg.btn-illustrated.done-button.secret
+  span(data-i18n="play_level.done") Done

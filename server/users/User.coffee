@@ -1,25 +1,23 @@
-mongoose = require('mongoose')
-jsonschema = require('../../app/schemas/models/user')
-crypto = require('crypto')
-{salt, isProduction} = require('../../server_config')
+mongoose = require 'mongoose'
+jsonschema = require '../../app/schemas/models/user'
+crypto = require 'crypto'
+{salt, isProduction} = require '../../server_config'
 mail = require '../commons/mail'
 log = require 'winston'
+plugins = require '../plugins/plugins'
+AnalyticsUsersActive = require '../analytics/AnalyticsUsersActive'
+
+config = require '../../server_config'
+stripe = require('stripe')(config.stripe.secretKey)
 
 sendwithus = require '../sendwithus'
+delighted = require '../delighted'
 
 UserSchema = new mongoose.Schema({
   dateCreated:
     type: Date
     'default': Date.now
 }, {strict: false})
-
-UserSchema.pre('init', (next) ->
-  return next() unless jsonschema.properties?
-  for prop, sch of jsonschema.properties
-    continue if prop is 'emails' # defaults may change, so don't carry them over just yet
-    @set(prop, sch.default) if sch.default?
-  next()
-)
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
@@ -28,6 +26,9 @@ UserSchema.post('init', ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
+
+UserSchema.methods.isAnonymous = ->
+  @get 'anonymous'
 
 UserSchema.methods.trackActivity = (activityName, increment) ->
   now = new Date()
@@ -63,6 +64,12 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   @set('emails', newSubs)
   @newsSubsChanged = true if newName in mail.NEWS_GROUPS
 
+UserSchema.methods.gems = ->
+  gemsEarned = @get('earned')?.gems ? 0
+  gemsPurchased = @get('purchased')?.gems ? 0
+  gemsSpent = @get('spent') ? 0
+  gemsEarned + gemsPurchased - gemsSpent
+
 UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   emails = @get 'emails'
   if not emails
@@ -73,12 +80,19 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
   return emails[newName]?.enabled
 
-UserSchema.statics.updateMailChimp = (doc, callback) ->
+UserSchema.statics.updateServiceSettings = (doc, callback) ->
   return callback?() unless isProduction or GLOBAL.testing
   return callback?() if doc.updatedMailChimp
   return callback?() unless doc.get('email')
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
+
+  if emailChanged and customerID = doc.get('stripe')?.customerID
+    unless stripe?.customers
+      console.error('Oh my god, Stripe is not imported correctly-how could we have done this (again)?')
+    stripe?.customers?.update customerID, {email:doc.get('email')}, (err, customer) ->
+      console.error('Error updating stripe customer...', err) if err
+
   return callback?() unless emailChanged or doc.newsSubsChanged
 
   newGroups = []
@@ -90,10 +104,12 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
 
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
-  params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
-  params.merge_vars = { groupings: [ {id: mail.MAILCHIMP_GROUP_ID, groups: newGroups} ] }
+  params.email = if existingProps then {leid: existingProps.leid} else {email: doc.get('email')}
+  params.merge_vars = {
+    groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]
+    'new-email': doc.get('email')
+  }
   params.update_existing = true
-  params.double_optin = false
 
   onSuccess = (data) ->
     doc.set('mailChimp', data)
@@ -108,6 +124,100 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
 
   mc?.lists.subscribe params, onSuccess, onFailure
 
+UserSchema.statics.statsMapping =
+  edits:
+    article: 'stats.articleEdits'
+    level: 'stats.levelEdits'
+    'level.component': 'stats.levelComponentEdits'
+    'level.system': 'stats.levelSystemEdits'
+    'thang.type': 'stats.thangTypeEdits'
+  translations:
+    article: 'stats.articleTranslationPatches'
+    level: 'stats.levelTranslationPatches'
+    'level.component': 'stats.levelComponentTranslationPatches'
+    'level.system': 'stats.levelSystemTranslationPatches'
+    'thang.type': 'stats.thangTypeTranslationPatches'
+  misc:
+    article: 'stats.articleMiscPatches'
+    level: 'stats.levelMiscPatches'
+    'level.component': 'stats.levelComponentMiscPatches'
+    'level.system': 'stats.levelSystemMiscPatches'
+    'thang.type': 'stats.thangTypeMiscPatches'
+
+UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
+  id = mongoose.Types.ObjectId id if _.isString id
+  @findById id, (err, user) ->
+    log.error err if err?
+    err = new Error "Could't find user with id '#{id}'" unless user or err
+    return done() if err?
+    user.incrementStat statName, done, inc=1
+
+UserSchema.methods.incrementStat = (statName, done, inc=1) ->
+  @set statName, (@get(statName) or 0) + inc
+  @save (err) -> done?(err)
+
+UserSchema.statics.unconflictName = unconflictName = (name, done) ->
+  User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
+    return done err if err?
+    return done null, name unless otherUser
+    suffix = _.random(0, 9) + ''
+    unconflictName name + suffix, done
+
+UserSchema.methods.register = (done) ->
+  @set('anonymous', false)
+  @set('permissions', ['admin']) if not isProduction and not GLOBAL.testing
+  if (name = @get 'name')? and name isnt ''
+    unconflictName name, (err, uniqueName) =>
+      return done err if err
+      @set 'name', uniqueName
+      done()
+  else done()
+  data =
+    email_id: sendwithus.templates.welcome_email
+    recipient:
+      address: @get 'email'
+  sendwithus.api.send data, (err, result) ->
+    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+  delighted.addDelightedUser @
+  @saveActiveUser 'register'
+
+UserSchema.methods.isPremium = ->
+  return false unless stripeObject = @get('stripe')
+  return true if stripeObject.subscriptionID
+  return true if stripeObject.free is true
+  return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
+  return false
+
+UserSchema.statics.saveActiveUser = (id, event, done=null) ->
+  id = mongoose.Types.ObjectId id if _.isString id
+  @findById id, (err, user) ->
+    if err?
+      log.error err
+    else
+      user?.saveActiveUser event
+    done?()
+
+UserSchema.methods.saveActiveUser = (event, done=null) ->
+  try
+    return done?() if @isAdmin()
+    userID = @get('_id')
+
+    # Create if no active user entry for today
+    today = new Date()
+    minDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
+    AnalyticsUsersActive.findOne({created: {$gte: minDate}, creator: mongoose.Types.ObjectId(userID)}).exec (err, activeUser) ->
+      if err?
+        log.error "saveActiveUser error retrieving active users: #{err}"
+      else if not activeUser
+        newActiveUser = new AnalyticsUsersActive()
+        newActiveUser.set 'creator', userID
+        newActiveUser.set 'event', event
+        newActiveUser.save (err) ->
+          log.error "Level session saveActiveUser error saving active user: #{err}" if err?
+      done?()
+  catch err
+    log.error err
+    done?()
 
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())
@@ -116,26 +226,41 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-  if @get('email') and @get('anonymous')
-    @set('anonymous', false)
-    @set('permissions', ['admin']) if not isProduction
-    data =
-      email_id: sendwithus.templates.welcome_email
-      recipient:
-        address: @get 'email'
-    sendwithus.api.send data, (err, result) ->
-      log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-  next()
+  if @get('email') and @get('anonymous') # a user registers
+    @register next
+  else
+    next()
 )
 
 UserSchema.post 'save', (doc) ->
-  UserSchema.statics.updateMailChimp(doc)
+  doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
+  UserSchema.statics.updateServiceSettings(doc)
+
+UserSchema.post 'init', (doc) ->
+  doc.startingEmails = _.cloneDeep(doc.get('emails'))
 
 UserSchema.statics.hashPassword = (password) ->
   password = password.toLowerCase()
   shasum = crypto.createHash('sha512')
   shasum.update(salt + password)
   shasum.digest('hex')
+
+UserSchema.statics.privateProperties = [
+  'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID'
+]
+UserSchema.statics.jsonSchema = jsonschema
+UserSchema.statics.editableProperties = [
+  'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
+  'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
+  'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
+  'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
+  'heroConfig', 'iosIdentifierForVendor'
+]
+
+UserSchema.plugin plugins.NamedPlugin
+UserSchema.index({'stripe.subscriptionID':1}, {unique: true, sparse: true})
 
 module.exports = User = mongoose.model('User', UserSchema)
 
