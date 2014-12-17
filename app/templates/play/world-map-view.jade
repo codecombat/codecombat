@@ -8,7 +8,7 @@
   - var seenNext = nextLevel;
   each level in campaign.levels
     if !level.hidden
-      - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled);
+      - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled && !editorMode);
       - seenNext = seenNext || next;
       div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
         if level.unlocksHero && !level.unlockedHero

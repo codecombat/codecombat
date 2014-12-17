@@ -1,10 +1,9 @@
-
 c = require './../schemas'
 
 CampaignSchema = c.object()
 c.extendNamedProperties CampaignSchema  # name first
 
-_.extend CampaignSchema.properties,
+_.extend CampaignSchema.properties, {
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'body']}
   
   ambientSound: c.object {},
@@ -12,8 +11,12 @@ _.extend CampaignSchema.properties,
     ogg: { type: 'string', format: 'sound-file' }
     
   backgroundImage: c.array {}, {
-    image: { type: 'string', format: 'image-file' }
-    width: { type: 'number' }
+    type: 'object'
+    additionalProperties: false
+    properties: {
+      image: { type: 'string', format: 'image-file' }
+      width: { type: 'number' }
+    }
   }
   backgroundColor: { type: 'string' }
   backgroundColorTransparent: { type: 'string' }
@@ -33,18 +36,22 @@ _.extend CampaignSchema.properties,
     }
   }}
   
-  levels: { type: 'object', additionalItems: {
+  levels: { type: 'object', format: 'levels', additionalProperties: {
     title: 'Level'
     type: 'object'
+    format: 'level'
+    additionalProperties: false
+    
+    # key is the original property
     properties: {
       #- denormalized from Level
       # TODO: take these properties from the Level schema and put them into schema references, use them here
-      name: { readOnly: true }
-      description: { readOnly: true }
+      name: { type: 'string', format: 'hidden' }
+      description: { type: 'string', format: 'hidden' }
       requiresSubscription: { type: 'boolean' }
       type: {'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop']}
-      slug: { readOnly: true }
-      original: { readOnly: true }
+      slug: { type: 'string', format: 'hidden' }
+      original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
       
@@ -85,19 +92,22 @@ _.extend CampaignSchema.properties,
         type: 'string' # should be an originalID, denormalized on the editor side
       }}
 
-      #- denormalized/restructured from Achievements
-      nextLevels: c.array {}
-      unlocksHero: c.object { readOnly: true }, {
-        image: { type: 'string', format: 'image-file' }
-        original: { type: 'string' }
-      }
+      #- denormalized from Achievements
+      unlocks: { type: 'array', items: {
+        type: 'object'
+        properties:
+          original: { type: 'string' }
+          type: { enum: ['hero', 'item', 'level'] }
+          achievement: { type: 'string' }
+      }}
 
       #- normal properties
       position: c.point2d()
-      
     }
-  }
+
+  }}
 }
+
 
 c.extendBasicProperties CampaignSchema, 'campaign'
 c.extendTranslationCoverageProperties CampaignSchema

@@ -31,6 +31,28 @@ LevelHandler = class LevelHandler extends Handler
     'i18nCoverage'
     'loadingTip'
     'requiresSubscription'
+    'disableSpaces'
+    'hidesSubmitUntilRun'
+    'hidesPlayButton'
+    'hidesRunShortcut'
+    'hidesHUD'
+    'hidesSay'
+    'hidesCodeToolbar'
+    'hidesRealTimePlayback'
+    'backspaceThrottle'
+    'lockDefaultCode'
+    'moveRightLoopSnippet'
+    'realTimeSpeedFactor'
+    'autocompleteFontSizePx'
+    'requiredCode'
+    'suspectCode'
+    'requiredGear'
+    'restrictedGear'
+    'allowedHeroes'
+  ]
+  
+  adminEditableProperties: [
+    []
   ]
 
   postEditableProperties: ['name']
