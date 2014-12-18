@@ -2,7 +2,7 @@ module.exports = LevelOptions =
   'dungeons-of-kithgard':
     disableSpaces: true
     helpVideos: [
-      {style: 'original', URL: '//www.youtube.com/embed/bHaeKdMPZrA'}
+      {style: 'original', URL: '//player.vimeo.com/video/114921603'}
       {style: 'scripted', URL: '//player.vimeo.com/video/114729726'}
       {style: 'eccentric', URL: '//player.vimeo.com/video/114729725'}
       {style: 'edited', URL: '//player.vimeo.com/video/114729724'}
@@ -118,6 +118,7 @@ module.exports = LevelOptions =
     requiredCode: ['loop']
   'haunted-kithmaze':
     helpVideos: [
+      {style: 'original', URL: '//player.vimeo.com/video/114921605'}
       {style: 'scripted', URL: '//player.vimeo.com/video/114730074'}
       {style: 'eccentric', URL: '//player.vimeo.com/video/114729727'}
       {style: 'edited', URL: '//player.vimeo.com/video/114729723'}
@@ -139,6 +140,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'the-second-kithmaze':
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114899761'}]
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
