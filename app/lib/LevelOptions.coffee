@@ -307,27 +307,27 @@ module.exports = LevelOptions =
     restrictedGear: {}
   'the-mighty-sand-yak':
     #requiredGear: {neck: 'rough-sense-stone'}  # Too many players probably won't have this, and we don't have a way to require players to buy it yet.
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'oasis':
     requiredGear: {}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'sarven-road':
     requiredGear: {}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'sarven-gaps':
     requiredGear: {'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'thunderhooves':
     requiredGear: {'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'medical-attention':
     requiredGear: {'right-hand': 'long-sword'}, #neck: 'polished-sense-stone'}  # We don't have a way to require players to buy it yet.
-    restrictedGear: {'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags'}
   'minesweeper':
     requiredGear: {}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'sarven-sentry':
-    requiredGear: {'right-hand': 'crude-builders-hammer'}
+    requiredGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags'}
     restrictedGear: {}
   'keeping-time':
     requiredGear: {}  # watch
