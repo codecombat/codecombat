@@ -110,6 +110,7 @@ module.exports = class LevelGuideView extends CocoView
     # https://developers.google.com/youtube/iframe_api_reference
     # TODO: Can't load a YouTube video twice in one level
     # TODO: window.onYouTubeIframeAPIReady is only called once
+    # TODO: Consider ripping out YouTube support and migrating all videos to Vimeo
 
     onPlayerStateChange = (e) =>
       if e.data is 1
@@ -153,7 +154,7 @@ module.exports = class LevelGuideView extends CocoView
     # Create Vimeo iframe player
     tag = document.createElement('iframe')
     tag.id = 'help-video-player'
-    tag.src = helpVideoURL + "?api=1"
+    tag.src = helpVideoURL + "?api=1&badge=0&byline=0&portrait=0&title=0"
     tag.height = @helpVideoHeight
     tag.width = @helpVideoWidth
     tag.frameborder = '0'
