@@ -139,6 +139,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots', 'programming-book': 'programmaticon-i'}
     restrictedGear: {feet: 'leather-boots'}
   'the-second-kithmaze':
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114899761'}]
     hidesHUD: true
     hidesSay: true
     hidesCodeToolbar: true
