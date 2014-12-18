@@ -417,7 +417,7 @@ module.exports = class SpellView extends CocoView
             meta: 'press enter'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
-          if doc.name is 'findNearestEnemy'
+          if doc.name is 'findNearestEnemy' or doc.name is 'findNearest'
             # Remember if we have findNearestEnemy so attack snippet can be updated
             haveFindNearestEnemy = true
           if doc.name is 'attack'
