@@ -1,6 +1,6 @@
 module.exports = LevelOptions =
   'dungeons-of-kithgard':
-    disableSpaces: true
+    
     helpVideos: [
       {style: 'original', URL: '//www.youtube.com/embed/bHaeKdMPZrA'}
       {style: 'scripted', URL: '//player.vimeo.com/video/114729726'}
@@ -18,7 +18,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots'}
     requiredCode: ['moveRight']
   'gems-in-the-deep':
-    disableSpaces: true
+    
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114730449'}]
     hidesSubmitUntilRun: true
     hidesPlayButton: true
@@ -30,7 +30,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots'}
   'shadow-guard':
-    disableSpaces: true
+    
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734163'}]
     hidesSubmitUntilRun: true
     hidesPlayButton: true
@@ -42,7 +42,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword'}
   'kounter-kithwise':
-    disableSpaces: true
+    
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734160'}]
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -63,7 +63,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'forgetful-gemsmith':
-    disableSpaces: true
+    
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734165'}]
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -74,7 +74,6 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'true-names':
-    disableSpaces: true
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734166'}]
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -86,7 +85,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
     requiredCode: ['Brak']
   'favorable-odds':
-    disableSpaces: true
+    
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734656'}]
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -97,7 +96,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword'}
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'the-raised-sword':
-    disableSpaces: true
+    
     helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734655'}]
     hidesPlayButton: true
     hidesRunShortcut: true
