@@ -1,39 +1,157 @@
 RootView = require 'views/core/RootView'
 Campaign = require 'models/Campaign'
 Level = require 'models/Level'
+Achievement = require 'models/Achievement'
+ThangType = require 'models/ThangType'
 WorldMapView = require 'views/play/WorldMapView'
 CocoCollection = require 'collections/CocoCollection'
+treemaExt = require 'core/treema-ext'
+utils = require 'core/utils'
+
+achievementProject = ['related', 'rewards', 'name', 'slug']
+thangTypeProject = ['name', 'original', 'slug']
 
 module.exports = class CampaignEditorView extends RootView
   id: "campaign-editor-view"
   template: require 'templates/editor/campaign/campaign-editor-view'
   className: 'editor'
 
-  constructor: ->
-    super(arguments...)
+  constructor: (options, campaignHandle) ->
+    super(options)
     
-    # TODO: move the outputted data to the db, and load the Campaign objects instead
-    for level in levels
-      _.extend level, options[level.id]
-      level.slug = level.id
-      delete level.id
-      delete level.nextLevels
-      level.position = { x: level.x, y: level.y }
-      delete level.x
-      delete level.y
-      if level.unlocksHero
-        level.unlocks = [{
-          original: level.unlocksHero.originalID
-          type: 'hero'
-        }]
-      delete level.unlocksHero
-      campaign.levels[level.original] = level
-    @campaign = new Campaign(campaign)
+    # MIGRATION CODE
+#    for level in levels
+#      _.extend level, options[level.id]
+#      level.slug = level.id
+#      delete level.id
+#      delete level.nextLevels
+#      level.position = { x: level.x, y: level.y }
+#      delete level.x
+#      delete level.y
+#      if level.unlocksHero
+#        level.unlocks = [{
+#          original: level.unlocksHero.originalID
+#          type: 'hero'
+#        }]
+#      delete level.unlocksHero
+#      campaign.levels[level.original] = level
+#    @campaign = new Campaign(campaign)
     #------------------------------------------------
+  
+    @campaign = new Campaign({_id:campaignHandle})
     
-    collection = new CocoCollection({model: Level, url})
-    collection.ur
+    #--------------- temporary migration to change thang type slugs to originals
+    #- should keep around though for loading the names of items and heroes that are referenced
+    #- just load names instead of slugs, though
+    @sluggyThangs = new Backbone.Collection()
+    @listenToOnce @campaign, 'sync', ->
+      slugs = []
+      for level in _.values(@campaign.get('levels'))
+        slugs = slugs.concat(_.values(level.requiredGear)) if level.requiredGear
+        slugs = slugs.concat(_.values(level.restrictedGear)) if level.restrictedGear 
+        slugs = slugs.concat(level.allowedHeroes) if level.allowedHeroes
+      slugs = _.uniq _.flatten slugs
+      for slug in slugs
+        thangType = new ThangType()
+        thangType.setProjection(thangTypeProject)
+        if utils.isID slug
+          thangType.setURL("/db/thang.type/#{slug}/version")
+        else
+          thangType.setURL("/db/thang.type/#{slug}")
+        @supermodel.loadModel(thangType, 'thang')
+        @sluggyThangs.add(thangType)
+    #---------------
+    @supermodel.loadModel(@campaign, 'campaign')
+
+    @levels = new CocoCollection([], {
+      model: Level
+      url: "/db/campaign/#{campaignHandle}/levels"
+      project: Campaign.denormalizedLevelProperties
+    })
+    @supermodel.loadCollection(@levels, 'levels')
+
+    @achievements = new CocoCollection([], {
+      model: Achievement
+      url: "/db/campaign/#{campaignHandle}/achievements"
+      project: achievementProject
+    })
+    @supermodel.loadCollection(@achievements, 'achievements')
     
+    @toSave = new Backbone.Collection()
+
+  onLoaded: ->
+    campaignLevels = $.extend({}, @campaign.get('levels'))
+    for level in @levels.models
+      levelOriginal = level.get('original')
+      campaignLevel = campaignLevels[levelOriginal] ? {}
+
+      #--------------- temporary migrations
+      if campaignLevel.restrictedGear
+        for slot, value of campaignLevel.restrictedGear
+          if _.isString(value)
+            campaignLevel.restrictedGear[slot] = [value]
+      #
+      if campaignLevel.requiredGear
+        for slot, value of campaignLevel.requiredGear
+          if _.isString(value)
+            campaignLevel.requiredGear[slot] = [value]
+      #
+      if campaignLevel.requiredGear
+        for gear in _.values(campaignLevel.requiredGear)
+          for slug, index in gear
+            thang = @sluggyThangs.findWhere({slug: slug})
+            continue unless thang
+            gear[index] = thang.get('original')
+      #
+      if campaignLevel.restrictedGear
+        for gear in _.values(campaignLevel.restrictedGear)
+          for slug, index in gear
+            thang = @sluggyThangs.findWhere({slug: slug})
+            continue unless thang
+            gear[index] = thang.get('original')
+      #
+      if campaignLevel.allowedHeroes
+        for slug, index in campaignLevel.allowedHeroes
+          thang = @sluggyThangs.findWhere({slug: slug})
+          continue unless thang
+          level.allowedHeroes[index] = thang.get('original')
+      #---------------
+        
+      $.extend campaignLevel, _.omit(level.attributes, '_id')
+      achievements = @achievements.where {'related': levelOriginal}
+      rewards = []
+      for achievement in achievements
+        for rewardType, rewardArray of achievement.get('rewards')
+          for reward in rewardArray
+            rewardObject = { achievement: achievement.id }
+            
+            if rewardType is 'heroes'
+              rewardObject.hero = reward
+              thangType = new ThangType({}, {project: thangTypeProject})
+              thangType.setURL("/db/thang.type/#{reward}/version")
+              @supermodel.loadModel(thangType, 'thang')
+                
+            if rewardType is 'levels'
+              rewardObject.level = reward
+              if not @levels.findWhere({original: reward})
+                level = new Level({}, {project: Campaign.denormalizedLevelProperties})
+                level.setURL("/db/level/#{reward}/version")
+                @supermodel.loadModel(level, 'level')
+                
+            if rewardType is 'items'
+              rewardObject.item = reward
+              thangType = new ThangType({}, {project: thangTypeProject})
+              thangType.setURL("/db/thang.type/#{reward}/version")
+              @supermodel.loadModel(thangType, 'thang')
+              
+            rewards.push rewardObject
+      campaignLevel.rewards = rewards
+      delete campaignLevel.unlocks
+      campaignLevels[levelOriginal] = campaignLevel
+      
+    @campaign.set('levels', campaignLevels)
+    super()
+
   getRenderData: ->
     c = super()
     c.campaign = @campaign
@@ -51,17 +169,47 @@ module.exports = class CampaignEditorView extends RootView
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
-
+        achievement: AchievementNode
+      supermodel: @supermodel
 
     @treema = @$el.find('#campaign-treema').treema treemaOptions
     @treema.build()
     @treema.open()
-    @treema.childrenTreemas.levels.open()
+    @treema.childrenTreemas.levels?.open()
 
     worldMapView = new WorldMapView({supermodel: @supermodel, editorMode: true}, 'dungeon')
     worldMapView.highlightElement = _.noop # make it stop
     @insertSubView worldMapView
+    
+  onTreemaChanged: (e, nodes) =>
+    for node in nodes
+      path = node.getPath()
+      if _.string.startsWith path, '/levels/'
+        parts = path.split('/')
+        original = parts[2]
+        level = @supermodel.getModelByOriginal Level, original
+        campaignLevel = @treema.get "/levels/#{original}"
 
+        if 'rewards' in parts
+          rewardsData = @
+          @updateRewardsForLevel level, campaignLevel.rewards
+
+        for key in Campaign.denormalizedLevelProperties
+          level.set key, campaignLevel[key]
+        @toSave.add level
+        
+    @toSave.add @campaign
+
+  updateRewardsForLevel: (level, rewards) ->
+    achievements = @supermodel.getModels(Achievement)
+    achievements = (a for a in achievements when a.get('related') is level.get('original'))
+    for achievement in achievements
+      rewardSubset = (r for r in rewards when r.achievement is achievement._id)
+      newRewards = {}
+      newRewards.heroes = _.compact((r.hero for r in rewards))
+      newRewards.items = _.compact((r.item for r in rewards))
+      newRewards.levels = _.compact((r.level for r in rewards))
+      achievement.set 'rewards', newRewards
 
 class LevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'
@@ -73,15 +221,12 @@ class LevelsNode extends TreemaObjectNode
   childPropertiesAvailable: -> @childSource
 
   childSource: (req, res) =>
-    console.log 'calling child source!', req
     s = new Backbone.Collection([], {model:Level})
     s.url = '/db/level'
     s.fetch({data: {term:req.term, project: Campaign.denormalizedLevelProperties.join(',')}})
     s.once 'sync', (collection) ->
       LevelsNode.levels[level.get('original')] = level for level in collection.models
-      console.log 'results!', collection.models
       mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
-      console.log 'mapped', mapped
       res(mapped)
 
 
@@ -92,11 +237,11 @@ class LevelNode extends TreemaObjectNode
     
   populateData: ->
     return if @data.name?
-    console.log 'how do I do this?', @data, @keyForParent, LevelsNode.levels
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
     _.extend @data, data
-    console.log 'extended to data', data
-    console.log 'now data is', @data
+    
+class AchievementNode extends treemaExt.IDReferenceNode
+  buildSearchURL: (term) -> "#{@url}?term=#{term}&project=#{achievementProject.join(',')}"
     
 campaign = {
   name: 'Dungeon'

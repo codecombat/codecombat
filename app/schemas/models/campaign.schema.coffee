@@ -83,22 +83,27 @@ _.extend CampaignSchema.properties, {
       }
       
       requiredGear: { type: 'object', additionalProperties: {
-        type: 'string' # should be an originalID, denormalized on the editor side
+        type: 'array'
+        items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
       }}
       restrictedGear: { type: 'object', additionalProperties: {
-        type: 'string' # should be an originalID, denormalized on the editor side
+        type: 'array' 
+        items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
       }}
-      allowedHeroes: { type: 'array', items: {
-        type: 'string' # should be an originalID, denormalized on the editor side
+      allowedHeroes: { type: 'array', items: { 
+        type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' 
       }}
 
       #- denormalized from Achievements
-      unlocks: { type: 'array', items: {
+      rewards: { type: 'array', items: {
         type: 'object'
+        additionalProperties: false
         properties:
-          original: { type: 'string' }
-          type: { enum: ['hero', 'item', 'level'] }
-          achievement: { type: 'string' }
+          achievement: { type: 'string', links: [{rel: 'db', href: '/db/achievement/{{$}}'}], format: 'achievement' }
+          item: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
+          hero: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
+          level: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          type: { enum: ['heroes', 'items', 'levels'] }
       }}
 
       #- normal properties

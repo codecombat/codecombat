@@ -36,7 +36,7 @@ CampaignHandler = class CampaignHandler extends Handler
         return @getRelatedAchievements(req, res, campaign, projection) if relationship is 'achievements'
     else
       super(arguments...)
-    
+      
       
   getRelatedLevels: (req, res, campaign, projection) ->
     levels = campaign.get('levels') or []
