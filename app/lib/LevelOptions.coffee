@@ -1,6 +1,12 @@
 module.exports = LevelOptions =
   'dungeons-of-kithgard':
     disableSpaces: true
+    helpVideos: [
+      {style: 'original', URL: '//www.youtube.com/embed/bHaeKdMPZrA'}
+      {style: 'scripted', URL: '//player.vimeo.com/video/114729726'}
+      {style: 'eccentric', URL: '//player.vimeo.com/video/114729725'}
+      {style: 'edited', URL: '//player.vimeo.com/video/114729724'}
+      ]
     hidesSubmitUntilRun: true
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -13,6 +19,7 @@ module.exports = LevelOptions =
     requiredCode: ['moveRight']
   'gems-in-the-deep':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114730449'}]
     hidesSubmitUntilRun: true
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -24,6 +31,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots'}
   'shadow-guard':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734163'}]
     hidesSubmitUntilRun: true
     hidesPlayButton: true
     hidesRunShortcut: true
@@ -35,6 +43,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword'}
   'kounter-kithwise':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734160'}]
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -44,6 +53,7 @@ module.exports = LevelOptions =
     requiredGear: {feet: 'simple-boots'}
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'crawlways-of-kithgard':
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734162'}]
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -54,6 +64,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots', 'right-hand': 'simple-sword', 'programming-book': 'programmaticon-i'}
   'forgetful-gemsmith':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734165'}]
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -64,6 +75,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'true-names':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734166'}]
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -75,6 +87,7 @@ module.exports = LevelOptions =
     requiredCode: ['Brak']
   'favorable-odds':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734656'}]
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -85,6 +98,7 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
   'the-raised-sword':
     disableSpaces: true
+    helpVideos: [{style: 'original', URL: '//player.vimeo.com/video/114734655'}]
     hidesPlayButton: true
     hidesRunShortcut: true
     hidesHUD: true
@@ -103,6 +117,11 @@ module.exports = LevelOptions =
     restrictedGear: {feet: 'leather-boots'}
     requiredCode: ['loop']
   'haunted-kithmaze':
+    helpVideos: [
+      {style: 'scripted', URL: '//player.vimeo.com/video/114730074'}
+      {style: 'eccentric', URL: '//player.vimeo.com/video/114729727'}
+      {style: 'edited', URL: '//player.vimeo.com/video/114729723'}
+      ]
     hidesRunShortcut: true
     hidesHUD: true
     hidesSay: true
@@ -307,27 +326,27 @@ module.exports = LevelOptions =
     restrictedGear: {}
   'the-mighty-sand-yak':
     #requiredGear: {neck: 'rough-sense-stone'}  # Too many players probably won't have this, and we don't have a way to require players to buy it yet.
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'oasis':
     requiredGear: {}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'sarven-road':
     requiredGear: {}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'sarven-gaps':
     requiredGear: {'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'thunderhooves':
     requiredGear: {'right-hand': 'crude-builders-hammer'}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'medical-attention':
     requiredGear: {'right-hand': 'long-sword'}, #neck: 'polished-sense-stone'}  # We don't have a way to require players to buy it yet.
-    restrictedGear: {'right-hand': 'crude-builders-hammer'}
+    restrictedGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags'}
   'minesweeper':
     requiredGear: {}
-    restrictedGear: {}
+    restrictedGear: {flag: 'basic-flags'}
   'sarven-sentry':
-    requiredGear: {'right-hand': 'crude-builders-hammer'}
+    requiredGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags'}
     restrictedGear: {}
   'keeping-time':
     requiredGear: {}  # watch

@@ -554,7 +554,7 @@ handleLadderUpdate = (req, res) ->
       endTime = startTime + 15 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
-    selectString = 'creator team levelName levelID totalScore matches submitted submitDate scoreHistory level.original'
+    selectString = 'creator team levelName levelID totalScore matches submitted submitDate scoreHistory level.original unsubscribed'
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()

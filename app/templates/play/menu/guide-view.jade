@@ -1,7 +1,15 @@
-ul.nav.nav-tabs
-  for doc in docs
-    li
-      a(data-target="#docs_tab_#{doc.slug}", data-toggle="tab") #{doc.name}
-div.tab-content
-  for doc in docs
-    div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html
+if docs.length === 1
+  if showVideo
+    h3(id='help-video-heading', data-i18n="game_menu.guide_video_tutorial")
+    div(id="help-video-player")
+  h3(data-i18n="game_menu.guide_tips")
+  div
+    != docs[0].html
+else
+  ul.nav.nav-tabs
+    for doc in docs
+      li
+        a(data-target="#docs_tab_#{doc.slug}", data-toggle="tab") #{doc.name}
+  div.tab-content
+    for doc in docs
+      div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html

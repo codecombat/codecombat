@@ -60,7 +60,9 @@ module.exports = class GameMenuModal extends ModalView
 
   onTabShown: (e) ->
     @playSound 'game-menu-tab-switch'
-    @subviews[e.target.hash.substring(1).replace(/-/g, '_')].onShown?()
+    shownSubviewKey = e.target.hash.substring(1).replace(/-/g, '_')
+    @subviews[shownSubviewKey].onShown?()
+    subview.onHidden?() for subviewKey, subview of @subviews when subviewKey isnt shownSubviewKey
 
   onHidden: ->
     super()

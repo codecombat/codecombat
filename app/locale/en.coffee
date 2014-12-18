@@ -313,6 +313,8 @@
     save_load_tab: "Save/Load"
     options_tab: "Options"
     guide_tab: "Guide"
+    guide_video_tutorial: "Video Tutorial"
+    guide_tips: "Tips"
     multiplayer_tab: "Multiplayer"
     auth_tab: "Sign Up"
     inventory_caption: "Equip your hero"

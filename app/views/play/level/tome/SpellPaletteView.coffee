@@ -6,6 +6,7 @@ SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 LevelOptions = require 'lib/LevelOptions'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 
 N_ROWS = 4
 
@@ -20,8 +21,14 @@ module.exports = class SpellPaletteView extends CocoView
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
 
+  events:
+    'click #spell-palette-help-button': 'onClickHelp'
+
   constructor: (options) ->
     super options
+    @level = options.level
+    @session = options.session
+    @supermodel = options.supermodel
     @thang = options.thang
     @createPalette()
     $(window).on 'resize', @onResize
@@ -277,6 +284,10 @@ module.exports = class SpellPaletteView extends CocoView
     entry.destroy() for entry in @entries
     @createPalette()
     @render()
+    
+  onClickHelp: (e) ->
+    application.tracker?.trackEvent 'Spell palette help clicked', levelID: @level.get('slug')
+    @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
 
   destroy: ->
     entry.destroy() for entry in @entries
