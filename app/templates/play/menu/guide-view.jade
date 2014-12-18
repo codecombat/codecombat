@@ -1,8 +1,8 @@
 if docs.length === 1
   if showVideo
-    h3 Video Tutorial
+    h3(id='help-video-heading', data-i18n="game_menu.guide_video_tutorial")
     div(id="help-video-player")
-  h3 Tips
+  h3(data-i18n="game_menu.guide_tips")
   div
     != docs[0].html
 else

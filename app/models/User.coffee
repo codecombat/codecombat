@@ -139,6 +139,13 @@ module.exports = class User extends CocoModel
     else
       @subscribeCopyGroup = 'original'
     @subscribeCopyGroup
+    
+  getVideoTutorialStylesIndex: (numVideos=0)->
+    # A/B Testing video tutorial styles
+    # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
+    # TODO: Do we need to call identify() still?  trackEvent will have a style property.
+    return 0 unless numVideos > 0
+    return me.get('testGroupNumber') % numVideos
 
   isPremium: ->
     return false unless stripe = @get('stripe')

@@ -17,6 +17,10 @@ module.exports = class LevelGuideView extends CocoView
     @levelID = options.level.get('slug')
     @helpVideos = LevelOptions[@levelID]?.helpVideos ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
+    
+    # A/B Testing video tutorial styles
+    @helpVideosIndex = me.getVideoTutorialStylesIndex(@helpVideos.length)
+    
     @firstOnly = options.firstOnly
     @docs = options?.docs ? options.level.get('documentation') ? {}
     general = @docs.generalArticles or []
@@ -34,6 +38,16 @@ module.exports = class LevelGuideView extends CocoView
     doc.html = marked(utils.i18n doc, 'body') for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
+    super()
+
+  destroy: ->
+    if @vimeoListenerAttached
+      if window.addEventListener
+        window.removeEventListener('message', @onMessageReceived, false)
+      else
+        window.detachEvent('onmessage', @onMessageReceived, false)
+    if window.onYouTubeIframeAPIReady
+      window.onYouTubeIframeAPIReady = null
     super()
 
   getRenderData: ->
@@ -70,12 +84,22 @@ module.exports = class LevelGuideView extends CocoView
     @volume ?= me.get('volume') ? 1.0
     createjs?.Sound?.setVolume(0.0)
 
+  onStartHelpVideo: ->
+    unless @trackedHelpVideoStart
+      window.tracker?.trackEvent 'Start help video', level: @levelID, style: @helpVideos[@helpVideosIndex].style
+      @trackedHelpVideoStart = true
+  
+  onFinishHelpVideo: ->
+    unless @trackedHelpVideoFinish
+      window.tracker?.trackEvent 'Finish help video', level: @levelID, style: @helpVideos[@helpVideosIndex].style
+      @trackedHelpVideoFinish = true
+
   setupVideoPlayer: () ->
     return unless @helpVideos.length > 0
     
     # TODO: run A/B test for different video styles
 
-    helpVideoURL = @helpVideos[0].URL
+    helpVideoURL = @helpVideos[@helpVideosIndex].URL
     if helpVideoURL.toLowerCase().indexOf('youtube') >= 0
       @setupYouTubeVideoPlayer helpVideoURL
     else if helpVideoURL.toLowerCase().indexOf('vimeo') >= 0
@@ -84,16 +108,24 @@ module.exports = class LevelGuideView extends CocoView
   setupYouTubeVideoPlayer: (helpVideoURL) ->
     # Setup YouTube iframe player
     # https://developers.google.com/youtube/iframe_api_reference
-    
+    # TODO: Can't load a YouTube video twice in one level
+    # TODO: window.onYouTubeIframeAPIReady is only called once
+
     onPlayerStateChange = (e) =>
       if e.data is 1
-        unless @trackedHelpVideoStart
-          window.tracker?.trackEvent 'Start help video', level: @levelID
-          @trackedHelpVideoStart = true
+        @onStartHelpVideo()
       else if e.data is 0
-        unless @trackedHelpVideoFinish
-          window.tracker?.trackEvent 'Finish help video', level: @levelID
-          @trackedHelpVideoFinish = true
+        @onFinishHelpVideo()
+
+    createPlayer = =>
+      new YT.Player 'help-video-player', {
+        height: @helpVideoHeight,
+        width: @helpVideoWidth,
+        videoId: videoID,
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      }
 
     if matchVideoID = helpVideoURL.match /www\.youtube\.com\/embed\/(bHaeKdMPZrA)/
       videoID = matchVideoID[1]
@@ -104,19 +136,15 @@ module.exports = class LevelGuideView extends CocoView
     
     # Add method that will be called by YouTube iframe player when ready
     window.onYouTubeIframeAPIReady = =>
-      new YT.Player 'help-video-player', {
-        height: @helpVideoHeight,
-        width: @helpVideoWidth,
-        videoId: videoID,
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      }
+      createPlayer()
     
-    # Add YouTube video player
-    tag = document.createElement('script')
-    tag.src = "https://www.youtube.com/iframe_api"
-    @$el.find('#help-video-player').before(tag)
+    # Add YouTube video player iframe script if necessary
+    if YT?.Player?
+      createPlayer()
+    else
+      tag = document.createElement('script')
+      tag.src = "https://www.youtube.com/iframe_api"
+      @$el.find('#help-video-heading').after(tag)
 
   setupVimeoVideoPlayer: (helpVideoURL) ->
     # Setup Vimeo player
@@ -131,7 +159,7 @@ module.exports = class LevelGuideView extends CocoView
     tag.frameborder = '0'
     @$el.find('#help-video-player').replaceWith(tag)
 
-    onMessageReceived = (e) =>
+    @onMessageReceived = (e) =>
       data = JSON.parse(e.data)
       if data.event is 'ready'
         # Vimeo player is ready, can now hook up other events
@@ -141,16 +169,13 @@ module.exports = class LevelGuideView extends CocoView
         player.contentWindow.postMessage JSON.stringify(method: 'addEventListener', value: 'play'), helpVideoURL
         player.contentWindow.postMessage JSON.stringify(method: 'addEventListener', value: 'finish'), helpVideoURL
       else if data.event is 'play'
-        unless @trackedHelpVideoStart
-          window.tracker?.trackEvent 'Start help video', level: @levelID
-          @trackedHelpVideoStart = true
+        @onStartHelpVideo?()
       else if data.event is 'finish'
-        unless @trackedHelpVideoFinish
-          window.tracker?.trackEvent 'Finish help video', level: @levelID
-          @trackedHelpVideoFinish = true
+        @onFinishHelpVideo?()
 
     # Listen for Vimeo player 'ready'
     if window.addEventListener
-      window.addEventListener('message', onMessageReceived, false)
+      window.addEventListener('message', @onMessageReceived, false)
     else
-      window.attachEvent('onmessage', onMessageReceived, false)
+      window.attachEvent('onmessage', @onMessageReceived, false)
+    @vimeoListenerAttached = true
