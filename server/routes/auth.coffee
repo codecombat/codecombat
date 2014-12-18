@@ -138,7 +138,7 @@ module.exports.setup = (app) ->
         session.set 'unsubscribed', true
         session.save (err) ->
           return errors.serverError res, 'Database failure.' if err
-          res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.levelName} #{session.team} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
+          res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.get('levelName')} #{session.get('team')} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
           res.end()
 
     User.findOne({emailLower: req.query.email.toLowerCase()}).exec (err, user) ->
