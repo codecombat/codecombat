@@ -30,7 +30,7 @@ module.exports = class Tracker
     if virtualName?
       # Override title and path properties for virtual page view
       # https://segment.com/docs/libraries/analytics.js/#page
-      properties = 
+      properties =
         title: name
         path: "/#{name}"
 
@@ -46,10 +46,10 @@ module.exports = class Tracker
     # Ok to pass empty properties, but maybe not options
     # TODO: What happens when we pass empty options?
     if _.isEmpty options
-      # console.log "trackPageView without options '/#{name}'", properties, options 
+      # console.log "trackPageView without options '/#{name}'", properties, options
       analytics.page "/#{name}"
     else
-      # console.log "trackPageView with options '/#{name}'", properties, options 
+      # console.log "trackPageView with options '/#{name}'", properties, options
       analytics.page "/#{name}", properties, options
 
   trackEvent: (action, properties, includeIntegrations=null) =>
@@ -69,11 +69,10 @@ module.exports = class Tracker
       for integration in includeIntegrations
         context.integrations[integration] = true
     analytics?.track action, properties, context
-    
+
     # Log internally too.  Will turn off external event logging when internal logging is sufficient.
-    # TODO: enable this after we figure out what's eating the server CPU
-    # event = new AnalyticsLogEvent event: action, properties: properties
-    # event.save()
+    event = new AnalyticsLogEvent event: action, properties: properties
+    event.save()
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
     # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming
