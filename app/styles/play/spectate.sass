@@ -104,13 +104,6 @@
       &.btn-#{nth($tuple, 1)}
         @include banner-button(nth($tuple, 2), #FFF)
 
-  .footer .footer-link-text a
-    @include opacity(0.75)
-    @include transition(opacity .10s linear)
-
-    &:hover, &:active
-      @include opacity(1)
-
   $GI: 0.5  // gradient intensity; can tweak this 0-1
 
   .gradient
@@ -152,22 +145,3 @@
     top: 0
     height: 100%
     width: 2%
-
-  .footer
-    @media screen and (min-aspect-ratio: 17/10)
-      display: none
-
-    &:not(:hover)
-      @include opacity(0.6)
-
-    .hour-of-code-explanation
-      margin-top: 5px
-      color: white
-      font-size: 12px
-
-      &:not(:hover)
-        @include opacity(0.75)
-
-      a
-        color: white
-        text-decoration: underline

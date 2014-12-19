@@ -1,7 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
 utils = require 'core/utils'
-SubscribeModal = require 'views/play/modal/SubscribeModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'

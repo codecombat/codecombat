@@ -206,16 +206,8 @@ $level-resize-transition-time: 0.5s
         @include opacity(1)
     
     @media screen and (min-aspect-ratio: 17/10)
-      display: none
-
-    .hour-of-code-explanation
-      margin-top: 5px
-      color: white
-      font-size: 12px
-
-      a
-        color: white
-        text-decoration: underline
+      &:not(.premium)
+        display: none
 
   #fullscreen-editor-background-screen
     background-color: black

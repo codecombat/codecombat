@@ -9,7 +9,7 @@ ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
-SubscribeModal = require 'views/play/modal/SubscribeModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 Level = require 'models/Level'
 
 trackedHourOfCode = false

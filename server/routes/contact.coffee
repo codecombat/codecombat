@@ -17,7 +17,7 @@ createMailContext = (sender, message, user, recipientID, subject, done) ->
   context =
     email_id: sendwithus.templates.plain_text_email
     recipient:
-      address: config.mail.username
+      address: if user?.isPremium() then config.mail.supportPremium else config.mail.supportPrimary
     sender:
       address: config.mail.username
       reply_to: sender
