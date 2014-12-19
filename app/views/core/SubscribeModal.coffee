@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/subscribe-modal'
+template = require 'templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 AuthModal = require 'views/core/AuthModal'

@@ -477,12 +477,13 @@
   contact:
     contact_us: "Contact CodeCombat"
     welcome: "Good to hear from you! Use this form to send us email. "
-    contribute_prefix: "If you're interested in contributing, check out our "
-    contribute_page: "contribute page"
-    contribute_suffix: "!"
     forum_prefix: "For anything public, please try "
     forum_page: "our forum"
     forum_suffix: " instead."
+    subscribe_prefix: "If you need help figuring out a level, please"
+    subscribe: "buy a CodeCombat subscription"
+    subscribe_suffix: "and we'll be happy to help you with your code."
+    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
     where_reply: "Where should we reply?"
     send: "Send Feedback"
     contact_candidate: "Contact Candidate"  # Deprecated
