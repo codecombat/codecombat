@@ -344,7 +344,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     prompt_title: "Недостатньо самоцвітів"
     prompt_body: "Хочете отримати ще?"
     prompt_button: "Увійти до крамниці"
-   recovered: "Попередні покупки самоцвітів відновлені. Будь ласка, поновіть сторінку."
+    recovered: "Попередні покупки самоцвітів відновлені. Будь ласка, поновіть сторінку."
 
   subscribe:
     subscribe_title: "Взяти абонемент"
