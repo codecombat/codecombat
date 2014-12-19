@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", translation:
   home:
-    slogan: "Tanulj meg nyelven programozni, miközben játszol!"
+    slogan: "Tanulj meg programozni, miközben játszol!"
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 8, vagy korábbi verzióit. Bocsi!" # Warning that only shows up in IE8 and older
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen." # Warning that shows up on mobile devices
     play: "Játssz!" # The big play button that just starts playing a level
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     choose_inventory: "Felszerelés"
     buy_gems: "Vásárolj Drágköveket"
-#    campaign_desert: "Desert Campaign"
+    campaign_desert: "Sivatagi Kampány"
     campaign_forest: "Erdei Kampány"
     campaign_dungeon: "Várbörtön Kampány"
     subscription_required: "Feliratkozást igényel"
@@ -146,13 +146,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     fork: "Villára vesz"
     play: "Játék" # When used as an action verb, like "Play next level"
     retry: "Próbáld újra!"
-#    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
+    actions: "Lehetőségek"
+    info: "Infó"
+    help: "Segítség"
     watch: "Követés"
     unwatch: "Követés vége"
     submit_patch: "Kiegészítés bemutatása"
-#    submit_changes: "Submit Changes"
+    submit_changes: "Változások véglegesítése"
 
   general:
     and: "és"
@@ -163,12 +163,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Üzenet feladása"
-#    review: "Review"
+    review: "Áttekintés"
     version_history: "Verzió történet"
     version_history_for: "Verzió története ennek: "
-#    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+    select_changes: "Válassz két lehetőséget alul, hogy lásd a különbséget."
+    undo: "Vissza (Ctrl+Z)"
+    redo: "Újra (Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Eredmény"
     results: "Eredmények"
@@ -300,12 +300,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_documented_bug: "A dokumentált programhiba már nem hiba; az már jellegzetesség."
     tip_impossible: "Mindig lehetetlennek tűnik, amíg meg nem tetted. - Nelson Mandela"
     tip_talk_is_cheap: "Dumálni könnyű. Mutasd a kódot!. - Linus Torvalds"
-#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
-#    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
-#    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_first_language: "A legszörnyűbb dolog, amit valaha tanulhatsz, az az első programnyelved. - Alan Kay"
+    tip_hardware_problem: "Kérdés: Hány programozó kell egy lámpakörte kicseréléséhez? Válasz: Egysem, ez hardware-es hiba."
+    tip_hofstadters_law: "Hofstadter törvénye: Mindig tovább tart, mint ahogy tervezted. Még akkor is, ha figyelembe vetted Hofstadter törvényét."
+    tip_premature_optimization: "Minden rossz gyökere a korai optimizáció. - Donald Knuth"
+    tip_brute_force: "Ha kérdésesa helyzet, használj nyers erőt. - Ken Thompson"
+    tip_extrapolation: "Csak két fajta ember létezik. Az egyik, aki extrapolál hiányos adatokból..."
 
   game_menu:
     inventory_tab: "Raktár"
@@ -524,7 +524,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     view_profile: "Nézd meg a profilodat!"
 
   keyboard_shortcuts:
-#    keyboard_shortcuts: "Keyboard Shortcuts"
+    keyboard_shortcuts: "Billentyűparancsok"
     space: "Syünet"
     enter: "Enter"
     escape: "Kilépés"
@@ -767,11 +767,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    no_ranked_matches_post: " team! Play against some competitors and then come back here to get your game ranked."
 #    choose_opponent: "Choose an Opponent"
 #    select_your_language: "Select your language!"
-    tutorial_play: "Gykorlójáték"
+    tutorial_play: "Gyakorlójáték"
 #    tutorial_recommended: "Recommended if you've never played before"
-    tutorial_skip: "Gykorlójáték átugrása"
+    tutorial_skip: "Gyakorlójáték átugrása"
     tutorial_not_sure: "Nem érted mi folyik?"
-    tutorial_play_first: "Játssz egy gykorlójátékot először!"
+    tutorial_play_first: "Játssz egy gyakorlójátékot először!"
 #    simple_ai: "Simple AI"
     warmup: "Bemelegítés"
 #    friends_playing: "Friends Playing"
