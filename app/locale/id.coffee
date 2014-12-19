@@ -1,48 +1,48 @@
 module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Indonesian", translation:
   home:
-#    slogan: "Learn to Code by Playing a Game"
+    slogan: "Learn to Code by Playing a Game"
     no_ie: "Maaf, CodeCombat tidak bisa dijalankan pada Internet Explorer 8 dan sebelumnya" # Warning that only shows up in IE8 and older
     no_mobile: "Maaf. CodeCombat tidak dibuat untuk perangkat mobile" # Warning that shows up on mobile devices
-    play: "Play" # The big play button that just starts playing a level
+    play: "Main" # The big play button that just starts playing a level
 #    try_it: "Try It" # Alternate wording for Play button
-    old_browser: "Uh oh, Maaf. Versi broser anda terlalu lama " # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "Uh oh, Maaf. Versi browser anda terlalu lama " # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Anda bisa mencoba, tapi mungkin tidak akan berjalan."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Kabar buruk: CodeCombat tidak bisa dijalankan di iPad. Kabar baik: Aplikasi CodeCombat untuk iOS akan segera diluncurkan." # Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Campaign"
     for_beginners: "Pemula"
     multiplayer: "Multiplayer" # Not currently shown on home page
-    for_developers: "Developers" # Not currently shown on home page.
+    for_developers: "Developer" # Not currently shown on home page.
     or_ipad: "atau download untuk iPad"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
-    community: "Community"
+    community: "Komunitas"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Akun"
-    profile: "Profile"
+    profile: "Profil"
     stats: "Mulai"
-    code: "Code"
+    code: "Kode"
     admin: "Admin" # Only shows up when you are an admin
     home: "Home"
 #    contribute: "Contribute"
     legal: "Legal"
-#    about: "About"
+#    about: "Tentang Kami"
     contact: "Kontak"
     twitter_follow: "Follow"
 #    teachers: "Teachers"
 
   modal:
-    close: "Close"
-    okay: "Okay"
+    close: "Tutup"
+    okay: "Oke"
 
   not_found:
     page_not_found: "Alamat tidak ditemukan"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+    title: "Bantu terjemahkan CodeCombat!" Help translate CodeCombat! # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "We need your language skills."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Indonesian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Indonesian."
     missing_translations: "Until we can translate everything into Indonesian, you'll see English when Indonesian isn't available."
 #    learn_more: "Learn more about being a Diplomat"
@@ -64,8 +64,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
     account: "Akun" # Tooltip on account button from /play
-    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    settings: "Pengaturan" # Tooltip on settings button from /play
+#    next: "Lanjut" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
-#    free: "Free"
+#    free: "Gratis"
 #    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
@@ -102,13 +102,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     log_in: "Masuk"
     logging_in: "Logging In"
     log_out: "Keluar"
-#    forgot_password: "Forgot your password?"
+#    forgot_password: "Lupa password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
+#    sign_in_with_facebook: "Sign in dengan Facebook"
+#    sign_in_with_gplus: "Sign in dengan G+"
 #    signup_switch: "Want to create an account?"
 
 #  signup:
@@ -135,31 +135,31 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   common:
     loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
-#    send: "Send"
-#    cancel: "Cancel"
-#    save: "Save"
-#    publish: "Publish"
-#    create: "Create"
+#    saving: "Menyimpan..."
+#    sending: "Mengirim..."
+#    send: "Kirim"
+#    cancel: "Batal"
+#    save: "Simpan"
+#    publish: "Terbitkan"
+#    create: "Buat"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play" # When used as an action verb, like "Play next level"
+#    play: "Mainkan" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    actions: "Actions"
 #    info: "Info"
-#    help: "Help"
+#    help: "Bantuan"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
 #  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
+#    and: "dan"
+#    name: "Nama"
+#    date: "Tanggal"
 #    body: "Body"
-#    version: "Version"
+#    version: "Versi"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
 #    commit_msg: "Commit Message"
@@ -170,50 +170,50 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    undo: "Undo (Ctrl+Z)"
 #    redo: "Redo (Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
-#    result: "Result"
-#    results: "Results"
-#    description: "Description"
-#    or: "or"
-#    subject: "Subject"
+#    result: "Hasil"
+#    results: "Hasil"
+#    description: "Deskripsi"
+#    or: "atau"
+#    subject: "Subjek"
 #    email: "Email"
 #    password: "Password"
-#    message: "Message"
-#    code: "Code"
+#    message: "Pesan"
+#    code: "Kode"
 #    ladder: "Ladder"
 #    when: "When"
-#    opponent: "Opponent"
-#    rank: "Rank"
+#    opponent: "Lawan"
+#    rank: "Peringkat"
 #    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
+#    win: "Menang"
+#    loss: "Kalah"
+#    tie: "Seri"
+#    easy: "Mudah"
 #    medium: "Medium"
-#    hard: "Hard"
+#    hard: "Sulit"
 #    player: "Player"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
 #  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+      second: "detik"
+      seconds: "detik"
+      minute: "menit"
+      minutes: "menit"
+      hour: "jam"
+      hours: "jam"
+      day: "hari"
+      days: "hari"
+      week: "minggu"
+      weeks: "minggu"
+      month: "bulan"
+      months: "bulan"
+      year: "tahun"
+      years: "tahun"
 
 #  play_level:
 #    done: "Done"
 #    home: "Home" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+#    skip: "Lewati"
 #    game_menu: "Game Menu"
 #    guide: "Guide"
 #    restart: "Restart"
@@ -232,7 +232,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
-#    victory: "Victory"
+    victory: "Menang"
 #    victory_title_prefix: ""
 #    victory_title_suffix: " Complete"
 #    victory_sign_up: "Sign Up to Save Progress"
@@ -251,9 +251,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
 #    tome_other_units: "Other Units" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+     tome_cast_button_run: "Lari"
+     tome_cast_button_running: "Berlari"
+     tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
@@ -263,17 +263,17 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    tome_your_skills: "Your Skills"
 #    tome_help: "Help"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+     hud_continue_short: "Lanjutkan"
+     code_saved: "Kode disimpan"
 #    skip_tutorial: "Skip (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
-#    loading_ready: "Ready!"
+      loading_ready: "Siap!"
 #    loading_start: "Start Level"
 #    problem_alert_title: "Fix Your Code"
-#    time_current: "Now:"
+     time_current: "Sekarang:"
 #    time_total: "Max:"
-#    time_goto: "Go to:"
-#    infinite_loop_try_again: "Try Again"
+      time_goto: "Pergi ke:"
+      infinite_loop_try_again: "Coba lagi"
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
@@ -281,7 +281,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
 #    tip_open_source: "CodeCombat is 100% open source!"
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
-#    tip_think_solution: "Think of the solution, not the problem."
+     tip_think_solution: "Pikirkan solusinya, bukan masalahnya" Think of the solution, not the problem.
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
