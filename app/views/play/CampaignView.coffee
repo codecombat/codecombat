@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/play/world-map-view'
+template = require 'templates/play/campaign-view'
 LevelSession = require 'models/LevelSession'
 EarnedAchievement = require 'models/EarnedAchievement'
 CocoCollection = require 'collections/CocoCollection'
@@ -23,7 +23,7 @@ class LevelSessionsCollection extends CocoCollection
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
 module.exports = class WorldMapView extends RootView
-  id: 'world-map-view'
+  id: 'campaign-view'
   template: template
 
   subscriptions:
@@ -103,6 +103,7 @@ module.exports = class WorldMapView extends RootView
     super()
 
   getLevelPlayCounts: ->
+    return # TODO: Either use the campaign object instead of hardcoded data or get the data some other way
     return unless me.isAdmin()
     success = (levelPlayCounts) =>
       return if @destroyed
