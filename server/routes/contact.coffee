@@ -1,36 +1,46 @@
 config = require '../../server_config'
 log = require 'winston'
-mail = require '../commons/mail'
 User = require '../users/User'
+sendwithus = require '../sendwithus'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     return res.end() unless req.user
     #log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
-    if config.isProduction
-      createMailOptions req.body.email, req.body.message, req.user, req.body.recipientID, req.body.subject, (options) ->
-        mail.transport.sendMail options, (error, response) ->
-          if error
-            log.error "Error sending mail: #{error.message or error}"
+    createMailContext req.body.email, req.body.message, req.user, req.body.recipientID, req.body.subject, (context) ->
+      sendwithus.api.send context, (err, result) ->
+        if err
+          log.error "Error sending contact form email: #{err.message or err}"
     return res.end()
 
-createMailOptions = (sender, message, user, recipientID, subject, done) ->
-  # TODO: use email templates here
-  options =
-    from: config.mail.username
-    to: config.mail.username
-    replyTo: sender
-    subject: "[CodeCombat] #{subject ? ('Feedback - ' + sender)}"
-    text: "#{message}\n\nUsername: #{user.get('name') or 'Anonymous'}\nID: #{user._id}"
-    #html: message.replace '\n', '<br>\n'
+createMailContext = (sender, message, user, recipientID, subject, done) ->
+  level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
+  premium = user?.isPremium()
+  content = """
+    #{message}
+
+    #{user.get('name') or 'Anonymous'} - Level #{level}#{if premium then ' - Subscriber' else ''} - #{user._id}
+  """
+
+  context =
+    email_id: sendwithus.templates.plain_text_email
+    recipient:
+      address: if premium then config.mail.supportPremium else config.mail.supportPrimary
+    sender:
+      address: config.mail.username
+      reply_to: sender
+      name: user.get('name')
+    email_data:
+      subject: "[CodeCombat] #{subject ? ('Feedback - ' + sender)}"
+      content: content
 
   if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->
       if err
         log.error "Error looking up recipient to email from #{recipientID}: #{err}" if err
       else
-        options.bcc = [options.to, sender]
-        options.to = document.get('email')
-      done options
+        context.bcc = [context.to, sender]
+        context.to = document.get('email')
+      done context
   else
-    done options
+    done context

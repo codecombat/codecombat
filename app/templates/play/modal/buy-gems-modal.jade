@@ -29,3 +29,9 @@
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
           p= stateMessage
+      
+      if state === 'recovered_charge'
+        #recovered-alert.alert.alert-danger.alert-dismissible
+          span(data-i18n="buy_gems.recovered")
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;

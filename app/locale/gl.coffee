@@ -146,9 +146,13 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     fork: "Bifurcar"
     play: "Xogar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
     watch: "Mirar"
     unwatch: "Pasar"
     submit_patch: "Mandar Parche"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "e"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     date: "Data"
     body: "Corpo"
     version: "Versión"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Mensaxe de Asignación ou Commit"
+#    review: "Review"
     version_history: "Historial de versión"
     version_history_for: "Historial das versións de: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Resultado"
     results: "Resultados"
     description: "Descripción"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     forum_prefix: "Para asuntos públicos, por favor usa "
     forum_page: "o noso foro"
     forum_suffix: " no seu lugar."
+#    where_reply: "Where should we reply?"
     send: "Envía o teu comentario"
     contact_candidate: "Contactar Candidato" # Deprecated
     recruitment_reminder: "Usa este formulario para contactar cos candidatos que queiras entrevistar. Recorda que CodeCombat cobrará o 18% do salario durante o primeiro ano. A cuota é pola contratación do empregado e é reembolsable durante 90 días si o empregado non permanece contratado. A tempo parcial, a distancia e os empregados de contrato son gratis, como o son os bolseiros." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     more: "Máis"
     wiki: "Wiki"
     live_chat: "Chat en directo"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Algunhas opcións?"
     level_tab_thangs: "Obxectos"
     level_tab_scripts: "Scripts"

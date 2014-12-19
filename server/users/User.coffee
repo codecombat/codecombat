@@ -189,6 +189,8 @@ UserSchema.methods.isPremium = ->
   return false
 
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
+  # TODO: Disabling this until we know why our app servers CPU grows out of control.
+  return done?()
   id = mongoose.Types.ObjectId id if _.isString id
   @findById id, (err, user) ->
     if err?
@@ -198,6 +200,8 @@ UserSchema.statics.saveActiveUser = (id, event, done=null) ->
     done?()
 
 UserSchema.methods.saveActiveUser = (event, done=null) ->
+  # TODO: Disabling this until we know why our app servers CPU grows out of control.
+  return done?()
   try
     return done?() if @isAdmin()
     userID = @get('_id')

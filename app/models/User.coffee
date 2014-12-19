@@ -115,17 +115,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
 
-  getFastVictoryModalGroup: ->
-    # A/B Testing no delay showing the signup and continue buttons in hero victory modal
-    return @fastVictoryModalGroup if @fastVictoryModalGroup
-    group = me.get('testGroupNumber') % 2
-    @fastVictoryModalGroup = switch group
-      when 0 then 'normal'
-      when 1 then 'fast'
-    @fastVictoryModalGroup = 'fast' if me.isAdmin()
-    application.tracker.identify fastVictoryModalGroup: @fastVictoryModalGroup unless me.isAdmin()
-    @fastVictoryModalGroup
-
   getGemPromptGroup: ->
     # A/B Testing whether extra prompt when low gems leads to more gem purchases
     # TODO: Rename gem purchase event in BuyGemsModal to 'Started gem purchase' after this test is over
@@ -150,18 +139,13 @@ module.exports = class User extends CocoModel
     else
       @subscribeCopyGroup = 'original'
     @subscribeCopyGroup
-
-  getSubscribePriceGroup: ->
-    # Testing alternate displayed subscription price of 1499
-    # NOTE: This grouping logic lives in server/payments/subscription_handler.coffee too.
-    return @subscribePriceGroup if @subscribePriceGroup
-    testStartTime = new Date("2014-12-11T01:00:00.000Z") # 12/10/14 5pm PST time
-    if new Date(me.get('dateCreated')) >= testStartTime
-      @subscribePriceGroup = '1499'
-      application.tracker.identify subscribePriceGroup: @subscribePriceGroup
-    else
-      @subscribePriceGroup = 'control'
-    @subscribePriceGroup
+    
+  getVideoTutorialStylesIndex: (numVideos=0)->
+    # A/B Testing video tutorial styles
+    # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
+    # TODO: Do we need to call identify() still?  trackEvent will have a style property.
+    return 0 unless numVideos > 0
+    return me.get('testGroupNumber') % numVideos
 
   isPremium: ->
     return false unless stripe = @get('stripe')

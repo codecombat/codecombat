@@ -34,6 +34,7 @@ module.exports = class GameMenuModal extends ModalView
     submenus = ["options", "save-load", "guide", "multiplayer"]
     submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
+    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or @level?.get('type') in ['ladder', 'hero-ladder']
     context.showTab = @options.showTab ? submenus[0]
     context.submenus = submenus
     context.iconMap =
@@ -49,6 +50,7 @@ module.exports = class GameMenuModal extends ModalView
     if @options.showTab
       firstView = switch @options.showTab
         when 'multiplayer' then @subviews.multiplayer_view
+        when 'guide' then @subviews.guide_view
     unless firstView?
       firstView = (@subviews.options_view)
     firstView.$el.addClass 'active'
@@ -58,7 +60,9 @@ module.exports = class GameMenuModal extends ModalView
 
   onTabShown: (e) ->
     @playSound 'game-menu-tab-switch'
-    @subviews[e.target.hash.substring(1).replace(/-/g, '_')].onShown?()
+    shownSubviewKey = e.target.hash.substring(1).replace(/-/g, '_')
+    @subviews[shownSubviewKey].onShown?()
+    subview.onHidden?() for subviewKey, subview of @subviews when subviewKey isnt shownSubviewKey
 
   onHidden: ->
     super()
@@ -68,7 +72,6 @@ module.exports = class GameMenuModal extends ModalView
     
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Game Menu', level: @options.levelID
-    window.tracker?.trackPageView "signup/start", ['Google Analytics']
     # TODO: Default already seems to be prevented.  Need to be explicit?
     e.preventDefault()
     @openModalView new AuthModal {mode: 'signup'}

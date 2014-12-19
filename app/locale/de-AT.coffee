@@ -146,9 +146,13 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     fork: "Fork"
     play: "Abspielen" # When used as an action verb, like "Play next level"
     retry: "Erneut versuchen"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
     submit_patch: "Patch einreichen"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "und"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     date: "Datum"
     body: "Inhalt"
     version: "Version"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Commit Nachricht"
+#    review: "Review"
     version_history: "Versionshistorie"
     version_history_for: "Versionsgeschichte für: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Ergebnis"
     results: "Ergebnisse"
     description: "Beschreibung"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     forum_prefix: "Für alle öffentlichen Themen, benutze stattdessen "
     forum_page: "unser Forum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Sende Feedback"
     contact_candidate: "Kontaktiere Kandidaten" # Deprecated
     recruitment_reminder: "Benutzen Sie dieses Formular um Kontakt zu Kandidaten aufzunehmen, an denen Sie interessiert sind. Bedenken Sie das CodeCombat 15% des ersten Jahresgehaltes berechnet. Diese Gebühr wird fällig wenn Sie den Kandidaten einstellen und ist für 90 Tage rückerstattungsfähig, sollte der Mitarbeiter nicht eingestellt bleiben. Mitarbeiter die für Teilzeit, Remote oder eine Auftragsarbeit eingestellt werden sind kostenlos, das gilt auch für Praktikanten." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     more: "Mehr"
     wiki: "Wiki"
     live_chat: "Live Chat"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Einige Einstellungsmöglichkeiten?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Skripte"

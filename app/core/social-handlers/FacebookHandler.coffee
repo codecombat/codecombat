@@ -51,7 +51,6 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
         window.tracker?.trackEvent 'Facebook Login', category: "Signup", ['Google Analytics']
         if model.id is beforeID
           window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
-          window.tracker?.trackPageView "signup/finished", ['Google Analytics']
         window.location.reload() if model.get('email') isnt oldEmail
     })
 

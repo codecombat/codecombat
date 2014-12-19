@@ -1,13 +1,13 @@
 module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "German (Switzerland)", translation:
   home:
-    slogan: "Lern, wiemer JavaScript programmiert indem du es Spiel spielsch!"
+    slogan: "Lern, wiemer JavaScript programmiert, indem du es Spiel spielsch!"
     no_ie: "CodeCombat funktioniert uf InternetExplorer 8 und älter nid. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat isch nid für mobili Grät entwicklet worde und funktioniert vilicht nid!" # Warning that shows up on mobile devices
     play: "Spiele" # The big play button that just starts playing a level
 #    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Uh oh, din Browser isch z alt zum CodeCombat spiele. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du chasches gliich probiere, aber es funktioniert worschinli nid."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Schächti Nachrichte: CodeCombat funktioniert nonig uf em iPad-Browser. Gueti Nachrichte: Oisi iPad-App wartet nur no druf, vo Apple überprüeft z werde."
     campaign: "Kampagne"
     for_beginners: "Für Afänger"
     multiplayer: "Multiplayer" # Not currently shown on home page
@@ -21,9 +21,9 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     blog: "Blog"
     forum: "Forum"
     account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    profile: "Profil"
+    stats: "Statistike"
+    code: "Code"
     admin: "Admin" # Only shows up when you are an admin
     home: "Home"
     contribute: "Mitmache"
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     about: "Über"
     contact: "Kontakt"
     twitter_follow: "Folge"
-#    teachers: "Teachers"
+    teachers: "Lehrer"
 
   modal:
     close: "Beende"
@@ -51,22 +51,22 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
   play:
     play_as: "Spiel als" # Ladder page
     spectate: "Zueluege" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
+    players: "Spieler" # Hover over a level on /play
+    hours_played: "Stunde gspilt" # Hover over a level on /play
+    items: "Items" # Tooltip on item shop button from /play
+    unlock: "Freischalte" # For purchasing items and heroes
+    confirm: "Bestätige"
+    owned: "Scho gkauft" # For items you own
+    locked: "Nonig freischaltbar"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    heroes: "Helde" # Tooltip on hero shop button from /play
+    achievements: "Achievements" # Tooltip on achievement list button from /play
+    account: "Account" # Tooltip on account button from /play
+    settings: "Istellige" # Tooltip on settings button from /play
+    next: "Wiiter" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Held wächsle" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
 #    campaign_desert: "Desert Campaign"
@@ -75,8 +75,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Älteri Kampagne"
+    anonymous: "Anonyme Spieler"
     level_difficulty: "Schwierigkeit: "
     campaign_beginner: "Afängerkampagne"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
@@ -86,7 +86,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     adventurer_prefix: "Du chasch zu de untere Level zrugg goh oder die kommende Level diskutiere im "
     adventurer_forum: "Abentürer-Forum"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Alti Afängerkampagne"
     campaign_old_beginner_description: "... i dere du d Zauberkunst vom Programmiere lernsch."
     campaign_dev: "Zuefälligi schwierigeri Level"
     campaign_dev_description: "... i dene du s Interface kenne lernsch, während du öppis chli Schwierigers machsch."
@@ -102,14 +102,14 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     log_in: "Ilogge"
     logging_in: "Am Ilogge"
     log_out: "Uslogge"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Passwort vergässe?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    finishing: "Fertigstelle"
+    sign_in_with_facebook: "Mit Facebook aamelde"
+    sign_in_with_gplus: "Mit G+ aamelde"
+    signup_switch: "Willsch es Account erstelle?"
 
   signup:
     email_announcements: "Akündigunge per Mail erhalte"
@@ -118,7 +118,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     log_in: "Mit Passwort ilogge"
     social_signup: "Du chasch dich au mit Facebook oder G+ registriere:"
     required: "Du muesch dich zersch ilogge befor du det dure chasch"
-#    login_switch: "Already have an account?"
+    login_switch: "Häsch scho es Account?"
 
   recover:
     recover_account_title: "Account wiederherstelle"
@@ -146,41 +146,52 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    fork: "Fork"
     play: "Spiele" # When used as an action verb, like "Play next level"
     retry: "nomol versuche"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
     submit_patch: "Patch ireiche"
+#    submit_changes: "Submit Changes"
 
-#  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
+  general:
+    and: "und"
+    name: "Name"
+    date: "Datum"
 #    body: "Body"
-#    version: "Version"
+    version: "Version"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
 #    commit_msg: "Commit Message"
-#    version_history: "Version History"
+#    review: "Review"
+    version_history: "Versionsverlauf"
 #    version_history_for: "Version History for: "
-#    result: "Result"
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
+    result: "Resultat"
 #    results: "Results"
-#    description: "Description"
-#    or: "or"
+    description: "Beschriibig"
+    or: "oder"
 #    subject: "Subject"
-#    email: "Email"
-#    password: "Password"
-#    message: "Message"
-#    code: "Code"
-#    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Opponent"
-#    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    email: "E-mail"
+    password: "Passwort"
+    message: "Nachricht"
+    code: "Code"
+    ladder: "Leitere"
+    when: "Wänn"
+    opponent: "Gegner"
+    rank: "Rang"
+    score: "Punktzahl"
+    win: "Gwünn"
+    loss: "Verlust"
+    tie: "Unentschide"
+    easy: "Eifach"
+    medium: "Mittel"
+    hard: "Schwer"
+    player: "Spieler"
+    player_level: "Stufe" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "Sekunde"
@@ -201,13 +212,13 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
   play_level:
     done: "Fertig"
     home: "Home" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    level: "Level" # Like "Level: Dungeons of Kithgard"
+    skip: "Überspringe"
+    game_menu: "Game Menu"
     guide: "Aleitig"
     restart: "Neu starte"
     goals: "Ziel"
-#    goal: "Goal"
+    goal: "Goal"
 #    running: "Running..."
     success: "Erfolg!"
     incomplete: "Unvollständig"
@@ -217,18 +228,18 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     click_to_select: "Klick uf e Einheit zum sie uswähle."
 #    control_bar_multiplayer: "Multiplayer"
 #    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    reload: "Neu lade"
     reload_title: "De ganze Code neu lade?"
     reload_really: "Bisch sicher du willsch level neu lade bis zrugg zum Afang?"
     reload_confirm: "Alles neu lade"
-#    victory: "Victory"
+    victory: "Gwunne"
 #    victory_title_prefix: ""
     victory_title_suffix: " Vollständig"
     victory_sign_up: "Meld dich ah zum din Fortschritt speichere"
     victory_sign_up_poke: "Wötsch din Code speichere? Erstell gratis en Account!"
     victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
     victory_return_to_ladder: "Zrugg zum letzte Level"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Wiiter spile"
 #    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
     victory_review: "Verzell üs meh!" # Only in old-style levels.
@@ -250,14 +261,14 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tome_select_a_thang: "Wähl öpper us für"
     tome_available_spells: "Verfüegbari Zaubersprüch"
 #    tome_your_skills: "Your Skills"
-#    tome_help: "Help"
+    tome_help: "Hilf"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    code_saved: "Code gpeicheret"
     skip_tutorial: "Überspringe (esc)"
     keyboard_shortcuts: "Shortcuts"
 #    loading_ready: "Ready!"
-#    loading_start: "Start Level"
+    loading_start: "Level starte"
 #    problem_alert_title: "Fix Your Code"
     time_current: "Jetzt:"
     time_total: "Max:"
@@ -290,7 +301,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tip_impossible: "Es schiint immer unmöglich bis es gschafft isch. - Nelson Mandela"
     tip_talk_is_cheap: "Rede isch billig. Zeig mir de Code. - Linus Torvalds"
     tip_first_language: "S Katastrophalste wo du chasch lerne, isch dini erst Programmiersproch. - Alan Kay"
-    tip_hardware_problem: "Q: Wie viel Programmierer bruuchts zum e Glüehbire uswechsle?  A: Keine, da isch es Hardware Problem."
+    tip_hardware_problem: "F: Wie viel Programmierer bruuchts zum e Glüehbire uswechsle?  A: Keine, da isch es Hardware Problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     forum_prefix: "Für öffentlichi Sache versuechs mol stattdesse i "
     forum_page: "üsem Forum"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Feedback schicke"
     contact_candidate: "Kandidat kontaktiere" # Deprecated
     recruitment_reminder: "Benutz das Formular zum mit Kandidate Kontakt ufneh, i die du interessiert bisch. Bhalt in Erinnerig, dass CodeCombat 15% vom erstjöhrige Lohn verrechnet. De Betrag wird fällig, sobald de Programmierer agstellt wird und chan 90 Täg lang zruggverrechnet werde wenn de Agstellti nid agstellt bliibt. Teilziitarbeit, Fernarbeit und temporäri Agstellti sind chostelos, s gliiche gilt für Interni Mitarbeiter." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -640,7 +656,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    introduction_desc_github_url: "CodeCombat is totally open source"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
 #    introduction_desc_ending: "We hope you'll join our party!"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, and Matt"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."

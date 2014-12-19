@@ -83,6 +83,9 @@
     else
       span.player-name.spr= me.get('name')
       button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+      if me.isPremium()
+        button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+
 
 button.btn.btn-lg.btn-inverse#volume-button(title="Adjust volume")
   .glyphicon.glyphicon-volume-off

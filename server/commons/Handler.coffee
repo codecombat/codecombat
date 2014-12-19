@@ -23,7 +23,7 @@ module.exports = class Handler
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH']
 
   constructor: ->
-    # TODO The second 'or' is for backward compatibility only is for backward compatibility only
+    # TODO The second 'or' is for backward compatibility only
     @privateProperties = @modelClass?.privateProperties or @privateProperties or []
     @editableProperties = @modelClass?.editableProperties or @editableProperties or []
     @postEditableProperties = @modelClass?.postEditableProperties or @postEditableProperties or []
@@ -53,7 +53,7 @@ module.exports = class Handler
       return false unless delta.o.length is 1
       index = delta.deltaPath.indexOf('i18n')
       return false if index is -1
-      return false if delta.deltaPath[index+1] is 'en-US'
+      return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB', 'en-AU']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
       return true
 
   formatEntity: (req, document) -> document?.toObject()
@@ -88,15 +88,15 @@ module.exports = class Handler
   sendError: (res, code, message) ->
     errors.custom(res, code, message)
 
-  sendSuccess: (res, message) ->
-    res.send(message)
+  sendSuccess: (res, message='{}') ->
+    res.send 200, message
     res.end()
 
-  sendCreated: (res, message) ->
+  sendCreated: (res, message='{}') ->
     res.send 201, message
     res.end()
 
-  sendAccepted: (res, message) ->
+  sendAccepted: (res, message='{}') ->
     res.send 202, message
     res.end()
 
@@ -106,7 +106,7 @@ module.exports = class Handler
 
   # generic handlers
   get: (req, res) ->
-    @sendForbiddenError(res) if not @hasAccess(req)
+    return @sendForbiddenError(res) if not @hasAccess(req)
 
     specialParameters = ['term', 'project', 'conditions']
 
@@ -300,7 +300,7 @@ module.exports = class Handler
   getLatestVersion: (req, res, original, version) ->
     # can get latest overall version, latest of a major version, or a specific version
     return @sendBadInputError(res, 'Invalid MongoDB id: '+original) if not Handler.isID(original)
-      
+
     query = { 'original': mongoose.Types.ObjectId(original) }
     if version?
       version = version.split('.')

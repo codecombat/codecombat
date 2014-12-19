@@ -34,6 +34,8 @@ init = ->
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
 
+module.exports.init = init = _.once init
+
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
   $(document).on 'click', "a[href^='/']", (event) ->

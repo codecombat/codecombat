@@ -54,7 +54,10 @@ PaymentHandler = class PaymentHandler extends Handler
     payment.set 'created', new Date().toISOString()
     payment
 
-  post: (req, res) ->
+  post: (req, res, pathName) ->
+    if pathName is 'check-stripe-charges'
+      return @checkStripeCharges(req, res)
+    
     if (not req.user) or req.user.isAnonymous()
       return @sendForbiddenError(res)
     
@@ -225,11 +228,11 @@ PaymentHandler = class PaymentHandler extends Handler
 
         if not (payment or charge)
           # Proceed normally from the beginning
-          @chargeStripe(req, res, payment, product)
+          @chargeStripe(req, res, product)
 
         else if charge and not payment
           # Initialized Payment. Start from charging.
-          @recordStripeCharge(req, res, payment, product, charge)
+          @recordStripeCharge(req, res, charge)
 
         else
           # Charged Stripe and recorded it. Recalculate gems to make sure credited the purchase.
@@ -244,7 +247,7 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
 
-  chargeStripe: (req, res, payment, product) ->
+  chargeStripe: (req, res, product) ->
     stripe.charges.create({
       amount: product.amount
       currency: 'usd'
@@ -258,7 +261,7 @@ PaymentHandler = class PaymentHandler extends Handler
       receipt_email: req.user.get('email')
     }).then(
       # success case
-      ((charge) => @recordStripeCharge(req, res, payment, product, charge)),
+      ((charge) => @recordStripeCharge(req, res, charge)),
 
       # error case
       ((err) =>
@@ -270,19 +273,19 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
 
-  recordStripeCharge: (req, res, payment, product, charge) ->
+  recordStripeCharge: (req, res, charge) ->
     return @sendError(res, 500, 'Fake db error for testing.') if req.body.breakAfterCharging
     payment = @makeNewInstance(req)
     payment.set 'service', 'stripe'
-    payment.set 'productID', req.body.productID
-    payment.set 'amount', product.amount
-    payment.set 'gems', product.gems
+    payment.set 'productID', charge.metadata.productID
+    payment.set 'amount', parseInt(charge.amount)
+    payment.set 'gems', parseInt(charge.metadata.gems)
     payment.set 'stripe', {
-      customerID: req.user.get('stripe')?.customerID
-      timestamp: parseInt(req.body.stripe.timestamp)
+      customerID: charge.customer
+      timestamp: parseInt(charge.metadata.timestamp)
       chargeID: charge.id
     }
-
+    
     validation = @validateDocumentInput(payment.toObject())
     if validation.valid is false
       @logPaymentError(req, 'Invalid stripe payment object.')
@@ -291,7 +294,7 @@ PaymentHandler = class PaymentHandler extends Handler
 
       # Credit gems
       return @sendDatabaseError(res, err) if err
-      @incrementGemsFor(req.user, product.gems, (err) =>
+      @incrementGemsFor(req.user, parseInt(charge.metadata.gems), (err) =>
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
           return @sendDatabaseError(res, err)
@@ -299,6 +302,41 @@ PaymentHandler = class PaymentHandler extends Handler
       )
     )
 
+    
+  #- Confirm all Stripe charges are recorded on our server
+  
+  checkStripeCharges: (req, res) ->
+    return @sendSuccess(res) unless customerID = req.user.get('stripe')?.customerID
+    async.parallel([
+        ((callback) ->
+          criteria = { recipient: req.user._id, 'stripe.invoiceID': { $exists: false } }
+          Payment.find(criteria).limit(100).sort({_id:-1}).exec((err, payments) =>
+            callback(err, payments)
+          )
+        ),
+        ((callback) ->
+          stripe.charges.list({customer: customerID, limit: 100}, (err, recentCharges) =>
+            return callback(err) if err
+            callback(null, recentCharges.data)
+          )
+        )
+      ],
+
+      ((err, results) =>
+        if err
+          @logPaymentError(req, 'Stripe async load db error. '+err)
+          return @sendDatabaseError(res, err)
+
+        [payments, charges] = results
+        recordedChargeIDs = (p.get('stripe').chargeID for p in payments)
+        for charge in charges
+          continue if charge.invoice # filter out subscription charges
+          if charge.id not in recordedChargeIDs
+            return @recordStripeCharge(req, res, charge)
+
+        @sendSuccess(res)
+      )
+    )
 
   #- Incrementing/recalculating gems
 

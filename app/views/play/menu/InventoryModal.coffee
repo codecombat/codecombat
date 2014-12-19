@@ -379,26 +379,27 @@ module.exports = class InventoryModal extends ModalView
           console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
           delete equipment[slot]
-      if (heroClass is 'Warrior' or
-          (heroClass is 'Ranger' and @options.levelID in ['swift-dagger', 'shrapnel']) or
-          (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender']))
-        # After they switch to a ranger or wizard, we stop being so finicky about gear.
-        for slot, item of requiredGear
-          continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
-          equipped = equipment[slot]
-          continue if equipped and not (
-            (item is 'crude-builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
-            (item in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['crude-builders-hammer']) or
-            (item is 'leather-boots' and equipped is gear['simple-boots']) or
-            (item is 'simple-boots' and equipped is gear['leather-boots'])
-          )
-          itemModel = @items.findWhere {slug: item}
-          continue unless itemModel
-          availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
-          @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
-          @$el.find(availableSlotSelector).addClass 'should-equip'
-          @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-          @remainingRequiredEquipment.push slot: slot, item: gear[item]
+      for slot, item of requiredGear
+        if (slot in ['right-hand', 'left-hand', 'head', 'torso']) and not (heroClass is 'Warrior' or
+            (heroClass is 'Ranger' and @options.levelID in ['swift-dagger', 'shrapnel']) or
+            (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender'])) and item isnt 'crude-builders-hammer'
+          # After they switch to a ranger or wizard, we stop being so finicky about class-specific gear.
+          continue
+        continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
+        equipped = equipment[slot]
+        continue if equipped and not (
+          (item is 'crude-builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
+          (item in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['crude-builders-hammer']) or
+          (item is 'leather-boots' and equipped is gear['simple-boots']) or
+          (item is 'simple-boots' and equipped is gear['leather-boots'])
+        )
+        itemModel = @items.findWhere {slug: item}
+        continue unless itemModel
+        availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
+        @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
+        @$el.find(availableSlotSelector).addClass 'should-equip'
+        @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
+        @remainingRequiredEquipment.push slot: slot, item: gear[item]
       if hadRequired and not @remainingRequiredEquipment.length
         @endHighlight()
         @highlightElement '#play-level-button', duration: 5000
@@ -626,3 +627,5 @@ gear =
   'enchanted-stick': '544d87188494308424f564f1'
   'unholy-tome-i': '546374bc3839c6e02811d308'
   'book-of-life-i': '546375653839c6e02811d30b'
+  'rough-sense-stone': '54693140a2b1f53ce79443bc'
+  'polished-sense-stone': '53e215a253457600003e3eaf'

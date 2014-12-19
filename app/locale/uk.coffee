@@ -146,9 +146,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     fork: "Форк"
     play: "Грати" # When used as an action verb, like "Play next level"
     retry: "Повтор"
+#    actions: "Actions"
+#    info: "Info"
+#    help: "Help"
     watch: "Стежити"
     unwatch: "Не стежити"
     submit_patch: "Надіслати патч"
+#    submit_changes: "Submit Changes"
 
   general:
     and: "та"
@@ -156,9 +160,16 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     date: "Дата"
     body: "Тіло"
     version: "Версія"
+#    submitter: "Submitter"
+#    submitted: "Submitted"
     commit_msg: "Доручити повідомлення"
+#    review: "Review"
     version_history: "Історія"
     version_history_for: "Історія версій для: "
+#    select_changes: "Select two changes below to see the difference."
+#    undo: "Undo (Ctrl+Z)"
+#    redo: "Redo (Ctrl+Shift+Z)"
+#    play_preview: "Play preview of current level"
     result: "Результат"
     results: "Результати"
     description: "Опис"
@@ -333,6 +344,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     prompt_title: "Недостатньо самоцвітів"
     prompt_body: "Хочете отримати ще?"
     prompt_button: "Увійти до крамниці"
+#    recovered: "Previous gems purchase recovered. Please refresh the page."
 
   subscribe:
     subscribe_title: "Взяти абонемент"
@@ -468,6 +480,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     forum_prefix: "Для будь-яких публічних обговорень, будь ласка, використовуйте "
     forum_page: "наш форум"
     forum_suffix: "."
+#    where_reply: "Where should we reply?"
     send: "Надіслати відгук"
     contact_candidate: "Сконтактуватися з кандидатом" # Deprecated
     recruitment_reminder: "Використовуйте цю форму, щоб перейти до кандидатів, з котрими Ви б хотіли провести співбесіду. Пам'ятайте, що CodeCombat знімає 18% ЗП за перший рік. Плата проводиться за наймом співробітника і підлягає відшкодуванню протягом 90 днів якщо працівник не залишить роботу. Часткова зайнятість, дистанційна робота та наймані працівники не оплачуються, так само як інтерни." # Deprecated
@@ -580,6 +593,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     more: "Більше"
     wiki: "Вікі"
     live_chat: "Online чат"
+#    thang_main: "Main"
+#    thang_spritesheets: "Spritesheets"
+#    thang_colors: "Colors"
     level_some_options: "Якісь опції?"
     level_tab_thangs: "Об'єкти"
     level_tab_scripts: "Скрипти"

@@ -16,3 +16,5 @@ module.exports.templates =
   change_made_notify_watcher: 'tem_7KVkfmv9SZETb25dtHbUtG'
   recruiting_email: 'tem_mdFMgtcczHKYu94Jmq68j8'
   greed_tournament_rank: 'tem_c4KYnk2TriEkkZx5NqqGLG'
+  generic_email: 'tem_JhRnQ4pvTS4KdQjYoZdbei'
+  plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'

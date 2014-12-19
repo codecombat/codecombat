@@ -9,7 +9,7 @@ ThangType = require 'models/ThangType'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
-SubscribeModal = require 'views/play/modal/SubscribeModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 Level = require 'models/Level'
 
 trackedHourOfCode = false
@@ -234,7 +234,6 @@ module.exports = class WorldMapView extends RootView
       if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
         @openModalView new SubscribeModal()
         window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelID
-        window.tracker?.trackPageView "subscription/show-modal", ['Google Analytics']
       else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return
@@ -243,13 +242,11 @@ module.exports = class WorldMapView extends RootView
       else
         @startLevel levelElement
         window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelID, ['Google Analytics']
-        window.tracker?.trackPageView "world-map/clicked-level/#{levelID}", ['Google Analytics']
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     @startLevel levelElement
     window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelElement.data('level-id'), ['Google Analytics']
-    window.tracker?.trackPageView "world-map/clicked-start-level/#{levelElement.data('level-id')}", ['Google Analytics']
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
@@ -640,6 +637,7 @@ dungeon = [
     description: 'Stay alive longer than your opponent amidst hordes of ogres!'
     x: 17.54
     y: 78.39
+    adventurer: true
   }
 ]
 
@@ -676,8 +674,7 @@ forest = [
       continue: 'thornbush-farm'
     x: 34
     y: 25
-    adventurer: true
-  }
+      }
   {
     name: 'Endangered Burl'
     type: 'hero'
@@ -940,7 +937,6 @@ forest = [
       continue: 'the-dunes'
     x: 85.5
     y: 83.5
-    adventurer: true
   }
   {
     name: 'Multiplayer Treasure Grove'
@@ -974,7 +970,6 @@ desert = [
       continue: 'the-mighty-sand-yak'
     x: 8.47
     y: 21.93
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -987,7 +982,6 @@ desert = [
       continue: 'oasis'
     x: 16.56
     y: 27.77
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -996,12 +990,159 @@ desert = [
     id: 'oasis'
     original: '5480ba761bf0b10000711c64'
     description: 'Run a gauntlet of sand yaks to reach oasis and quench your thirst!'
-    #nextLevels:
-    #  continue: ''
+    nextLevels:
+      continue: 'sarven-road'
     x: 23.35
     y: 31.60
+    requiresSubscription: false
+  }
+  {
+    name: 'Sarven Road'
+    type: 'hero'
+    id: 'sarven-road'
+    original: '548c82360ffdc235e80ef04b'
+    description: 'Watch out for ogre scouts on the road as you search for water.'
+    nextLevels:
+      continue: 'sarven-gaps'
+    x: 28.36
+    y: 24.59
     adventurer: true
     requiresSubscription: false
+  }
+  {
+    name: 'Sarven Gaps'
+    type: 'hero'
+    id: 'sarven-gaps'
+    original: '548c8f4a0ffdc235e80ef0a8'
+    description: 'Keep the oasis safe by building fences to hold back the enemy.'
+    nextLevels:
+      continue: 'thunderhooves'
+    x: 21.13
+    y: 9.29
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Thunderhooves'
+    type: 'hero'
+    id: 'thunderhooves'
+    original: '548c90020ffdc235e80ef0ad'
+    description: 'Fence off the stampeding sand yaks to reach the next watering hole.'
+    nextLevels:
+      continue: 'medical-attention'
+    x: 35.08
+    y: 20.48
+    adventurer: true
+    requiresSubscription: false
+  }
+  {
+    name: 'Medical Attention'
+    type: 'hero'
+    id: 'medical-attention'
+    original: '548ce3300ffdc235e80ef0b2'
+    description: 'Get help from a helpful wizard while you fend off an ogre attack.'
+    nextLevels:
+      continue: 'minesweeper'
+    x: 42.84
+    y: 21.82
+    adventurer: true
+    requiresSubscription: false
+  }
+  {
+    name: 'Minesweeper'
+    type: 'hero'
+    id: 'minesweeper'
+    original: '5490cb7c623b972aa26b25a3'
+    description: 'Lead a band of hapless peasants through a treacherous canyon while you heroically trigger the mines.'
+    nextLevels:
+      continue: 'sarven-sentry'
+    x: 47.64
+    y: 12.40
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Sarven Sentry'
+    type: 'hero'
+    id: 'sarven-sentry'
+    original: '548cef7f0ffdc235e80ef0cc'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'keeping-time'
+    x: 51.48
+    y: 26.09
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Keeping Time'
+    type: 'hero'
+    id: 'keeping-time'
+    original: '548cf1a90ffdc235e80ef0d1'
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'hoarding-gold'
+    x: 58.42
+    y: 34.14
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Hoarding Gold'
+    type: 'hero'
+    id: 'hoarding-gold'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'decoy-drill'
+    x: 61.73
+    y: 29.51
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Decoy Drill'
+    type: 'hero'
+    id: 'decoy-drill'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'yakstraction'
+    x: 62.05
+    y: 40.44
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
+  }
+  {
+    name: 'Yakstraction'
+    type: 'hero'
+    id: 'yakstraction'
+    original: ''
+    description: 'Coming Soon'
+    nextLevels:
+      continue: 'sarven-brawl'
+    x: 66.46
+    y: 48.87
+    adventurer: true
+    requiresSubscription: true
+  }
+  {
+    name: 'Sarven Brawl'
+    type: 'hero'
+    id: 'sarven-brawl'
+    original: '548cf2850ffdc235e80ef0d6'
+    description: 'Coming Soon'
+    #nextLevels:
+    #  continue: ''
+    x: 69.01
+    y: 33.80
+    adventurer: true
+    requiresSubscription: false
+    disabled: not me.isAdmin()
   }
 
 ]

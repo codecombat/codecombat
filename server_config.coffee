@@ -19,7 +19,7 @@ config.mongo =
 
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
-  
+
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
 
@@ -36,9 +36,10 @@ else
   config.mongo.password = process.env.COCO_MONGO_PASSWORD or ''
 
 config.mail =
-  service: process.env.COCO_MAIL_SERVICE_NAME or 'Zoho'
   username: process.env.COCO_MAIL_SERVICE_USERNAME or ''
-  password: process.env.COCO_MAIL_SERVICE_PASSWORD or ''
+  supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY or ''
+  supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM or ''
+  username: process.env.COCO_MAIL_SERVICE_USERNAME or ''
   mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
