@@ -14,17 +14,25 @@ module.exports.setup = (app) ->
     return res.end()
 
 createMailContext = (sender, message, user, recipientID, subject, done) ->
+  level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (xp + 100))) + 1 else 0
+  premium = user?.isPremium()
+  content = """
+    #{message}
+
+    #{user.get('name') or 'Anonymous'} - Level #{level}#{if premium then ' - Subscriber' else ''} - #{user._id}
+  """
+
   context =
     email_id: sendwithus.templates.plain_text_email
     recipient:
-      address: if user?.isPremium() then config.mail.supportPremium else config.mail.supportPrimary
+      address: if premium then config.mail.supportPremium else config.mail.supportPrimary
     sender:
       address: config.mail.username
       reply_to: sender
       name: user.get('name')
     email_data:
       subject: "[CodeCombat] #{subject ? ('Feedback - ' + sender)}"
-      content: "#{message}\n\nUsername: #{user.get('name') or 'Anonymous'}\nID: #{user._id}"
+      content: content
 
   if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->
