@@ -543,9 +543,116 @@ function printSubConversionTotals() {
   }
 }
 
-initVideoEventCounts();
+function printHelpClicksPostHaunted() {
+  // For a level/style, how many completed that same level
+  // For a level/style, how many levels were completed afterwards?
+  
+  // Find each started event, per user
+  print("Querying for help video events...");
+  var eventsCursor = db['analytics.log.events'].find({
+    $and: [
+    {"created": { $gte: ISODate(testStartDate)}},
+    {$or : [
+      {$and:[{"event": "Start help video"}, {"properties.level": 'haunted-kithmaze'}]},
+      {"event": "Problem alert help clicked"},
+      {"event": "Spell palette help clicked"},
+      ]}
+    ]
+  });
 
+  // print("Building per-user events progression data...");
+  // Find event progression per-user
+  var eventsProgression = {};
+  while (eventsCursor.hasNext()) {
+    var doc = eventsCursor.next();
+    var event = doc.event;
+    var userID = doc.user.valueOf();
+    var created = doc.created
+    var levelID = doc.properties.level;
+    var style = doc.properties.style;
+    if (!eventsProgression[userID]) eventsProgression[userID] = [];
+    eventsProgression[userID].push({
+      style: style,
+      level: levelID,
+      event: event,
+      created: created.toISOString()
+    })
+  }
+
+  // print("Sorting per-user events progression data...");
+  for (userID in eventsProgression) eventsProgression[userID].sort(function (a,b) {return a.created < b.created ? -1 : 1});
+
+  // print("Building per-level/style levels completed..");
+  var helpClickCounts = {};
+  for (userID in eventsProgression) {
+    // Walk user's history, and tally what preceded each historical entry
+    var userHistory = eventsProgression[userID];
+    var previouslyWatched = {};
+    for (var i = 0; i < userHistory.length; i++) {
+      
+      // Walk previously watched events, and attribute to correct additionally watched entry
+      var item = userHistory[i];
+      var level = item.level;
+      var style = item.style;
+      var event = item.event;
+      var created = item.created;
+      
+      if (event === 'Start help video') {
+        // Add level/style to previouslyWatched for this user
+        if (!previouslyWatched[level]) previouslyWatched[level] = {};
+        if (!previouslyWatched[level][style]) previouslyWatched[level][style] = true;
+      }
+      else if (event === "Problem alert help clicked" || event === "Spell palette help clicked") {
+        for (previousLevel in previouslyWatched) {
+          for (previousStyle in previouslyWatched[previousLevel]) {
+            // For previous level and style, help click followed it
+            if (!helpClickCounts[previousLevel]) helpClickCounts[previousLevel] = {};
+            if (!helpClickCounts[previousLevel][previousStyle]) helpClickCounts[previousLevel][previousStyle] = 0;
+            helpClickCounts[previousLevel][previousStyle]++;
+          }
+        }
+      }
+      else {
+        throw new Error("Unknown event " + event);
+      }
+    }
+  }
+
+  // print("Sorting level completed counts...");
+  var helpClicksSorted = [];
+  for (levelID in helpClickCounts) {
+    for (style in helpClickCounts[levelID]) {
+      var data = {
+        level: levelID,
+        style: style,
+        completed: helpClickCounts[levelID][style],
+        completedPerPlayer: helpClickCounts[levelID][style] / g_videoEventCounts[levelID][style]['Start help video']
+      };
+      helpClicksSorted.push(data);
+    }
+  }
+  helpClicksSorted.sort(function(a,b) {
+    if (a.level !== b.level) {
+      if (a.level < b.level) return -1;
+      else return 1;
+    }
+    return b.completedPerPlayer - a.completedPerPlayer;
+  });
+
+  print("Helps clicked after video watched:");
+  print("Columns: level, style, click count, clicks per start video");
+  for (var i = 0; i < helpClicksSorted.length; i++) {
+    var item = helpClicksSorted[i];
+    if (multiStyleLevels.indexOf(item.level) >= 0) {
+      print(item.level + "\t" + item.style + (item.style === 'edited' ? "\t\t" : "\t") + item.completed + "\t" + item.completedPerPlayer.toFixed(2));
+    }
+  }
+}
+
+initVideoEventCounts();
 printVideoCompletionRates();
-printWatchedAnotherVideoRates();
-printLevelCompletionRates();
+
+// printWatchedAnotherVideoRates();
+// printLevelCompletionRates();
 // printSubConversionTotals();
+printHelpClicksPostHaunted();
