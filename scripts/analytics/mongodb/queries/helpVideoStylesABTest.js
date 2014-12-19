@@ -7,20 +7,20 @@
 // For a given style:
 // - Video completion rates (Not too interesting unless each level has all styles available)
 // - Video completion rates, per-level too
-// TODO: The rest of these.
 // - Watched another video
 // - Level completion rates
-// - Subscription coversion rates
+// - Subscription coversion totals
+// TODO: The rest
 // - How many people who start a level click the help button, and which one?
 //    - Need a hard start date when the help button presented
 
 
 // 12:42am 12/18/14 PST - Intial production deploy completed
-var testStartDate = '2014-12-14T08:42:00.000Z';
+var testStartDate = '2014-12-18T08:42:00.000Z';
 // 12:29pm 12/18/14 PST - 2nd deploy w/ originals for dungeons-of-kithgard and second-kithmaze
 // TODO: move this date up to avoid prod deploy transitional data messing with us.
-// testStartDate = '2014-12-14T20:29:00.000Z';
-testStartDate = '2014-12-14T22:29:00.000Z';
+// testStartDate = '2014-12-18T20:29:00.000Z';
+testStartDate = '2014-12-18T22:29:00.000Z';
 
 function printVideoCompletionRates() {
   print("Querying for help video events...");
@@ -283,5 +283,93 @@ function printWatchedAnotherVideoRates() {
   }
 }
 
-// printVideoCompletionRates();
+function printSubConversionTotals() {
+  // For a user, who started a video, did they subscribe afterwards?
+
+  // Find each started event, per user
+  print("Querying for help video start events...");
+  var eventsCursor = db['analytics.log.events'].find({
+    $and: [
+      {"created": { $gte: ISODate(testStartDate)}},
+      {$or : [
+        {"event": "Start help video"},
+        {"event": "Finished subscription purchase"}
+        ]}
+    ]
+  });
+
+  print("Building per-user events progression data...");
+  // Find event progression per-user
+  var eventsProgression = {};
+  while (eventsCursor.hasNext()) {
+    var doc = eventsCursor.next();
+    var event = doc.event;
+    var userID = doc.user.valueOf();
+    var created = doc.created
+    var levelID = doc.properties.level;
+    var style = doc.properties.style;
+    
+    if (!eventsProgression[userID]) eventsProgression[userID] = [];
+    eventsProgression[userID].push({
+      style: style,
+      level: levelID,
+      event: event,
+      created: created.toISOString()
+    })
+    // if (event === 'Finished subscription purchase')
+    //   printjson(eventsProgression[userID]);
+  }
+  // printjson(eventsProgression);
+
+  print("Sorting per-user events progression data...");
+  for (userID in eventsProgression) eventsProgression[userID].sort(function (a,b) {return a.created < b.created ? -1 : 1});
+  
+  
+  print("Building per-level/style sub purchases..");
+  // Build: <level><style><count>
+  var subPurchaseCounts = {};
+  for (userID in eventsProgression) {
+    var history = eventsProgression[userID];
+    for (var i = 0; i < history.length; i++) {
+      if (history[i].event === 'Finished subscription purchase') {
+        var item = i > 0 ? history[i - 1] : {level: 'unknown', style: 'unknown'};
+        // if (i === 0) {
+        //   print(userID);
+        //   printjson(history[i]);
+        // }
+        if (!subPurchaseCounts[item.level]) subPurchaseCounts[item.level] = {};
+        if (!subPurchaseCounts[item.level][item.style]) subPurchaseCounts[item.level][item.style] = 0;
+        subPurchaseCounts[item.level][item.style]++;
+      }
+    }
+  }
+  // printjson(subPurchaseCounts);
+  
+  print("Sorting per-level/style sub purchase counts...");
+  var subPurchasesByTotal = [];
+  for (levelID in subPurchaseCounts) {
+    for (style in subPurchaseCounts[levelID]) {
+      subPurchasesByTotal.push({
+        level: levelID,
+        style: style,
+        total: subPurchaseCounts[levelID][style]
+      })
+    }
+  }
+  subPurchasesByTotal.sort(function (a,b) {
+    if (a.level !== b.level) return a.level < b.level ? -1 : 1;
+    return b.total - a.total;
+  });
+  
+  print("Per-level/style following sub purchases:");
+  print("Columns: level, style, following sub purchases.");
+  print("'unknown' means no preceding start help video event.");
+  for (var i = 0; i < subPurchasesByTotal.length; i++) {
+    var item = subPurchasesByTotal[i];
+    print(item.level + "\t" + item.style + (item.style === 'edited' ? "\t\t" : "\t") + item.total);
+  }
+}
+
+printVideoCompletionRates();
 printWatchedAnotherVideoRates();
+printSubConversionTotals();
