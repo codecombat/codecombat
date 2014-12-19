@@ -169,6 +169,8 @@ module.exports = class CampaignEditorView extends RootView
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
+        campaigns: CampaignsNode
+        campaign: CampaignNode
         achievement: AchievementNode
       supermodel: @supermodel
 
@@ -239,9 +241,46 @@ class LevelNode extends TreemaObjectNode
     return if @data.name?
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
     _.extend @data, data
+
+class CampaignsNode extends TreemaObjectNode
+  valueClass: 'treema-campaigns'
+  @campaigns: {}
+
+  buildValueForDisplay: (valEl, data) ->
+    @buildValueForDisplaySimply valEl, ''+_.size(data)
+
+  childPropertiesAvailable: -> @childSource
+
+  childSource: (req, res) =>
+    s = new Backbone.Collection([], {model:Campaign})
+    s.url = '/db/campaign'
+    s.fetch({data: {term:req.term, project: campaign.denormalizedCampaignProperties}})
+    s.once 'sync', (collection) ->
+      CampaignsNode.campaigns[campaign.id] = campaign for campaign in collection.models
+      mapped = ({label: r.get('name'), value: r.id} for r in collection.models)
+      console.log 'campaigns is now', CampaignsNode.campaigns
+      res(mapped)
+
+
+class CampaignNode extends TreemaObjectNode
+  valueClass: 'treema-campaign'
+  buildValueForDisplay: (valEl, data) ->
+    console.log 'build value for display?', data
+    @buildValueForDisplaySimply valEl, data.name
+
+  populateData: ->
+    return if @data.name?
+    console.log 'key for parent', @keyForParent, CampaignsNode.campaigns[@keyForParent].attributes, Campaign.denormalizedCampaignProperties
+    data = _.pick CampaignsNode.campaigns[@keyForParent].attributes, Campaign.denormalizedCampaignProperties
+    console.log 'data?', data
+    _.extend @data, data
+    console.log 'extended data', @data
     
 class AchievementNode extends treemaExt.IDReferenceNode
   buildSearchURL: (term) -> "#{@url}?term=#{term}&project=#{achievementProject.join(',')}"
+
+
+
     
 campaign = {
   name: 'Dungeon'

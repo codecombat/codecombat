@@ -21,18 +21,23 @@ _.extend CampaignSchema.properties, {
   backgroundColor: { type: 'string' }
   backgroundColorTransparent: { type: 'string' }
   
-  adjacentCampaigns: { type: 'object', additionalItems: {
+  adjacentCampaigns: { type: 'object', format: 'campaigns', additionalProperties: {
     title: 'Campaign'
     type: 'object'
+    format: 'campaign'
     properties: {
       #- denormalized from other Campaigns, either updated automatically or fetched dynamically
-      name: { type: 'string' }
-      i18n: { type: 'object' }
+      name: { type: 'string', format: 'hidden' }
+      description: { type: 'string', format: 'hidden' }
+      i18n: { type: 'object', format: 'hidden' }
+      original: { type: 'string', format: 'hidden' }
+      slug: { type: 'string', format: 'hidden' }
       
       #- normal properties
       position: c.point2d()
       rotation: { type: 'number', format: 'degrees' }
       color: { type: 'string' }
+      showIfUnlocked: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
     }
   }}
   
@@ -45,7 +50,6 @@ _.extend CampaignSchema.properties, {
     # key is the original property
     properties: {
       #- denormalized from Level
-      # TODO: take these properties from the Level schema and put them into schema references, use them here
       name: { type: 'string', format: 'hidden' }
       description: { type: 'string', format: 'hidden' }
       requiresSubscription: { type: 'boolean' }
@@ -54,8 +58,6 @@ _.extend CampaignSchema.properties, {
       original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
-      
-      # TODO: add these to the level, as well as the 'campaign' property
       disableSpaces: { type: 'boolean' }
       hidesSubmitUntilRun: { type: 'boolean' }
       hidesPlayButton: { type: 'boolean' }
@@ -67,7 +69,6 @@ _.extend CampaignSchema.properties, {
       backspaceThrottle: { type: 'boolean' }
       lockDefaultCode: { type: 'boolean' }
       moveRightLoopSnippet: { type: 'boolean' }
-
       realTimeSpeedFactor: { type: 'number' }
       autocompleteFontSizePx: { type: 'number' }
 

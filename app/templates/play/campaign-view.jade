@@ -5,12 +5,10 @@
   .gradient.vertical-gradient.left-gradient
   .map-background(class="map-"+mapType alt="", draggable="false")
 
-  - var seenNext = nextLevel;
-  each level in campaign.levels
+  each level in levels
     if !level.hidden
-      - var next = level.id == nextLevel || (!seenNext && levelStatusMap[level.id] != "complete" && !level.locked && !level.disabled && !editorMode);
-      - seenNext = seenNext || next;
-      div(style="left: #{level.x}%; bottom: #{level.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
+      - var next = nextLevel && level.slug === nextLevel;
+      div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.id] || "", data-level-id=level.id, title=level.name + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
         if level.unlocksHero && !level.unlockedHero
           img.hero-portrait(src=level.unlocksHero.img)
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, data-level-id=level.id, data-level-path=level.levelPath || 'level', data-level-name=level.name)
@@ -39,7 +37,7 @@
               span(data-i18n="play.players") players
               span.spr , #{Math.round(playCount.playtime / 3600)}
               span(data-i18n="play.hours_played") hours played
-          .campaign-label(style="color: #{campaign.color}")= campaign.name
+          .campaign-label= campaign.get('name')
         if isIPadApp && !level.disabled && !level.locked
           button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
   if mapType === 'dungeon' && forestIsAvailable
