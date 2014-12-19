@@ -14,7 +14,7 @@ module.exports.setup = (app) ->
     return res.end()
 
 createMailContext = (sender, message, user, recipientID, subject, done) ->
-  level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (xp + 100))) + 1 else 0
+  level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
   content = """
     #{message}
