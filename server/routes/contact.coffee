@@ -10,13 +10,19 @@ module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     return res.end() unless req.user
     #log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
-    createMailContext req.body.email, req.body.message, req.user, req.body.recipientID, req.body.subject, (context) ->
+    createMailContext req, (context) ->
       sendwithus.api.send context, (err, result) ->
         if err
           log.error "Error sending contact form email: #{err.message or err}"
     return res.end()
 
-createMailContext = (sender, message, user, recipientID, subject, done) ->
+createMailContext = (req, done) ->
+  sender = req.body.sender
+  message = req.body.message
+  user = req.user
+  recipientID = req.body.recipientID
+  subject = req.body.subject
+
   level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
   premium = user?.isPremium()
   content = """
@@ -25,6 +31,8 @@ createMailContext = (sender, message, user, recipientID, subject, done) ->
     --
     <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if premium then ' - Subscriber' else ''}
   """
+  if req.body.browser
+    content += "\n#{req.body.browser} - #{req.body.screenSize}"
 
   context =
     email_id: sendwithus.templates.plain_text_email
@@ -55,6 +63,8 @@ createMailContext = (sender, message, user, recipientID, subject, done) ->
       # TODO: try automatically including Surface screenshot if opening contact form from level?
     ], (err, results) ->
       console.error "Error getting contact message context for #{sender}: #{err}" if err
+      if req.body.screenshotURL
+        context.email_data.content += "\n<img src='#{req.body.screenshotURL}' />"
       done context
 
 fetchRecentSessions = (user, context, callback) ->
@@ -63,7 +73,6 @@ fetchRecentSessions = (user, context, callback) ->
   sort = changed: -1
   LevelSession.find(query).select(projection).sort(sort).limit(3).lean().exec (err, sessions) ->
     return callback err if err
-    console.log 'found', sessions.length, 'sessions'
     for s in sessions
       if s.playtime < 120 then playtime = "#{s.playtime}s played"
       else if s.playtime < 7200 then playtime = "#{Math.round(s.playtime / 60)}m played"

@@ -615,7 +615,7 @@ module.exports = Surface = class Surface extends CocoClass
   screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
     # TODO: get screenshots working again
     # Quality doesn't work with image/png, just image/jpeg and image/webp
-    [w, h] = [@camera.canvasWidth, @camera.canvasHeight]
+    [w, h] = [@camera.canvasWidth * @camera.canvasScaleFactorX, @camera.canvasHeight * @camera.canvasScaleFactorY]
     margin = (1 - 1 / zoom) / 2
     @webGLStage.cache margin * w, margin * h, w / zoom, h / zoom, scale * zoom
     imageData = @webGLStage.cacheCanvas.toDataURL(format, quality)

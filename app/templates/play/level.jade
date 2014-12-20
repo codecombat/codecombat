@@ -37,4 +37,4 @@
 if !me.get('anonymous')
   #play-footer(class=me.isPremium() ? "premium" : "")
     p(class='footer-link-text')
-      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
+      a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact") Contact
