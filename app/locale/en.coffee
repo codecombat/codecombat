@@ -484,6 +484,7 @@
     subscribe: "buy a CodeCombat subscription"
     subscribe_suffix: "and we'll be happy to help you with your code."
     subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
+    screenshot_included: "Screenshot included."
     where_reply: "Where should we reply?"
     send: "Send Feedback"
     contact_candidate: "Contact Candidate"  # Deprecated

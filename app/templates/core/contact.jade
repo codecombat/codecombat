@@ -24,6 +24,11 @@ block modal-body-content
       label.control-label(for="contact-message", data-i18n="general.message") Message      
       textarea#contact-message.form-control(name="message", rows=8)
 
+  #contact-screenshot.secret
+    a(target='_blank', data-i18n="contact.screenshot_included") Screenshot included.
+    br
+    img.pull-left(width=100)
+
 block modal-footer-content
   span.sending-indicator.pull-left.secret(data-i18n="common.sending") Sending...
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="common.cancel").btn Cancel
