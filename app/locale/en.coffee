@@ -480,6 +480,8 @@
     forum_prefix: "For anything public, please try "
     forum_page: "our forum"
     forum_suffix: " instead."
+    faq_prefix: "There's also a"
+    faq: "FAQ"
     subscribe_prefix: "If you need help figuring out a level, please"
     subscribe: "buy a CodeCombat subscription"
     subscribe_suffix: "and we'll be happy to help you with your code."
