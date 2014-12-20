@@ -500,6 +500,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     lank.setSprite(sprite)
     lank.update(true)
     @container.addChild(sprite)
+    lank.updateScale true if lank.thangType.get 'matchWorldDimensions'  # Otherwise it's at the wrong scale for some reason.
 
   renderGroupingKey: (thangType, grouping, colorConfig) ->
     key = thangType.get('slug')
