@@ -228,3 +228,7 @@ me.RewardSchema = (descriptionFragment='earned by achievements') ->
     levels: me.array {uniqueItems: true, description: "Levels #{descriptionFragment}."},
       me.stringID(links: [{rel: 'db', href: '/db/level/{($)}/version'}], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference')
     gems: me.int {description: "Gems #{descriptionFragment}."}
+
+me.task = me.object {title: 'Task', description: 'A task to be completed', format: 'task', default: {name: 'TODO', complete: false}},
+  name: {title: 'Name', description: 'What must be done?', type: 'string'}
+  complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}

@@ -312,7 +312,8 @@ module.exports = class SpellView extends CocoView
       # Lock contiguous section of default code
       # Only works for languages without closing delimeters on blocks currently
       lines = @aceDoc.getAllLines()
-      lastRow = row for line, row in lines when not /^\s*$/.test(line)
+      for line, row in lines when not /^\s*$/.test(line)
+        lastRow = row
       if lastRow?
         @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1
 

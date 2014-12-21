@@ -62,9 +62,9 @@ module.exports = class SpriteParser
             break
       continue unless container.bounds and instructions.length
       @addContainer {c: instructions, b: container.bounds}, container.name
-    
+
     childrenMovieClips = []
-      
+
     for movieClip, index in movieClips
       lastBounds = null
       # fill in bounds which are null...
@@ -73,7 +73,7 @@ module.exports = class SpriteParser
           movieClip.frameBounds[boundsIndex] = _.clone(lastBounds)
         else
           lastBounds = bounds
-      
+
       localGraphics = @getGraphicsFromBlock(movieClip, source)
       [shapeKeys, localShapes] = @getShapesFromBlock movieClip, source
       localContainers = @getContainersFromMovieClip movieClip, source, true
@@ -90,7 +90,7 @@ module.exports = class SpriteParser
         bounds: movieClip.bounds
         frameBounds: movieClip.frameBounds
       }, movieClip.name
-      
+
     for movieClip in movieClips
       if movieClip.name not in childrenMovieClips
         for bounds in movieClip.frameBounds
@@ -390,7 +390,7 @@ module.exports = class SpriteParser
         name = node.callee.property?.name
         return unless name in ['get', 'to', 'wait']
         return if name is 'get' and callExpressions.length # avoid Ease calls in the tweens
-        flattenedRanges = _.flatten [a.range for a in node.arguments]
+        flattenedRanges = _.flatten [(a.range for a in node.arguments)]
         range = [_.min(flattenedRanges), _.max(flattenedRanges)]
         # Replace 'this.<local>' references with just the 'name'
         argsSource = @subSourceFromRange(range, source)

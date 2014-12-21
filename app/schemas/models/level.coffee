@@ -1,6 +1,48 @@
 c = require './../schemas'
 ThangComponentSchema = require './thang_component'
 
+defaultTasks = [
+  'Name the level.'
+  'Create a Referee stub, if needed.'
+  'Build the level.'
+  'Set up goals.'
+  'Choose the Existence System lifespan and frame rate.'
+  'Choose the UI System paths and coordinate hover if needed.'
+  'Choose the AI System pathfinding and Vision System line of sight.'
+  'Write the sample code.'
+
+  'Do basic set decoration.'
+  'Adjust script camera bounds.'
+  'Choose music file in Introduction script.'
+
+  'Add to a campaign.'
+  'Publish for playtesting.'
+  'Choose level options like required/restricted gear.'
+  'Create achievements, including unlocking next level.'
+
+  'Playtest with a slow/tough hero.'
+  'Playtest with a fast/weak hero.'
+  'Playtest with a couple random seeds.'
+  'Make sure the level ends promptly on success and failure.'
+  'Remove/simplify unnecessary doodad collision.'
+  'Release to adventurers.'
+
+  'Write the description.'
+  'Translate the sample code comments.'
+  'Add Io/Clojure/Lua/CoffeeScript.'
+  'Write the guide.'
+  'Write a loading tip, if needed.'
+  'Populate i18n.'
+
+  'Mark whether it requires a subscription (after adventurer week).'
+  'Release to everyone.'
+
+  'Check completion/engagement/problem analytics.'
+  'Do any custom scripting, if needed.'
+  'Do thorough set decoration.'
+  'Add a walkthrough video.'
+]
+
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
@@ -252,6 +294,7 @@ _.extend LevelSchema.properties,
   terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

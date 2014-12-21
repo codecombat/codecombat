@@ -45,13 +45,13 @@ module.exports = class ThangTypeEditView extends RootView
     'click #stop-button': 'stopAnimation'
     'click #play-button': 'playAnimation'
     'click #history-button': 'showVersionHistory'
-    'click #fork-start-button': 'startForking'
+    'click li:not(.disabled) > #fork-start-button': 'startForking'
     'click #save-button': 'openSaveModal'
     'click #patches-tab': -> @patchesView.load()
     'click .play-with-level-button': 'onPlayLevel'
     'click .play-with-level-parent': 'onPlayLevelSelect'
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
-    'click #pop-level-i18n-button': 'onPopulateLevelI18N'
+    'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateLevelI18N'
 
 
   onClickSetVectorIcon: ->
