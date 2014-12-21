@@ -14,5 +14,6 @@ module.exports = class ArticleSearchView extends SearchView
     context.currentNew = 'editor.new_article_title'
     context.currentNewSignup = 'editor.new_article_title_login'
     context.currentSearch = 'editor.article_search_title'
+    context.newModelsAdminOnly = true
     @$el.i18n()
     context
