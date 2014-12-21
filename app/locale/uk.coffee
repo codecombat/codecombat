@@ -254,7 +254,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tome_cast_button_run: "Виконати"
     tome_cast_button_running: "Виконання"
     tome_cast_button_ran: "Виконати"
-    tome_submit_button: "Надіслати"
+    tome_submit_button: "Підтвердити"
     tome_reload_method: "Відновити початковий код цього методу" # Title text for individual method reload button.
     tome_select_method: "Оберіть метод"
     tome_see_all_methods: "Перегляньте всі методи, які Ви можете редагувати" # Title text for method list selector (shown when there are multiple programmable methdos).
