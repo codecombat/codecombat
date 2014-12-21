@@ -459,6 +459,44 @@ class SlugPropsObject extends TreemaNode.nodeMap.object
     return res if @workingSchema.properties?[res]?
     _.string.slugify(res)
 
+class TaskTreema extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl) ->
+    @taskCheckbox = $('<input type="checkbox">').prop 'checked', @data.complete
+    task = $("<span>#{@data.name}</span>")
+    valEl.append(@taskCheckbox).append(task)
+    @taskCheckbox.on 'change', @onTaskChanged
+
+  buildValueForEditing: (valEl, data) ->
+    @nameInput = @buildValueForEditingSimply(valEl, data.name)
+    @nameInput.parent().prepend(@taskCheckbox)
+
+  onTaskChanged: (e) =>
+    @markAsChanged()
+    @saveChanges()
+    @flushChanges()
+    @broadcastChanges()
+
+  onEditInputBlur: (e) =>
+    @markAsChanged()
+    @saveChanges()
+    if @isValid() then @display() if @isEditing() else @nameInput.focus().select()
+    @flushChanges()
+    @broadcastChanges()
+
+  saveChanges: (oldData) ->
+    @data ?= {}
+    @data.name = @nameInput.val() if @nameInput
+    @data.complete = Boolean(@taskCheckbox.prop 'checked')
+
+  destroy: ->
+    @taskCheckbox.off()
+    super()
+
+
+#class CheckboxTreema extends TreemaNode.nodeMap.boolean
+# TODO: try this out
+
+
 module.exports.setup = ->
   TreemaNode.setNodeSubclass('date-time', DateTimeTreema)
   TreemaNode.setNodeSubclass('version', VersionTreema)
@@ -475,3 +513,5 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('i18n', InternationalizationNode)
   TreemaNode.setNodeSubclass('sound-file', SoundFileTreema)
   TreemaNode.setNodeSubclass 'slug-props', SlugPropsObject
+  TreemaNode.setNodeSubclass 'task', TaskTreema
+  #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema
