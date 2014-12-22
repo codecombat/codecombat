@@ -183,6 +183,7 @@ module.exports = class CampaignEditorView extends RootView
     campaignView.highlightElement = _.noop # make it stop
     @listenTo campaignView, 'level-moved', @onCampaignLevelMoved
     @listenTo campaignView, 'adjacent-campaign-moved', @onAdjacentCampaignMoved
+    @listenTo campaignView, 'level-clicked', @onCampaignLevelClicked
     @insertSubView campaignView
     
   onTreemaChanged: (e, nodes) =>
@@ -211,6 +212,11 @@ module.exports = class CampaignEditorView extends RootView
   onAdjacentCampaignMoved: (e) ->
     path = "adjacentCampaigns/#{e.campaignID}/position"
     @treema.set path, e.position
+
+  onCampaignLevelClicked: (levelOriginal) ->
+    return unless levelTreema = @treema.childrenTreemas?.levels?.childrenTreemas?[levelOriginal]
+    levelTreema.select()
+#    levelTreema.open()
 
   updateRewardsForLevel: (level, rewards) ->
     achievements = @supermodel.getModels(Achievement)

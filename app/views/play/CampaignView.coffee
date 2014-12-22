@@ -235,7 +235,9 @@ module.exports = class WorldMapView extends RootView
     @$levelInfo?.hide()
     levelElement = $(e.target).parents('.level')
     levelID = levelElement.data('level-id')
-    level = _.find _.values(campaign.get('levels')), id: levelID
+    if @editorMode
+      return @trigger 'level-clicked', levelID
+    level = _.find _.values(@campaign.get('levels')), id: levelID
     if application.isIPadApp
       @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
       @adjustLevelInfoPosition e
