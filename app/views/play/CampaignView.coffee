@@ -12,6 +12,7 @@ storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
 SubscribeModal = require 'views/core/SubscribeModal'
 Level = require 'models/Level'
+utils = require 'core/utils'
 
 trackedHourOfCode = false
 
@@ -46,8 +47,8 @@ module.exports = class WorldMapView extends RootView
     options ?= {}
     
     @campaign = new Campaign({_id:@terrain})
-    @supermodel.loadModel(@campaign, 'campaign')
-    
+    @campaign = @supermodel.loadModel(@campaign, 'campaign').model
+
     @editorMode = options.editorMode
     @nextLevel = @getQueryVariable 'next'
     @levelStatusMap = {}
@@ -135,7 +136,7 @@ module.exports = class WorldMapView extends RootView
   getRenderData: (context={}) ->
     context = super(context)
     context.campaign = @campaign
-    context.levels = _.values($.extend {}, @campaign.get('levels'))
+    context.levels = _.values($.extend true, {}, @campaign.get('levels'))
     for level in context.levels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel level.original
@@ -164,6 +165,18 @@ module.exports = class WorldMapView extends RootView
     context.desertIsAvailable = Level.levels['the-mighty-sand-yak'] in (me.get('earned')?.levels or [])
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
+    context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign.get('adjacentCampaigns') or {})), (ac) ->
+      return false if ac.showIfUnlocked and ac.showIfUnlocked not in (me.get('unlocked')?.levels or [])
+      ac.name = utils.i18n ac, 'name'
+      ac.description = utils.i18n ac, 'description'
+      styles = []
+      styles.push "color: #{ac.color}" if ac.color
+      styles.push "transform: rotate(#{ac.rotation}deg)" if ac.rotation
+      ac.position ?= { x: 10, y: 10 }
+      styles.push "left: #{ac.position.x}%"
+      styles.push "top: #{ac.position.y}%"
+      ac.style = styles.join('; ')
+      return true
     context
 
   afterRender: ->

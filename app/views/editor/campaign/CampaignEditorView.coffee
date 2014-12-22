@@ -3,7 +3,7 @@ Campaign = require 'models/Campaign'
 Level = require 'models/Level'
 Achievement = require 'models/Achievement'
 ThangType = require 'models/ThangType'
-WorldMapView = require 'views/play/WorldMapView'
+CampaignView = require 'views/play/CampaignView'
 CocoCollection = require 'collections/CocoCollection'
 treemaExt = require 'core/treema-ext'
 utils = require 'core/utils'
@@ -16,7 +16,7 @@ module.exports = class CampaignEditorView extends RootView
   template: require 'templates/editor/campaign/campaign-editor-view'
   className: 'editor'
 
-  constructor: (options, campaignHandle) ->
+  constructor: (options, @campaignHandle) ->
     super(options)
     
     # MIGRATION CODE
@@ -38,7 +38,7 @@ module.exports = class CampaignEditorView extends RootView
 #    @campaign = new Campaign(campaign)
     #------------------------------------------------
   
-    @campaign = new Campaign({_id:campaignHandle})
+    @campaign = new Campaign({_id:@campaignHandle})
     
     #--------------- temporary migration to change thang type slugs to originals
     #- should keep around though for loading the names of items and heroes that are referenced
@@ -65,14 +65,14 @@ module.exports = class CampaignEditorView extends RootView
 
     @levels = new CocoCollection([], {
       model: Level
-      url: "/db/campaign/#{campaignHandle}/levels"
+      url: "/db/campaign/#{@campaignHandle}/levels"
       project: Campaign.denormalizedLevelProperties
     })
     @supermodel.loadCollection(@levels, 'levels')
 
     @achievements = new CocoCollection([], {
       model: Achievement
-      url: "/db/campaign/#{campaignHandle}/achievements"
+      url: "/db/campaign/#{@campaignHandle}/achievements"
       project: achievementProject
     })
     @supermodel.loadCollection(@achievements, 'achievements')
@@ -179,9 +179,9 @@ module.exports = class CampaignEditorView extends RootView
     @treema.open()
     @treema.childrenTreemas.levels?.open()
 
-    worldMapView = new WorldMapView({supermodel: @supermodel, editorMode: true}, 'dungeon')
-    worldMapView.highlightElement = _.noop # make it stop
-    @insertSubView worldMapView
+    campaignView = new CampaignView({editorMode: true, supermodel: @supermodel}, @campaignHandle)
+    campaignView.highlightElement = _.noop # make it stop
+    @insertSubView campaignView
     
   onTreemaChanged: (e, nodes) =>
     for node in nodes

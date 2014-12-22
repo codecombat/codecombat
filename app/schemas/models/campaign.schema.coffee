@@ -27,10 +27,10 @@ _.extend CampaignSchema.properties, {
     format: 'campaign'
     properties: {
       #- denormalized from other Campaigns, either updated automatically or fetched dynamically
+      id: { type: 'string', format: 'hidden' }
       name: { type: 'string', format: 'hidden' }
       description: { type: 'string', format: 'hidden' }
       i18n: { type: 'object', format: 'hidden' }
-      original: { type: 'string', format: 'hidden' }
       slug: { type: 'string', format: 'hidden' }
       
       #- normal properties
