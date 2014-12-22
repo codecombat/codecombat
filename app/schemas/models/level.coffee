@@ -297,6 +297,8 @@ _.extend LevelSchema.properties,
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
 
   # Admin flags
+  adventurer: { type: 'boolean' }
+  practice: { type: 'boolean' }
   disableSpaces: { type: 'boolean' }
   hidesSubmitUntilRun: { type: 'boolean' }
   hidesPlayButton: { type: 'boolean' }

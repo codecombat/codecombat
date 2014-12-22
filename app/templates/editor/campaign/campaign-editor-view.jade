@@ -16,7 +16,7 @@ block header
             span.glyphicon-home.glyphicon
 
       ul.nav.navbar-nav.navbar-right
-        if authorized
+        if me.isAdmin()
           li#save-button
             a
               span.glyphicon-floppy-disk.glyphicon

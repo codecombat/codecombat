@@ -7,6 +7,8 @@ CampaignView = require 'views/play/CampaignView'
 CocoCollection = require 'collections/CocoCollection'
 treemaExt = require 'core/treema-ext'
 utils = require 'core/utils'
+SaveCampaignModal = require './SaveCampaignModal'
+RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
 
 achievementProject = ['related', 'rewards', 'name', 'slug']
 thangTypeProject = ['name', 'original', 'slug']
@@ -15,6 +17,9 @@ module.exports = class CampaignEditorView extends RootView
   id: "campaign-editor-view"
   template: require 'templates/editor/campaign/campaign-editor-view'
   className: 'editor'
+  
+  events:
+    'click #save-button': 'onClickSaveButton'
 
   constructor: (options, @campaignHandle) ->
     super(options)
@@ -78,8 +83,29 @@ module.exports = class CampaignEditorView extends RootView
     @supermodel.loadCollection(@achievements, 'achievements')
     
     @toSave = new Backbone.Collection()
+    @listenToOnce @campaign, 'sync', @onFundamentalLoaded
+    @listenToOnce @levels, 'sync', @onFundamentalLoaded
+    @listenToOnce @achievements, 'sync', @onFundamentalLoaded
+
+  onFundamentalLoaded: ->
+    # load any levels which 
+    return unless @campaign.loaded and @levels.loaded and @achievements.loaded
+    for level in _.values(@campaign.get('levels'))
+      model = @levels.findWhere(original: level.original)
+      if not model
+        model = new Level({})
+        model.setProjection Campaign.denormalizedLevelProperties
+        model.setURL("/db/level/#{level.original}/version")
+        @levels.add @supermodel.loadModel(model, 'level').model
+        achievements = new RelatedAchievementsCollection level.original
+        achievements.setProjection achievementProject
+        @supermodel.loadCollection achievements, 'achievements'
+        @listenToOnce achievements, 'sync', ->
+          @achievements.add(achievements.models)
+      
 
   onLoaded: ->
+    @toSave.add @campaign if @campaign.hasLocalChanges()
     campaignLevels = $.extend({}, @campaign.get('levels'))
     for level in @levels.models
       levelOriginal = level.get('original')
@@ -151,12 +177,23 @@ module.exports = class CampaignEditorView extends RootView
       campaignLevels[levelOriginal] = campaignLevel
       
     @campaign.set('levels', campaignLevels)
+    
+    for level in _.values campaignLevels
+      model = @levels.findWhere {original: level.original}
+      model.set key, level[key] for key in Campaign.denormalizedLevelProperties
+#      @toSave.add model if model.hasLocalChanges()
+#      @updateRewardsForLevel model, level.rewards
+
     super()
 
   getRenderData: ->
     c = super()
     c.campaign = @campaign
     c
+
+  onClickSaveButton: ->
+    @toSave.set @toSave.filter (m) -> m.hasLocalChanges()
+    @openModalView new SaveCampaignModal({}, @toSave)
     
   afterRender: ->
     super()
@@ -195,14 +232,11 @@ module.exports = class CampaignEditorView extends RootView
         original = parts[2]
         level = @supermodel.getModelByOriginal Level, original
         campaignLevel = @treema.get "/levels/#{original}"
-
-        if 'rewards' in parts
-          rewardsData = @
-          @updateRewardsForLevel level, campaignLevel.rewards
-
-        for key in Campaign.denormalizedLevelProperties
-          level.set key, campaignLevel[key]
-        @toSave.add level
+        
+        @updateRewardsForLevel level, campaignLevel.rewards
+        
+        level.set key, campaignLevel[key] for key in Campaign.denormalizedLevelProperties
+        @toSave.add level if level.hasLocalChanges()
         
     @toSave.add @campaign
     @campaign.set key, value for key, value of @treema.data
@@ -225,12 +259,23 @@ module.exports = class CampaignEditorView extends RootView
     achievements = @supermodel.getModels(Achievement)
     achievements = (a for a in achievements when a.get('related') is level.get('original'))
     for achievement in achievements
-      rewardSubset = (r for r in rewards when r.achievement is achievement._id)
+      rewardSubset = (r for r in rewards when r.achievement is achievement.id)
+      oldRewards = achievement.get 'rewards'
       newRewards = {}
-      newRewards.heroes = _.compact((r.hero for r in rewards))
-      newRewards.items = _.compact((r.item for r in rewards))
-      newRewards.levels = _.compact((r.level for r in rewards))
+      
+      heroes = _.compact((r.hero for r in rewardSubset))
+      newRewards.heroes = heroes if heroes.length
+      
+      items = _.compact((r.item for r in rewardSubset))
+      newRewards.items = items if items.length
+
+      levels = _.compact((r.level for r in rewardSubset))
+      newRewards.levels = levels if levels.length
+      
+      newRewards.gems = oldRewards.gems if oldRewards.gems
       achievement.set 'rewards', newRewards
+      if achievement.hasLocalChanges()
+        @toSave.add achievement
 
 class LevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'
@@ -279,23 +324,18 @@ class CampaignsNode extends TreemaObjectNode
     s.once 'sync', (collection) ->
       CampaignsNode.campaigns[campaign.id] = campaign for campaign in collection.models
       mapped = ({label: r.get('name'), value: r.id} for r in collection.models)
-      console.log 'campaigns is now', CampaignsNode.campaigns
       res(mapped)
 
 
 class CampaignNode extends TreemaObjectNode
   valueClass: 'treema-campaign'
   buildValueForDisplay: (valEl, data) ->
-    console.log 'build value for display?', data
     @buildValueForDisplaySimply valEl, data.name
 
   populateData: ->
     return if @data.name?
-    console.log 'key for parent', @keyForParent, CampaignsNode.campaigns[@keyForParent].attributes, Campaign.denormalizedCampaignProperties
     data = _.pick CampaignsNode.campaigns[@keyForParent].attributes, Campaign.denormalizedCampaignProperties
-    console.log 'data?', data
     _.extend @data, data
-    console.log 'extended data', @data
     
 class AchievementNode extends treemaExt.IDReferenceNode
   buildSearchURL: (term) -> "#{@url}?term=#{term}&project=#{achievementProject.join(',')}"

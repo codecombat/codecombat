@@ -31,6 +31,8 @@ LevelHandler = class LevelHandler extends Handler
     'i18nCoverage'
     'loadingTip'
     'requiresSubscription'
+    'adventurer'
+    'practice'
     'disableSpaces'
     'hidesSubmitUntilRun'
     'hidesPlayButton'

@@ -328,7 +328,7 @@ module.exports = class Handler
   put: (req, res, id) ->
     # Client expects PATCH behavior for PUTs
     # Real PATCHs return incorrect HTTP responses in some environments (e.g. Browserstack, schools)
-    return @postNewVersion(req, res) if @modelClass.schema.uses_coco_versions
+    return @sendForbiddenError(res) if @modelClass.schema.uses_coco_versions and not req.user.isAdmin()
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendForbiddenError(res) unless @hasAccess(req)
     @getDocumentForIdOrSlug req.body._id or id, (err, document) =>
