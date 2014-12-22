@@ -652,7 +652,7 @@ module.exports = class ThangsTabView extends CocoView
     thangData = @getThangByID thang.id
     thangData = $.extend true, {}, thangData
     unless component = _.find thangData.components, {original: componentOriginal}
-      component = original: componentOriginal, config: {}
+      component = original: componentOriginal, config: {}, majorVersion: 0
       thangData.components.push component
     modificationFunction component
     @thangsTreema.set @pathForThang(thangData), thangData
