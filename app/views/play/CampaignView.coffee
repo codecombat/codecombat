@@ -184,13 +184,16 @@ module.exports = class WorldMapView extends RootView
     @onWindowResize()
     unless application.isIPadApp
       _.defer => @$el?.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
-      @$el.find('.level').tooltip().each ->
+      view = @
+      @$el.find('.level, .campaign-switch').tooltip().each ->
         return unless me.isAdmin()
         $(@).draggable().on 'dragstop', ->
           bg = $('.map-background')
           x = ($(@).offset().left - bg.offset().left + $(@).outerWidth() / 2) / bg.width()
           y = 1 - ($(@).offset().top - bg.offset().top + $(@).outerHeight() / 2) / bg.height()
-          console.log "#{$(@).data('level-id')}\n    x: #{(100 * x).toFixed(2)}\n    y: #{(100 * y).toFixed(2)}\n"
+          e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(@).data('level-id'), campaignID: $(@).data('campaign-id') }
+          view.trigger 'level-moved', e if e.levelOriginal
+          view.trigger 'adjacent-campaign-moved', e if e.campaignID
     @$el.addClass _.string.slugify @terrain
     @updateVolume()
     @updateHero()

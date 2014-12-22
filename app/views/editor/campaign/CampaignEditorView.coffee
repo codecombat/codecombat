@@ -181,6 +181,8 @@ module.exports = class CampaignEditorView extends RootView
 
     campaignView = new CampaignView({editorMode: true, supermodel: @supermodel}, @campaignHandle)
     campaignView.highlightElement = _.noop # make it stop
+    @listenTo campaignView, 'level-moved', @onCampaignLevelMoved
+    @listenTo campaignView, 'adjacent-campaign-moved', @onAdjacentCampaignMoved
     @insertSubView campaignView
     
   onTreemaChanged: (e, nodes) =>
@@ -201,6 +203,14 @@ module.exports = class CampaignEditorView extends RootView
         @toSave.add level
         
     @toSave.add @campaign
+
+  onCampaignLevelMoved: (e) ->
+    path = "levels/#{e.levelOriginal}/position"
+    @treema.set path, e.position
+
+  onAdjacentCampaignMoved: (e) ->
+    path = "adjacentCampaigns/#{e.campaignID}/position"
+    @treema.set path, e.position
 
   updateRewardsForLevel: (level, rewards) ->
     achievements = @supermodel.getModels(Achievement)
