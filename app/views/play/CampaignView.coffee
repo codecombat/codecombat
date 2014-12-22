@@ -128,6 +128,9 @@ module.exports = class WorldMapView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
+    
+  setCampaign: (@campaign) ->
+    @render()
 
   onSubscribed: ->
     @requiresSubscription = false
