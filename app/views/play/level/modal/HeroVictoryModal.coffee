@@ -85,7 +85,7 @@ module.exports = class HeroVictoryModal extends ModalView
           @listenToOnce me, 'sync', ->
             @readyToContinue = true
             @updateSavingProgressStatus()
-          me.fetch() unless me.loading
+          me.fetch cache:false unless me.loading
 
     @readyToContinue = true if not @achievements.models.length
 
