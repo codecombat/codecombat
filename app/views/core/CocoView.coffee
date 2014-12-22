@@ -199,6 +199,7 @@ module.exports = class CocoView extends Backbone.View
     # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
     elem = $(e.target)
     return unless elem.data('toggle') is 'coco-modal'
+    return if elem.attr('disabled')
     target = elem.data('target')
     Modal = require 'views/'+target
     e.stopPropagation()

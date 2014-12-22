@@ -63,7 +63,7 @@ setupExpressMiddleware = (app) ->
   else
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
-  app.use(express.static(path.join(__dirname, 'public'), maxAge: 30 * 60 * 1000))
+  app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
   app.use(useragent.express())
 
   app.use(express.favicon())

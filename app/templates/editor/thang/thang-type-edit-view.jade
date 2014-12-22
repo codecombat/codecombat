@@ -52,11 +52,11 @@ block header
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
             li.dropdown-header(data-i18n="common.actions") Actions
-            li(class=anonymous ? "disabled": "")
+            li(class=!me.isAdmin() ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
-            li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
-            li(class=anonymous ? "disabled": "")
+            li(class=!authorized ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=!authorized)#revert-button Revert
+            li(class=!authorized ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
             li.dropdown-header(data-i18n="common.info") Info

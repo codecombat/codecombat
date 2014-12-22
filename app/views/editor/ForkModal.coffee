@@ -6,7 +6,6 @@ module.exports = class ForkModal extends ModalView
   id: 'fork-modal'
   template: template
   instant: false
-  modalWidthPercent: 60
 
   events:
     'click #fork-model-confirm-button': 'forkModel'

@@ -9,10 +9,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     old_browser_suffix: "您還是可以試試看，但它應該不能運行。"
     ipad_browser: "壞消息: 「程式之戰」不能在iPad上的瀏覽器運行。好消息：我們的iPad APP正在等待蘋果公司驗證。"
     campaign: "戰役"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    for_beginners: "新手專區"
+    multiplayer: "多人連線" # Not currently shown on home page
+    for_developers: "開發者專區" # Not currently shown on home page.
+    or_ipad: "或下載iPad版"
 
   nav:
     play: "開始遊戲" # The top nav bar entry where players choose which levels to play
@@ -49,44 +49,44 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "註冊成為外交官"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    play_as: "Play As" # Ladder page
+    spectate: "旁觀" # Ladder page
+    players: "玩家" # Hover over a level on /play
+    hours_played: "hours played" # Hover over a level on /play
+    items: "物品" # Tooltip on item shop button from /play
+    unlock: "解鎖" # For purchasing items and heroes
+    confirm: "確認"
+    owned: "擁有" # For items you own
+    locked: "鎖定"
+    purchasable: "可購買" # For a hero you unlocked but haven't purchased
+    available: "啟用"
+    skills_granted: "已習得技能" # Property documentation details
+    heroes: "英雄" # Tooltip on hero shop button from /play
+    achievements: "成就" # Tooltip on achievement list button from /play
+    account: "帳號" # Tooltip on account button from /play
+    settings: "設定" # Tooltip on settings button from /play
+    next: "下一步" # Go from choose hero to choose inventory before playing a level
+    change_hero: "更換英雄" # Go back from choose inventory to choose hero
+    choose_inventory: "裝備物品"
+    buy_gems: "購買鑽石"
     campaign_desert: "沙漠戰役"
     campaign_forest: "森林戰役"
     campaign_dungeon: "地牢戰役"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    subscription_required: "需要訂購"
+    free: "免費"
+    subscribed: "已訂購"
     older_campaigns: "舊戰役"
     anonymous: "匿名玩家"
     level_difficulty: "難度"
     campaign_beginner: "新手指南"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "我們每周將釋出五個等級。"
+    awaiting_levels_adventurer: "註冊成為冒險家"
+    awaiting_levels_adventurer_suffix: "成為第一個挑戰新關卡的冒險家吧!"
     choose_your_level: "選取關卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以選擇以下任意關卡，或者討論以上的關卡 "
     adventurer_forum: "冒險家論壇"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "舊的新手關卡"
     campaign_old_beginner_description: "...在這裡可以學到編程技巧。"
     campaign_dev: "隨機關卡"
     campaign_dev_description: "...在這裡你可以學到做一些較複雜的程式技巧。"
@@ -94,8 +94,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     campaign_multiplayer_description: "...在這裡你可以和其他玩家進行對戰。"
     campaign_player_created: "玩家建立的關卡"
     campaign_player_created_description: "...挑戰同伴的創意 <a href=\"/contribute#artisan\">技術指導</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "經典演算法"
+    campaign_classic_algorithms_description: "... 資訊科學中最著名的演算法。"
 
   login:
     sign_up: "註冊"
@@ -103,13 +103,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     logging_in: "登入中"
     log_out: "登出"
     forgot_password: "忘記密碼?"
-    authenticate_gplus: "以G+帳號登入"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    authenticate_gplus: "以 Google+ 帳號登入"
+    load_profile: "讀取 Google+ 個人簡介"
+    load_email: "讀取 Google+ Email"
+    finishing: "結束"
+    sign_in_with_facebook: "使用 Facebook 登入"
+    sign_in_with_gplus: "使用 Google+ 登入"
+    signup_switch: "建立一個帳號"
 
   signup:
     email_announcements: "通過郵件接收通知"
@@ -117,21 +117,21 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     sign_up: "註冊"
     log_in: "登入"
     social_signup: "您也可以使用G+或Facebook帳號註冊:"
-#    required: "You need to log in before you can go that way."
-#    login_switch: "Already have an account?"
+    required: "在這麼做之前必須先登入。"
+    login_switch: "已經有申請帳號了嗎？"
 
   recover:
     recover_account_title: "復原帳號"
     send_password: "送出新密碼"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "密碼重置的信件已寄出."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "主手"
+    secondary: "副手"
+    armor: "裝甲"
+    accessories: "飾品"
+    misc: "其他"
+    books: "書籍"
 
   common:
     loading: "載入中..."
@@ -147,29 +147,29 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     play: "播放" # When used as an action verb, like "Play next level"
     retry: "重試"
 #    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
+    info: "介紹"
+    help: "求助"
+    watch: "關注"
+    unwatch: "取消關注"
 #    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
+    submit_changes: "送出修改"
 
   general:
-#    and: "and"
+    and: "和"
     name: "名字"
     date: "日期"
 #    body: "Body"
     version: "版本"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
-#    commit_msg: "Commit Message"
-#    review: "Review"
-#    version_history: "Version History"
+    commit_msg: "送出訊息"
+    review: "回顧"
+    version_history: "版本歷史"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    undo: "還原 (Ctrl+Z)"
+    redo: "重做 (Ctrl+Shift+Z)"
+    play_preview: "播放預覽本關卡"
 #    result: "Result"
 #    results: "Results"
 #    description: "Description"
@@ -179,35 +179,35 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    password: "Password"
     message: "訊息"
 #    code: "Code"
-#    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Opponent"
-#    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    ladder: "天梯"
+    when: "當"
+    opponent: "對手"
+    rank: "階級"
+    score: "分數"
+    win: "獲勝"
+    loss: "失敗"
+    tie: "平手"
+    easy: "簡單"
+    medium: "中等"
+    hard: "困難"
+    player: "玩家"
+    player_level: "等級" # Like player level 5, not like level: Dungeons of Kithgard
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "秒"
+    seconds: "秒"
+    minute: "分鐘"
+    minutes: "分鐘"
+    hour: "小時"
+    hours: "小時"
+    day: "日"
+    days: "日"
+    week: "周"
+    weeks: "周"
+    month: "個月"
+    months: "個月"
+    year: "年"
+    years: "年"
 
   play_level:
     done: "完成"
@@ -219,7 +219,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     restart: "重新開始"
     goals: "目標"
     goal: "目標"
-#    running: "Running..."
+    running: "執行中..."
     success: "成功!"
     incomplete: "未完成"
     timed_out: "時間用盡"
@@ -238,7 +238,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     victory_sign_up: "保存進度"
     victory_sign_up_poke: "想保存你的程式碼？建立一個免費帳號吧！"
     victory_rate_the_level: "評估關卡: " # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
+    victory_return_to_ladder: "返回天梯模式"
     victory_play_continue: "繼續"
     victory_saving_progress: "儲存進度"
     victory_go_home: "返回首頁" # Only in old-style levels.
@@ -264,15 +264,16 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tome_help: "幫助"
 #    tome_current_method: "Current Method"
     hud_continue_short: "繼續"
-#    code_saved: "Code Saved"
+    code_saved: "程式碼已保存"
     skip_tutorial: "跳過 (esc)"
     keyboard_shortcuts: "快捷鍵"
-#    loading_ready: "Ready!"
+    loading_ready: "準備！"
 #    loading_start: "Start Level"
     problem_alert_title: "修正您的程式碼"
-#    time_current: "Now:"
-#    time_total: "Max:"
-#    time_goto: "Go to:"
+#    problem_alert_help: "Help"
+    time_current: "現在:"
+    time_total: "最大值:"
+    time_goto: "前往:"
     infinite_loop_try_again: "再試一次"
     infinite_loop_reset_level: "重置關卡"
     infinite_loop_comment_out: "在我的程式碼中加入注解"
@@ -311,12 +312,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     inventory_tab: "倉庫"
     save_load_tab: "保存/載入"
     options_tab: "選項"
-#    guide_tab: "Guide"
+    guide_tab: "導引"
+    guide_video_tutorial: "影片教學"
+    guide_tips: "提示"
     multiplayer_tab: "多人遊戲"
     auth_tab: "註冊"
     inventory_caption: "裝備您的英雄"
     choose_hero_caption: "選擇英雄, 語言"
-#    save_load_caption: "... and view history"
+    save_load_caption: "... 觀看歷史紀錄"
     options_caption: "設置設定"
     guide_caption: "文件與小撇步"
     multiplayer_caption: "跟朋友一起玩!"
@@ -326,11 +329,11 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     choose_inventory: "裝備物品"
     equipped_item: "已裝備"
     available_item: "可使用"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
+    restricted_title: "已限制"
+    should_equip: "(連點可裝備)"
     equipped: "(已裝備)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
+    locked: "(已鎖定)"
+    restricted: "(受本關卡限制)"
     equip: "裝備"
     unequip: "脫下"
 
@@ -339,7 +342,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     pile_gems: "一堆寶石"
     chest_gems: "一箱寶石"
     purchasing: "購買中..."
-#    declined: "Your card was declined"
+    declined: "你的信用卡被拒絕"
     retrying: "伺服器錯誤, 正在重試."
     prompt_title: "寶石不足"
     prompt_body: "想要取得更多?"
@@ -474,12 +477,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   contact:
     contact_us: "聯繫我們"
     welcome: "很高興收到你的信！用這個表格給我們發電郵。 "
-    contribute_prefix: "如果你想貢獻程式，請看 "
-    contribute_page: "程式貢獻頁面"
-    contribute_suffix: "！"
     forum_prefix: "如果有任何問題, 請至"
     forum_page: "論壇"
     forum_suffix: "討論。"
+#    subscribe_prefix: "If you need help figuring out a level, please"
+#    subscribe: "buy a CodeCombat subscription"
+#    subscribe_suffix: "and we'll be happy to help you with your code."
+#    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
 #    where_reply: "Where should we reply?"
     send: "意見反饋"
 #    contact_candidate: "Contact Candidate" # Deprecated
@@ -564,16 +568,22 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #  classes:
 #    archmage_title: "Archmage"
 #    archmage_title_description: "(Coder)"
+#    archmage_summary: "If you are a developer interested in coding educational games, become an archmage to help us build CodeCombat!"
 #    artisan_title: "Artisan"
 #    artisan_title_description: "(Level Builder)"
+#    artisan_summary: "Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program."
 #    adventurer_title: "Adventurer"
 #    adventurer_title_description: "(Level Playtester)"
+#    adventurer_summary: "Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release."
 #    scribe_title: "Scribe"
 #    scribe_title_description: "(Article Editor)"
+#    scribe_summary: "Good code needs good documentation. Write, edit, and improve the docs read by millions of players across the globe."
 #    diplomat_title: "Diplomat"
 #    diplomat_title_description: "(Translator)"
+#    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations."
 #    ambassador_title: "Ambassador"
 #    ambassador_title_description: "(Support)"
+#    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
 
 #  editor:
 #    main_title: "CodeCombat Editors"
@@ -650,6 +660,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
 #  contribute:
 #    page_title: "Contributing"
+#    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
@@ -659,7 +670,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    introduction_desc_signature: "- Nick, George, Scott, Michael, and Matt"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
-#    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"
 #    archmage_attribute_1_pref: "Knowledge in "
@@ -674,8 +684,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    join_url_hipchat: "public HipChat room"
 #    more_about_archmage: "Learn More About Becoming an Archmage"
 #    archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
-#    artisan_summary_pref: "Want to design levels and expand CodeCombat's arsenal? People are playing through our content at a pace faster than we can build! Right now, our level editor is barebone, so be wary. Making levels will be a little challenging and buggy. If you have visions of campaigns spanning for-loops to"
-#    artisan_summary_suf: ", then this class is for you."
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
 #    artisan_introduction_suf: ", then this class might be for you."
 #    artisan_attribute_1: "Any experience in building content like this would be nice, such as using Blizzard's level editors. But not required!"
@@ -688,7 +696,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    artisan_join_step4: "Post your levels on the forum for feedback."
 #    more_about_artisan: "Learn More About Becoming an Artisan"
 #    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
-#    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
 #    adventurer_attribute_1: "A thirst for learning. You want to learn how to code and we want to teach you how to code. You'll probably be doing most of the teaching in this case, though."
 #    adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."
@@ -697,8 +704,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    adventurer_join_suf: "so if you prefer to be notified those ways, sign up there!"
 #    more_about_adventurer: "Learn More About Becoming an Adventurer"
 #    adventurer_subscribe_desc: "Get emails when there are new levels to test."
-#    scribe_summary_pref: "CodeCombat is not just going to be a bunch of levels. It will also be a resource of programming knowledge that players can hook into. That way, each Artisan can link to a detailed article that for the player's edification: documentation akin to what the "
-#    scribe_summary_suf: " has built. If you enjoy explaining programming concepts, then this class is for you."
 #    scribe_introduction_pref: "CodeCombat isn't just going to be a bunch of levels. It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into. That way rather than each Artisan having to describe in detail what a comparison operator is, they can simply link their level to the Article describing them that is already written for the player's edification. Something along the lines of what the "
 #    scribe_introduction_url_mozilla: "Mozilla Developer Network"
 #    scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
@@ -707,7 +712,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
 #    more_about_scribe: "Learn More About Becoming a Scribe"
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
-#    diplomat_summary: "There is a large interest in CodeCombat in other countries that do not speak English! We are looking for translators who are willing to spend their time translating the site's corpus of words so that CodeCombat is accessible across the world as soon as possible. If you'd like to help getting CodeCombat international, then this class is for you."
 #    diplomat_introduction_pref: "So, if there's one thing we learned from the "
 #    diplomat_launch_url: "launch in October"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
@@ -720,8 +724,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
 #    more_about_diplomat: "Learn More About Becoming a Diplomat"
 #    diplomat_subscribe_desc: "Get emails about i18n developments and levels to translate."
-#    ambassador_summary: "We are trying to build a community, and every community needs a support team when there are troubles. We have got chats, emails, and social networks so that our users can get acquainted with the game. If you want to help people get involved, have fun, and learn some programming, then this class is for you."
-#    ambassador_introduction: "This is a community we're building, and you are the connections. We've got Olark chats, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
+#    ambassador_introduction: "This is a community we're building, and you are the connections. We've got forums, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
 #    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
 #    ambassador_join_note_strong: "Note"
