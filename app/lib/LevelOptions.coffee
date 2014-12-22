@@ -107,7 +107,7 @@ module.exports = LevelOptions =
     hidesRealTimePlayback: true
     requiredGear: {feet: 'simple-boots', 'right-hand': 'simple-sword', torso: 'tarnished-bronze-breastplate'}
     restrictedGear: {feet: 'leather-boots', 'programming-book': 'programmaticon-i'}
-  'the-first-kithmaze':
+  'riddling-kithmaze':
     hidesRunShortcut: true
     hidesHUD: true
     hidesSay: true
