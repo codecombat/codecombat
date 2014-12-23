@@ -9,6 +9,7 @@ treemaExt = require 'core/treema-ext'
 utils = require 'core/utils'
 SaveCampaignModal = require './SaveCampaignModal'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
+CampaignLevelView = require './CampaignLevelView'
 
 achievementProject = ['related', 'rewards', 'name', 'slug']
 thangTypeProject = ['name', 'original', 'slug']
@@ -241,6 +242,13 @@ module.exports = class CampaignEditorView extends RootView
     @toSave.add @campaign
     @campaign.set key, value for key, value of @treema.data
     @campaignView.setCampaign(@campaign)
+
+  onTreemaDoubleClicked: (e, node) =>
+    path = node.getPath()
+    return unless _.string.startsWith path, '/levels/'
+    original = path.split('/')[2]
+    level = @supermodel.getModelByOriginal Level, original
+    @insertSubView new CampaignLevelView({}, level)
 
   onCampaignLevelMoved: (e) ->
     path = "levels/#{e.levelOriginal}/position"
