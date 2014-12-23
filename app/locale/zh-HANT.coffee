@@ -1,13 +1,13 @@
 module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese (Traditional)", translation:
   home:
-    slogan: "通過玩遊戲學習編程"
-    no_ie: "抱歉！Internet Explorer 8 等舊的瀏覽器打不開此網站" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat 不是針對手機設備設計的，所以可能會出問題！" # Warning that shows up on mobile devices
+    slogan: "玩遊戲學程式"
+    no_ie: "抱歉！Internet Explorer 8等舊的瀏覽器打不開此網站" # Warning that only shows up in IE8 and older
+    no_mobile: "CodeCombat不是針對手機設備設計的，所以可能會出問題！" # Warning that shows up on mobile devices
     play: "開始遊戲" # The big play button that just starts playing a level
     try_it: "試試看" # Alternate wording for Play button
-    old_browser: "嗯…您的瀏覽器太老了跑不動'程式之戰'，抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "嗯... 您的瀏覽器太老了跑不動CodeCombat，抱歉！" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "您還是可以試試看，但它應該不能運行。"
-    ipad_browser: "壞消息: 「程式之戰」不能在iPad上的瀏覽器運行。好消息：我們的iPad APP正在等待蘋果公司驗證。"
+    ipad_browser: "抱歉，CodeCombat不能在iPad上的瀏覽器運行，但好消息是我們的iPad App正在等待蘋果公司審核。"
     campaign: "戰役"
     for_beginners: "新手專區"
     multiplayer: "多人連線" # Not currently shown on home page
@@ -15,7 +15,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     or_ipad: "或下載iPad版"
 
   nav:
-    play: "開始遊戲" # The top nav bar entry where players choose which levels to play
+    play: "返回地圖" # The top nav bar entry where players choose which levels to play
     community: "社群"
     editor: "編輯"
     blog: "官方部落格"
@@ -49,7 +49,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "註冊成為外交官"
 
   play:
-    play_as: "Play As" # Ladder page
+    play_as: "扮演" # Ladder page
     spectate: "旁觀" # Ladder page
     players: "玩家" # Hover over a level on /play
     hours_played: "hours played" # Hover over a level on /play
@@ -60,7 +60,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     locked: "鎖定"
     purchasable: "可購買" # For a hero you unlocked but haven't purchased
     available: "啟用"
-    skills_granted: "已習得技能" # Property documentation details
+    skills_granted: "將習得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "帳號" # Tooltip on account button from /play
@@ -87,7 +87,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     adventurer_forum: "冒險家論壇"
     adventurer_suffix: "."
     campaign_old_beginner: "舊的新手關卡"
-    campaign_old_beginner_description: "...在這裡可以學到編程技巧。"
+    campaign_old_beginner_description: "...在這裡可以學到基礎程式技巧。"
     campaign_dev: "隨機關卡"
     campaign_dev_description: "...在這裡你可以學到做一些較複雜的程式技巧。"
     campaign_multiplayer: "多人競技場"
@@ -142,9 +142,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     save: "存檔"
     publish: "發佈"
     create: "創造"
-    manual: "手動發動"
+    manual: "手動"
     fork: "分支"
-    play: "播放" # When used as an action verb, like "Play next level"
+    play: "進入戰役" # When used as an action verb, like "Play next level"
     retry: "重試"
 #    actions: "Actions"
     info: "介紹"
@@ -268,7 +268,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     skip_tutorial: "跳過 (esc)"
     keyboard_shortcuts: "快捷鍵"
     loading_ready: "準備！"
-#    loading_start: "Start Level"
+    loading_start: "開始戰役"
     problem_alert_title: "修正您的程式碼"
 #    problem_alert_help: "Help"
     time_current: "現在:"
@@ -330,7 +330,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     equipped_item: "已裝備"
     available_item: "可使用"
     restricted_title: "已限制"
-    should_equip: "(連點可裝備)"
+    should_equip: "連點物品兩下可裝備"
     equipped: "(已裝備)"
     locked: "(已鎖定)"
     restricted: "(受本關卡限制)"
@@ -365,81 +365,81 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    default: "Default"
-#    experimental: "Experimental"
-#    python_blurb: "Simple yet powerful, great for beginners and experts."
-#    javascript_blurb: "The language of the web. (Not the same as Java.)"
-#    coffeescript_blurb: "Nicer JavaScript syntax."
-#    clojure_blurb: "A modern Lisp."
-#    lua_blurb: "Game scripting language."
-#    io_blurb: "Simple but obscure."
-#    status: "Status"
-#    weapons: "Weapons"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
-#    health: "Health"
-#    speed: "Speed"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-#    skills: "Skills"
-#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+  choose_hero:
+    choose_hero: "選擇你的英雄"
+    programming_language: "程式語言"
+    programming_language_description: "你要使用哪個程式語言？"
+    default: "預設"
+    experimental: "測試中"
+    python_blurb: "簡單且強大，適合新手跟專家。"
+    javascript_blurb: "網頁程式語言。(不是Java喔)"
+    coffeescript_blurb: "懶人版的Javascript。"
+    clojure_blurb: "Lisp進化版。"
+    lua_blurb: "許多遊戲引擎支援的程式語言。"
+    io_blurb: "簡單但不有名。"
+    status: "狀態"
+    weapons: "武器"
+    weapons_warrior: "刀劍 - 短距離、非魔法"
+    weapons_ranger: "十字弓, 槍砲 - 長距離、非魔法"
+    weapons_wizard: "魔杖, 法杖 - 長距離、魔法"
+    attack: "傷害" # Can also translate as "Attack"
+    health: "血量"
+    speed: "速度"
+    regeneration: "再生"
+    range: "距離" # As in "attack or visual range"
+    blocks: "格擋" # As in "this shield blocks this much damage"
+    backstab: "背刺" # As in "this dagger does this much backstab damage"
+    skills: "技能"
+    available_for_purchase: "可以購買" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "解鎖等級:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    restricted_to_certain_heroes: "特定英雄才可遊玩此關卡。"
 
-#  skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-#    read_only: "read-only"
-#    action_name: "name"
-#    action_cooldown: "Takes"
-#    action_specific_cooldown: "Cooldown"
-#    action_damage: "Damage"
-#    action_range: "Range"
-#    action_radius: "Radius"
-#    action_duration: "Duration"
-#    example: "Example"
-#    ex: "ex" # Abbreviation of "example"
-#    current_value: "Current Value"
-#    default_value: "Default value"
-#    parameters: "Parameters"
-#    returns: "Returns"
-#    granted_by: "Granted by"
+  skill_docs:
+    writable: "可編輯" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "唯讀"
+    action_name: "名稱"
+    action_cooldown: "花"
+    action_specific_cooldown: "冷卻"
+    action_damage: "傷害"
+    action_range: "距離"
+    action_radius: "範圍"
+    action_duration: "持續"
+    example: "範例"
+    ex: "ex" # Abbreviation of "example"
+    current_value: "現在數值"
+    default_value: "預設數值"
+    parameters: "參數"
+    returns: "回傳"
+    granted_by: "賦予"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "已儲存"
+    granularity_change_history: "歷史紀錄"
 
-#  options:
-#    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
-#    volume_label: "Volume"
-#    music_label: "Music"
-#    music_description: "Turn background music on/off."
-#    autorun_label: "Autorun"
-#    autorun_description: "Control automatic code execution."
-#    editor_config: "Editor Config"
-#    editor_config_title: "Editor Configuration"
-#    editor_config_level_language_label: "Language for This Level"
-#    editor_config_level_language_description: "Define the programming language for this particular level."
-#    editor_config_default_language_label: "Default Programming Language"
-#    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
-#    editor_config_keybindings_label: "Key Bindings"
-#    editor_config_keybindings_default: "Default (Ace)"
-#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
-#    editor_config_livecompletion_label: "Live Autocompletion"
-#    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
-#    editor_config_invisibles_label: "Show Invisibles"
-#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
-#    editor_config_indentguides_label: "Show Indent Guides"
-#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-#    editor_config_behaviors_label: "Smart Behaviors"
-#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+  options:
+    general_options: "一般設定" # Check out the Options tab in the Game Menu while playing a level
+    volume_label: "音量"
+    music_label: "音樂"
+    music_description: "開關背景音樂。"
+    autorun_label: "自動執行"
+    autorun_description: "控制自動執行程式。"
+    editor_config: "設定編輯器"
+    editor_config_title: "編輯器設定值"
+    editor_config_level_language_label: "本關卡使用的語言"
+    editor_config_level_language_description: "定義此關卡使用哪個程式語言。"
+    editor_config_default_language_label: "預設程式語言"
+    editor_config_default_language_description: "定義此關卡預設使用哪個程式語言。"
+    editor_config_keybindings_label: "快捷鍵綁定"
+    editor_config_keybindings_default: "預設 (Ace編輯器)"
+    editor_config_keybindings_description: "從一般編輯器額外加入快捷鍵功能。"
+    editor_config_livecompletion_label: "語法自動校正"
+    editor_config_livecompletion_description: "當編寫語法的時候自動提示。"
+    editor_config_invisibles_label: "顯示隱藏字元"
+    editor_config_invisibles_description: "顯示如空白鍵或TAB鍵等隱藏字元。"
+    editor_config_indentguides_label: "顯示縮排導引"
+    editor_config_indentguides_description: "顯示縮排行數以便閱讀。"
+    editor_config_behaviors_label: "智慧校正"
+    editor_config_behaviors_description: "自動填入小括號、大括號以及引號。"
 
   about:
     why_codecombat: "為什麼使用CodeCombat?"
@@ -450,21 +450,21 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     why_paragraph_2_italic_caps: "「媽我不要出去玩，我要寫完這段！」"
     why_paragraph_2_suffix: "般引人入勝。這是為甚麼CodeCombat被設計成多人對戰「遊戲」，而不是遊戲化「課程」。在你對這遊戲無法自拔之前，我們是不會放棄的─幫然，這個遊戲，將是有益於你的。"
     why_paragraph_3: "如果你要沉迷遊戲的話，就來沉迷CodeCombat，成為科技時代的魔法師吧！"
-#    press_title: "Bloggers/Press"
-#    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
-#    press_paragraph_1_link: "press packet"
-#    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
-#    team: "Team"
-#    george_title: "CEO"
-#    george_blurb: "Businesser"
-#    scott_title: "Programmer"
-#    scott_blurb: "Reasonable One"
-#    nick_title: "Programmer"
+    press_title: "部落格/新聞稿"
+    press_paragraph_1_prefix: "想要撰寫有關我們的文章？請自由取用或下載我們的"
+    press_paragraph_1_link: "新聞稿懶人包"
+    press_paragraph_1_suffix: "，裡面所有的LOGO和圖片都可以使用，並且不必另外知會我們。"
+    team: "製作團隊"
+    george_title: "CEO"
+    george_blurb: "生意人"
+    scott_title: "程式人猿"
+    scott_blurb: "講理的傢伙"
+    nick_title: "程式人猿"
 #    nick_blurb: "Motivation Guru"
-#    michael_title: "Programmer"
-#    michael_blurb: "Sys Admin"
-#    matt_title: "Programmer"
-#    matt_blurb: "Bicyclist"
+    michael_title: "程式人猿"
+    michael_blurb: "系統管理員"
+    matt_title: "程式人猿"
+    matt_blurb: "競速單車玩家"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -502,16 +502,16 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     new_password: "新密碼"
     new_password_verify: "確認密碼"
     email_subscriptions: "訂閱"
-#    email_subscriptions_none: "No Email Subscriptions."
+    email_subscriptions_none: "無Email訂閱"
     email_announcements: "通知"
-    email_announcements_description: "接收關於 CodeCombat 的新聞和開發消息。"
-#    email_notifications: "Notifications"
-#    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
-#    email_any_notes: "Any Notifications"
-#    email_any_notes_description: "Disable to stop all activity notification emails."
-#    email_news: "News"
-#    email_recruit_notes: "Job Opportunities"
-#    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
+    email_announcements_description: "接收關於CodeCombat的新聞和開發消息。"
+    email_notifications: "通知"
+    email_notifications_summary: "你在CodeCombat的活動，會透過Email自動通知，你可選擇開啟或關閉。"
+    email_any_notes: "任何通知"
+    email_any_notes_description: "停用後你將不會收到來自CodeCombat的任何通知。"
+    email_news: "新聞"
+    email_recruit_notes: "工作機會"
+    email_recruit_notes_description: "如果你玩得不錯，我們或許會考慮給你一份工作。"
     contributor_emails: "貢獻者電郵"
     contribute_prefix: "我們在尋找志同道合的人！請到 "
     contribute_page: "貢獻頁面"
@@ -520,24 +520,24 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     error_saving: "保存時發生錯誤"
     saved: "修改已儲存"
     password_mismatch: "密碼不正確。"
-#    password_repeat: "Please repeat your password."
+    password_repeat: "請重複輸入你的密碼。"
 #    job_profile: "Job Profile" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
-#    sample_profile: "See a sample profile"
-#    view_profile: "View Your Profile"
+    sample_profile: "觀看範例基本資料"
+    view_profile: "瀏覽你的基本資料"
 
-#  keyboard_shortcuts:
-#    keyboard_shortcuts: "Keyboard Shortcuts"
-#    space: "Space"
-#    enter: "Enter"
-#    escape: "Escape"
-#    shift: "Shift"
-#    run_code: "Run current code."
-#    run_real_time: "Run in real time."
-#    continue_script: "Continue past current script."
-#    skip_scripts: "Skip past all skippable scripts."
-#    toggle_playback: "Toggle play/pause."
+  keyboard_shortcuts:
+    keyboard_shortcuts: "鍵盤快捷鍵"
+    space: "Space"
+    enter: "Enter"
+    escape: "Esc"
+    shift: "Shift"
+    run_code: "執行當前腳本"
+    run_real_time: "立即執行"
+    continue_script: "使用最後一次使用的腳本"
+    skip_scripts: "略過之前所有腳本"
+    toggle_playback: "執行/暫停開關"
 #    scrub_playback: "Scrub back and forward through time."
 #    single_scrub_playback: "Scrub back and forward through time by a single frame."
 #    scrub_execution: "Scrub through current spell execution."
@@ -654,9 +654,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
 
-#  article:
-#    edit_btn_preview: "Preview"
-#    edit_article_title: "Edit Article"
+  article:
+    edit_btn_preview: "預覽"
+    edit_article_title: "編輯文章"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -809,13 +809,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     favorite_postfix: "."
 
   achievements:
-#    last_earned: "Last Earned"
+    last_earned: "最近一次"
     amount_achieved: "數量"
     achievement: "成就"
     category_contributor: "貢獻者"
-#    category_ladder: "Ladder"
-#    category_level: "Level"
-#    category_miscellaneous: "Miscellaneous"
+    category_ladder: "天梯"
+    category_level: "等級"
+    category_miscellaneous: "其他"
     category_levels: "等級"
     category_undefined: "未定義"
 #    current_xp_prefix: ""
@@ -828,7 +828,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   account:
     recently_played: "最近玩過"
-    no_recent_games: "在過去兩個星期沒有遊戲玩過。"
+    no_recent_games: "在過去兩個星期沒有玩過遊戲。"
     payments: "付款"
     purchased: "已購買"
     subscription: "訂閱"
@@ -1006,14 +1006,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   account_profile:
     settings: "設定" # We are not actively recruiting right now, so there's no need to add new translations for this section.
-#    edit_profile: "Edit Profile"
-#    done_editing: "Done Editing"
+    edit_profile: "編輯基本資料"
+    done_editing: "完成編輯"
     profile_for_prefix: "關於"
     profile_for_suffix: "的基本資料"
 #    featured: "Featured"
 #    not_featured: "Not Featured"
 #    looking_for: "Looking for:"
-#    last_updated: "Last updated:"
+    last_updated: "最後更新:"
 #    contact: "Contact"
 #    active: "Looking for interview offers now"
 #    inactive: "Not looking for offers right now"
