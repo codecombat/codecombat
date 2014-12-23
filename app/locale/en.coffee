@@ -307,6 +307,7 @@
     tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
     tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_superpower: "Coding is the closest thing we have to a superpower"
 
   game_menu:
     inventory_tab: "Inventory"
