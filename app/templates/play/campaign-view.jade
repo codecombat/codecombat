@@ -18,7 +18,7 @@
           img.banner(src="/images/pages/play/level-banner-complete.png")
         if levelStatusMap[level.original] === 'started'
           img.banner(src="/images/pages/play/level-banner-started.png")
-      div(style="left: #{level.x}%; bottom: #{level.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.original] || "")
+      div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (next ? " next" : "") + " " + levelStatusMap[level.original] || "")
       .level-info-container(data-level-id=level.original, data-level-path=level.levelPath || 'level', data-level-name=level.name)
         div(class="level-info " + (levelStatusMap[level.original] || ""))
           h3= level.name + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
