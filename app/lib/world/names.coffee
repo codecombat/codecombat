@@ -416,3 +416,19 @@ module.exports.thangNames = thangNames =
   'Samurai': [
     'Hattori'
   ]
+  'Sand Yak': [
+    'Ofgar'
+    'Randall'
+    'Arngotho'
+    'Falthror'
+    'Langthok'
+  ]
+  'Ogre Scout M': [
+    'Frandar'
+    'Lanthon'
+    'Yorgalfen'
+  ]
+  'Ogre Scout F': [
+    'Freesa'
+    'Ralthora'
+  ]
