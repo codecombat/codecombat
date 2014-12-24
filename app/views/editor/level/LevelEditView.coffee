@@ -40,7 +40,7 @@ module.exports = class LevelEditView extends RootView
     'click .play-with-team-button': 'onPlayLevel'
     'click .play-with-team-parent': 'onPlayLevelTeamSelect'
     'click #commit-level-start-button': 'startCommittingLevel'
-    'click #fork-start-button': 'startForking'
+    'click li:not(.disabled) > #fork-start-button': 'startForking'
     'click #level-history-button': 'showVersionHistory'
     'click #undo-button': 'onUndo'
     'mouseenter #undo-button': 'showUndoDescription'
@@ -50,7 +50,7 @@ module.exports = class LevelEditView extends RootView
     'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
-    'click #pop-level-i18n-button': 'onPopulateI18N'
+    'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateI18N'
     'click a[href="#editor-level-documentation"]': 'onClickDocumentationTab'
     'mouseup .nav-tabs > li a': 'toggleTab'
 
@@ -66,7 +66,7 @@ module.exports = class LevelEditView extends RootView
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
-    
+
   getTitle: -> "LevelEditor - " + (@level.get('name') or '...')
 
   onLoaded: ->
@@ -170,7 +170,7 @@ module.exports = class LevelEditView extends RootView
     button = @$el.find('#level-watch-button')
     @level.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
-    
+
   onPopulateI18N: ->
     @level.populateI18N()
     f = -> document.location.reload()

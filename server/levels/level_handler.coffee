@@ -31,6 +31,7 @@ LevelHandler = class LevelHandler extends Handler
     'i18nCoverage'
     'loadingTip'
     'requiresSubscription'
+    'tasks'
   ]
 
   postEditableProperties: ['name']
@@ -72,7 +73,7 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
-        return @sendPaymentRequiredError(res, err) if (not req.user.isPremium()) and level.get('requiresSubscription') 
+        return @sendPaymentRequiredError(res, err) if (not req.user.isPremium()) and level.get('requiresSubscription')
         @createAndSaveNewSession sessionQuery, req, res
 
   createAndSaveNewSession: (sessionQuery, req, res) =>

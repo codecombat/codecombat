@@ -44,7 +44,7 @@ module.exports = class RootView extends CocoView
     _.each e.earnedAchievements.models, (earnedAchievement) =>
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       achievement.fetch
-        success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
+        success: (achievement) => @showNewAchievement?(achievement, earnedAchievement)
 
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})

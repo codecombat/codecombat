@@ -31,7 +31,7 @@ module.exports = class ComponentsTabView extends CocoView
       thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
       for component in thangType.get('components') ? []
         componentMap[component.original] = component
-        
+
       for component in thang.components
         componentMap[component.original] = component
 
@@ -45,9 +45,10 @@ module.exports = class ComponentsTabView extends CocoView
     componentModelMap = {}
     componentModelMap[comp.get('original')] = comp for comp in componentModels
     components = ({original: key.split('.')[0], majorVersion: parseInt(key.split('.')[1], 10), thangs: value, count: value.length} for key, value of @presentComponents)
-    treemaData = _.sortBy components, (comp) ->
-      comp = componentModelMap[comp.original]
-      res = [comp.get('system'), comp.get('name')]
+    components = components.concat ({original: c.get('original'), majorVersion: c.get('version').major, thangs: [], count: 0} for c in componentModels when not @presentComponents[c.get('original') + '.' + c.get('version').major])
+    treemaData = _.sortBy components, (comp) =>
+      component = componentModelMap[comp.original]
+      res = [(if comp.count then 0 else 1), component.get('system'), component.get('name')]
       return res
 
     treemaOptions =
@@ -82,7 +83,7 @@ module.exports = class ComponentsTabView extends CocoView
   onLevelComponentEditingEnded: (e) ->
     @removeSubView @levelComponentEditView
     @levelComponentEditView = null
-    
+
   destroy: ->
     @componentsTreema?.destroy()
     super()
@@ -98,4 +99,6 @@ class LevelComponentNode extends TreemaObjectNode
       comp = _.find @settings.supermodel.getModels(LevelComponent), (m) =>
         m.get('original') is data.original and m.get('version').major is data.majorVersion
       name = "#{comp.get('system')}.#{comp.get('name')} v#{comp.get('version').major}"
-    @buildValueForDisplaySimply valEl, "#{name} (#{count})"
+    result = @buildValueForDisplaySimply valEl, "#{name} (#{count})"
+    result.addClass 'not-present' unless data.count
+    result

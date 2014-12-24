@@ -1,7 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/account/subscription-view'
 CocoCollection = require 'collections/CocoCollection'
-SubscribeModal = require 'views/play/modal/SubscribeModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class SubscriptionView extends RootView
   id: "subscription-view"
@@ -33,7 +33,7 @@ module.exports = class SubscriptionView extends RootView
           c.cost = "$#{(subscription.plan.amount/100).toFixed(2)}"
       if card = @stripeInfo.cards?.data?[0]
         c.card = "#{card.brand}: x#{card.last4}"
-      
+
     c.stripeInfo = @stripeInfo
     c.subscribed = me.get('stripe')?.planID
     c.active = me.isPremium()

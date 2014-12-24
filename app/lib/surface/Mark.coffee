@@ -216,11 +216,19 @@ module.exports = class Mark extends CocoClass
 
   buildDebug: ->
     shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
-    key = "#{shapeName}-debug"
+    key = "#{shapeName}-debug-#{@lank.thang.collisionCategory}"
     DEBUG_SIZE = 10
     unless key in @layer.spriteSheet.getAnimations()
       shape = new createjs.Shape()
-      shape.graphics.beginFill 'rgba(171,205,239,0.5)'
+      debugColor = {
+        none: 'rgba(224,255,239,0.25)'
+        ground: 'rgba(239,171,205,0.5)'
+        air: 'rgba(131,205,255,0.5)'
+        ground_and_air: 'rgba(2391,140,239,0.5)'
+        obstacles: 'rgba(88,88,88,0.5)'
+        dead: 'rgba(89,171,100,0.25)'
+      }[@lank.thang.collisionCategory] or 'rgba(171,205,239,0.5)'
+      shape.graphics.beginFill debugColor
       bounds = [-DEBUG_SIZE / 2, -DEBUG_SIZE / 2, DEBUG_SIZE, DEBUG_SIZE]
       if shapeName is 'ellipse'
         shape.graphics.drawEllipse bounds...
@@ -232,9 +240,11 @@ module.exports = class Mark extends CocoClass
     @sprite = new createjs.Sprite(@layer.spriteSheet)
     @sprite.gotoAndStop(key)
     PX = 3
-    [w, h] = [Math.max(PX, @lank.thang.width * Camera.PPM), Math.max(PX, @lank.thang.height * Camera.PPM) * @camera.y2x]  # TODO: doesn't work with rotation
+    w = Math.max(PX, @lank.thang.width  * Camera.PPM) * (@camera.y2x + (1 - @camera.y2x) * Math.abs Math.cos @lank.thang.rotation)
+    h = Math.max(PX, @lank.thang.height * Camera.PPM) * (@camera.y2x + (1 - @camera.y2x) * Math.abs Math.sin @lank.thang.rotation)
     @sprite.scaleX = w / (@layer.resolutionFactor * DEBUG_SIZE)
     @sprite.scaleY = h / (@layer.resolutionFactor * DEBUG_SIZE)
+    @sprite.rotation = -@lank.thang.rotation * 180 / Math.PI
 
   buildSprite: ->
     if _.isString @thangType

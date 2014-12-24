@@ -287,21 +287,21 @@ module.exports = Lank = class Lank extends CocoClass
       # Let the pending flags know we're here (but not this call stack, they need to delete themselves, and we may be iterating sprites).
       _.defer => Backbone.Mediator.publish 'surface:flag-appeared', sprite: @
 
-  updateScale: ->
+  updateScale: (force) ->
     return unless @sprite
-    if @thangType.get('matchWorldDimensions') and @thang
-      if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
+    if @thangType.get('matchWorldDimensions') and @thang and @options.camera
+      if force or @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight or @thang.rotation isnt @lastThangRotation
         bounds = @sprite.getBounds()
         return unless bounds
-        @sprite.scaleX = @thang.width * Camera.PPM / bounds.width
-        @sprite.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
-        @sprite.regX = bounds.width / 2
-        @sprite.regY = bounds.height / 2
+        @sprite.scaleX = @thang.width  * Camera.PPM / bounds.width  * (@options.camera.y2x + (1 - @options.camera.y2x) * Math.abs Math.cos @thang.rotation)
+        @sprite.scaleY = @thang.height * Camera.PPM / bounds.height * (@options.camera.y2x + (1 - @options.camera.y2x) * Math.abs Math.sin @thang.rotation)
+        @sprite.regX = bounds.width  * 3 / 4  # Why not / 2? I don't know.
+        @sprite.regY = bounds.height * 3 / 4  # Why not / 2? I don't know.
 
         unless @thang.spriteName is 'Beam'
           @sprite.scaleX *= @thangType.get('scale') ? 1
           @sprite.scaleY *= @thangType.get('scale') ? 1
-        [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
+        [@lastThangWidth, @lastThangHeight, @lastThangRotation] = [@thang.width, @thang.height, @thang.rotation]
       return
 
     scaleX = scaleY = 1
@@ -326,7 +326,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @thang?.spriteName is 'Beam'
+    if @layer?.name is 'Land' or @thang?.spriteName is 'Beam'
       @scaleFactorX = newScaleFactorX
       @scaleFactorY = newScaleFactorY
     else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)

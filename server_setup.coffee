@@ -58,11 +58,12 @@ setupExpressMiddleware = (app) ->
     express.logger.format('prod', productionLogging)
     app.use(express.logger('prod'))
     app.use express.compress filter: (req, res) ->
+      return false if req.headers.host is 'codecombat.com'  # CloudFlare will gzip it for us on codecombat.com
       compressible res.getHeader('Content-Type')
   else
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
-  app.use(express.static(path.join(__dirname, 'public')))
+  app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
   app.use(useragent.express())
 
   app.use(express.favicon())

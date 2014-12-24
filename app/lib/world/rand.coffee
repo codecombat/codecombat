@@ -31,4 +31,22 @@ class Rand
   rand2: (min, max) =>
     min + @rand max - min
 
+  # return a random float min <= f < max
+  randf2: (min, max) =>
+    min + @randf() * (max - min)
+
+  # return a random float within range around x
+  randfRange: (x, range) =>
+    x + (-0.5 + @randf()) * range
+
+  # shuffle array in place, and also return it
+  shuffle: (arr) =>
+    for i in [arr.length-1 .. 1]
+      j = Math.floor @randf() * (i - 1)
+      t = arr[j]
+      arr[j] = arr[i]
+      arr[i] = t
+    arr
+
+
 module.exports = Rand

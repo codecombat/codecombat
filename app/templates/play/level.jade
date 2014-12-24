@@ -34,6 +34,7 @@
 
   button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.skip") Skip
 
-#play-footer
-  p(class='footer-link-text')
-    a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
+if !me.get('anonymous')
+  #play-footer(class=me.isPremium() ? "premium" : "")
+    p(class='footer-link-text')
+      a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact") Contact

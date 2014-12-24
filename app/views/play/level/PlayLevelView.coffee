@@ -36,6 +36,7 @@ VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
+ContactModal = require 'views/core/ContactModal'
 
 PROFILE_ME = false
 
@@ -81,6 +82,7 @@ module.exports = class PlayLevelView extends RootView
     'click #level-done-button': 'onDonePressed'
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
+    'click .contact-link': 'onContactClicked'
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
@@ -476,6 +478,20 @@ module.exports = class PlayLevelView extends RootView
   saveScreenshot: (session) =>
     return unless screenshot = @surface?.screenshot()
     session.save {screenshot: screenshot}, {patch: true, type: 'PUT'}
+
+  onContactClicked: (e) ->
+    @openModalView contactModal = new ContactModal()
+    screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)
+    body =
+      b64png: screenshot.replace 'data:image/png;base64,', ''
+      filename: "screenshot-#{@levelID}-#{_.string.slugify((new Date()).toString())}.png"
+      path: "db/user/#{me.id}"
+      mimetype: 'image/png'
+    contactModal.screenshotURL = "http://codecombat.com/file/#{body.path}/#{body.filename}"
+    window.screenshot = screenshot
+    window.screenshotURL = contactModal.screenshotURL
+    $.ajax '/file', type: 'POST', data: body, success: (e) ->
+      contactModal.updateScreenshot?()
 
   # Dynamic sound loading
 

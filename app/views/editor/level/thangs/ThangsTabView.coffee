@@ -57,14 +57,23 @@ module.exports = class ThangsTabView extends CocoView
   shortcuts:
     'esc': 'selectAddThang'
     'delete, del, backspace': 'deleteSelectedExtantThang'
-    'left': -> @moveAddThangSelection -1
-    'right': -> @moveAddThangSelection 1
     'ctrl+z, ⌘+z': 'undo'
     'ctrl+shift+z, ⌘+shift+z': 'redo'
-    'alt+left': -> @rotateSelectedThangBy(Math.PI)
-    'alt+right': -> @rotateSelectedThangBy(0)
-    'alt+up': -> @rotateSelectedThangBy(-Math.PI/2)
-    'alt+down': -> @rotateSelectedThangBy(Math.PI/2)
+    'alt+c': 'toggleSelectedThangCollision'
+    'left': -> @moveSelectedThangBy -1, 0
+    'right': -> @moveSelectedThangBy 1, 0
+    'up': -> @moveSelectedThangBy 0, 1
+    'down': -> @moveSelectedThangBy 0, -1
+    'alt+left': -> @rotateSelectedThangTo Math.PI unless key.shift
+    'alt+right': -> @rotateSelectedThangTo 0 unless key.shift
+    'alt+up': -> @rotateSelectedThangTo -Math.PI / 2
+    'alt+down': -> @rotateSelectedThangTo Math.PI / 2
+    'alt+shift+left': -> @rotateSelectedThangBy Math.PI / 16
+    'alt+shift+right': -> @rotateSelectedThangBy -Math.PI / 16
+    'shift+left': -> @resizeSelectedThangBy -1, 0
+    'shift+right': -> @resizeSelectedThangBy 1, 0
+    'shift+up': -> @resizeSelectedThangBy 0, 1
+    'shift+down': -> @resizeSelectedThangBy 0, -1
 
   constructor: (options) ->
     super options
@@ -516,7 +525,7 @@ module.exports = class ThangsTabView extends CocoView
       prefix += segment
       if not @thangsTreema.get(prefix) then @thangsTreema.set(prefix, {})
 
-  onThangsChanged: =>
+  onThangsChanged: (skipSerialization) =>
     return if @hush
 
     # keep the thangs in the same order as before, roughly
@@ -527,6 +536,7 @@ module.exports = class ThangsTabView extends CocoView
 
     @level.set 'thangs', thangs
     return if @editThangView
+    return if skipSerialization
     serializedLevel = @level.serialize @supermodel, null, null, true
     try
       @world.loadFromLevel serializedLevel, false
@@ -634,18 +644,56 @@ module.exports = class ThangsTabView extends CocoView
   onClickRotationButton: (e) ->
     $('#contextmenu').hide()
     rotation = parseFloat($(e.target).closest('button').data('rotation'))
-    @rotateSelectedThangBy rotation * Math.PI
+    @rotateSelectedThangTo rotation * Math.PI
+
+  modifySelectedThangComponentConfig: (thang, componentOriginal, modificationFunction) ->
+    return unless thang
+    @hush = true
+    thangData = @getThangByID thang.id
+    thangData = $.extend true, {}, thangData
+    unless component = _.find thangData.components, {original: componentOriginal}
+      component = original: componentOriginal, config: {}, majorVersion: 0
+      thangData.components.push component
+    modificationFunction component
+    @thangsTreema.set @pathForThang(thangData), thangData
+    @hush = false
+    @onThangsChanged true
+    thang.stateChanged = true
+    lank = @surface.lankBoss.lanks[thang.id]
+    lank.update true
+    lank.marks.debug?.destroy()
+    lank.marks.debug = null
+    lank.setDebug true
+
+  rotateSelectedThangTo: (radians) ->
+    @modifySelectedThangComponentConfig @selectedExtantThang, LevelComponent.PhysicalID, (component) =>
+      component.config.rotation = radians
+      @selectedExtantThang.rotation = component.config.rotation
 
   rotateSelectedThangBy: (radians) ->
-    return unless @selectedExtantThang
-    @hush = true
-    thangData = @getThangByID(@selectedExtantThang.id)
-    thangData = $.extend(true, {}, thangData)
-    component = _.find thangData.components, {original: LevelComponent.PhysicalID}
-    component.config.rotation = radians
-    @thangsTreema.set(@pathForThang(thangData), thangData)
-    @hush = false
-    @onThangsChanged()
+    @modifySelectedThangComponentConfig @selectedExtantThang, LevelComponent.PhysicalID, (component) =>
+      component.config.rotation = ((component.config.rotation ? 0) + radians) % (2 * Math.PI)
+      @selectedExtantThang.rotation = component.config.rotation
+
+  moveSelectedThangBy: (xDir, yDir) ->
+    @modifySelectedThangComponentConfig @selectedExtantThang, LevelComponent.PhysicalID, (component) =>
+      component.config.pos.x += 0.5 * xDir
+      component.config.pos.y += 0.5 * yDir
+      @selectedExtantThang.pos.x = component.config.pos.x
+      @selectedExtantThang.pos.y = component.config.pos.y
+
+  resizeSelectedThangBy: (xDir, yDir) ->
+    @modifySelectedThangComponentConfig @selectedExtantThang, LevelComponent.PhysicalID, (component) =>
+      component.config.width = (component.config.width ? 4) + 0.5 * xDir
+      component.config.height = (component.config.height ? 4) + 0.5 * yDir
+      @selectedExtantThang.width = component.config.width
+      @selectedExtantThang.height = component.config.height
+
+  toggleSelectedThangCollision: ->
+    @modifySelectedThangComponentConfig @selectedExtantThang, LevelComponent.CollidesID, (component) =>
+      component.config ?= {}
+      component.config.collisionCategory = if component.config.collisionCategory is 'none' then 'ground' else 'none'
+      @selectedExtantThang.collisionCategory = component.config.collisionCategory
 
   toggleThangsContainer: (e) ->
     $('#all-thangs').toggleClass('hide')

@@ -312,7 +312,8 @@ module.exports = class SpellView extends CocoView
       # Lock contiguous section of default code
       # Only works for languages without closing delimeters on blocks currently
       lines = @aceDoc.getAllLines()
-      lastRow = row for line, row in lines when not /^\s*$/.test(line)
+      for line, row in lines when not /^\s*$/.test(line)
+        lastRow = row
       if lastRow?
         @readOnlyRanges.push new Range 0, 0, lastRow, lines[lastRow].length - 1
 
@@ -417,7 +418,7 @@ module.exports = class SpellView extends CocoView
             meta: 'press enter'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
-          if doc.name is 'findNearestEnemy'
+          if doc.name is 'findNearestEnemy' or doc.name is 'findNearest'
             # Remember if we have findNearestEnemy so attack snippet can be updated
             haveFindNearestEnemy = true
           if doc.name is 'attack'

@@ -13,7 +13,7 @@ AchievablePlugin = (schema, options) ->
   Achievement = require '../achievements/Achievement'
 
   before = {}
-
+  return
   # Keep track the document before it's saved
   schema.post 'init', (doc) ->
     before[doc.id] = doc.toObject()

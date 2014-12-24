@@ -58,7 +58,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       console.error 'Unable to save G+ token key', e
     @accessToken = e
     @trigger 'logged-in'
-    
+
   loginCodeCombat: ->
     # email and profile data loaded separately
     gapi.client.request(path: plusURL, callback: @onPersonEntityReceived)
@@ -71,7 +71,8 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     for gpProp, userProp of userPropsToSave
       keys = gpProp.split('.')
       value = r
-      value = value[key] for key in keys
+      for key in keys
+        value = value[key]
       if value and not me.get(userProp)
         @shouldSave = true
         me.set(userProp, value)

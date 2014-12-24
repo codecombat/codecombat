@@ -1,7 +1,7 @@
 module.exports.handlers =
+  'analytics_log_event': 'analytics/analytics_log_event_handler'
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
-  # 'analytics_log_event': 'analytics/analytics_log_event_handler'
-  'analytics_users_active': 'analytics/analytics_users_active_handler'
+  # 'analytics_users_active': 'analytics/analytics_users_active_handler'
   'article': 'articles/article_handler'
   'level': 'levels/level_handler'
   'level_component': 'levels/components/level_component_handler'

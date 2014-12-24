@@ -2,37 +2,81 @@ config = require '../../server_config'
 log = require 'winston'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
+async = require 'async'
+LevelSession = require '../levels/sessions/LevelSession'
+moment = require 'moment'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     return res.end() unless req.user
     #log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
-    createMailContext req.body.email, req.body.message, req.user, req.body.recipientID, req.body.subject, (context) ->
+    createMailContext req, (context) ->
       sendwithus.api.send context, (err, result) ->
         if err
           log.error "Error sending contact form email: #{err.message or err}"
     return res.end()
 
-createMailContext = (sender, message, user, recipientID, subject, done) ->
+createMailContext = (req, done) ->
+  sender = req.body.sender
+  message = req.body.message
+  user = req.user
+  recipientID = req.body.recipientID
+  subject = req.body.subject
+
+  level = if user?.get('points') > 0 then Math.floor(5 * Math.log((1 / 100) * (user.get('points') + 100))) + 1 else 0
+  premium = user?.isPremium()
+  content = """
+    #{message}
+
+    --
+    <a href='http://codecombat.com/user/#{user.get('slug') or user.get('_id')}'>#{user.get('name') or 'Anonymous'}</a> - Level #{level}#{if premium then ' - Subscriber' else ''}
+  """
+  if req.body.browser
+    content += "\n#{req.body.browser} - #{req.body.screenSize}"
+
   context =
     email_id: sendwithus.templates.plain_text_email
     recipient:
-      address: config.mail.username
+      address: if premium then config.mail.supportPremium else config.mail.supportPrimary
     sender:
       address: config.mail.username
-      reply_to: sender
+      reply_to: sender or user.get('email')
       name: user.get('name')
     email_data:
-      subject: "[CodeCombat] #{subject ? ('Feedback - ' + sender)}"
-      content: "#{message}\n\nUsername: #{user.get('name') or 'Anonymous'}\nID: #{user._id}"
+      subject: "[CodeCombat] #{subject ? ('Feedback - ' + sender or user.get('email'))}"
+      content: content
 
   if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
     User.findById(recipientID, 'email').exec (err, document) ->
       if err
         log.error "Error looking up recipient to email from #{recipientID}: #{err}" if err
       else
-        context.bcc = [context.to, sender]
-        context.to = document.get('email')
+        context.recipient.bcc = [context.recipient.address, sender]
+        context.recipient.address = document.get('email')
+        context.email_data.content = message
       done context
   else
-    done context
+    async.waterfall [
+      fetchRecentSessions.bind undefined, user, context
+      # Can add other data-grabbing stuff here if we want.
+      # TODO: grab platform/browser/browser version/screen size from client
+      # TODO: try automatically including Surface screenshot if opening contact form from level?
+    ], (err, results) ->
+      console.error "Error getting contact message context for #{sender}: #{err}" if err
+      if req.body.screenshotURL
+        context.email_data.content += "\n<img src='#{req.body.screenshotURL}' />"
+      done context
+
+fetchRecentSessions = (user, context, callback) ->
+  query = creator: user.get('_id') + ''
+  projection = levelID: 1, levelName: 1, changed: 1, team: 1, codeLanguage: 1, 'state.complete': 1, playtime: 1
+  sort = changed: -1
+  LevelSession.find(query).select(projection).sort(sort).limit(3).lean().exec (err, sessions) ->
+    return callback err if err
+    for s in sessions
+      if s.playtime < 120 then playtime = "#{s.playtime}s played"
+      else if s.playtime < 7200 then playtime = "#{Math.round(s.playtime / 60)}m played"
+      else playtime = "#{Math.round(s.playtime / 3600)}h played"
+      ago = moment(s.changed).fromNow()
+      context.email_data.content += "\n<a href='http://codecombat.com/play/level/#{s.levelID}?session=#{s._id}&team=#{s.team or 'humans'}&dev=true'>#{s.levelName}#{if s.team is 'ogres' then ' ' + s.team else ''}</a>#{if s.state?.complete then ' complete ' else ''}- #{s.codeLanguage}, #{playtime}, #{ago}"
+    callback null

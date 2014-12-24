@@ -15,6 +15,7 @@ module.exports = class ThangTypeSearchView extends SearchView
     context.currentNew = 'editor.new_thang_title'
     context.currentNewSignup = 'editor.new_thang_title_login'
     context.currentSearch = 'editor.thang_search_title'
+    context.newModelsAdminOnly = true
     @$el.i18n()
     context
 

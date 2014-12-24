@@ -6,13 +6,19 @@ block modal-header-content
 block modal-body-content
   p
     span(data-i18n="contact.welcome") Good to hear from you! Use this form to send us email. 
-    span(data-i18n="contact.contribute_prefix") If you're interested in contributing, check out our 
-    a(href="/contribute", data-dismiss="modal", data-i18n="contact.contribute_page") contribute page
-    span(data-i18n="contact.contribute_suffix") !
-  p
-    span(data-i18n="contact.forum_prefix") For anything public, please try 
+    span.spl(data-i18n="contact.forum_prefix") For anything public, please try 
     a(href="http://discourse.codecombat.com/", data-i18n="contact.forum_page") our forum
     span(data-i18n="contact.forum_suffix")  instead.
+    span.spl.spr(data-i18n="contact.faq_prefix") There's also a
+    a(data-i18n="contact.faq", href="http://discourse.codecombat.com/t/faq-check-before-posting/1027") FAQ
+    | .
+  if me.isPremium()
+    p(data-i18n="contact.subscriber_support") Since you're a CodeCombat subscriber, your email will get our priority support.
+  else
+    p
+      span(data-i18n="contact.subscribe_prefix") If you need help figuring out a level, please
+      a.spl.spr(data-toggle="coco-modal", data-target="core/SubscribeModal", data-i18n="contact.subscribe") buy a CodeCombat subscription
+      span(data-i18n="contact.subscribe_suffix") and we'll be happy to help you with your code.
   .form
     .form-group
       label.control-label(for="contact-email", data-i18n="general.email") Email      
@@ -20,6 +26,11 @@ block modal-body-content
     .form-group
       label.control-label(for="contact-message", data-i18n="general.message") Message      
       textarea#contact-message.form-control(name="message", rows=8)
+
+  #contact-screenshot.secret
+    a(target='_blank', data-i18n="contact.screenshot_included") Screenshot included.
+    br
+    img.pull-left(width=100)
 
 block modal-footer-content
   span.sending-indicator.pull-left.secret(data-i18n="common.sending") Sending...

@@ -4,12 +4,11 @@ block content
 
   div.contribute_class
 
-    include /templates/contribute/contribute_nav
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_diplomat.png", alt="")
 
     div.class-main#diplomat-main
-      
-      .class_image
-          img.img-responsive(src="/images/pages/contribute/diplomat.png", alt="")
 
       h2
         span(data-i18n="classes.diplomat_title") Diplomat
@@ -18,7 +17,7 @@ block content
       p
         span(data-i18n="contribute.diplomat_introduction_pref")
           | So, if there's one thing we learned from the 
-        a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
+        a(href="http://blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
           | launch in October
         span , 
         span(data-i18n="contribute.diplomat_introduction_suf")
