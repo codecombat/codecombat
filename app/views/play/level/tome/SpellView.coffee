@@ -215,7 +215,23 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'disable-spaces'
       bindKey: 'Space'
-      exec: => @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
+      exec: =>
+        cursor = @ace.getCursorPosition()
+          sentance = @aceDoc.getLine(cursor.row)
+          
+      commentStarts =
+      javascript: '//'
+      python: '#'
+      coffeescript: '#'
+      clojure: ';'
+      lua: '--'
+      io: '//'
+    commentStart = commentStarts[@spell.language] or '//'
+    if(flg=/#{commentStart}/.test sentance)
+    @ace.execCommand 'insertstring', ' '
+    else
+    @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
+    
     addCommand
       name: 'throttle-backspaces'
       bindKey: 'Backspace'
