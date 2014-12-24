@@ -379,26 +379,8 @@ class CocoModel extends Backbone.Model
   updateI18NCoverage: ->
     i18nObjects = @findI18NObjects()
     return unless i18nObjects.length
-    
-    langCodeArrays = (_.keys(i18n) for i18n in i18nObjects)    
-    langCodeArray = langCodeArrays[0]
-    temp_i18nCoverage = []
-    schemaProps = (schemaProp for schemaProp in this.schema().properties.i18n.props when this.attributes.hasOwnProperty(schemaProp))
-    
-    for lang in langCodeArray
-
-      langProps = i18n[lang]
-      allProps = true
-
-      for prop in schemaProps
-        if not langProps.hasOwnProperty(prop)
-          allProps = false
-          break
-
-      if allProps
-        temp_i18nCoverage.push lang
-
-    @set('i18nCoverage', temp_i18nCoverage)
+    langCodeArrays = (_.keys(i18n) for i18n in i18nObjects)
+    @set('i18nCoverage', _.intersection(langCodeArrays...))
 
   findI18NObjects: (data, results) ->
     data ?= @attributes
