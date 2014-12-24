@@ -1058,7 +1058,7 @@ desert = [
     type: 'hero'
     id: 'sarven-sentry'
     original: '548cef7f0ffdc235e80ef0cc'
-    description: 'Coming Soon'
+    description: 'Work with your scouts to corral yaks and trap ogres.'
     nextLevels:
       continue: 'keeping-time'
     x: 51.48
@@ -1072,7 +1072,7 @@ desert = [
     type: 'hero'
     id: 'keeping-time'
     original: '548cf1a90ffdc235e80ef0d1'
-    description: 'Coming Soon'
+    description: 'Raise funds to support your allies in time to fight off the ogre horde!'
     nextLevels:
       continue: 'hoarding-gold'
     x: 58.42
@@ -1085,8 +1085,8 @@ desert = [
     name: 'Hoarding Gold'
     type: 'hero'
     id: 'hoarding-gold'
-    original: ''
-    description: 'Coming Soon'
+    original: '549875268e52573b10d3bcd7'
+    description: 'You can get lost forever in the desert if you let the mirage of greed lead you.'
     nextLevels:
       continue: 'decoy-drill'
     x: 61.73
@@ -1099,8 +1099,8 @@ desert = [
     name: 'Decoy Drill'
     type: 'hero'
     id: 'decoy-drill'
-    original: ''
-    description: 'Coming Soon'
+    original: '549875428e52573b10d3bcd9'
+    description: 'Gather gold to field test a new buildable unit: the decoy.'
     nextLevels:
       continue: 'yakstraction'
     x: 62.05
@@ -1113,8 +1113,8 @@ desert = [
     name: 'Yakstraction'
     type: 'hero'
     id: 'yakstraction'
-    original: ''
-    description: 'Coming Soon'
+    original: '5498cf468e52573b10d3bd15'
+    description: 'Thirsty yaks are stampeding towards a vulnerable peasant sunning herself at an oasis, but you\'ve got decoys to distract the yaks out of the way.'
     nextLevels:
       continue: 'sarven-brawl'
     x: 66.46
