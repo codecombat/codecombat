@@ -1065,7 +1065,6 @@ desert = [
     y: 26.09
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Keeping Time'
@@ -1079,7 +1078,6 @@ desert = [
     y: 34.14
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Hoarding Gold'
@@ -1093,7 +1091,6 @@ desert = [
     y: 29.51
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Decoy Drill'
@@ -1107,7 +1104,6 @@ desert = [
     y: 40.44
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Yakstraction'
