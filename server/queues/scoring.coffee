@@ -126,6 +126,7 @@ module.exports.getTwoGames = (req, res) ->
   ogresGameID = req.body.ogresGameID
   ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span', 'dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
   levelID = _.sample ladderGameIDs
+  sortLimit = 5000
   unless ogresGameID and humansGameID
     #fetch random games here
     queryParams =
@@ -138,6 +139,7 @@ module.exports.getTwoGames = (req, res) ->
       unless numberOfHumans
         res.send(204, 'No games to score.')
         return res.end()
+      numberOfHumans = Math.min numberOfHumans, sortLimit
       humanSkipCount = Math.floor(Math.random() * numberOfHumans)
       ogreCountParams =
         'levelID': levelID
@@ -148,14 +150,15 @@ module.exports.getTwoGames = (req, res) ->
         unless numberOfOgres
           res.send(204, 'No games to score.')
           return res.end()
+        numberOfOgres = Math.min numberOfOgres, sortLimit
         ogresSkipCount = Math.floor(Math.random() * numberOfOgres)
 
         query = LevelSession
           .aggregate()
           .match(queryParams)
           .project(selection)
-          .limit(5000)
           .sort({'submitDate': -1})
+          .limit(sortLimit)
           .skip(humanSkipCount)
           .limit(1)
         query.exec (err, randomSession) =>
@@ -169,8 +172,8 @@ module.exports.getTwoGames = (req, res) ->
             .aggregate()
             .match(queryParams)
             .project(selection)
-            .limit(5000)
             .sort({'submitDate': -1})
+            .limit(sortLimit)
             .skip(ogresSkipCount)
             .limit(1)
           query.exec (err, otherSession) =>
