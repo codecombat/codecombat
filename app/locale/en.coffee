@@ -329,6 +329,7 @@
   inventory:
     choose_inventory: "Equip Items"
     equipped_item: "Equipped"
+    required_purchase_title: "Required"
     available_item: "Available"
     restricted_title: "Restricted"
     should_equip: "(double-click to equip)"

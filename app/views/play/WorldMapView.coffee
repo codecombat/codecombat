@@ -998,7 +998,6 @@ desert = [
       continue: 'sarven-gaps'
     x: 28.36
     y: 24.59
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -1011,7 +1010,6 @@ desert = [
       continue: 'thunderhooves'
     x: 21.13
     y: 9.29
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -1024,7 +1022,6 @@ desert = [
       continue: 'medical-attention'
     x: 35.08
     y: 20.48
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -1037,7 +1034,6 @@ desert = [
       continue: 'minesweeper'
     x: 42.84
     y: 21.82
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -1050,7 +1046,6 @@ desert = [
       continue: 'sarven-sentry'
     x: 47.64
     y: 12.40
-    adventurer: true
     requiresSubscription: true
   }
   {

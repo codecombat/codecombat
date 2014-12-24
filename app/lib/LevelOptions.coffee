@@ -327,41 +327,41 @@ module.exports = LevelOptions =
     requiredGear: {}
     restrictedGear: {}
   'the-mighty-sand-yak':
-    #requiredGear: {neck: 'rough-sense-stone'}  # Too many players probably won't have this, and we don't have a way to require players to buy it yet.
+    requiredGear: {neck: 'rough-sense-stone'}
     restrictedGear: {flag: 'basic-flags'}
   'oasis':
-    requiredGear: {}
+    requiredGear: {neck: 'rough-sense-stone'}
     restrictedGear: {flag: 'basic-flags'}
   'sarven-road':
-    requiredGear: {}
+    requiredGear: {neck: 'rough-sense-stone'}
     restrictedGear: {flag: 'basic-flags'}
   'sarven-gaps':
-    requiredGear: {'right-hand': 'crude-builders-hammer'}
+    requiredGear: {'right-hand': 'crude-builders-hammer', neck: 'rough-sense-stone'}
     restrictedGear: {flag: 'basic-flags'}
   'thunderhooves':
-    requiredGear: {'right-hand': 'crude-builders-hammer'}
+    requiredGear: {'right-hand': 'crude-builders-hammer', neck: 'rough-sense-stone'}
     restrictedGear: {flag: 'basic-flags'}
   'medical-attention':
-    requiredGear: {'right-hand': 'long-sword'}, #neck: 'polished-sense-stone'}  # We don't have a way to require players to buy it yet.
-    restrictedGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags'}
+    requiredGear: {'right-hand': 'long-sword', neck: 'polished-sense-stone'}
+    restrictedGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags', neck: 'rough-sense-stone'}
   'minesweeper':
-    requiredGear: {}
-    restrictedGear: {flag: 'basic-flags'}
+    requiredGear: {neck: 'polished-sense-stone'}
+    restrictedGear: {flag: 'basic-flags', neck: 'rough-sense-stone'}
   'sarven-sentry':
-    requiredGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags'}
+    requiredGear: {'right-hand': 'crude-builders-hammer', flag: 'basic-flags', neck: 'polished-sense-stone'}
     restrictedGear: {}
   'keeping-time':
-    requiredGear: {}  # watch
-    restrictedGear: {}
+    requiredGear: {wrists: 'simple-wristwatch'}
+    restrictedGear: {wrists: 'sundial-wristwatch'}
   'hoarding-gold':
-    requiredGear: {}
-    restrictedGear: {}
+    requiredGear: {neck: 'quartz-sense-stone'}
+    restrictedGear: {neck: 'polished-sense-stone'}
   'decoy-drill':
-    requiredGear: {}  # new builder's hammer
-    restrictedGear: {}
+    requiredGear: {'right-hand': 'wooden-builders-hammer', neck: 'quartz-sense-stone'}
+    restrictedGear: {neck: 'polished-sense-stone'}
   'yakstraction':
-    requiredGear: {}  # new builder's hammer
-    restrictedGear: {}
+    requiredGear: {'right-hand': 'wooden-builders-hammer', flag: 'basic-flags'}
+    restrictedGear: {'right-hand': 'crude-builders-hammer'}
   'sarven-brawl':
     requiredGear: {}
     restrictedGear: {}
