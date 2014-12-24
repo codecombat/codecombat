@@ -23,7 +23,7 @@ if __name__ == '__main__':
         )
         
         startDate = '2014-12-14'
-        endDate = '2014-12-15'
+        endDate = '2014-12-21'
         print("Requesting data for {0} to {1}".format(startDate, endDate))
         data = api.request(['export'], {
             'event' : ['Show subscription modal', 'Started subscription purchase', 'Finished subscription purchase'],
