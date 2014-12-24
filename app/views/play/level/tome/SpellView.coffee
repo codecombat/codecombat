@@ -216,22 +216,10 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: =>
-        cursor = @ace.getCursorPosition()
-          sentance = @aceDoc.getLine(cursor.row)
-          
-      commentStarts =
-      javascript: '//'
-      python: '#'
-      coffeescript: '#'
-      clojure: ';'
-      lua: '--'
-      io: '//'
-    commentStart = commentStarts[@spell.language] or '//'
-    if(flg=/#{commentStart}/.test sentance)
-    @ace.execCommand 'insertstring', ' '
-    else
-    @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
-    
+        return @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
+        line = @aceDoc.getLine @ace.getCursorPosition().row
+        return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
+
     addCommand
       name: 'throttle-backspaces'
       bindKey: 'Backspace'
@@ -797,7 +785,9 @@ module.exports = class SpellView extends CocoView
         @recompile()
 
   singleLineCommentRegex: ->
-    return @_singleLineCommentRegex if @_singleLineCommentRegex
+    if @_singleLineCommentRegex
+      @_singleLineCommentRegex.lastIndex = 0
+      return @_singleLineCommentRegex
     commentStarts =
       javascript: '//'
       python: '#'
@@ -806,8 +796,8 @@ module.exports = class SpellView extends CocoView
       lua: '--'
       io: '//'
     commentStart = commentStarts[@spell.language] or '//'
-    @_singleLineCommentRegexp ?= new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
-    @_singleLineCommentRegexp
+    @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
+    @_singleLineCommentRegex
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
