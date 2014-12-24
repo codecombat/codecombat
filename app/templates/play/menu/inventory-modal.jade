@@ -28,6 +28,14 @@
       .nano
         .nano-content
           if itemGroups
+            if itemGroups.requiredPurchaseItems.models.length
+              h4#required-purchase-description(data-i18n="inventory.required_purchase_title")
+              for item in itemGroups.requiredPurchaseItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item(class=item.classes, data-item-id=item.id)
+                    img(draggable="false")
+              .clearfix
+
             if itemGroups.availableItems.models.length
               h4#available-description(data-i18n="inventory.available_item")
               for item in itemGroups.availableItems.models

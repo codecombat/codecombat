@@ -998,7 +998,6 @@ desert = [
       continue: 'sarven-gaps'
     x: 28.36
     y: 24.59
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -1011,7 +1010,6 @@ desert = [
       continue: 'thunderhooves'
     x: 21.13
     y: 9.29
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -1024,7 +1022,6 @@ desert = [
       continue: 'medical-attention'
     x: 35.08
     y: 20.48
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -1037,7 +1034,6 @@ desert = [
       continue: 'minesweeper'
     x: 42.84
     y: 21.82
-    adventurer: true
     requiresSubscription: false
   }
   {
@@ -1050,7 +1046,6 @@ desert = [
       continue: 'sarven-sentry'
     x: 47.64
     y: 12.40
-    adventurer: true
     requiresSubscription: true
   }
   {
@@ -1058,63 +1053,59 @@ desert = [
     type: 'hero'
     id: 'sarven-sentry'
     original: '548cef7f0ffdc235e80ef0cc'
-    description: 'Coming Soon'
+    description: 'Work with your scouts to corral yaks and trap ogres.'
     nextLevels:
       continue: 'keeping-time'
     x: 51.48
     y: 26.09
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Keeping Time'
     type: 'hero'
     id: 'keeping-time'
     original: '548cf1a90ffdc235e80ef0d1'
-    description: 'Coming Soon'
+    description: 'Raise funds to support your allies in time to fight off the ogre horde!'
     nextLevels:
       continue: 'hoarding-gold'
     x: 58.42
     y: 34.14
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Hoarding Gold'
     type: 'hero'
     id: 'hoarding-gold'
-    original: ''
-    description: 'Coming Soon'
+    original: '549875268e52573b10d3bcd7'
+    description: 'You can get lost forever in the desert if you let the mirage of greed lead you.'
     nextLevels:
       continue: 'decoy-drill'
     x: 61.73
     y: 29.51
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Decoy Drill'
     type: 'hero'
     id: 'decoy-drill'
-    original: ''
-    description: 'Coming Soon'
+    original: '549875428e52573b10d3bcd9'
+    description: 'Gather gold to field test a new buildable unit: the decoy.'
     nextLevels:
       continue: 'yakstraction'
     x: 62.05
     y: 40.44
     adventurer: true
     requiresSubscription: false
-    disabled: not me.isAdmin()
   }
   {
     name: 'Yakstraction'
     type: 'hero'
     id: 'yakstraction'
-    original: ''
-    description: 'Coming Soon'
+    original: '5498cf468e52573b10d3bd15'
+    description: 'Thirsty yaks are stampeding towards a vulnerable peasant sunning herself at an oasis, but you\'ve got decoys to distract the yaks out of the way.'
     nextLevels:
       continue: 'sarven-brawl'
     x: 66.46

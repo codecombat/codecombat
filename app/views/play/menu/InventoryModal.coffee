@@ -72,6 +72,7 @@ module.exports = class InventoryModal extends ModalView
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
     @itemGroups = {}
+    @itemGroups.requiredPurchaseItems = new Backbone.Collection()
     @itemGroups.availableItems = new Backbone.Collection()
     @itemGroups.restrictedItems = new Backbone.Collection()
     @itemGroups.lockedItems = new Backbone.Collection()
@@ -95,6 +96,9 @@ module.exports = class InventoryModal extends ModalView
 
     if not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats) and locked  # Temp: while there are placeholder items
       null  # Don't put into a collection
+    if locked and item.get('slug') in _.values(LevelOptions[@options.levelID]?.requiredGear ? {})
+      item.classes.push 'locked'
+      @itemGroups.requiredPurchaseItems.add item
     else if locked and item.get('slug') isnt 'simple-boots'
       item.classes.push 'locked'
       if item.isSilhouettedItem() or not item.get('gems')
@@ -309,6 +313,8 @@ module.exports = class InventoryModal extends ModalView
     itemIDToUnequip = itemEl.data('item-id')
     return unless itemIDToUnequip
     itemEl.remove()
+    item = @items.get itemIDToUnequip
+    item.classes = _.without item.classes, 'equipped'
     @$el.find("#unequipped .item[data-item-id=#{itemIDToUnequip}]").removeClass('equipped')
 
   deselectAllSlots: ->
@@ -382,7 +388,7 @@ module.exports = class InventoryModal extends ModalView
       for slot, item of requiredGear
         if (slot in ['right-hand', 'left-hand', 'head', 'torso']) and not (heroClass is 'Warrior' or
             (heroClass is 'Ranger' and @options.levelID in ['swift-dagger', 'shrapnel']) or
-            (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender'])) and item isnt 'crude-builders-hammer'
+            (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender'])) and not (item in ['crude-builders-hammer', 'wooden-builders-hammer'])
           # After they switch to a ranger or wizard, we stop being so finicky about class-specific gear.
           continue
         continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
@@ -488,6 +494,7 @@ module.exports = class InventoryModal extends ModalView
 
       #- ...then rerender key bits
       @itemGroups.lockedItems.remove(item)
+      @itemGroups.requiredPurchaseItems.remove(item)
       # Redo all item sorting to make sure that we don't clobber state changes since last render.
       equipped = _.values @getCurrentEquipmentConfig()
       @sortItem(otherItem, equipped) for otherItem in @items.models
@@ -629,3 +636,6 @@ gear =
   'book-of-life-i': '546375653839c6e02811d30b'
   'rough-sense-stone': '54693140a2b1f53ce79443bc'
   'polished-sense-stone': '53e215a253457600003e3eaf'
+  'quartz-sense-stone': '54693240a2b1f53ce79443c5'
+  'wooden-builders-hammer': '54694ba3a2b1f53ce794444d'
+  'simple-wristwatch': '54693797a2b1f53ce79443e9'

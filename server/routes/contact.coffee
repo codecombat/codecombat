@@ -43,7 +43,7 @@ createMailContext = (req, done) ->
       reply_to: sender or user.get('email')
       name: user.get('name')
     email_data:
-      subject: "[CodeCombat] #{subject ? ('Feedback - ' + sender or user.get('email'))}"
+      subject: "[CodeCombat] #{subject ? ('Feedback - ' + (sender or user.get('email')))}"
       content: content
 
   if recipientID and (user.isAdmin() or ('employer' in (user.get('permissions') ? [])))
