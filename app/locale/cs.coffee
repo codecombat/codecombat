@@ -719,7 +719,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     diplomat_i18n_page_prefix: "Můžete začít překládat naše úrovně přejítím na naše"
     diplomat_i18n_page: "stránky překladů"
     diplomat_i18n_page_suffix: ", nebo naše prostředí a stránky na GitHub."
-    diplomat_join_pref_github: "Najděte soubor pro svůj jazyk"
+    diplomat_join_pref_github: "Najděte soubor pro svůj jazyk "
     diplomat_github_url: "na GitHub"
     diplomat_join_suf_github: ", upravte ho online a zašlete pull request. Také zaškrtněte toto políčko, abyste zůstali informováni o novém vývoji internacionalizace!"
     more_about_diplomat: "Dozvědět se více o tom, jak se stát Diplomatem"
