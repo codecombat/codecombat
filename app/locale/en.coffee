@@ -93,7 +93,7 @@
     campaign_multiplayer: "Multiplayer Arenas"
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
     campaign_player_created: "Player-Created"
-    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
+    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Classic Algorithms"
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
