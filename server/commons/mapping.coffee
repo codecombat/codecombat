@@ -3,6 +3,7 @@ module.exports.handlers =
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   # 'analytics_users_active': 'analytics/analytics_users_active_handler'
   'article': 'articles/article_handler'
+  'campaign': 'campaigns/campaign_handler'
   'level': 'levels/level_handler'
   'level_component': 'levels/components/level_component_handler'
   'level_feedback': 'levels/feedbacks/level_feedback_handler'

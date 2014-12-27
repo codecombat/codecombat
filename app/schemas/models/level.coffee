@@ -296,6 +296,42 @@ _.extend LevelSchema.properties,
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
 
+  # Admin flags
+  adventurer: { type: 'boolean' }
+  practice: { type: 'boolean' }
+  disableSpaces: { type: 'boolean' }
+  hidesSubmitUntilRun: { type: 'boolean' }
+  hidesPlayButton: { type: 'boolean' }
+  hidesRunShortcut: { type: 'boolean' }
+  hidesHUD: { type: 'boolean' }
+  hidesSay: { type: 'boolean' }
+  hidesCodeToolbar: { type: 'boolean' }
+  hidesRealTimePlayback: { type: 'boolean' }
+  backspaceThrottle: { type: 'boolean' }
+  lockDefaultCode: { type: 'boolean' }
+  moveRightLoopSnippet: { type: 'boolean' }
+  realTimeSpeedFactor: { type: 'number' }
+  autocompleteFontSizePx: { type: 'number' }
+  requiredCode: c.array {}, {
+    type: 'string'
+  }
+  suspectCode: c.array {}, {
+    type: 'object'
+    properties: {
+      name: { type: 'string' }
+      pattern: { type: 'string' }
+    }
+  }
+  requiredGear: { type: 'object', additionalProperties: {
+    type: 'string'
+  }}
+  restrictedGear: { type: 'object', additionalProperties: {
+    type: 'string'
+  }}
+  allowedHeroes: { type: 'array', items: {
+    type: 'string'
+  }}
+  
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
 c.extendVersionedProperties LevelSchema, 'level'

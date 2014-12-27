@@ -66,6 +66,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
     'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
+    'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
 
     'employers': go('EmployersView')
 
@@ -84,7 +85,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'multiplayer': go('MultiplayerView')
 
     'play-old': go('play/MainPlayView')  # This used to be 'play'.
-    'play': go('play/WorldMapView')
+    'play': go('play/CampaignView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')

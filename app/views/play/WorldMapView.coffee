@@ -43,6 +43,8 @@ module.exports = class WorldMapView extends RootView
       options.supermodel = null
     @terrain ?= 'dungeon' # or 'forest', 'desert'
     super options
+    options ?= {}
+    @editorMode = options.editorMode
     @nextLevel = @getQueryVariable 'next'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
@@ -97,6 +99,7 @@ module.exports = class WorldMapView extends RootView
     super()
 
   getLevelPlayCounts: ->
+    return
     return unless me.isAdmin()
     success = (levelPlayCounts) =>
       return if @destroyed
@@ -137,12 +140,12 @@ module.exports = class WorldMapView extends RootView
       level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
       level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.locked = false if me.get('slug') is 'nick'
+      level.locked = false if @editorMode
       level.disabled = false if @levelStatusMap[level.id] in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription
         level.color = 'rgb(80, 130, 200)'
       if level.unlocksHero
-        level.color = 'rgb(0,0,0)'
         level.unlockedHero = level.unlocksHero.originalID in (me.get('earned')?.heroes or [])
       level.hidden = level.locked or level.disabled
 
@@ -159,6 +162,7 @@ module.exports = class WorldMapView extends RootView
     context.forestIsAvailable = @startedForestLevel or (Level.levels['defense-of-plainswood'] in (me.get('earned')?.levels or []))
     context.desertIsAvailable = @startedDesertLevel or (Level.levels['the-mighty-sand-yak'] in (me.get('earned')?.levels or []))
     context.requiresSubscription = @requiresSubscription
+    context.editorMode = @editorMode
     context
 
   afterRender: ->
@@ -179,7 +183,7 @@ module.exports = class WorldMapView extends RootView
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if levelID = @$el.find('.level.next').data('level-id')
-        @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
+        @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show() unless @editorMode
         pos = @$el.find('.level.next').offset()
         @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top
         @manuallyPositionedLevelInfoID = levelID
@@ -194,6 +198,10 @@ module.exports = class WorldMapView extends RootView
     @openModalView authModal
 
   onSessionsLoaded: (e) ->
+    if @editorMode
+      @startedForestLevel = true
+      @startedDesertLevel = true
+      return
     forestLevels = (f.id for f in forest)
     desertLevels = (f.id for f in desert)
     for session in @sessions.models
@@ -249,6 +257,7 @@ module.exports = class WorldMapView extends RootView
 
   onMouseEnterLevel: (e) ->
     return if application.isIPadApp
+    return if @editorMode
     levelID = $(e.target).parents('.level').data('level-id')
     return if @manuallyPositionedLevelInfoID and levelID isnt @manuallyPositionedLevelInfoID
     @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
@@ -287,8 +296,8 @@ module.exports = class WorldMapView extends RootView
     mapHeight = iPadHeight = 1536
     mapWidth = {dungeon: 2350, forest: 2500, desert: 2350}[@terrain] or 2350
     aspectRatio = mapWidth / mapHeight
-    pageWidth = $(window).width()
-    pageHeight = $(window).height()
+    pageWidth = @$el.width()
+    pageHeight = @$el.height()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
     # Make sure we can see the whole map, fading to background in one dimension.
