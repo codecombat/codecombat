@@ -307,7 +307,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_premature_optimization: "La optimización prematura es la raíz de la maldad. - Donald Knuth"
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
     tip_extrapolation: "Solo hay dos tipos de personas: Esas que pueden extrapolar desde información incompleta..."
-    tip_superpower: "Programar es lo más cercanos que tenemos a superpoderes  "#Coding is the closest thing we have to a superpower
+    tip_superpower: "Programar es lo más cercanos que tenemos a superpoderes."
 
   game_menu:
     inventory_tab: "Inventario"
@@ -315,7 +315,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     options_tab: "Opciones"
     guide_tab: "Guía"
 #    guide_video_tutorial: "Video Tutorial"
-#    guide_tips: "Pistas"
+    guide_tips: "Pistas"
     multiplayer_tab: "Multijugador"
     auth_tab: "Ingresar"
     inventory_caption: "Equipar a tu héroe"
