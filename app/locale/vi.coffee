@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     about: "Về"
     contact: "Liên hệ"
     twitter_follow: "Đi theo"
-#    teachers: "Teachers"
+    teachers: "Thầy Giáo"
 
   modal:
     close: "Đóng"
@@ -45,12 +45,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Vietnamese but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Vietnamese."
     missing_translations: "Until we can translate everything into Vietnamese, you'll see English when Vietnamese isn't available."
-#    learn_more: "Learn more about being a Diplomat"
+    learn_more: "Học làm người thông dịch"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
+    play_as: "Chơi là" # Ladder page
+    spectate: "Nhìn xem" # Ladder page
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
