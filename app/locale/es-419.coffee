@@ -5,9 +5,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that just starts playing a level
     try_it: "Pruébalo" # Alternate wording for Play button
-    old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo Sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
-    ipad_browser: "Malas nuevas: CodeCombat no funciona en el navegador de iPad. Buenas nuevas: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
+    ipad_browser: "Malas noticias: CodeCombat no funciona en el navegador de iPad. Buenas noticias: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
     campaign: "Campaña"
     for_beginners: "Para Principiantes"
     multiplayer: "Multijugador" # Not currently shown on home page
@@ -43,7 +43,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   diplomat_suggestion:
     title: "¡Ayuda a traducir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Necesitamos tus habilidades de idioma."
-    pitch_body: "Desarrollamos CodeCombat en inglés, pero ya tenemos jugadores por todo el mundo. Muchos de ellos quieren jugar en español pero no hablan inglés, así que si puedes hablar ambos, por favor considera registrarte pare ser un Diplomático y ayudar a traducir tanto el sitio de CodeCombat como todos los niveles al español."
+    pitch_body: "Desarrollamos CodeCombat en inglés, pero ya tenemos jugadores de todo el mundo. Muchos de ellos quieren jugar en español pero no hablan inglés, así que si puedes hablar ambos, por favor considera registrarte pare ser un Diplomático y ayudar a traducir tanto el sitio de CodeCombat como todos los niveles al español."
     missing_translations: "Hasta que podamos traducir todo al español, verás inglés cuando el español no esté disponible."
     learn_more: "Aprende más sobre ser un Diplomático"
     subscribe_as_diplomat: "Suscribete como un Diplomático"
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objetos"
     buy_gems: "Comprar gemas"
-    campaign_desert: "Camapaña del Desierto"
+    campaign_desert: "Campaña del Desierto"
     campaign_forest: "Campaña del Bosque"
     campaign_dungeon: "Campaña Calabozo"
     subscription_required: "Requiere Suscripción"
@@ -79,9 +79,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
-    awaiting_levels_adventurer_prefix: "Nosotros creamos nuevos niveles por semana"
+    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana"
     awaiting_levels_adventurer: "Registrate como un aventurero"
-    awaiting_levels_adventurer_suffix: "para ser el primero el jugar nuevos niveles."
+    awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Puedes saltar a cualquier nivel de abajo, o discutir los niveles en "
     adventurer_forum: "el foro del aventurero"
@@ -91,18 +91,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_dev: "Niveles aleatorios más difíciles"
     campaign_dev_description: "... en los que aprendes sobre la interfaz mientras haces algo un poco más difícil."
     campaign_multiplayer: "Arenas Multijugador"
-    campaign_multiplayer_description: "... en las que programas cara-a-cara contra otros jugadores."
-    campaign_player_created: "Creados-Por-Jugadores"
+    campaign_multiplayer_description: "... en las que programas cara a cara contra otros jugadores."
+    campaign_player_created: "Creados Por Jugadores"
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     campaign_classic_algorithms: "Algorítmos Clásicos"
-    campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares en las Ciencias de la Computación."
+    campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares de la Ciencia de la Computación."
 
   login:
     sign_up: "Crear Cuenta"
     log_in: "Entrar"
     logging_in: "Entrando"
     log_out: "Salir"
-    forgot_password: "¿Olvidaste la contraseñad?"
+    forgot_password: "¿Olvidaste la contraseña?"
     authenticate_gplus: "Ingresar G+"
     load_profile: "Cargar Perfil G+ "
     load_email: "Cargar Mail G+"
@@ -116,13 +116,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     creating: "Creando Cuenta..."
     sign_up: "Registrarse"
     log_in: "Inicia sesión con tu contraseña"
-    social_signup: "O, puedes conectarte a través de Facebook o G+:"
+    social_signup: "O puedes conectarte a través de Facebook o G+:"
     required: "Necesitas entrar a tu cuenta antes de continuar."
     login_switch: "¿Ya tienes una cuenta?"
 
   recover:
     recover_account_title: "recuperar cuenta"
-    send_password: "Enviar Contraseña de Recuperación"
+    send_password: "Enviar contraseña de recuperación"
     recovery_sent: "Correo de recuperación enviado."
 
   items:
@@ -143,7 +143,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     publish: "Publicar"
     create: "Crear"
     manual: "Manual"
-    fork: "Bifurcar"
+    fork: "Bifurcar"  #I really suggest to just put "Fork" here
     play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
 #    actions: "Actions"
