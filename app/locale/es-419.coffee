@@ -279,7 +279,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     infinite_loop_comment_out: "Comente Mi Código"
     tip_toggle_play: "Activa jugar/pausa con Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina y avance rápido."
-    tip_guide_exists: "Clique la guía en la parte superior de la página para obtener información útil"
+    tip_guide_exists: "Haga click en la guía en la parte superior de la página para obtener información útil"
     tip_open_source: "¡CodeCombat es 100% código abierto!"
     tip_beta_launch: "CodeCombat lanzó su beta en Octubre del 2013."
     tip_think_solution: "Piensa en la solución, no en el problema."
@@ -298,7 +298,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_commitment_yoda: "Un programador debe tener el compromiso más profundo, la mente más seria. ~ Yoda"
     tip_no_try: "Haz. O no hagas. No hay intento. - Yoda"
     tip_patience: "Paciencia debes tener, joven Padawan. - Yoda"
-    tip_documented_bug: "Un error documentad no es un error; es una característica."
+    tip_documented_bug: "Un error documentado no es un error; es una característica."
     tip_impossible: "Siempre parece imposible hasta que se hace. - Nelson Mandela"
     tip_talk_is_cheap: "Hablar es barato. Muéstrame el código. - Linus Torvalds"
     tip_first_language: "La cosa más desastrosa que puedes aprender es tu primer lenguaje de programación. - Alan Kay"
@@ -307,6 +307,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_premature_optimization: "La optimización prematura es la raíz de la maldad. - Donald Knuth"
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
     tip_extrapolation: "Solo hay dos tipos de personas: Esas que pueden extrapolar desde información incompleta..."
+    tip_superpower: "Programar es lo más cercanos que tenemos a superpoderes  "#Coding is the closest thing we have to a superpower
 
   game_menu:
     inventory_tab: "Inventario"
@@ -314,10 +315,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     options_tab: "Opciones"
     guide_tab: "Guía"
 #    guide_video_tutorial: "Video Tutorial"
-#    guide_tips: "Tips"
+#    guide_tips: "Pistas"
     multiplayer_tab: "Multijugador"
     auth_tab: "Ingresar"
-    inventory_caption: "Equipar tu héroe"
+    inventory_caption: "Equipar a tu héroe"
     choose_hero_caption: "Elegir héroe, lenguaje"
     save_load_caption: "... y ver historia"
     options_caption: "Hacer ajustes"
