@@ -7,12 +7,12 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Schlechte Nachricht: CodeCombat funktioniert im iPad-Browser nicht. Gute Nachricht: Unsere iPad App wartet auf das OK von Apple."
     campaign: "Kampagne"
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Oder für iPad runterladen"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     about: "Über"
     contact: "Kontakt"
     twitter_follow: "Twitter"
-#    teachers: "Teachers"
+    teachers: "Lehrer"
 
   modal:
     close: "Schließen"
@@ -55,28 +55,28 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    confirm: "Bestätigen"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
+    locked: "Gesperrt"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    available: "Verfügbar"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
-    achievements: "Achievements" # Tooltip on achievement list button from /play
+    achievements: "Erfolge" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    next: "Weiter" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
-#    buy_gems: "Buy Gems"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
+    buy_gems: "Juwelen kaufen"
+    campaign_desert: "Wüsten Kampagne"
+    campaign_forest: "Wald Kampagne"
+    campaign_dungeon: "Dungeon Kampagne"
 #    subscription_required: "Subscription Required"
-#    free: "Free"
+    free: "Gratis"
 #    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Ältere Kampagne"
+    anonymous: "Anonymer Spieler"
     level_difficulty: "Schwierigkeit: "
     campaign_beginner: "Anfängerkampagne"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
@@ -86,7 +86,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     adventurer_prefix: "Du kannst zu jedem Level springen oder diskutiere die Level "
     adventurer_forum: "im Abenteurerforum"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Alte Anfänger Kampagne"
     campaign_old_beginner_description: "... in der Du die Zauberei der Programmierung lernst."
     campaign_dev: "Beliebiges schwierigeres Level"
     campaign_dev_description: "... in welchem Du die Bedienung erlernst, indem Du etwas schwierigeres machst."
@@ -102,14 +102,14 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     log_in: "Einloggen"
     logging_in: "Logge ein"
     log_out: "Ausloggen"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    forgot_password: "Passwort vergessen?"
+    authenticate_gplus: "G+ authentifizieren"
+    load_profile: "G+ Profil laden"
+    load_email: "G+ Email laden"
+    finishing: "Fertig stellen"
+    sign_in_with_facebook: "Mit Facebook anmelden"
+    sign_in_with_gplus: "Mit G+ anmelden"
+    signup_switch: "Möchtest du einen Account erstellen?"
 
   signup:
     email_announcements: "Erhalte Benachrichtigungen per Email"
@@ -118,7 +118,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     log_in: "mit Passwort einloggen"
     social_signup: "oder, du registriest dich über Facebook oder G+:"
     required: "Du musst dich vorher einloggen um dort hin zu gehen."
-#    login_switch: "Already have an account?"
+    login_switch: "Du hast bereits einen Account?"
 
   recover:
     recover_account_title: "Account Wiederherstellung"
@@ -126,12 +126,12 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     recovery_sent: "Wiederherstellungs-Email versandt."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primär"
+    secondary: "Sekundär"
     armor: "Rüstung"
     accessories: "Zubehör"
     misc: "Sonstiges"
-#    books: "Books"
+    books: "Bücher"
 
   common:
     loading: "Lade..."
@@ -160,16 +160,16 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     date: "Datum"
     body: "Inhalt"
     version: "Version"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
-    commit_msg: "Commit Nachricht"
+    submitter: "Veröffentlicher"
+    submitted: "Veröffentlicht"
+    commit_msg: "Nachricht absenden"
 #    review: "Review"
     version_history: "Versionshistorie"
     version_history_for: "Versionsgeschichte für: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    undo: "Rückgängig (Strg+Z)"
+    redo: "Wiederherstellen (Strg+Shift+Z)"
+    play_preview: "Vorschau vom aktuellen Level spielen"
     result: "Ergebnis"
     results: "Ergebnisse"
     description: "Beschreibung"
@@ -191,7 +191,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     medium: "Mittel"
     hard: "Schwer"
     player: "Spieler"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Spielerlevel" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "Sekunde"
@@ -212,41 +212,41 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
   play_level:
     done: "Fertig"
     home: "Startseite" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    level: "Mission" # Like "Level: Dungeons of Kithgard"
+    skip: "Überspringen" # If this is too long then "Weiter" may work too, but the one I wrote there is actually more correct.
     game_menu: "Spielmenü"
     guide: "Hilfe"
     restart: "Neustart"
     goals: "Ziele"
-#    goal: "Goal"
+    goal: "Ziel"
 #    running: "Running..."
     success: "Erfolgreich!"
     incomplete: "Unvollständig"
     timed_out: "Zeit abgelaufen"
 #    failing: "Failing"
-    action_timeline: "Aktionszeitstrahl"
+    action_timeline: "Aktionszeitlinie"
     click_to_select: "Klicke auf eine Einheit, um sie auszuwählen."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "Mehrspieler"
+    control_bar_join_game: "Spiel beitreten"
+    reload: "Neu laden"
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
-#    victory: "Victory"
+    victory: "Sieg"
     victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
     victory_sign_up: "Melde Dich an, um Fortschritte zu speichern"
     victory_sign_up_poke: "Möchtest Du Neuigkeiten per Mail erhalten? Erstelle einen kostenlosen Account und wir halten Dich auf dem Laufenden."
     victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
     victory_return_to_ladder: "Zurück zur Rangliste"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_continue: "Weiter"
+    victory_saving_progress: "Speichere Fortschritt"
     victory_go_home: "Geh auf die Startseite" # Only in old-style levels.
     victory_review: "Erzähl uns davon!" # Only in old-style levels.
     victory_hour_of_code_done: "Bist Du fertig?"
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "EP erhalten"
+    victory_gems_gained: "Juwelen erhalten"
     guide_title: "Anleitung"
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte" # Only in old-style levels.
     tome_read_only_spells: "Nur-lesen Zauberspüche" # Only in old-style levels.
@@ -254,23 +254,23 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_submit_button: "Absenden"
+    tome_reload_method: "Lade den ursprünglichen Code dieser Methode" # Title text for individual method reload button.
+    tome_select_method: "Wähle eine Methode"
+    tome_see_all_methods: "Zeige alle editierbaren Methoden" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Wähle jemanden aus, um "
     tome_available_spells: "Verfügbare Zauber"
-#    tome_your_skills: "Your Skills"
-#    tome_help: "Help"
-#    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    tome_your_skills: "Deine Fähigkeiten"
+    tome_help: "Hilfe"
+    tome_current_method: "Aktuelle Methode"
+    hud_continue_short: "Weiter"
+    code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
     keyboard_shortcuts: "Tastenkürzel"
     loading_ready: "Bereit!"
-#    loading_start: "Start Level"
-#    problem_alert_title: "Fix Your Code"
-#    problem_alert_help: "Help"
+    loading_start: "Starte Level"
+    problem_alert_title: "Korrigiere deinen Code"
+    problem_alert_help: "Hilfe"
     time_current: "Aktuell"
     time_total: "Total"
     time_goto: "Gehe zu"
@@ -305,7 +305,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     tip_hardware_problem: "Q: Wie viele Programmierer braucht man um eine Glühbirne auszuwechseln? A: Keine, es ist ein Hardware-Problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Im Zweifelsfall, verwende rohe Gewalt. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
 
   game_menu:
@@ -313,41 +313,41 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     save_load_tab: "Speichere/Lade"
     options_tab: "Einstellungen"
     guide_tab: "Guide"
-#    guide_video_tutorial: "Video Tutorial"
-#    guide_tips: "Tips"
+    guide_video_tutorial: "Video Tutorial"
+    guide_tips: "Tipps"
     multiplayer_tab: "Mehrspieler"
-#    auth_tab: "Sign Up"
+    auth_tab: "Anmelden"
     inventory_caption: "Rüste deinen Helden aus"
     choose_hero_caption: "Wähle Helden, Sprache"
     save_load_caption: "... und schaue dir die Historie an"
     options_caption: "konfiguriere Einstellungen"
     guide_caption: "Doku und Tipps"
     multiplayer_caption: "Spiele mit Freunden!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Fortschritt speichern."
 
   inventory:
     choose_inventory: "Gegenstände ausrüsten"
-#    equipped_item: "Equipped"
-#    available_item: "Available"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equipped_item: "Ausgerüstet"
+    available_item: "Verfügbar"
+    restricted_title: "Eingeschränkt"
+    should_equip: "(Doppelklick um auszurüsten)"
+    equipped: "(Ausgerüstet)"
+    locked: "(Gesperrt)"
+    restricted: "(Eingeschränkt in diesem Level)"
+    equip: "Ausrüsten"
+    unequip: "Ablegen"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
-#    recovered: "Previous gems purchase recovered. Please refresh the page."
+  buy_gems:
+    few_gems: "Ein paar Juwelen"
+    pile_gems: "Ein Haufen Juwelen"
+    chest_gems: "Truhe voll Juwelen"
+    purchasing: "Kaufe..."
+    declined: "Deine Karte wurde abgelehnt"
+    retrying: "Serverfehler, erneuter Versuch."
+    prompt_title: "Nicht genug Juwelen"
+    prompt_body: "Möchtest du mehr?"
+    prompt_button: "Shop betreten"
+    recovered: "Voriger Juwelenkauf wiederhergestellt. Bitte die Seite neu laden."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -369,30 +369,30 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     choose_hero: "Wähle deinen Helden"
     programming_language: "Programmiersprache"
     programming_language_description: "Welche Programmiersprache möchtest du verwenden?"
-#    default: "Default"
-#    experimental: "Experimental"
+    default: "Standard"
+    experimental: "Experimentiell"
     python_blurb: "Einfach jedoch leistungsfähig, Python ist eine gute Allzweck-Programmiersprache."
     javascript_blurb: "Die Sprache des Web."
     coffeescript_blurb: "Schönere JavaScript Syntax."
     clojure_blurb: "Ein modernes Lisp."
-    lua_blurb: "Skriptsprache für Spiele."
+    lua_blurb: "Skriptsprache für Spiele (KI)."
     io_blurb: "Simpel aber obskur."
     status: "Status"
     weapons: "Waffen"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
+    weapons_warrior: "Schwerter - Kurze Reichweite, keine Magie"
+    weapons_ranger: "Armbrüste, Pistolen - Hohe Reichweite, keine Magie"
+    weapons_wizard: "Stöcke, Stäbe - Hohe Reichweite, Magie"
+    attack: "Angriffsschaden" # Can also translate as "Attack" / In german "Schaden" or "Angriff" could also work, it is mainly a matter of taste
     health: "Gesundheit"
     speed: "Geschwindigkeit"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-#    skills: "Skills"
-#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    regeneration: "Regeneration"
+    range: "Reichweite" # As in "attack or visual range"
+    blocks: "Haltbarkeit" # As in "this shield blocks this much damage"
+    backstab: "Hinterhaltsschaden" # As in "this dagger does this much backstab damage"
+    skills: "Fähigkeiten"
+    available_for_purchase: "Zum Kauf verfügbar" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Level zum Freischalten:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    restricted_to_certain_heroes: "Nur bestimmte Helden können dieses Level spielen."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
