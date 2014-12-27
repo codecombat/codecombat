@@ -307,7 +307,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_premature_optimization: "Поспешная оптимизация - корень всех зол. - Donald Knuth"
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     tip_extrapolation: "Есть два типа людей: те, кто могут экстраполировать неполные данные..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
+    tip_superpower: "Программирование делает нас ближе к обретению суперсилы."
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -329,7 +329,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   inventory:
     choose_inventory: "Выбрать предметы"
     equipped_item: "Выбранный"
-#    required_purchase_title: "Required"
+    required_purchase_title: "Необходимо"
     available_item: "Доступно"
     restricted_title: "Ограничено"
     should_equip: "(двойной клик чтобы надеть)"
@@ -482,13 +482,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     forum_prefix: "Для любых публичных обсуждений, пожалуйста, используйте "
     forum_page: "наш форум"
     forum_suffix: "."
-#    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq_prefix: "Так же у нас есть"
+    faq: "ЧаВо"
     subscribe_prefix: "Если вам нужна помощь в прохождении уровня, пожалуйста,"
     subscribe: "купите подписку CodeCombat,"
     subscribe_suffix: "и мы будем рады помочь вам с вашим кодом."
     subscriber_support: "Ваши электронные письма получают нашу приоритетную поддержку, если вы подписчик CodeCombat."
-#    screenshot_included: "Screenshot included."
+    screenshot_included: "Скриншот прилагается."
     where_reply: "Куда мы должны ответить?"
     send: "Отправить отзыв"
     contact_candidate: "Связаться с кандидатом" # Deprecated
