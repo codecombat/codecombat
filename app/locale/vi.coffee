@@ -154,7 +154,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
-#  general:
+  general:
     and: "và"
     name: "Tên"
     date: "Ngày"
@@ -193,7 +193,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    player: "Player"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
-#  units:
+  units:
     second: "giây"
     seconds: "giây"
     minute: "phút"
