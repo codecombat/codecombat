@@ -18,7 +18,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     play: "Các cấp độ" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
     editor: "Chỉnh sửa"
-#    blog: "Blog"
+    blog: "Liếm cu"
     forum: "Diễn đàn"
 #    account: "Account"
 #    profile: "Profile"
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     about: "Về"
     contact: "Liên hệ"
     twitter_follow: "Đi theo"
-#    teachers: "Teachers"
+    teachers: "Thầy Giáo"
 
   modal:
     close: "Đóng"
@@ -45,16 +45,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Vietnamese but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Vietnamese."
     missing_translations: "Until we can translate everything into Vietnamese, you'll see English when Vietnamese isn't available."
-#    learn_more: "Learn more about being a Diplomat"
+    learn_more: "Học làm người thông dịch"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
+    play_as: "Chơi là" # Ladder page
+    spectate: "Nhìn xem" # Ladder page
 #    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "Bao nhiêu tiếng chơi" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
+    unlock: "Mua" # For purchasing items and heroes
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
@@ -68,9 +68,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Mua ngọc"
 #    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
+    campaign_forest: "Chơi Rừng"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
@@ -102,11 +102,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     log_in: "Đăng nhập"
 #    logging_in: "Logging In"
     log_out: "Đăng xuất"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Quên mật khẩu?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
-#    finishing: "Finishing"
+    finishing: "Đang xong"
 #    sign_in_with_facebook: "Sign in with Facebook"
 #    sign_in_with_gplus: "Sign in with G+"
 #    signup_switch: "Want to create an account?"
@@ -131,21 +131,21 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    armor: "Armor"
 #    accessories: "Accessories"
 #    misc: "Misc"
-#    books: "Books"
+    books: "Cuốn sách"
 
   common:
     loading: "Tải..."
     saving: "Lưu..."
     sending: "Gởi..."
-#    send: "Send"
+    send: "Gởi đi"
     cancel: "Hủy"
     save: "Lưu"
 #    publish: "Publish"
-#    create: "Create"
+    create: "Làm mới"
 #    manual: "Manual"
 #    fork: "Fork"
     play: "Các cấp độ" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
+    retry: "Chơi lại"
 #    actions: "Actions"
 #    info: "Info"
 #    help: "Help"
@@ -154,10 +154,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
-#  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
+  general:
+    and: "và"
+    name: "Tên"
+    date: "Ngày"
 #    body: "Body"
 #    version: "Version"
 #    submitter: "Submitter"
@@ -173,41 +173,41 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    result: "Result"
 #    results: "Results"
 #    description: "Description"
-#    or: "or"
+    or: "hay là"
 #    subject: "Subject"
 #    email: "Email"
 #    password: "Password"
 #    message: "Message"
 #    code: "Code"
 #    ladder: "Ladder"
-#    when: "When"
+    when: "Khi nào"
 #    opponent: "Opponent"
 #    rank: "Rank"
 #    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
+    win: "Thắng"
+    loss: "Thua"
 #    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
+    easy: "Dể"
+    medium: "Vừa"
+    hard: "Khó"
 #    player: "Player"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "giây"
+    seconds: "giây"
+    minute: "phút"
+    minutes: "phút"
+    hour: "giờ"
+    hours: "giờ"
+    day: "ngày"
+    days: "ngày"
+    week: "tuần"
+    weeks: "tuần"
+    month: "tháng"
+    months: "tháng"
+    year: "năm"
+    years: "năm"
 
   play_level:
     done: "Hoàn thành"
@@ -220,10 +220,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     goals: "Mục đích"
 #    goal: "Goal"
 #    running: "Running..."
-#    success: "Success!"
+    success: "Thắng!"
 #    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
-#    failing: "Failing"
+    timed_out: "Hết giờ"
+    failing: "Đang thua"
 #    action_timeline: "Action Timeline"
     click_to_select: "Kích vào đơn vị để chọn nó."
 #    control_bar_multiplayer: "Multiplayer"
@@ -232,9 +232,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     reload_title: "Tải lại tất cả mã?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
-#    victory: "Victory"
+    victory: "Thắng"
 #    victory_title_prefix: ""
-#    victory_title_suffix: " Complete"
+    victory_title_suffix: " Xong"
 #    victory_sign_up: "Sign Up to Save Progress"
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
@@ -274,8 +274,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
-#    infinite_loop_try_again: "Try Again"
-#    infinite_loop_reset_level: "Reset Level"
+    infinite_loop_try_again: "Chơi Lại"
+    infinite_loop_reset_level: "Chơi Lại"
 #    infinite_loop_comment_out: "Comment Out My Code"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
