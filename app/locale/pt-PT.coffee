@@ -93,7 +93,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_multiplayer: "Arenas Multijogador"
     campaign_multiplayer_description: "... onde programas frente-a-frente contra outros jogadores."
     campaign_player_created: "Criados por Jogadores"
-    campaign_player_created_description: "... onde combates contra a criatividade dos teus colegas <a href=\"/contribute#artisan\">Feiticeiros Artesãos</a>."
+    campaign_player_created_description: "... onde combates contra a criatividade dos teus colegas <a href=\"/contribute/artisan\">Feiticeiros Artesãos</a>."
     campaign_classic_algorithms: "Algoritmos Clássicos"
     campaign_classic_algorithms_description: "... onde aprendes os algoritmos mais populares da Ciência da Computação."
 
@@ -307,7 +307,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_premature_optimization: "Uma otimização permatura é a raíz de todo o mal. - Donald Knuth"
     tip_brute_force: "Quando em dúvida, usa a força bruta. - Ken Thompson"
     tip_extrapolation: "Há apenas dois tipos de pessoas: aquelas que conseguem tirar uma conclusão a partir de dados reduzidos..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
+    tip_superpower: "A programação é a coisa mais próxima de um superpoder que temos."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -329,7 +329,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   inventory:
     choose_inventory: "Equipar Itens"
     equipped_item: "Equipado"
-#    required_purchase_title: "Required"
+    required_purchase_title: "Necessário"
     available_item: "Disponível"
     restricted_title: "Restrito"
     should_equip: "(clica duas vezes para equipares)"
@@ -482,13 +482,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     forum_prefix: "Para algo público, por favor usa o "
     forum_page: "nosso fórum"
     forum_suffix: " como alternativa."
-#    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq_prefix: "Há também uma"
+    faq: "FAQ"
     subscribe_prefix: "Se precisas de ajuda a perceber um nível, por favor"
     subscribe: "compra uma subscrição do CodeCombat"
     subscribe_suffix: "e nós ficaremos felizes por ajudar-te com o teu código."
     subscriber_support: "Como és um subscritor do CodeCombat, os teus e-mails terão prioridade no nosso suporte."
-#    screenshot_included: "Screenshot included."
+    screenshot_included: "Captura de ecrã incluída."
     where_reply: "Para onde devemos enviar a resposta?"
     send: "Enviar Feedback"
     contact_candidate: "Contactar Candidato" # Deprecated
