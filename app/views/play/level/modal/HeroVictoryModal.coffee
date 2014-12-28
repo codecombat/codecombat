@@ -301,7 +301,6 @@ module.exports = class HeroVictoryModal extends ModalView
 
   getNextLevelCampaign: ->
     {'kithgard-gates': 'forest', 'siege-of-stonehold': 'desert'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
-    link += '/' + nextCampaign unless nextCampaign is 'dungeon'
 
   getNextLevelLink: ->
     link = '/play'
