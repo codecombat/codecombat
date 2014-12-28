@@ -307,7 +307,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_premature_optimization: "La optimización prematura es la raíz de la maldad. - Donald Knuth"
     tip_brute_force: "Cuando tengas duda, usa la fuerza bruta. - Ken Thompson"
     tip_extrapolation: "Solo hay dos tipos de personas: Esas que pueden extrapolar desde información incompleta..."
-    tip_superpower: "Programar es lo más cercanos que tenemos a superpoderes."
+    tip_superpower: "Programar es lo más cercano que tenemos a superpoderes."
 
   game_menu:
     inventory_tab: "Inventario"
@@ -327,7 +327,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     auth_caption: "Guarda tu progreso."
 
   inventory:
-    choose_inventory: "Elegir artículos"
+    choose_inventory: "Equipar objetos"
     equipped_item: "Equipado"
 #    required_purchase_title: "Required"
     available_item: "Disponible"
@@ -360,9 +360,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     items: "Más de 250 ítems de bonus!"
     parents: "Para padres"
     parents_title: "Su hijo aprenderá a programar."
-    parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a tópicos más complejos."
+    parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos."
     parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales."
-    parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y desuscribirse."
+    parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
     subscribe_button: "Suscríbete  Ahora"
     stripe_description: "Suscripción Mensual"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
@@ -374,10 +374,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     default: "por Defecto"
     experimental: "Experimental"
     python_blurb: "Simple pero poderoso."
-    javascript_blurb: "El lenguaje de la web."
-    coffeescript_blurb: "Mejor JavaScript."
+    javascript_blurb: "El lenguaje de la web (no es Java)."
+    coffeescript_blurb: "JavaScript pero más bonito."
     clojure_blurb: "Un Lisp moderno."
-    lua_blurb: "Para Juegos."
+    lua_blurb: "Lenguaje ara Juegos."
     io_blurb: "Simple pero oscuro."
     status: "Estado"
     weapons: "Armas"
@@ -415,7 +415,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     granted_by: "Concedido por"
 
   save_load:
-    granularity_saved_games: "Almacenado"
+    granularity_saved_games: "Guardado"
     granularity_change_history: "Historia"
 
   options:
@@ -428,9 +428,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     editor_config: "Config. de Editor"
     editor_config_title: "Configuración del Editor"
     editor_config_level_language_label: "Lenguaje para este Nivel"
-    editor_config_level_language_description: "Definir el lenguaje de programación para Este nivel."
+    editor_config_level_language_description: "Definir el lenguaje de programación para este nivel."
     editor_config_default_language_label: "Lenguaje de Programación Predeterminado"
-    editor_config_default_language_description: "Definir el lenguaje de programación que deseas para codificar cuando inicias nuevos niveles."
+    editor_config_default_language_description: "Definir el lenguaje de programación que deseas para programar cuando inicias nuevos niveles."
     editor_config_keybindings_label: "Atajos de Teclado"
     editor_config_keybindings_default: "Default (As)"
     editor_config_keybindings_description: "Añade atajos adicionales conocidos de los editores comunes."
@@ -449,9 +449,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     why_paragraph_2_prefix: "De eso se trata la programación. Será divertido. No casi divertido"
     why_paragraph_2_italic: "bien un premio"
     why_paragraph_2_center: "pero algo divertido"
-    why_paragraph_2_italic_caps: "¡NO MAMÁ, TENGO QUE FINALIZAR EL NIVEL!"
+    why_paragraph_2_italic_caps: "¡NO MAMÁ, TENGO QUE TERMINAR EL NIVEL!"
     why_paragraph_2_suffix: "Por tal motivo CodeCombat es un juego multiusuario, no un curso con gamificación. No finalizaremos hasta que terminemos--pero en esta ocasión, es una buena cosa."
-    why_paragraph_3: "si te vas a volver adicto a un juego, hazlo a este y conviértete en uno de los magos de la era tecnológica."
+    why_paragraph_3: "si te vas a volver adicto a un juego, que sea este y conviértete en uno de los magos de la era tecnológica."
     press_title: "Blogeros/Prensa"
     press_paragraph_1_prefix: "¿Quieres escribirnos? Descarga y usa con confianza todos los recursos incluídos en nuestro"
     press_paragraph_1_link: "paquete de prensa"
