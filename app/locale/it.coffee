@@ -329,6 +329,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   inventory:
     choose_inventory: "Equipaggiamento"
     equipped_item: "In dotazione"
+#    required_purchase_title: "Required"
     available_item: "Disponibile"
     restricted_title: "Vietato"
     should_equip: "(doppio clic per prendere)"
@@ -715,7 +716,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     diplomat_join_pref_github: "Trova il file locale della tua lingua "
     diplomat_github_url: "su GitHub"
     diplomat_join_suf_github: ", modificalo online e invia una richiesta di pull. Ricordati di segnare la casella qui sotto per essere aggiornato sugli sviluppi delle traduzioni!"
-    more_about_diplomat: "Leggi di più su cosa vuol dire diventare un grande Diplomatico"
     diplomat_subscribe_desc: "Ricevi messaggi email sullo sviluppo i18n e i livelli da tradurre."
     ambassador_introduction: "Stiamo costruendo questa comunità, e voi siete i collegamenti. Abbiamo chat Olark, email e reti sociali con tanta gente con cui parlare ed aiutare a familiarizzare con il gioco, e da cui imparare. Se vuoi aiutare le persone a farsi coinvolgere e a divertirsi; se sei entrato nello spirito di CodeCombat e di dove stiamo andando, questa categoria può essere per te."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
