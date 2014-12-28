@@ -11,43 +11,43 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     ipad_browser: "Лоши вести: CodeCombat не работи во прелистувачот на iPad. Добри вести: Нашата апликација за iPad е готова и чека одобрение од Apple."
     campaign: "Кампања"
     for_beginners: "За Почетници"
-    multiplayer: "Повеќе играчи"  # Not currently shown on home page
+    multiplayer: "Повеќе Играчи"  # Not currently shown on home page
     for_developers: "За Developer-и"  # Not currently shown on home page.
     or_ipad: "Или симни за iPad"
 
   nav:
-    play: "Levels"  # The top nav bar entry where players choose which levels to play
-    community: "Community"
-    editor: "Editor"
-    blog: "Blog"
-    forum: "Forum"
-    account: "Account"
-    profile: "Profile"
-    stats: "Stats"
-    code: "Code"
-    admin: "Admin"  # Only shows up when you are an admin
-    home: "Home"
-    contribute: "Contribute"
-    legal: "Legal"
-    about: "About"
-    contact: "Contact"
-    twitter_follow: "Follow"
-    teachers: "Teachers"
+    play: "Нивоа"  # The top nav bar entry where players choose which levels to play
+    community: "Заедница"
+    editor: "Едитор"
+    blog: "Блог"
+    forum: "Форум"
+    account: "Сметка"
+    profile: "Профил"
+    stats: "Статистики"
+    code: "Code" # TODO
+    admin: "Администратор"  # Only shows up when you are an admin
+    home: "Дома"
+    contribute: "Допринеси"
+    legal: "Законски"
+    about: "За CodeCombat"
+    contact: "Контакт"
+    twitter_follow: "Следи"
+    teachers: "Учители"
 
   modal:
-    close: "Close"
-    okay: "Okay"
+    close: "Затвори"
+    okay: "Во ред"
 
   not_found:
-    page_not_found: "Page not found"
+    page_not_found: "Страницата не е најдена"
 
   diplomat_suggestion:
-    title: "Help translate CodeCombat!"  # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
-    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
-    learn_more: "Learn more about being a Diplomat"
-    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    title: "Помогни да се преведе CodeCombat!"  # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Ни требаат твоите јазични вештини."
+    pitch_body: "Ние ја развиваме CodeCombat на Англиски, но веќе имаме играчи низ целиот свет. Многу од нив сакаат да играат на Македонски, а не разбираат Англиски, па ако ги зборуваш и двата јазика, размисли дали би сакал/а да се зачлениш како Дипломат и да помогнеш да се преведат на Македонски CodeCombat веб сајтот и сите нивоа од играта."
+    missing_translations: "Додека не преведеме сè на Македонски, ќе гледаш Англиски каде што Македонскиот не е достапен."
+    learn_more: "Научи повеќе за тоа како е да се биде Дипломат"
+    subscribe_as_diplomat: "Зачлени се како Дипломат"
 
   play:
     play_as: "Play As"  # Ladder page
