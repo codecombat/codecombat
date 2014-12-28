@@ -1,19 +1,19 @@
 # Translation not finished (work in progress)
 module.exports = nativeDescription: "Македонски", englishDescription: "Macedonian", translation:
   home:
-    slogan: "Learn to Code by Playing a Game"
-    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"  # Warning that shows up on mobile devices
-    play: "Play"  # The big play button that just starts playing a level
-    try_it: "Try It"  # Alternate wording for Play button
-    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"  # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "You can try anyway, but it probably won't work."
-    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-    campaign: "Campaign"
-    for_beginners: "For Beginners"
-    multiplayer: "Multiplayer"  # Not currently shown on home page
-    for_developers: "For Developers"  # Not currently shown on home page.
-    or_ipad: "Or download for iPad"
+    slogan: "Научи да Програмираш Преку Игра"
+    no_ie: "CodeCombat не работи во Internet Explorer верзија 8 или постара. Извини!"  # Warning that only shows up in IE8 and older
+    no_mobile: "CodeCombat не е дизајнирана за мобилни уреди и може да не работи!"  # Warning that shows up on mobile devices
+    play: "Играј"  # The big play button that just starts playing a level
+    try_it: "Пробај"  # Alternate wording for Play button
+    old_browser: "Уф, прелистувачот ти е премногу стар за да ја пушти CodeCombat. Извини!"  # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Можеш да пробаш и покрај тоа, но најверојатно нема да работи."
+    ipad_browser: "Лоши вести: CodeCombat не работи во прелистувачот на iPad. Добри вести: Нашата апликација за iPad е готова и чека одобрение од Apple."
+    campaign: "Кампања"
+    for_beginners: "За Почетници"
+    multiplayer: "Повеќе играчи"  # Not currently shown on home page
+    for_developers: "За Developer-и"  # Not currently shown on home page.
+    or_ipad: "Или симни за iPad"
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
