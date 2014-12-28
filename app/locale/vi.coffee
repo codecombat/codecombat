@@ -125,7 +125,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     send_password: "Gởi mật mã khôi phục"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
 #    armor: "Armor"

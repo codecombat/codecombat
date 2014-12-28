@@ -63,3 +63,4 @@ module.exports =
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
   'ca': { nativeDescription: 'Català', englishDescription: 'Catalan' }
   'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' } 
+  'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
