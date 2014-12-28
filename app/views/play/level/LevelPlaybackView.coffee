@@ -1,7 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'core/auth'
-LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class LevelPlaybackView extends CocoView
   id: 'playback-view'
@@ -67,7 +66,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @goto = t 'play_level.time_goto'
     @current = t 'play_level.time_current'
     @total = t 'play_level.time_total'
-    @$el.find('#play-button').css('visibility', 'hidden') if LevelOptions[@options.levelID]?.hidesPlayButton  # Don't show for first few levels, confuses new players.
+    @$el.find('#play-button').css('visibility', 'hidden') if @options.level.get 'hidesPlayButton'  # Don't show for first few levels, confuses new players.
 
   updatePopupContent: ->
     @timePopup?.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"

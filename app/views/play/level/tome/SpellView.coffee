@@ -9,8 +9,6 @@ SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
-CampaignOptions = require 'lib/CampaignOptions'
-LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -199,7 +197,7 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
       exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     addCommand
-      # TODO: Restrict to beginner campaign levels, possibly with a CampaignOptions similar to LevelOptions
+      # TODO: Restrict to beginner campaign levels like we do backspaceThrottle
       name: 'enter-skip-delimiters'
       bindKey: 'Enter|Return'
       exec: =>
@@ -216,40 +214,36 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: =>
-        return @ace.execCommand 'insertstring', ' ' unless LevelOptions[@options.level.get('slug')]?.disableSpaces
+        return @ace.execCommand 'insertstring', ' ' unless @options.level.get 'disableSpaces'
         line = @aceDoc.getLine @ace.getCursorPosition().row
         return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
 
-    addCommand
-      name: 'throttle-backspaces'
-      bindKey: 'Backspace'
-      exec: =>
-        # Throttle the backspace speed
-        # Slow to 500ms when whitespace at beginning of line is first encountered
-        # Slow to 100ms for remaining whitespace at beginning of line
-        # Rough testing showed backspaces happen at 150ms when tapping.
-        # Backspace speed varies by system when holding, 30ms on fastest Macbook setting.
-        unless CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'backspaceThrottle')
+    if @options.level.get 'backspaceThrottle'
+      addCommand
+        name: 'throttle-backspaces'
+        bindKey: 'Backspace'
+        exec: =>
+          # Throttle the backspace speed
+          # Slow to 500ms when whitespace at beginning of line is first encountered
+          # Slow to 100ms for remaining whitespace at beginning of line
+          # Rough testing showed backspaces happen at 150ms when tapping.
+          # Backspace speed varies by system when holding, 30ms on fastest Macbook setting.
+          nowDate = Date.now()
+          if @aceSession.selection.isEmpty()
+            cursor = @ace.getCursorPosition()
+            line = @aceDoc.getLine(cursor.row)
+            if /^\s*$/.test line.substring(0, cursor.column)
+              @backspaceThrottleMs ?= 500
+              # console.log "SpellView @backspaceThrottleMs=#{@backspaceThrottleMs}"
+              # console.log 'SpellView lastBackspace diff', nowDate - @lastBackspace if @lastBackspace?
+              if not @lastBackspace? or nowDate - @lastBackspace > @backspaceThrottleMs
+                @backspaceThrottleMs = 100
+                @lastBackspace = nowDate
+                @ace.remove "left"
+              return
+          @backspaceThrottleMs = null
+          @lastBackspace = nowDate
           @ace.remove "left"
-          return
-
-        nowDate = Date.now()
-        if @aceSession.selection.isEmpty()
-          cursor = @ace.getCursorPosition()
-          line = @aceDoc.getLine(cursor.row)
-          if /^\s*$/.test line.substring(0, cursor.column)
-            @backspaceThrottleMs ?= 500
-            # console.log "SpellView @backspaceThrottleMs=#{@backspaceThrottleMs}"
-            # console.log 'SpellView lastBackspace diff', nowDate - @lastBackspace if @lastBackspace?
-            if not @lastBackspace? or nowDate - @lastBackspace > @backspaceThrottleMs
-              @backspaceThrottleMs = 100
-              @lastBackspace = nowDate
-              @ace.remove "left"
-            return
-        @backspaceThrottleMs = null
-        @lastBackspace = nowDate
-        @ace.remove "left"
-
 
 
   fillACE: ->
@@ -259,7 +253,7 @@ module.exports = class SpellView extends CocoView
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
-    return unless LevelOptions[@options.level.get('slug')]?.lockDefaultCode or CampaignOptions?.getOption?(@options?.level?.get?('slug'), 'lockDefaultCode')
+    return unless @options.level.get('lockDefaultCode')
     return unless @spell.source is @spell.originalSource or force
 
     console.info 'Locking down default code.'
@@ -374,7 +368,7 @@ module.exports = class SpellView extends CocoView
     # TODO: Turn on more autocompletion based on level sophistication
     # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
     # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
-    popupFontSizePx = CampaignOptions.getOption(@options.level.get('slug'), 'autocompleteFontSizePx') ? 16
+    popupFontSizePx = @options.level.get('autocompleteFontSizePx') ? 16
     @zatanna = new Zatanna @ace,
       basic: false
       liveCompletion: false
@@ -411,7 +405,7 @@ module.exports = class SpellView extends CocoView
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         if doc?.snippets?[e.language]
           content = doc.snippets[e.language].code
-          if /loop/.test(content) and LevelOptions[@options.level.get('slug')]?.moveRightLoopSnippet
+          if /loop/.test(content) and @options.level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
             content = switch e.language
               when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
@@ -618,8 +612,8 @@ module.exports = class SpellView extends CocoView
       _.throttle @updateLines, 500
       _.throttle @hideProblemAlert, 500
     ]
-    onSignificantChange.push _.debounce @checkRequiredCode, 750 if LevelOptions[@options.level.get('slug')]?.requiredCode
-    onSignificantChange.push _.debounce @checkSuspectCode, 750 if LevelOptions[@options.level.get('slug')]?.suspectCode
+    onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
+    onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'code-change', volume: 0.5
@@ -924,7 +918,7 @@ module.exports = class SpellView extends CocoView
         @aceSession.removeGutterDecoration row, 'executed'
         @decoratedGutter[row] = ''
     lastExecuted = _.last executed
-    showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not LevelOptions[@options.level.get('slug')]?.hidesCodeToolbar  # Hide for a while
+    showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not @options.level.get 'hidesCodeToolbar'  # Hide for a while
     showToolbarView = false  # TODO: fix toolbar styling in new design to have some space for it
 
     if showToolbarView
@@ -1059,7 +1053,7 @@ module.exports = class SpellView extends CocoView
   checkRequiredCode: =>
     return if @destroyed
     source = @getSource().replace @singleLineCommentRegex(), ''
-    requiredCodeFragments = LevelOptions[@options.level.get('slug')].requiredCode
+    requiredCodeFragments = @options.level.get 'requiredCode'
     for requiredCodeFragment in requiredCodeFragments
       # Could make this obey regular expressions like suspectCode if needed
       if source.indexOf(requiredCodeFragment) is -1
@@ -1071,10 +1065,11 @@ module.exports = class SpellView extends CocoView
   checkSuspectCode: =>
     return if @destroyed
     source = @getSource().replace @singleLineCommentRegex(), ''
-    suspectCodeFragments = LevelOptions[@options.level.get('slug')].suspectCode
+    suspectCodeFragments = @options.level.get 'suspectCode'
     detectedSuspectCodeFragmentNames = []
     for suspectCodeFragment in suspectCodeFragments
-      if suspectCodeFragment.pattern.test source
+      pattern = new RegExp suspectCodeFragment.pattern, 'm'
+      if pattern.test source
         @warnedCodeFragments ?= {}
         unless @warnedCodeFragments[suspectCodeFragment.name]
           Backbone.Mediator.publish 'tome:suspect-code-fragment-added', codeFragment: suspectCodeFragment.name, codeLanguage: @spell.language

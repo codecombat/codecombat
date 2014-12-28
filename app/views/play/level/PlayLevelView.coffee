@@ -62,7 +62,6 @@ module.exports = class PlayLevelView extends RootView
     'god:infinite-loop': 'onInfiniteLoop'
     'level:reload-from-data': 'onLevelReloadFromData'
     'level:reload-thang-type': 'onLevelReloadThangType'
-    'level:play-next-level': 'onPlayNextLevel'
     'level:session-will-save': 'onSessionWillSave'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiling': 'onLoadingViewUnveiling'
@@ -235,7 +234,7 @@ module.exports = class PlayLevelView extends RootView
 
   insertSubviews: ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
-    @insertSubView new LevelPlaybackView session: @session, levelID: @levelID, level: @level
+    @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
     @insertSubView new GoldView {}
@@ -427,7 +426,7 @@ module.exports = class PlayLevelView extends RootView
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')
-      window.nextLevelURL = @getNextLevelURL()  # Signup will go here on completion instead of reloading.
+      window.nextURL = '/play/' + (@level.get('campaign') ? '')  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()
@@ -439,23 +438,6 @@ module.exports = class PlayLevelView extends RootView
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
     application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name')
-
-  onPlayNextLevel: ->
-    nextLevelID = @getNextLevelID()
-    nextLevelURL = @getNextLevelURL()
-    Backbone.Mediator.publish 'router:navigate', {
-      route: nextLevelURL,
-      viewClass: PlayLevelView,
-      viewArgs: [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}, nextLevelID]}
-
-  getNextLevelID: ->
-    for campaign in require('views/play/WorldMapView').campaigns
-      for level in campaign.levels
-        return level.nextLevels?.continue if level.id is @level.get('slug')
-
-  getNextLevelURL: ->
-    return null unless @getNextLevelID()
-    "/play/level/#{@getNextLevelID()}"
 
   onHighlightDOM: (e) -> @highlightElement e.selector, delay: e.delay, sides: e.sides, offset: e.offset, rotation: e.rotation
 
@@ -554,7 +536,7 @@ module.exports = class PlayLevelView extends RootView
     delete window.world # not sure where this is set, but this is one way to clean it up
     @bus?.destroy()
     #@instance.save() unless @instance.loading
-    delete window.nextLevelURL
+    delete window.nextURL
     console.profileEnd?() if PROFILE_ME
     @onRealTimeMultiplayerLevelUnloaded()
     super()

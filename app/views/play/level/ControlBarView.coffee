@@ -7,7 +7,6 @@ RealTimeModel = require 'models/RealTimeModel'
 RealTimeCollection = require 'collections/RealTimeCollection'
 LevelSetupManager = require 'lib/LevelSetupManager'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
-CampaignOptions = require 'lib/CampaignOptions'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -69,8 +68,8 @@ module.exports = class ControlBarView extends CocoView
       @homeViewArgs.push levelID
     else if @level.get('type', true) in ['hero', 'hero-coop']
       @homeLink = c.homeLink = '/play'
-      @homeViewClass = 'views/play/WorldMapView'
-      campaign = CampaignOptions.getCampaignForSlug @level.get 'slug'
+      @homeViewClass = 'views/play/CampaignView'
+      campaign = @level.get 'campaign'
       if campaign isnt 'dungeon'
         @homeLink += '/' + campaign
         @homeViewArgs.push campaign

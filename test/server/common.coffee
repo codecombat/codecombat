@@ -26,6 +26,7 @@ GLOBAL.tv4 = require 'tv4' # required for TreemaUtils to work
 models_path = [
   '../../server/analytics/AnalyticsUsersActive'
   '../../server/articles/Article'
+  '../../server/campaigns/Campaign'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'

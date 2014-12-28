@@ -9,7 +9,6 @@ utils = require 'core/utils'
 ThangType = require 'models/ThangType'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 AudioPlayer = require 'lib/AudioPlayer'
-CampaignOptions = require 'lib/CampaignOptions'
 User = require 'models/User'
 utils = require 'core/utils'
 
@@ -115,7 +114,6 @@ module.exports = class HeroVictoryModal extends ModalView
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
-    @continueLevelLink = @getNextLevelLink 'continue'
 
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     isHourOfCode = me.get('hourOfCode') or elapsed < 120 * 60 * 1000
@@ -301,34 +299,21 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       AudioPlayer.playSound name, 1
 
-  getLevelInfoForSlug: (slug) ->
-    for campaign in require('views/play/WorldMapView').campaigns
-      for level in campaign.levels
-        return level if level.id is slug
-
   getNextLevelCampaign: ->
-    # Wouldn't handle skipping/more practice across campaign boundaries, but we don't do that.
-    campaign = CampaignOptions.getCampaignForSlug @level.get 'slug'
-    if nextLevelSlug = @getNextLevel 'continue'
-      campaign = CampaignOptions.getCampaignForSlug nextLevelSlug
-    campaign or 'dungeon'
+    {'kithgard-gates': 'forest', 'siege-of-stonehold': 'desert'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
+    link += '/' + nextCampaign unless nextCampaign is 'dungeon'
 
-  getNextLevelLink: (type) ->
+  getNextLevelLink: ->
     link = '/play'
     nextCampaign = @getNextLevelCampaign()
     link += '/' + nextCampaign unless nextCampaign is 'dungeon'
-    return link unless nextLevel = @getNextLevel type
-    "#{link}?next=#{nextLevel}"
-
-  getNextLevel: (type) ->
-    levelInfo = @getLevelInfoForSlug @level.get 'slug'
-    levelInfo?.nextLevels?[type]  # 'continue'; TODO: refactor to not have the object and just use single nextLevel property
+    link
 
   onClickContinue: (e) ->
     @playSound 'menu-button-click'
-    nextLevelLink = @continueLevelLink
+    nextLevelLink = @getNextLevelLink()
     # Preserve the supermodel as we navigate back to the world map.
-    Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/WorldMapView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
+    Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/CampaignView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
 
   onClickReturnToLadder: (e) ->
     @playSound 'menu-button-click'

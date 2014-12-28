@@ -314,10 +314,17 @@ module.exports = class Handler
       projection = {}
       fields = if req.query.project is 'true' then _.keys(PROJECT) else req.query.project.split(',')
       projection[field] = 1 for field in fields
+      # Make sure that permissions and version are fetched, but not sent back if they didn't ask for them.
+      extraProjectionProps = []
+      extraProjectionProps.push 'permissions' unless projection.permissions
+      extraProjectionProps.push 'version' unless projection.version
+      projection.permissions = 1
+      projection.version = 1
       args.push projection
     @modelClass.findOne(args...).sort(sort).exec (err, doc) =>
       return @sendNotFoundError(res) unless doc?
       return @sendForbiddenError(res) unless @hasAccessToDocument(req, doc)
+      doc = _.omit doc, extraProjectionProps if extraProjectionProps?
       res.send(doc)
       res.end()
 
@@ -328,7 +335,7 @@ module.exports = class Handler
   put: (req, res, id) ->
     # Client expects PATCH behavior for PUTs
     # Real PATCHs return incorrect HTTP responses in some environments (e.g. Browserstack, schools)
-    return @postNewVersion(req, res) if @modelClass.schema.uses_coco_versions
+    return @sendForbiddenError(res) if @modelClass.schema.uses_coco_versions and not req.user.isAdmin()
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendForbiddenError(res) unless @hasAccess(req)
     @getDocumentForIdOrSlug req.body._id or id, (err, document) =>
@@ -343,6 +350,7 @@ module.exports = class Handler
           return @sendBadInputError(res, err.errors) if err?.valid is false
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, document))
+          @onPutSuccess(req, document)
 
   post: (req, res) ->
     if @modelClass.schema.uses_coco_versions
@@ -362,6 +370,7 @@ module.exports = class Handler
       @onPostSuccess(req, document)
 
   onPostSuccess: (req, doc) ->
+  onPutSuccess: (req, doc) ->
 
   ###
   TODO: think about pulling some common stuff out of postFirstVersion/postNewVersion

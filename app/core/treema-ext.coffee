@@ -313,7 +313,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
 
 class LatestVersionCollection extends CocoCollection
 
-class LatestVersionReferenceNode extends TreemaNode
+module.exports.LatestVersionReferenceNode = class LatestVersionReferenceNode extends TreemaNode
   searchValueTemplate: '<input placeholder="Search" /><div class="treema-search-results"></div>'
   valueClass: 'treema-latest-version'
   url: '/db/article'
@@ -383,7 +383,11 @@ class LatestVersionReferenceNode extends TreemaNode
     m = CocoModel.getReferencedModel(@getData(), @workingSchema)
     data = @getData()
     if _.isString data  # LatestVersionOriginalReferenceNode just uses original
-      m = @settings.supermodel.getModelByOriginal(m.constructor, data)
+      if m.schema().properties.version
+        m = @settings.supermodel.getModelByOriginal(m.constructor, data)
+      else
+        # get by id
+        m = @settings.supermodel.getModel(m.constructor, data)
     else
       m = @settings.supermodel.getModelByOriginalAndMajorVersion(m.constructor, data.original, data.majorVersion)
     if @instance and not m
@@ -434,13 +438,22 @@ class LatestVersionReferenceNode extends TreemaNode
     selected = @getSelectedResultEl()
     return not selected.length
 
-class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode
+module.exports.LatestVersionOriginalReferenceNode = class LatestVersionOriginalReferenceNode extends LatestVersionReferenceNode
   # Just for saving the original, not the major version.
   saveChanges: ->
     selected = @getSelectedResultEl()
     return unless selected.length
     fullValue = selected.data('value')
     @data = fullValue.attributes.original
+    @instance = fullValue
+
+module.exports.IDReferenceNode = class IDReferenceNode extends LatestVersionReferenceNode
+  # Just for saving the _id
+  saveChanges: ->
+    selected = @getSelectedResultEl()
+    return unless selected.length
+    fullValue = selected.data('value')
+    @data = fullValue.attributes._id
     @instance = fullValue
 
 class LevelComponentReferenceNode extends LatestVersionReferenceNode

@@ -92,7 +92,7 @@ module.exports = class AuthModal extends ModalView
     Backbone.Mediator.publish "auth:signed-up", {}
     window.tracker?.trackEvent 'Finished Signup', label: 'CodeCombat'
     @enableModalInProgress(@$el)
-    createUser userObject, null, window.nextLevelURL
+    createUser userObject, null, window.nextURL
 
   onLoggingInWithFacebook: (e) ->
     modal = $('.modal:visible', @$el)

@@ -1,7 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
-LevelOptions = require 'lib/LevelOptions'
 utils = require 'core/utils'
 
 module.exports = class LevelHUDView extends CocoView
@@ -23,7 +22,7 @@ module.exports = class LevelHUDView extends CocoView
   afterRender: ->
     super()
     @$el.addClass 'no-selection'
-    if LevelOptions[@options.level.get('slug')]?.hidesHUD
+    if @options.level.get('hidesHUD')
       @hidesHUD = true
       @$el.addClass 'hide-hud-properties'
 
