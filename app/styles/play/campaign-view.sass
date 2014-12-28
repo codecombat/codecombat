@@ -2,17 +2,9 @@
 @import "app/styles/bootstrap/variables"
 
 $mapHeight: 1536
-$forestMapWidth: 2500
-$dungeonMapWidth: 2350
-$desertMapWidth: 2350
-$desertMapSeaBackground: rgba(113, 186, 208, 1)
-$desertMapSeaBackgroundTransparent: rgba(113, 186, 208, 0)
-$forestMapSeaBackground: rgba(113, 186, 208, 1)
-$forestMapSeaBackgroundTransparent: rgba(113, 186, 208, 0)
-$dungeonMapCaveBackground: rgba(68, 54, 45, 1)
-$dungeonMapCaveBackgroundTransparent: rgba(68, 54, 45, 0)
+$mapWidth: 2350
 $levelDotWidth: 2%
-$levelDotHeight: $levelDotWidth * $forestMapWidth / $mapHeight
+$levelDotHeight: $levelDotWidth * $mapWidth / $mapHeight
 $levelDotZ: $levelDotHeight * 0.25
 $levelDotHoverZ: $levelDotZ * 2
 $levelDotShadowWidth: 0.8 * $levelDotWidth
@@ -63,51 +55,6 @@ $gameControlMargin: 30px
     &.left-gradient
       left: 0
 
-  &.desert
-    background-color: $desertMapSeaBackground
-
-    .top-gradient
-      background: linear-gradient(to bottom, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
-
-    .right-gradient
-      background: linear-gradient(to left, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
-
-    .bottom-gradient
-      background: linear-gradient(to top, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
-
-    .left-gradient
-      background: linear-gradient(to right, $desertMapSeaBackground 0%, $desertMapSeaBackgroundTransparent 100%)
-
-  &.forest
-    background-color: $forestMapSeaBackground
-
-    .top-gradient
-      background: linear-gradient(to bottom, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
-
-    .right-gradient
-      background: linear-gradient(to left, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
-
-    .bottom-gradient
-      background: linear-gradient(to top, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
-
-    .left-gradient
-      background: linear-gradient(to right, $forestMapSeaBackground 0%, $forestMapSeaBackgroundTransparent 100%)
-
-  &.dungeon
-    background-color: $dungeonMapCaveBackground
-
-    .top-gradient
-      background: linear-gradient(to bottom, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-
-    .right-gradient
-      background: linear-gradient(to left, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-
-    .bottom-gradient
-      background: linear-gradient(to top, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-
-    .left-gradient
-      background: linear-gradient(to right, $dungeonMapCaveBackground 0%, $dungeonMapCaveBackgroundTransparent 100%)
-
   .map
     position: relative
 
@@ -117,21 +64,6 @@ $gameControlMargin: 30px
       background-size: 100%
       @include user-select(none)
       
-      &.map-dungeon
-        background-image: url('/images/pages/play/map_dungeon_1920.jpg')
-        @media screen and ( max-width: 1366px )
-          background-image: url('/images/pages/play/map_dungeon_1366.jpg')
-
-      &.map-forest
-        background-image: url('/images/pages/play/map_forest_1920.jpg')
-        @media screen and ( max-width: 1366px )
-          background-image: url('/images/pages/play/map_forest_1366.jpg')
-
-      &.map-desert
-        background-image: url('/images/pages/play/map_desert_1920.jpg')
-        @media screen and ( max-width: 1366px )
-          background-image: url('/images/pages/play/map_desert_1366.jpg')
-
     .level, .level-shadow
       position: absolute
       border-radius: 100%
@@ -301,27 +233,6 @@ $gameControlMargin: 30px
       
       &:hover
         text-decoration: none
-      
-      &#desert-link
-        left: 90%
-        top: 18.5%
-        transform: scaleY(-1.5) scaleX(1.5)
-      
-      &#forest-back-link
-        left: 2%
-        top: 70.5%
-        transform: rotate(216deg)
-      
-      &#forest-link
-        left: 94.5%
-        top: 7%
-        transform: rotate(-35deg)
-      
-      &#dungeon-link
-        left: 9%
-        top: 54.5%
-        transform: rotate(180deg)
-        color: fuchsia
           
   .game-controls
     position: absolute

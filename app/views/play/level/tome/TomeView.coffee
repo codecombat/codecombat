@@ -62,7 +62,7 @@ module.exports = class TomeView extends CocoView
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
-    @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID, session: @options.session
+    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
       @cast()

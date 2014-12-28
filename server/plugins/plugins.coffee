@@ -309,17 +309,17 @@ module.exports.SearchablePlugin = (schema, options) ->
     next()
 
 module.exports.TranslationCoveragePlugin = (schema, options) ->
-  
+
   schema.uses_coco_translation_coverage = true
   schema.set('autoIndex', true)
-  
+
   index = {}
-  
+
   if schema.uses_coco_versions
     if not schema.uses_coco_names
       throw Error('If using translation coverage and versioning, should also use names for indexing.')
     index.slug = 1
-    
+
   index.i18nCoverage = 1
-  
-  schema.index(index, {sparse: true, name: 'translation coverage index', background: true}) 
+
+  schema.index(index, {sparse: true, name: 'translation coverage index', background: true})

@@ -53,6 +53,6 @@ module.exports = class HomeView extends RootView
     if elapsed < 5 * 60 * 1000
       me.set 'hourOfCode', true
       me.patch()
-    # We may also insert the tracking pixel for everyone on the WorldMapView so as to count directly-linked visitors.
+    # We may also insert the tracking pixel for everyone on the CampaignView so as to count directly-linked visitors.
     $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
     application.tracker?.trackEvent 'Hour of Code Begin', {}

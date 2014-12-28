@@ -140,3 +140,24 @@ if document?
   module.exports.replaceText = (elems, text) ->
     elem[TEXT] = text for elem in elems
     null
+
+# Add a stylesheet rule
+# http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript/26230472#26230472
+# Don't use wantonly, or we'll have to implement a simple mechanism for clearing out old rules.
+if document?
+  module.exports.injectCSS = ((doc) ->
+    # wrapper for all injected styles and temp el to create them
+    wrap = doc.createElement("div")
+    temp = doc.createElement("div")
+    # rules like "a {color: red}" etc.
+    return (cssRules) ->
+      # append wrapper to the body on the first call
+      unless wrap.id
+        wrap.id = "injected-css"
+        wrap.style.display = "none"
+        doc.body.appendChild wrap
+      # <br> for IE: http://goo.gl/vLY4x7
+      temp.innerHTML = "<br><style>" + cssRules + "</style>"
+      wrap.appendChild temp.children[1]
+      return
+  )(document)

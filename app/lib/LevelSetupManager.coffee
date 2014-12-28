@@ -1,10 +1,10 @@
 CocoClass = require 'core/CocoClass'
 PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 InventoryModal = require 'views/play/menu/InventoryModal'
+Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 SuperModel = require 'models/SuperModel'
 ThangType = require 'models/ThangType'
-LevelOptions = require 'lib/LevelOptions'
 
 lastHeroesEarned = me.get('earned')?.heroes ? []
 lastHeroesPurchased = me.get('purchased')?.heroes ? []
@@ -22,27 +22,39 @@ module.exports = class LevelSetupManager extends CocoClass
       @loadSession()
 
   loadSession: ->
-    url = "/db/level/#{@options.levelID}/session"
-    #url += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
-    @session = new LevelSession().setURL url
+    levelURL = "/db/level/#{@options.levelID}"
+    @level = new Level().setURL levelURL
+    @level = @supermodel.loadModel(@level, 'level').model
+    onLevelSync = ->
+      return if @destroyed
+      if @waitingToLoadModals
+        @waitingToLoadModals = false
+        @loadModals()
+    onLevelSync.call @ if @level.loaded
+
+    sessionURL = "#{levelURL}/session"
+    #sessionURL += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
+    @session = new LevelSession().setURL sessionURL
     onSessionSync = ->
       return if @destroyed
       @session.url = -> '/db/level.session/' + @id
       @fillSessionWithDefaults()
     @listenToOnce @session, 'sync', onSessionSync
     @session = @supermodel.loadModel(@session, 'level_session').model
-    if @session.loaded
-      onSessionSync.call @
+    onSessionSync.call @ if @session.loaded
 
   fillSessionWithDefaults: ->
     heroConfig = _.merge {}, me.get('heroConfig'), @session.get('heroConfig')
     @session.set('heroConfig', heroConfig)
-    @loadModals()
+    if @level.loaded
+      @loadModals()
+    else
+      @waitingToLoadModals = true
 
   loadModals: ->
     # build modals and prevent them from disappearing.
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', levelID: @options.levelID, hadEverChosenHero: @options.hadEverChosenHero})
-    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, levelID: @options.levelID})
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
+    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
     @heroesModal.destroy = @inventoryModal.destroy = _.noop
@@ -62,7 +74,7 @@ module.exports = class LevelSetupManager extends CocoClass
         not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? []))
       console.log 'Showing hero picker because heroes earned/purchased has changed.'
       firstModal = @heroesModal
-    else if allowedHeroSlugs = LevelOptions[@options.levelID]?.allowedHeroes
+    else if allowedHeroSlugs = @level.get 'allowedHeroes'
       unless _.find(allowedHeroSlugs, (slug) -> ThangType.heroes[slug] is me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
     lastHeroesEarned = me.get('earned')?.heroes ? []

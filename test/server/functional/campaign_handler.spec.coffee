@@ -23,7 +23,7 @@ campaign = {
   name: 'Campaign'
   levels: {}
 }
-  
+
 levelURL = getURL('/db/level')
 achievementURL = getURL('/db/achievement')
 campaignURL = getURL('/db/campaign')
@@ -47,7 +47,7 @@ describe '/db/campaign', ->
             request.post {uri: achievementURL, json: achievement}, (err, res, body) ->
               achievement = body
               done()
-  
+
   it 'can create campaigns', (done) ->
     for level in levels.reverse()
       campaign.levels[level.original] = _.pick level, campaignLevelProperties
@@ -55,7 +55,7 @@ describe '/db/campaign', ->
       expect(res.statusCode).toBe(200)
       campaign = body
       done()
-    
+
 describe '/db/campaign/.../levels', ->
   it 'fetches the levels in a campaign', (done) ->
     url = getURL("/db/campaign/#{campaign._id}/levels")
@@ -65,7 +65,7 @@ describe '/db/campaign/.../levels', ->
       expect(body.length).toBe(2)
       expect(_.difference(['level-1', 'level-2'],(level.slug for level in body)).length).toBe(0)
       done()
-      
+
 describe '/db/campaign/.../achievements', ->
   it 'fetches the achievements in the levels in a campaign', (done) ->
     url = getURL("/db/campaign/#{campaign._id}/achievements")
@@ -74,4 +74,3 @@ describe '/db/campaign/.../achievements', ->
       body = JSON.parse(body)
       expect(body.length).toBe(1)
       done()
-      

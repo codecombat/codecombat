@@ -8,7 +8,6 @@ ItemView = require './ItemView'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ItemDetailsView = require 'views/play/modal/ItemDetailsView'
 Purchase = require 'models/Purchase'
-LevelOptions = require 'lib/LevelOptions'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 
 hasGoneFullScreenOnce = false
@@ -94,9 +93,13 @@ module.exports = class InventoryModal extends ModalView
     locked = not (item.get('original') in me.items())
     #locked = false if me.get('slug') is 'nick'
 
-    if not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats) and locked  # Temp: while there are placeholder items
-      null  # Don't put into a collection
-    if locked and item.get('slug') in _.values(LevelOptions[@options.levelID]?.requiredGear ? {})
+    required = item.get('slug') in _.flatten(_.values(@options.level.get('requiredGear') ? {}))
+    restricted = item.get('slug') in _.flatten(_.values(@options.level.get('restrictedGear') ? {}))
+    placeholder = not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats)
+
+    if placeholder and locked  # The item is not complete, so don't put it into a collection.
+      null
+    else if locked and required
       item.classes.push 'locked'
       @itemGroups.requiredPurchaseItems.add item
     else if locked and item.get('slug') isnt 'simple-boots'
@@ -106,7 +109,7 @@ module.exports = class InventoryModal extends ModalView
         null
       else
         @itemGroups.lockedItems.add(item)
-    else if item.get('slug') in _.values(LevelOptions[@options.levelID]?.restrictedGear ? {})
+    else if restricted
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
     else
@@ -361,8 +364,8 @@ module.exports = class InventoryModal extends ModalView
 
   requireLevelEquipment: ->
     # This is temporary, until we have a more general way of awarding items and configuring required/restricted items per level.
-    requiredGear = LevelOptions[@options.levelID]?.requiredGear ? {}
-    restrictedGear = LevelOptions[@options.levelID]?.restrictedGear ? {}
+    requiredGear = @options.level.get('requiredGear') ? {}
+    restrictedGear = @options.level.get('restrictedGear') ? {}
     if @inserted
       if @supermodel.finished()
         equipment = @getCurrentEquipmentConfig()  # Make sure @equipment is updated
@@ -379,33 +382,43 @@ module.exports = class InventoryModal extends ModalView
             console.log 'Unequipping', itemModel.get('heroClass'), 'item', itemModel.get('name'), 'from slot due to class restrictions.'
             @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
             delete equipment[slot]
-      for slot, item of restrictedGear
-        equipped = equipment[slot]
-        if equipped and equipped is gear[restrictedGear[slot]]
-          console.log 'Unequipping restricted item', restrictedGear[slot], 'for', slot, 'before level', @options.levelID
-          @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
-          delete equipment[slot]
-      for slot, item of requiredGear
+      for slot, items of restrictedGear
+        items = [items] if _.isString items
+        for item in items
+          item = gear[item] unless item.length is 24  # Temp: until migration to DB data is done
+          equipped = equipment[slot]
+          if equipped and equipped is item
+            console.log 'Unequipping restricted item', equipped, 'for', slot, 'before level', @options.level.get('slug')
+            @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
+            delete equipment[slot]
+      for slot, items of requiredGear
+        items = [items] if _.isString items  # Temp: until migration to arrays is done
+        item = items[0]  # TODO: look for the last one that they own, or the first one if they don't own any.
+        # TODO: require them to have one of the given items, not just either the item or anything except all these exceptions.
+        slug = gearSlugs[item]
+        if item.length isnt 24  # Temp: until migration to DB data is done
+          [item, slug] = [gear[item], item]
+        #console.log 'requiring', item, slug, 'for', slot, 'and have', equipment[slot]
         if (slot in ['right-hand', 'left-hand', 'head', 'torso']) and not (heroClass is 'Warrior' or
-            (heroClass is 'Ranger' and @options.levelID in ['swift-dagger', 'shrapnel']) or
-            (heroClass is 'Wizard' and @options.levelID in ['touch-of-death', 'bonemender'])) and not (item in ['crude-builders-hammer', 'wooden-builders-hammer'])
+            (heroClass is 'Ranger' and @options.level.get('slug') in ['swift-dagger', 'shrapnel']) or
+            (heroClass is 'Wizard' and @options.level.get('slug') in ['touch-of-death', 'bonemender'])) and not (slug in ['crude-builders-hammer', 'wooden-builders-hammer'])
           # After they switch to a ranger or wizard, we stop being so finicky about class-specific gear.
           continue
-        continue if item is 'tarnished-bronze-breastplate' and inWorldMap and @options.levelID is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
+        continue if slug is 'tarnished-bronze-breastplate' and inWorldMap and @options.level.get('slug') is 'the-raised-sword'  # Don't tell them they need it until they need it in the level
         equipped = equipment[slot]
         continue if equipped and not (
-          (item is 'crude-builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
-          (item in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['crude-builders-hammer']) or
-          (item is 'leather-boots' and equipped is gear['simple-boots']) or
-          (item is 'simple-boots' and equipped is gear['leather-boots'])
+          (slug is 'crude-builders-hammer' and equipped in [gear['simple-sword'], gear['long-sword'], gear['sharpened-sword'], gear['roughedge']]) or
+          (slug in ['simple-sword', 'long-sword', 'roughedge', 'sharpened-sword'] and equipped is gear['crude-builders-hammer']) or
+          (slug is 'leather-boots' and equipped is gear['simple-boots']) or
+          (slug is 'simple-boots' and equipped is gear['leather-boots'])
         )
-        itemModel = @items.findWhere {slug: item}
+        itemModel = @items.findWhere {slug: slug}
         continue unless itemModel
         availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
         @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
         @$el.find(availableSlotSelector).addClass 'should-equip'
         @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-        @remainingRequiredEquipment.push slot: slot, item: gear[item]
+        @remainingRequiredEquipment.push slot: slot, item: item
       if hadRequired and not @remainingRequiredEquipment.length
         @endHighlight()
         @highlightElement '#play-level-button', duration: 5000
@@ -639,3 +652,5 @@ gear =
   'quartz-sense-stone': '54693240a2b1f53ce79443c5'
   'wooden-builders-hammer': '54694ba3a2b1f53ce794444d'
   'simple-wristwatch': '54693797a2b1f53ce79443e9'
+
+gearSlugs = _.invert gear

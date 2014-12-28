@@ -5,11 +5,11 @@ c.extendNamedProperties CampaignSchema  # name first
 
 _.extend CampaignSchema.properties, {
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'body']}
-  
+
   ambientSound: c.object {},
     mp3: { type: 'string', format: 'sound-file' }
     ogg: { type: 'string', format: 'sound-file' }
-    
+
   backgroundImage: c.array {}, {
     type: 'object'
     additionalProperties: false
@@ -20,7 +20,7 @@ _.extend CampaignSchema.properties, {
   }
   backgroundColor: { type: 'string' }
   backgroundColorTransparent: { type: 'string' }
-  
+
   adjacentCampaigns: { type: 'object', format: 'campaigns', additionalProperties: {
     title: 'Campaign'
     type: 'object'
@@ -32,7 +32,7 @@ _.extend CampaignSchema.properties, {
       description: { type: 'string', format: 'hidden' }
       i18n: { type: 'object', format: 'hidden' }
       slug: { type: 'string', format: 'hidden' }
-      
+
       #- normal properties
       position: c.point2d()
       rotation: { type: 'number', format: 'degrees' }
@@ -40,13 +40,13 @@ _.extend CampaignSchema.properties, {
       showIfUnlocked: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
     }
   }}
-  
+
   levels: { type: 'object', format: 'levels', additionalProperties: {
     title: 'Level'
     type: 'object'
     format: 'level'
     additionalProperties: false
-    
+
     # key is the original property
     properties: {
       #- denormalized from Level
@@ -58,6 +58,7 @@ _.extend CampaignSchema.properties, {
       original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
+      adminOnly: { type: 'boolean' }
       disableSpaces: { type: 'boolean' }
       hidesSubmitUntilRun: { type: 'boolean' }
       hidesPlayButton: { type: 'boolean' }
@@ -72,8 +73,8 @@ _.extend CampaignSchema.properties, {
       realTimeSpeedFactor: { type: 'number' }
       autocompleteFontSizePx: { type: 'number' }
 
-      requiredCode: c.array {}, { 
-        type: 'string' 
+      requiredCode: c.array {}, {
+        type: 'string'
       }
       suspectCode: c.array {}, {
         type: 'object'
@@ -82,17 +83,17 @@ _.extend CampaignSchema.properties, {
           pattern: { type: 'string' }
         }
       }
-      
+
       requiredGear: { type: 'object', additionalProperties: {
         type: 'array'
         items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
       }}
       restrictedGear: { type: 'object', additionalProperties: {
-        type: 'array' 
+        type: 'array'
         items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
       }}
-      allowedHeroes: { type: 'array', items: { 
-        type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' 
+      allowedHeroes: { type: 'array', items: {
+        type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
       }}
 
       #- denormalized from Achievements
@@ -106,6 +107,7 @@ _.extend CampaignSchema.properties, {
           level: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
           type: { enum: ['heroes', 'items', 'levels'] }
       }}
+      campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
 
       #- normal properties
       position: c.point2d()

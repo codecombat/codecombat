@@ -33,6 +33,7 @@ LevelHandler = class LevelHandler extends Handler
     'requiresSubscription'
     'adventurer'
     'practice'
+    'adminOnly'
     'disableSpaces'
     'hidesSubmitUntilRun'
     'hidesPlayButton'
@@ -52,6 +53,8 @@ LevelHandler = class LevelHandler extends Handler
     'restrictedGear'
     'allowedHeroes'
     'tasks'
+    'helpVideos'
+    'campaign'
   ]
 
   postEditableProperties: ['name']
@@ -93,7 +96,7 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
-        return @sendPaymentRequiredError(res, err) if (not req.user.isPremium()) and level.get('requiresSubscription')
+        return @sendPaymentRequiredError(res, err) if (not req.user.isPremium()) and level.get('requiresSubscription') and not level.get('adventurer')
         @createAndSaveNewSession sessionQuery, req, res
 
   createAndSaveNewSession: (sessionQuery, req, res) =>

@@ -5,7 +5,6 @@ filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
-LevelOptions = require 'lib/LevelOptions'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 
 N_ROWS = 4
@@ -221,7 +220,7 @@ module.exports = class SpellPaletteView extends CocoView
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
       for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
-        if prop is 'say' and LevelOptions[@options.level.get('slug')]?.hidesSay  # Hide for Dungeon Campaign
+        if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
           continue
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
@@ -284,7 +283,7 @@ module.exports = class SpellPaletteView extends CocoView
     entry.destroy() for entry in @entries
     @createPalette()
     @render()
-    
+
   onClickHelp: (e) ->
     application.tracker?.trackEvent 'Spell palette help clicked', levelID: @level.get('slug')
     @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel

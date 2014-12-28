@@ -24,7 +24,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
-module.exports = class WorldMapView extends RootView
+module.exports = class CampaignView extends RootView
   id: 'campaign-view'
   template: template
 
@@ -41,16 +41,13 @@ module.exports = class WorldMapView extends RootView
     'click #volume-button': 'onToggleVolume'
 
   constructor: (options, @terrain='dungeon') ->
-    if options and application.isIPAdApp  # TODO: later only clear the SuperModel if it has received a memory warning (not in app store yet)
-      options.supermodel = null
     super options
     options ?= {}
-    
+
     @campaign = new Campaign({_id:@terrain})
     @campaign = @supermodel.loadModel(@campaign, 'campaign').model
 
     @editorMode = options.editorMode
-    @nextLevel = @getQueryVariable 'next'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
@@ -71,9 +68,8 @@ module.exports = class WorldMapView extends RootView
     @supermodel.loadCollection(@earnedAchievements, 'achievements')
 
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
-    @getLevelPlayCounts()
+    @listenToOnce @campaign, 'sync', @getLevelPlayCounts
     $(window).on 'resize', @onWindowResize
-    @playAmbientSound()
     @probablyCachedMusic = storage.load("loaded-menu-music")
     musicDelay = if @probablyCachedMusic then 1000 else 10000
     @playMusicTimeout = _.delay (=> @playMusic() unless @destroyed), musicDelay
@@ -103,7 +99,6 @@ module.exports = class WorldMapView extends RootView
     super()
 
   getLevelPlayCounts: ->
-    return # TODO: Either use the campaign object instead of hardcoded data or get the data some other way
     return unless me.isAdmin()
     success = (levelPlayCounts) =>
       return if @destroyed
@@ -111,13 +106,10 @@ module.exports = class WorldMapView extends RootView
         @levelPlayCountMap[level._id] = playtime: level.playtime, sessions: level.sessions
       @render() if @fullyRendered
 
-    levelIDs = []
-    for campaign in campaigns
-      for level in campaign.levels
-        levelIDs.push level.id
+    levelSlugs = (level.slug for levelID, level of @campaign.get 'levels')
     levelPlayCountsRequest = @supermodel.addRequestResource 'play_counts', {
       url: '/db/level/-/play_counts'
-      data: {ids: levelIDs}
+      data: {ids: levelSlugs}
       method: 'POST'
       success: success
     }, 0
@@ -128,7 +120,7 @@ module.exports = class WorldMapView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
-    
+
   setCampaign: (@campaign) ->
     @render()
 
@@ -143,12 +135,10 @@ module.exports = class WorldMapView extends RootView
     for level in context.levels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel level.original
-      window.levelUnlocksNotWorking = true if level.locked and level.id is @nextLevel  # Temporary
-      level.locked = false if window.levelUnlocksNotWorking  # Temporary; also possible in HeroVictoryModal
-      level.locked = false if @levelStatusMap[level.id] in ['started', 'complete']
+      level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if me.get('slug') is 'nick'
       level.locked = false if @editorMode
-      level.disabled = false if @levelStatusMap[level.id] in ['started', 'complete']
+      level.disabled = true if not me.isAdmin() and level.adminOnly and not @levelStatusMap[level.slug] in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription
         level.color = 'rgb(80, 130, 200)'
@@ -163,13 +153,10 @@ module.exports = class WorldMapView extends RootView
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
-    context.nextLevel = @nextLevel
-    context.forestIsAvailable = Level.levels['defense-of-plainswood'] in (me.get('earned')?.levels or [])
-    context.desertIsAvailable = Level.levels['the-mighty-sand-yak'] in (me.get('earned')?.levels or [])
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
     context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign.get('adjacentCampaigns') or {})), (ac) ->
-      return false if ac.showIfUnlocked and ac.showIfUnlocked not in (me.get('unlocked')?.levels or [])
+      return false if ac.showIfUnlocked and ac.showIfUnlocked not in me.levels()
       ac.name = utils.i18n ac, 'name'
       ac.description = utils.i18n ac, 'description'
       styles = []
@@ -194,19 +181,14 @@ module.exports = class WorldMapView extends RootView
           bg = $('.map-background')
           x = ($(@).offset().left - bg.offset().left + $(@).outerWidth() / 2) / bg.width()
           y = 1 - ($(@).offset().top - bg.offset().top + $(@).outerHeight() / 2) / bg.height()
-          e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(@).data('level-id'), campaignID: $(@).data('campaign-id') }
+          e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(@).data('level-slug'), campaignID: $(@).data('campaign-id') }
           view.trigger 'level-moved', e if e.levelOriginal
           view.trigger 'adjacent-campaign-moved', e if e.campaignID
-    @$el.addClass _.string.slugify @terrain
     @updateVolume()
     @updateHero()
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
-      if levelID = @$el.find('.level.next').data('level-id')
-        @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show() unless @editorMode
-        pos = @$el.find('.level.next').offset()
-        @adjustLevelInfoPosition pageX: pos.left, pageY: pos.top
-        @manuallyPositionedLevelInfoID = levelID
+    @applyCampaignStyles()
 
   afterInsert: ->
     super()
@@ -217,12 +199,29 @@ module.exports = class WorldMapView extends RootView
     authModal.mode = 'signup'
     @openModalView authModal
 
+  applyCampaignStyles: ->
+    return unless @campaign.loaded
+    if (backgrounds = @campaign.get 'backgroundImage') and backgrounds.length
+      backgrounds = _.sortBy backgrounds, 'width'
+      backgrounds.reverse()
+      rules = []
+      for background, i in backgrounds
+        rule = "#campaign-view .map-background { background-image: url(/file/#{background.image}); }"
+        rule = "@media screen and (max-width: #{background.width}px) { #{rule} }" if i
+        rules.push rule
+      utils.injectCSS rules.join('\n')
+    if backgroundColor = @campaign.get 'backgroundColor'
+      backgroundColorTransparent = @campaign.get 'backgroundColorTransparent'
+      @$el.css 'background-color', backgroundColor
+      for pos in ['top', 'right', 'bottom', 'left']
+        @$el.find(".#{pos}-gradient").css 'background-image', "linear-gradient(to #{pos}, #{backgroundColorTransparent} 0%, #{backgroundColor} 100%)"
+    @playAmbientSound()
+
   onSessionsLoaded: (e) ->
     return if @editorMode
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
-    if @nextLevel and @levelStatusMap[@nextLevel] is 'complete'
-      @nextLevel = null
+    # TODO: add level.next = true for the next level they should do
     @render()
 
   onClickMap: (e) ->
@@ -237,18 +236,18 @@ module.exports = class WorldMapView extends RootView
     e.stopPropagation()
     @$levelInfo?.hide()
     levelElement = $(e.target).parents('.level')
-    levelID = levelElement.data('level-id')
+    levelSlug = levelElement.data('level-slug')
     if @editorMode
-      return @trigger 'level-clicked', levelID
-    level = _.find _.values(@campaign.get('levels')), id: levelID
+      return @trigger 'level-clicked', levelSlug
+    level = _.find _.values(@campaign.get('levels')), slug: levelSlug
     if application.isIPadApp
-      @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
+      @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
       @adjustLevelInfoPosition e
       @endHighlight()
     else
-      if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.id] and not level.adventurer
+      if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.slug] and not level.adventurer
         @openModalView new SubscribeModal()
-        window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelID
+        window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
       else if $(e.target).attr('disabled')
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return
@@ -256,40 +255,36 @@ module.exports = class WorldMapView extends RootView
         return
       else
         @startLevel levelElement
-        window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelID, ['Google Analytics']
+        window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelSlug, ['Google Analytics']
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     @startLevel levelElement
-    window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelElement.data('level-id'), ['Google Analytics']
+    window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelElement.data('level-slug'), ['Google Analytics']
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-id'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-slug'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
     @setupManager.open()
     @$levelInfo?.hide()
 
   onMouseEnterLevel: (e) ->
     return if application.isIPadApp
     return if @editorMode
-    levelID = $(e.target).parents('.level').data('level-id')
-    return if @manuallyPositionedLevelInfoID and levelID isnt @manuallyPositionedLevelInfoID
-    @$levelInfo = @$el.find(".level-info-container[data-level-id=#{levelID}]").show()
+    levelSlug = $(e.target).parents('.level').data('level-slug')
+    @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
     @adjustLevelInfoPosition e
     @endHighlight()
-    @manuallyPositionedLevelInfoID = false
 
   onMouseLeaveLevel: (e) ->
     return if application.isIPadApp
-    levelID = $(e.target).parents('.level').data('level-id')
-    return if @manuallyPositionedLevelInfoID and levelID isnt @manuallyPositionedLevelInfoID
-    @$el.find(".level-info-container[data-level-id='#{levelID}']").hide()
-    @manuallyPositionedLevelInfoID = null
+    levelSlug = $(e.target).parents('.level').data('level-slug')
+    @$el.find(".level-info-container[data-level-slug='#{levelSlug}']").hide()
     @$levelInfo = null
 
   onMouseMoveMap: (e) ->
     return if application.isIPadApp
-    @adjustLevelInfoPosition e unless @manuallyPositionedLevelInfoID
+    @adjustLevelInfoPosition e
 
   adjustLevelInfoPosition: (e) ->
     return unless @$levelInfo
@@ -329,8 +324,8 @@ module.exports = class WorldMapView extends RootView
 
   playAmbientSound: ->
     return if @ambientSound
-    return unless file = {dungeon: 'ambient-dungeon', forest: 'ambient-map-grass', desert: 'ambient-desert'}[@terrain]
-    src = "/file/interface/#{file}#{AudioPlayer.ext}"
+    return unless file = @campaign.get('ambientSound')?[AudioPlayer.ext.substr 1]
+    src = "/file/#{file}"
     unless AudioPlayer.getStatus(src)?.loaded
       AudioPlayer.preloadSound src
       Backbone.Mediator.subscribeOnce 'audio-player:loaded', @playAmbientSound, @
@@ -381,4 +376,4 @@ module.exports = class WorldMapView extends RootView
     for slug, original of ThangType.heroes when original is hero
       @$el.find('.player-hero-icon').removeClass().addClass('player-hero-icon ' + slug)
       return
-    console.error "WorldMapView hero update couldn't find hero slug for original:", hero
+    console.error "CampaignView hero update couldn't find hero slug for original:", hero

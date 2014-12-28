@@ -86,11 +86,11 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'play-old': go('play/MainPlayView')  # This used to be 'play'.
     'play': go('play/CampaignView')
+    'play/:map': go('play/CampaignView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/WorldMapView')
 
     'preview': go('HomeView')
 

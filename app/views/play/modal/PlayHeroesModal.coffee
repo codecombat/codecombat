@@ -8,7 +8,6 @@ AudioPlayer = require 'lib/AudioPlayer'
 utils = require 'core/utils'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 Purchase = require 'models/Purchase'
-LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -55,8 +54,8 @@ module.exports = class PlayHeroesModal extends ModalView
     original = hero.get('original')
     hero.locked = not me.ownsHero(original)
     hero.purchasable = hero.locked and (original in (me.get('earned')?.heroes ? []))
-    if @options.levelID and allowedHeroSlugs = LevelOptions[@options.levelID]?.allowedHeroes
-      hero.restricted = not (hero.get('slug') in allowedHeroSlugs)
+    if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
+      hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
     hero.stats = hero.getHeroStats()
 

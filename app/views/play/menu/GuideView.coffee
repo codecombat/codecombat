@@ -2,7 +2,6 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
 utils = require 'core/utils'
-LevelOptions = require 'lib/LevelOptions'
 
 # let's implement this once we have the docs database schema set up
 
@@ -15,12 +14,12 @@ module.exports = class LevelGuideView extends CocoView
 
   constructor: (options) ->
     @levelID = options.level.get('slug')
-    @helpVideos = LevelOptions[@levelID]?.helpVideos ? []
+    @helpVideos = options.level.get 'helpVideos'
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
-    
+
     # A/B Testing video tutorial styles
     @helpVideosIndex = me.getVideoTutorialStylesIndex(@helpVideos.length)
-    
+
     @firstOnly = options.firstOnly
     @docs = options?.docs ? options.level.get('documentation') ? {}
     general = @docs.generalArticles or []
@@ -88,7 +87,7 @@ module.exports = class LevelGuideView extends CocoView
     unless @trackedHelpVideoStart
       window.tracker?.trackEvent 'Start help video', level: @levelID, style: @helpVideos[@helpVideosIndex].style
       @trackedHelpVideoStart = true
-  
+
   onFinishHelpVideo: ->
     unless @trackedHelpVideoFinish
       window.tracker?.trackEvent 'Finish help video', level: @levelID, style: @helpVideos[@helpVideosIndex].style
@@ -96,56 +95,8 @@ module.exports = class LevelGuideView extends CocoView
 
   setupVideoPlayer: () ->
     return unless @helpVideos.length > 0
-    
-    # TODO: run A/B test for different video styles
-
-    helpVideoURL = @helpVideos[@helpVideosIndex].URL
-    if helpVideoURL.toLowerCase().indexOf('youtube') >= 0
-      @setupYouTubeVideoPlayer helpVideoURL
-    else if helpVideoURL.toLowerCase().indexOf('vimeo') >= 0
-      @setupVimeoVideoPlayer helpVideoURL
-
-  setupYouTubeVideoPlayer: (helpVideoURL) ->
-    # Setup YouTube iframe player
-    # https://developers.google.com/youtube/iframe_api_reference
-    # TODO: Can't load a YouTube video twice in one level
-    # TODO: window.onYouTubeIframeAPIReady is only called once
-    # TODO: Consider ripping out YouTube support and migrating all videos to Vimeo
-
-    onPlayerStateChange = (e) =>
-      if e.data is 1
-        @onStartHelpVideo()
-      else if e.data is 0
-        @onFinishHelpVideo()
-
-    createPlayer = =>
-      new YT.Player 'help-video-player', {
-        height: @helpVideoHeight,
-        width: @helpVideoWidth,
-        videoId: videoID,
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      }
-
-    if matchVideoID = helpVideoURL.match /www\.youtube\.com\/embed\/(bHaeKdMPZrA)/
-      videoID = matchVideoID[1]
-    else
-      console.warn "Unable to read video ID from help video."
-      # TODO: Default to dungeons-of-kithgard?
-      videoID = 'bHaeKdMPZrA'
-    
-    # Add method that will be called by YouTube iframe player when ready
-    window.onYouTubeIframeAPIReady = =>
-      createPlayer()
-    
-    # Add YouTube video player iframe script if necessary
-    if YT?.Player?
-      createPlayer()
-    else
-      tag = document.createElement('script')
-      tag.src = "https://www.youtube.com/iframe_api"
-      @$el.find('#help-video-heading').after(tag)
+    helpVideoURL = @helpVideos[@helpVideosIndex].url
+    @setupVimeoVideoPlayer helpVideoURL
 
   setupVimeoVideoPlayer: (helpVideoURL) ->
     # Setup Vimeo player
@@ -166,7 +117,6 @@ module.exports = class LevelGuideView extends CocoView
         # Vimeo player is ready, can now hook up other events
         # https://developer.vimeo.com/player/js-api#events
         player = $('#help-video-player')[0]
-        helpVideoURL = 'http:' + helpVideoURL unless helpVideoURL.indexOf('http') is 0
         player.contentWindow.postMessage JSON.stringify(method: 'addEventListener', value: 'play'), helpVideoURL
         player.contentWindow.postMessage JSON.stringify(method: 'addEventListener', value: 'finish'), helpVideoURL
       else if data.event is 'play'

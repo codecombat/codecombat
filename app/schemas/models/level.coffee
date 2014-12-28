@@ -295,10 +295,15 @@ _.extend LevelSchema.properties,
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
+  helpVideos: c.array {title: 'Help Videos'}, c.object {default: {style: 'eccentric', url: '', free: false}},
+    style: c.shortString title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.'
+    free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
+    url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
 
   # Admin flags
   adventurer: { type: 'boolean' }
   practice: { type: 'boolean' }
+  adminOnly: { type: 'boolean' }
   disableSpaces: { type: 'boolean' }
   hidesSubmitUntilRun: { type: 'boolean' }
   hidesPlayButton: { type: 'boolean' }
@@ -323,15 +328,18 @@ _.extend LevelSchema.properties,
     }
   }
   requiredGear: { type: 'object', additionalProperties: {
-    type: 'string'
+    type: 'array'
+    items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
   restrictedGear: { type: 'object', additionalProperties: {
-    type: 'string'
+    type: 'array'
+    items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
   allowedHeroes: { type: 'array', items: {
-    type: 'string'
+    type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
-  
+  campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
 c.extendVersionedProperties LevelSchema, 'level'

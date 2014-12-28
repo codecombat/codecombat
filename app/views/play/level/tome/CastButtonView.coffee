@@ -1,7 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/cast_button'
 {me} = require 'core/auth'
-LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -25,9 +24,7 @@ module.exports = class CastButtonView extends CocoView
   constructor: (options) ->
     super options
     @spells = options.spells
-    @levelID = options.levelID
     @castShortcut = '⇧↵'
-    @levelOptions = LevelOptions[@options.levelID] ? {}
 
   getRenderData: (context={}) ->
     context = super context
@@ -46,11 +43,11 @@ module.exports = class CastButtonView extends CocoView
     #delay = me.get('autocastDelay')  # No more autocast
     delay = 90019001
     @setAutocastDelay delay
-    if @levelOptions.hidesSubmitUntilRun or @levelOptions.hidesRealTimePlayback
+    if @options.level.get('hidesSubmitUntilRun') or @options.level.get('hidesRealTimePlayback')
       @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
-    if @options.session.get('state')?.complete and @levelOptions.hidesRealTimePlayback
+    if @options.session.get('state')?.complete and @options.level.get 'hidesRealTimePlayback'
       @$el.find('.done-button').show()
-    if @options.levelID is 'thornbush-farm'# and not @options.session.get('state')?.complete
+    if @options.level.get('slug') is 'thornbush-farm'# and not @options.session.get('state')?.complete
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
 
   attachTo: (spellView) ->
@@ -92,16 +89,16 @@ module.exports = class CastButtonView extends CocoView
     @winnable = winnable
     @$el.toggleClass 'winnable', @winnable
     Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable
-    if @levelOptions.hidesRealTimePlayback
+    if @options.level.get 'hidesRealTimePlayback'
       @$el.find('.done-button').toggle @winnable
-    else if @winnable and @options.levelID is 'thornbush-farm'
+    else if @winnable and @options.level.get('slug') is 'thornbush-farm'
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
     return unless e.preload
-    return if @levelOptions.hidesRealTimePlayback
-    return if @options.levelID is 'thornbush-farm'  # Don't show it until they actually win for this first one.
+    return if @options.level.get 'hidesRealTimePlayback'
+    return if @options.level.get('slug') is 'thornbush-farm'  # Don't show it until they actually win for this first one.
     @onNewGoalStates e
 
   updateCastButton: ->
@@ -116,7 +113,7 @@ module.exports = class CastButtonView extends CocoView
         castText = $.i18n.t('play_level.tome_cast_button_running')
       else if castable or true
         castText = $.i18n.t('play_level.tome_cast_button_run')
-        unless @levelOptions.hidesRunShortcut  # Hide for first few.
+        unless @options.level.get 'hidesRunShortcut'  # Hide for first few.
           castText += ' ' + @castShortcut
       else
         castText = $.i18n.t('play_level.tome_cast_button_ran')
