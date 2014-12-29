@@ -136,15 +136,14 @@ module.exports = class CampaignView extends RootView
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel level.original
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
-      level.locked = false if me.get('slug') is 'nick'
       level.locked = false if @editorMode
-      level.disabled = true if not me.isAdmin() and level.adminOnly and not @levelStatusMap[level.slug] in ['started', 'complete']
+      level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription
         level.color = 'rgb(80, 130, 200)'
       if level.unlocksHero
         level.unlockedHero = level.unlocksHero.originalID in (me.get('earned')?.heroes or [])
-      level.hidden = level.locked or level.disabled
+      level.hidden = level.locked
 
     # put lower levels in last, so in the world map they layer over one another properly.
     context.campaign.levels = (_.sortBy context.campaign.levels, (l) -> l.position.y).reverse()
@@ -181,7 +180,7 @@ module.exports = class CampaignView extends RootView
           bg = $('.map-background')
           x = ($(@).offset().left - bg.offset().left + $(@).outerWidth() / 2) / bg.width()
           y = 1 - ($(@).offset().top - bg.offset().top + $(@).outerHeight() / 2) / bg.height()
-          e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(@).data('level-slug'), campaignID: $(@).data('campaign-id') }
+          e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(@).data('level-original'), campaignID: $(@).data('campaign-id') }
           view.trigger 'level-moved', e if e.levelOriginal
           view.trigger 'adjacent-campaign-moved', e if e.campaignID
     @updateVolume()
@@ -248,7 +247,7 @@ module.exports = class CampaignView extends RootView
       if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.slug] and not level.adventurer
         @openModalView new SubscribeModal()
         window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
-      else if $(e.target).attr('disabled')
+      else if $(e.target).attr('disabled') and not me.isAdmin()
         Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
         return
       else if $(e.target).parent().hasClass 'locked'
