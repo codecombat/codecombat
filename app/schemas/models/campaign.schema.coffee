@@ -107,7 +107,10 @@ _.extend CampaignSchema.properties, {
           level: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
           type: { enum: ['heroes', 'items', 'levels'] }
       }}
+
       campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+
+      tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
 
       #- normal properties
       position: c.point2d()
