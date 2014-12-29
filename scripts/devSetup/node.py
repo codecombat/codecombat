@@ -137,9 +137,9 @@ class LinuxNodeDownloader(NodeDownloader):
     @property
     def download_url(self):
         if self.dependency.config.mem_width == 64:
-            return u"http://nodejs.org/dist/v0.10.24/node-v0.10.24-linux-x64.tar.gz"
+            return u"http://nodejs.org/dist/v0.10.35/node-v0.10.35-linux-x64.tar.gz"
         else:
-            return u"http://nodejs.org/dist/v0.10.24/node-v0.10.24-linux-x86.tar.gz"
+            return u"http://nodejs.org/dist/v0.10.35/node-v0.10.35-linux-x86.tar.gz"
 
 class WindowsNodeDownloader(NodeDownloader):
     @property
@@ -147,16 +147,16 @@ class WindowsNodeDownloader(NodeDownloader):
         raise NotImplementedError(u"Needs MSI to be executed to install npm")
         #"http://nodejs.org/dist/v0.10.24/x64/node-v0.10.24-x64.msi"
         if self.dependency.config.mem_width == 64:
-            return u"http://nodejs.org/dist/v0.10.24/x64/node.exe"
+            return u"http://nodejs.org/dist/v0.10.35/x64/node.exe"
         else:
-            return u"http://nodejs.org/dist/v0.10.24/node.exe"
+            return u"http://nodejs.org/dist/v0.10.35/node.exe"
 
 class MacNodeDownloader(NodeDownloader):
     @property
     def download_url(self):
         if self.dependency.config.mem_width == 64:
-            return u"http://nodejs.org/dist/v0.10.24/node-v0.10.24-darwin-x64.tar.gz"
+            return u"http://nodejs.org/dist/v0.10.35/node-v0.10.35-darwin-x64.tar.gz"
         else:
-            return u"http://nodejs.org/dist/v0.10.24/node-v0.10.24-darwin-x86.tar.gz"
+            return u"http://nodejs.org/dist/v0.10.35/node-v0.10.35-darwin-x86.tar.gz"
 
 
