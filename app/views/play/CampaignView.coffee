@@ -34,6 +34,7 @@ module.exports = class CampaignView extends RootView
   events:
     'click .map-background': 'onClickMap'
     'click .level a': 'onClickLevel'
+    'dblclick .level a': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'mouseenter .level a': 'onMouseEnterLevel'
     'mouseleave .level a': 'onMouseLeaveLevel'
@@ -236,8 +237,9 @@ module.exports = class CampaignView extends RootView
     @$levelInfo?.hide()
     levelElement = $(e.target).parents('.level')
     levelSlug = levelElement.data('level-slug')
+    levelOriginal = levelElement.data('level-original')
     if @editorMode
-      return @trigger 'level-clicked', levelSlug
+      return @trigger 'level-clicked', levelOriginal
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
     if application.isIPadApp
       @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
@@ -255,6 +257,12 @@ module.exports = class CampaignView extends RootView
       else
         @startLevel levelElement
         window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelSlug, ['Google Analytics']
+
+  onDoubleClickLevel: (e) ->
+    return unless @editorMode
+    levelElement = $(e.target).parents('.level')
+    levelOriginal = levelElement.data('level-original')
+    @trigger 'level-double-clicked', levelOriginal
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')

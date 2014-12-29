@@ -1,4 +1,17 @@
 .jumbotron
   .button.close(type="button", aria-hidden="true") &times;
-  h1= level.get('name')
+  h1
+    span.spr= level.get('name')
+    a(href="/editor/level/#{level.get('slug')}", target="_blank") (edit)
   p= level.get('description')
+
+  h2 TODO: actually put useful stuff in here
+
+if level.get('tasks')
+  .tasks
+    h3 Tasks (read only)
+    ul.list-unstyled
+      for task in level.get('tasks')
+        li
+          input(type='checkbox', checked=task.complete)
+          span.spl= task.name

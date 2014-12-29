@@ -164,6 +164,7 @@ module.exports = class CampaignEditorView extends RootView
     @listenTo @campaignView, 'level-moved', @onCampaignLevelMoved
     @listenTo @campaignView, 'adjacent-campaign-moved', @onAdjacentCampaignMoved
     @listenTo @campaignView, 'level-clicked', @onCampaignLevelClicked
+    @listenTo @campaignView, 'level-double-clicked', @onCampaignLevelDoubleClicked
     @insertSubView @campaignView
 
   onTreemaChanged: (e, nodes) =>
@@ -188,8 +189,7 @@ module.exports = class CampaignEditorView extends RootView
     path = node.getPath()
     return unless _.string.startsWith path, '/levels/'
     original = path.split('/')[2]
-    level = @supermodel.getModelByOriginal Level, original
-    @insertSubView new CampaignLevelView({}, level)
+    @openCampaignLevelView @supermodel.getModelByOriginal Level, original
 
   onCampaignLevelMoved: (e) ->
     path = "levels/#{e.levelOriginal}/position"
@@ -203,6 +203,14 @@ module.exports = class CampaignEditorView extends RootView
     return unless levelTreema = @treema.childrenTreemas?.levels?.childrenTreemas?[levelOriginal]
     levelTreema.select()
 #    levelTreema.open()
+
+  onCampaignLevelDoubleClicked: (levelOriginal) ->
+    @openCampaignLevelView @supermodel.getModelByOriginal Level, levelOriginal
+
+  openCampaignLevelView: (level) ->
+    @insertSubView campaignLevelView = new CampaignLevelView({}, level)
+    @listenToOnce campaignLevelView, 'hidden', => @$el.find('#campaign-view').show()
+    @$el.find('#campaign-view').hide()
 
   updateRewardsForLevel: (level, rewards) ->
     achievements = @supermodel.getModels(Achievement)
@@ -250,7 +258,27 @@ class LevelsNode extends TreemaObjectNode
 class LevelNode extends TreemaObjectNode
   valueClass: 'treema-level'
   buildValueForDisplay: (valEl, data) ->
-    @buildValueForDisplaySimply valEl, data.name
+    name = data.name
+    if data.requiresSubscription
+      name = "[P] " + name
+
+    status = ''
+    el = 'strong'
+    if data.adminOnly
+      status += " (disabled)"
+      el = 'span'
+    else if data.adventurer
+      status += " (adventurer)"
+
+    completion = ''
+    if data.tasks
+      completion = "#{(t for t in data.tasks when t.complete).length} / #{data.tasks.length}"
+
+    valEl.append $("<#{el}></#{el}>").addClass('treema-shortened').text name
+    if status
+      valEl.append $('<em class="spl"></em>').text status
+    if completion
+      valEl.append $('<span class="completion"></span>').text completion
 
   populateData: ->
     return if @data.name?
