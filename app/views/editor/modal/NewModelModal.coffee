@@ -36,7 +36,7 @@ module.exports = class NewModelModal extends ModalView
   onModelSubmitted: (e) ->
     e.preventDefault()
     model = @makeNewModel()
-    res = model.save()
+    res = model.save(null, {type: 'POST'})  # Override PUT so we can trigger postFirstVersion logic if needed
     return unless res
 
     forms.clearFormAlerts @$el

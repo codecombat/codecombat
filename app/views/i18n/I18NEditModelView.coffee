@@ -10,7 +10,7 @@ require 'views/modal/RevertModal'
 module.exports = class I18NEditModelView extends RootView
   className: 'editor i18n-edit-model-view'
   template: template
-  
+
   events:
     'change .translation-input': 'onInputChanged'
     'change #language-select': 'onLanguageSelectChanged'
@@ -22,11 +22,11 @@ module.exports = class I18NEditModelView extends RootView
     @model = @supermodel.loadModel(@model, 'model').model
     @model.saveBackups = true
     @selectedLanguage = me.get('preferredLanguage', true)
-    
+
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
-    
+
   onLoaded: ->
     super()
     @model.markToRevert() unless @model.hasLocalChanges()
@@ -36,14 +36,14 @@ module.exports = class I18NEditModelView extends RootView
 
     c.model = @model
     c.selectedLanguage = @selectedLanguage
-    
+
     @translationList = []
     if @supermodel.finished() then @buildTranslationList() else []
     result.index = index for result, index in @translationList
     c.translationList = @translationList
-    
+
     c
-    
+
   afterRender: ->
     super()
 
@@ -63,7 +63,7 @@ module.exports = class I18NEditModelView extends RootView
       toEditor.on 'change', @onEditorChange
       editors = editors.concat([englishEditor, toEditor])
     )
-    
+
     for editor in editors
       session = editor.getSession()
       session.setTabSize 2
@@ -80,17 +80,17 @@ module.exports = class I18NEditModelView extends RootView
     @onTranslationChanged(rowInfo, value)
 
   wrapRow: (title, key, enValue, toValue, path, format) ->
-    @translationList.push { 
+    @translationList.push {
       title: title,
-      key: key, 
-      enValue: enValue, 
-      toValue: toValue or '', 
+      key: key,
+      enValue: enValue,
+      toValue: toValue or '',
       path: path
       format: format
     }
 
   buildTranslationList: -> [] # overwrite
-  
+
   onInputChanged: (e) ->
     index = $(e.target).data('index')
     rowInfo = @translationList[index]
@@ -98,10 +98,10 @@ module.exports = class I18NEditModelView extends RootView
     @onTranslationChanged(rowInfo, value)
 
   onTranslationChanged: (rowInfo, value) ->
-    
+
     #- Navigate down to where the translation will live
     base = @model.attributes
-    
+
     for seg in rowInfo.path
       base = base[seg]
 
@@ -109,19 +109,19 @@ module.exports = class I18NEditModelView extends RootView
 
     base[@selectedLanguage] ?= {}
     base = base[@selectedLanguage]
-    
+
     if rowInfo.key.length > 1
       for seg in rowInfo.key[..-2]
         base[seg] ?= {}
         base = base[seg]
-    
+
     #- Set the data in a non-kosher way
-        
+
     base[rowInfo.key[rowInfo.key.length-1]] = value
     @model.saveBackup()
-    
+
     #- Enable patch submit button
-  
+
     @$el.find('#patch-submit').attr('disabled', null)
 
   onLanguageSelectChanged: (e) ->
@@ -131,19 +131,19 @@ module.exports = class I18NEditModelView extends RootView
       me.set('preferredLanguage', @selectedLanguage)
       me.patch()
     @render()
-    
+
   onSubmitPatch: (e) ->
-    
+
     delta = @model.getDelta()
     flattened = deltasLib.flattenDelta(delta)
     save = _.all(flattened, (delta) ->
       return _.isArray(delta.o) and delta.o.length is 1 and 'i18n' in delta.dataPath
     )
-    
+
     if save
       modelToSave = @model.cloneNewMinorVersion()
       modelToSave.updateI18NCoverage() if modelToSave.get('i18nCoverage')
-      
+
     else
       modelToSave = new Patch()
       modelToSave.set 'delta', @model.getDelta()
@@ -154,13 +154,13 @@ module.exports = class I18NEditModelView extends RootView
 
     if @modelClass.schema.properties.commitMessage
       commitMessage = "Diplomat submission for lang #{@selectedLanguage}: #{flattened.length} change(s)."
-      modelToSave.set 'commitMessage', commitMessage 
-    
+      modelToSave.set 'commitMessage', commitMessage
+
     errors = modelToSave.validate()
     button = $(e.target)
     button.attr('disabled', 'disabled')
     return button.text('Failed to Submit Changes') if errors
-    res = modelToSave.save()
+    res = modelToSave.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
     return button.text('Failed to Submit Changes') unless res
     res.error => button.text('Error Submitting Changes')
     res.success => button.text('Submit Changes')

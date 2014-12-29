@@ -367,7 +367,7 @@ module.exports = class ThangTypeEditView extends RootView
     newThangType.set('commitMessage', e.commitMessage)
     newThangType.updateI18NCoverage() if newThangType.get('i18nCoverage')
 
-    res = newThangType.save()
+    res = newThangType.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
     return unless res
     modal = $('#save-version-modal')
     @enableModalInProgress(modal)
