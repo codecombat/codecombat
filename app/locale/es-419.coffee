@@ -160,7 +160,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     date: "Fecha"
     body: "Cuerpo"
     version: "Versión"
-#   submitter: "Submitter"
+    submitter: "Emisor" #O originador, que dicen?
     submitted: "Enviado"
     commit_msg: "Enviar mensaje"
     review: "Revisión"
