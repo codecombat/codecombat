@@ -14,7 +14,7 @@
             <vs12redist>http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe</vs12redist>
         </b64>
         <general>
-            <gitbash>https://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe</gitbash>
+            <gitbash>https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe</gitbash>
             <vs10redist>http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe</vs10redist>
         </general>
     </general>
