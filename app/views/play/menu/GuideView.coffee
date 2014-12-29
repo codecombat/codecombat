@@ -14,7 +14,7 @@ module.exports = class LevelGuideView extends CocoView
 
   constructor: (options) ->
     @levelID = options.level.get('slug')
-    @helpVideos = options.level.get 'helpVideos'
+    @helpVideos = options.level.get('helpVideos') ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
 
     # A/B Testing video tutorial styles
