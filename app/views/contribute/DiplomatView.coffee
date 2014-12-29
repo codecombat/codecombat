@@ -53,6 +53,7 @@ require("locale/ur")
 require("locale/ms")
 require("locale/ca")
 require("locale/gl")
+require("locale/mk-MK")
 
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
@@ -139,3 +140,4 @@ module.exports = class DiplomatView extends ContributeClassView
     ms: []             # Bahasa Melayu, Bahasa Malaysia
     ca: ['ArniMcFrag']             # Català, Catalan
     gl: ['mcaeiror']             # Galego, Galician
+    'mk-MK': ['SuperPranx']             # Македонски, Macedonian

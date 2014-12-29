@@ -335,7 +335,8 @@ module.exports = class Handler
   put: (req, res, id) ->
     # Client expects PATCH behavior for PUTs
     # Real PATCHs return incorrect HTTP responses in some environments (e.g. Browserstack, schools)
-    return @sendForbiddenError(res) if @modelClass.schema.uses_coco_versions and not req.user.isAdmin()
+    return @postNewVersion(req, res) if @modelClass.schema.uses_coco_versions  # Old logic - https://github.com/codecombat/codecombat/commit/0bdec68cfc2997a1d03458e516ecedd7c7f389a9#diff-859d2856438fffa609001ae3b7b74c27R331
+    #return @sendForbiddenError(res) if @modelClass.schema.uses_coco_versions and not req.user.isAdmin()  # New logic (from campaign editor) that breaks saving versioned documents, like in the level editor.
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendForbiddenError(res) unless @hasAccess(req)
     @getDocumentForIdOrSlug req.body._id or id, (err, document) =>
