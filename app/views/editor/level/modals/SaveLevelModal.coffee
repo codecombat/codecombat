@@ -97,7 +97,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     tuples = _.zip(modelsToSave, formsToSave)
     for [newModel, form] in tuples
       newModel.updateI18NCoverage() if newModel.get('i18nCoverage')
-      res = newModel.save()
+      res = newModel.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
       do (newModel, form) =>
         res.error =>
           @hideLoading()

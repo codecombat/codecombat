@@ -83,7 +83,7 @@ module.exports = class ArticleEditView extends RootView
 
     newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
     newArticle.set('commitMessage', e.commitMessage)
-    res = newArticle.save()
+    res = newArticle.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
     return unless res
     modal = @$el.find('#save-version-modal')
     @enableModalInProgress(modal)

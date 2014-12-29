@@ -59,7 +59,7 @@ block footer
     #footer-links
       a(href='/contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
       a(href='/legal', tabindex=-1, data-i18n="nav.legal") Legal
-      a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
+      a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
       a(href='/teachers', data-i18n="nav.teachers") Teachers
       a(href="/play-old", data-i18n="play.older_campaigns") Older Campaigns
       if me.isAdmin()
@@ -80,7 +80,7 @@ block footer
       span 
         span © All Rights Reserved
         br
-        span CodeCombat 2014
+        span CodeCombat 2015
       img#footer-logo(src="/images/pages/base/logo.png", alt="CodeCombat")
       span 
         span Site Design by 
