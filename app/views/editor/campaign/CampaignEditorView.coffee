@@ -201,7 +201,7 @@ module.exports = class CampaignEditorView extends RootView
 
   onCampaignLevelClicked: (levelOriginal) ->
     return unless levelTreema = @treema.childrenTreemas?.levels?.childrenTreemas?[levelOriginal]
-    if key.ctrl
+    if key.ctrl or key.command
       url = "/editor/level/#{levelTreema.data.slug}"
       window.open url, '_blank'
     levelTreema.select()
