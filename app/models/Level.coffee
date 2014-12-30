@@ -123,6 +123,9 @@ module.exports = class Level extends CocoModel
         else if placeholderConfig.extraHUDProperties
           levelThangComponent.config ?= {}
           levelThangComponent.config.extraHUDProperties = _.union(levelThangComponent.config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
+        else if placeholderConfig.voiceRange  # Pull in voiceRange
+          levelThangComponent.config ?= {}
+          levelThangComponent.config.voiceRange = placeholderConfig.voiceRange
 
     if isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
