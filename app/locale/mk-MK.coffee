@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Македонски", englishDescription: "Macedonian", translation:
   home:
-    slogan: "Научи да Програмираш Преку Игра"
+    slogan: "Научи да програмираш преку игра"
     no_ie: "CodeCombat не работи во Internet Explorer верзија 8 или постара. Извини!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не е дизајнирана за мобилни уреди и може да не работи!" # Warning that shows up on mobile devices
     play: "Играј" # The big play button that just starts playing a level
@@ -9,8 +9,8 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     old_browser_suffix: "Можеш да пробаш и покрај тоа, но најверојатно нема да работи."
     ipad_browser: "Лоши вести: CodeCombat не работи во прелистувачот на iPad. Добри вести: Нашата апликација за iPad е готова и чека одобрение од Apple."
     campaign: "Кампања"
-    for_beginners: "За Почетници"
-    multiplayer: "Повеќе Играчи" # Not currently shown on home page
+    for_beginners: "За почетници"
+    multiplayer: "Повеќе играчи" # Not currently shown on home page
     for_developers: "За Developer-и" # Not currently shown on home page.
     or_ipad: "Или симни за iPad"
 
@@ -24,7 +24,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     profile: "Профил"
     stats: "Статистики"
 #    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
+    admin: "Админ" # Only shows up when you are an admin
     home: "Дома"
     contribute: "Допринеси"
     legal: "Законски"
@@ -43,87 +43,87 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
   diplomat_suggestion:
     title: "Помогни да се преведе CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Ни требаат твоите јазични вештини."
-    pitch_body: "Ние ја развиваме CodeCombat на Англиски, но веќе имаме играчи низ целиот свет. Многу од нив сакаат да играат на Македонски, а не разбираат Англиски, па ако ги зборуваш и двата јазика, размисли дали би сакал/а да се зачлениш како Дипломат и да помогнеш да се преведат на Македонски CodeCombat веб сајтот и сите нивоа од играта."
-    missing_translations: "Додека не преведеме сè на Македонски, содржината ќе биде на Англиски каде што Македонскиот не е достапен."
+    pitch_body: "Ние ја развиваме CodeCombat на англиски, но веќе имаме играчи низ целиот свет. Многу од нив сакаат да играат на македонски, а не разбираат англиски, па ако ги зборуваш и двата јазика, размисли дали би сакал/а да се зачлениш како Дипломат и да помогнеш да се преведат на македонски CodeCombat веб сајтот и сите нивоа од играта."
+    missing_translations: "Додека не преведеме сè на македонски, содржината ќе биде на англиски каде што македонскиот не е достапен."
     learn_more: "Научи повеќе за тоа како е да се биде Дипломат"
     subscribe_as_diplomat: "Зачлени се како Дипломат"
 
-#  play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
-#    campaign_beginner: "Beginner Campaign"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    choose_your_level: "Choose Your Level" # The rest of this section is the old play view at /play-old and isn't very important.
-#    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
-#    adventurer_forum: "the Adventurer forum"
-#    adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
-#    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
-#    campaign_dev: "Random Harder Levels"
-#    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
-#    campaign_multiplayer: "Multiplayer Arenas"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_player_created: "Player-Created"
-#    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+  play:
+    play_as: "Играј како" # Ladder page
+    spectate: "Набљудувај" # Ladder page
+    players: "играчи" # Hover over a level on /play
+    hours_played: "часови изиграни" # Hover over a level on /play
+    items: "Предмети" # Tooltip on item shop button from /play
+    unlock: "Отклучи" # For purchasing items and heroes
+    confirm: "Потврди"
+    owned: "Во сопственост" # For items you own
+    locked: "Заклучено"
+    purchasable: "Може да се купи" # For a hero you unlocked but haven't purchased
+    available: "Достапно"
+    skills_granted: "Доделени вештини" # Property documentation details
+    heroes: "Херои" # Tooltip on hero shop button from /play
+    achievements: "Постигнувања" # Tooltip on achievement list button from /play
+    account: "Сметка" # Tooltip on account button from /play
+    settings: "Поставки" # Tooltip on settings button from /play
+    next: "Следно" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Смени херој" # Go back from choose inventory to choose hero
+    choose_inventory: "Опреми се"
+    buy_gems: "Купи скапоцени камења"
+    campaign_desert: "Пустинска кампања"
+    campaign_forest: "Шумска кампања"
+    campaign_dungeon: "Занданска кампања"
+    subscription_required: "Потребно е зачленување"
+    free: "Бесплатно"
+    subscribed: "Зачленет"
+    older_campaigns: "Постари кампањи"
+    anonymous: "Анонимен играч"
+    level_difficulty: "Тешкотија: "
+    campaign_beginner: "Почетничка кампања"
+    awaiting_levels_adventurer_prefix: "Пуштаме пет нивоа неделно."
+    awaiting_levels_adventurer: "Зачлени се како Авантурист"
+    awaiting_levels_adventurer_suffix: "за да бидеш првиот кој ќе ги игра новите нивоа."
+    choose_your_level: "Избери го твоето ниво" # The rest of this section is the old play view at /play-old and isn't very important.
+    adventurer_prefix: "Можеш да отидеш на било кое од подолните нивоа, или да дискутираш за нивоата на "
+    adventurer_forum: "форумот на Авантуристите"
+    adventurer_suffix: "."
+    campaign_old_beginner: "Стара почетничка кампања"
+    campaign_old_beginner_description: "... во која учиш за волшепството на програмирањето."
+    campaign_dev: "Призволни потешки нивоа"
+    campaign_dev_description: "... во кои го учиш интерфејсот додека правиш нешто малку потешко."
+    campaign_multiplayer: "Арени за повеќе играчи"
+    campaign_multiplayer_description: "... во кои кодираш лице-во-лице против други играчи."
+    campaign_player_created: "Направено од играчи"
+    campaign_player_created_description: "... се бориш наспроти креативноста на останатите играчи од <a href=\"/contribute/artisan\">Волшебничкиот занает</a>."
+    campaign_classic_algorithms: "Класични алгоритми"
+    campaign_classic_algorithms_description: "... во кои ги учиш најпопуларните алгоритми во компјутерската наука."
 
   login:
-    sign_up: "Направи Сметка"
+    sign_up: "Направи сметка"
     log_in: "Најави се"
     logging_in: "Најавувањето е во тек"
     log_out: "Одјави се"
     forgot_password: "Ја заборави својата лозинка?"
     authenticate_gplus: "Провери G+ најава"
-    load_profile: "Вчитај G+ Профил"
-    load_email: "Вчитај G+ Email"
+    load_profile: "Вчитај G+ профил"
+    load_email: "Вчитај G+ e-mail"
     finishing: "Завршување"
     sign_in_with_facebook: "Најави се со Facebook"
     sign_in_with_gplus: "Најави се со G+"
     signup_switch: "Сакаш да направиш сметка?"
 
   signup:
-    email_announcements: "Примај соопштенија преку email"
+    email_announcements: "Примај соопштенија преку e-mail"
     creating: "Сметката се прави..."
-    sign_up: "Направи Сметка"
+    sign_up: "Направи сметка"
     log_in: "најави се со лозинка"
     social_signup: "Или, можеш да се пријавиш преку Facebook или G+:"
     required: "Мораш да се најавиш за да имаш пристап таму."
     login_switch: "Веќе имаш сметка?"
 
   recover:
-    recover_account_title: "Врати Сметка"
+    recover_account_title: "Врати сметка"
     send_password: "Испрати лозинка за враќање"
-    recovery_sent: "Email-от за враќање на лозинката е испратен."
+    recovery_sent: "E-mail-от за враќање на лозинката е испратен."
 
   items:
     primary: "Главно"
@@ -151,37 +151,37 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     help: "Помош"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
-    submit_patch: "Поднеси Закрпа"
-    submit_changes: "Поднеси Промени"
+    submit_patch: "Поднеси закрпа"
+    submit_changes: "Поднеси промени"
 
-#  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
-#    body: "Body"
-#    version: "Version"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
+  general:
+    and: "и"
+    name: "Име"
+    date: "Датум"
+    body: "Тело" # Original was 'Body'. Not sure if this is the best translation.
+    version: "Верзија"
+    submitter: "Подносител"
+    submitted: "Поднесено"
 #    commit_msg: "Commit Message"
 #    review: "Review"
-#    version_history: "Version History"
-#    version_history_for: "Version History for: "
+    version_history: "Историја на верзии"
+    version_history_for: "Историја на верзии за: "
 #    select_changes: "Select two changes below to see the difference."
 #    undo: "Undo (Ctrl+Z)"
 #    redo: "Redo (Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
-#    result: "Result"
-#    results: "Results"
-#    description: "Description"
-#    or: "or"
-#    subject: "Subject"
-#    email: "Email"
-#    password: "Password"
-#    message: "Message"
+    result: "Резултат"
+    results: "Резултати"
+    description: "Опис"
+    or: "или"
+    subject: "Предмет на пораката" # Original: 'Subject'. Translated as 'Message subject' because in macedonian the word 'Предмет' can have different meaning.
+    email: "E-mail"
+    password: "Лозинка"
+    message: "Порака"
 #    code: "Code"
 #    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Opponent"
+    when: "Кога"
+    opponent: "Противник"
 #    rank: "Rank"
 #    score: "Score"
 #    win: "Win"
@@ -190,7 +190,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    easy: "Easy"
 #    medium: "Medium"
 #    hard: "Hard"
-#    player: "Player"
+    player: "Играч"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
@@ -209,45 +209,45 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     year: "година"
     years: "години"
 
-#  play_level:
-#    done: "Done"
-#    home: "Home" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
-#    guide: "Guide"
+  play_level:
+    done: "Готово"
+    home: "Дома" # Not used any more, will be removed soon.
+    level: "Ниво" # Like "Level: Dungeons of Kithgard"
+    skip: "Прескокни"
+    game_menu: "Мени"
+    guide: "Водич"
 #    restart: "Restart"
-#    goals: "Goals"
-#    goal: "Goal"
+    goals: "Цели"
+    goal: "Цел"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
+    success: "Успешно!"
+    incomplete: "Некомплетирано"
+    timed_out: "Истече времето"
 #    failing: "Failing"
 #    action_timeline: "Action Timeline"
 #    click_to_select: "Click on a unit to select it."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_multiplayer: "Повеќе играчи"
+    control_bar_join_game: "Приклучи се во игра"
 #    reload: "Reload"
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
-#    victory: "Victory"
+    victory: "Победа"
 #    victory_title_prefix: ""
 #    victory_title_suffix: " Complete"
-#    victory_sign_up: "Sign Up to Save Progress"
-#    victory_sign_up_poke: "Want to save your code? Create a free account!"
-#    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
+    victory_sign_up: "Направи сметка за да го зачуваш напредокот"
+    victory_sign_up_poke: "Сакаш да го зачуваш твојот код? Направи бесплатна сметка!"
+    victory_rate_the_level: "Оцени го нивото: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
-#    victory_go_home: "Go Home" # Only in old-style levels.
-#    victory_review: "Tell us more!" # Only in old-style levels.
-#    victory_hour_of_code_done: "Are You Done?"
+    victory_play_continue: "Продолжи"
+    victory_saving_progress: "Напредокот се зачувува"
+    victory_go_home: "Оди дома" # Only in old-style levels.
+    victory_review: "Кажи ни повеќе!" # Only in old-style levels.
+    victory_hour_of_code_done: "Дали си готов?"
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
-#    guide_title: "Guide"
+    victory_experience_gained: "Добиено искуство"
+    victory_gems_gained: "Добиени скапоцени камења"
+    guide_title: "Водич"
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
 #    tome_other_units: "Other Units" # Only in old-style levels.
@@ -326,16 +326,16 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  inventory:
+  inventory:
 #    choose_inventory: "Equip Items"
 #    equipped_item: "Equipped"
-#    required_purchase_title: "Required"
-#    available_item: "Available"
-#    restricted_title: "Restricted"
+    required_purchase_title: "Задолжително"
+    available_item: "Достапно"
+    restricted_title: "Забрането"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
+    locked: "(заклучено)"
+    restricted: "(забрането во ова ниво)"
 #    equip: "Equip"
 #    unequip: "Unequip"
 
