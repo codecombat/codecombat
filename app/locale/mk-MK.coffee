@@ -24,7 +24,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     profile: "Профил"
     stats: "Статистики"
 #    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
+    admin: "Админ" # Only shows up when you are an admin
     home: "Дома"
     contribute: "Допринеси"
     legal: "Законски"
@@ -48,54 +48,54 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     learn_more: "Научи повеќе за тоа како е да се биде Дипломат"
     subscribe_as_diplomat: "Зачлени се како Дипломат"
 
-#  play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
-#    level_difficulty: "Difficulty: "
-#    campaign_beginner: "Beginner Campaign"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    choose_your_level: "Choose Your Level" # The rest of this section is the old play view at /play-old and isn't very important.
-#    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
-#    adventurer_forum: "the Adventurer forum"
-#    adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
-#    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
-#    campaign_dev: "Random Harder Levels"
-#    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
-#    campaign_multiplayer: "Multiplayer Arenas"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_player_created: "Player-Created"
-#    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+  play:
+    play_as: "Играј Како" # Ladder page
+    spectate: "Набљудувај" # Ladder page
+    players: "играчи" # Hover over a level on /play
+    hours_played: "часови изиграни" # Hover over a level on /play
+    items: "Предмети" # Tooltip on item shop button from /play
+    unlock: "Отклучи" # For purchasing items and heroes
+    confirm: "Потврди"
+    owned: "Во Сопственост" # For items you own
+    locked: "Заклучено"
+    purchasable: "Може да се купи" # For a hero you unlocked but haven't purchased
+    available: "Достапно"
+    skills_granted: "Доделени Вештини" # Property documentation details
+    heroes: "Херои" # Tooltip on hero shop button from /play
+    achievements: "Постигнувања" # Tooltip on achievement list button from /play
+    account: "Сметка" # Tooltip on account button from /play
+    settings: "Поставки" # Tooltip on settings button from /play
+    next: "Следно" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Смени Херој" # Go back from choose inventory to choose hero
+    choose_inventory: "Опреми се"
+    buy_gems: "Купи Скапоцени Камења"
+    campaign_desert: "Пустинска Кампања"
+    campaign_forest: "Шумска Кампања"
+    campaign_dungeon: "Занданска Кампања"
+    subscription_required: "Потребно е Зачленување"
+    free: "Бесплатно"
+    subscribed: "Зачленет"
+    older_campaigns: "Постари Кампањи"
+    anonymous: "Анонимен Играч"
+    level_difficulty: "Тешкотија: "
+    campaign_beginner: "Почетничка Кампања"
+    awaiting_levels_adventurer_prefix: "Пуштаме пет нивоа неделно."
+    awaiting_levels_adventurer: "Зачлени се како Авантурист"
+    awaiting_levels_adventurer_suffix: "за да бидеш првиот кој ќе ги игра новите нивоа."
+    choose_your_level: "Избери го Твоето Ниво" # The rest of this section is the old play view at /play-old and isn't very important.
+    adventurer_prefix: "Можеш да отидеш на било кое од подолните нивоа, или да дискутираш за нивоата на "
+    adventurer_forum: "форумот на Авантуристите"
+    adventurer_suffix: "."
+    campaign_old_beginner: "Стара Почетничка Кампања"
+    campaign_old_beginner_description: "... во која учиш за волшепството на програмирањето."
+    campaign_dev: "Призволни Потешки Нивоа"
+    campaign_dev_description: "... во кои го учиш интерфејсот додека правиш нешто малку потешко."
+    campaign_multiplayer: "Арени за Повеќе Играчи"
+    campaign_multiplayer_description: "... во кои кодираш лице-во-лице против други играчи."
+    campaign_player_created: "Направено од Играчи"
+    campaign_player_created_description: "... се бориш наспроти креативноста на останатите играчи од <a href=\"/contribute/artisan\">Волшебничкиот Занает</a>."
+    campaign_classic_algorithms: "Класични Алгоритми"
+    campaign_classic_algorithms_description: "... во кои ги учиш најпопуларните алгоритми во Компјутерската Наука."
 
   login:
     sign_up: "Направи Сметка"
