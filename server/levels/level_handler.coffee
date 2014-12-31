@@ -370,7 +370,7 @@ LevelHandler = class LevelHandler extends Handler
     return @sendSuccess res, levelPlaytimes if levelPlaytimes = @levelPlaytimesCache[cacheKey]
 
     # Build query
-    match = {$match: {$and: [{"state.complete": true}, {"playtime": {$gt: 0}}]}}
+    match = {$match: {$and: [{"state.complete": true}, {"playtime": {$gt: 0}}, {levelID: {$in: levelSlugs}}]}}
     match["$match"]["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
     match["$match"]["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
     project = {"$project": {"_id": 0, "levelID": 1, "playtime": 1, "created": {"$concat": [{"$substr":  ["$created", 0, 4]}, "-", {"$substr":  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}}}
@@ -383,12 +383,9 @@ LevelHandler = class LevelHandler extends Handler
       # Build list of level average playtimes
       playtimes = []
       for item in data
-        created = item._id.created
-        level = item._id.level
-        continue unless level? and level in levelSlugs
         playtimes.push 
-          level: level
-          created: created
+          level: item._id.level
+          created: item._id.created
           average: item.average
       @levelPlaytimesCache[cacheKey] = playtimes
       @sendSuccess res, playtimes
