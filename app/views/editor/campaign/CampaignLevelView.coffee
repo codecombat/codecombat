@@ -14,11 +14,39 @@ module.exports = class CampaignLevelView extends CocoView
     @fullLevel.fetch()
     @listenToOnce @fullLevel, 'sync', => @render?()
 
+    @levelSlug = @level.get('slug')
+    @getLevelCompletions()
+
   getRenderData: ->
     c = super()
     c.level = if @fullLevel.loaded then @fullLevel else @level
+    c.levelCompletions = @levelCompletions
     c
 
   onClickClose: ->
     @$el.addClass('hidden')
     @trigger 'hidden'
+
+  getLevelCompletions: ->
+    # Fetch last 7 days of level completion counts
+    success = (data) =>
+      return if @destroyed
+      data.sort (a, b) -> if a.created < b.created then 1 else -1
+      mapFn = (item) -> 
+        item.rate = (item.finished / item.started * 100).toFixed(2)
+        item
+      @levelCompletions = _.map data, mapFn, @
+      @render()
+
+    startDay = new Date()
+    startDay.setDate(startDay.getUTCDate() - 6)
+    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+    
+    # TODO: Why do we need this url dash?
+    request = @supermodel.addRequestResource 'level_completions', {
+      url: '/db/analytics_log_event/-/level_completions'
+      data: {startDay: startDay, slugs: [@levelSlug]}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
