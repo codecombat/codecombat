@@ -16,11 +16,13 @@ module.exports = class CampaignLevelView extends CocoView
 
     @levelSlug = @level.get('slug')
     @getLevelCompletions()
+    @getLevelPlaytimes()
 
   getRenderData: ->
     c = super()
     c.level = if @fullLevel.loaded then @fullLevel else @level
     c.levelCompletions = @levelCompletions
+    c.levelPlaytimes = @levelPlaytimes
     c
 
   onClickClose: ->
@@ -45,6 +47,26 @@ module.exports = class CampaignLevelView extends CocoView
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_completions', {
       url: '/db/analytics_log_event/-/level_completions'
+      data: {startDay: startDay, slugs: [@levelSlug]}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
+
+  getLevelPlaytimes: ->
+    # Fetch last 7 days of level average playtimes
+    success = (data) =>
+      return if @destroyed
+      @levelPlaytimes = data.sort (a, b) -> if a.created < b.created then 1 else -1
+      @render()
+
+    startDay = new Date()
+    startDay.setDate(startDay.getUTCDate() - 6)
+    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+    
+    # TODO: Why do we need this url dash?
+    request = @supermodel.addRequestResource 'playtime_averages', {
+      url: '/db/level/-/playtime_averages'
       data: {startDay: startDay, slugs: [@levelSlug]}
       method: 'POST'
       success: success

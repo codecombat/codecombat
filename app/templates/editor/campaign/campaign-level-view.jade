@@ -24,6 +24,23 @@
   else
     div Loading...
 
+  h4 Average Playtimes
+  if levelPlaytimes
+    table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Date
+          td Average (s)
+      tbody
+        - for (var i = 0; i < levelPlaytimes.length; i++)
+          tr
+            td= levelPlaytimes[i].created
+            td= levelPlaytimes[i].average.toFixed(2)
+  else
+    div Loading...
+                
+                
+                
 if level.get('tasks')
   .tasks
     h3 Tasks (read only)

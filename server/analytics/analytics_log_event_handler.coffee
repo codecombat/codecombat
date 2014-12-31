@@ -28,7 +28,7 @@ class AnalyticsLogEventHandler extends Handler
     # slugs - array of level slugs
     # startDay - Inclusive, optional, e.g. '2014-12-14'
     # endDay - Exclusive, optional, e.g. '2014-12-16'
-    
+
     # TODO: An uncached call takes about 15s
 
     levelSlugs = req.query.slugs or req.body.slugs
