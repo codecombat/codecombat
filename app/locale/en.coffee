@@ -657,6 +657,7 @@
     achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Level Completion"
     pop_i18n: "Populate I18N"
+    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Preview"

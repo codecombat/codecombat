@@ -14,6 +14,7 @@ block tableHeader
     th(data-i18n="general.name") Name
     th(data-i18n="general.description") Description
     th(data-i18n="general.version") Version
+    th(data-i18n="editor.tasks") Tasks
   
 block tableBody
   for thang in documents 
@@ -26,3 +27,9 @@ block tableBody
       td.body-row #{thang.get('description')}
       - var version = thang.get('version')
       td #{version.major}.#{version.minor}
+      - var tasks = thang.get('tasks');
+      if tasks && tasks.length
+        - var completed = tasks.filter(function(t) { return t.complete; });
+        td #{completed.length}/#{tasks.length}
+      else
+        td
