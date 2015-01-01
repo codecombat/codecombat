@@ -47,7 +47,7 @@ module.exports = class CampaignLevelView extends CocoView
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_completions', {
       url: '/db/analytics_log_event/-/level_completions'
-      data: {startDay: startDay, slugs: [@levelSlug]}
+      data: {startDay: startDay, slug: @levelSlug}
       method: 'POST'
       success: success
     }, 0

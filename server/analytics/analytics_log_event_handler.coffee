@@ -26,17 +26,17 @@ class AnalyticsLogEventHandler extends Handler
   getLevelCompletionsBySlugs: (req, res) ->
     # Returns an array of per-day level starts and finishes
     # Parameters:
-    # slugs - array of level slugs
+    # slug - level slug
     # startDay - Inclusive, optional, e.g. '2014-12-14'
     # endDay - Exclusive, optional, e.g. '2014-12-16'
 
     # TODO: An uncached call takes about 15s locally
 
-    levelSlugs = req.query.slugs or req.body.slugs
+    levelSlug = req.query.slug or req.body.slug
     startDay = req.query.startDay or req.body.startDay
     endDay = req.query.endDay or req.body.endDay
 
-    return @sendSuccess res, [] unless levelSlugs?
+    return @sendSuccess res, [] unless levelSlug?
 
     # Cache results for 1 day
     @levelCompletionsCache ?= {}
@@ -44,7 +44,7 @@ class AnalyticsLogEventHandler extends Handler
     if (new Date()) - @levelCompletionsCachedSince > 86400 * 1000  # Dumb cache expiration
       @levelCompletionsCache = {}
       @levelCompletionsCachedSince = new Date()
-    cacheKey = levelSlugs.join(',')
+    cacheKey = levelSlug
     cacheKey += 's' + startDay if startDay?
     cacheKey += 'e' + endDay if endDay?
     return @sendSuccess res, levelCompletions if levelCompletions = @levelCompletionsCache[cacheKey]
@@ -69,7 +69,6 @@ class AnalyticsLogEventHandler extends Handler
         continue unless level?
         # 'Started Level' event uses level slug, 'Saw Victory' event uses level name with caps and spaces.
         level = level.toLowerCase().replace new RegExp(' ', 'g'), '-' if event is 'Saw Victory'
-        continue unless level in levelSlugs
 
         levelDateMap[level] ?= {}
         levelDateMap[level][created] ?= {}
@@ -80,16 +79,21 @@ class AnalyticsLogEventHandler extends Handler
           levelDateMap[level][created]['started'] = item.count
           
       # Build list of level completions
-      completions = []
+      # Cache every level, since we had to grab all this data anyway
+      completions = {}
       for level of levelDateMap
+        completions[level] = []
         for created, item of levelDateMap[level]
-          completions.push 
+          completions[level].push 
             level: level
             created: created
             started: item.started
             finished: item.finished
-      @levelCompletionsCache[cacheKey] = completions
-      @sendSuccess res, completions
+        cacheKey = level
+        cacheKey += 's' + startDay if startDay?
+        cacheKey += 'e' + endDay if endDay?
+        @levelCompletionsCache[cacheKey] = completions[level]
+      @sendSuccess res, completions[levelSlug]
 
   getCampaignDropOffs: (req, res) ->
     # Returns a dictionary of per-campaign level start and finish drop-offs
