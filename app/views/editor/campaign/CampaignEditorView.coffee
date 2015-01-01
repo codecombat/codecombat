@@ -47,6 +47,8 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
+    _.delay @getCampaignDropOffs, 1000
+
   loadThangTypeNames: ->
     # Load the names of the ThangTypes that this level's Treema nodes might want to display.
     originals = []
@@ -130,6 +132,7 @@ module.exports = class CampaignEditorView extends RootView
   getRenderData: ->
     c = super()
     c.campaign = @campaign
+    c.campaignDropOffs = @campaignDropOffs
     c
 
   onClickSaveButton: ->
@@ -236,6 +239,35 @@ module.exports = class CampaignEditorView extends RootView
       achievement.set 'rewards', newRewards
       if achievement.hasLocalChanges()
         @toSave.add achievement
+        
+  getCampaignDropOffs: =>
+    # Fetch last 7 days of campaign drop-off rates
+
+    startDay = new Date()
+    startDay.setDate(startDay.getUTCDate() - 6)
+    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+
+    success = (data) =>
+      return if @destroyed
+      # API returns all the campaign data currently
+      @campaignDropOffs = data[@campaignHandle]
+      mapFn = (item) -> 
+        item.startDropRate = (item.startDropped / item.started * 100).toFixed(2)
+        item.finishDropRate = (item.finishDropped / item.finished * 100).toFixed(2)
+        item
+      @campaignDropOffs.levels = _.map @campaignDropOffs.levels, mapFn, @
+      @campaignDropOffs.startDay = startDay
+      @render()
+
+    # TODO: Why do we need this url dash?
+    request = @supermodel.addRequestResource 'campaign_drop_offs', {
+      url: '/db/analytics_log_event/-/campaign_drop_offs'
+      data: {startDay: startDay, slugs: [@campaignHandle]}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
+
 
 class LevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'

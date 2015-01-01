@@ -322,7 +322,7 @@ LevelHandler = class LevelHandler extends Handler
     @playCountCachedSince ?= new Date()
     if (new Date()) - @playCountCachedSince > 86400 * 1000  # Dumb cache expiration
       @playCountCache = {}
-      @playCountCacheSince = new Date()
+      @playCountCachedSince = new Date()
     cacheKey = levelIDs.join ','
     if playCounts = @playCountCache[cacheKey]
       return @sendSuccess res, playCounts
@@ -349,7 +349,7 @@ LevelHandler = class LevelHandler extends Handler
     # startDay - Inclusive, optional, e.g. '2014-12-14'
     # endDay - Exclusive, optional, e.g. '2014-12-16'
 
-    # TODO: An uncached call takes about 20s for dungeons-of-kithgard locally
+    # TODO: An uncached call takes about 5s for dungeons-of-kithgard locally
     # TODO: This is very similar to getLevelCompletionsBySlugs(), time to generalize analytics APIs?
 
     levelSlugs = req.query.slugs or req.body.slugs
@@ -363,7 +363,7 @@ LevelHandler = class LevelHandler extends Handler
     @levelPlaytimesCachedSince ?= new Date()
     if (new Date()) - @levelPlaytimesCachedSince > 86400 * 1000  # Dumb cache expiration
       @levelPlaytimesCache = {}
-      @levelPlaytimesCacheSince = new Date()
+      @levelPlaytimesCachedSince = new Date()
     cacheKey = levelSlugs.join(',')
     cacheKey += 's' + startDay if startDay?
     cacheKey += 'e' + endDay if endDay?
