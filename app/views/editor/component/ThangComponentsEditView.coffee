@@ -15,8 +15,8 @@ CocoCollection = require 'collections/CocoCollection'
 
 LC = (componentName, config) -> original: LevelComponent[componentName + 'ID'], majorVersion: 0, config: config
 DEFAULT_COMPONENTS =
-  Unit: [LC('Equips')]
-  Hero: [LC('Equips')]
+  Unit: [LC('Equips'), LC('FindsPaths')]
+  Hero: [LC('Equips'), LC('FindsPaths')]
   Floor: [
     LC('Exists', stateless: true)
     LC('Physical', width: 20, height: 17, depth: 2, shape: 'sheet', pos: {x: 10, y: 8.5, z: 1})
@@ -35,6 +35,7 @@ DEFAULT_COMPONENTS =
   Misc: [LC('Exists'), LC('Physical')]
   Mark: []
   Item: [LC('Item')]
+  Missile: [LC('Missile')]
 
 module.exports = class ThangComponentsEditView extends CocoView
   id: 'thang-components-edit-view'

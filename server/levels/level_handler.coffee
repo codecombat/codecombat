@@ -72,6 +72,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
     return @checkExistence(req, res, args[0]) if args[1] is 'exists'
     return @getPlayCountsBySlugs(req, res) if args[1] is 'play_counts'
+    return @getLevelPlaytimesBySlugs(req, res) if args[1] is 'playtime_averages'
     super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -321,7 +322,7 @@ LevelHandler = class LevelHandler extends Handler
     @playCountCachedSince ?= new Date()
     if (new Date()) - @playCountCachedSince > 86400 * 1000  # Dumb cache expiration
       @playCountCache = {}
-      @playCountCacheSince = new Date()
+      @playCountCachedSince = new Date()
     cacheKey = levelIDs.join ','
     if playCounts = @playCountCache[cacheKey]
       return @sendSuccess res, playCounts
@@ -339,5 +340,54 @@ LevelHandler = class LevelHandler extends Handler
     method ?= req.method
     return true if method is null or method is 'get'
     super(req, document, method)
+
+
+  getLevelPlaytimesBySlugs: (req, res) ->
+    # Returns an array of per-day level average playtimes
+    # Parameters:
+    # slugs - array of level slugs
+    # startDay - Inclusive, optional, e.g. '2014-12-14'
+    # endDay - Exclusive, optional, e.g. '2014-12-16'
+
+    # TODO: An uncached call takes about 5s for dungeons-of-kithgard locally
+    # TODO: This is very similar to getLevelCompletionsBySlugs(), time to generalize analytics APIs?
+
+    levelSlugs = req.query.slugs or req.body.slugs
+    startDay = req.query.startDay or req.body.startDay
+    endDay = req.query.endDay or req.body.endDay
+
+    return @sendSuccess res, [] unless levelSlugs?
+
+    # Cache results for 1 day
+    @levelPlaytimesCache ?= {}
+    @levelPlaytimesCachedSince ?= new Date()
+    if (new Date()) - @levelPlaytimesCachedSince > 86400 * 1000  # Dumb cache expiration
+      @levelPlaytimesCache = {}
+      @levelPlaytimesCachedSince = new Date()
+    cacheKey = levelSlugs.join(',')
+    cacheKey += 's' + startDay if startDay?
+    cacheKey += 'e' + endDay if endDay?
+    return @sendSuccess res, levelPlaytimes if levelPlaytimes = @levelPlaytimesCache[cacheKey]
+
+    # Build query
+    match = {$match: {$and: [{"state.complete": true}, {"playtime": {$gt: 0}}, {levelID: {$in: levelSlugs}}]}}
+    match["$match"]["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
+    match["$match"]["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
+    project = {"$project": {"_id": 0, "levelID": 1, "playtime": 1, "created": {"$concat": [{"$substr":  ["$created", 0, 4]}, "-", {"$substr":  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}}}
+    group = {"$group": {"_id": {"created": "$created", "level": "$levelID"}, "average": {"$avg": "$playtime"}}}
+    query = Session.aggregate match, project, group
+
+    query.exec (err, data) =>
+      if err? then return @sendDatabaseError res, err
+
+      # Build list of level average playtimes
+      playtimes = []
+      for item in data
+        playtimes.push 
+          level: item._id.level
+          created: item._id.created
+          average: item.average
+      @levelPlaytimesCache[cacheKey] = playtimes
+      @sendSuccess res, playtimes
 
 module.exports = new LevelHandler()

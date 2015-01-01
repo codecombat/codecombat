@@ -53,10 +53,6 @@ function getCompletionRates() {
     }
   }};
 
-  // TODO: sort by level, date, 
-  // var sort = {$sort: { "_id.level" : 1, "_id.created" : -1}};
-  //var cursor = db['analytics.log.events'].aggregate(match, proj0, proj1, proj2, group, sort);
-  // var cursor = db['analytics.log.events'].aggregate(match, proj0, group, sort);
   var cursor = db['analytics.log.events'].aggregate(match, proj0, group);
 
   // <level><date><data>

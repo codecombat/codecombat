@@ -9,9 +9,12 @@ User = require '../../../server/users/User'
 # TODO: these tests have some rerun/cleanup issues
 # TODO: add tests for purchase, payment, subscribe, unsubscribe, and earned achievements
 
+# TODO: AnalyticsUsersActive collection isn't currently used.
+# TODO: Will remove these tests if we end up ripping out the disabled saveActiveUser calls.
+
 describe 'Analytics', ->
 
-  it 'registered user', (done) ->
+  xit 'registered user', (done) ->
     clearModels [AnalyticsUsersActive], (err) ->
       expect(err).toBeNull()
       user = new User
@@ -29,7 +32,7 @@ describe 'Analytics', ->
               expect(activeUsers[0]?.get('event')).toEqual('register')
               done()
 
-  it 'level completed', (done) ->
+  xit 'level completed', (done) ->
     clearModels [AnalyticsUsersActive], (err) ->
       expect(err).toBeNull()
       unittest.getNormalJoe (joe) ->
@@ -53,7 +56,7 @@ describe 'Analytics', ->
                 expect(activeUsers[0]?.get('event')).toEqual('level-completed/lotr')
                 done()
 
-  it 'level playtime', (done) ->
+  xit 'level playtime', (done) ->
     clearModels [AnalyticsUsersActive], (err) ->
       expect(err).toBeNull()
       unittest.getNormalJoe (joe) ->

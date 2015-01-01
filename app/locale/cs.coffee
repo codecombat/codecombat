@@ -307,7 +307,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_premature_optimization: "Předčasná optimalizace je původce všeho zla. - Donald Knuth"
     tip_brute_force: "V případě pochybností, použijte brute force. - Ken Thompson"
     tip_extrapolation: "Jsou jenom dva druhy lidí: ti, kteří mohou extrapolovat z nekompletních dat..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
+    tip_superpower: "Kódování by se téměř dalo srovnávat se superschopnostmi."
 
   game_menu:
     inventory_tab: "Inventář"
@@ -329,7 +329,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   inventory:
     choose_inventory: "Nasadit předměty"
     equipped_item: "Nasazeno"
-#    required_purchase_title: "Required"
+    required_purchase_title: "Vyžadováno"
     available_item: "Dostupné"
     restricted_title: "Omezeno"
     should_equip: "(dvojklik pro nasazení)"
@@ -482,13 +482,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     forum_prefix: "Pro ostatní veřejné věci, prosím zkuste "
     forum_page: "naše fórum"
     forum_suffix: "."
-#    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq_prefix: "Také máme "
+    faq: "FAQ"
     subscribe_prefix: "Pokud potřebujete pomoc s nějakou úrovní, prosím"
     subscribe: "zakupte si CodeCombat předplatné"
     subscribe_suffix: "a rádi vám pomůžeme s vaším kódem."
     subscriber_support: "Již jste CodeCombat předplatitel, takže vaše emaily budou vyřízeny dříve."
-#    screenshot_included: "Screenshot included."
+    screenshot_included: "Snímek obrazovky zahrnut."
     where_reply: "Kam máme odpovědět?"
     send: "Odeslat připomínku"
     contact_candidate: "Kontaktovat kandidáta" # Deprecated
