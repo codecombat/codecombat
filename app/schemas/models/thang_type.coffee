@@ -168,6 +168,8 @@ _.extend ThangTypeSchema.properties,
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'extendedName', 'unlockLevelName'], description: 'Help translate this ThangType\'s name and description.'}
   extendedName: {type: 'string', title: 'Extended Hero Name', description: 'The long form of the hero\'s name. Ex.: "Captain Anya Weston".'}
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
+
 
 ThangTypeSchema.required = []
 

@@ -16,7 +16,7 @@ defaultTasks = [
   'Choose music file in Introduction script.'
 
   'Add to a campaign.'
-  'Publish for playtesting.'
+  'Publish.'
   'Choose level options like required/restricted gear.'
   'Create achievements, including unlocking next level.'
 
@@ -25,17 +25,17 @@ defaultTasks = [
   'Playtest with a couple random seeds.'
   'Make sure the level ends promptly on success and failure.'
   'Remove/simplify unnecessary doodad collision.'
-  'Release to adventurers.'
+  'Release to adventurers via MailChimp.'
 
   'Write the description.'
   'Translate the sample code comments.'
   'Add Io/Clojure/Lua/CoffeeScript.'
   'Write the guide.'
   'Write a loading tip, if needed.'
-  'Populate i18n.'
+  'Click the Populate i18n button.'
 
   'Mark whether it requires a subscription (after adventurer week).'
-  'Release to everyone.'
+  'Release to everyone via MailChimp.'
 
   'Check completion/engagement/problem analytics.'
   'Do any custom scripting, if needed.'
