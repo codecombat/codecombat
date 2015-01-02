@@ -262,7 +262,7 @@ module.exports = class CampaignEditorView extends RootView
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'campaign_drop_offs', {
       url: '/db/analytics_log_event/-/campaign_drop_offs'
-      data: {startDay: startDay, slugs: [@campaignHandle]}
+      data: {startDay: startDay, slug: @campaignHandle}
       method: 'POST'
       success: success
     }, 0
