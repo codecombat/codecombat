@@ -239,7 +239,7 @@ module.exports = class CampaignEditorView extends RootView
       achievement.set 'rewards', newRewards
       if achievement.hasLocalChanges()
         @toSave.add achievement
-        
+
   getCampaignDropOffs: =>
     # Fetch last 7 days of campaign drop-off rates
 
@@ -251,7 +251,7 @@ module.exports = class CampaignEditorView extends RootView
       return if @destroyed
       # API returns all the campaign data currently
       @campaignDropOffs = data[@campaignHandle]
-      mapFn = (item) -> 
+      mapFn = (item) ->
         item.startDropRate = (item.startDropped / item.started * 100).toFixed(2)
         item.finishDropRate = (item.finishDropped / item.finished * 100).toFixed(2)
         item
@@ -309,6 +309,7 @@ class LevelNode extends TreemaObjectNode
     if data.tasks
       completion = "#{(t for t in data.tasks when t.complete).length} / #{data.tasks.length}"
 
+    valEl.append $("<a href='/editor/level/#{_.string.slugify(data.name)}' class='spr'>(e)</a>")
     valEl.append $("<#{el}></#{el}>").addClass('treema-shortened').text name
     if status
       valEl.append $('<em class="spl"></em>').text status

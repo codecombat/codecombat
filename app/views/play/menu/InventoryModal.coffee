@@ -93,8 +93,8 @@ module.exports = class InventoryModal extends ModalView
     locked = not (item.get('original') in me.items())
     #locked = false if me.get('slug') is 'nick'
 
-    required = item.get('slug') in _.flatten(_.values(@options.level.get('requiredGear') ? {}))
-    restricted = item.get('slug') in _.flatten(_.values(@options.level.get('restrictedGear') ? {}))
+    required = item.get('original') in _.flatten(_.values(@options.level.get('requiredGear') ? {}))
+    restricted = item.get('original') in _.flatten(_.values(@options.level.get('restrictedGear') ? {}))
     placeholder = not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats)
 
     if placeholder and locked  # The item is not complete, so don't put it into a collection.

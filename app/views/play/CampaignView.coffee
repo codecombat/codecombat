@@ -331,7 +331,7 @@ module.exports = class CampaignView extends RootView
 
   playAmbientSound: ->
     return if @ambientSound
-    return unless file = @campaign.get('ambientSound')?[AudioPlayer.ext.substr 1]
+    return unless file = @campaign?.get('ambientSound')?[AudioPlayer.ext.substr 1]
     src = "/file/#{file}"
     unless AudioPlayer.getStatus(src)?.loaded
       AudioPlayer.preloadSound src
