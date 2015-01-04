@@ -7,12 +7,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    try_it: "Try It" # Alternate wording for Play button
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
-#    ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
+    ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
     campaign: "Campagne"
     for_beginners: "Voor Beginners"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Voor ontwikkelaars" # Not currently shown on home page.
-#    or_ipad: "Of download voor iPad"
+    or_ipad: "Of download voor iPad"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
@@ -21,7 +21,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     blog: "Blog"
     forum: "Forum"
     account: "Lidmaatschap"
-#    profile: "Profiel"
+    profile: "Profiel"
 #    stats: "Stats"
 #    code: "Code"
     admin: "Administrator" # Only shows up when you are an admin
@@ -51,32 +51,32 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   play:
     play_as: "Speel als " # Ladder page
     spectate: "Toeschouwen" # Ladder page
-#    players: "Spelers" # Hover over a level on /play
+    players: "Spelers" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Ontgrendel" # For purchasing items and heroes
-#    confirm: "Bevestigen"
+    unlock: "Ontgrendel" # For purchasing items and heroes
+    confirm: "Bevestigen"
 #    owned: "Owned" # For items you own
-#    locked: "Vergrendeld"
+    locked: "Vergrendeld"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
 #    account: "Account" # Tooltip on account button from /play
-#    settings: "Instellingen" # Tooltip on settings button from /play
+    settings: "Instellingen" # Tooltip on settings button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Edelstenen kopen"
+    buy_gems: "Edelstenen kopen"
 #    campaign_desert: "Desert Campaign"
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
-#    free: "Gratis"
-#    subscribed: "Geabbonneerd"
+    free: "Gratis"
+    subscribed: "Geabbonneerd"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonieme Speler"
+    anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
     campaign_beginner: "Beginnercampagne"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
@@ -102,14 +102,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     log_in: "Inloggen"
     logging_in: "Bezig met inloggen"
     log_out: "Uitloggen"
-#    forgot_password: "Wachtwoord vergeten?"
-#    authenticate_gplus: "G+ verifiëren"
-#    load_profile: "G+ profiel laden"
-#    load_email: "G+ e-mail laden"
+    forgot_password: "Wachtwoord vergeten?"
+    authenticate_gplus: "G+ verifiëren"
+    load_profile: "G+ profiel laden"
+    load_email: "G+ e-mail laden"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Inloggen met Facebook"
-#    sign_in_with_gplus: "Inloggen met G+"
-#    signup_switch: "Wil je een account maken?"
+    sign_in_with_facebook: "Inloggen met Facebook"
+    sign_in_with_gplus: "Inloggen met G+"
+    signup_switch: "Wil je een account maken?"
 
   signup:
     email_announcements: "Ontvang aankondigingen via email"
@@ -118,12 +118,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     log_in: "inloggen met wachtwoord"
     social_signup: "Of je kunt je registreren met Facebook of G+:"
 #    required: "You need to log in before you can go that way."
-#    login_switch: "Heb je al een account?"
+    login_switch: "Heb je al een account?"
 
   recover:
     recover_account_title: "Herstel Account"
     send_password: "Verzend nieuw wachtwoord"
-#    recovery_sent: "Herstel e-mail verzonden."
+    recovery_sent: "Herstel e-mail verzonden."
 
 #  items:
 #    primary: "Primary"
