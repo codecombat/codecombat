@@ -197,7 +197,7 @@ module.exports = Lank = class Lank extends CocoClass
   showAreaOfEffects: ->
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
-      continue unless event.startsWith 'aoe-'
+      continue unless _.string.startsWith event, 'aoe-'
       continue if @handledDisplayEvents[event]
       @handledDisplayEvents[event] = true
       args = JSON.parse(event[4...])
@@ -240,7 +240,7 @@ module.exports = Lank = class Lank extends CocoClass
   showTextEvents: ->
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
-      continue unless event.startsWith 'text-'
+      continue unless _.string.startsWith event, 'text-'
       continue if @handledDisplayEvents[event]
       @handledDisplayEvents[event] = true
       options = JSON.parse(event[5...])

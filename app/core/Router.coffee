@@ -107,7 +107,7 @@ module.exports = class CocoRouter extends Backbone.Router
     window.location.href = window.location.href
 
   routeDirectly: (path, args) ->
-    path = "views/#{path}" if not _.str.startsWith(path, 'views/')
+    path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
       @listenToOnce application.moduleLoader, 'load-complete', ->

@@ -22,15 +22,15 @@ nav.navbar.navbar-default(role='navigation')
         span.glyphicon-chevron-down.glyphicon
 
       ul.dropdown-menu
-        li.dropdown-header Actions
+        li.dropdown-header(data-i18n="common.actions") Actions
         li
           a#component-watch-button
             span.watch
               span.glyphicon.glyphicon-eye-open
-              span.spl Watch
+              span.spl(data-i18n="common.watch") Watch
             span.unwatch.secret
               span.glyphicon.glyphicon-eye-close
-              span.spl Unwatch
+              span.spl(data-i18n="common.unwatch") Unwatch
         if !me.get('anonymous')
           li#create-new-component-button
             a(data-i18n="editor.level_component_b_new") Create New Component
@@ -38,7 +38,7 @@ nav.navbar.navbar-default(role='navigation')
             a(data-i18n="editor.pop_i18n")#pop-component-i18n-button Populate i18n
 
         li.divider
-        li.dropdown-header Info
+        li.dropdown-header(data-i18n="common.info") Info
   
         li#component-history-button
           a(data-i18n="general.version_history") Version History

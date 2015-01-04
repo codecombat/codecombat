@@ -98,7 +98,7 @@ module.exports = class LadderView extends RootView
 
   onClickedLink: (e) ->
     link = $(e.target).closest('a').attr('href')
-    if link?.startsWith('/play/level') and me.get('anonymous')
+    if link? and _.string.startsWith(link, '/play/level') and me.get('anonymous')
       e.stopPropagation()
       e.preventDefault()
       @showApologeticSignupModal()

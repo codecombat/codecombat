@@ -38,7 +38,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @actionNotSupported = false
 
     action = @thangType.getActions()[actionName]
-    randomStart = actionName.startsWith('move')
+    randomStart = _.string.startsWith(actionName, 'move')
     
     # because the resulting segmented image is set to the size of the movie clip, you can use
     # the raw registration data without scaling it.

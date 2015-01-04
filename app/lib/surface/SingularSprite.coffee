@@ -20,7 +20,7 @@ module.exports = class SingularSprite extends createjs.Sprite
     @actionNotSupported = false
 
     action = @thangType.getActions()[actionName]
-    randomStart = actionName.startsWith('move')
+    randomStart = _.string.startsWith(actionName, 'move')
     reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
 
     if action.animation

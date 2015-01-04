@@ -42,7 +42,7 @@ module.exports = TestView = class TestView extends RootView
     @specFiles = TestView.getAllSpecFiles()
     if @subPath
       prefix = TEST_REQUIRE_PREFIX + @subPath
-      @specFiles = (f for f in @specFiles when f.startsWith prefix)
+      @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
   @runTests: (specFiles) ->
     specFiles ?= @getAllSpecFiles()

@@ -544,7 +544,7 @@ module.exports = class ThangTypeEditView extends RootView
     return @stopShowingSelectedNode() if not selected
     path = selected.getPath()
     parts = path.split('/')
-    return @stopShowingSelectedNode() unless parts.length >= 4 and path.startsWith '/raw/'
+    return @stopShowingSelectedNode() unless parts.length >= 4 and _.string.startsWith path, '/raw/'
     key = parts[3]
     type = parts[2]
     vectorParser = new SpriteBuilder(@thangType)

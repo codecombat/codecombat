@@ -25,8 +25,8 @@ init = ->
   watchForErrors()
   setUpIOSLogging()
   path = document.location.pathname
-  app.testing = path.startsWith '/test'
-  app.demoing = path.startsWith '/demo'
+  app.testing = _.string.startsWith path, '/test'
+  app.demoing = _.string.startsWith path, '/demo'
   initializeUtilityServices() unless app.testing or app.demoing
   setUpBackboneMediator()
   app.initialize()

@@ -112,6 +112,7 @@ module.exports = class TomeView extends CocoView
     for thang in programmableThangs
       continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
+      thang.programmableMethods ?= plan: {name: 'plan', source: '// Should fill in some default source.', permissions: {readwrite: ['humans']}}
       for methodName, method of thang.programmableMethods
         pathComponents = [thang.id, methodName]
         if method.cloneOf
