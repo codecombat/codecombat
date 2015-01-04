@@ -5,7 +5,7 @@
   position: absolute
   left: 10px
   right: 10px
-  padding: 0 4px 10px 40px
+  padding: 0 4px 10px 3%
   background-color: transparent
   background-size: 100% 100%
   z-index: 2
@@ -63,7 +63,7 @@
     vertical-align: top
     
   #spell-palette-help-button
-    margin: 30px 0px 4px
+    margin: 3% 0px 4px
 
   &.hero .properties
     @include flexbox()
@@ -101,8 +101,3 @@
   #spell-palette-view
     // Make sure we have enough room for at least two columns
     padding-left: 12px
-
-@media only screen and (max-width: 1555px)
-  #spell-palette-view #spell-palette-help-button
-    // Save vertical space when we don't have three columns (#2005).
-    margin-top: 16px
