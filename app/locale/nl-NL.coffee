@@ -4,15 +4,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Probeer nu!" # Alternate wording for Play button
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
-#    ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
+    ipad_browser: "Slecht nieuws: CodeCombat werkt niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
     campaign: "Campagne"
     for_beginners: "Voor Beginners"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Voor ontwikkelaars" # Not currently shown on home page.
-#    or_ipad: "Of download voor iPad"
+    or_ipad: "Of download voor iPad"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
@@ -21,8 +21,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     blog: "Blog"
     forum: "Forum"
     account: "Lidmaatschap"
-#    profile: "Profiel"
-#    stats: "Stats"
+    profile: "Profiel"
+    stats: "Statistieken"
 #    code: "Code"
     admin: "Administrator" # Only shows up when you are an admin
     home: "Home"
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
-#    teachers: "Teachers"
+    teachers: "Leraren"
 
   modal:
     close: "Sluiten"
@@ -51,37 +51,37 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   play:
     play_as: "Speel als " # Ladder page
     spectate: "Toeschouwen" # Ladder page
-#    players: "Spelers" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    players: "Spelers" # Hover over a level on /play
+    hours_played: "Speeltijd" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Ontgrendel" # For purchasing items and heroes
-#    confirm: "Bevestigen"
-#    owned: "Owned" # For items you own
-#    locked: "Vergrendeld"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    unlock: "Ontgrendel" # For purchasing items and heroes
+    confirm: "Bevestigen"
+    owned: "In bezit" # For items you own
+    locked: "Vergrendeld"
+    purchasable: "Te koop" # For a hero you unlocked but haven't purchased
+    available: "Beschikbaar"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "Helden" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Instellingen" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    account: "Account" # Tooltip on account button from /play
+    settings: "Instellingen" # Tooltip on settings button from /play
+    next: "Volgende" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Verander held" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Edelstenen kopen"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
-#    free: "Gratis"
-#    subscribed: "Geabbonneerd"
+    buy_gems: "Edelstenen kopen"
+    campaign_desert: "Woestijncampagne"
+    campaign_forest: "Boscampagne"
+    campaign_dungeon: "Kerkercampagne"
+    subscription_required: "Abonnement nodig"
+    free: "Gratis"
+    subscribed: "Geabbonneerd"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonieme Speler"
+    anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
     campaign_beginner: "Beginnercampagne"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "We brengen 5 nieuwe levels per week uit."
+    awaiting_levels_adventurer: "Meld je aan als Avonturier"
+    awaiting_levels_adventurer_suffix: "om de eerste te zijn die nieuwe levels probeert."
     choose_your_level: "Kies Je Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Je kunt meteen naar een van de levels hieronder springen, of de levels bespreken op "
     adventurer_forum: "het Avonturiersforum"
@@ -95,21 +95,21 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     campaign_player_created: "Door-spelers-gemaakt"
     campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms_description: "... waarin je de meest gebruikte algoritmes in Computer Science leert."
 
   login:
     sign_up: "Account maken"
     log_in: "Inloggen"
     logging_in: "Bezig met inloggen"
     log_out: "Uitloggen"
-#    forgot_password: "Wachtwoord vergeten?"
-#    authenticate_gplus: "G+ verifiëren"
-#    load_profile: "G+ profiel laden"
-#    load_email: "G+ e-mail laden"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Inloggen met Facebook"
-#    sign_in_with_gplus: "Inloggen met G+"
-#    signup_switch: "Wil je een account maken?"
+    forgot_password: "Wachtwoord vergeten?"
+    authenticate_gplus: "G+ verifiëren"
+    load_profile: "G+ profiel laden"
+    load_email: "G+ e-mail laden"
+    finishing: "Aan het afmaken"
+    sign_in_with_facebook: "Inloggen met Facebook"
+    sign_in_with_gplus: "Inloggen met G+"
+    signup_switch: "Wil je een account maken?"
 
   signup:
     email_announcements: "Ontvang aankondigingen via email"
@@ -117,21 +117,21 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
     social_signup: "Of je kunt je registreren met Facebook of G+:"
-#    required: "You need to log in before you can go that way."
-#    login_switch: "Heb je al een account?"
+    required: "Je moet inloggen voor je deze richting op kan."
+    login_switch: "Heb je al een account?"
 
   recover:
     recover_account_title: "Herstel Account"
     send_password: "Verzend nieuw wachtwoord"
-#    recovery_sent: "Herstel e-mail verzonden."
+    recovery_sent: "Herstel e-mail verzonden."
 
 #  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
+    primary: "Primair"
+    secondary: "Secundair"
+    armor: "Harnas"
+    accessories: "Accessoires"
 #    misc: "Misc"
-#    books: "Books"
+    books: "Boeken"
 
   common:
     loading: "Bezig met laden..."
@@ -146,18 +146,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     fork: "Fork"
     play: "Spelen" # When used as an action verb, like "Play next level"
     retry: "Probeer opnieuw"
-#    actions: "Actions"
+    actions: "Acties"
 #    info: "Info"
-#    help: "Help"
+    help: "Help"
     watch: "Volgen"
     unwatch: "Ontvolgen"
     submit_patch: "Correctie Opsturen"
-#    submit_changes: "Submit Changes"
+    submit_changes: "Veranderingen indienen"
 
   general:
     and: "en"
     name: "Naam"
-#    date: "Date"
+    date: "Datum"
     body: "Inhoud"
     version: "Versie"
 #    submitter: "Submitter"
@@ -166,7 +166,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    review: "Review"
     version_history: "Versie geschiedenis"
     version_history_for: "Versie geschiedenis voor: "
-#    select_changes: "Select two changes below to see the difference."
+    select_changes: "Selecteer twee veranderingen hieronder om het verschil te zien."
 #    undo: "Undo (Ctrl+Z)"
 #    redo: "Redo (Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
@@ -191,7 +191,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     medium: "Medium"
     hard: "Moeilijk"
     player: "Speler"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "seconde"
@@ -200,53 +200,53 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     minutes: "minuten"
     hour: "uur"
     hours: "uren"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+    day: "dag"
+    days: "dagen"
+    week: "week"
+    weeks: "weken"
+    month: "maand"
+    months: "maanden"
+    year: "jaar"
+    years: "jaren"
 
   play_level:
     done: "Klaar"
     home: "Home" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    skip: "Overslaan"
 #    game_menu: "Game Menu"
     guide: "Handleiding"
     restart: "Herstarten"
     goals: "Doelen"
-#    goal: "Goal"
+    goal: "Doel"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
+    success: "Succes!"
+    incomplete: "Incompleet"
+    timed_out: "De tijd is op"
 #    failing: "Failing"
     action_timeline: "Actie tijdlijn"
     click_to_select: "Klik op een eenheid om deze te selecteren."
 #    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_join_game: "Meespelen"
+    reload: "Herlaad"
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
-#    victory: "Victory"
+    victory: "Gewonnen"
     victory_title_prefix: ""
     victory_title_suffix: " Compleet"
     victory_sign_up: "Schrijf je in om je vooruitgang op te slaan"
     victory_sign_up_poke: "Wil je jouw code opslaan? Maak een gratis account aan!"
     victory_rate_the_level: "Beoordeel het level: " # Only in old-style levels.
     victory_return_to_ladder: "Keer terug naar de ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_continue: "Ga door"
+    victory_saving_progress: "Voortgang opslaan"
     victory_go_home: "Ga naar Home" # Only in old-style levels.
     victory_review: "Vertel ons meer!" # Only in old-style levels.
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP verdient"
+    victory_gems_gained: "Edelstenen verdient"
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spreuken" # Only in old-style levels.
@@ -260,16 +260,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "Jouw vaardigheden"
 #    tome_help: "Help"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
+    code_saved: "Code opgeslagen"
     skip_tutorial: "Overslaan (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Klaar!"
 #    loading_start: "Start Level"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Verbeter je code"
 #    problem_alert_help: "Help"
     time_current: "Nu:"
     time_total: "Maximum:"
@@ -302,18 +302,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_impossible: "Het lijkt altijd onmogelijk tot het gedaan wordt. - Nelson Mandela"
     tip_talk_is_cheap: "Je kunt het goed uitleggen, maar toon me de code. - Linus Torvalds"
     tip_first_language: "Het ergste dat je kan leren is je eerste programmeertaal. - Alan Kay"
-#    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
-#    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
+    tip_hardware_problem: "V: Hoeveel programmeurs heb je nodig om een lamp te verwisselen?  A: Geen, het is een hardware probleem."
+    tip_hofstadters_law: "Wet van Hofstadter: Het duurt altijd langer dan je denkt, zelfs als je rekening houdt met de wet van Hofstadter."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
+    tip_brute_force: "Als je twijfelt, gebruik brute kracht. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
 #    tip_superpower: "Coding is the closest thing we have to a superpower."
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    save_load_tab: "Opslaan/Laden"
+    options_tab: "Opties"
+    guide_tab: "Handleiding"
 #    guide_video_tutorial: "Video Tutorial"
 #    guide_tips: "Tips"
     multiplayer_tab: "Multiplayer"
@@ -321,10 +321,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
+    options_caption: "Configureer instellingen"
 #    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
-#    auth_caption: "Save your progress."
+    multiplayer_caption: "Speel met vrienden!"
+    auth_caption: "Sla je voortgang op."
 
 #  inventory:
 #    choose_inventory: "Equip Items"
@@ -340,32 +340,32 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    unequip: "Unequip"
 
 #  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    few_gems: "Een paar edelstenen"
+    pile_gems: "Een hoop edelstenen"
+    chest_gems: "Een kist vol edelstenen"
+    purchasing: "Aan het kopen..."
+    declined: "Je kaart is geweigerd"
+    retrying: "Server error, opnieuw aan het proberen."
+    prompt_title: "Niet genoeg edelstenen"
+    prompt_body: "Wil je er meer hebben?"
+    prompt_button: "Ga naar de winkel"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
-#    subscribe_title: "Subscribe"
-#    unsubscribe: "Unsubscribe"
-#    levels: "Get more practice with bonus levels!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
-#    parents: "For Parents"
-#    parents_title: "Your child will learn to code."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
-#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe Now"
-#    stripe_description: "Monthly Subscription"
-#    subscription_required_to_play: "You'll need a subscription to play this level."
+    subscribe_title: "Abonneer"
+    unsubscribe: "Zeg abbonnement op"
+    levels: "Oefen extra met bonus levels!"
+    heroes: "Sterkere Helden!"
+    gems: "Elke maand 3500 bonus edelstenen!"
+    items: "Meer dan 250 bonus items!"
+    parents: "Voor Ouders"
+    parents_title: "Uw kind gaat leren coderen."
+    parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met het leren van simpele commando's en gaan verder naar ingewikkeldere onderwerpen."
+    parents_blurb2: "Voor $9.99 USD/maand, krijgen ze elke week nieuwe uitdagingen en persoonlijke steun via e-mail van professionele programmeurs."
+    parents_blurb3: "Geen risico: 100% geld terug garantie, met 1 klik uw abonnement opzeggen."
+    subscribe_button: "Abonneer nu"
+    stripe_description: "Maandelijks abbonement"
+    subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
 
 #  choose_hero:
 #    choose_hero: "Choose Your Hero"
