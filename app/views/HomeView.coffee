@@ -27,7 +27,7 @@ module.exports = class HomeView extends RootView
       c.isOldBrowser = true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
     else
       console.warn 'no more jquery browser version...'
-    c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
+    c.isEnglish = _.string.startsWith (me.get('preferredLanguage') or 'en'), 'en'
     c.languageName = me.get('preferredLanguage')
     c.explainsHourOfCode = @explainsHourOfCode
     c.isMobile = @isMobile()

@@ -291,7 +291,7 @@ module.exports = class ThangType extends CocoModel
 
   uploadGenericPortrait: (callback, src) ->
     src ?= @getPortraitSource()
-    return callback?() unless src and src.startsWith 'data:'
+    return callback?() unless src and _.string.startsWith src, 'data:'
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'

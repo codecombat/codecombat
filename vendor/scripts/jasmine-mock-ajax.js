@@ -529,7 +529,7 @@ getJasmineRequireObj().AjaxRequestTracker = function() {
         var requests = jasmine.Ajax.requests.all().slice();
         for(var j in requests) {
           var request = requests[j];
-          if(request.url.startsWith(url)) {
+          if(_.string.startsWith(request.url, url)) {
             request.respondWith({status: 200, responseText: JSON.stringify(responseBody)});
             responded = true;
             break;

@@ -72,10 +72,10 @@ module.exports = class I18NHomeView extends RootView
 
   updateCoverage: ->
     selectedBase = @selectedLanguage[..2]
-    relatedLanguages = (l for l in languages when l.startsWith(selectedBase) and l isnt @selectedLanguage)
+    relatedLanguages = (l for l in languages when _.string.startsWith(l, selectedBase) and l isnt @selectedLanguage)
     for model in @aggregateModels.models
       @updateCoverageForModel(model, relatedLanguages)
-      model.generallyCovered = true if @selectedLanguage.startsWith 'en'
+      model.generallyCovered = true if _.string.startsWith @selectedLanguage, 'en'
     @aggregateModels.sort()
       
   updateCoverageForModel: (model, relatedLanguages) ->
