@@ -157,7 +157,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   general:
     and: "en"
     name: "Naam"
-#    date: "Datum"
+    date: "Datum"
     body: "Inhoud"
     version: "Versie"
 #    submitter: "Submitter"
