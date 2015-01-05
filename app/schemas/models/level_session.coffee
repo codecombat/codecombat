@@ -114,6 +114,12 @@ _.extend LevelSessionSchema.properties,
       description: 'How many times the session has been submitted for real-time playback (can affect the random seed).'
       type: 'integer'
       minimum: 0
+    difficulty:
+      description: 'The highest difficulty level beaten, for use in increasing-difficulty replayable levels.'
+      type: 'integer'
+      minimum: 0
+    lastUnsuccessfulSubmissionTime: c.date
+      description: 'The last time that real-time submission was started without resulting in a win.'
     flagHistory:
       description: 'The history of flag events during the last real-time playback submission.'
       type: 'array'

@@ -39,7 +39,7 @@ module.exports = class Angel extends CocoClass
 
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
-  log: -> 
+  log: ->
     # console.info.apply is undefined in IE9, CofeeScript splats invocation won't work.
     # http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
     message = "|#{@shared.godNick}'s #{@nick}|"
@@ -246,6 +246,7 @@ module.exports = class Angel extends CocoClass
     work.testWorld.levelSessionIDs = work.levelSessionIDs
     work.testWorld.submissionCount = work.submissionCount
     work.testWorld.flagHistory = work.flagHistory ? []
+    work.testWorld.difficulty = work.difficulty
     testWorld.loadFromLevel work.level
     work.testWorld.preloading = work.preload
     work.testWorld.headless = work.headless

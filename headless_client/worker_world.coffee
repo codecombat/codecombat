@@ -80,6 +80,7 @@ work = () ->
       self.world.levelSessionIDs = args.levelSessionIDs
       self.world.submissionCount = args.submissionCount
       self.world.flagHistory = args.flagHistory
+      self.world.difficulty = args.difficulty
       self.world.loadFromLevel args.level, true if args.level
       self.world.headless = args.headless
       self.goalManager = new GoalManager(self.world)
