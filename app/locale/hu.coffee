@@ -351,7 +351,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_button: "Lépj be a boltba"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 
-#  subscribe:
+  subscribe:
     subscribe_title: "Feliratkozás"
     unsubscribe: "Leiratkozás"
     levels: "Gyakorolj a bónusz szinteken!"
@@ -367,11 +367,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     stripe_description: "Havi feliratkozás"
     subscription_required_to_play: "Ehhez a szinthez fel kell iratkoznod."
 
-#  choose_hero:
+  choose_hero:
     choose_hero: "Válassz hőst."
     programming_language: "Programnyelv"
     programming_language_description: "Melyik programnyelvet akarod használni?"
-#    default: "Alapbeállítás"
+    default: "Alapbeállítás"
     experimental: "Kísérleti"
     python_blurb: "Egyszerű és mégis hatékony, kezdőknek és szakértőknek is."
     javascript_blurb: "Az internet nyelve. (Nem azonos a Javaval.)"
@@ -585,7 +585,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     scribe_summary: "A jó kód jó dokumentációt igényel. Írd, szekeszd és fejleszd a fájlokat, amelyeket milliók használnak a Föld minden pontjáról."
     diplomat_title: "Diplomata"
     diplomat_title_description: "(Fordító)"
-    diplomat_summary: "CodeCombat fordítása már több mint 45 nyelvre elkezdődött. Segítsd a fordításoddal te is a munkát." "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations."
+    diplomat_summary: "CodeCombat fordítása már több mint 45 nyelvre elkezdődött. Segítsd a fordításoddal te is a munkát."
     ambassador_title: "Nagykövet"
     ambassador_title_description: "(Támogató)"
     ambassador_summary: "Vezesd a fórumozókat és mutass utat a kérdezőknek. A CodeCombatot a Nagykövetek reprezentálják a világban."
