@@ -21,11 +21,11 @@ class AnalyticsLogEventHandler extends Handler
     instance
 
   getByRelationship: (req, res, args...) ->
-    return @getLevelCompletionsBySlugs(req, res) if args[1] is 'level_completions'
-    return @getCampaignDropOffs(req, res) if args[1] is 'campaign_drop_offs'
+    return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
+    return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     super(arguments...)
 
-  getLevelCompletionsBySlugs: (req, res) ->
+  getLevelCompletionsBySlug: (req, res) ->
     # Returns an array of per-day level starts and finishes
     # Parameters:
     # slug - level slug
@@ -97,8 +97,8 @@ class AnalyticsLogEventHandler extends Handler
         @levelCompletionsCache[cacheKey] = completions[level]
       @sendSuccess res, completions[levelSlug]
 
-  getCampaignDropOffs: (req, res) ->
-    # Returns a dictionary of per-campaign level start and finish drop-offs
+  getCampaignCompletionsBySlug: (req, res) ->
+    # Returns a dictionary of per-campaign level starts, finishes, and drop-offs
     # Drop-off: last started or finished level event
     # Parameters:
     # slugs - array of campaign slugs
@@ -128,7 +128,7 @@ class AnalyticsLogEventHandler extends Handler
     cacheKey += 'e' + endDay if endDay?
     return @sendSuccess res, campaignDropOffs if campaignDropOffs = @campaignDropOffsCache[cacheKey]
 
-    calculateDropOffs = (campaigns) =>
+    getCompletions = (campaigns) =>
       # Calculate campaign drop off rates
       # Input:
       # campaigns - per-campaign dictionary of ordered level slugs
@@ -180,7 +180,7 @@ class AnalyticsLogEventHandler extends Handler
               levelProgression[level].finishDropped++ if i is userProgression[user].length - 1
 
         # Put in campaign order
-        campaignRates = {}
+        completions = {}
         for level of levelProgression
           for campaign of campaigns
             if level in campaigns[campaign]
@@ -188,14 +188,14 @@ class AnalyticsLogEventHandler extends Handler
               startDropped = levelProgression[level].startDropped
               finished = levelProgression[level].finished
               finishDropped = levelProgression[level].finishDropped
-              campaignRates[campaign] ?=
+              completions[campaign] ?=
                 levels: []
                 # overall:
                 #   started: 0,
                 #   startDropped: 0,
                 #   finished: 0,
                 #   finishDropped: 0
-              campaignRates[campaign].levels.push
+              completions[campaign].levels.push
                 level: level
                 started: started
                 startDropped: startDropped
@@ -204,19 +204,19 @@ class AnalyticsLogEventHandler extends Handler
               break
 
         # Sort level data by campaign order
-        for campaign of campaignRates
-          campaignRates[campaign].levels.sort (a, b) ->
+        for campaign of completions
+          completions[campaign].levels.sort (a, b) ->
             if campaigns[campaign].indexOf(a.level) < campaigns[campaign].indexOf(b.level) then return -1 else 1
 
         # Return all campaign data for simplicity
         # Cache other individual campaigns too, since we have them
-        @campaignDropOffsCache[cacheKey] = campaignRates
-        for campaign of campaignRates
+        @campaignDropOffsCache[cacheKey] = completions
+        for campaign of completions
           cacheKey = campaign
           cacheKey += 's' + startDay if startDay?
           cacheKey += 'e' + endDay if endDay?
-          @campaignDropOffsCache[cacheKey] = campaignRates
-        @sendSuccess res, campaignRates
+          @campaignDropOffsCache[cacheKey] = completions
+        @sendSuccess res, completions
 
     getLevelData = (campaigns, campaignLevelIDs) =>
       # Get level data and replace levelIDs with level slugs in campaigns
@@ -239,10 +239,8 @@ class AnalyticsLogEventHandler extends Handler
         for campaign of campaigns
           mapFn = (item) -> levelSlugMap[item]
           campaigns[campaign] = _.map campaigns[campaign], mapFn, @
-          # Forest campaign levels are reversed for some reason
-          campaigns[campaign].reverse() if campaign is 'forest'
 
-        calculateDropOffs campaigns
+        getCompletions campaigns
 
     getCampaignData = () =>
       # Get campaign data 
