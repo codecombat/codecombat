@@ -125,7 +125,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send_password: "Verzend nieuw wachtwoord"
     recovery_sent: "Herstel e-mail verzonden."
 
-#  items:
+  items:
     primary: "Primair"
     secondary: "Secundair"
     armor: "Harnas"
