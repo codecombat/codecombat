@@ -56,9 +56,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     items: "Objetos" # Tooltip on item shop button from /play
     unlock: "Desbloquear" # For purchasing items and heroes
     confirm: "Confirmar"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    owned: "Lo Posees" # For items you own
+    locked: "Bloqueado"
+    purchasable: "Comprable" # For a hero you unlocked but haven't purchased
     available: "Disponible"
     skills_granted: "Habilidades concedidas" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Objetos"
     buy_gems: "Comprar Joyas"
-#    campaign_desert: "Desert Campaign"
+    campaign_desert: "Campaña del Desierto"
     campaign_forest: "Campaña del Bosque"
     campaign_dungeon: "Campaña del Calabozo"
     subscription_required: "Suscripción requerida"
@@ -102,14 +102,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     log_in: "Entrar"
     logging_in: "Entrando..."
     log_out: "Salir"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "¿Olvidaste tu contraseña?"
     authenticate_gplus: "Autenticar G+"
     load_profile: "Cargar perfil G+"
     load_email: "Cargar correo G+"
     finishing: "Finalizando"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Accede usando Facebook"
+    sign_in_with_gplus: "Accede usando G+"
+    signup_switch: "¿Quieres crear una cuenta?"
 
   signup:
     email_announcements: "Recibir noticias por correo electrónico"
@@ -118,7 +118,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     log_in: "Iniciar sesión con contraseña"
     social_signup: "O, puedes acceder a través de tu cuenta de Facebook o G+:"
     required: "Tienes que estar reginstrado antes de poder seguir por aquí."
-#    login_switch: "Already have an account?"
+    login_switch: "¿Ya tienes una cuenta?"
 
   recover:
     recover_account_title: "Recuperar Cuenta"
