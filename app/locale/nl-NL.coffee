@@ -4,7 +4,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    try_it: "Probeer nu" # Alternate wording for Play button
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
     ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
@@ -22,7 +22,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     forum: "Forum"
     account: "Lidmaatschap"
     profile: "Profiel"
-#    stats: "Stats"
+    stats: "Statistieken"
 #    code: "Code"
     admin: "Administrator" # Only shows up when you are an admin
     home: "Home"
@@ -31,7 +31,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
-#    teachers: "Teachers"
+    teachers: "Docenten"
 
   modal:
     close: "Sluiten"
@@ -52,36 +52,36 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_as: "Speel als " # Ladder page
     spectate: "Toeschouwen" # Ladder page
     players: "Spelers" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "Speeltijd" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-    unlock: "Ontgrendel" # For purchasing items and heroes
+    unlock: "Koop" # For purchasing items and heroes
     confirm: "Bevestigen"
-#    owned: "Owned" # For items you own
+    owned: "In bezit" # For items you own
     locked: "Vergrendeld"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    purchasable: "Te koop" # For a hero you unlocked but haven't purchased
+    available: "Beschikbaar"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
+    heroes: "Helden" # Tooltip on hero shop button from /play
+    achievements: "Prestaties" # Tooltip on achievement list button from /play
 #    account: "Account" # Tooltip on account button from /play
     settings: "Instellingen" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    next: "Volgende" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Verander held" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Edelstenen kopen"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
-#    subscription_required: "Subscription Required"
+    campaign_desert: "Woestijncampagne"
+    campaign_forest: "Boscampagne"
+    campaign_dungeon: "Kerkercampagne"
+    subscription_required: "Abonnement nodig"
     free: "Gratis"
     subscribed: "Geabbonneerd"
 #    older_campaigns: "Older Campaigns"
     anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
     campaign_beginner: "Beginnercampagne"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "We brengen 5 nieuwe levels per week uit."
+    awaiting_levels_adventurer: "Schrijf je in als Avonturier"
+    awaiting_levels_adventurer_suffix: "om de eerste te zijn die nieuwe levels speelt."
     choose_your_level: "Kies Je Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Je kunt meteen naar een van de levels hieronder springen, of de levels bespreken op "
     adventurer_forum: "het Avonturiersforum"
@@ -106,7 +106,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     authenticate_gplus: "G+ verifiëren"
     load_profile: "G+ profiel laden"
     load_email: "G+ e-mail laden"
-#    finishing: "Finishing"
+    finishing: "Aan het afmaken"
     sign_in_with_facebook: "Inloggen met Facebook"
     sign_in_with_gplus: "Inloggen met G+"
     signup_switch: "Wil je een account maken?"
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
     social_signup: "Of je kunt je registreren met Facebook of G+:"
-#    required: "You need to log in before you can go that way."
+    required: "Je moet inloggen om daarheen te gaan."
     login_switch: "Heb je al een account?"
 
   recover:
@@ -126,12 +126,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     recovery_sent: "Herstel e-mail verzonden."
 
 #  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
+    primary: "Primair"
+    secondary: "Secundair"
+    armor: "Harnas"
+    accessories: "Accessoires"
 #    misc: "Misc"
-#    books: "Books"
+    books: "Boeken"
 
   common:
     loading: "Bezig met laden..."
@@ -146,18 +146,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     fork: "Fork"
     play: "Spelen" # When used as an action verb, like "Play next level"
     retry: "Probeer opnieuw"
-#    actions: "Actions"
+    actions: "Acties"
 #    info: "Info"
 #    help: "Help"
     watch: "Volgen"
     unwatch: "Ontvolgen"
     submit_patch: "Correctie Opsturen"
-#    submit_changes: "Submit Changes"
+    submit_changes: "Veranderingen indienen"
 
   general:
     and: "en"
     name: "Naam"
-#    date: "Date"
+#    date: "Datum"
     body: "Inhoud"
     version: "Versie"
 #    submitter: "Submitter"
@@ -166,10 +166,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    review: "Review"
     version_history: "Versie geschiedenis"
     version_history_for: "Versie geschiedenis voor: "
-#    select_changes: "Select two changes below to see the difference."
+    select_changes: "Selecteer hieronder twee veranderingen om het verschil te zien."
 #    undo: "Undo (Ctrl+Z)"
 #    redo: "Redo (Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    play_preview: "Speel voorproefje van dit level"
     result: "Resultaat"
     results: "Resultaten"
     description: "Beschrijving"
@@ -191,7 +191,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     medium: "Medium"
     hard: "Moeilijk"
     player: "Speler"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
 
   units:
     second: "seconde"
@@ -200,53 +200,53 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     minutes: "minuten"
     hour: "uur"
     hours: "uren"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+    day: "dag"
+    days: "dagen"
+    week: "week"
+    weeks: "weken"
+    month: "maand"
+    months: "maanden"
+    year: "jaar"
+    years: "jaren"
 
   play_level:
     done: "Klaar"
     home: "Home" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    skip: "Overslaan"
 #    game_menu: "Game Menu"
     guide: "Handleiding"
     restart: "Herstarten"
     goals: "Doelen"
-#    goal: "Goal"
+    goal: "Doel"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
+    success: "Gelukt!"
+    incomplete: "Incompleet"
+    timed_out: "De tijd is op"
 #    failing: "Failing"
     action_timeline: "Actie tijdlijn"
     click_to_select: "Klik op een eenheid om deze te selecteren."
 #    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_join_game: "Meespelen"
+    reload: "Herlaad"
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
-#    victory: "Victory"
+    victory: "Gewonnen"
     victory_title_prefix: ""
     victory_title_suffix: " Compleet"
     victory_sign_up: "Schrijf je in om je vooruitgang op te slaan"
     victory_sign_up_poke: "Wil je jouw code opslaan? Maak een gratis account aan!"
     victory_rate_the_level: "Beoordeel het level: " # Only in old-style levels.
     victory_return_to_ladder: "Keer terug naar de ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_continue: "Ga door"
+    victory_saving_progress: "Voortgang opslaan"
     victory_go_home: "Ga naar Home" # Only in old-style levels.
     victory_review: "Vertel ons meer!" # Only in old-style levels.
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP verdient"
+    victory_gems_gained: "Edelstenen verdient"
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spreuken" # Only in old-style levels.
