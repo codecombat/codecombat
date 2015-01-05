@@ -486,7 +486,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     faq: "FAQ"
     subscribe_prefix: "Wenn du hilfe brauchst ein Level zu lösen, bitte"
     subscribe: "kaufe ein CodeCombat Abonnement"
-    subscribe_suffix: "und wir werden dir gerne bei deinem Code helfen"
+    subscribe_suffix: "und wir werden dir gerne bei deinem Code helfen."
     subscriber_support: "Da du ein CodeCombat Abonnent bist, bekommt deine E-Mail Priorität."
     screenshot_included: "Bildschirmfoto hinzugefügt."
     where_reply: "Wohin sollen wir antworten?"
@@ -963,7 +963,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     art_paragraph_1: "Für den Verweis auf CodeCombat, nenne und verlinke bitte die Website codecombat.com nahe der Quelle oder an der Stelle, wo es für das Medium angemessen ist. Zum Beispiel:"
     use_list_1: "Wenn in einem Film verwendet, nenne codecombat.com in den Credits/Abspann"
     use_list_2: "Wenn auf einer Webseite verwendet, füge einen Link nahe bei der Verwendung ein, z.B. unter einem Bild oder auf der generellen Beitragsseite, wo auch andere Creative Commons Werke und Open Source Software genannt wird, die auf der Seite verwendet wird. Wenn deutlich auf CodeCombat Bezug genommen wird, wie z.B. in einem Blogeintrag, in dem CodeCombat erwähnt wird, dann muss CodeCombat nicht separat belegt werden."
-    art_paragraph_2: "Wenn der benutzte Inhalt nicht von CodeCombat sonder einem Benutzer von codecombat.com geschaffen wurde, schreibe es diesem stattdessen zu und folge den Anweisungen, wenn es welche gibt, in der Beschreibung dieses Inhalts.
+    art_paragraph_2: "Wenn der benutzte Inhalt nicht von CodeCombat sonder einem Benutzer von codecombat.com geschaffen wurde, schreibe es diesem stattdessen zu und folge den Anweisungen, wenn es welche gibt, in der Beschreibung dieses Inhalts."
     rights_title: "Rechte vorbehalten"
     rights_desc: "Alle Rechte vorbehalten für die Level selbst. Dies beinhaltet"
     rights_scripts: "Skripte"
@@ -1143,7 +1143,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     candidate_years_experience: "Erfahrung (Jahre)"
     candidate_last_updated: "Zuletzt aktualisiert"
     candidate_who: "Wer"
-#    featured_developers: "Featured Developers" # Featured as is, cannot be translated directly into german, this would be a possible solution
     featured_developers: "Mitwirkende Entwickler" # Meaning: Mitwirken -> Contribute, play a part
     other_developers: "Andere Entwickler"
     inactive_developers: "Inaktive Etwickler"
