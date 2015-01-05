@@ -6,5 +6,6 @@ AnalyticsLogEventSchema = new mongoose.Schema({
     type: Date
     'default': Date.now
 }, {strict: false})
+AnalyticsLogEventSchema.index({event: 1, created: -1})
 
 module.exports = AnalyticsLogEvent = mongoose.model('analytics.log.event', AnalyticsLogEventSchema)
