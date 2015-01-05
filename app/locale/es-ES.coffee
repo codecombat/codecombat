@@ -80,7 +80,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña de Principiante"
     awaiting_levels_adventurer_prefix: "Liberamos cinco niveles cada semana."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer: "Regístrate como Aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Puedes elegir cualquier pantalla o charlar en "
