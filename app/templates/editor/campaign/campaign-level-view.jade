@@ -38,9 +38,31 @@
             td= levelPlaytimes[i].average.toFixed(2)
   else
     div Loading...
-                
-                
-                
+
+  h4 Common Problems
+  if commonProblems
+    if commonProblems.startDay
+      if commonProblems.endDay
+        div(style='font-size:10pt') #{commonProblems.startDay} to #{commonProblems.endDay}
+      else
+        div(style='font-size:10pt') #{commonProblems.startDay} to today
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Language
+          td Error Message
+          td Error Hint
+          td Count
+      tbody
+        - for (var i = 0; i < commonProblems.length && i < 20; i++)
+          tr
+            td= commonProblems[i].language
+            td= commonProblems[i].message
+            td= commonProblems[i].hint
+            td= commonProblems[i].count
+  else
+    div Loading...
+
 if level.get('tasks')
   .tasks
     h3 Tasks (read only)

@@ -15,12 +15,14 @@ module.exports = class CampaignLevelView extends CocoView
     @listenToOnce @fullLevel, 'sync', => @render?()
 
     @levelSlug = @level.get('slug')
+    @getCommonLevelProblems()
     @getLevelCompletions()
     @getLevelPlaytimes()
 
   getRenderData: ->
     c = super()
     c.level = if @fullLevel.loaded then @fullLevel else @level
+    c.commonProblems = @commonProblems
     c.levelCompletions = @levelCompletions
     c.levelPlaytimes = @levelPlaytimes
     c
@@ -28,6 +30,27 @@ module.exports = class CampaignLevelView extends CocoView
   onClickClose: ->
     @$el.addClass('hidden')
     @trigger 'hidden'
+
+  getCommonLevelProblems: ->
+    # Fetch last 30 days of common level problems
+    startDay = new Date()
+    startDay.setDate(startDay.getUTCDate() - 29)
+    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+
+    success = (data) =>
+      return if @destroyed
+      @commonProblems = data
+      @commonProblems.startDay = startDay
+      @render()
+
+    # TODO: Why do we need this url dash?
+    request = @supermodel.addRequestResource 'common_problems', {
+      url: '/db/user_code_problem/-/common_problems'
+      data: {startDay: startDay, slug: @levelSlug}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
 
   getLevelCompletions: ->
     # Fetch last 7 days of level completion counts
