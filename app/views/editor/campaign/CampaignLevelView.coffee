@@ -1,5 +1,8 @@
 CocoView = require 'views/core/CocoView'
 Level = require 'models/Level'
+LevelSession = require 'models/LevelSession'
+ModelModal = require 'views/modal/ModelModal'
+User = require 'models/User'
 
 module.exports = class CampaignLevelView extends CocoView
   id: 'campaign-level-view'
@@ -7,6 +10,7 @@ module.exports = class CampaignLevelView extends CocoView
 
   events:
     'click .close': 'onClickClose'
+    'dblclick .recent-session': 'onDblClickRecentSession'
 
   constructor: (options, @level) ->
     super(options)
@@ -18,6 +22,7 @@ module.exports = class CampaignLevelView extends CocoView
     @getCommonLevelProblems()
     @getLevelCompletions()
     @getLevelPlaytimes()
+    @getRecentSessions()
 
   getRenderData: ->
     c = super()
@@ -25,11 +30,20 @@ module.exports = class CampaignLevelView extends CocoView
     c.commonProblems = @commonProblems
     c.levelCompletions = @levelCompletions
     c.levelPlaytimes = @levelPlaytimes
+    c.recentSessions = @recentSessions
     c
 
   onClickClose: ->
     @$el.addClass('hidden')
     @trigger 'hidden'
+
+  onDblClickRecentSession: (e) ->
+    # Admin view of players' code
+    return unless me.isAdmin()
+    row = $(e.target).parent()
+    player = new User _id: row.data 'player-id'
+    session = new LevelSession _id: row.data 'session-id'
+    @openModalView new ModelModal models: [session, player]
 
   getCommonLevelProblems: ->
     # Fetch last 30 days of common level problems
@@ -91,6 +105,23 @@ module.exports = class CampaignLevelView extends CocoView
     request = @supermodel.addRequestResource 'playtime_averages', {
       url: '/db/level/-/playtime_averages'
       data: {startDay: startDay, slugs: [@levelSlug]}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
+
+  getRecentSessions: ->
+    limit = 10
+
+    success = (data) =>
+      return if @destroyed
+      @recentSessions = data
+      @render()
+
+    # TODO: Why do we need this url dash?
+    request = @supermodel.addRequestResource 'level_sessions_recent', {
+      url: "/db/level_session/-/recent"
+      data: {slug: @levelSlug, limit: limit}
       method: 'POST'
       success: success
     }, 0
