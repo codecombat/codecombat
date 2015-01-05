@@ -127,26 +127,15 @@ setupJavascript404s = (app) ->
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->
-    if req.user
-      sendMain(req, res)
-      # Disabling for HoC
-#      req.user.set('lastIP', req.connection.remoteAddress)
-#      req.user.save()
-    else
-      user = auth.makeNewUser(req)
-      makeNext = (req, res) -> -> sendMain(req, res)
-      next = makeNext(req, res)
-      auth.loginUser(req, res, user, false, next)
-
-sendMain = (req, res) ->
-  fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
-    log.error "Error modifying main.html: #{err}" if err
-    # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
-    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/'))
-    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
-    res.header 'Pragma', 'no-cache'
-    res.header 'Expires', 0
-    res.send 200, data
+    fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
+      log.error "Error modifying main.html: #{err}" if err
+      # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
+      user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
+      data = data.replace('"userObjectTag"', user)
+      res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+      res.header 'Pragma', 'no-cache'
+      res.header 'Expires', 0
+      res.send 200, data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
