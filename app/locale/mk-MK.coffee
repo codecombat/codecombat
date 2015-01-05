@@ -297,7 +297,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     tip_binary: "Има само 10 вида на луѓе во светот: оние кои што разбираат бинарно, и оние кои не разбираат."
     tip_commitment_yoda: "Програмер мора да ја има најдлабоката обврзаност, најсериозниот ум. ~ Yoda"
     tip_no_try: "Направи. Или не прави. Нема обидување. - Yoda"
-#    tip_patience: "Трпение мора да имаш, млад Padawan. - Yoda"
+    tip_patience: "Трпение мора да имаш, млад Padawan. - Yoda"
     tip_documented_bug: "Документирана грешка не е грешка; тоа е едноставно нешто што програмот го прави."
     tip_impossible: "Секогаш изледа невозможно, се додека некој не го направи. - Nelson Mandela"
     tip_talk_is_cheap: "Зборувањето е евтино. Покажи ми го кодот. - Linus Torvalds"
