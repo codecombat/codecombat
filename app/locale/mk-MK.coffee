@@ -412,7 +412,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     default_value: "Стандардна вредност"
     parameters: "Параметри"
     returns: "Враќа"
-    granted_by: "Дадено од"
+    granted_by: "Овозможено од"
 
 #  save_load:
 #    granularity_saved_games: "Saved"
