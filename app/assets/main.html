@@ -28,11 +28,20 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="/stylesheets/app.css">
 
+  <!-- IE9 doesn't support defer attribute: https://github.com/h5bp/lazyweb-requests/issues/42 -->
+  <!--[if IE 9]>
+  <script src="/lib/ace/ace.js"></script>
+  <script src="/javascripts/box2d.js"></script>
+  <script src="/javascripts/vendor.js"></script>
+  <script src="/javascripts/aether.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <![endif]-->
+  <![if (gt IE 9)|(!IE)]>
   <script src="/lib/ace/ace.js" defer></script>
-  <!--[if IE 9]><script src="/javascripts/box2d.js"></script><![endif]-->
   <script src="/javascripts/vendor.js" defer></script>
   <script src="/javascripts/aether.js" defer></script>
   <script src="/javascripts/app.js" defer></script> <!-- it's all Backbone! -->
+  <![endif]>
   <script>
 
     // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
