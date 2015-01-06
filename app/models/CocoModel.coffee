@@ -19,10 +19,10 @@ class CocoModel extends Backbone.Model
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
-    @usesVersions = @schema().properties.version?
+    @usesVersions = @schema()?.properties?.version?
 
   backupKey: ->
-    if @usesVersions then @id else @id + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment?
+    if @usesVersions then @id else @id + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
 
   setProjection: (project) ->
     return if project is @project

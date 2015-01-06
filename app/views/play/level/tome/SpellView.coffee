@@ -733,9 +733,6 @@ module.exports = class SpellView extends CocoView
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
-    if Math.random() > 0.01
-      # Let's only save a tiny fraction of these during HoC to reduce writes.
-      return
 
     # Save new problem
     @userCodeProblem = new UserCodeProblem()

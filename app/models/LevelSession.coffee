@@ -59,6 +59,7 @@ module.exports = class LevelSession extends CocoModel
     state.difficulty = (state.difficulty ? 0) + 1
     delete state.lastUnsuccessfulSubmissionTime
     @set 'state', state
+    @save()
 
   timeUntilResubmit: ->
     state = @get('state') ? {}
