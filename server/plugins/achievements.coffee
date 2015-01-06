@@ -12,20 +12,15 @@ AchievablePlugin = (schema, options) ->
   User = require '../users/User'  # Avoid mutual inclusion cycles
   Achievement = require '../achievements/Achievement'
 
-  before = {}
-  return
   # Keep track the document before it's saved
   schema.post 'init', (doc) ->
-    #doc.beforeDoc = doc.toObject()  # TODO: switch to this
-    before[doc.id] = doc.toObject()  # TODO: switch from this, run the testzzz
-    # TODO check out how many objects go unreleased
+    doc.unchangedCopy = doc.toObject()
 
   # Check if an achievement has been earned
   schema.post 'save', (doc) ->
-    isNew = not doc.isInit('_id') or not (doc.id of before)
-    originalDocObj = before[doc.id] unless isNew
+    isNew = not doc.isInit('_id') or not doc.unchangedCopy
 
-    if doc.isInit('_id') and not doc.id of before
+    if doc.isInit('_id') and not doc.unchangedCopy
       log.warn 'document was already initialized but did not go through `init` and is therefore treated as new while it might not be'
 
     category = doc.constructor.collection.name
@@ -39,11 +34,9 @@ AchievablePlugin = (schema, options) ->
           query = achievement.get('query')
           return log.warn("Empty achievement query for #{achievement.get('name')}.") if _.isEmpty query
           isRepeatable = achievement.get('proportionalTo')?
-          alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
+          alreadyAchieved = if isNew then false else LocalMongo.matchesQuery doc.unchangedCopy, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)
           return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
-          EarnedAchievement.createForAchievement(achievement, doc, originalDocObj)
-
-    delete before[doc.id] if doc.id of before  # TODO: don't do it!
+          EarnedAchievement.createForAchievement(achievement, doc, doc.unchangedCopy)
 
 module.exports = AchievablePlugin

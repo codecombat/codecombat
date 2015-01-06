@@ -34,6 +34,14 @@ preload = (arrayOfImages) ->
   $(arrayOfImages).each ->
     $('<img/>')[0].src = @
 
+# IE9 doesn't expose console object unless debugger tools are loaded
+window.console ?=
+  info: ->
+  log: ->
+  error: ->
+  debug: ->
+console.debug ?= console.log  # Needed for IE10 and earlier
+
 Application = initialize: ->
   Router = require('core/Router')
   @isProduction = -> document.location.href.search('codecombat.com') isnt -1
