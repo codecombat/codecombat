@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     slogan: "Lär dig att koda genom att spela ett spel."
     no_ie: "CodeCombat fungerar tyvärr inte i IE8 eller äldre." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat är inte designat för mobila enhter och fungerar kanske inte!" # Warning that shows up on mobile devices
-    play: "Spela" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Spela" # The big play button that opens up the campaign view.
     old_browser: "Oj då, din webbläsare är för gammal för att köra CodeCombat. Förlåt!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kan försöka ändå, men det kommer nog inte fungera."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    version_history: "Version History"
     version_history_for: "Versionshistorik för: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Resultat"
     results: "Resultat"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Förhandsgranska"

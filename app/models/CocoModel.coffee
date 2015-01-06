@@ -19,14 +19,10 @@ class CocoModel extends Backbone.Model
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
-    # IE9 doesn't expose console object unless debugger tools are loaded
-    unless console?
-      window.console =
-        info: ->
-        log: ->
-        error: ->
-        debug: ->
-    console.debug = console.log unless console.debug # Needed for IE10 and earlier
+    @usesVersions = @schema().properties.version?
+
+  backupKey: ->
+    if @usesVersions then @id else @id + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment?
 
   setProjection: (project) ->
     return if project is @project
@@ -94,16 +90,16 @@ class CocoModel extends Backbone.Model
 
   loadFromBackup: ->
     return unless @saveBackups
-    existing = storage.load @id  # + @attributes.__v  # TODO: try and test this, also only use __v for non-versioned, otherwise just id
+    existing = storage.load @backupKey()
     if existing
       @set(existing, {silent: true})
-      CocoModel.backedUp[@id] = @
+      CocoModel.backedUp[@backupKey()] = @
 
   saveBackup: -> @saveBackupNow()
 
   saveBackupNow: ->
-    storage.save(@id, @attributes)  # TODO: use __v
-    CocoModel.backedUp[@id] = @   # TODO
+    storage.save(@backupKey(), @attributes)
+    CocoModel.backedUp[@backupKey()] = @
 
   @backedUp = {}
   schema: -> return @constructor.schema
@@ -204,7 +200,7 @@ class CocoModel extends Backbone.Model
     @clearBackup()
 
   clearBackup: ->
-    storage.remove @id
+    storage.remove @backupKey()
 
   hasLocalChanges: ->
     @_revertAttributes and not _.isEqual @attributes, @_revertAttributes
@@ -384,18 +380,18 @@ class CocoModel extends Backbone.Model
       # Store parent data for the next block...
       if data?.i18n
         pathToData[path] = data
-        
+
       if _.string.endsWith path, 'i18n'
         i18n = data
-        
+
         # grab the parent data
         parentPath = path[0...-5]
         parentData = pathToData[parentPath]
-        
+
         # use it to determine what properties actually need to be translated
         props = workingSchema.props or []
         props = (prop for prop in props when parentData[prop])
-        
+
         # get a list of lang codes where its object has keys for every prop to be translated
         coverage = _.filter(_.keys(i18n), (langCode) ->
           translations = i18n[langCode]
@@ -403,7 +399,7 @@ class CocoModel extends Backbone.Model
         )
         langCodeArrays.push coverage
     )
-    
+
     return unless langCodeArrays.length
     # language codes that are covered for every i18n object are fully covered
     overallCoverage = _.intersection(langCodeArrays...)

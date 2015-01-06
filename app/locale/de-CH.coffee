@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     slogan: "Lern, wiemer JavaScript programmiert, indem du es Spiel spielsch!"
     no_ie: "CodeCombat funktioniert uf InternetExplorer 8 und älter nid. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat isch nid für mobili Grät entwicklet worde und funktioniert vilicht nid!" # Warning that shows up on mobile devices
-    play: "Spiele" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Spiele" # The big play button that opens up the campaign view.
     old_browser: "Uh oh, din Browser isch z alt zum CodeCombat spiele. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du chasches gliich probiere, aber es funktioniert worschinli nid."
     ipad_browser: "Schächti Nachrichte: CodeCombat funktioniert nonig uf em iPad-Browser. Gueti Nachrichte: Oisi iPad-App wartet nur no druf, vo Apple überprüeft z werde."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     version_history: "Versionsverlauf"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Resultat"
 #    results: "Results"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
 #  article:
 #    edit_btn_preview: "Preview"

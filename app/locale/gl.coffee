@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     slogan: "Aprende a programar xogando"
     no_ie: "CodeCombat non funciona en Internet Explorer 8 ou anteriores. Sentímolo!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat non foi deseñado para dispositivos móbiles e pode que non funcione!" # Warning that shows up on mobile devices
-    play: "Xogar" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Xogar" # The big play button that opens up the campaign view.
     old_browser: "Vaia, o seu navegador é demasiado vello para executar CodeCombat. Sentímolo!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Pódeo tentar de todos modos, pero probablemente no vaia a funcionar."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     version_history: "Historial de versión"
     version_history_for: "Historial das versións de: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Resultado"
     results: "Resultados"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Porcentaxe de Nivel Completada"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Vista preliminar"

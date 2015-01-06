@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     slogan: "Научи да програмираш преку игра"
     no_ie: "CodeCombat не работи во Internet Explorer верзија 8 или постара. Извини!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не е дизајнирана за мобилни уреди и може да не работи!" # Warning that shows up on mobile devices
-    play: "Играј" # The big play button that just starts playing a level
-    try_it: "Пробај" # Alternate wording for Play button
+    play: "Играј" # The big play button that opens up the campaign view.
     old_browser: "Уф, прелистувачот ти е премногу стар за да ја пушти CodeCombat. Извини!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Можеш да пробаш и покрај тоа, но најверојатно нема да работи."
     ipad_browser: "Лоши вести: CodeCombat не работи во прелистувачот на iPad. Добри вести: Нашата апликација за iPad е готова и чека одобрение од Apple."
@@ -158,7 +157,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     and: "и"
     name: "Име"
     date: "Датум"
-    body: "Тело" # Original was 'Body'. Not sure if this is the best translation.
+    body: "Тело"
     version: "Верзија"
     submitter: "Подносител"
     submitted: "Поднесено"
@@ -167,14 +166,16 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     version_history: "Историја на верзии"
     version_history_for: "Историја на верзии за: "
     select_changes: "Одбери две промени подолу за да ја видиш разликата."
-    undo: "Врати (Ctrl+Z)"
-    redo: "Повтори (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Пушти преглед на моменталното ниво"
     result: "Резултат"
     results: "Резултати"
     description: "Опис"
     or: "или"
-    subject: "Предмет на пораката" # Original: 'Subject'. Translated as 'Message subject' because in macedonian the word 'Предмет' can have different meaning.
+    subject: "Предмет на пораката"
     email: "E-mail"
     password: "Лозинка"
     message: "Порака"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
 #  article:
 #    edit_btn_preview: "Preview"

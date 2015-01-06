@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     slogan: "Lerne spielend Programmieren"
     no_ie: "CodeCombat läuft nicht im IE8 oder älteren Browsern. Tut uns Leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
-    play: "Spielen" # The big play button that just starts playing a level
-    try_it: "Versuchs mal" # Alternate wording for Play button
+    play: "Spielen" # The big play button that opens up the campaign view.
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kannst es trotzdem versuchen, aber es wird wahrscheinlich nicht funktionieren."
     ipad_browser: "Die schlechte Nachricht: CodeCombat läuft auf dem iPad nicht im Browser. Die gute Nachricht: Unsere iPad App wartet gerade auf die Zustimmung von Apple."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     version_history: "Versionshistorie"
     version_history_for: "Versionsgeschichte für: "
     select_changes: "Wähle zwei Änderungen unten um den Unterschied sehen zu können."
-    undo: "Rückgängig (Ctrl+Z)"
-    redo: "Wiederholen (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Spiele eine Vorschau des momentanen Levels"
     result: "Ergebnis"
     results: "Ergebnisse"
@@ -608,7 +609,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     more: "Mehr"
     wiki: "Wiki"
     live_chat: "Live Chat"
-    thang_main: "Main" # I'd keep it this way, everyone should get what it means
+    thang_main: "Main"
     thang_spritesheets: "Sprite Palette"
     thang_colors: "Farben"
     level_some_options: "Einige Einstellungsmöglichkeiten?"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     achievement_query_goals: "Level Erfolge"
     level_completion: "abgeschlossene Level"
     pop_i18n: "Bevölkere I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Vorschau"
@@ -1002,8 +1004,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     done_editing: "Editierung beenden"
     profile_for_prefix: "Profil von "
     profile_for_suffix: ""
-    featured: "Featured" # I'd keep it that way, should be understandable by everyone
-    not_featured: "Not Featured" # Ref. Above
+    featured: "Featured"
+    not_featured: "Not Featured"
     looking_for: "Suche nach:"
     last_updated: "zuletzt geändert:"
     contact: "Kontakt"
@@ -1143,7 +1145,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     candidate_years_experience: "Erfahrung (Jahre)"
     candidate_last_updated: "Zuletzt aktualisiert"
     candidate_who: "Wer"
-    featured_developers: "Mitwirkende Entwickler" # Meaning: Mitwirken -> Contribute, play a part
+    featured_developers: "Mitwirkende Entwickler"
     other_developers: "Andere Entwickler"
     inactive_developers: "Inaktive Etwickler"
 

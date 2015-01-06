@@ -3,8 +3,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     slogan: "쉽고 간단한 게임 배우기"
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 8에서는 동작하지 않습니다." # Warning that only shows up in IE8 and older
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다." # Warning that shows up on mobile devices
-    play: "시작" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "시작" # The big play button that opens up the campaign view.
     old_browser: "브라우저가 너무 오래된 버전이라 코드 컴뱃을 실행할 수 없습니다." # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "시도해볼 수는 있겠지만..안될 수도 있습니다."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     version_history: "버전 히스토리"
     version_history_for: "버전 히스토리 : "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "결과"
     results: "결과들"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "미리보기"

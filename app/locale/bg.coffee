@@ -3,8 +3,7 @@ module.exports = nativeDescription: "български език", englishDescri
     slogan: "Научи се да програмираш, докато играеш игра "
     no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стари версии. Съжалявам!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи!" # Warning that shows up on mobile devices
-    play: "Играй" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Играй" # The big play button that opens up the campaign view.
     old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "български език", englishDescri
     version_history: "Предишни версии"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
 #    result: "Result"
     results: "Резултати"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Преглед"

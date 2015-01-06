@@ -3,8 +3,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     slogan: "تعلّم البرمجة من لعب لعبة"
     no_ie: "CodeCombat لا يعمل في Internet Explorer 8 أو أقل. آسف!" # Warning that only shows up in IE8 and older
     no_mobile: "لم يصمم CodeCombat للهواتف النقالة وقد لا يعمل!" # Warning that shows up on mobile devices
-    play: "إلعب" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "إلعب" # The big play button that opens up the campaign view.
     old_browser: "اه أوه، متصفحك قديم جدا لتشغيل CodeCombat. آسف!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "يمكنك محاولة على أي حال، لكنه ربما لن يعمل."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    version_history: "Version History"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
 #    result: "Result"
 #    results: "Results"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
 #  article:
 #    edit_btn_preview: "Preview"

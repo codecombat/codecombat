@@ -3,8 +3,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     slogan: "Tanulj meg programozni, miközben játszol!"
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 8, vagy korábbi verzióit. Bocsi!" # Warning that only shows up in IE8 and older
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen." # Warning that shows up on mobile devices
-    play: "Játssz!" # The big play button that just starts playing a level
-    try_it: "Tegyél próbát!" # Alternate wording for Play button
+    play: "Játssz!" # The big play button that opens up the campaign view.
     old_browser: "Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
     ipad_browser: "Rossz hír. CodeCombat nem fut iPadon böngészőben. Jó hír: a hivatalos iPad applikációnk csak az Apple jóváhagyására vár."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     version_history: "Verzió történet"
     version_history_for: "Verzió története ennek: "
     select_changes: "Válassz két lehetőséget alul, hogy lásd a különbséget."
-    undo: "Vissza (Ctrl+Z)"
-    redo: "Újra (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Aktuális szint előnézete"
     result: "Eredmény"
     results: "Eredmények"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
 #  article:
 #    edit_btn_preview: "Preview"

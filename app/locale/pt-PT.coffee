@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     slogan: "Aprende a Programar ao Jogar um Jogo"
     no_ie: "O CodeCombat não funciona no Internet Explorer 8 ou anterior. Desculpa!" # Warning that only shows up in IE8 and older
     no_mobile: "O CodeCombat não foi feito para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
-    play: "Jogar" # The big play button that just starts playing a level
-    try_it: "Experimenta" # Alternate wording for Play button
+    play: "Jogar" # The big play button that opens up the campaign view.
     old_browser: "Ups, o teu navegador é demasiado antigo para que o CodeCombat funcione. Desculpa!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Mesmo assim podes tentar, mas provavelmente não irá funcionar."
     ipad_browser: "Más notícias: o CodeCombat não funciona no navegador do iPad. Boas notícias: a nossa aplicação nativa para iPad está à espera da aprovação da Apple."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     version_history: "Histórico de Versões"
     version_history_for: "Histórico de Versões para: "
     select_changes: "Seleciona duas das alterações abaixo para veres a diferença."
-    undo: "Desfazer (Ctrl+Z)"
-    redo: "Refazer (Ctrl+Shift+Z)"
+    undo_prefix: "Desfazer"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Refazer"
+    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Jogar pré-visualização do nível atual"
     result: "Resultado"
     results: "Resultados"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Completação do Nível"
     pop_i18n: "Propagar I18N"
+    tasks: "Tarefas"
 
   article:
     edit_btn_preview: "Pré-visualizar"

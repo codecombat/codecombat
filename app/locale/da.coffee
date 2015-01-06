@@ -3,8 +3,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     slogan: "Lær at Kode ved at Spille et Spil"
     no_ie: "CodeCombat kan desværre ikke køre i Internet Explorer 8 eller ældre. Beklager!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat er ikke designet til mobile enheder og vil måske ikke virke!" # Warning that shows up on mobile devices
-    play: "Spil" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Spil" # The big play button that opens up the campaign view.
     old_browser: "Åh åh, din browser er for gammel til at køre CodeCombat. Beklager!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Du kan godt prøve alligevel, men det vil nok ikke virke."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    version_history: "Version History"
     version_history_for: "versionhistorie for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Resultat"
     results: "resultater"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Forhåndsvisning"

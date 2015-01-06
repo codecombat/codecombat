@@ -3,8 +3,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     slogan: "Naučte se programovat hraním hry."
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 8 nebo starším." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!" # Warning that shows up on mobile devices
-    play: "Hrát" # The big play button that just starts playing a level
-    try_it: "Vyzkoušet" # Alternate wording for Play button
+    play: "Hrát" # The big play button that opens up the campaign view.
     old_browser: "Váš prohlížeč je příliš starý na to, aby spustil CodeCombat. Omlouváme se!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Můžete to zkusit, ale pravděpodobně to nebude fungovat."
     ipad_browser: "Špatné zprávy: CodeCombat neběží na iPad v prohlížeči. Dobré zprávy: naše iPad aplikace čeká na schválení od Apple."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     version_history: "Seznam změn"
     version_history_for: "Seznam změn pro: "
     select_changes: "Vyberte dvě změny pro porovnání."
-    undo: "Zpět (Ctrl+Z)"
-    redo: "Znovu dopředu (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Přehrát náhled současné úrovně"
     result: "Výsledek"
     results: "Výsledky"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     achievement_query_goals: "Klíčové úspěchy cílů úrovní"
     level_completion: "Dokončení úrovně"
     pop_i18n: "Osídlit I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Náhled"

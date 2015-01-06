@@ -3,8 +3,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     slogan: "玩遊戲學程式"
     no_ie: "抱歉！Internet Explorer 8等舊的瀏覽器打不開此網站" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat不是針對手機設備設計的，所以可能會出問題！" # Warning that shows up on mobile devices
-    play: "開始遊戲" # The big play button that just starts playing a level
-    try_it: "試試看" # Alternate wording for Play button
+    play: "開始遊戲" # The big play button that opens up the campaign view.
     old_browser: "嗯... 您的瀏覽器太老了跑不動CodeCombat，抱歉！" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "您還是可以試試看，但它應該不能運行。"
     ipad_browser: "抱歉，CodeCombat不能在iPad上的瀏覽器運行，但好消息是我們的iPad App正在等待蘋果公司審核。"
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     version_history: "版本歷史"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-    undo: "還原 (Ctrl+Z)"
-    redo: "重做 (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "播放預覽本關卡"
 #    result: "Result"
 #    results: "Results"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "預覽"

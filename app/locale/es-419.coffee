@@ -3,7 +3,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     slogan: "Aprende a programar jugando"
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 8 o versiones anteriores." # Warning that only shows up in IE8 and older
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
-    play: "Jugar" # The big play button that just starts playing a level
+    play: "Jugar" # The big play button that opens up the campaign view.
     old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
     ipad_browser: "Malas noticias: CodeCombat no funciona en el navegador de iPad. Buenas noticias: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
@@ -159,15 +159,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     date: "Fecha"
     body: "Cuerpo"
     version: "Versión"
-    submitter: "Emisor" #O originador, que dicen?
+    submitter: "Emisor"
     submitted: "Enviado"
     commit_msg: "Enviar mensaje"
     review: "Revisión"
     version_history: "Historial de Versiones"
     version_history_for: "Historial de Versiones para: "
     select_changes: "Selcciona dos cambios abajo para ver la diferencia"
-    undo: "Deshacer (Ctrl+Z)"
-    redo: "Volver a hacer (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Mira el avance del nivel"
     result: "Resultado"
     results: "Resultados"
@@ -657,6 +659,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Vista previa"
@@ -680,6 +683,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     join_url_email: "Escríbenos"
     join_url_hipchat: "chat público HipChat"
     archmage_subscribe_desc: "Obten correos de nuevas oportunidades y anuncios."
+#    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
     artisan_introduction_suf: ", entonces esta lase es ideal para ti."
     artisan_attribute_1: "Cualquier experiencia creando contenido similar estaría bien, como por ejemplo el editor de niveles de Blizzard. ¡Aunque no es necesaria!"
     artisan_attribute_2: "Un anhelo de hacer un montón de pruebas e iteraciones. Para hacer buenos niveles necesitas mostrárselos a otros y mirar como juegan, además de estar preparado para encontrar los fallos a reparar."
