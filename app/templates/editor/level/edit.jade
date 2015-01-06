@@ -44,10 +44,10 @@ block header
         span.navbar-brand #{level.attributes.name}
 
       ul.nav.navbar-nav.navbar-right
-        li#undo-button(data-i18n="[title]general.undo", title="Undo (Ctrl+Z)")
+        li#undo-button
           a
             span.glyphicon-arrow-left.glyphicon
-        li#redo-button(data-i18n="[title]general.redo", title="Redo (Ctrl+Shift+Z)")
+        li#redo-button
             a
               span.glyphicon-arrow-right.glyphicon
         if authorized
