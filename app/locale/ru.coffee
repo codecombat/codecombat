@@ -4,7 +4,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!" # Warning that shows up on mobile devices
     play: "Играть" # The big play button that just starts playing a level
-    try_it: "Попробуй!" # Alternate wording for Play button
     old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
     ipad_browser: "Плохие новости: CodeCombat не запускается в браузере IPad. Хорошие новости: наше нативное приложение для IPad ожидает одобрения от Apple."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     version_history: "История версий"
     version_history_for: "История версий для: "
     select_changes: "Выберите два изменения ниже, чтобы увидеть различия."
-    undo: "Отменить (Ctrl+Z)"
-    redo: "Повторить (Ctrl+Shift+Z)"
+    undo_prefix: "Отменить"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Повторить"
+    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Предварительный просмотр текущего уровня"
     result: "Результат"
     results: "Результаты"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     achievement_query_goals: "Ключевое достижение за цели уровня"
     level_completion: "Выполнение уровня"
     pop_i18n: "Популяризируйте I18N"
+    tasks: "Задачи"
 
   article:
     edit_btn_preview: "Предпросмотр"
