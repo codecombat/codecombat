@@ -16,7 +16,8 @@ AchievablePlugin = (schema, options) ->
   return
   # Keep track the document before it's saved
   schema.post 'init', (doc) ->
-    before[doc.id] = doc.toObject()
+    #doc.beforeDoc = doc.toObject()  # TODO: switch to this
+    before[doc.id] = doc.toObject()  # TODO: switch from this, run the testzzz
     # TODO check out how many objects go unreleased
 
   # Check if an achievement has been earned
@@ -43,6 +44,6 @@ AchievablePlugin = (schema, options) ->
           return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
           EarnedAchievement.createForAchievement(achievement, doc, originalDocObj)
 
-    delete before[doc.id] if doc.id of before
+    delete before[doc.id] if doc.id of before  # TODO: don't do it!
 
 module.exports = AchievablePlugin

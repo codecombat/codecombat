@@ -94,7 +94,7 @@ class CocoModel extends Backbone.Model
 
   loadFromBackup: ->
     return unless @saveBackups
-    existing = storage.load @id
+    existing = storage.load @id  # + @attributes.__v  # TODO: try and test this, also only use __v for non-versioned, otherwise just id
     if existing
       @set(existing, {silent: true})
       CocoModel.backedUp[@id] = @
@@ -102,8 +102,8 @@ class CocoModel extends Backbone.Model
   saveBackup: -> @saveBackupNow()
 
   saveBackupNow: ->
-    storage.save(@id, @attributes)
-    CocoModel.backedUp[@id] = @
+    storage.save(@id, @attributes)  # TODO: use __v
+    CocoModel.backedUp[@id] = @   # TODO
 
   @backedUp = {}
   schema: -> return @constructor.schema
