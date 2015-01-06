@@ -1,15 +1,15 @@
 .btn-group(data-toggle="buttons").status-buttons
   label.btn.btn-default.pending
-    input(type="radio", name="status", value="pending")
+    input(type="radio", name="status", value="pending", data-i18n="general.pending")
     | Pending
   label.btn.btn-default.accepted
-    input(type="radio", name="status", value="accepted")
+    input(type="radio", name="status", value="accepted", data-i18n="general.accepted")
     | Accepted
   label.btn.btn-default.rejected
-    input(type="radio", name="status", value="rejected")
+    input(type="radio", name="status", value="rejected", data-i18n="general.rejected")
     | Rejected
   label.btn.btn-default.withdrawn
-    input(type="radio", name="status", value="withdrawn")
+    input(type="radio", name="status", value="withdrawn", data-i18n="general.withdrawn")
     | Withdrawn
 
 if patches.loading
