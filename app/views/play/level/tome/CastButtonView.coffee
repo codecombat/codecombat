@@ -14,6 +14,7 @@ module.exports = class CastButtonView extends CocoView
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
     'tome:cast-spells': 'onCastSpells'
+    'tome:manual-cast-denied': 'onManualCastDenied'
     'god:new-world-created': 'onNewWorld'
     'real-time-multiplayer:created-game': 'onJoinedRealTimeMultiplayerGame'
     'real-time-multiplayer:joined-game': 'onJoinedRealTimeMultiplayerGame'
@@ -25,6 +26,11 @@ module.exports = class CastButtonView extends CocoView
     super options
     @spells = options.spells
     @castShortcut = '⇧↵'
+    @updateReplayabilityInterval = setInterval @updateReplayability, 1000
+
+  destroy: ->
+    clearInterval @updateReplayabilityInterval
+    super()
 
   getRenderData: (context={}) ->
     context = super context
@@ -49,6 +55,7 @@ module.exports = class CastButtonView extends CocoView
       @$el.find('.done-button').show()
     if @options.level.get('slug') is 'thornbush-farm'# and not @options.session.get('state')?.complete
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
+    @updateReplayability()
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
@@ -59,8 +66,11 @@ module.exports = class CastButtonView extends CocoView
   onCastRealTimeButtonClick: (e) ->
     if @inRealTimeMultiplayerSession
       Backbone.Mediator.publish 'real-time-multiplayer:manual-cast', {}
+    else if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0
+      Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
     else
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    @updateReplayability()
 
   onDoneButtonClick: (e) ->
     Backbone.Mediator.publish 'level:show-victory', showModal: true
@@ -72,14 +82,19 @@ module.exports = class CastButtonView extends CocoView
     return if e.preload
     @casting = true
     if @hasStartedCastingOnce  # Don't play this sound the first time
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast', volume: 0.5
+      @playSound 'cast', 0.5
     @hasStartedCastingOnce = true
     @updateCastButton()
+
+  onManualCastDenied: (e) ->
+    wait = moment().add(e.timeUntilResubmit, 'ms').fromNow()
+    #@playSound 'manual-cast-denied', 1.0   # find some sound for this?
+    noty text: "You can try again #{wait}.", layout: 'center', type: 'warning', killer: false, timeout: 6000
 
   onNewWorld: (e) ->
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast-end', volume: 0.5
+      @playSound 'cast-end', 0.5
     @hasCastOnce = true
     @updateCastButton()
 
@@ -119,6 +134,17 @@ module.exports = class CastButtonView extends CocoView
         castText = $.i18n.t('play_level.tome_cast_button_ran')
       @castButton.text castText
       #@castButton.prop 'disabled', not castable
+
+  updateReplayability: =>
+    return if @destroyed
+    return unless @options.level.get 'replayable'
+    timeUntilResubmit = @options.session.timeUntilResubmit()
+    disabled = timeUntilResubmit > 0
+    submitButton = @$el.find('.submit-button').toggleClass('disabled', disabled)
+    submitAgainLabel = submitButton.find('.submit-again-time').toggleClass('secret', not disabled)
+    if disabled
+      waitTime = moment().add(timeUntilResubmit, 'ms').fromNow()
+      submitAgainLabel.text waitTime
 
   setAutocastDelay: (delay) ->
     #console.log 'Set autocast delay to', delay

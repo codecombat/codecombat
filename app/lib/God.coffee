@@ -63,6 +63,7 @@ module.exports = class God extends CocoClass
   onTomeCast: (e) ->
     @lastSubmissionCount = e.submissionCount
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
+    @lastDifficulty = e.difficulty
     @createWorld e.spells, e.preload, e.realTime
 
   createWorld: (spells, preload, realTime) ->
@@ -92,6 +93,7 @@ module.exports = class God extends CocoClass
       levelSessionIDs: @levelSessionIDs
       submissionCount: @lastSubmissionCount
       flagHistory: @lastFlagHistory
+      difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload: preload
@@ -123,6 +125,7 @@ module.exports = class God extends CocoClass
         levelSessionIDs: @levelSessionIDs
         submissionCount: @lastSubmissionCount
         flagHistory: @lastFlagHistory
+        difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID

@@ -181,8 +181,8 @@ if __name__ == '__main__':
         api_key = sys.argv[1]
         api_secret = sys.argv[2]
         # HoC
-        printPriceConversionRates(api_key, api_secret, '2014-12-08', '2014-12-13')
+        printPriceConversionRates(api_key, api_secret, '2014-12-08', '2014-12-19')
         
         # Use these to feed numbers into Stripe parsing script, since Stripe knows better about conversions than Mixpanel
         print 'Pre-HoC shown', getShownSubModal(api_key, api_secret, '2014-12-06', '2014-12-07')
-        print 'Post-HoC shown', getShownSubModal(api_key, api_secret, '2014-12-14', '2014-12-14')
+        print 'Post-HoC shown', getShownSubModal(api_key, api_secret, '2014-12-20', '2015-01-04')

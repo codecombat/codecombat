@@ -163,8 +163,9 @@ module.exports = class TomeView extends CocoView
     if realTime
       sessionState.submissionCount = (sessionState.submissionCount ? 0) + 1
       sessionState.flagHistory = _.filter sessionState.flagHistory ? [], (event) => event.team isnt (@options.session.get('team') ? 'humans')
+      sessionState.lastUnsuccessfulSubmissionTime = new Date() if @options.level.get 'replayable'
       @options.session.set 'state', sessionState
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? []
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: sessionState.difficulty ? 0
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()

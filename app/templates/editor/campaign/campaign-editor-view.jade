@@ -65,6 +65,7 @@ block outer_content
                       td Finished
                       td Dropped
                       td Drop %
+                      td Completion %
                   tbody
                     - for (var i = 0; i < campaignDropOffs.levels.length; i++)
                       tr
@@ -75,6 +76,7 @@ block outer_content
                         td= campaignDropOffs.levels[i].finished
                         td= campaignDropOffs.levels[i].finishDropped
                         td= campaignDropOffs.levels[i].finishDropRate
+                        td= campaignDropOffs.levels[i].completionRate
       else
         button.btn.btn-default.disabled#analytics-button Analytics Loading...
 

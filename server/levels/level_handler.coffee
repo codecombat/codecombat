@@ -55,6 +55,7 @@ LevelHandler = class LevelHandler extends Handler
     'tasks'
     'helpVideos'
     'campaign'
+    'replayable'
   ]
 
   postEditableProperties: ['name']
@@ -383,7 +384,7 @@ LevelHandler = class LevelHandler extends Handler
       # Build list of level average playtimes
       playtimes = []
       for item in data
-        playtimes.push 
+        playtimes.push
           level: item._id.level
           created: item._id.created
           average: item.average

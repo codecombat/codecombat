@@ -47,7 +47,7 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
-    _.delay @getCampaignDropOffs, 1000
+    _.delay @getCampaignCompletions, 1000
 
   loadThangTypeNames: ->
     # Load the names of the ThangTypes that this level's Treema nodes might want to display.
@@ -240,7 +240,7 @@ module.exports = class CampaignEditorView extends RootView
       if achievement.hasLocalChanges()
         @toSave.add achievement
 
-  getCampaignDropOffs: =>
+  getCampaignCompletions: =>
     # Fetch last 7 days of campaign drop-off rates
 
     startDay = new Date()
@@ -254,14 +254,15 @@ module.exports = class CampaignEditorView extends RootView
       mapFn = (item) ->
         item.startDropRate = (item.startDropped / item.started * 100).toFixed(2)
         item.finishDropRate = (item.finishDropped / item.finished * 100).toFixed(2)
+        item.completionRate = (item.finished / item.started * 100).toFixed(2)
         item
       @campaignDropOffs.levels = _.map @campaignDropOffs.levels, mapFn, @
       @campaignDropOffs.startDay = startDay
       @render()
 
     # TODO: Why do we need this url dash?
-    request = @supermodel.addRequestResource 'campaign_drop_offs', {
-      url: '/db/analytics_log_event/-/campaign_drop_offs'
+    request = @supermodel.addRequestResource 'campaign_completions', {
+      url: '/db/analytics_log_event/-/campaign_completions'
       data: {startDay: startDay, slug: @campaignHandle}
       method: 'POST'
       success: success

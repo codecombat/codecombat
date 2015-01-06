@@ -38,9 +38,59 @@
             td= levelPlaytimes[i].average.toFixed(2)
   else
     div Loading...
-                
-                
-                
+
+  h4 Common Problems
+  if commonProblems
+    if commonProblems.startDay
+      if commonProblems.endDay
+        div(style='font-size:10pt') #{commonProblems.startDay} to #{commonProblems.endDay}
+      else
+        div(style='font-size:10pt') #{commonProblems.startDay} to today
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Language
+          td Error Message
+          td Error Hint
+          td Count
+      tbody
+        - for (var i = 0; i < commonProblems.length && i < 20; i++)
+          tr
+            td= commonProblems[i].language
+            td= commonProblems[i].message
+            td= commonProblems[i].hint
+            td= commonProblems[i].count
+  else
+    div Loading...
+
+  h4 Recent Sessions
+  if recentSessions
+    div(style='font-size:10pt') Latest 10 sessions for this level
+    div(style='font-size:10pt') Double-click row to open player and session
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Session ID
+          td Player ID
+          td Code Language
+          td Playtime
+          td Complete
+          td Changed
+      tbody
+        - for (var i = 0; i < recentSessions.length; i++)
+          tr.recent-session(data-player-id=recentSessions[i].creator, data-session-id=recentSessions[i]._id)
+            td= recentSessions[i]._id
+            td= recentSessions[i].creator
+            td= recentSessions[i].codeLanguage
+            td= recentSessions[i].playtime
+            if recentSessions[i].state && recentSessions[i].state.complete
+              td= recentSessions[i].state.complete
+            else
+              td false
+            td= recentSessions[i].changed
+  else
+    div Loading...
+
 if level.get('tasks')
   .tasks
     h3 Tasks (read only)

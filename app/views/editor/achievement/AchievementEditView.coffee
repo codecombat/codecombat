@@ -63,7 +63,7 @@ module.exports = class AchievementEditView extends RootView
     @$el.find('#achievement-view').empty()
     for key, value of @treema.data
       @achievement.set key, value
-    earned = earnedPoints: @achievement.get 'worth'
+    earned = get: (key) => {earnedPoints: @achievement.get('worth'), previouslyAchievedAmount: 0}[key]
     popup = new AchievementPopup achievement: @achievement, earnedAchievement: earned, popup: false, container: $('#achievement-view')
 
   openSaveModal: ->

@@ -1,5 +1,5 @@
 Backbone.Mediator.setValidationEnabled false
-app = require 'core/application'
+app = null
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -21,6 +21,15 @@ definitionSchemas =
   'misc': require 'schemas/definitions/misc'
 
 init = ->
+  return if app
+  if not window.userObject._id
+    $.ajax('/auth/whoami', {success: (res) ->
+      window.userObject = res
+      init()
+    })
+    return
+
+  app = require 'core/application'
   setupConsoleLogging()
   watchForErrors()
   setUpIOSLogging()
@@ -33,8 +42,6 @@ init = ->
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
-
-module.exports.init = init = _.once init
 
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/

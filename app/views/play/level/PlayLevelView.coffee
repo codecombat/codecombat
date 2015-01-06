@@ -520,6 +520,7 @@ module.exports = class PlayLevelView extends RootView
     return if @destroyed
     # TODO: Show a victory dialog specific to hero-ladder level
     if @goalManager.checkOverallStatus() is 'success' and not @options.realTimeMultiplayerSessionID?
+      @session.increaseDifficulty() if @level.get 'replayable'
       Backbone.Mediator.publish 'level:show-victory', showModal: true
 
   destroy: ->

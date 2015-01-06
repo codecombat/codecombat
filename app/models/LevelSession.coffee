@@ -53,3 +53,16 @@ module.exports = class LevelSession extends CocoModel
   save: (attrs, options) ->
     return if @shouldAvoidCorruptData attrs
     super attrs, options
+
+  increaseDifficulty: ->
+    state = @get('state') ? {}
+    state.difficulty = (state.difficulty ? 0) + 1
+    delete state.lastUnsuccessfulSubmissionTime
+    @set 'state', state
+
+  timeUntilResubmit: ->
+    state = @get('state') ? {}
+    return 0 unless last = state.lastUnsuccessfulSubmissionTime
+    last = new Date(last) if _.isString last
+    # Wait at least this long before allowing submit button active again.
+    (last - new Date()) + 22 * 60 * 60 * 1000

@@ -94,7 +94,7 @@ class CocoModel extends Backbone.Model
 
   loadFromBackup: ->
     return unless @saveBackups
-    existing = storage.load @id
+    existing = storage.load @id  # + @attributes.__v  # TODO: try and test this, also only use __v for non-versioned, otherwise just id
     if existing
       @set(existing, {silent: true})
       CocoModel.backedUp[@id] = @
@@ -102,8 +102,8 @@ class CocoModel extends Backbone.Model
   saveBackup: -> @saveBackupNow()
 
   saveBackupNow: ->
-    storage.save(@id, @attributes)
-    CocoModel.backedUp[@id] = @
+    storage.save(@id, @attributes)  # TODO: use __v
+    CocoModel.backedUp[@id] = @   # TODO
 
   @backedUp = {}
   schema: -> return @constructor.schema
@@ -377,22 +377,37 @@ class CocoModel extends Backbone.Model
   #- Internationalization
 
   updateI18NCoverage: ->
-    i18nObjects = @findI18NObjects()
-    return unless i18nObjects.length
-    langCodeArrays = (_.keys(i18n) for i18n in i18nObjects)
-    @set('i18nCoverage', _.intersection(langCodeArrays...))
+    langCodeArrays = []
+    pathToData = {}
 
-  findI18NObjects: (data, results) ->
-    data ?= @attributes
-    results ?= []
+    TreemaUtils.walk(@attributes, @schema(), null, (path, data, workingSchema) ->
+      # Store parent data for the next block...
+      if data?.i18n
+        pathToData[path] = data
+        
+      if _.string.endsWith path, 'i18n'
+        i18n = data
+        
+        # grab the parent data
+        parentPath = path[0...-5]
+        parentData = pathToData[parentPath]
+        
+        # use it to determine what properties actually need to be translated
+        props = workingSchema.props or []
+        props = (prop for prop in props when parentData[prop])
+        
+        # get a list of lang codes where its object has keys for every prop to be translated
+        coverage = _.filter(_.keys(i18n), (langCode) ->
+          translations = i18n[langCode]
+          _.all((translations[prop] for prop in props))
+        )
+        langCodeArrays.push coverage
+    )
+    
+    return unless langCodeArrays.length
+    # language codes that are covered for every i18n object are fully covered
+    overallCoverage = _.intersection(langCodeArrays...)
+    @set('i18nCoverage', overallCoverage)
 
-    if _.isPlainObject(data) or _.isArray(data)
-      for [key, value] in _.pairs data
-        if key is 'i18n'
-          results.push value
-        else if _.isPlainObject(value) or _.isArray(value)
-          @findI18NObjects(value, results)
-
-    return results
 
 module.exports = CocoModel

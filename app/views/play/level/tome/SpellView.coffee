@@ -122,7 +122,11 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'run-code-real-time'
       bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
-      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+      exec: =>
+        if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
+          Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
+        else
+          Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     addCommand
       name: 'no-op'
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
@@ -616,7 +620,7 @@ module.exports = class SpellView extends CocoView
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'code-change', volume: 0.5
+      #@playSound 'code-change', volume: 0.5  # Currently not using this sound.
       if @spellThang
         @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw, (hasChanged) =>
           if not @spellThang or hasChanged
