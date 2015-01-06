@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     slogan: "Belajar Kod bDengan Permainan"
     no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 8 dan terdahulu. Maaf!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet dan tidak akan berfungsi!" # Warning that shows up on mobile devices
-    play: "Mula" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Mula" # The big play button that opens up the campaign view.
     old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Anda boleh mencuba, tapi mungkin ia tidak akan berfungsi."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    version_history: "Version History"
     version_history_for: "Versi History untuk: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Keputusan"
     results: "Keputusan-keputusan"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
 #  article:
 #    edit_btn_preview: "Preview"

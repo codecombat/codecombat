@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     slogan: "Навчіться програмувати, граючи у гру"
     no_ie: "На жаль, CodeCombat не працює в IE8 та старіших версіях!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не призначений для мобільних пристроїв і може не працювати!" # Warning that shows up on mobile devices
-    play: "Грати" # The big play button that just starts playing a level
-    try_it: "Спробувати" # Alternate wording for Play button
+    play: "Грати" # The big play button that opens up the campaign view.
     old_browser: "Вибачте, але Ваш браузер занадто старий для гри CodeCombat" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Ви все одно можете спробувати, хоча навряд чи вийде"
     ipad_browser: "Погана новина: CodeCombat не працює у браузері iPad. Хороша новина: наш спеціальний додаток iPad очікує на модерацію Apple."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     version_history: "Історія"
     version_history_for: "Історія версій для: "
     select_changes: "Оберіть дві зміни нижче, щоб побачити відмінності."
-    undo: "Відмінити (Ctrl+Z)"
-    redo: "Повторити (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Попередній перегляд поточного рівня"
     result: "Результат"
     results: "Результати"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     achievement_query_goals: "Ключове досягнення випадає з цілей рівня"
     level_completion: "Рівень завершено"
     pop_i18n: "Додати I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Перегляд"

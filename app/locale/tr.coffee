@@ -3,8 +3,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     slogan: "Oyun oynayarak kodlamayı öğrenin"
     no_ie: "CodeCombat maalesef Internet Explorer 8 veya daha eski sürümlerde çalışmaz." # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir." # Warning that shows up on mobile devices
-    play: "Oyna" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "Oyna" # The big play button that opens up the campaign view.
     old_browser: "Olamaz, Tarayıcınız CodeCombat'ı çalıştırmak için çok eski. Üzgünüz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Deneyebilirsiniz, ama muhtemelen oyun çalışmayacaktır."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     version_history: "Geçmiş"
     version_history_for: "Sürüm Geçmişi: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Sonuç"
     results: "Sonuçlar"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "Önizleme"

@@ -3,8 +3,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     slogan: "打遊戲來學編程"
     no_ie: "對弗住！箇網站叻 Internet Explorer 8 箇粒老個瀏覽器嘸處用。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat 勿是照手機設備設計個，怪得嘸數达弗到頂讚個享受！" # Warning that shows up on mobile devices
-    play: "遊戲開打" # The big play button that just starts playing a level
-#    try_it: "Try It" # Alternate wording for Play button
+    play: "遊戲開打" # The big play button that opens up the campaign view.
     old_browser: "啊耶, 爾個瀏覽器忒老哉, 嘸處運行 CodeCombat。對弗住險！" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "爾試叻好試多遍，不過嘸大用場個。"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -167,8 +166,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     version_history: "版本歷史"
     version_history_for: "版本歷史: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo: "Undo (Ctrl+Z)"
-#    redo: "Redo (Ctrl+Shift+Z)"
+#    undo_prefix: "Undo"
+#    undo_shortcut: "(Ctrl+Z)"
+#    redo_prefix: "Redo"
+#    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "結果"
     results: "結果"
@@ -658,6 +659,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    achievement_query_goals: "Key achievement off of level goals"
 #    level_completion: "Level Completion"
 #    pop_i18n: "Populate I18N"
+#    tasks: "Tasks"
 
   article:
     edit_btn_preview: "試望"
