@@ -166,10 +166,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     version_history: "Histórico de Versões"
     version_history_for: "Histórico de Versões para: "
     select_changes: "Seleciona duas das alterações abaixo para veres a diferença."
-#    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    undo_prefix: "Desfazer"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Refazer"
+    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Jogar pré-visualização do nível atual"
     result: "Resultado"
     results: "Resultados"
@@ -659,7 +659,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Completação do Nível"
     pop_i18n: "Propagar I18N"
-#    tasks: "Tasks"
+    tasks: "Tarefas"
 
   article:
     edit_btn_preview: "Pré-visualizar"
