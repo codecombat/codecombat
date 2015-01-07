@@ -3,6 +3,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 ModelModal = require 'views/modal/ModelModal'
 User = require 'models/User'
+utils = require 'core/utils'
 
 module.exports = class CampaignLevelView extends CocoView
   id: 'campaign-level-view'
@@ -47,9 +48,7 @@ module.exports = class CampaignLevelView extends CocoView
 
   getCommonLevelProblems: ->
     # Fetch last 30 days of common level problems
-    startDay = new Date()
-    startDay.setDate(startDay.getUTCDate() - 29)
-    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+    startDay = utils.getUTCDay -29
 
     success = (data) =>
       return if @destroyed
@@ -77,9 +76,7 @@ module.exports = class CampaignLevelView extends CocoView
       @levelCompletions = _.map data, mapFn, @
       @render()
 
-    startDay = new Date()
-    startDay.setDate(startDay.getUTCDate() - 6)
-    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+    startDay = utils.getUTCDay -6
     
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_completions', {
@@ -97,10 +94,8 @@ module.exports = class CampaignLevelView extends CocoView
       @levelPlaytimes = data.sort (a, b) -> if a.created < b.created then 1 else -1
       @render()
 
-    startDay = new Date()
-    startDay.setDate(startDay.getUTCDate() - 6)
-    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
-    
+    startDay = utils.getUTCDay -6
+
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'playtime_averages', {
       url: '/db/level/-/playtime_averages'
@@ -111,7 +106,7 @@ module.exports = class CampaignLevelView extends CocoView
     request.load()
 
   getRecentSessions: ->
-    limit = 10
+    limit = 100
 
     success = (data) =>
       return if @destroyed

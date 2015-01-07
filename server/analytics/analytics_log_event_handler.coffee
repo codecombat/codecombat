@@ -106,11 +106,12 @@ class AnalyticsLogEventHandler extends Handler
     # startDay - Inclusive, optional, e.g. '2014-12-14'
     # endDay - Exclusive, optional, e.g. '2014-12-16'
 
-    # TODO: Must be a better way to organize this series of 3 database calls (campaigns, levels, analytics)
+    # TODO: Must be a better way to organize this series of database calls (campaigns, levels, analytics)
     # TODO: An uncached call can take over 30s locally
     # TODO: Returns all the campaigns
     # TODO: Calculate overall campaign stats
     # TODO: Assumes db campaign levels are in progression order.  Should build this based on actual progression.
+    # TODO: Remove earliest duplicate event so our dropped counts will be more accurate.
 
     campaignSlug = req.query.slug or req.body.slug
     startDay = req.query.startDay or req.body.startDay
@@ -129,100 +130,111 @@ class AnalyticsLogEventHandler extends Handler
     cacheKey += 'e' + endDay if endDay?
     return @sendSuccess res, campaignDropOffs if campaignDropOffs = @campaignDropOffsCache[cacheKey]
 
-    getCompletions = (campaigns) =>
+    getCompletions = (campaigns, userProgression) =>
       # Calculate campaign drop off rates
       # Input:
       # campaigns - per-campaign dictionary of ordered level slugs
+      # userProgression - per-user event lists
+
+      # Remove duplicate user events
+      for user of userProgression
+        userProgression[user] = _.uniq userProgression[user], false, (val, index, arr) -> val.event + val.level
+
+      # Order user progression by created
+      for user of userProgression
+        userProgression[user].sort (a,b) -> if a.created < b.created then return -1 else 1
+
+      # Per-level start/drop/finish/drop
+      levelProgression = {}
+      for user of userProgression
+        for i in [0...userProgression[user].length]
+          event = userProgression[user][i].event
+          level = userProgression[user][i].level
+          levelProgression[level] ?=
+            started: 0
+            startDropped: 0
+            finished: 0
+            finishDropped: 0
+          if event is 'Started Level'
+            levelProgression[level].started++
+            levelProgression[level].startDropped++ if i is userProgression[user].length - 1
+          else if event is 'Saw Victory'
+            levelProgression[level].finished++
+            levelProgression[level].finishDropped++ if i is userProgression[user].length - 1
+
+      # Put in campaign order
+      completions = {}
+      for level of levelProgression
+        for campaign of campaigns
+          if level in campaigns[campaign]
+            started = levelProgression[level].started
+            startDropped = levelProgression[level].startDropped
+            finished = levelProgression[level].finished
+            finishDropped = levelProgression[level].finishDropped
+            completions[campaign] ?=
+              levels: []
+              # overall:
+              #   started: 0,
+              #   startDropped: 0,
+              #   finished: 0,
+              #   finishDropped: 0
+            completions[campaign].levels.push
+              level: level
+              started: started
+              startDropped: startDropped
+              finished: finished
+              finishDropped: finishDropped
+            break
+
+      # Sort level data by campaign order
+      for campaign of completions
+        completions[campaign].levels.sort (a, b) ->
+          if campaigns[campaign].indexOf(a.level) < campaigns[campaign].indexOf(b.level) then return -1 else 1
+
+      # Return all campaign data for simplicity
+      # Cache other individual campaigns too, since we have them
+      @campaignDropOffsCache[cacheKey] = completions
+      for campaign of completions
+        cacheKey = campaign
+        cacheKey += 's' + startDay if startDay?
+        cacheKey += 'e' + endDay if endDay?
+        @campaignDropOffsCache[cacheKey] = completions
+      @sendSuccess res, completions
+
+    getUserEventData = (campaigns) =>
+      # Gather user start and finish event data
+      # Input:
+      # campaigns - per-campaign dictionary of ordered level slugs
+      # Output:
+      # userProgression - per-user event lists
+
+      userProgression = {}
 
       queryParams = {$and: [{$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}]}
       queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
       queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
 
-      AnalyticsLogEvent.find(queryParams).select('created event properties user').exec (err, data) =>
-        if err? then return @sendDatabaseError res, err
-
-        # Bucketize events by user
-        userProgression = {}
-        userLevelEventMap = {} # Only want unique users per-level/event
-        for item in data
-          created = item.get('created')
-          event = item.get('event')
-          if event is 'Saw Victory'
-            level = item.get('properties.level').toLowerCase().replace new RegExp(' ', 'g'), '-'
-          else
-            level = item.get('properties.levelID')
-          continue unless level?
-          user = item.get('user')
-          userLevelEventMap[user] ?= {}
-          userLevelEventMap[user][level] ?= {}
-          unless userLevelEventMap[user][level][event]
-            userLevelEventMap[user][level][event] = true
-            userProgression[user] ?= []
-            userProgression[user].push
-              created: created
-              event: event
-              level: level
-
-        # Order user progression by created
-        for user of userProgression
-          userProgression[user].sort (a,b) -> if a.created < b.created then return -1 else 1
-
-        # Per-level start/drop/finish/drop
-        levelProgression = {}
-        for user of userProgression
-          for i in [0...userProgression[user].length]
-            event = userProgression[user][i].event
-            level = userProgression[user][i].level
-            levelProgression[level] ?=
-              started: 0
-              startDropped: 0
-              finished: 0
-              finishDropped: 0
-            if event is 'Started Level'
-              levelProgression[level].started++
-              levelProgression[level].startDropped++ if i is userProgression[user].length - 1
-            else if event is 'Saw Victory'
-              levelProgression[level].finished++
-              levelProgression[level].finishDropped++ if i is userProgression[user].length - 1
-
-        # Put in campaign order
-        completions = {}
-        for level of levelProgression
-          for campaign of campaigns
-            if level in campaigns[campaign]
-              started = levelProgression[level].started
-              startDropped = levelProgression[level].startDropped
-              finished = levelProgression[level].finished
-              finishDropped = levelProgression[level].finishDropped
-              completions[campaign] ?=
-                levels: []
-                # overall:
-                #   started: 0,
-                #   startDropped: 0,
-                #   finished: 0,
-                #   finishDropped: 0
-              completions[campaign].levels.push
-                level: level
-                started: started
-                startDropped: startDropped
-                finished: finished
-                finishDropped: finishDropped
-              break
-
-        # Sort level data by campaign order
-        for campaign of completions
-          completions[campaign].levels.sort (a, b) ->
-            if campaigns[campaign].indexOf(a.level) < campaigns[campaign].indexOf(b.level) then return -1 else 1
-
-        # Return all campaign data for simplicity
-        # Cache other individual campaigns too, since we have them
-        @campaignDropOffsCache[cacheKey] = completions
-        for campaign of completions
-          cacheKey = campaign
-          cacheKey += 's' + startDay if startDay?
-          cacheKey += 'e' + endDay if endDay?
-          @campaignDropOffsCache[cacheKey] = completions
-        @sendSuccess res, completions
+      # Query stream is better for large results
+      # http://mongoosejs.com/docs/api.html#query_Query-stream
+      stream = AnalyticsLogEvent.find(queryParams).select('created event properties user').stream()
+      stream.on 'data', (item) =>
+        created = item.get('created')
+        event = item.get('event')
+        if event is 'Saw Victory'
+          level = item.get('properties.level').toLowerCase().replace new RegExp(' ', 'g'), '-'
+        else
+          level = item.get('properties.levelID')
+        return unless level?
+        user = item.get('user')
+        userProgression[user] ?= []
+        userProgression[user].push
+          created: created
+          event: event
+          level: level
+      .on 'error', (err) =>
+        return @sendDatabaseError res, err
+      .on 'close', () =>
+        getCompletions campaigns, userProgression
 
     getLevelData = (campaigns, campaignLevelIDs) =>
       # Get level data and replace levelIDs with level slugs in campaigns
@@ -246,7 +258,7 @@ class AnalyticsLogEventHandler extends Handler
           mapFn = (item) -> levelSlugMap[item]
           campaigns[campaign] = _.map campaigns[campaign], mapFn, @
 
-        getCompletions campaigns
+        getUserEventData campaigns
 
     getCampaignData = () =>
       # Get campaign data 
