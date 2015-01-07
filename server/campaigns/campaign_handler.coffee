@@ -39,7 +39,7 @@ CampaignHandler = class CampaignHandler extends Handler
 
   getRelatedLevels: (req, res, campaign, projection) ->
     extraProjectionProps = []
-    if projection
+    unless _.isEmpty(projection)
       # Make sure that permissions and version are fetched, but not sent back if they didn't ask for them.
       extraProjectionProps.push 'permissions' unless projection.permissions
       extraProjectionProps.push 'version' unless projection.version
