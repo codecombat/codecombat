@@ -258,8 +258,8 @@ describe 'Recalculate Achievements', ->
             unittest.getNormalJoe (joe) ->
               User.findById joe.get('id'), (err, guy) ->
                 expect(err).toBeNull()
-                # TODO: fix this to properly handle recalculating proportionalTo recalculation
-                expect(guy.get 'points').toBe unlockable.worth + 2 * repeatable.worth + (Math.log(.5 * (4 + .5)) + 1) * diminishing.worth
+                expect(guy.get 'points').toBe unlockable.worth + 4 * repeatable.worth + (Math.log(.5 * (4 + .5)) + 1) * diminishing.worth
+                expect(guy.get('earned').gems).toBe 4 * repeatable.rewards.gems
                 done()
 
   it 'cleaning up test: deleting all Achievements and related', (done) ->

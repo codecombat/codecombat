@@ -6,6 +6,7 @@ EarnedAchievement = require './EarnedAchievement'
 User = require '../users/User'
 Handler = require '../commons/Handler'
 LocalMongo = require '../../app/lib/LocalMongo'
+util = require '../../app/core/utils'
 
 class EarnedAchievementHandler extends Handler
   modelClass: EarnedAchievement
@@ -65,8 +66,8 @@ class EarnedAchievementHandler extends Handler
         return @sendNotFoundError(res, 'Could not find achievement.')
       else if not trigger
         return @sendNotFoundError(res, 'Could not find trigger.')
-      else if achievement.get('proportionalTo')
-        EarnedAchievement.createForAchievement(achievement, trigger, trigger.unchangedCopy, earned, (earnedAchievementDoc) =>
+      else if achievement.get('proportionalTo') and earned
+        EarnedAchievement.createForAchievement(achievement, trigger, null, earned, (earnedAchievementDoc) =>
           @sendCreated(res, (earnedAchievementDoc or earned)?.toObject())
         )
       else if earned
@@ -223,13 +224,15 @@ class EarnedAchievementHandler extends Handler
                   notified: achievement._id in alreadyEarnedIDs
 
                 if isRepeatable
-                  earned.achievedAmount = something.get(achievement.get 'proportionalTo')
+                  earned.achievedAmount = util.getByPath(something.toObject(), achievement.get 'proportionalTo') or 0
                   earned.previouslyAchievedAmount = 0
 
                   expFunction = achievement.getExpFunction()
                   newPoints = expFunction(earned.achievedAmount) * achievement.get('worth') ? 10
+                  newGems = expFunction(earned.achievedAmount) * (achievement.get('rewards')?.gems ? 0)
                 else
                   newPoints = achievement.get('worth') ? 10
+                  newGems = achievement.get('rewards')?.gems ? 0
 
                 earned.earnedPoints = newPoints
                 newTotalPoints += newPoints
@@ -237,7 +240,10 @@ class EarnedAchievementHandler extends Handler
                 earned.earnedRewards = achievement.get('rewards')
                 for rewardType in ['heroes', 'items', 'levels']
                   newTotalRewards[rewardType] = newTotalRewards[rewardType].concat(achievement.get('rewards')?[rewardType] ? [])
-                newTotalRewards.gems += achievement.get('rewards')?.gems ? 0
+                if isRepeatable and earned.earnedRewards
+                  earned.earnedRewards = _.clone earned.earnedRewards
+                  earned.earnedRewards.gems = newGems
+                newTotalRewards.gems += newGems
 
                 EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
                   doneWithAchievement err

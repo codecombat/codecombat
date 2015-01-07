@@ -52,11 +52,11 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
     newAmount = util.getByPath(docObj, proportionalTo) or 0
     if previouslyEarnedAchievement
       originalAmount = previouslyEarnedAchievement.get('achievedAmount') or 0
-    else if originalDocObj and not newAmount  # This branch could get buggy if unchangedCopy tracking isn't working.
+    else if originalDocObj  # This branch could get buggy if unchangedCopy tracking isn't working.
       originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
     else
       originalAmount = 0
-    #console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj, 'and previously earned achievement amount', previouslyEarnedAchievement?.get('achievedAmount')
+    #console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj, 'and previously earned achievement amount', previouslyEarnedAchievement?.get('achievedAmount'), 'because we had originalDocObj', originalDocObj
 
     if originalAmount isnt newAmount
       expFunction = achievement.getExpFunction()
