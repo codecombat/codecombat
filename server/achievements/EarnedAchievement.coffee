@@ -31,7 +31,7 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
   gemWorth = achievement.get('rewards')?.gems ? 0
   earnedPoints = 0
   earnedGems = 0
-  
+
   wrapUp = (earnedAchievementDoc) ->
     # Update user's experience points
     update = {$inc: {points: earnedPoints, 'earned.gems': earnedGems}}
@@ -50,12 +50,14 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
     proportionalTo = achievement.get 'proportionalTo'
     originalAmount = if originalDocObj then util.getByPath(originalDocObj, proportionalTo) or 0 else 0
     docObj = doc.toObject()
-    newAmount = docObj[proportionalTo]
+    newAmount = util.getByPath(docObj, proportionalTo) or 0
+    console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj
 
     if originalAmount isnt newAmount
       expFunction = achievement.getExpFunction()
       earned.notified = false
       earned.achievedAmount = newAmount
+      console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
       earnedPoints = earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth
       earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth
       earned.previouslyAchievedAmount = originalAmount

@@ -110,6 +110,8 @@ module.exports = class HeroVictoryModal extends ModalView
     #  rewards = achievement.get('rewards') or {}
     #  rewards.gems *= (index + 1)
 
+    # TODO: use earned achievement worths or somehow pull in recalculated exp/gems
+
     c.thangTypes = @thangTypes
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
