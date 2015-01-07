@@ -84,7 +84,7 @@ module.exports = class User extends CocoModel
     gemsEarned = @get('earned')?.gems ? 0
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
-    gemsEarned + gemsPurchased - gemsSpent
+    Math.floor gemsEarned + gemsPurchased - gemsSpent
 
   heroes: ->
     heroes = (me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight])
@@ -139,7 +139,7 @@ module.exports = class User extends CocoModel
     else
       @subscribeCopyGroup = 'original'
     @subscribeCopyGroup
-    
+
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)

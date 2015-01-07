@@ -21,6 +21,8 @@ repeatable =
   userField: '_id'
   proportionalTo: 'simulatedBy'
   recalculable: true
+  rewards:
+    gems: 1
 
 diminishing =
   name: 'Simulated2'
@@ -169,19 +171,23 @@ describe 'Achieving Achievements', ->
 
   it 'verify that a repeatable achievement has been earned', (done) ->
     unittest.getNormalJoe (joe) ->
-      EarnedAchievement.find {achievementName: repeatable.name}, (err, docs) ->
-        expect(err).toBeNull()
-        expect(docs.length).toBe(1)
-        achievement = docs[0]
 
-        if achievement
-          expect(achievement.get 'achievement').toBe repeatable._id
-          expect(achievement.get 'user').toBe joe._id.toHexString()
-          expect(achievement.get 'notified').toBeFalsy()
-          expect(achievement.get 'earnedPoints').toBe 2 * repeatable.worth
-          expect(achievement.get 'achievedAmount').toBe 2
-          expect(achievement.get 'previouslyAchievedAmount').toBeFalsy()
-        done()
+      User.findById(joe.get('_id')).exec (err, joe2) ->
+        expect(joe2.get('earned').gems).toBe(2)
+
+        EarnedAchievement.find {achievementName: repeatable.name}, (err, docs) ->
+          expect(err).toBeNull()
+          expect(docs.length).toBe(1)
+          achievement = docs[0]
+
+          if achievement
+            expect(achievement.get 'achievement').toBe repeatable._id
+            expect(achievement.get 'user').toBe joe._id.toHexString()
+            expect(achievement.get 'notified').toBeFalsy()
+            expect(achievement.get 'earnedPoints').toBe 2 * repeatable.worth
+            expect(achievement.get 'achievedAmount').toBe 2
+            expect(achievement.get 'previouslyAchievedAmount').toBeFalsy()
+          done()
 
   it 'verify that the repeatable achievement with complex exp has been earned', (done) ->
     unittest.getNormalJoe (joe) ->
@@ -195,6 +201,17 @@ describe 'Achieving Achievements', ->
           expect(achievement.get 'earnedPoints').toBe (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
 
         done()
+
+  it 'increases gems proportionally to changes made', (done) ->
+    unittest.getNormalJoe (joe) ->
+      User.findById(joe.get('_id')).exec (err, joe2) ->
+        joe2.set('simulatedBy', 4)
+        joe2.save (err, joe3) ->
+          expect(err).toBeNull()
+          User.findById(joe3.get('_id')).exec (err, joe4) ->
+            expect(joe4.get('earned').gems).toBe(4)  # Crap, it's 6 TODO
+            done()
+
 
 describe 'Recalculate Achievements', ->
   EarnedAchievementHandler = require '../../../server/achievements/earned_achievement_handler'
@@ -241,7 +258,8 @@ describe 'Recalculate Achievements', ->
             unittest.getNormalJoe (joe) ->
               User.findById joe.get('id'), (err, guy) ->
                 expect(err).toBeNull()
-                expect(guy.get 'points').toBe unlockable.worth + 2 * repeatable.worth + (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
+                expect(guy.get 'points').toBe unlockable.worth + 4 * repeatable.worth + (Math.log(.5 * (4 + .5)) + 1) * diminishing.worth
+                expect(guy.get('earned').gems).toBe 4 * repeatable.rewards.gems
                 done()
 
   it 'cleaning up test: deleting all Achievements and related', (done) ->

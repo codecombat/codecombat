@@ -34,7 +34,7 @@ defaultTasks = [
   'Write a loading tip, if needed.'
   'Click the Populate i18n button.'
 
-  'Mark whether it requires a subscription (after adventurer week).'
+  'Mark whether it requires a subscription.'
   'Release to everyone via MailChimp.'
 
   'Check completion/engagement/problem analytics.'

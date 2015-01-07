@@ -14,7 +14,8 @@ AchievablePlugin = (schema, options) ->
 
   # Keep track the document before it's saved
   schema.post 'init', (doc) ->
-    doc.unchangedCopy = doc.toObject()
+    unless doc.unchangedCopy
+      doc.unchangedCopy = doc.toObject()
 
   # Check if an achievement has been earned
   schema.post 'save', (doc) ->

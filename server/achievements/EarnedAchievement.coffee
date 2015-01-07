@@ -16,7 +16,7 @@ EarnedAchievementSchema.pre 'save', (next) ->
 EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
-EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, originalDocObj, done) ->
+EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, originalDocObj=null, previouslyEarnedAchievement=null, done) ->
   User = require '../users/User'
   userObjectID = doc.get(achievement.get('userField'))
   userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
@@ -27,18 +27,20 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
     achievementName: achievement.get 'name'
     earnedRewards: achievement.get 'rewards'
 
-  worth = achievement.get('worth') ? 10
+  pointWorth = achievement.get('worth') ? 10
+  gemWorth = achievement.get('rewards')?.gems ? 0
   earnedPoints = 0
+  earnedGems = 0
+
   wrapUp = (earnedAchievementDoc) ->
     # Update user's experience points
-    update = {$inc: {points: earnedPoints}}
+    update = {$inc: {points: earnedPoints, 'earned.gems': earnedGems}}
     for rewardType, rewards of achievement.get('rewards') ? {}
-      if rewardType is 'gems'
-        update.$inc['earned.gems'] = rewards if rewards
-      else if rewards.length
+      continue if rewardType is 'gems'
+      if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = $each: rewards
-    User.update {_id: userID}, update, {}, (err, count) ->
+    User.update {_id: mongoose.Types.ObjectId(userID)}, update, {}, (err, count) ->
       log.error err if err?
       done?(earnedAchievementDoc)
 
@@ -46,29 +48,40 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
   if isRepeatable
     #log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
     proportionalTo = achievement.get 'proportionalTo'
-    originalAmount = if originalDocObj then util.getByPath(originalDocObj, proportionalTo) or 0 else 0
     docObj = doc.toObject()
-    newAmount = docObj[proportionalTo]
+    newAmount = util.getByPath(docObj, proportionalTo) or 0
+    if previouslyEarnedAchievement
+      originalAmount = previouslyEarnedAchievement.get('achievedAmount') or 0
+    else if originalDocObj  # This branch could get buggy if unchangedCopy tracking isn't working.
+      originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
+    else
+      originalAmount = 0
+    #console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj, 'and previously earned achievement amount', previouslyEarnedAchievement?.get('achievedAmount'), 'because we had originalDocObj', originalDocObj
 
     if originalAmount isnt newAmount
       expFunction = achievement.getExpFunction()
       earned.notified = false
       earned.achievedAmount = newAmount
-      earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
+      #console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
+      earnedPoints = earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth
+      earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth
       earned.previouslyAchievedAmount = originalAmount
       EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
         return log.debug err if err?
 
-      earnedPoints = earned.earnedPoints
       #log.debug earnedPoints
-      wrapUp()
+      wrapUp(new EarnedAchievement(earned))
+    else
+      done?()
 
   else # not alreadyAchieved
     #log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
-    earned.earnedPoints = worth
+    earned.earnedPoints = pointWorth
+    earned.earnedGems = gemWorth
     (new EarnedAchievement(earned)).save (err, doc) ->
       return log.error err if err?
-      earnedPoints = worth
+      earnedPoints = pointWorth
+      earnedGems = gemWorth
       wrapUp(doc)
 
   User.saveActiveUser userID, "achievement"

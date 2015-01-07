@@ -243,9 +243,7 @@ module.exports = class CampaignEditorView extends RootView
   getCampaignCompletions: =>
     # Fetch last 7 days of campaign drop-off rates
 
-    startDay = new Date()
-    startDay.setDate(startDay.getUTCDate() - 6)
-    startDay = startDay.getUTCFullYear() + '-' + (startDay.getUTCMonth() + 1) + '-' + startDay.getUTCDate()
+    startDay = utils.getUTCDay -6
 
     success = (data) =>
       return if @destroyed
