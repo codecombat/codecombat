@@ -227,7 +227,7 @@ me.RewardSchema = (descriptionFragment='earned by achievements') ->
       me.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type')
     levels: me.array {uniqueItems: true, description: "Levels #{descriptionFragment}."},
       me.stringID(links: [{rel: 'db', href: '/db/level/{($)}/version'}], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference')
-    gems: me.int {description: "Gems #{descriptionFragment}."}
+    gems: me.float {description: "Gems #{descriptionFragment}."}
 
 me.task = me.object {title: 'Task', description: 'A task to be completed', format: 'task', default: {name: 'TODO', complete: false}},
   name: {title: 'Name', description: 'What must be done?', type: 'string'}

@@ -14,10 +14,8 @@ AchievablePlugin = (schema, options) ->
 
   # Keep track the document before it's saved
   schema.post 'init', (doc) ->
-    doc.unchangedCopy = doc.toObject()
-    ## Haaaaaaack, but better than cloneDeeping everything TODOOOO: otherwise the achievement doesn't realize that the document just changed
-    #doc.unchangedCopy.state = _.cloneDeep doc.unchangedCopy.state if doc.unchangedCopy.state
-    ## Actually, it doesn't work still.
+    unless doc.unchangedCopy
+      doc.unchangedCopy = doc.toObject()
 
   # Check if an achievement has been earned
   schema.post 'save', (doc) ->

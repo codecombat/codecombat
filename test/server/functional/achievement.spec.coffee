@@ -174,12 +174,12 @@ describe 'Achieving Achievements', ->
 
       User.findById(joe.get('_id')).exec (err, joe2) ->
         expect(joe2.get('earned').gems).toBe(2)
-        
+
         EarnedAchievement.find {achievementName: repeatable.name}, (err, docs) ->
           expect(err).toBeNull()
           expect(docs.length).toBe(1)
           achievement = docs[0]
-  
+
           if achievement
             expect(achievement.get 'achievement').toBe repeatable._id
             expect(achievement.get 'user').toBe joe._id.toHexString()
@@ -201,7 +201,7 @@ describe 'Achieving Achievements', ->
           expect(achievement.get 'earnedPoints').toBe (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
 
         done()
-        
+
   it 'increases gems proportionally to changes made', (done) ->
     unittest.getNormalJoe (joe) ->
       User.findById(joe.get('_id')).exec (err, joe2) ->
@@ -209,7 +209,7 @@ describe 'Achieving Achievements', ->
         joe2.save (err, joe3) ->
           expect(err).toBeNull()
           User.findById(joe3.get('_id')).exec (err, joe4) ->
-            expect(joe4.get('earned').gems).toBe(4)
+            expect(joe4.get('earned').gems).toBe(4)  # Crap, it's 6 TODO
             done()
 
 

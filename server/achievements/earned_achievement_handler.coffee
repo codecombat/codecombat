@@ -66,7 +66,7 @@ class EarnedAchievementHandler extends Handler
       else if not trigger
         return @sendNotFoundError(res, 'Could not find trigger.')
       else if achievement.get('proportionalTo')
-        EarnedAchievement.createForAchievement(achievement, trigger, trigger.unchangedCopy, (earnedAchievementDoc) =>
+        EarnedAchievement.createForAchievement(achievement, trigger, trigger.unchangedCopy, earned, (earnedAchievementDoc) =>
           @sendCreated(res, (earnedAchievementDoc or earned)?.toObject())
         )
       else if earned
@@ -87,7 +87,7 @@ class EarnedAchievementHandler extends Handler
             return @sendSuccess(res, earned.toObject())
           )
       else
-        EarnedAchievement.createForAchievement(achievement, trigger, null, (earnedAchievementDoc) =>
+        EarnedAchievement.createForAchievement(achievement, trigger, null, null, (earnedAchievementDoc) =>
           @sendCreated(res, earnedAchievementDoc.toObject())
         )
     )

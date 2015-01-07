@@ -16,7 +16,7 @@ EarnedAchievementSchema.pre 'save', (next) ->
 EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
-EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, originalDocObj, done) ->
+EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, originalDocObj=null, previouslyEarnedAchievement=null, done) ->
   User = require '../users/User'
   userObjectID = doc.get(achievement.get('userField'))
   userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
@@ -48,16 +48,21 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
   if isRepeatable
     #log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
     proportionalTo = achievement.get 'proportionalTo'
-    originalAmount = if originalDocObj then util.getByPath(originalDocObj, proportionalTo) or 0 else 0
     docObj = doc.toObject()
     newAmount = util.getByPath(docObj, proportionalTo) or 0
-    console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj
+    if previouslyEarnedAchievement
+      originalAmount = previouslyEarnedAchievement.get('achievedAmount') or 0
+    else if originalDocObj and not newAmount  # This branch could get buggy if unchangedCopy tracking isn't working.
+      originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
+    else
+      originalAmount = 0
+    #console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj, 'and previously earned achievement amount', previouslyEarnedAchievement?.get('achievedAmount')
 
     if originalAmount isnt newAmount
       expFunction = achievement.getExpFunction()
       earned.notified = false
       earned.achievedAmount = newAmount
-      console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
+      #console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
       earnedPoints = earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth
       earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth
       earned.previouslyAchievedAmount = originalAmount

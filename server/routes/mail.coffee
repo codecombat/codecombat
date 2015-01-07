@@ -575,8 +575,8 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
     unless user.get('email') and allowNotes and not session.unsubscribed
       #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{user.get('emailSubscriptions')}, #{user.get('emails')} - session unsubscribed: #{session.unsubscribed}"
       return
-    unless session.levelName
-      #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had no levelName in it."
+    unless session.levelName and session.team
+      #log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had levelName #{session.levelName} or team #{session.team} in it."
       return
     name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
     name = 'Wizard' if not name or name is 'Anoner'
