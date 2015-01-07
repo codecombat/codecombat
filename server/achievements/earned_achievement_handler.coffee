@@ -65,6 +65,10 @@ class EarnedAchievementHandler extends Handler
         return @sendNotFoundError(res, 'Could not find achievement.')
       else if not trigger
         return @sendNotFoundError(res, 'Could not find trigger.')
+      else if achievement.get('proportionalTo')
+        EarnedAchievement.createForAchievement(achievement, trigger, trigger.unchangedCopy, (earnedAchievementDoc) =>
+          @sendCreated(res, (earnedAchievementDoc or earned)?.toObject())
+        )
       else if earned
         achievementEarned = achievement.get('rewards')
         actuallyEarned = earned.get('earnedRewards')
@@ -82,8 +86,6 @@ class EarnedAchievementHandler extends Handler
             return @sendDatabaseError(res, err) if err
             return @sendSuccess(res, earned.toObject())
           )
-      else if achievement.get('proportionalTo')
-        return @sendBadInputError(res, 'Cannot currently do this to repeatable docs...')
       else
         EarnedAchievement.createForAchievement(achievement, trigger, null, (earnedAchievementDoc) =>
           @sendCreated(res, earnedAchievementDoc.toObject())
