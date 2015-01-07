@@ -33,6 +33,7 @@ class AnalyticsLogEventHandler extends Handler
     # endDay - Exclusive, optional, e.g. '2014-12-16'
 
     # TODO: An uncached call takes about 15s locally
+    # TODO: Use unique users
 
     levelSlug = req.query.slug or req.body.slug
     startDay = req.query.startDay or req.body.startDay
@@ -142,6 +143,7 @@ class AnalyticsLogEventHandler extends Handler
 
         # Bucketize events by user
         userProgression = {}
+        userLevelEventMap = {} # Only want unique users per-level/event
         for item in data
           created = item.get('created')
           event = item.get('event')
@@ -151,14 +153,18 @@ class AnalyticsLogEventHandler extends Handler
             level = item.get('properties.levelID')
           continue unless level?
           user = item.get('user')
-          userProgression[user] ?= []
-          userProgression[user].push
-            created: created
-            event: event
-            level: level
+          userLevelEventMap[user] ?= {}
+          userLevelEventMap[user][level] ?= {}
+          unless userLevelEventMap[user][level][event]
+            userLevelEventMap[user][level][event] = true
+            userProgression[user] ?= []
+            userProgression[user].push
+              created: created
+              event: event
+              level: level
 
         # Order user progression by created
-        for user in userProgression
+        for user of userProgression
           userProgression[user].sort (a,b) -> if a.created < b.created then return -1 else 1
 
         # Per-level start/drop/finish/drop

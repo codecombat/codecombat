@@ -20,12 +20,15 @@ print("Today is " + today);
 var todayMinus6 = new Date();
 todayMinus6.setDate(todayMinus6.getUTCDate() - 6);
 var startDate = todayMinus6.toISOString().substr(0, 10) + "T00:00:00.000Z";
-// startDate = "2014-12-01T00:00:00.000Z";
+// startDate = "2014-12-31T00:00:00.000Z";
 print("Start date is " + startDate)
+// var endDate = "2015-01-06T00:00:00.000Z";
+// print("End date is " + endDate)
 
 var cursor = db['analytics.log.events'].find({
   $and: [
     {"created": { $gte: ISODate(startDate)}},
+    // {"created": { $lt: ISODate(endDate)}},
     {$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
     ]
 });
@@ -115,6 +118,7 @@ var campaigns = {
 // Bucketize events by user
 print("Getting event data...");
 var userProgression = {};
+var userLevelEventMap = {}; // Only want unique users per-level/event
 while (cursor.hasNext()) {
   var doc = cursor.next();
   var created = doc.created;
@@ -124,12 +128,17 @@ while (cursor.hasNext()) {
   if (level) {
     if (level.length > longestLevelName) longestLevelName = level.length;
     var user = doc.user.valueOf();
-    if (!userProgression[user]) userProgression[user] = [];
-    userProgression[user].push({
-      created: created,
-      event: event,
-      level: level
-    });
+    if (!userLevelEventMap[user]) userLevelEventMap[user] = {};
+    if (!userLevelEventMap[user][level]) userLevelEventMap[user][level] = {};
+    if (!userLevelEventMap[user][level][event]) {
+      userLevelEventMap[user][level][event] = true;
+      if (!userProgression[user]) userProgression[user] = [];
+      userProgression[user].push({
+        created: created,
+        event: event,
+        level: level
+      });
+    }
   }
 }
 longestLevelName += 2;
@@ -224,7 +233,7 @@ for (campaign in campaigns) {
   print("\n" + campaign);
   var level = "level";
   var levelSpacer = new Array(longestLevelName - level.length).join(' ');
-  print(level + levelSpacer + "started\tdropped\t\tfinished dropped");
+  print(level + levelSpacer + "started\tdropped\t\tfinished dropped\tcompletion");
   for (var i = 0; i < campaignRates[campaign].levels.length; i++) {
     var level = campaignRates[campaign].levels[i].level;
     var started = campaignRates[campaign].levels[i].started;
@@ -232,13 +241,13 @@ for (campaign in campaigns) {
     var finished = campaignRates[campaign].levels[i].finished;
     var finishDropped = campaignRates[campaign].levels[i].finishDropped;
     var levelSpacer = new Array(longestLevelName - level.length).join(' ');
-    print(level + levelSpacer + started + "\t" + (started < 100 ? "\t" : "") + startDropped + "\t" + (startDropped / started * 100).toFixed(2) + "%\t" + finished + "\t" + finishDropped + "\t" + (finishDropped / finished * 100).toFixed(2) + "%");
+    print(level + levelSpacer + started + "\t" + (started < 100 ? "\t" : "") + startDropped + "\t" + (startDropped / started * 100).toFixed(2) + "%\t" + finished + "\t" + finishDropped + "\t" + (finishDropped / finished * 100).toFixed(2) + "%" + "\t" + (finished / started * 100).toFixed(2) + "%");
   }
-  var level = 'Overall';
-  var started = campaignRates[campaign].overall.started;
-  var startDropped = campaignRates[campaign].overall.startDropped;
-  var finished = campaignRates[campaign].overall.finished;
-  var finishDropped = campaignRates[campaign].overall.finishDropped;
-  var levelSpacer = new Array(longestLevelName - level.length).join(' ');
-  print(level + levelSpacer + started + "\t" + (started < 100 ? "\t" : "") + startDropped + "\t" + (startDropped / started * 100).toFixed(2) + "%\t" + finished + "\t" + finishDropped + "\t" + (finishDropped / finished * 100).toFixed(2) + "%");
+  // var level = 'Overall';
+  // var started = campaignRates[campaign].overall.started;
+  // var startDropped = campaignRates[campaign].overall.startDropped;
+  // var finished = campaignRates[campaign].overall.finished;
+  // var finishDropped = campaignRates[campaign].overall.finishDropped;
+  // var levelSpacer = new Array(longestLevelName - level.length).join(' ');
+  // print(level + levelSpacer + started + "\t" + (started < 100 ? "\t" : "") + startDropped + "\t" + (startDropped / started * 100).toFixed(2) + "%\t" + finished + "\t" + finishDropped + "\t" + (finishDropped / finished * 100).toFixed(2) + "%");
 }
