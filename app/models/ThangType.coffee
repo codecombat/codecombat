@@ -282,8 +282,8 @@ module.exports = class ThangType extends CocoModel
       sprite = vectorParser.buildContainerFromStore(portrait.container)
 
     pt = portrait.positions?.registration
-    sprite.regX = pt?.x or 0
-    sprite.regY = pt?.y or 0
+    sprite.regX = pt?.x / scale or 0
+    sprite.regY = pt?.y / scale or 0
     sprite.scaleX = sprite.scaleY = scale * size / 100
     stage.addChild(sprite)
     stage.update()

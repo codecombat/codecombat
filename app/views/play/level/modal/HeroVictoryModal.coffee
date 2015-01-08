@@ -84,7 +84,7 @@ module.exports = class HeroVictoryModal extends ModalView
           @listenToOnce me, 'sync', ->
             @readyToContinue = true
             @updateSavingProgressStatus()
-          me.fetch cache:false unless me.loading
+          me.fetch cache: false unless me.loading
 
     @readyToContinue = true if not @achievements.models.length
 
@@ -96,7 +96,17 @@ module.exports = class HeroVictoryModal extends ModalView
       earnedAchievement = earnedAchievementMap[achievement.id]
       if earnedAchievement
         achievement.completedAWhileAgo = new Date() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
-    c.achievements = @achievements.models
+      achievement.worth = achievement.get 'worth', true
+      achievement.gems = achievement.get('rewards')?.gems
+    c.achievements = @achievements.models.slice()
+    for achievement in c.achievements
+      continue unless @supermodel.finished() and proportionalTo = achievement.get 'proportionalTo'
+      # For repeatable achievements, we modify their base worth/gems by their repeatable growth functions.
+      achievedAmount = utils.getByPath @session.attributes, proportionalTo
+      func = achievement.getExpFunction()
+      achievement.worth = (achievement.get('worth') ? 0) * func achievedAmount
+      rewards = achievement.get 'rewards'
+      achievement.gems = rewards?.gems * func achievedAmount if rewards?.gems
 
     # for testing the three states
     #if c.achievements.length
@@ -109,8 +119,6 @@ module.exports = class HeroVictoryModal extends ModalView
     #  achievement.attributes.worth = (index + 1) * achievement.get('worth', true)
     #  rewards = achievement.get('rewards') or {}
     #  rewards.gems *= (index + 1)
-
-    # TODO: use earned achievement worths or somehow pull in recalculated exp/gems
 
     c.thangTypes = @thangTypes
     c.me = me

@@ -76,8 +76,8 @@ module.exports = class VectorIconSetupModal extends ModalView
 
   updateSpriteProperties: ->
     @sprite.scaleX = @sprite.scaleY = @scale * @demoSize / 100
-    @sprite.regX = @regX
-    @sprite.regY = @regY
+    @sprite.regX = @regX / @scale
+    @sprite.regY = @regY / @scale
     console.log 'set to', @scale, @regX, @regY
 
   onClickCenter: ->
@@ -91,6 +91,8 @@ module.exports = class VectorIconSetupModal extends ModalView
       @regY += (b[3] - b[2]) / 2
     else
       @regX += (b[2] - b[3]) / 2
+    @regX *= @scale
+    @regY *= @scale
     @updateSpriteProperties()
     @stage.update()
 
