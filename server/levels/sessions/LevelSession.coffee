@@ -23,7 +23,7 @@ LevelSessionSchema.post 'init', (doc) ->
 
 LevelSessionSchema.pre 'save', (next) ->
   User = require '../../users/User'  # Avoid mutual inclusion cycles
-  @set('changed', new Date())
+  @set('changed', new Date().toISOString())
 
   id = @get('id')
   initd = id of previous
