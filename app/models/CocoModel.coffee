@@ -153,7 +153,7 @@ class CocoModel extends Backbone.Model
       console.warn errorMessage, res.responseJSON
       unless webkit?.messageHandlers  # Don't show these notys on iPad
         try
-          noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
+          noty text: "#{errorMessage}: #{res.status} #{res.statusText}\n#{res.responseText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
         catch notyError
           console.warn "Couldn't even show noty error for", error, "because", notyError
       options.success = options.error = null  # So the callbacks can be garbage-collected.
