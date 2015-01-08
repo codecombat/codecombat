@@ -16,6 +16,7 @@ DiscountHandler = require '../payments/discount_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
+hipchat = require '../hipchat'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -259,6 +260,7 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
+          hipchat.sendHipChatMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA."
 
   avatar: (req, res, id) ->
     @modelClass.findById(id).exec (err, document) =>
