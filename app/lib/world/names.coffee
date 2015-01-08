@@ -52,6 +52,8 @@ module.exports.thangNames = thangNames =
     'Bond'
     'Philippian'
     'Malcolm'
+    'Orion'
+    'Gatsby'
   ]
   'Soldier F': [
     'Sarah'
@@ -367,6 +369,7 @@ module.exports.thangNames = thangNames =
     'Agnes'
     'Agathe'
     'Satish'
+    'Mariam'
   ]
   'Equestrian': [
     'Reynaldo'
@@ -390,6 +393,7 @@ module.exports.thangNames = thangNames =
     'Alphonse'
     'Edward'
     'Shug'
+    
   ]
   'Captain': [
     'Anya'
@@ -412,6 +416,7 @@ module.exports.thangNames = thangNames =
     'Naruto'
     'Sasuke'
     'Minato'
+    'Sakura'
   ]
   'Sorcerer': [
     'Pender'
