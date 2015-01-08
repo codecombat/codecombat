@@ -318,9 +318,6 @@ UserHandler = class UserHandler extends Handler
       EarnedAchievement.find(query).sort(changed: -1).exec (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (@formatEntity(req, doc) for doc in documents)
-        for doc in documents  # TODO Ruben Maybe move this logic elsewhere
-          doc.set('notified', true)
-          doc.save()
         @sendSuccess(res, cleandocs)
 
   getRecentlyPlayed: (req, res, userID) ->
