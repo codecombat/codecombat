@@ -32,7 +32,7 @@ module.exports.setup = (app) ->
 
         hash = User.hashPassword(password)
         unless user.get('passwordHash') is hash
-          return done(null, false, {message: 'is wrong.', property: 'password'})
+          return done(null, false, {message: 'is wrong', property: 'password'})
         return done(null, user)
       )
   ))
