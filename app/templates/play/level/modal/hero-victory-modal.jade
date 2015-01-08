@@ -17,18 +17,19 @@ block modal-body-content
       div.achievement-description= achievement.get('description')
       
       div.achievement-rewards
-        - var worth = achievement.get('worth', true);
+        - var worth = achievement.worth;
+        - var gems = achievement.gems;
         if worth
           .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp')
             .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
               img(src="/images/pages/play/level/modal/reward_icon_xp.png")
             .reward-text= animate ? '+0' : '+'+worth
 
-        if rewards.gems
-          .reward-panel.numerical.gems(data-number=rewards.gems, data-number-unit='gem')
+        if gems
+          .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem')
             .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
               img(src="/images/pages/play/level/modal/reward_icon_gems.png")
-            .reward-text= animate ? '+0' : '+'+rewards.gems
+            .reward-text= animate ? '+0' : '+'+gems
           
         if rewards.heroes
           for hero in rewards.heroes
