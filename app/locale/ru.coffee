@@ -162,7 +162,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pending: "В ожидании"
     accepted: "Принято"
     rejected: "Отклонено"
-    withdrawn: "Отозвать"
+    withdrawn: "Отозвано"
     submitter: "Податель"
     submitted: "Представлено"
     commit_msg: "Сопроводительное сообщение"
