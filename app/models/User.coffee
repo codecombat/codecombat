@@ -11,10 +11,6 @@ module.exports = class User extends CocoModel
   urlRoot: '/db/user'
   notyErrors: false
 
-  onLoaded:  ->
-    CocoModel.pollAchievements() # Check for achievements on login
-    super arguments...
-
   isAdmin: -> 'admin' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
