@@ -52,7 +52,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     @loggedIn = true
     try
       # Without removing this, we sometimes get a cross-domain error
-      d = JSON.stringify(_.omit(e, 'g-oauth-window'))
+      d = _.omit(e, 'g-oauth-window')
       storage.save(GPLUS_TOKEN_KEY, d)
     catch e
       console.error 'Unable to save G+ token key', e
