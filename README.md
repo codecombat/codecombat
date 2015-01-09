@@ -47,6 +47,8 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ![Katharine Chan](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Katharine%20Chan/katharine_100.png)
 ![Ken Stanley](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Ken%20Stanley/ken_100.png)
 ![Laura Watiker](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Laura%20Watiker/laura_100.png)
+![Michael Heasell](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Michael%20Heasell/michael_100.png)
+![Michael Polyak](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Michael%20Polyak/michael_100.png)
 ![Mischa Lewis-Norelle](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Mischa%20Lewis-Norelle/mischa_100.png)
 ![Nathan Gosset](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Nathan%20Gosset/nathan_100.png)
 ![Paul Buser](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Paul%20Buser/paul_100.png)
