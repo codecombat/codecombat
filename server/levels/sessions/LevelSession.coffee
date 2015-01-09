@@ -10,7 +10,7 @@ LevelSessionSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict: false})
+}, {strict:false, minimize: false})
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
 

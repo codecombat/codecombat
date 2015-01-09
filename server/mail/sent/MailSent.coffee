@@ -6,6 +6,6 @@ MailSent = new mongoose.Schema({
   sent:
     type: Date
     'default': Date.now
-}, {strict: false})
+}, {strict:false, minimize: false})
 
 module.exports = MailSent = mongoose.model('mail.sent', MailSent)

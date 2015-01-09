@@ -8,7 +8,7 @@ describe 'Level', ->
     permissions: simplePermissions
     scripts: []
     thangs: []
-    documentation: {specificArticles: [], generalArticles: []}
+    documentation: {specificArticles: [{}], generalArticles: []}
 
   urlLevel = '/db/level'
 
