@@ -10,7 +10,7 @@ LevelSessionSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict: false})
+}, {strict:false, minimize: false})
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
 
@@ -23,7 +23,7 @@ LevelSessionSchema.post 'init', (doc) ->
 
 LevelSessionSchema.pre 'save', (next) ->
   User = require '../../users/User'  # Avoid mutual inclusion cycles
-  @set('changed', new Date())
+  @set('changed', new Date().toISOString())
 
   id = @get('id')
   initd = id of previous

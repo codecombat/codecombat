@@ -13,7 +13,7 @@ HIGHEST_SCORE = 1000000
 
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
-  template: require 'templates/play/ladder/ladder_tab'
+  template: require 'templates/play/ladder/ladder-tab-view'
 
   events:
     'click .connect-facebook': 'onConnectFacebook'

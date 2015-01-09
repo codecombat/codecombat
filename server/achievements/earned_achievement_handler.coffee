@@ -10,11 +10,13 @@ util = require '../../app/core/utils'
 
 class EarnedAchievementHandler extends Handler
   modelClass: EarnedAchievement
+  
+  editableProperties: ['notified']
 
   # Don't allow POSTs or anything yet
   hasAccess: (req) ->
     return false unless req.user
-    req.method in ['GET', 'POST'] # or req.user.isAdmin()
+    req.method in ['GET', 'POST', 'PUT'] # or req.user.isAdmin()
 
   get: (req, res) ->
     return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'

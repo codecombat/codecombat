@@ -8,7 +8,7 @@ var match={
 };
 var proj0 = {"$project": {
     "amount": 1,
-    "created": { "$concat": [{"$substr" :  ["$created", 0, 4]}, "-", {"$substr" :  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}
+    "created": {"$substr" :  ["$created", 0, 10]}
 }
 };
 var group={"$group" : {

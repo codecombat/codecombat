@@ -76,7 +76,7 @@ module.exports = class CampaignLevelView extends CocoView
       @levelCompletions = _.map data, mapFn, @
       @render()
 
-    startDay = utils.getUTCDay -6
+    startDay = utils.getUTCDay -13
     
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_completions', {
@@ -94,7 +94,7 @@ module.exports = class CampaignLevelView extends CocoView
       @levelPlaytimes = data.sort (a, b) -> if a.created < b.created then 1 else -1
       @render()
 
-    startDay = utils.getUTCDay -6
+    startDay = utils.getUTCDay -13
 
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'playtime_averages', {

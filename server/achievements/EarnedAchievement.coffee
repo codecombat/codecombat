@@ -10,7 +10,7 @@ EarnedAchievementSchema = new mongoose.Schema({
 }, {strict:false})
 
 EarnedAchievementSchema.pre 'save', (next) ->
-  @set('changed', Date.now())
+  @set('changed', new Date())
   next()
 
 EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})

@@ -417,6 +417,7 @@ module.exports = class PlayLevelView extends RootView
         category: 'Play Level'
         level: @level.get('name')
         label: @level.get('name')
+        levelID: @levelID
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->

@@ -59,9 +59,24 @@ module.exports = class Tracker
     # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#Anatomy
     # Mixpanel properties format: whatever you want unlike GA
     # https://segment.com/docs/integrations/mixpanel/
+    properties = properties or {}
+
+    # Log internally
+    # Skipping heavily logged actions we don't use internally
+    unless action in ['Simulator Result', 'Loaded World Map', 'Started Level Load', 'Finished Level Load', 'Homepage Loaded']
+      # Trimming properties we don't use internally
+      # TODO: delete internalProperites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
+      internalProperties = _.cloneDeep properties
+      if action in ['Clicked Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory']
+        delete internalProperties.category 
+        delete internalProperties.label
+      
+      console.log 'Tracking internal analytics event:', action, internalProperties, includeIntegrations if debugAnalytics
+      event = new AnalyticsLogEvent event: action, properties: internalProperties
+      event.save()
+
     console.log 'Would track analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
-    properties = properties or {}
     context = {}
     if includeIntegrations
       # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
@@ -70,9 +85,6 @@ module.exports = class Tracker
         context.integrations[integration] = true
     analytics?.track action, properties, context
 
-    # Log internally too.  Will turn off external event logging when internal logging is sufficient.
-    event = new AnalyticsLogEvent event: action, properties: properties
-    event.save()
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
     # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming

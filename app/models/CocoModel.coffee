@@ -353,10 +353,10 @@ class CocoModel extends Backbone.Model
   @pollAchievements: ->
 
     CocoCollection = require 'collections/CocoCollection'
-    Achievement = require 'models/Achievement'
+    EarnedAchievement = require 'models/EarnedAchievement'
 
     class NewAchievementCollection extends CocoCollection
-      model: Achievement
+      model: EarnedAchievement
       initialize: (me = require('core/auth').me) ->
         @url = "/db/user/#{me.id}/achievements?notified=false"
 

@@ -4,7 +4,7 @@ jsonschema = require '../../../app/schemas/models/level_system'
 
 LevelSystemSchema = new mongoose.Schema {
   description: String
-}, {strict: false}
+}, {strict:false, minimize: false}
 
 LevelSystemSchema.plugin(plugins.NamedPlugin)
 LevelSystemSchema.plugin(plugins.PermissionsPlugin)

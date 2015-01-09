@@ -5,6 +5,7 @@ ModuleLoader = require 'core/ModuleLoader'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 Tracker = require 'core/Tracker'
+CocoModel = require 'models/CocoModel'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -55,6 +56,7 @@ Application = initialize: ->
   @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
   $(document).bind 'keydown', preventBackspace
   preload(COMMON_FILES)
+  CocoModel.pollAchievements()
   $.i18n.init {
     lng: me.get('preferredLanguage', true)
     fallbackLng: 'en'
