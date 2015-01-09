@@ -97,7 +97,7 @@ module.exports = class DiplomatView extends ContributeClassView
     'de-DE': ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich', 'bahuma20', 'domenukk', 'dkundel', 'djsmith85']        # Deutsch (Deutschland), German (Germany)
     'de-AT': ['djsmith85']        # Deutsch (Österreich), German (Austria)
     'de-CH': ['greyhusky']        # Deutsch (Schweiz), German (Switzerland)
-    'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza', '2xG', ]       # español (América Latina), Spanish (Latin America)
+    'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza', '2xG', 'Federico Tomas']       # español (América Latina), Spanish (Latin America)
     'es-ES': ['Matthew Burt', 'DanielRodriguezRivero', 'Anon', 'Pouyio', '3rr3s3v3n', 'OviiiOne', 'Vindurrin']        # español (ES), Spanish (Spain)
     'zh-HANS': ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng', 'yfdyh000', 'julycoolwind', 'Vic020', 'onion7878', 'BonnieBBS', '1c7', 'ZephyrSails']      # 简体中文, Chinese (Simplified)
     'zh-HANT': ['gintau', 'Adam23']      # 繁体中文, Chinese (Traditional)
