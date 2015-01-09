@@ -32,14 +32,16 @@ class AnalyticsLogEventHandler extends Handler
     # startDay - Inclusive, optional, e.g. '2014-12-14'
     # endDay - Exclusive, optional, e.g. '2014-12-16'
 
-    # TODO: An uncached call takes about 15s locally
-    # TODO: Use unique users
+    # TODO: An uncached call can take over 50s locally
+    # TODO: mapReduce() was slower than find()
 
     levelSlug = req.query.slug or req.body.slug
     startDay = req.query.startDay or req.body.startDay
     endDay = req.query.endDay or req.body.endDay
 
     return @sendSuccess res, [] unless levelSlug?
+
+    # log.warn "level_completions levelSlug='#{levelSlug}' startDay=#{startDay} endDay=#{endDay}"
 
     # Cache results for 1 day
     @levelCompletionsCache ?= {}
@@ -52,35 +54,40 @@ class AnalyticsLogEventHandler extends Handler
     cacheKey += 'e' + endDay if endDay?
     return @sendSuccess res, levelCompletions if levelCompletions = @levelCompletionsCache[cacheKey]
 
+    levelDateMap = {}
+
     # Build query
-    match = {$match: {$and: [{$or: [{"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}]}}
-    match["$match"]["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-    match["$match"]["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
-    project = {"$project": {"_id": 0, "event": 1, "level": {$ifNull: ["$properties.level", "$properties.levelID"]}, "created": {"$concat": [{"$substr":  ["$created", 0, 4]}, "-", {"$substr":  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}}}
-    group = {"$group": {"_id": {"event": "$event", "created": "$created", "level": "$level"}, "count": {"$sum": 1}}}
-    query = AnalyticsLogEvent.aggregate match, project, group
+    queryParams = {$and: [
+      {$or: [{"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}#,
+      # {$or: [{"properties.level": "Endangered Burl"}, {"properties.levelID": "endangered-burl"}, {"properties.level": "Dungeons of Kithgard"}, {"properties.levelID": "dungeons-of-kithgard"}]}
+    ]}
+    queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
+    queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
 
-    query.exec (err, data) =>
-      if err? then return @sendDatabaseError res, err
-      
+    # Query stream is better for large results
+    # http://mongoosejs.com/docs/api.html#query_Query-stream
+    stream = AnalyticsLogEvent.find(queryParams).select('created event properties user').stream()
+    stream.on 'data', (item) =>
       # Build per-level-day started and finished counts
-      levelDateMap = {}
-      for item in data
-        created = item._id.created
-        event = item._id.event
-        level = item._id.level
-        continue unless level?
-        # 'Started Level' event uses level slug, 'Saw Victory' event uses level name with caps and spaces.
-        level = level.toLowerCase().replace new RegExp(' ', 'g'), '-' if event is 'Saw Victory'
+      created = item.get('created').toISOString().substring(0, 10)
+      event = item.get('event')
+      properties = item.get('properties')
+      if properties.level? then level = properties.level.toLowerCase().replace new RegExp(' ', 'g'), '-'
+      else if properties.levelID? then level = properties.levelID
+      else return
+      user = item.get('user')
 
-        levelDateMap[level] ?= {}
-        levelDateMap[level][created] ?= {}
-        levelDateMap[level][created] ?= {}
-        if event is 'Saw Victory'
-          levelDateMap[level][created]['finished'] = item.count
-        else
-          levelDateMap[level][created]['started'] = item.count
-          
+      # log.warn "level_completions data " + " " + created + " " + event + " " + level
+
+      levelDateMap[level] ?= {}
+      levelDateMap[level][created] ?= {}
+      levelDateMap[level][created]['finished'] ?= {}
+      levelDateMap[level][created]['started'] ?= {}
+      if event is 'Saw Victory' then levelDateMap[level][created]['finished'][user] = true
+      else levelDateMap[level][created]['started'][user] = true
+    .on 'error', (err) =>
+      return @sendDatabaseError res, err
+    .on 'close', () =>
       # Build list of level completions
       # Cache every level, since we had to grab all this data anyway
       completions = {}
@@ -90,12 +97,13 @@ class AnalyticsLogEventHandler extends Handler
           completions[level].push 
             level: level
             created: created
-            started: item.started
-            finished: item.finished
+            started: Object.keys(item.started).length
+            finished: Object.keys(item.finished).length
         cacheKey = level
         cacheKey += 's' + startDay if startDay?
         cacheKey += 'e' + endDay if endDay?
         @levelCompletionsCache[cacheKey] = completions[level]
+      unless levelSlug of completions then completions[levelSlug] = []
       @sendSuccess res, completions[levelSlug]
 
   getCampaignCompletionsBySlug: (req, res) ->
@@ -107,7 +115,7 @@ class AnalyticsLogEventHandler extends Handler
     # endDay - Exclusive, optional, e.g. '2014-12-16'
 
     # TODO: Must be a better way to organize this series of database calls (campaigns, levels, analytics)
-    # TODO: An uncached call can take over 30s locally
+    # TODO: An uncached call can take over 50s locally
     # TODO: Returns all the campaigns
     # TODO: Calculate overall campaign stats
     # TODO: Assumes db campaign levels are in progression order.  Should build this based on actual progression.
@@ -116,6 +124,8 @@ class AnalyticsLogEventHandler extends Handler
     campaignSlug = req.query.slug or req.body.slug
     startDay = req.query.startDay or req.body.startDay
     endDay = req.query.endDay or req.body.endDay
+
+    # log.warn "campaign_completions campaignSlug='#{campaignSlug}' startDay=#{startDay} endDay=#{endDay}"
 
     return @sendSuccess res, [] unless campaignSlug?
 
@@ -199,6 +209,7 @@ class AnalyticsLogEventHandler extends Handler
         cacheKey += 's' + startDay if startDay?
         cacheKey += 'e' + endDay if endDay?
         @campaignDropOffsCache[cacheKey] = completions
+      unless campaignSlug of completions then completions[campaignSlug] = levels: []
       @sendSuccess res, completions
 
     getUserEventData = (campaigns) =>
@@ -273,14 +284,14 @@ class AnalyticsLogEventHandler extends Handler
         levelCampaignMap = {}
         campaignLevelIDs = []
         for doc in documents
-          campaignSlug = doc.get('slug')
+          slug = doc.get('slug')
           levels = doc.get('levels')
-          campaigns[campaignSlug] = []
-          levelCampaignMap[campaignSlug] = {}
+          campaigns[slug] = []
+          levelCampaignMap[slug] = {}
           for levelID of levels
-            campaigns[campaignSlug].push levelID
+            campaigns[slug].push levelID
             campaignLevelIDs.push levelID
-            levelCampaignMap[levelID] = campaignSlug
+            levelCampaignMap[levelID] = slug
 
         getLevelData campaigns, campaignLevelIDs
 

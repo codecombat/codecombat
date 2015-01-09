@@ -71,7 +71,7 @@
       thead
         tr
           td Session ID
-          td Player ID
+          td Player
           td Code Language
           td Playtime
           td Complete
@@ -80,7 +80,7 @@
         - for (var i = 0; i < recentSessions.length; i++)
           tr.recent-session(data-player-id=recentSessions[i].creator, data-session-id=recentSessions[i]._id)
             td= recentSessions[i]._id
-            td= recentSessions[i].creator
+            td= recentSessions[i].creatorName || recentSessions[i].creator
             td= recentSessions[i].codeLanguage
             td= recentSessions[i].playtime
             if recentSessions[i].state && recentSessions[i].state.complete

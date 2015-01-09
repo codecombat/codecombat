@@ -14,6 +14,8 @@
 // TODO: spot check the data: NaN, only some 0.0 dates, etc.
 // TODO: exclude levels with no interesting data?
 
+var startTime = new Date();
+
 var today = new Date();
 today = today.toISOString().substr(0, 10);
 print("Today is " + today);
@@ -22,60 +24,42 @@ var todayMinus6 = new Date();
 todayMinus6.setDate(todayMinus6.getUTCDate() - 6);
 var startDate = todayMinus6.toISOString().substr(0, 10) + "T00:00:00.000Z";
 print("Start date is " + startDate)
+// startDate = "2015-01-02T00:00:00.000Z";
+// var endDate = "2015-01-09T00:00:00.000Z";
 
 function getCompletionRates() {
   print("Getting completion rates...");
-  var match = {
-    "$match" : {
-      $and: [
-      {"created": { $gte: ISODate(startDate)}},
-      {$or: [ {"properties.level": {$exists: true}}, {"properties.levelID": {$exists: true}}]},
-      {$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
-      ]
-    }
+  var queryParams = {
+    $and: [
+    {"created": { $gte: ISODate(startDate)}},
+    // {"created": { $lt: ISODate(endDate)}},
+    // {$or: [ {"properties.level": {$exists: true}}, {"properties.levelID": {$exists: true}}]},
+    {$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
+    ]
   };
-
-  var proj0 = {"$project": {
-    "_id" : 0,
-    "event" : 1,
-    "level" : { $ifNull : ["$properties.level", "$properties.levelID"]},
-    "created": { "$concat": [{"$substr" :  ["$created", 0, 4]}, "-", {"$substr" :  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}
-  }};
-
-  var group = {"$group" : {
-    "_id" : {
-      "event" : "$event",
-      "created" : "$created",
-      "level": "$level"
-    },
-    "count" : {
-      "$sum" : 1
-    }
-  }};
-
-  var cursor = db['analytics.log.events'].aggregate(match, proj0, group);
+  var cursor = db['analytics.log.events'].find(queryParams);
 
   // <level><date><data>
   var levelData = {};
   while (cursor.hasNext()) {
     var doc = cursor.next();
-    var created = doc._id.created;
-    var event = doc._id.event;
-    var level = doc._id.level;
-    
-    if (event === 'Saw Victory') level = level.toLowerCase().replace(/ /g, '-');
+    var created = doc.created.toISOString().substring(0, 10);
+    var event = doc.event;
+    var properties = doc.properties;
+    var level;
+    if (event === 'Saw Victory' && properties.level) level = properties.level.toLowerCase().replace(/ /g, '-');
+    else if (properties.levelID) level = properties.levelID
+    else continue
+    var user = doc.user;
+
     if (level.length > longestLevelName) longestLevelName = level.length;
+
     if (!levelData[level]) levelData[level] = {};
     if (!levelData[level][created]) levelData[level][created] = {};
-    if (event === 'Started Level') levelData[level][created]['started'] = doc.count;
-    else levelData[level][created]['finished'] = doc.count;
-    
-    // Ensure we have entries for today
-    if (!levelData[level][today]) {
-      levelData[level][today] = {};
-      levelData[level][today]['started'] = 0;
-      levelData[level][today]['finished'] = 0;
-    }
+    if (!levelData[level][created]['started']) levelData[level][created]['started'] = {};
+    if (!levelData[level][created]['finished']) levelData[level][created]['finished'] = {}
+    if (event === 'Started Level') levelData[level][created]['started'][user] = true;
+    else levelData[level][created]['finished'][user] = true;
   }
   longestLevelName += 2;
 
@@ -84,11 +68,12 @@ function getCompletionRates() {
     var dateData = [];
     var dateIndex = 0;
     for (created in levelData[level]) {
+      var started = 
       dateData.push({
         level: level,
         created: created,
-        started: levelData[level][created]['started'] ? levelData[level][created]['started'] : 0,
-        finished: levelData[level][created]['finished'] ? levelData[level][created]['finished'] : 0
+        started: Object.keys(levelData[level][created]['started']).length,
+        finished: Object.keys(levelData[level][created]['finished']).length
       });
       if (dates.length === dateIndex) dates.push(created.substring(5));
       dateIndex++;
@@ -99,7 +84,7 @@ function getCompletionRates() {
 
   levelRates.sort(function(a,b) {return a[0].level < b[0].level ? -1 : 1});
   for (levelKey in levelRates) levelRates[levelKey].sort(function(a,b) {return a.created < b.created ? 1 : -1});
-  
+
   return levelRates;
 }
 
@@ -119,7 +104,7 @@ function addPlaytimeAverages(levelRates) {
     "_id" : 0,
     "levelID" : 1,
     "playtime": 1,
-    "created": { "$concat": [{"$substr" :  ["$created", 0, 4]}, "-", {"$substr" :  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}
+    "created": {"$substr" :  ["$created", 0, 10]}
   }};
 
   var group = {"$group" : {
@@ -161,7 +146,7 @@ function addUserCodeProblemCounts(levelRates) {
   var proj0 = {"$project": {
     "_id" : 0,
     "levelID" : 1,
-    "created": { "$concat": [{"$substr" :  ["$created", 0, 4]}, "-", {"$substr" :  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}
+    "created": {"$substr" :  ["$created", 0, 10]}
   }};
 
   var group = {"$group" : {
@@ -200,8 +185,8 @@ var longestLevelName = -1;
 var dates = [];
 
 var levelRates = getCompletionRates();
-addPlaytimeAverages(levelRates);
-addUserCodeProblemCounts(levelRates);
+// addPlaytimeAverages(levelRates);
+// addUserCodeProblemCounts(levelRates);
 
 // Print out all data
 print("Columns: level, day, started, finished, completion rate, average finish playtime, average code problem count");
@@ -253,3 +238,6 @@ for (levelKey in levelRates) {
   }
   print(msg);
 }
+
+var endTime = new Date();
+print("Runtime: " + (endTime - startTime));

@@ -133,7 +133,6 @@ module.exports.kindaEqual = compare = (l, r) ->
 
 # Return UTC string "YYYY-MM-DD" for today + offset
 module.exports.getUTCDay = (offset=0) ->
-  # TODO: Move to utility
   day = new Date()
   day.setDate(day.getUTCDate() + offset)
   partYear = day.getUTCFullYear()
