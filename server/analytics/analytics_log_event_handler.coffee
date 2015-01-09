@@ -58,8 +58,7 @@ class AnalyticsLogEventHandler extends Handler
 
     # Build query
     queryParams = {$and: [
-      {$or: [{"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}#,
-      # {$or: [{"properties.level": "Endangered Burl"}, {"properties.levelID": "endangered-burl"}, {"properties.level": "Dungeons of Kithgard"}, {"properties.levelID": "dungeons-of-kithgard"}]}
+      {$or: [{"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
     ]}
     queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
     queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?

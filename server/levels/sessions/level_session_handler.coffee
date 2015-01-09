@@ -38,7 +38,10 @@ class LevelSessionHandler extends Handler
 
     return @sendSuccess res, [] unless levelSlug?
 
-    query = @modelClass.find({"levelID": levelSlug}).sort({changed: -1}).limit(limit)
+    today = new Date()
+    today.setUTCMinutes(today.getUTCMinutes() - 10)
+    queryParams = {$and: [{"changed": {"$lt": today}}, {"levelID": levelSlug}]}
+    query = @modelClass.find(queryParams).sort({changed: -1}).limit(limit)
     query.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       @sendSuccess res, documents
