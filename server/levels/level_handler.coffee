@@ -319,6 +319,8 @@ LevelHandler = class LevelHandler extends Handler
     # This is hella slow (4s on my box), so relying on some dumb caching for it.
     # If we can't make this faster with indexing or something, we might want to maintain the counts another way.
     levelIDs = req.query.ids or req.body.ids
+    return @sendSuccess res, [] unless levelIDs?
+
     @playCountCache ?= {}
     @playCountCachedSince ?= new Date()
     if (new Date()) - @playCountCachedSince > 86400 * 1000  # Dumb cache expiration
