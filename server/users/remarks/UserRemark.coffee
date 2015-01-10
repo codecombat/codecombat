@@ -6,6 +6,6 @@ UserRemarkSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict:false, minimize: false})
+}, {strict: false})
 
 module.exports = UserRemark = mongoose.model('user.remark', UserRemarkSchema)
