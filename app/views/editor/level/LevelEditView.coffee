@@ -63,6 +63,10 @@ module.exports = class LevelEditView extends RootView
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')
 
+  destroy: ->
+    clearInterval @timerIntervalID
+    super()
+
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
@@ -73,6 +77,7 @@ module.exports = class LevelEditView extends RootView
     _.defer =>
       @world = @levelLoader.world
       @render()
+      @timerIntervalID = setInterval @incrementBuildTime, 1000
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -192,3 +197,7 @@ module.exports = class LevelEditView extends RootView
     return if @initializedDocs
     @initializedDocs = true
     @$el.find('a[href="#components-documentation-view"]').click()
+
+  incrementBuildTime: =>
+    return if application.userIsIdle
+    @level.set('buildTime', (@level.get('buildTime') ? 0) + 1)

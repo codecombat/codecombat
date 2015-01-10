@@ -56,6 +56,7 @@ LevelHandler = class LevelHandler extends Handler
     'helpVideos'
     'campaign'
     'replayable'
+    'buildTime'
   ]
 
   postEditableProperties: ['name']

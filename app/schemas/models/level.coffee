@@ -300,6 +300,7 @@ _.extend LevelSchema.properties,
     free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
     url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
   replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
+  buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
 
   # Admin flags
   adventurer: { type: 'boolean' }
