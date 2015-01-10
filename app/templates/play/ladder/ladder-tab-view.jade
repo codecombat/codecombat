@@ -44,7 +44,7 @@ div#columns.row
                   a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")
                     span(data-i18n="ladder.fight") Fight!
       if teamIndex == 1
-        .btn.btn-sm.load-more-ladder-entries More
+        .btn.btn-sm.load-more-ladder-entries(data-i18n="editor.more") More
 
   div.column.col-md-4
     h4.friends-header(data-i18n="ladder.friends_playing") Friends Playing
