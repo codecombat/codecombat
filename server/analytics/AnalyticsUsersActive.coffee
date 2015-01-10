@@ -5,6 +5,6 @@ AnalyticsUsersActiveSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict:false, minimize: false})
+}, {strict: false})
 
 module.exports = AnalyticsUsersActive = mongoose.model('analytics.users.active', AnalyticsUsersActiveSchema)

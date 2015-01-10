@@ -17,7 +17,7 @@ UserSchema = new mongoose.Schema({
   dateCreated:
     type: Date
     'default': Date.now
-}, {strict:false, minimize: false})
+}, {strict: false})
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')

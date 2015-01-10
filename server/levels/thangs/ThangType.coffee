@@ -3,7 +3,7 @@ plugins = require '../../plugins/plugins'
 
 ThangTypeSchema = new mongoose.Schema({
   body: String,
-}, {strict:false, minimize: false})
+}, {strict: false})
 
 ThangTypeSchema.plugin plugins.NamedPlugin
 ThangTypeSchema.plugin plugins.VersionedPlugin

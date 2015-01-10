@@ -13,7 +13,7 @@ TreemaUtils = require '../../bower_components/treema/treema-utils.js'
 
 AchievementSchema = new mongoose.Schema({
   userField: String
-}, {strict: false, minimize: false})
+}, {strict: false})
 
 AchievementSchema.methods.objectifyQuery = ->
   try
