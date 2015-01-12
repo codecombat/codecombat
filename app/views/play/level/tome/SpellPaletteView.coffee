@@ -94,10 +94,10 @@ module.exports = class SpellPaletteView extends CocoView
     for column in columns
       for item in column.items
         item.detach().appendTo @$el.find('.properties')
-    @$el.find('.properties').css('height', 19 * (nRows + 1))
+#    @$el.find('.properties').css('height', 19 * (nRows + 1))
 
   onResize: (e) =>
-    @updateMaxHeight()
+#    @updateMaxHeight()
 
   createPalette: ->
     Backbone.Mediator.publish 'tome:palette-cleared', {thangID: @thang.id}
