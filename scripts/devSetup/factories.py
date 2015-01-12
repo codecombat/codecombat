@@ -163,7 +163,8 @@ class LinuxSetup(SetupFactory):
                     try:
                         print("Repositories added successfully. Installing NodeJS and MongoDB.")
                         subprocess.check_call(["apt-get", "install",
-                                               "nodejs", "mongodb-org", "-y"])
+                                               "nodejs", "mongodb-org",
+                                               "build-essential", "-y"])
                     except subprocess.CalledProcessError as err:
                         print("Installation via apt-get failed. \nContinue "
                               "with manual installation, or Abort? [c/A]")
