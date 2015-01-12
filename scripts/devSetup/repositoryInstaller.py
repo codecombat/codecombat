@@ -64,7 +64,14 @@ class RepositoryInstaller():
         #TODO: "Replace npm with more robust package
         #npm_location = self.config.directory.bin_directory + os.sep + "node" + os.sep + "bin" + os.sep + "npm"
         npm_location = u"npm"
-        return_code = subprocess.call([npm_location,u"install"],cwd=self.config.directory.root_dir + os.sep + u"coco")
+        if sys.version_info[0] == 2:
+            py_cmd = "python"
+        else:
+            py_cmd = subprocess.check_output(['which', 'python2'])
+        return_code = subprocess.call([npm_location, u"install",
+                                       "--python=" + py_cmd],
+                                      cwd=self.config.directory.root_dir +
+                                      os.sep + u"coco")
         if return_code:
             raise errors.CoCoError(u"Failed to install node packages")
         else:
