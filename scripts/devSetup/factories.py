@@ -170,3 +170,11 @@ class LinuxSetup(SetupFactory):
                             return()
                         else:
                             exit(1)
+                    else:
+                        print("NodeJS and MongoDB installed successfully. "
+                              "Staring MongoDB.")
+                        try:
+                            subprocess.check_call(["service", "mongod", "start"])
+                        except subprocess.CalledProcessError as err:
+                            print("Mongo failed to start. Aborting.")
+                            exit(1)
