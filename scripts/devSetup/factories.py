@@ -80,9 +80,93 @@ class SetupFactory(object):
 class MacSetup(SetupFactory):
     def setup(self):
         super(self.__class__, self).setup()
+
 class WinSetup(SetupFactory):
     def setup(self):
         super(self.__class__, self).setup()
+
 class LinuxSetup(SetupFactory):
     def setup(self):
+        self.distroSetup()
         super(self.__class__, self).setup()
+
+    def detectDistro(self):
+        distro_checks = {
+            "arch": "/etc/arch-release",
+            "ubuntu": "/etc/lsb-release"
+            }
+        for distro, path in distro_checks.items():
+            if os.path.exists(path):
+                return(distro)
+
+    def distroSetup(self):
+        distro = self.detectDistro()
+        if distro == "arch":
+            print("Arch Linux detected. Would you like to install \n"
+                  "NodeJS and MongoDB via pacman? [y/N]")
+            if input().lower() in ["y", "yes"]:
+                try:
+                    subprocess.check_call(["pacman", "-S",
+                                           "nodejs", "mongodb",
+                                           "--noconfirm"])
+                except subprocess.CalledProcessError as err:
+                    print("Installation failed. Retry, Continue, or "
+                          "Abort? [r/c/A]")
+                    answer = input().lower()
+                    if answer in ["r", "retry"]:
+                        return(self.distroSetup())
+                    elif answer in ["c", "continue"]:
+                        return()
+                    else:
+                        exit(1)
+                else:
+                    try:
+                        print("Enabling and starting MongoDB in systemd.")
+                        subprocess.check_call(["systemctl", "enable",
+                                               "mongodb.service"])
+                        subprocess.check_call(["systemctl", "start",
+                                               "mongodb.service"])
+                        print("Node and Mongo installed. Continuing.")
+                    except subprocess.CalledProcessError as err:
+                        print("Mongo failed to start. Aborting")
+                        exit(1)
+        if distro == "ubuntu":
+            print("Ubuntu installation detected. Would you like to install \n"
+                  "NodeJS and MongoDB via apt-get? [y/N]")
+            if input().lower() in ["y", "yes"]:
+                print("Adding repositories for MongoDB and NodeJS...")
+                try:
+                    subprocess.check_call(["apt-key", "adv",
+                                           "--keyserver",
+                                           "hkp://keyserver.ubuntu.com:80",
+                                           "--recv", "7F0CEB10"])
+                    subprocess.check_call(["add-apt-repository",
+                                           "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"])
+                    subprocess.check_call(["add-apt-repository",
+                                           "ppa:chris-lea/node.js"])
+                    subprocess.check_call(["apt-get", "update"])
+                except subprocess.CalledProcessError as err:
+                    print("Adding repositories failed. Retry, Install without"
+                          "adding \nrepositories, Skip apt-get installation, "
+                          "or Abort? [r/i/s/A]")
+                    answer = input().lower()
+                    if answer in ["r", "retry"]:
+                        return(self.distroSetup())
+                    elif answer in ["i", "install"]:
+                        pass
+                    elif answer in ["s", "skip"]:
+                        return()
+                    else:
+                        exit(1)
+                else:
+                    try:
+                        print("Repositories added successfully. Installing NodeJS and MongoDB.")
+                        subprocess.check_call(["apt-get", "install",
+                                               "nodejs", "mongodb-org", "-y"])
+                    except subprocess.CalledProcessError as err:
+                        print("Installation via apt-get failed. \nContinue "
+                              "with manual installation, or Abort? [c/A]")
+                        if input().lower() in ["c", "continue"]:
+                            return()
+                        else:
+                            exit(1)
