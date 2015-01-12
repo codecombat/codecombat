@@ -120,16 +120,16 @@ class LinuxSetup(SetupFactory):
                     else:
                         exit(1)
                 else:
-                    try:
-                        print("Enabling and starting MongoDB in systemd.")
-                        subprocess.check_call(["systemctl", "enable",
-                                               "mongodb.service"])
-                        subprocess.check_call(["systemctl", "start",
-                                               "mongodb.service"])
-                        print("Node and Mongo installed. Continuing.")
-                    except subprocess.CalledProcessError as err:
-                        print("Mongo failed to start. Aborting")
-                        exit(1)
+                    #try:
+                        #print("Enabling and starting MongoDB in systemd.")
+                        #subprocess.check_call(["systemctl", "enable",
+                        #                       "mongodb.service"])
+                        #subprocess.check_call(["systemctl", "start",
+                        #                       "mongodb.service"])
+                        #print("Node and Mongo installed. Continuing.")
+                    #except subprocess.CalledProcessError as err:
+                        #print("Mongo failed to start. Aborting")
+                        #exit(1)
         if distro == "ubuntu":
             print("Ubuntu installation detected. Would you like to install \n"
                   "NodeJS and MongoDB via apt-get? [y/N]")
