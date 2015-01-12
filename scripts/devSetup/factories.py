@@ -104,7 +104,7 @@ class LinuxSetup(SetupFactory):
         if distro == "arch":
             print("Arch Linux detected. Would you like to install \n"
                   "NodeJS and MongoDB via pacman? [y/N]")
-            if input().lower() in ["y", "yes"]:
+            if raw_input().lower() in ["y", "yes"]:
                 try:
                     subprocess.check_call(["pacman", "-S",
                                            "nodejs", "mongodb",
@@ -112,7 +112,7 @@ class LinuxSetup(SetupFactory):
                 except subprocess.CalledProcessError as err:
                     print("Installation failed. Retry, Continue, or "
                           "Abort? [r/c/A]")
-                    answer = input().lower()
+                    answer = raw_input().lower()
                     if answer in ["r", "retry"]:
                         return(self.distroSetup())
                     elif answer in ["c", "continue"]:
@@ -133,7 +133,7 @@ class LinuxSetup(SetupFactory):
         if distro == "ubuntu":
             print("Ubuntu installation detected. Would you like to install \n"
                   "NodeJS and MongoDB via apt-get? [y/N]")
-            if input().lower() in ["y", "yes"]:
+            if raw_input().lower() in ["y", "yes"]:
                 print("Adding repositories for MongoDB and NodeJS...")
                 try:
                     subprocess.check_call(["apt-key", "adv",
@@ -149,7 +149,7 @@ class LinuxSetup(SetupFactory):
                     print("Adding repositories failed. Retry, Install without"
                           "adding \nrepositories, Skip apt-get installation, "
                           "or Abort? [r/i/s/A]")
-                    answer = input().lower()
+                    answer = raw_input().lower()
                     if answer in ["r", "retry"]:
                         return(self.distroSetup())
                     elif answer in ["i", "install"]:
@@ -166,7 +166,7 @@ class LinuxSetup(SetupFactory):
                     except subprocess.CalledProcessError as err:
                         print("Installation via apt-get failed. \nContinue "
                               "with manual installation, or Abort? [c/A]")
-                        if input().lower() in ["c", "continue"]:
+                        if raw_input().lower() in ["c", "continue"]:
                             return()
                         else:
                             exit(1)
