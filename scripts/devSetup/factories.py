@@ -142,8 +142,9 @@ class LinuxSetup(SetupFactory):
                                            "--recv", "7F0CEB10"])
                     subprocess.check_call(["add-apt-repository",
                                            "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"])
-                    subprocess.check_call(["add-apt-repository",
-                                           "ppa:chris-lea/node.js"])
+                    subprocess.check_call(["curl", "-sL",
+                                           "https://deb.nodesource.com/setup",
+                                           "|", "bash"], shell=True)
                     subprocess.check_call(["apt-get", "update"])
                 except subprocess.CalledProcessError as err:
                     print("Adding repositories failed. Retry, Install without"
