@@ -81,21 +81,25 @@ module.exports = class HeroVictoryModal extends ModalView
       @newEarnedAchievements.push ea
       @listenToOnce ea, 'sync', ->
         if _.all((ea.id for ea in @newEarnedAchievements))
+          @newEarnedAchievementsResource.markLoaded()
           @listenToOnce me, 'sync', ->
             @readyToContinue = true
             @updateSavingProgressStatus()
           me.fetch cache: false unless me.loading
 
     @readyToContinue = true if not @achievements.models.length
+    
+    # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
+    @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
 
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
-    earnedAchievementMap = _.indexBy(@earnedAchievements?.models or [], (ea) -> ea.get('achievement'))
+    earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in @achievements.models
       earnedAchievement = earnedAchievementMap[achievement.id]
       if earnedAchievement
-        achievement.completedAWhileAgo = new Date() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
+        achievement.completedAWhileAgo = new Date().getTime() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
       achievement.worth = achievement.get 'worth', true
       achievement.gems = achievement.get('rewards')?.gems
     c.achievements = @achievements.models.slice()
