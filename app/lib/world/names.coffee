@@ -124,7 +124,7 @@ module.exports.thangNames = thangNames =
     'Regan'
     'Rose'
     'Tabitha'
-    'Thea'    
+    'Thea'
   ]
   'Archer F': [
     'Agapi'
@@ -257,7 +257,7 @@ module.exports.thangNames = thangNames =
     'Holkam'
     'Mak\'rah'
     'Marghurk'
-    'Marnag
+    'Marnag'
     'Martha'
     'Morthrug'
     'Nareng'
@@ -414,12 +414,12 @@ module.exports.thangNames = thangNames =
     'Minato'
     'Naruto'
     'Sakura'
-    'Sasuke'	
+    'Sasuke'
   ]
   'Sorcerer': [
     'Beazer'
     'Gandalf'
-	'Pender'
+  'Pender'
   ]
   'Samurai': [
     'Hattori'
@@ -439,4 +439,4 @@ module.exports.thangNames = thangNames =
   'Ogre Scout F': [
     'Freesa'
     'Ralthora'
-  
+  ]
