@@ -111,6 +111,29 @@
         color: white
     
     
+  //- Hero Type Select
+  
+  #hero-type-select
+    position: absolute
+    top: 102px
+    left: 177px
+    background: rgb(26,21,17)
+    padding: 2px 0
+    z-index: 3
+    border-radius: 2px
+    
+    label
+      background: rgb(58,47,38)
+      color: rgb(195,153,124)
+      border: 2px solid rgb(85,70,57)
+      margin: 0 2px
+      
+      &.active
+        background: rgb(33,28,21)
+        border: 2px solid rgb(64,53,41)
+        color: white
+  
+    
   //- Item List
 
   .tab-content
@@ -120,7 +143,19 @@
     width: 669px
     height: 507px
     overflow: hidden
+    
+    &.filter-warrior
+      .item.Ranger, .item.Wizard
+        display: none
 
+    &.filter-ranger
+      .item.Warrior, .item.Wizard
+        display: none
+      
+    &.filter-wizard
+      .item.Ranger, .item.Warrior
+        display: none
+    
   .tab-pane
     height: 100%
     
