@@ -419,7 +419,7 @@ module.exports.thangNames = thangNames =
   'Sorcerer': [
     'Beazer'
     'Gandalf'
-  'Pender'
+    'Pender'
   ]
   'Samurai': [
     'Hattori'
