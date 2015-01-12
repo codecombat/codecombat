@@ -4,6 +4,7 @@ import configuration
 import errors
 import subprocess
 import os
+import sys
 from which import which
 #git clone https://github.com/nwinter/codecombat.git coco
 class RepositoryInstaller():
