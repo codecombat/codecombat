@@ -1,64 +1,64 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
   home:
-    slogan: "Học mã bằng chơi Games"
-    no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
-    no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
+    slogan: "Học mã bằng chơi Games"
+    no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
+    no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
     play: "Chơi" # The big play button that opens up the campaign view.
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
 #    campaign: "Campaign"
-    for_beginners: "Dành cho người bắt đầu chơi"
+    for_beginners: "Dành cho người bắt đầu chơi"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
 #    for_developers: "For Developers" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
   nav:
-    play: "Các cấp độ" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-    editor: "Chỉnh sửa"
+    play: "Các cấp độ" # The top nav bar entry where players choose which levels to play
+    community: "Thảo luận"
+    editor: "Chỉnh sửa"
     blog: "Liếm cu"
-    forum: "Diễn đàn"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
-    admin: "Quản trị viên" # Only shows up when you are an admin
-    home: "Nhà"
-    contribute: "Contribute"
-    legal: "Hợp pháp"
-    about: "Về"
-    contact: "Liên hệ"
-    twitter_follow: "Đi theo"
-    teachers: "Thầy Giáo"
+    forum: "Diễn đàn"
+    account: "Tài khoản"
+    profile: "Hồ sơ"
+    stats: "Trạng thái"
+    code: "Code"
+    admin: "Quản trị viên" # Only shows up when you are an admin
+    home: "Nhà"
+    contribute: "Phân phối"
+    legal: "Hợp pháp"
+    about: "Giới thiệu"
+    contact: "Liên hệ"
+    twitter_follow: "Theo dõi"
+    teachers: "Giáo viên"
 
   modal:
-    close: "Đóng"
-    okay: "Được rồi"
+    close: "Đóng"
+    okay: "Được rồi"
 
   not_found:
-    page_not_found: "không tìm thấy trang"
+    page_not_found: "Không tìm thấy trang"
 
   diplomat_suggestion:
-    title: "Hãy giúp dịch thuật cho  CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
+    title: "Hãy giúp CodeCombat! dịch sang ngôn ngữ của bạn" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Vietnamese but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Vietnamese."
     missing_translations: "Until we can translate everything into Vietnamese, you'll see English when Vietnamese isn't available."
-    learn_more: "Học làm người thông dịch"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Học làm người thông dịch"
+    subscribe_as_diplomat: "Đăng ký như một thông dịch"
 
   play:
-    play_as: "Chơi là" # Ladder page
-    spectate: "Nhìn xem" # Ladder page
+    play_as: "Chơi như" # Ladder page
+    spectate: "Nhìn xem" # Ladder page
 #    players: "players" # Hover over a level on /play
-    hours_played: "Bao nhiêu tiếng chơi" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    hours_played: "Thời gian(tiếng) đã chơi" # Hover over a level on /play
+    items: "Các mục" # Tooltip on item shop button from /play
     unlock: "Mua" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    confirm: "Xác nhận"
+    owned: "Đã có" # For items you own
+    locked: "Bị khóa"
+    purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
+    available: "Sẵn có"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -76,31 +76,31 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
-    level_difficulty: "Khó: "
-    campaign_beginner: "Bắt đầu chiến dịch"
+    level_difficulty: "Khó: "
+    campaign_beginner: "Bắt đầu chiến dịch"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-    choose_your_level: "Chọn Trình của bạn" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Bạn có thể nhảy đến bất kỳ cấp độ dưới đây, hoặc nâng dần cấp độ "
-    adventurer_forum: "diễn đàn Adventurer"
+    choose_your_level: "Chọn Trình của bạn" # The rest of this section is the old play view at /play-old and isn't very important.
+    adventurer_prefix: "Bạn có thể nhảy đến bất kỳ cấp độ dưới đây, hoặc nâng dần cấp độ "
+    adventurer_forum: "diễn đàn Adventurer"
 #    adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
 #    campaign_old_beginner_description: "... in which you learn the wizardry of programming."
-    campaign_dev: "Các cấp độ khó hơn ngẫu nhiên"
+    campaign_dev: "Các cấp độ khó hơn ngẫu nhiên"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
-    campaign_multiplayer: "Khu vực đa người chơi"
+    campaign_multiplayer: "Khu vực đa người chơi"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-    campaign_player_created: "Tạo người chơi"
+    campaign_player_created: "Tạo người chơi"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
   login:
-    sign_up: "Tạo tài khoản"
-    log_in: "Đăng nhập"
+    sign_up: "Tạo tài khoản"
+    log_in: "Đăng nhập"
 #    logging_in: "Logging In"
-    log_out: "Đăng xuất"
+    log_out: "Đăng xuất"
     forgot_password: "Quên mật khẩu?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
@@ -111,17 +111,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    signup_switch: "Want to create an account?"
 
   signup:
-    email_announcements: "Nhận thông báo bằng email"
-    creating: "Tạo tài khoản..."
-    sign_up: "Đăng ký"
-    log_in: "đăng nhập với mật khẩu"
+    email_announcements: "Nhận thông báo bằng email"
+    creating: "Tạo tài khoản..."
+    sign_up: "Đăng ký"
+    log_in: "đăng nhập với mật khẩu"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
 #    required: "You need to log in before you can go that way."
 #    login_switch: "Already have an account?"
 
   recover:
-    recover_account_title: "Khôi phục tài khoản"
-    send_password: "Gởi mật mã khôi phục"
+    recover_account_title: "Khôi phục tài khoản"
+    send_password: "Gởi mật mã khôi phục"
 #    recovery_sent: "Recovery email sent."
 
   items:
@@ -133,17 +133,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     books: "Cuốn sách"
 
   common:
-    loading: "Tải..."
+    loading: "Tải..."
     saving: "Lưu..."
-    sending: "Gởi..."
-    send: "Gởi đi"
-    cancel: "Hủy"
+    sending: "Gởi..."
+    send: "Gởi đi"
+    cancel: "Hủy"
     save: "Lưu"
 #    publish: "Publish"
     create: "Làm mới"
 #    manual: "Manual"
 #    fork: "Fork"
-    play: "Các cấp độ" # When used as an action verb, like "Play next level"
+    play: "Các cấp độ" # When used as an action verb, like "Play next level"
     retry: "Chơi lại"
 #    actions: "Actions"
 #    info: "Info"
@@ -188,7 +188,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     win: "Thắng"
     loss: "Thua"
 #    tie: "Tie"
-    easy: "Dể"
+    easy: "Dể"
     medium: "Vừa"
     hard: "Khó"
 #    player: "Player"
@@ -223,7 +223,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    running: "Running..."
     success: "Thắng!"
 #    incomplete: "Incomplete"
-    timed_out: "Hết giờ"
+    timed_out: "Hết giờ"
     failing: "Đang thua"
 #    action_timeline: "Action Timeline"
     click_to_select: "Kích vào đơn vị để chọn nó."
@@ -470,18 +470,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    matt_blurb: "Bicyclist"
 
   versions:
-    save_version_title: "Lưu Phiên bản Mới"
-    new_major_version: "Phiên bản chính mới"
-    cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận với chúng tôi trước"
+    save_version_title: "Lưu Phiên bản Mới"
+    new_major_version: "Phiên bản chính mới"
+    cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận với chúng tôi trước"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-    cla_agree: "TÔI ĐỒNG Ý"
+    cla_agree: "TÔI ĐỒNG Ý"
 
   contact:
-    contact_us: "Liên hệ CodeCombat"
-    welcome: "Rất vui được nhận tin từ bạn! Hãy dùng đơn này để gởi mail cho chúng tôi. "
+    contact_us: "Liên hệ CodeCombat"
+    welcome: "Rất vui được nhận tin từ bạn! Hãy dùng đơn này để gởi mail cho chúng tôi. "
 #    forum_prefix: "For anything public, please try "
-    forum_page: "Diễn đàn của chúng tôi"
+    forum_page: "Diễn đàn của chúng tôi"
 #    forum_suffix: " instead."
 #    faq_prefix: "There's also a"
 #    faq: "FAQ"
@@ -491,26 +491,26 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
 #    screenshot_included: "Screenshot included."
 #    where_reply: "Where should we reply?"
-    send: "Gởi phản hồi"
+    send: "Gởi phản hồi"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
   account_settings:
-    title: "Cài đặt Tài khoản"
-    not_logged_in: "Đăng nhập hoặc tạo tài khoản để thay đổi cài đặt."
-    autosave: "Tự động lưu thay đổi"
+    title: "Cài đặt Tài khoản"
+    not_logged_in: "Đăng nhập hoặc tạo tài khoản để thay đổi cài đặt."
+    autosave: "Tự động lưu thay đổi"
 #    me_tab: "Me"
-    picture_tab: "Bức tranh"
+    picture_tab: "Bức tranh"
 #    upload_picture: "Upload a picture"
-    password_tab: "Mật khẩu"
+    password_tab: "Mật khẩu"
     emails_tab: "Emails"
 #    admin: "Admin"
-    new_password: "Mật khẩu mới"
-    new_password_verify: "Xác nhận"
+    new_password: "Mật khẩu mới"
+    new_password_verify: "Xác nhận"
     email_subscriptions: "Thuê bao Email"
 #    email_subscriptions_none: "No Email Subscriptions."
-    email_announcements: "Thông báo"
-    email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của Codecombat."
+    email_announcements: "Thông báo"
+    email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của Codecombat."
 #    email_notifications: "Notifications"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
 #    email_any_notes: "Any Notifications"
@@ -519,13 +519,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
 #    contributor_emails: "Contributor Class Emails"
-    contribute_prefix: "Chúng tôi đang tìm thêm người vào nhóm của chúng tôi! Hãy kiểm "
-    contribute_page: "trang đóng góp"
-    contribute_suffix: " để tìm hiểu thêm."
+    contribute_prefix: "Chúng tôi đang tìm thêm người vào nhóm của chúng tôi! Hãy kiểm "
+    contribute_page: "trang đóng góp"
+    contribute_suffix: " để tìm hiểu thêm."
 #    email_toggle: "Toggle All"
-    error_saving: "Lỗi lưu"
-    saved: "Thay đổi được lưu"
-    password_mismatch: "Mật khẩu không khớp."
+    error_saving: "Lỗi lưu"
+    saved: "Thay đổi được lưu"
+    password_mismatch: "Mật khẩu không khớp."
 #    password_repeat: "Please repeat your password."
 #    job_profile: "Job Profile" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
