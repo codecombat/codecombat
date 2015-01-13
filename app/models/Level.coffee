@@ -126,6 +126,7 @@ module.exports = class Level extends CocoModel
         else if placeholderConfig.voiceRange  # Pull in voiceRange
           levelThangComponent.config ?= {}
           levelThangComponent.config.voiceRange = placeholderConfig.voiceRange
+          levelThangComponent.config.cooldown = placeholderConfig.cooldown
 
     if isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
