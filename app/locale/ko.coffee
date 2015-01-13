@@ -159,6 +159,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    date: "Date"
     body: "구성"
     version: "버전"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "커밋 메세지"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     hard: "상급"
     player: "플레이어"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
 #  units:
 #    second: "second"

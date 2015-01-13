@@ -224,8 +224,10 @@ UserSchema.methods.saveActiveUser = (event, done=null) ->
     done?()
 
 UserSchema.pre('save', (next) ->
-  @set('emailLower', @get('email')?.toLowerCase())
-  @set('nameLower', @get('name')?.toLowerCase())
+  if email = @get('email')
+    @set('emailLower', email.toLowerCase())
+  if name = @get('name')
+    @set('nameLower', name.toLowerCase())
   pwd = @get('password')
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
@@ -265,6 +267,8 @@ UserSchema.statics.editableProperties = [
 
 UserSchema.plugin plugins.NamedPlugin
 UserSchema.index({'stripe.subscriptionID':1}, {unique: true, sparse: true})
+UserSchema.index({'emailLower':1}, {unique: true, sparse: true, name: 'emailLower_1'})
+UserSchema.index({'nameLower':1}, {unique: true, sparse: true, name: 'nameLower_1'})
 
 module.exports = User = mongoose.model('User', UserSchema)
 

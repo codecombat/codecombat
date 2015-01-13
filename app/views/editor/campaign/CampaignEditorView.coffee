@@ -47,7 +47,7 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
-    _.delay @getCampaignCompletions, 1000
+    #_.delay @getCampaignCompletions, 1000  # Roughly never finishes loading, nearly kills server.
 
   loadThangTypeNames: ->
     # Load the names of the ThangTypes that this level's Treema nodes might want to display.

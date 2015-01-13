@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    date: "Date"
 #    body: "Body"
 #    version: "Version"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
 #    commit_msg: "Commit Message"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    hard: "Hard"
 #    player: "Player"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
 #  units:
 #    second: "second"

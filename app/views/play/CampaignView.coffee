@@ -146,8 +146,10 @@ module.exports = class CampaignView extends RootView
         level.unlockedHero = level.unlocksHero.originalID in (me.get('earned')?.heroes or [])
       level.hidden = level.locked
 
+    @determineNextLevel context.levels if @sessions.loaded
     # put lower levels in last, so in the world map they layer over one another properly.
-    context.campaign.levels = (_.sortBy context.campaign.levels, (l) -> l.position.y).reverse()
+    context.levels = (_.sortBy context.levels, (l) -> l.position.y).reverse()
+    @campaign.renderedLevels = context.levels
 
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
@@ -155,8 +157,8 @@ module.exports = class CampaignView extends RootView
     context.mapType = _.string.slugify @terrain
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
-    context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign.get('adjacentCampaigns') or {})), (ac) ->
-      return false if ac.showIfUnlocked and ac.showIfUnlocked not in me.levels()
+    context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign.get('adjacentCampaigns') or {})), (ac) =>
+      return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
       ac.name = utils.i18n ac, 'name'
       ac.description = utils.i18n ac, 'description'
       styles = []
@@ -188,6 +190,11 @@ module.exports = class CampaignView extends RootView
     @updateHero()
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
+      if @editorMode
+        for level in @campaign.renderedLevels
+          for nextLevelOriginal in level.nextLevels
+            if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
+              @createLine level.position, nextLevel.position
     @applyCampaignStyles()
 
   afterInsert: ->
@@ -198,6 +205,29 @@ module.exports = class CampaignView extends RootView
     authModal = new AuthModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
+
+  determineNextLevel: (levels) ->
+    foundNext = false
+    for level in levels
+      level.nextLevels = (reward.level for reward in level.rewards when reward.level)
+      unless foundNext
+        for nextLevelOriginal in level.nextLevels
+          nextLevel = _.find levels, original: nextLevelOriginal
+          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (me.isPremium() or not nextLevel.requiresSubscription)
+            nextLevel.next = true
+            foundNext = true
+            break
+    if not foundNext and levels[0] and not levels[0].locked and @levelStatusMap[levels[0].slug] isnt 'complete'
+      levels[0].next = true
+
+  createLine: (o1, o2) ->
+    p1 = x: o1.x, y: 0.66 * o1.y + 0.5
+    p2 = x: o2.x, y: 0.66 * o2.y + 0.5
+    length = Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
+    angle = Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180 / Math.PI
+    transform = "rotate(#{angle}deg)"
+    line = $('<div>').appendTo('.map').addClass('next-level-line').css(transform: transform, width: length + '%', left: o1.x + '%', bottom: (o1.y + 0.5) + '%')
+    line.append($('<div class="line">')).append($('<div class="point">'))
 
   applyCampaignStyles: ->
     return unless @campaign.loaded
@@ -221,7 +251,6 @@ module.exports = class CampaignView extends RootView
     return if @editorMode
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
-    # TODO: add level.next = true for the next level they should do
     @render()
 
   onClickMap: (e) ->

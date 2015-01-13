@@ -159,7 +159,7 @@ module.exports = class LevelEditView extends RootView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   startCommittingLevel: (e) ->
-    @openModalView new SaveLevelModal level: @level, supermodel: @supermodel
+    @openModalView new SaveLevelModal level: @level, supermodel: @supermodel, buildTime: @levelBuildTime
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   startForking: (e) ->
@@ -200,4 +200,5 @@ module.exports = class LevelEditView extends RootView
 
   incrementBuildTime: =>
     return if application.userIsIdle
-    @level.set('buildTime', (@level.get('buildTime') ? 0) + 1)
+    @levelBuildTime ?= @level.get('buildTime')
+    ++@levelBuildTime

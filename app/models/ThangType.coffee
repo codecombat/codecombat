@@ -417,8 +417,10 @@ module.exports = class ThangType extends CocoModel
 
     if i18nKey
       name = $.i18n.t 'choose_hero.' + i18nKey
+      matchedShortName = true
     else
       name = _.string.humanize name
+      matchedShortName = false
 
     format = ''
     format = 'm' if /(range|radius|distance|vision)$/i.test name
@@ -437,7 +439,7 @@ module.exports = class ThangType extends CocoModel
     display.push "x#{modifiers.factor}" if modifiers.factor? and modifiers.factor isnt 1
     display = display.join ', '
     display = display.replace /9001m?/, 'Infinity'
-    name: name, display: display
+    name: name, display: display, matchedShortName: matchedShortName
 
   isSilhouettedItem: ->
     return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems') or @get('tier')

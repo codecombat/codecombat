@@ -159,6 +159,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     date: "Dátum"
     body: "Test"
     version: "Verzió"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Üzenet feladása"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     hard: "Nehéz"
     player: "Játékos"
     player_level: "Szint" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "másodperc"

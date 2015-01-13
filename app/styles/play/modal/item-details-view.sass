@@ -71,7 +71,7 @@
       position: relative
       font-size: 20px
       font-weight: bold
-      
+
       .stat-label
         position: absolute
         left: 54px
@@ -81,6 +81,16 @@
         position: absolute
         left: 150px
         color: rgb(42,38,28)
+
+      &:not(.short-name)
+        text-align: center
+
+        .stat-label, .stat
+          position: initial
+          display: inline-block
+
+        .stat-label
+          margin-right: 8px
 
     .item-description
       margin: 15px 15px 0 25px
@@ -106,17 +116,3 @@
 
   .unequippable
     position: absolute
-
-
-body:not([lang^='en'])
-  #item-details-view
-    #item-details-body
-      .stat-row
-        text-align: center
-
-        .stat-label, .stat
-          position: initial
-          display: inline-block
-
-        .stat-label
-          margin-right: 8px

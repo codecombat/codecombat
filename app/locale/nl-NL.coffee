@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     date: "Datum"
     body: "Inhoud"
     version: "Versie"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Commit Bericht"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     hard: "Moeilijk"
     player: "Speler"
     player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "seconde"

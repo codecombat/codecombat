@@ -22,7 +22,8 @@ class CocoModel extends Backbone.Model
     @usesVersions = @schema()?.properties?.version?
 
   backupKey: ->
-    if @usesVersions then @id else @id + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
+    if @usesVersions then @id else @id  # + ':' + @attributes.__v  # TODO: doesn't work because __v doesn't actually increment. #2061
+    # if fixed, RevertModal will also need the fix
 
   setProjection: (project) ->
     return if project is @project

@@ -159,6 +159,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     date: "日期"
 #    body: "Body"
     version: "版本"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "送出訊息"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     hard: "困難"
     player: "玩家"
     player_level: "等級" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "秒"

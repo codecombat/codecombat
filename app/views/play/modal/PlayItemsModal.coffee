@@ -52,6 +52,7 @@ module.exports = class PlayItemsModal extends ModalView
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
     'update .tab-pane .nano': 'onScrollItemPane'
+    'click #hero-type-select label': 'onClickHeroTypeSelect'
 
   constructor: (options) ->
     @onScrollItemPane = _.throttle(_.bind(@onScrollItemPane, @), 200)
@@ -161,6 +162,12 @@ module.exports = class PlayItemsModal extends ModalView
         $(itemEl).addClass('loaded')
         item = @idToItem[itemEl.data('item-id')]
         itemEl.find('.item-silhouette, .item-img').attr('src', item.getPortraitURL())
+
+  onClickHeroTypeSelect: (e) ->
+    value = $(e.target).closest('label').attr('id')
+    tabContent = @$el.find('.tab-content')
+    tabContent.removeClass('filter-wizard filter-ranger filter-warrior')
+    tabContent.addClass("filter-#{value}") if value isnt 'all'
 
   onUnlockButtonClicked: (e) ->
     e.stopPropagation()

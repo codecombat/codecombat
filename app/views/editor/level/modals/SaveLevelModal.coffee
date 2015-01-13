@@ -20,6 +20,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
   constructor: (options) ->
     super options
     @level = options.level
+    @buildTime = options.buildTime
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -60,6 +61,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
 
   commitLevel: (e) ->
     e.preventDefault()
+    @level.set 'buildTime', @buildTime
     modelsToSave = []
     formsToSave = []
     for form in @$el.find('form')

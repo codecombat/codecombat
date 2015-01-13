@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     date: "Датум"
     body: "Тело"
     version: "Верзија"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
     submitter: "Подносител"
     submitted: "Поднесено"
     commit_msg: "Порака за поднесокот"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     hard: "Тешко"
     player: "Играч"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "секунда"
@@ -474,7 +481,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     new_major_version: "Нова поголема(major) верзија"
     cla_prefix: "За да ги зачуваш промените, мораш да го прифатиш нашиот"
     cla_url: "CLA"
-    cla_suffix: "(договор за тие што допринесуваат)." # Short explanation for CLA in macedonian
+    cla_suffix: "(договор за тие што допринесуваат)."
     cla_agree: "ПРИФАЌАМ"
 
 #  contact:

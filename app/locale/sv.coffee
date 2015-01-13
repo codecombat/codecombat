@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     date: "Datum"
     body: "Kropp"
     version: "Version"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Förbindelsemeddelande"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     hard: "Svår"
     player: "Spelare"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "sekund"
