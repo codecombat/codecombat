@@ -5,7 +5,7 @@ block modal-header-content
 
 block modal-body-content
   if !modelsToSave.models.length
-    .alert.alert-info No changes
+    .alert.alert-info(data-i18n="delta.no_changes") No changes
   
   for model in modelsToSave.models
     .panel.panel-default
@@ -18,4 +18,4 @@ block modal-body-content
 block modal-footer
   .modal-footer
     button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
-    button.btn.btn-primary#save-button Save
+    button.btn.btn-primary(data-i18n="common.save")#save-button Save
