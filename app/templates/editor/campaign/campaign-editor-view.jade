@@ -24,13 +24,13 @@ block header
           a(data-toggle='dropdown')
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
-            li.dropdown-header Actions
+            li.dropdown-header(data-i18n="common.actions") Actions
             li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
-            li.dropdown-header Info
+            li.dropdown-header(data-i18n="common.info") Info
 
 block outer_content
   .outer-content
