@@ -197,6 +197,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     hard: "Сложно"
     player: "Игрок"
     player_level: "Уровень" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "секунда"

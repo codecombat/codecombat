@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     date: "Data"
     body: "Corpo"
     version: "Versão"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
     submitter: "Submissor"
     submitted: "Submeteu"
     commit_msg: "Mensagem da Submissão"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     hard: "Difícil"
     player: "Jogador"
     player_level: "Nível" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "segundo"

@@ -159,6 +159,10 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     date: "Datum"
     body: "Tělo"
     version: "Verze"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
     submitter: "Odesílatel"
     submitted: "Odesláno"
     commit_msg: "Popisek ukládání"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     hard: "Těžké"
     player: "Hráč"
     player_level: "Úroveň" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "sekunda"

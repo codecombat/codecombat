@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     date: "Data"
     body: "Corpo"
     version: "Versión"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Mensaxe de Asignación ou Commit"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     hard: "Difícil"
     player: "Xogador"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "segundo"

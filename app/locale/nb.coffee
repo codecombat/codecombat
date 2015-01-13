@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     date: "Dato"
     body: "Kropp"
     version: "Versjon"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Commit-melding"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     hard: "Vanskelig"
     player: "Spiller"
     player_level: "Nivå" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "sekund"

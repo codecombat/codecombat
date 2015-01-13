@@ -159,6 +159,10 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    date: "Date"
     body: "正文"
     version: "版本"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "提交訊息"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     hard: "煩難"
     player: "來個人"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "秒"

@@ -159,6 +159,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     date: "Дата"
     body: "Тіло"
     version: "Версія"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Доручити повідомлення"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     hard: "Важкий"
     player: "Гравець"
     player_level: "Рівень" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "Секунда"

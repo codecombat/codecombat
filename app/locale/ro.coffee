@@ -159,6 +159,10 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    date: "Date"
     body: "Corp"
     version: "Versiune"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Înregistrează Mesajul"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     hard: "Greu"
 #    player: "Player"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "secundă"

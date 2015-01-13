@@ -4,7 +4,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that opens up the campaign view.
-    try_it: "Probeer het" # Alternate wording for Play button
     old_browser: "Uh oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Je kan toch proberen, maar het zal waarschijnlijk niet werken!"
     ipad_browser: "Slecht nieuws: CodeCombat werkt niet op een iPad in de browser. Goed nieuws: onze eigen iPad-app wacht op goedkeuring van Apple."
@@ -160,6 +159,10 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    date: "Date"
     body: "Inhoud"
     version: "Versie"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
     commit_msg: "Commit Bericht"
@@ -194,6 +197,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     hard: "Moeilijk"
     player: "Speler"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "seconde"

@@ -159,6 +159,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     date: "Date"
     body: "Corps"
     version: "Version"
+#    pending: "Pending"
+#    accepted: "Accepted"
+#    rejected: "Rejected"
+#    withdrawn: "Withdrawn"
     submitter: "Soumissionnaire"
     submitted: "Soumis"
     commit_msg: "Message de mise à jour"
@@ -193,6 +197,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     hard: "Difficile"
     player: "Joueur"
     player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
+#    warrior: "Warrior"
+#    ranger: "Ranger"
+#    wizard: "Wizard"
 
   units:
     second: "seconde"
