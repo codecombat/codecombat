@@ -6,7 +6,6 @@ AnalyticsLogEventSchema = c.object {
 }
 
 _.extend AnalyticsLogEventSchema.properties,
-  created: c.date({title: 'Created', readOnly: true})
   user: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
   event: {type: 'string'}
   properties: {type: 'object'}

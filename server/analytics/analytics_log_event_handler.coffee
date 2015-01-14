@@ -22,8 +22,9 @@ class AnalyticsLogEventHandler extends Handler
     instance
 
   getByRelationship: (req, res, args...) ->
-    return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
-    return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
+    # TODO: Remove these APIs
+    # return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
+    # return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     super(arguments...)
 
   getLevelCompletionsBySlug: (req, res) ->

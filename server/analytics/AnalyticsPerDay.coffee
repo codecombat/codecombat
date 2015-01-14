@@ -1,6 +1,7 @@
 mongoose = require 'mongoose'
 
 AnalyticsPerDaySchema = new mongoose.Schema({
+  d: {type: String}  # yyyymmdd day, e.g. '20150123'
   e: {type: Number}  # event (analytics string ID from analytics.strings)
   l: {type: Number}  # level (analytics string ID from analytics.strings)
   f: {type: Number}  # filter (analytics string ID from analytics.strings)
