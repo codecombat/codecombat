@@ -63,7 +63,7 @@ module.exports = class Tracker
 
     # Log internally
     # Skipping heavily logged actions we don't use internally
-    unless action in ['Simulator Result', 'Loaded World Map', 'Started Level Load', 'Finished Level Load', 'Homepage Loaded']
+    unless action in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
       # Trimming properties we don't use internally
       # TODO: delete internalProperites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
       internalProperties = _.cloneDeep properties
