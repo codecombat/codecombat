@@ -8,6 +8,8 @@ AudioPlayer = require 'lib/AudioPlayer'
 utils = require 'core/utils'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 Purchase = require 'models/Purchase'
+LayerAdapter = require 'lib/surface/LayerAdapter'
+Lank = require 'lib/surface/Lank'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -39,9 +41,10 @@ module.exports = class PlayHeroesModal extends ModalView
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
     @stages = {}
+    @layers = []
     @session = options.session
     @initCodeLanguageList options.hadEverChosenHero
-    @heroAnimationInterval = setInterval @animateHeroes, 2500
+    @heroAnimationInterval = setInterval @animateHeroes, 1000
 
   onHeroesLoaded: ->
     @formatHero hero for hero in @heroes.models
@@ -155,41 +158,29 @@ module.exports = class PlayHeroesModal extends ModalView
         @rerenderFooter()
         return
       canvas.show().prop width: @canvasWidth, height: @canvasHeight
-      builder = new SpriteBuilder(fullHero)
-      movieClip = builder.buildMovieClip(fullHero.get('actions').attack?.animation ? fullHero.get('actions').idle.animation)
-      movieClip.scaleX = movieClip.scaleY = canvas.prop('height') / 120  # Average hero height is ~110px tall at normal resolution
-      movieClip.regX = -fullHero.get('positions').registration.x
-      movieClip.regY = -fullHero.get('positions').registration.y
-      movieClip.x = canvas.prop('width') * 0.5
-      movieClip.y = canvas.prop('height') * 0.925  # This is where the feet go.
-      if fullHero.get('name') is 'Knight'
-        movieClip.scaleX *= 0.7
-        movieClip.scaleY *= 0.7
-      if fullHero.get('name') is 'Potion Master'
-        movieClip.scaleX *= 0.9
-        movieClip.scaleY *= 0.9
-        movieClip.regX *= 1.1
-        movieClip.regY *= 1.4
-      if fullHero.get('name') is 'Samurai'
-        movieClip.scaleX *= 0.7
-        movieClip.scaleY *= 0.7
-        movieClip.regX *= 1.2
-        movieClip.regY *= 1.35
-      if fullHero.get('name') is 'Librarian'
-        movieClip.regX *= 0.7
-        movieClip.regY *= 1.2
-      if fullHero.get('name') is 'Sorcerer'
-        movieClip.scaleX *= 0.9
-        movieClip.scaleY *= 0.9
-        movieClip.regX *= 1.15
-        movieClip.regY *= 1.3
+      
+      layer = new LayerAdapter({webGL:true})
+      @layers.push layer
+      layer.resolutionFactor = 8 # hi res!
+      layer.buildAsync = false
+      multiplier = 7
+      layer.scaleX = layer.scaleY = multiplier
+      lank = new Lank(fullHero, {preloadSounds: false})
+      
+      layer.addLank(lank)
+      layer.on 'new-spritesheet', ->
+        #- maybe put some more normalization here?
+        m = multiplier
+        m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian'] # these heroes are larger for some reason, shrink 'em
+        layer.container.scaleX = layer.container.scaleY = m
+        layer.container.children[0].x = 160/m
+        layer.container.children[0].y = 250/m
 
-      stage = new createjs.Stage(canvas[0])
+      stage = new createjs.SpriteStage(canvas[0])
       @stages[heroIndex] = stage
-      stage.addChild movieClip
+      stage.addChild layer.container
+      window.stage = stage
       stage.update()
-      movieClip.loop = false
-      movieClip.gotoAndPlay 0
       unless preloading
         createjs.Ticker.addEventListener 'tick', stage
         @playSelectionSound hero
@@ -203,7 +194,8 @@ module.exports = class PlayHeroesModal extends ModalView
   animateHeroes: =>
     return unless @visibleHero
     heroIndex = Math.max 0, _.findIndex(@heroes.models, ((hero) => hero.get('original') is @visibleHero.get('original')))
-    @stages[heroIndex]?.children?[0]?.gotoAndPlay? 0
+    animation = _.sample(['attack', 'idle', 'move_side', 'move_fore'])
+    @stages[heroIndex]?.children?[0]?.children?[0]?.gotoAndPlay? animation
 
   playSelectionSound: (hero) ->
     return if @$el.hasClass 'secret'
@@ -333,4 +325,5 @@ module.exports = class PlayHeroesModal extends ModalView
     for heroIndex, stage of @stages
       createjs.Ticker.removeEventListener "tick", stage
       stage.removeAllChildren()
+    layer.destroy() for layer in @layers
     super()
