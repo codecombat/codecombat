@@ -47,7 +47,7 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
-    #_.delay @getCampaignCompletions, 1000  # Roughly never finishes loading, nearly kills server.
+    _.delay @getCampaignCompletions, 500
 
   loadThangTypeNames: ->
     # Load the names of the ThangTypes that this level's Treema nodes might want to display.
@@ -132,7 +132,7 @@ module.exports = class CampaignEditorView extends RootView
   getRenderData: ->
     c = super()
     c.campaign = @campaign
-    c.campaignDropOffs = @campaignDropOffs
+    c.campaignCompletions = @campaignCompletions
     c
 
   onClickSaveButton: ->
@@ -241,26 +241,24 @@ module.exports = class CampaignEditorView extends RootView
         @toSave.add achievement
 
   getCampaignCompletions: =>
-    # Fetch last 7 days of campaign drop-off rates
+    # Fetch last 14 days of campaign drop-off rates
 
-    startDay = utils.getUTCDay -6
+    startDay = utils.getUTCDay -14
+    endDay = utils.getUTCDay -1
 
     success = (data) =>
       return if @destroyed
-      # API returns all the campaign data currently
-      @campaignDropOffs = data[@campaignHandle]
       mapFn = (item) ->
-        item.startDropRate = (item.startDropped / item.started * 100).toFixed(2)
-        item.finishDropRate = (item.finishDropped / item.finished * 100).toFixed(2)
         item.completionRate = (item.finished / item.started * 100).toFixed(2)
         item
-      @campaignDropOffs.levels = _.map @campaignDropOffs.levels, mapFn, @
-      @campaignDropOffs.startDay = startDay
+      @campaignCompletions = levels:  _.map data, mapFn, @
+      @campaignCompletions.startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
+      @campaignCompletions.endDay = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
       @render()
 
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'campaign_completions', {
-      url: '/db/analytics_log_event/-/campaign_completions'
+      url: '/db/analytics_perday/-/campaign_completions'
       data: {startDay: startDay, slug: @campaignHandle}
       method: 'POST'
       success: success

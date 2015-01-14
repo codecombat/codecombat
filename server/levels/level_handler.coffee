@@ -6,6 +6,7 @@ Feedback = require './feedbacks/LevelFeedback'
 Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 async = require 'async'
+utils = require '../lib/utils'
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
@@ -375,9 +376,9 @@ LevelHandler = class LevelHandler extends Handler
 
     # Build query
     match = {$match: {$and: [{"state.complete": true}, {"playtime": {$gt: 0}}, {levelID: {$in: levelSlugs}}]}}
-    match["$match"]["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-    match["$match"]["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
-    project = {"$project": {"_id": 0, "levelID": 1, "playtime": 1, "created": {"$concat": [{"$substr":  ["$created", 0, 4]}, "-", {"$substr":  ["$created", 5, 2]}, "-", {"$substr" :  ["$created", 8, 2]}]}}}
+    match["$match"]["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+    match["$match"]["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
+    project = {"$project": {"_id": 0, "levelID": 1, "playtime": 1, "created": {"$concat": [{"$substr":  ["$created", 0, 10]}]}}}
     group = {"$group": {"_id": {"created": "$created", "level": "$levelID"}, "average": {"$avg": "$playtime"}}}
     query = Session.aggregate match, project, group
 

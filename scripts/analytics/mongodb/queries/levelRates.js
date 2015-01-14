@@ -21,19 +21,28 @@ today = today.toISOString().substr(0, 10);
 print("Today is " + today);
 
 var todayMinus6 = new Date();
-todayMinus6.setDate(todayMinus6.getUTCDate() - 6);
+todayMinus6.setUTCDate(todayMinus6.getUTCDate() - 6);
 var startDate = todayMinus6.toISOString().substr(0, 10) + "T00:00:00.000Z";
 print("Start date is " + startDate)
 // startDate = "2015-01-02T00:00:00.000Z";
 // var endDate = "2015-01-09T00:00:00.000Z";
 
+function objectIdWithTimestamp(timestamp)
+{
+  // Convert string date to Date object (otherwise assume timestamp is a date)
+  if (typeof(timestamp) == 'string') timestamp = new Date(timestamp);
+  // Convert date object to hex seconds since Unix epoch
+  var hexSeconds = Math.floor(timestamp/1000).toString(16);
+  // Create an ObjectId with that hex timestamp
+  var constructedObjectId = ObjectId(hexSeconds + "0000000000000000");
+  return constructedObjectId
+}
+
 function getCompletionRates() {
   print("Getting completion rates...");
   var queryParams = {
     $and: [
-    {"created": { $gte: ISODate(startDate)}},
-    // {"created": { $lt: ISODate(endDate)}},
-    // {$or: [ {"properties.level": {$exists: true}}, {"properties.levelID": {$exists: true}}]},
+    {_id: {$gte: objectIdWithTimestamp(ISODate(startDate))}},
     {$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
     ]
   };

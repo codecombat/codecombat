@@ -3,6 +3,7 @@ Campaign = require '../campaigns/Campaign'
 Level = require '../levels/Level'
 Handler = require '../commons/Handler'
 log = require 'winston'
+utils = require '../lib/utils'
 
 class AnalyticsLogEventHandler extends Handler
   modelClass: AnalyticsLogEvent
@@ -60,8 +61,8 @@ class AnalyticsLogEventHandler extends Handler
     queryParams = {$and: [
       {$or: [{"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
     ]}
-    queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-    queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
+    queryParams["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+    queryParams["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
 
     # Query stream is better for large results
     # http://mongoosejs.com/docs/api.html#query_Query-stream
@@ -221,8 +222,8 @@ class AnalyticsLogEventHandler extends Handler
       userProgression = {}
 
       queryParams = {$and: [{$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}]}
-      queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-      queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
+      queryParams["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+      queryParams["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
 
       # Query stream is better for large results
       # http://mongoosejs.com/docs/api.html#query_Query-stream

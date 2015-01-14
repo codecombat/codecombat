@@ -40,7 +40,7 @@ block outer_content
     #right-column
       #campaign-view
       #campaign-level-view.hidden
-      if campaignDropOffs
+      if campaignCompletions
         button.btn.btn-default#analytics-button(title="Analytics",  data-toggle="modal" data-target="#analytics-modal") Analytics
         .modal.fade#analytics-modal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
           .modal-dialog
@@ -50,33 +50,25 @@ block outer_content
                   span(aria-hidden="true") &times;
                 h4.modal-title Analytics
               .modal-body
-                if campaignDropOffs.startDay
-                  if campaignDropOffs.endDay
-                    div #{campaignDropOffs.startDay} to #{campaignDropOffs.endDay}
+                if campaignCompletions.startDay
+                  if campaignCompletions.endDay
+                    div #{campaignCompletions.startDay} to #{campaignCompletions.endDay}
                   else
-                    div #{campaignDropOffs.startDay} to today
+                    div #{campaignCompletions.startDay} to yesterday
                 table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
                   thead
                     tr
                       td Level
                       td Started
-                      td Dropped
-                      td Drop %
                       td Finished
-                      td Dropped
-                      td Drop %
                       td Completion %
                   tbody
-                    - for (var i = 0; i < campaignDropOffs.levels.length; i++)
+                    - for (var i = 0; i < campaignCompletions.levels.length; i++)
                       tr
-                        td= campaignDropOffs.levels[i].level
-                        td= campaignDropOffs.levels[i].started
-                        td= campaignDropOffs.levels[i].startDropped
-                        td= campaignDropOffs.levels[i].startDropRate
-                        td= campaignDropOffs.levels[i].finished
-                        td= campaignDropOffs.levels[i].finishDropped
-                        td= campaignDropOffs.levels[i].finishDropRate
-                        td= campaignDropOffs.levels[i].completionRate
+                        td= campaignCompletions.levels[i].level
+                        td= campaignCompletions.levels[i].started
+                        td= campaignCompletions.levels[i].finished
+                        td= campaignCompletions.levels[i].completionRate
       else
         button.btn.btn-default.disabled#analytics-button Analytics Loading...
 

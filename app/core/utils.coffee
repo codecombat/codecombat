@@ -131,7 +131,7 @@ module.exports.kindaEqual = compare = (l, r) ->
   else
     return false
 
-# Return UTC string "YYYY-MM-DD" for today + offset
+# Return UTC string "YYYYMMDD" for today + offset
 module.exports.getUTCDay = (offset=0) ->
   day = new Date()
   day.setDate(day.getUTCDate() + offset)
@@ -140,7 +140,7 @@ module.exports.getUTCDay = (offset=0) ->
   partMonth = "0" + partMonth if partMonth < 10
   partDay = day.getUTCDate()
   partDay = "0" + partDay if partDay < 10
-  "#{partYear}-#{partMonth}-#{partDay}"
+  "#{partYear}#{partMonth}#{partDay}"
 
 # Fast, basic way to replace text in an element when you don't need much.
 # http://stackoverflow.com/a/4962398/540620
