@@ -78,13 +78,11 @@
       span.sign-in-blurb(data-i18n="login.sign_in_with_facebook") Sign in with Facebook
       .facebook-login-wrapper
         .fb-login-button(data-show-faces="false", data-width="200", data-max-rows="1", data-scope="email")
-    // Google+ login causing script errors on IE10
-    if !isIE
-      .btn.btn-danger.btn-lg.btn-illustrated.network-login
-        img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
-        span.sign-in-blurb(data-i18n="login.sign_in_with_gplus") Sign in with G+
-        .gplus-login-wrapper
-          .gplus-login-button#gplus-login-button
+    .btn.btn-danger.btn-lg.btn-illustrated.network-login
+      img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
+      span.sign-in-blurb(data-i18n="login.sign_in_with_gplus") Sign in with G+
+      .gplus-login-wrapper
+        .gplus-login-button#gplus-login-button
 
   .extra-pane
     if mode === 'login'
