@@ -6,12 +6,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     play: "Jugar" # The big play button that opens up the campaign view.
     old_browser: "Uh oh, el teu navegador és massa antic per fer funcionar CodeCombat. Perdó!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Pots probar-ho igualment, però el més segur és que no funcioni."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Males notícies: CodeCombat no funciona en el navegador d'iPad. Bones notícies: la nostre aplicació d'iPad està esperant l'aprovació d'Apple."
     campaign: "Campanya"
     for_beginners: "Per a principiants"
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Per a Desenvolupadors" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "O descarrega-la per iPad"
 
   nav:
     play: "Nivells" # The top nav bar entry where players choose which levels to play
@@ -58,7 +58,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    available: "Disponible"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Herois" # Tooltip on hero shop button from /play
     achievements: "Triomfs" # Tooltip on achievement list button from /play
@@ -67,13 +67,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     next: "Següent" # Go from choose hero to choose inventory before playing a level
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objectes"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Compra Gemes"
 #    campaign_desert: "Desert Campaign"
 #    campaign_forest: "Forest Campaign"
 #    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    free: "Gratuit"
+    subscribed: "Subscrit"
     older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     log_in: "Iniciar sessió amb la teva contrasenya"
     social_signup: "O, pots iniciar sesió desde Facebook o G+:"
     required: "Neccesites iniciar sesió abans ."
-#    login_switch: "Already have an account?"
+    login_switch: "Ja tens compte?"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -125,12 +125,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     recovery_sent: "Correu de recuperació de contrasenya enviat."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "Primari"
+    secondary: "Secondari"
     armor: "Armadura"
     accessories: "Accessoris"
 #    misc: "Misc"
-#    books: "Books"
+    books: "Llibres"
 
   common:
     loading: "Carregant..."
@@ -145,9 +145,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     fork: "Fork"
     play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Tornar a intentar"
-#    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
+    actions: "Accions"
+    info: "Info"
+    help: "Ajuda"
     watch: "Veure"
     unwatch: "Amaga"
     submit_patch: "Enviar pegat"
@@ -160,7 +160,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     body: "Cos"
     version: "Versió"
 #    pending: "Pending"
-#    accepted: "Accepted"
+    accepted: "Acceptat"
 #    rejected: "Rejected"
 #    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
@@ -220,7 +220,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   play_level:
     done: "Fet"
     home: "Inici" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Nivell" # Like "Level: Dungeons of Kithgard"
     skip: "Ometre"
     game_menu: "Menu de joc"
     guide: "Guia"
@@ -269,16 +269,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
     tome_your_skills: "Les teves habilitats"
-#    tome_help: "Help"
+    tome_help: "Ajuda"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "Continua"
 #    code_saved: "Code Saved"
 #    skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Dreceres del teclat"
     loading_ready: "Preparat!"
     loading_start: "Comença el nivell"
 #    problem_alert_title: "Fix Your Code"
-#    problem_alert_help: "Help"
+    problem_alert_help: "Ajuda"
     time_current: "Ara:"
     time_total: "Maxim:"
     time_goto: "Ves a:"
@@ -336,27 +336,27 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   inventory:
     choose_inventory: "Equipar objectes"
-#    equipped_item: "Equipped"
+    equipped_item: "Equipat"
 #    required_purchase_title: "Required"
-#    available_item: "Available"
+    available_item: "Disponible"
 #    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
 #    locked: "(locked)"
 #    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "Equipa"
+    unequip: "Desequipa"
 
-#  buy_gems:
-#    few_gems: "A few gems"
+  buy_gems:
+    few_gems: "Algunes gemes"
 #    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
+    chest_gems: "Cofre de gemes"
+    purchasing: "Comprant..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    prompt_button: "Entrar a la botiga"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     attack: "Dany" # Can also translate as "Attack"
     health: "Salut"
     speed: "Velocitat"
-#    regeneration: "Regeneration"
+    regeneration: "Regeneració"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
@@ -404,17 +404,17 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
-#    action_name: "name"
+    action_name: "nom"
 #    action_cooldown: "Takes"
 #    action_specific_cooldown: "Cooldown"
 #    action_damage: "Damage"
 #    action_range: "Range"
 #    action_radius: "Radius"
-#    action_duration: "Duration"
-#    example: "Example"
+    action_duration: "Duracció"
+    example: "Exemple"
 #    ex: "ex" # Abbreviation of "example"
 #    current_value: "Current Value"
 #    default_value: "Default value"
