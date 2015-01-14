@@ -72,7 +72,7 @@ module.exports = class SpellPaletteView extends CocoView
           if entryIndex is 0
             entry.$el.addClass 'first-entry'
       @$el.addClass 'hero'
-      @updateMaxHeight() unless application.isIPadApp
+      @updateHeight() unless application.isIPadApp
 
   afterInsert: ->
     super()
@@ -81,8 +81,9 @@ module.exports = class SpellPaletteView extends CocoView
   updateCodeLanguage: (language) ->
     @options.language = language
 
-  updateMaxHeight: ->
+  updateHeight: ->
     return unless @isHero
+    ###
     nColumns = Math.floor @$el.find('.properties').innerWidth() / 212   # ~212px is a good max entry width; will always have 2 columns
     columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
     nRows = 0
@@ -94,10 +95,16 @@ module.exports = class SpellPaletteView extends CocoView
     for column in columns
       for item in column.items
         item.detach().appendTo @$el.find('.properties')
-#    @$el.find('.properties').css('height', 19 * (nRows + 1))
+    @$el.find('.properties').css('height', 19 * (nRows + 1))
+    ###
+    pal = @$el.find('img.code-palette-background')
+    height = 212 # just some default
+    if pal
+      height = pal.height() - 160
+    @$el.find('.properties').css('height', height)
 
   onResize: (e) =>
-#    @updateMaxHeight()
+    @updateHeight()
 
   createPalette: ->
     Backbone.Mediator.publish 'tome:palette-cleared', {thangID: @thang.id}
