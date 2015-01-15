@@ -882,6 +882,7 @@
     leaderboard: "Leaderboard"
     user_schema: "User Schema"
     user_profile: "User Profile"
+    patch: "Patch"
     patches: "Patches"
     patched_model: "Source Document"
     model: "Model"
