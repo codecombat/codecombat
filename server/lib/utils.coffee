@@ -15,6 +15,7 @@ module.exports =
     # Create an ObjectId with that hex timestamp
     mongoose.Types.ObjectId(hexSeconds + "0000000000000000")
   getAnalyticsStringID: (str, callback) ->
+    return callback -1 unless str?
     @analyticsStringCache ?= {}
     return callback @analyticsStringCache[str] if @analyticsStringCache[str]
 

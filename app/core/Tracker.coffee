@@ -79,10 +79,12 @@ module.exports = class Tracker
     unless event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
       # Trimming properties we don't use internally
       # TODO: delete internalProperites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
-      if event in ['Clicked Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Loaded World Map', 'Homepage Loaded']
+      if event in ['Clicked Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Loaded World Map', 'Homepage Loaded', 'Change Hero']
         delete properties.category 
         delete properties.label
-      
+      else if event in ['Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login']
+        delete properties.category 
+
       console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
       request = @supermodel.addRequestResource 'log_event', {
         url: '/db/analytics_log_event/-/log_event'

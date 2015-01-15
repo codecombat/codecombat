@@ -239,7 +239,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
     @insertSubView new GoldView {}
     @insertSubView new HUDView {level: @level}
-    @insertSubView new LevelDialogueView {level: @level}
+    @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     worldName = utils.i18n @level.attributes, 'name'
@@ -335,7 +335,8 @@ module.exports = class PlayLevelView extends RootView
     if @options.realTimeMultiplayerSessionID?
       Backbone.Mediator.publish 'playback:real-time-playback-waiting', {}
       @realTimeMultiplayerContinueGame @options.realTimeMultiplayerSessionID
-    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID
+    # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
+    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id')
 
   playAmbientSound: ->
     return if @destroyed
@@ -418,6 +419,7 @@ module.exports = class PlayLevelView extends RootView
         level: @level.get('name')
         label: @level.get('name')
         levelID: @levelID
+        ls: @session?.get('_id')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->

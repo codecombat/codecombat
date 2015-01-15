@@ -74,7 +74,7 @@ module.exports = class ProblemAlertView extends CocoView
     @onWindowResize()
     @render()
     @onJiggleProblemAlert()
-    application.tracker?.trackEvent 'Show problem alert', levelID: @level.get('slug')
+    application.tracker?.trackEvent 'Show problem alert', {levelID: @level.get('slug'), ls: @session?.get('_id')}
 
   onJiggleProblemAlert: ->
     return unless @problem?
@@ -90,7 +90,7 @@ module.exports = class ProblemAlertView extends CocoView
     @onRemoveClicked()
 
   onClickProblemAlertHelp: ->
-    application.tracker?.trackEvent 'Problem alert help clicked', levelID: @level.get('slug')
+    application.tracker?.trackEvent 'Problem alert help clicked', {levelID: @level.get('slug'), ls: @session?.get('_id')}
     @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
 
   onRemoveClicked: ->
