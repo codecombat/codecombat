@@ -81,6 +81,7 @@
     awaiting_levels_adventurer_prefix: "We release five levels per week."
     awaiting_levels_adventurer: "Sign up as an Adventurer"
     awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    adjust_volume: "Adjust volume"
     choose_your_level: "Choose Your Level"  # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "You can jump to any level below, or discuss the levels on "
     adventurer_forum: "the Adventurer forum"
