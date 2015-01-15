@@ -1,5 +1,5 @@
 {me} = require 'core/auth'
-AnalyticsLogEvent = require 'models/AnalyticsLogEvent'
+SuperModel = require 'models/SuperModel'
 
 debugAnalytics = false
 
@@ -10,6 +10,7 @@ module.exports = class Tracker
     window.tracker = @
     @isProduction = document.location.href.search('codecombat.com') isnt -1
     @identify()
+    @supermodel = new SuperModel()
 
   identify: (traits) ->
     console.log 'Would identify', traits if debugAnalytics
@@ -61,19 +62,7 @@ module.exports = class Tracker
     # https://segment.com/docs/integrations/mixpanel/
     properties = properties or {}
 
-    # Log internally
-    # Skipping heavily logged actions we don't use internally
-    unless action in ['Simulator Result', 'Loaded World Map', 'Started Level Load', 'Finished Level Load', 'Homepage Loaded']
-      # Trimming properties we don't use internally
-      # TODO: delete internalProperites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
-      internalProperties = _.cloneDeep properties
-      if action in ['Clicked Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory']
-        delete internalProperties.category 
-        delete internalProperties.label
-      
-      console.log 'Tracking internal analytics event:', action, internalProperties, includeIntegrations if debugAnalytics
-      event = new AnalyticsLogEvent event: action, properties: internalProperties
-      event.save()
+    @trackEventInternal action, _.cloneDeep properties
 
     console.log 'Would track analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
@@ -85,6 +74,24 @@ module.exports = class Tracker
         context.integrations[integration] = true
     analytics?.track action, properties, context
 
+  trackEventInternal: (event, properties) =>
+    # Skipping heavily logged actions we don't use internally
+    unless event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
+      # Trimming properties we don't use internally
+      # TODO: delete internalProperites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
+      if event in ['Clicked Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Loaded World Map', 'Homepage Loaded', 'Change Hero']
+        delete properties.category 
+        delete properties.label
+      else if event in ['Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login']
+        delete properties.category 
+
+      console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
+      request = @supermodel.addRequestResource 'log_event', {
+        url: '/db/analytics_log_event/-/log_event'
+        data: {event: event, properties: properties}
+        method: 'POST'
+      }, 0
+      request.load()
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
     # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming

@@ -17,6 +17,11 @@ module.exports = class LevelDialogueView extends CocoView
     'click': 'onClick'
     'click a': 'onClickLink'
 
+  constructor: (options) ->
+    super options
+    @level = options.level
+    @sessionID = options.sessionID
+
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {}
 
@@ -33,7 +38,7 @@ module.exports = class LevelDialogueView extends CocoView
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
 
-    window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message}, ['Google Analytics']
+    window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}, ['Google Analytics']
 
   onDialogueSoundCompleted: ->
     @$el.removeClass 'speaking'

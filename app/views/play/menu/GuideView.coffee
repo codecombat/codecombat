@@ -14,6 +14,7 @@ module.exports = class LevelGuideView extends CocoView
 
   constructor: (options) ->
     @levelID = options.level.get('slug')
+    @sessionID = options.session.get('_id')
     @helpVideos = options.level.get('helpVideos') ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
 
@@ -85,12 +86,12 @@ module.exports = class LevelGuideView extends CocoView
 
   onStartHelpVideo: ->
     unless @trackedHelpVideoStart
-      window.tracker?.trackEvent 'Start help video', level: @levelID, style: @helpVideos[@helpVideosIndex].style
+      window.tracker?.trackEvent 'Start help video', level: @levelID, ls: @sessionID, style: @helpVideos[@helpVideosIndex].style
       @trackedHelpVideoStart = true
 
   onFinishHelpVideo: ->
     unless @trackedHelpVideoFinish
-      window.tracker?.trackEvent 'Finish help video', level: @levelID, style: @helpVideos[@helpVideosIndex].style
+      window.tracker?.trackEvent 'Finish help video', level: @levelID, ls: @sessionID, style: @helpVideos[@helpVideosIndex].style
       @trackedHelpVideoFinish = true
 
   setupVideoPlayer: () ->

@@ -1,5 +1,6 @@
 UserCodeProblem = require './UserCodeProblem'
 Handler = require '../commons/Handler'
+utils = require '../lib/utils'
 
 class UserCodeProblemHandler extends Handler
   modelClass: UserCodeProblem
@@ -53,8 +54,8 @@ class UserCodeProblemHandler extends Handler
 
     # Build query
     match = if startDay? or endDay? then {$match: {$and: []}} else {$match: {}}
-    match["$match"]["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-    match["$match"]["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
+    match["$match"]["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+    match["$match"]["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
     group = {"$group": {"_id": {"errMessage": "$errMessageNoLineInfo", "errHint": "$errHint", "language": "$language", "levelID": "$levelID"}, "count": {"$sum": 1}}}
     sort = { $sort : { "_id.levelID": 1, count : -1, "_id.language": 1 } }
     query = UserCodeProblem.aggregate match, group, sort

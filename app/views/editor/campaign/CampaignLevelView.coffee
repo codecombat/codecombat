@@ -49,6 +49,7 @@ module.exports = class CampaignLevelView extends CocoView
   getCommonLevelProblems: ->
     # Fetch last 30 days of common level problems
     startDay = utils.getUTCDay -29
+    startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
 
     success = (data) =>
       return if @destroyed
@@ -66,7 +67,7 @@ module.exports = class CampaignLevelView extends CocoView
     request.load()
 
   getLevelCompletions: ->
-    # Fetch last 7 days of level completion counts
+    # Fetch last 14 days of level completion counts
     success = (data) =>
       return if @destroyed
       data.sort (a, b) -> if a.created < b.created then 1 else -1
@@ -76,11 +77,11 @@ module.exports = class CampaignLevelView extends CocoView
       @levelCompletions = _.map data, mapFn, @
       @render()
 
-    startDay = utils.getUTCDay -13
+    startDay = utils.getUTCDay -14
     
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_completions', {
-      url: '/db/analytics_log_event/-/level_completions'
+      url: '/db/analytics_perday/-/level_completions'
       data: {startDay: startDay, slug: @levelSlug}
       method: 'POST'
       success: success
@@ -88,13 +89,14 @@ module.exports = class CampaignLevelView extends CocoView
     request.load()
 
   getLevelPlaytimes: ->
-    # Fetch last 7 days of level average playtimes
+    # Fetch last 14 days of level average playtimes
     success = (data) =>
       return if @destroyed
       @levelPlaytimes = data.sort (a, b) -> if a.created < b.created then 1 else -1
       @render()
 
     startDay = utils.getUTCDay -13
+    startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
 
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'playtime_averages', {

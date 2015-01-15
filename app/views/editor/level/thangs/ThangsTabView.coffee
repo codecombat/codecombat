@@ -625,9 +625,9 @@ module.exports = class ThangsTabView extends CocoView
   onSpriteContextMenu: (e) ->
     {clientX, clientY} = e.originalEvent.nativeEvent
     if @addThangType
-      $('#duplicate a').html 'Stop Duplicate'
+      $('#duplicate a').html $.i18n.t 'editor.stop_duplicate'
     else
-      $('#duplicate a').html 'Duplicate'
+      $('#duplicate a').html $.i18n.t 'editor.duplicate'
     $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
     $('#contextmenu').show()
 

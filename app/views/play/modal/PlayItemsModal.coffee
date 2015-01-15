@@ -7,6 +7,7 @@ BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
+Level = require 'models/Level'
 Purchase = require 'models/Purchase'
 
 utils = require 'core/utils'
@@ -120,6 +121,9 @@ module.exports = class PlayItemsModal extends ModalView
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
     @$el.find("a[href='#item-category-armor']").click()  # Start on armor tab, if it's there.
+    earnedLevels = me.get('earned')?.levels or []
+    if Level.levels['defense-of-plainswood'] not in earnedLevels
+      @$el.find('#misc-tab').hide()
 
   onHidden: ->
     super()

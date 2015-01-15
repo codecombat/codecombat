@@ -1,13 +1,17 @@
+log = require 'winston'
+mongoose = require 'mongoose'
+utils = require '../lib/utils'
 AnalyticsLogEvent = require './AnalyticsLogEvent'
 Campaign = require '../campaigns/Campaign'
 Level = require '../levels/Level'
 Handler = require '../commons/Handler'
-log = require 'winston'
 
 class AnalyticsLogEventHandler extends Handler
   modelClass: AnalyticsLogEvent
   jsonSchema: require '../../app/schemas/models/analytics_log_event'
   editableProperties: [
+    'e'
+    'p'
     'event'
     'properties'
   ]
@@ -17,13 +21,117 @@ class AnalyticsLogEventHandler extends Handler
 
   makeNewInstance: (req) ->
     instance = super(req)
+    instance.set('u', req.user._id)
+    # TODO: Remove 'user' after we stop querying for it (probably 30 days, ~2/16/15)
     instance.set('user', req.user._id)
     instance
 
   getByRelationship: (req, res, args...) ->
-    return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
-    return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
+    return @logEvent(req, res) if args[1] is 'log_event'
+    # TODO: Remove these APIs
+    # return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
+    # return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     super(arguments...)
+
+  logEvent: (req, res) ->
+    # Converts strings to string IDs where possible, and logs the event
+    user = req.user._id
+    event = req.query.event or req.body.event
+    properties = req.query.properties or req.body.properties
+    @sendSuccess res # Return request immediately
+
+    saveDoc = (eventID, slimProperties) ->
+      doc = new AnalyticsLogEvent 
+        u: user
+        e: eventID
+        p: slimProperties
+        # TODO: Remove these legacy properties after we stop querying for them (probably 30 days, ~2/16/15)
+        user: user
+        event: event
+        properties: properties
+      doc.save()
+
+    utils.getAnalyticsStringID event, (eventID) ->
+      if eventID > 0
+        # TODO: properties slimming is pretty ugly
+        slimProperties = _.cloneDeep properties
+        if event in ['Clicked Level', 'Show problem alert', 'Started Level', 'Saw Victory', 'Problem alert help clicked', 'Spell palette help clicked']
+          delete slimProperties.level if event is 'Saw Victory'
+          properties.ls = mongoose.Types.ObjectId properties.ls if properties.ls
+          slimProperties.ls = mongoose.Types.ObjectId slimProperties.ls if slimProperties.ls
+          if slimProperties.levelID?
+            # levelID: string => l: string ID
+            utils.getAnalyticsStringID slimProperties.levelID, (levelStringID) ->
+              if levelStringID > 0
+                delete slimProperties.levelID
+                slimProperties.l = levelStringID
+              saveDoc eventID, slimProperties
+            return
+        else if event in ['Script Started', 'Script Ended']
+          properties.ls = mongoose.Types.ObjectId properties.ls if properties.ls
+          slimProperties.ls = mongoose.Types.ObjectId slimProperties.ls if slimProperties.ls
+          if slimProperties.levelID? and slimProperties.label?
+            # levelID: string => l: string ID
+            # label: string => lb: string ID
+            utils.getAnalyticsStringID slimProperties.levelID, (levelStringID) ->
+              if levelStringID > 0
+                delete slimProperties.levelID
+                slimProperties.l = levelStringID
+              utils.getAnalyticsStringID slimProperties.label, (labelStringID) ->
+                if labelStringID > 0
+                  delete slimProperties.label
+                  slimProperties.lb = labelStringID
+                saveDoc eventID, slimProperties
+            return
+        else if event is 'Heard Sprite'
+          properties.ls = mongoose.Types.ObjectId properties.ls if properties.ls
+          slimProperties.ls = mongoose.Types.ObjectId slimProperties.ls if slimProperties.ls
+          if slimProperties.message?
+            # message: string => m: string ID
+            utils.getAnalyticsStringID slimProperties.message, (messageStringID) ->
+              if messageStringID > 0
+                delete slimProperties.message
+                slimProperties.m = messageStringID
+              saveDoc eventID, slimProperties
+            return
+        else if event in ['Start help video', 'Finish help video']
+          properties.ls = mongoose.Types.ObjectId properties.ls if properties.ls
+          slimProperties.ls = mongoose.Types.ObjectId slimProperties.ls if slimProperties.ls
+          if slimProperties.level and slimProperties.style?
+            # level: string => l: string ID
+            # style: string => s: string ID
+            utils.getAnalyticsStringID slimProperties.level, (levelStringID) ->
+              if levelStringID > 0
+                delete slimProperties.level
+                slimProperties.l = levelStringID
+              utils.getAnalyticsStringID slimProperties.style, (styleStringID) ->
+                if styleStringID > 0
+                  delete slimProperties.style
+                  slimProperties.s = styleStringID
+                saveDoc eventID, slimProperties
+            return
+        else if event is 'Show subscription modal'
+          delete properties.category
+          delete slimProperties.category
+          if slimProperties.label?
+            # label: string => lb: string ID
+            utils.getAnalyticsStringID slimProperties.label, (labelStringID) ->
+              if labelStringID > 0
+                delete slimProperties.label
+                slimProperties.lb = labelStringID
+              if slimProperties.level?
+                # level: string => l: string ID
+                utils.getAnalyticsStringID slimProperties.level, (levelStringID) ->
+                  if levelStringID > 0
+                    delete slimProperties.level
+                    slimProperties.l = levelStringID
+                  saveDoc eventID, slimProperties
+                return
+              saveDoc eventID, slimProperties
+            return
+        saveDoc eventID, slimProperties
+      else
+        log.warn "Unable to get analytics string ID for " + event
 
   getLevelCompletionsBySlug: (req, res) ->
     # Returns an array of per-day level starts and finishes
@@ -60,8 +168,8 @@ class AnalyticsLogEventHandler extends Handler
     queryParams = {$and: [
       {$or: [{"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
     ]}
-    queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-    queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
+    queryParams["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+    queryParams["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
 
     # Query stream is better for large results
     # http://mongoosejs.com/docs/api.html#query_Query-stream
@@ -221,8 +329,8 @@ class AnalyticsLogEventHandler extends Handler
       userProgression = {}
 
       queryParams = {$and: [{$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}]}
-      queryParams["$and"].push created: {$gte: new Date(startDay + "T00:00:00.000Z")} if startDay?
-      queryParams["$and"].push created: {$lt: new Date(endDay + "T00:00:00.000Z")} if endDay?
+      queryParams["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+      queryParams["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
 
       # Query stream is better for large results
       # http://mongoosejs.com/docs/api.html#query_Query-stream

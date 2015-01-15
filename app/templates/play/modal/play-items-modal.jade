@@ -13,7 +13,7 @@
     
     ul.nav.nav-pills.nav-stacked
       for category, index in itemCategories
-        li(class=index ? "" : "active")
+        li(class=index ? "" : "active", id=category + '-tab')
           a.one-line(href="#item-category-" + category, data-toggle="tab")
             img.tab-icon(src="/images/pages/play/modal/item-icon-"+category+".png", draggable="false")
             span.big-font= itemCategoryNames[index]

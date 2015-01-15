@@ -18,17 +18,27 @@ today = today.toISOString().substr(0, 10);
 print("Today is " + today);
 
 var todayMinus6 = new Date();
-todayMinus6.setDate(todayMinus6.getUTCDate() - 6);
+todayMinus6.setUTCDate(todayMinus6.getUTCDate() - 6);
 var startDate = todayMinus6.toISOString().substr(0, 10) + "T00:00:00.000Z";
 // startDate = "2014-12-31T00:00:00.000Z";
 print("Start date is " + startDate)
 // var endDate = "2015-01-06T00:00:00.000Z";
 // print("End date is " + endDate)
 
+function objectIdWithTimestamp(timestamp)
+{
+  // Convert string date to Date object (otherwise assume timestamp is a date)
+  if (typeof(timestamp) == 'string') timestamp = new Date(timestamp);
+  // Convert date object to hex seconds since Unix epoch
+  var hexSeconds = Math.floor(timestamp/1000).toString(16);
+  // Create an ObjectId with that hex timestamp
+  var constructedObjectId = ObjectId(hexSeconds + "0000000000000000");
+  return constructedObjectId
+}
+
 var cursor = db['analytics.log.events'].find({
   $and: [
-    {"created": { $gte: ISODate(startDate)}},
-    // {"created": { $lt: ISODate(endDate)}},
+    {_id: {$gte: objectIdWithTimestamp(ISODate(startDate))}},
     {$or: [ {"event" : 'Started Level'}, {"event" : 'Saw Victory'}]}
     ]
 });

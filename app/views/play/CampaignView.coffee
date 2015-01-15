@@ -192,7 +192,7 @@ module.exports = class CampaignView extends RootView
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if @editorMode
         for level in @campaign.renderedLevels
-          for nextLevelOriginal in level.nextLevels
+          for nextLevelOriginal in level.nextLevels ? []
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
     @applyCampaignStyles()

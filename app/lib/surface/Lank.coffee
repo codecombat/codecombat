@@ -30,6 +30,7 @@ module.exports = Lank = class Lank extends CocoClass
     thang: null
     camera: null
     showInvisible: false
+    preloadSounds: true
 
   possessed: false
   flipped: false
@@ -84,8 +85,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   onThangTypeLoaded: ->
     @stillLoading = false
-    for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
-      AudioPlayer.preloadSoundReference sound for sound in sounds when sound
+    if @options.preloadSounds
+      for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
+        AudioPlayer.preloadSoundReference sound for sound in sounds when sound
     if @thangType.get('raster')
       @actions = {}
       @isRaster = true
