@@ -252,6 +252,12 @@ module.exports = class CampaignEditorView extends RootView
         item.completionRate = (item.finished / item.started * 100).toFixed(2)
         item
       @campaignCompletions = levels:  _.map data, mapFn, @
+      sortedLevels = _.cloneDeep @campaignCompletions.levels
+      sortedLevels = _.filter sortedLevels, ((a) -> a.completionRate > 1.0), @
+      sortedLevels.sort (a, b) -> b.completionRate - a.completionRate
+      @campaignCompletions.top3 = _.pluck sortedLevels[0..2], 'level'
+      sortedLevels.sort (a, b) -> a.completionRate - b.completionRate
+      @campaignCompletions.bottom3 = _.pluck sortedLevels[0..2], 'level'
       @campaignCompletions.startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
       @campaignCompletions.endDay = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
       @render()

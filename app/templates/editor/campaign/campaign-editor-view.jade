@@ -68,7 +68,12 @@ block outer_content
                         td= campaignCompletions.levels[i].level
                         td= campaignCompletions.levels[i].started
                         td= campaignCompletions.levels[i].finished
-                        td= campaignCompletions.levels[i].completionRate
+                        if campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
+                          td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
+                        else if campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
+                          td(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
+                        else
+                          td= campaignCompletions.levels[i].completionRate
       else
         button.btn.btn-default.disabled#analytics-button Analytics Loading...
 
