@@ -1,3 +1,4 @@
+AnalyticsString = require '../analytics/AnalyticsString'
 mongoose = require 'mongoose'
 
 module.exports =
@@ -13,3 +14,25 @@ module.exports =
     hexSeconds = Math.floor(timestamp/1000).toString(16)
     # Create an ObjectId with that hex timestamp
     mongoose.Types.ObjectId(hexSeconds + "0000000000000000")
+  getAnalyticsStringID: (str, callback) ->
+    @analyticsStringCache ?= {}
+    return callback @analyticsStringCache[str] if @analyticsStringCache[str]
+
+    insertString = =>
+      # http://docs.mongodb.org/manual/tutorial/create-an-auto-incrementing-field/#auto-increment-optimistic-loop
+      AnalyticsString.find({}, {_id: 1}).sort({_id: -1}).limit(1).exec (err, documents) =>
+        if err? then return callback -1
+        seq = if documents.length > 0 then documents[0]._id + 1 else 1
+        doc = new AnalyticsString _id: seq, v: str
+        doc.save (err) => 
+          if err? then return callback -1
+          @analyticsStringCache[str] = seq
+          callback seq
+
+    # Find existing string
+    AnalyticsString.findOne(v: str).exec (err, document) =>
+      if err? then return callback -1
+      if document
+        @analyticsStringCache[str] = document._id
+        return callback @analyticsStringCache[str]
+      insertString()
