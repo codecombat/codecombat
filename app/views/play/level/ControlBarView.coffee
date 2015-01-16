@@ -37,6 +37,8 @@ module.exports = class ControlBarView extends CocoView
     if @level.get('type') in ['hero-ladder'] and me.isAdmin()
       @isMultiplayerLevel = true
       @multiplayerStatusManager = new MultiplayerStatusManager @levelID, @onMultiplayerStateChanged
+    if @level.get 'replayable'
+      @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
 
   setBus: (@bus) ->
 
@@ -59,6 +61,10 @@ module.exports = class ControlBarView extends CocoView
     c.ladderGame = @level.get('type') in ['ladder', 'hero-ladder']
     if c.isMultiplayerLevel = @isMultiplayerLevel
       c.multiplayerStatus = @multiplayerStatusManager?.status
+    if @level.get 'replayable'
+      c.levelDifficulty = @session.get('state')?.difficulty ? 0
+      c.difficultyTitle = "#{$.i18n.t 'play.level_difficulty'}#{c.levelDifficulty}"
+      @lastDifficulty = c.levelDifficulty
     c.spectateGame = @spectateGame
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder']
@@ -109,6 +115,10 @@ module.exports = class ControlBarView extends CocoView
 
   onIPadMemoryWarning: (e) ->
     @hasReceivedMemoryWarning = true
+
+  onSessionDifficultyChanged: ->
+    return if @session.get('state')?.difficulty is @lastDifficulty
+    @render()
 
   destroy: ->
     @setupManager?.destroy()

@@ -21,7 +21,10 @@ else
   .level-name-area-container
     .level-name-area
       .level-label(data-i18n="play_level.level")
-      .level-name= worldName
+      .level-name(title=difficultyTitle || "")
+        span= worldName
+        if levelDifficulty
+          sup.level-difficulty= levelDifficulty
 
 .buttons-area
 
