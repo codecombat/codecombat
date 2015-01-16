@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     awaiting_levels_adventurer_prefix: "Vi lanserer fem nye brett hver uke"
     awaiting_levels_adventurer: "Registrer deg som Eventyrer"
     awaiting_levels_adventurer_suffix: "for å få spille nye brett før alle andre."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Velg Ditt Nivå" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kan hoppe til hvilket som helst brett under, eller diskutere nivåene på "
     adventurer_forum: "Eventyrer forumet"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   versions:
     save_version_title: "Lagre ny version"
     new_major_version: "Ny hovedversjon"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "For å lagre endringer må du først akseptere vår"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     level_tab_thangs_all: "Alle"
 #    level_tab_thangs_conditions: "Starting Conditions"
     level_tab_thangs_add: "Legg til Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Slett"
     duplicate: "Kopier"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     leaderboard: "Poengtavle"
 #    user_schema: "User Schema"
     user_profile: "Brukerprofil"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

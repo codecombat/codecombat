@@ -81,6 +81,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     awaiting_levels_adventurer_prefix: "Nous produisons cinq niveaux par semaine."
     awaiting_levels_adventurer: "S'inscrire comme aventurier"
     awaiting_levels_adventurer_suffix: "afin d'être le premier à jouer de nouveaux niveaux."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Choisissez votre niveau" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
     adventurer_forum: "le forum de l'Aventurier"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   versions:
     save_version_title: "Enregistrer une nouvelle version"
     new_major_version: "Nouvelle version majeure"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Pour enregistrer vos modifications vous devez d'abord accepter notre"
     cla_url: "Copyright"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_tab_thangs_all: "Tout"
     level_tab_thangs_conditions: "Conditions de départ"
     level_tab_thangs_add: "ajouter des Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Supprimer"
     duplicate: "Dupliquer"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     leaderboard: "Classement"
     user_schema: "Schéma d'utilisateur"
     user_profile: "Profile d'utilisateur"
+#    patch: "Patch"
     patches: "Patchs"
     patched_model: "Document Source"
     model: "Modèle"

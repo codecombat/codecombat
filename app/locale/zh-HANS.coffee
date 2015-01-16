@@ -81,6 +81,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     awaiting_levels_adventurer_prefix: "我们每周开放五个关卡"
     awaiting_levels_adventurer: "注册成为冒险家"
     awaiting_levels_adventurer_suffix: "来优先尝试新关卡"
+#    adjust_volume: "Adjust volume"
     choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
     adventurer_forum: "冒险者论坛"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   versions:
     save_version_title: "保存新版本"
     new_major_version: "新的重要版本"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "要想保存更改，您必须先同意我们的"
     cla_url: "贡献者许可协议"
     cla_suffix: "。"
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_tab_thangs_all: "所有"
     level_tab_thangs_conditions: "启动条件"
     level_tab_thangs_add: "增加物体"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "删除"
     duplicate: "复制"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     leaderboard: "排行榜"
     user_schema: "用户模式"
     user_profile: "用户信息"
+#    patch: "Patch"
     patches: "补丁"
     patched_model: "源文档"
     model: "型号"

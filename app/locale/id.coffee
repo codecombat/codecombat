@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     awaiting_levels_adventurer_prefix: "Kami meliris lima level per minggu"
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Pilih Level Anda" # The rest of this section is the old play view at /play-old and isn't very important.
 #    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
 #    adventurer_forum: "the Adventurer forum"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #  versions:
 #    save_version_title: "Save New Version"
 #    new_major_version: "New Major Version"
+#    submitting_patch: "Submitting Patch..."
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

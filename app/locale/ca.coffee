@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Escull el teu nivell" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Pots saltar a qualsevols dels nivells de més abaix, o discutir els nivells de més amunt."
     adventurer_forum: "El fòrum de l'aventurer"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   versions:
     save_version_title: "Guarda una nova versió"
     new_major_version: "Nova versió principal"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Per guardar els canvis primer has d'acceptar"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     level_tab_thangs_all: "Tot"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Esborrar"
     duplicate: "Duplicar"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     leaderboard: "Classificació"
     user_schema: "Esquema d'usuari"
     user_profile: "Perfil d'usuari"
+#    patch: "Patch"
     patches: "Pegats"
     patched_model: "Document font"
     model: "Model"

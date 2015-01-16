@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Escolle o teu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Podes escoller calqueira pantalla ou falar no "
     adventurer_forum: " foro do aventureiro "
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
   versions:
     save_version_title: "Gardar nova versión"
     new_major_version: "Nova versión principal"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Para gardar os cambios, primeiro debes aceptar o noso"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     level_tab_thangs_all: "Todo"
     level_tab_thangs_conditions: "Condicións de inicio"
     level_tab_thangs_add: "Engadir Obxectos"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Borrar"
     duplicate: "Duplicar"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     leaderboard: "Clasificación"
     user_schema: "Esquema de usuario"
     user_profile: "Perfil de usuario"
+#    patch: "Patch"
     patches: "Parches"
     patched_model: "Documento Fonte"
     model: "Modelo"

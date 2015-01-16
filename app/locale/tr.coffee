@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
     awaiting_levels_adventurer: "Maceracı olmak için kayıt ol"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Seviye Seçimi" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Aşağıdaki seviyelerden birini doğrudan oynayabilirsiniz, veya seviye ile ilgili "
     adventurer_forum: "Maceracı forumunda"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   versions:
     save_version_title: "Yeni Sürümü Kaydet"
     new_major_version: "Yeni Önemli Sürüm"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Değişiklikleri kaydetmek için ilk olarak"
     cla_url: "KLA'mızı"
     cla_suffix: "kabul etmelisiniz."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     level_tab_thangs_all: "Tüm"
     level_tab_thangs_conditions: "Başlama Şartları"
     level_tab_thangs_add: "Nesne Ekle"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Sil"
     duplicate: "Kopyala"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     leaderboard: "Sıralama"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

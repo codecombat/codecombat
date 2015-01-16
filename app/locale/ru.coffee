@@ -81,6 +81,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     awaiting_levels_adventurer_prefix: "Мы выпускаем по 5 уровней в неделю."
     awaiting_levels_adventurer: "Зарегистрируйтесь в качестве Искателя приключений"
     awaiting_levels_adventurer_suffix: "чтобы первым поиграть в новые уровни."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Выберите ваш уровень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Вы можете зайти на любой из этих уровней, а также обсудить уровни на "
     adventurer_forum: "форуме Искателей приключений"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   versions:
     save_version_title: "Сохранить новую версию"
     new_major_version: "Новая основная версия"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Чтобы сохранить изменения, сначала вы должны согласиться с нашим"
     cla_url: "лицензионным соглашением соавторов"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_tab_thangs_all: "Все"
     level_tab_thangs_conditions: "Начальные условия"
     level_tab_thangs_add: "Добавить объект"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Удалить"
     duplicate: "Дублировать"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     leaderboard: "таблица лидеров"
     user_schema: "Пользовательская Schema"
     user_profile: "Пользовательский профиль"
+#    patch: "Patch"
     patches: "Патчи"
     patched_model: "Исходный документ"
     model: "Модель"

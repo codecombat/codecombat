@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     awaiting_levels_adventurer_prefix: "Vi släpper fem nya nivåer varje vecka."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Välj din nivå" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kan hoppa till vilken nivå som helst här under, eller diskutera nivåer på "
     adventurer_forum: "Äventyrarforumet"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   versions:
     save_version_title: "Spara ny version"
     new_major_version: "Ny betydande version"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "För att spara ändringar måste du först godkänna vår"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Startvillkor"
     level_tab_thangs_add: "Lägg till enheter"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

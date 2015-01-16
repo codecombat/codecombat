@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Chọn Trình của bạn" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Bạn có thể nhảy đến bất kỳ cấp độ dưới đây, hoặc nâng dần cấp độ "
     adventurer_forum: "diễn đàn Adventurer"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   versions:
     save_version_title: "Lưu Phiên bản Mới"
     new_major_version: "Phiên bản chính mới"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Để lưu thay đổi, bạn phải chấp thuận với chúng tôi trước"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"
