@@ -198,9 +198,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hard: "困难"
     player: "玩家"
     player_level: "等级" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    warrior: "武士"  
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "巫师"
 
   units:
     second: "秒"
