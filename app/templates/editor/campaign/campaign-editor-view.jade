@@ -41,9 +41,9 @@ block outer_content
       #campaign-view
       #campaign-level-view.hidden
       if campaignCompletions
-        button.btn.btn-default#analytics-button(title="Analytics",  data-toggle="modal" data-target="#analytics-modal") Analytics
+        button.btn.btn-default#analytics-button(title="Analytics", data-toggle="modal" data-target="#analytics-modal") Analytics
         .modal.fade#analytics-modal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
-          .modal-dialog
+          .modal-dialog.modal-lg
             .modal-content
               .modal-header
                 button.close(type="button", data-dismiss="modal", aria-label="Close")
@@ -61,6 +61,7 @@ block outer_content
                       td Level
                       td Started
                       td Finished
+                      td Playtime (s)
                       td Completion %
                   tbody
                     - for (var i = 0; i < campaignCompletions.levels.length; i++)
@@ -68,6 +69,7 @@ block outer_content
                         td= campaignCompletions.levels[i].level
                         td= campaignCompletions.levels[i].started
                         td= campaignCompletions.levels[i].finished
+                        td= campaignCompletions.levels[i].averagePlaytime
                         if campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
                           td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
                         else if campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
