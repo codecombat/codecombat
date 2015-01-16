@@ -480,6 +480,7 @@
   versions:
     save_version_title: "Save New Version"
     new_major_version: "New Major Version"
+    submitting_patch: "Submitting Patch..."
     cla_prefix: "To save changes, first you must agree to our"
     cla_url: "CLA"
     cla_suffix: "."
@@ -635,6 +636,8 @@
     level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Starting Conditions"
     level_tab_thangs_add: "Add Thangs"
+    add_components: "Add Components"
+    component_configs: "Component Configurations"
     config_thang: "Double click to configure a thang"
     delete: "Delete"
     duplicate: "Duplicate"

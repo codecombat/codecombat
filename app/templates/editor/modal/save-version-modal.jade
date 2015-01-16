@@ -2,7 +2,7 @@ extends /templates/core/modal-base
 
 block modal-header-content
   if isPatch
-    h3(data-i18n="versions.submit_patch_title") Submit Patch
+    h3(data-i18n="common.submit_patch") Submit Patch
   else
     h3(data-i18n="versions.save_version_title") Save New Version
 
@@ -37,10 +37,10 @@ block modal-footer-content
       button.btn.btn-sm#agreement-button(data-i18n="versions.cla_agree") I AGREE
     if isPatch
       .alert.alert-info An owner will need to approve it before your changes will become visible.
-    
+
   .buttons
     button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
     if hasChanges && !isPatch
       button.btn.btn-primary#save-version-button(data-i18n="common.save") Save
     if hasChanges && isPatch
-      button.btn.btn-primary#submit-patch-button(data-i18n="versions.submit_patch") Submit Patch
+      button.btn.btn-primary#submit-patch-button(data-i18n="common.submit_patch") Submit Patch

@@ -81,6 +81,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     awaiting_levels_adventurer_prefix: "Liberamos cinco niveles cada semana."
     awaiting_levels_adventurer: "Regístrate como Aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Puedes elegir cualquier pantalla o charlar en "
     adventurer_forum: "el foro del aventurero "
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   versions:
     save_version_title: "Guardar nueva versión"
     new_major_version: "Nueva versión principal"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Para guardar los cambios, primero debes aceptar nuestro"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     level_tab_thangs_all: "Todo"
     level_tab_thangs_conditions: "Condiciones de inicio"
     level_tab_thangs_add: "Añadir Objetos"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Borrar"
     duplicate: "Duplicar"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     leaderboard: "Clasificación"
     user_schema: "Esquema de usuario"
     user_profile: "Perfil de usuario"
+#    patch: "Patch"
     patches: "Parches"
     patched_model: "Documento Fuente"
     model: "Modelo"

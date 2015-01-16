@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     awaiting_levels_adventurer_prefix: "Nós liberamos cinco níveis por semana."
     awaiting_levels_adventurer: "Cadastre-se como um aventureiro"
     awaiting_levels_adventurer_suffix: "para ser o primeiro a jogar as novas fases."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Escolha seu estágio" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Você pode ir para qualquer um dos estágios abaixo, ou discutir sobre eles no "
     adventurer_forum: "Fórum do Aventureiro"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   versions:
     save_version_title: "Salvar nova versão"
     new_major_version: "Nova versão principal"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Para salvar as modificações, primeiro você deve concordar com nosso"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     level_tab_thangs_all: "Tudo"
     level_tab_thangs_conditions: "Condições de Início"
     level_tab_thangs_add: "Adicionar Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Excluir"
     duplicate: "Duplicar"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     leaderboard: "Tabela de Classificação"
     user_schema: "Esquema do Usuário"
     user_profile: "Perfil do Usuário"
+#    patch: "Patch"
     patches: "Patches"
     patched_model: "Documento da Fonte"
     model: "Modelo"

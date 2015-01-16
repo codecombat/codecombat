@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     awaiting_levels_adventurer_prefix: "Ми випускаємо 5 рівнів на тиждень."
     awaiting_levels_adventurer: "Увійди як Шукач пригод"
     awaiting_levels_adventurer_suffix: "стань одним з перших, хто їх спробує."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Оберіть свій рівень" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Ви можете грати у будь-який рівень з наведених нижче або обговорювати рівні на "
     adventurer_forum: "форумі Шукачів пригод"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   versions:
     save_version_title: "Зберегти нову версію"
     new_major_version: "Зберегти основну версію"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Для збереження змін спочатку треба погодитись з нашим"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     level_tab_thangs_all: "Усі"
     level_tab_thangs_conditions: "Початковий статус"
     level_tab_thangs_add: "Додати об'єкти"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Видалити"
     duplicate: "Дублікат"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     leaderboard: "Таблиця лідерів"
     user_schema: "Схема користувача"
     user_profile: "Профайл користувача"
+#    patch: "Patch"
     patches: "Патчі"
     patched_model: "Вихідний документ"
     model: "Модель"

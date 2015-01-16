@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Kies Je Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Je kunt meteen naar een van de levels hieronder springen, of de levels bespreken op "
     adventurer_forum: "het Avonturiersforum"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
   versions:
     save_version_title: "Nieuwe versie opslaan"
     new_major_version: "Nieuwe hoofd versie"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Om bewerkingen op te slaan, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     level_tab_thangs_all: "Alles"
     level_tab_thangs_conditions: "Start Condities"
     level_tab_thangs_add: "Voeg element toe"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Verwijder"
     duplicate: "Dupliceer"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     leaderboard: "Scorebord"
     user_schema: "Gebruikersschema"
     user_profile: "Gebruikersprofiel"
+#    patch: "Patch"
     patches: "Patches"
 #    patched_model: "Source Document"
     model: "Model"

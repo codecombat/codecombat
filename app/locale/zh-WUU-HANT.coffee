@@ -81,6 +81,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "揀關數" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "下底個關數候爾揀，要勿聊聊上頭箇許關數。到"
     adventurer_forum: "冒險者論壇"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
   versions:
     save_version_title: "存新版本"
     new_major_version: "新個重要版本"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "想畀修改存起來，先頭要同意我裏個"
     cla_url: "貢獻者許可協議"
     cla_suffix: "。"
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     level_tab_thangs_all: "所有"
     level_tab_thangs_conditions: "發動條件"
     level_tab_thangs_add: "加物事"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "刪除"
     duplicate: "翻做"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     leaderboard: "排行榜"
     user_schema: "用戶模式"
     user_profile: "User Profile"
+#    patch: "Patch"
     patches: "補丁"
 #    patched_model: "Source Document"
 #    model: "Model"

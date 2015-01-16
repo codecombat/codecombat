@@ -81,6 +81,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Vælg Dit Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kan hoppe til et hvilket som helst level herunder, eller diskutere levels på "
     adventurer_forum: "Eventyrer-forummet"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   versions:
     save_version_title: "Gem ny version"
     new_major_version: "Ny hoved Version"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "For at gemme dine ændringer, må du acceptere brugerbetingelserne"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Startbetingelser"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

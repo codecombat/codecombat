@@ -81,6 +81,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     awaiting_levels_adventurer_prefix: "Minden héten öt új szintet teszünk elérhetővé."
     awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új szinteken játszik."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Válaszd ki a pályát!" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Továbbugorhatsz bármelyik pályára, amit lent látsz. Vagy megbeszélheted a pályát a többiekkel "
     adventurer_forum: "a Kalandozók Fórumán"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   versions:
     save_version_title: "Új verzió mentése"
     new_major_version: "Új főverzió"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "A módosítások elmentéséhez el kell fogadnod a "
     cla_url: "CLA"
     cla_suffix: "tartalmát."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

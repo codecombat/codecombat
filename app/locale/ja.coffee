@@ -81,6 +81,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   versions:
     save_version_title: "新しいバージョンを保存"
     new_major_version: "メジャーバージョンを新しくする"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "変更を適用するには, 私達のCLAに同意する必要があります。"
     cla_url: "CLA"
 #    cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

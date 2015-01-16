@@ -81,6 +81,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "레벨을 선택하세요." # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "아래에 있는 아무 레벨이나 바로 시작하실 수 있습니다. 또는 포럼에서 레벨에 관해 토론하세요 :"
     adventurer_forum: "모험가들의 포럼"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   versions:
     save_version_title: "새로운 버전을 저장합니다"
     new_major_version: "신규 버전"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "변경사항을 저장하기 위해서는, 먼저 계약사항에 동의 하셔야 합니다."
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "컨디션 시작"
     level_tab_thangs_add: "Thangs 추가"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "삭제"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     leaderboard: "상위권 순위 차트"
 #    user_schema: "User Schema"
     user_profile: "유저 프로필"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

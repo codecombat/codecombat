@@ -81,6 +81,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     awaiting_levels_adventurer_prefix: "Vypouštíme pět úrovní každý týden."
     awaiting_levels_adventurer: "Přihlašte se jako Dobrodruh"
     awaiting_levels_adventurer_suffix: "abyste jako první hráli nejnovější úrovně."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Zvolte si úroveň" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Můžete přejít do dalších úrovní, nebo debatovat o úrovních na "
     adventurer_forum: "fóru Dobrodruhů"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   versions:
     save_version_title: "Uložit novou verzi"
     new_major_version: "Nová hlavní verze"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Před uložením musíte souhlasit s"
     cla_url: "licencí"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     level_tab_thangs_all: "Všechny"
     level_tab_thangs_conditions: "Výchozí prostředí"
     level_tab_thangs_add: "Přidat Thangy"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Smazat"
     duplicate: "Duplikovat"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     leaderboard: "Žebříček"
     user_schema: "Uživatelské Schéma"
     user_profile: "Profil uživatele"
+#    patch: "Patch"
     patches: "Opravy"
     patched_model: "Zdrojový dokument"
     model: "Model"

@@ -81,6 +81,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Alege nivelul" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Poți să sari la orice nivel de mai jos"
     adventurer_forum: "forumul Aventurierului"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   versions:
     save_version_title: "Salvează noua versiune"
     new_major_version: "Versiune nouă majoră"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Pentru a salva modificările mai intâi trebuie sa fiți de acord cu"
     cla_url: "CLA"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Condiți inițiale"
     level_tab_thangs_add: "Adaugă Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

@@ -81,6 +81,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "اختر مستواك" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "يمكنك القفز إلى أي مستوى أدناه، أو مناقشة المستويات على "
     adventurer_forum: "منتدى المغامر"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
   versions:
     save_version_title: "إحفض نسخة جديدة"
     new_major_version: "نسخة مهمّة جديدة"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "لحفظ التغييرات، أولا يجب أن توافق على "
     cla_url: "اتفاقيّة ترخيص المساهم"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

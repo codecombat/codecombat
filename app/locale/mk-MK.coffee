@@ -81,6 +81,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     awaiting_levels_adventurer_prefix: "Пуштаме пет нивоа неделно."
     awaiting_levels_adventurer: "Зачлени се како Авантурист"
     awaiting_levels_adventurer_suffix: "за да бидеш првиот кој ќе ги игра новите нивоа."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Избери го твоето ниво" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Можеш да отидеш на било кое од подолните нивоа, или да дискутираш за нивоата на "
     adventurer_forum: "форумот на Авантуристите"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
   versions:
     save_version_title: "Зачувај нова верзија"
     new_major_version: "Нова поголема(major) верзија"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "За да ги зачуваш промените, мораш да го прифатиш нашиот"
     cla_url: "CLA"
     cla_suffix: "(договор за тие што допринесуваат)."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"

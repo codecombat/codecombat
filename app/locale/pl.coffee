@@ -81,6 +81,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+#    adjust_volume: "Adjust volume"
     choose_your_level: "Wybierz poziom" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Możesz wybrać jeden z poniższych poziomów lub omówić poziom na "
     adventurer_forum: "forum Podróżników"
@@ -479,6 +480,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   versions:
     save_version_title: "Zapisz nową wersję"
     new_major_version: "Nowa wersja główna"
+#    submitting_patch: "Submitting Patch..."
     cla_prefix: "Aby zapisać zmiany, musisz najpierw zaakceptować naszą"
     cla_url: "umowę licencyjną dla współtwórców (CLA)"
     cla_suffix: "."
@@ -634,6 +636,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Warunki początkowe"
     level_tab_thangs_add: "Dodaj obiekty"
+#    add_components: "Add Components"
+#    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
 #    delete: "Delete"
 #    duplicate: "Duplicate"
@@ -881,6 +885,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patch: "Patch"
 #    patches: "Patches"
 #    patched_model: "Source Document"
 #    model: "Model"
