@@ -55,11 +55,6 @@
     button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   else if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
-  // Don't show these things, they are bad and take us out of the game. Just wait until the new ones work.
-  //else
-  //  a.btn.achievements(href="/user/#{me.getSlugOrID()}/stats", data-i18n="[title]play.achievements")
-  //  a.btn.account(href="/user/#{me.getSlugOrID()}", data-i18n="[title]play.account")
-  //  a.btn.settings(href='/account', data-i18n="[title]play.settings")
   
 .user-status.header-font
   .user-status-line
@@ -79,7 +74,7 @@
         button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
 
-button.btn.btn-lg.btn-inverse#volume-button(title="Adjust volume")
+button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
   .glyphicon.glyphicon-volume-off
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up

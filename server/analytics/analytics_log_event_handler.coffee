@@ -35,10 +35,13 @@ class AnalyticsLogEventHandler extends Handler
 
   logEvent: (req, res) ->
     # Converts strings to string IDs where possible, and logs the event
-    user = req.user._id
+    user = req.user?._id
     event = req.query.event or req.body.event
     properties = req.query.properties or req.body.properties
     @sendSuccess res # Return request immediately
+    unless user?
+      log.warn 'No user given to analytics logEvent.'
+      return
 
     saveDoc = (eventID, slimProperties) ->
       doc = new AnalyticsLogEvent 
