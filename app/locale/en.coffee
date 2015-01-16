@@ -480,6 +480,7 @@
   versions:
     save_version_title: "Save New Version"
     new_major_version: "New Major Version"
+    submitting_patch: "Submitting Patch..."
     cla_prefix: "To save changes, first you must agree to our"
     cla_url: "CLA"
     cla_suffix: "."
