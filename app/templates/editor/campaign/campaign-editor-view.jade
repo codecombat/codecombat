@@ -16,6 +16,9 @@ block header
             span.glyphicon-home.glyphicon
 
       ul.nav.navbar-nav.navbar-right
+        li#analytics-button
+          a
+            span.glyphicon-stats.glyphicon
         if me.isAdmin()
           li#save-button
             a
@@ -40,43 +43,5 @@ block outer_content
     #right-column
       #campaign-view
       #campaign-level-view.hidden
-      if campaignCompletions
-        button.btn.btn-default#analytics-button(title="Analytics", data-toggle="modal" data-target="#analytics-modal") Analytics
-        .modal.fade#analytics-modal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
-          .modal-dialog.modal-lg
-            .modal-content
-              .modal-header
-                button.close(type="button", data-dismiss="modal", aria-label="Close")
-                  span(aria-hidden="true") &times;
-                h4.modal-title Analytics
-              .modal-body
-                if campaignCompletions.startDay
-                  if campaignCompletions.endDay
-                    div #{campaignCompletions.startDay} to #{campaignCompletions.endDay}
-                  else
-                    div #{campaignCompletions.startDay} to yesterday
-                table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
-                  thead
-                    tr
-                      td Level
-                      td Started
-                      td Finished
-                      td Playtime (s)
-                      td Completion %
-                  tbody
-                    - for (var i = 0; i < campaignCompletions.levels.length; i++)
-                      tr
-                        td= campaignCompletions.levels[i].level
-                        td= campaignCompletions.levels[i].started
-                        td= campaignCompletions.levels[i].finished
-                        td= campaignCompletions.levels[i].averagePlaytime
-                        if campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
-                          td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
-                        else if campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
-                          td(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
-                        else
-                          td= campaignCompletions.levels[i].completionRate
-      else
-        button.btn.btn-default.disabled#analytics-button Analytics Loading...
 
 block footer
