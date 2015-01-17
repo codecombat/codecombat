@@ -198,7 +198,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hard: "困难"
     player: "玩家"
     player_level: "等级" # Like player level 5, not like level: Dungeons of Kithgard
-    warrior: "武士"  
+    warrior: "武士"
     ranger: "巡逻兵"
     wizard: "巫师"
 
@@ -851,7 +851,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     gems: "宝石"
 #    active: "Active"
     subscribed: "已订阅"
-    nsubscribed: "取消订阅"
+    unsubscribed: "取消订阅"
 #    active_until: "Active Until"
 #    cost: "Cost"
 #    next_payment: "Next Payment"
@@ -1013,7 +1013,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    credits: "credits"
 #    one_month_coupon: "coupon: choose either Rails or HTML"
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-     license: "证书"
+    license: "证书"
 #    oreilly: "ebook of your choice"
 
   account_profile:
@@ -1078,7 +1078,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skills_header: "技能"
     skills_help: "按照熟练程度列出你所掌握的与开发有关的技能。"
     long_description_header: "详细描述你所期望的职位"
-    long_description_blurb: "告诉我们你的优点与你感兴趣的职位" #"Tell employers how awesome you are and what role you want."
+    long_description_blurb: "告诉我们你的优点与你感兴趣的职位"
     long_description: "描述"
     long_description_help: "向潜在的雇主描述你自己。尽量简明扼要。我们建议你列出你最感兴趣的职位。请勿超过600个字符。"
     work_experience: "工作经验"
