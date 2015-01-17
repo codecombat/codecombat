@@ -316,7 +316,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_premature_optimization: "过早的优化是万恶之源。 - 高德纳"
     tip_brute_force: "拿不准时就用穷举法。 - Ken Thompson"
     tip_extrapolation: "世界上只有两类人：一类人能够根据不完整的数据进行推断……"
-    tip_superpower:  "编程是我们拥有的最接近超能力的技能"#"Coding is the closest thing we have to a superpower."
+    tip_superpower: "编程是我们拥有的最接近超能力的技能"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -492,14 +492,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forum_prefix: "如果你想发布任何公开的东西, 可以试试"
     forum_page: "我们的论坛"
     forum_suffix: ""
-    faq_prefix: "这里还有一个"#"There's also a"
+    faq_prefix: "这里还有一个"
     faq: "FAQ"
-    subscribe_prefix: "如果你需要帮助解决一个关卡，请"#"If you need help figuring out a level, please"
+    subscribe_prefix: "如果你需要帮助解决一个关卡，请"
     subscribe: "订阅CodeCombat"
     subscribe_suffix: "并且我们很乐意给你提供代码相关的帮助"
     subscriber_support: "既然你已经订阅了CodeCombat，我们将给你提供优先帮助"
     screenshot_included: "包含截屏"
-    where_reply: "我们应该回复谁？"#"Where should we reply?"
+    where_reply: "我们应该回复谁？"
     send: "反馈意见"
     contact_candidate: "联系参选人" # Deprecated
     recruitment_reminder: "用这张表格来联系你希望面试的求职者。但请记住如果成功雇佣，CodeCombat会收取与这位员工第一年工资的15%等值的佣金。佣金需在雇佣此员工时就付清并且在之后的90天内如果此员工离职则可退款。兼职，远程办公员工，合同工以及实习生都可免除此费用。" # Deprecated
@@ -589,7 +589,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     artisan_summary: "建立游戏关卡并分享给朋友们。那么就选择工匠职业来教其他人编程吧。"
     adventurer_title: "冒险家"
     adventurer_title_description: "(关卡测试人员)"
-    adventurer_summary:"提前一周免费获得我们最新的关卡（还有我们的订阅内容），并帮助我们在发布之前寻找程序错误" # "Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release."
+    adventurer_summary: "提前一周免费获得我们最新的关卡（还有我们的订阅内容），并帮助我们在发布之前寻找程序错误"
     scribe_title: "文书"
     scribe_title_description: "(提示编辑人员)"
     scribe_summary: "好代码需要好文档，来自全世界数百万的玩家一起编写，编辑以及提高文档的可读性"
