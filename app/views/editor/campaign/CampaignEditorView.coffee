@@ -7,9 +7,10 @@ CampaignView = require 'views/play/CampaignView'
 CocoCollection = require 'collections/CocoCollection'
 treemaExt = require 'core/treema-ext'
 utils = require 'core/utils'
-SaveCampaignModal = require './SaveCampaignModal'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
+CampaignAnalyticsModal = require './CampaignAnalyticsModal'
 CampaignLevelView = require './CampaignLevelView'
+SaveCampaignModal = require './SaveCampaignModal'
 
 achievementProject = ['related', 'rewards', 'name', 'slug']
 thangTypeProject = ['name', 'original']
@@ -20,12 +21,16 @@ module.exports = class CampaignEditorView extends RootView
   className: 'editor'
 
   events:
+    'click #analytics-button': 'onClickAnalyticsButton'
     'click #save-button': 'onClickSaveButton'
 
   constructor: (options, @campaignHandle) ->
     super(options)
     @campaign = new Campaign({_id:@campaignHandle})
     @supermodel.loadModel(@campaign, 'campaign')
+
+    # Save reference to data used by anlytics modal so it persists across modal open/closes.
+    @campaignAnalytics = {}
 
     @levels = new CocoCollection([], {
       model: Level
@@ -46,8 +51,6 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @campaign, 'sync', @onFundamentalLoaded
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
-
-    _.delay @getCampaignAnalytics, 500
 
   loadThangTypeNames: ->
     # Load the names of the ThangTypes that this level's Treema nodes might want to display.
@@ -132,8 +135,10 @@ module.exports = class CampaignEditorView extends RootView
   getRenderData: ->
     c = super()
     c.campaign = @campaign
-    c.campaignCompletions = @campaignCompletions
     c
+
+  onClickAnalyticsButton: ->
+    @openModalView new CampaignAnalyticsModal {}, @campaignHandle, @campaignAnalytics
 
   onClickSaveButton: ->
     @toSave.set @toSave.filter (m) -> m.hasLocalChanges()
@@ -239,65 +244,6 @@ module.exports = class CampaignEditorView extends RootView
       achievement.set 'rewards', newRewards
       if achievement.hasLocalChanges()
         @toSave.add achievement
-
-  getCampaignAnalytics: =>
-    # Fetch last 14 days of campaign analytics
-
-    startDay = utils.getUTCDay -14
-    endDay = utils.getUTCDay -1
-
-    success = (data) =>
-      return if @destroyed
-      mapFn = (item) ->
-        item.completionRate = (item.finished / item.started * 100).toFixed(2)
-        item
-      @campaignCompletions = levels:  _.map data, mapFn, @
-      sortedLevels = _.cloneDeep @campaignCompletions.levels
-      sortedLevels = _.filter sortedLevels, ((a) -> a.completionRate > 1.0), @
-      sortedLevels.sort (a, b) -> b.completionRate - a.completionRate
-      @campaignCompletions.top3 = _.pluck sortedLevels[0..2], 'level'
-      sortedLevels.sort (a, b) -> a.completionRate - b.completionRate
-      @campaignCompletions.bottom3 = _.pluck sortedLevels[0..2], 'level'
-      @campaignCompletions.startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
-      @campaignCompletions.endDay = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
-      @getCampaignAveragePlaytimes()
-
-    # TODO: Why do we need this url dash?
-    request = @supermodel.addRequestResource 'campaign_completions', {
-      url: '/db/analytics_perday/-/campaign_completions'
-      data: {startDay: startDay, slug: @campaignHandle}
-      method: 'POST'
-      success: success
-    }, 0
-    request.load()
-
-  getCampaignAveragePlaytimes: =>
-    # Fetch last 14 days of level average playtimes
-    success = (data) =>
-      return if @destroyed
-      levelAverages = {}
-      for item in data
-        levelAverages[item.level] ?= []
-        levelAverages[item.level].push item.average
-      for level in @campaignCompletions.levels
-        if levelAverages[level.level]
-          if levelAverages[level.level].length > 0
-            total = _.reduce levelAverages[level.level], ((sum, num) -> sum + num)
-            level.averagePlaytime = (total / levelAverages[level.level].length).toFixed(2)
-          else
-            level.averagePlaytime = 0.0
-      @render()
-
-    levelSlugs = _.pluck @campaignCompletions.levels, 'level'
-    startDay = utils.getUTCDay -14
-    startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
-    request = @supermodel.addRequestResource 'playtime_averages', {
-      url: '/db/level/-/playtime_averages'
-      data: {startDay: startDay, slugs: levelSlugs}
-      method: 'POST'
-      success: success
-    }, 0
-    request.load()
 
 
 class LevelsNode extends TreemaObjectNode

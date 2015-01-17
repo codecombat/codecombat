@@ -1,0 +1,37 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Campaign Analytics
+  if campaignCompletions.startDay && campaignCompletions.endDay
+    .input-group.input-group-sm
+      input.form-control#input-startday(type='text', style='width:100px;', value=campaignCompletions.startDay)
+      input.form-control#input-endday(type='text', style='width:100px;', value=campaignCompletions.endDay)
+      button.btn.btn-default.btn-sm#reload-button(style='margin-left:10px;') Reload
+
+block modal-body-content
+  if campaignCompletions && campaignCompletions.levels
+    table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
+      thead
+        tr
+          td Level
+          td Started
+          td Finished
+          td Playtime (s)
+          td Completion %
+      tbody
+        - for (var i = 0; i < campaignCompletions.levels.length; i++)
+          tr
+            td= campaignCompletions.levels[i].level
+            td= campaignCompletions.levels[i].started
+            td= campaignCompletions.levels[i].finished
+            td= campaignCompletions.levels[i].averagePlaytime
+            if campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
+              td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
+            else if campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
+              td(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
+            else
+              td= campaignCompletions.levels[i].completionRate
+  else
+    div Loading...
+
+block modal-footer
