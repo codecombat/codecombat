@@ -101,8 +101,10 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     success = (data) =>
       return if @destroyed
       # console.log 'getCampaignLevelCompletions success', data
+      maxStarted = if data.length > 0 then (_.max data, ((a) -> a.started)).started else 0
       mapFn = (item) ->
         item.completionRate = if item.started > 0 then (item.finished / item.started * 100).toFixed(2) else 0.0
+        item.usersRemaining = Math.round(item.started / maxStarted * 100.0) unless maxStarted is 0
         item
       @campaignCompletions.levels = _.map data, mapFn, @
 

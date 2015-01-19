@@ -24,7 +24,8 @@ block modal-body-content
       tbody
         - for (var i = 0; i < campaignCompletions.levels.length; i++)
           tr
-            td= campaignCompletions.levels[i].level
+            td.level-name-container= campaignCompletions.levels[i].level
+              span.level-name-background(style="width:#{campaignCompletions.levels[i].usersRemaining || 0}%;")
             td= campaignCompletions.levels[i].started
             td= campaignCompletions.levels[i].finished
             td= campaignCompletions.levels[i].dropped
