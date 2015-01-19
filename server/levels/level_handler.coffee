@@ -7,6 +7,7 @@ Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 async = require 'async'
 utils = require '../lib/utils'
+log = require 'winston'
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
@@ -362,6 +363,8 @@ LevelHandler = class LevelHandler extends Handler
     endDay = req.query.endDay or req.body.endDay
 
     return @sendSuccess res, [] unless levelSlugs?
+
+    # log.warn "playtime_averages levelSlugs='#{levelSlugs}' startDay=#{startDay} endDay=#{endDay}"
 
     # Cache results for 1 day
     @levelPlaytimesCache ?= {}

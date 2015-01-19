@@ -16,7 +16,10 @@ block modal-body-content
           td Level
           td Started
           td Finished
+          td Left Game
+          td LG %
           td Playtime (s)
+          td LG/s
           td Completion %
       tbody
         - for (var i = 0; i < campaignCompletions.levels.length; i++)
@@ -24,10 +27,19 @@ block modal-body-content
             td= campaignCompletions.levels[i].level
             td= campaignCompletions.levels[i].started
             td= campaignCompletions.levels[i].finished
+            td= campaignCompletions.levels[i].dropped
+            if campaignCompletions.top3DropPercentage && campaignCompletions.top3DropPercentage.indexOf(campaignCompletions.levels[i].level) >= 0
+              td(style='background-color:pink;')= td= campaignCompletions.levels[i].dropPercentage
+            else
+              td= campaignCompletions.levels[i].dropPercentage
             td= campaignCompletions.levels[i].averagePlaytime
-            if campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
+            if campaignCompletions.top3DropPerSecond && campaignCompletions.top3DropPerSecond.indexOf(campaignCompletions.levels[i].level) >= 0
+              td(style='background-color:pink;')= td= campaignCompletions.levels[i].droppedPerSecond
+            else
+              td= campaignCompletions.levels[i].droppedPerSecond
+            if campaignCompletions.top3 && campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
               td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
-            else if campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
+            else if campaignCompletions.bottom3 && campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
               td(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
             else
               td= campaignCompletions.levels[i].completionRate

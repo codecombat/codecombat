@@ -8,6 +8,8 @@
 // Finish count for the same start date is how many unique users finished the remaining steps in the following ~30 days
 // https://mixpanel.com/help/questions/articles/how-are-funnels-calculated
 
+// Drop count: last started or finished level event for a given unique user
+
 // TODO: Why are Mixpanel level finish events significantly lower?
 // TODO: dungeons-of-kithgard completion rate is 62% vs. 77%
 // TODO: Similar start events, finish events off by 20% (5334 vs 6486)
@@ -74,11 +76,12 @@ function getLevelFunnelData(startDay, eventFunnel) {
   var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: eventFunnel}}]};
   var cursor = db['analytics.log.events'].find(queryParams);
 
-  // Map ordering: level, user, event, created
+  // Map ordering: level, user, event, day
   var userDataMap = {};
   while (cursor.hasNext()) {
     var doc = cursor.next();
-    var created = doc._id.getTimestamp().toISOString().substring(0, 10);
+    var created = doc._id.getTimestamp().toISOString();
+    var day = created.substring(0, 10);
     var event = doc.event;
     var properties = doc.properties;
     var user = doc.user;
@@ -91,13 +94,13 @@ function getLevelFunnelData(startDay, eventFunnel) {
 
     if (!userDataMap[level]) userDataMap[level] = {};
     if (!userDataMap[level][user]) userDataMap[level][user] = {};
-    if (!userDataMap[level][user][event] || userDataMap[level][user][event].localeCompare(created) > 0) {
-      // if (userDataMap[level][user][event]) log("Found earlier date " + level + " " + event + " " + user + " " + userDataMap[level][user][event] + " " + created);
-      userDataMap[level][user][event] = created;
+    if (!userDataMap[level][user][event] || userDataMap[level][user][event].localeCompare(day) > 0) {
+      // if (userDataMap[level][user][event]) log("Found earlier date " + level + " " + event + " " + user + " " + userDataMap[level][user][event] + " " + day);
+      userDataMap[level][user][event] = day;
     }
   }
 
-  // Data: level, created, event
+  // Data: level, day, event
   var levelFunnelData = {};
   for (level in userDataMap) {
     for (user in userDataMap[level]) {
@@ -105,14 +108,14 @@ function getLevelFunnelData(startDay, eventFunnel) {
       // Find first event date
       var funnelStartDay = null;
       for (event in userDataMap[level][user]) {
-        var created = userDataMap[level][user][event];
+        var day = userDataMap[level][user][event];
         if (!levelFunnelData[level]) levelFunnelData[level] = {};
-        if (!levelFunnelData[level][created]) levelFunnelData[level][created] = {};
-        if (!levelFunnelData[level][created][event]) levelFunnelData[level][created][event] = 0;
+        if (!levelFunnelData[level][day]) levelFunnelData[level][day] = {};
+        if (!levelFunnelData[level][day][event]) levelFunnelData[level][day][event] = 0;
         if (eventFunnel[0] === event) {
           // First event gets attributed to current date
-          levelFunnelData[level][created][event]++;
-          funnelStartDay = created;
+          levelFunnelData[level][day][event]++;
+          funnelStartDay = day;
           break;
         }
       }
@@ -135,6 +138,51 @@ function getLevelFunnelData(startDay, eventFunnel) {
   return levelFunnelData;
 }
 
+function getLevelDropCounts(startDay, events) {
+  // How many unique users did one of these events last?
+  // Return level/day breakdown
+
+  if (!startDay || !events || events.length === 0) return {};
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: events}}]};
+  var cursor = db['analytics.log.events'].find(queryParams);
+
+  var userProgression = {};
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var created = doc._id.getTimestamp().toISOString();
+    var event = doc.event;
+    var properties = doc.properties;
+    var user = doc.user;
+    var level;
+
+    // TODO: Switch to properties.levelID for 'Saw Victory'
+    if (event === 'Saw Victory' && properties.level) level = properties.level.toLowerCase().replace(/ /g, '-');
+    else if (properties.levelID) level = properties.levelID
+    else continue
+
+    if (!userProgression[user]) userProgression[user] = [];
+    userProgression[user].push({
+      created: created,
+      event: event,
+      level: level
+    });
+  }
+
+  var levelDropCounts = {};
+  for (user in userProgression) {
+    userProgression[user].sort(function (a,b) {return a.created < b.created ? -1 : 1});
+    var lastEvent = userProgression[user][userProgression[user].length - 1];
+    var level = lastEvent.level;
+    var day = lastEvent.created.substring(0, 10);
+    if (!levelDropCounts[level]) levelDropCounts[level] = {};
+    if (!levelDropCounts[level][day]) levelDropCounts[level][day] = 0
+      levelDropCounts[level][day]++;
+  }
+  return levelDropCounts;
+}
+
 function insertEventCount(event, level, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
@@ -153,7 +201,7 @@ function insertEventCount(event, level, day, count) {
     // log("Updating count in db for " + day + " " + event + " " + level + " " + doc.c + " => " + count);
     var results = db['analytics.perdays'].update(queryParams, {$set: {c: count}});
     if (results.nMatched !== 1 && results.nModified !== 1) {
-      log("ERROR: update count failed");
+      log("ERROR: update event count failed");
       printjson(results);
     }
   }
@@ -191,11 +239,23 @@ try {
   
   log("Inserting aggregated level completion data...");
   for (level in levelCompletionData) {
-    for (created in levelCompletionData[level]) {
-      if (today === created) continue; // Never save data for today because it's incomplete
-      for (event in levelCompletionData[level][created]) {
-        insertEventCount(event, level, created, levelCompletionData[level][created][event]);
+    for (day in levelCompletionData[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      for (event in levelCompletionData[level][day]) {
+        insertEventCount(event, level, day, levelCompletionData[level][day][event]);
       }
+    }
+  }
+
+  log("Getting level drop counts...");
+  var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel)
+
+  log("Inserting level drop counts...");
+  var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel)
+  for (level in levelDropCounts) {
+    for (day in levelDropCounts[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      insertEventCount('User Dropped', level, day, levelDropCounts[level][day]);
     }
   }
 } 
