@@ -19,7 +19,7 @@ class AnalyticsPerDayHandler extends Handler
     super(arguments...)
 
   getCampaignCompletionsBySlug: (req, res) ->
-    # Send back an ordered array of level starts and finishes
+    # Send back an ordered array of level per-day starts and finishes
     # Parameters:
     # slug - campaign slug
     # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
@@ -74,15 +74,20 @@ class AnalyticsPerDayHandler extends Handler
           levelEventCounts = {}
           for doc in documents
             levelEventCounts[doc.l] ?= {}
-            levelEventCounts[doc.l][doc.e] ?= 0
-            levelEventCounts[doc.l][doc.e] += doc.c
+            levelEventCounts[doc.l][doc.d] ?= {}
+            levelEventCounts[doc.l][doc.d][doc.e] ?= 0
+            levelEventCounts[doc.l][doc.d][doc.e] += doc.c
 
           completions = []
           for levelID of levelEventCounts
+            days = {}
+            for day of levelEventCounts[levelID]
+              days[day] =
+                started: levelEventCounts[levelID][day][startEventID] ? 0
+                finished: levelEventCounts[levelID][day][finishEventID] ? 0
             completions.push
               level: levelStringIDSlugMap[levelID]
-              started: levelEventCounts[levelID][startEventID] ? 0
-              finished: levelEventCounts[levelID][finishEventID] ? 0
+              days: days
           completions.sort (a, b) -> orderedLevelSlugs.indexOf(a.level) - orderedLevelSlugs.indexOf(b.level)
 
           @campaignCompletionsCache[cacheKey] = completions

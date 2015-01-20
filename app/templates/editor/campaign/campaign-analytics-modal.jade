@@ -39,11 +39,14 @@ block modal-body-content
             else
               td= campaignCompletions.levels[i].droppedPerSecond
             if campaignCompletions.top3 && campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
-              td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
+              td.level-completion-container(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
+                svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
             else if campaignCompletions.bottom3 && campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
-              td(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
+              td.level-completion-container(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
+                svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
             else
-              td= campaignCompletions.levels[i].completionRate
+              td.level-completion-container= campaignCompletions.levels[i].completionRate
+                svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
   else
     div Loading...
 

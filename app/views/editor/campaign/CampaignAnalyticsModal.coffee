@@ -1,5 +1,6 @@
 template = require 'templates/editor/campaign/campaign-analytics-modal'
 utils = require 'core/utils'
+require 'vendor/d3'
 ModalView = require 'views/core/ModalView'
 
 # TODO: jquery-ui datepicker doesn't work well in this view
@@ -26,6 +27,58 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     super()
     $("#input-startday").datepicker dateFormat: "yy-mm-dd"
     $("#input-endday").datepicker dateFormat: "yy-mm-dd"
+    @addCompletionLineGraphs()
+
+  addCompletionLineGraphs: ->
+    return unless @campaignCompletions.levels
+    for level in @campaignCompletions.levels
+      days = []
+      for day of level['days']
+        days.push
+          day: day
+          rate: level['days'][day].finished / level['days'][day].started
+      days.sort (a, b) -> a.day - b.day
+      data = []
+      for i in [0...days.length]
+        data.push
+          x: i
+          y: days[i].rate
+      @addLineGraph '#background' + level.level, data
+
+  addLineGraph: (containerSelector, lineData, lineColor='green', min=0, max=1.0) ->
+    # Add a line chart to the given container
+    # TODO: Move this to a utility library
+    vis = d3.select(containerSelector)
+    width = $(containerSelector).width()
+    height = $(containerSelector).height()
+    xRange = d3.scale.linear().range([0, width]).domain([d3.min(lineData, (d) -> d.x), d3.max(lineData, (d) -> d.x)])
+    yRange = d3.scale.linear().range([height, 0]).domain([min, max])
+    xAxis = d3.svg.axis()
+      .scale(xRange)
+      .tickSize(5)
+      .tickSubdivide(true)
+    yAxis = d3.svg.axis()
+      .scale(yRange)
+      .tickSize(5)
+      .orient('left')
+      .tickSubdivide(true)
+    vis.append('svg:g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(xAxis)
+    vis.append('svg:g')
+      .attr('class', 'y axis')
+      .attr('transform', 'translate(0,0)')
+      .call(yAxis)
+    lineFunc = d3.svg.line()
+      .x((d) -> xRange(d.x))
+      .y((d) -> yRange(d.y))
+      .interpolate('linear')
+    vis.append('svg:path')
+      .attr('d', lineFunc(lineData))
+      .attr('stroke', lineColor)
+      .attr('stroke-width', 1)
+      .attr('fill', 'none')
 
   onClickReloadButton: () =>
     startDay = $('#input-startday').val()
@@ -101,12 +154,21 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     success = (data) =>
       return if @destroyed
       # console.log 'getCampaignLevelCompletions success', data
-      maxStarted = if data.length > 0 then (_.max data, ((a) -> a.started)).started else 0
-      mapFn = (item) ->
+      countCompletions = (item) ->
+        item.started = _.reduce item.days, ((result, current) -> result + current.started), 0
+        item.finished = _.reduce item.days, ((result, current) -> result + current.finished), 0
         item.completionRate = if item.started > 0 then (item.finished / item.started * 100).toFixed(2) else 0.0
+        item
+      addUserRemaining = (item) ->
         item.usersRemaining = Math.round(item.started / maxStarted * 100.0) unless maxStarted is 0
         item
-      @campaignCompletions.levels = _.map data, mapFn, @
+
+      @campaignCompletions.levels = _.map data, countCompletions, @
+      if @campaignCompletions.levels.length > 0 
+        maxStarted = (_.max @campaignCompletions.levels, ((a) -> a.started)).started
+      else
+        maxStarted = 0
+      @campaignCompletions.levels = _.map @campaignCompletions.levels, addUserRemaining, @
 
       sortedLevels = _.cloneDeep @campaignCompletions.levels
       sortedLevels = _.filter sortedLevels, ((a) -> a.finished >= 10), @
