@@ -121,6 +121,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
       return if @destroyed
       # console.log 'getCampaignAveragePlaytimes success', data
       levelAverages = {}
+      maxPlaytime = 0
       for item in data
         levelAverages[item.level] ?= []
         levelAverages[item.level].push item.average
@@ -128,12 +129,18 @@ module.exports = class CampaignAnalyticsModal extends ModalView
         if levelAverages[level.level]
           if levelAverages[level.level].length > 0
             total = _.reduce levelAverages[level.level], ((sum, num) -> sum + num)
-            level.averagePlaytime = (total / levelAverages[level.level].length).toFixed(2)
+            level.averagePlaytime = total / levelAverages[level.level].length
+            maxPlaytime = level.averagePlaytime if maxPlaytime < level.averagePlaytime
             if level.averagePlaytime > 0 and level.dropped > 0
-              level.droppedPerSecond = (level.dropped / level.averagePlaytime).toFixed(2)
+              level.droppedPerSecond = level.dropped / level.averagePlaytime
           else
             level.averagePlaytime = 0.0
-            
+
+      addPlaytimePercentage = (item) ->
+        item.playtimePercentage = Math.round(item.averagePlaytime / maxPlaytime * 100.0) unless maxPlaytime is 0
+        item
+      @campaignCompletions.levels = _.map @campaignCompletions.levels, addPlaytimePercentage, @
+
       sortedLevels = _.cloneDeep @campaignCompletions.levels
       sortedLevels = _.filter sortedLevels, ((a) -> a.droppedPerSecond > 0), @
       sortedLevels.sort (a, b) -> b.droppedPerSecond - a.droppedPerSecond
@@ -158,7 +165,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
       countCompletions = (item) ->
         item.started = _.reduce item.days, ((result, current) -> result + current.started), 0
         item.finished = _.reduce item.days, ((result, current) -> result + current.finished), 0
-        item.completionRate = if item.started > 0 then (item.finished / item.started * 100).toFixed(2) else 0.0
+        item.completionRate = if item.started > 0 then item.finished / item.started * 100 else 0.0
         item
       addUserRemaining = (item) ->
         item.usersRemaining = Math.round(item.started / maxStarted * 100.0) unless maxStarted is 0
@@ -200,7 +207,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
         levelDrops[item.level] ?= item.dropped
       for level in @campaignCompletions.levels
         level.dropped = levelDrops[level.level] ? 0
-        level.dropPercentage = (level.dropped / level.started * 100).toFixed(2) if level.started > 0
+        level.dropPercentage = if level.started > 0 then level.dropped / level.started * 100 else 0.0
 
       sortedLevels = _.cloneDeep @campaignCompletions.levels
       sortedLevels = _.filter sortedLevels, ((a) -> a.dropPercentage > 0), @
