@@ -14,6 +14,11 @@
           td Started
           td Finished
           td Completion %
+          if levelHelps && levelHelps.length === levelCompletions.length
+            td Helps Clicked
+            td Helps / Started
+            td Help Videos
+            td Videos / Started
       tbody
         - for (var i = 0; i < levelCompletions.length; i++)
           tr
@@ -21,6 +26,11 @@
             td= levelCompletions[i].started
             td= levelCompletions[i].finished
             td= levelCompletions[i].rate
+            if levelHelps && levelHelps.length === levelCompletions.length
+              td= levelHelps[i].alertHelps + levelHelps[i].paletteHelps
+              td= ((levelHelps[i].alertHelps + levelHelps[i].paletteHelps) / levelCompletions[i].started).toFixed(2)
+              td= levelHelps[i].videoStarts
+              td= (levelHelps[i].videoStarts / levelCompletions[i].started).toFixed(2)
   else
     div Loading...
 

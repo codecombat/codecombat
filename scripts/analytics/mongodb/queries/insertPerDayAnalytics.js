@@ -183,6 +183,52 @@ function getLevelDropCounts(startDay, events) {
   return levelDropCounts;
 }
 
+function getLevelHelpCounts(startDay, events) {
+  if (!startDay || !events || events.length === 0) return {};
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: events}}]};
+  var cursor = db['analytics.log.events'].find(queryParams);
+
+  // Map ordering: level, user, event, day
+  var userDataMap = {};
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var created = doc._id.getTimestamp().toISOString();
+    var day = created.substring(0, 10);
+    var event = doc.event;
+    var properties = doc.properties;
+    var user = doc.user;
+    var level;
+
+    if (properties.level) level = properties.level;
+    else if (properties.levelID) level = properties.levelID
+    else continue
+
+    if (!userDataMap[level]) userDataMap[level] = {};
+    if (!userDataMap[level][user]) userDataMap[level][user] = {};
+    if (!userDataMap[level][user][event] || userDataMap[level][user][event].localeCompare(day) > 0) {
+      // if (userDataMap[level][user][event]) log("Found earlier date " + level + " " + event + " " + user + " " + userDataMap[level][user][event] + " " + day);
+      userDataMap[level][user][event] = day;
+    }
+  }
+
+  // Data: level, day, event
+  var levelEventData = {};
+  for (level in userDataMap) {
+    for (user in userDataMap[level]) {
+      for (event in userDataMap[level][user]) {
+        var day = userDataMap[level][user][event];
+        if (!levelEventData[level]) levelEventData[level] = {};
+        if (!levelEventData[level][day]) levelEventData[level][day] = {};
+        if (!levelEventData[level][day][event]) levelEventData[level][day][event] = 0;
+        levelEventData[level][day][event]++;
+      }
+    }
+  }
+  return levelEventData;
+}
+
 function insertEventCount(event, level, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
@@ -222,21 +268,21 @@ function insertEventCount(event, level, day, count) {
 try {
   // Look at last 30 days, same as Mixpanel
   var numDays = 30;
-  
+
   var startDay = new Date();
   today = startDay.toISOString().substr(0, 10);
   startDay.setUTCDate(startDay.getUTCDate() - numDays);
   startDay = startDay.toISOString().substr(0, 10);
 
   var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
+  var levelHelpEvents = ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video'];
 
   log("Today is " + today);
   log("Start day is " + startDay);
   log("Funnel events are " + levelCompletionFunnel);
-  
+
   log("Getting level completion data...");
   var levelCompletionData = getLevelFunnelData(startDay, levelCompletionFunnel);
-  
   log("Inserting aggregated level completion data...");
   for (level in levelCompletionData) {
     for (day in levelCompletionData[level]) {
@@ -249,16 +295,26 @@ try {
 
   log("Getting level drop counts...");
   var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel)
-
   log("Inserting level drop counts...");
-  var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel)
   for (level in levelDropCounts) {
     for (day in levelDropCounts[level]) {
       if (today === day) continue; // Never save data for today because it's incomplete
       insertEventCount('User Dropped', level, day, levelDropCounts[level][day]);
     }
   }
-} 
+
+  log("Getting level help counts...");
+  var levelHelpCounts = getLevelHelpCounts(startDay, levelHelpEvents)
+  log("Inserting level help counts...");
+  for (level in levelHelpCounts) {
+    for (day in levelHelpCounts[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      for (event in levelHelpCounts[level][day]) {
+        insertEventCount(event, level, day, levelHelpCounts[level][day][event]);
+      }
+    }
+  }
+}
 catch(err) {
   log("ERROR: " + err);
   printjson(err);
