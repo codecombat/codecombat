@@ -16,21 +16,50 @@ block modal-body-content
           td Level
           td Started
           td Finished
+          td Left Game
+          td LG %
           td Playtime (s)
+          td LG/s
           td Completion %
       tbody
         - for (var i = 0; i < campaignCompletions.levels.length; i++)
           tr
-            td= campaignCompletions.levels[i].level
+            td.level-name-container= campaignCompletions.levels[i].level
+              span.level-name-background(style="width:#{campaignCompletions.levels[i].usersRemaining || 0}%;")
             td= campaignCompletions.levels[i].started
             td= campaignCompletions.levels[i].finished
-            td= campaignCompletions.levels[i].averagePlaytime
-            if campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
-              td(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate
-            else if campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
-              td(style='background-color:pink;')= campaignCompletions.levels[i].completionRate
+            td= campaignCompletions.levels[i].dropped
+            if campaignCompletions.levels[i].dropPercentage
+              if campaignCompletions.top3DropPercentage && campaignCompletions.top3DropPercentage.indexOf(campaignCompletions.levels[i].level) >= 0
+                td(style='background-color:pink;')= campaignCompletions.levels[i].dropPercentage.toFixed(2)
+              else
+                td= campaignCompletions.levels[i].dropPercentage.toFixed(2)
             else
-              td= campaignCompletions.levels[i].completionRate
+              td
+            if campaignCompletions.levels[i].averagePlaytime
+              td.level-playtime-container= campaignCompletions.levels[i].averagePlaytime.toFixed(2)
+                span.level-playtime-background(style="width:#{campaignCompletions.levels[i].playtimePercentage || 0}%;")
+            else
+              td
+            if campaignCompletions.levels[i].droppedPerSecond
+              if campaignCompletions.top3DropPerSecond && campaignCompletions.top3DropPerSecond.indexOf(campaignCompletions.levels[i].level) >= 0
+                td(style='background-color:pink;')= campaignCompletions.levels[i].droppedPerSecond.toFixed(2)
+              else
+                td= campaignCompletions.levels[i].droppedPerSecond.toFixed(2)
+            else
+              td
+            if campaignCompletions.levels[i].completionRate
+              if campaignCompletions.top3 && campaignCompletions.top3.indexOf(campaignCompletions.levels[i].level) >= 0
+                td.level-completion-container(style='background-color:lightblue;')= campaignCompletions.levels[i].completionRate.toFixed(2)
+                  svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
+              else if campaignCompletions.bottom3 && campaignCompletions.bottom3.indexOf(campaignCompletions.levels[i].level) >= 0
+                td.level-completion-container(style='background-color:pink;')= campaignCompletions.levels[i].completionRate.toFixed(2)
+                  svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
+              else
+                td.level-completion-container= campaignCompletions.levels[i].completionRate.toFixed(2)
+                  svg.level-completion-background(id="background#{campaignCompletions.levels[i].level}")
+            else
+              td
   else
     div Loading...
 

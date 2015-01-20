@@ -22,6 +22,7 @@ module.exports = class CampaignLevelView extends CocoView
     @levelSlug = @level.get('slug')
     @getCommonLevelProblems()
     @getLevelCompletions()
+    @getLevelHelps()
     @getLevelPlaytimes()
     @getRecentSessions()
 
@@ -30,6 +31,7 @@ module.exports = class CampaignLevelView extends CocoView
     c.level = if @fullLevel.loaded then @fullLevel else @level
     c.commonProblems = @commonProblems
     c.levelCompletions = @levelCompletions
+    c.levelHelps = @levelHelps
     c.levelPlaytimes = @levelPlaytimes
     c.recentSessions = @recentSessions
     c
@@ -83,6 +85,23 @@ module.exports = class CampaignLevelView extends CocoView
     request = @supermodel.addRequestResource 'level_completions', {
       url: '/db/analytics_perday/-/level_completions'
       data: {startDay: startDay, slug: @levelSlug}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
+
+  getLevelHelps: ->
+    # Fetch last 14 days of level completion counts
+    success = (data) =>
+      return if @destroyed
+      @levelHelps = data.sort (a, b) -> if a.created < b.created then 1 else -1
+      @render()
+
+    startDay = utils.getUTCDay -14
+
+    request = @supermodel.addRequestResource 'level_helps', {
+      url: '/db/analytics_perday/-/level_helps'
+      data: {startDay: startDay, slugs: [@levelSlug]}
       method: 'POST'
       success: success
     }, 0

@@ -8,9 +8,9 @@ CodeCombat is a multiplayer programming game for learning how to code. **See the
 
 It's both a startup and a community project, completely open source under the [MIT and Creative Commons licenses](http://codecombat.com/legal). It's the largest open source [CoffeeScript](http://coffeescript.org/) project by lines of code, and since it's a game (with [really cool tech](https://github.com/codecombat/codecombat/wiki/Third-party-software-and-services)), it's really fun to hack on. Join us in teaching the world to code! Your contribution will go on to show millions of players how cool programming can be.
 
-### [Getting Started](https://github.com/codecombat/codecombat/wiki/Developer-environment)
+### [Getting Started](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-General-Information)
 
-We've made it easy to fork the project, run a simple script that'll install all the dependencies, and get a local copy of CodeCombat running right away on Mac, Linux, or Windows. See [the docs for details](https://github.com/codecombat/codecombat/wiki/Developer-environment).
+We've made it easy to fork the project, run a simple script that'll install all the dependencies, and get a local copy of CodeCombat running right away on Mac, Linux, or Windows. See [the docs for details](https://github.com/codecombat/codecombat/wiki/Dev-Setup:-General-Information).
 
 ### [Getting In Touch](https://github.com/codecombat/codecombat/wiki/Developer-organization)
 
