@@ -62,7 +62,7 @@ module.exports = class Tracker
     # https://segment.com/docs/integrations/mixpanel/
     properties = properties or {}
 
-    @trackEventInternal action, _.cloneDeep properties
+    @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction
 
     console.log 'Would track analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
