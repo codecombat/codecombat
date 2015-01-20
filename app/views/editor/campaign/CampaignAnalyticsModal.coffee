@@ -13,6 +13,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
 
   events:
     'click #reload-button': 'onClickReloadButton'
+    'dblclick .level': 'onDblClickLevel'
 
   constructor: (options, @campaignHandle, @campaignCompletions) ->
     super options
@@ -28,6 +29,20 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     $("#input-startday").datepicker dateFormat: "yy-mm-dd"
     $("#input-endday").datepicker dateFormat: "yy-mm-dd"
     @addCompletionLineGraphs()
+
+  onClickReloadButton: () =>
+    startDay = $('#input-startday').val()
+    endDay = $('#input-endday').val()
+    delete @campaignCompletions.levels
+    @campaignCompletions.startDay = startDay
+    @campaignCompletions.endDay = endDay
+    @render()
+    @getCampaignAnalytics startDay, endDay
+
+  onDblClickLevel: (e) ->
+    row = $(e.target).parents('.level')
+    Backbone.Mediator.publish 'editor:campaign-analytics-modal-closed', targetLevelSlug: row.data 'level-slug'
+    @hide()
 
   addCompletionLineGraphs: ->
     return unless @campaignCompletions.levels
@@ -80,15 +95,6 @@ module.exports = class CampaignAnalyticsModal extends ModalView
       .attr('stroke', lineColor)
       .attr('stroke-width', 1)
       .attr('fill', 'none')
-
-  onClickReloadButton: () =>
-    startDay = $('#input-startday').val()
-    endDay = $('#input-endday').val()
-    delete @campaignCompletions.levels
-    @campaignCompletions.startDay = startDay
-    @campaignCompletions.endDay = endDay
-    @render()
-    @getCampaignAnalytics startDay, endDay
 
   getCampaignAnalytics: (startDay, endDay) =>
     if startDay?
