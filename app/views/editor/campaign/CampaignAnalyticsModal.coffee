@@ -34,6 +34,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     for level in @campaignCompletions.levels
       days = []
       for day of level['days']
+        continue unless level['days'][day].started > 0
         days.push
           day: day
           rate: level['days'][day].finished / level['days'][day].started
