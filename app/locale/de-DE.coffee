@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription: "German (Germany)", translation:
   home:
     slogan: "Lerne spielend Programmieren"
-    no_ie: "CodeCombat läuft nicht im IE8 oder älteren Browsern. Tut uns Leid!" # Warning that only shows up in IE8 and older
+    no_ie: "CodeCombat läuft nicht im IE 8 oder älteren Browsern. Tut uns Leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
     play: "Spielen" # The big play button that opens up the campaign view.
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
@@ -960,12 +960,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     email_settings_url: "deiner Emaileinstellungen"
     email_description_suffix: "oder durch von uns gesendete Links kannst du jederzeit deine Einstellungen ändern und Abonnements kündigen."
     cost_title: "Kosten"
-    cost_description: "CodeCombat ist zur Zeit 100% kostenlos! Eines unserer Hauptziele ist, es dabei zu belassen, so dass es so viele Leute wie möglich spielen können, unabhängig davon in welcher Lebenssituation sie sich befinden. Falls dunkle Wolken aufziehen, könnten wir manche Inhalte im Rahmen eines Abonnements anbieten, aber lieber nicht. Mit etwas Glück können wir die Firma erhalten durch:"
+    cost_description: "Alle normalen Level von CodeCombat sind kostenlos spielbar, mit einem Abonement von $9.99 USD/Monat kann man extra Level Verzweigungen und 3500 Bonus Juwelen pro Monat. Du kannst das Abonement mit nur einem Click wiederrufen und wir versprechen eine 100% Geld-zurück Garantie."
     copyrights_title: "Copyrights und Lizenzen"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Alle Beiträge, sowohl auf unserer Webseite als auch in unserem GitHub Repository, unterliegen unserer"
     cla_url: "CLA"
-    contributor_description_suffix: "zu welcher du dich einverstanden erklären musst bevor du beitragen kannst."
+    contributor_description_suffix: "zu welcher du dich einverstanden erklären musst bevor du zu der Entwicklung beitragen kannst."
     code_title: "Code - MIT"
     code_description_prefix: "Der gesamte Code der CodeCombat gehört oder auf codecombat.com gehostet wird, sowohl im GitHub Repository als auch auch in der codecombat.com Datenbank, ist lizensiert durch die"
     mit_license_url: "MIT Lizenz"
