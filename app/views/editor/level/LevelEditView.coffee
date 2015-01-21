@@ -200,5 +200,5 @@ module.exports = class LevelEditView extends RootView
 
   incrementBuildTime: =>
     return if application.userIsIdle
-    @levelBuildTime ?= @level.get('buildTime')
+    @levelBuildTime ?= @level.get('buildTime') ? 0
     ++@levelBuildTime

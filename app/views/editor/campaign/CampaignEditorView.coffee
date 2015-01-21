@@ -24,6 +24,9 @@ module.exports = class CampaignEditorView extends RootView
     'click #analytics-button': 'onClickAnalyticsButton'
     'click #save-button': 'onClickSaveButton'
 
+  subscriptions:
+    'editor:campaign-analytics-modal-closed' : 'onAnalyticsModalClosed'
+
   constructor: (options, @campaignHandle) ->
     super(options)
     @campaign = new Campaign({_id:@campaignHandle})
@@ -139,6 +142,13 @@ module.exports = class CampaignEditorView extends RootView
 
   onClickAnalyticsButton: ->
     @openModalView new CampaignAnalyticsModal {}, @campaignHandle, @campaignAnalytics
+
+  onAnalyticsModalClosed: (options) ->
+    if options.targetLevelSlug? and @treema.childrenTreemas?.levels?.childrenTreemas?
+      for original, level of @treema.childrenTreemas.levels.childrenTreemas
+        if level.data?.slug is options.targetLevelSlug
+          @openCampaignLevelView @supermodel.getModelByOriginal Level, original
+          break
 
   onClickSaveButton: ->
     @toSave.set @toSave.filter (m) -> m.hasLocalChanges()

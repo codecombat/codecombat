@@ -138,6 +138,7 @@ module.exports = class CampaignView extends RootView
       level.locked = not me.ownsLevel level.original
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
+      level.locked = false if @campaign.get('name') is 'Auditions'
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.color = 'rgb(255, 80, 60)'
       if level.requiresSubscription

@@ -7,6 +7,7 @@ block modal-header-content
       input.form-control#input-startday(type='text', style='width:100px;', value=campaignCompletions.startDay)
       input.form-control#input-endday(type='text', style='width:100px;', value=campaignCompletions.endDay)
       button.btn.btn-default.btn-sm#reload-button(style='margin-left:10px;') Reload
+  div(style='font-size:10px') Double-click row to open level details.
 
 block modal-body-content
   if campaignCompletions && campaignCompletions.levels
@@ -23,7 +24,7 @@ block modal-body-content
           td Completion %
       tbody
         - for (var i = 0; i < campaignCompletions.levels.length; i++)
-          tr
+          tr.level(data-level-slug=campaignCompletions.levels[i].level)
             td.level-name-container= campaignCompletions.levels[i].level
               span.level-name-background(style="width:#{campaignCompletions.levels[i].usersRemaining || 0}%;")
             td= campaignCompletions.levels[i].started

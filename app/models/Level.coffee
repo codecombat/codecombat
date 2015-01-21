@@ -9,7 +9,6 @@ module.exports = class Level extends CocoModel
   @levels:
     'dungeons-of-kithgard': '5411cb3769152f1707be029c'
     'defense-of-plainswood': '541b67f71ccc8eaae19f3c62'
-    'the-mighty-sand-yak': '5480b9d01bf0b10000711c5f'
   urlRoot: '/db/level'
 
   serialize: (supermodel, session, otherSession, cached=false) ->

@@ -101,35 +101,6 @@ class LinuxSetup(SetupFactory):
 
     def distroSetup(self):
         distro = self.detectDistro()
-        if distro == "arch":
-            print("Arch Linux detected. Would you like to install \n"
-                  "NodeJS and MongoDB via pacman? [y/N]")
-            if raw_input().lower() in ["y", "yes"]:
-                try:
-                    subprocess.check_call(["pacman", "-S",
-                                           "nodejs", "mongodb",
-                                           "--noconfirm"])
-                except subprocess.CalledProcessError as err:
-                    print("Installation failed. Retry, Continue, or "
-                          "Abort? [r/c/A]")
-                    answer = raw_input().lower()
-                    if answer in ["r", "retry"]:
-                        return(self.distroSetup())
-                    elif answer in ["c", "continue"]:
-                        return()
-                    else:
-                        exit(1)
-                else:
-                    #try:
-                        #print("Enabling and starting MongoDB in systemd.")
-                        #subprocess.check_call(["systemctl", "enable",
-                        #                       "mongodb.service"])
-                        #subprocess.check_call(["systemctl", "start",
-                        #                       "mongodb.service"])
-                        #print("Node and Mongo installed. Continuing.")
-                    #except subprocess.CalledProcessError as err:
-                        #print("Mongo failed to start. Aborting")
-                        #exit(1)
         if distro == "ubuntu":
             print("Ubuntu installation detected. Would you like to install \n"
                   "NodeJS and MongoDB via apt-get? [y/N]")
@@ -180,3 +151,22 @@ class LinuxSetup(SetupFactory):
                         #except subprocess.CalledProcessError as err:
                             #print("Mongo failed to start. Aborting.")
                             #exit(1)
+        if distro == "arch":
+            print("Arch Linux detected. Would you like to install \n"
+                  "NodeJS and MongoDB via pacman? [y/N]")
+            if raw_input().lower() in ["y", "yes"]:
+                try:
+                    subprocess.check_call(["pacman", "-S",
+                                           "nodejs", "mongodb",
+                                           "--noconfirm"])
+                except subprocess.CalledProcessError as err:
+                    print("Installation failed. Retry, Continue, or "
+                          "Abort? [r/c/A]")
+                    answer = raw_input().lower()
+                    if answer in ["r", "retry"]:
+                        return(self.distroSetup())
+                    elif answer in ["c", "continue"]:
+                        return()
+                    else:
+                        exit(1)
+
