@@ -88,7 +88,7 @@ module.exports = class HeroVictoryModal extends ModalView
           me.fetch cache: false unless me.loading
 
     @readyToContinue = true if not @achievements.models.length
-    
+
     # have to use a something resource because addModelResource doesn't handle models being upserted/fetched via POST like we're doing here
     @newEarnedAchievementsResource = @supermodel.addSomethingResource('earned achievements') if @newEarnedAchievements.length
 
@@ -314,7 +314,7 @@ module.exports = class HeroVictoryModal extends ModalView
       AudioPlayer.playSound name, 1
 
   getNextLevelCampaign: ->
-    {'kithgard-gates': 'forest', 'siege-of-stonehold': 'desert'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
+    {'kithgard-gates': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
 
   getNextLevelLink: ->
     link = '/play'

@@ -126,7 +126,7 @@ exports.config =
           'vendor/scripts/jasmine-html.js'
           'vendor/scripts/jasmine-boot.js'
           'vendor/scripts/jasmine-mock-ajax.js'
-          
+
           # vendor.js ordering
           'bower_components/jquery/dist/jquery.js'
           'bower_components/lodash/dist/lodash.js'
