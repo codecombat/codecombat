@@ -53,48 +53,43 @@ module.exports = class CampaignAnalyticsModal extends ModalView
         days.push
           day: day
           rate: level['days'][day].finished / level['days'][day].started
+          count: level['days'][day].started
       days.sort (a, b) -> a.day - b.day
       data = []
       for i in [0...days.length]
         data.push
           x: i
           y: days[i].rate
+          c: days[i].count
       @addLineGraph '#background' + level.level, data
 
   addLineGraph: (containerSelector, lineData, lineColor='green', min=0, max=1.0) ->
     # Add a line chart to the given container
+    # Adjust stroke-weight based on segment count: width 0.3 to 3.0 for counts roughly 100 to 10000
     # TODO: Move this to a utility library
     vis = d3.select(containerSelector)
     width = $(containerSelector).width()
     height = $(containerSelector).height()
     xRange = d3.scale.linear().range([0, width]).domain([d3.min(lineData, (d) -> d.x), d3.max(lineData, (d) -> d.x)])
     yRange = d3.scale.linear().range([height, 0]).domain([min, max])
-    xAxis = d3.svg.axis()
-      .scale(xRange)
-      .tickSize(5)
-      .tickSubdivide(true)
-    yAxis = d3.svg.axis()
-      .scale(yRange)
-      .tickSize(5)
-      .orient('left')
-      .tickSubdivide(true)
-    vis.append('svg:g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(xAxis)
-    vis.append('svg:g')
-      .attr('class', 'y axis')
-      .attr('transform', 'translate(0,0)')
-      .call(yAxis)
-    lineFunc = d3.svg.line()
-      .x((d) -> xRange(d.x))
-      .y((d) -> yRange(d.y))
-      .interpolate('linear')
-    vis.append('svg:path')
-      .attr('d', lineFunc(lineData))
-      .attr('stroke', lineColor)
-      .attr('stroke-width', 1)
-      .attr('fill', 'none')
+    lines = []
+    for i in [0...lineData.length-1]
+      lines.push 
+        x1: xRange(lineData[i].x)
+        y1: yRange(lineData[i].y)
+        x2: xRange(lineData[i + 1].x)
+        y2: yRange(lineData[i + 1].y)
+        strokeWidth: Math.min(3, Math.max(0.3, Math.log(lineData[i].c/10)/2))
+    vis.selectAll('.line')
+      .data(lines)
+      .enter()
+      .append("line")
+      .attr("x1", (d) -> d.x1)
+      .attr("y1", (d) -> d.y1)
+      .attr("x2", (d) -> d.x2)
+      .attr("y2", (d) -> d.y2)
+      .style("stroke-width", (d) -> d.strokeWidth)
+      .style("stroke", lineColor)
 
   getCampaignAnalytics: (startDay, endDay) =>
     if startDay?
