@@ -120,6 +120,7 @@ class LinuxSetup(SetupFactory):
                     else:
                         exit(1)
                 else:
+                    pass
                     #try:
                         #print("Enabling and starting MongoDB in systemd.")
                         #subprocess.check_call(["systemctl", "enable",
