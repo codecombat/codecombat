@@ -16,10 +16,80 @@
 // TODO: Are Mixpanel rates accounting for finishing steps likely to be completed in the future?
 // TODO: Use Mixpanel export API to investigate
 
-// TODO: Output documents updated/inserted
+try {
+  var scriptStartTime = new Date();
+  var analyticsStringCache = {};
 
-var scriptStartTime = new Date();
-var analyticsStringCache = {};
+  // Look at last 30 days, same as Mixpanel
+  var numDays = 30;
+
+  var startDay = new Date();
+  today = startDay.toISOString().substr(0, 10);
+  startDay.setUTCDate(startDay.getUTCDate() - numDays);
+  startDay = startDay.toISOString().substr(0, 10);
+
+  var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
+  var levelHelpEvents = ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video'];
+
+  log("Today is " + today);
+  log("Start day is " + startDay);
+  log("Funnel events are " + levelCompletionFunnel);
+
+  log("Getting level completion data...");
+  var levelCompletionData = getLevelFunnelData(startDay, levelCompletionFunnel);
+  log("Inserting aggregated level completion data...");
+  for (level in levelCompletionData) {
+    for (day in levelCompletionData[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      for (event in levelCompletionData[level][day]) {
+        insertEventCount(event, level, day, levelCompletionData[level][day][event]);
+      }
+    }
+  }
+
+  log("Getting level drop counts...");
+  var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel);
+  log("Inserting level drop counts...");
+  for (level in levelDropCounts) {
+    for (day in levelDropCounts[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      insertEventCount('User Dropped', level, day, levelDropCounts[level][day]);
+    }
+  }
+
+  log("Getting level help counts...");
+  var levelHelpCounts = getLevelHelpCounts(startDay, levelHelpEvents);
+  log("Inserting level help counts...");
+  for (level in levelHelpCounts) {
+    for (day in levelHelpCounts[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      for (event in levelHelpCounts[level][day]) {
+        insertEventCount(event, level, day, levelHelpCounts[level][day][event]);
+      }
+    }
+  }
+
+  log("Getting level subscription counts...");
+  var levelSubscriptionCounts = getLevelSubscriptionCounts(startDay);
+  log("Inserting level subscription counts...");
+  for (level in levelSubscriptionCounts) {
+    for (day in levelSubscriptionCounts[level]) {
+      if (today === day) continue; // Never save data for today because it's incomplete
+      for (event in levelSubscriptionCounts[level][day]) {
+        insertEventCount(event, level, day, levelSubscriptionCounts[level][day][event]);
+      }
+    }
+  }
+
+  log("Script runtime: " + (new Date() - scriptStartTime));
+}
+catch(err) {
+  log("ERROR: " + err);
+  printjson(err);
+}
+
+
+// *** Helper functions ***
 
 function log(str) {
   print(new Date().toISOString() + " " + str);
@@ -229,6 +299,82 @@ function getLevelHelpCounts(startDay, events) {
   return levelEventData;
 }
 
+function getLevelSubscriptionCounts(startDay) {
+  // Counts subscriptions shown per day, only for events that have levels
+  // Subscription purchased event counts are attributed to last shown subscription modal event's day and level
+  if (!startDay) return {};
+
+  var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
+  var queryParams = {$and: [
+    {_id: {$gte: startObj}},
+    {$or: [
+      {$and: [{'event': 'Show subscription modal'}, {'properties.level': {$exists: true}}]}, 
+      {'event': 'Finished subscription purchase'}]
+    }
+  ]};
+  var cursor = db['analytics.log.events'].find(queryParams);
+
+  // Map ordering: user, event, level, day
+  // Map ordering: user, event, day
+  var userDataMap = {};
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var created = doc._id.getTimestamp().toISOString();
+    var day = created.substring(0, 10);
+    var event = doc.event;
+    var user = doc.user;
+
+    if (!userDataMap[user]) userDataMap[user] = {};
+
+    if (event === 'Show subscription modal') {
+      var level = doc.properties.level;
+
+      // TODO: This is for legacy data.
+      // TODO: Event tracking updated to use level slug for loading level view on ~1/21/15
+      level = level.toLowerCase().replace(/ /g, '-');
+
+      if (!userDataMap[user][event]) userDataMap[user][event] = {};
+      if (!userDataMap[user][event][level] || userDataMap[user][event][level].localeCompare(day) > 0) {
+        userDataMap[user][event][level] = day;
+      }
+    } 
+    else if (event === 'Finished subscription purchase') {
+      if (!userDataMap[user][event] || userDataMap[user][event].localeCompare(day) > 0) {
+        userDataMap[user][event] = day;
+      }
+    } else {
+      continue;
+    }
+  }
+
+  // Data: level, day, event
+  var levelFunnelData = {};
+  for (user in userDataMap) {
+    if (userDataMap[user]['Show subscription modal']) {
+      var lastDay = null;
+      var lastLevel = null;
+      for (level in userDataMap[user]['Show subscription modal']) {
+        var day = userDataMap[user]['Show subscription modal'][level];
+        if (!lastDay || lastDay.localeCompare(day) > 0) {
+          lastDay = day;
+          lastLevel = level;
+        }
+        if (!levelFunnelData[level]) levelFunnelData[level] = {};
+        if (!levelFunnelData[level][day]) levelFunnelData[level][day] = {};
+        if (!levelFunnelData[level][day][event]) levelFunnelData[level][day]['Show subscription modal'] = 0;
+        levelFunnelData[level][day]['Show subscription modal']++;
+      }
+      if (lastDay && userDataMap[user]['Finished subscription purchase']) {
+        if (!levelFunnelData[lastLevel][lastDay]['Finished subscription purchase']) {
+          levelFunnelData[lastLevel][lastDay]['Finished subscription purchase'] = 0;
+        }
+        levelFunnelData[lastLevel][lastDay]['Finished subscription purchase']++;
+      }
+    }
+  }
+  return levelFunnelData;
+}
+
 function insertEventCount(event, level, day, count) {
   // analytics.perdays schema in server/analytics/AnalyticsPeryDay.coffee
   day = day.replace(/-/g, '');
@@ -264,60 +410,3 @@ function insertEventCount(event, level, day, count) {
     // }
   }
 }
-
-try {
-  // Look at last 30 days, same as Mixpanel
-  var numDays = 30;
-
-  var startDay = new Date();
-  today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
-
-  var levelCompletionFunnel = ['Started Level', 'Saw Victory'];
-  var levelHelpEvents = ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video'];
-
-  log("Today is " + today);
-  log("Start day is " + startDay);
-  log("Funnel events are " + levelCompletionFunnel);
-
-  log("Getting level completion data...");
-  var levelCompletionData = getLevelFunnelData(startDay, levelCompletionFunnel);
-  log("Inserting aggregated level completion data...");
-  for (level in levelCompletionData) {
-    for (day in levelCompletionData[level]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      for (event in levelCompletionData[level][day]) {
-        insertEventCount(event, level, day, levelCompletionData[level][day][event]);
-      }
-    }
-  }
-
-  log("Getting level drop counts...");
-  var levelDropCounts = getLevelDropCounts(startDay, levelCompletionFunnel)
-  log("Inserting level drop counts...");
-  for (level in levelDropCounts) {
-    for (day in levelDropCounts[level]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      insertEventCount('User Dropped', level, day, levelDropCounts[level][day]);
-    }
-  }
-
-  log("Getting level help counts...");
-  var levelHelpCounts = getLevelHelpCounts(startDay, levelHelpEvents)
-  log("Inserting level help counts...");
-  for (level in levelHelpCounts) {
-    for (day in levelHelpCounts[level]) {
-      if (today === day) continue; // Never save data for today because it's incomplete
-      for (event in levelHelpCounts[level][day]) {
-        insertEventCount(event, level, day, levelHelpCounts[level][day][event]);
-      }
-    }
-  }
-}
-catch(err) {
-  log("ERROR: " + err);
-  printjson(err);
-}
-
-log("Script runtime: " + (new Date() - scriptStartTime));
