@@ -317,6 +317,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_brute_force: "拿不准时就用穷举法。 - Ken Thompson"
     tip_extrapolation: "世界上只有两类人：一类人能够根据不完整的数据进行推断……"
     tip_superpower: "编程是我们拥有的最接近超能力的技能"
+#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
+#    tip_no_code: "No code is faster than no code."
+#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
+#    tip_reusable_software: "Before software can be reusable it first has to be usable."
+#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
+#    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 
   game_menu:
     inventory_tab: "道具箱"
