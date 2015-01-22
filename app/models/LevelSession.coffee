@@ -54,13 +54,13 @@ module.exports = class LevelSession extends CocoModel
     return if @shouldAvoidCorruptData attrs
     super attrs, options
 
-  increaseDifficulty: ->
+  increaseDifficulty: (callback) ->
     state = @get('state') ? {}
     state.difficulty = (state.difficulty ? 0) + 1
     delete state.lastUnsuccessfulSubmissionTime
     @set 'state', state
-    @save()
     @trigger 'change-difficulty'
+    @save null, success: callback
 
   timeUntilResubmit: ->
     state = @get('state') ? {}
