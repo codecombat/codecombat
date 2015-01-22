@@ -317,12 +317,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_brute_force: "Когда сомневаешься используй грубую силу. - Кен Томпсон"
     tip_extrapolation: "Есть два типа людей: те, кто могут экстраполировать неполные данные..."
     tip_superpower: "Программирование делает нас ближе к обретению суперсилы."
-#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
-#    tip_no_code: "No code is faster than no code."
-#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
-#    tip_reusable_software: "Before software can be reusable it first has to be usable."
-#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
-#    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
+    tip_control_destiny: "В настоящей среде открытого кода у вас есть право контроллировать свою собственную судьбу. - Linus Torvalds"
+    tip_code_never_lies: "Код никогда не врет. Комментарии - иногда. — Ron Jeffries"
+    tip_no_code: "Нет кода быстрее, чем его отсутствие."
+    tip_reusable_software: "Прежде, чем программное обеспечение станет повторно используемым, оно должно стать в принципе используемым."
+    tip_optimization_operator: "В каждом языке есть оператор оптимизации. В большинстве языков это оператор ‘//’"
+    tip_lines_of_code: "Измерение прогресса программирования в строках кода - это как измерять прогресс построения самолета по его весу. — Bill Gates"
 
   game_menu:
     inventory_tab: "Инвентарь"
