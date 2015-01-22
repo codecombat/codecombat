@@ -853,9 +853,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribed: "已订阅"
     unsubscribed: "取消订阅"
 #    active_until: "Active Until"
-#    cost: "Cost"
+    cost: "花费"
 #    next_payment: "Next Payment"
-#    card: "Card"
+    card: "银行卡"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -910,14 +910,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    user_remarks: "User Remarks"
-#    versions: "Versions"
+    versions: "版本"
     items: "物品"
     heroes: "英雄"
     achievement: "成就"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
     feedback: "反馈"
-#    payment_info: "Payment Info"
+    payment_info: "付款信息"
 
   delta:
     added: "被添加"
@@ -1003,8 +1003,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    blurb_3: "to the top human and ogre players."
 #    blurb_4: "Two teams means double the prizes!"
 #    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
+    rank: "排名"
+    prizes: "奖项"
 #    total_value: "Total Value"
 #    in_cash: "in cash"
 #    custom_wizard: "Custom CodeCombat Wizard"
@@ -1122,7 +1122,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     player_code: "玩家代码"
 
   employers:
-#    deprecation_warning_title: "Sorry, CodeCombat is not recruiting right now."
+    deprecation_warning_title: "抱歉，CodeCombat现不招募雇员。"
 #    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
 #    hire_developers_not_credentials: "Hire developers, not credentials." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
 #    get_started: "Get Started"
@@ -1162,10 +1162,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     candidate_top_skills: "高级技能"
     candidate_years_experience: "多年工作经验"
     candidate_last_updated: "最后一次更新"
-#    candidate_who: "Who"
-#    featured_developers: "Featured Developers"
-#    other_developers: "Other Developers"
-#    inactive_developers: "Inactive Developers"
+    candidate_who: "谁？"
+    featured_developers: "主要开发者"
+    other_developers: "其他开发者"
+    inactive_developers: "不活跃的开发者"
 
   admin:
 #    av_espionage: "Espionage" # Really not important to translate /admin controls.
