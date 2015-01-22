@@ -317,6 +317,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_brute_force: "拿不准时就用穷举法。 - Ken Thompson"
     tip_extrapolation: "世界上只有两类人：一类人能够根据不完整的数据进行推断……"
     tip_superpower: "编程是我们拥有的最接近超能力的技能"
+#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
+#    tip_no_code: "No code is faster than no code."
+#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
+#    tip_reusable_software: "Before software can be reusable it first has to be usable."
+#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
+#    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -853,9 +859,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribed: "已订阅"
     unsubscribed: "取消订阅"
 #    active_until: "Active Until"
-#    cost: "Cost"
+    cost: "花费"
 #    next_payment: "Next Payment"
-#    card: "Card"
+    card: "银行卡"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 
@@ -910,14 +916,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    user_remarks: "User Remarks"
-#    versions: "Versions"
+    versions: "版本"
     items: "物品"
     heroes: "英雄"
     achievement: "成就"
 #    clas: "CLAs"
 #    play_counts: "Play Counts"
     feedback: "反馈"
-#    payment_info: "Payment Info"
+    payment_info: "付款信息"
 
   delta:
     added: "被添加"
@@ -996,15 +1002,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     nutshell_description: "我们在关卡编辑器里公开的任何资源，你都可以在制作关卡时随意使用，但我们保留限制在 codecombat.com 之上创建的关卡本身传播的权利，因为我们以后可能决定为它们收费。"
     canonical: "这篇说明的英文版本是权威版本。如果各个翻译版本之间有任何冲突，以英文版为准。"
 
-#  ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
 #    blurb_3: "to the top human and ogre players."
 #    blurb_4: "Two teams means double the prizes!"
 #    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
+    rank: "排名"
+    prizes: "奖项"
 #    total_value: "Total Value"
 #    in_cash: "in cash"
 #    custom_wizard: "Custom CodeCombat Wizard"
@@ -1122,7 +1128,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     player_code: "玩家代码"
 
   employers:
-#    deprecation_warning_title: "Sorry, CodeCombat is not recruiting right now."
+    deprecation_warning_title: "抱歉，CodeCombat现不招募雇员。"
 #    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
 #    hire_developers_not_credentials: "Hire developers, not credentials." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
 #    get_started: "Get Started"
@@ -1162,10 +1168,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     candidate_top_skills: "高级技能"
     candidate_years_experience: "多年工作经验"
     candidate_last_updated: "最后一次更新"
-#    candidate_who: "Who"
-#    featured_developers: "Featured Developers"
-#    other_developers: "Other Developers"
-#    inactive_developers: "Inactive Developers"
+    candidate_who: "谁？"
+    featured_developers: "主要开发者"
+    other_developers: "其他开发者"
+    inactive_developers: "不活跃的开发者"
 
   admin:
 #    av_espionage: "Espionage" # Really not important to translate /admin controls.

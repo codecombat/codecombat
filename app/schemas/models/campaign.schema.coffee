@@ -52,6 +52,7 @@ _.extend CampaignSchema.properties, {
       #- denormalized from Level
       name: { type: 'string', format: 'hidden' }
       description: { type: 'string', format: 'hidden' }
+      i18n: { type: 'object', format: 'hidden' }
       requiresSubscription: { type: 'boolean' }
       type: {'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop']}
       slug: { type: 'string', format: 'hidden' }

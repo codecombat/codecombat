@@ -14,13 +14,19 @@ module.exports = class CampaignAnalyticsModal extends ModalView
   events:
     'click #reload-button': 'onClickReloadButton'
     'dblclick .level': 'onDblClickLevel'
+    'change #option-show-left-game': 'updateShowLeftGame'
+    'change #option-show-subscriptions': 'updateShowSubscriptions'
 
   constructor: (options, @campaignHandle, @campaignCompletions) ->
     super options
-    @getCampaignAnalytics() unless @campaignCompletions?.levels?
+    @showLeftGame = true
+    @showSubscriptions = true
+    @getCampaignAnalytics() if me.isAdmin()
 
   getRenderData: ->
     c = super()
+    c.showLeftGame = @showLeftGame
+    c.showSubscriptions = @showSubscriptions
     c.campaignCompletions = @campaignCompletions
     c
 
@@ -29,6 +35,14 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     $("#input-startday").datepicker dateFormat: "yy-mm-dd"
     $("#input-endday").datepicker dateFormat: "yy-mm-dd"
     @addCompletionLineGraphs()
+
+  updateShowLeftGame: ->
+    @showLeftGame = @$el.find('#option-show-left-game').prop('checked')
+    @render()
+
+  updateShowSubscriptions: ->
+    @showSubscriptions = @$el.find('#option-show-subscriptions').prop('checked')
+    @render()
 
   onClickReloadButton: () =>
     startDay = $('#input-startday').val()
@@ -45,6 +59,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     @hide()
 
   addCompletionLineGraphs: ->
+    # TODO: no line graphs if some levels without completion rates?
     return unless @campaignCompletions.levels
     for level in @campaignCompletions.levels
       days = []
@@ -109,17 +124,19 @@ module.exports = class CampaignAnalyticsModal extends ModalView
 
     # Chain these together so we can calculate relative metrics (e.g. left game per second)
     @getCampaignLevelCompletions startDay, endDay, () =>
-      @render()
+      @render?()
       @getCompaignLevelDrops startDay, endDay, () =>
-        @render()
+        @render?()
         @getCampaignAveragePlaytimes startDayDashed, endDayDashed, () =>
-          @render()
+          @render?()
+          @getCampaignLevelSubscriptions startDay, endDay, () =>
+            @render?()
 
   getCampaignAveragePlaytimes: (startDay, endDay, doneCallback) =>
     # Fetch level average playtimes
     # Needs date format yyyy-mm-dd
     success = (data) =>
-      return if @destroyed
+      return doneCallback() if @destroyed
       # console.log 'getCampaignAveragePlaytimes success', data
       levelAverages = {}
       maxPlaytime = 0
@@ -161,7 +178,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
   getCampaignLevelCompletions: (startDay, endDay, doneCallback) =>
     # Needs date format yyyymmdd
     success = (data) =>
-      return if @destroyed
+      return doneCallback() if @destroyed
       # console.log 'getCampaignLevelCompletions success', data
       countCompletions = (item) ->
         item.started = _.reduce item.days, ((result, current) -> result + current.started), 0
@@ -217,11 +234,36 @@ module.exports = class CampaignAnalyticsModal extends ModalView
         @campaignCompletions.top3DropPercentage = _.pluck sortedLevels[0..2], 'level'
       doneCallback()
 
-    return unless @campaignCompletions?.levels?
+    return doneCallback() unless @campaignCompletions?.levels?
     levelSlugs = _.pluck @campaignCompletions.levels, 'level'
 
     request = @supermodel.addRequestResource 'level_drops', {
       url: '/db/analytics_perday/-/level_drops'
+      data: {startDay: startDay, endDay: endDay, slugs: levelSlugs}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
+    
+  getCampaignLevelSubscriptions: (startDay, endDay, doneCallback) =>
+    # Fetch level subscriptions
+    # Needs date format yyyymmdd
+    success = (data) =>
+      return doneCallback() if @destroyed
+      # console.log 'getCampaignLevelSubscriptions success', data
+      levelSubs = {}
+      for item in data
+        levelSubs[item.level] = shown: item.shown, purchased: item.purchased
+      for level in @campaignCompletions.levels
+        level.subsShown = levelSubs[level.level]?.shown
+        level.subsPurchased = levelSubs[level.level]?.purchased
+      doneCallback()
+
+    return doneCallback() unless @campaignCompletions?.levels?
+    levelSlugs = _.pluck @campaignCompletions.levels, 'level'
+
+    request = @supermodel.addRequestResource 'campaign_subscriptions', {
+      url: '/db/analytics_perday/-/level_subscriptions'
       data: {startDay: startDay, endDay: endDay, slugs: levelSlugs}
       method: 'POST'
       success: success

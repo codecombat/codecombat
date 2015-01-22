@@ -16,9 +16,10 @@ block header
             span.glyphicon-home.glyphicon
 
       ul.nav.navbar-nav.navbar-right
-        li#analytics-button
-          a
-            span.glyphicon-stats.glyphicon
+        if me.isAdmin()
+          li#analytics-button
+            a
+              span.glyphicon-stats.glyphicon
         if me.isAdmin()
           li#save-button
             a

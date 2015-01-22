@@ -24,7 +24,13 @@ class UserCodeProblemHandler extends Handler
     ucp.set('creator', req.user._id)
     ucp
 
+  hasAccess: (req) ->
+    return true if req.user?.isAdmin()
+    return true if req.method.toLowerCase() is 'post'
+    false
+
   getByRelationship: (req, res, args...) ->
+    return @sendForbiddenError res unless @hasAccess req
     return @getCommonLevelProblemsBySlug(req, res) if args[1] is 'common_problems'
     super(arguments...)
 

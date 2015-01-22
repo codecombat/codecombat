@@ -170,6 +170,8 @@ module.exports = class CampaignView extends RootView
       styles.push "top: #{ac.position.y}%"
       ac.style = styles.join('; ')
       return true
+    context.marked = marked
+    context.i18n = utils.i18n
     context
 
   afterRender: ->
@@ -340,7 +342,7 @@ module.exports = class CampaignView extends RootView
 
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
-    mapWidth = {dungeon: 2350, forest: 2500, desert: 2350}[@terrain] or 2350
+    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2350, mountain: 2422}[@terrain] or 2350
     aspectRatio = mapWidth / mapHeight
     pageWidth = @$el.width()
     pageHeight = @$el.height()
