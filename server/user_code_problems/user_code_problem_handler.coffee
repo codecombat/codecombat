@@ -25,7 +25,9 @@ class UserCodeProblemHandler extends Handler
     ucp
 
   hasAccess: (req) ->
-    req.user?.isAdmin() or false
+    return true if req.user?.isAdmin()
+    return true if req.method.toLowerCase() is 'post'
+    false
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
