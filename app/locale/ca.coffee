@@ -11,7 +11,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     for_beginners: "Per a principiants"
     multiplayer: "Multijugador" # Not currently shown on home page
     for_developers: "Per a Desenvolupadors" # Not currently shown on home page.
-    or_ipad: "O descarrega-la per iPad"
+    or_ipad: "O descarrèga'l per iPad"
 
   nav:
     play: "Nivells" # The top nav bar entry where players choose which levels to play
@@ -42,10 +42,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desembolupat CodeCombat en Anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
+    pitch_body: "Hem desenvolupat CodeCombat en Anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
     missing_translations: "Fins que puguem traduir-ho tot en Català, veuràs en anglès quant sigui possible."
-    learn_more: "Apren més sobre seru un diplomàtic"
-    subscribe_as_diplomat: "Subscriute com a diplomàtic"
+    learn_more: "Aprèn més sobre seru un diplomàtic"
+    subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
     play_as: "Jugar com" # Ladder page
@@ -55,32 +55,32 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     items: "Objectes" # Tooltip on item shop button from /play
     unlock: "Desbloquejar" # For purchasing items and heroes
     confirm: "Confirmar"
-    owned: "En propietat" # For items you own
+    owned: "Adquirit" # For items you own
     locked: "Bloquejat"
     purchasable: "Comprable" # For a hero you unlocked but haven't purchased
     available: "Disponible"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Habilitats Garantides" # Property documentation details
     heroes: "Herois" # Tooltip on hero shop button from /play
     achievements: "Triomfs" # Tooltip on achievement list button from /play
-    account: "Conta" # Tooltip on account button from /play
+    account: "Compte" # Tooltip on account button from /play
     settings: "Configuració" # Tooltip on settings button from /play
     next: "Següent" # Go from choose hero to choose inventory before playing a level
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objectes"
-    buy_gems: "Compra Gemes"
+    buy_gems: "Comprar Gemes"
     campaign_desert: "Campanya del desert"
-    campaign_forest: "Campanya del bosc"
-#    campaign_dungeon: "Dungeon Campaign"
-    subscription_required: "Subscripció requerida"
+    campaign_forest: "Campanya del Bosc"
+    campaign_dungeon: "Campanya de la Masmorra"
+    subscription_required: "Subscripció necessària"
     free: "Gratuit"
     subscribed: "Subscrit"
     older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
     campaign_beginner: "Campanya del principiant"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "Fem cinc nivells per setmana"
+    awaiting_levels_adventurer: "Inicia sessió com aventurer"
+    awaiting_levels_adventurer_suffix: "sigues el primer en jugar els nous nivells"
 #    adjust_volume: "Adjust volume"
     choose_your_level: "Escull el teu nivell" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Pots saltar a qualsevols dels nivells de més abaix, o discutir els nivells de més amunt."
@@ -102,14 +102,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     log_in: "Iniciar Sessió"
     logging_in: "Iniciant Sessió"
     log_out: "Tancar Sessió"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
+    forgot_password: "Contrasenya oblidada?"
+    authenticate_gplus: "Inicia amb G+"
+    load_profile: "Carrega un perfil de G+"
 #    load_email: "Load G+ Email"
     finishing: "Acabant"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-    signup_switch: "Vols crear un compte?"
+    sign_in_with_facebook: "Inicia amb Facebook"
+    sign_in_with_gplus: "Inicia amb G+"
+    signup_switch: "Vols crear-te un compte?"
 
   signup:
     email_announcements: "Rebre anuncis via email"
@@ -118,7 +118,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     log_in: "Iniciar sessió amb la teva contrasenya"
     social_signup: "O, pots iniciar sesió desde Facebook o G+:"
     required: "Neccesites iniciar sesió abans ."
-    login_switch: "Ja tens compte?"
+    login_switch: "Ja tens un compte?"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -127,7 +127,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   items:
     primary: "Primari"
-    secondary: "Secondari"
+    secondary: "Secundari"
     armor: "Armadura"
     accessories: "Accessoris"
 #    misc: "Misc"
