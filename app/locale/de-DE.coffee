@@ -317,6 +317,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_brute_force: "Verwende im Zweifelsfall rohe Gewalt. - Ken Thompson"
     tip_extrapolation: "Es gibt nur zwei Sorten Menschen, diejenigen die aus unvollständigen Informationen Schlüsse ziehen können, ..."
     tip_superpower: "Programmieren ist das näheste zu einer Superkraft was wir haben."
+#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
+#    tip_no_code: "No code is faster than no code."
+#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
+#    tip_reusable_software: "Before software can be reusable it first has to be usable."
+#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
+#    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 
   game_menu:
     inventory_tab: "Inventar"

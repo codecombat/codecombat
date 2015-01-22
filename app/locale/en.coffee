@@ -317,7 +317,6 @@
     tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
     tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
     tip_superpower: "Coding is the closest thing we have to a superpower."
-    
     tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
     tip_no_code: "No code is faster than no code."
     tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
