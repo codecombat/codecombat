@@ -170,6 +170,8 @@ module.exports = class CampaignView extends RootView
       styles.push "top: #{ac.position.y}%"
       ac.style = styles.join('; ')
       return true
+    context.marked = marked
+    context.i18n = utils.i18n
     context
 
   afterRender: ->
