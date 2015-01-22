@@ -5,8 +5,15 @@
     a(href="/editor/level/#{level.get('slug')}", target="_blank") (edit)
   p= level.get('description')
 
+  if analytics.startDay && analytics.endDay
+    .input-group.input-group-sm
+      input.form-control#input-startday(type='text', style='width:100px;', value=analytics.startDay)
+      input.form-control#input-endday(type='text', style='width:100px;', value=analytics.endDay)
+      button.btn.btn-default.btn-sm#reload-button(style='margin-left:10px;') Reload
   h4 Completion Rates
-  if levelCompletions
+  if analytics.levelCompletions.loading
+    div Loading...
+  else
     table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
       thead
         tr
@@ -14,48 +21,43 @@
           td Started
           td Finished
           td Completion %
-          if levelHelps && levelHelps.length === levelCompletions.length
+          if analytics.levelHelps.levels.length === analytics.levelCompletions.levels.length
             td Helps Clicked
             td Helps / Started
             td Help Videos
             td Videos / Started
       tbody
-        - for (var i = 0; i < levelCompletions.length; i++)
+        - for (var i = 0; i < analytics.levelCompletions.levels.length; i++)
           tr
-            td= levelCompletions[i].created
-            td= levelCompletions[i].started
-            td= levelCompletions[i].finished
-            td= levelCompletions[i].rate
-            if levelHelps && levelHelps.length === levelCompletions.length
-              td= levelHelps[i].alertHelps + levelHelps[i].paletteHelps
-              td= ((levelHelps[i].alertHelps + levelHelps[i].paletteHelps) / levelCompletions[i].started).toFixed(2)
-              td= levelHelps[i].videoStarts
-              td= (levelHelps[i].videoStarts / levelCompletions[i].started).toFixed(2)
-  else
-    div Loading...
+            td= analytics.levelCompletions.levels[i].created
+            td= analytics.levelCompletions.levels[i].started
+            td= analytics.levelCompletions.levels[i].finished
+            td= analytics.levelCompletions.levels[i].rate
+            if analytics.levelHelps.levels.length === analytics.levelCompletions.levels.length && analytics.levelCompletions.levels[i].created == analytics.levelHelps.levels[i].day
+              td= analytics.levelHelps.levels[i].alertHelps + analytics.levelHelps.levels[i].paletteHelps
+              td= ((analytics.levelHelps.levels[i].alertHelps + analytics.levelHelps.levels[i].paletteHelps) / analytics.levelCompletions.levels[i].started).toFixed(2)
+              td= analytics.levelHelps.levels[i].videoStarts
+              td= (analytics.levelHelps.levels[i].videoStarts / analytics.levelCompletions.levels[i].started).toFixed(2)
 
   h4 Average Playtimes
-  if levelPlaytimes
+  if analytics.levelPlaytimes.loading
+    div Loading...
+  else
     table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
       thead
         tr
           td Date
           td Average (s)
       tbody
-        - for (var i = 0; i < levelPlaytimes.length; i++)
+        - for (var i = 0; i < analytics.levelPlaytimes.levels.length; i++)
           tr
-            td= levelPlaytimes[i].created
-            td= levelPlaytimes[i].average.toFixed(2)
-  else
-    div Loading...
+            td= analytics.levelPlaytimes.levels[i].created
+            td= analytics.levelPlaytimes.levels[i].average.toFixed(2)
 
   h4 Common Problems
-  if commonProblems
-    if commonProblems.startDay
-      if commonProblems.endDay
-        div(style='font-size:10pt') #{commonProblems.startDay} to #{commonProblems.endDay}
-      else
-        div(style='font-size:10pt') #{commonProblems.startDay} to today
+  if analytics.commonProblems.loading
+    div Loading...
+  else
     table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
       thead
         tr
@@ -64,18 +66,18 @@
           td Error Hint
           td Count
       tbody
-        - for (var i = 0; i < commonProblems.length && i < 20; i++)
+        - for (var i = 0; i < analytics.commonProblems.levels.length && i < 20; i++)
           tr
-            td= commonProblems[i].language
-            td= commonProblems[i].message
-            td= commonProblems[i].hint
-            td= commonProblems[i].count
-  else
-    div Loading...
+            td= analytics.commonProblems.levels[i].language
+            td= analytics.commonProblems.levels[i].message
+            td= analytics.commonProblems.levels[i].hint
+            td= analytics.commonProblems.levels[i].count
 
   h4 Recent Sessions
-  if recentSessions
-    div(style='font-size:10pt') Latest #{recentSessions.length} sessions for this level
+  if analytics.recentSessions.loading
+    div Loading...
+  else
+    div(style='font-size:10pt') Latest #{analytics.recentSessions.levels.length} sessions for this level
     div(style='font-size:10pt') Double-click row to open player and session
     table.table.table-bordered.table-condensed.table-hover(style='font-size:10pt')
       thead
@@ -87,19 +89,17 @@
           td Complete
           td Changed
       tbody
-        - for (var i = 0; i < recentSessions.length; i++)
-          tr.recent-session(data-player-id=recentSessions[i].creator, data-session-id=recentSessions[i]._id)
-            td= recentSessions[i]._id
-            td= recentSessions[i].creatorName || recentSessions[i].creator
-            td= recentSessions[i].codeLanguage
-            td= recentSessions[i].playtime
-            if recentSessions[i].state && recentSessions[i].state.complete
-              td= recentSessions[i].state.complete
+        - for (var i = 0; i < analytics.recentSessions.levels.length; i++)
+          tr.recent-session(data-player-id=analytics.recentSessions.levels[i].creator, data-session-id=analytics.recentSessions.levels[i]._id)
+            td= analytics.recentSessions.levels[i]._id
+            td= analytics.recentSessions.levels[i].creatorName || analytics.recentSessions.levels[i].creator
+            td= analytics.recentSessions.levels[i].codeLanguage
+            td= analytics.recentSessions.levels[i].playtime
+            if analytics.recentSessions.levels[i].state && analytics.recentSessions.levels[i].state.complete
+              td= analytics.recentSessions.levels[i].state.complete
             else
               td false
-            td= recentSessions[i].changed
-  else
-    div Loading...
+            td= analytics.recentSessions.levels[i].changed
 
 if level.get('tasks')
   .tasks

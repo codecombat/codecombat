@@ -25,9 +25,9 @@ module.exports = class CampaignAnalyticsModal extends ModalView
 
   getRenderData: ->
     c = super()
-    c.campaignCompletions = @campaignCompletions
     c.showLeftGame = @showLeftGame
     c.showSubscriptions = @showSubscriptions
+    c.campaignCompletions = @campaignCompletions
     c
 
   afterRender: ->
@@ -124,13 +124,13 @@ module.exports = class CampaignAnalyticsModal extends ModalView
 
     # Chain these together so we can calculate relative metrics (e.g. left game per second)
     @getCampaignLevelCompletions startDay, endDay, () =>
-      @render()
+      @render?()
       @getCompaignLevelDrops startDay, endDay, () =>
-        @render()
+        @render?()
         @getCampaignAveragePlaytimes startDayDashed, endDayDashed, () =>
-          @render()
+          @render?()
           @getCampaignLevelSubscriptions startDay, endDay, () =>
-            @render()
+            @render?()
 
   getCampaignAveragePlaytimes: (startDay, endDay, doneCallback) =>
     # Fetch level average playtimes

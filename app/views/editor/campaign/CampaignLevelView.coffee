@@ -11,6 +11,7 @@ module.exports = class CampaignLevelView extends CocoView
 
   events:
     'click .close': 'onClickClose'
+    'click #reload-button': 'onClickReloadButton'
     'dblclick .recent-session': 'onDblClickRecentSession'
 
   constructor: (options, @level) ->
@@ -20,25 +21,27 @@ module.exports = class CampaignLevelView extends CocoView
     @listenToOnce @fullLevel, 'sync', => @render?()
 
     @levelSlug = @level.get('slug')
-    @getCommonLevelProblems()
-    @getLevelCompletions()
-    @getLevelHelps()
-    @getLevelPlaytimes()
-    @getRecentSessions()
+    @getAnalytics()
 
   getRenderData: ->
     c = super()
     c.level = if @fullLevel.loaded then @fullLevel else @level
-    c.commonProblems = @commonProblems
-    c.levelCompletions = @levelCompletions
-    c.levelHelps = @levelHelps
-    c.levelPlaytimes = @levelPlaytimes
-    c.recentSessions = @recentSessions
+    c.analytics = @analytics
     c
+
+  afterRender: ->
+    super()
+    $("#input-startday").datepicker dateFormat: "yy-mm-dd"
+    $("#input-endday").datepicker dateFormat: "yy-mm-dd"
 
   onClickClose: ->
     @$el.addClass('hidden')
     @trigger 'hidden'
+
+  onClickReloadButton: () =>
+    startDay = $('#input-startday').val()
+    endDay = $('#input-endday').val()
+    @getAnalytics startDay, endDay
 
   onDblClickRecentSession: (e) ->
     # Admin view of players' code
@@ -48,91 +51,124 @@ module.exports = class CampaignLevelView extends CocoView
     session = new LevelSession _id: row.data 'session-id'
     @openModalView new ModelModal models: [session, player]
 
-  getCommonLevelProblems: ->
-    # Fetch last 30 days of common level problems
-    startDay = utils.getUTCDay -29
-    startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
+  getAnalytics: (startDay, endDay) =>
+    if startDay?
+      startDayDashed = startDay
+      startDay = startDay.replace(/-/g, '')
+    else
+      startDay = utils.getUTCDay -14
+      startDayDashed = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
+    if endDay?
+      endDayDashed = endDay
+      endDay = endDay.replace(/-/g, '')
+    else 
+      endDay = utils.getUTCDay -1
+      endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
 
-    success = (data) =>
-      return if @destroyed
-      @commonProblems = data
-      @commonProblems.startDay = startDay
+    @analytics = 
+      startDay: startDayDashed
+      endDay: endDayDashed
+      commonProblems:
+        levels: []
+        loading: true
+      levelCompletions:
+        levels: []
+        loading: true
+      levelHelps:
+        levels: []
+        loading: true
+      levelPlaytimes:
+        levels: []
+        loading: true
+      recentSessions:
+        levels: []
+        loading: true
+    @render()
+
+    @getCommonLevelProblems startDayDashed, endDayDashed, () =>
+      @analytics.commonProblems.loading = false
       @render()
+    @getLevelCompletions startDay, endDay, () =>
+      @analytics.levelCompletions.loading = false
+      @render()
+    @getLevelHelps startDay, endDay, () =>
+      @analytics.levelHelps.loading = false
+      @render()
+    @getLevelPlaytimes startDayDashed, endDayDashed, () =>
+      @analytics.levelPlaytimes.loading = false
+      @render()
+    @getRecentSessions () =>
+      @analytics.recentSessions.loading = false
+      @render()
+
+  getCommonLevelProblems: (startDay, endDay, doneCallback) ->
+    success = (data) =>
+      return doneCallback() if @destroyed
+      @analytics.commonProblems.levels = data
+      doneCallback()
 
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'common_problems', {
       url: '/db/user_code_problem/-/common_problems'
-      data: {startDay: startDay, slug: @levelSlug}
+      data: {startDay: startDay, endDay: endDay, slug: @levelSlug}
       method: 'POST'
       success: success
     }, 0
     request.load()
 
-  getLevelCompletions: ->
-    # Fetch last 14 days of level completion counts
+  getLevelCompletions: (startDay, endDay, doneCallback) ->
     success = (data) =>
-      return if @destroyed
+      return doneCallback() if @destroyed
       data.sort (a, b) -> if a.created < b.created then 1 else -1
       mapFn = (item) -> 
         item.rate = (item.finished / item.started * 100).toFixed(2)
         item
-      @levelCompletions = _.map data, mapFn, @
-      @render()
+      @analytics.levelCompletions.levels = _.map data, mapFn, @
+      doneCallback()
 
-    startDay = utils.getUTCDay -14
-    
-    # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_completions', {
       url: '/db/analytics_perday/-/level_completions'
-      data: {startDay: startDay, slug: @levelSlug}
+      data: {startDay: startDay, endDay: endDay, slug: @levelSlug}
       method: 'POST'
       success: success
     }, 0
     request.load()
 
-  getLevelHelps: ->
-    # Fetch last 14 days of level completion counts
+  getLevelHelps: (startDay, endDay, doneCallback) ->
     success = (data) =>
-      return if @destroyed
-      @levelHelps = data.sort (a, b) -> if a.created < b.created then 1 else -1
-      @render()
-
-    startDay = utils.getUTCDay -14
+      return doneCallback() if @destroyed
+      @analytics.levelHelps.levels = data.sort (a, b) -> if a.day < b.day then 1 else -1
+      doneCallback()
 
     request = @supermodel.addRequestResource 'level_helps', {
       url: '/db/analytics_perday/-/level_helps'
-      data: {startDay: startDay, slugs: [@levelSlug]}
+      data: {startDay: startDay, endDay: endDay, slugs: [@levelSlug]}
       method: 'POST'
       success: success
     }, 0
     request.load()
 
-  getLevelPlaytimes: ->
-    # Fetch last 14 days of level average playtimes
+  getLevelPlaytimes: (startDay, endDay, doneCallback) ->
     success = (data) =>
-      return if @destroyed
-      @levelPlaytimes = data.sort (a, b) -> if a.created < b.created then 1 else -1
-      @render()
+      return doneCallback() if @destroyed
+      @analytics.levelPlaytimes.levels = data.sort (a, b) -> if a.created < b.created then 1 else -1
+      doneCallback()
 
-    startDay = utils.getUTCDay -13
-    startDay = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
-
-    # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'playtime_averages', {
       url: '/db/level/-/playtime_averages'
-      data: {startDay: startDay, slugs: [@levelSlug]}
+      data: {startDay: startDay, endDay: endDay, slugs: [@levelSlug]}
       method: 'POST'
       success: success
     }, 0
     request.load()
 
-  getRecentSessions: ->
+  getRecentSessions: (doneCallback) ->
     limit = 100
 
     success = (data) =>
-      return if @destroyed
-      @recentSessions = data
-      @render()
+      return doneCallback() if @destroyed
+      @analytics.recentSessions.levels = data
+      doneCallback()
 
     # TODO: Why do we need this url dash?
     request = @supermodel.addRequestResource 'level_sessions_recent', {
