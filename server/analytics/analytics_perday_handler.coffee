@@ -126,7 +126,7 @@ class AnalyticsPerDayHandler extends Handler
           levelStringIDSlugMap[doc._id] = doc.v for doc in documents
           getCompletions orderedLevelSlugs, levelStringIDSlugMap
 
-    # 1. Get campaign levels 
+    # 1. Get campaign levels
     Campaign.find({slug: campaignSlug}).exec (err, documents) =>
       if err? then return @sendDatabaseError res, err
       campaignLevels = []
@@ -250,6 +250,8 @@ class AnalyticsPerDayHandler extends Handler
 
         completions = []
         for day of dayEventCounts
+          started = 0
+          finished = 0
           for eventID of dayEventCounts[day]
             eventID = parseInt eventID
             started = dayEventCounts[day][eventID] if eventID is startEventID
@@ -322,6 +324,9 @@ class AnalyticsPerDayHandler extends Handler
         helps = []
         for levelID of levelEventCounts
           for day of levelEventCounts[levelID]
+            alertHelps = 0
+            paletteHelps = 0
+            videoStarts = 0
             for eventID of levelEventCounts[levelID][day]
               alertHelps = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is alertHelpEventID
               paletteHelps = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is palettteHelpEventID
@@ -329,9 +334,9 @@ class AnalyticsPerDayHandler extends Handler
             helps.push
               level: levelStringIDSlugMap[levelID]
               day: day
-              alertHelps: alertHelps ? 0
-              paletteHelps: paletteHelps ? 0
-              videoStarts: videoStarts ? 0
+              alertHelps: alertHelps
+              paletteHelps: paletteHelps
+              videoStarts: videoStarts
 
         @levelHelpsCache[cacheKey] = helps
         @sendSuccess res, helps
@@ -394,13 +399,15 @@ class AnalyticsPerDayHandler extends Handler
 
         subscriptions = []
         for levelID of levelEventCounts
+          subsShown = 0
+          subsPurchased = 0
           for eventID of levelEventCounts[levelID]
             subsShown = levelEventCounts[levelID][eventID] if parseInt(eventID) is showSubEventID
             subsPurchased = levelEventCounts[levelID][eventID] if parseInt(eventID) is finishSubEventID
           subscriptions.push
             level: levelStringIDSlugMap[levelID]
-            shown: subsShown ? 0
-            purchased: subsPurchased ? 0
+            shown: subsShown
+            purchased: subsPurchased
 
         @levelSubscriptionsCache[cacheKey] = subscriptions
         @sendSuccess res, subscriptions
