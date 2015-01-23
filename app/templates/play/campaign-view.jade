@@ -37,7 +37,7 @@
               span(data-i18n="play.players") players
               span.spr , #{Math.round(playCount.playtime / 3600)}
               span(data-i18n="play.hours_played") hours played
-          .campaign-label= i18n(campaign.attributes, 'name')
+
         if isIPadApp && !level.disabled && !level.locked
           button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
   
