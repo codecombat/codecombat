@@ -1,0 +1,84 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="lt-ie10" lang="en"> <![endif]-->
+<!--[if !IE]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1024">
+
+  <title>CodeCombat - Learn how to code by playing a game</title>
+  <meta name="description" content="Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!">
+
+  <meta property="og:title" content="CodeCombat: Learn to Code by Playing a Game">
+  <meta property="og:url" content="http://codecombat.com">
+  <meta property="og:type" content="game">
+  <meta property="og:image" content="http://codecombat.com/images/pages/home/play_img.png">
+  <meta property="og:site_name" content="CodeCombat">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CodeCombat: Learn to Code by Playing a Game">
+  <meta name="twitter:url" content="http://codecombat.com">
+  <meta name="twitter:site" content="CodeCombat">
+  <meta name="twitter:image:src" content="http://codecombat.com/images/pages/base/logo_square_250.png">
+  <meta name="twitter:description" content="Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!">
+
+  <link href="https://plus.google.com/115285980638641924488" rel="publisher" />
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="/stylesheets/app.css">
+
+  <!-- IE9 doesn't support defer attribute: https://github.com/h5bp/lazyweb-requests/issues/42 -->
+  <!--[if IE 9]>
+  <script src="/lib/ace/ace.js"></script>
+  <script src="/javascripts/box2d.js"></script>
+  <script src="/javascripts/vendor.js"></script>
+  <script src="/javascripts/aether.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <![endif]-->
+  <![if (gt IE 9)|(!IE)]>
+  <script src="/lib/ace/ace.js" defer></script>
+  <script src="/javascripts/vendor.js" defer></script>
+  <script src="/javascripts/aether.js" defer></script>
+  <script src="/javascripts/app.js" defer></script> <!-- it's all Backbone! -->
+  <![endif]>
+  <script>
+
+    // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
+    window.userObject = "userObjectTag";
+    window.me = {
+      get: function(attribute) { return window.userObject[attribute]; }
+    }
+
+    onLoad = function() {
+      try {
+        // IE8 warning
+        var htmlElement = document.querySelector("html");
+        if (htmlElement) {
+          var classAttribute = htmlElement.getAttribute('class');
+          if (classAttribute && classAttribute.indexOf('lt-ie9') >= 0) {
+            alert("CodeCombat does not run in Internet Explorer 8 or older. Sorry!");
+          }
+        }
+        
+        // IE8 can't handle this
+        FastClick.attach(document.body);
+        require('core/initialize');
+      } catch (error) { }
+    }
+  </script>
+
+</head>
+<body class="nano clearfix" onload="onLoad();">
+  <div id="fb-root"></div>
+
+  <div id="page-container" class="nano-content">
+  </div>
+
+  <div id="modal-wrapper" class="modal-content"></div>
+
+  <div class="progress" id="module-load-progress">
+    <div class="progress-bar"></div>
+  </div>
+</body>
+</html>

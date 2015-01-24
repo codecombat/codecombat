@@ -1,0 +1,126 @@
+extends /templates/base
+
+block content
+
+  img(src="/images/pages/about/coco_comic.jpg")
+
+  .row
+
+    .col-sm-6
+
+      h2(data-i18n="about.why_codecombat")
+        | Why CodeCombat?
+    
+      p(data-i18n="about.why_paragraph_1")
+        | If you want to learn to program, you don't need lessons. 
+        | You need to write a lot of code and have a great time doing it.
+
+      p
+        span(data-i18n="about.why_paragraph_2_prefix")
+          | That's what programming is about. It's gotta be fun.
+          | Not fun like
+        span  
+        i(data-i18n="about.why_paragraph_2_italic")
+          | yay a badge
+        span  
+        span(data-i18n="about.why_paragraph_2_center")
+          | but fun like
+        span  
+        i(data-i18n="about.why_paragraph_2_italic_caps")
+          | NO MOM I HAVE TO FINISH THE LEVEL!
+        span  
+        span(data-i18n="about.why_paragraph_2_suffix")
+          | That's why CodeCombat is a multiplayer game,
+          | not a gamified lesson course. We won't stop 
+          | until you can't stop--but this time, that's a good thing.
+
+      p(data-i18n="about.why_paragraph_3")
+        | If you're going to get addicted to some game, 
+        | get addicted to this one and become one of the wizards of the tech age.
+
+      h2(data-i18n="about.press_title")
+        | Bloggers/Press
+
+      p
+        span.spr(data-i18n="about.press_paragraph_1_prefix")
+          | Want to write about us? Feel free to download and use all of the resources included in our
+        a(href="https://s3.amazonaws.com/CodeCombatMisc/press_packet.zip", data-i18n="about.press_paragraph_1_link") press packet
+        span(data-i18n="about.press_paragraph_1_suffix")
+          | . All logos and images may be used without contacting us directly.
+    
+
+    ul.col-sm-6.team-column
+ 
+      ul.thumbnails
+    
+        li.row
+
+          h2(data-i18n="about.team") Team
+    
+          img(src="/images/pages/about/george_small.png").img-thumbnail
+  
+          .team_bio
+  
+            h4.team_name George Saines
+
+            p(data-i18n="about.george_title")
+                | CEO
+            p(data-i18n="about.george_blurb")
+                | Businesser
+    
+          a(href="http://scotterickson.info")
+            img(src="/images/pages/about/scott_small.png").img-thumbnail
+  
+          .team_bio
+
+            h4.team_name
+              a(href="http://scotterickson.info") Scott Erickson
+  
+            p(data-i18n="about.scott_title")
+              | Programmer
+            p(data-i18n="about.scott_blurb")
+              | Reasonable one
+    
+        li.row
+    
+          a(href="http://www.nickwinter.net")
+            img(src="/images/pages/about/nick_small.png").img-thumbnail
+  
+          .team_bio
+
+            h4.team_name
+              a(href="http://www.nickwinter.net") Nick Winter
+    
+            p(data-i18n="about.nick_title")
+              | Programmer
+            p(data-i18n="about.nick_blurb")
+              | Motivation Guru
+   
+          a(href="http://michaelschmatz.com")
+            img(src="/images/pages/about/michael_small.png").img-thumbnail
+  
+          .team_bio
+
+            h4.team_name
+              a(href="http://michaelschmatz.com/") Michael Schmatz
+    
+            p(data-i18n="about.michael_title")
+              | Programmer
+            p(data-i18n="about.michael_blurb")
+              | Sys Admin
+
+        li.row
+    
+          img(src="/images/pages/about/matt_small.png").img-thumbnail
+  
+          .team_bio
+
+            h4.team_name
+              a(href="http://www.mattlott.com/") Matt Lott
+    
+            p(data-i18n="about.matt_title")
+              | Programmer
+            p(data-i18n="about.matt_blurb")
+              | Bicyclist
+
+

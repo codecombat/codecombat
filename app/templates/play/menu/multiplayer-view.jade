@@ -1,0 +1,90 @@
+if !ladderGame
+  .form
+    .form-group.checkbox
+      label(for="multiplayer")
+        input#multiplayer(name="multiplayer", type="checkbox", checked=multiplayer)
+        span(data-i18n="multiplayer.multiplayer_toggle") Enable multiplayer
+      span.help-block(data-i18n="multiplayer.multiplayer_toggle_description") Allow others to join your game.
+
+  hr
+
+  div#link-area
+    p(data-i18n="multiplayer.multiplayer_link_description") Give this link to anyone to have them join you.
+
+    textarea.well#multiplayer-join-link(readonly=true)= joinLink
+
+    p
+      strong(data-i18n="multiplayer.multiplayer_hint_label") Hint:
+      span(data-i18n="multiplayer.multiplayer_hint")  Click the link to select all, then press ⌘-C or Ctrl-C to copy the link.
+
+    p(data-i18n="multiplayer.multiplayer_coming_soon") More multiplayer features to come!
+
+if ladderGame
+  if me.get('anonymous')
+    p(data-i18n="multiplayer.multiplayer_sign_in_leaderboard") Sign in or create an account and get your solution on the leaderboard.
+  else if realTimeSessions && realTimeSessionsPlayers
+    button#create-game-button Create Game
+
+    hr
+
+    div#created-multiplayer-session
+      h3 Your Game
+      if currentRealTimeSession
+        div
+          span(style="margin:10px")= currentRealTimeSession.get('levelID')
+          span(style="margin:10px")= currentRealTimeSession.get('creatorName')
+          span(style="margin:10px")= currentRealTimeSession.get('state')
+          span(style="margin:10px")= currentRealTimeSession.id
+          button#leave-game-button(data-item=item) Leave Game
+        div
+          - var players = realTimeSessionsPlayers[currentRealTimeSession.id]
+          if players
+            span(style="margin:10px") Players:
+            - for (var i=0; i < players.length; i++) {
+              span(style="margin:10px")= players.at(i).get('name')
+              span(style="margin:10px")= players.at(i).get('team')
+              span(style="margin:10px")= players.at(i).get('state')
+            - }
+          else
+            span No Players?
+      else
+        div Click something above to create a game.
+
+    hr
+
+    div#open-games
+      h3 Open Games
+      //- TODO: do not let you join ones with same-team opponent
+      - var noOpenGames = true
+      - for (var i=0; i < realTimeSessions.length; i++) {
+        if (currentRealTimeSession && realTimeSessions.at(i).id == currentRealTimeSession.id) 
+          - continue
+        if levelID === realTimeSessions.at(i).get('levelID') && realTimeSessions.at(i).get('state') === 'creating'
+          - var id = realTimeSessions.at(i).get('id')
+          - var players = realTimeSessionsPlayers[id]
+          if players && players.length === 1
+            - noOpenGames = false
+            - var creatorName = realTimeSessions.at(i).get('creatorName')
+            - var creator = realTimeSessions.at(i).get('creator')
+            - var state = realTimeSessions.at(i).get('state')
+            - var item = realTimeSessions.at(i)
+            div
+              button#join-game-button(data-item=item) Join Game
+              span(style="margin:10px")= levelID
+              span(style="margin:10px")= creatorName
+              span(style="margin:10px")= state
+              span(style="margin:10px")= id
+            div
+              span(style="margin:10px") Players:
+              span(style="margin:10px")= players.at(0).get('name')
+              span(style="margin:10px")= players.at(0).get('team')
+              span(style="margin:10px")= players.at(0).get('state')
+        - }
+      if noOpenGames
+        div No games available.
+
+    hr
+
+    .ladder-submission-view
+  else
+    a.btn.btn-primary(href="/play/ladder/#{levelSlug}#my-matches", data-i18n="multiplayer.victory_go_ladder") Return to Ladder

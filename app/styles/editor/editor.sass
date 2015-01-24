@@ -1,0 +1,148 @@
+.editor
+  h1, h2, h3, h4, h5, h6, a
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important
+  
+  position: absolute
+  top: 0px
+  left: 0px
+  right: 0px
+  bottom: 0px
+
+  $BG: rgba(228, 207, 140, 1.0)
+  $NAVBG: #2f261d
+  
+  .dropdown-menu
+    position: absolute
+    background-color: #FFF
+    border: 1px solid rgba(0, 0, 0, 0.15)
+    border-radius: 4px
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176)
+    left: 0px
+    right: auto
+    
+    li a
+      color: #555
+      padding: 3px 20px
+  
+  .navbar-nav
+    float: left
+    margin: 0
+    
+    > li
+      float: left
+  
+  li.navbar-btn
+    margin-right: 5px
+  
+  // custom navbar height rules
+  .navbar-nav > li > a
+    padding: 7px 8px 8px
+    cursor: pointer
+    &:hover
+      background-color: lighten($NAVBG, 10%)
+  .navbar
+    min-height: 0px
+    border-radius: 0
+  .navbar-right
+    // not sure why bootstrap puts a big negative margin in, but this overrides it
+    margin-right: 10px !important
+    float: right
+    
+    .dropdown-menu
+      right: 0px
+      left: auto
+    
+  // custom navbar styling
+  .navbar-brand
+    padding-top: 7px
+    padding-bottom: 7px
+    color: lighten(gold, 30%)
+  .navbar-header
+    border-left: 2px solid lighten($NAVBG, 20%)
+    border-right: 2px solid lighten($NAVBG, 20%)
+    background: lighten($NAVBG, 10%)
+    margin-left: 20px
+    float: left
+  .nav-tabs
+    margin-left: 5px
+    border-bottom: 0 !important
+    
+    li
+      float: left
+      display: block
+      
+    @media only screen and (max-width: 800px)
+      
+      li
+        float: none
+        display: none
+        z-index: 12
+        
+        a
+          background-color: $BG
+          border-color: darken($BG, 50%)
+          border-width: 0px 1px
+          border-radius: 0px
+          
+      li:first-child > a
+        border-radius: 5px 5px 0px 0px
+        border-top-width: 1px
+          
+      li:last-child > a
+        border-radius: 0px 0px 5px 5px
+        border-bottom-width: 1px
+      
+      li.active
+        display: block
+    
+    .active > a, .active > a:hover, .active > a:focus
+      background-color: $BG !important
+      border-color: darken($BG, 50%)
+      border-bottom: 0
+    a
+      padding: 7px 5px !important
+      
+  .dropdown-menu a
+    cursor: pointer
+    &:hover
+      background-color: #d3d3d3
+      
+  .badge
+    background-color: green
+
+  .outer-content
+    background-color: $BG
+    position: absolute
+    top: 35px
+    bottom: 0
+    left: 0
+    right: 0
+
+  .top-controls-area
+    position: fixed
+    background-color: $BG
+    z-index: 100
+    left: 20px
+    right: 20px
+    margin-top: -10px
+    padding-top: 10px
+  
+  #level-editor-tabs, &#thang-type-edit-view .tab-content
+    position: absolute
+    left: 15px
+    right: 15px
+    top: 15px
+    bottom: 15px
+    
+  .treema-root
+    background-color: white
+    border-radius: 4px
+    &:focus
+      box-shadow: 0 0 10px blue
+
+  .editor-nano-container
+    position: static
+
+  .nano-content
+    outline: thin
+

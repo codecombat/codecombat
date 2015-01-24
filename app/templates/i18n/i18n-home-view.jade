@@ -1,0 +1,26 @@
+extends /templates/base
+
+block content
+  if selectedLanguage
+    .progress
+      .progress-bar.progress-bar-info(role="progressbar" aria-valuenow=progress aria-valuemin="0" aria-valuemax="100" style="width: "+progress+"%")= progress+"%"
+  
+  table.table.table-condensed
+    tr
+      th
+        select#language-select.form-control.input-sm
+          option(value='') Select one...
+
+      th Type
+      th Specifically Covered
+      th Generally Covered
+
+    if selectedLanguage
+      for model in collection.models
+        tr
+          td
+            a(href=model.i18nURLBase+model.get('slug'))= model.get('name')
+          td= model.constructor.className
+          td(class=model.specificallyCovered ? 'success' : 'danger')= model.specificallyCovered ? 'Yes' : 'No'
+          td(class=model.generallyCovered ? 'success' : 'danger')= model.generallyCovered ? 'Yes' : 'No'
+        

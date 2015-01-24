@@ -1,0 +1,41 @@
+extends /templates/core/modal-base
+
+
+block modal-header-content
+  h3 
+    if selectingPoint
+      | Select Point
+    else
+      | Select Region
+
+block modal-body-content
+  div.instructions
+    div.alert.alert-info 
+      strong Click
+      |  to pan
+    div.alert.alert-info 
+      strong Scroll
+      |  to zoom
+    if selectingPoint
+      div.alert.alert-info
+        strong Shift-click 
+        |  to select
+    else
+      div.alert.alert-info
+        strong Shift-drag
+        |  to select
+    if flexibleRegion
+      div.alert.alert-info
+        strong Alt-shift-drag
+        |  to select ratio
+    else
+      div.alert.alert-info
+        strong Enter
+        |  to confirm
+  .canvas-wrapper
+    canvas(width=924, height=589).webgl-canvas
+    canvas(width=924, height=589).normal-canvas
+
+block modal-footer-content
+  a.btn.btn-primary#done-button Done
+  

@@ -1,0 +1,1 @@
+call print_file ..\\config\\install_header.coco

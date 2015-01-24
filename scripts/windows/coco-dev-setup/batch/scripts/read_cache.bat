@@ -1,0 +1,2 @@
+call get_cache_var language_id
+call get_cache_var repository_path

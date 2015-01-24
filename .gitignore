@@ -1,0 +1,95 @@
+### If you add something here, copy it to the end of .npmignore, too. ###
+
+# Python
+*.pyc
+*.pyo
+
+# OS X
+.DS_Store
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+
+# Emacs
+*.*~
+*.#
+.#*
+*#
+
+# Vim
+.*.sw[a-z]
+*.un~i
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# IntelliJ/WebStorm
+*.iml
+
+# NPM packages folder.
+node_modules/
+bower_components/
+
+# Some other random stuff
+always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.vi
+*.sass-cache
+.zedstate
+
+# OS or Editor folders
+.cache
+.project
+.settings
+.tmproj
+.idea
+nbproject
+
+# Brunch folder for temporary files.
+tmp/
+
+# Brunch output
+public/
+
+# Redis?
+dump.rdb
+
+# Mongo
+mongo/
+
+# Karma coverage
+coverage/
+
+# Floo
+.floo
+FLOOBITS_README.md
+
+# mongodb
+db/
+bin/node/
+bin/mongo/
+
+# windows
+/SCOCODE.bat
+cocodb/
+
+# local settings
+login.coffee
+
+# debugging
+*.heapsnapshot
+
+npm-debug.log*
+
+temp/
+### If you add something here, copy it to the end of .npmignore, too. ###
+

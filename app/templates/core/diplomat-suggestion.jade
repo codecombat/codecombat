@@ -1,0 +1,17 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="diplomat_suggestion.title") Help translate CodeCombat!
+
+block modal-body-content
+  h4(data-i18n="diplomat_suggestion.sub_heading") We need your language skills.
+
+  p(data-i18n="diplomat_suggestion.pitch_body") We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}.
+
+  p(data-i18n="diplomat_suggestion.missing_translations") Until we can translate everything into {English}, you'll see English when {English} isn't available.
+
+  p
+    a(href="/contribute/diplomat", data-i18n="diplomat_suggestion.learn_more") Learn more about being a Diplomat
+
+block modal-footer-content
+  button.btn.btn-primary.btn-large#subscribe-button(data-i18n="diplomat_suggestion.subscribe_as_diplomat") Subscribe as a Diplomat

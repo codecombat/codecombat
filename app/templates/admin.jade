@@ -1,0 +1,56 @@
+extends /templates/base
+
+block content
+  
+  .form-horizontal
+    .form-group
+      label.control-label.col-sm-2(for="espionage-name-or-email" data-i18n="admin.av_espionage") Espionage
+      .col-sm-4
+        input.form-control#espionage-name-or-email(data-i18n="[placeholder]admin.av_espionage_placeholder", placeholder="Email or username"), type="text")
+      .col-sm-1
+        button.btn.btn-primary.btn-large#enter-espionage-mode 007
+      label.control-label.col-sm-5(for="espionage-name-or-email")
+        em you are currently  #{me.get('name')} at #{me.get('email')}
+    .form-group
+      label.control-label.col-sm-2(for="user-search" data-i18n="admin.av_usersearch") User Search
+      .col-sm-4
+        input.form-control#user-search(data-i18n="[placeholder]admin.av_usersearch_placeholder", placeholder="Email, username, name, whatever"), type="text")
+      .col-sm-1
+        button.btn(data-i18n="admin.av_usersearch_search").btn-primary.btn-large#user-search-button  Search
+  #user-search-result
+
+  
+  h3(data-i18n="admin.av_title") Admin Views
+
+  h4(data-i18n="admin.av_entities_sub_title") Entities
+  
+  ul
+    li
+      a(href="/admin/users", data-i18n="admin.av_entities_users_url") Users
+    li
+      a(href="/admin/level-sessions", data-i18n="admin.av_entities_active_instances_url") Active Instances
+    li
+      a(href="/admin/employers", data-i18n="admin.av_entities_employer_list_url") Employer List
+    li
+      a(href="/admin/candidates", data-i18n="admin.av_entities_candidates_list_url") Candidate List
+    li
+      a(href="/admin/user-code-problems", data-i18n="admin.av_entities_user_code_problems_list_url") User Code Problems List
+
+  h4(data-i18n="admin.av_other_sub_title") Other
+
+  ul
+    li
+      a(href="/admin/base", data-i18n="admin.av_other_debug_base_url") Base (for debugging base.jade)
+    li
+      a(href="/admin/clas", data-i18n="admin.clas") CLAs
+    if me.isAdmin()
+      li
+        a(href="/admin/growth", data-i18n="admin.growth") Growth
+
+  hr
+
+  h3 Achievements
+  p This is just some stuff for temporary achievement testing. Should be replaced by a demo system.
+
+  input#increment-field(type="text")
+  a.btn.btn-secondary#increment-button(href="#") Increment

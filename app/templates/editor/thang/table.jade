@@ -1,0 +1,35 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=4)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+  
+block tableHeader
+  tr
+    th#portrait-col
+    th(data-i18n="general.name") Name
+    th(data-i18n="general.description") Description
+    th(data-i18n="general.version") Version
+    th(data-i18n="editor.tasks") Tasks
+  
+block tableBody
+  for thang in documents 
+    tr
+      td
+        img(title="Add " + thang.get('name'), src=thang.getPortraitURL(), alt="").portrait
+      td
+        a(href="/editor/thang/#{thang.get('slug') || thang.id}")
+          | #{thang.get('name')}
+      td.body-row #{thang.get('description')}
+      - var version = thang.get('version')
+      td #{version.major}.#{version.minor}
+      - var tasks = thang.get('tasks');
+      if tasks && tasks.length
+        - var completed = tasks.filter(function(t) { return t.complete; });
+        td #{completed.length}/#{tasks.length}
+      else
+        td

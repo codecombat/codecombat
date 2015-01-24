@@ -1,0 +1,10 @@
+extends /templates/base
+
+block content
+
+  h1.text-center(data-i18n="not_found.page_not_found") Page Not Found
+
+  - var num = Math.floor(Math.random() * 3) + 1;
+
+  img(src="/images/pages/not_found/404_#{num}.png" class="not-found-image")
+
