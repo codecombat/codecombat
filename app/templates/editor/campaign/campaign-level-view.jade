@@ -12,8 +12,8 @@
       button.btn.btn-default.btn-sm#reload-button(style='margin-left:10px;') Reload
 
   each graph in analytics.graphs
-    label.line-graph-label
-      each line in graph.lines
+    each line in graph.lines
+      label.line-graph-label
         input.line-graph-checkbox(data-lineid="#{line.lineID}", type='checkbox', checked=line.enabled)
         span #{line.description}
         span &nbsp;&nbsp;
