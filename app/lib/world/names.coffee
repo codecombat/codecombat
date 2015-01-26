@@ -162,6 +162,7 @@ module.exports.thangNames = thangNames =
     'Anne'
     'Annie'
     'Aphrodite'
+    'Arya'
     'Ashley'
     'Barbara'
     'Betty'
@@ -300,6 +301,7 @@ module.exports.thangNames = thangNames =
     'Bernadette'
     'Brandy'
     'Cristiana'
+    'Fany'
     'Ellyn'
     'Giselle'
     'Gwendolin'
@@ -338,6 +340,7 @@ module.exports.thangNames = thangNames =
     'Mirana'
     'Natalie'
     'Odette'
+    'Green Arrow'
     'Omar'
     'Orly'
     'Phoebe'
@@ -536,6 +539,7 @@ module.exports.thangNames = thangNames =
   ]
   'Griffin Rider': [
     'Aeoldan'
+    'Alzarus'
     'Bestarius'
     'Letholdus'
   ]
@@ -555,6 +559,7 @@ module.exports.thangNames = thangNames =
   'Librarian': [
     'Agathe'
     'Agnes'
+    'Jane'
     'Hushbaum'
     'Mariam'
     'Matilda'
@@ -571,6 +576,7 @@ module.exports.thangNames = thangNames =
     'Almeric'
     'Alphonse'
     'Arthur'
+    'Bruce Wayne'
     'Drake'
     'Duran'
     'Edward'
@@ -585,6 +591,7 @@ module.exports.thangNames = thangNames =
   ]
   'Captain': [
     'Anya'
+    'America'
     'Brigette'
     'Dimia'
     'Hardcastle'
@@ -610,6 +617,7 @@ module.exports.thangNames = thangNames =
     'Beazer'
     'Gandalf'
     'Pender'
+    'Potter'
   ]
   'Samurai': [
     'Hattori'
