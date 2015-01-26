@@ -325,6 +325,7 @@ module.exports.thangNames = thangNames =
     'Cairn'
     'Cecily'
     'Clare'
+    'Erica'
     'Gemma'
     'Ivy'
     'Jensen'
@@ -366,6 +367,7 @@ module.exports.thangNames = thangNames =
     'Robin'
     'Roman'
     'Simon'
+    'Sharp Shooter'
     'Slyvos'
     'Vican'
   ]
@@ -435,6 +437,7 @@ module.exports.thangNames = thangNames =
     'Polifemo'
     'Saltporker'
     'Skrungt'
+    'Stinker'
     'Tarlok'
     'Trogdor'
     'Trung'
@@ -570,6 +573,7 @@ module.exports.thangNames = thangNames =
   'Knight': [
     'Almeric'
     'Alphonse'
+    'Altair'
     'Arthur'
     'Drake'
     'Duran'
@@ -587,6 +591,7 @@ module.exports.thangNames = thangNames =
     'Anya'
     'Brigette'
     'Dimia'
+    'Div'
     'Hardcastle'
     'Helena'
     'Isa'
@@ -596,6 +601,7 @@ module.exports.thangNames = thangNames =
     'Leona'
     'Lia'
     'Lily'
+    'Nicks'
     'Philips'
     'Sarre'
   ]
@@ -628,5 +634,6 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Scout F': [
     'Freesa'
+    'Ganju'
     'Ralthora'
   ]
