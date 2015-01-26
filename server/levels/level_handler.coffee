@@ -358,6 +358,8 @@ LevelHandler = class LevelHandler extends Handler
     # TODO: An uncached call takes about 5s for dungeons-of-kithgard locally
     # TODO: This is very similar to getLevelCompletionsBySlugs(), time to generalize analytics APIs?
 
+    # TODO: exclude admin data
+
     levelSlugs = req.query.slugs or req.body.slugs
     startDay = req.query.startDay or req.body.startDay
     endDay = req.query.endDay or req.body.endDay
