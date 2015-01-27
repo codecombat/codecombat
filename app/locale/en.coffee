@@ -369,6 +369,13 @@
   subscribe:
     subscribe_title: "Subscribe"
     unsubscribe: "Unsubscribe"
+    confirm_unsubscribe: "Confirm Unsubscribe"
+    never_mind: "Never Mind, I Still Love You"
+    thank_you_months_prefix: "Thank you for supporting us these last"
+    thank_you_months_suffix: "months."
+    thank_you: "Thank you for supporting CodeCombat."
+    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
+    unsubscribe_feedback_placeholder: "O, what have we done?"
     levels: "Get more practice with bonus levels!"
     heroes: "More powerful heroes!"
     gems: "3500 bonus gems every month!"

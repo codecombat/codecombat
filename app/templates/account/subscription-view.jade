@@ -14,6 +14,20 @@ block content
     .panel-heading
       if subscribed
         button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
+        .unsubscribe-feedback.row.secret
+          .col-lg-7
+            h3
+              if monthsSubscribed > 1
+                span(data-i18n="subscribe.thank_you_months_prefix") Thank you for supporting us these last
+                span.spl.spr= monthsSubscribed
+                span(data-i18n="subscribe.thank_you_months_suffix") months.
+              else
+                span(data-i18n="subscribe.thank_you") Thank you for supporting CodeCombat.
+            div(data-i18n="subscribe.sorry_to_see_you_go") Sorry to see you go! Please let us know what we could have done better.
+            textarea(rows=3, data-i18n="[placeholder]subscribe.unsubscribe_feedback_placeholder")
+          .col-lg-5
+            button.cancel-end-subscription-button.btn.btn-lg.btn-default(data-i18n="subscribe.never_mind") Never Mind, I Still Love You
+            button.confirm-end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.confirm_unsubscribe") Confirm Unsubscribe
       else if !me.isAnonymous()
         button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
 
