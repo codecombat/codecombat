@@ -343,7 +343,7 @@ module.exports = class ThangComponentsEditView extends CocoView
     componentSystems = (c.get('system') for c in componentModels when c)
 
     for system in componentSystems
-      if system not in extantSystems
+      if system isnt 'misc' and system not in extantSystems
         s = "Component requires system <strong>#{system}</strong> which is currently not included in this level."
         noty({
           text: s,
