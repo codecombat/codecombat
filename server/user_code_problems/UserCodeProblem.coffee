@@ -7,6 +7,4 @@ UserCodeProblemSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 
-# TODO: add index
-
 module.exports = UserCodeProblem = mongoose.model('user.code.problem', UserCodeProblemSchema)
