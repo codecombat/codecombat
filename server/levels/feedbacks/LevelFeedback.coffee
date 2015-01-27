@@ -10,4 +10,7 @@ LevelFeedbackSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 
+LevelFeedbackSchema.index({created: 1})
+LevelFeedbackSchema.index({creator: 1})
+
 module.exports = LevelFeedback = mongoose.model('level.feedback', LevelFeedbackSchema)

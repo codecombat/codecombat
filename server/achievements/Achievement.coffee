@@ -15,6 +15,22 @@ AchievementSchema = new mongoose.Schema({
   userField: String
 }, {strict: false})
 
+AchievementSchema.index(
+  {
+    _fts: 'text'
+    _ftsx: 1
+  },
+  {
+    name: 'search index'
+    sparse: true
+    weights: {name: 1}
+    default_language: 'english'
+    'language_override': 'language'
+    'textIndexVersion': 2
+  })
+AchievementSchema.index({i18nCoverage: 1}, {name: 'translation coverage index', sparse: true})
+AchievementSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
+
 AchievementSchema.methods.objectifyQuery = ->
   try
     @set('query', JSON.parse(@get('query'))) if typeof @get('query') == 'string'

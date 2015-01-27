@@ -11,6 +11,7 @@ AnalyticsLogEventSchema = new mongoose.Schema({
   event: String
   properties: mongoose.Schema.Types.Mixed
 }, {strict: false})
+
 AnalyticsLogEventSchema.index({event: 1, _id: 1})
 
 module.exports = AnalyticsLogEvent = mongoose.model('analytics.log.event', AnalyticsLogEventSchema)
