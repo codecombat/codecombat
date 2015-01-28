@@ -104,7 +104,6 @@ module.exports = class LevelGuideView extends CocoView
 
   setupVideoPlayer: () ->
     return unless @helpVideos.length > 0
-    console.log(@helpVideos[@helpVideosIndex].url)
     helpVideoURL = fixupUri(@helpVideos[@helpVideosIndex].url)
     @setupVimeoVideoPlayer helpVideoURL
 
