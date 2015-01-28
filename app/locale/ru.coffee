@@ -324,7 +324,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_optimization_operator: "В каждом языке есть оператор оптимизации. В большинстве языков это оператор ‘//’"
     tip_lines_of_code: "Измерение прогресса программирования в строках кода - это как измерять прогресс построения самолета по его весу. — Bill Gates"
     tip_source_code: "Я хочу изменить мир, но они вряд ли дадут мне исходники."
-    tip_javascript_java: "Java к JavaScript относится так же, как кол относится к колонке. - Chris Heilmann (перефраз.)"
+    tip_javascript_java: "Java к JavaScript относится так же, как кол относится к колготкам. - Chris Heilmann (перефраз.)"
 
   game_menu:
     inventory_tab: "Инвентарь"
