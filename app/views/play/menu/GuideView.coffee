@@ -94,9 +94,18 @@ module.exports = class LevelGuideView extends CocoView
       window.tracker?.trackEvent 'Finish help video', level: @levelID, ls: @sessionID, style: @helpVideos[@helpVideosIndex].style
       @trackedHelpVideoFinish = true
 
+  # we wan't to always use the same scheme (HTTP/HTTPS) as the page was loaded with, but don't want to require Artisans to have to remember
+  # not to include a scheme in help video url
+  fixupUri = (uri) ->
+    n = uri.indexOf('/')
+    if n < 1
+      return uri
+    return uri.slice(n)
+
   setupVideoPlayer: () ->
     return unless @helpVideos.length > 0
-    helpVideoURL = @helpVideos[@helpVideosIndex].url
+    console.log(@helpVideos[@helpVideosIndex].url)
+    helpVideoURL = fixupUri(@helpVideos[@helpVideosIndex].url)
     @setupVimeoVideoPlayer helpVideoURL
 
   setupVimeoVideoPlayer: (helpVideoURL) ->
