@@ -197,12 +197,8 @@ exports.config =
 
   modules:
     definition: (path, data) ->
-      needHeaders = [
-        'public/javascripts/app.js'
-        'public/javascripts/world.js'
-        'public/javascripts/whole-app.js'
-      ]
-      defn = if path in needHeaders then commonjsHeader else ''
+      needHeaderExpr = regJoin('^public/javascripts/?(app.js|world.js|whole-app.js)')
+      defn = if path.match(needHeaderExpr) then commonjsHeader else ''
       return defn
 
 #- Find all .coffee and .jade files in /app
