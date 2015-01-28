@@ -8,4 +8,6 @@ UserRemarkSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 
+UserRemarkSchema.index({user: 1}, {name: 'User'})
+
 module.exports = UserRemark = mongoose.model('user.remark', UserRemarkSchema)

@@ -59,8 +59,6 @@ createMailContext = (req, done) ->
     async.waterfall [
       fetchRecentSessions.bind undefined, user, context
       # Can add other data-grabbing stuff here if we want.
-      # TODO: grab platform/browser/browser version/screen size from client
-      # TODO: try automatically including Surface screenshot if opening contact form from level?
     ], (err, results) ->
       console.error "Error getting contact message context for #{sender}: #{err}" if err
       if req.body.screenshotURL

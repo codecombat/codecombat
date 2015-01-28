@@ -71,7 +71,7 @@ class SetupFactory(object):
         print("NOTE: brunch may need to be run as sudo if it doesn't work (ulimit needs to be set higher than default)")
         print("")
         print("Before can play any levels you must update the database. See the Setup section here:")
-        print("https://github.com/codecombat/codecombat/wiki/Developer-environment#setup")
+        print("https://github.com/codecombat/codecombat/wiki/Dev-Setup:-Linux#installing-the-database")
         print("")
         print("Go to http://localhost:3000 to see your local CodeCombat in action!")
     def cleanup(self):
@@ -145,7 +145,7 @@ class LinuxSetup(SetupFactory):
                             exit(1)
                     else:
                         print("NodeJS and MongoDB installed successfully. "
-                              "Staring MongoDB.")
+                              "Starting MongoDB.")
                         #try:
                             #subprocess.check_call(["service", "mongod", "start"])
                         #except subprocess.CalledProcessError as err:
@@ -169,4 +169,3 @@ class LinuxSetup(SetupFactory):
                         return()
                     else:
                         exit(1)
-

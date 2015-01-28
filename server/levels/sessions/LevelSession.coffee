@@ -11,6 +11,20 @@ LevelSessionSchema = new mongoose.Schema({
     type: Date
     'default': Date.now
 }, {strict: false})
+
+LevelSessionSchema.index({creator: 1})
+LevelSessionSchema.index({level: 1})
+LevelSessionSchema.index({levelID: 1})
+LevelSessionSchema.index({'level.majorVersion': 1})
+LevelSessionSchema.index({'level.original': 1}, {name: 'Level Original'})
+LevelSessionSchema.index({'level.original': 1, 'level.majorVersion': 1, 'creator': 1, 'team': 1})
+LevelSessionSchema.index({playtime: 1}, {name: 'Playtime'})
+LevelSessionSchema.index({submitDate: 1})
+LevelSessionSchema.index({submitted: 1}, {sparse: true})
+LevelSessionSchema.index({team: 1}, {sparse: true})
+LevelSessionSchema.index({totalScore: 1}, {sparse: true})
+LevelSessionSchema.index({user: 1, changed: -1}, {name: 'last played index', sparse: true})
+
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
 

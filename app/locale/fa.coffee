@@ -323,6 +323,8 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
+#    tip_source_code: "I want to change the world but they would not give me the source code."
+#    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 
 #  game_menu:
 #    inventory_tab: "Inventory"
@@ -369,6 +371,13 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #  subscribe:
 #    subscribe_title: "Subscribe"
 #    unsubscribe: "Unsubscribe"
+#    confirm_unsubscribe: "Confirm Unsubscribe"
+#    never_mind: "Never Mind, I Still Love You"
+#    thank_you_months_prefix: "Thank you for supporting us these last"
+#    thank_you_months_suffix: "months."
+#    thank_you: "Thank you for supporting CodeCombat."
+#    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
+#    unsubscribe_feedback_placeholder: "O, what have we done?"
 #    levels: "Get more practice with bonus levels!"
 #    heroes: "More powerful heroes!"
 #    gems: "3500 bonus gems every month!"

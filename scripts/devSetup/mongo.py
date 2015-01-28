@@ -105,5 +105,3 @@ class MacMongoDBDownloader(MongoDBDownloader):
     @property
     def download_url(self):
         return u"http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.6.6.tgz"
-
-
