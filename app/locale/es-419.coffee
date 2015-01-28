@@ -401,7 +401,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     javascript_blurb: "El lenguaje de la web (no es Java)."
     coffeescript_blurb: "JavaScript pero más bonito."
     clojure_blurb: "Un Lisp moderno."
-    lua_blurb: "Lenguaje ara Juegos."
+    lua_blurb: "Lenguaje para Juegos."
     io_blurb: "Simple pero oscuro."
     status: "Estado"
     weapons: "Armas"
