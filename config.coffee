@@ -8,7 +8,7 @@ TRAVIS = process.env.COCO_TRAVIS_TEST
 
 
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
-regJoin = (s) -> new RegExp(s.replace(/\//, '[\\\/\\\\]'))
+regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
 
 #- Build the config
@@ -197,12 +197,8 @@ exports.config =
 
   modules:
     definition: (path, data) ->
-      needHeaders = [
-        'public/javascripts/app.js'
-        'public/javascripts/world.js'
-        'public/javascripts/whole-app.js'
-      ]
-      defn = if path in needHeaders then commonjsHeader else ''
+      needHeaderExpr = regJoin('^public/javascripts/?(app.js|world.js|whole-app.js)')
+      defn = if path.match(needHeaderExpr) then commonjsHeader else ''
       return defn
 
 #- Find all .coffee and .jade files in /app
