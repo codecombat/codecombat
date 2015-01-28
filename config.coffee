@@ -8,7 +8,7 @@ TRAVIS = process.env.COCO_TRAVIS_TEST
 
 
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
-regJoin = (s) -> new RegExp(s.replace(/\//, '[\\\/\\\\]'))
+regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
 
 #- Build the config
