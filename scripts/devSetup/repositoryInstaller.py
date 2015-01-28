@@ -20,7 +20,7 @@ class RepositoryInstaller():
             #http://stackoverflow.com/questions/9329243/xcode-4-4-and-later-install-command-line-tools
         if not self.checkIfCurlExecutableExists():
             if self.config.system.operating_system == "linux":
-                raise errors.CoCoError("Curl is missing. Please install it(try 'sudo apt-get install curl')\nIf you are not using Ubuntu then please see your Linux Distribution's documentation for help installing curl.")
+                raise errors.CoCoError("Curl is missing. Please install it (try 'sudo apt-get install curl')\nIf you are not using Ubuntu then please see your Linux Distribution's documentation for help installing curl.")
             elif self.config.system.operating_system == "mac":
                 raise errors.CoCoError("Curl is missing. Please install the Xcode command line tools.")
             raise errors.CoCoError(u"Git is missing. Please install git.")

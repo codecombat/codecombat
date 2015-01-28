@@ -14,6 +14,3 @@ class Configuration(object):
     @property
     def mem_width(self):
         return self.system.virtual_memory_address_width
-
-
-

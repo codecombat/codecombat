@@ -60,7 +60,7 @@ class Node(Dependency):
             shutil.copytree(self.findUnzippedNodePath(),install_directory)
         wants_to_upgrade = True
         if self.check_if_executable_installed(u"npm"):
-            warning_string = u"A previous version of npm has been found. \nYou may experience problems if you have a version of npm that's too old.Would you like to upgrade?(y/n) "
+            warning_string = u"A previous version of npm has been found. \nYou may experience problems if you have a version of npm that's too old. Would you like to upgrade?(y/n) "
             from distutils.util import strtobool
             print(warning_string)
             #for bash script, you have to somehow redirect stdin to raw_input()
@@ -158,5 +158,3 @@ class MacNodeDownloader(NodeDownloader):
             return u"http://nodejs.org/dist/v0.10.35/node-v0.10.35-darwin-x64.tar.gz"
         else:
             return u"http://nodejs.org/dist/v0.10.35/node-v0.10.35-darwin-x86.tar.gz"
-
-

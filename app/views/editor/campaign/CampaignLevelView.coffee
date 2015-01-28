@@ -103,12 +103,22 @@ module.exports = class CampaignLevelView extends CocoView
       description: 'Help video rate (%)'
       color: 'purple'
 
-    # Last day may be missing due to caching, will use this days aggregate to clean up individual graph lines
+    # Use this days aggregate to fill in missing days from the analytics data
     days = {}
-    days[day.created] = true for day in @analytics.levelCompletions.data if @analytics?.levelCompletions?.data?
-    days[day.created.replace(/-/g, '')] = true for day in @analytics.levelPlaytimes.data if @analytics?.levelPlaytimes?.data?
-    days[day.day] = true for day in @analytics.levelHelps.data if @analytics?.levelHelps?.data?
+    days["#{day.created[0..3]}-#{day.created[4..5]}-#{day.created[6..7]}"] = true for day in @analytics.levelCompletions.data if @analytics?.levelCompletions?.data?
+    days[day.created] = true for day in @analytics.levelPlaytimes.data if @analytics?.levelPlaytimes?.data?
+    days["#{day.day[0..3]}-#{day.day[4..5]}-#{day.day[6..7]}"] = true for day in @analytics.levelHelps.data if @analytics?.levelHelps?.data?
     days = Object.keys(days).sort (a, b) -> if a < b then -1 else 1
+    if days.length > 0
+      currentIndex = 0
+      currentDay = days[currentIndex]
+      currentDate = new Date(currentDay + "T00:00:00.000Z")
+      lastDay = days[days.length - 1]
+      while currentDay isnt lastDay
+        days.splice currentIndex, 0, currentDay if days[currentIndex] isnt currentDay
+        currentIndex++
+        currentDate.setUTCDate(currentDate.getUTCDate() + 1)
+        currentDay = currentDate.toISOString().substr(0, 10)
 
     # Update level completion graph data
     dayStartedMap = {}
@@ -126,17 +136,14 @@ module.exports = class CampaignLevelView extends CocoView
           pointID: "#{completionLineID}#{i}"
           values: ["Started: #{day.started}", "Finished: #{day.finished}", "Completion rate: #{rate.toFixed(2)}%"]
       # Ensure points for each day
-      if levelPoints.length < days.length
-        for i in [1..days.length - levelPoints.length]
-          day = days[days.length - i]
-          x = levelPoints[levelPoints.length - 1].x + 1
-          levelPoints.push
-            x: x
+      for day, i in days
+        if levelPoints.length <= i or levelPoints[i].day isnt day
+          levelPoints.splice i, 0,
             y: 0.0
-            started: 0
-            day: "#{day[0..3]}-#{day[4..5]}-#{day[6..7]}"
-            pointID: "#{completionLineID}#{x}"
+            day: day
             values: []
+        levelPoints[i].x = i
+        levelPoints[i].pointID = "#{completionLineID}#{i}"
       @analytics.graphs[0].lines.push
         lineID: completionLineID
         enabled: true
@@ -159,17 +166,14 @@ module.exports = class CampaignLevelView extends CocoView
           pointID: "#{playtimeLineID}#{i}"
           values: ["Average playtime: #{avg.toFixed(2)}s"]
       # Ensure points for each day
-      if playtimePoints.length < days.length
-        for i in [1..days.length - playtimePoints.length]
-          day = days[days.length - i]
-          x = playtimePoints[playtimePoints.length - 1].x + 1
-          playtimePoints.push
-            x: x
+      for day, i in days
+        if playtimePoints.length <= i or playtimePoints[i].day isnt day
+          playtimePoints.splice i, 0,
             y: 0.0
-            started: 0
-            day: "#{day[0..3]}-#{day[4..5]}-#{day[6..7]}"
-            pointID: "#{completionLineID}#{x}"
+            day: day
             values: []
+        playtimePoints[i].x = i
+        playtimePoints[i].pointID = "#{playtimeLineID}#{i}"
       @analytics.graphs[0].lines.push
         lineID: playtimeLineID
         enabled: true
@@ -187,7 +191,7 @@ module.exports = class CampaignLevelView extends CocoView
       for day, i in @analytics.levelHelps.data
         helpCount = day.alertHelps + day.paletteHelps
         started = dayStartedMap[day.day] ? 0
-        clickRate = if started > 0 then helpCount / started * 100 else -1.0
+        clickRate = if started > 0 then helpCount / started * 100 else 0
         videoRate = day.videoStarts / helpCount * 100
         helpPoints.push
           x: i
@@ -202,36 +206,30 @@ module.exports = class CampaignLevelView extends CocoView
           pointID: "#{videosLineID}#{i}"
           values: ["Help videos started: #{day.videoStarts}", "Help videos start rate: #{videoRate.toFixed(2)}%"]
       # Ensure points for each day
-      if helpPoints.length < days.length
-        for i in [1..days.length - helpPoints.length]
-          day = days[days.length - i]
-          x = helpPoints[helpPoints.length - 1].x + 1
-          helpPoints.push
-            x: x
+      for day, i in days
+        if helpPoints.length <= i or helpPoints[i].day isnt day
+          helpPoints.splice i, 0,
             y: 0.0
-            started: 0
-            day: "#{day[0..3]}-#{day[4..5]}-#{day[6..7]}"
-            pointID: "#{helpsLineID}#{x}"
+            day: day
             values: []
-      if videoPoints.length < days.length
-        for i in [1..days.length - videoPoints.length]
-          day = days[days.length - i]
-          x = videoPoints[videoPoints.length - 1].x + 1
-          helpPoints.push
-            x: x
+        helpPoints[i].x = i
+        helpPoints[i].pointID = "#{helpsLineID}#{i}"
+        if videoPoints.length <= i or videoPoints[i].day isnt day
+          videoPoints.splice i, 0,
             y: 0.0
-            started: 0
-            day: "#{day[0..3]}-#{day[4..5]}-#{day[6..7]}"
-            pointID: "#{videosLineID}#{x}"
+            day: day
             values: []
-      @analytics.graphs[0].lines.push
-        lineID: helpsLineID
-        enabled: true
-        points: helpPoints
-        description: lineMetadata[helpsLineID].description
-        lineColor: lineMetadata[helpsLineID].color
-        min: 0
-        max: 100.0
+        videoPoints[i].x = i
+        videoPoints[i].pointID = "#{videosLineID}#{i}"
+      if d3.max(helpPoints, (d) -> d.y) > 0
+        @analytics.graphs[0].lines.push
+          lineID: helpsLineID
+          enabled: true
+          points: helpPoints
+          description: lineMetadata[helpsLineID].description
+          lineColor: lineMetadata[helpsLineID].color
+          min: 0
+          max: 100.0
       if d3.max(videoPoints, (d) -> d.y) > 0
         @analytics.graphs[0].lines.push
           lineID: videosLineID
@@ -336,7 +334,7 @@ module.exports = class CampaignLevelView extends CocoView
           .attr("transform", "translate(" + (margin + yAxisWidth * graphLineCount) + "," + margin + ")")
           .attr("cx", (d) -> xRange(d.x))
           .attr("cy", (d) -> yRange(d.y))
-          .attr("r", (d) -> if d.started then Math.max(3, Math.min(10, Math.log(parseInt(d.started)))) else 4)
+          .attr("r", (d) -> if d.started then Math.max(3, Math.min(10, Math.log(parseInt(d.started)))) + 2 else 6)
           .attr("fill", line.lineColor)
           .attr("stroke-width", 1)
           .attr("class", "graph-point")
@@ -412,7 +410,7 @@ module.exports = class CampaignLevelView extends CocoView
       # console.log 'getLevelCompletions', data
       data.sort (a, b) -> if a.created < b.created then -1 else 1
       mapFn = (item) ->
-        item.rate = item.finished / item.started * 100
+        item.rate = if item.started > 0 then item.finished / item.started * 100 else 0
         item
       @analytics.levelCompletions.data = _.map data, mapFn, @
       doneCallback()

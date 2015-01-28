@@ -19,6 +19,17 @@ UserSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 
+UserSchema.index({'dateCreated': 1})
+UserSchema.index({'emailLower': 1}, {unique: true, sparse: true, name: 'emailLower_1'})
+UserSchema.index({'facebookID': 1}, {sparse: true})
+UserSchema.index({'gplusID': 1}, {sparse: true})
+UserSchema.index({'iosIdentifierForVendor': 1}, {name: 'iOS identifier for vendor', sparse: true, unique: true})
+UserSchema.index({'mailChimp.leid': 1}, {sparse: true})
+UserSchema.index({'nameLower': 1}, {sparse: true, name: 'nameLower_1'})
+UserSchema.index({'simulatedBy': 1})
+UserSchema.index({'slug': 1}, {name: 'slug index', sparse: true, unique: true})
+UserSchema.index({'stripe.subscriptionID': 1}, {unique: true, sparse: true})
+
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
 )
@@ -266,9 +277,6 @@ UserSchema.statics.editableProperties = [
 ]
 
 UserSchema.plugin plugins.NamedPlugin
-UserSchema.index({'stripe.subscriptionID':1}, {unique: true, sparse: true})
-UserSchema.index({'emailLower':1}, {unique: true, sparse: true, name: 'emailLower_1'})
-UserSchema.index({'nameLower':1}, {unique: true, sparse: true, name: 'nameLower_1'})
 
 module.exports = User = mongoose.model('User', UserSchema)
 

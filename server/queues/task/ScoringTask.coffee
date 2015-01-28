@@ -9,4 +9,6 @@ ScoringTaskSchema = new mongoose.Schema(
   sessions: {type: Array, default: []}
 )
 
+ScoringTaskSchema.index({createdAt: 1}, {expireAfterSeconds: 3600})
+
 module.exports = mongoose.model('scoringTask', ScoringTaskSchema)

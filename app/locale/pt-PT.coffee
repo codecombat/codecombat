@@ -323,6 +323,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_reusable_software: "Antes de um software poder ser reutilizável, primeiro tem de ser utilizável."
     tip_optimization_operator: "Todas as linguagens têm um operador de otimização. Na maior parte delas esse operador é ‘//’."
     tip_lines_of_code: "Medir o progresso em programação pelo número de linhas de código é como medir o progresso da construção de um avião pelo peso. — Bill Gates"
+    tip_source_code: "Quero mudar o mundo, mas não há maneira de me darem o código-fonte."
+    tip_javascript_java: "Java é para JavaScript o mesmo que Carro (Car) para Tapete (Carpet). - Chris Heilmann"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -369,6 +371,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   subscribe:
     subscribe_title: "Subscrever"
     unsubscribe: "Cancelar Subscrição"
+    confirm_unsubscribe: "Confirmar Cancelamento da Subscrição"
+    never_mind: "Não Importa, Gostamos de Ti à Mesma"
+    thank_you_months_prefix: "Obrigado por nos teres apoiado neste(s) último(s)"
+    thank_you_months_suffix: "mês(meses)."
+    thank_you: "Obrigado por apoiares o CodeCombat."
+    sorry_to_see_you_go: "Lamentamos ver-te partir! Por favor, diz-nos o que podíamos ter feito melhor."
+    unsubscribe_feedback_placeholder: "Oh, o que fomos fazer?"
     levels: "Pratica mais com níveis bónus!"
     heroes: "Heróis mais poderosos!"
     gems: "3500 gemas de bónus todos os meses!"
@@ -856,8 +865,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     price: "Preço"
     gems: "Gemas"
     active: "Activa"
-    subscribed: "Subscrito"
-    unsubscribed: "Não Subscrito"
+    subscribed: "Subscrito(a)"
+    unsubscribed: "Não Subscrito(a)"
     active_until: "Ativa Até"
     cost: "Custo"
     next_payment: "Próximo Pagamento"

@@ -8,4 +8,6 @@ MailSent = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 
+MailSent.index({user: 1}, {name: 'User'})
+
 module.exports = MailSent = mongoose.model('mail.sent', MailSent)

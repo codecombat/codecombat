@@ -323,6 +323,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_reusable_software: "Прежде, чем программное обеспечение станет повторно используемым, оно должно стать в принципе используемым."
     tip_optimization_operator: "В каждом языке есть оператор оптимизации. В большинстве языков это оператор ‘//’"
     tip_lines_of_code: "Измерение прогресса программирования в строках кода - это как измерять прогресс построения самолета по его весу. — Bill Gates"
+    tip_source_code: "Я хочу изменить мир, но они вряд ли дадут мне исходники."
+    tip_javascript_java: "Java к JavaScript относится так же, как кол относится к колготкам. - Chris Heilmann (перефраз.)"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -369,6 +371,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   subscribe:
     subscribe_title: "Подпишись"
     unsubscribe: "Отписаться"
+    confirm_unsubscribe: "Подтвердить отмену подписки"
+    never_mind: "Неважно, Я Все Равно Тебя Люблю"
+    thank_you_months_prefix: "Спасибо Вам за поддерживание нас в течение последних"
+    thank_you_months_suffix: "месяцев."
+    thank_you: "Спасибо за поддержку CodeCombat."
+    sorry_to_see_you_go: "Жаль, что вы уходите! Пожалуйста, расскажите нам, что мы могли бы сделать лучше."
+    unsubscribe_feedback_placeholder: "О, что мы наделали?"
     levels: "Получите больше практики с бонусными уровнями!"
     heroes: "Более сильные герои!"
     gems: "3500 бонусных самоцветов каждый месяц!"

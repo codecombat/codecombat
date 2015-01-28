@@ -31,7 +31,7 @@ function basicDependenciesErrorHandling {
         exit 1
         ;;
     "git")
-        echo "Please install Git.(If you're running mac, this is included in the XCode command line tools."
+        echo "Please install Git (if you're running mac, this is included in the XCode command line tools)."
     esac
  }
 
