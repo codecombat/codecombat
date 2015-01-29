@@ -22,7 +22,7 @@ class LevelSessionsCollection extends CocoCollection
 
   constructor: (model) ->
     super()
-    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID&_=" + new Date().getTime()
 
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'
