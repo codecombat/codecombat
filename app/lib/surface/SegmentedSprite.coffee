@@ -20,14 +20,14 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @handleTick = undefined
     @baseMovieClip.inUse = false if @baseMovieClip
     @removeAllEventListeners()
-  
+
   # CreateJS.Sprite-like interface
-    
+
   play: -> @paused = false unless @baseMovieClip and @animLength > 1
   stop: -> @paused = true
   gotoAndPlay: (actionName) -> @goto(actionName, false)
   gotoAndStop: (actionName) -> @goto(actionName, true)
-  
+
   goto: (actionName, @paused=true) ->
     @removeAllChildren()
     @currentAnimation = actionName
@@ -39,11 +39,11 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
 
     action = @thangType.getActions()[actionName]
     randomStart = _.string.startsWith(actionName, 'move')
-    
+
     # because the resulting segmented image is set to the size of the movie clip, you can use
     # the raw registration data without scaling it.
     reg = action.positions?.registration or @thangType.get('positions')?.registration or {x:0, y:0}
-    
+
     if action.animation
       @regX = -reg.x
       @regY = -reg.y
@@ -55,7 +55,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       @frames = (parseInt(f) for f in @frames.split(',')) if @frames
       @animLength = if @frames then @frames.length else @baseMovieClip.timeline.duration
       @paused = true if @animLength is 1
-      
+
       if @frames
         if randomStart
           @currentFrame = @frames[_.random(@frames.length - 1)]
@@ -64,7 +64,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       else
         if randomStart
           @currentFrame = then Math.floor(Math.random() * @animLength)
-        else 
+        else
           @currentFrame = 0
 
       @baseMovieClip.specialGoToAndStop(@currentFrame)
@@ -73,13 +73,13 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
           movieClip.specialGoToAndStop(movieClip.startPosition)
         else
           movieClip.specialGoToAndStop(@currentFrame)
-          
+
       @takeChildrenFromMovieClip(@baseMovieClip, @)
       @loop = action.loops isnt false
       @goesTo = action.goesTo
       @notifyActionNeedsRender(action) if @actionNotSupported
       @scaleX = @scaleY = action.scale ? @thangType.get('scale') ? 1
-      
+
     else if action.container
       # All transformations will be done to the child sprite
       @regX = @regY = 0
@@ -105,17 +105,17 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         sprite.scaleX = sprite.scaleY = 1 / @resolutionFactor
       @children = []
       @addChild(sprite)
-      
+
     else if action.goesTo
       @goto(action.goesTo, @paused)
       return
-      
+
     @scaleX *= -1 if action.flipX
     @scaleY *= -1 if action.flipY
     @baseScaleX = @scaleX
     @baseScaleY = @scaleY
     return
-    
+
   notifyActionNeedsRender: (action) ->
     @lank?.trigger('action-needs-render', @lank, action)
 
@@ -127,7 +127,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         mc.gotoAndStop(mc.currentFrame+0.01) # just to make sure it has its children back
         @childMovieClips = mc.childMovieClips
         return mc
-    
+
     raw = @thangType.get('raw')
     animData = raw.animations[animationName]
     @lastAnimData = animData
@@ -144,7 +144,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true)
     anim.specialGoToAndStop = specialGoToAndStop
 
-    for tweenData in animData.tweens
+    for tweenData, i in animData.tweens
       stopped = false
       tween = createjs.Tween
       for func in tweenData
@@ -162,7 +162,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
       anim.frameBounds = (new createjs.Rectangle(bounds...) for bounds in animData.frameBounds)
 
     anim.childMovieClips = @childMovieClips
-    
+
     @spriteSheet.mcPool[key].push(anim)
     return anim
 
@@ -256,10 +256,10 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
     @baseMovieClip.specialGoToAndStop(translatedFrame)
     for movieClip in @childMovieClips
       movieClip.specialGoToAndStop(if movieClip.mode is 'single' then movieClip.startPosition else newFrame)
-      
+
     @children = []
     @takeChildrenFromMovieClip(@baseMovieClip, @)
-    
+
   takeChildrenFromMovieClip: (movieClip, recipientContainer) ->
     for child in movieClip.childrenCopy
       if child instanceof createjs.MovieClip
@@ -270,7 +270,7 @@ module.exports = class SegmentedSprite extends createjs.SpriteContainer
         recipientContainer.addChild(childRecipient)
       else
         recipientContainer.addChild(child)
-    
+
 
 #  _getBounds: createjs.SpriteContainer.prototype.getBounds
 #  getBounds: -> @baseMovieClip?.getBounds() or @children[0]?.getBounds() or @_getBounds()
