@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
     buy_gems: "Edelsteine kaufen"
-    campaign_desert: "Wüstenkampagne"
-    campaign_forest: "Waldkampagne"
-    campaign_dungeon: "Kerkerkampagne"
     subscription_required: "Abonnement benötigt"
     free: "Kostenlos"
     subscribed: "Abonniert"

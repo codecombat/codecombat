@@ -9,6 +9,7 @@ CampaignHandler = class CampaignHandler extends Handler
   modelClass: Campaign
   editableProperties: [
     'name'
+    'fullName'
     'i18n'
     'i18nCoverage'
     'ambientSound'

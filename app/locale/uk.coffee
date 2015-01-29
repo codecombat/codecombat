@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     choose_inventory: "Одягнути предмети"
     buy_gems: "Придбати самоцвіти"
-    campaign_desert: "Пустельна кампанія"
-    campaign_forest: "Лісова кампанія"
-    campaign_dungeon: "Кампанія підземелля"
     subscription_required: "Потрібен абонемет"
     free: "Безкоштовно"
     subscribed: "абонемент є"

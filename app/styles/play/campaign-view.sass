@@ -404,13 +404,26 @@ $gameControlMargin: 30px
   #campaign-status
     position: absolute
     left: 0
-    top: 15px
+    top: 5px
     width: 100%
     margin: 0
     text-align: center
     color: rgb(254,188,68)
     font-size: 30px
     text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+    z-index: 30
+    pointer-events: none
+
+    .campaign-status-background
+      background-color: rgba(255, 255, 255, 0.5)
+      border-radius: 10px
+      padding: 10px
+      display: inline-block
+
+      img.banner
+        height: 50px
+        vertical-align: bottom
+        margin: -20px 0 -6px 5px
 
 
 body:not(.ipad) #campaign-view

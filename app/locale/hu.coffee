@@ -68,9 +68,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     choose_inventory: "Felszerelés"
     buy_gems: "Vásárolj Drágköveket"
-    campaign_desert: "Sivatagi Kampány"
-    campaign_forest: "Erdei Kampány"
-    campaign_dungeon: "Várbörtön Kampány"
     subscription_required: "Feliratkozást igényel"
     free: "Ingyenes"
     subscribed: "Feliratkozva"

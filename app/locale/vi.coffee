@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Mua ngọc"
-#    campaign_desert: "Desert Campaign"
-    campaign_forest: "Chơi Rừng"
-#    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"
