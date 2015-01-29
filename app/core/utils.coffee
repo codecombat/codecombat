@@ -172,3 +172,9 @@ if document?
       wrap.appendChild temp.children[1]
       return
   )(document)
+  
+module.exports.removeScheme = (uri) ->
+  n = uri.indexOf('/')
+  if n < 1
+    return uri
+  return uri.slice(n)
