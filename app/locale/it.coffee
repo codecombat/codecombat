@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     change_hero: "Cambia eroe" # Go back from choose inventory to choose hero
     choose_inventory: "Dotazioni"
     buy_gems: "Compra gemme"
-    campaign_desert: "Campagna nel Deserto"
-    campaign_forest: "Campagna nella Foresta"
-    campaign_dungeon: "Campagna nelle Segrete"
     subscription_required: "E' richiesta l'iscrizione"
     free: "Gratuito"
     subscribed: "Per iscritti"

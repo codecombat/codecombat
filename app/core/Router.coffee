@@ -79,6 +79,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/component/:handle': go('i18n/I18NEditComponentView')
     'i18n/level/:handle': go('i18n/I18NEditLevelView')
     'i18n/achievement/:handle': go('i18n/I18NEditAchievementView')
+    'i18n/campaign/:handle': go('i18n/I18NEditCampaignView')
 
     'legal': go('LegalView')
 

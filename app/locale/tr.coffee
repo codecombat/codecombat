@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
     choose_inventory: "Ögeleri Giy"
     buy_gems: "Taş satın a"
-#    campaign_desert: "Desert Campaign"
-    campaign_forest: "Orman Senaryosu"
-    campaign_dungeon: "Zindan Senaryosu"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"

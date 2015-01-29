@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     change_hero: "Held wächsle" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"

@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     change_hero: "Смени херој" # Go back from choose inventory to choose hero
     choose_inventory: "Опреми се"
     buy_gems: "Купи скапоцени камења"
-    campaign_desert: "Пустинска кампања"
-    campaign_forest: "Шумска кампања"
-    campaign_dungeon: "Занданска кампања"
     subscription_required: "Потребно е зачленување"
     free: "Бесплатно"
     subscribed: "Зачленет"

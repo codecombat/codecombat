@@ -7,4 +7,4 @@ module.exports = class Campaign extends CocoModel
   urlRoot: '/db/campaign'
   saveBackups: true
   @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['unlocks', 'position', 'rewards']))
-  @denormalizedCampaignProperties: ['name', 'i18n', 'description', 'slug']
+  @denormalizedCampaignProperties: ['name', 'i18n', 'slug']

@@ -68,9 +68,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Objetos"
     buy_gems: "Comprar Joyas"
-    campaign_desert: "Campaña del Desierto"
-    campaign_forest: "Campaña del Bosque"
-    campaign_dungeon: "Campaña del Calabozo"
     subscription_required: "Suscripción requerida"
     free: "Gratis"
     subscribed: "Suscrito"

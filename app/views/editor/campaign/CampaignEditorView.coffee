@@ -334,6 +334,7 @@ class CampaignNode extends TreemaObjectNode
 
   populateData: ->
     return if @data.name?
+    # TODO: Need to be able to update i18n links to other campaigns
     data = _.pick CampaignsNode.campaigns[@keyForParent].attributes, Campaign.denormalizedCampaignProperties
     _.extend @data, data
 

@@ -68,9 +68,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     change_hero: "Změnit hrdinu" # Go back from choose inventory to choose hero
     choose_inventory: "Vyzbrojit se předměty"
     buy_gems: "Zakoupit drahokamy"
-    campaign_desert: "Pouštní kampaň"
-    campaign_forest: "Lesní kampaň"
-    campaign_dungeon: "Jeskynní kampaň"
     subscription_required: "Předplatné vyžadováno"
     free: "Zdarma"
     subscribed: "Předplaceno"

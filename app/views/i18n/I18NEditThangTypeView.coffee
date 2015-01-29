@@ -2,7 +2,7 @@ I18NEditModelView = require './I18NEditModelView'
 ThangType = require 'models/ThangType'
 
 module.exports = class ThangTypeI18NView extends I18NEditModelView
-  id: "thang-type-i18n-view"
+  id: 'thang-type-i18n-view'
   modelClass: ThangType
 
   buildTranslationList: ->

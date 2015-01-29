@@ -3,7 +3,7 @@ Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 
 module.exports = class I18NEditLevelView extends I18NEditModelView
-  id: "i18n-edit-level-view"
+  id: 'i18n-edit-level-view'
   modelClass: Level
 
   buildTranslationList: ->
@@ -12,21 +12,21 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
     # name, description
     if i18n = @model.get('i18n')
       if name = @model.get('name')
-        @wrapRow "Level name", ['name'], name, i18n[lang]?.name, []
+        @wrapRow 'Level name', ['name'], name, i18n[lang]?.name, []
       if description = @model.get('description')
-        @wrapRow "Level description", ['description'], description, i18n[lang]?.description, []
+        @wrapRow 'Level description', ['description'], description, i18n[lang]?.description, []
       if loadingTip = @model.get('loadingTip')
-        @wrapRow "Loading tip", ['loadingTip'], loadingTip, i18n[lang]?.loadingTip, []
+        @wrapRow 'Loading tip', ['loadingTip'], loadingTip, i18n[lang]?.loadingTip, []
 
     # goals
     for goal, index in @model.get('goals') ? []
       if i18n = goal.i18n
-        @wrapRow "Goal name", ['name'], goal.name, i18n[lang]?.name, ['goals', index]
+        @wrapRow 'Goal name', ['name'], goal.name, i18n[lang]?.name, ['goals', index]
 
     # documentation
     for doc, index in @model.get('documentation')?.specificArticles ? []
       if i18n = doc.i18n
-        @wrapRow "Guide article name", ['name'], doc.name, i18n[lang]?.name, ['documentation', 'specificArticles', index]
+        @wrapRow 'Guide article name', ['name'], doc.name, i18n[lang]?.name, ['documentation', 'specificArticles', index]
         @wrapRow "'#{doc.name}' description", ['description'], doc.description, i18n[lang]?.description, ['documentation', 'specificArticles', index], 'markdown'
 
     # sprite dialogues
@@ -37,17 +37,17 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
 
           if i18n = spriteCommand.say?.i18n
             if spriteCommand.say.text
-              @wrapRow "Sprite text", ['text'], spriteCommand.say.text, i18n[lang]?.text, pathPrefix, 'markdown'
+              @wrapRow 'Sprite text', ['text'], spriteCommand.say.text, i18n[lang]?.text, pathPrefix, 'markdown'
             if spriteCommand.say.blurb
-              @wrapRow "Sprite blurb", ['blurb'], spriteCommand.say.blurb, i18n[lang]?.blurb, pathPrefix
+              @wrapRow 'Sprite blurb', ['blurb'], spriteCommand.say.blurb, i18n[lang]?.blurb, pathPrefix
 
           for response, responseIndex in spriteCommand.say?.responses ? []
             if i18n = response.i18n
-              @wrapRow "Response button", ['text'], response.text, i18n[lang]?.text, pathPrefix.concat(['responses', responseIndex])
+              @wrapRow 'Response button', ['text'], response.text, i18n[lang]?.text, pathPrefix.concat(['responses', responseIndex])
 
     # victory modal
     if i18n = @model.get('victory')?.i18n
-      @wrapRow "Victory text", ['body'], @model.get('victory').body, i18n[lang]?.body, ['victory'], 'markdown'
+      @wrapRow 'Victory text', ['body'], @model.get('victory').body, i18n[lang]?.body, ['victory'], 'markdown'
 
     # code comments
     for thang, thangIndex in @model.get('thangs') ? []
@@ -57,4 +57,4 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
           if (i18n = method.i18n) and (context = method.context)
             for key, value of context
               path = ['thangs', thangIndex, 'components', componentIndex, 'config', 'programmableMethods', methodName]
-              @wrapRow "Code comment", ["context", key], value, i18n[lang]?.context[key], path
+              @wrapRow 'Code comment', ['context', key], value, i18n[lang]?.context[key], path

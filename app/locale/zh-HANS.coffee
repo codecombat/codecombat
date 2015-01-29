@@ -68,9 +68,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
     buy_gems: "购买宝石"
-    campaign_desert: "沙漠战役"
-    campaign_forest: "森林战役"
-    campaign_dungeon: "地牢战役"
     subscription_required: "需订阅"
     free: "免费"
     subscribed: "已订阅"

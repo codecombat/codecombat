@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
     choose_inventory: "Ta i bruk gjenstander"
     buy_gems: "Kjøp Juveler"
-#    campaign_desert: "Desert Campaign"
-    campaign_forest: "Skogsfelttog"
-    campaign_dungeon: "Katakombefelttog"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"

@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     change_hero: "Verander held" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Edelstenen kopen"
-    campaign_desert: "Woestijncampagne"
-    campaign_forest: "Boscampagne"
-    campaign_dungeon: "Kerkercampagne"
     subscription_required: "Abonnement nodig"
     free: "Gratis"
     subscribed: "Geabbonneerd"

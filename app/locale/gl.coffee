@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Obxectos"
 #    buy_gems: "Buy Gems"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"

@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     change_hero: "Held wisselen" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Koop juwelen"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
     free: "Vrij"
 #    subscribed: "Subscribed"

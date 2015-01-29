@@ -68,9 +68,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     choose_inventory: "Выбрать предметы"
     buy_gems: "Купить самоцветы"
-    campaign_desert: "Пустынная кампания"
-    campaign_forest: "Лесная кампания"
-    campaign_dungeon: "Кампания в подземелье"
     subscription_required: "Требуется подписка"
     free: "Бесплатно"
     subscribed: "Подписан"

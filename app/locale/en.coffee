@@ -68,10 +68,6 @@
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     choose_inventory: "Equip Items"
     buy_gems: "Buy Gems"
-    dungeon_campaign: "Kithgard Dungeon"
-    forest_campaign: "Backwoods Forest"
-    desert_campaign: "Sarven Desert"
-    mountain_campaign: "Cloudrip Mountain"
     subscription_required: "Subscription Required"
     free: "Free"
     subscribed: "Subscribed"

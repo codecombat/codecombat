@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
     choose_inventory: "Εξοπλίσου με Αντικείμενα"
 #    buy_gems: "Buy Gems"
-#    campaign_desert: "Desert Campaign"
-#    campaign_forest: "Forest Campaign"
-#    campaign_dungeon: "Dungeon Campaign"
 #    subscription_required: "Subscription Required"
 #    free: "Free"
 #    subscribed: "Subscribed"

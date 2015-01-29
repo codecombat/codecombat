@@ -165,7 +165,6 @@ module.exports = class CampaignView extends RootView
     context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign.get('adjacentCampaigns') or {})), (ac) =>
       return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
       ac.name = utils.i18n ac, 'name'
-      ac.description = utils.i18n ac, 'description'
       styles = []
       styles.push "color: #{ac.color}" if ac.color
       styles.push "transform: rotate(#{ac.rotation}deg)" if ac.rotation

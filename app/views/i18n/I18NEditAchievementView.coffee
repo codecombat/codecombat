@@ -2,7 +2,7 @@ I18NEditModelView = require './I18NEditModelView'
 Achievement = require 'models/Achievement'
 
 module.exports = class I18NEditAchievementView extends I18NEditModelView
-  id: "i18n-edit-component-view"
+  id: "i18n-edit-achievement-view"
   modelClass: Achievement
 
   buildTranslationList: ->

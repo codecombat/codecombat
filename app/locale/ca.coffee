@@ -68,9 +68,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     change_hero: "Canviar heroi" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objectes"
     buy_gems: "Comprar Gemes"
-    campaign_desert: "Campanya del desert"
-    campaign_forest: "Campanya del Bosc"
-    campaign_dungeon: "Campanya de la Masmorra"
     subscription_required: "Subscripció necessària"
     free: "Gratuit"
     subscribed: "Subscrit"
