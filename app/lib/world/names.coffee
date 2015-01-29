@@ -667,3 +667,18 @@ module.exports.thangNames = thangNames =
     'Ulna'
     'Yorick'
   ]
+  'Ogre Headhunter': [
+    'Bob'
+    'Deadtooth'
+    'Ez the Cruel'
+    'Grroq'
+    'Mog'
+    'Mogvar'
+    'Ral\'thuk'
+    'Soth'
+    'Ulxx'
+    'Ur'
+    'Veznyr'
+    'Warlegs'
+    'Xul Gor'
+  ]

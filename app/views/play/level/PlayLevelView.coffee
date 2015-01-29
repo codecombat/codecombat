@@ -286,6 +286,7 @@ module.exports = class PlayLevelView extends RootView
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
       me.set('lastLevel', @levelID)
       me.save()
+      application.tracker?.identify()
     @saveRecentMatch() if @otherSession
     @levelLoader.destroy()
     @levelLoader = null
