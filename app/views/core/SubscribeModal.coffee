@@ -30,10 +30,6 @@ module.exports = class SubscribeModal extends ModalView
     c.stateMessage = @stateMessage
     c.price = @product.amount / 100
     #c.price = 3.99 # Sale
-
-    # A/B Testing alternate subscription copy
-    c.BTest = me.getSubscribeCopyGroup() is 'new'
-
     return c
 
   afterRender: ->

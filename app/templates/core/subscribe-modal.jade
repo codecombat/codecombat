@@ -7,39 +7,24 @@
       #retrying-alert.alert.alert-danger(data-i18n="buy_gems.retrying")
 
     else
-      if BTest
-        img(src="/images/pages/play/modal/subscribe-background-blank.png")#subscribe-background
-        img(src="/images/pages/play/modal/subscribe-gems.png")#subscribe-gems
-      else
-        img(src="/images/pages/play/modal/subscribe-background.png")#subscribe-background
-        
+      img(src="/images/pages/play/modal/subscribe-background.png")#subscribe-background
+
       h1(data-i18n="subscribe.subscribe_title") Subscribe
 
       div#close-modal
         span.glyphicon.glyphicon-remove
 
-      if BTest
-        #selling-points-BTest
-          #point-levels.point
-            .blurb(style="font-style:italic") "Great product ... I have been looking for a good tool to teach my kids programming."
-          #point-heroes.point
-            .blurb Join the CodeCombat subscription and get even more learn-to-code goodness!
-          #point-gems.point
-            .blurb For $#{price}/mo, you'll get access to bonus levels and 3500 extra gems per month!  Players who complete bonus levels learn more programming and advance further in the game.
-          #point-items.point
-            .blurb There's no risk: 100% money back guarantee.
-      else
-        #selling-points
-          #point-levels.point
-            .blurb(data-i18n="subscribe.levels")
-          #point-heroes.point
-            .blurb(data-i18n="subscribe.heroes")
-          #point-gems.point
-            .blurb(data-i18n="subscribe.gems")
-          #point-items.point
-            .blurb(data-i18n="subscribe.items")
+      #selling-points
+        #point-levels.point
+          .blurb(data-i18n="subscribe.levels")
+        #point-heroes.point
+          .blurb(data-i18n="subscribe.heroes")
+        #point-gems.point
+          .blurb(data-i18n="subscribe.gems")
+        #point-items.point
+          .blurb(data-i18n="subscribe.items")
 
-          #parents-info(data-i18n="subscribe.parents")
+        #parents-info(data-i18n="subscribe.parents")
 
       button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_button")
                 
