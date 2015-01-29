@@ -133,6 +133,7 @@ module.exports = class CampaignView extends RootView
     context = super(context)
     context.campaign = @campaign
     context.levels = _.values($.extend true, {}, @campaign.get('levels'))
+    context.levelsCompleted = context.levelsTotal = 0
     for level in context.levels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel level.original
@@ -146,6 +147,9 @@ module.exports = class CampaignView extends RootView
       if level.unlocksHero
         level.unlockedHero = level.unlocksHero.originalID in (me.get('earned')?.heroes or [])
       level.hidden = level.locked
+      unless level.disabled
+        ++context.levelsTotal
+        ++context.levelsCompleted if @levelStatusMap[level.slug] is 'complete'
 
     @determineNextLevel context.levels if @sessions.loaded
     # put lower levels in last, so in the world map they layer over one another properly.

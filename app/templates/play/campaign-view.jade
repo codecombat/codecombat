@@ -80,15 +80,11 @@ button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up
 
-//h1#campaign-status
-//  if mapType == 'dungeon'
-//    span.spr(data-i18n="play.campaign_dungeon")
-//  else if mapType == 'forest'
-//    span.spr(data-i18n="play.campaign_forest")
-//  | -
-//  if requiresSubscription
-//    span.spl(data-i18n="play.subscription_required")
-//  else if mapType == 'dungeon'
-//    span.spl(data-i18n="play.free")
-//  else
-//    span.spl(data-i18n="play.subscribed")
+h1#campaign-status
+  .campaign-status-background
+    span.spr(data-i18n="play." + mapType + "_campaign")
+    | -
+    span.spl.spr= levelsCompleted
+    | /
+    span.spl= levelsTotal
+    img.banner(src="/images/pages/play/level-banner-complete.png")
