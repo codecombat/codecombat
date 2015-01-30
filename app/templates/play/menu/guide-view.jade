@@ -1,7 +1,11 @@
 if docs.length === 1
   if showVideo
     h3(id='help-video-heading', data-i18n="game_menu.guide_video_tutorial")
-    div(id="help-video-player")
+    if videoLocked
+      p(data-i18n="subscribe.unlock_help_videos") Subscribe to unlock all video tutorials.
+      button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+    else
+      div(id="help-video-player")
   h3(data-i18n="game_menu.guide_tips")
   div
     != docs[0].html

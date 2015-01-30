@@ -387,6 +387,7 @@
     subscribe_button: "Subscribe Now"
     stripe_description: "Monthly Subscription"
     subscription_required_to_play: "You'll need a subscription to play this level."
+    unlock_help_vidoes: "Subscribe to unlock all video tutorials."
 
   choose_hero:
     choose_hero: "Choose Your Hero"

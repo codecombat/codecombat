@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
+SubscribeModal = require 'views/core/SubscribeModal'
 utils = require 'core/utils'
 
 # let's implement this once we have the docs database schema set up
@@ -12,14 +13,19 @@ module.exports = class LevelGuideView extends CocoView
   helpVideoHeight: '295'
   helpVideoWidth: '471'
 
+  events:
+    'click .start-subscription-button': "clickSubscribe"
+
   constructor: (options) ->
-    @levelID = options.level.get('slug')
+    @levelSlug = options.level.get('slug')
     @sessionID = options.session.get('_id')
+    @requiresSubscription = not me.isPremium()
     @helpVideos = options.level.get('helpVideos') ? []
     @trackedHelpVideoStart = @trackedHelpVideoFinish = false
-
     # A/B Testing video tutorial styles
     @helpVideosIndex = me.getVideoTutorialStylesIndex(@helpVideos.length)
+    @helpVideo = @helpVideos[@helpVideosIndex] if @helpVideos.length > 0
+    @videoLocked = not @helpVideo?.free and @requiresSubscription
 
     @firstOnly = options.firstOnly
     @docs = options?.docs ? options.level.get('documentation') ? {}
@@ -54,18 +60,24 @@ module.exports = class LevelGuideView extends CocoView
     c = super()
     c.docs = @docs
     c.showVideo = @helpVideos.length > 0
+    c.videoLocked = @videoLocked
     c
 
   afterRender: ->
     super()
     if @docs.length is 1 and @helpVideos.length > 0
-      @setupVideoPlayer()
+      @setupVideoPlayer() unless @videoLocked
     else
       # incredible hackiness. Getting bootstrap tabs to work shouldn't be this complex
       @$el.find('.nav-tabs li:first').addClass('active')
       @$el.find('.tab-content .tab-pane:first').addClass('active')
       @$el.find('.nav-tabs a').click(@clickTab)
     @playSound 'guide-open'
+
+  clickSubscribe: (e) =>
+    level = @levelSlug # Save ref to level slug
+    @openModalView new SubscribeModal()
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'help video clicked', level: level
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
@@ -86,20 +98,19 @@ module.exports = class LevelGuideView extends CocoView
 
   onStartHelpVideo: ->
     unless @trackedHelpVideoStart
-      window.tracker?.trackEvent 'Start help video', level: @levelID, ls: @sessionID, style: @helpVideos[@helpVideosIndex].style
+      window.tracker?.trackEvent 'Start help video', level: @levelSlug, ls: @sessionID, style: @helpVideo?.style
       @trackedHelpVideoStart = true
 
   onFinishHelpVideo: ->
     unless @trackedHelpVideoFinish
-      window.tracker?.trackEvent 'Finish help video', level: @levelID, ls: @sessionID, style: @helpVideos[@helpVideosIndex].style
+      window.tracker?.trackEvent 'Finish help video', level: @levelSlug, ls: @sessionID, style: @helpVideo?.style
       @trackedHelpVideoFinish = true
 
   setupVideoPlayer: () ->
-    return unless @helpVideos?.length > 0
-    return unless url = @helpVideos[@helpVideosIndex]?.url
+    return unless @helpVideo
     # Always use HTTPS
     # TODO: Not specifying the protocol should work based on Vimeo docs, but breaks postMessage/eventing in practice.
-    url = "https:" + url.substr url.indexOf '/'
+    url = "https:" + @helpVideo.url.substr @helpVideo.url.indexOf '/'
     @setupVimeoVideoPlayer url
 
   setupVimeoVideoPlayer: (helpVideoURL) ->
