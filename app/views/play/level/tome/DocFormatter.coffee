@@ -38,7 +38,7 @@ safeJSONStringify = (input, maxDepth) ->
 
 module.exports = class DocFormatter
   constructor: (@options) ->
-    @doc = _.cloneDeep options.doc
+    @doc = _.cloneDeep @options.doc
     @fillOutDoc()
 
   fillOutDoc: ->

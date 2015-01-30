@@ -390,7 +390,7 @@ class HoverPopup extends $.fn.popover.Constructor
     calculatedOffset =
       top: pos.top - actualHeight
       left: pos.left + pos.width / 2 - actualWidth / 2
-    this.applyPlacement(calculatedOffset, 'top')
+    @applyPlacement(calculatedOffset, 'top')
 
   getPosition: ->
     top: @$element.offset().top
