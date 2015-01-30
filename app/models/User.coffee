@@ -123,6 +123,16 @@ module.exports = class User extends CocoModel
     application.tracker.identify gemPromptGroup: @gemPromptGroup unless me.isAdmin()
     @gemPromptGroup
 
+  getForeshadowsLevels: ->
+    return @foreshadowsLevels if @foreshadowsLevels?
+    group = me.get('testGroupNumber') % 16
+    @foreshadowsLevels = switch group
+      when 0, 1, 2, 3, 4, 5, 6, 7 then true
+      when 8, 9, 10, 11, 12, 13, 14, 15 then false
+    @foreshadowsLevels = true if me.isAdmin()
+    application.tracker.identify foreshadowsLevels: @foreshadowsLevels unless me.isAdmin()
+    @foreshadowsLevels
+
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)

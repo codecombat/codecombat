@@ -257,12 +257,17 @@ module.exports = class CampaignView extends RootView
     @playAmbientSound()
 
   testParticles: ->
-    return unless me.isAdmin()
+    return unless @campaign.loaded and me.getForeshadowsLevels()
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for levelID, level of @campaign.renderedLevels ? {} when level.hidden
-      @particleMan.addEmitter level.position.x / 100, level.position.y / 100
+    for level in @campaign.renderedLevels ? {} when level.hidden
+      particleKey = ['level', @terrain]
+      particleKey.push level.type if level.type and level.type isnt 'hero'
+      particleKey.push 'premium' if level.requiresSubscription
+      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
+      continue if particleKey.length is 2  # Don't show basic levels
+      @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onSessionsLoaded: (e) ->
     return if @editorMode
