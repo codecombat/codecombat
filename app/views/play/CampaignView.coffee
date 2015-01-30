@@ -13,6 +13,8 @@ AuthModal = require 'views/core/AuthModal'
 SubscribeModal = require 'views/core/SubscribeModal'
 Level = require 'models/Level'
 utils = require 'core/utils'
+require 'vendor/three'
+ParticleMan = require 'core/ParticleMan'
 
 trackedHourOfCode = false
 
@@ -202,6 +204,7 @@ module.exports = class CampaignView extends RootView
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
     @applyCampaignStyles()
+    @testParticles()
 
   afterInsert: ->
     super()
@@ -252,6 +255,14 @@ module.exports = class CampaignView extends RootView
       for pos in ['top', 'right', 'bottom', 'left']
         @$el.find(".#{pos}-gradient").css 'background-image', "linear-gradient(to #{pos}, #{backgroundColorTransparent} 0%, #{backgroundColor} 100%)"
     @playAmbientSound()
+
+  testParticles: ->
+    return unless me.isAdmin()
+    @particleMan ?= new ParticleMan()
+    @particleMan.removeEmitters()
+    @particleMan.attach @$el.find('.map')
+    for levelID, level of @campaign.renderedLevels ? {} when level.hidden
+      @particleMan.addEmitter level.position.x / 100, level.position.y / 100
 
   onSessionsLoaded: (e) ->
     return if @editorMode
@@ -363,6 +374,7 @@ module.exports = class CampaignView extends RootView
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
+    @testParticles() if @particleMan
 
   playAmbientSound: ->
     return if @ambientSound
