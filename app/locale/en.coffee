@@ -340,6 +340,14 @@
     multiplayer_caption: "Play with friends!"
     auth_caption: "Save your progress."
 
+  leaderboard:
+    leaderboard: "Leaderboard"
+    view_other_solutions: "View Other Solutions"
+    top_solutions: "Top Solutions"
+    day_tab: "Today"
+    week_tab: "This Week"
+    all_tab: "All-Time"
+
   inventory:
     choose_inventory: "Equip Items"
     equipped_item: "Equipped"

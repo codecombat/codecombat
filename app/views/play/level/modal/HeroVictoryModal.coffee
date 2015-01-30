@@ -23,6 +23,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   events:
     'click #continue-button': 'onClickContinue'
+    'click .leaderboard-button': 'onClickLeaderboard'
     'click .return-to-ladder-button': 'onClickReturnToLadder'
     'click .sign-up-button': 'onClickSignupButton'
 
@@ -144,6 +145,11 @@ module.exports = class HeroVictoryModal extends ModalView
         window.tracker?.trackEvent 'Hour of Code Finish', {}
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = me.get('hourOfCode') and showDone
+
+    lg = me.getLeaderboardsGroup()
+    c.showLeaderboard = lg is 'always'
+    c.showLeaderboard = true if me.level() >= 3 and lg.group is 'early'
+    c.showLeaderboard = true if me.level() >= 5 and lg.group is 'late'
 
     return c
 
@@ -322,11 +328,18 @@ module.exports = class HeroVictoryModal extends ModalView
     link += '/' + nextCampaign unless nextCampaign is 'dungeon'
     link
 
-  onClickContinue: (e) ->
+  onClickContinue: (e, extraOptions=null) ->
     @playSound 'menu-button-click'
     nextLevelLink = @getNextLevelLink()
     # Preserve the supermodel as we navigate back to the world map.
-    Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/CampaignView'), viewArgs: [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @getNextLevelCampaign()]
+    options =
+      justBeatLevel: @level
+      supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
+    _.merge options, extraOptions if extraOptions
+    Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/CampaignView'), viewArgs: [options, @getNextLevelCampaign()]
+
+  onClickLeaderboard: (e) ->
+    @onClickContinue e, showLeaderboard: true
 
   onClickReturnToLadder: (e) ->
     @playSound 'menu-button-click'

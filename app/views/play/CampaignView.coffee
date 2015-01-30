@@ -11,6 +11,7 @@ MusicPlayer = require 'lib/surface/MusicPlayer'
 storage = require 'core/storage'
 AuthModal = require 'views/core/AuthModal'
 SubscribeModal = require 'views/core/SubscribeModal'
+LeaderboardModal = require 'views/play/modal/LeaderboardModal'
 Level = require 'models/Level'
 utils = require 'core/utils'
 require 'vendor/three'
@@ -205,6 +206,7 @@ module.exports = class CampaignView extends RootView
           for nextLevelOriginal in level.nextLevels ? []
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
+      @showLeaderboard @options.justBeatLevel?.get('original') if (@options.showLeaderboard or true)
     @applyCampaignStyles()
     @testParticles()
 
@@ -216,6 +218,12 @@ module.exports = class CampaignView extends RootView
     authModal = new AuthModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
+
+  showLeaderboard: (levelOriginal) ->
+    #levelOriginal ?= '5411cb3769152f1707be029c'  # Testing: show Dungeons of Kithgard
+    levelOriginal ?= '541c9a30c6362edfb0f34479'  # Testing: show Kithgard Gates
+    leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelOriginal: levelOriginal
+    @openModalView leaderboardModal
 
   determineNextLevel: (levels) ->
     foundNext = false

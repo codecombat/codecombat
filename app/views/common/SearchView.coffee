@@ -10,7 +10,7 @@ class SearchCollection extends Backbone.Collection
       @url += 'created,permissions'
       @url += ',' + projected for projected in projection
     else @url += 'true'
-    @url += "&term=#{term}" if @term
+    @url += "&term=#{@term}" if @term
 
   comparator: (a, b) ->
     score = 0
