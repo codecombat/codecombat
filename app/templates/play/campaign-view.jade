@@ -8,8 +8,8 @@
   each level in levels
     if !level.hidden
       div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.slug] || "", data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
-        if level.unlocksHero && !level.unlockedHero
-          img.hero-portrait(src=level.unlocksHero.img)
+        if level.unlocksHero && !level.purchasedHero
+          img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
         if level.requiresSubscription
           img.star(src="/images/pages/play/star.png")
@@ -40,6 +40,8 @@
 
         if isIPadApp && !level.disabled && !level.locked
           button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
+    else if level.unlocksHero && !level.purchasedHero
+      img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
   
   for adjacentCampaign in adjacentCampaigns
     a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
