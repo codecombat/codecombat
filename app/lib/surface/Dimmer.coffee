@@ -48,7 +48,6 @@ module.exports = class Dimmer extends CocoClass
     @updateDimMask() if @on
 
   setSprites: (@sprites) ->
-    console.log
 
   dim: ->
     @on = true

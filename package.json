@@ -52,7 +52,7 @@
     "underscore.string": "2.3.x",
     "async": "0.2.x",
     "connect": "2.7.x",
-    "coffee-script": "1.7.x",
+    "coffee-script": "1.9.x",
     "graceful-fs": "~2.0.1",
     "node-force-domain": "~0.1.0",
     "mailchimp-api": "2.0.x",
