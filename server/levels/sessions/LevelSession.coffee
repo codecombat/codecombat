@@ -65,7 +65,8 @@ LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubs
 LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                                                  'levelName', 'creatorName', 'levelID', 'screenshot',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
-                                                 'unsubscribed', 'playtime', 'heroConfig', 'team', 'transpiledCode']
+                                                 'unsubscribed', 'playtime', 'heroConfig', 'team', 'transpiledCode',
+                                                 'browser']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')

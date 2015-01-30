@@ -98,6 +98,7 @@ module.exports = class LevelLoader extends CocoClass
           if e.id is modulePath
             @languageModuleResource.markLoaded()
             @stopListening application.moduleLoader
+      @addSessionBrowserInfo session
 
       # hero-ladder games require the correct session team in level:loaded
       team = @team ? @session.get('team')
@@ -133,6 +134,16 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDependenciesRegistered[session.id] = true
     if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
       @onWorldNecessitiesLoaded()
+
+  addSessionBrowserInfo: (session) ->
+    return unless $.browser?
+    browser = {}
+    browser['desktop'] = $.browser.desktop if $.browser.desktop
+    browser['name'] = $.browser.name if $.browser.name
+    browser['platform'] = $.browser.platform if $.browser.platform
+    browser['version'] = $.browser.version if $.browser.version
+    session.set 'browser', browser
+    session.patch()
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}

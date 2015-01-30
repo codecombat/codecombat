@@ -29,6 +29,8 @@ LevelSessionSchema = c.object
 
 _.extend LevelSessionSchema.properties,
   # denormalization
+  browser:
+    type: 'object'
   creatorName:
     type: 'string'
   levelName:
