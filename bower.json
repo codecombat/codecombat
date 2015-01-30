@@ -46,7 +46,8 @@
     "zatanna": "https://github.com/differentmatt/zatanna.git#master",
     "modernizr": "~2.8.3",
     "backfire": "~0.3.0",
-    "fastclick": "~1.0.3"
+    "fastclick": "~1.0.3",
+    "three.js": "*"
   },
   "overrides": {
     "backbone": {

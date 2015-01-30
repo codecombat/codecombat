@@ -66,7 +66,7 @@ $gameControlMargin: 30px
       
     .level, .level-shadow
       position: absolute
-      border-radius: 100%
+      border-radius: 50%
       -webkit-transform: scaleY(0.75)
       transform: scaleY(0.75)
 
@@ -130,16 +130,24 @@ $gameControlMargin: 30px
         
       &.started .glyphicon-star
         left: 0.5px
-        
+
       img.hero-portrait
         width: 120%
-        position: absolute
+        height: auto
         bottom: 75%
         left: 75%
-        border: 1px solid black
-        border-radius: 100%
-        background: white
+        margin-left: 0
+        margin-bottom: 0
         
+    img.hero-portrait
+      position: absolute
+      border: 1px solid black
+      border-radius: 50%
+      background: white
+      width: $levelDotWidth * 1.5
+      height: $levelDotHeight * 1.5
+      margin-left: -0.5 * $levelDotWidth * 1.5
+      margin-bottom: -$levelDotHeight / 3 * 1.5
 
     .level-shadow
       z-index: 1
@@ -424,6 +432,9 @@ $gameControlMargin: 30px
         height: 50px
         vertical-align: bottom
         margin: -20px 0 -6px 5px
+
+  .particle-man
+    z-index: 2
 
 
 body:not(.ipad) #campaign-view
