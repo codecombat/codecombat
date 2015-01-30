@@ -6,4 +6,4 @@ module.exports = class ThangTypeVersionsModal extends VersionsModal
   page: 'thang'
 
   constructor: (options, @ID) ->
-    super options, ID, require 'models/ThangType'
+    super options, @ID, require 'models/ThangType'
