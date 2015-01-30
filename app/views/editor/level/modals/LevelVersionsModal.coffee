@@ -6,4 +6,4 @@ module.exports = class LevelVersionsModal extends VersionsModal
   page: 'level'
 
   constructor: (options, @ID) ->
-    super options, ID, require 'models/Level'
+    super options, @ID, require 'models/Level'
