@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     awaiting_levels_adventurer_prefix: "We brengen 5 nieuwe levels per week uit."
     awaiting_levels_adventurer: "Schrijf je in als Avonturier"
     awaiting_levels_adventurer_suffix: "om de eerste te zijn die nieuwe levels speelt."
-#    adjust_volume: "Volume aanpassen"
+    adjust_volume: "Volume aanpassen"
     choose_your_level: "Kies Je Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Je kunt meteen naar een van de levels hieronder springen, of de levels bespreken op "
     adventurer_forum: "het Avonturiersforum"
@@ -169,7 +169,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     version_history_for: "Versie geschiedenis voor: "
     select_changes: "Selecteer hieronder twee veranderingen om het verschil te zien."
 #    undo_prefix: "Undo" #Ongedaan maken
-    undo_shortcut: "(Ctrl+Z)" 
+    undo_shortcut: "(Ctrl+Z)"
 #    redo_prefix: "Redo" #Opnieuw (doen). O.i.d
     redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Speel voorproefje van dit level"
@@ -308,7 +308,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_impossible: "Het lijkt altijd onmogelijk tot het gedaan wordt. - Nelson Mandela"
     tip_talk_is_cheap: "Je kunt het goed uitleggen, maar toon me de code. - Linus Torvalds"
     tip_first_language: "Het ergste dat je kan leren is je eerste programmeertaal. - Alan Kay"
-#    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
     tip_hardware_problem: "Q: Hoeveel programmeurs heb je nodig om een lampje te vervangen?  A: Nul, het is een a hardware probleem."
     tip_hofstadters_law: "De Wet van Hofstadter: Het duurt altijd langer dan je verwacht, zelfs wanneer je rekening houdt met de Wet van Hofstadter."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
@@ -374,7 +373,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     thank_you_months_prefix: "Bedankt voor je steun in de laatste"
     thank_you_months_suffix: "maanden."
     thank_you: "Bedankt dat je CodeCombat steunt."
-#    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "O, wat hebben we gedaan?"
     levels: "Krijg meer ervaring door bonus levels te spelen!"
@@ -383,7 +381,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     items: "Meer dan 250 bonus items!"
     parents: "Voor ouders"
     parents_title: "Uw kind leert programmeren."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
