@@ -29,7 +29,7 @@ module.exports = class VersionsModal extends ModalView
 
   constructor: (options, @ID, @model) ->
     super options
-    @original = new model(_id: @ID)
+    @original = new @model(_id: @ID)
     @original = @supermodel.loadModel(@original, 'document').model
     @listenToOnce(@original, 'sync', @onViewSync)
 
