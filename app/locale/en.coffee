@@ -344,9 +344,14 @@
     leaderboard: "Leaderboard"
     view_other_solutions: "View Other Solutions"
     top_solutions: "Top Solutions"
-    day_tab: "Today"
-    week_tab: "This Week"
-    all_tab: "All-Time"
+    day: "Today"
+    week: "This Week"
+    all: "All-Time"
+    time: "Time"
+    damage_taken: "Damage Taken"
+    damage_dealt: "Damage Dealt"
+    difficulty: "Difficulty"
+    gold_collected: "Gold Collected"
 
   inventory:
     choose_inventory: "Equip Items"

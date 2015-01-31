@@ -8,7 +8,7 @@ class SearchCollection extends Backbone.Collection
     @url = "#{modelURL}?project="
     if @projection?.length
       @url += 'created,permissions'
-      @url += ',' + projected for projected in projection
+      @url += ',' + projected for projected in @projection
     else @url += 'true'
     @url += "&term=#{@term}" if @term
 

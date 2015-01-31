@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/leaderboard-modal'
 LeaderboardTabView = require 'views/play/modal/LeaderboardTabView'
+Level = require 'models/Level'
 
 module.exports = class LeaderboardModal extends ModalView
   id: 'leaderboard-modal'
@@ -16,30 +17,36 @@ module.exports = class LeaderboardModal extends ModalView
 
   constructor: (options) ->
     super options
-    @levelOriginal = @options.levelOriginal
-
+    @levelSlug = @options.levelSlug
+    @level = @supermodel.loadModel(new Level({_id: @levelSlug}, {project: ['name', 'i18n', 'scoreType', 'original']}), 'level').model
 
   getRenderData: (c) ->
     c = super c
-    c.submenus = @timespans
-    c.showTab = c.submenus[0]
+    c.submenus = []
+    for scoreType in @level.get('scoreTypes') ? []
+      for timespan in @timespans
+        c.submenus.push scoreType: scoreType, timespan: timespan
     c
 
   afterRender: ->
     super()
-    for timespan, index in @timespans
-      submenuView = new LeaderboardTabView timespan: timespan, levelOriginal: @levelOriginal
-      @insertSubView submenuView, @$el.find "##{timespan}-view .leaderboard-tab-view"
-      if index is 0
-        submenuView.$el.parent().addClass 'active'
-        submenuView.onShown?()
+    return unless @supermodel.finished()
+    for scoreType, scoreTypeIndex in @level.get('scoreTypes') ? []
+      for timespan, timespanIndex in @timespans
+        submenuView = new LeaderboardTabView scoreType: scoreType, timespan: timespan, level: @level
+        @insertSubView submenuView, @$el.find "##{scoreType}-#{timespan}-view .leaderboard-tab-view"
+        if scoreTypeIndex + timespanIndex is 0
+          submenuView.$el.parent().addClass 'active'
+          submenuView.onShown?()
     @playSound 'game-menu-open'
     @$el.find('.nano:visible').nanoScroller()
 
   onTabShown: (e) ->
     @playSound 'game-menu-tab-switch'
-    timespan = e.target.hash.substring(1).replace(/-view/g, '')
-    subview = _.find @subviews, timespan: timespan
+    tabChunks = e.target.hash.substring(1).split '-'
+    scoreType = tabChunks[0 ... tabChunks.length - 2].join '-'
+    timespan = tabChunks[tabChunks.length - 2]
+    subview = _.find @subviews, scoreType: scoreType, timespan: timespan
     subview.onShown?()
     otherSubview.onHidden?() for subviewKey, otherSubview of @subviews when otherSubview isnt subview
 

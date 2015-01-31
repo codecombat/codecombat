@@ -7,11 +7,12 @@
 
     ul#leaderboard-nav.nav.nav-pills.nav-stacked
       for submenu, index in submenus
-        li(class=submenu === showTab ? "active" : "")
-          a(href='#' + submenu + '-view', data-toggle='tab')
-            span(data-i18n='leaderboard.' + submenu + '_tab')
+        li(class=index ? "" : "active")
+          a(href='#' + submenu.scoreType + '-' + submenu.timespan + '-view', data-toggle='tab')
+            .scoreType(data-i18n='leaderboard.' + submenu.scoreType.replace('-', '_'))= submenu.scoreType
+            .timespan(data-i18n='leaderboard.' + submenu.timespan)
 
     .tab-content.leaderboard-tab-content
       for submenu, index in submenus
-        .tab-pane(id=submenu + '-view')
+        .tab-pane(id=submenu.scoreType + '-' + submenu.timespan + '-view')
           .leaderboard-tab-view

@@ -206,7 +206,7 @@ module.exports = class CampaignView extends RootView
           for nextLevelOriginal in level.nextLevels ? []
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
-      @showLeaderboard @options.justBeatLevel?.get('original') if (@options.showLeaderboard or true)
+      @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard #or true
     @applyCampaignStyles()
     @testParticles()
 
@@ -219,10 +219,9 @@ module.exports = class CampaignView extends RootView
     authModal.mode = 'signup'
     @openModalView authModal
 
-  showLeaderboard: (levelOriginal) ->
-    #levelOriginal ?= '5411cb3769152f1707be029c'  # Testing: show Dungeons of Kithgard
-    levelOriginal ?= '541c9a30c6362edfb0f34479'  # Testing: show Kithgard Gates
-    leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelOriginal: levelOriginal
+  showLeaderboard: (levelSlug) ->
+    #levelSlug ?= 'keeping-time'  # Testing: show Keeping Time
+    leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
   determineNextLevel: (levels) ->
