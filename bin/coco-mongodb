@@ -92,4 +92,3 @@ mongo_arguments = [mongo_executable + u" --setParameter textSearchEnabled=true -
 if 'fork' in sys.argv: mongo_arguments[0] += " --fork --logpath ./mongodb.log"
 
 call(mongo_arguments,shell=True)
-

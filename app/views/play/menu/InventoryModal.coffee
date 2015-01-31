@@ -539,7 +539,7 @@ module.exports = class InventoryModal extends ModalView
       @delegateEvents()
       @setUpDraggableEventsForAvailableEquipment()
       @itemDetailsView.setItem(item)
-      @onScrollUnequipped()
+      @onScrollUnequipped true
 
       Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else
@@ -575,7 +575,7 @@ module.exports = class InventoryModal extends ModalView
 
   #- Dynamic portrait loading
 
-  onScrollUnequipped: ->
+  onScrollUnequipped: (forceLoadAll=false) ->
     # dynamically load visible items when the user scrolls enough to see them
     return if @destroyed
     nanoContent = @$el.find('#unequipped .nano-content')
@@ -583,7 +583,7 @@ module.exports = class InventoryModal extends ModalView
     threshold = nanoContent.height() + 100
     for itemEl in items
       itemEl = $(itemEl)
-      if itemEl.position().top < threshold
+      if itemEl.position().top < threshold or forceLoadAll
         itemEl.addClass('loaded')
         item = @items.get(itemEl.data('item-id'))
         itemEl.find('img').attr('src', item.getPortraitURL())
