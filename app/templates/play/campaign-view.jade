@@ -86,10 +86,10 @@ if campaign.loaded
   h1#campaign-status
     .campaign-status-background
       - var fullName = i18n(campaign.attributes, 'fullName')
-      if me.get('preferredLanguage', true).split('-')[0] == 'en' || fullName != campaign.get('fullName')
+      if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
         // We have a translation.
-        span.spr= fullName
-        | -
+        span= fullName
+        | :
       span.spl.spr= levelsCompleted
       | /
       span.spl= levelsTotal

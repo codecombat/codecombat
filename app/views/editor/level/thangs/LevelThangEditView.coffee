@@ -57,7 +57,6 @@ module.exports = class LevelThangEditView extends CocoView
     thangTypeName = thangType?.get('name') or 'None'
     input.val(thangTypeName)
     @$el.find('#thang-type-link span').text(thangTypeName)
-    window.input = input
     @hideLoading()
 
   navigateToAllThangs: ->

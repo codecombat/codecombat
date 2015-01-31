@@ -52,8 +52,6 @@ module.exports = class LevelGuideView extends CocoView
         window.removeEventListener('message', @onMessageReceived, false)
       else
         window.detachEvent('onmessage', @onMessageReceived, false)
-    if window.onYouTubeIframeAPIReady
-      window.onYouTubeIframeAPIReady = null
     super()
 
   getRenderData: ->

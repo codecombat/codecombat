@@ -60,6 +60,7 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    @$el.find('[data-original-title]').tooltip 'destroy'
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @

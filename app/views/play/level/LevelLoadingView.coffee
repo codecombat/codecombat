@@ -46,7 +46,7 @@ module.exports = class LevelLoadingView extends CocoView
     goalContainer = @$el.find('.level-loading-goals')
     goalList = goalContainer.find('ul')
     goalCount = 0
-    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is e.team) and not goal.hiddenGoal
+    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is (e.team or 'humans')) and not goal.hiddenGoal
       name = utils.i18n goal, 'name'
       goalList.append $('<li>' + name + '</li>')
       ++goalCount

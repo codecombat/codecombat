@@ -439,7 +439,7 @@ module.exports = class SpellView extends CocoView
         attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
       snippetEntries.push attackEntry
 
-    # window.zatannaInstance = @zatanna
+    # window.zatannaInstance = @zatanna  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
     lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
