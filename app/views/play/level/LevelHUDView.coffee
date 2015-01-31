@@ -103,7 +103,7 @@ module.exports = class LevelHUDView extends CocoView
     if @thang.id in ['Hero Placeholder', 'Hero Placeholder 1']
       name = {knight: 'Tharin', captain: 'Anya', librarian: 'Hushbaum', sorcerer: 'Pender', 'potion-master': 'Omarn', samurai: 'Hattori', ninja: 'Amara'}[@thang.type] ? 'Hero'
     else
-      name = if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id
+      name = @thang.hudName or (if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
     utils.replaceText @$el.find('.thang-name'), name
     props = @$el.find('.thang-props')
     props.find('.prop').remove()
