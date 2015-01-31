@@ -12,7 +12,7 @@ class VersionsViewCollection extends CocoCollection
 
   initialize: (@url, @levelID, @model) ->
     super()
-    @url = url + @levelID + '/versions'
+    @url = @url + @levelID + '/versions'
 
 module.exports = class VersionsModal extends ModalView
   template: template

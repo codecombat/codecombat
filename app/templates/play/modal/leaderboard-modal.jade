@@ -1,0 +1,18 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/game-menu-background.png", draggable="false")#leaderboard-background
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    ul#leaderboard-nav.nav.nav-pills.nav-stacked
+      for submenu, index in submenus
+        li(class=index ? "" : "active")
+          a(href='#' + submenu.scoreType + '-' + submenu.timespan + '-view', data-toggle='tab')
+            .scoreType(data-i18n='leaderboard.' + submenu.scoreType.replace('-', '_'))= submenu.scoreType
+            .timespan(data-i18n='leaderboard.' + submenu.timespan)
+
+    .tab-content.leaderboard-tab-content
+      for submenu, index in submenus
+        .tab-pane(id=submenu.scoreType + '-' + submenu.timespan + '-view')
+          .leaderboard-tab-view

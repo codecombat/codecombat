@@ -29,6 +29,8 @@ LevelSessionSchema = c.object
 
 _.extend LevelSessionSchema.properties,
   # denormalization
+  browser:
+    type: 'object'
   creatorName:
     type: 'string'
   levelName:
@@ -133,6 +135,12 @@ _.extend LevelSessionSchema.properties,
           x: {type: 'number'}
           y: {type: 'number'}
         source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
+    topScores: c.array {},
+      c.object {},
+        type: c.shortString('enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])
+        date: c.date
+          description: 'When the submission achieving this score happened.'
+        score: {type: 'number'}  # Store 'time' and 'damage-taken' as negative numbers so the index works.
 
   code:
     type: 'object'

@@ -340,6 +340,19 @@
     multiplayer_caption: "Play with friends!"
     auth_caption: "Save your progress."
 
+  leaderboard:
+    leaderboard: "Leaderboard"
+    view_other_solutions: "View Other Solutions"
+    top_solutions: "Top Solutions"
+    day: "Today"
+    week: "This Week"
+    all: "All-Time"
+    time: "Time"
+    damage_taken: "Damage Taken"
+    damage_dealt: "Damage Dealt"
+    difficulty: "Difficulty"
+    gold_collected: "Gold Collected"
+
   inventory:
     choose_inventory: "Equip Items"
     equipped_item: "Equipped"

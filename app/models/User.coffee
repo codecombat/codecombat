@@ -133,6 +133,21 @@ module.exports = class User extends CocoModel
     application.tracker.identify foreshadowsLevels: @foreshadowsLevels unless me.isAdmin()
     @foreshadowsLevels
 
+  getLeaderboardsGroup: ->
+    return @leaderboardsGroup if @leaderboardsGroup?
+    group = me.get('testGroupNumber') % 64
+    if group < 16
+      @leaderboardsGroup = 'always'
+    else if group < 32
+      @leaderboardsGroup = 'early'
+    else if group < 48
+      @leaderboardsGroup = 'late'
+    else
+      @leaderboardsGroup = 'never'
+    @leaderboardsGroup = 'always' if me.isAdmin()
+    application.tracker.identify leaderboardsGroup: @leaderboardsGroup unless me.isAdmin()
+    @leaderboardsGroup
+
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
