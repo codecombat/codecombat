@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     awaiting_levels_adventurer_prefix: "Wir veröffentlichen fünf Levels pro Woche."
     awaiting_levels_adventurer: "Registriere dich als ein Abenteurer"
     awaiting_levels_adventurer_suffix: "sei der Erste, der neue Levels spielt."
-   adjust_volume: "Lautstärke anpassen"
+    adjust_volume: "Lautstärke anpassen"
     choose_your_level: "Wähle dein Level" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kannst zu jedem Level springen oder diskutiere die Level "
     adventurer_forum: "im Abenteurerforum"
