@@ -19,6 +19,7 @@ defaultTasks = [
   'Publish.'
   'Choose level options like required/restricted gear.'
   'Create achievements, including unlocking next level.'
+  'Choose leaderboard score types.'
 
   'Playtest with a slow/tough hero.'
   'Playtest with a fast/weak hero.'

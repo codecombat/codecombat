@@ -73,6 +73,7 @@ module.exports = class CastButtonView extends CocoView
     @updateReplayability()
 
   onDoneButtonClick: (e) ->
+    @options.session.recordScores @world.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', showModal: true
 
   onSpellChanged: (e) ->
@@ -97,6 +98,7 @@ module.exports = class CastButtonView extends CocoView
       @playSound 'cast-end', 0.5
     @hasCastOnce = true
     @updateCastButton()
+    @world = e.world
 
   onNewGoalStates: (e) ->
     winnable = e.overallStatus is 'success'
