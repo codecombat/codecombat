@@ -1,9 +1,9 @@
 module.exports = nativeDescription: "日本語", englishDescription: "Japanese", translation:
   home:
-    slogan: "ゲームをプレイして学びましょう"
+    slogan: "ゲームをプレイしてコードを学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。" # Warning that shows up on mobile devices
-    play: "ゲームスタート" # The big play button that opens up the campaign view.
+    play: "ゲーム スタート" # The big play button that opens up the campaign view.
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -15,14 +15,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   nav:
     play: "ゲームスタート" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-    editor: "レベルエディタ"
+    community: "コミュニティー"
+    editor: "レベルエディター"
     blog: "ブログ"
     forum: "掲示板"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "アカウント"
+    profile: "プロフィール"
+    stats: "ステータス"
+    code: "コード"
     admin: "管理" # Only shows up when you are an admin
     home: "ホーム"
     contribute: "貢献"
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     about: "CoCoについて"
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
-#    teachers: "Teachers"
+    teachers: "教育関係者"
 
   modal:
     close: "閉じる"
@@ -51,38 +51,38 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
 #    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
+    hours_played: "プレイ時間"  # Hover over a level on /play
+    items: "アイテム" # Tooltip on item shop button from /play
+    unlock: "アンロック" # For purchasing items and heroes
+    confirm: "確認する"
+    owned: "所有品" # For items you own
+    locked: "ロック"
+    purchasable: "購入可能" # For a hero you unlocked but haven't purchased
+    available: "使用可能" #translated as "use is possible - as in available"
+    skills_granted: "スキルが追加された" # Property documentation details #translated as "skill added"
+    heroes: "ヒーロー" # Tooltip on hero shop button from /play
+    achievements: "実績" # Tooltip on achievement list button from /play
+    account: "アカウント" # Tooltip on account button from /play
+    settings: "設定" # Tooltip on settings button from /play
+    next: "次へ" # Go from choose hero to choose inventory before playing a level
+    change_hero: "ヒーロー選択" # Go back from choose inventory to choose hero
+    choose_inventory: "アイテムを装備"
+    buy_gems: "ジェムを購入"
+    subscription_required: "サブスクリプション必須"
+    free: "無料"
+    subscribed: "サブスクライブ"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "無名プレイヤー" # Translates to "no name player"
     level_difficulty: "難易度: "
     campaign_beginner: "初心者のキャンペーン"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer_prefix: "私たちは週に5つのレベルをリリースします" # "We release five levels per week."
+    awaiting_levels_adventurer: "冒険者として登録" #"Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
 #    adjust_volume: "Adjust volume"
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
-#    adventurer_suffix: "."
+#   adventurer_suffix: "." #is this a period? as in "。"
 #    campaign_old_beginner: "Old Beginner Campaign"
     campaign_old_beginner_description: "プログラミングの魔法を学びましょう"
     campaign_dev: "いろんな難しいレベル"
@@ -99,14 +99,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     log_in: "ログイン"
     logging_in: "ログイン中"
     log_out: "ログアウト"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    forgot_password: "パスワードをお忘れですか？"
+    authenticate_gplus: "Google+を認証する"
+    load_profile: "Google+プロフィールをロード" #"Load G+ Profile"
+    load_email: "Google+メールをロード" #"Load G+ Email"
+#    finishing: "Finishing"  #finishing what? finish loading?
+    sign_in_with_facebook: "Facebookでログイン"
+    sign_in_with_gplus: "Google+でログイン"
+    signup_switch: "アカウントを作成しますか？" # translates as "Would you like to create accout?" if _switch, need to change 'create' to 'switch'.
 
   signup:
     email_announcements: "メールでお知らせを受け取る"
@@ -114,21 +114,21 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     sign_up: "アカウント登録"
     log_in: "パスワードでログイン"
     social_signup: "あるいはFacebookやGoogle+でログイン:"
-#    required: "You need to log in before you can go that way."
-#    login_switch: "Already have an account?"
+    required: "ログインする必要があります"
+    login_switch: "すでにアカウントをお持ちですか？"
 
   recover:
     recover_account_title: "パスワードを忘れた場合"
-    send_password: "送信する"
-#    recovery_sent: "Recovery email sent."
+    send_password: "パスワードを送信する"
+    recovery_sent: "復旧メールが送信されました"
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "武器" #translated as 'weapon' to match with icon and better translation.
+    secondary: "防具" #translated as 'protective gear' to match with icon and better translation.
+    armor: "鎧"
+    accessories: "アクセサリー"
+    misc: "その他"
+    books: "書物"
 
   common:
     loading: "ロード中"
@@ -199,36 +199,36 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    ranger: "Ranger"
 #    wizard: "Wizard"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "秒"
+    seconds: "秒"
+    minute: "分"
+    minutes: "分"
+    hour: "時"
+    hours: "時"
+    day: "日"
+    days: "日"
+    week: "週"
+    weeks: "週"
+    month: "月"
+    months: "月"
+    year: "年"
+    years: "年"
 
   play_level:
     done: "完了"
     home: "ホーム" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    level: "ゲームレベル" # Like "Level: Dungeons of Kithgard" # "translates as game level
+    skip: "スキップ"
+    game_menu: "ゲームメニュー"
     guide: "ガイド"
     restart: "再始動"
     goals: "目標"
-#    goal: "Goal"
+    goal: "目標"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
+    success: "成功！" #"Success!"
+    incomplete: "不完全" #"Incomplete"
+    timed_out: "時間切れ" #"Ran out of time"
 #    failing: "Failing"
     action_timeline: "アクション・タイムライン"
     click_to_select: "ユニットを左クリックで選択してください"
