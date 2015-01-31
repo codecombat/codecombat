@@ -112,7 +112,8 @@ vec = (x, y, z) ->
 defaults =
   group:
     texture: 'star'
-    maxAge: 4
+    maxAge: 1.9
+    radius: 0.75
     hasPerspective: 1
     colorize: 1
     transparent: 1
@@ -121,20 +122,21 @@ defaults =
     depthTest: true
     blending: THREE.NormalBlending
   emitter:
-    type: "cube"
-    particleCount: 60
+    type: "disk"
+    particleCount: 100
+    radius: 1
     position: vec 0, 0, 0
     positionSpread: vec 1, 0, 1
-    acceleration: vec 0, -1, 0
+    acceleration: vec 0, 2, 0
     accelerationSpread: vec 0, 0, 0
     velocity: vec 0, 4, 0
     velocitySpread: vec 2, 2, 2
     sizeStart: 6
-    sizeStartSpread: 0
+    sizeStartSpread: 1
     sizeMiddle: 4
-    sizeMiddleSpread: 0
+    sizeMiddleSpread: 1
     sizeEnd: 2
-    sizeEndSpread: 0
+    sizeEndSpread: 1
     angleStart: 0
     angleStartSpread: 0
     angleMiddle: 0
