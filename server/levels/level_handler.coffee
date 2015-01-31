@@ -59,6 +59,7 @@ LevelHandler = class LevelHandler extends Handler
     'campaign'
     'replayable'
     'buildTime'
+    'scoreTypes'
   ]
 
   postEditableProperties: ['name']
@@ -77,6 +78,7 @@ LevelHandler = class LevelHandler extends Handler
     return @checkExistence(req, res, args[0]) if args[1] is 'exists'
     return @getPlayCountsBySlugs(req, res) if args[1] is 'play_counts'
     return @getLevelPlaytimesBySlugs(req, res) if args[1] is 'playtime_averages'
+    return @getTopScores(req, res, args[0], args[2], args[3]) if args[1] is 'top_scores'
     super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -399,5 +401,34 @@ LevelHandler = class LevelHandler extends Handler
           average: item.average
       @levelPlaytimesCache[cacheKey] = playtimes
       @sendSuccess res, playtimes
+
+  getTopScores: (req, res, levelOriginal, scoreType, timespan) ->
+    query =
+      'level.original': levelOriginal
+      'state.topScores.type': scoreType
+    now = new Date()
+    if timespan is 'day'
+      since = new Date now - 1 * 86400 * 1000
+    else if timespan is 'week'
+      since = new Date now - 7 * 86400 * 1000
+    if since
+      query['state.topScores.date'] = $gt: since.toISOString()
+
+    sort =
+      'state.topScores.score': -1
+
+    select = ['state.topScores', 'creatorName', 'creator', 'codeLanguage', 'heroConfig']
+
+    query = Session
+      .find(query)
+      .limit(20)
+      .sort(sort)
+      .select(select.join ' ')
+
+    query.exec (err, resultSessions) =>
+      return @sendDatabaseError(res, err) if err
+      resultSessions ?= []
+      @sendSuccess res, resultSessions
+
 
 module.exports = new LevelHandler()

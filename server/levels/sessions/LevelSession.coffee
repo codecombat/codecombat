@@ -1,5 +1,3 @@
-# TODO: not updated since rename from level_instance, or since we redid how all models are done; probably busted
-
 mongoose = require 'mongoose'
 plugins = require '../../plugins/plugins'
 AchievablePlugin = require '../../plugins/achievements'
@@ -24,6 +22,7 @@ LevelSessionSchema.index({submitted: 1}, {sparse: true})
 LevelSessionSchema.index({team: 1}, {sparse: true})
 LevelSessionSchema.index({totalScore: 1}, {sparse: true})
 LevelSessionSchema.index({user: 1, changed: -1}, {name: 'last played index', sparse: true})
+LevelSessionSchema.index({'level.original': 1, 'state.topScores.type': 1, 'state.topScores.date': -1, 'state.topScores.score': -1}, {name: 'top scores index', sparse: true})
 
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
@@ -65,7 +64,8 @@ LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubs
 LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                                                  'levelName', 'creatorName', 'levelID', 'screenshot',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
-                                                 'unsubscribed', 'playtime', 'heroConfig', 'team', 'transpiledCode']
+                                                 'unsubscribed', 'playtime', 'heroConfig', 'team', 'transpiledCode',
+                                                 'browser']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')

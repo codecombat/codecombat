@@ -27,6 +27,7 @@ module.exports = class CastButtonView extends CocoView
     @spells = options.spells
     @castShortcut = '⇧↵'
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
+    @observing = options.session.get('creator') isnt me.id
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -40,6 +41,7 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
     context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
+    context.observing = @observing
     context
 
   afterRender: ->
@@ -73,6 +75,7 @@ module.exports = class CastButtonView extends CocoView
     @updateReplayability()
 
   onDoneButtonClick: (e) ->
+    @options.session.recordScores @world.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', showModal: true
 
   onSpellChanged: (e) ->
@@ -97,6 +100,7 @@ module.exports = class CastButtonView extends CocoView
       @playSound 'cast-end', 0.5
     @hasCastOnce = true
     @updateCastButton()
+    @world = e.world
 
   onNewGoalStates: (e) ->
     winnable = e.overallStatus is 'success'

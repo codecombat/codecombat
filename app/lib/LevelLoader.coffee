@@ -88,6 +88,8 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    if me.id isnt session.get 'creator'
+      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
     if session is @session
       codeLanguage = session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
       modulePath = "vendor/aether-#{codeLanguage}"
@@ -98,6 +100,7 @@ module.exports = class LevelLoader extends CocoClass
           if e.id is modulePath
             @languageModuleResource.markLoaded()
             @stopListening application.moduleLoader
+      @addSessionBrowserInfo session
 
       # hero-ladder games require the correct session team in level:loaded
       team = @team ? @session.get('team')
@@ -133,6 +136,17 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDependenciesRegistered[session.id] = true
     if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
       @onWorldNecessitiesLoaded()
+
+  addSessionBrowserInfo: (session) ->
+    return unless me.id is session.get 'creator'
+    return unless $.browser?
+    browser = {}
+    browser['desktop'] = $.browser.desktop if $.browser.desktop
+    browser['name'] = $.browser.name if $.browser.name
+    browser['platform'] = $.browser.platform if $.browser.platform
+    browser['version'] = $.browser.version if $.browser.version
+    session.set 'browser', browser
+    session.patch()
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}

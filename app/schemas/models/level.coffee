@@ -19,6 +19,7 @@ defaultTasks = [
   'Publish.'
   'Choose level options like required/restricted gear.'
   'Create achievements, including unlocking next level.'
+  'Choose leaderboard score types.'
 
   'Playtest with a slow/tough hero.'
   'Playtest with a fast/weak hero.'
@@ -341,6 +342,9 @@ _.extend LevelSchema.properties,
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
   campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for.', uniqueItems: true},
+     c.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])  # TODO: good version of LoC; total gear value.
+
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

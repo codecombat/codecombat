@@ -69,6 +69,7 @@ module.exports = class SpellView extends CocoView
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
+    @observing = @session.get('creator') isnt me.id
 
   afterRender: ->
     super()
@@ -119,14 +120,15 @@ module.exports = class SpellView extends CocoView
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
       exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
-    addCommand
-      name: 'run-code-real-time'
-      bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
-      exec: =>
-        if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
-          Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
-        else
-          Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    unless @observing
+      addCommand
+        name: 'run-code-real-time'
+        bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
+        exec: =>
+          if @options.level.get('replayable') and (timeUntilResubmit = @session.timeUntilResubmit()) > 0
+            Backbone.Mediator.publish 'tome:manual-cast-denied', timeUntilResubmit: timeUntilResubmit
+          else
+            Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
     addCommand
       name: 'no-op'
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
