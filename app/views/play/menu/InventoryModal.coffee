@@ -109,6 +109,14 @@ module.exports = class InventoryModal extends ModalView
             requiredToPurchase = true
             break
 
+    if requiredToPurchase and locked and not item.get('gems')
+      # Either one of two things has happened:
+      # 1. There's a bug and the player doesn't have a required item they should have.
+      # 2. The player is trying to play a level they haven't unlocked.
+      # We'll just pretend they own it so that they don't get stuck.
+      application.tracker?.trackEvent 'Required Item Locked', level: @options.level.get('slug'), label: @options.level.get('slug'), item: item.get('name'), playerLevel: me.level(), levelUnlocked: me.ownsLevel @options.level.get('original')
+      locked = false
+
     placeholder = not item.getFrontFacingStats().props.length and not _.size(item.getFrontFacingStats().stats)
 
     if placeholder and locked  # The item is not complete, so don't put it into a collection.

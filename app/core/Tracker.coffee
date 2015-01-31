@@ -1,7 +1,7 @@
 {me} = require 'core/auth'
 SuperModel = require 'models/SuperModel'
 
-debugAnalytics = false
+debugAnalytics = true
 
 module.exports = class Tracker
   constructor: ->
