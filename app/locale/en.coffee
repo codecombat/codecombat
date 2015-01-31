@@ -322,6 +322,8 @@
     tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
     tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
+    tip_google: "Have a problem you can't solve? Google it!"
+    tip_adding_evil: "Adding a pinch of evil."
 
   game_menu:
     inventory_tab: "Inventory"
