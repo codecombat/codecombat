@@ -2,9 +2,9 @@ Set-ExecutionPolicy RemoteSigned
  
 $mongoDbPath = "C:\MongoDB" 
 $mongoDbConfigPath = "$mongoDbPath\mongod.cfg"
-$url = "http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.8.0-rc4.zip" 
+$url = "http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.4.zip" 
 $zipFile = "$mongoDbPath\mongo.zip" 
-$unzippedFolderContent ="$mongoDbPath\mongodb-win32-x86_64-2008plus-2.8.0-rc4.zip"
+$unzippedFolderContent ="$mongoDbPath\mongodb-win32-x86_64-2008plus-2.6.4.zip"
  
 if ((Test-Path -path $mongoDbPath) -eq $True) 
 { 

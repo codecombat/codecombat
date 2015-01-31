@@ -20,26 +20,26 @@
     </general>
     <Win8>
         <b32>
-            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.8.0-rc4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.6.4.zip</mongodb>
         </b32>
         <b64>
-            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.8.0-rc4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.4.zip</mongodb>
         </b64>
     </Win8>
     <Win7>
         <b32>
-            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.8.0-rc4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.6.4.zip</mongodb>
         </b32>
         <b64>
-            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.8.0-rc4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.4.zip</mongodb>
         </b64>
     </Win7>
     <Vista>
         <b32>
-            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.8.0-rc4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.4.zip</mongodb>
         </b32>
         <b64>
-            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.8.0-rc4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2.6.4.zip</mongodb>
         </b64>
     </Vista>
 </variables>
