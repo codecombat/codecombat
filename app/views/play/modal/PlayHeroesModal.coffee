@@ -158,7 +158,7 @@ module.exports = class PlayHeroesModal extends ModalView
         @rerenderFooter()
         return
       canvas.show().prop width: @canvasWidth, height: @canvasHeight
-      
+
       layer = new LayerAdapter({webGL:true})
       @layers.push layer
       layer.resolutionFactor = 8 # hi res!
@@ -166,7 +166,7 @@ module.exports = class PlayHeroesModal extends ModalView
       multiplier = 7
       layer.scaleX = layer.scaleY = multiplier
       lank = new Lank(fullHero, {preloadSounds: false})
-      
+
       layer.addLank(lank)
       layer.on 'new-spritesheet', ->
         #- maybe put some more normalization here?
@@ -179,7 +179,6 @@ module.exports = class PlayHeroesModal extends ModalView
       stage = new createjs.SpriteStage(canvas[0])
       @stages[heroIndex] = stage
       stage.addChild layer.container
-      window.stage = stage
       stage.update()
       unless preloading
         createjs.Ticker.addEventListener 'tick', stage

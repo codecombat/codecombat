@@ -813,4 +813,5 @@ module.exports = Lank = class Lank extends CocoClass
     p.removeChild @healthBar if p = @healthBar?.parent
     @sprite?.off 'animationend', @playNextAction
     clearInterval @effectInterval if @effectInterval
+    @dialogueSoundInstance?.removeAllEventListeners()
     super()

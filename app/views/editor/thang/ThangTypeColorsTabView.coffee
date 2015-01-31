@@ -163,7 +163,6 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     colors = {}
     @buttons.find('button').each (i, button) ->
       return unless $(button).hasClass('selected')
-      window.button = button
       colors[$(button).val()] = true
 
     shapes = []

@@ -126,7 +126,9 @@ module.exports = class DocFormatter
 
   replaceSpriteName: (s) ->
     # Prefer type, and excluded the quotes we'd get with @formatValue
-    s.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName
+    name = @options.thang.type ? @options.thang.spriteName
+    name = 'hero' if /Hero Placeholder/.test @options.thang.id
+    s.replace /#{spriteName}/g, name
 
   formatValue: (v) ->
     return null if @doc.type is 'snippet'
