@@ -1,8 +1,6 @@
 module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription: "Dutch (Netherlands)", translation:
   home:
     slogan: "Leer programmeren door het spelen van een spel"
-      #alternatief: Leer programmeren door een spel te spelen
-    
     no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
     play: "Speel" # The big play button that opens up the campaign view.
@@ -744,7 +742,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     diplomat_introduction_suf: "dan is het wel dat er een enorme belangstelling is voor CodeCombat in andere landen, vooral Brazilië! We zijn een groep van vertalers aan het creëren dat ijverig de ene set woorden in de andere omzet om CodeCombat zo toegankelijk mogelijk te maken in de hele wereld. Als jij het leuk vindt glimpsen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide talen goed te begrijpen!"
 #    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
-#    diplomat_i18n_page: "vertalingen pagina" #deel van Engelse zin. Nederlands werkt zo niet.
+    diplomat_i18n_page: "vertalingen pagina" #deel van Engelse zin. Nederlands werkt zo niet.
 #    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Vind van jouw taal het locale bestand "
     diplomat_github_url: "op GitHub"
@@ -818,38 +816,38 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     rules: "Regels"
     winners: "Winnaars"
 
-#  user:
-#    stats: "Statistieken" #Misschien gegevens
+  user:
+    stats: "Statistieken" #Misschien gegevens
 #    singleplayer_title: "Singleplayer Levels"
 #    multiplayer_title: "Multiplayer Levels"
-#    achievements_title: "Prestaties"
-#    last_played: "Laatst Gespeeld"
+    achievements_title: "Prestaties"
+    last_played: "Laatst Gespeeld"
 #    status: "Status"
-#    status_completed: "Voltooid"
-#    status_unfinished: "Onvoltooid"
-#    no_singleplayer: "Nog geen Singleplayer spellen gespeeld."
-#    no_multiplayer: "Nog geen Multiplayer spellen gespeeld."
-#    no_achievements: "Nog geen Prestaties verdiend."
-#    favorite_prefix: "Favoriete taal is "
-#    favorite_postfix: "."
+    status_completed: "Voltooid"
+    status_unfinished: "Onvoltooid"
+    no_singleplayer: "Nog geen Singleplayer spellen gespeeld."
+    no_multiplayer: "Nog geen Multiplayer spellen gespeeld."
+    no_achievements: "Nog geen Prestaties verdiend."
+    favorite_prefix: "Favoriete taal is "
+    favorite_postfix: "."
 
-#  achievements:
-#    last_earned: "Laatst verdiend"
-#    amount_achieved: "Hoeveelheid"
-#    achievement: "Prestatie"
+  achievements:
+    last_earned: "Laatst verdiend"
+    amount_achieved: "Hoeveelheid"
+    achievement: "Prestatie"
 #    category_contributor: "Contributor"
 #    category_ladder: "Ladder"
 #    category_level: "Level"
-#    category_miscellaneous: "Diversen"
+    category_miscellaneous: "Diversen"
 #    category_levels: "Levels"
-#    category_undefined: "Geen categorie"
-#    current_xp_prefix: ""
+    category_undefined: "Geen categorie"
+    current_xp_prefix: ""
 #    current_xp_postfix: " in total"
-#    new_xp_prefix: ""
-#    new_xp_postfix: " verdiend"
-#    left_xp_prefix: ""
-#    left_xp_infix: " tot level "
-#    left_xp_postfix: ""
+    new_xp_prefix: ""
+    new_xp_postfix: " verdiend"
+    left_xp_prefix: ""
+    left_xp_infix: " tot level "
+    left_xp_postfix: ""
 
 #  account:
 #    recently_played: "Recently Played"
