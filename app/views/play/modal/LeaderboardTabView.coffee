@@ -15,7 +15,8 @@ module.exports = class LeaderboardTabView extends CocoView
   template: template
   className: 'leaderboard-tab-view'
 
-  events: {}
+  events:
+    'click tbody tr.viewable': 'onClickRow'
 
   constructor: (options) ->
     super options
@@ -67,3 +68,8 @@ module.exports = class LeaderboardTabView extends CocoView
     @hasShown = true
     topScores = new TopScoresCollection @level, @scoreType, @timespan
     @sessions = @supermodel.loadCollection(topScores, 'sessions', null, 0).model
+
+  onClickRow: (e) ->
+    sessionID = $(e.target).closest('tr').data 'session-id'
+    url = "/play/level/#{@level.get('slug')}?session=#{sessionID}&observing=true"
+    window.open url, '_blank'

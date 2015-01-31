@@ -16,17 +16,21 @@
     th
       text-align: center
 
-    .rank-cell
-      font-weight: bold
+    tbody
+      tr.viewable
+        cursor: pointer
 
-    .name-col-cell
-      max-width: 150px
-      white-space: nowrap
-      overflow: hidden
-      text-overflow: ellipsis
+      .rank-cell
+        font-weight: bold
   
-    .hero-portrait-cell, .code-language-cell
-      background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat center center
-      padding: 0 9px
-      background-size: 30px 30px
-      height: 30px
+      .name-col-cell
+        max-width: 150px
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+    
+      .hero-portrait-cell, .code-language-cell
+        background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat center center
+        background-size: 30px 30px
+        height: 30px
+        width: 32px

@@ -15,7 +15,10 @@ class LevelSessionHandler extends Handler
 
   formatEntity: (req, document) ->
     documentObject = super(req, document)
-    if req.user?.isAdmin() or req.user?.id is document.creator or ('employer' in (req.user?.get('permissions') ? []))
+    if req.user?.isAdmin() or
+       req.user?.id is document.creator or
+       ('employer' in (req.user?.get('permissions') ? [])) or
+       !document.submittedCode  # TODO: only allow leaderboard access to non-top-5 solutions
       return documentObject
     else
       return _.omit documentObject, @privateProperties
@@ -47,8 +50,9 @@ class LevelSessionHandler extends Handler
       @sendSuccess res, documents
 
   hasAccessToDocument: (req, document, method=null) ->
-    return true if req.method is 'GET' and document.get('submitted')
-    return true if ('employer' in (req.user?.get('permissions') ? [])) and (method ? req.method).toLowerCase() is 'get'
+    get = (method ? req.method).toLowerCase() is 'get'
+    return true if get and document.get('submitted')
+    return true if get and ('employer' in (req.user?.get('permissions') ? []))
     super(arguments...)
 
   getCodeLanguageCounts: (req, res) ->

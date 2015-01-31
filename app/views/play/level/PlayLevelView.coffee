@@ -95,6 +95,7 @@ module.exports = class PlayLevelView extends RootView
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
+    @observing = @getQueryVariable 'observing'
 
     @opponentSessionID = @getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
@@ -109,7 +110,7 @@ module.exports = class PlayLevelView extends RootView
       setTimeout f, 100
     else
       @load()
-      application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID, ['Google Analytics']
+      application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID, ['Google Analytics'] unless @observing
 
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
@@ -134,8 +135,9 @@ module.exports = class PlayLevelView extends RootView
     @loadEndTime = new Date()
     loadDuration = @loadEndTime - @loadStartTime
     console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
-    application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration, ['Google Analytics']
-    application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
+    unless @observing
+      application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration, ['Google Analytics']
+      application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   # CocoView overridden methods ###############################################
 
@@ -147,7 +149,7 @@ module.exports = class PlayLevelView extends RootView
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
-    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil, level: @levelLoader?.level ? @level  # May not have @level loaded yet
+    @insertSubView @loadingView = new LevelLoadingView autoUnveil: @options.autoUnveil or @observing, level: @levelLoader?.level ? @level  # May not have @level loaded yet
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
     $('body').bind('touchmove', false) if @isIPadApp()
@@ -233,7 +235,7 @@ module.exports = class PlayLevelView extends RootView
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, level: @level, observing: @observing
     @insertSubView new LevelPlaybackView session: @session, level: @level
     @insertSubView new GoalsView {}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -283,7 +285,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
     # Save latest level played.
-    if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
+    if not @observing and not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
       me.set('lastLevel', @levelID)
       me.save()
       application.tracker?.identify()
@@ -321,7 +323,7 @@ module.exports = class PlayLevelView extends RootView
     if @otherSession and not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
-    if @isEditorPreview
+    if @isEditorPreview or @observing
       @loadingView.startUnveiling()
       @loadingView.unveil()
 
@@ -337,7 +339,7 @@ module.exports = class PlayLevelView extends RootView
       Backbone.Mediator.publish 'playback:real-time-playback-waiting', {}
       @realTimeMultiplayerContinueGame @options.realTimeMultiplayerSessionID
     # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id')
+    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id') unless @observing
 
   playAmbientSound: ->
     return if @destroyed
@@ -414,7 +416,7 @@ module.exports = class PlayLevelView extends RootView
     return if @victorySeen
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
-    if victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
+    if not @observing and victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
       application.tracker?.trackEvent 'Saw Victory',
         category: 'Play Level'
         level: @level.get('name')
@@ -436,12 +438,12 @@ module.exports = class PlayLevelView extends RootView
     @tome.reloadAllCode()
     Backbone.Mediator.publish 'level:restarted', {}
     $('#level-done-button', @$el).hide()
-    application.tracker?.trackEvent 'Confirmed Restart', category: 'Play Level', level: @level.get('name'), label: @level.get('name')
+    application.tracker?.trackEvent 'Confirmed Restart', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
-    application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name')
+    application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing
 
   onHighlightDOM: (e) -> @highlightElement e.selector, delay: e.delay, sides: e.sides, offset: e.offset, rotation: e.rotation
 

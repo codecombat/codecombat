@@ -33,6 +33,7 @@ module.exports = class ControlBarView extends CocoView
     @level = options.level
     @levelID = @level.get('slug')
     @spectateGame = options.spectateGame ? false
+    @observing = options.session.get('creator') isnt me.id
     super options
     if @level.get('type') in ['hero-ladder'] and me.isAdmin()
       @isMultiplayerLevel = true
@@ -66,6 +67,7 @@ module.exports = class ControlBarView extends CocoView
       c.difficultyTitle = "#{$.i18n.t 'play.level_difficulty'}#{c.levelDifficulty}"
       @lastDifficulty = c.levelDifficulty
     c.spectateGame = @spectateGame
+    c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     if @level.get('type', true) in ['ladder', 'ladder-tutorial', 'hero-ladder']
       levelID = @level.get('slug').replace /\-tutorial$/, ''

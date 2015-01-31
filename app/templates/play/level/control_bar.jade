@@ -9,7 +9,7 @@
     .glyphicon.glyphicon-play
     span(data-i18n="nav.play").home-text Levels
 
-if isMultiplayerLevel
+if isMultiplayerLevel && !observing
   .multiplayer-area-container
     .multiplayer-area
       .multiplayer-label(data-i18n="play_level.control_bar_multiplayer")
@@ -28,17 +28,19 @@ else
 
 .buttons-area
 
-  button.btn.btn-inverse#game-menu-button(title="Show game menu")
-    .hamburger
-      span.icon-bar
-      span.icon-bar
-      span.icon-bar
-    span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
+  if !observing
+    button.btn.btn-inverse#game-menu-button(title="Show game menu")
+      .hamburger
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
   
   if spectateGame
     button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
   
-  button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
+  if !observing
+    button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
 
   if me.get('anonymous')
     button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="signup.sign_up")

@@ -27,6 +27,7 @@ module.exports = class CastButtonView extends CocoView
     @spells = options.spells
     @castShortcut = '⇧↵'
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
+    @observing = options.session.get('creator') isnt me.id
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -40,6 +41,7 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
     context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_code')
     context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
+    context.observing = @observing
     context
 
   afterRender: ->

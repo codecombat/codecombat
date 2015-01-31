@@ -88,6 +88,8 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    if me.id isnt session.get 'creator'
+      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
     if session is @session
       codeLanguage = session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
       modulePath = "vendor/aether-#{codeLanguage}"
@@ -136,6 +138,7 @@ module.exports = class LevelLoader extends CocoClass
       @onWorldNecessitiesLoaded()
 
   addSessionBrowserInfo: (session) ->
+    return unless me.id is session.get 'creator'
     return unless $.browser?
     browser = {}
     browser['desktop'] = $.browser.desktop if $.browser.desktop
