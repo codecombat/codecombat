@@ -82,7 +82,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
-#   adventurer_suffix: "." #is this a period? as in "。"
+#    adventurer_suffix: "." #is this a period? as in "。"
 #    campaign_old_beginner: "Old Beginner Campaign"
     campaign_old_beginner_description: "プログラミングの魔法を学びましょう"
     campaign_dev: "いろんな難しいレベル"
