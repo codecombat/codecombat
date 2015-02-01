@@ -340,6 +340,19 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     multiplayer_caption: "Играй с друзьями!"
     auth_caption: "Сохранить прогресс."
 
+  leaderboard:
+    leaderboard: "Таблица лидеров"
+    view_other_solutions: "Посмотреть другие решения"
+    top_solutions: "Лучшие решения"
+    day: "Сегодня"
+    week: "На этой неделе"
+    all: "За все время"
+    time: "Время"
+    damage_taken: "Получено повреждений"
+    damage_dealt: "Насесено повреждений"
+    difficulty: "Сложность"
+    gold_collected: "Собрано золота"
+
   inventory:
     choose_inventory: "Выбрать предметы"
     equipped_item: "Выбранный"
@@ -387,6 +400,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subscribe_button: "Подпишись сейчас"
     stripe_description: "Месячная подписка"
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
+    unlock_help_vidoes: "Подпишитесь, чтобы разблокировать все обучающие видео."
 
   choose_hero:
     choose_hero: "Выберите героя"
