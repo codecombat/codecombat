@@ -126,7 +126,7 @@ module.exports.getTwoGames = (req, res) ->
   ogresGameID = req.body.ogresGameID
   ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span', 'dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
   levelID = _.sample ladderGameIDs
-  sortLimit = 5000
+  sortLimit = 200
   unless ogresGameID and humansGameID
     #fetch random games here
     queryParams =
