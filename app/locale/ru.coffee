@@ -400,7 +400,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subscribe_button: "Подпишись сейчас"
     stripe_description: "Месячная подписка"
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
-    unlock_help_vidoes: "Подпишитесь, чтобы разблокировать все обучающие видео."
+    unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
 
   choose_hero:
     choose_hero: "Выберите героя"
