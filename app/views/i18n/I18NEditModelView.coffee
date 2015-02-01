@@ -164,4 +164,4 @@ module.exports = class I18NEditModelView extends RootView
     return button.text('Failed to Submit Changes') unless res
     button.text('Submitting...')
     res.error => button.text('Error Submitting Changes')
-    res.success => button.text('Submit Changes')
+    res.success => button.text('Changes Submitted')
