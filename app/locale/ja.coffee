@@ -392,7 +392,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     choose_hero: "ヒーローの選択" #"Choose Your Hero"
     programming_language: "プログラミング言語" #"Programming Language"
     programming_language_description: "どのプログラミング言語を使いますか？" #"Which programming language do you want to use?"
-#    default: "デフォルト" #"Default"  when uncommented, seems to cause compile error 'Default' is compiler specific key word? if so not sure how to correctly read this line of code.
+    default: "デフォルト" #"Default"  when uncommented, seems to cause compile error 'Default' is compiler specific key word? if so not sure how to correctly read this line of code.
     experimental: "実験的" #"Experimental"
     python_blurb: "シンプルで強力、初心者や専門家でも使える。" #"Simple yet powerful, great for beginners and experts."
     javascript_blurb: "ウェブの言語。(Javaと同じではありません。)" #"The language of the web. (Not the same as Java.)"
@@ -411,7 +411,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     regeneration: "自動回復度" #"Regeneration" translated as automatic heal speed
     range: "攻撃範囲" #"Range" # As in "attack or visual range" translated as attack range
     blocks: "ブロックパワー" #"Blocks" As in "this shield blocks this much damage" translated as block power
-    backstab: "バックスタブ #""Backstab" As in "this dagger does this much backstab damage"
+    backstab: "バックスタブ" #"Backstab" As in "this dagger does this much backstab damage"
     skills: "スキル"
     available_for_purchase: "購入可能" #"Available for Purchase" - Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "アンロックレベル：" #"Level to unlock:" Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
