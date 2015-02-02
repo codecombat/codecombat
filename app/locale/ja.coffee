@@ -3,7 +3,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイしてコードを学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。" # Warning that shows up on mobile devices
-    play: "ゲーム    スタート" # The big play button that opens up the campaign view. spaces are for better text read.
+    play: "ゲーム    スタート" # The big play button that opens up the campaign view.
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -14,7 +14,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    or_ipad: "Or download for iPad"
 
   nav:
-    play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play - Translated this as "to game map" for better translation.
+    play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play
     community: "コミュニティー"
     editor: "レベルエディター"
     blog: "ブログ"
@@ -51,15 +51,15 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
 #    players: "players" # Hover over a level on /play
-    hours_played: "プレイ時間"  # Hover over a level on /play
+    hours_played: "プレイ時間" # Hover over a level on /play
     items: "アイテム" # Tooltip on item shop button from /play
     unlock: "アンロック" # For purchasing items and heroes
     confirm: "ロックを解除？"
     owned: "所有品" # For items you own
     locked: "ロック"
     purchasable: "購入可能" # For a hero you unlocked but haven't purchased
-    available: "使用可能" #translated as "use is possible - as in available"
-    skills_granted: "追加されるスキル" # Property documentation details #translated as "skill added"
+    available: "使用可能"
+    skills_granted: "追加されるスキル" # Property documentation details
     heroes: "ヒーロー" # Tooltip on hero shop button from /play
     achievements: "実績" # Tooltip on achievement list button from /play
     account: "アカウント" # Tooltip on account button from /play
@@ -72,17 +72,17 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     free: "無料"
     subscribed: "サブスクライブ"
 #    older_campaigns: "Older Campaigns"
-    anonymous: "無名プレイヤー" # Translates to "no name player"
+    anonymous: "無名プレイヤー"
     level_difficulty: "難易度: "
     campaign_beginner: "初心者のキャンペーン"
-    awaiting_levels_adventurer_prefix: "私たちは週に5つのレベルをリリースします" # "We release five levels per week."
-    awaiting_levels_adventurer: "冒険者として登録" #"Sign up as an Adventurer"
+    awaiting_levels_adventurer_prefix: "私たちは週に5つのレベルをリリースします"
+    awaiting_levels_adventurer: "冒険者として登録"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-    adjust_volume: "音量を調整する" #"Adjust volume"
+    adjust_volume: "音量を調整する"
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
-#    adventurer_suffix: "." #is this a period? as in "。"
+#    adventurer_suffix: "."
 #    campaign_old_beginner: "Old Beginner Campaign"
     campaign_old_beginner_description: "プログラミングの魔法を学びましょう"
     campaign_dev: "いろんな難しいレベル"
@@ -101,12 +101,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     log_out: "ログアウト"
     forgot_password: "パスワードをお忘れですか？"
     authenticate_gplus: "Google+を認証する"
-    load_profile: "Google+プロフィールをロード" #"Load G+ Profile"
-    load_email: "Google+メールをロード" #"Load G+ Email"
-#    finishing: "Finishing"  #finishing what? finish loading?
+    load_profile: "Google+プロフィールをロード"
+    load_email: "Google+メールをロード"
+#    finishing: "Finishing"
     sign_in_with_facebook: "Facebookでログイン"
     sign_in_with_gplus: "Google+でログイン"
-    signup_switch: "アカウントを作成しますか？" # translates as "Would you like to create accout?" if _switch, need to change 'create' to 'switch'.
+    signup_switch: "アカウントを作成しますか？"
 
   signup:
     email_announcements: "メールでお知らせを受け取る"
@@ -123,8 +123,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     recovery_sent: "復旧メールが送信されました"
 
   items:
-    primary: "武器" #translated as 'weapon' to match with icon and better translation.
-    secondary: "防具" #translated as 'protective gear' to match with icon and better translation.
+    primary: "武器"
+    secondary: "防具"
     armor: "鎧"
     accessories: "アクセサリー"
     misc: "その他"
@@ -152,27 +152,27 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    submit_changes: "Submit Changes"
 
   general:
-    and: "と" #need to revisit if it is correct in context.
+    and: "と"
     name: "名前"
     date: "日付"
     body: "Body"
     version: "バージョン"
     pending: "ペンディング"
-    accepted: "容認された" # "Accepted" –translated as ‘approved’
-    rejected: "拒否された" #"Rejected" – translated as ‘denied’
-    withdrawn: "取り下げられました" #"Withdrawn" – translated as ‘has been withdrawn.’
+    accepted: "容認された"
+    rejected: "拒否された"
+    withdrawn: "取り下げられました"
     submitter: "提出者"
     submitted: "提出されました"
     commit_msg: "コミットメッセージ"
     review: "レビュー"
-    version_history: "バージョン履歴" #"Version History"
-    version_history_for: "バージョン履歴：" #may need to revisit if context is not correct. "Version History for: "
-    select_changes: "違いを見るには以下の二つの変更を選んで下さい" #"Select two changes below to see the difference."
-    undo_prefix: "取り消す" #"Undo"
+    version_history: "バージョン履歴"
+    version_history_for: "バージョン履歴："
+    select_changes: "違いを見るには以下の二つの変更を選んで下さい"
+    undo_prefix: "取り消す"
     undo_shortcut: "(Ctrl+Z)"
-    redo_prefix: "やり直す" #"Redo"
+    redo_prefix: "やり直す"
     redo_shortcut: "(Ctrl+Shift+Z)"
-    play_preview: "現在のレベルのプレビューを再生" #"Play preview of current level"
+    play_preview: "現在のレベルのプレビューを再生"
     result: "結果"
     results: "結果"
     description: "説明"
@@ -194,7 +194,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     medium: "ミディアム"
     hard: "ハード"
     player: "プレイヤー"
-    player_level: "プレーヤレベル" # Like player level 5, not like level: Dungeons of Kithgard - translated as 'player level'
+    player_level: "プレーヤレベル" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "戦士"
     ranger: "レンジャー"
     wizard: "ウィザード"
@@ -218,17 +218,17 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   play_level:
     done: "完了"
     home: "ホーム" # Not used any more, will be removed soon.
-    level: "ゲームレベル" # Like "Level: Dungeons of Kithgard" # "translates as game level
+    level: "ゲームレベル" # Like "Level: Dungeons of Kithgard"
     skip: "スキップ"
     game_menu: "ゲームメニュー"
     guide: "ガイド"
     restart: "再始動"
     goals: "目標"
     goal: "目標"
-    running: "コンパイル中..."  #"Running... " – translated as ‘compiling…’
-    success: "成功！" #"Success!"
-    incomplete: "不完全" #"Incomplete"
-    timed_out: "時間切れ" #"Ran out of time"
+    running: "コンパイル中..."
+    success: "成功！"
+    incomplete: "不完全"
+    timed_out: "時間切れ"
 #    failing: "Failing"
     action_timeline: "アクション・タイムライン"
     click_to_select: "ユニットを左クリックで選択してください"
@@ -251,8 +251,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_review: "フィードバック" # Only in old-style levels.
     victory_hour_of_code_done: "完了してよろしいですか?"
     victory_hour_of_code_done_yes: "はい、構いません"
-    victory_experience_gained: "XP獲得" #"XP Gained"
-    victory_gems_gained: "ジェム獲得" #"Gems Gained"
+    victory_experience_gained: "XP獲得"
+    victory_gems_gained: "ジェム獲得"
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文" # Only in old-style levels.
     tome_read_only_spells: "読込専用の呪文" # Only in old-style levels.
@@ -322,6 +322,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
+#    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -332,38 +333,51 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     guide_tips: "ヒント"
     multiplayer_tab: "マルチプレイ"
     auth_tab: "登録する"
-    inventory_caption: "ヒーローの装備を選ぶ" #"Equip your hero"
-    choose_hero_caption: "ヒーロー、言語と" #"Choose hero, language"
-    save_load_caption: "...視聴履歴を選択する" #"... and view history"
-    options_caption: "設定を行う" #"Configure settings"
-    guide_caption: "ガイドとヒント" #"Docs and tips"
-    multiplayer_caption: "友達とプレイ！" #"Play with friends!"
+    inventory_caption: "ヒーローの装備を選ぶ"
+    choose_hero_caption: "ヒーロー、言語と"
+    save_load_caption: "...視聴履歴を選択する"
+    options_caption: "設定を行う"
+    guide_caption: "ガイドとヒント"
+    multiplayer_caption: "友達とプレイ！"
     auth_caption: "進行状況をセーブする"
 
+#  leaderboard:
+#    leaderboard: "Leaderboard"
+#    view_other_solutions: "View Other Solutions"
+#    top_solutions: "Top Solutions"
+#    day: "Today"
+#    week: "This Week"
+#    all: "All-Time"
+#    time: "Time"
+#    damage_taken: "Damage Taken"
+#    damage_dealt: "Damage Dealt"
+#    difficulty: "Difficulty"
+#    gold_collected: "Gold Collected"
+
   inventory:
-    choose_inventory: "アイテムを装備" #"Equip Items"
-    equipped_item: "装備済み" #"Equiped"
-    required_purchase_title: "必須品" #"Required" -translated as required item.
-    available_item: "使用可能" #"Available"
-    restricted_title: "制限品" #"Restricted" -translated as restricted item.
-    should_equip: "(ダブルクリックで装備)" #"(double-click to equip)"
-    equipped: "(装備済み)" #"(equipped)"
-    locked: "(ロック)" #"(locked)"
-    restricted: "(このレベルでは制限品)" #"(restricted in this level)"
-    equip: "装備する" #"Equip"
-    unequip: "装備を外す" #"Unequip"
+    choose_inventory: "アイテムを装備"
+    equipped_item: "装備済み"
+    required_purchase_title: "必須品"
+    available_item: "使用可能"
+    restricted_title: "制限品"
+    should_equip: "(ダブルクリックで装備)"
+    equipped: "(装備済み)"
+    locked: "(ロック)"
+    restricted: "(このレベルでは制限品)"
+    equip: "装備する"
+    unequip: "装備を外す"
 
   buy_gems:
-    few_gems: "少し購入" #"A few gems"
-    pile_gems: "多く購入" #"Pile of gems"
-    chest_gems: "宝箱を購入" #"Chest of gems"
-    purchasing: "購入中..." #"Purchasing..."
-    declined: "カードが拒否されました。" #"Your card was declined"
-    retrying: "サーバーエラー、再試行中。" #"Server error, retrying."
-    prompt_title: "ジェムが足りません。" #"Not Enough Gems"
-    prompt_body: "もっと購入しますか？" #"Do you want to get more?"
-    prompt_button: "ショップに入る" #"Enter Shop"
-    recovered: "前のジェム購入をリカバリーしました。ページを更新してください。" #"Previous gems purchase recovered. Please refresh the page."
+    few_gems: "少し購入"
+    pile_gems: "多く購入"
+    chest_gems: "宝箱を購入"
+    purchasing: "購入中..."
+    declined: "カードが拒否されました。"
+    retrying: "サーバーエラー、再試行中。"
+    prompt_title: "ジェムが足りません。"
+    prompt_body: "もっと購入しますか？"
+    prompt_button: "ショップに入る"
+    recovered: "前のジェム購入をリカバリーしました。ページを更新してください。"
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -387,35 +401,36 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    subscribe_button: "Subscribe Now"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
+#    unlock_help_videos: "Subscribe to unlock all video tutorials."
 
   choose_hero:
-    choose_hero: "ヒーローの選択" #"Choose Your Hero"
-    programming_language: "プログラミング言語" #"Programming Language"
-    programming_language_description: "どのプログラミング言語を使いますか？" #"Which programming language do you want to use?"
-    default: "デフォルト" #"Default"  when uncommented, seems to cause compile error 'Default' is compiler specific key word? if so not sure how to correctly read this line of code.
-    experimental: "実験的" #"Experimental"
-    python_blurb: "シンプルで強力、初心者や専門家でも使える。" #"Simple yet powerful, great for beginners and experts."
-    javascript_blurb: "ウェブの言語。(Javaと同じではありません。)" #"The language of the web. (Not the same as Java.)"
-    coffeescript_blurb: "より良いJavaScriptのシンタックス。" #"Nicer JavaScript syntax."
-    clojure_blurb: "現代のリスプ。" #"A modern Lisp."
-    lua_blurb: "ゲーム専用のスクリプト言語。" #"Game scripting language."
-    io_blurb: "シンプルだがあいまい。" #"Simple but obscure."
-    status: "ステータス" #"Status"
-    weapons: "武器" #"Weapons"
-    weapons_warrior: "剣 - 攻撃範囲:短い- 魔法使用不可" #"Swords - Short Range, No Magic"
-    weapons_ranger: "クロスボウ, 銃 - 攻撃範囲:長い- 魔法使用不可" #"Crossbows, Guns - Long Range, No Magic"
-    weapons_wizard: "ワンド、杖- 攻撃範囲:長い- 魔法使用可能" #"Wands, Staffs - Long Range, Magic"
-    attack: "攻撃力" #"Damage" Can also translate as "Attack"
-    health: "体力" #"Health"
-    speed: "移動速度" #"Speed" - translated as movement speed.
-    regeneration: "自動回復度" #"Regeneration" translated as automatic heal speed
-    range: "攻撃範囲" #"Range" # As in "attack or visual range" translated as attack range
-    blocks: "ブロックパワー" #"Blocks" As in "this shield blocks this much damage" translated as block power
-    backstab: "バックスタブ" #"Backstab" As in "this dagger does this much backstab damage"
+    choose_hero: "ヒーローの選択"
+    programming_language: "プログラミング言語"
+    programming_language_description: "どのプログラミング言語を使いますか？"
+    default: "デフォルト"
+    experimental: "実験的"
+    python_blurb: "シンプルで強力、初心者や専門家でも使える。"
+    javascript_blurb: "ウェブの言語。(Javaと同じではありません。)"
+    coffeescript_blurb: "より良いJavaScriptのシンタックス。"
+    clojure_blurb: "現代のリスプ。"
+    lua_blurb: "ゲーム専用のスクリプト言語。"
+    io_blurb: "シンプルだがあいまい。"
+    status: "ステータス"
+    weapons: "武器"
+    weapons_warrior: "剣 - 攻撃範囲:短い- 魔法使用不可"
+    weapons_ranger: "クロスボウ, 銃 - 攻撃範囲:長い- 魔法使用不可"
+    weapons_wizard: "ワンド、杖- 攻撃範囲:長い- 魔法使用可能"
+    attack: "攻撃力" # Can also translate as "Attack"
+    health: "体力"
+    speed: "移動速度"
+    regeneration: "自動回復度"
+    range: "攻撃範囲" # As in "attack or visual range"
+    blocks: "ブロックパワー" # As in "this shield blocks this much damage"
+    backstab: "バックスタブ" # As in "this dagger does this much backstab damage"
     skills: "スキル"
-    available_for_purchase: "購入可能" #"Available for Purchase" - Shows up when you have unlocked, but not purchased, a hero in the hero store
-    level_to_unlock: "アンロックレベル：" #"Level to unlock:" Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-    restricted_to_certain_heroes: "特定のヒーローのみ、このレベルをプレイする事が出来ます。" #"Only certain heroes can play this level."
+    available_for_purchase: "購入可能" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "アンロックレベル：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    restricted_to_certain_heroes: "特定のヒーローのみ、このレベルをプレイする事が出来ます。"
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -488,6 +503,46 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    michael_blurb: "Sys Admin"
 #    matt_title: "Programmer"
 #    matt_blurb: "Bicyclist"
+
+#  teachers:
+#    title: "CodeCombat for Teachers"
+#    preparation_title: "Preparation"
+#    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
+#    preparation_play_campaign: "play through the campaign"
+#    preparation_2: "to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer."
+#    preparation_3: "It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat."
+#    violent_title: "Is it violent?"
+#    violent_1: "We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language."
+#    violent_2: "If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat."
+#    for_girls_title: "Is it for girls?"
+#    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
+#    what_cover_title: "What do we cover?"
+#    what_cover_1: "There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:"
+#    what_cover_notation_1: "Formal notation"
+#    what_cover_notation_2: "- builds an understanding of the importance of syntax in programming."
+#    what_cover_methods_1: "Calling methods"
+#    what_cover_methods_2: "- familiarizes students with the syntax of object-oriented method calls."
+#    what_cover_parameters_1: "Parameters"
+#    what_cover_parameters_2: "- trains how to pass parameters to functions."
+#    what_cover_strings_1: "Strings"
+#    what_cover_strings_2: "- teaches students about string notation and passing strings as parameters."
+#    what_cover_loops_1: "Loops"
+#    what_cover_loops_2: "- develops the abstraction of designing short programs with loops."
+#    what_cover_variables_1: "Variables"
+#    what_cover_variables_2: "- adds the skill of referencing values that change over time."
+#    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
+#    what_cover_logic_1: "Conditional logic"
+#    what_cover_logic_2: "- when and how to use if/else to control in-game outcomes."
+#    what_cover_input_1: "Handling player input"
+#    what_cover_input_2: "- responding to input events to create a user interface."
+#    sys_requirements_title: "System Requirements"
+#    sys_requirements_1: "Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of your Hour of Code experience:"
+#    sys_requirements_2: "Use newer versions of Chrome or Firefox."
+#    sys_requirements_3: "Although CodeCombat will work on browsers as old as IE9, the performance is not as good. Chrome is best."
+#    sys_requirements_4: "Use newer computers."
+#    sys_requirements_5: "Older computers, Chromebooks, and netbooks tend to have very few system resources, which makes for a less enjoyable experience. At least 2GB of RAM is required."
+#    sys_requirements_6: "Allow players to wear headphones/earbuds to hear the audio."
+#    sys_requirements_7: "We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting."
 
   versions:
     save_version_title: "新しいバージョンをセーブ"

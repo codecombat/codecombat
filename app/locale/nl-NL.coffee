@@ -127,7 +127,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     secondary: "Secundair"
     armor: "Harnas"
     accessories: "Accessoires"
-    misc: "Anders" #geen letterlijke vertaling. Ook wel: Diversen of Divers
+    misc: "Anders"
     books: "Boeken"
 
   common:
@@ -161,16 +161,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     accepted: "Geaccepteerd"
     rejected: "Afgewezen"
     withdrawn: "Teruggetrokken"
-    submitter: "Toevoeger" #inzender
-    submitted: "Toegevoegd" #ingezonden
+    submitter: "Toevoeger"
+    submitted: "Toegevoegd"
     commit_msg: "Commit Bericht"
     review: "Herzien"
     version_history: "Versie geschiedenis"
     version_history_for: "Versie geschiedenis voor: "
     select_changes: "Selecteer hieronder twee veranderingen om het verschil te zien."
-#    undo_prefix: "Undo" #Ongedaan maken
+#    undo_prefix: "Undo"
     undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo" #Opnieuw (doen). O.i.d
+#    redo_prefix: "Redo"
     redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Speel voorproefje van dit level"
     result: "Resultaat"
@@ -196,7 +196,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     player: "Speler"
     player_level: "Niveau" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Krijger"
-#    ranger: "Ranger" #misschien doler
+#    ranger: "Ranger"
     wizard: "Tovenaar"
 
   units:
@@ -225,11 +225,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     restart: "Herstarten"
     goals: "Doelen"
     goal: "Doel"
-#    running: "Running..." #misschien "draaiende", "is aan het draaien" of "draaien..."
+#    running: "Running..."
     success: "Gelukt!"
     incomplete: "Incompleet"
     timed_out: "De tijd is op"
-#    failing: "Failing" #is aan het falen, of falende, alletwee niet mooi, misschien meer context nodig.
+#    failing: "Failing"
     action_timeline: "Actie tijdlijn"
     click_to_select: "Klik op een eenheid om deze te selecteren."
 #    control_bar_multiplayer: "Multiplayer"
@@ -258,12 +258,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tome_read_only_spells: "Read-Only Spreuken" # Only in old-style levels.
     tome_other_units: "Andere Eenheden" # Only in old-style levels.
     tome_cast_button_run: "Uitvoeren"
-#    tome_cast_button_running: "Running" #aan het draaien
+#    tome_cast_button_running: "Running"
     tome_cast_button_ran: "Uitgevoerd"
-    tome_submit_button: "Indienen" #alternatieven: Toevoegen, verzenden/versturen/insturen misschien zelfs afronden
+    tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # Title text for individual method reload button.
     tome_select_method: "Kies een methode"
-    tome_see_all_methods: "Bekijk alle methoden die je kan aanpassen" # Title text for method list selector (shown when there are multiple programmable methods).
+    tome_see_all_methods: "Bekijk alle methoden die je kan aanpassen" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
@@ -322,6 +322,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
+#    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -340,12 +341,25 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     multiplayer_caption: "Speel met vrienden!"
     auth_caption: "Bewaar je voortgang."
 
+#  leaderboard:
+#    leaderboard: "Leaderboard"
+#    view_other_solutions: "View Other Solutions"
+#    top_solutions: "Top Solutions"
+#    day: "Today"
+#    week: "This Week"
+#    all: "All-Time"
+#    time: "Time"
+#    damage_taken: "Damage Taken"
+#    damage_dealt: "Damage Dealt"
+#    difficulty: "Difficulty"
+#    gold_collected: "Gold Collected"
+
   inventory:
     choose_inventory: "Kies Uitrusting"
     equipped_item: "Gekozen"
     required_purchase_title: "Verplicht"
     available_item: "Beschikbaar"
-    restricted_title: "Onbeschikbaar" #letterlijker: beperkt
+    restricted_title: "Onbeschikbaar"
     should_equip: "(double-click om te kiezen)"
     equipped: "(gekozen)"
     locked: "(versleuteld)"
@@ -387,6 +401,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    subscribe_button: "Subscribe Now"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
+#    unlock_help_videos: "Subscribe to unlock all video tutorials."
 
   choose_hero:
     choose_hero: "Kies je held"
@@ -489,6 +504,46 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     matt_title: "Programmeur"
     matt_blurb: "Fietser"
 
+#  teachers:
+#    title: "CodeCombat for Teachers"
+#    preparation_title: "Preparation"
+#    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
+#    preparation_play_campaign: "play through the campaign"
+#    preparation_2: "to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer."
+#    preparation_3: "It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat."
+#    violent_title: "Is it violent?"
+#    violent_1: "We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language."
+#    violent_2: "If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat."
+#    for_girls_title: "Is it for girls?"
+#    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
+#    what_cover_title: "What do we cover?"
+#    what_cover_1: "There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:"
+#    what_cover_notation_1: "Formal notation"
+#    what_cover_notation_2: "- builds an understanding of the importance of syntax in programming."
+#    what_cover_methods_1: "Calling methods"
+#    what_cover_methods_2: "- familiarizes students with the syntax of object-oriented method calls."
+#    what_cover_parameters_1: "Parameters"
+#    what_cover_parameters_2: "- trains how to pass parameters to functions."
+#    what_cover_strings_1: "Strings"
+#    what_cover_strings_2: "- teaches students about string notation and passing strings as parameters."
+#    what_cover_loops_1: "Loops"
+#    what_cover_loops_2: "- develops the abstraction of designing short programs with loops."
+#    what_cover_variables_1: "Variables"
+#    what_cover_variables_2: "- adds the skill of referencing values that change over time."
+#    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
+#    what_cover_logic_1: "Conditional logic"
+#    what_cover_logic_2: "- when and how to use if/else to control in-game outcomes."
+#    what_cover_input_1: "Handling player input"
+#    what_cover_input_2: "- responding to input events to create a user interface."
+#    sys_requirements_title: "System Requirements"
+#    sys_requirements_1: "Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of your Hour of Code experience:"
+#    sys_requirements_2: "Use newer versions of Chrome or Firefox."
+#    sys_requirements_3: "Although CodeCombat will work on browsers as old as IE9, the performance is not as good. Chrome is best."
+#    sys_requirements_4: "Use newer computers."
+#    sys_requirements_5: "Older computers, Chromebooks, and netbooks tend to have very few system resources, which makes for a less enjoyable experience. At least 2GB of RAM is required."
+#    sys_requirements_6: "Allow players to wear headphones/earbuds to hear the audio."
+#    sys_requirements_7: "We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting."
+
   versions:
     save_version_title: "Nieuwe versie opslaan"
     new_major_version: "Nieuwe hoofd versie"
@@ -507,7 +562,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     faq_prefix: "Er is ook een"
     faq: "veelgestelde vragen sectie"
     subscribe_prefix: "Als je hulp nodig hebt om een level te halen, overweeg dan alsjeblieft"
-    subscribe:"abonnee te worden van CodeCombat" 
+    subscribe: "abonnee te worden van CodeCombat"
     subscribe_suffix: ", dan helpen we je graag om je code te verbeteren."
     subscriber_support: "Omdat je geabonneerd bent op CodeCombat, krijgt je email prioriteit bij het beantwoorden."
     screenshot_included: "Screenshot inbegrepen."
@@ -528,7 +583,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     admin: "Administrator"
     new_password: "Nieuw Wachtwoord"
     new_password_verify: "Verifieer"
-    email_subscriptions: "Email Abonnementen" #gewijzigd door Jacob. Ik vind e-mail misschien ook mooier, maar voor consistentie gewijzigd
+    email_subscriptions: "Email Abonnementen"
     email_subscriptions_none: "Geen Email Abonnementen."
     email_announcements: "Aankondigingen"
     email_announcements_description: "Verkrijg emails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
@@ -610,7 +665,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     diplomat_summary: "CodeCombat ondersteunt meer dan 45 talen. Word Diplomaat en help met vertalen."
     ambassador_title: "Ambassadeur"
     ambassador_title_description: "(Ondersteuning)"
-    ambassador_summary: "Bewaar de vrede op onze forums en help mensen met vragen. Onze ambassadeurs helpen CodeCombat te presenteren aan de buitenwereld." #niet letterlijk maar misschien maar Engels origineel was misschien niet net
+    ambassador_summary: "Bewaar de vrede op onze forums en help mensen met vragen. Onze ambassadeurs helpen CodeCombat te presenteren aan de buitenwereld."
 
   editor:
     main_title: "CodeCombat Editors"
@@ -678,7 +733,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     new_level_title_login: "Log In om een New Level te maken"
     new_achievement_title: "Maak een Nieuwe Prestatie"
     new_achievement_title_login: "Log In om een Nieuwe Prestatie te maken"
-    article_search_title: "Zoek Artikelen Hier" #Jacob edited an existing translation
+    article_search_title: "Zoek Artikelen Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
     achievement_search_title: "Zoek Prestaties"
@@ -686,7 +741,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_achievements: "Er zijn nog geen achievements toegevoegd voor dit level"
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
-    level_completion: "Level Voltooiing" #mogelijk:Het afmaken van een level. Context? #Suboptimaal
+    level_completion: "Level Voltooiing"
 #    pop_i18n: "Populate I18N"
     tasks: "Taken"
 
@@ -742,7 +797,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     diplomat_introduction_suf: "dan is het wel dat er een enorme belangstelling is voor CodeCombat in andere landen, vooral Brazilië! We zijn een groep van vertalers aan het creëren dat ijverig de ene set woorden in de andere omzet om CodeCombat zo toegankelijk mogelijk te maken in de hele wereld. Als jij het leuk vindt glimpsen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide talen goed te begrijpen!"
 #    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
-    diplomat_i18n_page: "vertalingen pagina" #deel van Engelse zin. Nederlands werkt zo niet.
+    diplomat_i18n_page: "vertalingen pagina"
 #    diplomat_i18n_page_suffix: ", or our interface and website on GitHub."
     diplomat_join_pref_github: "Vind van jouw taal het locale bestand "
     diplomat_github_url: "op GitHub"
@@ -810,14 +865,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tournament_ends: "Toernooi eindigt"
     tournament_ended: "Toernooi geeindigd"
     tournament_rules: "Toernooi regels"
-    tournament_blurb: "Schrijf code, verzamel goud, bouw legers, verpletter je tegenstanders, win prijzen en verbeter je carrière in ons $40,000 Greed toernooi! Zie de details" #Suboptimaal
+    tournament_blurb: "Schrijf code, verzamel goud, bouw legers, verpletter je tegenstanders, win prijzen en verbeter je carrière in ons $40,000 Greed toernooi! Zie de details"
     tournament_blurb_criss_cross: "Win biedingen, bouw paden, wees je tegenstander te slim af, pak edelstenen en verbeter je carrière in ons Criss-Cross toernooi! Zie de details"
     tournament_blurb_blog: "op ons blog"
     rules: "Regels"
     winners: "Winnaars"
 
   user:
-    stats: "Statistieken" #Misschien gegevens
+    stats: "Statistieken"
 #    singleplayer_title: "Singleplayer Levels"
 #    multiplayer_title: "Multiplayer Levels"
     achievements_title: "Prestaties"
