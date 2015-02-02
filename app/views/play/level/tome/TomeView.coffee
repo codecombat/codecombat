@@ -206,7 +206,7 @@ module.exports = class TomeView extends CocoView
       @spellTabView = spell.tabView
       @$el.find('#' + @spellView.id).after(@spellView.el).remove()
       @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
-      @castButton.attachTo @spellView
+      @castButton?.attachTo @spellView
       Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     @updateSpellPalette thang, spell
     @spellList.setThangAndSpell thang, spell
