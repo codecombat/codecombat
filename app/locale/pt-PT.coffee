@@ -322,7 +322,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_lines_of_code: "Medir o progresso em programação pelo número de linhas de código é como medir o progresso da construção de um avião pelo peso. — Bill Gates"
     tip_source_code: "Quero mudar o mundo, mas não há maneira de me darem o código-fonte."
     tip_javascript_java: "Java é para JavaScript o mesmo que Carro (Car) para Tapete (Carpet). - Chris Heilmann"
-#    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_move_forward: "Faças o que fizeres, segue em frente. - Martin Luther King Jr."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -341,18 +341,18 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     multiplayer_caption: "Joga com amigos!"
     auth_caption: "Guarda o teu progresso."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
-#    top_solutions: "Top Solutions"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+  leaderboard:
+    leaderboard: "Tabela de Classificação"
+    view_other_solutions: "Ver Outras Soluções"
+    top_solutions: "Melhores Soluções"
+    day: "Hoje"
+    week: "Esta Semana"
+    all: "Sempre"
+    time: "Tempo"
+    damage_taken: "Dano Recebido"
+    damage_dealt: "Dano Infligido"
+    difficulty: "Dificuldade"
+    gold_collected: "Ouro Recolhido"
 
   inventory:
     choose_inventory: "Equipar Itens"
@@ -401,7 +401,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     subscribe_button: "Subscrever Agora"
     stripe_description: "Subscrição Mensal"
     subscription_required_to_play: "Precisas de uma subscrição para jogares este nível."
-#    unlock_help_videos: "Subscribe to unlock all video tutorials."
+    unlock_help_videos: "Subscreve-te para desbloqueares todos os tutoriais em vídeo."
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
