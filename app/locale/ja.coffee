@@ -3,7 +3,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイしてコードを学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。" # Warning that shows up on mobile devices
-    play: "ゲーム スタート" # The big play button that opens up the campaign view.
+    play: "ゲーム    スタート" # The big play button that opens up the campaign view. spaces are for better text read.
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -14,7 +14,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    or_ipad: "Or download for iPad"
 
   nav:
-    play: "ゲームスタート" # The top nav bar entry where players choose which levels to play
+    play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play - Translated this as "to game map" for better translation.
     community: "コミュニティー"
     editor: "レベルエディター"
     blog: "ブログ"
@@ -54,18 +54,18 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     hours_played: "プレイ時間"  # Hover over a level on /play
     items: "アイテム" # Tooltip on item shop button from /play
     unlock: "アンロック" # For purchasing items and heroes
-    confirm: "確認する"
+    confirm: "ロックを解除？"
     owned: "所有品" # For items you own
     locked: "ロック"
     purchasable: "購入可能" # For a hero you unlocked but haven't purchased
     available: "使用可能" #translated as "use is possible - as in available"
-    skills_granted: "スキルが追加された" # Property documentation details #translated as "skill added"
+    skills_granted: "追加されるスキル" # Property documentation details #translated as "skill added"
     heroes: "ヒーロー" # Tooltip on hero shop button from /play
     achievements: "実績" # Tooltip on achievement list button from /play
     account: "アカウント" # Tooltip on account button from /play
     settings: "設定" # Tooltip on settings button from /play
     next: "次へ" # Go from choose hero to choose inventory before playing a level
-    change_hero: "ヒーロー選択" # Go back from choose inventory to choose hero
+    change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
     choose_inventory: "アイテムを装備"
     buy_gems: "ジェムを購入"
     subscription_required: "サブスクリプション必須"
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     awaiting_levels_adventurer_prefix: "私たちは週に5つのレベルをリリースします" # "We release five levels per week."
     awaiting_levels_adventurer: "冒険者として登録" #"Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "音量を調整する" #"Adjust volume"
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
@@ -132,11 +132,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   common:
     loading: "ロード中"
-    saving: "保存中..."
+    saving: "セーブ中..."
     sending: "送信中..."
     send: "送信"
     cancel: "キャンセル"
-    save: "保存"
+    save: "セーブ"
     publish: "発行"
     create: "作成"
     manual: "手動"
@@ -151,53 +151,53 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
-#  general:
-#    and: "and"
-#    name: "Name"
-#    date: "Date"
-#    body: "Body"
-#    version: "Version"
-#    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
-#    withdrawn: "Withdrawn"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
-#    commit_msg: "Commit Message"
-#    review: "Review"
-#    version_history: "Version History"
-#    version_history_for: "Version History for: "
-#    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
-#    result: "Result"
-#    results: "Results"
-#    description: "Description"
-#    or: "or"
-#    subject: "Subject"
-#    email: "Email"
-#    password: "Password"
-#    message: "Message"
-#    code: "Code"
-#    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Opponent"
-#    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
-#    ranger: "Ranger"
-#    wizard: "Wizard"
+  general:
+    and: "と" #need to revisit if it is correct in context.
+    name: "名前"
+    date: "日付"
+    body: "Body"
+    version: "バージョン"
+    pending: "ペンディング"
+    accepted: "容認された" # "Accepted" –translated as ‘approved’
+    rejected: "拒否された" #"Rejected" – translated as ‘denied’
+    withdrawn: "取り下げられました" #"Withdrawn" – translated as ‘has been withdrawn.’
+    submitter: "提出者"
+    submitted: "提出されました"
+    commit_msg: "コミットメッセージ"
+    review: "レビュー"
+    version_history: "バージョン履歴" #"Version History"
+    version_history_for: "バージョン履歴：" #may need to revisit if context is not correct. "Version History for: "
+    select_changes: "違いを見るには以下の二つの変更を選んで下さい" #"Select two changes below to see the difference."
+    undo_prefix: "取り消す" #"Undo"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "やり直す" #"Redo"
+    redo_shortcut: "(Ctrl+Shift+Z)"
+    play_preview: "現在のレベルのプレビューを再生" #"Play preview of current level"
+    result: "結果"
+    results: "結果"
+    description: "説明"
+    or: "又は"
+    subject: "件名"
+    email: "メール"
+    password: "パスワード"
+    message: "メッセージ"
+    code: "コード"
+    ladder: "ラダー"
+    when: "いつ"
+    opponent: "対戦者"
+    rank: "ランク"
+    score: "スコア"
+    win: "勝ち"
+    loss: "負け"
+    tie: "引分"
+    easy: "イージー"
+    medium: "ミディアム"
+    hard: "ハード"
+    player: "プレイヤー"
+    player_level: "プレーヤレベル" # Like player level 5, not like level: Dungeons of Kithgard - translated as 'player level'
+    warrior: "戦士"
+    ranger: "レンジャー"
+    wizard: "ウィザード"
 
   units:
     second: "秒"
@@ -225,34 +225,34 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     restart: "再始動"
     goals: "目標"
     goal: "目標"
-#    running: "Running..."
+    running: "コンパイル中..."  #"Running... " – translated as ‘compiling…’
     success: "成功！" #"Success!"
     incomplete: "不完全" #"Incomplete"
     timed_out: "時間切れ" #"Ran out of time"
 #    failing: "Failing"
     action_timeline: "アクション・タイムライン"
     click_to_select: "ユニットを左クリックで選択してください"
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "マルチプレイ"
+    control_bar_join_game: "ゲームに参加する"
+    reload: "リロード"
     reload_title: "コードを再読み込ますか？"
     reload_really: "レベルをリセットします。よろしいですか？"
     reload_confirm: "リセットする"
-#    victory: "Victory"
+    victory: "勝利"
 #    victory_title_prefix: ""
     victory_title_suffix: "クリア"
-    victory_sign_up: "進行状況を保存するにはアカウント登録をしてください"
-    victory_sign_up_poke: "あなたのコードを保存してみませんか? 無料アカウント登録!"
+    victory_sign_up: "進行状況をセーブするにはアカウント登録をしてください"
+    victory_sign_up_poke: "あなたのコードをセーブしてみませんか? 無料アカウント登録!"
     victory_rate_the_level: "このレベルの評価: " # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_return_to_ladder: "ラダーに戻る"
+    victory_play_continue: "コンテニュー"
+    victory_saving_progress: "セーブ中"
     victory_go_home: "ホームに戻る" # Only in old-style levels.
     victory_review: "フィードバック" # Only in old-style levels.
     victory_hour_of_code_done: "完了してよろしいですか?"
     victory_hour_of_code_done_yes: "はい、構いません"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
+    victory_experience_gained: "XP獲得" #"XP Gained"
+    victory_gems_gained: "ジェム獲得" #"Gems Gained"
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文" # Only in old-style levels.
     tome_read_only_spells: "読込専用の呪文" # Only in old-style levels.
@@ -269,7 +269,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tome_your_skills: "Your Skills"
 #    tome_help: "Help"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "コンテニュー"
 #    code_saved: "Code Saved"
     skip_tutorial: "スキップ (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
@@ -324,46 +324,46 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
-#    guide_video_tutorial: "Video Tutorial"
-#    guide_tips: "Tips"
+    inventory_tab: "インベントリー"
+    save_load_tab: "セーブ//ロード"
+    options_tab: "設定"
+    guide_tab: "ガイド"
+    guide_video_tutorial: "チュートリアル動画"
+    guide_tips: "ヒント"
     multiplayer_tab: "マルチプレイ"
-#    auth_tab: "Sign Up"
-#    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
-#    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
-#    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
-#    auth_caption: "Save your progress."
+    auth_tab: "登録する"
+    inventory_caption: "ヒーローの装備を選ぶ" #"Equip your hero"
+    choose_hero_caption: "ヒーロー、言語と" #"Choose hero, language"
+    save_load_caption: "...視聴履歴を選択する" #"... and view history"
+    options_caption: "設定を行う" #"Configure settings"
+    guide_caption: "ガイドとヒント" #"Docs and tips"
+    multiplayer_caption: "友達とプレイ！" #"Play with friends!"
+    auth_caption: "進行状況をセーブする"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
-#    equipped_item: "Equipped"
-#    required_purchase_title: "Required"
-#    available_item: "Available"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+  inventory:
+    choose_inventory: "アイテムを装備" #"Equip Items"
+    equipped_item: "装備済み" #"Equiped"
+    required_purchase_title: "必須品" #"Required" -translated as required item.
+    available_item: "使用可能" #"Available"
+    restricted_title: "制限品" #"Restricted" -translated as restricted item.
+    should_equip: "(ダブルクリックで装備)" #"(double-click to equip)"
+    equipped: "(装備済み)" #"(equipped)"
+    locked: "(ロック)" #"(locked)"
+    restricted: "(このレベルでは制限品)" #"(restricted in this level)"
+    equip: "装備する" #"Equip"
+    unequip: "装備を外す" #"Unequip"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
-#    recovered: "Previous gems purchase recovered. Please refresh the page."
+  buy_gems:
+    few_gems: "少し購入" #"A few gems"
+    pile_gems: "多く購入" #"Pile of gems"
+    chest_gems: "宝箱を購入" #"Chest of gems"
+    purchasing: "購入中..." #"Purchasing..."
+    declined: "カードが拒否されました。" #"Your card was declined"
+    retrying: "サーバーエラー、再試行中。" #"Server error, retrying."
+    prompt_title: "ジェムが足りません。" #"Not Enough Gems"
+    prompt_body: "もっと購入しますか？" #"Do you want to get more?"
+    prompt_button: "ショップに入る" #"Enter Shop"
+    recovered: "前のジェム購入をリカバリーしました。ページを更新してください。" #"Previous gems purchase recovered. Please refresh the page."
 
 #  subscribe:
 #    subscribe_title: "Subscribe"
@@ -388,34 +388,34 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    default: "Default"
-#    experimental: "Experimental"
-#    python_blurb: "Simple yet powerful, great for beginners and experts."
-#    javascript_blurb: "The language of the web. (Not the same as Java.)"
-#    coffeescript_blurb: "Nicer JavaScript syntax."
-#    clojure_blurb: "A modern Lisp."
-#    lua_blurb: "Game scripting language."
-#    io_blurb: "Simple but obscure."
-#    status: "Status"
-#    weapons: "Weapons"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
-#    health: "Health"
-#    speed: "Speed"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-#    skills: "Skills"
-#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+  choose_hero:
+    choose_hero: "ヒーローの選択" #"Choose Your Hero"
+    programming_language: "プログラミング言語" #"Programming Language"
+    programming_language_description: "どのプログラミング言語を使いますか？" #"Which programming language do you want to use?"
+#    default: "デフォルト" #"Default"  when uncommented, seems to cause compile error 'Default' is compiler specific key word? if so not sure how to correctly read this line of code.
+    experimental: "実験的" #"Experimental"
+    python_blurb: "シンプルで強力、初心者や専門家でも使える。" #"Simple yet powerful, great for beginners and experts."
+    javascript_blurb: "ウェブの言語。(Javaと同じではありません。)" #"The language of the web. (Not the same as Java.)"
+    coffeescript_blurb: "より良いJavaScriptのシンタックス。" #"Nicer JavaScript syntax."
+    clojure_blurb: "現代のリスプ。" #"A modern Lisp."
+    lua_blurb: "ゲーム専用のスクリプト言語。" #"Game scripting language."
+    io_blurb: "シンプルだがあいまい。" #"Simple but obscure."
+    status: "ステータス" #"Status"
+    weapons: "武器" #"Weapons"
+    weapons_warrior: "剣 - 攻撃範囲:短い- 魔法使用不可" #"Swords - Short Range, No Magic"
+    weapons_ranger: "クロスボウ, 銃 - 攻撃範囲:長い- 魔法使用不可" #"Crossbows, Guns - Long Range, No Magic"
+    weapons_wizard: "ワンド、杖- 攻撃範囲:長い- 魔法使用可能" #"Wands, Staffs - Long Range, Magic"
+    attack: "攻撃力" #"Damage" Can also translate as "Attack"
+    health: "体力" #"Health"
+    speed: "移動速度" #"Speed" - translated as movement speed.
+    regeneration: "自動回復度" #"Regeneration" translated as automatic heal speed
+    range: "攻撃範囲" #"Range" # As in "attack or visual range" translated as attack range
+    blocks: "ブロックパワー" #"Blocks" As in "this shield blocks this much damage" translated as block power
+    backstab: "バックスタブ #""Backstab" As in "this dagger does this much backstab damage"
+    skills: "スキル"
+    available_for_purchase: "購入可能" #"Available for Purchase" - Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "アンロックレベル：" #"Level to unlock:" Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    restricted_to_certain_heroes: "特定のヒーローのみ、このレベルをプレイする事が出来ます。" #"Only certain heroes can play this level."
 
 #  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
@@ -490,7 +490,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    matt_blurb: "Bicyclist"
 
   versions:
-    save_version_title: "新しいバージョンを保存"
+    save_version_title: "新しいバージョンをセーブ"
     new_major_version: "メジャーバージョンを新しくする"
 #    submitting_patch: "Submitting Patch..."
     cla_prefix: "変更を適用するには, 私達のCLAに同意する必要があります。"
