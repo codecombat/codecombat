@@ -27,7 +27,7 @@ module.exports = class LadderPlayModal extends ModalView
   constructor: (options, @level, @session, @team) ->
     super(options)
     @nameMap = {}
-    @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
+    @otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
 

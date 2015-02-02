@@ -322,6 +322,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_lines_of_code: "Medir o progresso em programação pelo número de linhas de código é como medir o progresso da construção de um avião pelo peso. — Bill Gates"
     tip_source_code: "Quero mudar o mundo, mas não há maneira de me darem o código-fonte."
     tip_javascript_java: "Java é para JavaScript o mesmo que Carro (Car) para Tapete (Carpet). - Chris Heilmann"
+    tip_move_forward: "Faças o que fizeres, segue em frente. - Martin Luther King Jr."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -339,6 +340,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     guide_caption: "Documentos e dicas"
     multiplayer_caption: "Joga com amigos!"
     auth_caption: "Guarda o teu progresso."
+
+  leaderboard:
+    leaderboard: "Tabela de Classificação"
+    view_other_solutions: "Ver Outras Soluções"
+    top_solutions: "Melhores Soluções"
+    day: "Hoje"
+    week: "Esta Semana"
+    all: "Sempre"
+    time: "Tempo"
+    damage_taken: "Dano Recebido"
+    damage_dealt: "Dano Infligido"
+    difficulty: "Dificuldade"
+    gold_collected: "Ouro Recolhido"
 
   inventory:
     choose_inventory: "Equipar Itens"
@@ -387,6 +401,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     subscribe_button: "Subscrever Agora"
     stripe_description: "Subscrição Mensal"
     subscription_required_to_play: "Precisas de uma subscrição para jogares este nível."
+    unlock_help_videos: "Subscreve-te para desbloqueares todos os tutoriais em vídeo."
 
   choose_hero:
     choose_hero: "Escolhe o Teu Herói"
@@ -488,6 +503,46 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     michael_blurb: "Administrador do Sistema"
     matt_title: "Programador"
     matt_blurb: "Ciclista"
+
+#  teachers:
+#    title: "CodeCombat for Teachers"
+#    preparation_title: "Preparation"
+#    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
+#    preparation_play_campaign: "play through the campaign"
+#    preparation_2: "to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer."
+#    preparation_3: "It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat."
+#    violent_title: "Is it violent?"
+#    violent_1: "We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language."
+#    violent_2: "If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat."
+#    for_girls_title: "Is it for girls?"
+#    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
+#    what_cover_title: "What do we cover?"
+#    what_cover_1: "There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:"
+#    what_cover_notation_1: "Formal notation"
+#    what_cover_notation_2: "- builds an understanding of the importance of syntax in programming."
+#    what_cover_methods_1: "Calling methods"
+#    what_cover_methods_2: "- familiarizes students with the syntax of object-oriented method calls."
+#    what_cover_parameters_1: "Parameters"
+#    what_cover_parameters_2: "- trains how to pass parameters to functions."
+#    what_cover_strings_1: "Strings"
+#    what_cover_strings_2: "- teaches students about string notation and passing strings as parameters."
+#    what_cover_loops_1: "Loops"
+#    what_cover_loops_2: "- develops the abstraction of designing short programs with loops."
+#    what_cover_variables_1: "Variables"
+#    what_cover_variables_2: "- adds the skill of referencing values that change over time."
+#    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
+#    what_cover_logic_1: "Conditional logic"
+#    what_cover_logic_2: "- when and how to use if/else to control in-game outcomes."
+#    what_cover_input_1: "Handling player input"
+#    what_cover_input_2: "- responding to input events to create a user interface."
+#    sys_requirements_title: "System Requirements"
+#    sys_requirements_1: "Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of your Hour of Code experience:"
+#    sys_requirements_2: "Use newer versions of Chrome or Firefox."
+#    sys_requirements_3: "Although CodeCombat will work on browsers as old as IE9, the performance is not as good. Chrome is best."
+#    sys_requirements_4: "Use newer computers."
+#    sys_requirements_5: "Older computers, Chromebooks, and netbooks tend to have very few system resources, which makes for a less enjoyable experience. At least 2GB of RAM is required."
+#    sys_requirements_6: "Allow players to wear headphones/earbuds to hear the audio."
+#    sys_requirements_7: "We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting."
 
   versions:
     save_version_title: "Guardar Nova Versão"

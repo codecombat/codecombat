@@ -322,6 +322,7 @@
     tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
     tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
+    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 
   game_menu:
     inventory_tab: "Inventory"
@@ -400,7 +401,7 @@
     subscribe_button: "Subscribe Now"
     stripe_description: "Monthly Subscription"
     subscription_required_to_play: "You'll need a subscription to play this level."
-    unlock_help_vidoes: "Subscribe to unlock all video tutorials."
+    unlock_help_videos: "Subscribe to unlock all video tutorials."
 
   choose_hero:
     choose_hero: "Choose Your Hero"
