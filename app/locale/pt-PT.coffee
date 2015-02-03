@@ -764,7 +764,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     join_desc_2: "para começares, e assinalar a caixa abaixo para te declarares um bravo Arcomago e receberes as últimas notícias por e-mail. Queres falar sobre o que fazer ou como te envolveres mais profundamente no projeto? "
     join_desc_3: " ou encontra-nos na nossa "
     join_desc_4: "e começamos a partir daí!"
-    join_url_email: "Envia-nos um e-mail"
+    join_url_email: "Envia-nos uma mensagem"
     join_url_hipchat: "sala HipChat pública"
     archmage_subscribe_desc: "Receber e-mails relativos a novas oportunidades de programação e anúncios."
     artisan_introduction_pref: "Temos de construir mais níveis! As pessoas estão a pedir mais conteúdo, e nós mesmos só podemos construir estes tantos. Neste momento, a tua estação de trabalho é o nível um; o nosso editor de nível é pouco utilizável, até mesmo pelos seus criadores, por isso fica atento. Se tens visões de campanhas que abranjam 'for-loops' para o"
