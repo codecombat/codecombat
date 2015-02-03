@@ -412,26 +412,29 @@ $gameControlMargin: 30px
   #campaign-status
     position: absolute
     left: 0
-    top: 5px
+    top: 0
     width: 100%
     margin: 0
     text-align: center
-    color: rgb(254,188,68)
-    font-size: 30px
+    color: rgb(232, 217, 87)
+    font-size: 28px
     text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
     z-index: 30
     pointer-events: none
 
     .campaign-status-background
-      background-color: rgba(255, 255, 255, 0.5)
+      background: transparent url(/images/pages/play/campaign-banner.png) no-repeat center center
       border-radius: 10px
-      padding: 10px
+      padding-top: 30px
       display: inline-block
+      min-width: 250px
+      height: 106px
 
-      img.banner
-        height: 50px
-        vertical-align: bottom
-        margin: -20px 0 -6px 5px
+      .campaign-name
+        line-height: 26px
+
+      .levels-completed
+        font-size: 22px
 
   .particle-man
     z-index: 2

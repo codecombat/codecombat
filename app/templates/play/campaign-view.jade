@@ -85,12 +85,12 @@ button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume
 if campaign.loaded
   h1#campaign-status
     .campaign-status-background
-      - var fullName = i18n(campaign.attributes, 'fullName')
-      if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
-        // We have a translation.
-        span= fullName
-        | :
-      span.spl.spr= levelsCompleted
-      | /
-      span.spl= levelsTotal
-      img.banner(src="/images/pages/play/level-banner-complete.png")
+      .campaign-name
+        - var fullName = i18n(campaign.attributes, 'fullName')
+        if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
+          // We have a translation.
+          span= fullName
+      .levels-completed
+        span= levelsCompleted
+        | /
+        span= levelsTotal
