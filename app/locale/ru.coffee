@@ -322,7 +322,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_lines_of_code: "Измерение прогресса программирования в строках кода - это как измерять прогресс построения самолета по его весу. — Bill Gates"
     tip_source_code: "Я хочу изменить мир, но они вряд ли дадут мне исходники."
     tip_javascript_java: "Java к JavaScript относится так же, как кол относится к колготкам. - Chris Heilmann (перефраз.)"
-#    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_move_forward: "Что бы вы ни делали, вы должны двигаться вперед. - Мартин Лютер Кинг младший."
 
   game_menu:
     inventory_tab: "Инвентарь"
