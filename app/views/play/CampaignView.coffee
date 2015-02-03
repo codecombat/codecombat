@@ -100,6 +100,7 @@ module.exports = class CampaignView extends RootView
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     @musicPlayer?.destroy()
     clearTimeout @playMusicTimeout
+    @particleMan?.destroy()
     super()
 
   getLevelPlayCounts: ->
@@ -186,9 +187,9 @@ module.exports = class CampaignView extends RootView
     super()
     @onWindowResize()
     unless application.isIPadApp
-      _.defer => @$el?.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
+      _.defer => @$el?.find('.game-controls .btn').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
       view = @
-      @$el.find('.level, .campaign-switch').tooltip().each ->
+      @$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each ->
         return unless me.isAdmin()
         $(@).draggable().on 'dragstop', ->
           bg = $('.map-background')
@@ -275,6 +276,7 @@ module.exports = class CampaignView extends RootView
       particleKey.push level.type if level.type and level.type isnt 'hero'
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
+      particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       continue if particleKey.length is 2  # Don't show basic levels
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 

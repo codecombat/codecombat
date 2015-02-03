@@ -1093,5 +1093,6 @@ module.exports = class SpellView extends CocoView
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
     @debugView?.destroy()
+    @toolbarView?.destroy()
     $(window).off 'resize', @onWindowResize
     super()

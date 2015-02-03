@@ -7,7 +7,7 @@
 
   each level in levels
     if !level.hidden
-      div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatusMap[level.slug] || "", data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
+      div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
         if level.unlocksHero && (!level.purchasedHero || editorMode)
           img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
         a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
@@ -17,7 +17,7 @@
           img.banner(src="/images/pages/play/level-banner-complete.png")
         if levelStatusMap[level.slug] === 'started'
           img.banner(src="/images/pages/play/level-banner-started.png")
-      div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + levelStatusMap[level.slug] || "")
+      div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
       .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
         div(class="level-info " + (levelStatusMap[level.slug] || ""))
           h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))

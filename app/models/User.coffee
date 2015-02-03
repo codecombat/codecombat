@@ -125,7 +125,6 @@ module.exports = class User extends CocoModel
 
   getForeshadowsLevels: ->
     return @foreshadowsLevels if @foreshadowsLevels?
-    return false  # bad performance problems, reenable later
     group = me.get('testGroupNumber') % 16
     @foreshadowsLevels = switch group
       when 0, 1, 2, 3, 4, 5, 6, 7 then true
