@@ -19,7 +19,9 @@
           img.banner(src="/images/pages/play/level-banner-started.png")
       div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
       .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-        div(class="level-info " + (levelStatusMap[level.slug] || ""))
+        - var playCount = levelPlayCountMap[level.slug]
+        div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : ""))
+          .level-status
           h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
           - var description = i18n(level, 'description') || level.description || ""
           .level-description!= marked(description)
@@ -30,16 +32,17 @@
                 strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
               span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
               
-          - var playCount = levelPlayCountMap[level.slug]
-          if playCount && playCount.sessions > 20
-            div
-              span.spr #{playCount.sessions}
-              span(data-i18n="play.players") players
-              span.spr , #{Math.round(playCount.playtime / 3600)}
-              span(data-i18n="play.hours_played") hours played
-
-        if isIPadApp && !level.disabled && !level.locked
-          button.btn.btn-success.btn-lg.start-level(data-i18n="common.play") Play
+          if !level.disabled && !level.locked
+            if playCount && playCount.sessions
+              .play-counts.hidden
+                span.spl.spr= playCount.sessions
+                span(data-i18n="play.players") players
+                span.spr , #{Math.round(playCount.playtime / 3600)}
+                span(data-i18n="play.hours_played") hours played
+            if levelStatusMap[level.slug] === 'complete'
+              button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
+                span(data-i18n="leaderboard.scores")
+            button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
     else if level.unlocksHero && !level.purchasedHero
       img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
   

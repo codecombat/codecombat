@@ -201,37 +201,61 @@ $gameControlMargin: 30px
       display: none
       position: absolute
       z-index: 3
-      padding: 10px
-      border-width: 16px 12px
-      // Using modernizr-mixin for compat detection
-      @include yep(borderimage)
-        border-style: solid
-        border-image: url(/images/level/popover_border_background.png) 16 12 fill round
-      @include nope(borderimage)
-        background-color: rgb(247, 242, 218)
+      width: 362px
+      //min-height: 179px
+      padding: 17px 20px 20px 20px
+      border: 0
+      background: transparent url(/images/pages/play/level-info-background.png) no-repeat center center
+      background-size: 100% 100%
 
-      .level-info.complete h3:after
-        content: " - Complete!"
-        color: green
-    
-      .level-info.started h3:after
-        content: " - Started"
-        color: desaturate(green, 50%)
-    
       .level-info
+
         h3
-          margin-top: 0
-          margin-bottom: 0px
+          color: rgb(232, 217, 87)
+          text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+          padding: 0 2px
+          margin: 0 0 10px 31px
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
 
         .level-description
           color: black
-          text-shadow: 0 1px 0 white
 
-      .start-level
-        display: block
-        margin: 10px auto 0 auto
-        width: 200px
-      
+        .level-status
+          background: transparent url(/images/pages/play/level-info-status-spritesheet.png) no-repeat 0 0
+          width: 60px
+          height: 60px
+          position: absolute
+          left: -15px
+          top: -15px
+
+        &.complete .level-status
+          background-position: -60px 0
+
+        &.premium .level-status
+          background-position: -120px 0
+
+        &.complete.premium .level-status
+          background-position: -180px 0
+
+        .start-level
+          min-width: 200px
+          display: block
+          margin: 10px auto 0 auto
+  
+        &.complete
+          .start-level, .view-solutions
+            min-width: initial
+            display: inline-block
+            width: calc(50% - 5px)
+
+          .start-level
+            margin: 10px 0 0 5px
+
+          .view-solutions
+            margin: 10px 5px 0 0
+
     .campaign-switch
       color: purple
       position: absolute
@@ -440,16 +464,7 @@ $gameControlMargin: 30px
     z-index: 2
 
 
-body:not(.ipad) #campaign-view
-  .level-info-container
-    pointer-events: none
-
-  
-
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.
   .campaign-switch
-    display: none
-
-  .old-levels
     display: none
