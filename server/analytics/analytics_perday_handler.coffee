@@ -97,7 +97,7 @@ class AnalyticsPerDayHandler extends Handler
           @sendSuccess res, completions
 
     getLevelData = (campaignLevels) =>
-      # 2. Get ordered level slugs and string ID to level slug mappping
+      # 2. Get ordered level slugs and string ID to level slug mapping
       # Input:
       # campaignLevels - array of Level IDs
 
