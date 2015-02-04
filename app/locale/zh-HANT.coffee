@@ -1234,7 +1234,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    other_developers: "Other Developers"
 #    inactive_developers: "Inactive Developers"
 
-#  admin:
+  admin:
 #    av_espionage: "Espionage" # Really not important to translate /admin controls.
     av_espionage_placeholder: "信箱或用戶名"
     av_usersearch: "用戶搜尋"
