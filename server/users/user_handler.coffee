@@ -264,6 +264,9 @@ UserHandler = class UserHandler extends Handler
         address: email
       email_data:
         name: req.user.get('name') or ''
+    if codeLanguage = req.user.get('aceConfig.language')
+      codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
+      emailParams['email_data']['codeLanguage'] = codeLanguage
     sendwithus.api.send emailParams, (err, result) =>
       if err
         log.error "sendwithus one-time email error: #{err}, result: #{result}"
