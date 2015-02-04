@@ -386,7 +386,7 @@
     feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
     feature3: "30+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
-    feature5: " Video tutorials"
+    feature5: "Video tutorials"
     feature6: "Premium email support"
     free: "Free"
     month: "month"
