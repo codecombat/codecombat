@@ -91,7 +91,7 @@ module.exports = class CampaignView extends RootView
 
   destroy: ->
     @setupManager?.destroy()
-    @$el.find('.ui-draggable').draggable 'destroy'
+    @$el.find('.ui-draggable').off().draggable 'destroy'
     $(window).off 'resize', @onWindowResize
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
@@ -190,7 +190,7 @@ module.exports = class CampaignView extends RootView
       _.defer => @$el?.find('.game-controls .btn').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
       view = @
       @$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each ->
-        return unless me.isAdmin()
+        return unless me.isAdmin() and view.editorMode
         $(@).draggable().on 'dragstop', ->
           bg = $('.map-background')
           x = ($(@).offset().left - bg.offset().left + $(@).outerWidth() / 2) / bg.width()
@@ -288,10 +288,15 @@ module.exports = class CampaignView extends RootView
 
   onClickMap: (e) ->
     @$levelInfo?.hide()
-    # Easy-ish way of figuring out coordinates for placing level dots.
-    x = e.offsetX / @$el.find('.map-background').width()
-    y = (1 - e.offsetY / @$el.find('.map-background').height())
-    console.log "    x: #{(100 * x).toFixed(2)}\n    y: #{(100 * y).toFixed(2)}\n"
+
+  preloadLevel: (levelSlug) ->
+    levelURL = "/db/level/#{levelSlug}"
+    level = new Level().setURL levelURL
+    level = @supermodel.loadModel(level, 'level', null, 0).model
+    sessionURL = "/db/level/#{levelSlug}/session"
+    @preloadedSession = new LevelSession().setURL sessionURL
+    @preloadedSession.levelSlug = levelSlug
+    @preloadedSession.fetch()
 
   onClickLevel: (e) ->
     e.preventDefault()
@@ -305,6 +310,7 @@ module.exports = class CampaignView extends RootView
     @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
     @adjustLevelInfoPosition e
     @endHighlight()
+    @preloadLevel levelSlug
 
   onDoubleClickLevel: (e) ->
     return unless @editorMode
@@ -327,7 +333,9 @@ module.exports = class CampaignView extends RootView
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-slug'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
+    levelSlug = levelElement.data 'level-slug'
+    session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
     @setupManager.open()
     @$levelInfo?.hide()
 
