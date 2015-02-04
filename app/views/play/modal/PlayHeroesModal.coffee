@@ -50,7 +50,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @formatHero hero for hero in @heroes.models
 
   formatHero: (hero) ->
-    hero.name = utils.i18n hero.attributes, 'extendedName' # or whatever the property name ends up being
+    hero.name = utils.i18n hero.attributes, 'extendedName'
     hero.name ?= utils.i18n hero.attributes, 'name'
     hero.description = utils.i18n hero.attributes, 'description'
     hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
@@ -82,14 +82,14 @@ module.exports = class PlayHeroesModal extends ModalView
     @$el.find('.hero-indicator').each ->
       heroID = $(@).data('hero-id')
       hero = _.find heroes, (hero) -> hero.get('original') is heroID
-      $(@).find('.hero-avatar').css('background-image', "url(#{hero.getPortraitURL()})").tooltip()
+      $(@).find('.hero-avatar').css('background-image', "url(#{hero.getPortraitURL()})").addClass('has-tooltip').tooltip()
     @canvasWidth = 313  # @$el.find('canvas').width() # unreliable, whatever
     @canvasHeight = @$el.find('canvas').height()
     heroConfig = @options?.session?.get('heroConfig') ? me.get('heroConfig') ? {}
     heroIndex = Math.max 0, _.findIndex(heroes, ((hero) -> hero.get('original') is heroConfig.thangType))
     @$el.find(".hero-item:nth-child(#{heroIndex + 1}), .hero-indicator:nth-child(#{heroIndex + 1})").addClass('active')
     @onHeroChanged direction: null, relatedTarget: @$el.find('.hero-item')[heroIndex]
-    @$el.find('.hero-stat').tooltip()
+    @$el.find('.hero-stat').addClass('has-tooltip').tooltip()
     @buildCodeLanguages()
 
   rerenderFooter: ->

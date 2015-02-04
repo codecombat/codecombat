@@ -85,4 +85,4 @@ module.exports = class AchievementPopup extends CocoView
     _.delay @initializeTooltips, 1000 # TODO this could be smoother
 
   initializeTooltips: ->
-    $('.progress-bar').tooltip()
+    $('.progress-bar').addClass('has-tooltip').tooltip()

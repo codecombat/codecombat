@@ -145,9 +145,9 @@ $gameControlMargin: 30px
       border-radius: 50%
       background: white
       width: $levelDotWidth * 1.5
-      height: $levelDotHeight * 1.5
+      height: $levelDotHeight * 1.5 / 1.75
       margin-left: -0.5 * $levelDotWidth * 1.5
-      margin-bottom: -$levelDotHeight / 3 * 1.5
+      margin-bottom: -$levelDotHeight / 3 * 1.5 / 1.75
 
     .level-shadow
       z-index: 1
@@ -201,37 +201,61 @@ $gameControlMargin: 30px
       display: none
       position: absolute
       z-index: 3
-      padding: 10px
-      border-width: 16px 12px
-      // Using modernizr-mixin for compat detection
-      @include yep(borderimage)
-        border-style: solid
-        border-image: url(/images/level/popover_border_background.png) 16 12 fill round
-      @include nope(borderimage)
-        background-color: rgb(247, 242, 218)
+      width: 362px
+      //min-height: 179px
+      padding: 17px 20px 20px 20px
+      border: 0
+      background: transparent url(/images/pages/play/level-info-background.png) no-repeat center center
+      background-size: 100% 100%
 
-      .level-info.complete h3:after
-        content: " - Complete!"
-        color: green
-    
-      .level-info.started h3:after
-        content: " - Started"
-        color: desaturate(green, 50%)
-    
       .level-info
+
         h3
-          margin-top: 0
-          margin-bottom: 0px
+          color: rgb(232, 217, 87)
+          text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+          padding: 0 2px
+          margin: 0 0 10px 31px
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
 
         .level-description
           color: black
-          text-shadow: 0 1px 0 white
 
-      .start-level
-        display: block
-        margin: 10px auto 0 auto
-        width: 200px
-      
+        .level-status
+          background: transparent url(/images/pages/play/level-info-status-spritesheet.png) no-repeat 0 0
+          width: 60px
+          height: 60px
+          position: absolute
+          left: -15px
+          top: -15px
+
+        &.complete .level-status
+          background-position: -60px 0
+
+        &.premium .level-status
+          background-position: -120px 0
+
+        &.complete.premium .level-status
+          background-position: -180px 0
+
+        .start-level
+          min-width: 200px
+          display: block
+          margin: 10px auto 0 auto
+  
+        &.complete
+          .start-level, .view-solutions
+            min-width: initial
+            display: inline-block
+            width: calc(50% - 5px)
+
+          .start-level
+            margin: 10px 0 0 5px
+
+          .view-solutions
+            margin: 10px 5px 0 0
+
     .campaign-switch
       color: purple
       position: absolute
@@ -412,41 +436,35 @@ $gameControlMargin: 30px
   #campaign-status
     position: absolute
     left: 0
-    top: 5px
+    top: 0
     width: 100%
     margin: 0
     text-align: center
-    color: rgb(254,188,68)
-    font-size: 30px
+    color: rgb(232, 217, 87)
+    font-size: 28px
     text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
     z-index: 30
     pointer-events: none
 
     .campaign-status-background
-      background-color: rgba(255, 255, 255, 0.5)
+      background: transparent url(/images/pages/play/campaign-banner.png) no-repeat center center
       border-radius: 10px
-      padding: 10px
+      padding-top: 30px
       display: inline-block
+      min-width: 250px
+      height: 106px
 
-      img.banner
-        height: 50px
-        vertical-align: bottom
-        margin: -20px 0 -6px 5px
+      .campaign-name
+        line-height: 26px
+
+      .levels-completed
+        font-size: 22px
 
   .particle-man
     z-index: 2
 
 
-body:not(.ipad) #campaign-view
-  .level-info-container
-    pointer-events: none
-
-  
-
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.
   .campaign-switch
-    display: none
-
-  .old-levels
     display: none

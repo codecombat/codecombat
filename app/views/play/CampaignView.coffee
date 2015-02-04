@@ -39,9 +39,7 @@ module.exports = class CampaignView extends RootView
     'click .level a': 'onClickLevel'
     'dblclick .level a': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
-    'mouseenter .level a': 'onMouseEnterLevel'
-    'mouseleave .level a': 'onMouseLeaveLevel'
-    'mousemove .map': 'onMouseMoveMap'
+    'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click #volume-button': 'onToggleVolume'
 
   constructor: (options, @terrain='dungeon') ->
@@ -100,10 +98,12 @@ module.exports = class CampaignView extends RootView
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     @musicPlayer?.destroy()
     clearTimeout @playMusicTimeout
+    @particleMan?.destroy()
     super()
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
+    return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
     success = (levelPlayCounts) =>
       return if @destroyed
       for level in levelPlayCounts
@@ -186,9 +186,9 @@ module.exports = class CampaignView extends RootView
     super()
     @onWindowResize()
     unless application.isIPadApp
-      _.defer => @$el?.find('.game-controls .btn').tooltip()  # Have to defer or i18n doesn't take effect.
+      _.defer => @$el?.find('.game-controls .btn').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
       view = @
-      @$el.find('.level, .campaign-switch').tooltip().each ->
+      @$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each ->
         return unless me.isAdmin()
         $(@).draggable().on 'dragstop', ->
           bg = $('.map-background')
@@ -206,7 +206,7 @@ module.exports = class CampaignView extends RootView
           for nextLevelOriginal in level.nextLevels ? []
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
-      @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true
+      @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true  # Testing
     @applyCampaignStyles()
     @testParticles()
 
@@ -275,6 +275,7 @@ module.exports = class CampaignView extends RootView
       particleKey.push level.type if level.type and level.type isnt 'hero'
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
+      particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       continue if particleKey.length is 2  # Don't show basic levels
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
@@ -300,23 +301,9 @@ module.exports = class CampaignView extends RootView
     levelOriginal = levelElement.data('level-original')
     if @editorMode
       return @trigger 'level-clicked', levelOriginal
-    level = _.find _.values(@campaign.get('levels')), slug: levelSlug
-    if application.isIPadApp
-      @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
-      @adjustLevelInfoPosition e
-      @endHighlight()
-    else
-      if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.slug] and not level.adventurer
-        @openModalView new SubscribeModal()
-        window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
-      else if $(e.target).attr('disabled') and not me.isAdmin()
-        Backbone.Mediator.publish 'router:navigate', route: '/contribute/adventurer'
-        return
-      else if $(e.target).parent().hasClass 'locked'
-        return
-      else
-        @startLevel levelElement
-        window.tracker?.trackEvent 'Clicked Level', category: 'World Map', levelID: levelSlug, ['Google Analytics']
+    @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
+    @adjustLevelInfoPosition e
+    @endHighlight()
 
   onDoubleClickLevel: (e) ->
     return unless @editorMode
@@ -326,8 +313,16 @@ module.exports = class CampaignView extends RootView
 
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
-    @startLevel levelElement
-    window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelElement.data('level-slug'), ['Google Analytics']
+    levelSlug = levelElement.data('level-slug')
+    levelOriginal = levelElement.data('level-original')
+    level = _.find _.values(@campaign.get('levels')), slug: levelSlug
+
+    if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.slug] and not level.adventurer
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
+    else
+      @startLevel levelElement
+      window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug, ['Google Analytics']
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
@@ -335,23 +330,10 @@ module.exports = class CampaignView extends RootView
     @setupManager.open()
     @$levelInfo?.hide()
 
-  onMouseEnterLevel: (e) ->
-    return if application.isIPadApp
-    return if @editorMode
-    levelSlug = $(e.target).parents('.level').data('level-slug')
-    @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
-    @adjustLevelInfoPosition e
-    @endHighlight()
-
-  onMouseLeaveLevel: (e) ->
-    return if application.isIPadApp
-    levelSlug = $(e.target).parents('.level').data('level-slug')
-    @$el.find(".level-info-container[data-level-slug='#{levelSlug}']").hide()
-    @$levelInfo = null
-
-  onMouseMoveMap: (e) ->
-    return if application.isIPadApp
-    @adjustLevelInfoPosition e
+  onClickViewSolutions: (e) ->
+    levelElement = $(e.target).parents('.level-info-container')
+    levelSlug = levelElement.data('level-slug')
+    @showLeaderboard levelSlug
 
   adjustLevelInfoPosition: (e) ->
     return unless @$levelInfo
@@ -364,7 +346,7 @@ module.exports = class CampaignView extends RootView
     @$levelInfo.css('left', Math.min(Math.max(margin, mapX - width / 2), @$map.width() - width - margin))
     height = @$levelInfo.outerHeight()
     top = mapY - @$levelInfo.outerHeight() - 60
-    if top < 20
+    if top < 100
       top = mapY + 60
     @$levelInfo.css('top', top)
 

@@ -344,6 +344,7 @@
   leaderboard:
     leaderboard: "Leaderboard"
     view_other_solutions: "View Other Solutions"
+    scores: "Scores"
     top_solutions: "Top Solutions"
     day: "Today"
     week: "This Week"

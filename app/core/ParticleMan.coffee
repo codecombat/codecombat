@@ -13,13 +13,23 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
 
   destroy: ->
     @detach()
-    # TODO: figure out how to dispose everything
-    # scene.remove(mesh)
-    # mesh.dispose()
-    # geometry.dispose()
-    # material.dispose()
-    # texture.dispose()
+    @disposeObject3D @scene
+    for child in @scene?.children?.slice() or []
+      @scene.remove child
     super()
+
+  disposeObject3D: (obj) ->
+    return unless obj
+    @disposeObject3D child for child in obj.children
+    obj.geometry?.dispose()
+    obj.geometry = undefined
+    if obj.material
+      material.dispose() for material in obj.material.materials ? []
+      obj.material.dispose()
+      obj.material = undefined
+    if obj.texture
+      obj.texture.dispose()
+      obj.texture = undefined
 
   attach: (@$el) ->
     return if @unsupported
@@ -71,7 +81,6 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
 
   addEmitter: (x, y, kind="level-dungeon-premium") ->
     return if @unsupported
-    console.log 'adding kind', kind
     options = $.extend true, {}, particleKinds[kind]
     options.group.texture = THREE.ImageUtils.loadTexture "/images/common/particles/#{options.group.texture}.png"
     scale = 100
@@ -93,7 +102,7 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
   removeEmitters: ->
     return if @unsupported
     @removeEmitter group for group in @particleGroups.slice()
- 
+
   #addTestCube: ->
     #geometry = new THREE.BoxGeometry 5, 5, 5
     #material = new THREE.MeshLambertMaterial color: 0xFF0000
@@ -181,10 +190,19 @@ particleKinds =
       colorMiddle: hsl 0.56, 0.57, 0.5
       colorEnd: hsl 0.56, 0.17, 0.5
 
+particleKinds['level-dungeon-premium-hero'] = ext particleKinds['level-dungeon-premium'],
+  emitter:
+    particleCount: 200
+    radius: 1.5
+    acceleration: vec 0, 4, 0
+    opacityStart: 0.25
+    opacityMiddle: 0.5
+    opacityEnd: 0.75
+
 particleKinds['level-dungeon-gate'] = ext particleKinds['level-dungeon-premium'],
   emitter:
-    particleCount: 120
-    velocity: vec 0, 6, 0
+    particleCount: 2000
+    acceleration: vec 0, 8, 0
     colorStart: hsl 0.5, 0.75, 0.9
     colorMiddle: hsl 0.5, 0.75, 0.7
     colorEnd: hsl 0.5, 0.75, 0.3
@@ -194,11 +212,20 @@ particleKinds['level-dungeon-gate'] = ext particleKinds['level-dungeon-premium']
 
 particleKinds['level-dungeon-hero-ladder'] = ext particleKinds['level-dungeon-premium'],
   emitter:
-    particleCount: 90
-    velocity: vec 0, 4, 0
+    particleCount: 200
+    acceleration: vec 0, 3, 0
     colorStart: hsl 0, 0.75, 0.7
     colorMiddle: hsl 0, 0.75, 0.5
     colorEnd: hsl 0, 0.75, 0.3
+
+particleKinds['level-forest-premium-hero'] = ext particleKinds['level-forest-premium'],
+  emitter:
+    particleCount: 200
+    radius: 1.5
+    acceleration: vec 0, 4, 0
+    opacityStart: 0.25
+    opacityMiddle: 0.5
+    opacityEnd: 0.75
 
 particleKinds['level-forest-gate'] = ext particleKinds['level-forest-premium'],
   emitter:
@@ -219,6 +246,15 @@ particleKinds['level-forest-hero-ladder'] = ext particleKinds['level-forest-prem
     colorMiddle: hsl 0, 1, 0.5
     colorEnd: hsl 0, 0.75, 0.1
 
+particleKinds['level-desert-premium-hero'] = ext particleKinds['level-desert-premium'],
+  emitter:
+    particleCount: 200
+    radius: 1.5
+    acceleration: vec 0, 4, 0
+    opacityStart: 0.25
+    opacityMiddle: 0.5
+    opacityEnd: 0.75
+
 particleKinds['level-desert-gate'] = ext particleKinds['level-desert-premium'],
   emitter:
     particleCount: 120
@@ -238,7 +274,16 @@ particleKinds['level-desert-hero-ladder'] = ext particleKinds['level-desert-prem
     colorMiddle: hsl 0, 1, 0.5
     colorEnd: hsl 0, 0.75, 0.1
 
-particleKinds['level-dungeon-gate'] = ext particleKinds['level-dungeon-premium'],
+particleKinds['level-mountain-premium-hero'] = ext particleKinds['level-mountain-premium'],
+  emitter:
+    particleCount: 200
+    radius: 1.5
+    acceleration: vec 0, 4, 0
+    opacityStart: 0.25
+    opacityMiddle: 0.5
+    opacityEnd: 0.75
+
+particleKinds['level-mountain-gate'] = ext particleKinds['level-mountain-premium'],
   emitter:
     particleCount: 120
     velocity: vec 0, 8, 0
@@ -249,7 +294,7 @@ particleKinds['level-dungeon-gate'] = ext particleKinds['level-dungeon-premium']
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-dungeon-hero-ladder'] = ext particleKinds['level-dungeon-premium'],
+particleKinds['level-mountain-hero-ladder'] = ext particleKinds['level-mountain-premium'],
   emitter:
     particleCount: 90
     velocity: vec 0, 4, 0
