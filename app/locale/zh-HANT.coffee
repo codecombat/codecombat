@@ -544,14 +544,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    sys_requirements_6: "Allow players to wear headphones/earbuds to hear the audio."
 #    sys_requirements_7: "We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting."
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
-#    submitting_patch: "Submitting Patch..."
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "保存新版本"
+    new_major_version: "新的重要版本"
+    submitting_patch: "正在提交修補..."
+    cla_prefix: "想保存修改, 你必須先保存我們的"
+    cla_url: "貢獻者許可協議"
+    cla_suffix: "。"
+    cla_agree: "我同意"
 
   contact:
     contact_us: "聯繫我們"
@@ -559,17 +559,17 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     forum_prefix: "如果有任何問題, 請至"
     forum_page: "論壇"
     forum_suffix: "討論。"
-#    faq_prefix: "There's also a"
-#    faq: "FAQ"
-#    subscribe_prefix: "If you need help figuring out a level, please"
-#    subscribe: "buy a CodeCombat subscription"
-#    subscribe_suffix: "and we'll be happy to help you with your code."
-#    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
-#    screenshot_included: "Screenshot included."
-#    where_reply: "Where should we reply?"
+    faq_prefix: "這裡還有一個"
+    faq: "FAQ"
+    subscribe_prefix: "如果你需要幫助來解決關卡, 請"
+    subscribe: "訂閱CodeCombat"
+    subscribe_suffix: "並且我們樂意提供代碼相關的協助."
+    subscriber_support: "你已經是個CodeCombat訂閱者, 我們將提供優先的協助."
+    screenshot_included: "包含螢幕截圖."
+    where_reply: "我們回覆到?"
     send: "意見反饋"
-#    contact_candidate: "Contact Candidate" # Deprecated
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
+    contact_candidate: "聯繫候選人員" # Deprecated
+    recruitment_reminder: "使用這張表格來聯繫你有興趣的求職者. 記得CodeCombat將收取員工第一年薪水的15%當作佣金. 佣金須在僱用時就必須付清並且之後的90天內如果員工離職則可退款. 兼職, 遠端工作, 契約員工和實習生都可免除費用." # Deprecated
 
   account_settings:
     title: "帳號設定"
