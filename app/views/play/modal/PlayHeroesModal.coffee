@@ -50,7 +50,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @formatHero hero for hero in @heroes.models
 
   formatHero: (hero) ->
-    hero.name = utils.i18n hero.attributes, 'extendedName' # or whatever the property name ends up being
+    hero.name = utils.i18n hero.attributes, 'extendedName'
     hero.name ?= utils.i18n hero.attributes, 'name'
     hero.description = utils.i18n hero.attributes, 'description'
     hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'

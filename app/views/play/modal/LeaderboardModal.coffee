@@ -2,6 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/leaderboard-modal'
 LeaderboardTabView = require 'views/play/modal/LeaderboardTabView'
 Level = require 'models/Level'
+utils = require 'core/utils'
 
 module.exports = class LeaderboardModal extends ModalView
   id: 'leaderboard-modal'
@@ -26,6 +27,7 @@ module.exports = class LeaderboardModal extends ModalView
     for scoreType in @level.get('scoreTypes') ? []
       for timespan in @timespans
         c.submenus.push scoreType: scoreType, timespan: timespan
+    c.levelName = utils.i18n @level.attributes, 'name'
     c
 
   afterRender: ->

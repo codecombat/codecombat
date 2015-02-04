@@ -207,7 +207,7 @@ module.exports = class CampaignView extends RootView
           for nextLevelOriginal in level.nextLevels ? []
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
-      @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true
+      @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true  # Testing
     @applyCampaignStyles()
     @testParticles()
 
