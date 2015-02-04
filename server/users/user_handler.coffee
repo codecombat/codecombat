@@ -9,6 +9,7 @@ errors = require '../commons/errors'
 async = require 'async'
 log = require 'winston'
 moment = require 'moment'
+AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 SubscriptionHandler = require '../payments/subscription_handler'
@@ -17,6 +18,7 @@ EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 {isID} = require '../lib/utils'
 hipchat = require '../hipchat'
+sendwithus = require '../sendwithus'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -232,6 +234,7 @@ UserHandler = class UserHandler extends Handler
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @searchForUser(req, res) if args[1] is 'admin_search'
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
+    return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -243,6 +246,38 @@ UserHandler = class UserHandler extends Handler
       stripe.customers.retrieve customerID, (err, customer) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, JSON.stringify(customer, null, '\t'))
+
+  sendOneTimeEmail: (req, res) ->
+    # TODO: should this API be somewhere else?
+    # TODO: hipchat tower success message shows up as a misleading PaperTrail error message
+    return @sendForbiddenError(res) unless req.user
+    email = req.query.email or req.body.email
+    type = req.query.type or req.body.type
+    return @sendBadInputError res, 'No email given.' unless email?
+    return @sendBadInputError res, 'No type given.' unless type?
+
+    return @sendBadInputError res, "Unknown one-time email type #{type}" unless type is 'subscribe modal parent'
+
+    emailParams =
+      email_id: sendwithus.templates.parent_subscribe_email
+      recipient:
+        address: email
+      email_data:
+        name: req.user.get('name') or ''
+    if codeLanguage = req.user.get('aceConfig.language')
+      codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
+      emailParams['email_data']['codeLanguage'] = codeLanguage
+    sendwithus.api.send emailParams, (err, result) =>
+      if err
+        log.error "sendwithus one-time email error: #{err}, result: #{result}"
+        return @sendError res, 500, 'send mail failed.'
+      req.user.update {$push: {"emails.oneTimes": {type: type, email: email, sent: new Date()}}}, (err) =>
+        return @sendDatabaseError(res, err) if err
+        req.user.save (err) =>
+          return @sendDatabaseError(res, err) if err
+          @sendSuccess(res, {result: 'success'})
+          hipchat.sendTowerHipChatMessage "#{req.user.get('name') or req.user.get('email')} just submitted subscribe modal parent email #{email}."
+          AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user

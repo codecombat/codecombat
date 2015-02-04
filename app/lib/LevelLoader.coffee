@@ -32,6 +32,7 @@ module.exports = class LevelLoader extends CocoClass
     @team = options.team
     @headless = options.headless
     @spectateMode = options.spectateMode ? false
+    @observing = options.observing
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -389,6 +390,8 @@ module.exports = class LevelLoader extends CocoClass
     @world.submissionCount = @session?.get('state')?.submissionCount ? 0
     @world.flagHistory = @session?.get('state')?.flagHistory ? []
     @world.difficulty = @session?.get('state')?.difficulty ? 0
+    if @observing
+      @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'
