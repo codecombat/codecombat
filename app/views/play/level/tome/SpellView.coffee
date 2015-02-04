@@ -783,17 +783,14 @@ module.exports = class SpellView extends CocoView
     if @_singleLineCommentRegex
       @_singleLineCommentRegex.lastIndex = 0
       return @_singleLineCommentRegex
-    commentStarts =
-      javascript: '//'
-      python: '#'
-      coffeescript: '#'
-      clojure: ';'
-      lua: '--'
-      io: '//'
     commentStart = commentStarts[@spell.language] or '//'
     @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
     @_singleLineCommentRegex
-
+  
+  commentOutMyCode: ->
+    prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
+    comment = prefix + commentStarts[@spell.language]
+    
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
     oldSource = @spell.source
@@ -1093,3 +1090,11 @@ module.exports = class SpellView extends CocoView
     @debugView?.destroy()
     $(window).off 'resize', @onWindowResize
     super()
+    
+commentStarts =
+  javascript: '//'
+  python: '#'
+  coffeescript: '#'
+  clojure: ';'
+  lua: '--'
+  io: '//'

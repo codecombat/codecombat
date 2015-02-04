@@ -80,7 +80,7 @@ module.exports = class TomeView extends CocoView
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
       console.log 'Commenting out', spellKey
-      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
