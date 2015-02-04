@@ -124,6 +124,7 @@ module.exports = class CampaignView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
+    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
 
   setCampaign: (@campaign) ->
     @render()
