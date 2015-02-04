@@ -64,6 +64,8 @@ module.exports = class ControlBarView extends CocoView
       c.multiplayerStatus = @multiplayerStatusManager?.status
     if @level.get 'replayable'
       c.levelDifficulty = @session.get('state')?.difficulty ? 0
+      if @observing
+        c.levelDifficulty = Math.max 0, c.levelDifficulty - 1  # Show the difficulty they won, not the next one.
       c.difficultyTitle = "#{$.i18n.t 'play.level_difficulty'}#{c.levelDifficulty}"
       @lastDifficulty = c.levelDifficulty
     c.spectateGame = @spectateGame
