@@ -286,9 +286,6 @@ module.exports = class CampaignView extends RootView
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
     @render()
 
-  onClickMap: (e) ->
-    @$levelInfo?.hide()
-
   preloadLevel: (levelSlug) ->
     levelURL = "/db/level/#{levelSlug}"
     level = new Level().setURL levelURL
@@ -297,6 +294,18 @@ module.exports = class CampaignView extends RootView
     @preloadedSession = new LevelSession().setURL sessionURL
     @preloadedSession.levelSlug = levelSlug
     @preloadedSession.fetch()
+    @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+
+  onSessionPreloaded: (session) ->
+    levelElement = @$el.find('.level-info-container:visible')
+    return unless session.levelSlug is levelElement.data 'level-slug'
+    return unless difficulty = session.get('state')?.difficulty
+    badge = $("<span class='badge'>#{difficulty}</span>")
+    levelElement.find('.start-level .badge').remove()
+    levelElement.find('.start-level').append badge
+
+  onClickMap: (e) ->
+    @$levelInfo?.hide()
 
   onClickLevel: (e) ->
     e.preventDefault()
