@@ -85,6 +85,12 @@ _.extend UserSchema.properties,
     recruitNotes: {$ref: '#/definitions/emailSubscription'}
     employerNotes: {$ref: '#/definitions/emailSubscription'}
 
+    oneTimes: c.array {title: 'One-time emails'},
+      c.object {title: 'One-time email', required: ['type', 'targetEmail']},
+        type: c.shortString() # E.g 'subscribe modal parent'
+        targetEmail: c.shortString()
+        sent: c.date() # Set when sent
+
   # server controlled
   permissions: c.array {}, c.shortString()
   dateCreated: c.date({title: 'Date Joined'})
@@ -272,7 +278,7 @@ _.extend UserSchema.properties,
   purchased: c.RewardSchema 'purchased with gems or money'
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
-  
+
   stripe: c.object {}, {
     customerID: { type: 'string' }
     planID: { enum: ['basic'] }
