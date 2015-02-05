@@ -46,6 +46,7 @@ module.exports = class CampaignView extends RootView
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click #volume-button': 'onToggleVolume'
+    'click #back-button': 'onClickBack'
     'click .portal .campaign': 'onClickPortalCampaign'
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
@@ -515,6 +516,12 @@ module.exports = class CampaignView extends RootView
       else if i is classes.length - 1  # no oldClass
         newI = 2
     @updateVolume volumes[newI]
+
+  onClickBack: (e) ->
+    Backbone.Mediator.publish 'router:navigate',
+      route: "/play"
+      viewClass: CampaignView
+      viewArgs: [{supermodel: @supermodel}]
 
   updateHero: ->
     return unless hero = me.get('heroConfig')?.thangType

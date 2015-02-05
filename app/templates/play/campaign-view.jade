@@ -108,6 +108,10 @@ button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up
 
+if campaign
+  .btn.btn-lg.btn-inverse#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
+    .glyphicon.glyphicon-globe
+
 if campaign && campaign.loaded
   h1#campaign-status
     .campaign-status-background
