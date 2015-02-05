@@ -124,5 +124,6 @@ _.extend CampaignSchema.properties, {
 
 c.extendBasicProperties CampaignSchema, 'campaign'
 c.extendTranslationCoverageProperties CampaignSchema
+c.extendPatchableProperties CampaignSchema
 
 module.exports = CampaignSchema
