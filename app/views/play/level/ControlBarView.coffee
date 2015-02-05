@@ -80,9 +80,8 @@ module.exports = class ControlBarView extends CocoView
       @homeLink = c.homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
       campaign = @level.get 'campaign'
-      if campaign isnt 'dungeon'
-        @homeLink += '/' + campaign
-        @homeViewArgs.push campaign
+      @homeLink += '/' + campaign
+      @homeViewArgs.push campaign
     else
       @homeLink = c.homeLink = '/'
       @homeViewClass = 'views/HomeView'

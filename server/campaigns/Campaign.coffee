@@ -8,5 +8,6 @@ CampaignSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true}
 
 CampaignSchema.plugin(plugins.NamedPlugin)
 CampaignSchema.plugin(plugins.TranslationCoveragePlugin)
+CampaignSchema.plugin plugins.PatchablePlugin
 
 module.exports = mongoose.model('campaign', CampaignSchema)
