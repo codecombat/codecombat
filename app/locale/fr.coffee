@@ -345,7 +345,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     leaderboard: "classement"
     view_other_solutions: "Voir les autres solutions"
     scores: "Scores"
-    top_solutions: "Meilleurs solutions"
+    top_solutions: "Meilleures solutions"
     day: "Aujourd'hui"
     week: "Cette semaine"
     all: "Tous les temps"
