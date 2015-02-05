@@ -35,7 +35,7 @@ PaymentHandler = class PaymentHandler extends Handler
   editableProperties: []
   postEditableProperties: ['purchased']
   jsonSchema: require '../../app/schemas/models/payment.schema'
-  
+
   get: (req, res) ->
     return res.send([]) unless req.user
     q = Payment.find({recipient:req.user._id})
@@ -43,7 +43,7 @@ PaymentHandler = class PaymentHandler extends Handler
       return @sendDatabaseError(res, err) if err
       res.send(payments)
     )
-    
+
   logPaymentError: (req, msg) ->
     console.warn "Payment Error: #{req.user.get('slug')} (#{req.user._id}): '#{msg}'"
 
@@ -57,10 +57,10 @@ PaymentHandler = class PaymentHandler extends Handler
   post: (req, res, pathName) ->
     if pathName is 'check-stripe-charges'
       return @checkStripeCharges(req, res)
-    
+
     if (not req.user) or req.user.isAnonymous()
       return @sendForbiddenError(res)
-    
+
     appleReceipt = req.body.apple?.rawReceipt
     appleTransactionID = req.body.apple?.transactionID
     appleLocalPrice = req.body.apple?.localPrice
@@ -146,7 +146,7 @@ PaymentHandler = class PaymentHandler extends Handler
         if validation.valid is false
           @logPaymentError(req, 'Invalid apple payment object.')
           return @sendBadInputError(res, validation.errors)
-          
+
         payment.save((err) =>
           if err
             @logPaymentError(req, 'Apple payment save error.'+err)
@@ -170,24 +170,24 @@ PaymentHandler = class PaymentHandler extends Handler
     # First, make sure we save the payment info as a Customer object, if we haven't already.
     if token
       customerID = req.user.get('stripe')?.customerID
-      
+
       if customerID
         # old customer, new token. Save it.
         stripe.customers.update customerID, { card: token }, (err, customer) =>
           @beginStripePayment(req, res, timestamp, productID)
-          
+
       else
         newCustomer = {
           card: token
           email: req.user.get('email')
           metadata: { id: req.user._id + '', slug: req.user.get('slug') }
         }
-        
+
         stripe.customers.create newCustomer, (err, customer) =>
           if err
             @logPaymentError(req, 'Stripe customer creation error. '+err)
             return @sendDatabaseError(res, err)
-          
+
           stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
           stripeInfo.customerID = customer.id
           req.user.set('stripe', stripeInfo)
@@ -223,7 +223,7 @@ PaymentHandler = class PaymentHandler extends Handler
       ((err, results) =>
         if err
           @logPaymentError(req, 'Stripe async load db error. '+err)
-          return @sendDatabaseError(res, err) 
+          return @sendDatabaseError(res, err)
         [payment, charge] = results
 
         if not (payment or charge)
@@ -285,7 +285,7 @@ PaymentHandler = class PaymentHandler extends Handler
       timestamp: parseInt(charge.metadata.timestamp)
       chargeID: charge.id
     }
-    
+
     validation = @validateDocumentInput(payment.toObject())
     if validation.valid is false
       @logPaymentError(req, 'Invalid stripe payment object.')
@@ -302,9 +302,9 @@ PaymentHandler = class PaymentHandler extends Handler
       )
     )
 
-    
+
   #- Confirm all Stripe charges are recorded on our server
-  
+
   checkStripeCharges: (req, res) ->
     return @sendSuccess(res) unless customerID = req.user.get('stripe')?.customerID
     async.parallel([
@@ -366,7 +366,7 @@ PaymentHandler = class PaymentHandler extends Handler
   sendPaymentHipChatMessage: (options) ->
     try
       message = "#{options.user?.get('name')} bought #{options.payment?.get('amount')} via #{options.payment?.get('service')}."
-      hipchat.sendHipChatMessage message
+      hipchat.sendHipChatMessage message, ['tower']
     catch e
       log.error "Couldn't send HipChat message on payment because of error: #{e}"
 

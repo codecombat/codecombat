@@ -48,7 +48,7 @@ module.exports.setup = (app) ->
       log.error(error.stack)
       # TODO: Generally ignore this error: error: Error trying db method get route analytics.log.event from undefined: Error: Cannot find module '../undefined'
       unless "#{parts}" in ['analytics.users.active']
-        hipchat.sendTowerHipChatMessage errorMessage
+        hipchat.sendHipChatMessage errorMessage, ['tower'], papertrail: true
       errors.notFound(res, "Route #{req?.path} not found.")
 
 getSchema = (req, res, moduleName) ->

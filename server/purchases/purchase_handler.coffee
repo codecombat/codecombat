@@ -4,8 +4,6 @@ Handler = require '../commons/Handler'
 {handlers} = require '../commons/mapping'
 mongoose = require 'mongoose'
 log = require 'winston'
-sendwithus = require '../sendwithus'
-hipchat = require '../hipchat'
 
 PurchaseHandler = class PurchaseHandler extends Handler
   modelClass: Purchase
@@ -19,22 +17,22 @@ PurchaseHandler = class PurchaseHandler extends Handler
     purchase.set 'recipient', req.user._id
     purchase.set 'created', new Date().toISOString()
     purchase
-    
+
   post: (req, res) ->
     purchased = req.body.purchased
     purchaser = req.user._id
     purchasedOriginal = purchased?.original
-    
+
     Handler = require '../commons/Handler'
     return @sendBadInputError(res) if not Handler.isID(purchasedOriginal)
-  
+
     collection = purchased?.collection
     return @sendBadInputError(res) if not collection in @jsonSchema.properties.purchased.properties.collection.enum
-    
+
     handler = require('../' + handlers[collection])
     criteria = { 'original': purchasedOriginal }
     sort = { 'version.major': -1, 'version.minor': -1 }
-    
+
     handler.modelClass.findOne(criteria).sort(sort).exec (err, purchasedItem) =>
       gemsOwned = req.user.get('earned')?.gems or 0
       return @sendDatabaseError(res, err) if err
@@ -51,7 +49,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
         if purchase
           @addPurchaseToUser(req, res)
           return @sendSuccess(res, @formatEntity(req, purchase))
-          
+
         else
           super(req, res)
 

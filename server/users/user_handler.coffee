@@ -249,7 +249,6 @@ UserHandler = class UserHandler extends Handler
 
   sendOneTimeEmail: (req, res) ->
     # TODO: should this API be somewhere else?
-    # TODO: hipchat tower success message shows up as a misleading PaperTrail error message
     return @sendForbiddenError(res) unless req.user
     email = req.query.email or req.body.email
     type = req.query.type or req.body.type
@@ -276,7 +275,7 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          hipchat.sendTowerHipChatMessage "#{req.user.get('name') or req.user.get('email')} just submitted subscribe modal parent email #{email}."
+          hipchat.sendHipChatMessage "#{req.user.get('name') or req.user.get('email')} just submitted subscribe modal parent email #{email}.", ['tower']
           AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
 
   agreeToCLA: (req, res) ->
@@ -295,7 +294,7 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          hipchat.sendHipChatMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA."
+          hipchat.sendHipChatMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['main']
 
   avatar: (req, res, id) ->
     @modelClass.findById(id).exec (err, document) =>
