@@ -148,6 +148,14 @@ module.exports = class User extends CocoModel
     application.tracker.identify leaderboardsGroup: @leaderboardsGroup unless me.isAdmin()
     @leaderboardsGroup
 
+  getShowsPortal: ->
+    return @showsPortal if @showsPortal?
+    group = me.get('testGroupNumber')
+    @showsPortal = if group < 128 then true else false
+    @showsPortal = true if me.isAdmin()
+    application.tracker.identify showsPortal: @showsPortal unless me.isAdmin()
+    @showsPortal
+
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)

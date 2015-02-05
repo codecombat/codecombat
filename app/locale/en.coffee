@@ -998,6 +998,7 @@
     play_counts: "Play Counts"
     feedback: "Feedback"
     payment_info: "Payment Info"
+    campaigns: "Campaigns"
 
   delta:
     added: "Added"

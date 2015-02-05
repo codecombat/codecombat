@@ -24,6 +24,15 @@ CampaignHandler = class CampaignHandler extends Handler
   hasAccess: (req) ->
     req.method is 'GET' or req.user?.isAdmin()
 
+  get: (req, res) ->
+    return @sendForbiddenError(res) if not @hasAccess(req)
+    # We don't have normal text search or anything set up to make /db/campaign work, so we'll just give them all campaigns, no problem.
+    q = @modelClass.find {}
+    q.exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      documents = (@formatEntity(req, doc) for doc in documents)
+      @sendSuccess(res, documents)
+
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
     if relationship in ['levels', 'achievements']
