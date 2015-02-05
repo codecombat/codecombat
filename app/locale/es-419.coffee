@@ -522,7 +522,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     matt_title: "Programador"
     matt_blurb: "Bicicletero"
 
-teachers:
+  teachers:
     title: "CodeCombat para Profesores"
     preparation_title: "Preparación"
     preparation_1: "CodeCombat es gratuito para jugar en la progresión de nivel básico y no requiere el registro de los usuarios. Alentamos a los profesores a"
