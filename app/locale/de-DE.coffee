@@ -341,19 +341,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     multiplayer_caption: "Spiele mit Freunden!"
     auth_caption: "Fortschritt speichern."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
 #    scores: "Scores"
 #    top_solutions: "Top Solutions"
-#    day: "Today"
-#    week: "This Week"
+    day: "Heute"
+    week: "Diese Woche"
 #    all: "All-Time"
-#    time: "Time"
+    time: "Zeit"
 #    damage_taken: "Damage Taken"
 #    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+    difficulty: "Schwierigkeit"
+    gold_collected: "Gold gesammelt"
 
   inventory:
     choose_inventory: "Gegenstände ausrüsten"
@@ -388,8 +388,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
-#    free: "Free"
-#    month: "month"
+    free: "Kostenlos"
+    month: "Monate"
     subscribe_title: "Abonnieren"
     unsubscribe: "Abmelden"
 #    confirm_unsubscribe: "Confirm Unsubscribe"
