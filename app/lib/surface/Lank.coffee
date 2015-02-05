@@ -204,39 +204,45 @@ module.exports = Lank = class Lank extends CocoClass
       @handledDisplayEvents[event] = true
       args = JSON.parse(event[4...])
       key = 'aoe-' + JSON.stringify(args[2..])
+      layerName = args[6] ? 'ground'  # Can also specify 'floating'.
+      unless layer = @options[layerName + 'Layer']
+        console.error "#{@thang.id} couldn't find layer #{layerName}Layer for AOE effect #{key}; using ground layer."
+        layer = @options.groundLayer
 
-      unless key in @options.groundLayer.spriteSheet.getAnimations()
-        args = JSON.parse(event[4...])
+      unless key in layer.spriteSheet.getAnimations()
         circle = new createjs.Shape()
         radius = args[2] * Camera.PPM
         if args.length is 4
           circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
         else
-          startAngle = args[4]
-          endAngle = args[5]
+          startAngle = args[4] or 0
+          endAngle = args[5] or 2 * Math.PI
+          if startAngle is endAngle
+            startAngle = 0
+            endAngle = 2 * Math.PI
           circle.graphics.beginFill(args[3])
             .lineTo(0, 0)
             .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
             .arc(0, 0, radius, startAngle, endAngle)
             .lineTo(0, 0)
-        @options.groundLayer.addCustomGraphic(key, circle, [-radius, -radius, radius*2, radius*2])
+        layer.addCustomGraphic(key, circle, [-radius, -radius, radius*2, radius*2])
 
-      circle = new createjs.Sprite(@options.groundLayer.spriteSheet)
+      circle = new createjs.Sprite(layer.spriteSheet)
       circle.gotoAndStop(key)
       pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
       circle.x = pos.x
       circle.y = pos.y
-      resFactor = @options.groundLayer.resolutionFactor
+      resFactor = layer.resolutionFactor
       circle.scaleY = @options.camera.y2x * 0.7 / resFactor
       circle.scaleX = 0.7 / resFactor
       circle.alpha = 0.2
-      @options.groundLayer.addChild circle
+      layer.addChild circle
       createjs.Tween.get(circle)
         .to({alpha: 0.6, scaleY: @options.camera.y2x / resFactor, scaleX: 1 / resFactor}, 100, createjs.Ease.circOut)
         .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
         .call =>
           return if @destroyed
-          @options.groundLayer.removeChild circle
+          layer.removeChild circle
           delete @handledDisplayEvents[event]
 
   showTextEvents: ->
