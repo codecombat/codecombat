@@ -26,7 +26,7 @@ block header
             li.user-dropdown-header
               span.user-level= me.level()
               a(href="/user/#{me.getSlugOrID()}")
-                img.img-circle(src="#{me.getPhotoURL()}" alt="")
+                div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
               h3=me.displayName()
             li
               a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
