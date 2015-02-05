@@ -1,6 +1,6 @@
 c = require './../schemas'
 
-patchables = ['level', 'thang_type', 'level_system', 'level_component', 'article']
+patchables = ['level', 'thang_type', 'level_system', 'level_component', 'article', 'achievement']
 
 PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMessage']}, {
   delta: {title: 'Delta', type: ['array', 'object']}
