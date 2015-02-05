@@ -275,7 +275,7 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          hipchat.sendHipChatMessage "#{req.user.get('name') or req.user.get('email')} just submitted subscribe modal parent email #{email}.", ['tower']
+          hipchat.sendHipChatMessage "#{req.user.get('name')} #{req.user.get('email')} submitted a subscribe modal parent email #{email}", ['tower']
           AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
 
   agreeToCLA: (req, res) ->
