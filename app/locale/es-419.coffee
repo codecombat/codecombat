@@ -628,7 +628,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     view_profile: "Ver tu perfil"
 
   keyboard_shortcuts:
-    keyboard_shortcuts: "Keyboard Shortcuts"
+    keyboard_shortcuts: "Atajos de teclado"
     space: "Barra espaciadora"
     enter: "Enter"
     escape: "Escape"
