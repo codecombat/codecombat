@@ -69,7 +69,7 @@ module.exports = class AccountSettingsView extends CocoView
       photoContainer.addClass('saving')
     onSaved = (uploadingPath) =>
       @$el.find('#photoURL').val(uploadingPath)
-      @onInputChanged({target: @$el.find('#photoURL')}) # cause for some reason editing the value doesn't trigger the jquery event
+      @$el.find('#photoURL').trigger('change') # cause for some reason editing the value doesn't trigger the jquery event
       me.set('photoURL', uploadingPath)
       photoContainer.removeClass('saving').attr('src', me.getPhotoURL(photoContainer.width()))
     filepicker.pick {mimetypes: 'image/*'}, @onImageChosen(onSaving, onSaved)
