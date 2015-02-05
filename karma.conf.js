@@ -9,6 +9,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files : [
+      'public/javascripts/vendor.js', // need for jade definition...
       'public/javascripts/whole-vendor.js',
       'public/lib/ace/ace.js',
       'public/javascripts/aether.js',
