@@ -34,7 +34,7 @@ module.exports = class Handler
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
 
-    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() is 'post'
+    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() in ['post', 'put']
       return true if @isJustFillingTranslations(req, document)
 
     if @modelClass.schema.uses_coco_permissions

@@ -141,6 +141,7 @@ module.exports = class I18NEditModelView extends RootView
     )
 
     commitMessage = "Diplomat submission for lang #{@selectedLanguage}: #{flattened.length} change(s)."
+    save = false if @savedBefore
 
     if save
       modelToSave = @model.cloneNewMinorVersion()
@@ -161,8 +162,15 @@ module.exports = class I18NEditModelView extends RootView
     button = $(e.target)
     button.attr('disabled', 'disabled')
     return button.text('Failed to Submit Changes') if errors
-    res = modelToSave.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
+    type = 'PUT'
+    if @modelClass.schema.properties.version or (not save)
+      # Override PUT so we can trigger postNewVersion logic
+      # or you're POSTing a Patch
+      type = 'POST'
+    res = modelToSave.save(null, {type: type}) 
     return button.text('Failed to Submit Changes') unless res
     button.text('Submitting...')
     res.error => button.text('Error Submitting Changes')
-    res.success => button.text('Submit Changes')
+    res.success =>
+      @savedBefore = true
+      button.text('Submit Changes')
