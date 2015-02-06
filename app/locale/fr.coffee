@@ -549,7 +549,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     what_cover_variables_1: "Variables"
 #    what_cover_variables_2: "- adds the skill of referencing values that change over time."
 #    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
-     what_cover_logic_1: "Logique conditionelle"
+    what_cover_logic_1: "Logique conditionelle"
 #    what_cover_logic_2: "- when and how to use if/else to control in-game outcomes."
 #    what_cover_input_1: "Handling player input"
 #    what_cover_input_2: "- responding to input events to create a user interface."
