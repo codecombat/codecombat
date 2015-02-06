@@ -52,26 +52,42 @@
     .progress-or-start-container
       position: absolute
       bottom: 95px
-      width: 261px
+      width: 325px
       height: 80px
-      left: 80px
+      left: 48px
 
       .load-progress
         width: 100%
-        height: 36px
+        height: 45px
         margin: 20px auto 0 auto
 
         .progress
           height: 100%
           position: relative
           background-color: transparent
+          @include box-shadow(none)
 
-          .progress-bar
-            width: 1%
+          .progress-background
+            width: 100%
             height: 100%
-            transition-duration: 0
-            border-radius: 9px
-            background: transparent url(/images/level/loading_bar_fill.png) no-repeat
+            background: transparent url(/images/level/loading_bar_back.png) no-repeat
+            background-size: 100% 100%
+            position: absolute
+            z-index: -1
+
+          .progress-bar-container
+            width: 75%
+            height: 100%
+            left: 10%
+            position: absolute
+
+            .progress-bar
+              width: 1%
+              height: 100%
+              transition-duration: 0
+              background: transparent url(/images/level/loading_bar_fill.png) no-repeat
+              background-size: 325px 100%
+              @include box-shadow(none)
 
           &.active .progress-bar
             transition-duration: 1.2s
@@ -88,9 +104,12 @@
       .start-level-button
         display: none
         width: 100%
+        height: auto
         margin: 0px auto
         font-size: 40px
+        line-height: 45px
         font-variant: small-caps
+        text-transform: none
 
       .subscription-required
         display: none
