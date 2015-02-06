@@ -86,9 +86,9 @@ _.extend UserSchema.properties,
     employerNotes: {$ref: '#/definitions/emailSubscription'}
 
     oneTimes: c.array {title: 'One-time emails'},
-      c.object {title: 'One-time email', required: ['type', 'targetEmail']},
+      c.object {title: 'One-time email', required: ['type', 'email']},
         type: c.shortString() # E.g 'subscribe modal parent'
-        targetEmail: c.shortString()
+        email: c.shortString()
         sent: c.date() # Set when sent
 
   # server controlled
