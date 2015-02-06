@@ -369,10 +369,10 @@ module.exports = class CampaignView extends RootView
     level = new Level().setURL levelURL
     level = @supermodel.loadModel(level, 'level', null, 0).model
     sessionURL = "/db/level/#{levelSlug}/session"
-    @preloadedSession = new LevelSession().setURL sessionURL
-    @preloadedSession.levelSlug = levelSlug
-    @preloadedSession.fetch()
-    @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+    #@preloadedSession = new LevelSession().setURL sessionURL
+    #@preloadedSession.levelSlug = levelSlug
+    #@preloadedSession.fetch()
+    #@listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
 
   onSessionPreloaded: (session) ->
     levelElement = @$el.find('.level-info-container:visible')
