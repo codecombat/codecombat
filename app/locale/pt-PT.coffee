@@ -517,19 +517,19 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     matt_title: "Programador"
     matt_blurb: "Ciclista"
 
-#  teachers:
-#    title: "CodeCombat for Teachers"
-#    preparation_title: "Preparation"
+  teachers:
+    title: "CodeCombat para Professores"
+    preparation_title: "Preparação"
 #    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
 #    preparation_play_campaign: "play through the campaign"
 #    preparation_2: "to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer."
 #    preparation_3: "It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat."
-#    violent_title: "Is it violent?"
+    violent_title: "É violento?"
 #    violent_1: "We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language."
 #    violent_2: "If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat."
-#    for_girls_title: "Is it for girls?"
+    for_girls_title: "É para raparigas?"
 #    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
-#    what_cover_title: "What do we cover?"
+    what_cover_title: "O que abordamos?"
 #    what_cover_1: "There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:"
 #    what_cover_notation_1: "Formal notation"
 #    what_cover_notation_2: "- builds an understanding of the importance of syntax in programming."
@@ -998,7 +998,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     play_counts: "Número de Jogos"
     feedback: "Feedback"
     payment_info: "Informações de Pagamento"
-#    campaigns: "Campaigns"
+    campaigns: "Campanhas"
 
   delta:
     added: "Adicionados/as"
