@@ -399,10 +399,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
-    levels: "Розблокуйте 25 рівнів! Та отримуйте 5 нових кожного тижня!"
-    heroes: "Більше могутніх героїв!"
-    gems: "Щомісячний бонус 3500 самоцвітів!"
-    items: "Більше 250-ти бонусних предметів!"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем."
     parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів."
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
-    subscribe_button: "Взяти абонемент"
     stripe_description: "Щомісячний абонемент"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     play_counts: "Кількість ігор"
     feedback: "Відгук"
     payment_info: "Інформація про платіж"
+#    campaigns: "Campaigns"
 
   delta:
     added: "Додано"

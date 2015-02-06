@@ -399,10 +399,6 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     thank_you: "Фала што ја поддржуваш CodeCombat."
     sorry_to_see_you_go: "Жал ни е што си одиш! Те молиме кажи ни што можевме да направиме подобро."
     unsubscribe_feedback_placeholder: "Што направивме?"
-    levels: "Вежбај повеќе со дополнителни нивоа!"
-    heroes: "Помоќни херои!"
-    gems: "3500 скапоцени камења секој месец!"
-    items: "Над 250 дополнителни предмети и опрема!"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     parents_blurb1: "Со CodeCombat, вашите деца учат преку пишување на вистински програмски код. Почнуваат со учење на едноставни команди, по што се продолжува на понапредни теми."
     parents_blurb2: "За $9.99 американски долари месечно, добиваат нови предизвици секоја недела и лична поддршка преку e-mail, од страна на професионални програмери."
     parents_blurb3: "Без ризик: 100% гаранција за враќање на парите, лесно откажување на членството со еден клик."
-    subscribe_button: "Зачлени се сега"
     stripe_description: "Месечна членарина"
     subscription_required_to_play: "Треба да бидеш зачленет за да го играш ова ниво."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
+#    campaigns: "Campaigns"
 
 #  delta:
 #    added: "Added"

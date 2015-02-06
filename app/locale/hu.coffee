@@ -399,10 +399,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
-    levels: "Gyakorolj a bónusz szinteken!"
-    heroes: "Még erősebb hősök!"
-    gems: "3500 búnusz drágakő havonta!"
-    items: "Több mint 250 bónusz tárgy!"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak."
     parents_blurb2: "Havonta 9,99 USD-ért, minden héten új kihívások elé állítjuk őket és személyre szóló emailes támogatást nyújtanak enkik profi programozók."
     parents_blurb3: "100%-os pénzvisszafizetés garancia: 1-kattintásossal leiratkozhat."
-    subscribe_button: "Iratkozzon fel most"
     stripe_description: "Havi feliratkozás"
     subscription_required_to_play: "Ehhez a szinthez fel kell iratkoznod."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
+#    campaigns: "Campaigns"
 
 #  delta:
 #    added: "Added"

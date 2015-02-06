@@ -399,10 +399,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     thank_you: "Bedankt dat je CodeCombat steunt."
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "O, wat hebben we gedaan?"
-    levels: "Krijg meer ervaring door bonus levels te spelen!"
-    heroes: "Sterkere helden!"
-    gems: "3500 extra edelstenen elke maand!"
-    items: "Meer dan 250 bonus items!"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
     payment_info: "Betalings Informatie"
+#    campaigns: "Campaigns"
 
 #  delta:
 #    added: "Added"

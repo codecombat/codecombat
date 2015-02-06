@@ -399,10 +399,6 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
-#    levels: "Get more practice with bonus levels!"
-#    heroes: "More powerful heroes!"
-#    gems: "3500 bonus gems every month!"
-#    items: "Over 250 bonus items!"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
-#    subscribe_button: "Subscribe"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
+#    campaigns: "Campaigns"
 
 #  delta:
 #    added: "Added"

@@ -16,6 +16,7 @@ Level = require 'models/Level'
 utils = require 'core/utils'
 require 'vendor/three'
 ParticleMan = require 'core/ParticleMan'
+ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 
 trackedHourOfCode = false
 
@@ -142,6 +143,8 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
+    @openModalView new ShareProgressModal() if @terrain and me.get('lastLevel') is 'forgetful-gemsmith'
+
 
   setCampaign: (@campaign) ->
     @render()
@@ -369,12 +372,13 @@ module.exports = class CampaignView extends RootView
     level = new Level().setURL levelURL
     level = @supermodel.loadModel(level, 'level', null, 0).model
     sessionURL = "/db/level/#{levelSlug}/session"
-    #@preloadedSession = new LevelSession().setURL sessionURL
-    #@preloadedSession.levelSlug = levelSlug
-    #@preloadedSession.fetch()
-    #@listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+    @preloadedSession = new LevelSession().setURL sessionURL
+    @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+    @preloadedSession = @supermodel.loadModel(@preloadedSession, 'level_session').model
+    @preloadedSession.levelSlug = levelSlug
 
   onSessionPreloaded: (session) ->
+    session.url = -> '/db/level.session/' + @id
     levelElement = @$el.find('.level-info-container:visible')
     return unless session.levelSlug is levelElement.data 'level-slug'
     return unless difficulty = session.get('state')?.difficulty

@@ -11,11 +11,13 @@
   .errors
 
   .progress-or-start-container
-    button.start-level-button.btn.btn-lg.btn-success.header-font.needsclick(data-i18n="play_level.loading_start") Start Level
+    button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n="play_level.loading_start") Start Level
 
     .load-progress
       .progress
-        .progress-bar.progress-bar-success
+        .progress-background
+        .progress-bar-container
+          .progress-bar.progress-bar-success
         .rim
 
     .subscription-required

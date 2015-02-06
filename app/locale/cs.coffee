@@ -399,10 +399,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
-    levels: "Získejte více praxe s bonusovými úrovněmi!"
-    heroes: "Více silnějších hrdinů!"
-    gems: "3500 bonusových drahokamů každý měsíc!"
-    items: "Více než 250 bonusových předmětů!"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     parents_blurb1: "Pomocí CodeCombat se vaše dítě učí psaním opravdového kódu. Začínají učením se základním příkazů a postupně se přidávají pokročilejší témata."
     parents_blurb2: "Za $9.99 USD/měsíc, získají nové výzvy každý týden a osobní emailovou podporu od profesionálních programátorů."
     parents_blurb3: "Bez rizika: 100% záruka vrácení peněz, jednoduché zrušení předplatného na 1 kliknutí."
-    subscribe_button: "Předplatit"
     stripe_description: "Měsíční předplatné"
     subscription_required_to_play: "Pro hraní této úrovně potřebujete předplatné."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     play_counts: "Počet hraní"
     feedback: "Zpětná vazba"
     payment_info: "Info o platbě"
+#    campaigns: "Campaigns"
 
   delta:
     added: "Přidáno"

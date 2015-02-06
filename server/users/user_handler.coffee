@@ -248,17 +248,33 @@ UserHandler = class UserHandler extends Handler
         @sendSuccess(res, JSON.stringify(customer, null, '\t'))
 
   sendOneTimeEmail: (req, res) ->
-    # TODO: should this API be somewhere else?
+    # TODO: Should this API be somewhere else?
+    # TODO: Where should email types be stored?
+    # TODO: How do we schema validate an update db call?
+
     return @sendForbiddenError(res) unless req.user
     email = req.query.email or req.body.email
     type = req.query.type or req.body.type
     return @sendBadInputError res, 'No email given.' unless email?
     return @sendBadInputError res, 'No type given.' unless type?
 
-    return @sendBadInputError res, "Unknown one-time email type #{type}" unless type is 'subscribe modal parent'
+    # log.warn "sendOneTimeEmail #{type} #{email}"
 
+    unless type in ['subscribe modal parent', 'share progress modal parent', 'share progress modal friend']
+      return @sendBadInputError res, "Unknown one-time email type #{type}"
+
+    sendMail = (emailParams) =>
+      sendwithus.api.send emailParams, (err, result) =>
+        if err
+          log.error "sendwithus one-time email error: #{err}, result: #{result}"
+          return @sendError res, 500, 'send mail failed.'
+        req.user.update {$push: {"emails.oneTimes": {type: type, email: email, sent: new Date()}}}, (err) =>
+          return @sendDatabaseError(res, err) if err
+          @sendSuccess(res, {result: 'success'})
+          AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
+
+    # Generic email data
     emailParams =
-      email_id: sendwithus.templates.parent_subscribe_email
       recipient:
         address: email
       email_data:
@@ -266,16 +282,17 @@ UserHandler = class UserHandler extends Handler
     if codeLanguage = req.user.get('aceConfig.language')
       codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
       emailParams['email_data']['codeLanguage'] = codeLanguage
-    sendwithus.api.send emailParams, (err, result) =>
-      if err
-        log.error "sendwithus one-time email error: #{err}, result: #{result}"
-        return @sendError res, 500, 'send mail failed.'
-      req.user.update {$push: {"emails.oneTimes": {type: type, email: email, sent: new Date()}}}, (err) =>
-        return @sendDatabaseError(res, err) if err
-        req.user.save (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, {result: 'success'})
-          AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
+
+    # Type-specific email data
+    if type is 'subscribe modal parent'
+      emailParams['email_id'] = sendwithus.templates.parent_subscribe_email
+    else if type in ['share progress modal parent', 'share progress modal friend']
+      emailParams['email_id'] = sendwithus.templates.share_progress_email
+      emailParams['email_data']['premium'] = req.user.isPremium()
+      emailParams['email_data']['parent'] = type is 'share progress modal parent'
+      emailParams['email_data']['friend'] =  type is 'share progress modal friend'
+
+    sendMail emailParams
 
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user
