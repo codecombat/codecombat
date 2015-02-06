@@ -341,19 +341,19 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     multiplayer_caption: "跟朋友一起玩!"
     auth_caption: "儲存進度."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
-#    scores: "Scores"
-#    top_solutions: "Top Solutions"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+  leaderboard:
+    leaderboard: "排行榜"
+    view_other_solutions: "查看其他解法"
+    scores: "分數"
+    top_solutions: "優質解法"
+    day: "今天"
+    week: "這周"
+    all: "長期以來"
+    time: "時間"
+    damage_taken: "遭受的攻擊"
+    damage_dealt: "造成的攻擊"
+    difficulty: "困難度"
+    gold_collected: "收集的黃金"
 
   inventory:
     choose_inventory: "裝備物品"
