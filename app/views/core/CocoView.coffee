@@ -241,7 +241,7 @@ module.exports = class CocoView extends Backbone.View
 
   showLoading: ($el=@$el) ->
     $el.find('>').addClass('hidden')
-    $el.append loadingScreenTemplate()
+    $el.append(loadingScreenTemplate()).i18n()
     @_lastLoading = $el
 
   hideLoading: ->

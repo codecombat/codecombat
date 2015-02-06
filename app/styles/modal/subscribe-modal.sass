@@ -51,36 +51,11 @@
     &:hover
       color: yellow
 
-
-  //- Selling points
-
-  #selling-points
-    position: absolute
-    left: 65px
-    top: 335px
-    width: 650px
-    font-weight: bold
-    line-height: 18px
-    color: black
-    font-family: $headings-font-family
-    font-size: 18px
-
-    .point
-      width: 150px
-      overflow: none
-      float: left
-      text-align: center
-      margin-right: 10px
-
-    #parents-info
-      position: absolute
-      right: 7px
-      top: 56px
-      text-decoration: underline
-      cursor: pointer
+  //- Popovers
 
   .popover
     z-index: 1050
+    min-width: 400px
 
     h3
       background: transparent
@@ -88,13 +63,67 @@
       font-size: 30px
       color: black
 
+  //- Sales image
+
+  .subscribe-image
+    position: absolute
+    top: 114px
+    right: 65px
+
+  //- Feature comparison table
+
+  .comparison-blurb
+    position: absolute
+    left: 10%
+    top: 132px
+    width: 450px
+    background: rgba(0, 0, 0, 0.0)
+    font-weight: normal
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+
+  .comparison-table
+    position: absolute
+    left: 10%
+    top: 160px
+    width: 450px
+    background: rgba(0, 0, 0, 0.0)
+    thead
+      tr
+        th
+          font-size: 24px
+          font-variant: small-caps
+          font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+          font-weight: 700
+          line-height: 1.1
+          color: #317EAC
+    tbody
+      font-size: 14px
+      .center-ok
+        text-align: center
+
+  //- Parent info popover link
+
+  #parents-info
+    position: absolute
+    left: 38px
+    top: 389px
+    text-decoration: underline
+    cursor: pointer
+    font-weight: bold
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
 
   //- Purchase button
 
   .purchase-button
     position: absolute
-    left: 73px
-    width: 600px
+    right: 24px
+    width: 400px
     height: 70px
     top: 430px
     font-size: 32px
@@ -116,6 +145,28 @@
       padding: 2px 0 0 2px
       color: white
 
+  //- Parent button
+  //- TODO: Add hover and active effects
+
+  .parent-button
+    position: absolute
+    left: 24px
+    width: 250px
+    height: 70px
+    top: 430px
+    font-size: 28px
+    line-height: 38px
+    border-style: solid
+    border-image: url(/images/common/button-background-warning-disabled.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+  #email-parent-form
+    .email_invalid
+      color: red
+      display: none
+  #email-parent-complete
+    display: none
 
   //- Errors
 

@@ -344,6 +344,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
+#    scores: "Scores"
 #    top_solutions: "Top Solutions"
 #    day: "Today"
 #    week: "This Week"
@@ -380,6 +381,15 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     recovered: "先前購買的寶石已回復. 請重新載入頁面."
 
   subscribe:
+#    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
+#    feature1: "60+ basic levels across 4 worlds"
+#    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
+#    feature3: "30+ bonus levels"
+#    feature4: "<strong>3500 bonus gems</strong> every month!"
+#    feature5: "Video tutorials"
+#    feature6: "Premium email support"
+#    free: "Free"
+#    month: "month"
     subscribe_title: "訂閱"
     unsubscribe: "取消訂閱"
     confirm_unsubscribe: "確認訂閱"
@@ -387,6 +397,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     thank_you_months_prefix: "感謝您這幾個"
     thank_you_months_suffix: "月來的支持"
     thank_you: "感謝您支持CodeCombat."
+<<<<<<< HEAD
     sorry_to_see_you_go: "捨不得您離開! 請讓我們知道我們如何做得更好."
     unsubscribe_feedback_placeholder: "O, 我們做錯事了嗎?"
     levels: "獲得更多新關卡來磨練!"
@@ -398,6 +409,27 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     parents_blurb1: "使用CodeCombat, 您的孩子學習真正的編寫程式. 他們學習從簡單的指令，漸進到更加進階的課題."
     parents_blurb2: "每月支付$9.99美金, 他們每週獲得新挑戰以及使用信件取得專業程式員的幫助."
     parents_blurb3: "沒有風險: 保證100%退費, 一步取消訂閱."
+=======
+#    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
+#    unsubscribe_feedback_placeholder: "O, what have we done?"
+#    levels: "Get more practice with bonus levels!"
+#    heroes: "More powerful heroes!"
+#    gems: "3500 bonus gems every month!"
+#    items: "Over 250 bonus items!"
+#    parent_button: "Ask your parent"
+#    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
+#    parent_email_input_invalid: "Email address invalid."
+#    parent_email_input_label: "Parent email address"
+#    parent_email_input_placeholder: "Enter parent email"
+#    parent_email_send: "Send Email"
+#    parent_email_sent: "Email sent!"
+#    parent_email_title: "What's your parent's email?"
+#    parents: "For Parents"
+#    parents_title: "Your child will learn to code."
+#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
+#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+#    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+>>>>>>> upstream/master
     subscribe_button: "現在訂閱"
     stripe_description: "每月訂閱"
     subscription_required_to_play: "你將需要訂閱來開啟這關."
@@ -1234,7 +1266,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    other_developers: "Other Developers"
 #    inactive_developers: "Inactive Developers"
 
-#  admin:
+  admin:
 #    av_espionage: "Espionage" # Really not important to translate /admin controls.
     av_espionage_placeholder: "信箱或用戶名"
     av_usersearch: "用戶搜尋"

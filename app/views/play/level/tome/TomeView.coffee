@@ -80,7 +80,7 @@ module.exports = class TomeView extends CocoView
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
       console.log 'Commenting out', spellKey
-      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
@@ -166,7 +166,10 @@ module.exports = class TomeView extends CocoView
       sessionState.flagHistory = _.filter sessionState.flagHistory ? [], (event) => event.team isnt (@options.session.get('team') ? 'humans')
       sessionState.lastUnsuccessfulSubmissionTime = new Date() if @options.level.get 'replayable'
       @options.session.set 'state', sessionState
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: sessionState.difficulty ? 0
+    difficulty = sessionState.difficulty ? 0
+    if @options.observing
+      difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: difficulty
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()

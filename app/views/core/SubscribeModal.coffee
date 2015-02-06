@@ -17,8 +17,9 @@ module.exports = class SubscribeModal extends ModalView
     'stripe:received-token': 'onStripeReceivedToken'
 
   events:
-    'click .purchase-button': 'onClickPurchaseButton'
     'click #close-modal': 'hide'
+    'click #parent-send': 'onClickParentSendButton'
+    'click .purchase-button': 'onClickPurchaseButton'
 
   constructor: (options) ->
     super(options)
@@ -34,6 +35,40 @@ module.exports = class SubscribeModal extends ModalView
 
   afterRender: ->
     super()
+    @setupParentButtonPopover()
+    @setupParentInfoPopover()
+
+  setupParentButtonPopover: ->
+    popoverTitle = $.i18n.t 'subscribe.parent_email_title'
+    popoverTitle += '<button type="button" class="close" onclick="$(&#39;.parent-button&#39;).popover(&#39;hide&#39;);">&times;</button>'
+    popoverContent = "<div id='email-parent-form'>"
+    popoverContent += "<p>#{$.i18n.t('subscribe.parent_email_description')}</p>"
+    popoverContent += "<form>"
+    popoverContent += "  <div class='form-group'>"
+    popoverContent += "    <label>#{$.i18n.t('subscribe.parent_email_input_label')}</label>"
+    popoverContent += "    <input id='parent-input' type='email' class='form-control' placeholder='#{$.i18n.t('subscribe.parent_email_input_placeholder')}'/>"
+    popoverContent += "  <div id='parent-email-validator' class='email_invalid'>#{$.i18n.t('subscribe.parent_email_input_invalid')}</div>"
+    popoverContent += "  </div>"
+    popoverContent += "  <button id='parent-send' type='submit' class='btn btn-default'>#{$.i18n.t('subscribe.parent_email_send')}</button>"
+    popoverContent += "</form>"
+    popoverContent += "</div>"
+    popoverContent += "<div id='email-parent-complete'>"
+    popoverContent += " <p>#{$.i18n.t('subscribe.parent_email_sent')}</p>"
+    popoverContent += " <button type='button' onclick='$(&#39;.parent-button&#39;).popover(&#39;hide&#39;);'>#{$.i18n.t('modal.close')}</button>"
+    popoverContent += "</div>"
+
+    @$el.find('.parent-button').popover(
+      animation: true
+      html: true
+      placement: 'top'
+      trigger: 'click'
+      title: popoverTitle
+      content: popoverContent
+      container: @$el
+    ).on 'shown.bs.popover', =>
+      application.tracker?.trackEvent 'Subscription ask parent button click', {}
+
+  setupParentInfoPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parents_title'
     popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
@@ -49,6 +84,26 @@ module.exports = class SubscribeModal extends ModalView
       container: @$el
     ).on 'shown.bs.popover', =>
       application.tracker?.trackEvent 'Subscription parent hover', {}
+
+  onClickParentSendButton: (e) ->
+    # TODO: Popover sometimes dismisses immediately after send
+
+    email = $('#parent-input').val()
+    unless /[\w\.]+@\w+\.\w+/.test email
+      $('#parent-input').parent().addClass('has-error')
+      $('#parent-email-validator').show()
+      return false
+
+    request = @supermodel.addRequestResource 'send_one_time_email', {
+      url: '/db/user/-/send_one_time_email'
+      data: {email: email, type: 'subscribe modal parent'}
+      method: 'POST'
+    }, 0
+    request.load()
+
+    $('#email-parent-form').hide()
+    $('#email-parent-complete').show()
+    false
 
   onClickPurchaseButton: (e) ->
     @playSound 'menu-button-click'

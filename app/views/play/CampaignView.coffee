@@ -27,6 +27,11 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
+class CampaignsCollection extends CocoCollection
+  url: '/db/campaign'
+  model: Campaign
+  project: ['name', 'fullName', 'i18n']
+
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'
   template: template
@@ -41,18 +46,30 @@ module.exports = class CampaignView extends RootView
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click #volume-button': 'onToggleVolume'
+    'click #back-button': 'onClickBack'
+    'click .portal .campaign': 'onClickPortalCampaign'
+    'mouseenter .portals': 'onMouseEnterPortals'
+    'mouseleave .portals': 'onMouseLeavePortals'
+    'mousemove .portals': 'onMouseMovePortals'
 
-  constructor: (options, @terrain='dungeon') ->
+  constructor: (options, @terrain) ->
     super options
-    options ?= {}
-
-    @campaign = new Campaign({_id:@terrain})
-    @campaign = @supermodel.loadModel(@campaign, 'campaign').model
-
-    @editorMode = options.editorMode
+    @editorMode = options?.editorMode
+    if @editorMode
+      @terrain ?= 'dungeon'
+    else unless me.getShowsPortal()
+      @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
+    @listenToOnce @sessions, 'sync', @onSessionsLoaded
+    unless @terrain
+      @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 0).model
+      @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
+      return
+
+    @campaign = new Campaign({_id:@terrain})
+    @campaign = @supermodel.loadModel(@campaign, 'campaign').model
 
     # Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
@@ -69,7 +86,6 @@ module.exports = class CampaignView extends RootView
 
     @supermodel.loadCollection(@earnedAchievements, 'achievements')
 
-    @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
     $(window).on 'resize', @onWindowResize
     @probablyCachedMusic = storage.load("loaded-menu-music")
@@ -91,7 +107,7 @@ module.exports = class CampaignView extends RootView
 
   destroy: ->
     @setupManager?.destroy()
-    @$el.find('.ui-draggable').draggable 'destroy'
+    @$el.find('.ui-draggable').off().draggable 'destroy'
     $(window).off 'resize', @onWindowResize
     if ambientSound = @ambientSound
       # Doesn't seem to work; stops immediately.
@@ -99,6 +115,7 @@ module.exports = class CampaignView extends RootView
     @musicPlayer?.destroy()
     clearTimeout @playMusicTimeout
     @particleMan?.destroy()
+    clearInterval @portalScrollInterval
     super()
 
   getLevelPlayCounts: ->
@@ -124,6 +141,7 @@ module.exports = class CampaignView extends RootView
     @fullyRendered = true
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
+    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
 
   setCampaign: (@campaign) ->
     @render()
@@ -135,31 +153,16 @@ module.exports = class CampaignView extends RootView
   getRenderData: (context={}) ->
     context = super(context)
     context.campaign = @campaign
-    context.levels = _.values($.extend true, {}, @campaign.get('levels'))
-    context.levelsCompleted = context.levelsTotal = 0
-    for level in context.levels
-      level.position ?= { x: 10, y: 10 }
-      level.locked = not me.ownsLevel level.original
-      level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
-      level.locked = false if @editorMode
-      level.locked = false if @campaign.get('name') is 'Auditions'
-      level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
-      level.color = 'rgb(255, 80, 60)'
-      if level.requiresSubscription
-        level.color = 'rgb(80, 130, 200)'
-      if unlocksHero = _.find(level.rewards, 'hero')?.hero
-        level.unlocksHero = unlocksHero
-      if level.unlocksHero
-        level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
-      level.hidden = level.locked
-      unless level.disabled
-        ++context.levelsTotal
-        ++context.levelsCompleted if @levelStatusMap[level.slug] is 'complete'
+    context.levels = _.values($.extend true, {}, @campaign?.get('levels') ? {})
+    @annotateLevel level for level in context.levels
+    count = @countLevels context.levels
+    context.levelsCompleted = count.completed
+    context.levelsTotal = count.total
 
-    @determineNextLevel context.levels if @sessions.loaded
+    @determineNextLevel context.levels if @sessions?.loaded
     # put lower levels in last, so in the world map they layer over one another properly.
     context.levels = (_.sortBy context.levels, (l) -> l.position.y).reverse()
-    @campaign.renderedLevels = context.levels
+    @campaign.renderedLevels = context.levels if @campaign
 
     context.levelStatusMap = @levelStatusMap
     context.levelPlayCountMap = @levelPlayCountMap
@@ -167,7 +170,7 @@ module.exports = class CampaignView extends RootView
     context.mapType = _.string.slugify @terrain
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
-    context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign.get('adjacentCampaigns') or {})), (ac) =>
+    context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
       return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
       ac.name = utils.i18n ac, 'name'
       styles = []
@@ -180,6 +183,26 @@ module.exports = class CampaignView extends RootView
       return true
     context.marked = marked
     context.i18n = utils.i18n
+
+    if @campaigns
+      context.campaigns = {}
+      for campaign in @campaigns.models
+        context.campaigns[campaign.get('slug')] = campaign
+        if @sessions.loaded
+          levels = _.values($.extend true, {}, campaign.get('levels') ? {})
+          count = @countLevels levels
+          campaign.levelsTotal = count.total
+          campaign.levelsCompleted = count.completed
+          if campaign.get('slug') is 'dungeon'
+            campaign.locked = false
+          else unless campaign.levelsTotal
+            campaign.locked = true
+          else
+            campaign.locked = true
+      for campaign in @campaigns.models
+        for acID, ac of campaign.get('adjacentCampaigns') ? {}
+          _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
+
     context
 
   afterRender: ->
@@ -189,7 +212,7 @@ module.exports = class CampaignView extends RootView
       _.defer => @$el?.find('.game-controls .btn').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
       view = @
       @$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each ->
-        return unless me.isAdmin()
+        return unless me.isAdmin() and view.editorMode
         $(@).draggable().on 'dragstop', ->
           bg = $('.map-background')
           x = ($(@).offset().left - bg.offset().left + $(@).outerWidth() / 2) / bg.width()
@@ -202,7 +225,7 @@ module.exports = class CampaignView extends RootView
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
       if @editorMode
-        for level in @campaign.renderedLevels
+        for level in @campaign?.renderedLevels ? []
           for nextLevelOriginal in level.nextLevels ? []
             if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
               @createLine level.position, nextLevel.position
@@ -218,6 +241,32 @@ module.exports = class CampaignView extends RootView
     authModal = new AuthModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
+
+  annotateLevel: (level) ->
+    level.position ?= { x: 10, y: 10 }
+    level.locked = not me.ownsLevel level.original
+    level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
+    level.locked = false if @editorMode
+    level.locked = false if @campaign?.get('name') is 'Auditions'
+    level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
+    level.color = 'rgb(255, 80, 60)'
+    if level.requiresSubscription
+      level.color = 'rgb(80, 130, 200)'
+    if unlocksHero = _.find(level.rewards, 'hero')?.hero
+      level.unlocksHero = unlocksHero
+    if level.unlocksHero
+      level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+    level.hidden = level.locked
+    level
+
+  countLevels: (levels) ->
+    count = total: 0, completed: 0
+    for level in levels
+      @annotateLevel level unless level.locked?  # Annotate if we haven't already.
+      unless level.disabled
+        ++count.total
+        ++count.completed if @levelStatusMap[level.slug] is 'complete'
+    count
 
   showLeaderboard: (levelSlug) ->
     #levelSlug ?= 'siege-of-stonehold'  # Testing
@@ -248,7 +297,7 @@ module.exports = class CampaignView extends RootView
     line.append($('<div class="line">')).append($('<div class="point">'))
 
   applyCampaignStyles: ->
-    return unless @campaign.loaded
+    return unless @campaign?.loaded
     if (backgrounds = @campaign.get 'backgroundImage') and backgrounds.length
       backgrounds = _.sortBy backgrounds, 'width'
       backgrounds.reverse()
@@ -266,7 +315,7 @@ module.exports = class CampaignView extends RootView
     @playAmbientSound()
 
   testParticles: ->
-    return unless @campaign.loaded and me.getForeshadowsLevels()
+    return unless @campaign?.loaded and me.getForeshadowsLevels()
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
@@ -279,18 +328,62 @@ module.exports = class CampaignView extends RootView
       continue if particleKey.length is 2  # Don't show basic levels
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
+  onMouseEnterPortals: (e) ->
+    return unless @campaigns?.loaded and @sessions?.loaded
+    @portalScrollInterval = setInterval @onMouseMovePortals, 100
+    @onMouseMovePortals e
+
+  onMouseLeavePortals: (e) ->
+    return unless @portalScrollInterval
+    clearInterval @portalScrollInterval
+    @portalScrollInterval = null
+
+  onMouseMovePortals: (e) =>
+    return unless @portalScrollInterval
+    $portal = @$el.find('.portal')
+    $portals = @$el.find('.portals')
+    if e
+      @portalOffsetX = Math.round Math.max 0, e.clientX - $portal.offset().left
+    bodyWidth = $('body').innerWidth()
+    fraction = @portalOffsetX / bodyWidth
+    return if 0.2 < fraction < 0.8
+    direction = if fraction < 0.5 then 1 else -1
+    magnitude = 0.2 * bodyWidth * (if direction is -1 then fraction - 0.8 else 0.2 - fraction) / 0.2
+    portalsWidth = 1902  # TODO: if we add campaigns or change margins, this will get out of date...
+    scrollTo = $portals.offset().left + direction * magnitude
+    scrollTo = Math.max bodyWidth - portalsWidth, scrollTo
+    scrollTo = Math.min 0, scrollTo
+    $portals.stop().animate {marginLeft: scrollTo}, 100, 'linear'
+
   onSessionsLoaded: (e) ->
     return if @editorMode
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
     @render()
 
+  onCampaignsLoaded: (e) ->
+    @render()
+
+  preloadLevel: (levelSlug) ->
+    levelURL = "/db/level/#{levelSlug}"
+    level = new Level().setURL levelURL
+    level = @supermodel.loadModel(level, 'level', null, 0).model
+    sessionURL = "/db/level/#{levelSlug}/session"
+    #@preloadedSession = new LevelSession().setURL sessionURL
+    #@preloadedSession.levelSlug = levelSlug
+    #@preloadedSession.fetch()
+    #@listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
+
+  onSessionPreloaded: (session) ->
+    levelElement = @$el.find('.level-info-container:visible')
+    return unless session.levelSlug is levelElement.data 'level-slug'
+    return unless difficulty = session.get('state')?.difficulty
+    badge = $("<span class='badge'>#{difficulty}</span>")
+    levelElement.find('.start-level .badge').remove()
+    levelElement.find('.start-level').append badge
+
   onClickMap: (e) ->
     @$levelInfo?.hide()
-    # Easy-ish way of figuring out coordinates for placing level dots.
-    x = e.offsetX / @$el.find('.map-background').width()
-    y = (1 - e.offsetY / @$el.find('.map-background').height())
-    console.log "    x: #{(100 * x).toFixed(2)}\n    y: #{(100 * y).toFixed(2)}\n"
 
   onClickLevel: (e) ->
     e.preventDefault()
@@ -304,6 +397,7 @@ module.exports = class CampaignView extends RootView
     @$levelInfo = @$el.find(".level-info-container[data-level-slug=#{levelSlug}]").show()
     @adjustLevelInfoPosition e
     @endHighlight()
+    @preloadLevel levelSlug
 
   onDoubleClickLevel: (e) ->
     return unless @editorMode
@@ -326,7 +420,9 @@ module.exports = class CampaignView extends RootView
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelElement.data('level-slug'), levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @
+    levelSlug = levelElement.data 'level-slug'
+    session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
     @setupManager.open()
     @$levelInfo?.hide()
 
@@ -421,9 +517,24 @@ module.exports = class CampaignView extends RootView
         newI = 2
     @updateVolume volumes[newI]
 
+  onClickBack: (e) ->
+    Backbone.Mediator.publish 'router:navigate',
+      route: "/play"
+      viewClass: CampaignView
+      viewArgs: [{supermodel: @supermodel}]
+
   updateHero: ->
     return unless hero = me.get('heroConfig')?.thangType
     for slug, original of ThangType.heroes when original is hero
       @$el.find('.player-hero-icon').removeClass().addClass('player-hero-icon ' + slug)
       return
     console.error "CampaignView hero update couldn't find hero slug for original:", hero
+
+  onClickPortalCampaign: (e) ->
+    campaign = $(e.target).closest('.campaign')
+    return if campaign.is('.locked') or campaign.is('.silhouette')
+    campaignSlug = campaign.data('campaign-slug')
+    Backbone.Mediator.publish 'router:navigate',
+      route: "/play/#{campaignSlug}"
+      viewClass: CampaignView
+      viewArgs: [{supermodel: @supermodel}, campaignSlug]

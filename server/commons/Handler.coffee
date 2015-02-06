@@ -34,7 +34,7 @@ module.exports = class Handler
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
 
-    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() is 'post'
+    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() in ['post', 'put']
       return true if @isJustFillingTranslations(req, document)
 
     if @modelClass.schema.uses_coco_permissions
@@ -461,8 +461,9 @@ module.exports = class Handler
     sendwithus.api.send context, (err, result) ->
 
   sendChangedHipChatMessage: (options) ->
-    message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage')}"
-    hipchat.sendHipChatMessage message
+    message = "#{options.creator.get('name')} saved a change to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.target.get('commitMessage') or '(no commit message)'}"
+    rooms = if /Diplomat submission/.test(message) then ['main'] else ['main', 'artisans']
+    hipchat.sendHipChatMessage message, rooms
 
   makeNewInstance: (req) ->
     model = new @modelClass({})

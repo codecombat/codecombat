@@ -16,6 +16,7 @@ module.exports = class CampaignLevelView extends CocoView
     'dblclick .recent-session': 'onDblClickRecentSession'
     'mouseenter .graph-point': 'onMouseEnterPoint'
     'mouseleave .graph-point': 'onMouseLeavePoint'
+    'click .replay-button': 'onClickReplay'
 
   constructor: (options, @level) ->
     super(options)
@@ -76,6 +77,11 @@ module.exports = class CampaignLevelView extends CocoView
   onMouseLeavePoint: (e) ->
     pointID = $(e.target).data('pointid')
     @$el.find(".graph-point-info-container[data-pointid=#{pointID}]").hide()
+
+  onClickReplay: (e) ->
+    sessionID = $(e.target).closest('tr').data 'session-id'
+    url = "/play/level/#{@level.get('slug')}?session=#{sessionID}&observing=true"
+    window.open url, '_blank'
 
   updateAnalyticsGraphData: ->
     # console.log 'updateAnalyticsGraphData'

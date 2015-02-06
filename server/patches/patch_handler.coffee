@@ -101,6 +101,6 @@ PatchHandler = class PatchHandler extends Handler
 
   sendPatchCreatedHipChatMessage: (options) ->
     message = "#{options.creator.get('name')} submitted a patch to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.patch.get('commitMessage')}"
-    hipchat.sendHipChatMessage message
+    hipchat.sendHipChatMessage message, ['main']
 
 module.exports = new PatchHandler()

@@ -326,7 +326,7 @@ module.exports = class HeroVictoryModal extends ModalView
   getNextLevelLink: ->
     link = '/play'
     nextCampaign = @getNextLevelCampaign()
-    link += '/' + nextCampaign unless nextCampaign is 'dungeon'
+    link += '/' + nextCampaign
     link
 
   onClickContinue: (e, extraOptions=null) ->

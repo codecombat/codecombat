@@ -59,6 +59,7 @@
           td Playtime
           td Complete
           td Changed
+          td Replay
       tbody
         - for (var i = 0; i < analytics.recentSessions.data.length; i++)
           tr.recent-session(data-player-id=analytics.recentSessions.data[i].creator, data-session-id=analytics.recentSessions.data[i]._id)
@@ -71,6 +72,9 @@
             else
               td false
             td= analytics.recentSessions.data[i].changed
+            td
+              button.btn.replay-button.btn-xs
+                .glyphicon.glyphicon-eye-open
 
   h4 Completion Rates
   if analytics.levelCompletions.loading

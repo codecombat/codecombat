@@ -140,9 +140,14 @@ module.exports = class I18NEditModelView extends RootView
       return _.isArray(delta.o) and delta.o.length is 1 and 'i18n' in delta.dataPath
     )
 
+    commitMessage = "Diplomat submission for lang #{@selectedLanguage}: #{flattened.length} change(s)."
+    save = false if @savedBefore
+
     if save
       modelToSave = @model.cloneNewMinorVersion()
       modelToSave.updateI18NCoverage() if modelToSave.get('i18nCoverage')
+      if @modelClass.schema.properties.commitMessage
+        modelToSave.set 'commitMessage', commitMessage
 
     else
       modelToSave = new Patch()
@@ -151,17 +156,21 @@ module.exports = class I18NEditModelView extends RootView
         'collection': _.string.underscored @model.constructor.className
         'id': @model.id
       }
-
-    if @modelClass.schema.properties.commitMessage
-      commitMessage = "Diplomat submission for lang #{@selectedLanguage}: #{flattened.length} change(s)."
       modelToSave.set 'commitMessage', commitMessage
 
     errors = modelToSave.validate()
     button = $(e.target)
     button.attr('disabled', 'disabled')
     return button.text('Failed to Submit Changes') if errors
-    res = modelToSave.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
+    type = 'PUT'
+    if @modelClass.schema.properties.version or (not save)
+      # Override PUT so we can trigger postNewVersion logic
+      # or you're POSTing a Patch
+      type = 'POST'
+    res = modelToSave.save(null, {type: type}) 
     return button.text('Failed to Submit Changes') unless res
     button.text('Submitting...')
     res.error => button.text('Error Submitting Changes')
-    res.success => button.text('Submit Changes')
+    res.success =>
+      @savedBefore = true
+      button.text('Submit Changes')

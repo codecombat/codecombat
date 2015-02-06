@@ -10,6 +10,7 @@ module.exports.api = new sendwithusAPI swuAPIKey, debug
 if config.unittest
   module.exports.api.send = ->
 module.exports.templates =
+  parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
   welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
   patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
