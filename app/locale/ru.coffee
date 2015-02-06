@@ -399,10 +399,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     thank_you: "Спасибо за поддержку CodeCombat."
     sorry_to_see_you_go: "Жаль, что вы уходите! Пожалуйста, расскажите нам, что мы могли бы сделать лучше."
     unsubscribe_feedback_placeholder: "О, что мы наделали?"
-    levels: "Получите больше практики с бонусными уровнями!"
-    heroes: "Более сильные герои!"
-    gems: "3500 бонусных самоцветов каждый месяц!"
-    items: "Более 250 бонусных предметов!"
     parent_button: "Спросить у родителей"
     parent_email_description: "Мы отправим им электронное письмо, чтобы они смогли приобрести тебе подписку на CodeCombat."
     parent_email_input_invalid: "Адрес электронной почты введен неправильно."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parents_blurb1: "С CodeCombat ваш ребенок учится через написание реального кода. Начиная с изучения простых команд, продолжая более продвинутыми темами."
     parents_blurb2: "За $9.99 USD/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
     parents_blurb3: "Без риска: 100% гарантия возрата денег, возможность отписаться в 1 клик."
-    subscribe_button: "Подпишись сейчас"
     stripe_description: "Месячная подписка"
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play_counts: "Счетчики игр"
     feedback: "Отзыв"
     payment_info: "Информация о платеже"
+#    campaigns: "Campaigns"
 
   delta:
     added: "Добавлено"

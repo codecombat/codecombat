@@ -399,10 +399,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     thank_you: "Obrigado por apoiares o CodeCombat."
     sorry_to_see_you_go: "Lamentamos ver-te partir! Por favor, diz-nos o que podíamos ter feito melhor."
     unsubscribe_feedback_placeholder: "Oh, o que fomos fazer?"
-    levels: "Pratica mais com níveis bónus!"
-    heroes: "Heróis mais poderosos!"
-    gems: "3500 gemas de bónus todos os meses!"
-    items: "Mais de 250 itens de bónus!"
     parent_button: "Pergunta ao teu educador"
     parent_email_description: "Vamos mandar-lhe um e-mail para que ele possa comprar-te uma subscrição do CodeCombat."
     parent_email_input_invalid: "Endereço de e-mail inválido."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     parents_blurb1: "Com o CodeCombat, o teu educando aprende ao escrever código real. Começa por aprender comandos simples e progride para tópicos mais avançados."
     parents_blurb2: "Por $9.99 USD/mês, recebe novos desafios todas as semanas e suporte pessoal, via e-mail, de programadores profissionais."
     parents_blurb3: "Sem Risco: 100% de garantia de devolução do dinheiro, com anulação fácil de 1 clique."
-    subscribe_button: "Subscrever"
     stripe_description: "Subscrição Mensal"
     subscription_required_to_play: "Precisas de uma subscrição para jogares este nível."
     unlock_help_videos: "Subscreve-te para desbloqueares todos os tutoriais em vídeo."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     play_counts: "Número de Jogos"
     feedback: "Feedback"
     payment_info: "Informações de Pagamento"
+#    campaigns: "Campaigns"
 
   delta:
     added: "Adicionados/as"

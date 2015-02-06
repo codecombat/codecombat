@@ -399,10 +399,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
-    levels: "Débloquer 17 niveaux supplémentaires ! Et 5 nouveaux chaque semaines!"
-    heroes: "Héros plus puissants!"
-    gems: "3500 gemmes en bonus chaque mois !"
-    items: "Plus de 250 objets en bonus !"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     parents_blurb1: "Avec CodeCombat, votre enfant apprend en écrisant de vrais programmes. Ils commencent en apprenant des instructions simples, puis progressent sur des thèmes plus complexes."
     parents_blurb2: "Pour $9.99 USD/mois, ils obtiennent de nouveaux défis chaque semaine et le support par email de programmeurs professionnels."
     parents_blurb3: "Pas de risque : garantie 100% remboursé, désinscription facile en 1-clic."
-    subscribe_button: "Inscrivez-vous maintenant"
     stripe_description: "Inscription mensuelle"
     subscription_required_to_play: "Vous avez besoin d'une inscription pour jouer à ce niveau."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     play_counts: "Nombre de parties"
     feedback: "Réaction"
     payment_info: "Info paiement"
+#    campaigns: "Campaigns"
 
   delta:
     added: "Ajouté"

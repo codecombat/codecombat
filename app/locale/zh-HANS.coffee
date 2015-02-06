@@ -399,10 +399,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     thank_you: "感谢您支持CodeCombat."
     sorry_to_see_you_go: "真舍不得亲离开啊! 请一定要让我们知道哪里做的还不够好。"
     unsubscribe_feedback_placeholder: "O, 我们做了神马?"
-    levels: "多解锁17个关卡！每周解锁5个新关卡！"
-    heroes: "更多强大的英雄！"
-    gems: "每月多3500宝石奖励！"
-    items: "超过250个物品奖励！"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
 #    parent_email_input_invalid: "Email address invalid."
@@ -416,7 +412,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
     parents_blurb2: "每月支付99美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
     parents_blurb3: "无风险承诺：100%退款，一键退订。"
-    subscribe_button: "现在订阅"
     stripe_description: "每月订阅"
     subscription_required_to_play: "订阅后可开始本关"
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1003,6 +998,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    play_counts: "Play Counts"
     feedback: "反馈"
     payment_info: "付款信息"
+#    campaigns: "Campaigns"
 
   delta:
     added: "被添加"
