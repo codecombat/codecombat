@@ -99,6 +99,7 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'loading-view-unveil', volume: 0.5
     _.delay @onUnveilEnded, duration * 1000
+    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration * 1000)
 
   onUnveilEnded: =>
     return if @destroyed
