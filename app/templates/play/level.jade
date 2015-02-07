@@ -12,6 +12,7 @@
   #canvas-wrapper
     canvas(width=924, height=589)#webgl-surface
     canvas(width=924, height=589)#normal-surface
+    #ascii-surface
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
     #goals-view
@@ -41,3 +42,4 @@ if !me.get('anonymous')
   #play-footer(class=me.isPremium() ? "premium" : "")
     p(class='footer-link-text')
       a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact") Contact
+
