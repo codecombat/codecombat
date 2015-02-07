@@ -7,6 +7,7 @@ FlagLank = require 'lib/surface/FlagLank'
 Lank = require 'lib/surface/Lank'
 Mark = require './Mark'
 Grid = require 'lib/world/Grid'
+utils = require 'core/utils'
 
 module.exports = class LankBoss extends CocoClass
   subscriptions:
@@ -212,6 +213,24 @@ module.exports = class LankBoss extends CocoClass
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @lanks[@willSelectThang[0]]
       @selectThang @willSelectThang...
+
+    @updateScreenReader()
+
+  updateScreenReader: ->
+    # Testing ASCII map for screen readers
+    return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
+    ascii = $('#ascii-surface')
+    thangs = (lank.thang for lank in @lankArray)
+    grid = new Grid thangs, @world.width, @world.height, 0, 0, 0, true
+    utils.replaceText ascii, grid.toString true
+    ascii.css 'transform', 'initial'
+    fullWidth = ascii.innerWidth()
+    fullHeight = ascii.innerHeight()
+    availableWidth = ascii.parent().innerWidth()
+    availableHeight = ascii.parent().innerHeight()
+    scale = availableWidth / fullWidth
+    scale = Math.min scale, availableHeight / fullHeight
+    ascii.css 'transform', "scale(#{scale})"
 
   equipNewItems: (thang) ->
     itemsJustEquipped = []
