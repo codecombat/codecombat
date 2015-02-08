@@ -1,3 +1,5 @@
+@import "app/styles/mixins"
+
 #buy-gems-modal
 
   //- Clear modal defaults
@@ -7,6 +9,24 @@
     width: 820px
     height: 460px
     background: none
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 745px
+    top: 0px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
 
   //- Background
   #buy-gems-background

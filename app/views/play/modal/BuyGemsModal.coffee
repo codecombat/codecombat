@@ -21,6 +21,7 @@ module.exports = class BuyGemsModal extends ModalView
 
   events:
     'click .product button': 'onClickProductButton'
+    'click #close-modal': 'hide'
 
   constructor: (options) ->
     super(options)
