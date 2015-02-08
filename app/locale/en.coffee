@@ -335,6 +335,8 @@
     tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
     tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
+
 
   game_menu:
     inventory_tab: "Inventory"
