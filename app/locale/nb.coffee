@@ -522,7 +522,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     preparation_1: "CodeCombat er gratis å spille for progresjon på kjernenivå, og krever ikke at elevene registrerer seg. Vi anbefaler lærere å"
     preparation_play_campaign: "spill gjennom kampanjen"
     preparation_2: "å forsøke det, men det eneste absolutte kravet er at elevene har tilgang til en datamaskin."
-    preparation_3: "Det er ikke nødvendig med datakyndige lærere for at elevene skal ha det gøy mens de lærer med CodeCombat." # "It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat."
+    preparation_3: "Det er ikke nødvendig med datakyndige lærere for at elevene skal ha det gøy mens de lærer med CodeCombat."
     violent_title: "Er det voldelig?"
     violent_1: "Vi hører dette fra lærere en del på grunn av navnet. Selv om CodeCombat inneholder tegneserievold, er det ikke noe grafisk i hverken det visuelle eller i språket."
     violent_2: "Hvis du er komfortabel med at elevene spille Angry Birds, vil du være komfortabel med CodeCombat."
