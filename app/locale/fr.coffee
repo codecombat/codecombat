@@ -337,7 +337,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     choose_hero_caption: "Choisissez votre héro, langage"
     save_load_caption: "... et voir l'historique"
     options_caption: "Configurer les réglages"
-    guide_caption: "Docs and conseils"
+    guide_caption: "Docs et conseils"
     multiplayer_caption: "Jouer avec des amis!"
     auth_caption: "Sauvegarder votre progression."
 
