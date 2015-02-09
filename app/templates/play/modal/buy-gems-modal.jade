@@ -1,5 +1,6 @@
 .modal-dialog
   .modal-content
+      
     if state === 'purchasing'
       .alert.alert-info(data-i18n="buy_gems.purchasing")
     
@@ -8,7 +9,8 @@
 
     else
       img(src="/images/pages/play/modal/buy-gems-background.png")#buy-gems-background
-
+      h1(data-i18n="play.buy_gems")
+      
       #products
         for product in products
           .product
@@ -35,3 +37,6 @@
           span(data-i18n="buy_gems.recovered")
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
+            
+      div#close-modal
+        span.glyphicon.glyphicon-remove
