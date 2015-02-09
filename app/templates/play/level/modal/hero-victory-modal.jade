@@ -14,7 +14,7 @@ block modal-body-content
     .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
       - var rewards = achievement.get('rewards') || {};
       
-      div.achievement-description= achievement.get('description')
+      div.achievement-description= achievement.description
       
       div.achievement-rewards
         - var worth = achievement.worth;
