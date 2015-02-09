@@ -95,7 +95,7 @@
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
   share_progress_modal:
-    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
     email_invalid: "Email address invalid."
     form_blurb: "Enter their email below and we’ll show them!"
     form_label: "Email Address"
