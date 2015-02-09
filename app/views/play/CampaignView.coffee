@@ -280,7 +280,7 @@ module.exports = class CampaignView extends RootView
   determineNextLevel: (levels) ->
     foundNext = false
     for level in levels
-      level.nextLevels = (reward.level for reward in level.rewards when reward.level)
+      level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
       unless foundNext
         for nextLevelOriginal in level.nextLevels
           nextLevel = _.find levels, original: nextLevelOriginal
