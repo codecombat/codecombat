@@ -335,9 +335,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_source_code: "Quisiera cambiar el mundo, pero no me dan el código fuente."
     tip_javascript_java: "Java es a Javascript lo mismo que Comer es a Comercial. - Chris Heilmann"
     tip_move_forward: "Hagas lo que hagas, siempre sigue hacia delante. - Martin Luther King Jr."
-#    tip_google: "Have a problem you can't solve? Google it!"
-#    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
+    tip_google: "¿Tienes un problema que no puedes resolver? ¡Googléalo!"
+    tip_adding_evil: "Agregando una pizca de maldad."
+    tip_miss_lunch: "Quien quiera que haya perdido la noción del tiempo al usar una computadora, conoce la propensidad de soñar, la urgencia de hacer los sueños realidad y una tendencia a perderse el almuerzo. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -356,19 +356,19 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     multiplayer_caption: "¡Jugar con amigos!"
     auth_caption: "Guarda tu progreso."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
-#    scores: "Scores"
-#    top_solutions: "Top Solutions"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+  leaderboard:
+    leaderboard: "Tabla de Posiciones"
+    view_other_solutions: "Ver Otras Soluciones"
+    scores: "Puntajes"
+    top_solutions: "Mejores Soluciones"
+    day: "Hoy"
+    week: "Esta Semana"
+    all: "Siempre"
+    time: "Tiempo"
+    damage_taken: "Daño Recibido"
+    damage_dealt: "Daño Infligido"
+    difficulty: "Dificultad"
+    gold_collected: "Oro Recolectado"
 
   inventory:
     choose_inventory: "Equipar objetos"
@@ -429,7 +429,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
     stripe_description: "Suscripción Mensual"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
-#    unlock_help_videos: "Subscribe to unlock all video tutorials."
+    unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
 
   choose_hero:
     choose_hero: "Elige tu héroe"
@@ -857,7 +857,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     games_simulated: "Juegos simulados"
     games_played: "Juegos jugados"
     ratio: "Proporción"
-    leaderboard: "Posiciones"
+    leaderboard: "Tabla de Posiciones"
     battle_as: "Combate como "
     summary_your: "Tus "
     summary_matches: "Partidas - "
@@ -977,7 +977,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     facebook_friend_sessions: "Sesiones de Amigos de Facebook"
     gplus_friends: "Amigos de G+"
     gplus_friend_sessions: "Sesiones de Amigos de G+"
-    leaderboard: "Clasificación"
+    leaderboard: "Tabla de Posiciones"
     user_schema: "Esquema de Usuario"
     user_profile: "Perfil de Usuario"
     patch: "Parche"
@@ -1035,7 +1035,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     multiplayer_hint_label: "Consejo:"
     multiplayer_hint: " Cliquea el enlace para seleccionar todo, luego presiona ⌘-C o Ctrl-C para copiar el enlace."
     multiplayer_coming_soon: "¡Más características de multijugador por venir!"
-    multiplayer_sign_in_leaderboard: "Entra o crea una cuenta y mira tu solución en la clafisicación."
+    multiplayer_sign_in_leaderboard: "Entra o crea una cuenta y mira tu solución en la tabla de posiciones."
 
   legal:
     page_title: "Legal"
