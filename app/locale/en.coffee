@@ -335,6 +335,9 @@
     tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
     tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_design: "Design is not just what it looks like and feels like. Design is how it works. - Steve Jobs"
+    tip_misfits: "Here's to the crazy ones. The misfits. The rebels. The troublemakers. The round pegs in the square holes. The ones who see things differently. They're not fond of rules. And they have no respect for the status quo. You can quote them, disagree with them, glorify or vilify them. About the only thing you can't do is ignore them. Because they change things. They push the human race forward. And while some may see them as the crazy ones, we see genius. Because the people who are crazy enough to think they can change the world, are the ones who do. - Apple Inc.” 
+    
 
   game_menu:
     inventory_tab: "Inventory"
