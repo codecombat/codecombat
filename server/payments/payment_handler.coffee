@@ -309,7 +309,7 @@ PaymentHandler = class PaymentHandler extends Handler
     return @sendSuccess(res) unless customerID = req.user.get('stripe')?.customerID
     async.parallel([
         ((callback) ->
-          criteria = { recipient: req.user._id, 'stripe.invoiceID': { $exists: false } }
+          criteria = { recipient: req.user._id, 'stripe.invoiceID': { $exists: false }, 'ios.transactionID': { $exists: false } }
           Payment.find(criteria).limit(100).sort({_id:-1}).exec((err, payments) =>
             callback(err, payments)
           )

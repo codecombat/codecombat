@@ -148,6 +148,7 @@ module.exports.thangNames = thangNames =
     'Wayne'
     'William'
     'Willie'
+    'Zachary'
   ]
   'Soldier F': [
     'Alana'
@@ -220,6 +221,7 @@ module.exports.thangNames = thangNames =
     'Kay'
     'Kelly'
     'Kimberly'
+    'Kira'
     'Lana'
     'Laura'
     'Lillian'
@@ -231,10 +233,12 @@ module.exports.thangNames = thangNames =
     'Lukaz'
     'Margaret'
     'Maria'
+    'Mariah'
     'Marie'
     'Marilyn'
     'Martha'
     'Mary'
+    'Medusa'
     'Melissa'
     'Michelle'
     'Mildred'
@@ -365,6 +369,7 @@ module.exports.thangNames = thangNames =
     'Logos'
     'Lycan'
     'Mars'
+    'Odysseos'
     'Oliver'
     'Quinn'
     'Robin'
@@ -428,6 +433,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre M': [
     'Axe Ox'
+    'Belch'
     'Dronck'
     'Gorlog'
     'Grumus'
@@ -441,6 +447,7 @@ module.exports.thangNames = thangNames =
     'Polifemo'
     'Saltporker'
     'Skrungt'
+    'Steve'
     'Stinker'
     'Tarlok'
     'Trogdor'
@@ -468,6 +475,7 @@ module.exports.thangNames = thangNames =
     'Grul\'thock'
     'Grumoll'
     'Haggar'
+    'Heizenburg'
     'Ironjaw'
     'Muul'
     'Ork\'han'
@@ -511,6 +519,7 @@ module.exports.thangNames = thangNames =
     'Tuzang'
     'Tuzell'
     'Ugoki'
+    'Uld\'Mak'
     'Varreth'
     'Yamizeb'
     'Yerong'
@@ -568,6 +577,7 @@ module.exports.thangNames = thangNames =
     'Satish'
   ]
   'Equestrian': [
+    'Beauty'
     'Mirial'
     'Neely'
     'Reynaldo'
@@ -579,6 +589,7 @@ module.exports.thangNames = thangNames =
     'Alphonse'
     'Altair'
     'Arthur'
+    'Bruce'
     'Drake'
     'Duran'
     'Edward'
@@ -590,6 +601,7 @@ module.exports.thangNames = thangNames =
     'Neville'
     'Shug'
     'Tharin'
+    'Wain'
   ]
   'Captain': [
     'Anya'
@@ -608,6 +620,7 @@ module.exports.thangNames = thangNames =
     'Nicks'
     'Philips'
     'Sarre'
+    'Sun Tzu'
   ]
   'Ninja': [
     'Amara'
@@ -615,14 +628,19 @@ module.exports.thangNames = thangNames =
     'Naruto'
     'Sakura'
     'Sasuke'
+    'Shigeru'
   ]
   'Sorcerer': [
     'Beazer'
     'Gandalf'
     'Pender'
+    'Jezebel'
   ]
   'Samurai': [
     'Hattori'
+    'Ieyasu'
+    'Izotokogawa'
+    'Nobunaga'
   ]
   'Sand Yak': [
     'Arngotho'
@@ -660,6 +678,9 @@ module.exports.thangNames = thangNames =
     'Sacra'
     'Scraps'
     'Shelly'
+    'Shishka-Bob'
+    'Shishka-Larry'
+    'Shishka-Joe'
     'Skeletor'
     'Skellington'
     'Skulldugger'

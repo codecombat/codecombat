@@ -143,7 +143,8 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    @openModalView new ShareProgressModal() if @terrain and me.get('lastLevel') is 'forgetful-gemsmith'
+    if @terrain and me.get('name') and me.get('lastLevel') is 'forgetful-gemsmith'
+      @openModalView new ShareProgressModal()
 
 
   setCampaign: (@campaign) ->
@@ -279,7 +280,7 @@ module.exports = class CampaignView extends RootView
   determineNextLevel: (levels) ->
     foundNext = false
     for level in levels
-      level.nextLevels = (reward.level for reward in level.rewards when reward.level)
+      level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
       unless foundNext
         for nextLevelOriginal in level.nextLevels
           nextLevel = _.find levels, original: nextLevelOriginal

@@ -1,8 +1,23 @@
+@import "app/styles/mixins"
+
 #buy-gems-modal
+
+  //- Header
+  
+  h1
+    position: absolute
+    left: 164px
+    top: -70px
+    margin: 0
+    width: 450px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
 
   //- Clear modal defaults
   .modal-dialog
-    margin: 100px auto 0 auto
+    margin: 150px auto 0 auto
     padding: 0
     width: 820px
     height: 460px
@@ -13,6 +28,24 @@
     position: absolute
     top: -157px
     left: -2px
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 612px
+    top: -80px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
 
   //- Products
 
@@ -54,3 +87,13 @@
     width: 80%
     top: 20px
     border: 5px solid gray
+
+  #or-subscribe
+    position: absolute
+    right: 30px
+    top: 420px
+    font-size: 16px
+    color: #eee
+
+    button
+      min-width: 182px
