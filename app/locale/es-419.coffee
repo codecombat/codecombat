@@ -94,15 +94,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_classic_algorithms: "Algorítmos Clásicos"
     campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares de la Ciencia de la Computación."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+  share_progress_modal:
+    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat."
+    email_invalid: "Dirección de Email inválida."
+    form_blurb: "¡Ingresa su email debajo y les enseñaremos!"
+    form_label: "Dirección de Email"
+    placeholder: "dirección de email"
+    title: "Excelente Trabajo, Aprendiz"
+    tell_friend: "Cuéntale a un Amigo"
+    tell_parent: "Cuéntale a tus Padres"
 
   login:
     sign_up: "Crear Cuenta"
