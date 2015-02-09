@@ -47,7 +47,7 @@ module.exports = class Label extends CocoClass
     @layer.updateLayerOrder()
 
   update: ->
-    return unless @text
+    return unless @text and @sprite.sprite
     offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
     offset ?= x: 0, y: 0  # temp (if not Lank)
     rotation = @sprite.getRotation()
