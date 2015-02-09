@@ -94,6 +94,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms: "Классические принципы"
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
 
+#  share_progress_modal:
+#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    email_invalid: "Email address invalid."
+#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_label: "Email Address"
+#    placeholder: "email address"
+#    title: "Excellent Work, Apprentice"
+#    tell_friend: "Tell your Friend"
+#    tell_parent: "Tell your Parent"
+
   login:
     sign_up: "Создать аккаунт"
     log_in: "Войти"
@@ -131,6 +141,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     books: "Книги"
 
   common:
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "Загрузка..."
     saving: "Сохранение..."
     sending: "Отправка..."
@@ -323,6 +335,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_source_code: "Я хочу изменить мир, но они вряд ли дадут мне исходники."
     tip_javascript_java: "Java к JavaScript относится так же, как кол относится к колготкам. - Chris Heilmann (перефраз.)"
     tip_move_forward: "Что бы вы ни делали, вы должны двигаться вперед. - Martin Luther King Jr"
+#    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_adding_evil: "Adding a pinch of evil."
+#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "Инвентарь"

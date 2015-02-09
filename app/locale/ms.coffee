@@ -94,6 +94,16 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
+#  share_progress_modal:
+#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    email_invalid: "Email address invalid."
+#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_label: "Email Address"
+#    placeholder: "email address"
+#    title: "Excellent Work, Apprentice"
+#    tell_friend: "Tell your Friend"
+#    tell_parent: "Tell your Parent"
+
   login:
     sign_up: "Buat Akaun"
     log_in: "Log Masuk"
@@ -131,6 +141,8 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    books: "Books"
 
   common:
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "Pemuatan..."
     saving: "Menyimpan data..."
     sending: "Menghantar maklumat.."
@@ -323,6 +335,9 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+#    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_adding_evil: "Adding a pinch of evil."
+#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
 #  game_menu:
 #    inventory_tab: "Inventory"

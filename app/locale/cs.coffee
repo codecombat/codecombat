@@ -94,6 +94,16 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     campaign_classic_algorithms: "Klasické algoritmy"
     campaign_classic_algorithms_description: "... ve kterých se naučíte nejoblíbenější algoritmy v IT."
 
+#  share_progress_modal:
+#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    email_invalid: "Email address invalid."
+#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_label: "Email Address"
+#    placeholder: "email address"
+#    title: "Excellent Work, Apprentice"
+#    tell_friend: "Tell your Friend"
+#    tell_parent: "Tell your Parent"
+
   login:
     sign_up: "Vytvořit účet"
     log_in: "Přihlásit"
@@ -131,6 +141,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     books: "Spisy"
 
   common:
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "Načítání..."
     saving: "Ukládání..."
     sending: "Odesílání..."
@@ -323,6 +335,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_source_code: "Chci změnit svět, ale nechtějí mě dát k němu zdrojový kód."
     tip_javascript_java: "Porovnávat Javu a JavaScript je stejné, jako porovnávat auto a autoritu. - Chris Heilmann"
     tip_move_forward: "Ať už děláš cokoliv, vždy jdi dopředu. - Martin Luther King Jr."
+#    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_adding_evil: "Adding a pinch of evil."
+#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "Inventář"
@@ -399,10 +414,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     thank_you: "Děkujeme za podporu CodeCombatu."
     sorry_to_see_you_go: "To je škoda! Dejte nám prosím vědět, co můžeme udělat lépe."
     unsubscribe_feedback_placeholder: "Co jsme spolu dokázali?"
-    levels: "Získejte více praxe s bonusovými úrovněmi!"
-    heroes: "Více silnějších hrdinů!"
-    gems: "3500 bonusových drahokamů každý měsíc!"
-    items: "Více než 250 bonusových předmětů!"
     parent_button: "Zeptat se rodičů"
     parent_email_description: "Napíšeme jim e-mail, aby ti mohli koupit CodeCombat předplatné."
     parent_email_input_invalid: "Neplatná e-mailová adresa."

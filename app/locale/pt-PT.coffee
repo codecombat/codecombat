@@ -94,6 +94,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_classic_algorithms: "Algoritmos Clássicos"
     campaign_classic_algorithms_description: "... onde aprendes os algoritmos mais populares da Ciência da Computação."
 
+#  share_progress_modal:
+#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    email_invalid: "Email address invalid."
+#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_label: "Email Address"
+#    placeholder: "email address"
+#    title: "Excellent Work, Apprentice"
+#    tell_friend: "Tell your Friend"
+#    tell_parent: "Tell your Parent"
+
   login:
     sign_up: "Criar Conta"
     log_in: "Iniciar Sessão"
@@ -131,6 +141,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     books: "Livros"
 
   common:
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "A carregar..."
     saving: "A guardar..."
     sending: "A enviar..."
@@ -323,6 +335,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_source_code: "Quero mudar o mundo, mas não há maneira de me darem o código-fonte."
     tip_javascript_java: "Java é para JavaScript o mesmo que Carro (Car) para Tapete (Carpet). - Chris Heilmann"
     tip_move_forward: "Faças o que fizeres, segue em frente. - Martin Luther King Jr."
+#    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_adding_evil: "Adding a pinch of evil."
+#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "Inventário"
