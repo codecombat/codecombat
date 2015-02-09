@@ -335,6 +335,8 @@
     tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
     tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_google: "Have a problem you can't solve? Google it!"
+    tip_adding_evil: "Adding a pinch of evil."
 
   game_menu:
     inventory_tab: "Inventory"
