@@ -360,7 +360,7 @@
     leaderboard: "Leaderboard"
     view_other_solutions: "View Other Solutions"
     scores: "Scores"
-    top_solutions: "Top Solutions"
+    top_players: "Top Players by"
     day: "Today"
     week: "This Week"
     all: "All-Time"
@@ -394,6 +394,7 @@
     prompt_body: "Do you want to get more?"
     prompt_button: "Enter Shop"
     recovered: "Previous gems purchase recovered. Please refresh the page."
+    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
