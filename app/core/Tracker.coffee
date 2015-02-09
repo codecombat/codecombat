@@ -12,11 +12,14 @@ module.exports = class Tracker
     @identify()
     @supermodel = new SuperModel()
 
-  identify: (traits) ->
+  identify: (traits={}) ->
+    # Save explicit traits for internal tracking
+    @explicitTraits ?= {}
+    @explicitTraits[key] = value for key, value of traits
+
     console.log 'Would identify', traits if debugAnalytics
     return unless me and @isProduction and analytics? and not me.isAdmin()
     # https://segment.io/docs/methods/identify
-    traits ?= {}
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'wizardColor1', 'testGroupNumber', 'gender', 'lastLevel']
       traits[userTrait] ?= me.get(userTrait)
     analytics.identify me.id, traits
@@ -78,12 +81,14 @@ module.exports = class Tracker
     # Skipping heavily logged actions we don't use internally
     unless event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
       # Trimming properties we don't use internally
-      # TODO: delete internalProperites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
-      if event in ['Clicked Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Loaded World Map', 'Homepage Loaded', 'Change Hero']
+      # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
+      if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Loaded World Map', 'Homepage Loaded', 'Change Hero']
         delete properties.category
         delete properties.label
-      else if event in ['Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login']
+      else if event in ['Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login', 'Show subscription modal']
         delete properties.category
+
+      properties[key] = value for key, value of @explicitTraits if @explicitTraits?
 
       console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
       request = @supermodel.addRequestResource 'log_event', {
