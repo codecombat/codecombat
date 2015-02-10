@@ -305,7 +305,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_no_try: "做，或者不做。這邊不存在嘗試的選項. - Yoda"
     tip_patience: "年輕的學徒，你必須擁有耐心. - Yoda"
     tip_documented_bug: "一個寫在文件裡的錯誤不是錯誤;它是功能."
-    tip_impossible: "它總是看起來不可能直到它成真那刻. - Nelson Mandela"
+    tip_impossible: "事情總是看起來不可能直到它成真那刻. - Nelson Mandela"
     tip_talk_is_cheap: "多說無益，公開你的代碼. - Linus Torvalds"
     tip_first_language: "你經歷的第一門程式語言是最慘痛的事情. - Alan Kay"
     tip_hardware_problem: "Q: 換一顆燈泡需要多少位程序員?  A: 一位也不用, 它是個硬體問題."
@@ -762,7 +762,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     edit_btn_preview: "預覽"
     edit_article_title: "編輯文章"
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
 #    alert_account_message_intro: "Hey there!"
