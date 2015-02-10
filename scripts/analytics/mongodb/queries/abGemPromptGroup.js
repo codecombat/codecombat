@@ -33,7 +33,7 @@ try {
 
   var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn);
 
-  log("Day\t\tGroup\t\tStarted\tFinsihed\tCompletion Rate");
+  log("Day\t\tGroup\t\tStarted\tFinished\tCompletion Rate");
   var overallCounts = {};
   for (var i = 0; i < funnelData.length; i++) {
     var day = funnelData[i].day;

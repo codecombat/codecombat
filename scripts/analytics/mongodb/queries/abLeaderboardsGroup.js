@@ -28,12 +28,16 @@ try {
 
   // getLeaderboardsGroup
   var testGroupFn = function (testGroupNumber) {
-    return testGroupNumber < 128;
+    var group = testGroupNumber % 64;
+    if (group < 16) return 'always';
+    if (group < 32) return 'early';
+    if (group < 48) return 'late';
+    return 'never';
   }
 
   var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs);
 
-  log("Day\tLevel\tGroup\tStarted\tFinsihed\tCompletion Rate");
+  log("Day\tLevel\tGroup\tStarted\tFinished\tCompletion Rate");
   var overallCounts = {};
   for (var i = 0; i < funnelData.length; i++) {
     var level = funnelData[i].level;

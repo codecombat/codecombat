@@ -34,7 +34,7 @@ try {
 
   var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs);
 
-  log("Day\tLevel\tGroup\tStarted\tFinsihed\tCompletion Rate");
+  log("Day\tLevel\tGroup\tStarted\tFinished\tCompletion Rate");
   var overallCounts = {};
   for (var i = 0; i < funnelData.length; i++) {
     var level = funnelData[i].level;
