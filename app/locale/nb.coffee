@@ -96,10 +96,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   share_progress_modal:
     blurb: "Du gjør fantastisk fremgang! Fortell noen hvor mye du har lært gjennom CodeCombat." #"You’re making great progress!  Tell someone how much you've learned with CodeCombat."
-    email_invalid: "E-postadressen er ugjyldig." #"Email address invalid."
+    email_invalid: "E-postadressen er ugyldig." #"Email address invalid."
     form_blurb: "Skriv ned e-postadressen deres nedenfor, så skal vi vise dem!" #Enter their email below and we’ll show them!"
     form_label: "E-postadresse" #"Email Address"
-    placeholder: "Epost-adresse" #"email address"
+    placeholder: "E-postadresse" #"email address"
     title: "Godt jobbet, lærling" #"Excellent Work, Apprentice"
     tell_friend: "Fortell din venn" #"Tell your Friend"
     tell_parent: "Fortell din forelder" #"Tell your Parent"
