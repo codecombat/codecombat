@@ -344,7 +344,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     save_load_tab: "Lagre/Laste"
     options_tab: "Innstillinger"
     guide_tab: "Guide"
-    guide_video_tutorial: "Opplæringsvideo"
+    guide_video_tutorial: "Videoveiledning"
     guide_tips: "Tips"
     multiplayer_tab: "Flerspiller"
     auth_tab: "Lag konto"
@@ -373,7 +373,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   inventory:
     choose_inventory: "Velg utstyr"
     equipped_item: "I Bruk"
-    required_purchase_title: "Påkrevd"
+    required_purchase_title: "Krav"
     available_item: "Tilgjengelig"
     restricted_title: "Ikke tilgjengelig"
     should_equip: "(dobbel-klikk for å bruke)"
