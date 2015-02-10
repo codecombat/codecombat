@@ -409,7 +409,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     parents: "For foreldre"
     parents_title: "Barnet ditt vil lære å kode."
     parents_blurb1: "Med CodeCombat, lærer barnet ditt å skrive ekte kode. De starter med enkle kommandoer, og går videre til mer avanserte temaer."
-    parents_blurb2: "For $9.99 USD/mo, får de nye utfordringer hver uke samt personlig e-poststøtte fre profesjonelle programmerere. 
+    parents_blurb2: "For $9.99 USD/mo, får de nye utfordringer hver uke samt personlig e-poststøtte fre profesjonelle programmerere."
     parents_blurb3: "Risikofritt: 100% pengene-tilbake garanti, lett 1-klikk oppsigelse av abonnementet."
     stripe_description: "Månedlig abonnement"
     subscription_required_to_play: "Du trenger et abonnement for å spille dette brettet."
