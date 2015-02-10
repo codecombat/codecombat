@@ -95,7 +95,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     campaign_classic_algorithms_description: "... во кои ги учиш најпопуларните алгоритми во компјутерската наука."
 
 #  share_progress_modal:
-#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
 #    form_label: "Email Address"
@@ -338,6 +338,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
 #    scores: "Scores"
-#    top_solutions: "Top Solutions"
+#    top_players: "Top Players by"
 #    day: "Today"
 #    week: "This Week"
 #    all: "All-Time"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     prompt_body: "Дали сакаш да земеш повеќе?"
     prompt_button: "Влези во продавницата"
     recovered: "Претходното купување на скапоцени камења е вратено од загуба. Те молам 'освежи' ја страната."
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"

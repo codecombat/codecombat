@@ -95,14 +95,14 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     campaign_classic_algorithms_description: "... hvor du lærer noen av de mest populære algoritmene innen programmering"
 
   share_progress_modal:
-    blurb: "Du gjør fantastisk fremgang! Fortell noen hvor mye du har lært gjennom CodeCombat." #"You’re making great progress!  Tell someone how much you've learned with CodeCombat."
-    email_invalid: "E-postadressen er ugyldig." #"Email address invalid."
-    form_blurb: "Skriv ned e-postadressen deres nedenfor, så skal vi vise dem!" #Enter their email below and we’ll show them!"
-    form_label: "E-postadresse" #"Email Address"
-    placeholder: "E-postadresse" #"email address"
-    title: "Godt jobbet, lærling" #"Excellent Work, Apprentice"
-    tell_friend: "Fortell din venn" #"Tell your Friend"
-    tell_parent: "Fortell din forelder" #"Tell your Parent"
+    blurb: "Du gjør fantastisk fremgang! Fortell noen hvor mye du har lært gjennom CodeCombat."
+    email_invalid: "E-postadressen er ugyldig."
+    form_blurb: "Skriv ned e-postadressen deres nedenfor, så skal vi vise dem!"
+    form_label: "E-postadresse"
+    placeholder: "E-postadresse"
+    title: "Godt jobbet, lærling"
+    tell_friend: "Fortell din venn"
+    tell_parent: "Fortell din forelder"
 
   login:
     sign_up: "Lag konto"
@@ -141,8 +141,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     books: "Bøker"
 
   common:
-    back: "Tilbake" #"Back" # When used as an action verb, like "Navigate backward"
-    continue: "Fortsett" #"Continue" # When used as an action verb, like "Continue forward"
+    back: "Tilbake" # When used as an action verb, like "Navigate backward"
+    continue: "Fortsett" # When used as an action verb, like "Continue forward"
     loading: "Laster..."
     saving: "Lagrer..."
     sending: "Sender..."
@@ -167,7 +167,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     and: "og"
     name: "Navn"
     date: "Dato"
-    body: "Kropp" # "kropp" ??
+    body: "Kropp"
     version: "Versjon"
     pending: "Avventer"
     accepted: "Akseptert"
@@ -338,6 +338,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_google: "Har du et problem du ikke kan løse? Google det!"
     tip_adding_evil: "Legger til en klype ondskap!"
     tip_miss_lunch: "Alle de som har latt tiden gå fra seg når de de bruker en datamaskin kjenner til tilbøyligheten til å drømme, trangen til å drømme og tendensen til å gå glipp av lunsj. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
     inventory_tab: "Utstyr"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     leaderboard: "Topplisten"
     view_other_solutions: "Sen andre løsninger"
     scores: "Poeng"
-    top_solutions: "Beste løsninger"
+#    top_players: "Top Players by"
     day: "I dag"
     week: "Denne uken"
     all: "All tid"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     prompt_body: "Har du lyst på flere?"
     prompt_button: "Til Butikken"
     recovered: "Tidligere juvelkjøp hentet. Vennligst last siden på nytt"
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "Spiss dine kunnskaper med et CodeCombat abonnement!"
@@ -693,7 +695,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     diplomat_summary: "CodeCombat er oversatt til 45+ språk av våre diplomater. Hjelp oss ved å bidra med oversettelser."
     ambassador_title: "Ambassadør"
     ambassador_title_description: "(Brukerstøtte)"
-    ambassador_summary: "Temm våre forumbrukere og tilby hjelp for de med spørsmål. Våre ambassadører representerer CodeCombat ute i verden." # "Temm"?
+    ambassador_summary: "Temm våre forumbrukere og tilby hjelp for de med spørsmål. Våre ambassadører representerer CodeCombat ute i verden."
 
   editor:
     main_title: "CodeCombat Editorer"
@@ -920,9 +922,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     achievement: "Prestasjon"
     category_contributor: "Bidragsyter"
     category_ladder: "Stige"
-    category_level: "Brett" # Eller nivå?
+    category_level: "Brett"
     category_miscellaneous: "Forskjellig"
-    category_levels: "Brett" # Eller nivåer?
+    category_levels: "Brett"
     category_undefined: "Ukategorisert"
     current_xp_prefix: ""
     current_xp_postfix: " totalt"

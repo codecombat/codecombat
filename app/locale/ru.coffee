@@ -95,7 +95,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
 
 #  share_progress_modal:
-#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
 #    form_label: "Email Address"
@@ -338,6 +338,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     leaderboard: "Таблица лидеров"
     view_other_solutions: "Посмотреть другие решения"
     scores: "Рейтинг"
-    top_solutions: "Лучшие решения"
+#    top_players: "Top Players by"
     day: "Сегодня"
     week: "На этой неделе"
     all: "За все время"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     prompt_body: "Хотите еще?"
     prompt_button: "Войти в магазин"
     recovered: "Предыдущие покупки самоцветов восстановлены. Пожалуйста, обновите страницу."
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство багодаря подписке на CodeCombat!"

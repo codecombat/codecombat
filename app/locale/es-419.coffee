@@ -338,6 +338,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_google: "¿Tienes un problema que no puedes resolver? ¡Googléalo!"
     tip_adding_evil: "Agregando una pizca de maldad."
     tip_miss_lunch: "Quien quiera que haya perdido la noción del tiempo al usar una computadora, conoce la propensidad de soñar, la urgencia de hacer los sueños realidad y una tendencia a perderse el almuerzo. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     leaderboard: "Tabla de Posiciones"
     view_other_solutions: "Ver Otras Soluciones"
     scores: "Puntajes"
-    top_solutions: "Mejores Soluciones"
+#    top_players: "Top Players by"
     day: "Hoy"
     week: "Esta Semana"
     all: "Siempre"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     prompt_body: "¿Quieres obtener más?"
     prompt_button: "Entrar al mercado"
     recovered: "Se recuperaron las anteriores compras de gemas. Por favor recarga la página"
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"

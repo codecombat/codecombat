@@ -338,6 +338,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_google: "Máš problém, který nemůžeš vyřešit? Vygoogluj to!"
     tip_adding_evil: "Přidávání špetky zla."
     tip_miss_lunch: "Každý, kdo ztratil pojem o čase při používání počítače má tendenci ke snění, chce si sny splnit a má tendeci vynechat oběd. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
     inventory_tab: "Inventář"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     leaderboard: "Žebříčky"
     view_other_solutions: "Zobrazit jiné řešení"
     scores: "Skóre"
-    top_solutions: "Nejlepší řešení"
+#    top_players: "Top Players by"
     day: "Dnes"
     week: "Tento týden"
     all: "Celkově"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     prompt_body: "Chcete získat více?"
     prompt_button: "Vstoupit do obchodu"
     recovered: "Obnovení již zakoupených drahokamů proběhlo úspěšně. Aktualizujte stránku prosím."
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"

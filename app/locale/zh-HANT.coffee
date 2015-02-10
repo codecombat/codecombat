@@ -95,7 +95,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     campaign_classic_algorithms_description: "... 資訊科學中最著名的演算法。"
 
 #  share_progress_modal:
-#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
 #    form_label: "Email Address"
@@ -338,6 +338,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
     inventory_tab: "倉庫"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     leaderboard: "排行榜"
     view_other_solutions: "查看其他解法"
     scores: "分數"
-    top_solutions: "優質解法"
+#    top_players: "Top Players by"
     day: "今天"
     week: "這周"
     all: "長期以來"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     prompt_body: "想要取得更多?"
     prompt_button: "進入商店"
     recovered: "先前購買的寶石已回復. 請重新載入頁面."
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "訂閱CodeCombat來磨練你的技巧!"
