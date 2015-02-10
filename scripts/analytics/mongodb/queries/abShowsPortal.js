@@ -1,4 +1,5 @@
 // showsPortal A/B Results
+// Test started 2015-02-05
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
@@ -14,13 +15,8 @@ load('abTestHelpers.js');
 
 var scriptStartTime = new Date();
 try {
-  var numDays = 10;
-
-  var startDay = new Date();
-  today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
-  log("Today is " + today);
+  var startDay = '2015-02-05'
+  log("Today is " + new Date().toISOString().substr(0, 10));
   log("Start day is " + startDay);
 
   var eventFunnel = ['Started Level', 'Saw Victory'];
