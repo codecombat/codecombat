@@ -400,7 +400,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature1: "Más de 60 niveles basicos a lo largo de 4 mundos"
     feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
     feature3: "Más de 30 niveles extras"
-   feature4: "<strong>3500 gemas bonus</strong> cada mes!"
+    feature4: "<strong>3500 gemas bonus</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     free: "Gratis"
