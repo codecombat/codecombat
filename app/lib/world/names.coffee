@@ -102,6 +102,7 @@ module.exports.thangNames = thangNames =
     'Nicholas'
     'Noah'
     'Orion'
+    'Parker'
     'Patrick'
     'Paul'
     'Peter'
@@ -352,6 +353,7 @@ module.exports.thangNames = thangNames =
     'Rosaline'
     'Rowan'
     'Tansy'
+    'Tauriel'
     'Vereesa'
     'Vesper'
     'Yilitha'
@@ -365,6 +367,7 @@ module.exports.thangNames = thangNames =
     'Fidsdale'
     'Gimsley'
     'Hunter'
+    'Legolas'
     'Loco'
     'Logos'
     'Lycan'
@@ -557,6 +560,7 @@ module.exports.thangNames = thangNames =
   ]
   'Potion Master': [
     'Amaranth'
+    'Alchemist'
     'Arora'
     'Artephius'
     'Clause'
