@@ -749,7 +749,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     level_component_edit_title: "編輯組件"
     level_component_config_schema: "配置模式"
     level_component_settings: "設定"
-    level_system _edit_title: "編輯系統"
+    level_system_edit_title: "編輯系統"
     create_system_title: "Create New System"
     new_component_title: "建立新系統"
     new_component_field_system: "系統"
