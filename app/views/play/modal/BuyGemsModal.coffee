@@ -2,6 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/buy-gems-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class BuyGemsModal extends ModalView
   id: 'buy-gems-modal'
@@ -21,6 +22,8 @@ module.exports = class BuyGemsModal extends ModalView
 
   events:
     'click .product button': 'onClickProductButton'
+    'click #close-modal': 'hide'
+    'click .start-subscription-button': 'onClickStartSubscription'
 
   constructor: (options) ->
     super(options)
@@ -110,3 +113,7 @@ module.exports = class BuyGemsModal extends ModalView
     purchased.gems += product.gems
     me.set('purchased', purchased)
     @hide()
+
+  onClickStartSubscription: (e) ->
+    @openModalView new SubscribeModal()
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'buy gems modal'

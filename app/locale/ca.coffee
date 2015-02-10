@@ -94,6 +94,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     campaign_classic_algorithms: "Algoritmes classics"
     campaign_classic_algorithms_description: "... on pots aprendre els algoritmes més populars de l'informàtica."
 
+#  share_progress_modal:
+#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    email_invalid: "Email address invalid."
+#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_label: "Email Address"
+#    placeholder: "email address"
+#    title: "Excellent Work, Apprentice"
+#    tell_friend: "Tell your Friend"
+#    tell_parent: "Tell your Parent"
+
   login:
     sign_up: "Crear un compte"
     log_in: "Iniciar Sessió"
@@ -131,6 +141,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     books: "Llibres"
 
   common:
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "Carregant..."
     saving: "Guardant..."
     sending: "Enviant..."
@@ -323,6 +335,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+#    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_adding_evil: "Adding a pinch of evil."
+#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "Inventari"

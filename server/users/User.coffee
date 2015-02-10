@@ -123,6 +123,7 @@ UserSchema.statics.updateServiceSettings = (doc, callback) ->
   params.update_existing = true
 
   onSuccess = (data) ->
+    data.email = doc.get('email')  # Make sure that we don't spam opt-in emails even if MailChimp doesn't udpate the email it gets in this object until they have confirmed.
     doc.set('mailChimp', data)
     doc.updatedMailChimp = true
     doc.save()

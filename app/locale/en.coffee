@@ -95,7 +95,7 @@
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
   share_progress_modal:
-    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
     email_invalid: "Email address invalid."
     form_blurb: "Enter their email below and we’ll show them!"
     form_label: "Email Address"
@@ -335,6 +335,9 @@
     tip_source_code: "I want to change the world but they would not give me the source code."
     tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
     tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_google: "Have a problem you can't solve? Google it!"
+    tip_adding_evil: "Adding a pinch of evil."
+    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -357,7 +360,7 @@
     leaderboard: "Leaderboard"
     view_other_solutions: "View Other Solutions"
     scores: "Scores"
-    top_solutions: "Top Solutions"
+    top_players: "Top Players by"
     day: "Today"
     week: "This Week"
     all: "All-Time"
@@ -391,6 +394,7 @@
     prompt_body: "Do you want to get more?"
     prompt_button: "Enter Shop"
     recovered: "Previous gems purchase recovered. Please refresh the page."
+    or_subscribe: "Or 3500 gems/mo if you..."
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"

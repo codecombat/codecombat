@@ -105,6 +105,7 @@ module.exports = class HeroVictoryModal extends ModalView
       achievement.gems = achievement.get('rewards')?.gems
     c.achievements = @achievements.models.slice()
     for achievement in c.achievements
+      achievement.description = utils.i18n achievement.attributes, 'description'
       continue unless @supermodel.finished() and proportionalTo = achievement.get 'proportionalTo'
       # For repeatable achievements, we modify their base worth/gems by their repeatable growth functions.
       achievedAmount = utils.getByPath @session.attributes, proportionalTo

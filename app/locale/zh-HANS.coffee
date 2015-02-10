@@ -94,6 +94,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_classic_algorithms: "经典算法"
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
 
+#  share_progress_modal:
+#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
+#    email_invalid: "Email address invalid."
+#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_label: "Email Address"
+#    placeholder: "email address"
+#    title: "Excellent Work, Apprentice"
+#    tell_friend: "Tell your Friend"
+#    tell_parent: "Tell your Parent"
+
   login:
     sign_up: "注册"
     log_in: "登录"
@@ -131,6 +141,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
+#    back: "Back" # When used as an action verb, like "Navigate backward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
     loading: "读取中……"
     saving: "保存中……"
     sending: "发送中……"
@@ -323,6 +335,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_source_code: "我想改变世界，但是他们不给我源代码。"
     tip_javascript_java: "Java和JavaScript的关系就好比是马和马云. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+#    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_adding_evil: "Adding a pinch of evil."
+#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 
   game_menu:
     inventory_tab: "道具箱"
