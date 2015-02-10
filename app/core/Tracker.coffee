@@ -82,10 +82,10 @@ module.exports = class Tracker
     unless event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
       # Trimming properties we don't use internally
       # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
-      if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Loaded World Map', 'Homepage Loaded', 'Change Hero']
+      if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
         delete properties.category
         delete properties.label
-      else if event in ['Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login', 'Show subscription modal']
+      else if event in ['Loaded World Map', 'Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login', 'Show subscription modal']
         delete properties.category
 
       properties[key] = value for key, value of @explicitTraits if @explicitTraits?
