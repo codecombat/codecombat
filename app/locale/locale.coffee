@@ -10,8 +10,8 @@ module.exports =
       continue if path is 'locale/locale'
       code = path.replace('locale/', '')
       @[code] = require(path)
-    
-    
+
+
   'en': { nativeDescription: 'English', englishDescription: 'English' }
   'en-US': { nativeDescription: 'English (US)', englishDescription: 'English (US)' }
   'en-GB': { nativeDescription: 'English (UK)', englishDescription: 'English (UK)' }
@@ -51,9 +51,8 @@ module.exports =
   'sl': { nativeDescription: 'slovenščina', englishDescription: 'Slovene' }
   'fi': { nativeDescription: 'suomi', englishDescription: 'Finnish' }
   'bg': { nativeDescription: 'български език', englishDescription: 'Bulgarian' }
-  'no': { nativeDescription: 'Norsk', englishDescription: 'Norwegian' }
-  'nn': { nativeDescription: 'Norwegian Nynorsk', englishDescription: 'Norwegian' }
   'nb': { nativeDescription: 'Norsk Bokmål', englishDescription: 'Norwegian (Bokmål)' }
+  'nn': { nativeDescription: 'Norsk Nynorsk', englishDescription: 'Norwegian (Nynorsk)' }
   'he': { nativeDescription: 'עברית', englishDescription: 'Hebrew' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
   'sr': { nativeDescription: 'српски', englishDescription: 'Serbian' }
@@ -62,5 +61,5 @@ module.exports =
   'ur': { nativeDescription: 'اُردُو', englishDescription: 'Urdu' }
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
   'ca': { nativeDescription: 'Català', englishDescription: 'Catalan' }
-  'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' } 
+  'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
