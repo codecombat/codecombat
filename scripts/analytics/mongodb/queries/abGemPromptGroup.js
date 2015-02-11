@@ -4,11 +4,14 @@
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
+// TODO: Why is no-prompt group 50% larger?
+
 load('abTestHelpers.js');
 
 var scriptStartTime = new Date();
 try {
   var startDay = '2014-11-24'
+  // startDay = '2015-01-15'
   log("Today is " + new Date().toISOString().substr(0, 10));
   log("Start day is " + startDay);
 

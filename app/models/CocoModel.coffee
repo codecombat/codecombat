@@ -367,6 +367,7 @@ class CocoModel extends Backbone.Model
         me.fetch (success: -> Backbone.Mediator.publish('achievements:new', earnedAchievements: collection)) unless _.isEmpty(collection.models)
       error: ->
         console.error 'Miserably failed to fetch unnotified achievements', arguments
+      cache: false
 
   CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 

@@ -39,7 +39,7 @@ module.exports = class VictoryModal extends ModalView
     url = "/db/level/#{@level.id}/feedback"
     @feedback = new LevelFeedback()
     @feedback.setURL url
-    @feedback.fetch()
+    @feedback.fetch cache: false
     @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
     @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
 

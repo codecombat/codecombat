@@ -294,6 +294,7 @@ module.exports = class SpectateLevelView extends RootView
     $.ajax
       url: randomSessionPairURL
       type: 'GET'
+      cache: false
       complete: (jqxhr, textStatus) ->
         if textStatus isnt 'success'
           cb('error', jqxhr.statusText)

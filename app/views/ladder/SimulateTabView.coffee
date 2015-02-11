@@ -15,7 +15,7 @@ module.exports = class SimulateTabView extends CocoView
   constructor: (options) ->
     super(options)
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
-    @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators')
+    @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
     require 'vendor/aether-javascript'
     require 'vendor/aether-python'
@@ -77,7 +77,7 @@ module.exports = class SimulateTabView extends CocoView
   refresh: ->
     success = (numberOfGamesInQueue) ->
       $('#games-in-queue').text numberOfGamesInQueue
-    $.ajax '/queue/messagesInQueueCount', {success}
+    $.ajax '/queue/messagesInQueueCount', cache: false, success: success
 
   updateSimulationStatus: (simulationStatus, sessions) ->
     if simulationStatus is 'Fetching simulation data!'
@@ -131,15 +131,14 @@ class SimulatorsLeaderboardData extends CocoClass
     unless @me.get('anonymous')
       score = @me.get('simulatedBy') or 0
       queueSuccess = (@numberOfGamesInQueue) =>
-      promises.push $.ajax '/queue/messagesInQueueCount', {success: queueSuccess}
+      promises.push $.ajax '/queue/messagesInQueueCount', {success: queueSuccess, cache: false}
       @playersAbove = new SimulatorsLeaderboardCollection({order: 1, scoreOffset: score, limit: 4})
       promises.push @playersAbove.fetch()
       if score
         @playersBelow = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: score, limit: 4})
         promises.push @playersBelow.fetch()
       success = (@myRank) =>
-
-      promises.push $.ajax "/db/user/me/simulator_leaderboard_rank?scoreOffset=#{score}", {success}
+      promises.push $.ajax("/db/user/me/simulator_leaderboard_rank?scoreOffset=#{score}", cache: false, success: success)
 
     @promise = $.when(promises...)
     @promise.then @onLoad

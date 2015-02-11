@@ -67,7 +67,7 @@ module.exports = class LeaderboardTabView extends CocoView
     return if @hasShown
     @hasShown = true
     topScores = new TopScoresCollection @level, @scoreType, @timespan
-    @sessions = @supermodel.loadCollection(topScores, 'sessions', null, 0).model
+    @sessions = @supermodel.loadCollection(topScores, 'sessions', {cache: false}, 0).model
 
   onClickRow: (e) ->
     sessionID = $(e.target).closest('tr').data 'session-id'

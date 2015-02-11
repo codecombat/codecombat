@@ -15,7 +15,7 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class MainUserView extends UserView
   id: 'user-home'
   template: template
-  
+
   events:
     'click .more-button': 'onClickMoreButton'
 
@@ -54,8 +54,8 @@ module.exports = class MainUserView extends UserView
       @supermodel.resetProgress()
       @levelSessions = new LevelSessionsCollection @user.getSlugOrID()
       @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
-      @supermodel.loadCollection @levelSessions, 'levelSessions'
-      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements'
+      @supermodel.loadCollection @levelSessions, 'levelSessions', {cache: false}
+      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements', {cache: false}
     super()
 
   onClickMoreButton: (e) ->

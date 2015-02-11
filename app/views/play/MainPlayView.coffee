@@ -19,7 +19,7 @@ module.exports = class MainPlayView extends RootView
     super options
     @levelStatusMap = {}
     @levelPlayCountMap = {}
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @getLevelPlayCounts()
 

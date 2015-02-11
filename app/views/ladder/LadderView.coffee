@@ -37,7 +37,7 @@ module.exports = class LadderView extends RootView
   constructor: (options, @levelID) ->
     super(options)
     @level = @supermodel.loadModel(new Level(_id: @levelID), 'level').model
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions').model
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
 
     @teams = []
 
@@ -71,7 +71,7 @@ module.exports = class LadderView extends RootView
 
   fetchSessionsAndRefreshViews: ->
     return if @destroyed or application.userIsIdle or (new Date() - 2000 < @lastRefreshTime) or not @supermodel.finished()
-    @sessions.fetch({'success': @refreshViews})
+    @sessions.fetch success: @refreshViews, cache: false
 
   refreshViews: =>
     return if @destroyed or application.userIsIdle

@@ -62,7 +62,7 @@ module.exports = class CampaignView extends RootView
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     unless @terrain
       @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 0).model
@@ -85,7 +85,7 @@ module.exports = class CampaignView extends RootView
               console.warn 'Filling in a gap for reward', group, reward
               earned[group].push(reward)
 
-    @supermodel.loadCollection(@earnedAchievements, 'achievements')
+    @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
     $(window).on 'resize', @onWindowResize
@@ -375,7 +375,7 @@ module.exports = class CampaignView extends RootView
     sessionURL = "/db/level/#{levelSlug}/session"
     @preloadedSession = new LevelSession().setURL sessionURL
     @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
-    @preloadedSession = @supermodel.loadModel(@preloadedSession, 'level_session').model
+    @preloadedSession = @supermodel.loadModel(@preloadedSession, 'level_session', {cache: false}).model
     @preloadedSession.levelSlug = levelSlug
 
   onSessionPreloaded: (session) ->

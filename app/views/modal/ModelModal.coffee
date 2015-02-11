@@ -14,7 +14,7 @@ module.exports = class ModelModal extends ModalView
     @models = options.models
     for model in @models when not model.loaded
       @supermodel.loadModel model, 'source_document'
-      model.fetch()
+      model.fetch cache: false
 
   getRenderData: ->
     c = super()
