@@ -20,9 +20,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     blog: "블로그"
     forum: "포럼"
     account: "계정"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    profile: "프로필"
+    stats: "스탯"
+    code: "코드"
     admin: "관리자" # Only shows up when you are an admin
     home: "홈"
     contribute: "참여하기"
@@ -51,10 +51,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     play_as: "Play As " # Ladder page
     spectate: "관중모드" # Ladder page
 #    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "플레이한 시간" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    confirm: "확인"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
@@ -77,7 +77,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     campaign_beginner: "초보자 캠페인"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_suffix: "새로운 레벨을 가장 먼저 체험하세요!"
 #    adjust_volume: "Adjust volume"
     choose_your_level: "레벨을 선택하세요." # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "아래에 있는 아무 레벨이나 바로 시작하실 수 있습니다. 또는 포럼에서 레벨에 관해 토론하세요 :"
@@ -109,7 +109,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     log_in: "로그인"
     logging_in: "로그인 중"
     log_out: "로그아웃"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "비밀번호를 잊으셨나요?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
@@ -125,12 +125,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     log_in: "비밀번호로 로그인"
     social_signup: "또는 페이스북이나 구글 플러스로 계정을 만들 수 있습니다."
     required: "진행하기 전에 로그인이 필요합니다."
-#    login_switch: "Already have an account?"
+    login_switch: "이미 계정이 있으신가요?"
 
   recover:
     recover_account_title: "계정 복구"
     send_password: "복구 비밀번호 전송"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "메일 전송 완료"
 
 #  items:
 #    primary: "Primary"
