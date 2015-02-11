@@ -41,9 +41,8 @@ require("locale/sk")
 require("locale/sl")
 require("locale/fi")
 require("locale/bg")
-require("locale/no")
-require("locale/nn")
 require("locale/nb")
+require("locale/nn")
 require("locale/he")
 require("locale/lt")
 require("locale/sr")
@@ -128,9 +127,8 @@ module.exports = class DiplomatView extends ContributeClassView
     sl: []             # slovenščina, Slovene
     fi: []             # suomi, Finnish
     bg: []             # български език, Bulgarian
-    no: ['bardeh', 'torehaug']             # Norsk, Norwegian
-    nn: []             # Norwegian (Nynorsk), Norwegian Nynorsk
-    nb: ['ebirkenes','mcclane654']             # Norsk Bokmål, Norwegian (Bokmål)
+    nb: ['bardeh', 'torehaug', 'ebirkenes','mcclane654', 'matifol', 'mogsie']             # Norsk Bokmål, Norwegian (Bokmål)
+    nn: []             # Norsk Nynorsk, Norwegian (Nynorsk)
     he: ['OverProgram', 'monetita']             # עברית, Hebrew
     lt: []             # lietuvių kalba, Lithuanian
     sr: []             # српски, Serbian

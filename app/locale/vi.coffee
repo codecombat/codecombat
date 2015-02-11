@@ -1,35 +1,35 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
   home:
-    slogan: "Học mã bằng chơi Games"
+    slogan: "Học code bằng chơi Games"
     no_ie: "Codecombat không chạy trong Internet Explorer 8 hoặc cũ hơn. Xin lỗi!" # Warning that only shows up in IE8 and older
     no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!" # Warning that shows up on mobile devices
     play: "Chơi" # The big play button that opens up the campaign view.
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    old_browser: "Trình duyệt của bạn quá cũ để chạy CodeCombat. Thật sự xin lỗi!" # Warning that shows up on really old Firefox/Chrome/Safari
+    old_browser_suffix: "Bạn có thể thử nếu bạn muốn, nhưng tôi nghĩ nó sẽ không hoạt động."
+    ipad_browser: "Tin xấu: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
 #    campaign: "Campaign"
     for_beginners: "Dành cho người bắt đầu chơi"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
+    multiplayer: "Nhiều người chơi" # Not currently shown on home page
+    for_developers: "Dành cho nhà phát triển" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
   nav:
     play: "Các cấp độ" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
+    community: "Cộng đồng"
     editor: "Chỉnh sửa"
-    blog: "Liếm cu"
+    blog: "Blog"
     forum: "Diễn đàn"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+    account: "Tài khoản"
+    profile: "Thông tin cá nhân"
+    stats: "Các chỉ số"
+    code: "Code"
     admin: "Quản trị viên" # Only shows up when you are an admin
     home: "Nhà"
     contribute: "Contribute"
     legal: "Hợp pháp"
     about: "Về"
     contact: "Liên hệ"
-    twitter_follow: "Đi theo"
+    twitter_follow: "Theo dõi"
     teachers: "Thầy Giáo"
 
   modal:
@@ -54,31 +54,31 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     hours_played: "Bao nhiêu tiếng chơi" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
     unlock: "Mua" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    confirm: "Xác nhận"
+    owned: "Đã có" # For items you own
+    locked: "Đã khóa"
+    purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    account: "Tài khoản" # Tooltip on account button from /play
+    settings: "Những tùy chỉnh" # Tooltip on settings button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    change_hero: "Thay đổi nhân vật" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Mua ngọc"
 #    subscription_required: "Subscription Required"
-#    free: "Free"
+    free: "Miễn phí"
 #    subscribed: "Subscribed"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "Người chơi vô danh"
     level_difficulty: "Khó: "
     campaign_beginner: "Bắt đầu chiến dịch"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "Tùy chỉnh âm lượng"
     choose_your_level: "Chọn Trình của bạn" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Bạn có thể nhảy đến bất kỳ cấp độ dưới đây, hoặc nâng dần cấp độ "
     adventurer_forum: "diễn đàn Adventurer"
@@ -94,55 +94,55 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress!  Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
+  share_progress_modal:
+    blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy kể cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
+    email_invalid: "Địa chỉ email không hợp lệ."
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+    form_label: "Địa chỉ email"
+    placeholder: "địa chỉ email"
+    title: "Làm tốt lắm, thực tập viên"
+    tell_friend: "Hãy nói với những người bạn của bạn"
+    tell_parent: "Hãy nói với bố mẹ bạn"
 
   login:
     sign_up: "Tạo tài khoản"
     log_in: "Đăng nhập"
-#    logging_in: "Logging In"
+    logging_in: "Đang đăng nhập"
     log_out: "Đăng xuất"
     forgot_password: "Quên mật khẩu?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
     finishing: "Đang xong"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Đăng nhập với Facebook"
+    sign_in_with_gplus: "Đăng nhập với G+"
+    signup_switch: "Bạn có muốn tạo tài khoản mới?"
 
   signup:
     email_announcements: "Nhận thông báo bằng email"
     creating: "Tạo tài khoản..."
     sign_up: "Đăng ký"
     log_in: "đăng nhập với mật khẩu"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "Hoặc bạn có thể đăng kí qua Facebook hoặc G+:"
 #    required: "You need to log in before you can go that way."
-#    login_switch: "Already have an account?"
+    login_switch: "Bạn đã có tài khoản rồi ?"
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
     send_password: "Gởi mật mã khôi phục"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Đã gửi email giúp bạn khôi phục mật khẩu."
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
+    primary: "Chính"
+    secondary: "Phụ"
+    armor: "Aó giáp"
+    accessories: "Phụ kiện"
+    misc: "Linh tinh"
     books: "Cuốn sách"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Quay trở lại" # When used as an action verb, like "Navigate backward"
+    continue: "Tiếp tục" # When used as an action verb, like "Continue forward"
     loading: "Tải..."
     saving: "Lưu..."
     sending: "Gởi..."
@@ -156,8 +156,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     play: "Các cấp độ" # When used as an action verb, like "Play next level"
     retry: "Chơi lại"
 #    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
+    info: "Thông tin"
+    help: "Giúp đỡ"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
@@ -168,48 +168,48 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     name: "Tên"
     date: "Ngày"
 #    body: "Body"
-#    version: "Version"
-#    pending: "Pending"
-#    accepted: "Accepted"
+    version: "Phiên bản"
+    pending: "Trong quá trình quyết định"
+    accepted: "Đã được chấp nhận"
 #    rejected: "Rejected"
 #    withdrawn: "Withdrawn"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
+    submitter: "Người gửi"
+    submitted: "Đã gửi"
 #    commit_msg: "Commit Message"
 #    review: "Review"
 #    version_history: "Version History"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
 #    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
+    undo_shortcut: "(Ctrl+Z)"
 #    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
-#    result: "Result"
-#    results: "Results"
+    result: "Kết quả"
+    results: "Những kết quả"
 #    description: "Description"
     or: "hay là"
-#    subject: "Subject"
-#    email: "Email"
-#    password: "Password"
-#    message: "Message"
-#    code: "Code"
+    subject: "Subject"
+    email: "Email"
+    password: "Mật khẩu"
+    message: "Tin nhắn"
+    code: "Code"
 #    ladder: "Ladder"
     when: "Khi nào"
-#    opponent: "Opponent"
+    opponent: "Đối thủ"
 #    rank: "Rank"
-#    score: "Score"
+    score: "Điểm"
     win: "Thắng"
     loss: "Thua"
-#    tie: "Tie"
+    tie: "Hòa"
     easy: "Dể"
     medium: "Vừa"
     hard: "Khó"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    player: "Người chơi"
+    player_level: "Cấp" # Like player level 5, not like level: Dungeons of Kithgard
+    warrior: "Chiến  binh"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "Phù thủy"
 
   units:
     second: "giây"
@@ -230,26 +230,26 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   play_level:
     done: "Hoàn thành"
 #    home: "Home" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    level: "Bàn" # Like "Level: Dungeons of Kithgard"
+    skip: "Bỏ qua"
 #    game_menu: "Game Menu"
     guide: "Hướng dẫn"
     restart: "Khởi động lại"
-    goals: "Mục đích"
-#    goal: "Goal"
-#    running: "Running..."
+    goals: "Mục tiêu"
+    goal: "Mục tiêu"
+    running: "Đang chạy..."
     success: "Thắng!"
-#    incomplete: "Incomplete"
+    incomplete: "Chưa hoàn thành"
     timed_out: "Hết giờ"
     failing: "Đang thua"
 #    action_timeline: "Action Timeline"
     click_to_select: "Kích vào đơn vị để chọn nó."
 #    control_bar_multiplayer: "Multiplayer"
 #    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    reload: "Tải lại"
     reload_title: "Tải lại tất cả mã?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
-#    reload_confirm: "Reload All"
+    reload_confirm: "Tải lại tất cả"
     victory: "Thắng"
 #    victory_title_prefix: ""
     victory_title_suffix: " Xong"
@@ -257,7 +257,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Tiếp tục"
 #    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
@@ -270,7 +270,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
 #    tome_other_units: "Other Units" # Only in old-style levels.
 #    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
+    tome_cast_button_running: "Đang chạy"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
@@ -281,17 +281,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tome_your_skills: "Your Skills"
 #    tome_help: "Help"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
-#    code_saved: "Code Saved"
-#    skip_tutorial: "Skip (esc)"
-#    keyboard_shortcuts: "Key Shortcuts"
+    hud_continue_short: "Tiếp tục"
+    code_saved: "Code đã được lưu"
+    skip_tutorial: "Bỏ qua (esc)"
+    keyboard_shortcuts: "Các phím tắt"
 #    loading_ready: "Ready!"
-#    loading_start: "Start Level"
-#    problem_alert_title: "Fix Your Code"
+    loading_start: "Bắt đầu bàn này"
+    problem_alert_title: "Hãy sửa code của bạn"
 #    problem_alert_help: "Help"
-#    time_current: "Now:"
+    time_current: "Bây giờ:"
 #    time_total: "Max:"
-#    time_goto: "Go to:"
+    time_goto: "Đi đến:"
     infinite_loop_try_again: "Chơi Lại"
     infinite_loop_reset_level: "Chơi Lại"
 #    infinite_loop_comment_out: "Comment Out My Code"
@@ -299,7 +299,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
 #    tip_open_source: "CodeCombat is 100% open source!"
-#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+    tip_beta_launch: "Bản thử nghiệm của CodeCombat được ra mắt vào tháng 10 năm 2013."
 #    tip_think_solution: "Think of the solution, not the problem."
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
@@ -312,15 +312,15 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_harry: "Yer a Wizard, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
-#    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
+    tip_binary: "Có 10 loại người trên thế giới này: những người biết về hệ nhị phân và những người không biết về nó."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
 #    tip_no_try: "Do. Or do not. There is no try. - Yoda"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
-#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+    tip_impossible: "Sự việc đều tưởng như bất khả thi cho tới khi nó được hoàn thành. - Nelson Mandela"
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
-#    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+    tip_hardware_problem: "Câu hỏi: Cần bao nhiêu lập trình viên để thay 1 bóng đèn?  Trá lời: 0 người. Đó là vấn đề về phần cứng."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
@@ -338,6 +338,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
+#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -347,7 +348,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    guide_video_tutorial: "Video Tutorial"
 #    guide_tips: "Tips"
     multiplayer_tab: "Nhiều người chơi"
-#    auth_tab: "Sign Up"
+    auth_tab: "Đăng kí"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -356,23 +357,23 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
+  leaderboard:
+    leaderboard: "Bảng xếp hạng"
 #    view_other_solutions: "View Other Solutions"
 #    scores: "Scores"
-#    top_solutions: "Top Solutions"
-#    day: "Today"
-#    week: "This Week"
+#    top_players: "Top Players by"
+    day: "Hôm nay"
+    week: "Tuần này"
 #    all: "All-Time"
 #    time: "Time"
 #    damage_taken: "Damage Taken"
 #    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
+    difficulty: "Độ khó"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
+  inventory:
 #    choose_inventory: "Equip Items"
-#    equipped_item: "Equipped"
+    equipped_item: "Đã trang bị"
 #    required_purchase_title: "Required"
 #    available_item: "Available"
 #    restricted_title: "Restricted"
@@ -383,19 +384,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
+  buy_gems:
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
+    retrying: "Lỗi server, đang thử lại."
+    prompt_title: "Không đủ ngọc"
 #    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    prompt_button: "Vào cửa hàng"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
+#    or_subscribe: "Or 3500 gems/mo if you..."
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "60+ basic levels across 4 worlds"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
@@ -403,7 +405,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
-#    free: "Free"
+    free: "Miễn phí"
 #    month: "month"
 #    subscribe_title: "Subscribe"
 #    unsubscribe: "Unsubscribe"
@@ -416,12 +418,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
 #    parent_button: "Ask your parent"
 #    parent_email_description: "We'll email them so they can buy you a CodeCombat subscription."
-#    parent_email_input_invalid: "Email address invalid."
-#    parent_email_input_label: "Parent email address"
-#    parent_email_input_placeholder: "Enter parent email"
-#    parent_email_send: "Send Email"
-#    parent_email_sent: "Email sent!"
-#    parent_email_title: "What's your parent's email?"
+    parent_email_input_invalid: "Địa chỉ email không hợp lệ."
+    parent_email_input_label: "Địa chỉ email của bố hoặc mẹ bạn"
+    parent_email_input_placeholder: "Hãy nhập địa chi email của bố hoặc mẹ bạn"
+    parent_email_send: "Gửi Email"
+    parent_email_sent: "Đã gửi Email!"
+    parent_email_title: "Địa chỉ email của bố hoặc mẹ bạn là gì ?"
 #    parents: "For Parents"
 #    parents_title: "Your child will learn to code."
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
@@ -431,10 +433,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
+    programming_language: "Ngôn ngữ lập trình"
+    programming_language_description: "Bạn muốn sử dụng ngôn ngữ lập trình nào ?"
 #    default: "Default"
 #    experimental: "Experimental"
 #    python_blurb: "Simple yet powerful, great for beginners and experts."
@@ -444,18 +446,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    lua_blurb: "Game scripting language."
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
-#    weapons: "Weapons"
+    weapons: "Vũ khí"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
-#    health: "Health"
-#    speed: "Speed"
+    health: "Máu"
+    speed: "Tốc độ"
 #    regeneration: "Regeneration"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-#    skills: "Skills"
+    skills: "Những kĩ năng"
 #    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
@@ -478,9 +480,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "Đã lưu"
+    granularity_change_history: "Lịch sử"
 
 #  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
@@ -507,7 +509,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-#  about:
+  about:
 #    why_codecombat: "Why CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
@@ -521,16 +523,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
 #    team: "Team"
-#    george_title: "CEO"
+    george_title: "Tổng giám đốc điều hành"
 #    george_blurb: "Businesser"
-#    scott_title: "Programmer"
+    scott_title: "Lập trình viên"
 #    scott_blurb: "Reasonable One"
-#    nick_title: "Programmer"
+    nick_title: "Lập trình viên"
 #    nick_blurb: "Motivation Guru"
-#    michael_title: "Programmer"
+    michael_title: "Lập trình viên"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Programmer"
-#    matt_blurb: "Bicyclist"
+    matt_title: "Lập trình viên"
+    matt_blurb: "Một người thích đi xe đạp"
 
 #  teachers:
 #    title: "CodeCombat for Teachers"
@@ -603,12 +605,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     title: "Cài đặt Tài khoản"
     not_logged_in: "Đăng nhập hoặc tạo tài khoản để thay đổi cài đặt."
     autosave: "Tự động lưu thay đổi"
-#    me_tab: "Me"
+    me_tab: "Tôi"
     picture_tab: "Bức tranh"
-#    upload_picture: "Upload a picture"
+    upload_picture: "Tải ảnh lên"
     password_tab: "Mật khẩu"
     emails_tab: "Emails"
-#    admin: "Admin"
+    admin: "Admin"
     new_password: "Mật khẩu mới"
     new_password_verify: "Xác nhận"
     email_subscriptions: "Thuê bao Email"
@@ -620,7 +622,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    email_any_notes: "Any Notifications"
 #    email_any_notes_description: "Disable to stop all activity notification emails."
 #    email_news: "News"
-#    email_recruit_notes: "Job Opportunities"
+    email_recruit_notes: "Cơ hội việc làm"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
 #    contributor_emails: "Contributor Class Emails"
     contribute_prefix: "Chúng tôi đang tìm thêm người vào nhóm của chúng tôi! Hãy kiểm "
@@ -637,12 +639,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
 #    space: "Space"
-#    enter: "Enter"
+    enter: "Enter"
 #    escape: "Escape"
-#    shift: "Shift"
+    shift: "Shift"
 #    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
@@ -657,8 +659,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  community:
-#    main_title: "CodeCombat Community"
+  community:
+    main_title: "Cộng đồng CodeCombat"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
 #    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
@@ -669,8 +671,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    find_us: "Find us on these sites"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
-#    social_facebook: "Like CodeCombat on Facebook"
-#    social_twitter: "Follow CodeCombat on Twitter"
+    social_facebook: "Hãy thích trang Facebook của CodeCombat"
+    social_twitter: "Theo dõi CodeCombat trên Twitter"
 #    social_gplus: "Join CodeCombat on Google+"
 #    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
 #    contribute_to_the_project: "Contribute to the project"
@@ -1112,7 +1114,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  account_profile:
+  account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.
 #    edit_profile: "Edit Profile"
 #    done_editing: "Done Editing"
@@ -1151,7 +1153,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    basics_active_help: "Want interview offers right now?"
 #    basics_job_title: "Desired Job Title"
 #    basics_job_title_help: "What role are you looking for?"
-#    basics_city: "City"
+    basics_city: "Thành phố"
 #    basics_city_help: "City you want to work in (or live in now)."
 #    basics_country: "Country"
 #    basics_country_help: "Country you want to work in (or live in now)."

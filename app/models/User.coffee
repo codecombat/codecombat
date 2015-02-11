@@ -124,6 +124,7 @@ module.exports = class User extends CocoModel
     @gemPromptGroup
 
   getForeshadowsLevels: ->
+    return false if $.browser.msie
     return @foreshadowsLevels if @foreshadowsLevels?
     group = me.get('testGroupNumber') % 16
     @foreshadowsLevels = switch group

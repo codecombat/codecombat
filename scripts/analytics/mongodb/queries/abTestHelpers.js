@@ -1,10 +1,12 @@
 // A/B test helper functions
 // Loaded from ab*.js ab test result scripts
-// Main API is getFunnelData() which returns per-day funnel completion rates
+// Main APIs are getFunnelData() and printFunnelData()
 
 // TODO: use levelSlugs in query if available
 // TODO: Stop looking up testGroupNumber when test group data is available in analytics.log.events
 // TODO: These are super slow, need to aggregate into analytics.perdays collection
+
+var browserCountPrintThreshold = 1000;
 
 var analyticsStringCache = {};
 var analyticsStringIDCache = {};
@@ -56,8 +58,10 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
   var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: eventFunnel}}]};
   var cursor = db['analytics.log.events'].find(queryParams);
 
+  log("Fetching events..");
   // Map ordering: level, user, event, day
   var levelUserEventMap = {};
+  var levelSessions = [];
   var users = [];
   while (cursor.hasNext()) {
     var doc = cursor.next();
@@ -66,27 +70,36 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
     var event = doc.event;
     var properties = doc.properties;
     var user = doc.user.valueOf();
-    var level;
+    var level = 'n/a';
+    var ls = null;
 
     // TODO: Switch to properties.levelID for 'Saw Victory'
     if (event === 'Saw Victory' && properties.level) level = properties.level.toLowerCase().replace(/ /g, '-');
     else if (properties.levelID) level = properties.levelID
-    else level = 'n/a'
 
     if (levelSlugs && levelSlugs.indexOf(level) < 0) continue;
+
+    if (properties && properties.ls) {
+      ls = properties.ls.valueOf();
+      levelSessions.push(properties.ls);
+    }
 
     users.push(ObjectId(user));
 
     if (!levelUserEventMap[level]) levelUserEventMap[level] = {};
     if (!levelUserEventMap[level][user]) levelUserEventMap[level][user] = {};
     if (!levelUserEventMap[level][user][event]
-      || levelUserEventMap[level][user][event].localeCompare(day) > 0) {
-      levelUserEventMap[level][user][event] = day;
+      || levelUserEventMap[level][user][event]['day'].localeCompare(day) > 0) {
+      levelUserEventMap[level][user][event] = {day: day};
+      if (ls) {
+        levelUserEventMap[level][user][event]['ls'] = ls;
+      }
     }
   }
   // printjson(levelUserEventMap);
   // printjson(users);
 
+  log("Fetching users..");
   var userGroupMap = {};
   cursor = db['users'].find({_id : {$in: users}});
   while (cursor.hasNext()) {
@@ -96,77 +109,122 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
   }
   // printjson(userGroupMap);
 
+  log("Fetching level sessions..");
+  var lsBrowserMap = {};
+  var userBrowserMap = {};
+  cursor = db['level.sessions'].find({_id : {$in: levelSessions}});
+  while (cursor.hasNext()) {
+    var doc = cursor.next();
+    var user = doc._id.valueOf();
+    var browser = doc.browser;
+    var browserInfo = '';
+    if (browser && browser.platform) {
+      browserInfo += browser.platform;
+    }
+    if (browser && browser.name) {
+      browserInfo += browser.name;
+    }
+    if (browserInfo.length > 0) {
+      lsBrowserMap[doc._id.valueOf()] = browserInfo;
+      userBrowserMap[user] = browserInfo;
+    }
+  }
+  // printjson(lsBrowserMap);
+
+  log("Mapping data..");
   // Data: level, day, event
-  var levelDayGroupEventMap = {};
+  var levelDayGroupBrowserEventMap = {};
   for (level in levelUserEventMap) {
     for (user in levelUserEventMap[level]) {
       var group = userGroupMap[user];
+      var browser = userBrowserMap[user] || 'unknown';
 
       // Find first event date
       var funnelStartDay = null;
+      var funnelStartBrowser = null;
       for (event in levelUserEventMap[level][user]) {
-        var day = levelUserEventMap[level][user][event];
-        if (!levelDayGroupEventMap[level]) levelDayGroupEventMap[level] = {};
-        if (!levelDayGroupEventMap[level][day]) levelDayGroupEventMap[level][day] = {};
-        if (!levelDayGroupEventMap[level][day][group]) levelDayGroupEventMap[level][day][group] = {};
-        if (!levelDayGroupEventMap[level][day][group][event]) levelDayGroupEventMap[level][day][group][event] = 0;
+        var day = levelUserEventMap[level][user][event]['day'];
+        var ls = levelUserEventMap[level][user][event]['ls'];
+        if (lsBrowserMap[ls]) {
+          browser = lsBrowserMap[ls];
+        }
+        if (!levelDayGroupBrowserEventMap[level]) levelDayGroupBrowserEventMap[level] = {};
+        if (!levelDayGroupBrowserEventMap[level][day]) levelDayGroupBrowserEventMap[level][day] = {};
+        if (!levelDayGroupBrowserEventMap[level][day][group]) levelDayGroupBrowserEventMap[level][day][group] = {};
+        if (!levelDayGroupBrowserEventMap[level][day][group][browser]) {
+          levelDayGroupBrowserEventMap[level][day][group][browser] = {};
+        }
+        if (!levelDayGroupBrowserEventMap[level][day][group][browser][event]) {
+          levelDayGroupBrowserEventMap[level][day][group][browser][event] = 0;
+        }
         if (eventFunnel[0] === event) {
           // First event gets attributed to current date
-          levelDayGroupEventMap[level][day][group][event]++;
+          levelDayGroupBrowserEventMap[level][day][group][browser][event]++;
           funnelStartDay = day;
+          funnelStartBrowser = browser;
           break;
         }
       }
 
       if (funnelStartDay) {
-        if (!levelDayGroupEventMap[level][funnelStartDay][group]) {
-          levelDayGroupEventMap[level][funnelStartDay][group] = {};
-        }
         // Add remaining funnel steps/events to first step's date
         for (event in levelUserEventMap[level][user]) {
-          if (!levelDayGroupEventMap[level][funnelStartDay][group][event]) {
-            levelDayGroupEventMap[level][funnelStartDay][group][event] = 0;
+          if (!levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser]) {
+            levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser] = {};
           }
-          if (eventFunnel[0] !== event) levelDayGroupEventMap[level][funnelStartDay][group][event]++;
+          if (!levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event]) {
+            levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event] = 0;
+          }
+          if (eventFunnel[0] !== event) {
+            levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event]++;
+          }
         }
         // Zero remaining funnel events
         for (var i = 1; i < eventFunnel.length; i++) {
           var event = eventFunnel[i];
-          if (!levelDayGroupEventMap[level][funnelStartDay][group][event]) {
-            levelDayGroupEventMap[level][funnelStartDay][group][event] = 0;
+          if (!levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event]) {
+            levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event] = 0;
+          }
+          if (!levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event]) {
+            levelDayGroupBrowserEventMap[level][funnelStartDay][group][funnelStartBrowser][event] = 0;
           }
         }
       }
       // Else no start event in this date range
     }
   }
-  // printjson(levelDayGroupEventMap);
+  // printjson(levelDayGroupBrowserEventMap);
 
+  log("Building results..");
   var funnelData = [];
-  for (level in levelDayGroupEventMap) {
-    for (day in levelDayGroupEventMap[level]) {
-      for (group in levelDayGroupEventMap[level][day]) {
-        var started = 0;
-        var finished = 0;
-        for (event in levelDayGroupEventMap[level][day][group]) {
-          if (event === eventFunnel[0]) {
-            started = levelDayGroupEventMap[level][day][group][event];
+  for (level in levelDayGroupBrowserEventMap) {
+    for (day in levelDayGroupBrowserEventMap[level]) {
+      for (group in levelDayGroupBrowserEventMap[level][day]) {
+        for (browser in levelDayGroupBrowserEventMap[level][day][group]) {
+          var started = 0;
+          var finished = 0;
+          for (event in levelDayGroupBrowserEventMap[level][day][group][browser]) {
+            if (event === eventFunnel[0]) {
+              started = levelDayGroupBrowserEventMap[level][day][group][browser][event];
+            }
+            else if (event === eventFunnel[eventFunnel.length - 1]) {
+              finished = levelDayGroupBrowserEventMap[level][day][group][browser][event];
+            }
           }
-          else if (event === eventFunnel[eventFunnel.length - 1]) {
-            finished = levelDayGroupEventMap[level][day][group][event];
-          }
+          funnelData.push({
+            level: level,
+            day: day,
+            group: group,
+            browser: browser,
+            started: started,
+            finished: finished
+          });
         }
-        funnelData.push({
-          level: level,
-          day: day,
-          group: group,
-          started: started,
-          finished: finished
-        });
       }
     }
   }
 
+  log("Sorting results..");
   funnelData.sort(function (a,b) {
     if (a.level !== b.level) {
       return a.level < b.level ? -1 : 1;
@@ -174,8 +232,79 @@ function getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs) {
     else if (a.day !== b.day) {
       return a.day < b.day ? -1 : 1;
     }
+    else if (a.browser !== b.browser) {
+      return a.browser < b.browser ? -1 : 1;
+    }
     return a.group < b.group ? -1 : 1;
   });
 
   return funnelData;
+}
+
+function printFunnelData(funnelData, printFn) {
+  log("Day\t\tGroup\t\tStarted\tFinished\tCompletion Rate");
+  var levelBrowserGroupCounts = {};
+  var levelGroupCounts = {};
+  var groupCounts = {};
+  for (var i = 0; i < funnelData.length; i++) {
+    var level = funnelData[i].level;
+    var day = funnelData[i].day;
+    var browser = funnelData[i].browser;
+    var group = funnelData[i].group;
+    var started = funnelData[i].started;
+    var finished = funnelData[i].finished;
+    var rate = started > 0 ? finished / started * 100 : 0.0;
+    printFn(day, level, browser, group, started, finished, rate);
+
+    if (!levelBrowserGroupCounts[level]) levelBrowserGroupCounts[level] = {};
+    if (!levelBrowserGroupCounts[level][browser]) levelBrowserGroupCounts[level][browser] = {};
+    if (!levelBrowserGroupCounts[level][browser][group]) {
+      levelBrowserGroupCounts[level][browser][group] = {started: 0, finished: 0};
+    }
+    levelBrowserGroupCounts[level][browser][group]['started'] += started;
+    levelBrowserGroupCounts[level][browser][group]['finished'] += finished;
+
+    if (!levelGroupCounts[level]) levelGroupCounts[level] = {};
+    if (!levelGroupCounts[level][group]) levelGroupCounts[level][group] = {started: 0, finished: 0};
+    levelGroupCounts[level][group]['started'] += started;
+    levelGroupCounts[level][group]['finished'] += finished;
+
+    if (!groupCounts[group]) groupCounts[group] = {started: 0, finished: 0};
+    groupCounts[group]['started'] += started;
+    groupCounts[group]['finished'] += finished;
+  }
+
+  log("");
+  log("Browser totals:");
+  for (level in levelBrowserGroupCounts) {
+    for (browser in levelBrowserGroupCounts[level]) {
+      for (group in levelBrowserGroupCounts[level][browser]) {
+        var started = levelBrowserGroupCounts[level][browser][group].started;
+        if (started < browserCountPrintThreshold) continue;
+        var finished = levelBrowserGroupCounts[level][browser][group].finished;
+        var rate = started > 0 ? finished / started * 100 : 0.0;
+        printFn(null, level, browser, group, started, finished, rate);
+      }
+    }
+  }
+
+  log("");
+  log("Level totals:");
+  for (level in levelGroupCounts) {
+    for (group in levelGroupCounts[level]) {
+      var started = levelGroupCounts[level][group].started;
+      var finished = levelGroupCounts[level][group].finished;
+      var rate = started > 0 ? finished / started * 100 : 0.0;
+      printFn(null, level, null, group, started, finished, rate);
+    }
+  }
+
+  log("");
+  log("Group totals:");
+  for (group in groupCounts) {
+    var started = groupCounts[group].started;
+    var finished = groupCounts[group].finished;
+    var rate = started > 0 ? finished / started * 100 : 0.0;
+    printFn(null, null, null, group, started, finished, rate);
+  }
 }
