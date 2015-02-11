@@ -165,7 +165,7 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        $.get "/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", cache: false, success: (data) -> histogramData = data
+        $.get "/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", {cache: false}, (data) -> histogramData = data
       ).then =>
         @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
 
