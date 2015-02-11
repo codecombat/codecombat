@@ -136,6 +136,7 @@ module.exports = class Simulator extends CocoClass
       parse: true
       error: @handleFetchTaskError
       success: @setupSimulationAndLoadLevel
+      cache: false
 
   handleFetchTaskError: (errorData) =>
     console.error "There was a horrible Error: #{JSON.stringify errorData}"

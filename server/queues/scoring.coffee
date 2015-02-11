@@ -124,7 +124,8 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span', 'dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
+  #ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
+  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
   levelID = _.sample ladderGameIDs
   sortLimit = 200
   unless ogresGameID and humansGameID

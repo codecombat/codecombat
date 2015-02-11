@@ -9,6 +9,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 ItemDetailsView = require 'views/play/modal/ItemDetailsView'
 Purchase = require 'models/Purchase'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
+AuthModal = require 'views/core/AuthModal'
 
 hasGoneFullScreenOnce = false
 
@@ -548,8 +549,14 @@ module.exports = class InventoryModal extends ModalView
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
 
+  askToSignUp: ->
+    authModal = new AuthModal supermodel: @supermodel
+    authModal.mode = 'signup'
+    return @openModalView authModal
+
   askToBuyGems: (unlockButton) ->
     if me.getGemPromptGroup() is 'no-prompt'
+      return @askToSignUp() if me.get('anonymous')
       return @openModalView new BuyGemsModal()
     @$el.find('.unlock-button').popover 'destroy'
     popoverTemplate = buyGemsPromptTemplate {}
@@ -566,6 +573,7 @@ module.exports = class InventoryModal extends ModalView
 
   onBuyGemsPromptButtonClicked: (e) ->
     @playSound 'menu-button-click'
+    return @askToSignUp() if me.get('anonymous')
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

@@ -6,18 +6,18 @@ module.exports = class AdministerUserModal extends ModalView
   id: "administer-user-modal"
   template: template
   plain: true
-  
+
   events:
     'click #save-changes': 'onSaveChanges'
-  
+
   constructor: (options, @userHandle) ->
     super(options)
-    @user = @supermodel.loadModel(new User({_id:@userHandle}), 'user').model
-    options = {url: '/stripe/coupons'}
-    options.success = (@coupons) => 
+    @user = @supermodel.loadModel(new User({_id:@userHandle}), 'user', {cache: false}).model
+    options = {cache: false, url: '/stripe/coupons'}
+    options.success = (@coupons) =>
     @couponsResource = @supermodel.addRequestResource('coupon', options)
     @couponsResource.load()
-  
+
   getRenderData: ->
     c = super()
     stripe = @user.get('stripe') or {}
@@ -40,12 +40,12 @@ module.exports = class AdministerUserModal extends ModalView
     c.none = not (c.free or c.freeUntil or c.coupon)
     c.user = @user
     c
-  
+
   onSaveChanges: ->
     stripe = _.clone(@user.get('stripe') or {})
     delete stripe.free
     delete stripe.couponID
-    
+
     selection = @$el.find('input[name="stripe-benefit"]:checked').val()
     dateVal = @$el.find('#free-until-date').val()
     couponVal = @$el.find('#coupon-select').val()
@@ -53,10 +53,8 @@ module.exports = class AdministerUserModal extends ModalView
       when 'free' then stripe.free = true
       when 'free-until' then stripe.free = dateVal
       when 'coupon' then stripe.couponID = couponVal
-    
+
     @user.set('stripe', stripe)
     options = {}
     options.success = => @hide()
     @user.patch(options)
-    
-    

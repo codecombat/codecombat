@@ -39,7 +39,7 @@ module.exports = class RootView extends CocoView
     earnedAchievement.set('notified', true)
     earnedAchievement.patch()
     return if achievement.get('collection') is 'level.sessions'
-    return if @isIE()  # Some bugs in IE right now, TODO fix soon!
+    #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
     new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
@@ -47,6 +47,7 @@ module.exports = class RootView extends CocoView
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       achievement.fetch
         success: (achievement) => @showNewAchievement?(achievement, earnedAchievement)
+        cache: false
 
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})

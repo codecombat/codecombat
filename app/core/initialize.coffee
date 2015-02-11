@@ -23,10 +23,9 @@ definitionSchemas =
 init = ->
   return if app
   if not window.userObject._id
-    $.ajax('/auth/whoami', {success: (res) ->
+    $.ajax '/auth/whoami', cache: false, success: (res) ->
       window.userObject = res
       init()
-    })
     return
 
   app = require 'core/application'

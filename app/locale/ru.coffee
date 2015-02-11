@@ -94,15 +94,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms: "Классические принципы"
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+  share_progress_modal:
+    blurb: "Вы отлично продвигаетесь! Расскажите кому-нибудь, как много вы уже выучили с CodeCombat."
+    email_invalid: "Email-адрес некорректен."
+    form_blurb: "Введите их email-адреса ниже, и мы покажем им!"
+    form_label: "Email-адрес"
+    placeholder: "email-адрес"
+    title: "Прекрасная работа, Ученик"
+    tell_friend: "Расскажите своему другу"
+    tell_parent: "Расскажите своим родителям"
 
   login:
     sign_up: "Создать аккаунт"
@@ -141,8 +141,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     books: "Книги"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Вернуться" # When used as an action verb, like "Navigate backward"
+    continue: "Продолжить" # When used as an action verb, like "Continue forward"
     loading: "Загрузка..."
     saving: "Сохранение..."
     sending: "Отправка..."
@@ -335,10 +335,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_source_code: "Я хочу изменить мир, но они вряд ли дадут мне исходники."
     tip_javascript_java: "Java к JavaScript относится так же, как кол относится к колготкам. - Chris Heilmann (перефраз.)"
     tip_move_forward: "Что бы вы ни делали, вы должны двигаться вперед. - Martin Luther King Jr"
-#    tip_google: "Have a problem you can't solve? Google it!"
-#    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
-#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+    tip_google: "У вас проблема, которую вы не можете решить? Гуглите!"
+    tip_adding_evil: "Добавим щепотку зла."
+    tip_miss_lunch: "Каждый, кто потерял счет времени, используя компьютер, знает, что такое склонность к мечтанию, желание превратить мечты в реальность и тенденция к пропуску обеда. - Tim Berners-Lee"
+    tip_hate_computers: "Есть одна вещь в людях, которые думают, что они ненавидят компьютеры. Что они на самом деле ненавидят, так это плохих программистов. - Larry Niven"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     leaderboard: "Таблица лидеров"
     view_other_solutions: "Посмотреть другие решения"
     scores: "Рейтинг"
-#    top_players: "Top Players by"
+    top_players: "Сортировать игроков по"
     day: "Сегодня"
     week: "На этой неделе"
     all: "За все время"
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     prompt_body: "Хотите еще?"
     prompt_button: "Войти в магазин"
     recovered: "Предыдущие покупки самоцветов восстановлены. Пожалуйста, обновите страницу."
-#    or_subscribe: "Or 3500 gems/mo if you..."
+    or_subscribe: "Или 3500 самоцветов в месяц, если вы..."
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство багодаря подписке на CodeCombat!"
@@ -411,7 +411,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unsubscribe: "Отписаться"
     confirm_unsubscribe: "Подтвердить отмену подписки"
     never_mind: "Неважно, Я Все Равно Тебя Люблю"
-    thank_you_months_prefix: "Спасибо Вам за поддерживание нас в течение последних"
+    thank_you_months_prefix: "Спасибо вам за поддерживание нас в течение последних"
     thank_you_months_suffix: "месяцев."
     thank_you: "Спасибо за поддержку CodeCombat."
     sorry_to_see_you_go: "Жаль, что вы уходите! Пожалуйста, расскажите нам, что мы могли бы сделать лучше."
@@ -539,11 +539,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     preparation_title: "Подготовка"
     preparation_1: "CodeCombat бесплатен для игры на базовых уровнях и не требует регистрации от студентов. Мы призываем учителей"
     preparation_play_campaign: "пройти кампанию"
-    preparation_2: ", чтобы попробовать CodeCombat в деле, но единственная вещь, которая Вам действительно необходима - уверенность, что студенты имеют доступ к компьютеру."
+    preparation_2: ", чтобы попробовать CodeCombat в деле, но единственная вещь, которая вам действительно необходима - уверенность, что студенты имеют доступ к компьютеру."
     preparation_3: "Для учителей нет необходимости в обладании обширными знаниями в понятиях компьютерной науки для того, чтобы студенты получали удудовольствие от обучения с CodeCombat."
     violent_title: "В игре есть насилие?"
     violent_1: "Нас часто спрашивают об этом из-за нашего названия. Хотя CodeCombat содержит элементы мультипликационного насилия, ни в визуальных эффектах ни в языке нет чего-либо наглядного."
-    violent_2: "Если Вы спокойно позволяете своим студентам играть в Angry Birds, Вы будете спокойны и с CodeCombat."
+    violent_2: "Если вы спокойно позволяете своим студентам играть в Angry Birds, вы будете спокойны и с CodeCombat."
     for_girls_title: "А девочкам понравится?"
     for_girls_1: "У нас есть три игровых режима: строительство, загадки и бои. Мы намеренно разработали каждый из режимов так, чтобы быть интересными и для мальчиков и для девочек, и думаем, что уровни со строительством и загадками будут особенно отличать игру от насильственных ААА игр, которые отталкивают игроков-женщин."
     what_cover_title: "Что мы охватываем?"
@@ -566,7 +566,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     what_cover_input_1: "Обработка пользовательского ввода"
     what_cover_input_2: "- реагирование на события ввода для создания пользовательского интерфейса."
     sys_requirements_title: "Системные требования"
-    sys_requirements_1: "Так как CodeCombat - это игра, для плавной работы она более требовательна к компьютерам, чем видео или электронные учебники. Мы оптимизировали CodeCombat для быстрой работы во всех современных браузерах и старых машинах, так что все могут играть. Тем не менее, вот наши предложения, чтобы Вы могли получить максимум от Вашего Часа Кода:"
+    sys_requirements_1: "Так как CodeCombat - это игра, для плавной работы она более требовательна к компьютерам, чем видео или электронные учебники. Мы оптимизировали CodeCombat для быстрой работы во всех современных браузерах и старых машинах, так что все могут играть. Тем не менее, вот наши предложения, чтобы вы могли получить максимум от вашего Часа Кода:"
     sys_requirements_2: "Используйте последние версии Chrome или Firefox."
     sys_requirements_3: "Хотя CodeCombat будет работать в таких старых браузерах как IE9, производительность не будет хорошей. Chrome подходит лучше всего."
     sys_requirements_4: "Используйте новые компьютеры."
@@ -1015,7 +1015,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play_counts: "Счетчики игр"
     feedback: "Отзыв"
     payment_info: "Информация о платеже"
-#    campaigns: "Campaigns"
+    campaigns: "Кампании"
 
   delta:
     added: "Добавлено"
@@ -1154,7 +1154,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     basics_job_title: "Предпочитаемая роль в работе"
     basics_job_title_help: "Какую роль вы хотите?"
     basics_city: "Город"
-    basics_city_help: "Город, в котором Вы живете или хотели ли бы работать."
+    basics_city_help: "Город, в котором вы живете или хотели ли бы работать."
     basics_country: "Страна"
     basics_country_help: "Страна, в которой вы хотите работать (или живете сейчас)."
     basics_visa: "Статус работы в США"

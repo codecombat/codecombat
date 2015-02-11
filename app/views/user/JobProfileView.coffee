@@ -85,7 +85,7 @@ module.exports = class JobProfileView extends UserView
       # Mimicking how the VictoryModal fetches LevelFeedback
       @remark = new UserRemark()
       @remark.setURL "/db/user/#{@userID}/remark"
-      @remark.fetch()
+      @remark.fetch cache: false
       @listenToOnce @remark, 'sync', @onRemarkLoaded
       @listenToOnce @remark, 'error', @onRemarkNotFound
 
