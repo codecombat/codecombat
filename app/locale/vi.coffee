@@ -94,7 +94,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy kể cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
     email_invalid: "Địa chỉ email không hợp lệ."
 #    form_blurb: "Enter their email below and we’ll show them!"
@@ -357,7 +357,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
+  leaderboard:
     leaderboard: "Bảng xếp hạng"
 #    view_other_solutions: "View Other Solutions"
 #    scores: "Scores"
@@ -371,7 +371,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     difficulty: "Độ khó"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
+  inventory:
 #    choose_inventory: "Equip Items"
     equipped_item: "Đã trang bị"
 #    required_purchase_title: "Required"
@@ -384,7 +384,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
+  buy_gems:
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
@@ -397,7 +397,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    or_subscribe: "Or 3500 gems/mo if you..."
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "60+ basic levels across 4 worlds"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
@@ -433,7 +433,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
     programming_language: "Ngôn ngữ lập trình"
     programming_language_description: "Bạn muốn sử dụng ngôn ngữ lập trình nào ?"
@@ -639,7 +639,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
 #    space: "Space"
     enter: "Enter"
@@ -1114,7 +1114,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  account_profile:
+  account_profile:
 #    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.
 #    edit_profile: "Edit Profile"
 #    done_editing: "Done Editing"
