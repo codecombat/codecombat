@@ -118,6 +118,7 @@ module.exports = class ScriptsTabView extends CocoView
       treema.enableTracking()
 
   onScriptChanged: =>
+    return unless @selectedScriptPath
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
 
   onThangsEdited: (e) ->
