@@ -157,7 +157,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     retry: "재시도"
 #    actions: "Actions"
 #    info: "Info"
-#    help: "Help"
+    help: "도움말"
     watch: "보기"
     unwatch: "보기 해제"
     submit_patch: "패치 제출"
@@ -231,8 +231,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     done: "완료"
     home: "홈" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    skip: "Skip"
+    game_menu: "게임 메뉴"
     guide: "가이드"
     restart: "재시작"
     goals: "목표"
@@ -257,7 +257,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_sign_up_poke: "코드를 저장하고 싶으세요? 지금 등록하세요!"
     victory_rate_the_level: "이번 레벨 평가: " # Only in old-style levels.
     victory_return_to_ladder: "레더로 돌아가기"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "계속하기"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "홈으로" # Only in old-style levels.
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
@@ -328,7 +328,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_superpower: "Coding is the closest thing we have to a superpower."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
-#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
+    tip_code_never_lies: "코드는 절대로 거짓말을 하지 않는다. 주석은 가끔 하지만.  — Ron Jeffries"
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
@@ -341,10 +341,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
+    inventory_tab: "인벤토리"
+    save_load_tab: "저장하기/불러오기"
+    options_tab: "옵션"
+    guide_tab: "가이드"
 #    guide_video_tutorial: "Video Tutorial"
 #    guide_tips: "Tips"
     multiplayer_tab: "멀티 플레이"
