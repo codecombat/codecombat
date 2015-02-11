@@ -334,11 +334,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_lines_of_code: "Medir o progresso em programação pelo número de linhas de código é como medir o progresso da construção de um avião pelo peso. — Bill Gates"
     tip_source_code: "Quero mudar o mundo, mas não há maneira de me darem o código-fonte."
     tip_javascript_java: "Java é para JavaScript o mesmo que Carro (Car) para Tapete (Carpet). - Chris Heilmann"
-    tip_move_forward: "Faças o que fizeres, segue em frente. - Martin Luther King Jr."
+    tip_move_forward: "Faças o que fizeres, segue em frente. - Martin Luther King Jr"
     tip_google: "Tens um problema que não consegues resolver? Vai ao Google!"
     tip_adding_evil: "A acrescentar uma pitada de mal."
     tip_miss_lunch: "Qualquer pessoa que tenha perdido a noção do tempo aquando do uso de um computador sabe a propensão para sonhar, a pressa de tornar os sonhos realidade e a tendência de esquecer o almoço. - Tim Berners-Lee"
-#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+    tip_hate_computers: "É o problema das pessoas que acham que odeiam coputadores. O que elas odeiam mesmo são maus programadores. - Larry Niven"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     leaderboard: "Tabela de Classificação"
     view_other_solutions: "Ver Outras Soluções"
     scores: "Pontuações"
-#    top_players: "Top Players by"
+    top_players: "Melhores Jogadores por"
     day: "Hoje"
     week: "Esta Semana"
     all: "Sempre"
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     prompt_body: "Queres obter mais?"
     prompt_button: "Entra na Loja"
     recovered: "Recuperada a compra de gemas anterior. Por favor atualiza a página."
-#    or_subscribe: "Or 3500 gems/mo if you..."
+    or_subscribe: "Ou 3500 gemas/mês se tu..."
 
   subscribe:
     comparison_blurb: "Aperfeiçoa as tuas habilidades com uma subscrição do CodeCombat!"

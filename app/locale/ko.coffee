@@ -22,7 +22,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     account: "계정"
 #    profile: "Profile"
 #    stats: "Stats"
-#    code: "Code"
+    code: "코드"
     admin: "관리자" # Only shows up when you are an admin
     home: "홈"
     contribute: "참여하기"
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     about: "소개"
     contact: "문의"
     twitter_follow: "Follow"
-#    teachers: "Teachers"
+    teachers: "선생님들"
 
   modal:
     close: "닫기"
