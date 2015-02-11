@@ -189,7 +189,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     results: "Những kết quả"
 #    description: "Description"
     or: "hay là"
-pr    subject: "Subject"
+    subject: "Subject"
     email: "Email"
     password: "Mật khẩu"
     message: "Tin nhắn"
