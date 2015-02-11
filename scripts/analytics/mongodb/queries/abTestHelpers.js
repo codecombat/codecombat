@@ -3,7 +3,7 @@
 // Main API is getFunnelData() which returns per-day funnel completion rates
 
 // TODO: use levelSlugs in query if available
-// TODO: Stop looking up testGroupNumber when test group data is available in analytisc.log.events
+// TODO: Stop looking up testGroupNumber when test group data is available in analytics.log.events
 // TODO: These are super slow, need to aggregate into analytics.perdays collection
 
 var analyticsStringCache = {};

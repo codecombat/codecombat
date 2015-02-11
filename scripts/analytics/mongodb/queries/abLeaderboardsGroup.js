@@ -1,4 +1,5 @@
 // leaderboardsGroup A/B Results
+// Test started 2015-01-30
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
@@ -14,13 +15,8 @@ load('abTestHelpers.js');
 
 var scriptStartTime = new Date();
 try {
-  var numDays = 10;
-
-  var startDay = new Date();
-  today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
-  log("Today is " + today);
+  var startDay = '2015-01-30'
+  log("Today is " + new Date().toISOString().substr(0, 10));
   log("Start day is " + startDay);
 
   var eventFunnel = ['Started Level', 'Saw Victory'];
@@ -28,12 +24,16 @@ try {
 
   // getLeaderboardsGroup
   var testGroupFn = function (testGroupNumber) {
-    return testGroupNumber < 128;
+    var group = testGroupNumber % 64;
+    if (group < 16) return 'always';
+    if (group < 32) return 'early';
+    if (group < 48) return 'late';
+    return 'never';
   }
 
   var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn, levelSlugs);
 
-  log("Day\tLevel\tGroup\tStarted\tFinsihed\tCompletion Rate");
+  log("Day\tLevel\tGroup\tStarted\tFinished\tCompletion Rate");
   var overallCounts = {};
   for (var i = 0; i < funnelData.length; i++) {
     var level = funnelData[i].level;

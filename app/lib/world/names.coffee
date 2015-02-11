@@ -2,6 +2,7 @@ module.exports.thangNames = thangNames =
   'Soldier M': [
     'Aaron'
     'Adam'
+    'Addison'
     'Alan'
     'Albert'
     'Alistair'
@@ -29,6 +30,7 @@ module.exports.thangNames = thangNames =
     'Clarence'
     'Craig'
     'Daniel'
+    'Darius'
     'David'
     'Dax'
     'Dennis'
@@ -102,6 +104,7 @@ module.exports.thangNames = thangNames =
     'Nicholas'
     'Noah'
     'Orion'
+    'Parker'
     'Patrick'
     'Paul'
     'Peter'
@@ -190,6 +193,7 @@ module.exports.thangNames = thangNames =
     'Elizabeth'
     'Emily'
     'Evelyn'
+    'Fiora'
     'Frances'
     'Gabrielle'
     'Gloria'
@@ -352,6 +356,7 @@ module.exports.thangNames = thangNames =
     'Rosaline'
     'Rowan'
     'Tansy'
+    'Tauriel'
     'Vereesa'
     'Vesper'
     'Yilitha'
@@ -365,6 +370,7 @@ module.exports.thangNames = thangNames =
     'Fidsdale'
     'Gimsley'
     'Hunter'
+    'Legolas'
     'Loco'
     'Logos'
     'Lycan'
@@ -557,6 +563,7 @@ module.exports.thangNames = thangNames =
   ]
   'Potion Master': [
     'Amaranth'
+    'Alchemist'
     'Arora'
     'Artephius'
     'Clause'
@@ -629,6 +636,7 @@ module.exports.thangNames = thangNames =
     'Sakura'
     'Sasuke'
     'Shigeru'
+    'Takashi'
   ]
   'Sorcerer': [
     'Beazer'
@@ -640,6 +648,7 @@ module.exports.thangNames = thangNames =
     'Hattori'
     'Ieyasu'
     'Izotokogawa'
+    'Keitaro'
     'Nobunaga'
   ]
   'Sand Yak': [

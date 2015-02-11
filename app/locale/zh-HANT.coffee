@@ -338,6 +338,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_google: "擁有一個你不能解決的問題? Google它!"
     tip_adding_evil: "增加一個邪惡之捏."
     tip_miss_lunch: "任何當使用電腦時就對時間無感之人, 傾向擁有夢想, 渴望夢想成真並且容易忘記吃飯. - Tim Berners-Lee"
+    tip_hate_computers: "關於自我覺得恨透電腦的那群人. 其實他們真正應該恨的事情是糟糕的程序員. - Larry Niven"
 
   game_menu:
     inventory_tab: "倉庫"
@@ -360,7 +361,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     leaderboard: "排行榜"
     view_other_solutions: "查看其他解法"
     scores: "分數"
-    top_solutions: "優質解法"
+#    top_players: "Top Players by"
     day: "今天"
     week: "這周"
     all: "長期以來"
@@ -394,6 +395,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     prompt_body: "想要取得更多?"
     prompt_button: "進入商店"
     recovered: "先前購買的寶石已回復. 請重新載入頁面."
+    or_subscribe: "或者3500顆寶石一個月, 如果您..."
 
   subscribe:
     comparison_blurb: "訂閱CodeCombat來磨練你的技巧!"
@@ -954,20 +956,20 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     status_unsubscribed_active: "您尚未訂閱並且將不會收到賬單，但是你的帳號現在仍然是有效的."
     status_unsubscribed: "借由訂閱CodeCombat，取得存取新關卡，新英雄，新物品和額外寶石的資格!"
 
-#  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
-#    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
-#    not_allowed: "Method not allowed."
-#    timeout: "Server timeout."
-#    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+  loading_error:
+    could_not_load: "從伺服器載入失敗"
+    connection_failure: "連線失敗."
+    unauthorized: "您需要先登錄. 您把cookies禁用了嗎?"
+    forbidden: "您沒有權限."
+    not_found: "沒找到."
+    not_allowed: "方法不被允許."
+    timeout: "伺服器超時."
+    conflict: "資源衝突."
+    bad_input: "錯誤輸入."
+    server_error: "伺服器錯誤."
+    unknown: "未知錯誤."
 
-#  resources:
+  resources:
 #    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
 #    level: "Level"
@@ -1015,17 +1017,17 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    payment_info: "Payment Info"
 #    campaigns: "Campaigns"
 
-#  delta:
-#    added: "Added"
-#    modified: "Modified"
-#    deleted: "Deleted"
-#    moved_index: "Moved Index"
-#    text_diff: "Text Diff"
-#    merge_conflict_with: "MERGE CONFLICT WITH"
-#    no_changes: "No Changes"
+  delta:
+    added: "已填加"
+    modified: "已修改"
+    deleted: "已刪除"
+    moved_index: "已移動的索引"
+    text_diff: "文本變化"
+    merge_conflict_with: "合併衝突出現在"
+    no_changes: "沒有改變"
 
-#  guide:
-#    temp: "Temp"
+  guide:
+    temp: "臨時"
 
   multiplayer:
     multiplayer_title: "多人遊戲設定" # We'll be changing this around significantly soon. Until then, it's not important to translate.
@@ -1035,7 +1037,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     multiplayer_hint_label: "提示："
     multiplayer_hint: " 點擊全選，然後按 ⌘-C 或 Ctrl-C 複製連結。"
     multiplayer_coming_soon: "請期待更多的多人關卡!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
+    multiplayer_sign_in_leaderboard: "註冊並且登入帳號，就可以將您的成就放在排行榜上."
 
 #  legal:
 #    page_title: "Legal"

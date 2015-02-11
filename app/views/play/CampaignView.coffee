@@ -96,7 +96,7 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
-    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', ['Google Analytics']
+    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain, ['Google Analytics']
 
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
     elapsed = (new Date() - new Date(me.get('dateCreated')))

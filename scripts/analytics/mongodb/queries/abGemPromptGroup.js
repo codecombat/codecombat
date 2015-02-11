@@ -1,4 +1,5 @@
 // gemPromptGroup A/B Results
+// Test started 2014-11-24
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
@@ -14,13 +15,8 @@ load('abTestHelpers.js');
 
 var scriptStartTime = new Date();
 try {
-  var numDays = 30;
-
-  var startDay = new Date();
-  today = startDay.toISOString().substr(0, 10);
-  startDay.setUTCDate(startDay.getUTCDate() - numDays);
-  startDay = startDay.toISOString().substr(0, 10);
-  log("Today is " + today);
+  var startDay = '2014-11-24'
+  log("Today is " + new Date().toISOString().substr(0, 10));
   log("Start day is " + startDay);
 
   var eventFunnel = ['Started purchase', 'Finished gem purchase'];
@@ -33,9 +29,10 @@ try {
 
   var funnelData = getFunnelData(startDay, eventFunnel, testGroupFn);
 
-  log("Day\t\tGroup\t\tStarted\tFinsihed\tCompletion Rate");
+  log("Day\t\tGroup\t\tStarted\tFinished\tCompletion Rate");
   var overallCounts = {};
   for (var i = 0; i < funnelData.length; i++) {
+    var level = funnelData[i].level;
     var day = funnelData[i].day;
     var group = funnelData[i].group;
     var started = funnelData[i].started;
