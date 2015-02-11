@@ -263,7 +263,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
-#    victory_experience_gained: "XP Gained"
+    victory_experience_gained: "획득한 경험치"
 #    victory_gems_gained: "Gems Gained"
     guide_title: "가이드"
     tome_minion_spells: "미니언의 마법" # Only in old-style levels.
@@ -314,7 +314,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+    tip_no_try: "하든가 하지 말든가. 시도같은 건 없어. - 요다"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "성공하기 전까진 불가능해 보이는 법이죠. - Nelson Mandela"
@@ -345,7 +345,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     save_load_tab: "저장하기/불러오기"
     options_tab: "옵션"
     guide_tab: "가이드"
-#    guide_video_tutorial: "Video Tutorial"
+    guide_video_tutorial: "영상 튜토리얼"
 #    guide_tips: "Tips"
     multiplayer_tab: "멀티 플레이"
 #    auth_tab: "Sign Up"
