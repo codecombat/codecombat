@@ -480,7 +480,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Đã lưu"
     granularity_change_history: "Lịch sử"
 
@@ -509,7 +509,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-#  about:
+  about:
 #    why_codecombat: "Why CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
@@ -659,7 +659,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  community:
+  community:
     main_title: "Cộng đồng CodeCombat"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
