@@ -9,7 +9,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     ipad_browser: "Dårlige nyheter: CodeCombat kjører ikke i nettleseren på iPad. Gode nyheter: iPad appen vår venter bare på godkjenning av Apple."
     campaign: "Kampanje"
     for_beginners: "For nybegynnere"
-    multiplayer: "Flerspiller" # Not currently shown on home page
+    multiplayer: "Flerspiller"
     for_developers: "For Utviklere" # Not currently shown on home page.
     or_ipad: "Eller last ned til iPad"
 
@@ -79,19 +79,19 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     awaiting_levels_adventurer: "Registrer deg som Eventyrer"
     awaiting_levels_adventurer_suffix: "for å få spille nye brett før alle andre."
     adjust_volume: "Juster lydnivå"
-    choose_your_level: "Velg Ditt Nivå" # The rest of this section is the old play view at /play-old and isn't very important.
+    choose_your_level: "Velg ditt brett" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kan hoppe til hvilket som helst brett under, eller diskutere brettene på "
     adventurer_forum: "Eventyrer-forumet"
     adventurer_suffix: "."
-    campaign_old_beginner: "Gammel Nybegynner Kampanje"
+    campaign_old_beginner: "Gammel Nybegynnerkampanje"
     campaign_old_beginner_description: "... hvor du lærer magien bak programmering."
-    campaign_dev: "Noen Litt Vanskeligere"
+    campaign_dev: "Noen litt vanskeligere"
     campaign_dev_description: "... hvor du lærer grensesnittet mens du gjør litt vanskeligere oppgaver."
-    campaign_multiplayer: "Flerspiller Arenaer"
+    campaign_multiplayer: "Flerspillerarenaer"
     campaign_multiplayer_description: "... hvor du spiller direkte mot andre spillere."
-    campaign_player_created: "Laget Av Spillere"
+    campaign_player_created: "Laget av spillere"
     campaign_player_created_description: "... hvor du kjemper mot kreativiteten til en av dine medspillende <a href=\"/contribute#artisan\">Artisan Trollmenn</a>."
-    campaign_classic_algorithms: "Klassiske Algoritmer"
+    campaign_classic_algorithms: "Klassiske algoritmer"
     campaign_classic_algorithms_description: "... hvor du lærer noen av de mest populære algoritmene innen programmering"
 
   share_progress_modal:
@@ -425,9 +425,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     parent_email_sent: "E-post sendt!"
     parent_email_title: "Hva er din forelders e-postadresse?"
     parents: "For foreldre"
-    parents_title: "Barnet ditt vil lære å kode."
+    parents_title: "Barnet ditt vil lære å kode"
     parents_blurb1: "Med CodeCombat vil dine barn lære seg å skrive ekte kode. De begynner med enkle kommandoer og går videre til mer avanserte emner."
-    parents_blurb2: "For $9.99 USD/mo, vil de få nye utfordringer hver uke og personlig e-poststøtte fra profesjonelle programmerere."
+    parents_blurb2: "For USD 9.99 pr mnd, vil de få nye utfordringer hver uke og personlig e-poststøtte fra profesjonelle programmerere."
     parents_blurb3: "Ingen risiko: 100% pengene tilbake-garanti, kun et klikk for å si opp abonnementet."
     stripe_description: "Månedlig abonnement"
     subscription_required_to_play: "Du trenger abonnement for å spille dette nivået."
