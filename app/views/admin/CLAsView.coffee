@@ -18,7 +18,7 @@ module.exports = class CLAsView extends RootView
 
   constructor: (options) ->
     super options
-    @clas = @supermodel.loadCollection(new CLACollection(), 'clas').model
+    @clas = @supermodel.loadCollection(new CLACollection(), 'clas', {cache: false}).model
 
   getRenderData: ->
     c = super()

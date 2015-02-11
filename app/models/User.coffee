@@ -33,6 +33,7 @@ module.exports = class User extends CocoModel
 
   @getUnconflictedName: (name, done) ->
     $.ajax "/auth/name/#{name}",
+      cache: false
       success: (data) -> done data.name
       statusCode: 409: (data) ->
         response = JSON.parse data.responseText

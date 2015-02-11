@@ -36,9 +36,9 @@ module.exports = class PlayAchievementsModal extends ModalView
     earnedAchievementsFetcher.setProjection([ 'achievement' ])
 
     achievementsFetcher.skip = 0
-    achievementsFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
+    achievementsFetcher.fetch cache: false, data: {skip: 0, limit: PAGE_SIZE}
     earnedAchievementsFetcher.skip = 0
-    earnedAchievementsFetcher.fetch({data: {skip: 0, limit: PAGE_SIZE}})
+    earnedAchievementsFetcher.fetch cache: false, data: {skip: 0, limit: PAGE_SIZE}
 
     @listenTo achievementsFetcher, 'sync', @onAchievementsLoaded
     @listenTo earnedAchievementsFetcher, 'sync', @onEarnedAchievementsLoaded
@@ -53,7 +53,7 @@ module.exports = class PlayAchievementsModal extends ModalView
     @achievements.add(fetcher.models)
     if needMore
       fetcher.skip += PAGE_SIZE
-      fetcher.fetch({data: {skip: fetcher.skip, limit: PAGE_SIZE}})
+      fetcher.fetch cache: false, data: {skip: fetcher.skip, limit: PAGE_SIZE}
     else
       @stopListening(fetcher)
       @onEverythingLoaded()
@@ -64,7 +64,7 @@ module.exports = class PlayAchievementsModal extends ModalView
       @earnedMap[earned.get('achievement')] = earned
     if needMore
       fetcher.skip += PAGE_SIZE
-      fetcher.fetch({data: {skip: fetcher.skip, limit: PAGE_SIZE}})
+      fetcher.fetch cache: false, data: {skip: fetcher.skip, limit: PAGE_SIZE}
     else
       @stopListening(fetcher)
       @onEverythingLoaded()

@@ -23,7 +23,7 @@ module.exports = class PatchesView extends CocoView
 
   load: ->
     @initPatches()
-    @patches = @supermodel.loadCollection(@patches, 'patches').model
+    @patches = @supermodel.loadCollection(@patches, 'patches', {cache: false}).model
     @listenTo @patches, 'sync', @onPatchesLoaded
 
   onPatchesLoaded: ->

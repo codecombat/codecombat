@@ -154,7 +154,7 @@ module.exports = class LadderTabView extends CocoView
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
-      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {}, 3)
+      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {cache: false}, 3)
       @leaderboardRes.load()
 
   render: ->
@@ -165,7 +165,7 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        $.get("/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", (data) -> histogramData = data)
+        $.get "/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", cache: false, success: (data) -> histogramData = data
       ).then =>
         @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
 
@@ -294,17 +294,17 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     console.warn 'Already have top players on', @ if @topPlayers
     @topPlayers = new LeaderboardCollection(@level, {order: -1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []
-    promises.push @topPlayers.fetch()
+    promises.push @topPlayers.fetch cache: false
 
     if @session
       score = @session.get('totalScore') or 10
       @playersAbove = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 4, team: @team})
-      promises.push @playersAbove.fetch()
+      promises.push @playersAbove.fetch cache: false
       @playersBelow = new LeaderboardCollection(@level, {order: -1, scoreOffset: score, limit: 4, team: @team})
-      promises.push @playersBelow.fetch()
+      promises.push @playersBelow.fetch cache: false
       level = "#{@level.get('original')}.#{@level.get('version').major}"
       success = (@myRank) =>
-      promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
+      promises.push $.ajax("/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
