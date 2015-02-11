@@ -95,7 +95,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в копьютерных науках."
 
   share_progress_modal:
-    blurb: "Вы отлично продвигаетесь! Расскажите кому-нибудь как много вы уже выучили с CodeCombat."
+    blurb: "Вы отлично продвигаетесь! Расскажите кому-нибудь, как много вы уже выучили с CodeCombat."
     email_invalid: "Email-адрес некорректен."
     form_blurb: "Введите их email-адреса ниже, и мы покажем им!"
     form_label: "Email-адрес"
