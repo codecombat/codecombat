@@ -15,6 +15,8 @@ bayes = new (require 'bayesian-battle')()
 scoringTaskQueue = undefined
 scoringTaskTimeoutInSeconds = 600
 
+SIMULATOR_VERSION = 1
+
 module.exports.setup = (app) -> connectToScoringQueue()
 
 connectToScoringQueue = ->
@@ -124,6 +126,7 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
+  return if simulatorIsTooOld req, res
   #ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
   ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
   levelID = _.sample ladderGameIDs
@@ -224,6 +227,8 @@ module.exports.getTwoGames = (req, res) ->
 module.exports.recordTwoGames = (req, res) ->
   sessions = req.body.sessions
   #console.log 'Recording non-chained result of', sessions?[0]?.name, sessions[0]?.metrics?.rank, 'and', sessions?[1]?.name, sessions?[1]?.metrics?.rank
+  return if simulatorIsTooOld req, res
+  req.body?.simulator?.user = '' + req.user?._id
 
   yetiGuru = clientResponseObject: req.body, isRandomMatch: true
   async.waterfall [
@@ -442,7 +447,9 @@ getSessionInformation = (sessionIDString, callback) ->
     callback null, session
 
 module.exports.processTaskResult = (req, res) ->
+  return if simulatorIsTooOld req, res
   originalSessionID = req.body?.originalSessionID
+  req.body?.simulator?.user = '' + req.user?._id
   yetiGuru = {}
   try
     async.waterfall [
@@ -578,14 +585,14 @@ addMatchToSessions = (newScoreObject, callback) ->
   matchObject.opponents = {}
   for session in @clientResponseObject.sessions
     sessionID = session.sessionID
-    matchObject.opponents[sessionID] = {}
-    matchObject.opponents[sessionID].sessionID = sessionID
-    matchObject.opponents[sessionID].userID = session.creator
-    matchObject.opponents[sessionID].name = session.name
-    matchObject.opponents[sessionID].totalScore = session.totalScore
-    matchObject.opponents[sessionID].metrics = {}
-    matchObject.opponents[sessionID].metrics.rank = Number(newScoreObject[sessionID]?.gameRanking ? 0)
-    matchObject.opponents[sessionID].codeLanguage = newScoreObject[sessionID].submittedCodeLanguage
+    matchObject.opponents[sessionID] = match = {}
+    match.sessionID = sessionID
+    match.userID = session.creator
+    match.name = session.name
+    match.totalScore = session.totalScore
+    match.metrics = {}
+    match.metrics.rank = Number(newScoreObject[sessionID]?.gameRanking ? 0)
+    match.codeLanguage = newScoreObject[sessionID].submittedCodeLanguage
 
   #log.info "Match object computed, result: #{matchObject}"
   #log.info 'Writing match object to database...'
@@ -603,6 +610,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
   currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
+  currentMatchObject.simulator = @clientResponseObject.simulator
   LevelSession.findOne {'_id': sessionID}, (err, session) ->
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0
@@ -785,3 +793,12 @@ retrieveOldSessionData = (sessionID, callback) ->
 markSessionAsDoneRanking = (sessionID, cb) ->
   #console.log 'Marking session as done ranking...'
   LevelSession.update {'_id': sessionID}, {'isRanking': false}, cb
+
+simulatorIsTooOld = (req, res) ->
+  clientSimulator = req.body.simulator
+  return false if clientSimulator?.version >= SIMULATOR_VERSION
+  message = "Old simulator version #{clientSimulator?.version}, need to clear cache and get version #{SIMULATOR_VERSION}."
+  log.debug "400: #{message}"
+  res.send 400, message
+  res.end()
+  true

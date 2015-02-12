@@ -5,9 +5,23 @@ GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
 
+SIMULATOR_VERSION = 1
+
+simulatorInfo = {}
+if $.browser
+  simulatorInfo['desktop'] = $.browser.desktop if $.browser.desktop
+  simulatorInfo['name'] = $.browser.name if $.browser.name
+  simulatorInfo['platform'] = $.browser.platform if $.browser.platform
+  simulatorInfo['version'] = $.browser.versionNumber if $.browser.versionNumber
+
 module.exports = class Simulator extends CocoClass
   constructor: (@options) ->
     @options ?= {}
+    simulatorType = if @options.headlessClient then 'headless' else 'browser'
+    @simulator =
+      type: simulatorType
+      version: SIMULATOR_VERSION
+      info: simulatorInfo
     _.extend @, Backbone.Events
     @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 2
@@ -28,10 +42,17 @@ module.exports = class Simulator extends CocoClass
       type: 'POST'
       parse: true
       data:
-        'humansGameID': humanGameID
-        'ogresGameID': ogresGameID
+        humansGameID: humanGameID
+        ogresGameID: ogresGameID
+        simulator: @simulator
       error: (errorData) ->
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
+        if errorData?.responseText?.indexOf("Old simulator") isnt -1
+          noty {
+            text: errorData.responseText
+            layout: 'center'
+            type: 'error'
+          }
       success: (taskData) =>
         return if @destroyed
         unless taskData
@@ -278,7 +299,6 @@ module.exports = class Simulator extends CocoClass
     return if @destroyed
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
-    console.log 'Simulated by you:', @simulatedByYou
     @simulatedByYou++
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
@@ -307,6 +327,7 @@ module.exports = class Simulator extends CocoClass
       originalSessionRank: -1
       calculationTime: 500
       sessions: []
+      simulator: @simulator
 
     for session in @task.getSessions()
       sessionResult =

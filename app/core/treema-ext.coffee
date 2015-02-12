@@ -96,8 +96,16 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl, data) ->
     mimetype = "audio/#{@keyForParent}"
+    mimetypes = [mimetype]
+    if mimetype is 'audio/mp3'
+      # https://github.com/codecombat/codecombat/issues/445
+      # http://stackoverflow.com/questions/10688588/which-mime-type-should-i-use-for-mp3
+      mimetypes.push 'audio/mpeg'
+    else if mimetype is 'audio/ogg'
+      mimetypes.push 'application/ogg'
+      mimetypes.push 'video/ogg'  # huh, that's what it took to be able to upload ogg sounds in Firefox
     pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></span></a>')
-      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+      .click(=> filepicker.pick {mimetypes: mimetypes}, @onFileChosen)
     playButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-play"></span></a>')
       .click(@playFile)
     stopButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stop"></span></a>')
@@ -116,7 +124,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     menu = $('<div class="dropdown-menu"></div>')
     files = @getFiles()
     for file in files
-      continue unless file.get('contentType') is mimetype
+      continue unless file.get('contentType') in mimetypes
       path = file.get('metadata').path
       filename = file.get 'filename'
       fullPath = [path, filename].join('/')
