@@ -608,6 +608,7 @@
     me_tab: "Me"
     picture_tab: "Picture"
     upload_picture: "Upload a picture"
+    god_mode: "God Mode"
     password_tab: "Password"
     emails_tab: "Emails"
     admin: "Admin"
