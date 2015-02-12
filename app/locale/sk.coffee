@@ -371,7 +371,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
+  inventory:
     choose_inventory: "Použi veci"
     equipped_item: "Použité"
     required_purchase_title: "Požadované"
@@ -480,7 +480,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Uložené"
     granularity_change_history: "História"
 
@@ -775,7 +775,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    pop_i18n: "Populate I18N"
 #    tasks: "Tasks"
 
-#  article:
+  article:
     edit_btn_preview: "Náhľad"
     edit_article_title: "Upraviť článok"
 
@@ -901,7 +901,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    rules: "Rules"
 #    winners: "Winners"
 
-#  user:
+  user:
     stats: "Stats"
     singleplayer_title: "Levely pre jedného hráča"
     multiplayer_title: "Levely pre viac hráčov"
@@ -916,7 +916,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     favorite_prefix: "Tvoj obľúbený jazyk je "
     favorite_postfix: "."
 
-#  achievements:
+  achievements:
     last_earned: "Naposledy získané"
     amount_achieved: "Množstvo"
     achievement: "Úspechy"
