@@ -38,7 +38,17 @@ module.exports = class MyMatchesTabView extends CocoView
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          @nameMap[opponent.userID] ?= nameMap[opponent.userID]?.name ? '<bad match data>'
+          continue if @nameMap[opponent.userID]
+          opponentUser = nameMap[opponent.userID]
+          name = opponentUser?.name
+          name ||= opponentUser.firstName + ' ' + opponentUser.lastName if opponentUser?.firstName
+          name ||= "Anonymous #{opponent.userID.substr(18)}" if opponentUser
+          unless name
+            console.log 'found', nameMap[opponent.userID], 'for', opponent.userID, "http://codecombat.com/db/user/#{opponent.userID}"
+          name ||= '<bad match data>'
+          if name.length > 21
+            name = name.substr(0, 18) + '...'
+          @nameMap[opponent.userID] = name
       @render() if @supermodel.finished()
 
     userNamesRequest = @supermodel.addRequestResource 'user_names', {
