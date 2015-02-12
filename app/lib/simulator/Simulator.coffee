@@ -5,7 +5,7 @@ GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
 
-SIMULATOR_VERSION = 1
+SIMULATOR_VERSION = 2
 
 simulatorInfo = {}
 if $.browser
@@ -225,6 +225,12 @@ module.exports = class Simulator extends CocoClass
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
+    humanFlagHistory = _.filter @session.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@session.get('team') ? 'humans')
+    ogreFlagHistory = _.filter @otherSession.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@otherSession.get('team') ? 'ogres')
+    @god.lastFlagHistory = humanFlagHistory.concat ogreFlagHistory
+    #console.log 'got flag history', @god.lastFlagHistory, 'from', humanFlagHistory, ogreFlagHistory, @session.get('state'), @otherSession.get('state')
+    @god.lastSubmissionCount = 0  # TODO: figure out how to combine submissionCounts from both players so we can use submissionCount random seeds again.
+    @god.lastDifficulty = 0
 
   commenceSimulationAndSetupCallback: ->
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @

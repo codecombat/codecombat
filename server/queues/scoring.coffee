@@ -15,7 +15,7 @@ bayes = new (require 'bayesian-battle')()
 scoringTaskQueue = undefined
 scoringTaskTimeoutInSeconds = 600
 
-SIMULATOR_VERSION = 1
+SIMULATOR_VERSION = 2
 
 module.exports.setup = (app) -> connectToScoringQueue()
 
