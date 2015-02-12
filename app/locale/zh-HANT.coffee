@@ -1039,7 +1039,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     multiplayer_coming_soon: "請期待更多的多人關卡!"
     multiplayer_sign_in_leaderboard: "註冊並且登入帳號，就可以將您的成就放在排行榜上."
 
-#  legal:
+  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is completely open source."
 #    opensource_description_prefix: "Check out "
