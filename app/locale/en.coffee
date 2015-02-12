@@ -339,7 +339,8 @@
     tip_adding_evil: "Adding a pinch of evil."
     tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
     tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-
+    tip_write_understandable_code: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. - Martin Fowler"
+	
   game_menu:
     inventory_tab: "Inventory"
     save_load_tab: "Save/Load"
