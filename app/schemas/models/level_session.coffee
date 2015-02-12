@@ -285,6 +285,7 @@ _.extend LevelSessionSchema.properties,
               codeLanguage:
                 type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
+        simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'
