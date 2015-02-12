@@ -37,14 +37,14 @@ module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) -
       Backbone.Mediator.publish('created-user-without-reload')
   })
 
-module.exports.loginUser = (userObject, failure=genericFailure) ->
+module.exports.loginUser = (userObject, failure=genericFailure, nextURL=null) ->
   console.log 'logging in as', userObject.email
   jqxhr = $.post('/auth/login',
     {
       username: userObject.email,
       password: userObject.password
     },
-    (model) -> window.location.reload()
+    (model) -> if nextURL then window.location.href = nextURL else window.location.reload()
   )
   jqxhr.fail(failure)
 

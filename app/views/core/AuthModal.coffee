@@ -73,7 +73,7 @@ module.exports = class AuthModal extends ModalView
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     @enableModalInProgress(@$el) # TODO: part of forms
-    loginUser(userObject)
+    loginUser userObject, null, window.nextURL
 
   createAccount: ->
     forms.clearFormAlerts(@$el)
