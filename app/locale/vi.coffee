@@ -7,11 +7,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     old_browser: "Trình duyệt của bạn quá cũ để chạy CodeCombat. Thật sự xin lỗi!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Bạn có thể thử nếu bạn muốn, nhưng tôi nghĩ nó sẽ không hoạt động."
     ipad_browser: "Tin xấu: CodeCombat không chạy trên trình duyệt web của iPad. Tin tốt: Ứng dụng dành cho iPad của chúng tôi đang chờ sự chấp thuận của Apple."
-#    campaign: "Campaign"
+    campaign: "Chiến dịch"
     for_beginners: "Dành cho người bắt đầu chơi"
     multiplayer: "Nhiều người chơi" # Not currently shown on home page
     for_developers: "Dành cho nhà phát triển" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Hoặc tải phiên bản dành cho iPad"
 
   nav:
     play: "Chơi" # The top nav bar entry where players choose which levels to play
@@ -25,7 +25,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     code: "Code"
     admin: "Quản trị viên" # Only shows up when you are an admin
     home: "Nhà"
-    contribute: "Contribute"
+    contribute: "Đóng góp"
     legal: "Hợp pháp"
     about: "Giới thiệu"
     contact: "Liên hệ"
@@ -50,7 +50,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   play:
     play_as: "Chơi là" # Ladder page
     spectate: "Nhìn xem" # Ladder page
-#    players: "players" # Hover over a level on /play
+    players: "Những người chơi" # Hover over a level on /play
     hours_played: "Bao nhiêu tiếng chơi" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
     unlock: "Mua" # For purchasing items and heroes
@@ -60,7 +60,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     purchasable: "Có thể mua" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
+    heroes: "Những nhân vật" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
     settings: "Những tùy chỉnh" # Tooltip on settings button from /play
@@ -314,7 +314,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
     tip_binary: "Có 10 loại người trên thế giới này: những người biết về hệ nhị phân và những người không biết về nó."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+    tip_no_try: "Làm. Hoặc không làm. Không có chuyện thử. - Yoda"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "Sự việc đều tưởng như bất khả thi cho tới khi nó được hoàn thành. - Nelson Mandela"
@@ -349,12 +349,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     guide_tips: "Một số mẹo"
     multiplayer_tab: "Đa người chơi"
     auth_tab: "Đăng kí"
-#    inventory_caption: "Equip your hero"
+    inventory_caption: "Trang bị cho nhân vật của bạn"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
+    multiplayer_caption: "Chơi với những người bạn!"
 #    auth_caption: "Save your progress."
 
   leaderboard:
