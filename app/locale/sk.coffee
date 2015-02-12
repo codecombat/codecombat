@@ -132,7 +132,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     send_password: "Zašli záchranné heslo"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
     primary: "Primárny"
     secondary: "Sekundárny"
     armor: "Zbroj"
@@ -211,7 +211,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     ranger: "Strelec"
     wizard: "Mág"
 
-#  units:
+  units:
     second: "sekunda"
     seconds: "sekúnd"
     minute: "minúta"
@@ -227,7 +227,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     year: "rok"
     years: "rokov"
 
-#  play_level:
+  play_level:
     done: "Hotovo"
 #    home: "Home" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
@@ -340,7 +340,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
-#  game_menu:
+  game_menu:
     inventory_tab: "Inventár"
     save_load_tab: "Ulož/Nahraj"
     options_tab: "Nastavenie"
