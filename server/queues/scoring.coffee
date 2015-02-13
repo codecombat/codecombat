@@ -15,7 +15,7 @@ bayes = new (require 'bayesian-battle')()
 scoringTaskQueue = undefined
 scoringTaskTimeoutInSeconds = 600
 
-SIMULATOR_VERSION = 1
+SIMULATOR_VERSION = 3
 
 module.exports.setup = (app) -> connectToScoringQueue()
 
@@ -611,6 +611,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   currentMatchObject.opponents = opponentsArray
   currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
   currentMatchObject.simulator = @clientResponseObject.simulator
+  currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)
   LevelSession.findOne {'_id': sessionID}, (err, session) ->
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0

@@ -63,7 +63,7 @@
     "aws-sdk": "~2.0.0",
     "bayesian-battle": "0.0.x",
     "redis": "",
-    "webworker-threads": "~0.4.11",
+    "webworker-threads": "~0.5.5",
     "node-gyp": "~0.13.0",
     "aether": "~0.3.0",
     "JASON": "~0.1.3",

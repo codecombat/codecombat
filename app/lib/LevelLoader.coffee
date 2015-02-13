@@ -91,18 +91,9 @@ module.exports = class LevelLoader extends CocoClass
   loadDependenciesForSession: (session) ->
     if me.id isnt session.get 'creator'
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    @loadCodeLanguagesForSession session
     if session is @session
-      codeLanguage = session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
-      modulePath = "vendor/aether-#{codeLanguage}"
-      loading = application.moduleLoader.load(modulePath)
-      if loading
-        @languageModuleResource = @supermodel.addSomethingResource 'language_module'
-        @listenTo application.moduleLoader, 'loaded', (e) ->
-          if e.id is modulePath
-            @languageModuleResource.markLoaded()
-            @stopListening application.moduleLoader
       @addSessionBrowserInfo session
-
       # hero-ladder games require the correct session team in level:loaded
       team = @team ? @session.get('team')
       Backbone.Mediator.publish 'level:loaded', level: @level, team: team
@@ -137,6 +128,19 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDependenciesRegistered[session.id] = true
     if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
       @onWorldNecessitiesLoaded()
+
+  loadCodeLanguagesForSession: (session) ->
+    codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
+    for codeLanguage in codeLanguages
+      do (codeLanguage) =>
+        modulePath = "vendor/aether-#{codeLanguage}"
+        return unless application.moduleLoader?.load modulePath
+        languageModuleResource = @supermodel.addSomethingResource 'language_module'
+        onModuleLoaded = (e) ->
+          return unless e.id is modulePath
+          languageModuleResource.markLoaded()
+          @stopListening application.moduleLoader, 'loaded', onModuleLoaded  # listenToOnce might work here instead, haven't tried
+        @listenTo application.moduleLoader, 'loaded', onModuleLoaded
 
   addSessionBrowserInfo: (session) ->
     return unless me.id is session.get 'creator'

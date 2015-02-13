@@ -478,6 +478,7 @@ self.onWorldError = function onWorldError(error) {
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
+    return false;
   }
   /*  We don't actually have the recoverable property any more; hmm
   if(!error.recoverable) {
