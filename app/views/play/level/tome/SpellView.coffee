@@ -1091,6 +1091,7 @@ module.exports = class SpellView extends CocoView
     @destroyAceEditor(@ace)
     @debugView?.destroy()
     @toolbarView?.destroy()
+    @zatanna.addSnippets [], @spell.language
     $(window).off 'resize', @onWindowResize
     super()
     
