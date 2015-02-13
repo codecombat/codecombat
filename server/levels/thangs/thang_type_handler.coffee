@@ -37,13 +37,13 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
   ]
 
   hasAccess: (req) ->
-    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
+    req.method in ['GET', 'POST'] or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
     method = (method or req.method).toLowerCase()
     return true if method is 'get'
     return true if req.user?.isAdmin()
-    return true if method is 'put' and @isJustFillingTranslations(req, document)
+    return true if method is 'post' and @isJustFillingTranslations(req, document)
     return
 
   get: (req, res) ->
