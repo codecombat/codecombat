@@ -172,10 +172,14 @@ module.exports = class PlayHeroesModal extends ModalView
       layer.on 'new-spritesheet', ->
         #- maybe put some more normalization here?
         m = multiplier
-        m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian'] # these heroes are larger for some reason, shrink 'em
+        m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian', 'sorcerer'] # these heroes are larger for some reason, shrink 'em
         layer.container.scaleX = layer.container.scaleY = m
         layer.container.children[0].x = 160/m
         layer.container.children[0].y = 250/m
+        if fullHero.get('slug') in ['forest-archer', 'librarian', 'sorcerer', 'potion-master']
+          layer.container.children[0].y -= 3
+        if fullHero.get('slug') in ['librarian', 'sorcerer', 'potion-master']
+          layer.container.children[0].x -= 3
 
       stage = new createjs.SpriteStage(canvas[0])
       @stages[heroIndex] = stage
@@ -194,7 +198,7 @@ module.exports = class PlayHeroesModal extends ModalView
   animateHeroes: =>
     return unless @visibleHero
     heroIndex = Math.max 0, _.findIndex(@heroes.models, ((hero) => hero.get('original') is @visibleHero.get('original')))
-    animation = _.sample(['attack', 'idle', 'move_side', 'move_fore'])
+    animation = _.sample(['attack', 'move_side', 'move_fore'])  # Must be in LayerAdapter default actions.
     @stages[heroIndex]?.children?[0]?.children?[0]?.gotoAndPlay? animation
 
   playSelectionSound: (hero) ->
