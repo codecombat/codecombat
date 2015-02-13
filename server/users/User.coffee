@@ -34,6 +34,10 @@ UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
 )
 
+UserSchema.methods.isInGodMode = ->
+  p = @get('permissions')
+  return p and 'godmode' in p
+
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
@@ -77,6 +81,7 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
 
 UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
+  gemsEarned = gemsEarned + 100000 if @isInGodMode()
   gemsPurchased = @get('purchased')?.gems ? 0
   gemsSpent = @get('spent') ? 0
   gemsEarned + gemsPurchased - gemsSpent
@@ -194,6 +199,7 @@ UserSchema.methods.register = (done) ->
   @saveActiveUser 'register'
 
 UserSchema.methods.isPremium = ->
+  return true if @isInGodMode()
   return false unless stripeObject = @get('stripe')
   return true if stripeObject.subscriptionID
   return true if stripeObject.free is true

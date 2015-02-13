@@ -158,8 +158,15 @@ module.exports = class AccountSettingsView extends CocoView
 
     me.set('photoURL', @$el.find('#photoURL').val())
 
+    permissions = []
+
     adminCheckbox = @$el.find('#admin')
     if adminCheckbox.length
-      permissions = []
       permissions.push 'admin' if adminCheckbox.prop('checked')
-      me.set('permissions', permissions)
+
+    godmodeCheckbox = @$el.find('#godmode')
+    if godmodeCheckbox.length
+      permissions.push 'godmode' if godmodeCheckbox.prop('checked')
+
+    me.set('permissions', permissions)
+

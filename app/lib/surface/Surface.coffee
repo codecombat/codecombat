@@ -113,7 +113,7 @@ module.exports = Surface = class Surface extends CocoClass
     canvasHeight = parseInt @normalCanvas.attr('height'), 10
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
 
-    @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
+    @lankBoss = new LankBoss camera: @camera, webGLStage: @webGLStage, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible, playerNames: @options.playerNames
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
     @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
@@ -549,8 +549,9 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.scaleY *= newHeight / oldHeight
     @camera.onResize newWidth, newHeight
     if @options.spectateGame
-      # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas. But not further than +149px (1920px screen).
-      @normalCanvas.css 'left', Math.min 149, @webGLCanvas.offset().left
+      # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
+      offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
+      @normalCanvas.css 'left', offset
 
   #- Camera focus on hero
   focusOnHero: ->

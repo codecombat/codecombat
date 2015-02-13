@@ -21,7 +21,7 @@ SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 
-CENTER = {x: 200, y: 300}
+CENTER = {x: 200, y: 400}
 
 commonTasks = [
   'Upload the art.'
@@ -189,7 +189,9 @@ module.exports = class ThangTypeEditView extends RootView
     context.fileSizeString = @fileSizeString
     context
 
-  getAnimationNames: -> _.keys(@thangType.get('actions') or {})
+  getAnimationNames: ->
+    _.sortBy _.keys(@thangType.get('actions') or {}), (a) ->
+      {move: 1, cast: 2, attack: 3, idle: 4, portrait: 6}[a] or 5
 
   afterRender: ->
     super()

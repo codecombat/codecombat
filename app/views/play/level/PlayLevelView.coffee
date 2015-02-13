@@ -305,11 +305,18 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']))
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']), observing: @observing, playerNames: @findPlayerNames())
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
+
+  findPlayerNames: ->
+    return {} unless @observing
+    playerNames = {}
+    for session in [@session, @otherSession] when session?.get('team')
+      playerNames[session.get('team')] = session.get('creatorName') or 'Anoner'
+    playerNames
 
   # Once Surface is Loaded ####################################################
 
