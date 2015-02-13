@@ -56,7 +56,8 @@ else
     .portals
       for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'ice', 'volcano']
         - var campaign = campaigns[campaignSlug];
-        div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked ? " locked" : ""), data-campaign-slug=campaignSlug)
+        - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
+        div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
           .campaign-label
             h2.campaign-name
               if campaign
@@ -68,7 +69,7 @@ else
                 span= campaign.levelsCompleted
                 | /
                 span= campaign.levelsTotal
-            if campaign && campaign.locked
+            if campaign && campaign.locked && !godmode
               h3.campaign-locked(data-i18n="play.locked") Locked
             else if campaign
               btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button

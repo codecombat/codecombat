@@ -9,7 +9,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     ipad_browser: "Dårlige nyheter: CodeCombat kjører ikke i nettleseren på iPad. Gode nyheter: iPad appen vår venter bare på godkjenning av Apple."
     campaign: "Kampanje"
     for_beginners: "For nybegynnere"
-    multiplayer: "Flerspiller"
+    multiplayer: "Flerspiller" # Not currently shown on home page
     for_developers: "For Utviklere" # Not currently shown on home page.
     or_ipad: "Eller last ned til iPad"
 
@@ -69,8 +69,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     choose_inventory: "Ta i bruk gjenstander"
     buy_gems: "Kjøp Juveler"
     subscription_required: "Krever abonnement"
-    free: "Gratis"
-    subscribed: "Abonnert"
     older_campaigns: "Gamle felttog"
     anonymous: "Anonym Spiller"
     level_difficulty: "Vanskelighetsgrad: "
@@ -608,6 +606,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     me_tab: "Meg"
     picture_tab: "Bilde"
     upload_picture: "Last opp bilde"
+#    god_mode: "God Mode"
     password_tab: "Passord"
     emails_tab: "Epost"
     admin: "Administrator"

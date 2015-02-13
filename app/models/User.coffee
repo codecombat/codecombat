@@ -12,6 +12,7 @@ module.exports = class User extends CocoModel
   notyErrors: false
 
   isAdmin: -> 'admin' in @get('permissions', true)
+  isInGodMode: -> 'godmode' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
 
@@ -72,13 +73,16 @@ module.exports = class User extends CocoModel
       return level if tierThreshold >= tier
 
   level: ->
-    User.levelFromExp(@get('points'))
+    totalPoint = @get('points')
+    totalPoint = totalPoint + 1000000 if me.isInGodMode()
+    User.levelFromExp(totalPoint)
 
   tier: ->
     User.tierFromLevel @level()
 
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
+    gemsEarned = gemsEarned + 100000 if me.isInGodMode()
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
     Math.floor gemsEarned + gemsPurchased - gemsSpent
@@ -89,7 +93,7 @@ module.exports = class User extends CocoModel
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(Level.levels['dungeons-of-kithgard'])
-  ownsHero: (heroOriginal) -> heroOriginal in @heroes()
+  ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
@@ -166,6 +170,7 @@ module.exports = class User extends CocoModel
     return me.get('testGroupNumber') % numVideos
 
   isPremium: ->
+    return true if me.isInGodMode()
     return false unless stripe = @get('stripe')
     return true if stripe.subscriptionID
     return true if stripe.free is true
