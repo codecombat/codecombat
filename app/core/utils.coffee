@@ -144,7 +144,7 @@ module.exports.getUTCDay = (offset=0) ->
 
 # Fast, basic way to replace text in an element when you don't need much.
 # http://stackoverflow.com/a/4962398/540620
-if document?
+if document?.createElement
   dummy = document.createElement 'div'
   dummy.innerHTML = 'text'
   TEXT = if dummy.textContent is 'text' then 'textContent' else 'innerText'
@@ -155,7 +155,7 @@ if document?
 # Add a stylesheet rule
 # http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript/26230472#26230472
 # Don't use wantonly, or we'll have to implement a simple mechanism for clearing out old rules.
-if document?
+if document?.createElement
   module.exports.injectCSS = ((doc) ->
     # wrapper for all injected styles and temp el to create them
     wrap = doc.createElement("div")

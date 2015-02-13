@@ -182,6 +182,7 @@ class CocoModel extends Backbone.Model
     options ?= {}
     options.data ?= {}
     options.data.project = @project.join(',') if @project
+    #console.error @constructor.className, @, "fetching with cache?", options.cache, "options", options  # Useful for debugging cached IE fetches
     @jqxhr = super(options)
     @loading = true
     @jqxhr
@@ -364,7 +365,7 @@ class CocoModel extends Backbone.Model
     achievements = new NewAchievementCollection
     achievements.fetch
       success: (collection) ->
-        me.fetch (success: -> Backbone.Mediator.publish('achievements:new', earnedAchievements: collection)) unless _.isEmpty(collection.models)
+        me.fetch (cache: false, success: -> Backbone.Mediator.publish('achievements:new', earnedAchievements: collection)) unless _.isEmpty(collection.models)
       error: ->
         console.error 'Miserably failed to fetch unnotified achievements', arguments
       cache: false

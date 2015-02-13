@@ -63,7 +63,7 @@ $gameControlMargin: 30px
       height: 100%
       background-size: 100%
       @include user-select(none)
-      
+
     .level, .level-shadow
       position: absolute
       border-radius: 50%
@@ -108,26 +108,26 @@ $gameControlMargin: 30px
       &.complete
         border: 3px solid gold
         @include box-shadow(0px 0px 35px skyblue)
-        
+
       img.banner
         position: absolute
         bottom: 38%
         left: -50%
         width: 200%
         pointer-events: none
-        
+
       img.star
         width: 100%
         bottom: 7%
         position: absolute
         pointer-events: none
-        
+
       .glyphicon-star
         position: absolute
         color: lightblue
         font-size: 21px
         left: 1.5px
-        
+
       &.started .glyphicon-star
         left: 0.5px
 
@@ -138,7 +138,7 @@ $gameControlMargin: 30px
         left: 75%
         margin-left: 0
         margin-bottom: 0
-        
+
     img.hero-portrait
       position: absolute
       border: 1px solid black
@@ -258,10 +258,10 @@ $gameControlMargin: 30px
             border-radius: 50%
             opacity: 1
             padding: 3px 9px
-  
+
         &.complete
           .start-level, .view-solutions
-            min-width: initial
+            min-width: calc(50% - 5px)
             display: inline-block
             width: calc(50% - 5px)
 
@@ -277,10 +277,10 @@ $gameControlMargin: 30px
       z-index: 1
       font-size: 2vw
       text-shadow: 0 0 0.3vw white, 0 0 0.3vw white
-      
+
       &:hover
         text-decoration: none
-          
+
   .next-level-line
     transform-origin: 0 100%
     height: 8px
@@ -314,9 +314,9 @@ $gameControlMargin: 30px
         margin-left: $gameControlMargin
       width: $gameControlSize
       height: $gameControlSize
-      
+
       background: url(/images/pages/play/menu_icons.png) no-repeat
-      
+
       position: relative
       img
         position: absolute
@@ -324,21 +324,21 @@ $gameControlMargin: 30px
         top: 0
         width: 100%
         height: 100%
-        
+
       background-size: cover
       @include transition(0.5s ease)
       @include box-shadow(2px 2px 4px black)
       border: 0
       border-radius: 12px
       // IE9 shows a blank white button with this MS gradient filter in place
-      filter: none 
-      
+      filter: none
+
       &:hover
         @include box-shadow(0 0 12px #bbf)
 
       &:active
         @include box-shadow(0 0 20px white)
-      
+
       &.heroes
         background-position: (-1 * $gameControlSize) 0px
       &.achievements
@@ -369,7 +369,7 @@ $gameControlMargin: 30px
 
     .user-status-line
       position: relative
-  
+
       button.btn.btn-illustrated
         margin-left: 10px
         min-width: 90px
@@ -390,7 +390,7 @@ $gameControlMargin: 30px
         margin-left: 45px
 
       $spriteSheetSize: 30px
-  
+
       .player-level-icon, .player-hero-icon
         background: transparent url(/images/pages/play/play-spritesheet.png)
         background-size: cover
@@ -420,7 +420,7 @@ $gameControlMargin: 30px
           background-position: (-11 * $spriteSheetSize) 0
         &.sorcerer
           background-position: (-12 * $spriteSheetSize) 0
-      
+
 
   #volume-button
     position: absolute

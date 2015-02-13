@@ -206,7 +206,7 @@ module.exports = class Spell
 
     @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
     # TODO: These should be read from the database
-    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'getFriends', 'addFlag', 'getFlag', 'removeFlag', 'getFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
+    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'findFriends', 'addFlag', 'findFlag', 'removeFlag', 'findFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
     return @problemContext unless thang?
 
     # Populate stringReferences

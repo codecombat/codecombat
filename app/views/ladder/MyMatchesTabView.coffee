@@ -82,7 +82,7 @@ module.exports = class MyMatchesTabView extends CocoView
         stale: match.date < submitDate
         fresh: fresh
         codeLanguage: match.codeLanguage
-        simulator: JSON.stringify(match.simulator)
+        simulator: JSON.stringify(match.simulator) + ' | seed ' + match.randomSeed
       }
 
     for team in @teams

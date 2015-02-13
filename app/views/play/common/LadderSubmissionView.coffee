@@ -56,27 +56,26 @@ module.exports = class LadderSubmissionView extends CocoView
     failure = (jqxhr, textStatus, errorThrown) =>
       console.log jqxhr.responseText
       @setRankingButtonText 'failed' unless @destroyed
-    transpiledCode = @transpileSession()
+    @transpileSession (transpiledCode) =>
 
-    ajaxData =
-      session: @session.id
-      levelID: @level.id
-      originalLevelID: @level.get('original')
-      levelMajorVersion: @level.get('version').major
-      transpiledCode: transpiledCode
+      ajaxData =
+        session: @session.id
+        levelID: @level.id
+        originalLevelID: @level.get('original')
+        levelMajorVersion: @level.get('version').major
+        transpiledCode: transpiledCode
 
-    $.ajax '/queue/scoring', {
-      type: 'POST'
-      data: ajaxData
-      success: success
-      error: failure
-    }
+      $.ajax '/queue/scoring', {
+        type: 'POST'
+        data: ajaxData
+        success: success
+        error: failure
+      }
 
-  transpileSession: ->
+  transpileSession: (callback) ->
     submittedCode = @session.get('code')
     codeLanguage = @session.get('codeLanguage') or 'javascript'
     @session.set('submittedCodeLanguage', codeLanguage)
-    @session.save()  # TODO: maybe actually use a callback to make sure this works?
     transpiledCode = {}
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
@@ -85,7 +84,7 @@ module.exports = class LadderSubmissionView extends CocoView
         aetherOptions = createAetherOptions functionName: spellID, codeLanguage: codeLanguage
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell
-    transpiledCode
+    @session.save null, success: -> callback transpiledCode
 
   onHelpSimulate: ->
     @playSound 'menu-button-click'
