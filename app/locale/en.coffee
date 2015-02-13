@@ -110,7 +110,6 @@
     forgot_password: "Forgot your password?"
     authenticate_gplus: "Authenticate G+"
     load_profile: "Load G+ Profile"
-    load_email: "Load G+ Email"
     finishing: "Finishing"
     sign_in_with_facebook: "Sign in with Facebook"
     sign_in_with_gplus: "Sign in with G+"
