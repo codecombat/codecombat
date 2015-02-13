@@ -61,39 +61,25 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
   loginCodeCombat: ->
     # email and profile data loaded separately
-    gapi.client.request(path: plusURL, callback: @onPersonEntityReceived)
-    gapi.client.load('oauth2', 'v2', =>
-      gapi.client.oauth2.userinfo.get().execute(@onEmailReceived))
+    gapi.client.load('plus', 'v1', =>
+      gapi.client.plus.people.get({userId: 'me'}).execute(@onPersonReceived))
 
-  shouldSave: false
-
-  onPersonEntityReceived: (r) =>
+  onPersonReceived: (r) =>
     for gpProp, userProp of userPropsToSave
       keys = gpProp.split('.')
       value = r
       for key in keys
         value = value[key]
       if value and not me.get(userProp)
-        @shouldSave = true
         me.set(userProp, value)
 
-    @responsesComplete += 1
-    @personLoaded = true
-    @trigger 'person-loaded'
-    @saveIfAllDone()
-
-  onEmailReceived: (r) =>
-    newEmail = r.email and r.email isnt me.get('email')
+    newEmail = r.emails?.length and r.emails[0] isnt me.get('email')
     return unless newEmail or me.get('anonymous', true)
-    me.set('email', r.email)
-    @shouldSave = true
-    @emailLoaded = true
-    @trigger 'email-loaded'
-    @saveIfAllDone()
+    me.set('email', r.emails[0].value)
+    @trigger 'person-loaded'
+    @save()
 
-  saveIfAllDone: =>
-    console.debug 'Save if all done. Person loaded:', @personLoaded, 'and email loaded:', @emailLoaded
-    return unless @personLoaded and @emailLoaded
+  save: =>
     console.debug 'Email, gplusID:', me.get('email'), me.get('gplusID')
     return unless me.get('email') and me.get('gplusID')
 
