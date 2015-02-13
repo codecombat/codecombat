@@ -12,6 +12,7 @@ else
             - var name = me.get('name') || '';
             - var email = me.get('email');
             - var admin = me.get('permissions', true).indexOf('admin') != -1;
+            - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
               input#name.form-control(name="name", type="text", value="#{name}")
@@ -22,7 +23,10 @@ else
               .form-group.checkbox
                 label(for="admin", data-i18n="account_settings.admin") Admin
                 input#admin(name="admin", type="checkbox", checked=admin)
-            
+              .form-group.checkbox
+                label(for="godmode", data-i18n="account_settings.god_mode") God Mode
+                input#godmode(name="godmode", type="checkbox", checked=godmode)
+                
     
       .panel.panel-default
         .panel-heading
