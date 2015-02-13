@@ -6,12 +6,12 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     play: "Hraj" # The big play button that opens up the campaign view.
     old_browser: "Ajaj, prehliadač je príliš starý. CodeCombat na ňom nepôjde. Je nám to ľúto!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Skúsiť sa to dá, ale asi to nepôjde."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Zlé správy: CodeCombat nebeží na iPade v prehliadači. Dobré správy: naša iPad aplikácia čaká na schválenie od Apple."
     campaign: "Kampaň"
     for_beginners: "Pre začiatočníkov"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
+    multiplayer: "Viac hráčov" # Not currently shown on home page
     for_developers: "Pre vývojárov" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Alebo stiahni pre iPad"
 
   nav:
     play: "Hraj" # The top nav bar entry where players choose which levels to play
@@ -40,50 +40,50 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     page_not_found: "Stránka nenájdená"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+    title: "Pomôžte preložiť CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Potrebujeme tvoje jazykové zručnosti."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Slovak but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Slovak."
     missing_translations: "Until we can translate everything into Slovak, you'll see English when Slovak isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Zisti viac, ako byť Diplomat"
+    subscribe_as_diplomat: "Prihlásiť sa ako Diplomat"
 
   play:
     play_as: "Hraj ako" # Ladder page
-    spectate: "Sleduj" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
-#    free: "Free"
-#    subscribed: "Subscribed"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    spectate: "Sledovať" # Ladder page
+    players: "hráči" # Hover over a level on /play
+    hours_played: "odohratých hodín" # Hover over a level on /play
+    items: "Predmety" # Tooltip on item shop button from /play
+    unlock: "Odomknúť" # For purchasing items and heroes
+    confirm: "Potvrdiť"
+    owned: "Vlastníš" # For items you own
+    locked: "Zamknuté"
+    purchasable: "Môžeš zakúpiť" # For a hero you unlocked but haven't purchased
+    available: "Dostupné"
+    skills_granted: "Získané skúsenosti" # Property documentation details
+    heroes: "Hrdinovia" # Tooltip on hero shop button from /play
+    achievements: "Úspechy" # Tooltip on achievement list button from /play
+    account: "Účet" # Tooltip on account button from /play
+    settings: "Nastavenia" # Tooltip on settings button from /play
+    next: "Ďalší" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Zmeniť hrdinu" # Go back from choose inventory to choose hero
+    choose_inventory: "Vyzbrojiť sa s predmetmy"
+    buy_gems: "Zakúpiť drahokamy"
+    subscription_required: "Vyžaduje sa rredplatné"
+    free: "Zdarma"
+    subscribed: "Predplatené"
+    older_campaigns: "Staršie kampane"
+    anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
-    campaign_beginner: "Ťaženie pre začiatočníkov"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    campaign_beginner: "Kampaň pre začiatočníkov"
+    awaiting_levels_adventurer_prefix: "Každy týždeň 5 nových levelov."
+    awaiting_levels_adventurer: "Prihlás sa ako Dobrodruh"
+    awaiting_levels_adventurer_suffix: "budeš ako prvý hrať nové levely."
+    adjust_volume: "Zmeniť hlasitosť"
     choose_your_level: "Vyber si úroveň" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Môže si vybrať ktorúkoľvek z úrovní alebo ich prediskutovať na "
     adventurer_forum: "fóre pre dobrodruhov"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "Staré kampane pre začiatočníkov"
     campaign_old_beginner_description: "... v ktorom sa naučíš mágiu programovania."
     campaign_dev: "Náhodné ťažšie úrovne"
     campaign_dev_description: "... v ktorych sa naučíš používať rozhranie a čeliť väčším výzvam."
@@ -91,8 +91,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
     campaign_player_created: "Hráčmi vytvorené úrovne"
     campaign_player_created_description: "... v ktorých sa popasuješ s kreativitou svojich <a href=\"/contribute#artisan\">kúzelníckych súdruhov</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms: "Klasické Algoritmy"
+    campaign_classic_algorithms_description: "... v kterých sa naučíte najobľúbenejšie algoritmy v IT"
 
 #  share_progress_modal:
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
@@ -141,8 +141,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     books: "Knihy"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Späť" # When used as an action verb, like "Navigate backward"
+    continue: "Pokračovať" # When used as an action verb, like "Continue forward"
     loading: "Načítava sa..."
     saving: "Ukladá sa..."
     sending: "Odosiela sa..."
@@ -152,16 +152,16 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     publish: "Publikuj"
     create: "Vytvoriť"
     manual: "Manuál"
-#    fork: "Fork"
+    fork: "Klonovať"
     play: "Hraj" # When used as an action verb, like "Play next level"
     retry: "Znova"
-#    actions: "Actions"
+    actions: "Príkazy"
     info: "Info"
     help: "Pomoc"
     watch: "Sleduj"
     unwatch: "Zruš sledovanie"
-#    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
+    submit_patch: "Odoslať Opravu"
+    submit_changes: "Odoslať zmeny"
 
   general:
     and: "a"
@@ -172,19 +172,19 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     pending: "Vybavuje sa"
     accepted: "Prijaté"
     rejected: "Zamietnuté"
-#    withdrawn: "Withdrawn"
+    withdrawn: "Uzatvorené"
     submitter: "Odosielateľ"
     submitted: "Odoslané"
-#    commit_msg: "Commit Message"
-#    review: "Review"
-#    version_history: "Version History"
-#    version_history_for: "Version History for: "
-#    select_changes: "Select two changes below to see the difference."
+    commit_msg: "Popis ukladania"
+    review: "Preskúmať"
+    version_history: "História verzií"
+    version_history_for: "História verzií pre: "
+    select_changes: "Vyber dve zmeny pre porovnanie."
     undo_prefix: "Späť"
     undo_shortcut: "(Ctrl+Z)"
     redo_prefix: "Dopredu"
     redo_shortcut: "(Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    play_preview: "Prehraj náhľad tohto levelu"
     result: "Výsledok"
     results: "Výsledky"
     description: "Popis"
@@ -206,7 +206,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     medium: "Stredná"
     hard: "Ťažká"
     player: "Hráč"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "Úroveň" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Bojovník"
     ranger: "Strelec"
     wizard: "Mág"
@@ -229,8 +229,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   play_level:
     done: "Hotovo"
-#    home: "Home" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    home: "Domov" # Not used any more, will be removed soon.
+    level: "Úroveň" # Like "Level: Dungeons of Kithgard"
     skip: "Preskočiť"
     game_menu: "Menu hry"
     guide: "Návod"
@@ -241,50 +241,50 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     success: "Úspech!"
     incomplete: "Nekompletné"
     timed_out: "Čas uplynul"
-#    failing: "Failing"
-#    action_timeline: "Action Timeline"
-#    click_to_select: "Click on a unit to select it."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    failing: "Zlyhanie"
+    action_timeline: "Časová os"
+    click_to_select: "Vyberte kliknutím."
+    control_bar_multiplayer: "Viac hráčov"
+    control_bar_join_game: "Vstúpiť do hry"
     reload: "Znova"
-#    reload_title: "Reload All Code?"
-#    reload_really: "Are you sure you want to reload this level back to the beginning?"
+    reload_title: "Načítať celý kód odznova?"
+    reload_really: "Naozaj chcete reštartovať túto úroveň od začiatkúu"
     reload_confirm: "Obnoviť všetko"
     victory: "Víťazstvo"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Kompletné"
-#    victory_sign_up: "Sign Up to Save Progress"
-#    victory_sign_up_poke: "Want to save your code? Create a free account!"
-#    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
+    victory_sign_up: "Přihlásit se pre uloženie progresu"
+    victory_sign_up_poke: "Chceš uložiť svoj kód? Vytvorte si účet zdarma!"
+    victory_rate_the_level: "Ohodnoťte túto úroveň: " # Only in old-style levels.
+    victory_return_to_ladder: "Vrátiť sa na Rebríčky"
     victory_play_continue: "Pokračovať"
     victory_saving_progress: "Stav ukladania"
-#    victory_go_home: "Go Home" # Only in old-style levels.
-#    victory_review: "Tell us more!" # Only in old-style levels.
-#    victory_hour_of_code_done: "Are You Done?"
-#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+    victory_go_home: "Návrat Domov" # Only in old-style levels.
+    victory_review: "Povedz nám viac!" # Only in old-style levels.
+    victory_hour_of_code_done: "Skončil si?"
+    victory_hour_of_code_done_yes: "Áno, pre dnešok som skončil™!"
     victory_experience_gained: "Získaných skúseností"
     victory_gems_gained: "Získaných kryštálov"
     guide_title: "Návod"
-#    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
-#    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
-#    tome_other_units: "Other Units" # Only in old-style levels.
+    tome_minion_spells: "Vaše obľúbené kúzla" # Only in old-style levels.
+    tome_read_only_spells: "Kúzla iba na čítanie" # Only in old-style levels.
+    tome_other_units: "Ostatné jednotky" # Only in old-style levels.
     tome_cast_button_run: "Spustiť"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+    tome_cast_button_running: "Prebieha"
+    tome_cast_button_ran: "Spustené"
     tome_submit_button: "Odoslať"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
-#    tome_select_a_thang: "Select Someone for "
-#    tome_available_spells: "Available Spells"
+    tome_reload_method: "Znovu načítať pôvodný kód pre túto metódu" # Title text for individual method reload button.
+    tome_select_method: "Vybrať metódu"
+    tome_see_all_methods: "Vybrať všetky metódy, ktoré môžu byť upravené" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_select_a_thang: "Zvoľte niekoho pre "
+    tome_available_spells: "Dostupné kúzla"
     tome_your_skills: "Tvoje schopnosti"
     tome_help: "Pomoc"
-#    tome_current_method: "Current Method"
+    tome_current_method: "Súčasná metóda"
     hud_continue_short: "Pokračovať"
     code_saved: "Kód uložený"
     skip_tutorial: "Preskoč (esc)"
-#    keyboard_shortcuts: "Key Shortcuts"
+    keyboard_shortcuts: "Klávesové skratky"
     loading_ready: "Pripravené!"
     loading_start: "Začať level"
     problem_alert_title: "Oprav svoj kód"
@@ -294,22 +294,22 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     time_goto: "Choď na:"
     infinite_loop_try_again: "Skús znova"
     infinite_loop_reset_level: "Reštartuj level"
-#    infinite_loop_comment_out: "Comment Out My Code"
-#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
-#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
-#    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
-#    tip_open_source: "CodeCombat is 100% open source!"
-#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
-#    tip_think_solution: "Think of the solution, not the problem."
-#    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
-#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
-#    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
-#    tip_forums: "Head over to the forums and tell us what you think!"
-#    tip_baby_coders: "In the future, even babies will be Archmages."
-#    tip_morale_improves: "Loading will continue until morale improves."
-#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
-#    tip_reticulating: "Reticulating spines."
-#    tip_harry: "Yer a Wizard, "
+infinite_loop_comment_out: "Zakomentovať môj kód"
+    tip_toggle_play: "Prepnite prehrávanie/pauzu pomocou Ctrl+P."
+    tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pre pretočenie a rychlý presun."
+    tip_guide_exists: "Kliknite na sprievodcu v hernom menu (hore na stránke), pre užitočné informácie."
+    tip_open_source: "CodeCombat je 100% open source!"
+    tip_beta_launch: "CodeCombat spustil svoju beta verziu v Októbri, 2013."
+    tip_think_solution: "Myslite na riešenie, nie na problém."
+    tip_theory_practice: "Teoreticky nie je žiaden rozdiel medzi teoriou a praxou. Ale v praxi ten rozdiel je. - Yogi Berra"
+    tip_error_free: "Sú dva spôsoby ako písať programy bez chýb; iba ten tretí funguje. - Alan Perlis"
+    tip_debugging_program: "Pokiaľ je ladenie proces, pri ktorom sa odstraňujú chyby, programovanie musí potom byť proces, ktorým sa chyby pridávajú. - Edsger W. Dijkstra"
+    tip_forums: "Choďte na naše fórum a povedzte nám, čo si myslíte!"
+    tip_baby_coders: "V budúcnosti budoú i bábätká Arcikúzelníci."
+    tip_morale_improves: "Načítánie bude prebiehať, pokiaľ sa nezlepší morálka."
+    tip_all_species: "Veríme v rovnaké možnosti učenia sa programovať pre všetky druhy."
+    tip_reticulating: "Sieťovanie chrbtíc."
+    tip_harry: "Hej kúzelík, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
@@ -376,7 +376,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     equipped_item: "Použité"
     required_purchase_title: "Požadované"
     available_item: "K dispozícii"
-    restricted_title: "RObmedzené"
+    restricted_title: "Zakázané"
     should_equip: "(klikni 2x pre použitie)"
     equipped: "(používa sa)"
     locked: "(zamknuté)"
@@ -384,18 +384,18 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     equip: "Použi"
     unequip: "Odlož"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
-#    recovered: "Previous gems purchase recovered. Please refresh the page."
-#    or_subscribe: "Or 3500 gems/mo if you..."
+  buy_gems:
+    few_gems: "Pár drahokamov"
+    pile_gems: "Hromada drahokamov"
+    chest_gems: "Truhlica drahokamov"
+    purchasing: "Prebieha nákup..."
+    declined: "Vaša karta bola odmietnutá"
+    retrying: "Chyba servera, obnovovanie."
+    prompt_title: "Nedostatok drahokamov"
+    prompt_body: "Chcete získať viac?"
+    prompt_button: "Vstúpiť do obchodu"
+    recovered: "Obnovenie už zakúpených drahokamov prebehlo úspěšne. Aktualizujte stránku prosím."
+    or_subscribe: "Alebo 3500 drahokamov ak..."
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
@@ -462,23 +462,23 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
-#    read_only: "read-only"
-#    action_name: "name"
-#    action_cooldown: "Takes"
-#    action_specific_cooldown: "Cooldown"
-#    action_damage: "Damage"
-#    action_range: "Range"
-#    action_radius: "Radius"
-#    action_duration: "Duration"
-#    example: "Example"
-#    ex: "ex" # Abbreviation of "example"
-#    current_value: "Current Value"
-#    default_value: "Default value"
-#    parameters: "Parameters"
-#    returns: "Returns"
-#    granted_by: "Granted by"
+  skill_docs:
+    writable: "zapisovatelné" # Hover over "attack" in Your Skills while playing a level to see most of this
+    read_only: "iba na čítanie"
+    action_name: "názov"
+    action_cooldown: "Zaberie"
+    action_specific_cooldown: "Cooldown"
+    action_damage: "Poškodenie"
+    action_range: "Vzdialenosť"
+    action_radius: "Dosah"
+    action_duration: "Trvanie"
+    example: "Príklad"
+    ex: "pr." # Abbreviation of "example"
+    current_value: "Aktuálna hodnota"
+    default_value: "Východzia hodnota"
+    parameters: "Parametre"
+    returns: "Vracia"
+    granted_by: "Poskytnutné od"
 
   save_load:
     granularity_saved_games: "Uložené"
@@ -577,10 +577,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   versions:
     save_version_title: "Ulož novú verziu"
     new_major_version: "Nová primárna verzia"
-#    submitting_patch: "Submitting Patch..."
+    submitting_patch: "Odosielanie opravy..."
     cla_prefix: "Ak chcete uložiť svoje zmeny, musíte najprv súhlasiť s našou"
-#    cla_url: "CLA"
-#    cla_suffix: "."
+    cla_url: "licencia"
+    cla_suffix: "."
     cla_agree: "SÚHLASÍM"
 
   contact:
@@ -607,7 +607,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     autosave: "Zmeny sa uložia automaticky"
     me_tab: "Ja"
     picture_tab: "Obrázok"
-#    upload_picture: "Upload a picture"
+    upload_picture: "Nahraj obrázok"
     password_tab: "Heslo"
     emails_tab: "E-maily"
     admin: "Spravovať"
