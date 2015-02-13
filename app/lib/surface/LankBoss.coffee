@@ -163,6 +163,8 @@ module.exports = class LankBoss extends CocoClass
 
     options = @createLankOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
+    if @options.playerNames and /Hero Placeholder/.test thang.id
+      options.playerName = @options.playerNames[thang.team]
     lank = new Lank thangType, options
     @listenTo lank, 'sprite:mouse-up', @onLankMouseUp
     @addLank lank, null, layer
