@@ -22,7 +22,8 @@ options =
   simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then 'http://127.0.0.1:3000' else 'https://codecombat.com'
+server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
+# Use direct instead of live site because jQlone's requests proxy doesn't do caching properly and CloudFlare gets too aggressive.
 
 # Disabled modules
 disable = [
@@ -62,12 +63,16 @@ hookedLoader = (request, parent, isMain) ->
   if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request if options.debug
     return class fake
+  else if /node_modules[\\\/]aether[\\\/]/.test parent.id
+    null  # Let it through
   else if '/' in request and not (request[0] is '.') or request is 'application'
+    #console.log 'making path', path + '/app/' + request, 'from', path, request, 'with parent', parent
     request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
   console.log 'loading ' + request if options.debug
   originalLoader request, parent, isMain
+
 unhook = () ->
   m._load = originalLoader
 hook = () ->

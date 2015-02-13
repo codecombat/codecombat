@@ -100,12 +100,12 @@ work = () ->
 
     self.postMessage type: 'start-load-frames'
 
-    self.world.loadFrames self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress, true
+    self.world.loadFrames self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress, null, true
 
   self.onWorldLoaded = onWorldLoaded = ->
     self.goalManager.worldGenerationEnded()
     goalStates = self.goalManager.getGoalStates()
-    self.postMessage type: 'end-load-frames', goalStates: goalStates
+    self.postMessage type: 'end-load-frames', goalStates: goalStates, overallStatus: goalManager.checkOverallStatus()
 
     t1 = new Date()
     diff = t1 - self.t0
@@ -176,9 +176,19 @@ work = () ->
 
   self.postMessage type: 'worker-initialized'
 
-worldCode = fs.readFileSync './public/javascripts/world.js', 'utf8'
-lodashCode = fs.readFileSync './public/javascripts/lodash.js', 'utf8'
-aetherCode = fs.readFileSync './public/javascripts/aether.js', 'utf8'
+codeFileContents = []
+for codeFile in [
+    'world.js'
+    'lodash.js'
+    'aether.js'
+    'app/vendor/aether-clojure.js'
+    'app/vendor/aether-coffeescript.js'
+    'app/vendor/aether-io.js'
+    'app/vendor/aether-javascript.js'
+    'app/vendor/aether-lua.js'
+    'app/vendor/aether-python.js'
+  ]
+  codeFileContents.push fs.readFileSync("./public/javascripts/#{codeFile}", 'utf8')
 
 #window.BOX2D_ENABLED = true;
 
@@ -195,9 +205,7 @@ ret = """
 
   try {
     // the world javascript file
-    #{worldCode};
-    #{lodashCode};
-    #{aetherCode};
+    #{codeFileContents.join(';\n    ')};
 
     // Don't let user generated code access stuff from our file system!
     self.importScripts = importScripts = null;

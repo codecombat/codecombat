@@ -94,7 +94,7 @@ module.exports = class LevelLoader extends CocoClass
     if session is @session
       codeLanguage = session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
       modulePath = "vendor/aether-#{codeLanguage}"
-      loading = application.moduleLoader.load(modulePath)
+      loading = application.moduleLoader?.load(modulePath)
       if loading
         @languageModuleResource = @supermodel.addSomethingResource 'language_module'
         @listenTo application.moduleLoader, 'loaded', (e) ->
