@@ -294,7 +294,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     time_goto: "Choď na:"
     infinite_loop_try_again: "Skús znova"
     infinite_loop_reset_level: "Reštartuj level"
-infinite_loop_comment_out: "Zakomentovať môj kód"
+    infinite_loop_comment_out: "Zakomentovať môj kód"
     tip_toggle_play: "Prepnite prehrávanie/pauzu pomocou Ctrl+P."
     tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pre pretočenie a rychlý presun."
     tip_guide_exists: "Kliknite na sprievodcu v hernom menu (hore na stránke), pre užitočné informácie."
