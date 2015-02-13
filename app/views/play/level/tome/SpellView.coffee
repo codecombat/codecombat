@@ -443,6 +443,7 @@ module.exports = class SpellView extends CocoView
     # window.snippetEntries = snippetEntries
     lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
+    @snippetEntries = snippetEntries
 
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
@@ -1091,6 +1092,8 @@ module.exports = class SpellView extends CocoView
     @destroyAceEditor(@ace)
     @debugView?.destroy()
     @toolbarView?.destroy()
+    snippetManager = ace.require('ace/snippets').snippetManager
+    snippetManager.unregister @snippetEntries if @snippetEntries?
     $(window).off 'resize', @onWindowResize
     super()
     
