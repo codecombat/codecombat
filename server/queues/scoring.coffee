@@ -611,7 +611,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   currentMatchObject.opponents = opponentsArray
   currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
   currentMatchObject.simulator = @clientResponseObject.simulator
-  currentMatchObject.randomSeed = @clientResponseObject.randomSeed
+  currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)
   LevelSession.findOne {'_id': sessionID}, (err, session) ->
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0
