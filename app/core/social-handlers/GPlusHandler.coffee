@@ -15,7 +15,7 @@ fieldsToFetch = 'displayName,gender,image,name(familyName,givenName),id'
 plusURL = '/plus/v1/people/me?fields='+fieldsToFetch
 revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token='
 clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
-scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+scope = 'https://www.googleapis.com/auth/plus.login email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
