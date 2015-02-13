@@ -95,6 +95,7 @@ GLOBAL.Backbone = require bowerComponentsPath + 'backbone/backbone'
 unhook()
 Backbone.$ = $
 require bowerComponentsPath + 'validated-backbone-mediator/backbone-mediator'
+Backbone.Mediator.setValidationEnabled false
 GLOBAL.Aether = require 'aether'
 # Set up new loader. Again.
 hook()

@@ -148,7 +148,9 @@ work = () ->
         self.postedErrors[errorKey] = error
     else
       console.log 'Non-UserCodeError:', error.toString() + "\n" + error.stack or error.stackTrace
+      self.postMessage type: 'non-user-code-problem', problem: {message: error.toString()}
       self.cleanUp()
+      return false
     return true
 
   self.onWorldLoadProgress = onWorldLoadProgress = (progress) ->
@@ -178,8 +180,8 @@ work = () ->
 
 codeFileContents = []
 for codeFile in [
-    'world.js'
     'lodash.js'
+    'world.js'
     'aether.js'
     'app/vendor/aether-clojure.js'
     'app/vendor/aether-coffeescript.js'

@@ -5,7 +5,7 @@ GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
 
-SIMULATOR_VERSION = 2
+SIMULATOR_VERSION = 3
 
 simulatorInfo = {}
 if $.browser
@@ -334,6 +334,7 @@ module.exports = class Simulator extends CocoClass
       calculationTime: 500
       sessions: []
       simulator: @simulator
+      randomSeed: @task.world.randomSeed
 
     for session in @task.getSessions()
       sessionResult =
