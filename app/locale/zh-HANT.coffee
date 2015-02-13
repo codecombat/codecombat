@@ -288,7 +288,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     loading_ready: "準備！"
     loading_start: "開始戰役"
     problem_alert_title: "修正您的程式碼"
-    problem_alert_help: "幫助"
+    problem_alert_help: "導引"
     time_current: "現在:"
     time_total: "最大值:"
     time_goto: "前往:"
