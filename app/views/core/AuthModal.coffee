@@ -119,7 +119,6 @@ module.exports = class AuthModal extends ModalView
   gplusAuthSteps: [
     { i18n: 'login.authenticate_gplus', done: false }
     { i18n: 'login.load_profile', done: false }
-    { i18n: 'login.load_email', done: false }
     { i18n: 'login.finishing', done: false }
   ]
 
@@ -136,12 +135,8 @@ module.exports = class AuthModal extends ModalView
         @gplusAuthSteps[1].done = true
         @renderGPlusAuthChecklist()
 
-      @listenToOnce handler, 'email-loaded', ->
-        @gplusAuthSteps[2].done = true
-        @renderGPlusAuthChecklist()
-
       @listenToOnce handler, 'logging-into-codecombat', ->
-        @gplusAuthSteps[3].done = true
+        @gplusAuthSteps[2].done = true
         @renderGPlusAuthChecklist()
 
   renderGPlusAuthChecklist: ->
