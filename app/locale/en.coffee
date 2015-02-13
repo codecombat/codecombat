@@ -69,8 +69,6 @@
     choose_inventory: "Equip Items"
     buy_gems: "Buy Gems"
     subscription_required: "Subscription Required"
-    free: "Free"
-    subscribed: "Subscribed"
     older_campaigns: "Older Campaigns"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
