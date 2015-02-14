@@ -10,7 +10,7 @@ util = require '../../app/core/utils'
 
 class EarnedAchievementHandler extends Handler
   modelClass: EarnedAchievement
-  
+
   editableProperties: ['notified']
 
   # Don't allow POSTs or anything yet
@@ -141,7 +141,12 @@ class EarnedAchievementHandler extends Handler
       recalculatingAll = true
     t0 = new Date().getTime()
     total = 100000
-    User.count {anonymous:false}, (err, count) -> total = count
+    #testUsers = ['livelily+test37@gmail.com']
+    if testUsers?
+      userQuery = emailLower: {$in: testUsers}
+    else
+      userQuery = anonymous: false
+    User.count userQuery, (err, count) -> total = count
 
     onFinished = ->
       t1 = new Date().getTime()
@@ -159,10 +164,10 @@ class EarnedAchievementHandler extends Handler
     Achievement.find filter, (err, achievements) ->
       callback?(err) if err?
       callback?(new Error 'No achievements to recalculate') unless achievements.length
-      #log.info "Recalculating a total of #{achievements.length} achievements..."
+      log.info "Recalculating a total of #{achievements.length} achievements..."
 
       # Fetch every single user. This tends to get big so do it in a streaming fashion.
-      userStream = User.find().sort('_id').stream()
+      userStream = User.find(userQuery).sort('_id').stream()
       streamFinished = false
       usersTotal = 0
       usersFinished = 0
@@ -253,11 +258,11 @@ class EarnedAchievementHandler extends Handler
               log.error err if err
               #console.log 'User', user.get('name'), 'had newTotalPoints', newTotalPoints, 'and newTotalRewards', newTotalRewards, 'previousRewards', previousRewards
               return doneWithUser(user) unless newTotalPoints or newTotalRewards.gems or _.some(newTotalRewards, (r) -> r.length)
-#              log.debug "Matched a total of #{newTotalPoints} new points"
-#              log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
+              #log.debug "Matched a total of #{newTotalPoints} new points"
+              #log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
               pointDelta = newTotalPoints - previousPoints
               pctDone = (100 * usersFinished / total).toFixed(2)
-              console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
+              #console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
               if recalculatingAll
                 update = {$set: {points: newTotalPoints, 'earned.gems': 0, 'earned.heroes': [], 'earned.items': [], 'earned.levels': []}}
               else

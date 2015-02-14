@@ -30,10 +30,11 @@ module.exports = class PlayAchievementsModal extends ModalView
       'i18n'
       'rewards'
       'collection'
+      'function'
     ])
 
     earnedAchievementsFetcher = new CocoCollection([], {url: '/db/earned_achievement', model: EarnedAchievement})
-    earnedAchievementsFetcher.setProjection([ 'achievement' ])
+    earnedAchievementsFetcher.setProjection ['achievement', 'achievedAmount']
 
     achievementsFetcher.skip = 0
     achievementsFetcher.fetch cache: false, data: {skip: 0, limit: PAGE_SIZE}
@@ -75,6 +76,9 @@ module.exports = class PlayAchievementsModal extends ModalView
       if earned = @earnedMap[achievement.id]
         achievement.earned = earned
         achievement.earnedDate = earned.getCreationDate()
+        expFunction = achievement.getExpFunction()
+        achievement.earnedGems = Math.round (achievement.get('rewards')?.gems or 0) * expFunction earned.get('achievedAmount')
+        achievement.earnedPoints = Math.round (achievement.get('worth', true) or 0) * expFunction earned.get('achievedAmount')
       achievement.earnedDate ?= ''
     @achievements.comparator = (m) -> m.earnedDate
     @achievements.sort()
