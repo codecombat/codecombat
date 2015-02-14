@@ -8,6 +8,7 @@ do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.mixin _.str.exports()
+  GLOBAL.tv4 = require('tv4').tv4
 
 database.connect()
 
@@ -19,13 +20,6 @@ Achievement.loadAchievements (achievementCategories) ->
   # Really, it's just the 'users' category, since we don't keep all the LevelSession achievements in memory, rather letting the clients make those.
   userAchievements = achievementCategories.users
   console.log 'There are', userAchievements.length, 'user achievements.'
-
-  # 0. Stream all the non-anonymous users.
-  # 1. Adapt this logic below to fetch the earned achievement to see if it exists.
-  # 2. If it doesn't exist, make it and add to total.
-  # 3. Keep other totals, too, for interesting stats.
-  # 4. Print out how long it's going to take.
-  # 5. process.exit()
 
   t0 = new Date().getTime()
   total = 100000

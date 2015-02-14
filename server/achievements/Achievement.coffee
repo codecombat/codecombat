@@ -47,7 +47,7 @@ AchievementSchema.methods.getExpFunction = ->
   return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
 
 AchievementSchema.statics.jsonschema = jsonschema
-AchievementSchema.statics.achievementCategories = {}
+AchievementSchema.statics.achievementCollections = {}
 
 # Reloads all achievements into memory.
 # TODO might want to tweak this to only load new achievements
@@ -57,21 +57,21 @@ AchievementSchema.statics.loadAchievements = (done) ->
   query = Achievement.find({collection: {$ne: 'level.sessions'}})
   query.exec (err, docs) ->
     _.each docs, (achievement) ->
-      category = achievement.get 'collection'
-      AchievementSchema.statics.achievementCategories[category] ?= []
-      if _.find AchievementSchema.statics.achievementCategories[category], ((a) -> a.get('_id').toHexString() is achievement.get('_id').toHexString())
-        log.warn "Uh oh, we tried to add another copy of the same achievement #{achievement.get('_id')} #{achievement.get('name')} to the #{category} achievement list..."
+      collection = achievement.get 'collection'
+      AchievementSchema.statics.achievementCollections[collection] ?= []
+      if _.find AchievementSchema.statics.achievementCollections[collection], ((a) -> a.get('_id').toHexString() is achievement.get('_id').toHexString())
+        log.warn "Uh oh, we tried to add another copy of the same achievement #{achievement.get('_id')} #{achievement.get('name')} to the #{collection} achievement list..."
       else
-        AchievementSchema.statics.achievementCategories[category].push achievement
+        AchievementSchema.statics.achievementCollections[collection].push achievement
       unless achievement.get('query')
         log.error "Uh oh, there is an achievement with an empty query: #{achievement}"
-    done?(AchievementSchema.statics.achievementCategories)
+    done?(AchievementSchema.statics.achievementCollections)
 
 AchievementSchema.statics.getLoadedAchievements = ->
-  AchievementSchema.statics.achievementCategories
+  AchievementSchema.statics.achievementCollections
 
 AchievementSchema.statics.resetAchievements = ->
-  delete AchievementSchema.statics.achievementCategories[category] for category of AchievementSchema.statics.achievementCategories
+  delete AchievementSchema.statics.achievementCollections[collection] for collection of AchievementSchema.statics.achievementCollections
 
 # Queries are stored as JSON strings, objectify them upon loading
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
