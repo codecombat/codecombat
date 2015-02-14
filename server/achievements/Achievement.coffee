@@ -47,7 +47,7 @@ AchievementSchema.methods.getExpFunction = ->
   return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
 
 AchievementSchema.statics.jsonschema = jsonschema
-AchievementSchema.statics.earnedAchievements = {}
+AchievementSchema.statics.achievementCategories = {}
 
 # Reloads all achievements into memory.
 # TODO might want to tweak this to only load new achievements
@@ -58,15 +58,20 @@ AchievementSchema.statics.loadAchievements = (done) ->
   query.exec (err, docs) ->
     _.each docs, (achievement) ->
       category = achievement.get 'collection'
-      AchievementSchema.statics.earnedAchievements[category] = [] unless category of AchievementSchema.statics.earnedAchievements
-      AchievementSchema.statics.earnedAchievements[category].push achievement
-    done?(AchievementSchema.statics.earnedAchievements)
+      AchievementSchema.statics.achievementCategories[category] ?= []
+      if _.find AchievementSchema.statics.achievementCategories[category], ((a) -> a.get('_id').toHexString() is achievement.get('_id').toHexString())
+        log.warn "Uh oh, we tried to add another copy of the same achievement #{achievement.get('_id')} #{achievement.get('name')} to the #{category} achievement list..."
+      else
+        AchievementSchema.statics.achievementCategories[category].push achievement
+      unless achievement.get('query')
+        log.error "Uh oh, there is an achievement with an empty query: #{achievement}"
+    done?(AchievementSchema.statics.achievementCategories)
 
 AchievementSchema.statics.getLoadedAchievements = ->
-  AchievementSchema.statics.earnedAchievements
+  AchievementSchema.statics.achievementCategories
 
 AchievementSchema.statics.resetAchievements = ->
-  delete AchievementSchema.statics.earnedAchievements[category] for category of AchievementSchema.statics.earnedAchievements
+  delete AchievementSchema.statics.achievementCategories[category] for category of AchievementSchema.statics.achievementCategories
 
 # Queries are stored as JSON strings, objectify them upon loading
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
@@ -76,6 +81,7 @@ AchievementSchema.pre 'save', (next) ->
   next()
 
 # Reload achievements upon save
+# This is going to basically not work when there is more than one application server, right?
 AchievementSchema.post 'save', -> @constructor.loadAchievements()
 
 AchievementSchema.plugin(plugins.NamedPlugin)

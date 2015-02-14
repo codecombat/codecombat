@@ -33,11 +33,12 @@ AchievablePlugin = (schema, options) ->
       for achievement in loadedAchievements[category]
         do (achievement) ->
           query = achievement.get('query')
-          return log.warn("Empty achievement query for #{achievement.get('name')}.") if _.isEmpty query
+          return log.error("Empty achievement query for #{achievement.get('name')}.") if _.isEmpty query
           isRepeatable = achievement.get('proportionalTo')?
           alreadyAchieved = if isNew then false else LocalMongo.matchesQuery doc.unchangedCopy, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)
           return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
+          #log.info "Making an achievement: #{achievement.get('name')} #{achievement.get('_id')} for doc: #{doc.get('name')} #{doc.get('_id')}"
           EarnedAchievement.createForAchievement(achievement, doc, doc.unchangedCopy)
 
 module.exports = AchievablePlugin
