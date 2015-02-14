@@ -781,7 +781,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   contribute:
 #    page_title: "Contributing"
     intro_blurb: "CodeCombat là một sản phẩm mã nguồn mở 100% ! Nhờ sự giúp đỡ của hàng trăm người chơi tốt bụng, chúng tôi mới có thể xây dựng trò chơi này được như ngày hôm nay. Hãy tham gia cùng chúng tôi để giúp CodeCombat có thể hoàn thành sứ mệnh lớn lao của nó là dạy lập trình đến tất cả mọi người trên thế giới !"
-#    alert_account_message_intro: "Hey there!"
+    alert_account_message_intro: "Này bạn!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"
@@ -842,7 +842,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    diligent_scribes: "Our Diligent Scribes:"
 #    powerful_archmages: "Our Powerful Archmages:"
 #    creative_artisans: "Our Creative Artisans:"
-#    brave_adventurers: "Our Brave Adventurers:"
+    brave_adventurers: "Những nhà thám hiểm dũng cảm:"
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
@@ -902,8 +902,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   user:
     stats: "Chỉ số"
-#    singleplayer_title: "Singleplayer Levels"
-#    multiplayer_title: "Multiplayer Levels"
+    singleplayer_title: "Những bàn chơi đơn"
+    multiplayer_title: "Những bàn đa người chơi"
     achievements_title: "Những thành tích"
     last_played: "Lần chơi cuối cùng"
     status: "Tình trạng"
