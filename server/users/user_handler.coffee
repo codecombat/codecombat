@@ -282,6 +282,8 @@ UserHandler = class UserHandler extends Handler
     if codeLanguage = req.user.get('aceConfig.language')
       codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
       emailParams['email_data']['codeLanguage'] = codeLanguage
+    if senderEmail = req.user.get('email')
+      emailParams['email_data']['senderEmail'] = senderEmail
 
     # Type-specific email data
     if type is 'subscribe modal parent'

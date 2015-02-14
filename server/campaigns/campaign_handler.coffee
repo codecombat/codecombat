@@ -22,7 +22,18 @@ CampaignHandler = class CampaignHandler extends Handler
   jsonSchema: require '../../app/schemas/models/campaign.schema'
 
   hasAccess: (req) ->
-    req.method is 'GET' or req.user?.isAdmin()
+    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
+
+  hasAccessToDocument: (req, document, method=null) ->
+    return true if req.user?.isAdmin()
+
+    if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() in ['post', 'put']
+      return true if @isJustFillingTranslations(req, document)
+      
+    if req.method is 'GET'
+      return true
+
+    return false
 
   get: (req, res) ->
     return @sendForbiddenError(res) if not @hasAccess(req)

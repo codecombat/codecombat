@@ -50,29 +50,36 @@ EarnedAchievementSchema.statics.createForAchievement = (achievement, doc, origin
     proportionalTo = achievement.get 'proportionalTo'
     docObj = doc.toObject()
     newAmount = util.getByPath(docObj, proportionalTo) or 0
-    if previouslyEarnedAchievement
-      originalAmount = previouslyEarnedAchievement.get('achievedAmount') or 0
+    updateEarnedAchievement = (originalAmount) ->
+      #console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj, 'and previously earned achievement amount', previouslyEarnedAchievement?.get('achievedAmount'), 'because we had originalDocObj', originalDocObj
+
+      if originalAmount isnt newAmount
+        expFunction = achievement.getExpFunction()
+        earned.notified = false
+        earned.achievedAmount = newAmount
+        #console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
+        earnedPoints = earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth
+        earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth
+        earned.previouslyAchievedAmount = originalAmount
+        EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
+          return log.error err if err?
+
+        wrapUp(new EarnedAchievement(earned))
+      else
+        done?()
+
+    if proportionalTo is 'simulatedBy' and newAmount > 0 and not previouslyEarnedAchievement and Math.random() < 0.1
+      # Because things like simulatedBy get updated with $inc and not the post-save plugin hook,
+      # we (infrequently) fetch the previously earned achievement so we can really update.
+      EarnedAchievement.findOne {user: earned.user, achievement: earned.achievement}, (err, previouslyEarnedAchievement) ->
+        log.error err if err?
+        updateEarnedAchievement previouslyEarnedAchievement?.get('achievedAmount') or 0
+    else if previouslyEarnedAchievement
+      updateEarnedAchievement previouslyEarnedAchievement.get('achievedAmount') or 0
     else if originalDocObj  # This branch could get buggy if unchangedCopy tracking isn't working.
-      originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
+      updateEarnedAchievement util.getByPath(originalDocObj, proportionalTo) or 0
     else
-      originalAmount = 0
-    #console.log 'original amount is', originalAmount, 'and new amount is', newAmount, 'for', proportionalTo, 'with doc', docObj, 'and previously earned achievement amount', previouslyEarnedAchievement?.get('achievedAmount'), 'because we had originalDocObj', originalDocObj
-
-    if originalAmount isnt newAmount
-      expFunction = achievement.getExpFunction()
-      earned.notified = false
-      earned.achievedAmount = newAmount
-      #console.log 'earnedPoints is', (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth, 'was', earned.earnedPoints, earned.previouslyAchievedAmount, 'got exp function for new amount', newAmount, expFunction(newAmount), 'for original amount', originalAmount, expFunction(originalAmount), 'with point worth', pointWorth
-      earnedPoints = earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * pointWorth
-      earnedGems = earned.earnedGems = (expFunction(newAmount) - expFunction(originalAmount)) * gemWorth
-      earned.previouslyAchievedAmount = originalAmount
-      EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
-        return log.debug err if err?
-
-      #log.debug earnedPoints
-      wrapUp(new EarnedAchievement(earned))
-    else
-      done?()
+      updateEarnedAchievement 0
 
   else # not alreadyAchieved
     #log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID

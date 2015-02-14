@@ -9,7 +9,7 @@ module.exports = initializeGoogle = ->
     po = document.createElement('script')
     po.type = 'text/javascript'
     po.async = true
-    po.src = 'https://apis.google.com/js/client:plusone.js?onload=onGPlusLoaded'
+    po.src = 'https://apis.google.com/js/client:platform.js?onload=onGPlusLoaded'
     s = document.getElementsByTagName('script')[0]
     s.parentNode.insertBefore po, s
     return

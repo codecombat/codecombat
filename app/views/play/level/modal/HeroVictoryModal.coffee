@@ -268,6 +268,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   updateXPBars: (achievedXP) ->
     previousXP = @previousXP
+    previousXP = previousXP + 1000000 if me.isInGodMode() 
     previousLevel = @previousLevel
 
     currentXP = previousXP + achievedXP
