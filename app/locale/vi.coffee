@@ -18,7 +18,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     community: "Cộng đồng"
     editor: "Chỉnh sửa"
     blog: "Blog"
-    forum: "Diễn đàn"
+    forum: "Diễn đàn"
     account: "Tài khoản"
     profile: "Thông tin cá nhân"
     stats: "Các chỉ số"
@@ -26,11 +26,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     admin: "Quản trị viên" # Only shows up when you are an admin
     home: "Nhà"
     contribute: "Đóng góp"
-    legal: "Hợp pháp"
+    legal: "Hợp pháp"
     about: "Giới thiệu"
-    contact: "Liên hệ"
+    contact: "Liên hệ"
     twitter_follow: "Theo dõi"
-    teachers: "Thầy Giáo"
+    teachers: "Dành cho giáo viên"
 
   modal:
     close: "Đóng"
@@ -61,7 +61,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Những nhân vật" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
+    achievements: "Những thành tích" # Tooltip on achievement list button from /play
     account: "Tài khoản" # Tooltip on account button from /play
     settings: "Những tùy chỉnh" # Tooltip on settings button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
@@ -87,10 +87,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
     campaign_multiplayer: "Khu vực đa người chơi"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-    campaign_player_created: "Tạo người chơi"
+    campaign_player_created: "Những bàn do các người chơi tạo ra"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Các thuật toán kinh điển"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_classic_algorithms_description: "... Nơi mà bạn có thể học được những thuật toán phổ biến trong ngành khoa học máy tính ."
 
   share_progress_modal:
     blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy kể cho ai đó xem bạn đã học được nhiều chừng nào với CodeCombat."
@@ -103,8 +103,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tell_parent: "Hãy nói với bố mẹ bạn"
 
   login:
-    sign_up: "Tạo tài khoản"
-    log_in: "Đăng nhập"
+    sign_up: "Tạo tài khoản"
+    log_in: "Đăng nhập"
     logging_in: "Đang đăng nhập"
     log_out: "Đăng xuất"
     forgot_password: "Quên mật khẩu?"
@@ -133,7 +133,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   items:
     primary: "Chính"
     secondary: "Phụ"
-    armor: "Aó giáp"
+    armor: "Áo giáp"
     accessories: "Phụ kiện"
     misc: "Linh tinh"
     books: "Cuốn sách"
@@ -249,14 +249,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     reload_really: "Bạn có chắc bạn muốn tải lại bàn này về lúc ban đầu?"
     reload_confirm: "Tải lại tất cả"
     victory: "Thắng"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Xong"
-#    victory_sign_up: "Sign Up to Save Progress"
+    victory_sign_up: "Đăng kí để lưu tiến trình của bạn"
     victory_sign_up_poke: "Bạn có muốn lưu code của mình lại không ? Hãy tạo một tài khoản miễn phí!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Tiếp tục"
-#    victory_saving_progress: "Saving Progress"
+    victory_saving_progress: "Đang lưu tiến trình"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"
@@ -332,8 +332,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
-#    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
-#    tip_google: "Have a problem you can't solve? Google it!"
+    tip_move_forward: "Dù bạn làm gì đi chăng nữa thì hãy tiến lên và đừng bao giờ bỏ cuộc. - Martin Luther King Jr."
+    tip_google: "Có vấn đề mà bạn không thể giải quyết ? Hãy sử dụng Google để tìm ra phương án!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
@@ -494,7 +494,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     editor_config_level_language_label: "Ngôn ngữ lập trình cho bàn này"
     editor_config_level_language_description: "Hãy chọn ngôn ngữ lập trình bạn sẽ sử dụng cho bàn này."
     editor_config_default_language_label: "Ngôn ngữ lập trình mặc định"
-#    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
+    editor_config_default_language_description: "Hãy chọn ngôn ngữ lập trình bạn sẽ sử dụng khi bắt đầu các bàn mới."
 #    editor_config_keybindings_label: "Key Bindings"
 #    editor_config_keybindings_default: "Default (Ace)"
 #    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -524,7 +524,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     george_title: "Tổng giám đốc điều hành"
 #    george_blurb: "Businesser"
     scott_title: "Lập trình viên"
-#    scott_blurb: "Reasonable One"
+    scott_blurb: "Một người có lý trí, biết suy luận"
     nick_title: "Lập trình viên"
 #    nick_blurb: "Motivation Guru"
     michael_title: "Lập trình viên"
@@ -533,7 +533,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     matt_blurb: "Một người thích đi xe đạp"
 
   teachers:
-#    title: "CodeCombat for Teachers"
+    title: "Thông tin về CodeCombat dành cho giáo viên"
 #    preparation_title: "Preparation"
 #    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
 #    preparation_play_campaign: "play through the campaign"
@@ -552,11 +552,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    what_cover_methods_2: "- familiarizes students with the syntax of object-oriented method calls."
 #    what_cover_parameters_1: "Parameters"
 #    what_cover_parameters_2: "- trains how to pass parameters to functions."
-#    what_cover_strings_1: "Strings"
+    what_cover_strings_1: "Xâu kí tự (String)"
 #    what_cover_strings_2: "- teaches students about string notation and passing strings as parameters."
-#    what_cover_loops_1: "Loops"
+    what_cover_loops_1: "Vòng lặp"
 #    what_cover_loops_2: "- develops the abstraction of designing short programs with loops."
-#    what_cover_variables_1: "Variables"
+    what_cover_variables_1: "Biến (Variable)"
 #    what_cover_variables_2: "- adds the skill of referencing values that change over time."
 #    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
 #    what_cover_logic_1: "Conditional logic"
