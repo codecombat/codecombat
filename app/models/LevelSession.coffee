@@ -38,7 +38,7 @@ module.exports = class LevelSession extends CocoModel
     false
 
   isMultiplayer: ->
-    @get('team')? # Only multiplayer level sessions have teams defined
+    @get('submittedCode')?
 
   completed: ->
     @get('state')?.complete || false
