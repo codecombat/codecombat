@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Català", englishDescription: "Catalan", translation:
   home:
-    slogan: "Aprén a programar tot Jugant"
+    slogan: "Aprèn a programar tot Jugant"
     no_ie: "CodeCombat no funciona en Internet Explorer 8 o versions anteriors. Perdó!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat no ha estat dissenyat per dispositius mòbils i per tant no funcionarà!" # Warning that shows up on mobile devices
     play: "Jugar" # The big play button that opens up the campaign view.
@@ -42,9 +42,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desenvolupat CodeCombat en Anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
-    missing_translations: "Fins que puguem traduir-ho tot en Català, veuràs en anglès quant sigui possible."
-    learn_more: "Aprèn més sobre seru un diplomàtic"
+    pitch_body: "Hem desenvolupat CodeCombat en anglès, peró tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdós llengües, siusplau considereu iniciar sesió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivell en Català."
+    missing_translations: "Fins que puguem traduir-ho tot en català, ho veuràs en anglès quant no estigui en català."
+    learn_more: "Aprèn més sobre ser un diplomàtic"
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
 
   play:
@@ -92,15 +92,15 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     campaign_classic_algorithms: "Algoritmes classics"
     campaign_classic_algorithms_description: "... on pots aprendre els algoritmes més populars de l'informàtica."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+  share_progress_modal:
+    blurb: "Estàs progressant molt! Digues a algú quan n'has après amb CodeCombat."
+    email_invalid: "Correu electrònic invalid."
+    form_blurb: "Escriu els seus emails a sota i els hi ensenyarem!"
+    form_label: "Correu electrònic"
+    placeholder: "adreça de correu electrònic"
+    title: "Excelent feina, Aprenent"
+    tell_friend: "Avisa un Amic"
+    tell_parent: "Avisa un Familiar"
 
   login:
     sign_up: "Crear un compte"
@@ -121,8 +121,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     creating: "Creant Compte..."
     sign_up: "Registrar-se"
     log_in: "Iniciar sessió amb la teva contrasenya"
-    social_signup: "O, pots iniciar sesió desde Facebook o G+:"
-    required: "Neccesites iniciar sesió abans ."
+    social_signup: "O, pots iniciar sessió desde Facebook o G+:"
+    required: "Neccesites iniciar sessió abans ."
     login_switch: "Ja tens un compte?"
 
   recover:
@@ -135,7 +135,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     secondary: "Secundari"
     armor: "Armadura"
     accessories: "Accessoris"
-#    misc: "Misc"
+    misc: "Misc" # de Miscel·lani
     books: "Llibres"
 
   common:
@@ -159,7 +159,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     watch: "Veure"
     unwatch: "Amaga"
     submit_patch: "Enviar pegat"
-#    submit_changes: "Submit Changes"
+    submit_changes: "Puja canvis"
 
   general:
     and: "i"
@@ -169,44 +169,44 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     version: "Versió"
     pending: "Pendent"
     accepted: "Acceptat"
-#    rejected: "Rejected"
-#    withdrawn: "Withdrawn"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
-#    commit_msg: "Commit Message"
+    rejected: "Rebutjat"
+    withdrawn: "Retirat"
+    submitter: "Remitent"
+    submitted: "Presentat"
+    commit_msg: "nissatge de Commir"
     review: "Revisió"
     version_history: "Historial de versions"
-#    version_history_for: "Version History for: "
-#    select_changes: "Select two changes below to see the difference."
+    version_history_for: "Historial de versions per: "
+    select_changes: "Seleciona dos canvis sota per veure les diferencies."
     undo_prefix: "Desfer"
     undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
+    redo_prefix: "Refés"
     redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Reproduir avanç del nivell actual"
     result: "Resultat"
     results: "Resultats"
     description: "Descripció"
     or: "o"
-#    subject: "Subject"
+    subject: "Subjecte"
     email: "Email"
     password: "Contrasenya"
     message: "Missatge"
     code: "Codi"
-#    ladder: "Ladder"
-#    when: "When"
+    ladder: "Escala"
+    when: "Quan"
     opponent: "Oponent"
-#    rank: "Rank"
+    rank: "Rang"
     score: "Puntuació"
     win: "Guanyats"
     loss: "Perduts"
-#    tie: "Tie"
+    tie: "Empat"
     easy: "Fàcil"
     medium: "Intermedi"
     hard: "Difícil"
     player: "Jugador"
     player_level: "Nivell" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Guerrer"
-#    ranger: "Ranger"
+    ranger: "Ranger"
     wizard: "Mag"
 
   units:
@@ -235,7 +235,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     restart: "Recomençar"
     goals: "Objectius"
     goal: "Objectiu"
-#    running: "Running..."
+    running: "Executant..."
     success: "Exit!"
     incomplete: "Incomplet"
     timed_out: "S'ha acabat el temps"
@@ -254,45 +254,45 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     victory_sign_up: "Inicia sessió per a desar el progressos"
     victory_sign_up_poke: "Vols guardar el teu codi? Crea un compte gratuit!"
     victory_rate_the_level: "Valora el nivell: " # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
+    victory_return_to_ladder: "Retorna a les Escales"
     victory_play_continue: "Continuar"
     victory_saving_progress: "Desa progrés"
     victory_go_home: "Tornar a l'inici" # Only in old-style levels.
     victory_review: "Diguens més!" # Only in old-style levels.
     victory_hour_of_code_done: "Has acabat?"
-#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+    victory_hour_of_code_done_yes: "Sí, He acabat amb la meva Hora de Codi™!"
     victory_experience_gained: "XP Guanyada"
     victory_gems_gained: "Gemmes guanyades"
     guide_title: "Guia"
-#    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
-#    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
+    tome_minion_spells: "Els encanteris dels Sequaços" # Only in old-style levels.
+    tome_read_only_spells: "Encanteris de Sola-Lectura" # Only in old-style levels.
     tome_other_units: "Altres unitats" # Only in old-style levels.
     tome_cast_button_run: "Executar"
     tome_cast_button_running: "Executant"
     tome_cast_button_ran: "Executat"
-#    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
+    tome_submit_button: "Envia"
+    tome_reload_method: "Recarrega el codi original code per aquest metòde" # Title text for individual method reload button.
     tome_select_method: "Selecciona un mètode"
-#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
-#    tome_select_a_thang: "Select Someone for "
-#    tome_available_spells: "Available Spells"
+    tome_see_all_methods: "Veure tots els mètodes que pots editar" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_select_a_thang: "Selecciona Algú Per"
+    tome_available_spells: "Encanteris disponibles"
     tome_your_skills: "Les teves habilitats"
     tome_help: "Ajuda"
-#    tome_current_method: "Current Method"
+    tome_current_method: "Mètode actual"
     hud_continue_short: "Continua"
-#    code_saved: "Code Saved"
-#    skip_tutorial: "Skip (esc)"
+    code_saved: "Codi Guardat"
+    skip_tutorial: "Passar (esc)"
     keyboard_shortcuts: "Dreceres del teclat"
     loading_ready: "Preparat!"
     loading_start: "Comença el nivell"
-#    problem_alert_title: "Fix Your Code"
+    problem_alert_title: "Arregla el Teu Codi"
     problem_alert_help: "Ajuda"
     time_current: "Ara:"
     time_total: "Maxim:"
     time_goto: "Ves a:"
     infinite_loop_try_again: "Tornar a intentar"
     infinite_loop_reset_level: "Reiniciar nivell"
-#    infinite_loop_comment_out: "Comment Out My Code"
+    infinite_loop_comment_out: "Descommenta el Meu Codi"
     tip_toggle_play: "Canvia entre reproduir/pausa amb Ctrl+P"
     tip_scrub_shortcut: "Ctrl+[ i Ctrl+] per rebobinar i avançar"
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
@@ -344,12 +344,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     options_tab: "Opcions"
     guide_tab: "Gui"
     guide_video_tutorial: "Video Tutorial"
-#    guide_tips: "Tips"
+    guide_tips: "Consells"
     multiplayer_tab: "Multijugador"
-#    auth_tab: "Sign Up"
+    auth_tab: "Dona't d'alta"
     inventory_caption: "Equipa el teu heroi"
-#    choose_hero_caption: "Choose hero, language"
-#    save_load_caption: "... and view history"
+    choose_hero_caption: "Tria l'heroi, llenguatge"
+    save_load_caption: "... i veu l'historial"
     options_caption: "Edita la configuració"
     guide_caption: "Documents i pistes"
     multiplayer_caption: "Juga amb amics!"
@@ -374,11 +374,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     equipped_item: "Equipat"
     required_purchase_title: "Necessari"
     available_item: "Disponible"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
+    restricted_title: "Restringit"
+    should_equip: "(doble-clic per equipar)"
     equipped: "(equipat)"
-#    locked: "(locked)"
-#    restricted: "(restricted in this level)"
+    locked: "(bloquejat)"
+    restricted: "(restringit en aquest nivell)"
     equip: "Equipa"
     unequip: "Desequipa"
 
@@ -471,11 +471,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    action_radius: "Radius"
     action_duration: "Duracció"
     example: "Exemple"
-#    ex: "ex" # Abbreviation of "example"
-#    current_value: "Current Value"
-#    default_value: "Default value"
+    ex: "ex" # Abbreviation of "example"
+    current_value: "Valor actual"
+    default_value: "Valor per defecte"
     parameters: "Paràmetres"
-#    returns: "Returns"
+    returns: "Retorna"
 #    granted_by: "Granted by"
 
   save_load:
