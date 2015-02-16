@@ -183,6 +183,7 @@ class EarnedAchievementHandler extends Handler
       userStream.on 'data',  (user) ->
         ++usersTotal
         numberRunning += 1
+        #return doneWithUser() if usersTotal / total < 0.96  # If it died, we can skip ahead on restart like this.
         userStream.pause() if numberRunning > 20
 
         # Keep track of a user's already achieved in order to set the notified values correctly
@@ -262,7 +263,7 @@ class EarnedAchievementHandler extends Handler
               #log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
               pointDelta = newTotalPoints - previousPoints
               pctDone = (100 * usersFinished / total).toFixed(2)
-              #console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
+              console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
               if recalculatingAll
                 update = {$set: {points: newTotalPoints, 'earned.gems': 0, 'earned.heroes': [], 'earned.items': [], 'earned.levels': []}}
               else
