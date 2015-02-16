@@ -92,7 +92,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     campaign_classic_algorithms: "Κλασσικοί Αλγόριθμοι"
     campaign_classic_algorithms_description: "... στο οποίο μαθαίνετε του πιο δημοφιλής αλγορίθμους της Επιστήμης της Πληροφορικής."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
