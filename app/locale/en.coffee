@@ -442,6 +442,7 @@
     lua_blurb: "Game scripting language."
     io_blurb: "Simple but obscure."
     status: "Status"
+    hero_type: "Type"
     weapons: "Weapons"
     weapons_warrior: "Swords - Short Range, No Magic"
     weapons_ranger: "Crossbows, Guns - Long Range, No Magic"

@@ -37,7 +37,11 @@
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.status')
                 .stat-value.hero-status-value(data-i18n=hero.restricted ? 'inventory.restricted_title' : (hero.purchasable ? 'play.purchasable' : (hero.locked ? 'play.locked' : 'play.available')))
-                
+              
+              .hero-stat-row
+                .stat-label(data-i18n='choose_hero.hero_type')  
+                .stat-value(data-i18n='general.' +hero.class)
+
               .hero-stat-row
                 .stat-label(data-i18n='choose_hero.weapons')
                 .stat-value(data-i18n='choose_hero.weapons_'+hero.class)
