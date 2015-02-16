@@ -6,12 +6,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     play: "Παίξε" # The big play button that opens up the campaign view.
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξει το CodeCombat. Συγνώμη!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Μπορείτε να δοκιμάσετε, αλλά πιθανότατα να μην λειτουργήσει."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Δυσάρεστα νέα: Το CodeCombat δεν τρέχει στο iPad μέσω περιηγητή. Ευχάριστα νέα: αναμένουμε την έγκριση της Apple για την εφαρμογή μας για iPad."
     campaign: "Εκστρατεία"
     for_beginners: "Για αρχάριους"
     multiplayer: "Πολλαπλοί Παίκτες" # Not currently shown on home page
     for_developers: "Για προγραμματιστές" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Η' κατεβάστε για iPad"
 
   nav:
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
@@ -30,10 +30,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     about: "Σχετικά με"
     contact: "Επικοινωνία"
     twitter_follow: "Ακολούθησε"
-#    teachers: "Teachers"
+    teachers: "Εκπαιδευτικοί"
 
   modal:
-    close: "Κλείσε"
+    close: "Κλείσιμο"
     okay: "Εντάξει"
 
   not_found:
@@ -53,22 +53,22 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     players: "παίκτες" # Hover over a level on /play
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
     items: "Αντικείμενα" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    unlock: "Ξεκλειδώστε" # For purchasing items and heroes
+    confirm: "Επιβεβαίωση"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    locked: "Κλειδωμένο"
+    purchasable: "Διαθέσιμο για αγορά" # For a hero you unlocked but haven't purchased
+    available: "Διαθέσιμο"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Ήρωες" # Tooltip on hero shop button from /play
     achievements: "Επιτεύγματα" # Tooltip on achievement list button from /play
     account: "Λογαριασμός" # Tooltip on account button from /play
     settings: "Ρυθμίσεις" # Tooltip on settings button from /play
     next: "Επόμενο" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    change_hero: "Αλλαγή Ήρωα" # Go back from choose inventory to choose hero
     choose_inventory: "Εξοπλίσου με Αντικείμενα"
-#    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
+    buy_gems: "Αγορά Διαμαντιών"
+    subscription_required: "Απαιτείται εγγραφή"
     older_campaigns: "Παλαιότερες Εκστρατείες"
     anonymous: "Ανώνυμοι Παίκτες"
     level_difficulty: "Δυσκολία: "
@@ -96,10 +96,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
+    form_label: "Διεύθυνση ηλεκτρονικού ταχυδρομίου"
+    placeholder: "Διεύθυνση ηλεκτρονικού ταχυδρομίου"
+    title: "Εξαιρετική Δουλειά, Μαθητευόμενε"
+    tell_friend: "Πες το στον φίλο/η σου"
 #    tell_parent: "Tell your Parent"
 
   login:
@@ -107,13 +107,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     log_in: "Σύνδεση"
     logging_in: "Σύνδεση"
     log_out: "Αποσύνδεση"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Ξεχάσατε τον κωδικό σας;"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
+    sign_in_with_facebook: "Σύνδεση μέσω Facebook"
+    sign_in_with_gplus: "Σύνδεση μέσω G+"
 #    signup_switch: "Want to create an account?"
 
   signup:
@@ -136,11 +136,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     armor: "Πανοπλία"
     accessories: "Εξαρτήματα"
     misc: "Διάφορα"
-#    books: "Books"
+    books: "Βιβλία"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Προηγούμενο" # When used as an action verb, like "Navigate backward"
+    continue: "Συνέχεια" # When used as an action verb, like "Continue forward"
     loading: "Φορτώνει..."
     saving: "Αποθήκευση..."
     sending: "Αποστολή..."
@@ -164,10 +164,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   general:
     and: "και"
     name: "Όνομα"
-#    date: "Date"
+    date: "Ημερομηνία"
 #    body: "Body"
     version: "Έκδοση"
-#    pending: "Pending"
+    pending: "Εκκρεμεί"
 #    accepted: "Accepted"
 #    rejected: "Rejected"
 #    withdrawn: "Withdrawn"
@@ -191,7 +191,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     email: "Email"
     password: "Κωδικός"
     message: "Μήνυμα"
-#    code: "Code"
+    code: "Κώδικας"
 #    ladder: "Ladder"
     when: "Όταν"
     opponent: "Αντίπαλος"
@@ -207,7 +207,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 #    warrior: "Warrior"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "Μάγος"
 
   units:
     second: "δευτερόλεπτο"
@@ -228,7 +228,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   play_level:
     done: "Έτοιμο"
     home: "Αρχική" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
+    level: "Επίπεδο" # Like "Level: Dungeons of Kithgard"
     skip: "Παράλειψη"
     game_menu: "Μενού Παιχνιδιού"
     guide: "Οδηγός"
@@ -248,7 +248,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     reload_title: "Ανανέωση όλου του κωδικά;"
     reload_really: "Είστε σίγουροι ότι θέλετε να φορτώσετε αυτό το επίπεδο από την αρχή;"
     reload_confirm: "Ανανέωση όλων"
-#    victory: "Victory"
+    victory: "Νίκη"
 #    victory_title_prefix: ""
 #    victory_title_suffix: " Complete"
     victory_sign_up: "Εγγραφείτε για ενημερώσεις"
