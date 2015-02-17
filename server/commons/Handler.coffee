@@ -255,7 +255,12 @@ module.exports = class Handler
       res.end()
 
   getPatchesFor: (req, res, id) ->
-    query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }
+    query =
+      $or: [
+        {'target.original': id+''}
+        {'target.original': mongoose.Types.ObjectId(id)}
+      ]
+      status: req.query.status or 'pending'
     Patch.find(query).sort('-created').exec (err, patches) =>
       return @sendDatabaseError(res, err) if err
       patches = (patch.toObject() for patch in patches)
