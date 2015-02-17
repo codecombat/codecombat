@@ -164,7 +164,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   general:
     and: "그리고"
     name: "이름"
-#    date: "Date"
+    date: "날짜"
     body: "구성"
     version: "버전"
 #    pending: "Pending"
@@ -206,7 +206,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     player: "플레이어"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "전사"
-#    ranger: "Ranger"
+    ranger: "레인저"
     wizard: "마법사"
 
   units:
@@ -444,7 +444,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     lua_blurb: "게임 스크립팅 언어"
     io_blurb: "간단하지만 아직 잘 알려지지 않은 언어."
 #    status: "Status"
-#    weapons: "Weapons"
+    weapons: "무기"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
-#    music_label: "Music"
+    music_label: "음악"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
 #    autorun_description: "Control automatic code execution."
@@ -588,7 +588,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     forum_page: "포럼"
     forum_suffix: " 대신에."
 #    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq: "자주 묻는 질문"
 #    subscribe_prefix: "If you need help figuring out a level, please"
 #    subscribe: "buy a CodeCombat subscription"
 #    subscribe_suffix: "and we'll be happy to help you with your code."
@@ -706,9 +706,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     revert: "되돌리기"
     revert_models: "모델 되돌리기"
     pick_a_terrain: "지형을 선택하세요."
-#    dungeon: "Dungeon"
+    dungeon: "지하 감옥"
 #    indoor: "Indoor"
-#    desert: "Desert"
+    desert: "사막"
     grassy: "풀로 덮인"
     small: "작게"
 #    large: "Large"
@@ -1010,7 +1010,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     items: "아이템"
 #    heroes: "Heroes"
 #    achievement: "Achievement"
-#    clas: "CLAs"
+    clas: "CLAs"
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
