@@ -41,6 +41,12 @@ UserSchema.methods.isAdmin = ->
 UserSchema.methods.isAnonymous = ->
   @get 'anonymous'
 
+UserSchema.methods.getUserInfo = ->
+  info =
+    id : @get('_id')
+    email : if @get('anonymous') then 'Unregistered User' else @get('email')
+  return info
+
 UserSchema.methods.trackActivity = (activityName, increment) ->
   now = new Date()
   increment ?= parseInt increment or 1
