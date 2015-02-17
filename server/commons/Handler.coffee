@@ -53,7 +53,7 @@ module.exports = class Handler
       return false unless delta.o.length is 1
       index = delta.deltaPath.indexOf('i18n')
       return false if index is -1
-      return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB', 'en-AU']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
+      return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
       return true
 
   formatEntity: (req, document) -> document?.toObject()
@@ -255,7 +255,12 @@ module.exports = class Handler
       res.end()
 
   getPatchesFor: (req, res, id) ->
-    query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }
+    query =
+      $or: [
+        {'target.original': id+''}
+        {'target.original': mongoose.Types.ObjectId(id)}
+      ]
+      status: req.query.status or 'pending'
     Patch.find(query).sort('-created').exec (err, patches) =>
       return @sendDatabaseError(res, err) if err
       patches = (patch.toObject() for patch in patches)

@@ -3,6 +3,7 @@ template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
+PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
@@ -57,6 +58,8 @@ module.exports = class AchievementEditView extends RootView
     super()
     return unless @supermodel.finished()
     @pushChangesToPreview()
+    @patchesView = @insertSubView(new PatchesView(@achievement), @$el.find('.patches-view'))
+    @patchesView.load()
 
   pushChangesToPreview: =>
     return unless @treema
