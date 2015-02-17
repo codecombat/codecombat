@@ -53,7 +53,7 @@ module.exports = class Handler
       return false unless delta.o.length is 1
       index = delta.deltaPath.indexOf('i18n')
       return false if index is -1
-      return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB', 'en-AU']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
+      return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
       return true
 
   formatEntity: (req, document) -> document?.toObject()
