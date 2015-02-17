@@ -96,8 +96,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
+    form_label: "이메일"
+    placeholder: "이메일"
 #    title: "Excellent Work, Apprentice"
 #    tell_friend: "Tell your Friend"
 #    tell_parent: "Tell your Parent"
@@ -130,13 +130,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     send_password: "복구 비밀번호 전송"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
 #    armor: "Armor"
 #    accessories: "Accessories"
 #    misc: "Misc"
-#    books: "Books"
+    books: "책"
 
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
@@ -179,9 +179,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     version_history_for: "버전 히스토리 : "
 #    select_changes: "Select two changes below to see the difference."
 #    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
+    undo_shortcut: "(Ctrl+Z)"
 #    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "결과"
     results: "결과들"
@@ -355,13 +355,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
 #    scores: "Scores"
 #    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
+    day: "오늘"
+    week: "이번 주"
 #    all: "All-Time"
 #    time: "Time"
 #    damage_taken: "Damage Taken"
@@ -433,7 +433,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
+    programming_language: "프로그래밍 언어"
 #    programming_language_description: "Which programming language do you want to use?"
 #    default: "Default"
 #    experimental: "Experimental"
@@ -520,17 +520,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
-#    team: "Team"
-#    george_title: "CEO"
+    team: "팀"
+    george_title: "최고경영자"
 #    george_blurb: "Businesser"
-#    scott_title: "Programmer"
+    scott_title: "프로그래머"
 #    scott_blurb: "Reasonable One"
-#    nick_title: "Programmer"
+    nick_title: "프로그래머"
 #    nick_blurb: "Motivation Guru"
-#    michael_title: "Programmer"
+    michael_title: "프로그래머"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Programmer"
-#    matt_blurb: "Bicyclist"
+    matt_title: "프로그래머"
+    matt_blurb: "자전거 타는 사람"
 
 #  teachers:
 #    title: "CodeCombat for Teachers"
