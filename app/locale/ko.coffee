@@ -92,7 +92,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
