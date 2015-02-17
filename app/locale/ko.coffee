@@ -52,7 +52,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     spectate: "관중모드" # Ladder page
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    items: "아이템" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
@@ -133,7 +133,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   items:
 #    primary: "Primary"
 #    secondary: "Secondary"
-#    armor: "Armor"
+    armor: "갑옷"
 #    accessories: "Accessories"
 #    misc: "Misc"
     books: "책"
@@ -205,25 +205,25 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     hard: "상급"
     player: "플레이어"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    warrior: "전사"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "마법사"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "초"
+    seconds: "초"
+    minute: "분"
+    minutes: "분"
+    hour: "시간"
+    hours: "시간"
+    day: "일"
+    days: "일"
+    week: "주"
+    weeks: "주"
+    month: "개월"
+    months: "개월"
+    year: "년"
+    years: "년"
 
   play_level:
     done: "완료"
@@ -1007,7 +1007,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    user_remark: "User Remark"
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
-#    items: "Items"
+    items: "아이템"
 #    heroes: "Heroes"
 #    achievement: "Achievement"
 #    clas: "CLAs"
