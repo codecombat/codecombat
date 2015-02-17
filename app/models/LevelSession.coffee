@@ -31,14 +31,14 @@ module.exports = class LevelSession extends CocoModel
     return false unless team = @get('team')
     return true unless c2 = @get('submittedCode')
     thangSpellArr = (s.split('/') for s in @get('teamSpells')[team])
-    for item in thangSpellAr
+    for item in thangSpellArr
       thang = item[0]
       spell = item[1]
       return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
 
   isMultiplayer: ->
-    @get('submittedCode')?
+    @get('submittedCodeLanguage')? and @get('team')?
 
   completed: ->
     @get('state')?.complete || false
