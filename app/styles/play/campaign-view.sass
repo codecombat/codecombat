@@ -424,7 +424,7 @@ $gameControlMargin: 30px
 
   #volume-button
     position: absolute
-    left: 1%
+    right: 1%
     top: 1%
     padding: 3px 8px
     @include opacity(0.75)
@@ -450,9 +450,9 @@ $gameControlMargin: 30px
 
   #back-button
     position: absolute
-    left: 70px
-    left: -webkit-calc(1% + 55px)
-    left: calc(1% + 55px)
+    right: 70px
+    right: -webkit-calc(1% + 55px)
+    right: calc(1% + 55px)
     top: 1%
     padding: 3px 8px
     @include opacity(0.75)
@@ -565,7 +565,12 @@ $gameControlMargin: 30px
             margin-top: 30px
             min-width: 100px
 
-
+  #small-nav-logo
+    position: absolute
+    top: 1%
+    left: 1%
+    height: 60px
+    z-index: 1
 
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.
