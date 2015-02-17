@@ -1,17 +1,17 @@
 module.exports = nativeDescription: "मानक हिन्दी", englishDescription: "Hindi", translation:
-#  home:
-#    slogan: "Learn to Code by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
-#    play: "Play" # The big play button that opens up the campaign view.
+  home:
+    slogan: "खेल खेल के द्वारा कोड करना सीखें"
+    no_ie: "CodeCombat Internet Explorer 8 या पुराने में नहीं चलता है| असुविधा के लिए खेद है!" # Warning that only shows up in IE8 and older
+    no_mobile: "CodeCombat मोबाइल उपकरणों के लिए तैयार नहीं है और काम नहीं कर सकता!" # Warning that shows up on mobile devices
+    play: "खेलें " # The big play button that opens up the campaign view.
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
-#    for_developers: "For Developers" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    campaign: "अभियान"
+    for_beginners: "नौसिखिये के लिए"
+    multiplayer: "मल्टीप्लेयर" # Not currently shown on home page
+    for_developers: "डेवलपर्स के लिए" # Not currently shown on home page.
+    or_ipad: "या iPad के लिए डाउनलोड करें"
 
 #  nav:
 #    play: "Levels" # The top nav bar entry where players choose which levels to play
