@@ -66,7 +66,7 @@ _.extend AchievementSchema.properties,
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'
     properties:
-      kind: {enum: ['linear', 'logarithmic', 'quadratic'] }
+      kind: {enum: ['linear', 'logarithmic', 'quadratic', 'pow'] }
       parameters:
         type: 'object'
         default: { a: 1, b: 0, c: 0 }
