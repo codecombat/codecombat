@@ -250,6 +250,7 @@ module.exports = class InventoryModal extends ModalView
 
   onUnequippedItemClick: (e) ->
     return if @justDoubleClicked
+    return if @justClickedEquipItemButton
     itemEl = $(e.target).closest('.item')
     #@playSound 'menu-button-click'
     @selectUnequippedItem(itemEl)
@@ -270,6 +271,8 @@ module.exports = class InventoryModal extends ModalView
     itemEl = $(e.target).closest('.item')
     @selectUnequippedItem(itemEl)
     @equipSelectedItem()
+    @justClickedEquipItemButton = true
+    _.defer => @justClickedEquipItemButton = false
 
   #- Select/equip higher-level, all encompassing methods the callbacks all use
 
