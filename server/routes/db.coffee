@@ -43,7 +43,9 @@ module.exports.setup = (app) ->
       handler[req.route.method](req, res, parts[1..]...)
     catch error
       errorMessage = "Error trying db method #{req?.route?.method} route #{parts} from #{name}: #{error}"
-      # TODO: add user info to this log
+      if req.user?
+        userInfo = req.user.getUserInfo()
+        errorMessage += "\n-- User Info   Id: #{userInfo.id}  #{if req.user.isAnonymous() then '' else 'Email:'} #{userInfo.email}"
       log.error(errorMessage)
       log.error(error)
       log.error(error.stack)

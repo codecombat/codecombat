@@ -52,7 +52,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     spectate: "관중모드" # Ladder page
 #    players: "players" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    items: "아이템" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
 #    confirm: "Confirm"
 #    owned: "Owned" # For items you own
@@ -92,12 +92,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
+    form_label: "이메일"
+    placeholder: "이메일"
 #    title: "Excellent Work, Apprentice"
 #    tell_friend: "Tell your Friend"
 #    tell_parent: "Tell your Parent"
@@ -130,13 +130,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     send_password: "복구 비밀번호 전송"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
-#    armor: "Armor"
+    armor: "갑옷"
 #    accessories: "Accessories"
 #    misc: "Misc"
-#    books: "Books"
+    books: "책"
 
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
@@ -164,7 +164,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   general:
     and: "그리고"
     name: "이름"
-#    date: "Date"
+    date: "날짜"
     body: "구성"
     version: "버전"
 #    pending: "Pending"
@@ -179,9 +179,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     version_history_for: "버전 히스토리 : "
 #    select_changes: "Select two changes below to see the difference."
 #    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
+    undo_shortcut: "(Ctrl+Z)"
 #    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "결과"
     results: "결과들"
@@ -205,25 +205,25 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     hard: "상급"
     player: "플레이어"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
-#    ranger: "Ranger"
-#    wizard: "Wizard"
+    warrior: "전사"
+    ranger: "레인저"
+    wizard: "마법사"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "초"
+    seconds: "초"
+    minute: "분"
+    minutes: "분"
+    hour: "시간"
+    hours: "시간"
+    day: "일"
+    days: "일"
+    week: "주"
+    weeks: "주"
+    month: "개월"
+    months: "개월"
+    year: "년"
+    years: "년"
 
   play_level:
     done: "완료"
@@ -355,13 +355,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
 #    scores: "Scores"
 #    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
+    day: "오늘"
+    week: "이번 주"
 #    all: "All-Time"
 #    time: "Time"
 #    damage_taken: "Damage Taken"
@@ -433,7 +433,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
+    programming_language: "프로그래밍 언어"
 #    programming_language_description: "Which programming language do you want to use?"
 #    default: "Default"
 #    experimental: "Experimental"
@@ -444,7 +444,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     lua_blurb: "게임 스크립팅 언어"
     io_blurb: "간단하지만 아직 잘 알려지지 않은 언어."
 #    status: "Status"
-#    weapons: "Weapons"
+    weapons: "무기"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
@@ -485,7 +485,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
-#    music_label: "Music"
+    music_label: "음악"
 #    music_description: "Turn background music on/off."
 #    autorun_label: "Autorun"
 #    autorun_description: "Control automatic code execution."
@@ -520,17 +520,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
-#    team: "Team"
-#    george_title: "CEO"
+    team: "팀"
+    george_title: "최고경영자"
 #    george_blurb: "Businesser"
-#    scott_title: "Programmer"
+    scott_title: "프로그래머"
 #    scott_blurb: "Reasonable One"
-#    nick_title: "Programmer"
+    nick_title: "프로그래머"
 #    nick_blurb: "Motivation Guru"
-#    michael_title: "Programmer"
+    michael_title: "프로그래머"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Programmer"
-#    matt_blurb: "Bicyclist"
+    matt_title: "프로그래머"
+    matt_blurb: "자전거 타는 사람"
 
 #  teachers:
 #    title: "CodeCombat for Teachers"
@@ -588,7 +588,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     forum_page: "포럼"
     forum_suffix: " 대신에."
 #    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq: "자주 묻는 질문"
 #    subscribe_prefix: "If you need help figuring out a level, please"
 #    subscribe: "buy a CodeCombat subscription"
 #    subscribe_suffix: "and we'll be happy to help you with your code."
@@ -706,9 +706,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     revert: "되돌리기"
     revert_models: "모델 되돌리기"
     pick_a_terrain: "지형을 선택하세요."
-#    dungeon: "Dungeon"
+    dungeon: "지하 감옥"
 #    indoor: "Indoor"
-#    desert: "Desert"
+    desert: "사막"
     grassy: "풀로 덮인"
     small: "작게"
 #    large: "Large"
@@ -1007,10 +1007,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    user_remark: "User Remark"
 #    user_remarks: "User Remarks"
 #    versions: "Versions"
-#    items: "Items"
+    items: "아이템"
 #    heroes: "Heroes"
 #    achievement: "Achievement"
-#    clas: "CLAs"
+    clas: "CLAs"
 #    play_counts: "Play Counts"
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"

@@ -97,10 +97,15 @@ createQuadraticFunc = (params) ->
 createLogFunc = (params) ->
   (x) -> if x > 0 then (params.a or 1) * Math.log((params.b or 1) * (x + (params.c or 0))) + (params.d or 0) else 0
 
+# f(x) = ax^b + c
+createPowFunc = (params) ->
+  (x) -> (params.a or 1) * Math.pow(x, params.b or 1) + (params.c or 0)
+
 module.exports.functionCreators =
   linear: positify(createLinearFunc)
   quadratic: positify(createQuadraticFunc)
   logarithmic: positify(createLogFunc)
+  pow: positify(createPowFunc)
 
 # Call done with true to satisfy the 'until' goal and stop repeating func
 module.exports.keepDoingUntil = (func, wait=100, totalWait=5000) ->

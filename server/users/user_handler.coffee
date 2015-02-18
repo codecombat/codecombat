@@ -518,18 +518,23 @@ UserHandler = class UserHandler extends Handler
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]
     return done(new Error 'Could not resolve statKey for model') unless statKey?
-    userStream = User.find().stream()
+    userStream = User.find({anonymous: false}).sort('_id').stream()
     streamFinished = false
     usersTotal = 0
     usersFinished = 0
+    numberRunning = 0
     doneWithUser = (err) ->
       log.error err if err?
       ++usersFinished
+      --numberRunning
+      userStream.resume()
       done?() if streamFinished and usersFinished is usersTotal
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
-      usersTotal += 1
+      ++usersTotal
+      ++numberRunning
+      userStream.pause() if numberRunning > 20
       userObjectID = user.get('_id')
       userStringID = userObjectID.toHexString()
 
@@ -540,6 +545,7 @@ UserHandler = class UserHandler extends Handler
         else
           update = $unset: {}
           update.$unset[statKey] = ''
+        console.log "... updating #{userStringID} patches #{statKey} to #{count}, #{usersTotal} players found so far." if count
         User.findByIdAndUpdate user.get('_id'), update, (err) ->
           log.error err if err?
           doneWithUser()
@@ -565,20 +571,26 @@ UserHandler = class UserHandler extends Handler
       update = {}
       update[method] = {}
       update[method][statName] = count or ''
+      console.log "... updating #{user.get('_id')} patches #{JSON.stringify(query)} #{statName} to #{count}, #{usersTotal} players found so far." if count
       User.findByIdAndUpdate user.get('_id'), update, doneUpdatingUser
 
-    userStream = User.find().stream()
+    userStream = User.find({anonymous: false}).sort('_id').stream()
     streamFinished = false
     usersTotal = 0
     usersFinished = 0
+    numberRunning = 0
     doneWithUser = (err) ->
       log.error err if err?
       ++usersFinished
+      --numberRunning
+      userStream.resume()
       done?() if streamFinished and usersFinished is usersTotal
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
-      usersTotal += 1
+      ++usersTotal
+      ++numberRunning
+      userStream.pause() if numberRunning > 20
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -596,18 +608,23 @@ UserHandler = class UserHandler extends Handler
   countPatchesByUsers = (query, statName, done) ->
     Patch = require '../patches/Patch'
 
-    userStream = User.find().stream()
+    userStream = User.find({anonymous: false}).sort('_id').stream()
     streamFinished = false
     usersTotal = 0
     usersFinished = 0
+    numberRunning = 0
     doneWithUser = (err) ->
       log.error err if err?
       ++usersFinished
+      --numberRunning
+      userStream.resume()
       done?() if streamFinished and usersFinished is usersTotal
     userStream.on 'error', (err) -> log.error err
     userStream.on 'close', -> streamFinished = true
     userStream.on 'data',  (user) ->
-      usersTotal += 1
+      ++usersTotal
+      ++numberRunning
+      userStream.pause() if numberRunning > 20
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -618,28 +635,37 @@ UserHandler = class UserHandler extends Handler
         update = {}
         update[method] = {}
         update[method][statName] = count or ''
+        console.log "... updating #{userStringID} patches #{query} to #{count}, #{usersTotal} players found so far." if count
         User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
   statRecalculators:
     gamesCompleted: (done) ->
       LevelSession = require '../levels/sessions/LevelSession'
 
-      userStream = User.find().stream()
+      userStream = User.find({anonymous: false}).sort('_id').stream()
       streamFinished = false
       usersTotal = 0
       usersFinished = 0
+      numberRunning = 0
       doneWithUser = (err) ->
         log.error err if err?
         ++usersFinished
-        done?() if streamFinished and usersFinished is usersTotal
+        --numberRunning
+        userStream.resume()
+        if streamFinished and usersFinished is usersTotal
+          console.log "----------- Finished recalculating statistics for gamesCompleted for #{usersFinished} players. -----------"
+          done?()
       userStream.on 'error', (err) -> log.error err
       userStream.on 'close', -> streamFinished = true
       userStream.on 'data',  (user) ->
-        usersTotal += 1
+        ++usersTotal
+        ++numberRunning
+        userStream.pause() if numberRunning > 20
         userID = user.get('_id').toHexString()
 
         LevelSession.count {creator: userID, 'state.complete': true}, (err, count) ->
           update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
+          console.log "... updating #{userID} gamesCompleted to #{count}, #{usersTotal} players found so far." if Math.random() < 0.001
           User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
     articleEdits: (done) ->

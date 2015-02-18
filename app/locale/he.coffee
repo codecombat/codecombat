@@ -19,8 +19,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     editor: "עורך"
     blog: "בלוג"
     forum: "פורום"
-#    account: "Account"
-#    profile: "Profile"
+    account: "חשבון"
+    profile: "פרופיל"
 #    stats: "Stats"
 #    code: "Code"
     admin: "אדמין" # Only shows up when you are an admin
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     about: "עלינו"
     contact: "צור קשר"
     twitter_follow: "עקוב אחרינו בטוויטר"
-#    teachers: "Teachers"
+    teachers: "מורים"
 
   modal:
     close: "סגור"
@@ -50,27 +50,27 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   play:
     play_as: "שחק בתור " # Ladder page
     spectate: "צופה" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    players: "שחקנים" # Hover over a level on /play
+    hours_played: "שעות משחק" # Hover over a level on /play
+    items: "כלים" # Tooltip on item shop button from /play
+    unlock: "קנה" # For purchasing items and heroes
+    confirm: "אשר"
+    owned: "נרכש" # For items you own
+    locked: "נעול"
+    purchasable: "ניתן לרכישה" # For a hero you unlocked but haven't purchased
+    available: "זמין"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    heroes: "דמויות" # Tooltip on hero shop button from /play
+    achievements: "הישגים" # Tooltip on achievement list button from /play
+    account: "חשבון" # Tooltip on account button from /play
+    settings: "הגדרות" # Tooltip on settings button from /play
+    next: "הבא" # Go from choose hero to choose inventory before playing a level
+    change_hero: "שנה דמות" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "רכש אבני חן"
 #    subscription_required: "Subscription Required"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "משתמש אנונימי"
     level_difficulty: "רמת קושי: "
     campaign_beginner: "מסע המתחילים"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
@@ -92,22 +92,22 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
+  share_progress_modal:
+    blurb: ".אתה מתקדם מצויין! ספר למישהו כמה למדת"
+    email_invalid: ".כתובת המייל שהוזנה שגויה"
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
+    form_label: "כתובת מייל"
+    placeholder: "כתובת המייל"
 #    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+    tell_friend: "ספר לחברים"
+    tell_parent: "ספר להורים"
 
   login:
     sign_up: "הירשם"
-    log_in: "היכנס"
-#    logging_in: "Logging In"
+    log_in: "תחברס"
+    logging_in: "מתחבר"
     log_out: "צא"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "שכחתי סיסמא"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    load_email: "Load G+ Email"
@@ -122,21 +122,21 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     sign_up: "הירשם"
     log_in: "כנס עם סיסמה"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
-#    required: "You need to log in before you can go that way."
-#    login_switch: "Already have an account?"
+    required: ".יש להתחבר על מנת לגשת לשלב זה"
+    login_switch: "? כבר יש לך משתמש"
 
   recover:
     recover_account_title: "שחזר סיסמה"
     send_password: "שלח סיסמה חדשה"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "מייל לשחזור סיסמא נשלח"
 
-#  items:
+  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
-#    armor: "Armor"
+    armor: "שריון"
 #    accessories: "Accessories"
 #    misc: "Misc"
-#    books: "Books"
+    books: "ספרי כישוף"
 
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
@@ -144,19 +144,19 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     loading: "...טוען"
     saving: "...שומר"
     sending: "...שולח"
-#    send: "Send"
+    send: "שלח"
     cancel: "ביטול"
     save: "שמור"
-#    publish: "Publish"
-#    create: "Create"
+    publish: "פרסם"
+    create: "צור"
     manual: "מדריך"
     fork: "קילשון"
     play: "שחק" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
-#    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
-#    watch: "Watch"
+    retry: "נסה שוב"
+    actions: "פעולות"
+    info: "מידע"
+    help: "עזרה"
+    watch: "צפה"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"

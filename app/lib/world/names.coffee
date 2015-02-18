@@ -649,9 +649,12 @@ module.exports.thangNames = thangNames =
   ]
   'Ninja': [
     'Amara'
+    'Itachi'
     'Kosaraju'
+    'Madara'
     'Minato'
     'Naruto'
+    'Obito'
     'Sakura'
     'Sasuke'
     'Shigeru'
