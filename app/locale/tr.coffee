@@ -92,7 +92,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     campaign_classic_algorithms: "Klasik Algoritmalar"
     campaign_classic_algorithms_description: "... Bilgisayar Bilimleri'nde öğrendiğiniz en yaygın algoritmalar."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Harika iş çıkarıyorsun! Birine CodeCombat ile ne kadar öğrendiğinden bahset."
     email_invalid: "E-posta adresi geçersiz."
     form_blurb: "E-posta adreslerini aşağıya gir ve onlara göstereceğiz!"
