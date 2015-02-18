@@ -659,7 +659,6 @@ module.exports.thangNames = thangNames =
     'Sasuke'
     'Shigeru'
     'Takashi'
-    
   ]
   'Sorcerer': [
     'Beazer'
