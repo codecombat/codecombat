@@ -86,7 +86,7 @@ module.exports = class LevelGuideView extends CocoView
     Backbone.Mediator.publish 'level:docs-shown', {}
 
   onHidden: ->
-    createjs?.Sound?.setVolume?(@volume ? 1.0)
+    createjs?.Sound?.setVolume?(@volume ? ( me.get('volume') ? 1.0))
     Backbone.Mediator.publish 'level:docs-hidden', {}
 
   onShown: ->
