@@ -40,19 +40,19 @@ LevelSessionSchema.pre 'save', (next) ->
   @set('changed', new Date())
 
   id = @get('id')
-  initd = doc.previousStateInfo?
+  initd = @previousStateInfo?
   levelID = @get('levelID')
   userID = @get('creator')
   activeUserEvent = null
 
   # Newly completed level
-  if not (initd and doc.previousStateInfo['state.complete']) and @get('state.complete')
+  if not (initd and @previousStateInfo['state.complete']) and @get('state.complete')
     User.update {_id: userID}, {$inc: 'stats.gamesCompleted': 1}, {}, (err, count) ->
       log.error err if err?
     activeUserEvent = "level-completed/#{levelID}"
 
   # Spent at least 30s playing this level
-  if not initd and @get('playtime') >= 30 or initd and (@get('playtime') - doc.previousStateInfo['playtime'] >= 30)
+  if not initd and @get('playtime') >= 30 or initd and (@get('playtime') - @previousStateInfo['playtime'] >= 30)
     activeUserEvent = "level-playtime/#{levelID}"
 
   if activeUserEvent?
