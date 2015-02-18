@@ -58,7 +58,35 @@
       top: 17px
       font-size: 25px
       color: rgb(1,64,91)
-   
+
+
+  //- Level indicator
+
+  #level-indicator-container
+    position: absolute
+    top: 600px
+
+    .player-level
+      margin-left: 34px
+      font-size: 24px
+      color: white
+      text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
+      height: 32px
+      line-height: 32px
+
+    $spriteSheetSize: 30px
+
+    .player-level-icon
+      position: absolute
+      bottom: 1px
+      background: transparent url(/images/pages/play/play-spritesheet.png)
+      background-size: cover
+      background-position: (-2 * $spriteSheetSize) 0
+      display: inline-block
+      width: 30px
+      height: 30px
+      margin: 0px 2px
+ 
     
   //- Close modal button
   
