@@ -18,6 +18,10 @@
             img.tab-icon(src="/images/pages/play/modal/item-icon-"+category+".png", draggable="false")
             span.big-font= itemCategoryNames[index]
 
+    div#level-indicator-container
+      span.player-level-icon
+      span.header-font.player-level.spr= me.level()
+
     #hero-type-select.btn-group(data-toggle="buttons")
       label.btn.active#all
         input(type="radio", name="hero-class-select", autocomplete="off")
