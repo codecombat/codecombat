@@ -92,7 +92,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: ".אתה מתקדם מצויין! ספר למישהו כמה למדת"
     email_invalid: ".כתובת המייל שהוזנה שגויה"
 #    form_blurb: "Enter their email below and we’ll show them!"
@@ -130,7 +130,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     send_password: "שלח סיסמה חדשה"
     recovery_sent: "מייל לשחזור סיסמא נשלח"
 
-items:
+  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
     armor: "שריון"
