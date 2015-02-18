@@ -140,7 +140,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   common:
     back: "חזור" # When used as an action verb, like "Navigate backward"
-#    continue: "המשך" # When used as an action verb, like "Continue forward"
+    continue: "המשך" # When used as an action verb, like "Continue forward"
     loading: "...טוען"
     saving: "...שומר"
     sending: "...שולח"
@@ -162,7 +162,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    submit_changes: "Submit Changes"
 
   general:
-#    and: "וגם"
+    and: "וגם"
     name: "שם"
     date: "Date"
 #    body: "Body"
