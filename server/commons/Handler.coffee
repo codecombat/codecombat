@@ -187,14 +187,17 @@ module.exports = class Handler
 
       # Conditions are chained query functions, for example: query.find().limit(20).sort('-dateCreated')
       conditions = JSON.parse(req.query.conditions || '[]')
+      hasLimit = false
       try
         for condition in conditions
           name = condition[0]
           f = query[name]
           args = condition[1..]
           query = query[name](args...)
+          hasLimit ||= f is 'limit'
       catch e
         return @sendError(res, 422, 'Badly formed conditions.')
+      query.limit(2000) unless hasLimit
 
       query.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
