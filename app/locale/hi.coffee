@@ -13,24 +13,24 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
     for_developers: "डेवलपर्स के लिए" # Not currently shown on home page.
     or_ipad: "या iPad के लिए डाउनलोड करें"
 
-#  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
-#    home: "Home"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
+  nav:
+    play: "चरण" # The top nav bar entry where players choose which levels to play
+    community: "समुदाय"
+    editor: "एडीटर"
+    blog: "ब्लॉग"
+    forum: "मंच"
+    account: "खाता"
+    profile: "रूपरेखा"
+    stats: "आँकड़े"
+    code: "कोड"
+    admin: "एडमिन" # Only shows up when you are an admin
+    home: "होम"
+    contribute: "योगदान करें"
+    legal: "कानूनी"
+    about: "बारे मे"
+    contact: "संपर्क"
+    twitter_follow: "साथ दें"
+    teachers: "शिक्षक"
 
 #  modal:
 #    close: "Close"
