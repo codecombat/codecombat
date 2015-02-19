@@ -206,10 +206,11 @@ describe 'Achieving Achievements', ->
     unittest.getNormalJoe (joe) ->
       User.findById(joe.get('_id')).exec (err, joe2) ->
         joe2.set('simulatedBy', 4)
+        expect(joe2.get('earned').gems).toBe(2)
         joe2.save (err, joe3) ->
           expect(err).toBeNull()
           User.findById(joe3.get('_id')).exec (err, joe4) ->
-            expect(joe4.get('earned').gems).toBe(4)  # Crap, it's 6 TODO
+            expect(joe4.get('earned').gems).toBe(4)   # ... this sometimes gives 4, sometimes 2. Race condition?
             done()
 
 

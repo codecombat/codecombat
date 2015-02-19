@@ -19,26 +19,30 @@ AchievablePlugin = (schema, options) ->
 
   # Check if an achievement has been earned
   schema.post 'save', (doc) ->
-    isNew = not doc.isInit('_id') or not doc.unchangedCopy
+    schema.statics.createNewEarnedAchievements doc
 
-    if doc.isInit('_id') and not doc.unchangedCopy
+  schema.statics.createNewEarnedAchievements = (doc, unchangedCopy) ->
+    unchangedCopy ?= doc.unchangedCopy
+    isNew = not doc.isInit('_id') or not unchangedCopy
+
+    if doc.isInit('_id') and not unchangedCopy
       log.warn 'document was already initialized but did not go through `init` and is therefore treated as new while it might not be'
 
     category = doc.constructor.collection.name
     loadedAchievements = Achievement.getLoadedAchievements()
-    #log.debug 'about to save ' + category + ', number of achievements is ' + Object.keys(loadedAchievements).length
 
     if category of loadedAchievements
+      #log.debug 'about to save ' + category + ', number of achievements is ' + loadedAchievements[category].length
       docObj = doc.toObject()
       for achievement in loadedAchievements[category]
         do (achievement) ->
           query = achievement.get('query')
           return log.error("Empty achievement query for #{achievement.get('name')}.") if _.isEmpty query
           isRepeatable = achievement.get('proportionalTo')?
-          alreadyAchieved = if isNew then false else LocalMongo.matchesQuery doc.unchangedCopy, query
+          alreadyAchieved = if isNew then false else LocalMongo.matchesQuery unchangedCopy, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)
           return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
           #log.info "Making an achievement: #{achievement.get('name')} #{achievement.get('_id')} for doc: #{doc.get('name')} #{doc.get('_id')}"
-          EarnedAchievement.createForAchievement(achievement, doc, doc.unchangedCopy)
+          EarnedAchievement.createForAchievement(achievement, doc, unchangedCopy)
 
 module.exports = AchievablePlugin
