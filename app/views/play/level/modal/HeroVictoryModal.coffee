@@ -109,10 +109,13 @@ module.exports = class HeroVictoryModal extends ModalView
       continue unless @supermodel.finished() and proportionalTo = achievement.get 'proportionalTo'
       # For repeatable achievements, we modify their base worth/gems by their repeatable growth functions.
       achievedAmount = utils.getByPath @session.attributes, proportionalTo
+      previousAmount = Math.max(0, achievedAmount - 1)
       func = achievement.getExpFunction()
+      achievement.previousWorth = (achievement.get('worth') ? 0) * func previousAmount
       achievement.worth = (achievement.get('worth') ? 0) * func achievedAmount
       rewards = achievement.get 'rewards'
       achievement.gems = rewards?.gems * func achievedAmount if rewards?.gems
+      achievement.previousGems = rewards?.gems * func previousAmount if rewards?.gems
 
     # for testing the three states
     #if c.achievements.length
@@ -194,6 +197,7 @@ module.exports = class HeroVictoryModal extends ModalView
     return if @destroyed
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
+      previousNumber: $(panel).data('previous-number')
       textEl: $(panel).find('.reward-text')
       rootEl: $(panel)
       unit: $(panel).data('number-unit')
@@ -220,7 +224,7 @@ module.exports = class HeroVictoryModal extends ModalView
       duration = 1000
     ratio = @getEaseRatio (new Date() - @sequentialAnimationStart), duration
     if panel.unit is 'xp'
-      newXP = Math.floor(ratio * panel.number)
+      newXP = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
       totalXP = @totalXPAnimated + newXP
       if totalXP isnt @lastTotalXP
         panel.textEl.text('+' + newXP)
@@ -230,7 +234,7 @@ module.exports = class HeroVictoryModal extends ModalView
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
         @lastTotalXP = totalXP
     else if panel.unit is 'gem'
-      newGems = Math.floor(ratio * panel.number)
+      newGems = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
       totalGems = @totalGemsAnimated + newGems
       if totalGems isnt @lastTotalGems
         panel.textEl.text('+' + newGems)
@@ -268,7 +272,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   updateXPBars: (achievedXP) ->
     previousXP = @previousXP
-    previousXP = previousXP + 1000000 if me.isInGodMode() 
+    previousXP = previousXP + 1000000 if me.isInGodMode()
     previousLevel = @previousLevel
 
     currentXP = previousXP + achievedXP

@@ -18,15 +18,17 @@ block modal-body-content
       
       div.achievement-rewards
         - var worth = achievement.worth;
+        - var previousWorth = achievement.previousWorth;
         - var gems = achievement.gems;
+        - var previousGems = achievement.previousGems;
         if worth
-          .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp')
+          .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp', data-previous-number=previousWorth || 0)
             .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
               img(src="/images/pages/play/level/modal/reward_icon_xp.png")
             .reward-text= animate ? '+0' : '+'+worth
 
         if gems
-          .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem')
+          .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem', data-previous-number=previousGems || 0)
             .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
               img(src="/images/pages/play/level/modal/reward_icon_gems.png")
             .reward-text= animate ? '+0' : '+'+gems
