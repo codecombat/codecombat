@@ -222,8 +222,13 @@ module.exports = class InventoryModal extends ModalView
 
   makeEquippedSlotDraggable: (slot) ->
     unequip = =>
-      @unequipItemFromSlot slot
+      itemEl = @unequipItemFromSlot slot
+      selectedSlotItemID = itemEl.data('item-id')
+      item = @items.get(selectedSlotItemID)
       @requireLevelEquipment()
+      @showItemDetails(item, 'equip')
+      @onSelectionChanged()
+      @onEquipmentChanged()
     shouldStayEquippedWhenDropped = (isValidDrop) ->
       pos = $(@).position()
       revert = Math.abs(pos.left) < $(@).outerWidth() and Math.abs(pos.top) < $(@).outerHeight()

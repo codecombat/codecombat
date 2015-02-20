@@ -7,6 +7,7 @@ User = require '../users/User'
 Handler = require '../commons/Handler'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/core/utils'
+LevelSession = require '../levels/sessions/LevelSession'
 
 class EarnedAchievementHandler extends Handler
   modelClass: EarnedAchievement

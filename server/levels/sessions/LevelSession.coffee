@@ -47,8 +47,12 @@ LevelSessionSchema.pre 'save', (next) ->
 
   # Newly completed level
   if not (initd and @previousStateInfo['state.complete']) and @get('state.complete')
-    User.update {_id: userID}, {$inc: 'stats.gamesCompleted': 1}, {}, (err, count) ->
+    User.findByIdAndUpdate userID, {$inc: 'stats.gamesCompleted': 1}, {}, (err, doc) ->
       log.error err if err?
+      oldCopy = doc.toObject()
+      oldCopy.stats = _.clone oldCopy.stats
+      oldCopy.stats.gamesCompleted = oldCopy.stats.gamesCompleted - 1
+      User.schema.statics.createNewEarnedAchievements doc, oldCopy
     activeUserEvent = "level-completed/#{levelID}"
 
   # Spent at least 30s playing this level
