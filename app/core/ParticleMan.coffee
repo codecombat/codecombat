@@ -5,7 +5,10 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
 
   constructor: ->
     return @unsupported = true unless Modernizr.webgl
-    @renderer = new THREE.WebGLRenderer alpha: true
+    try
+      @renderer = new THREE.WebGLRenderer alpha: true
+    catch err
+      return @unsupported = true
     $(@renderer.domElement).addClass 'particle-man'
     @scene = new THREE.Scene()
     @clock = new THREE.Clock()
