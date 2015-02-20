@@ -29,7 +29,7 @@ module.exports = class PlayHeroesModal extends ModalView
   shortcuts:
     'left': -> @$el.find('#hero-carousel').carousel('prev') if @heroes.models.length and not @$el.hasClass 'secret'
     'right': -> @$el.find('#hero-carousel').carousel('next') if @heroes.models.length and not @$el.hasClass 'secret'
-    'enter': 'saveAndHide'
+    'enter': -> @saveAndHide() if @visibleHero and not @visibleHero.locked
 
   constructor: (options) ->
     super options
