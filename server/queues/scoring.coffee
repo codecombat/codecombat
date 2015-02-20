@@ -160,9 +160,9 @@ module.exports.getTwoGames = (req, res) ->
         query = LevelSession
           .aggregate()
           .match(queryParams)
-          .project(selection)
           .sort({'submitDate': -1})
           .limit(sortLimit)
+          .project(selection)
           .skip(humanSkipCount)
           .limit(1)
         query.exec (err, randomSession) =>
@@ -175,9 +175,9 @@ module.exports.getTwoGames = (req, res) ->
           query = LevelSession
             .aggregate()
             .match(queryParams)
-            .project(selection)
             .sort({'submitDate': -1})
             .limit(sortLimit)
+            .project(selection)
             .skip(ogresSkipCount)
             .limit(1)
           query.exec (err, otherSession) =>
