@@ -351,16 +351,20 @@ PaymentHandler = class PaymentHandler extends Handler
     else
       user.update({$inc: {'purchased.gems': gems}}, {}, (err) -> done(err))
 
-  recalculateGemsFor: (user, done) ->
+  recalculateGemsFor: (user, done, saveIfUnchanged=true) ->
 
     Payment.find({recipient: user._id}).select('gems').exec((err, payments) ->
       gems = _.reduce payments, ((sum, p) -> sum + p.get('gems')), 0
       purchased = _.clone(user.get('purchased'))
       purchased ?= {}
+      if (purchased.gems or 0) isnt gems
+        log.debug "Updating #{user.get('_id')} gems from #{purchased.gems} to #{gems} from #{payments.length} payments; #{user.get('email')} #{user.get('name')}"
+      else unless saveIfUnchanged
+        log.debug "#{user.get('_id')} already had #{purchased.gems} #{gems} from #{payments.length} payments; #{user.get('email')} #{user.get('name')}"
+        return done()
       purchased.gems = gems
       user.set('purchased', purchased)
       user.save((err) -> done(err))
-
     )
 
   sendPaymentHipChatMessage: (options) ->

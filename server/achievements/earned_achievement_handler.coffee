@@ -124,6 +124,7 @@ class EarnedAchievementHandler extends Handler
       res.send(earnedAchievements)
 
   recalculate: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
     onSuccess = (data) => log.debug 'Finished recalculating achievements'
     if 'achievements' of req.body # Support both slugs and IDs separated by commas
       achievementSlugsOrIDs = req.body.achievements
