@@ -482,7 +482,20 @@ module.exports = class ThangsTabView extends CocoView
     return unless @selectedExtantThang
     thang = @getThangByID(@selectedExtantThang.id)
     @thangsTreema.delete(@pathForThang(thang))
+    @deleteEmptyTreema(thang)
     Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
+
+  deleteEmptyTreema: (thang)->
+    thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
+    children = @thangsTreema.childrenTreemas
+    thangKind = children[thangType.get('kind', true)].data
+    thangName = thangKind[thangType.get('name', true)]
+    if Object.keys(thangName).length == 0
+      folderPath = [thangType.get('kind', true), thangType.get('name', true)].join('/')
+      @thangsTreema.delete(folderPath)
+      if Object.keys(thangKind).length == 0
+        folderPath = [thangType.get('kind', true)].join('/')
+        @thangsTreema.delete(folderPath)
 
   groupThangs: (thangs) ->
     # array of thangs -> foldered thangs
