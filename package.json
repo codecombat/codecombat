@@ -45,7 +45,6 @@
     "moment": "~2.5.0",
     "mongodb": "1.2.x",
     "mongoose": "3.8.x",
-    "mongoose-text-search": "~0.0.2",
     "request": "2.12.x",
     "tv4": "~1.0.16",
     "lodash": "~2.4.1",
