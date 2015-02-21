@@ -93,7 +93,7 @@ else
   .user-status-line
     span.gem.gem-30
     span#gems-count.spr= me.gems()
-    span.player-level-icon
+    span.level-indicator(data-i18n="general.player_level")
     span.player-level.spr= me.level()
     span.player-hero-icon
     if me.get('anonymous')
