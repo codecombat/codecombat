@@ -27,7 +27,7 @@ whenAllFinished = ->
 
 async.parallel [
   # Misc
-  #(c) -> report UserHandler.recalculateStats, 'gamesCompleted', c
+  (c) -> report UserHandler.recalculateStats, 'gamesCompleted', c
 
   # Edits
   (c) -> report UserHandler.recalculateStats, 'articleEdits', c

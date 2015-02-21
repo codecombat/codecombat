@@ -164,19 +164,17 @@ module.exports = class Handler
             res.send matchedObjects
             res.end()
         if term
-          filter.project = projection
-          @modelClass.textSearch term, filter, callback
+          filter.filter.$text = $search: term
+        args = [filter.filter]
+        args.push projection if projection
+        q = @modelClass.find(args...)
+        if skip? and skip < 1000000
+          q.skip(skip)
+        if limit? and limit < FETCH_LIMIT
+          q.limit(limit)
         else
-          args = [filter.filter]
-          args.push projection if projection
-          q = @modelClass.find(args...)
-          if skip? and skip < 1000000
-            q.skip(skip)
-          if limit? and limit < FETCH_LIMIT
-            q.limit(limit)
-          else
-            q.limit(FETCH_LIMIT)
-          q.exec callback
+          q.limit(FETCH_LIMIT)
+        q.exec callback
     # if it's not a text search but the user is an admin, let him try stuff anyway
     else if req.user?.isAdmin()
       # admins can send any sort of query down the wire
