@@ -1,5 +1,4 @@
 mongoose = require('mongoose')
-textSearch = require('mongoose-text-search')
 log = require 'winston'
 utils = require '../lib/utils'
 
@@ -293,7 +292,6 @@ module.exports.SearchablePlugin = (schema, options) ->
   index[prop] = 'text' for prop in searchable
 
   # should now have something like {'index': 1, name: 'text', body: 'text'}
-  schema.plugin(textSearch)
   schema.index(index, {sparse: true, name: 'search index', language_override: 'searchLanguage'})
 
   schema.pre 'save', (next) ->
