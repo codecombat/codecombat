@@ -1,17 +1,17 @@
 module.exports = nativeDescription: "български език", englishDescription: "Bulgarian", translation:
   home:
-    slogan: "Научи се да програмираш, докато играеш игра "
+    slogan: "Научи се да програмираш, докато играеш игра"
     no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стари версии. Съжалявам!" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи!" # Warning that shows up on mobile devices
+    no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи с тях!" # Warning that shows up on mobile devices
     play: "Играй" # The big play button that opens up the campaign view.
     old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Кампания"
+    campaign: "Кампания"
     for_beginners: "За начинаещи"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "За разработчици" # Not currently shown on home page.
-#    or_ipad: "Или свали за iPad"
+    or_ipad: "Или свали за iPad"
 
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
@@ -22,8 +22,8 @@ module.exports = nativeDescription: "български език", englishDescri
     account: "Сметката"
     profile: "Профил"
     stats: "Статистики"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
+    code: "Код"
+    admin: "Администратор" # Only shows up when you are an admin
     home: "Начало"
     contribute: "Допринеси"
 #    legal: "Legal"
@@ -48,35 +48,35 @@ module.exports = nativeDescription: "български език", englishDescri
     subscribe_as_diplomat: "Стани дипломат"
 
   play:
-#    play_as: "Играй като" # Ladder page
-#    spectate: "Наблюдател" # Ladder page
-#    players: "Играчи" # Hover over a level on /play
-#    hours_played: "Изиграни часове" # Hover over a level on /play
+    play_as: "Играй като" # Ladder page
+    spectate: "Наблюдател" # Ladder page
+    players: "Играчи" # Hover over a level on /play
+    hours_played: "Изиграни часове" # Hover over a level on /play
     items: "Предмети" # Tooltip on item shop button from /play
     unlock: "Отключи" # For purchasing items and heroes
     confirm: "Потвърди"
-#    owned: "Придобити" # For items you own
+    owned: "Придобити" # For items you own
     locked: "Заключено"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    available: "Достъпен"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Постижения" # Tooltip on achievement list button from /play
-#    account: "Акаунт" # Tooltip on account button from /play
-#    settings: "Настройки" # Tooltip on settings button from /play
-#    next: "Напред" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Смени герой" # Go back from choose inventory to choose hero
+    heroes: "Герои" # Tooltip on hero shop button from /play
+    achievements: "Постижения" # Tooltip on achievement list button from /play
+    account: "Акаунт" # Tooltip on account button from /play
+    settings: "Настройки" # Tooltip on settings button from /play
+    next: "Напред" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Смени герой" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Купи скъпоценни камъни"
-#    subscription_required: "Нужен е абонамент""
+    subscription_required: "Нужен е абонамент"
     older_campaigns: "Предишни капмании"
     anonymous: "Анонимен играч"
     level_difficulty: "Трудност"
     campaign_beginner: "Кампания за начинаещи"
-#    awaiting_levels_adventurer_prefix: "5 нови нива всяка седмица"
+    awaiting_levels_adventurer_prefix: "5 нови нива всяка седмица"
     awaiting_levels_adventurer: "Стани Приключенец"
     awaiting_levels_adventurer_suffix: "за да бъдеш първият, който играе нови нива."
-#    adjust_volume: "Настрой звук"
+    adjust_volume: "Настрой звук"
     choose_your_level: "Избери своето ниво" # The rest of this section is the old play view at /play-old and isn't very important.
 #    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
     adventurer_forum: "Приключенският форум"
@@ -87,34 +87,34 @@ module.exports = nativeDescription: "български език", englishDescri
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
 #    campaign_multiplayer: "Multiplayer Arenas"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_player_created: "Създаден от играч"
+    campaign_player_created: "Създаден от играч"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Класически алгоритми"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
 #  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Имейл адресът е невалиден"
+    blurb: "Справяш се чудесно! Сподели с някого,колко много научи чрез CodeCombat."
+    email_invalid: "Имейл адресът е невалиден"
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Електронна поща"
-#    placeholder: "Имейл адрес"
+    form_label: "Електронна поща"
+    placeholder: "Имейл адрес"
 #    title: "Excellent Work, Apprentice"
-#    tell_friend: "Сподели с приятел"
-#    tell_parent: "Сподели с родител"
+    tell_friend: "Сподели с приятел"
+    tell_parent: "Сподели с родител"
 
   login:
     sign_up: "Създай Профил"
     log_in: "Вход"
     logging_in: "Влизане..."
     log_out: "Изход"
-#    forgot_password: "Забравена парола?"
-#    authenticate_gplus: "Автентикация чрез G+"
-#    load_profile: "Зареди G+ профил"
-#    load_email: "Зареди G+ имейл"
+    forgot_password: "Забравена парола?"
+    authenticate_gplus: "Автентикация чрез G+"
+    load_profile: "Зареди G+ профил"
+    load_email: "Зареди G+ имейл"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Вписване чрез Facebook"
-#    sign_in_with_gplus: "Вписване чрез G+"
-#    signup_switch: "Want to create an account?"
+    sign_in_with_facebook: "Вписване чрез Facebook"
+    sign_in_with_gplus: "Вписване чрез G+"
+    signup_switch: "Създаване на нов акаунт?"
 
   signup:
     email_announcements: "Получава анонси по имейл"
@@ -123,7 +123,7 @@ module.exports = nativeDescription: "български език", englishDescri
     log_in: "Вход с парола"
     social_signup: "Или, можеш да се регистрираш през Facebook или G+:"
     required: "Трабва да влезеш преди можеш да ходиш на там."
-#    login_switch: "Already have an account?"
+    login_switch: "Вече имаш акаунт?"
 
   recover:
     recover_account_title: "Възстанови Акаунт"
@@ -139,8 +139,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    books: "Books"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Назад" # When used as an action verb, like "Navigate backward"
+    continue: "Продължи" # When used as an action verb, like "Continue forward"
     loading: "Зареждане..."
     saving: "Записване..."
     sending: "Изпращане..."
@@ -151,13 +151,13 @@ module.exports = nativeDescription: "български език", englishDescri
     create: "Създай"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play" # When used as an action verb, like "Play next level"
+    play: "Играй" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
+    info: "Инфо"
+    help: "Помощ"
+    watch: "Наблюдавай"
+    unwatch: "Не наблюдавай"
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
@@ -167,9 +167,9 @@ module.exports = nativeDescription: "български език", englishDescri
     date: "Дата"
 #    body: "Body"
     version: "Версия"
-#    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
+    pending: "Изчакващ"
+    accepted: "Прието"
+    rejected: "Отказано"
 #    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
 #    submitted: "Submitted"
@@ -187,23 +187,23 @@ module.exports = nativeDescription: "български език", englishDescri
     results: "Резултати"
     description: "Описание"
     or: "или"
-#    subject: "Subject"
+    subject: "Тема"
     email: "Email"
     password: "Парола"
     message: "Съобщение"
-#    code: "Code"
+    code: "Код"
 #    ladder: "Ladder"
 #    when: "When"
-#    opponent: "Opponent"
+    opponent: "Опонент"
 #    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
+    score: "Точки"
+    win: "Победа"
+    loss: "Загуба"
 #    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
-#    player: "Player"
+    easy: "Лесно"
+    medium: "Средно"
+    hard: "Трудно"
+    player: "Играч"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 #    warrior: "Warrior"
 #    ranger: "Ranger"
@@ -228,27 +228,27 @@ module.exports = nativeDescription: "български език", englishDescri
   play_level:
     done: "Готово"
 #    home: "Home" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    level: "Ниво" # Like "Level: Dungeons of Kithgard"
+    skip: "Прескочи"
 #    game_menu: "Game Menu"
-#    guide: "Guide"
-#    restart: "Restart"
-#    goals: "Goals"
-#    goal: "Goal"
+    guide: "Упътване"
+    restart: "Рестарт"
+    goals: "Цели"
+    goal: "Цел"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
+    success: "Успех!"
+    incomplete: "Недовършен"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
 #    action_timeline: "Action Timeline"
 #    click_to_select: "Click on a unit to select it."
 #    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_join_game: "Присъединяване"
+    reload: "Презареди"
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
-#    reload_confirm: "Reload All"
-#    victory: "Victory"
+    reload_confirm: "Презареди всички"
+    victory: "Победа"
 #    victory_title_prefix: ""
 #    victory_title_suffix: " Complete"
 #    victory_sign_up: "Sign Up to Save Progress"
