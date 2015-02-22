@@ -152,7 +152,9 @@ module.exports = class ThangTypeEditView extends RootView
     'click .play-with-level-parent': 'onPlayLevelSelect'
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
     'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateLevelI18N'
-
+    'mousedown #canvas': 'onCanvasMouseDown'
+    'mouseup #canvas': 'onCanvasMouseUp'
+    'mousemove #canvas': 'onCanvasMouseMove'
 
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
@@ -411,6 +413,7 @@ module.exports = class ThangTypeEditView extends RootView
     @layerAdapter.resetSpriteSheet()
     @layerAdapter.addLank(lank)
     @currentLank = lank
+    @currentLankOffset = null
 
   showSprite: (sprite) ->
     @clearDisplayObject()
@@ -620,6 +623,31 @@ module.exports = class ThangTypeEditView extends RootView
       else
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
     @childWindow.focus()
+
+  # Canvas mouse drag handlers
+
+  onCanvasMouseMove: (e) ->
+    return unless p1 = @canvasDragStart
+    p2 = x: e.offsetX, y: e.offsetY
+    offset = x: p2.x - p1.x, y: p2.y - p1.y
+    @currentLank.sprite.x = @currentLankOffset.x + offset.x / @scale
+    @currentLank.sprite.y = @currentLankOffset.y + offset.y / @scale
+    @canvasDragOffset = offset
+
+  onCanvasMouseDown: (e) ->
+    return unless @currentLank
+    @canvasDragStart = x: e.offsetX, y: e.offsetY
+    @currentLankOffset ?= x: @currentLank.sprite.x, y: @currentLank.sprite.y
+
+  onCanvasMouseUp: (e) ->
+    @canvasDragStart = null
+    return unless @canvasDragOffset
+    return unless node = @treema.getLastSelectedTreema()
+    offset = node.get '/'
+    offset.x += Math.round @canvasDragOffset.x
+    offset.y += Math.round @canvasDragOffset.y
+    @canvasDragOffset = null
+    node.set '/', offset
 
   destroy: ->
     @camera?.destroy()
