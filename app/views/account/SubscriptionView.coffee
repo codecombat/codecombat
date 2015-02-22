@@ -36,7 +36,7 @@ module.exports = class SubscriptionView extends RootView
         else
           c.nextPaymentDate = periodEnd
           c.cost = "$#{(subscription.plan.amount/100).toFixed(2)}"
-      if card = @stripeInfo.cards?.data?[0]
+      if card = @stripeInfo.sources?.data?[0]
         c.card = "#{card.brand}: x#{card.last4}"
     if @payments?.loaded
       c.monthsSubscribed = (x for x in @payments.models when not x.get('productID')).length  # productID is for gem purchases
