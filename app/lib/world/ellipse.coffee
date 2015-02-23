@@ -57,7 +57,7 @@ class Ellipse
     if withRotation and @rotation # optionally rotate point into ellipse space
       c = Math.cos(@rotation)
       s = Math.sin(@rotation)
-      [x, y] = [x*c + y*s, y*c + x*s]
+      [x, y] = [x*c - y*s, y*c + x*s]
     x = x / @width # scale point into ellipse space
     y = y / @height
     x*x + y*y <= 1 #if the resulting point falls on/in the unit circle at 0, 0
