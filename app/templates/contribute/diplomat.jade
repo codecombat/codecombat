@@ -70,6 +70,6 @@ block content
                 span.spl - #{stats.diplomats.join(', ')}
               .progress
                 .progress-bar(style='width: ' + (100 * stats.completion) + '%')
-                  span(style=stats.completion < 0.06 ? 'color: black; text-shadow: 0px 1px 0px white' : '')= (100 * stats.completion).toFixed(1) + '%'
+                  span(style=stats.completion < 0.06 ? 'color: black; text-shadow: 0px 1px 0px white' : '')= Math.min(100, (100 * stats.completion).toFixed(1)) + '%'
 
     div.clearfix
