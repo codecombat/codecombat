@@ -256,8 +256,12 @@ module.exports = class CampaignEditorView extends RootView
         @toSave.add achievement
 
   onClickLoginButton: ->
-    # Do Nothing 
+    # Do Nothing
     # This is a override method to RootView, so that only CampaignView is listenting to login button click
+
+  onClickSignupButton: ->
+    # Do Nothing
+    # This is a override method to RootView, so that only CampaignView is listenting to signup button click
 
 class LevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'
