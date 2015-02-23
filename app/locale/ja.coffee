@@ -3,7 +3,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイしてコードを学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。" # Warning that shows up on mobile devices
-    play: "ゲームスタート" # The big play button that opens up the campaign view.
+    play: "ゲーム<br>スタート" # The big play button that opens up the campaign view.
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
     ipad_browser: "悪い知らせ:CodeCombatは、iPadのブラウザでは動作しません。良い知らせ: 私達のネイティブiPadアプリはアップルの承認待ち中。"
