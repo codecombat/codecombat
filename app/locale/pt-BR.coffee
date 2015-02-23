@@ -355,7 +355,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     multiplayer_caption: "Jogue com seus amigos!"
     auth_caption: "Salve seu progresso."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
     view_other_solutions: "Ver Outras Soluções"
     scores: "Pontuação"
