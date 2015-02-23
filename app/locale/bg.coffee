@@ -7,11 +7,11 @@ module.exports = nativeDescription: "български език", englishDescri
     old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-#    campaign: "Campaign"
+    campaign: "Кампания"
     for_beginners: "За начинаещи"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "За разработчици" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Или свали за iPad"
 
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
@@ -48,35 +48,35 @@ module.exports = nativeDescription: "български език", englishDescri
     subscribe_as_diplomat: "Стани дипломат"
 
   play:
-#    play_as: "Play As" # Ladder page
-#    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    play_as: "Играй като" # Ladder page
+    spectate: "Наблюдател" # Ladder page
+    players: "Играчи" # Hover over a level on /play
+    hours_played: "Изиграни часове" # Hover over a level on /play
     items: "Предмети" # Tooltip on item shop button from /play
     unlock: "Отключи" # For purchasing items and heroes
     confirm: "Потвърди"
-#    owned: "Owned" # For items you own
+    owned: "Придобити" # For items you own
     locked: "Заключено"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    achievements: "Постижения" # Tooltip on achievement list button from /play
+    account: "Акаунт" # Tooltip on account button from /play
+    settings: "Настройки" # Tooltip on settings button from /play
+    next: "Напред" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Смени герой" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "Купи скъпоценни камъни"
-#    subscription_required: "Subscription Required"
+    subscription_required: "Нужен е абонамент"
     older_campaigns: "Предишни капмании"
     anonymous: "Анонимен играч"
     level_difficulty: "Трудност"
     campaign_beginner: "Кампания за начинаещи"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
+    awaiting_levels_adventurer_prefix: "5 нови нива всяка седмица"
     awaiting_levels_adventurer: "Стани Приключенец"
     awaiting_levels_adventurer_suffix: "за да бъдеш първият, който играе нови нива."
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "Настрой звук"
     choose_your_level: "Избери своето ниво" # The rest of this section is the old play view at /play-old and isn't very important.
 #    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
     adventurer_forum: "Приключенският форум"
@@ -87,33 +87,33 @@ module.exports = nativeDescription: "български език", englishDescri
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
 #    campaign_multiplayer: "Multiplayer Arenas"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_player_created: "Player-Created"
+    campaign_player_created: "Създаден от играч"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Класически алгоритми"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
+    email_invalid: "Имейл адресът е невалиден"
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
+    form_label: "Електронна поща"
+    placeholder: "Имейл адрес"
 #    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+    tell_friend: "Сподели с приятел"
+    tell_parent: "Сподели с родител"
 
   login:
     sign_up: "Създай Профил"
     log_in: "Вход"
     logging_in: "Влизане..."
     log_out: "Изход"
-#    forgot_password: "Forgot your password?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
+    forgot_password: "Забравена парола?"
+    authenticate_gplus: "Автентикация чрез G+"
+    load_profile: "Зареди G+ профил"
+    load_email: "Зареди G+ имейл"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
+    sign_in_with_facebook: "Вписване чрез Facebook"
+    sign_in_with_gplus: "Вписване чрез G+"
 #    signup_switch: "Want to create an account?"
 
   signup:

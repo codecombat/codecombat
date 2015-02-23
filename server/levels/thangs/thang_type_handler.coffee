@@ -34,6 +34,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'extendedName'
     'unlockLevelName'
     'tasks'
+    'terrains'
   ]
 
   hasAccess: (req) ->
