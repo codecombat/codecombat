@@ -110,6 +110,7 @@ defaultTasks =
   Item: commonTasks.concat purchasableTasks.concat [
     'Set the hero class if class-specific.'
     'Upload Paper Doll Images.'
+    'Configure item stats and abilities.'
   ]
   Missile: commonTasks.concat animatedThangTypeTasks.concat [
     'Make sure there is a launch sound trigger.'
