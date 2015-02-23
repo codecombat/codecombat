@@ -619,7 +619,7 @@ module.exports = class InventoryModal extends ModalView
       item = _.find @items.models, (item) -> item.get('original') is original
       continue unless dollImages = item?.get('dollImages')
       didAdd = @addDollImage slot, dollImages, heroClass, gender
-      slotsWithImages.push slot if didAdd
+      slotsWithImages.push slot if didAdd if item.get('original') isnt '54ea39342b7506e891ca70f2'  # Circlet of the Magi needs hair under it
     @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
@@ -637,6 +637,8 @@ module.exports = class InventoryModal extends ModalView
         imageKeys = ["#{gender}#{heroClass}", "#{gender}#{heroClass}Thumb"]
       else
         imageKeys = ["#{gender}", "#{gender}Thumb"]
+    else if heroClass is 'Wizard' and slot is 'torso'
+      imageKeys = [gender, "#{gender}Back"]
     else
       imageKeys = [gender]
     for imageKey in imageKeys

@@ -7,7 +7,7 @@ describe '/db/payment', ->
   request = require 'request'
   paymentURL = getURL('/db/payment')
   checkChargesURL = getURL('/db/payment/check-stripe-charges')
-  
+
   firstApplePayment = {
     apple: {
       rawReceipt: testReceipt
@@ -15,7 +15,7 @@ describe '/db/payment', ->
       localPrice: '$5.00'
     }
   }
-  
+
   secondApplePayment = {
     apple: {
       rawReceipt: testReceipt
@@ -23,7 +23,7 @@ describe '/db/payment', ->
       localPrice: '$10.00'
     }
   }
-  
+
   paymentCreated = null
 
   it 'clears the db first', (done) ->
@@ -32,13 +32,13 @@ describe '/db/payment', ->
       done()
 
   describe 'posting Apple IAPs', ->
-    
+
     it 'denies anonymous users trying to pay', (done) ->
       request.get getURL('/auth/whoami'), ->
         request.post {uri: paymentURL, json: firstApplePayment}, (err, res, body) ->
           expect(res.statusCode).toBe 403
           done()
-      
+
     it 'creates a payment object and credits gems to the user', (done) ->
       loginJoe ->
         request.post {uri: paymentURL, json: firstApplePayment}, (err, res, body) ->
@@ -48,7 +48,7 @@ describe '/db/payment', ->
             expect(user.get('purchased').gems).toBe(5000)
             done()
           )
-          
+
     it 'is idempotent', (done) ->
       loginJoe ->
         request.post {uri: paymentURL, json: firstApplePayment}, (err, res, body) ->
@@ -74,7 +74,7 @@ describe '/db/payment', ->
             expect(user.get('purchased').gems).toBe(16000)
             done()
           )
-          
+
   describe 'posting Stripe purchases', ->
 
     stripe = require('stripe')(config.stripe.secretKey)
@@ -121,7 +121,7 @@ describe '/db/payment', ->
               done()
             )
       )
-      
+
     it 'ignores repeated purchases', (done) ->
       data = { productID: 'gems_5', stripe: { token: stripeTokenID, timestamp: timestamp } }
       request.post {uri: paymentURL, json: data }, (err, res, body) ->
@@ -133,7 +133,7 @@ describe '/db/payment', ->
             done()
           )
         )
-        
+
     it 'allows a new charge on the existing customer', (done) ->
       data = { productID: 'gems_5', stripe: { timestamp: new Date().getTime() } }
       request.post {uri: paymentURL, json: data }, (err, res, body) ->
@@ -144,11 +144,11 @@ describe '/db/payment', ->
             joeData = user.toObject()
             expect(user.get('purchased').gems).toBe(10000)
             done()
-            
+
     it "updates the customer's card when you submit a new token", (done) ->
       stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
         originalCustomerID = customer.id
-        originalCardID = customer.cards.data[0].id
+        originalCardID = customer.sources.data[0].id
         stripe.tokens.create {
             card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
         }, (err, token) ->
@@ -159,7 +159,7 @@ describe '/db/payment', ->
               joeData = user.toObject()
               expect(joeData.stripe.customerID).toBe(originalCustomerID)
               stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
-                expect(customer.cards.data[0].id).not.toBe(originalCardID)
+                expect(customer.sources.data[0].id).not.toBe(originalCardID)
                 done()
 
     it 'clears the db', (done) ->
@@ -172,7 +172,7 @@ describe '/db/payment', ->
         card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
       }, (err, token) ->
 
-        data = { 
+        data = {
           productID: 'gems_5'
           stripe: { token: token.id, timestamp: timestamp }
           breakAfterCharging: true
@@ -181,11 +181,11 @@ describe '/db/payment', ->
         loginJoe (joe) ->
           request.post {uri: paymentURL, json: data }, (err, res, body) ->
             expect(res.statusCode).toBe 500
-            
+
             data = _.omit data, 'breakAfterCharging'
             request.post {uri: paymentURL, json: data }, (err, res, body) ->
               expect(res.statusCode).toBe 201
-            
+
               Payment.count({}, (err, count) ->
                 expect(count).toBe(1)
                 User.findById(joe.get('_id'), (err, user) ->
@@ -199,7 +199,7 @@ describe '/db/payment', ->
       clearModels [User, Payment], (err) ->
         throw err if err
         done()
-        
+
     # Testing card numbers are here: https://stripe.com/docs/testing
 
     it 'handles card that attaches to customer but fails to be charged', (done) ->
@@ -295,4 +295,3 @@ describe '/db/payment', ->
                   done()
                 )
               )
-     
