@@ -1,12 +1,12 @@
 module.exports = nativeDescription: "български език", englishDescription: "Bulgarian", translation:
   home:
-    slogan: "Научи се да програмираш, докато играеш игра"
+    slogan: "Научи се да програмираш, докато играеш"
     no_ie: "CodeCombat не работи под Internet Explorer 8 или по-стари версии. Съжалявам!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи с тях!" # Warning that shows up on mobile devices
     play: "Играй" # The big play button that opens up the campaign view.
     old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Лошa новинa: CodeCombat не работи в браузъра на iPad. Добра новина: Приложението ни за iPad изчаква одобрение от Apple."
     campaign: "Кампания"
     for_beginners: "За начинаещи"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
@@ -15,11 +15,11 @@ module.exports = nativeDescription: "български език", englishDescri
 
   nav:
     play: "Нива" # The top nav bar entry where players choose which levels to play
-    community: "Обшност"
+    community: "Общност"
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
-    account: "Сметката"
+    account: "Акаунт"
     profile: "Профил"
     stats: "Статистики"
     code: "Код"
@@ -69,7 +69,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    choose_inventory: "Equip Items"
     buy_gems: "Купи скъпоценни камъни"
     subscription_required: "Нужен е абонамент"
-    older_campaigns: "Предишни капмании"
+    older_campaigns: "Предишни кампании"
     anonymous: "Анонимен играч"
     level_difficulty: "Трудност"
     campaign_beginner: "Кампания за начинаещи"
@@ -149,17 +149,17 @@ module.exports = nativeDescription: "български език", englishDescri
     save: "Запис"
     publish: "Публикувай"
     create: "Създай"
-#    manual: "Manual"
+    manual: "Ръчно"
 #    fork: "Fork"
     play: "Играй" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
-#    actions: "Actions"
+    retry: "Отново"
+    actions: "Действия"
     info: "Инфо"
     help: "Помощ"
     watch: "Наблюдавай"
     unwatch: "Не наблюдавай"
-#    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
+    submit_patch: "Предложи кръпка"
+    submit_changes: "Предложи промените"
 
   general:
     and: "и"
@@ -353,18 +353,18 @@ module.exports = nativeDescription: "български език", englishDescri
     options_caption: "Промени настройките"
 #    guide_caption: "Docs and tips"
     multiplayer_caption: "Играй с приятели!"
-#    auth_caption: "Save your progress."
+    auth_caption: "Запиши напредъка си."
 
 #  leaderboard:
 #    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
+    view_other_solutions: "Виж други решения"
     scores: "Точки"
     top_players: "ТОП играчи според"
     day: "Днес"
     week: "Тази седмица"
     all: "От самото начало"
     time: "Време"
-#    damage_taken: "Damage Taken"
+    damage_taken: "Поети щети"
     damage_dealt: "Нанесени щети"
     difficulty: "Трудност"
     gold_collected: "Събрано Злато"
@@ -383,14 +383,14 @@ module.exports = nativeDescription: "български език", englishDescri
 #    unequip: "Unequip"
 
 #  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
-#    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
+    few_gems: "Няколко скъпоценни камъни"
+    pile_gems: "Купчина скъпоценни камъни"
+    chest_gems: "Сандък със скъпоценни камъни"
+    purchasing: "Купуване..."
+    declined: "Картата ви беше отказана."
+    retrying: "Грешка в сървъра, пробвам отново."
+    prompt_title: "Недостатъчно скъпоценни камъни"
+    prompt_body: "Искате ли още?"
 #    prompt_button: "Enter Shop"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    or_subscribe: "Or 3500 gems/mo if you..."
