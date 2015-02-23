@@ -52,7 +52,7 @@ module.exports = class ComponentsTabView extends CocoView
       return res
 
     res = {}
-    res[treemaData[key].original] = treemaData[key] for key in [0..treemaData.length-1]
+    res[treemaData[key].original] = treemaData[key] for key in [0 ... treemaData.length]
     treemaData = (value for key, value of res)  # Removing duplicates from treemaData
 
     treemaOptions =
