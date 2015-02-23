@@ -1093,7 +1093,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     nutshell_description: "我们在关卡编辑器里公开的任何资源，你都可以在制作关卡时随意使用，但我们保留限制在 codecombat.com 之上创建的关卡本身传播的权利，因为我们以后可能决定为它们收费。"
     canonical: "这篇说明的英文版本是权威版本。如果各个翻译版本之间有任何冲突，以英文版为准。"
 
-    ladder_prizes:
+  ladder_prizes:
     title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
     blurb_1: "这些奖项将会奖励，依据"
     blurb_2: "锦标赛规则"
