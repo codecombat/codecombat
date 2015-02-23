@@ -6,11 +6,7 @@ module.exports = nativeDescription: "български език", englishDescri
     play: "Играй" # The big play button that opens up the campaign view.
     old_browser: "О, не! Браузърът ти е твърде стар за CodeCombat. Съжалявам!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Все пак можеш да опиваш, но най-вероятно няма да проработи."
-<<<<<<< HEAD
     ipad_browser: "Лошa новинa: CodeCombat не работи в браузъра на iPad. Добра новина: Приложението ни за iPad изчаква одобрение от Apple."
-=======
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
->>>>>>> upstream/master
     campaign: "Кампания"
     for_beginners: "За начинаещи"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
@@ -64,11 +60,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
     available: "Достъпен"
 #    skills_granted: "Skills Granted" # Property documentation details
-<<<<<<< HEAD
     heroes: "Герои" # Tooltip on hero shop button from /play
-=======
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
->>>>>>> upstream/master
     achievements: "Постижения" # Tooltip on achievement list button from /play
     account: "Акаунт" # Tooltip on account button from /play
     settings: "Настройки" # Tooltip on settings button from /play
@@ -77,11 +69,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    choose_inventory: "Equip Items"
     buy_gems: "Купи скъпоценни камъни"
     subscription_required: "Нужен е абонамент"
-<<<<<<< HEAD
     older_campaigns: "Предишни кампании"
-=======
-    older_campaigns: "Предишни капмании"
->>>>>>> upstream/master
     anonymous: "Анонимен играч"
     level_difficulty: "Трудност"
     campaign_beginner: "Кампания за начинаещи"
@@ -104,13 +92,8 @@ module.exports = nativeDescription: "български език", englishDescri
     campaign_classic_algorithms: "Класически алгоритми"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-<<<<<<< HEAD
-#  share_progress_modal:
-    blurb: "Справяш се чудесно! Сподели с някого,колко много научи чрез CodeCombat."
-=======
   share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
->>>>>>> upstream/master
+    blurb: "Справяш се чудесно! Сподели с някого,колко много научи чрез CodeCombat."
     email_invalid: "Имейл адресът е невалиден"
 #    form_blurb: "Enter their email below and we’ll show them!"
     form_label: "Електронна поща"
@@ -131,11 +114,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    finishing: "Finishing"
     sign_in_with_facebook: "Вписване чрез Facebook"
     sign_in_with_gplus: "Вписване чрез G+"
-<<<<<<< HEAD
     signup_switch: "Създаване на нов акаунт?"
-=======
-#    signup_switch: "Want to create an account?"
->>>>>>> upstream/master
 
   signup:
     email_announcements: "Получава анонси по имейл"
@@ -359,7 +338,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
-#  game_menu:
+  game_menu:
     inventory_tab: "Инвентар"
     save_load_tab: "Запиши/Зареди"
     options_tab: "Настройки"
@@ -376,7 +355,7 @@ module.exports = nativeDescription: "български език", englishDescri
     multiplayer_caption: "Играй с приятели!"
     auth_caption: "Запиши напредъка си."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
     view_other_solutions: "Виж други решения"
     scores: "Точки"
@@ -403,7 +382,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
+  buy_gems:
     few_gems: "Няколко скъпоценни камъни"
     pile_gems: "Купчина скъпоценни камъни"
     chest_gems: "Сандък със скъпоценни камъни"
