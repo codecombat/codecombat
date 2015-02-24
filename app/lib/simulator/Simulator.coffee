@@ -169,7 +169,6 @@ module.exports = class Simulator extends CocoClass
     console.log info
     @trigger 'statusUpdate', info
     @fetchAndSimulateOneGame()
-    application.tracker?.trackEvent 'Simulator Result', label: 'No Games', ['Google Analytics']
 
   simulateAnotherTaskAfterDelay: =>
     console.log "Retrying in #{@retryDelayInSeconds}"
@@ -309,7 +308,6 @@ module.exports = class Simulator extends CocoClass
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
       $('#simulated-by-you').text(simulatedBy)
-    application.tracker?.trackEvent 'Simulator Result', label: 'Success', ['Google Analytics']
 
   handleTaskResultsTransferError: (error) =>
     return if @destroyed
