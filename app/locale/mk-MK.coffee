@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     forgot_password: "Ја заборави твојата лозинка?"
     authenticate_gplus: "Провери G+ најава"
     load_profile: "Вчитај G+ профил"
-    load_email: "Вчитај G+ e-mail"
     finishing: "Завршување"
     sign_in_with_facebook: "Најави се со Facebook"
     sign_in_with_gplus: "Најави се со G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     lua_blurb: "Јазик за скриптирање на игри."
     io_blurb: "Едноставен, но не така очигледен."
     status: "Статус"
+#    hero_type: "Type"
     weapons: "Оружја"
     weapons_warrior: "Мечеви - Краток досег, нема магија"
     weapons_ranger: "Самострели, Пушки - Долг досег, нема магија"

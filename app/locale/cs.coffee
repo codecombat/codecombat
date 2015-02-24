@@ -110,7 +110,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     forgot_password: "Zapomenuté heslo?"
     authenticate_gplus: "Ověřit Google+"
     load_profile: "Načíst Google+ Profil"
-    load_email: "Načíst Google+ Email"
     finishing: "Dokončování"
     sign_in_with_facebook: "Přihlásit přes Facebook"
     sign_in_with_gplus: "Přihlásit přes Google+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_move_forward: "Ať už děláš cokoliv, vždy jdi dopředu. - Martin Luther King Jr."
     tip_google: "Máš problém, který nemůžeš vyřešit? Vygoogluj to!"
     tip_adding_evil: "Přidávání špetky zla."
-    tip_miss_lunch: "Každý, kdo ztratil pojem o čase při používání počítače má tendenci ke snění, chce si sny splnit a má tendeci vynechat oběd. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     lua_blurb: "Jazyk pro skriptování her."
     io_blurb: "Jednoduchý ale nejasný."
     status: "Stav"
+#    hero_type: "Type"
     weapons: "Zbraně"
     weapons_warrior: "Meče - Krátká vzdálenost, Žádná magie"
     weapons_ranger: "Kuše, Zbraně - Dlouhá vzdálenost, Žádná magie"

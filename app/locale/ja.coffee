@@ -110,7 +110,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     forgot_password: "パスワードをお忘れですか？"
     authenticate_gplus: "Google+を認証する"
     load_profile: "Google+プロフィールをロード"
-    load_email: "Google+メールをロード"
     finishing: "仕上げ中"
     sign_in_with_facebook: "Facebookでログイン"
     sign_in_with_gplus: "Google+でログイン"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_move_forward: "何をするにしても、前進し続けること。- マーティン・ルーサー・キング・ジュニア"
     tip_google: "解決できない問題がありますか？ググっちゃえ！"
     tip_adding_evil: "悪を少々加える。"
-    tip_miss_lunch: "コンピュータ使用中に時間を忘れた事のある人は夢見ることを知っている、夢を実現するために昼食を食べ忘れる傾向がある。- ティム・バーナーズリー"
     tip_hate_computers: "コンピュータを憎むと思う人についての事だ。彼らが本当に嫌いなのは下手なプログラマーだ。- ラリー・ニーヴン"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     lua_blurb: "ゲーム専用のスクリプト言語。"
     io_blurb: "シンプルだがあいまい。"
     status: "ステータス"
+#    hero_type: "Type"
     weapons: "武器"
     weapons_warrior: "剣 - 攻撃範囲:短い- 魔法使用不可"
     weapons_ranger: "クロスボウ, 銃 - 攻撃範囲:長い- 魔法使用不可"

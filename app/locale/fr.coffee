@@ -110,7 +110,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     forgot_password: "Mot de passe oublié ?"
     authenticate_gplus: "Authentication Google+"
     load_profile: "Charger profil Google+"
-    load_email: "Charger E-mail Google+"
     finishing: "Finalisation"
     sign_in_with_facebook: "Connecter avec Facebook"
     sign_in_with_gplus: "Connecter avec Google+"
@@ -192,7 +191,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     password: "Mot de passe"
     message: "Message"
     code: "Code"
-    ladder: "Companion" #"Compétition" ?
+    ladder: "Companion"
     when: "Quand"
     opponent: "Adversaire"
     rank: "Rang"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_move_forward: "Quoi que vous fassiez, continuez d'avancer. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
     tip_adding_evil: "Ajout d'une pincée de méchanceté"
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -412,9 +410,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     thank_you_months_prefix: "Merci de nous avoir supporté pendant"
     thank_you_months_suffix: "mois."
     thank_you: "Merci de supporter CodeCombat."
-    sorry_to_see_you_go: "Désolé de te voir partir ! Fais-nous savoir ce que nous aurions pu faire mieux" #Sorry to see you go! Please let us know what we could have done better.
+    sorry_to_see_you_go: "Désolé de te voir partir ! Fais-nous savoir ce que nous aurions pu faire mieux"
     unsubscribe_feedback_placeholder: "Nom de zeus, qu'avons nous fait ?"
-    parent_button: "Demande à tes parents" # The size of the text need to be resized to fit the box (5 letters are out)
+    parent_button: "Demande à tes parents"
     parent_email_description: "Nous leur enverrons un e-mail pour qu'ils t'achètent un abonnement CodeCombat."
     parent_email_input_invalid: "Adresse e-mail non valide"
     parent_email_input_label: "Adresse e-mail des parents"
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     lua_blurb: "Langage de script de jeu."
     io_blurb: "Simple mais obscur."
     status: "Statut"
+#    hero_type: "Type"
     weapons: "Arme"
     weapons_warrior: "Epées - Courte portée, pas de magie"
     weapons_ranger: "Arbalètes, pistolets - Longue portée, pas de magie"
@@ -575,7 +574,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   versions:
     save_version_title: "Enregistrer une nouvelle version"
     new_major_version: "Nouvelle version majeure"
-    submitting_patch: "Soumission du correctif..." #"Submitting Patch..."
+    submitting_patch: "Soumission du correctif..."
     cla_prefix: "Pour enregistrer vos modifications vous devez d'abord accepter notre"
     cla_url: "Copyright"
     cla_suffix: "."
@@ -707,7 +706,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     revert_models: "Annuler les modèles"
     pick_a_terrain: "Choisir un terrain"
     dungeon: "Donjon"
-    indoor: "Intérieur" #"Indoor"
+    indoor: "Intérieur"
     desert: "Desert"
     grassy: "Herbeux"
     small: "Petit"
@@ -734,7 +733,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_tab_thangs_add: "Ajouter des Thangs"
     add_components: "Ajouter des composants"
     component_configs: "Configuration des composants"
-    config_thang: "Double-cliquez pour configurer un Thang" #"Double click to configure a thang"
+    config_thang: "Double-cliquez pour configurer un Thang"
     delete: "Supprimer"
     duplicate: "Dupliquer"
     stop_duplicate: "Arreter la duplication"

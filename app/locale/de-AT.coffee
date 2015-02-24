@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     forgot_password: "Passwort vergessen?"
     authenticate_gplus: "G+ authentifizieren"
     load_profile: "G+ Profil laden"
-    load_email: "G+ Email laden"
     finishing: "Fertig stellen"
     sign_in_with_facebook: "Mit Facebook anmelden"
     sign_in_with_gplus: "Mit G+ anmelden"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     lua_blurb: "Skriptsprache für Spiele (KI)."
     io_blurb: "Simpel aber obskur."
     status: "Status"
+#    hero_type: "Type"
     weapons: "Waffen"
     weapons_warrior: "Schwerter - Kurze Reichweite, keine Magie"
     weapons_ranger: "Armbrüste, Pistolen - Hohe Reichweite, keine Magie"

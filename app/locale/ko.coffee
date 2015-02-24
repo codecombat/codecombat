@@ -110,7 +110,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    forgot_password: "Forgot your password?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
 #    finishing: "Finishing"
 #    sign_in_with_facebook: "Sign in with Facebook"
 #    sign_in_with_gplus: "Sign in with G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     lua_blurb: "게임 스크립팅 언어"
     io_blurb: "간단하지만 아직 잘 알려지지 않은 언어."
 #    status: "Status"
+#    hero_type: "Type"
     weapons: "무기"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"

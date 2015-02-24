@@ -110,7 +110,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     forgot_password: "Забыли пароль?"
     authenticate_gplus: "Аутентификация G+"
     load_profile: "Загрузить профиль G+"
-    load_email: "Загрузить G+ почту"
     finishing: "Завершение"
     sign_in_with_facebook: "Войти через Facebook"
     sign_in_with_gplus: "Войти через G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_move_forward: "Что бы вы ни делали, вы должны двигаться вперед. - Martin Luther King Jr"
     tip_google: "У вас проблема, которую вы не можете решить? Гуглите!"
     tip_adding_evil: "Добавим щепотку зла."
-    tip_miss_lunch: "Каждый, кто потерял счет времени, используя компьютер, знает, что такое склонность к мечтанию, желание превратить мечты в реальность и тенденция к пропуску обеда. - Tim Berners-Lee"
     tip_hate_computers: "Есть одна вещь в людях, которые думают, что они ненавидят компьютеры. Что они на самом деле ненавидят, так это плохих программистов. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     lua_blurb: "Скриптовый язык для игр."
     io_blurb: "Простой, но непонятный."
     status: "Статус"
+#    hero_type: "Type"
     weapons: "Оружие"
     weapons_warrior: "Меч - ближний бой, не магический"
     weapons_ranger: "Арбалеты, ружья - дальнобойные, не магические"

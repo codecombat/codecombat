@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     forgot_password: "Забули свій пароль?"
     authenticate_gplus: "Авторизація G+"
     load_profile: "Завантажити профіль G+"
-    load_email: "Завантажити email G+"
     finishing: "Завершення"
     sign_in_with_facebook: "Увійти через Facebook"
     sign_in_with_gplus: "Увійти через G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_move_forward: "Щоб ви не робили, продовжуйте рухатись вперед. - Martin Luther King Jr."
     tip_google: "Не можеш вирішити задачу? Загугли її!"
     tip_adding_evil: "Додамо дрібку зла."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     lua_blurb: "Мова ігрових сценаріїв."
     io_blurb: "Проста, але дивна."
     status: "Статус"
+#    hero_type: "Type"
     weapons: "Зброя"
     weapons_warrior: "Мечі – ближній бій, жодної магії"
     weapons_ranger: "Стрілецька зброя – дистанційна атака, жодної магії"

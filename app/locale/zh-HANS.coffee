@@ -110,7 +110,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forgot_password: "忘记密码?"
     authenticate_gplus: "使用 G+ 授权"
     load_profile: "载入 G+ 档案"
-    load_email: "载入 G+ 电子邮件"
     finishing: "完成..."
     sign_in_with_facebook: "Facebook账号登录"
     sign_in_with_gplus: " G+ 账号登录"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_move_forward: "不管你做什么，前进就对了. - Martin Luther King Jr."
     tip_google: "有问题又不能解决？谷歌搜下就行了！"
     tip_adding_evil: "加入万恶的压力。"
-    tip_miss_lunch: "谁可以在使用电脑时，忘却了时间的流动的比较容易错过午饭，但往往能使梦想成真。 - Tim Berners-Lee"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     lua_blurb: "一种游戏脚本语言。"
     io_blurb: "简单而晦涩。"
     status: "状态"
+#    hero_type: "Type"
     weapons: "武器"
     weapons_warrior: "刀剑 - 近程物理攻击"
     weapons_ranger: "弓弩，火枪 - 远程物理攻击"

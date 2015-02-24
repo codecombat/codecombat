@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     forgot_password: "Parolanı mı unuttun?"
     authenticate_gplus: "G+'ı Yetkilendir"
     load_profile: "G+ Profilini Yükle"
-    load_email: "G+ E-Postasını Yükle"
     finishing: "Tamamlanıyor"
     sign_in_with_facebook: "Facebook ile Oturum Aç"
     sign_in_with_gplus: "G+ ile Oturum Aç"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     lua_blurb: "Oyun betik dili."
     io_blurb: "Basit fakat anlaşılması güç."
     status: "Durum"
+#    hero_type: "Type"
     weapons: "Silahlar"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"

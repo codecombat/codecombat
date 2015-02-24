@@ -110,7 +110,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     forgot_password: "忘記密碼?"
     authenticate_gplus: "以 Google+ 帳號登入"
     load_profile: "讀取 Google+ 個人簡介"
-    load_email: "讀取 Google+ Email"
     finishing: "結束"
     sign_in_with_facebook: "使用 Facebook 登入"
     sign_in_with_gplus: "使用 Google+ 登入"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_move_forward: "不論您做啥, 持續前進. - Martin Luther King Jr."
     tip_google: "擁有一個您不能解決的問題? Google 它!"
     tip_adding_evil: "增加一個邪惡之捏."
-    tip_miss_lunch: "任何當使用電腦時就對時間無感之人, 傾向擁有夢想, 渴望夢想成真並且容易忘記吃飯. - Tim Berners-Lee"
     tip_hate_computers: "關於自我覺得恨透電腦的那群人. 其實他們真正應該恨的事情是糟糕的程序員. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     lua_blurb: "許多遊戲引擎支援的程式語言。"
     io_blurb: "簡單但不有名。"
     status: "狀態"
+#    hero_type: "Type"
     weapons: "武器"
     weapons_warrior: "刀劍 - 短距離、非魔法"
     weapons_ranger: "十字弓, 槍砲 - 長距離、非魔法"

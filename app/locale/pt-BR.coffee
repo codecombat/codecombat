@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     forgot_password: "Esqueceu sua senha?"
     authenticate_gplus: "Autenticar com G+"
     load_profile: "Carregar Perfil do G+"
-    load_email: "Carregar email do G+"
     finishing: "Terminando"
     sign_in_with_facebook: "Conectar com Facebook"
     sign_in_with_gplus: "Conectar com G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
     tip_google: "Tem um problema que você não pode solucionar? Google!"
     tip_adding_evil: "Adicionando uma pitada de maldade."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     lua_blurb: "Linguagem de script para jogos."
     io_blurb: "Simples mas obscura."
     status: "Status"
+#    hero_type: "Type"
     weapons: "Armas"
     weapons_warrior: "Espadas - Curta distância, Sem Magia"
     weapons_ranger: "Bestas, Armas de fogo - Longa Distância, Sem Magia"

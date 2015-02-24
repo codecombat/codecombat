@@ -110,7 +110,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     forgot_password: "Elfelejtetted a jelszavad?"
     authenticate_gplus: "Csatlakozz G+ profillal"
     load_profile: "Töltsd be G+ Profilod"
-    load_email: "Töltsd be G+ Emaileket"
     finishing: "Befejezés"
     sign_in_with_facebook: "Jelentkezz be Facebook-kal"
     sign_in_with_gplus: "Jelentkezz be G+-szal"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     lua_blurb: "Játék programozó nyelv"
     io_blurb: "Egyszerű, de különleges."
     status: "Státusz"
+#    hero_type: "Type"
     weapons: "Fegyverek"
     weapons_warrior: "Kardok - Rövid hatótávolság, mágikus erő nélkül."
     weapons_ranger: "Számszeríj, Fegyverek - Nagy hatótávolság, mágikus erő nélkül."
