@@ -276,6 +276,7 @@ _.extend UserSchema.properties,
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
+  deleted: {type: 'boolean'}
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
 

@@ -220,16 +220,20 @@ UserHandler = class UserHandler extends Handler
 
   delete: (req, res, userID) ->
     # Instead of just deleting the User object, we should remove all the properties except for _id
+    # And add a `deleted: true` property
     @getDocumentForIdOrSlug userID, (err, user) => # Check first
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless user
       return @sendForbiddenError res unless @hasAccessToDocument(req, user)
       obj = user.toObject()
       for prop, val of obj
-        if !(prop is '_id')
-          user.set(prop, undefined)
-      user.set('anonymous', true)
+        user.set(prop, undefined) unless prop is '_id'
+      user.set('deleted', true)
+      
+      # Hack to get saving of Users to work. Probably should replace these props with strings
+      # so that validation doesn't get hung up on Date objects in the documents.
       delete obj.dateCreated
+
       user.save (err) => 
         return @sendDatabaseError(res, err) if err
         @sendNoContent res

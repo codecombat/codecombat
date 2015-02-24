@@ -100,7 +100,6 @@ module.exports = class AccountSettingsView extends CocoView
           Backbone.Mediator.publish("auth:logging-out", {})
           window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
           logoutUser($('#login-email').val())
-          window.location = '../'
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR
