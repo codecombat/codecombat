@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     forgot_password: "Contrasenya oblidada?"
     authenticate_gplus: "Inicia amb G+"
     load_profile: "Carrega un perfil de G+"
-    load_email: "Carregar email de G+"
     finishing: "Acabant"
     sign_in_with_facebook: "Inicia amb Facebook"
     sign_in_with_gplus: "Inicia amb G+"
@@ -135,7 +134,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     secondary: "Secundari"
     armor: "Armadura"
     accessories: "Accessoris"
-    misc: "Misc" # de Miscel·lani
+    misc: "Misc"
     books: "Llibres"
 
   common:
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     lua_blurb: "Llenguatge script per a jocs."
     io_blurb: "Senzill però obscur."
     status: "Estat"
+#    hero_type: "Type"
     weapons: "Armes"
     weapons_warrior: "Espases - Curt abast, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"

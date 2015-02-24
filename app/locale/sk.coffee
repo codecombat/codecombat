@@ -110,7 +110,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     forgot_password: "Zabudnuté heslo"
     authenticate_gplus: "Prihlásiť s G+"
     load_profile: "Nahrať G+ Profil"
-    load_email: "Nahrať G+ Email"
     finishing: "Finišujem"
     sign_in_with_facebook: "Prihlás sa s Facebookom"
     sign_in_with_gplus: "Prihlás sa s G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    lua_blurb: "Game scripting language."
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
+#    hero_type: "Type"
 #    weapons: "Weapons"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"

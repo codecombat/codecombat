@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     forgot_password: "Glemt passord?"
     authenticate_gplus: "Autentiser G+"
     load_profile: "Last G+ Profil"
-    load_email: "Last G+ Epost"
     finishing: "Fullfører"
     sign_in_with_facebook: "Logg på med Facebook"
     sign_in_with_gplus: "Logg på med G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_move_forward: "Uansett hva du gjør, beveg deg fremover. - Martin Luther King Jr."
     tip_google: "Har du et problem du ikke kan løse? Google det!"
     tip_adding_evil: "Legger til en klype ondskap!"
-    tip_miss_lunch: "Alle de som har latt tiden gå fra seg når de de bruker en datamaskin kjenner til tilbøyligheten til å drømme, trangen til å drømme og tendensen til å gå glipp av lunsj. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     lua_blurb: "Et skriptspråk for spill."
     io_blurb: "Enkelt, men obskurt."
     status: "Status"
+#    hero_type: "Type"
     weapons: "Våpen"
     weapons_warrior: "Sverd - Kort rekkevidde, ingen magi"
     weapons_ranger: "Armbrøst, Gevær - Lang rekkevidde, ingen magi"

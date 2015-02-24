@@ -3,7 +3,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     slogan: "ゲームをプレイしてコードを学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。" # Warning that shows up on mobile devices
-    play: "ゲーム\スタート" # The big play button that opens up the campaign view.
+    play: "ゲーム<br>スタート" # The big play button that opens up the campaign view.
     old_browser: "ご利用のブラウザはCodeCombatを動作させるには古すぎるようです" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "このまま進めることもできますが、正常動作は保証されません"
     ipad_browser: "悪い知らせ:CodeCombatは、iPadのブラウザでは動作しません。良い知らせ: 私達のネイティブiPadアプリはアップルの承認待ち中。"
@@ -80,17 +80,17 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
-    adventurer_suffix: "。"
+    adventurer_suffix: ""
     campaign_old_beginner: "旧初級キャンペーン"
     campaign_old_beginner_description: "プログラミングの魔法を学びましょう"
-    campaign_dev: "いろんな難しいレベルを"
+    campaign_dev: "ランダムな難しいレベル"
     campaign_dev_description: "遊びながらインタフェースを学ぼう"
-    campaign_multiplayer: "マルチプレイ・アリーナでは、"
+    campaign_multiplayer: "マルチプレイ・アリーナ"
     campaign_multiplayer_description: "コーディングで他のプレイヤーに対して格闘しましょう"
-    campaign_player_created: "プレイヤー作成レベルでは、"
+    campaign_player_created: "プレイヤー作成レベル"
     campaign_player_created_description: "仲間のウィザード達の創造力との戦いに立ち向かいます"
-    campaign_classic_algorithms: "クラシックアルゴリズムでは、"
-    campaign_classic_algorithms_description: "コンピュータサイエンスの中で最も人気のあるアルゴリズムを学ぼう"
+    campaign_classic_algorithms: "クラシックアルゴリズム"
+    campaign_classic_algorithms_description: "コンピュータサイエンスで最も人気のあるアルゴリズムを学ぼう"
 
   share_progress_modal:
     blurb: "あなたは進歩している！ CodeCombatでどんなに学んだかについて、誰かに伝えてください。"
@@ -110,7 +110,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     forgot_password: "パスワードをお忘れですか？"
     authenticate_gplus: "Google+を認証する"
     load_profile: "Google+プロフィールをロード"
-    load_email: "Google+メールをロード"
     finishing: "仕上げ中"
     sign_in_with_facebook: "Facebookでログイン"
     sign_in_with_gplus: "Google+でログイン"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_move_forward: "何をするにしても、前進し続けること。- マーティン・ルーサー・キング・ジュニア"
     tip_google: "解決できない問題がありますか？ググっちゃえ！"
     tip_adding_evil: "悪を少々加える。"
-    tip_miss_lunch: "コンピュータ使用中に時間を忘れた事のある人は夢見ることを知っている、夢を実現するために昼食を食べ忘れる傾向がある。- ティム・バーナーズリー"
     tip_hate_computers: "コンピュータを憎むと思う人についての事だ。彼らが本当に嫌いなのは下手なプログラマーだ。- ラリー・ニーヴン"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     lua_blurb: "ゲーム専用のスクリプト言語。"
     io_blurb: "シンプルだがあいまい。"
     status: "ステータス"
+#    hero_type: "Type"
     weapons: "武器"
     weapons_warrior: "剣 - 攻撃範囲:短い- 魔法使用不可"
     weapons_ranger: "クロスボウ, 銃 - 攻撃範囲:長い- 魔法使用不可"

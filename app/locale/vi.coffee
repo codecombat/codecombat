@@ -110,7 +110,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     forgot_password: "Quên mật khẩu?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
-#    load_email: "Load G+ Email"
     finishing: "Đang xong"
     sign_in_with_facebook: "Đăng nhập với Facebook"
     sign_in_with_gplus: "Đăng nhập với G+"
@@ -335,7 +334,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tip_move_forward: "Dù bạn làm gì đi chăng nữa thì hãy tiến lên và đừng bao giờ bỏ cuộc. - Martin Luther King Jr."
     tip_google: "Có vấn đề mà bạn không thể giải quyết ? Hãy sử dụng Google để tìm ra phương án!"
 #    tip_adding_evil: "Adding a pinch of evil."
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -444,6 +442,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     lua_blurb: "Ngôn ngữ hay dùng trong làm game."
 #    io_blurb: "Simple but obscure."
     status: "Tình trạng"
+#    hero_type: "Type"
     weapons: "Vũ khí"
     weapons_warrior: "Kiếm - Tầm ngắn, Không có phép thuật"
     weapons_ranger: "Nỏ, Súng - Tầm xa, Không có phép thuật"
