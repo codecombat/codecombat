@@ -50,7 +50,12 @@ module.exports.loginUser = (userObject, failure=genericFailure, nextURL=null) ->
 
 module.exports.logoutUser = ->
   FB?.logout?()
-  res = $.post('/auth/logout', {}, -> window.location.reload())
+  callback = ->
+    if (window.location.href.indexOf("/account/settings") > -1)
+      window.location = '/'
+    else
+      window.location.reload()
+  res = $.post('/auth/logout', {}, callback)
   res.fail(genericFailure)
 
 onSetVolume = (e) ->

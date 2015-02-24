@@ -48,6 +48,16 @@ else
               label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
               input#password2.form-control(name="password2", type="password")
 
+      .panel.panel-default
+        .panel-heading
+          .panel-title#delete-account-panel-title(data-i18n="account_settings.delete_account_tab")
+        .panel-body
+          .form
+            .form-group
+              label.control-label(for="email1", data-i18n="account_settings.type_in_email") Type in your email to confirm the deletion
+              input#email1.form-control(name="email1", type="text")
+            button#delete-account-button.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
+
     .col-md-6
           
       #email-panel.panel.panel-default
