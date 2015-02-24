@@ -514,7 +514,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     why_paragraph_2_prefix: "על זה מדבר תכנות. זה יהיה כיף. לא כיף כמו"
     why_paragraph_2_italic: "יאי מדליה"
     why_paragraph_2_center: "אלא כיף כמו"
-    why_paragraph_2_italic_caps: "<strong>לא אמא אני צריך לסיים את השלב!</strong>"
+    why_paragraph_2_italic_caps: "לא אמא אני צריך לסיים את השלב!"
 #    why_paragraph_2_suffix: "That's why CodeCombat is a multiplayer game, not a gamified lesson course. We won't stop until you can't stop--but this time, that's a good thing."
 #    why_paragraph_3: "If you're going to get addicted to some game, get addicted to this one and become one of the wizards of the tech age."
 #    press_title: "Bloggers/Press"
