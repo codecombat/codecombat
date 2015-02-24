@@ -367,7 +367,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-  인벤토리:
+  inventory:
     choose_inventory: "아이템 장착하기"
     equipped_item: "장착됨"
 #    required_purchase_title: "Required"
