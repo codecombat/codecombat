@@ -102,6 +102,10 @@ module.exports = class PlayItemsModal extends ModalView
       model.comingSoon = not model.getFrontFacingStats().props.length and not _.size(model.getFrontFacingStats().stats) and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
+    if itemFetcher.skip isnt 0
+      # Make sure we render the newly fetched items, except the first time (when it happens automatically).
+      @render()
+
     if needMore
       itemFetcher.skip += PAGE_SIZE
       itemFetcher.fetch({data: {skip: itemFetcher.skip, limit: PAGE_SIZE}})
