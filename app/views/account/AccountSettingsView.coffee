@@ -43,6 +43,7 @@ module.exports = class AccountSettingsView extends CocoView
   toggleEmailSubscriptions: =>
     subs = @getSubscriptions()
     $('#email-panel input[type="checkbox"]', @$el).prop('checked', not _.any(_.values(subs))).addClass('changed')
+    @trigger 'input-changed'
 
   checkNameExists: =>
     name = $('#name', @$el).val()
