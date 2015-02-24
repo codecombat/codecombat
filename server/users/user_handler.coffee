@@ -219,11 +219,18 @@ UserHandler = class UserHandler extends Handler
     return true
 
   delete: (req, res, userID) ->
+    # Instead of just deleting the User object, we should remove all the properties except for _id
     @getDocumentForIdOrSlug userID, (err, user) => # Check first
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless user
       return @sendForbiddenError res unless @hasAccessToDocument(req, user)
-      user.remove (err, user) =>
+      obj = user.toObject()
+      for prop, val of obj
+        if !(prop is '_id')
+          user.set(prop, undefined)
+      user.set('anonymous', true)
+      delete obj.dateCreated
+      user.save (err) => 
         return @sendDatabaseError(res, err) if err
         @sendNoContent res
 
