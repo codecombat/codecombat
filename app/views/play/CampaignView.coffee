@@ -393,6 +393,9 @@ module.exports = class CampaignView extends RootView
 
   onClickMap: (e) ->
     @$levelInfo?.hide()
+    if @sessions.models.length < 3
+      # Restore the next level higlight for very new players who might otherwise get lost.
+      @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
 
   onClickLevel: (e) ->
     e.preventDefault()
