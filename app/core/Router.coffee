@@ -22,7 +22,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
-    'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
+    #'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
+    'account/profile': go('EmployersView')  # Show the not-recruiting-now screen
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView')
 
@@ -100,7 +101,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
-    'user/:slugOrID/profile': go('user/JobProfileView')
+    #'user/:slugOrID/profile': go('user/JobProfileView')
+    'user/:slugOrID/profile': go('EmployersView')  # Show the not-recruiting-now screen
 
     '*name': 'showNotFoundView'
 
