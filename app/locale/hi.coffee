@@ -32,20 +32,20 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
     twitter_follow: "साथ दें"
     teachers: "शिक्षक"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "बंद करें"
+    okay: "ठीक है"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "पेज नहीं मिला"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Hindi but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Hindi."
-    missing_translations: "Until we can translate everything into Hindi, you'll see English when Hindi isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    title: "CodeCombat अनुवाद में मदद करें!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "हमें आपके भाषा कौशल की जरूरत है|"
+    pitch_body: "हम CodeCombat को अंग्रेजी में डेवेलोप करते हैं परन्तु हमारे पास दुनिया भर से लोग CodeCombat खेलते हैं| उनमें से कई हिंदी में खेलना चाहते हैं लेकिन नहीं खेल पातें है, इसलिए अगर आप दोनों भाषाओँ को जानते हैं, कृपया राजनयिक बन कर हमारी मदद करें|"
+    missing_translations: "जब तक हम हिंदी में सब कुछ अनुवाद ना कर सकें आपको अंग्रेजी में ही खेलना पड़ेगा|"
+    learn_more: "एक राजनयिक होने के बारे में और अधिक जानें"
+    subscribe_as_diplomat: "एक राजनयिक के रूप में सदस्यता लें"
 
 #  play:
 #    play_as: "Play As" # Ladder page

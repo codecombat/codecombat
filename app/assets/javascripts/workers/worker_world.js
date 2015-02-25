@@ -43,7 +43,7 @@ var console = {
       var args = [].slice.call(arguments);
       for(var i = 0; i < args.length; ++i) {
         if(args[i] && args[i].constructor) {
-          if(args[i].constructor.className === "Thang" || args[i].isComponent)
+          if(args[i].constructor.className === "Thang" || args[i].isComponent || args[i].isVector || args[i].isRectangle || args[i].isEllipse)
             args[i] = args[i].toString();
         }
       }

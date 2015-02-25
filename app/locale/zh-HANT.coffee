@@ -6,7 +6,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     play: "開始遊戲" # The big play button that opens up the campaign view.
     old_browser: "嗯... 您的瀏覽器太老了跑不動CodeCombat，抱歉！" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "您還是可以試試看，但它應該不能運行。"
-    ipad_browser: "抱歉，CodeCombat 不能在 iPad 上的瀏覽器運行，但好消息是我們的 iPad App 正在等待蘋果公司審核。"
+    ipad_browser: "抱歉，CodeCombat不能在iPad上的瀏覽器運行，但好消息是我們的iPad App正在等待蘋果公司審核。"
     campaign: "戰役"
     for_beginners: "新手專區"
     multiplayer: "多人連線" # Not currently shown on home page
@@ -442,7 +442,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     lua_blurb: "許多遊戲引擎支援的程式語言。"
     io_blurb: "簡單但不有名。"
     status: "狀態"
-#    hero_type: "Type"
+    hero_type: "种类"
     weapons: "武器"
     weapons_warrior: "刀劍 - 短距離、非魔法"
     weapons_ranger: "十字弓, 槍砲 - 長距離、非魔法"

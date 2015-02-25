@@ -28,6 +28,8 @@ candidateProperties = [
 UserHandler = class UserHandler extends Handler
   modelClass: User
 
+  allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction
@@ -211,10 +213,30 @@ UserHandler = class UserHandler extends Handler
     @put(req, res)
 
   hasAccessToDocument: (req, document) ->
-    if req.route.method in ['put', 'post', 'patch']
+    if req.route.method in ['put', 'post', 'patch', 'delete']
       return true if req.user?.isAdmin()
       return req.user?._id.equals(document._id)
     return true
+
+  delete: (req, res, userID) ->
+    # Instead of just deleting the User object, we should remove all the properties except for _id
+    # And add a `deleted: true` property
+    @getDocumentForIdOrSlug userID, (err, user) => # Check first
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless user
+      return @sendForbiddenError res unless @hasAccessToDocument(req, user)
+      obj = user.toObject()
+      for prop, val of obj
+        user.set(prop, undefined) unless prop is '_id'
+      user.set('deleted', true)
+      
+      # Hack to get saving of Users to work. Probably should replace these props with strings
+      # so that validation doesn't get hung up on Date objects in the documents.
+      delete obj.dateCreated
+
+      user.save (err) => 
+        return @sendDatabaseError(res, err) if err
+        @sendNoContent res
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'

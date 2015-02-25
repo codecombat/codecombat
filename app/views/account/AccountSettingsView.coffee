@@ -4,6 +4,8 @@ template = require 'templates/account/account-settings-view'
 forms = require 'core/forms'
 User = require 'models/User'
 AuthModal = require 'views/core/AuthModal'
+ConfirmModal = require 'views/editor/modal/ConfirmModal'
+{logoutUser, me} = require('core/auth')
 
 module.exports = class AccountSettingsView extends CocoView
   id: 'account-settings-view'
@@ -16,6 +18,7 @@ module.exports = class AccountSettingsView extends CocoView
     'click #toggle-all-button': 'toggleEmailSubscriptions'
     'click .profile-photo': 'onEditProfilePhoto'
     'click #upload-photo-button': 'onEditProfilePhoto'
+    'click #delete-account-button': 'confirmAccountDeletion'
     
   constructor: (options) ->
     super options
@@ -35,14 +38,17 @@ module.exports = class AccountSettingsView extends CocoView
 
     
   #- Form input callbacks
-  
   onInputChanged: (e) ->
     $(e.target).addClass 'changed'
-    @trigger 'input-changed'
+    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 
+      $(e.target).removeClass 'changed'
+    else  
+      @trigger 'input-changed'
 
   toggleEmailSubscriptions: =>
     subs = @getSubscriptions()
     $('#email-panel input[type="checkbox"]', @$el).prop('checked', not _.any(_.values(subs))).addClass('changed')
+    @trigger 'input-changed'
 
   checkNameExists: =>
     name = $('#name', @$el).val()
@@ -61,7 +67,49 @@ module.exports = class AccountSettingsView extends CocoView
 
     
   #- Just copied from OptionsView, TODO refactor
-    
+  
+  confirmAccountDeletion: ->
+    forms.clearFormAlerts(@$el)
+    myEmail = me.get 'email'
+    email1 = document.getElementById('email1').value
+    if Boolean(email1) and email1 is myEmail
+      renderData =
+        'confirmTitle': 'Are you really sure?'
+        'confirmBody': 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
+        'confirmDecline': 'Not really'
+        'confirmConfirm': 'Definitely'
+      confirmModal = new ConfirmModal renderData
+      confirmModal.on 'confirm', @deleteAccount
+      @openModalView confirmModal
+    else
+      message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
+      err = [message: message, property: 'email1', formatted: true]
+      forms.applyErrorsToForm(@$el, err)
+      $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+
+  deleteAccount: ->
+    myID = me.id
+    $.ajax
+      type: 'DELETE'
+      success: ->
+        noty
+          timeout: 5000
+          text: 'Your account is gone.'
+          type: 'success'
+          layout: 'topCenter'
+        _.delay ->
+          Backbone.Mediator.publish("auth:logging-out", {})
+          window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
+          logoutUser($('#login-email').val())
+        , 500
+      error: (jqXHR, status, error) ->
+        console.error jqXHR
+        timeout: 5000
+        text: "Deleting account failed with error code #{jqXHR.status}"
+        type: 'error'
+        layout: 'topCenter'
+      url: "/db/user/#{myID}"
+
   onEditProfilePhoto: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
     photoContainer = @$el.find('.profile-photo')

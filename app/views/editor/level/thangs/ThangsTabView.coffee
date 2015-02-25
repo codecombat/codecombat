@@ -675,7 +675,7 @@ module.exports = class ThangsTabView extends CocoView
     lank = @surface.lankBoss.lanks[thang.id]
     lank.update true
     lank.marks.debug?.destroy()
-    lank.marks.debug = null
+    delete lank.marks.debug
     lank.setDebug true
 
   rotateSelectedThangTo: (radians) ->

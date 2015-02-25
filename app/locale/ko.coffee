@@ -20,8 +20,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     blog: "블로그"
     forum: "포럼"
     account: "계정"
-#    profile: "Profile"
-#    stats: "Stats"
+    profile: "프로필"
+    stats: "스탯"
     code: "코드"
     admin: "관리자" # Only shows up when you are an admin
     home: "홈"
@@ -51,10 +51,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     play_as: "Play As " # Ladder page
     spectate: "관중모드" # Ladder page
 #    players: "players" # Hover over a level on /play
-#    hours_played: "hours played" # Hover over a level on /play
+    hours_played: "플레이한 시간" # Hover over a level on /play
     items: "아이템" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    confirm: "확인"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
@@ -75,7 +75,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     campaign_beginner: "초보자 캠페인"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_suffix: "새로운 레벨을 가장 먼저 체험하세요!"
 #    adjust_volume: "Adjust volume"
     choose_your_level: "레벨을 선택하세요." # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "아래에 있는 아무 레벨이나 바로 시작하실 수 있습니다. 또는 포럼에서 레벨에 관해 토론하세요 :"
@@ -107,7 +107,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     log_in: "로그인"
     logging_in: "로그인 중"
     log_out: "로그아웃"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "비밀번호를 잊으셨나요?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
@@ -122,12 +122,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     log_in: "비밀번호로 로그인"
     social_signup: "또는 페이스북이나 구글 플러스로 계정을 만들 수 있습니다."
     required: "진행하기 전에 로그인이 필요합니다."
-#    login_switch: "Already have an account?"
+    login_switch: "이미 계정이 있으신가요?"
 
   recover:
     recover_account_title: "계정 복구"
     send_password: "복구 비밀번호 전송"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "메일 전송 완료"
 
   items:
 #    primary: "Primary"
@@ -154,7 +154,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     retry: "재시도"
 #    actions: "Actions"
 #    info: "Info"
-#    help: "Help"
+    help: "도움말"
     watch: "보기"
     unwatch: "보기 해제"
     submit_patch: "패치 제출"
@@ -228,8 +228,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     done: "완료"
     home: "홈" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    skip: "Skip"
+    game_menu: "게임 메뉴"
     guide: "가이드"
     restart: "재시작"
     goals: "목표"
@@ -254,13 +254,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_sign_up_poke: "코드를 저장하고 싶으세요? 지금 등록하세요!"
     victory_rate_the_level: "이번 레벨 평가: " # Only in old-style levels.
     victory_return_to_ladder: "레더로 돌아가기"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "계속하기"
 #    victory_saving_progress: "Saving Progress"
     victory_go_home: "홈으로" # Only in old-style levels.
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
-#    victory_experience_gained: "XP Gained"
+    victory_experience_gained: "획득한 경험치"
 #    victory_gems_gained: "Gems Gained"
     guide_title: "가이드"
     tome_minion_spells: "미니언의 마법" # Only in old-style levels.
@@ -311,7 +311,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
-#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+    tip_no_try: "하든가 하지 말든가. 시도같은 건 없어. - 요다"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "성공하기 전까진 불가능해 보이는 법이죠. - Nelson Mandela"
@@ -325,23 +325,23 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_superpower: "Coding is the closest thing we have to a superpower."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
-#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
+    tip_code_never_lies: "코드는 절대로 거짓말을 하지 않는다. 주석은 가끔 하지만.  — Ron Jeffries"
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
-#    tip_google: "Have a problem you can't solve? Google it!"
+    tip_google: "문제가 너무 어렵다구요? 구글로 검색해보세요!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
-#    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
-#    guide_tab: "Guide"
-#    guide_video_tutorial: "Video Tutorial"
+    inventory_tab: "인벤토리"
+    save_load_tab: "저장하기/불러오기"
+    options_tab: "옵션"
+    guide_tab: "가이드"
+    guide_video_tutorial: "영상 튜토리얼"
 #    guide_tips: "Tips"
     multiplayer_tab: "멀티 플레이"
 #    auth_tab: "Sign Up"
@@ -367,11 +367,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
-#    equipped_item: "Equipped"
+  inventory:
+    choose_inventory: "아이템 장착하기"
+    equipped_item: "장착됨"
 #    required_purchase_title: "Required"
-#    available_item: "Available"
+    available_item: "사용 가능"
 #    restricted_title: "Restricted"
 #    should_equip: "(double-click to equip)"
 #    equipped: "(equipped)"
@@ -483,9 +483,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
-#    volume_label: "Volume"
+    volume_label: "볼륨"
     music_label: "음악"
-#    music_description: "Turn background music on/off."
+    music_description: "배경음악 ON/OFF"
 #    autorun_label: "Autorun"
 #    autorun_description: "Control automatic code execution."
     editor_config: "에디터 설정"
@@ -612,14 +612,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     new_password: "새 비밀번호"
     new_password_verify: "확인(다시한번 입력해주세요)"
     email_subscriptions: "이메일 구독"
-#    email_subscriptions_none: "No Email Subscriptions."
+    email_subscriptions_none: "이메일 구독 안 함"
     email_announcements: "공지사항"
     email_announcements_description: "코드 컴뱃의 개발 및 진행 상황을 이메일로 구독하세요"
     email_notifications: "알람"
     email_notifications_summary: "당신의 코드 컴뱃 활동과 관련된 자동 알림 메일을 설정할 수 있습니다."
     email_any_notes: "모든 알림 받기"
     email_any_notes_description: "모든 알림 메일 받지 않기"
-#    email_news: "News"
+    email_news: "뉴스"
     email_recruit_notes: "구인 정보"
     email_recruit_notes_description: "정말 실력이 좋으시다고 판단되면, 보다 좋은 구직 정보와 관련하여 연락드릴 수도 있습니다."
     contributor_emails: "조력자들 이메일"
@@ -642,7 +642,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     space: "스페이스"
     enter: "엔터"
     escape: "Esc"
-#    shift: "Shift"
+    shift: "Shift"
 #    run_code: "Run current code."
 #    run_real_time: "Run in real time."
 #    continue_script: "Continue past current script."
@@ -710,7 +710,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     desert: "사막"
     grassy: "풀로 덮인"
     small: "작게"
-#    large: "Large"
+    large: "크게"
     fork_title: "새 버전 가져오기"
     fork_creating: "포크 생성중..."
 #    generate_terrain: "Generate Terrain"
