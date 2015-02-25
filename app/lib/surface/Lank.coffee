@@ -103,6 +103,7 @@ module.exports = Lank = class Lank extends CocoClass
 
   setSprite: (newSprite) ->
     if @sprite
+      @sprite.off 'animationend', @playNextAction
       @sprite.destroy?()
       if parent = @sprite.parent
         parent.removeChild @sprite

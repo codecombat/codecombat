@@ -427,8 +427,7 @@ $gameControlMargin: 30px
         &.sorcerer
           background-position: (-12 * $spriteSheetSize) 0
 
-
-  #volume-button
+  .campaign-control-button
     position: absolute
     right: 1%
     top: 1%
@@ -439,8 +438,11 @@ $gameControlMargin: 30px
       @include opacity(1.0)
 
     .glyphicon
-      display: none
       font-size: 32px
+
+  #volume-button
+    .glyphicon
+      display: none
 
     &.vol-up .glyphicon.glyphicon-volume-up
       display: inline-block
@@ -454,20 +456,11 @@ $gameControlMargin: 30px
     &.vol-down .glyphicon.glyphicon-volume-down
       display: inline-block
 
-  #back-button
+  #back-button, #clear-storage-button
     position: absolute
     right: 70px
     right: -webkit-calc(1% + 55px)
     right: calc(1% + 55px)
-    top: 1%
-    padding: 3px 8px
-    @include opacity(0.75)
-
-    &:hover
-      @include opacity(1.0)
-
-    .glyphicon
-      font-size: 32px
 
   #campaign-status
     position: absolute
