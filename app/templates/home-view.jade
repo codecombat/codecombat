@@ -30,7 +30,7 @@ block outer_content
       strong(data-i18n="home.ipad_browser") Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval.
 
 block extra_footer_content
-  if true || explainHourOfCode
+  if explainHourOfCode
     // Does not show up unless lang is en-US.
     div.hour-of-code-explanation
       | The 'Hour of Code' is a nationwide initiative by 
