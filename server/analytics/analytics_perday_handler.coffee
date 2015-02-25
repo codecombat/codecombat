@@ -109,7 +109,7 @@ class AnalyticsPerDayHandler extends Handler
         campaignOriginalSlugs = []
         for doc in documents
           campaignOriginalSlugs.push
-            slug: doc.get('name').toLowerCase().replace new RegExp(' ', 'g'), '-'
+            slug: _.str.slugify(doc.get('name'))
             original: doc.get('original').toString()
 
         # Sort slugs against original levels from campaign
