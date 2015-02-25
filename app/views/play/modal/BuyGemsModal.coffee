@@ -70,6 +70,7 @@ module.exports = class BuyGemsModal extends ModalView
       stripeHandler.open({
         description: $.t(product.i18n)
         amount: product.amount
+        bitcoin: true
       })
 
     @productBeingPurchased = product

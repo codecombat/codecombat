@@ -447,7 +447,8 @@ module.exports = class Handler
     docLink = "http://codecombat.com#{editPath}"
     @sendChangedHipChatMessage creator: editor, target: changedDocument, docLink: docLink
     watchers = changedDocument.get('watchers') or []
-    watchers = (w for w in watchers when not w.equals(editor.get('_id')))
+    # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
+    watchers = (w for w in watchers when not w.equals(editor.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
     return unless watchers.length
     User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
       for watcher in watchers
@@ -477,9 +478,7 @@ module.exports = class Handler
       watchers = [req.user.get('_id')]
       if req.user.isAdmin()  # https://github.com/codecombat/codecombat/issues/1105
         nick = mongoose.Types.ObjectId('512ef4805a67a8c507000001')
-        scott = mongoose.Types.ObjectId('5162fab9c92b4c751e000274')
         watchers.push nick unless _.find watchers, (id) -> id.equals nick
-        watchers.push scott unless _.find watchers, (id) -> id.equals scott
       model.set 'watchers', watchers
     model
 

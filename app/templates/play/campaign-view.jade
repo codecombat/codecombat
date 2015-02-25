@@ -107,14 +107,18 @@ else
         button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
 
-button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
   .glyphicon.glyphicon-volume-off
   .glyphicon.glyphicon-volume-down
   .glyphicon.glyphicon-volume-up
 
-if campaign
-  button.btn.btn-lg.btn-inverse#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
+if campaign && !editorMode
+  button.btn.btn-lg.btn-inverse.campaign-control-button#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
     .glyphicon.glyphicon-globe
+
+if editorMode
+  button.btn.btn-lg.btn-inverse.campaign-control-button#clear-storage-button(data-i18n="[title]editor.clear_storage", title="Clear your local changes")
+    .glyphicon.glyphicon-refresh
 
 if campaign && campaign.loaded
   h1#campaign-status

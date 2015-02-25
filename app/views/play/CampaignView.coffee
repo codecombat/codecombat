@@ -48,6 +48,7 @@ module.exports = class CampaignView extends RootView
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click #volume-button': 'onToggleVolume'
     'click #back-button': 'onClickBack'
+    'click #clear-storage-button': 'onClickClearStorage'
     'click .portal .campaign': 'onClickPortalCampaign'
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
@@ -530,6 +531,15 @@ module.exports = class CampaignView extends RootView
       route: "/play"
       viewClass: CampaignView
       viewArgs: [{supermodel: @supermodel}]
+
+  onClickClearStorage: (e) ->
+    localStorage.clear()
+    noty {
+      text: 'Local storage cleared. Reload to view the original campaign.'
+      layout: 'topCenter'
+      timeout: 5000
+      type: 'information'
+    }
 
   updateHero: ->
     return unless hero = me.get('heroConfig')?.thangType

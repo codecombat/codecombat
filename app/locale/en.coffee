@@ -780,6 +780,7 @@
     level_completion: "Level Completion"
     pop_i18n: "Populate I18N"
     tasks: "Tasks"
+    clear_storage: "Clear your local changes"
 
   article:
     edit_btn_preview: "Preview"
