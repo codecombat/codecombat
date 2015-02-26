@@ -297,6 +297,13 @@ module.exports = class PlayHeroesModal extends ModalView
     hero = @selectedHero?.get('original')
     unless hero
       console.error 'Somehow we tried to hide without having a hero selected yet...'
+      noty {
+        text: "Error: hero not loaded. If this keeps happening, please report the bug."
+        layout: 'topCenter'
+        timeout: 10000
+        type: 'error'
+      }
+      return
 
     if @session
       changed = @updateHeroConfig(@session, hero)
