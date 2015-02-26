@@ -5,3 +5,4 @@ module.exports = class Article extends CocoModel
   @schema: require 'schemas/models/article'
   urlRoot: '/db/article'
   saveBackups: true
+  editableByArtisans: true

@@ -18,6 +18,11 @@
             h3(data-i18n=product.i18n)
             button.btn.btn-illustrated.btn-lg(value=product.id)
               span= product.price
+
+        .product
+          h4 x3500 / mo
+          h3(data-i18n="account.subscription")
+          button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
                 
       if state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
@@ -40,8 +45,4 @@
             
       div#close-modal
         span.glyphicon.glyphicon-remove
-
-      #or-subscribe
-        span(data-i18n="buy_gems.or_subscribe") Or 3500 gems/mo if you...
-        br
-        button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+        

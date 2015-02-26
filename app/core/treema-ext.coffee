@@ -34,7 +34,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     valEl.append($('<div class="preview"></div>').hide())
 
   addImageUpload: (valEl) ->
-    return unless me.isAdmin()
+    return unless me.isAdmin() or me.isArtisan()
     valEl.append(
       $('<div class="pick-image-button"></div>').append(
         $('<button>Pick Image</button>')

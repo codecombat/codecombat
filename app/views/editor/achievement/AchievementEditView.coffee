@@ -51,7 +51,7 @@ module.exports = class AchievementEditView extends RootView
   getRenderData: (context={}) ->
     context = super(context)
     context.achievement = @achievement
-    context.authorized = me.isAdmin()
+    context.authorized = me.isAdmin() or me.isArtisan()
     context
 
   afterRender: ->

@@ -21,7 +21,7 @@ module.exports = class BuyGemsModal extends ModalView
     'stripe:received-token': 'onStripeReceivedToken'
 
   events:
-    'click .product button': 'onClickProductButton'
+    'click .product button:not(.start-subscription-button)': 'onClickProductButton'
     'click #close-modal': 'hide'
     'click .start-subscription-button': 'onClickStartSubscription'
 

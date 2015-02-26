@@ -42,6 +42,10 @@ UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
 
+UserSchema.methods.isArtisan = ->
+  p = @get('permissions')
+  return p and 'artisan' in p
+
 UserSchema.methods.isAnonymous = ->
   @get 'anonymous'
 
@@ -206,6 +210,7 @@ UserSchema.methods.register = (done) ->
 
 UserSchema.methods.isPremium = ->
   return true if @isInGodMode()
+  return true if @isAdmin()
   return false unless stripeObject = @get('stripe')
   return true if stripeObject.subscriptionID
   return true if stripeObject.free is true

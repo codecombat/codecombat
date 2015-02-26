@@ -11,7 +11,7 @@ nav.navbar.navbar-default(role='navigation')
       a(href="#system-patches" data-toggle="tab" data-i18n="resources.patches")#system-patches-tab Patches
 
   ul.nav.navbar-nav.navbar-right
-    if !me.isAdmin()
+    if !me.isAdmin() && !me.isArtisan()
       li#patch-system-button
         a(data-i18n="[title]common.submit_patch")
           span.glyphicon-floppy-disk.glyphicon

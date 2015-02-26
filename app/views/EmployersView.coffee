@@ -27,20 +27,24 @@ module.exports = class EmployersView extends RootView
 
   constructor: (options) ->
     super options
+    return
     @candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
     @setFilterDefaults()
 
   onLoaded: ->
     super()
+    return
     @setUpScrolling()
 
   afterRender: ->
     super()
+    return
     @sortTable() if @candidates.models.length
     @renderSavedFilters()
 
   afterInsert: ->
     super()
+    return
     _.delay @checkForEmployerSignupHash, 500
     #fairly hacky, change this in the future
     @originalBackgroundColor = $('body').css 'background-color'
@@ -176,6 +180,7 @@ module.exports = class EmployersView extends RootView
 
   getRenderData: ->
     ctx = super()
+    return ctx
     ctx.isEmployer = @isEmployer()
     #If you change the candidates displayed, change candidatesInFilter()
     ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience

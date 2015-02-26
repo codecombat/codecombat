@@ -21,11 +21,13 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 
 ### [Join Us!](http://blog.codecombat.com/why-you-should-open-source-your-startup)
 
+![Nick Winter](http://codecombat.com/images/pages/about/nick_small.png)
 ![George Saines](http://codecombat.com/images/pages/about/george_small.png)
 ![Scott Erickson](http://codecombat.com/images/pages/about/scott_small.png)
-![Nick Winter](http://codecombat.com/images/pages/about/nick_small.png)
-![Michael Schmatz](http://codecombat.com/images/pages/about/michael_small.png)
 ![Matt Lott](http://codecombat.com/images/pages/about/matt_small.png)
+![Catherine Weresow](http://codecombat.com/images/pages/about/cat_small.png)
+![Michael Schmatz](http://codecombat.com/images/pages/about/michael_small.png)
+![Josh Lee](http://codecombat.com/images/pages/about/josh_small.png)
 ![Jeremy Arns](http://codecombat.com/images/pages/about/jeremy_small.png)
 ![Alex Cotsarelis](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Cotsarelis/alex_100.png)
 ![Alexandru Caciulescu](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alexandru%20Caciulescu/alexandru_100.png)
@@ -64,6 +66,10 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ![Tom Steinbrecher](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Tom%20Steinbrecher/tom_100.png)
 ![Yang Shun Tay](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Yang%20Shun%20Tay/yang_shun_tay_100.png)
 ![Zach Martin](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Zach%20Martin/zack_100.png)
+![Alex Crooks](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Crooks/alex_100.png)
+![Danny Whittaker](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Danny%20Whittaker/danny_100.png)
+![Kevin Holland](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Kevin%20Holland/kevin_100.png)
+
 
 
 ----------

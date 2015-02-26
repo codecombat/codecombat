@@ -17,7 +17,7 @@ module.exports.setup = (app) ->
     return res.end()
 
 createMailContext = (req, done) ->
-  sender = req.body.sender
+  sender = req.body.sender or req.body.email
   message = req.body.message
   user = req.user
   recipientID = req.body.recipientID

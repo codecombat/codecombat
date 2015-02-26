@@ -744,3 +744,75 @@ module.exports.thangNames = thangNames =
     'Warlegs'
     'Xul Gor'
   ]
+  'Horse': [
+    # TODO: horse names
+    'Wildsilver'
+    'Fleetfire'
+    'Ed'
+  ]
+  'Trapper': [
+    'Senick'
+  ]
+  'Forest Archer': [
+    'Naria'
+  ]
+  'Frog': [
+    'Bighead'
+    'Hypnotoad'
+    'Freddy'
+    'Frogger'
+    'Froggy'
+    'Slippy'
+    'Wart'
+    'Bufo'
+    'Bunda'
+    'Dan\'l Webster'
+    'Mr. Toad'
+    'Trevor'
+    'Wei Qi'
+  ]
+  'Raven': [
+    # TODO: raven names
+    'Nevermore'
+  ]
+  'Cougar': [
+    # TODO: cougar/puma/catamount/mountain lion/jaguar names
+    'Kitty'
+  ]
+  'Raider': [
+    'Arryn'
+  ]
+  'Goliath': [
+    'Okar'
+  ]
+  'Guardian': [
+    'Illia'
+  ]
+  'Pixie': [
+    'Zana'
+  ]
+  'Assassin': [
+    'Ritic'
+  ]
+  'Necromancer': [
+    'Nalfar'
+  ]
+  'Dark Wizard': [
+    'Usara'
+  ]
+  'Paladin': [
+    # TODO: paladin names (female)
+    'Celadia'
+  ]
+  'Ogre Witch': [
+    # TODO: ogre witch names
+    'Vyrryx'
+  ]
+  'Ogre Chieftain': [
+    # TODO: ogre chieftain names (female)
+    'Zagra Ux'
+  ]
+  'Ogre Warlock': [
+    # TODO: ogre warlock names
+    'Vyrryx'
+  ]

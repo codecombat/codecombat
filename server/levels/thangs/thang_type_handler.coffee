@@ -43,7 +43,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
   hasAccessToDocument: (req, document, method=null) ->
     method = (method or req.method).toLowerCase()
     return true if method is 'get'
-    return true if req.user?.isAdmin()
+    return true if req.user?.isAdmin() or req.user?.isArtisan()
     return true if method is 'post' and @isJustFillingTranslations(req, document)
     return
 

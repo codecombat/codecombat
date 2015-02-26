@@ -12,6 +12,7 @@ module.exports = class User extends CocoModel
   notyErrors: false
 
   isAdmin: -> 'admin' in @get('permissions', true)
+  isArtisan: -> 'artisan' in @get('permissions', true)
   isInGodMode: -> 'godmode' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
@@ -171,6 +172,7 @@ module.exports = class User extends CocoModel
 
   isPremium: ->
     return true if me.isInGodMode()
+    return true if me.isAdmin()
     return false unless stripe = @get('stripe')
     return true if stripe.subscriptionID
     return true if stripe.free is true

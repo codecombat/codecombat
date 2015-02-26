@@ -27,6 +27,7 @@ module.exports = class ThangType extends CocoModel
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
   building: {}
+  editableByArtisans: true
 
   initialize: ->
     super()

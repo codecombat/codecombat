@@ -5,6 +5,7 @@ module.exports = class Achievement extends CocoModel
   @className: 'Achievement'
   @schema: require 'schemas/models/achievement'
   urlRoot: '/db/achievement'
+  editableByArtisans: true
 
   isRepeatable: ->
     @get('proportionalTo')?
@@ -12,7 +13,7 @@ module.exports = class Achievement extends CocoModel
   getExpFunction: ->
     func = @get('function', true)
     return utils.functionCreators[func.kind](func.parameters) if func.kind of utils.functionCreators
-    
+
   save: ->
     @populateI18N()
     super(arguments...)

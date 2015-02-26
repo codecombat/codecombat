@@ -10,11 +10,7 @@
 
 // Drop count: last started or finished level event for a given unique user
 
-// TODO: Why are Mixpanel level finish events significantly lower?
-// TODO: dungeons-of-kithgard completion rate is 62% vs. 77%
-// TODO: Similar start events, finish events off by 20% (5334 vs 6486)
-// TODO: Are Mixpanel rates accounting for finishing steps likely to be completed in the future?
-// TODO: Use Mixpanel export API to investigate
+// TODO: Convert this to a node script so it can use proper libraries (e.g. slugify)
 
 try {
   var scriptStartTime = new Date();
@@ -91,6 +87,17 @@ catch(err) {
 
 // *** Helper functions ***
 
+function slugify(text)
+// https://gist.github.com/mathewbyrne/1280286
+{
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+}
+
 function log(str) {
   print(new Date().toISOString() + " " + str);
 }
@@ -158,7 +165,7 @@ function getLevelFunnelData(startDay, eventFunnel) {
     var level;
 
     // TODO: Switch to properties.levelID for 'Saw Victory'
-    if (event === 'Saw Victory' && properties.level) level = properties.level.toLowerCase().replace(/ /g, '-');
+    if (event === 'Saw Victory' && properties.level) level = slugify(properties.level);
     else if (properties.levelID) level = properties.levelID
     else continue
 
@@ -228,7 +235,7 @@ function getLevelDropCounts(startDay, events) {
     var level;
 
     // TODO: Switch to properties.levelID for 'Saw Victory'
-    if (event === 'Saw Victory' && properties.level) level = properties.level.toLowerCase().replace(/ /g, '-');
+    if (event === 'Saw Victory' && properties.level) level = slugify(properties.level);
     else if (properties.levelID) level = properties.levelID
     else continue
 
@@ -308,7 +315,7 @@ function getLevelSubscriptionCounts(startDay) {
   var queryParams = {$and: [
     {_id: {$gte: startObj}},
     {$or: [
-      {$and: [{'event': 'Show subscription modal'}, {'properties.level': {$exists: true}}]}, 
+      {$and: [{'event': 'Show subscription modal'}, {'properties.level': {$exists: true}}]},
       {'event': 'Finished subscription purchase'}]
     }
   ]};
@@ -331,13 +338,13 @@ function getLevelSubscriptionCounts(startDay) {
 
       // TODO: This is for legacy data.
       // TODO: Event tracking updated to use level slug for loading level view on ~1/21/15
-      level = level.toLowerCase().replace(/ /g, '-');
+      level = slugify(level);
 
       if (!userDataMap[user][event]) userDataMap[user][event] = {};
       if (!userDataMap[user][event][level] || userDataMap[user][event][level].localeCompare(day) > 0) {
         userDataMap[user][event][level] = day;
       }
-    } 
+    }
     else if (event === 'Finished subscription purchase') {
       if (!userDataMap[user][event] || userDataMap[user][event].localeCompare(day) > 0) {
         userDataMap[user][event] = day;
