@@ -83,8 +83,8 @@ else
   button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
   if me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp
     button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
+  button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
   if me.isAdmin()
-    button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
     button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   else if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")

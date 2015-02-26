@@ -42,6 +42,10 @@ UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
 
+UserSchema.methods.isArtisan = ->
+  p = @get('permissions')
+  return p and 'artisan' in p
+
 UserSchema.methods.isAnonymous = ->
   @get 'anonymous'
 

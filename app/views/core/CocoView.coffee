@@ -251,7 +251,7 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading = null
 
   showReadOnly: ->
-    return if me.isAdmin()
+    return if me.isAdmin() or me.isArtisan()
     warning = $.i18n.t 'editor.read_only_warning2', defaultValue: 'Note: you can\'t save any edits here, because you\'re not logged in.'
     noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 

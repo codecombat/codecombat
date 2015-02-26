@@ -1,4 +1,3 @@
-
 config = require '../../../server_config'
 require '../common'
 
@@ -19,7 +18,7 @@ describe '/db/user, editing stripe.couponID property', ->
   #- shared data between tests
   joeData = null
   firstSubscriptionID = null
-  
+
   it 'does not work for non-admins', (done) ->
     loginJoe (joe) ->
       joeData = joe.toObject()
@@ -29,14 +28,14 @@ describe '/db/user, editing stripe.couponID property', ->
         expect(res.statusCode).toBe(200) # fails silently
         expect(res.body.stripe).toBeUndefined() # but still fails
         done()
-        
+
   it 'does not work with invalid coupons', (done) ->
     loginAdmin (admin) ->
       joeData.stripe = { couponID: 'DNE' }
       request.put {uri: userURL, json: joeData }, (err, res, body) ->
         expect(res.statusCode).toBe(404)
         done()
-  
+
   it 'sets the couponID on a user without an existing stripe object', (done) ->
     joeData.stripe = { couponID: '20pct' }
     request.put {uri: userURL, json: joeData }, (err, res, body) ->
@@ -44,7 +43,7 @@ describe '/db/user, editing stripe.couponID property', ->
       expect(res.statusCode).toBe(200)
       expect(body.stripe.couponID).toBe('20pct')
       done()
-      
+
   it 'just updates the couponID when it changes and there is no existing subscription', (done) ->
     joeData.stripe.couponID = '500off'
     request.put {uri: userURL, json: joeData }, (err, res, body) ->
@@ -80,10 +79,10 @@ describe '/db/user, editing stripe.couponID property', ->
           expect(res.statusCode).toBe(200)
           stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
             expect(customer.discount).toBeDefined()
-            expect(customer.discount.coupon.id).toBe('500off')
+            expect(customer.discount?.coupon.id).toBe('500off')
             done()
-  
-          
+
+
   it 'updates the discount on the customer when an admin changes the couponID', (done) ->
     loginAdmin (admin) ->
       joeData.stripe.couponID = '20pct'
@@ -93,7 +92,7 @@ describe '/db/user, editing stripe.couponID property', ->
         stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
           expect(customer.discount.coupon.id).toBe('20pct')
           done()
-      
+
   it 'removes discounts from the customer when an admin removes the couponID', (done) ->
     delete joeData.stripe.couponID
     request.put {uri: userURL, json: joeData }, (err, res, body) ->
@@ -111,4 +110,3 @@ describe '/db/user, editing stripe.couponID property', ->
       stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
         expect(customer.discount.coupon.id).toBe('20pct')
         done()
-        

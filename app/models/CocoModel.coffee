@@ -233,6 +233,7 @@ class CocoModel extends Backbone.Model
     # actor is a User object
     actor ?= me
     return true if actor.isAdmin()
+    return true if actor.isArtisan() and @editableByArtisans
     for permission in (@get('permissions', true) ? [])
       if permission.target is 'public' or actor.get('_id') is permission.target
         return true if permission.access in ['owner', 'read']
@@ -243,6 +244,7 @@ class CocoModel extends Backbone.Model
     # actor is a User object
     actor ?= me
     return true if actor.isAdmin()
+    return true if actor.isArtisan() and @editableByArtisans
     for permission in (@get('permissions', true) ? [])
       if permission.target is 'public' or actor.get('_id') is permission.target
         return true if permission.access in ['owner', 'write']
