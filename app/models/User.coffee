@@ -117,51 +117,15 @@ module.exports = class User extends CocoModel
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
 
-  getGemPromptGroup: ->
-    # A/B Testing whether extra prompt when low gems leads to more gem purchases
-    # TODO: Rename gem purchase event in BuyGemsModal to 'Started gem purchase' after this test is over
-    return @gemPromptGroup if @gemPromptGroup
+  getFourthLevelGroup: ->
+    return @fourthLevelGroup if @fourthLevelGroup
     group = me.get('testGroupNumber') % 8
-    @gemPromptGroup = switch group
-      when 0, 1, 2, 3 then 'prompt'
-      when 4, 5, 6, 7 then 'no-prompt'
-    @gemPromptGroup = 'prompt' if me.isAdmin()
-    application.tracker.identify gemPromptGroup: @gemPromptGroup unless me.isAdmin()
-    @gemPromptGroup
-
-  getForeshadowsLevels: ->
-    return false if $.browser.msie
-    return @foreshadowsLevels if @foreshadowsLevels?
-    group = me.get('testGroupNumber') % 16
-    @foreshadowsLevels = switch group
-      when 0, 1, 2, 3, 4, 5, 6, 7 then true
-      when 8, 9, 10, 11, 12, 13, 14, 15 then false
-    @foreshadowsLevels = true if me.isAdmin()
-    application.tracker.identify foreshadowsLevels: @foreshadowsLevels unless me.isAdmin()
-    @foreshadowsLevels
-
-  getLeaderboardsGroup: ->
-    return @leaderboardsGroup if @leaderboardsGroup?
-    group = me.get('testGroupNumber') % 64
-    if group < 16
-      @leaderboardsGroup = 'always'
-    else if group < 32
-      @leaderboardsGroup = 'early'
-    else if group < 48
-      @leaderboardsGroup = 'late'
-    else
-      @leaderboardsGroup = 'never'
-    @leaderboardsGroup = 'always' if me.isAdmin()
-    application.tracker.identify leaderboardsGroup: @leaderboardsGroup unless me.isAdmin()
-    @leaderboardsGroup
-
-  getShowsPortal: ->
-    return @showsPortal if @showsPortal?
-    group = me.get('testGroupNumber')
-    @showsPortal = if group < 128 then true else false
-    @showsPortal = true if me.isAdmin()
-    application.tracker.identify showsPortal: @showsPortal unless me.isAdmin()
-    @showsPortal
+    @fourthLevelGroup = switch group
+      when 0, 1, 2, 3 then 'signs-and-portents'
+      when 4, 5, 6, 7 then 'forgetful-gemsmith'
+    @fourthLevelGroup = 'signs-and-portents' if me.isAdmin()
+    application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
+    @fourthLevelGroup
 
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles

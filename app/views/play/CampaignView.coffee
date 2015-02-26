@@ -59,8 +59,6 @@ module.exports = class CampaignView extends RootView
     @editorMode = options?.editorMode
     if @editorMode
       @terrain ?= 'dungeon'
-    else unless me.getShowsPortal()
-      @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
@@ -160,6 +158,9 @@ module.exports = class CampaignView extends RootView
     context = super(context)
     context.campaign = @campaign
     context.levels = _.values($.extend true, {}, @campaign?.get('levels') ? {})
+    if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
+      reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
+      context.levels = _.reject context.levels, slug: reject
     @annotateLevel level for level in context.levels
     count = @countLevels context.levels
     context.levelsCompleted = count.completed
@@ -257,6 +258,7 @@ module.exports = class CampaignView extends RootView
     level.locked = false if me.isInGodMode()
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
+    level.locked = false
     level.color = 'rgb(255, 80, 60)'
     if level.requiresSubscription
       level.color = 'rgb(80, 130, 200)'
@@ -323,7 +325,7 @@ module.exports = class CampaignView extends RootView
     @playAmbientSound()
 
   testParticles: ->
-    return unless @campaign?.loaded and me.getForeshadowsLevels()
+    return unless @campaign?.loaded and $.browser.chrome  # Sometimes this breaks in non-Chrome browsers, according to A/B tests.
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
