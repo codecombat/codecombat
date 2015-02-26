@@ -345,10 +345,10 @@ LevelHandler = class LevelHandler extends Handler
       @sendSuccess res, data
 
   hasAccessToDocument: (req, document, method=null) ->
+    return true if req.user?.isArtisan()
     method ?= req.method
     return true if method is null or method is 'get'
     super(req, document, method)
-
 
   getLevelPlaytimesBySlugs: (req, res) ->
     # Returns an array of per-day level average playtimes
