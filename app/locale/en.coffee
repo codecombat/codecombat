@@ -932,7 +932,6 @@
   account:
     recently_played: "Recently Played"
     no_recent_games: "No games played during the past two weeks."
-    profile: "Profile"
     payments: "Payments"
     purchased: "Purchased"
     subscription: "Subscription"
