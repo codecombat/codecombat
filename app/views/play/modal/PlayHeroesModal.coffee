@@ -295,6 +295,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
   saveAndHide: ->
     hero = @selectedHero?.get('original')
+    hero ?= @visibleHero?.get('original') if @visibleHero?.loaded and not @visibleHero.locked
     unless hero
       console.error 'Somehow we tried to hide without having a hero selected yet...'
       noty {

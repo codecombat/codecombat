@@ -128,7 +128,7 @@ module.exports.getTwoGames = (req, res) ->
   ogresGameID = req.body.ogresGameID
   return if simulatorIsTooOld req, res
   #ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
-  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']
+  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland']
   levelID = _.sample ladderGameIDs
   sortLimit = 200
   unless ogresGameID and humansGameID
