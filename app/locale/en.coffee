@@ -391,7 +391,7 @@
     prompt_body: "Do you want to get more?"
     prompt_button: "Enter Shop"
     recovered: "Previous gems purchase recovered. Please refresh the page."
-    or_subscribe: "Or 3500 gems/mo if you..."
+    price: "x3500 / mo"
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
@@ -534,10 +534,10 @@
     cat_blurb: "Airbender"
     josh_title: "Game Designer"
     josh_blurb: "Floor Is Lava"
-    retrostyle_title: "Illustration"
-    retrostyle_blurb: "RetroStyle"
     jose_title: "Music"
     jose_blurb: "Taking Off"
+    retrostyle_title: "Illustration"
+    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
     title: "CodeCombat for Teachers"
