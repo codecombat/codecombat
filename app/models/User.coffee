@@ -171,6 +171,7 @@ module.exports = class User extends CocoModel
 
   isPremium: ->
     return true if me.isInGodMode()
+    return true if me.isAdmin()
     return false unless stripe = @get('stripe')
     return true if stripe.subscriptionID
     return true if stripe.free is true
