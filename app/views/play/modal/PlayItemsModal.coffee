@@ -216,9 +216,6 @@ module.exports = class PlayItemsModal extends ModalView
     return @openModalView authModal
 
   askToBuyGems: (unlockButton) ->
-    if me.getGemPromptGroup() is 'no-prompt'
-      return @askToSignUp() if me.get('anonymous')
-      return @openModalView new BuyGemsModal()
     @$el.find('.unlock-button').popover 'destroy'
     popoverTemplate = buyGemsPromptTemplate {}
     unlockButton.popover(

@@ -150,11 +150,7 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = me.get('hourOfCode') and showDone
 
-    if @level.get('scoreTypes')?.length
-      lg = me.getLeaderboardsGroup()
-      c.showLeaderboard = lg is 'always'
-      c.showLeaderboard = true if me.level() >= 3 and lg.group is 'early'
-      c.showLeaderboard = true if me.level() >= 5 and lg.group is 'late'
+    c.showLeaderboard = @level.get('scoreTypes')?.length > 0
 
     return c
 
