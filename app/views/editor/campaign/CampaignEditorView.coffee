@@ -266,6 +266,7 @@ module.exports = class CampaignEditorView extends RootView
 class LevelsNode extends TreemaObjectNode
   valueClass: 'treema-levels'
   @levels: {}
+  ordered: true
 
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply valEl, ''+_.size(data)

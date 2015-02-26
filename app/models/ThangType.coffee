@@ -356,13 +356,22 @@ module.exports = class ThangType extends CocoModel
       else
         classSpecificScore = stat * 5
       classAverage = @classStatAverages[prop][@get('heroClass')]
-      stats[prop] = Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+      stats[prop] =
+        relative: Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+        absolute: stat
+      pieces = ($.i18n.t "choose_hero.#{prop}_#{num}" for num in [1 .. 3])
+      percent = Math.round(stat * 100) + '%'
+      className = $.i18n.t "general.#{_.string.slugify @get('heroClass')}"
+      stats[prop].description = [pieces[0], percent, pieces[1], className, pieces[2]].join ' '
 
     minSpeed = 4
     maxSpeed = 16
     speedRange = maxSpeed - minSpeed
     speedPoints = rawNumbers.speed - minSpeed
-    stats.speed = Math.round(20 * speedPoints / speedRange) / 2 / 10
+    stats.speed =
+      relative: Math.round(20 * speedPoints / speedRange) / 2 / 10
+      absolute: rawNumbers.speed
+      description: "#{$.i18n.t 'choose_hero.speed_1'} #{rawNumbers.speed} #{$.i18n.t 'choose_hero.speed_2'}"
 
     stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
 
