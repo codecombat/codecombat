@@ -160,13 +160,13 @@ LevelHandler = class LevelHandler extends Handler
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
   getHistogramData: (req, res, slug) ->
-    query = Session.aggregate [
+    aggregate = Session.aggregate [
       {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
       {$project: {totalScore: 1, _id: 0}}
     ]
-    #query.cache()  # TODO: implement caching for aggregates
+    aggregate.cache()
 
-    query.exec (err, data) =>
+    aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
       valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
@@ -290,11 +290,11 @@ LevelHandler = class LevelHandler extends Handler
           sessionQueryParams['team'] = team
           aggregate = Session.aggregate [
             {$match: sessionQueryParams}
-            {$project: {'totalScore': 1}}
             {$sort: {'totalScore': -1}}
             {$limit: 20}
+            {$project: {'totalScore': 1}}
           ]
-          #aggregate.cache()  # TODO: implement caching for aggregates
+          aggregate.cache()
           aggregate.exec cb
 
         async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>

@@ -14,7 +14,11 @@ module.exports.connect = () ->
   mongoose.connect address
   mongoose.connection.once 'open', -> Grid.gfs = Grid(mongoose.connection.db, mongoose.mongo)
 
-  mongooseCache.install(mongoose, {max: 200, maxAge: 1 * 60 * 1000, debug: false})
+  # Hack around Mongoose not exporting Aggregate so that we can patch its exec, too
+  # https://github.com/LearnBoost/mongoose/issues/1910
+  Level = require '../levels/Level'
+  Aggregate = Level.aggregate().constructor
+  mongooseCache.install(mongoose, {max: 200, maxAge: 1 * 60 * 1000, debug: false}, Aggregate)
 
 module.exports.generateMongoConnectionString = ->
   if not testing and config.mongo.mongoose_replica_string
