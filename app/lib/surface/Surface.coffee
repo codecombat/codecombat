@@ -538,6 +538,7 @@ module.exports = Surface = class Surface extends CocoClass
       newHeight = newWidth / aspectRatio
     return unless newWidth > 0 and newHeight > 0
     return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
+    #return if newWidth < 200 or newHeight < 200
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
     @normalCanvas.add(@webGLCanvas).attr width: newWidth * scaleFactor, height: newHeight * scaleFactor
