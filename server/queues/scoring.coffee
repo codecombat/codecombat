@@ -115,7 +115,7 @@ findRandomSession = (queryParams, callback) ->
     return callback err, null unless startDate
     now = new Date()
     interval = now - startDate
-    cutoff = new Date now - Math.pow(Math.random(), 5) * interval
+    cutoff = new Date now - Math.pow(Math.random(), 3) * interval
     queryParams.submitDate = $gte: startDate, $lt: cutoff
     selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
     LevelSession.findOne(queryParams).sort(submitDate: -1).select(selection).lean().exec (err, session) ->
