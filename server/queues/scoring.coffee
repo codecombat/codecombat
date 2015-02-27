@@ -98,130 +98,65 @@ resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
         if taskPairError? then return cb taskPairError, null
         cb null
 
-selectRandomSkipIndex = (numberOfSessions) ->
-  numbers = [0...numberOfSessions]
-  numberWeights = []
-  lambda = 0.025
+earliestSubmissionCache = {}
+findEarliestSubmission = (queryParams, callback) ->
+  cacheKey = JSON.stringify queryParams
+  return callback null, cached if cached = earliestSubmissionCache[cacheKey]
+  LevelSession.findOne(queryParams).sort(submitDate: 1).lean().exec (err, earliest) ->
+    return callback err if err
+    result = earliestSubmissionCache[cacheKey] = earliest?.submitDate
+    callback null, result
 
-  for number, index in numbers
-    numberWeights[index] = lambda*Math.exp(-1*lambda*number) + lambda/(numberOfSessions/15)
-  sum = numberWeights.reduce (a, b) -> a + b
+findRandomSession = (queryParams, callback) ->
+  # We pick a random submitDate between the first submit date for the level and now, then do a $lt fetch to find a session to simulate.
+  # We bias it towards recently submitted sessions.
+  queryParams.submitted = true
+  findEarliestSubmission queryParams, (err, startDate) ->
+    return callback err, null unless startDate
+    now = new Date()
+    interval = now - startDate
+    cutoff = new Date now - Math.pow(Math.random(), 5) * interval
+    queryParams.submitDate = $gte: startDate, $lt: cutoff
+    selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
+    LevelSession.findOne(queryParams).sort(submitDate: -1).select(selection).lean().exec (err, session) ->
+      return callback err if err
+      callback null, session
 
-  for number, index in numberWeights
-    numberWeights[index] /= sum
-
-  rand = (min, max) -> Math.random() * (max - min) + min
-
-  totalWeight = 1
-  randomNumber = Math.random()
-  weightSum = 0
-
-  for number, i in numbers
-    weightSum += numberWeights[i]
-
-    if (randomNumber <= weightSum)
-      return numbers[i]
+formatSessionInformation = (session) ->
+  sessionID: session._id
+  team: session.team ? 'No team'
+  transpiledCode: session.transpiledCode
+  submittedCodeLanguage: session.submittedCodeLanguage
+  teamSpells: session.teamSpells ? {}
+  levelID: session.levelID
+  creatorName: session.creatorName
+  creator: session.creator
+  totalScore: session.totalScore
 
 module.exports.getTwoGames = (req, res) ->
-  #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
+  #if isUserAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
   return if simulatorIsTooOld req, res
   #ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
-  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove']  #, 'harrowland']  # harrowland slow for some reason
+  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland']
   levelID = _.sample ladderGameIDs
-  sortLimit = 200
   unless ogresGameID and humansGameID
-    #fetch random games here
-    queryParams =
-      'levelID': levelID
-      'submitted': true
-      'team': 'humans'
-    selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
-    LevelSession.count(queryParams).cache().exec (err, numberOfHumans) =>
-      if err? then return errors.serverError(res, 'Couldn\'t get the number of human games')
-      unless numberOfHumans
+    async.map [{levelID: levelID, team: 'humans'}, {levelID: levelID, team: 'ogres'}], findRandomSession, (err, sessions) ->
+      if err then return errors.serverError(res, "Couldn't get two games to simulate for #{levelID}.")
+      unless sessions.length is 2
         res.send(204, 'No games to score.')
         return res.end()
-      numberOfHumans = Math.min numberOfHumans, sortLimit
-      humanSkipCount = Math.floor(Math.random() * numberOfHumans)
-      ogreCountParams =
-        'levelID': levelID
-        'submitted': true
-        'team': 'ogres'
-      LevelSession.count(ogreCountParams).cache().exec (err, numberOfOgres) =>
-        if err? then return errors.serverError(res, 'Couldn\'t get the number of ogre games')
-        unless numberOfOgres
-          res.send(204, 'No games to score.')
-          return res.end()
-        numberOfOgres = Math.min numberOfOgres, sortLimit
-        ogresSkipCount = Math.floor(Math.random() * numberOfOgres)
-
-        query = LevelSession
-          .aggregate()
-          .match(queryParams)
-          .sort({'submitDate': -1})
-          .limit(sortLimit)
-          .project(selection)
-          .skip(humanSkipCount)
-          .limit(1)
-        query.exec (err, randomSession) =>
-          if err? then return errors.serverError(res, "Couldn't select a random session! #{err}")
-          randomSession = randomSession[0]
-          queryParams =
-            'levelID': levelID
-            'submitted': true
-            'team': 'ogres'
-          query = LevelSession
-            .aggregate()
-            .match(queryParams)
-            .sort({'submitDate': -1})
-            .limit(sortLimit)
-            .project(selection)
-            .skip(ogresSkipCount)
-            .limit(1)
-          query.exec (err, otherSession) =>
-            if err? then return errors.serverError(res, 'Couldn\'t select the other random session!')
-            otherSession = otherSession[0]
-            taskObject =
-              'messageGenerated': Date.now()
-              'sessions': []
-            for session in [randomSession, otherSession]
-              sessionInformation =
-                'sessionID': session._id
-                'team': session.team ? 'No team'
-                'transpiledCode': session.transpiledCode
-                'submittedCodeLanguage': session.submittedCodeLanguage
-                'teamSpells': session.teamSpells ? {}
-                'levelID': session.levelID
-                'creatorName': session.creatorName
-                'creator': session.creator
-                'totalScore': session.totalScore
-              taskObject.sessions.push sessionInformation
-            #console.log 'Dispatching random game between', taskObject.sessions[0].creatorName, 'and', taskObject.sessions[1].creatorName
-            sendResponseObject req, res, taskObject
+      taskObject = messageGenerated: Date.now(), sessions: (formatSessionInformation session for session in sessions)
+      #console.log 'Dispatching random game between', taskObject.sessions[0].creatorName, 'and', taskObject.sessions[1].creatorName
+      sendResponseObject req, res, taskObject
   else
     #console.log "Directly simulating #{humansGameID} vs. #{ogresGameID}."
     LevelSession.findOne(_id: humansGameID).select(selection).lean().exec (err, humanSession) =>
       if err? then return errors.serverError(res, 'Couldn\'t find the human game')
       LevelSession.findOne(_id: ogresGameID).select(selection).lean().exec (err, ogreSession) =>
         if err? then return errors.serverError(res, 'Couldn\'t find the ogre game')
-        taskObject =
-          'messageGenerated': Date.now()
-          'sessions': []
-        for session in [humanSession, ogreSession]
-          sessionInformation =
-            'sessionID': session._id
-            'team': session.team ? 'No team'
-            'transpiledCode': session.transpiledCode
-            'submittedCodeLanguage': session.submittedCodeLanguage
-            'teamSpells': session.teamSpells ? {}
-            'levelID': session.levelID
-            'creatorName': session.creatorName
-            'creator': session.creator
-            'totalScore': session.totalScore
-
-          taskObject.sessions.push sessionInformation
+        taskObject = messageGenerated: Date.now(), sessions: (formatSessionInformation session for session in [humanSession, ogreSession])
         sendResponseObject req, res, taskObject
 
 module.exports.recordTwoGames = (req, res) ->
@@ -399,25 +334,7 @@ parseTaskQueueMessage = (message, cb) ->
 constructTaskObject = (taskMessageBody, message, callback) ->
   async.map taskMessageBody.sessions, getSessionInformation, (err, sessions) ->
     if err? then return callback err
-
-    taskObject =
-      'messageGenerated': Date.now()
-      'sessions': []
-
-    for session in sessions
-      sessionInformation =
-        'sessionID': session._id
-        'submitDate': session.submitDate
-        'team': session.team ? 'No team'
-        'transpiledCode': session.transpiledCode
-        'submittedCodeLanguage': session.submittedCodeLanguage
-        'teamSpells': session.teamSpells ? {}
-        'levelID': session.levelID
-        'creator': session.creator
-        'creatorName': session.creatorName
-        'totalScore': session.totalScore
-
-      taskObject.sessions.push sessionInformation
+    taskObject = messageGenerated: Date.now(), sessions: (formatSessionInformation session for session in sessions)
     callback null, taskObject, message
 
 constructTaskLogObject = (calculatorUserID, taskObject, message, callback) ->
