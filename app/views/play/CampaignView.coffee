@@ -258,7 +258,6 @@ module.exports = class CampaignView extends RootView
     level.locked = false if me.isInGodMode()
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
-    level.locked = false
     level.color = 'rgb(255, 80, 60)'
     if level.requiresSubscription
       level.color = 'rgb(80, 130, 200)'
