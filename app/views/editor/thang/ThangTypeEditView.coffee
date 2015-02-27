@@ -392,7 +392,7 @@ module.exports = class ThangTypeEditView extends RootView
       movieClip.scaleX = movieClip.scaleY = scale
     @showSprite(movieClip)
 
-  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang}
+  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang, preloadSounds: false}
 
   showAction: (actionName) ->
     options = @getLankOptions()
