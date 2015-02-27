@@ -89,15 +89,23 @@ module.exports = class Tracker
         delete properties.category
 
       properties[key] = value for key, value of @explicitTraits if @explicitTraits?
-      eventObject = {}
-      eventObject["event"] = event
-      eventObject["properties"] = properties unless _.isEmpty properties
-      eventObject["user"] = me.id
       console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
-      dataToSend = JSON.stringify eventObject
-      console.log dataToSend if debugAnalytics
-      $.post("http://analytics.codecombat.com/analytics", dataToSend).fail ->
-        console.error "Analytics post failed!"
+      if @isProduction
+        eventObject = {}
+        eventObject["event"] = event
+        eventObject["properties"] = properties unless _.isEmpty properties
+        eventObject["user"] = me.id
+        dataToSend = JSON.stringify eventObject
+        console.log dataToSend if debugAnalytics
+        $.post("http://analytics.codecombat.com/analytics", dataToSend).fail ->
+          console.error "Analytics post failed!"
+      else
+        request = @supermodel.addRequestResource 'log_event', {
+          url: '/db/analytics_log_event/-/log_event'
+          data: {event: event, properties: properties}
+          method: 'POST'
+        }, 0
+        request.load()
 
   trackTiming: (duration, category, variable, label, samplePercentage=5) ->
     # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming
