@@ -1,5 +1,15 @@
 ###
 This file will simulate games on node.js by emulating the browser environment.
+
+Note that this file has not been updated in a long time and will not produce working results.  Do NOT use to simulate ladder games.
+
+http://discourse.codecombat.com/t/headless-client-seems-not-emulate-html/2614
+http://discourse.codecombat.com/t/running-multiplayer-codecombat-arena-locally/795/5
+
+Usage:
+1.  Create a `login.coffee` that contains:
+`module.exports = username: 'your_local_dev_user_email@gmail', password: 'your_local_dev_user_password'`
+2.  `coffee headless_client.coffee`
 ###
 simulateOneGame = false
 if process.argv[2] is 'one-game'
