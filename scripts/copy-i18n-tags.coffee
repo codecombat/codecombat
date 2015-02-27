@@ -23,7 +23,7 @@ for section in splitByCategories
     while (comment = commentPattern.exec section)?
       commentsMap[category][comment[1]] = comment[2]
 
-dir = fs.readdirSync 'app/locale'
+dir = fs.readdirSync '../app/locale'
 for file in dir when not (file in ['locale.coffee', 'en.coffee'])
   contents = require('../app/locale/' + file)
   categories = contents.translation
@@ -46,4 +46,4 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
 
       lines.push "#{if tagMissing then '#' else ''}    #{enTag}: \"#{tag}\"#{comment}"
   newContents = lines.join('\n') + '\n'
-  fs.writeFileSync 'app/locale/' + file, newContents
+  fs.writeFileSync '../app/locale/' + file, newContents
