@@ -138,7 +138,7 @@ module.exports.getTwoGames = (req, res) ->
       'submitted': true
       'team': 'humans'
     selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
-    LevelSession.count queryParams, (err, numberOfHumans) =>
+    LevelSession.count(queryParams).cache().exec (err, numberOfHumans) =>
       if err? then return errors.serverError(res, 'Couldn\'t get the number of human games')
       unless numberOfHumans
         res.send(204, 'No games to score.')
@@ -149,7 +149,7 @@ module.exports.getTwoGames = (req, res) ->
         'levelID': levelID
         'submitted': true
         'team': 'ogres'
-      LevelSession.count ogreCountParams, (err, numberOfOgres) =>
+      LevelSession.count(ogreCountParams).cache().exec (err, numberOfOgres) =>
         if err? then return errors.serverError(res, 'Couldn\'t get the number of ogre games')
         unless numberOfOgres
           res.send(204, 'No games to score.')

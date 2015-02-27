@@ -53,6 +53,7 @@ setupErrorMiddleware = (app) ->
       hipchat.sendHipChatMessage(message, ['tower'], {papertrail: true})
     else
       next(err)
+
 setupExpressMiddleware = (app) ->
   if config.isProduction
     express.logger.format('prod', productionLogging)

@@ -164,6 +164,7 @@ LevelHandler = class LevelHandler extends Handler
       {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
       {$project: {totalScore: 1, _id: 0}}
     ]
+    #query.cache()  # TODO: implement caching for aggregates
 
     query.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
@@ -199,6 +200,7 @@ LevelHandler = class LevelHandler extends Handler
       .limit(req.query.limit)
       .sort(sortParameters)
       .select(selectProperties.join ' ')
+    query.cache() if sessionsQueryParameters.totalScore.$lt is 1000000
 
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
@@ -269,6 +271,7 @@ LevelHandler = class LevelHandler extends Handler
     query = Level.findOne(findParameters)
     .select(selectString)
     .lean()
+    .cache()
 
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
@@ -280,17 +283,19 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         submitted: true
 
-      query = Session.find(sessionsQueryParameters).distinct('team')
+      query = Session.find(sessionsQueryParameters).distinct('team').cache()
       query.exec (err, teams) =>
         return @sendDatabaseError res, err if err? or not teams
         findTop20Players = (sessionQueryParams, team, cb) ->
           sessionQueryParams['team'] = team
-          Session.aggregate [
+          aggregate = Session.aggregate [
             {$match: sessionQueryParams}
             {$project: {'totalScore': 1}}
             {$sort: {'totalScore': -1}}
             {$limit: 20}
-          ], cb
+          ]
+          #aggregate.cache()  # TODO: implement caching for aggregates
+          aggregate.exec cb
 
         async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
           if err? then return @sendDatabaseError(res, err)
