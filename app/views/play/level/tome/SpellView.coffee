@@ -58,53 +58,6 @@ module.exports = class SpellView extends CocoView
   events:
     'mouseout': 'onMouseOut'
 
-  max_expected_player_levels:
-    'Dungeons of Kithgard':  5
-    'Gems in the Deep':  6
-    'Shadow Guard':  6
-    'Signs And Portents':  7
-    'Kounter Kithwise':  7
-    'Crawlways of Kithgard':  7
-    'Enemy Mine':  7
-    'Illusory Interruption':  4
-    'Forgetful Gemsmith':  7
-    'True Names':  8
-    'Favorable Odds':  8
-    'The Prisoner':  8
-    'Banefire':  8
-    'The Raised Sword':  9
-    'Haunted Kithmaze':  9
-    'Riddling Kithmaze': 9
-    'Descending Further':  9
-    'The Second Kithmaze':  10
-    'Dread Door':  10
-    'Cupboards of Kithgard':  10
-    'Hack and Dash':  10
-    'Breakout':  10
-    'Known Enemy':  11
-    'Master of Names':  11
-    'Lowly Kithmen':  12
-    'Dueling Grounds':  12
-    'Closing the Distance':  12
-    'Tactical Strike':  12
-    'The Final Kithmaze':  13
-    'The Gauntlet':  13
-    'Radiant Aura':  13
-    'Kithgard Gates':  13
-    'Destroying Angel':  13
-    'Kithgard Brawl':  13
-    'Defense of Plainswood':  4
-    'Winding Trail':  4
-    'Thumb Biter':  4
-    'Gems or Death':  5
-    'Backwoods Ambush':  5
-    'Patrol Buster':  5
-    'Endangered Burl':  5
-    'Village Guard':  5
-    'Thornbush Farm':  6
-    'Back to Back':  6
-    'Storming the Towers of Areth':  6
-
   constructor: (options) ->
     super options
     @worker = options.worker
@@ -267,7 +220,9 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: =>
-        if me.level() > @max_expected_player_levels[@options.level.get 'name'] or @options.level.get('disableSpaces') is false
+        disableSpacesAttr = @options.level.get 'disableSpaces'
+        if typeof disableSpacesAttr == 'number' and disableSpacesAttr < me.level() or
+           typeof disableSpacesAttr == 'boolean' and disableSpacesAttr is false
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
         return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
@@ -307,7 +262,9 @@ module.exports = class SpellView extends CocoView
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
-    if me.level() > @max_expected_player_levels[@options.level.get 'name'] or @options.level.get('lockDefaultCode') is false
+    lockDefaultCodeAttr = @options.level.get 'lockDefaultCode'
+    if typeof lockDefaultCodeAttr == 'number' and lockDefaultCodeAttr < me.level() or
+       typeof lockDefaultCodeAttr == 'boolean' and lockDefaultCodeAttr is false
       return
     return unless @spell.source is @spell.originalSource or force
 
