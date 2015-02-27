@@ -2,6 +2,7 @@ config = require '../../server_config'
 winston = require 'winston'
 mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
+mongooseCache = require 'mongoose-cache'
 
 global.testing = testing = '--unittest' in process.argv
 
@@ -13,6 +14,7 @@ module.exports.connect = () ->
   mongoose.connect address
   mongoose.connection.once 'open', -> Grid.gfs = Grid(mongoose.connection.db, mongoose.mongo)
 
+  mongooseCache.install(mongoose, {max: 200, maxAge: 1 * 60 * 1000, debug: false})
 
 module.exports.generateMongoConnectionString = ->
   if not testing and config.mongo.mongoose_replica_string

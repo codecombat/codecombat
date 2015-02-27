@@ -172,11 +172,12 @@ UserHandler = class UserHandler extends Handler
   getSimulatorLeaderboard: (req, res) ->
     queryParameters = @getSimulatorLeaderboardQueryParameters(req)
     leaderboardQuery = User.find(queryParameters.query).select('name simulatedBy simulatedFor').sort({'simulatedBy': queryParameters.sortOrder}).limit(queryParameters.limit)
+    leaderboardQuery.cache() if req.query.scoreOffset is -1
     leaderboardQuery.exec (err, otherUsers) ->
-        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
-        otherUsers ?= []
-        res.send(otherUsers)
-        res.end()
+      otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+      otherUsers ?= []
+      res.send(otherUsers)
+      res.end()
 
   getMySimulatorLeaderboardRank: (req, res) ->
     req.query.order = 1
@@ -229,12 +230,12 @@ UserHandler = class UserHandler extends Handler
       for prop, val of obj
         user.set(prop, undefined) unless prop is '_id'
       user.set('deleted', true)
-      
+
       # Hack to get saving of Users to work. Probably should replace these props with strings
       # so that validation doesn't get hung up on Date objects in the documents.
       delete obj.dateCreated
 
-      user.save (err) => 
+      user.save (err) =>
         return @sendDatabaseError(res, err) if err
         @sendNoContent res
 

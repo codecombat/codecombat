@@ -70,6 +70,8 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       if limit? and limit < 1000
         q.limit(limit)
 
+      q.cache()
+
       q.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
         documents = (@formatEntity(req, doc) for doc in documents)
