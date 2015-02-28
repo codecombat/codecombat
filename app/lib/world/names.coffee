@@ -53,6 +53,7 @@ module.exports.thangNames = thangNames =
     'Gerald'
     'Gordon'
     'Gregory'
+    'Guan Yu'
     'Halle'
     'Harold'
     'Harry'
@@ -61,6 +62,7 @@ module.exports.thangNames = thangNames =
     'Howard'
     'Huburt'
     'Hugo'
+    'Ieyasu'
     'Jack'
     'James'
     'Jason'
@@ -79,6 +81,7 @@ module.exports.thangNames = thangNames =
     'Joseph'
     'Joshua'
     'Juan'
+    'Jun Fan'
     'Justin'
     'Keith'
     'Kenneth'
@@ -101,6 +104,7 @@ module.exports.thangNames = thangNames =
     'Michael'
     'Miles'
     'Mischa'
+    'Musashi'
     'Nicholas'
     'Noah'
     'Orion'
@@ -139,6 +143,7 @@ module.exports.thangNames = thangNames =
     'Steve'
     'Steven'
     'Stormy'
+    'Tadakatsu'
     'Terry'
     'Thelonious'
     'Theo'
@@ -166,6 +171,7 @@ module.exports.thangNames = thangNames =
     'Anna'
     'Anne'
     'Annie'
+    'AnnMaria'
     'Aphrodite'
     'Ashley'
     'Barbara'
@@ -246,6 +252,7 @@ module.exports.thangNames = thangNames =
     'Melissa'
     'Michelle'
     'Mildred'
+    'Mulan'
     'Nancy'
     'Natasha'
     'Nicole'
@@ -258,6 +265,7 @@ module.exports.thangNames = thangNames =
     'Rachel'
     'Rebecca'
     'Robin'
+    'Ronda'
     'Rose'
     'Ruby'
     'Ruth'
@@ -285,6 +293,7 @@ module.exports.thangNames = thangNames =
     'Carlton'
     'Charles'
     'Durfkor'
+    'Duan'
     'Fendrel'
     'Gawain'
     'Hamming'
@@ -292,6 +301,7 @@ module.exports.thangNames = thangNames =
     'Hershell'
     'Hingle'
     'Hodor'
+    'Jackson'
     'James'
     'Lyle'
     'Merek'
@@ -326,6 +336,7 @@ module.exports.thangNames = thangNames =
     'Millicent'
     'Regan'
     'Rose'
+    'Ruth'
     'Tabitha'
     'Thea'
   ]
@@ -333,6 +344,8 @@ module.exports.thangNames = thangNames =
     'Agapi'
     'Alden'
     'Alleria'
+    'Atalanta'
+    'Artemis'
     'Beatrice'
     'Beverly'
     'Cairn'
@@ -389,6 +402,8 @@ module.exports.thangNames = thangNames =
     'Slyvos'
     'Vican'
     'Warshall'
+    'Yue Fei'
+    'Zhou Tong'
   ]
   'Ogre Munchkin M': [
     'Blob'
@@ -459,6 +474,7 @@ module.exports.thangNames = thangNames =
     'Mak Fod'
     'Mokrul'
     'Muthyala'
+    'Oni'
     'Polifemo'
     'Saltporker'
     'Skrungt'
@@ -533,6 +549,7 @@ module.exports.thangNames = thangNames =
     'Nazgareth'
     'Poult'
     'Sham\'uk'
+    'Torluk'
     'Turann'
     'Tuzang'
     'Tuzell'
@@ -560,6 +577,7 @@ module.exports.thangNames = thangNames =
     'Rakash'
     'Rasha'
     'Vujii'
+    'Wuda'
     'Yetu'
     'Zara'
   ]
@@ -572,6 +590,7 @@ module.exports.thangNames = thangNames =
     'Aeoldan'
     'Bestarius'
     'Cristofide'
+    'Denestorath'
     'Letholdus'
   ]
   'Potion Master': [
@@ -581,6 +600,7 @@ module.exports.thangNames = thangNames =
     'Artephius'
     'Clause'
     'Curie'
+    'Fluvius'
     'Kanada'
     'Omar'
     'Paracelsus'
@@ -595,6 +615,7 @@ module.exports.thangNames = thangNames =
     'Hushbaum'
     'Mariam'
     'Matilda'
+    'Nordex'
     'Satish'
   ]
   'Equestrian': [
@@ -649,6 +670,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ninja': [
     'Amara'
+    'Goemon'
     'Itachi'
     'Kosaraju'
     'Madara'
@@ -664,6 +686,7 @@ module.exports.thangNames = thangNames =
     'Beazer'
     'Claude'
     'Gandalf'
+    'Izzrts'
     'Kleene'
     'Pender'
     'Jezebel'
@@ -749,12 +772,16 @@ module.exports.thangNames = thangNames =
     'Wildsilver'
     'Fleetfire'
     'Ed'
+    'Silver'
+    'Hurricane'
   ]
   'Trapper': [
     'Senick'
+    'John'
   ]
   'Forest Archer': [
     'Naria'
+    'Sylvus'
   ]
   'Frog': [
     'Bighead'
@@ -774,10 +801,12 @@ module.exports.thangNames = thangNames =
   'Raven': [
     # TODO: raven names
     'Nevermore'
+    'Baltimore'
   ]
   'Cougar': [
     # TODO: cougar/puma/catamount/mountain lion/jaguar names
     'Kitty'
+    'Shasta'
   ]
   'Raider': [
     'Arryn'
@@ -793,6 +822,8 @@ module.exports.thangNames = thangNames =
   ]
   'Assassin': [
     'Ritic'
+    'Shade'
+    'BlackJack'
   ]
   'Necromancer': [
     'Nalfar'
@@ -811,6 +842,7 @@ module.exports.thangNames = thangNames =
   'Ogre Chieftain': [
     # TODO: ogre chieftain names (female)
     'Zagra Ux'
+    'Oniko'
   ]
   'Ogre Warlock': [
     # TODO: ogre warlock names

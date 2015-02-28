@@ -31,6 +31,7 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @sessionless = options.sessionless
     @spectateMode = options.spectateMode ? false
     @observing = options.observing
 
@@ -55,7 +56,7 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
-    @loadSession()
+    @loadSession() unless @sessionless
     @populateLevel()
 
   # Session Loading
@@ -260,8 +261,8 @@ module.exports = class LevelLoader extends CocoClass
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
     return false unless @thangNamesLoaded
-    return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id]
-    return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id]
+    return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
+    return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
     true
 
   onWorldNecessitiesLoaded: ->
@@ -322,7 +323,7 @@ module.exports = class LevelLoader extends CocoClass
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode
+    return if @headless or @sessionDenormalized or @spectateMode or @sessionless
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
