@@ -58,8 +58,7 @@ module.exports = class TomeView extends CocoView
   afterRender: ->
     super()
     @worker = @createWorker()
-    #programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.spriteName isnt 'Hero Placeholder'
-    programmableThangs = _.filter @options.thangs, 'isProgrammable'
+    programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
     @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
     @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session
@@ -73,7 +72,7 @@ module.exports = class TomeView extends CocoView
 
   onNewWorld: (e) ->
     thangs = _.filter e.world.thangs, 'inThangList'
-    programmableThangs = _.filter thangs, 'isProgrammable'
+    programmableThangs = _.filter thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, e.world
     @spellList.adjustSpells @spells
 
@@ -112,7 +111,6 @@ module.exports = class TomeView extends CocoView
     for thang in programmableThangs
       continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
-      thang.programmableMethods ?= plan: {name: 'plan', source: '// Should fill in some default source.', permissions: {readwrite: ['humans']}}
       for methodName, method of thang.programmableMethods
         pathComponents = [thang.id, methodName]
         if method.cloneOf
