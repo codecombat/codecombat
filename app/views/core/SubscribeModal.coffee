@@ -66,7 +66,7 @@ module.exports = class SubscribeModal extends ModalView
       content: popoverContent
       container: @$el
     ).on 'shown.bs.popover', =>
-      application.tracker?.trackEvent 'Subscription ask parent button click', {}
+      application.tracker?.trackEvent 'Subscription ask parent button click'
 
   setupParentInfoPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parents_title'
@@ -83,7 +83,7 @@ module.exports = class SubscribeModal extends ModalView
       content: popoverContent
       container: @$el
     ).on 'shown.bs.popover', =>
-      application.tracker?.trackEvent 'Subscription parent hover', {}
+      application.tracker?.trackEvent 'Subscription parent hover'
 
   onClickParentSendButton: (e) ->
     # TODO: Popover sometimes dismisses immediately after send
@@ -108,7 +108,7 @@ module.exports = class SubscribeModal extends ModalView
   onClickPurchaseButton: (e) ->
     @playSound 'menu-button-click'
     return @openModalView new AuthModal() if me.get('anonymous')
-    application.tracker?.trackEvent 'Started subscription purchase', {}
+    application.tracker?.trackEvent 'Started subscription purchase'
     options = {
       description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount

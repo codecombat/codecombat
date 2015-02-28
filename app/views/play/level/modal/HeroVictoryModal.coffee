@@ -146,7 +146,7 @@ module.exports = class HeroVictoryModal extends ModalView
         $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))
         me.set 'hourOfCodeComplete', true  # Note that this will track even for players who don't have hourOfCode set.
         me.patch()
-        window.tracker?.trackEvent 'Hour of Code Finish', {}
+        window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = me.get('hourOfCode') and showDone
 

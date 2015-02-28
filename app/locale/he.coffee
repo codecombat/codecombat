@@ -6,8 +6,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play: "שחק" # The big play button that opens up the campaign view.
     old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "אתה יכול לנסות בכול מקרה אבל זה כנראה לא יעבוד."
-    ipad_browser: "חדשות רעות: CodeCombat לא עובד בדפדפן של הiPad-. חדשות טובות: גרסת הiPad של המשחק ממתינה לאישור מחברת Apple." #Couldn't get the position of the punctuation points and the english names right
-    #(hebrew is right to left language and the editor is left to right so it causes problems) I want to test if it works in this state
+    ipad_browser: "חדשות רעות: CodeCombat לא עובד בדפדפן של הiPad-. חדשות טובות: גרסת הiPad של המשחק ממתינה לאישור מחברת Apple."
     campaign: "מסע"
     for_beginners: "למתחילים"
     multiplayer: "רב-משתתפים" # Not currently shown on home page
@@ -23,7 +22,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     account: "חשבון"
     profile: "פרופיל"
     stats: "נתונים"
-    code: "קוד" # Code as an action like "to code" or as the Noun "code"?
+    code: "קוד"
     admin: "אדמין" # Only shows up when you are an admin
     home: "בית"
     contribute: "תרום"
@@ -99,7 +98,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     form_blurb: "!הזן כתובת מייל ואנחנו נראה להם"
     form_label: "כתובת מייל"
     placeholder: "כתובת המייל"
-    title: "עבודה מצויינת, מתלמד" #Great work, Apprentice
+    title: "עבודה מצויינת, מתלמד"
     tell_friend: "ספר לחברים"
     tell_parent: "ספר להורים"
 
@@ -111,7 +110,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     forgot_password: "שכחתי סיסמא"
     authenticate_gplus: "G+ אמת באמצעות"
     load_profile: "G+ טען פרופיל"
-    load_email: "G+ טען מייל"
     finishing: "מסיים"
     sign_in_with_facebook: "Facebook היכנס באמצעות"
     sign_in_with_gplus: "G+ היכנס באמצעות"
@@ -181,7 +179,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     select_changes: ".בחר בשני שינויים כדי לראות את ההבדל"
     undo_prefix: "Undo"
     undo_shortcut: "(Ctrl+Z)"
-    redo_prefix: "Redo" #There isn't a word for Redo as far as I know, I will keep both of them in english for now
+    redo_prefix: "Redo"
     redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "הצג תצוגה מקדימה לשלב הנוכחי"
     result: "תוצאה"
@@ -236,12 +234,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     restart: "נסה שוב"
     goals: "מטרות"
     goal: "מטרה"
-    running: "...פועל" #running like in "The machine is running"
+    running: "...פועל"
     success: "!הצלחה"
     incomplete: "לא הושלם"
     timed_out: "הזמן אזל"
     failing: "נכשל"
-    action_timeline: "ציר זמן" #Translated as Timeline (no need for the word action)
+    action_timeline: "ציר זמן"
     click_to_select: ".לחץ על יחידה על מנת לבחור בה"
     control_bar_multiplayer: "רב-משתתפים"
     control_bar_join_game: "הצטרף למשחק"
@@ -298,7 +296,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_scrub_shortcut: "Ctrl+[ ו Ctrl+] האץ אחורה וקדימה באמצעות"
     tip_guide_exists: ".לחץ על המדריך, בתוך תפריט המשחק (למעלה בקצה העמוד), למידע שימושי"
     tip_open_source: "!הוא 100% קוד פתוח CodeCombat"
-    tip_beta_launch: ".הפיץ את גרסת הבטא באוקטובר, 2013 CodeCombat" #Translated "Launched" as "Distributed" yet the same meaning in this context
+    tip_beta_launch: ".הפיץ את גרסת הבטא באוקטובר, 2013 CodeCombat"
     tip_think_solution: ".תחשוב על הפתרון, לא על הבעיה"
     tip_theory_practice: "תיאורטית, אין הבדל בין התאוריה לאימון. אבל באימון, יש. - יוגי ברה"
     tip_error_free: "יש שתי דרכים לכתוב תוכנות בלי אף תקלה; רק השלישית עובדת. - אלן פרליס"
@@ -306,7 +304,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_forums: "!לך לפורומים וספר לנו מה אתה חושב"
     tip_baby_coders: ".בעתיד, אפילו תינוקות יהיו כשפי על"
     tip_morale_improves: ".הטעינה תמשיך עד שהמורל ישתפר"
-    tip_all_species: ".אנחנו מאמינים בשוויון הזדמנויות לכל היצורים בלמידת תכנות" #translated "species" as "Creatures" because the official translations is translated into "Genders"
+    tip_all_species: ".אנחנו מאמינים בשוויון הזדמנויות לכל היצורים בלמידת תכנות"
 #    tip_reticulating: "Reticulating spines."
     tip_harry: " ,תה' מכשף"
     tip_great_responsibility: "עם כישרון גדול בתכנות באה גם אחריות דיבאגינג גדולה."
@@ -336,7 +334,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_move_forward: "מה שלא תעשה, תמשיך להתקדם - מרטין לותר קינג ג'וניור"
     tip_google: "!יש בעיה שאתה לא מצליח לפתור? תגגל אותה"
     tip_adding_evil: ".מוסיף קמצוץ של רשע"
-#    tip_miss_lunch: "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch. - Tim Berners-Lee"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 
   game_menu:
@@ -390,17 +387,17 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     purchasing: "...קונה"
     declined: ".כרטיס האשראי נדחה"
     retrying: ".תקלה בשרת, מנסה שוב"
-    prompt_title: ".אין לך מספיק אבני חן" #translated as "You don't have enough gems" insted of the general "Not enough gems"
+    prompt_title: ".אין לך מספיק אבני חן"
     prompt_body: "?רוצה לקבל עוד"
     prompt_button: "היכנס לחנות"
     recovered: ".רכישה אחרונה שוחזרה. טען את הדף מחדש בבקשה"
-    or_subscribe: "...או 5300+ אבני חן אם אתה"
+#    price: "x3500 / mo"
 
   subscribe:
     comparison_blurb: ".CodeCombatחדד את כישוריך עם מנוי ל"
-    feature1: "60+ שלבים בסיסיים ב 4 עולמות שונים." #same problem for right to left and left to right I will test if these work on the next update
+    feature1: "60+ שלבים בסיסיים ב 4 עולמות שונים."
     feature2: "!עם כישורים מיוחדים <strong>גיבורים עוצמתיים חדשים</strong> 7"
-    feature3: "30+ שלבי בונוס" #Same here
+    feature3: "30+ שלבי בונוס"
     feature4: "!בחינם כל חודש <strong>3500 אבני חן</strong>"
     feature5: "הדרכות וידאו"
     feature6: "תמיכת מייל בעדיפות ראשונה"
@@ -410,7 +407,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unsubscribe: "הסר מנוי"
     confirm_unsubscribe: "אשר הסרת מנוי"
     never_mind: "!לא משנה, אני עדיין אוהב אותך"
-    thank_you_months_prefix: ".תודה שתמכת בנו בחודשים האחרונים" #different sentence order
+    thank_you_months_prefix: ".תודה שתמכת בנו בחודשים האחרונים"
     thank_you_months_suffix: ""
     thank_you: "CodeCombat תודה על התמיכה ב"
     sorry_to_see_you_go: ".מצטערים לראות אותך הולך! ספר לנו בבקשה מה יכולנו לשפר"
@@ -445,11 +442,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     lua_blurb: ".שפה לכתיבת תסריטי משחק"
     io_blurb: ".פשוטה אך מעורפלת"
     status: "סטטוס"
+#    hero_type: "Type"
     weapons: "נשקים"
     weapons_warrior: "חרבות, טווח קצר - ללא קסם"
     weapons_ranger: "קשתות, אקדחים - טווח ארוך, ללא קסם"
     weapons_wizard: "שרביטים, מטות קסם - טווח ארוך, קסם"
-    attack: "עוצמה" # Can also translate as "Attack" //NOTE: translated as "Power" it's the same meaning
+    attack: "עוצמה" # Can also translate as "Attack"
     health: "נקודות חיים"
     speed: "מהירות"
     regeneration: "השתקמות"
@@ -457,6 +455,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     blocks: "הגנה" # As in "this shield blocks this much damage"
     backstab: "פגיעה בגב" # As in "this dagger does this much backstab damage"
     skills: "מיומנויות"
+#    attack_1: "Deals"
+#    attack_2: "of listed"
+#    attack_3: "weapon damage."
+#    health_1: "Gains"
+#    health_2: "of listed"
+#    health_3: "armor health."
+#    speed_1: "Moves at"
+#    speed_2: "meters per second."
     available_for_purchase: "ניתן לרכישה" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: ":שלב כדי לפתוח" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: ".רק גיבורים מסויימים יכולים לשחק בשלב זה"
@@ -474,7 +480,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     example: "דוגמה"
     ex: "למשל" # Abbreviation of "example"
     current_value: "ערך נוכחי"
-    default_value: "ערך רגיל" #Translated default as normal because otherwise it wouldn't make sense
+    default_value: "ערך רגיל"
     parameters: "פרמטרים"
     returns: "מחזיר"
     granted_by: "הוענק ע\"י"
@@ -494,7 +500,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     editor_config_title: "תצורת(קונפיגורצית) עורך"
     editor_config_level_language_label: "שפה לשלב זה"
     editor_config_level_language_description: ".בחר את שפת התכנות בה אתה תשתמש בשלב זה"
-    editor_config_default_language_label: "ברירת מחדל" #Translated as "default" and not as "default programming language" I found i better for this case
+    editor_config_default_language_label: "ברירת מחדל"
     editor_config_default_language_description: ".בחר רת שפת התכנות בה תרצה להשתמש בהתחלת שלבים חדשים"
     editor_config_keybindings_label: "(תצורה(קונפיגורציה"
     editor_config_keybindings_default: "(Ace) ברירת מחדל"
@@ -505,7 +511,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     editor_config_invisibles_description: "הצג בלתי נראים כמו רווחים וטאבים."
 #    editor_config_indentguides_label: "Show Indent Guides"
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-    editor_config_behaviors_label: "התנהגוץ חכמה" #Converted from plural to singular
+    editor_config_behaviors_label: "התנהגוץ חכמה"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   about:
@@ -532,6 +538,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     michael_blurb: "מנהל מערכת"
     matt_title: "מתכנת"
     matt_blurb: "רוכב אופניים"
+#    cat_title: "Chief Artisan"
+#    cat_blurb: "Airbender"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
 
 #  teachers:
 #    title: "CodeCombat for Teachers"
@@ -545,8 +559,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    violent_2: "If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat."
 #    for_girls_title: "Is it for girls?"
 #    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
+#    age_recommended_title: "What age is it recommended at?"
+#    age_recommended_1: "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
 #    what_cover_title: "What do we cover?"
-#    what_cover_1: "There are 20 levels in the Hour of Code tutorial that teach and reinforce 6 specific computer science concepts:"
+#    what_cover_1: "There are 27 levels in the first stage of CodeCombat that teach and reinforce 6 specific computer science concepts:"
 #    what_cover_notation_1: "Formal notation"
 #    what_cover_notation_2: "- builds an understanding of the importance of syntax in programming."
 #    what_cover_methods_1: "Calling methods"
@@ -564,10 +580,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    what_cover_logic_2: "- when and how to use if/else to control in-game outcomes."
 #    what_cover_input_1: "Handling player input"
 #    what_cover_input_2: "- responding to input events to create a user interface."
+#    what_cover_array_1: "Arrays"
+#    what_cover_array_2: "- allows the player to create and loop through arrays."
 #    sys_requirements_title: "System Requirements"
-#    sys_requirements_1: "Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of your Hour of Code experience:"
+#    sys_requirements_1: "Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of the CodeCombat experience:"
 #    sys_requirements_2: "Use newer versions of Chrome or Firefox."
-#    sys_requirements_3: "Although CodeCombat will work on browsers as old as IE9, the performance is not as good. Chrome is best."
+#    sys_requirements_3: "Although CodeCombat will work on browsers as old as Internet Explorer 9, the performance is not as good. Chrome is best."
 #    sys_requirements_4: "Use newer computers."
 #    sys_requirements_5: "Older computers, Chromebooks, and netbooks tend to have very few system resources, which makes for a less enjoyable experience. At least 2GB of RAM is required."
 #    sys_requirements_6: "Allow players to wear headphones/earbuds to hear the audio."
@@ -578,7 +596,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     new_major_version: "גרסה חשובה חדשה"
     submitting_patch: "...שולח תיקון"
     cla_prefix: "כדי לשמור יש להירשם לאתר"
-    cla_url: "CLA" # No need to translate these
+    cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "אני מסכים"
 
@@ -606,13 +624,17 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     autosave: "שינויים נשמרו אוטומטית"
     me_tab: "אני"
     picture_tab: "תמונה"
+#    delete_account_tab: "Delete Your Account"
+#    wrong_email: "Wrong Email"
     upload_picture: "העלה תמונה"
+#    delete_this_account: "Delete this account permanently"
     god_mode: "מצב אל"
     password_tab: "סיסמה"
     emails_tab: "אימיילים"
     admin: "אדמין"
     new_password: "סיסמה חדשה"
     new_password_verify: "חזור על הסיסמה שנית"
+#    type_in_email: "Type in your email to confirm the deletion"
     email_subscriptions: "הרשמויות אימייל"
     email_subscriptions_none: ".אין מנויי מייל"
     email_announcements: "הודעות"
@@ -649,7 +671,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     run_real_time: ".הרץ קוד בזמן אמת"
     continue_script: ".המשך בתסריט זה"
     skip_scripts: ".דלג על כל התסריטים שניתן לדלג עליהם"
-    toggle_playback: ".הפעל\\השהה"
+    toggle_playback: ".הפעל\השהה"
     scrub_playback: ".התקדם אחורה וקדימה בזמן"
     single_scrub_playback: ".התקדם אחורה וקדימה בזמן בפריים אחד"
 #    scrub_execution: "Scrub through current spell execution."
@@ -664,7 +686,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     introduction: "!תבדוק את הדרכים שאנחנו מציעים לך להיות מעורב ותבחא את הדרך שנראית לך הכי כיפית. אנחנו מצפים לעבוד איתך"
     level_editor_prefix: "CodeCombat תשתמש ב"
 #    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
-    thang_editor_prefix: "אנחנו קוראים ליחידות בתוך המשחק ,ת\"ת'אנגס\" השתמש ב " #'Thangs' as 'ת'אנגס' equivelent pronounciation as "thang" isn't a real world
+    thang_editor_prefix: "אנחנו קוראים ליחידות בתוך המשחק ,ת\"ת'אנגס\" השתמש ב "
 #    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
@@ -708,7 +730,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     revert_models: "שחזר מודלים"
     pick_a_terrain: "בחר סוג שטח"
     dungeon: "צינוק"
-#    indoor: "בפנים" #PLEASE DO NOT UNCOMMENT I am still notsure if it's the proper translation
+#    indoor: "Indoor"
     desert: "מדבר"
     grassy: "עשבי"
     small: "קטן"
@@ -722,11 +744,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     thang_main: "ראשי"
 #    thang_spritesheets: "Spritesheets"
     thang_colors: "צבעים"
-    level_some_options: "?קצת אפשרויות" #also uncertain about this one
+    level_some_options: "?קצת אפשרויות"
     level_tab_thangs: "ת'אנגס"
     level_tab_scripts: "תסריטים"
     level_tab_settings: "הגדרות"
-    level_tab_components: "מרכיבים" #Components
+    level_tab_components: "מרכיבים"
     level_tab_systems: "מערכות"
     level_tab_docs: "דוקומנטציה"
     level_tab_thangs_title: "ת'אנגס נוכחיים"
@@ -772,8 +794,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "סיום שלב"
-    pop_i18n: "I18N אכלס" #Populate
+    pop_i18n: "I18N אכלס"
     tasks: "מטלות"
+#    clear_storage: "Clear your local changes"
 
   article:
     edit_btn_preview: "צפה בכותרת"
@@ -850,7 +873,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   ladder:
     please_login: "התחבר בבקשה לפני שתשחק במשחק סולם."
     my_matches: "המשחקים שלי"
-    simulate: "הדמה" #Simulate
+    simulate: "הדמה"
     simulation_explanation: "באמצעות הדמית משחקים אתה יכול לגרום לשלב שלך להיות מדורג להר יותר!"
     simulate_games: "הדמה משחקים"
     simulate_all: "אתחל והדמה משחקים"

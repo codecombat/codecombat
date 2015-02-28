@@ -44,7 +44,7 @@ module.exports = class SimulateTabView extends CocoView
   # Simulations
 
   onSimulateButtonClick: (e) ->
-    application.tracker?.trackEvent 'Simulate Button Click', {}
+    application.tracker?.trackEvent 'Simulate Button Click'
     @startSimulating()
 
   startSimulating: ->

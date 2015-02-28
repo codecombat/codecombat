@@ -10,7 +10,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign: "战役模式"
     for_beginners: "适合初学者"
     multiplayer: "多人游戏" # Not currently shown on home page
-    for_developers: "适合开发者" # Not currently shown on home page
+    for_developers: "适合开发者" # Not currently shown on home page.
     or_ipad: "或下载入iPad"
 
   nav:
@@ -40,7 +40,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   diplomat_suggestion:
-    title: "帮助我们翻译CodeCombat" # This shows up when a player switches to a non-English language using the language selector
+    title: "帮助我们翻译CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我们需要您的语言技能"
     pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat的玩家遍布全球。对于不熟悉英语的中文玩家，他们希望能玩简体中文版的CodeCombat，如果你中英文都很熟练，考虑加入我们“外交官”行列并参与CodeCombat的翻译，帮忙把CodeCombat网站和所有关卡翻译成简体中文。感谢！"
     missing_translations: "没被翻译的文字将以英文显示。"
@@ -272,7 +272,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_submit_button: "提交"
     tome_reload_method: "重载该方法的原始代码" # Title text for individual method reload button.
     tome_select_method: "选择方法"
-    tome_see_all_methods: "查看所有能够编辑的方法" # Title text for method list selector (shown when there are multiple programmable methdos)。
+    tome_see_all_methods: "查看所有能够编辑的方法" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
     tome_your_skills: "你的技能"
@@ -391,7 +391,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     prompt_body: "还需要更多吗？"
     prompt_button: "进入商店"
     recovered: "之前购买的宝石已恢复。请刷新页面。"
-    or_subscribe: "或每个月3500个宝石如果你..."
+#    price: "x3500 / mo"
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升你的技能！"
@@ -455,6 +455,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     blocks: "格挡" # As in "this shield blocks this much damage"
     backstab: "背刺" # As in "this dagger does this much backstab damage"
     skills: "技能"
+#    attack_1: "Deals"
+#    attack_2: "of listed"
+#    attack_3: "weapon damage."
+#    health_1: "Gains"
+#    health_2: "of listed"
+#    health_3: "armor health."
+#    speed_1: "Moves at"
+#    speed_2: "meters per second."
     available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
@@ -530,6 +538,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     michael_blurb: "系统管理员"
     matt_title: "程序员"
     matt_blurb: "自行车爱好者"
+#    cat_title: "Chief Artisan"
+#    cat_blurb: "Airbender"
+#    josh_title: "Game Designer"
+#    josh_blurb: "Floor Is Lava"
+#    jose_title: "Music"
+#    jose_blurb: "Taking Off"
+#    retrostyle_title: "Illustration"
+#    retrostyle_blurb: "RetroStyle Games"
 
   teachers:
     title: "CodeCombat给教师的说明"
@@ -543,6 +559,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     violent_2: "如果你觉得让学生玩愤怒鸟是合适的，那么让学生玩CodeCombat也将会是合适的。"
     for_girls_title: "CodeCombat适合女生吗？"
     for_girls_1: "CodeCombat有三种游戏模式：建筑，猜谜，和战斗。我们已经将游戏设计为迎合男生和女生且尽力的改进建筑和猜谜关卡以便不让女性玩家抗拒它们。"
+#    age_recommended_title: "What age is it recommended at?"
+#    age_recommended_1: "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
     what_cover_title: "我们涵盖了什么？"
     what_cover_1: "The Hour of Code的教学里有20个关卡主要负责教导和加强六个特点的电脑科学概念："
     what_cover_notation_1: "正式的表示法"
@@ -562,6 +580,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     what_cover_logic_2: "- 如何使用”if/else“来控制游戏结果？"
     what_cover_input_1: "处理玩家的输入"
     what_cover_input_2: "- 对输入产生回应来创建用户界面。"
+#    what_cover_array_1: "Arrays"
+#    what_cover_array_2: "- allows the player to create and loop through arrays."
     sys_requirements_title: "系统需求"
     sys_requirements_1: "因为CodeCombat是个游戏，它对于电脑的要求很高以运行的顺畅。我们已经优化过他以便让他能在每一个最新浏览器或是比较旧的电脑跑得顺畅，所以每一个人都能享受CodeCombat带来的乐趣。如上，为了使你顺利的完成Hour of Code的学习，我们建议你："
     sys_requirements_2: "使用最新版本的Chrome或是Firefox."
@@ -604,13 +624,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     autosave: "自动保存修改"
     me_tab: "我"
     picture_tab: "图片"
+#    delete_account_tab: "Delete Your Account"
+#    wrong_email: "Wrong Email"
     upload_picture: "上传一张图片"
+#    delete_this_account: "Delete this account permanently"
     god_mode: "上帝模式"
     password_tab: "密码"
     emails_tab: "邮件"
     admin: "管理"
     new_password: "新密码"
     new_password_verify: "核实"
+#    type_in_email: "Type in your email to confirm the deletion"
     email_subscriptions: "邮箱订阅"
     email_subscriptions_none: "取消订阅"
     email_announcements: "通知"
@@ -772,6 +796,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_completion: "关卡完成"
     pop_i18n: "完善 I18N"
     tasks: "任务"
+#    clear_storage: "Clear your local changes"
 
   article:
     edit_btn_preview: "预览"
@@ -1028,7 +1053,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     temp: "临时"
 
   multiplayer:
-    multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon.Until then, it's not important to translate.
+    multiplayer_title: "多人游戏设置" # We'll be changing this around significantly soon. Until then, it's not important to translate.
     multiplayer_toggle: "开启多人模式"
     multiplayer_toggle_description: "允许其他人加入游戏。"
     multiplayer_link_description: "把这个链接告诉小伙伴们，一起玩吧。"
@@ -1113,7 +1138,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     oreilly: "你选择的电子书"
 
   account_profile:
-    settings: "设置" # We are not actively recruiting right now, so there's no need to add new translations for this section
+    settings: "设置" # We are not actively recruiting right now, so there's no need to add new translations for this section.
     edit_profile: "编辑资料"
     done_editing: "完成编辑"
     profile_for_prefix: "关于他的基本资料："
@@ -1220,7 +1245,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   employers:
     deprecation_warning_title: "抱歉，CodeCombat现不招聘雇员。"
     deprecation_warning: "我们现在只专注在初学者等级的开发，暂时还不需要雇用天才级开发人员。"
-    hire_developers_not_credentials: "我们只招聘开发人员，不招聘证书。" # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section
+    hire_developers_not_credentials: "我们只招聘开发人员，不招聘证书。" # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
     get_started: "入门"
     already_screened: "我们已经筛选过所有应征者了"
     filter_further: "， 但是你也可以进一步筛选:"
@@ -1264,7 +1289,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     inactive_developers: "不活跃的开发者"
 
   admin:
-    av_espionage: "Espionage" # Really not important to translate /admin controls
+    av_espionage: "Espionage" # Really not important to translate /admin controls.
     av_espionage_placeholder: "邮箱或用户名"
     av_usersearch: "用户搜索"
     av_usersearch_placeholder: "邮箱、用户名、姓名、任何东西"

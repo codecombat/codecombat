@@ -187,7 +187,7 @@ module.exports = class CocoRouter extends Backbone.Router
     $("ul.nav li.#{base}").addClass('active')
 
   _trackPageView: ->
-    window.tracker?.trackPageView null, ['Google Analytics']
+    window.tracker?.trackPageView()
 
   onNavigate: (e) ->
     if _.isString e.viewClass
