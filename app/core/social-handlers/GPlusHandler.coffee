@@ -102,7 +102,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
       success: (model) ->
         console.info('GPLus login success!')
-        window.tracker?.trackEvent 'Google Login', category: "Signup", ['Google Analytics']
+        window.tracker?.trackEvent 'Google Login', category: "Signup"
         if model.id is beforeID
           window.tracker?.trackEvent 'Finished Signup', label: 'GPlus'
         window.location.reload() if wasAnonymous and not model.get('anonymous')

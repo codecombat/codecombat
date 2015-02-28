@@ -96,7 +96,7 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
-    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain, ['Google Analytics']
+    window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
 
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
     elapsed = (new Date() - new Date(me.get('dateCreated')))
@@ -429,7 +429,7 @@ module.exports = class CampaignView extends RootView
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
     else
       @startLevel levelElement
-      window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug, ['Google Analytics']
+      window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
   startLevel: (levelElement) ->
     @setupManager?.destroy()

@@ -35,7 +35,6 @@ init = ->
   path = document.location.pathname
   app.testing = _.string.startsWith path, '/test'
   app.demoing = _.string.startsWith path, '/demo'
-  initializeUtilityServices() unless app.testing or app.demoing
   setUpBackboneMediator()
   app.initialize()
   Backbone.history.start({ pushState: true })
@@ -82,9 +81,6 @@ setUpMoment = ->
   moment.lang me.get('preferredLanguage', true), {}
   me.on 'change:preferredLanguage', (me) ->
     moment.lang me.get('preferredLanguage', true), {}
-
-initializeUtilityServices = ->
-  require('core/services/segmentio')()
 
 setupConsoleLogging = ->
   # IE9 doesn't expose console object unless debugger tools are loaded

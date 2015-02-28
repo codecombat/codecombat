@@ -13,69 +13,57 @@ module.exports = class Tracker
     @supermodel = new SuperModel()
 
   identify: (traits={}) ->
+    return unless me
+
     # Save explicit traits for internal tracking
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    console.log 'Would identify', traits if debugAnalytics
-    return unless me and @isProduction and analytics? and not me.isAdmin()
-    # https://segment.io/docs/methods/identify
     for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'wizardColor1', 'testGroupNumber', 'gender', 'lastLevel']
       traits[userTrait] ?= me.get(userTrait)
-    analytics.identify me.id, traits
+    console.log 'Would identify', traits if debugAnalytics
+    return unless @isProduction and not me.isAdmin()
 
-  trackPageView: (virtualName=null, includeIntegrations=null) ->
-    # console.log 'trackPageView', virtualName, includeIntegrations
-    # Google Analytics does not support event-based funnels, so we have to use virtual pageviews instead
-    # https://support.google.com/analytics/answer/1032720?hl=en
-    name = virtualName ? Backbone.history.getFragment()
+    # Errorception
+    # https://errorception.com/docs/meta
+    _errs?.meta = traits
 
-    properties = {}
-    if virtualName?
-      # Override title and path properties for virtual page view
-      # https://segment.com/docs/libraries/analytics.js/#page
-      properties =
-        title: name
-        path: "/#{name}"
+    # Inspectlet
+    # https://www.inspectlet.com/docs#identifying_users
+    __insp?.push ['identify', me.id]
+    __insp?.push ['tagSession', traits]
 
-    options = {}
-    if includeIntegrations?
-      options = integrations: {'All': false}
-      for integration in includeIntegrations
-        options.integrations[integration] = true
+  trackPageView: ->
+    name = Backbone.history.getFragment()
+    console.log "Would track analytics pageview: '/#{name}'" if debugAnalytics
+    return unless @isProduction and not me.isAdmin()
 
-    console.log "Would track analytics pageview: '/#{name}'", properties, options, includeIntegrations if debugAnalytics
-    return unless @isProduction and analytics? and not me.isAdmin()
+    # Google Analytics
+    # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
+    ga? 'send', 'pageview', "/#{name}"
 
-    # Ok to pass empty properties, but maybe not options
-    # TODO: What happens when we pass empty options?
-    if _.isEmpty options
-      # console.log "trackPageView without options '/#{name}'", properties, options
-      analytics.page "/#{name}"
-    else
-      # console.log "trackPageView with options '/#{name}'", properties, options
-      analytics.page "/#{name}", properties, options
+    # Inspectlet
+    # http://www.inspectlet.com/docs#virtual_pageviews
+    __insp?.push ['virtualPage']
 
-  trackEvent: (action, properties, includeIntegrations=null) =>
-    # 'action' is a string
-    # Google Analytics properties format: {category: 'Account', label: 'Premium', value: 50 }
-    # https://segment.com/docs/integrations/google-analytics/#track
-    # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#Anatomy
-    # Mixpanel properties format: whatever you want unlike GA
-    # https://segment.com/docs/integrations/mixpanel/
-    properties = properties or {}
-
+  trackEvent: (action, properties={}) =>
     @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction
+    console.log 'Tracking external analytics event:', action, properties if debugAnalytics
+    return unless me and @isProduction and not me.isAdmin()
 
-    console.log 'Would track analytics event:', action, properties, includeIntegrations if debugAnalytics
-    return unless me and @isProduction and analytics? and not me.isAdmin()
-    context = {}
-    if includeIntegrations
-      # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
-      context.integrations = {'All': false}
-      for integration in includeIntegrations
-        context.integrations[integration] = true
-    analytics?.track action, properties, context
+    # Google Analytics
+    # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+    gaFieldObject =
+      hitType: 'event'
+      eventCategory: properties.category ? 'All'
+      eventAction: action
+    gaFieldObject.eventLabel = properties.label if properties.label?
+    gaFieldObject.eventValue = properties.value if properties.value?
+    ga? 'send', gaFieldObject
+
+    # Inspectlet
+    # http://www.inspectlet.com/docs#tagging
+    __insp?.push ['tagSession', action: action, properies: properties]
 
   trackEventInternal: (event, properties) =>
     # Skipping heavily logged actions we don't use internally
@@ -96,7 +84,7 @@ module.exports = class Tracker
         eventObject["properties"] = properties unless _.isEmpty properties
         eventObject["user"] = me.id
         dataToSend = JSON.stringify eventObject
-        console.log dataToSend if debugAnalytics
+        # console.log dataToSend if debugAnalytics
         $.post("http://analytics.codecombat.com/analytics", dataToSend).fail ->
           console.error "Analytics post failed!"
       else
@@ -107,8 +95,9 @@ module.exports = class Tracker
         }, 0
         request.load()
 
-  trackTiming: (duration, category, variable, label, samplePercentage=5) ->
-    # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming
+  trackTiming: (duration, category, variable, label) ->
+    # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings
     return console.warn "Duration #{duration} invalid for trackTiming call." unless duration >= 0 and duration < 60 * 60 * 1000
     console.log 'Would track timing event:', arguments if debugAnalytics
-    window._gaq?.push ['_trackTiming', category, variable, duration, label, samplePercentage]
+    return unless me and @isProduction and not me.isAdmin()
+    ga? 'send', 'timing', category, variable, duration, label

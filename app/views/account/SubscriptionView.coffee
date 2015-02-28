@@ -56,12 +56,12 @@ module.exports = class SubscriptionView extends RootView
     document.location.reload()
 
   onClickEndSubscription: (e) ->
-    window.tracker?.trackEvent 'Unsubscribe Start', {}
+    window.tracker?.trackEvent 'Unsubscribe Start'
     @$el.find('.end-subscription-button').blur().addClass 'disabled', 250
     @$el.find('.unsubscribe-feedback').show(500).find('textarea').focus()
 
   onClickCancelEndSubscription: (e) ->
-    window.tracker?.trackEvent 'Unsubscribe Cancel', {}
+    window.tracker?.trackEvent 'Unsubscribe Cancel'
     @$el.find('.unsubscribe-feedback').hide(500).find('textarea').blur()
     @$el.find('.end-subscription-button').focus().removeClass 'disabled', 250
 

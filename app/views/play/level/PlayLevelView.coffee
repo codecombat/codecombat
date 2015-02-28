@@ -110,7 +110,7 @@ module.exports = class PlayLevelView extends RootView
       setTimeout f, 100
     else
       @load()
-      application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID, ['Google Analytics'] unless @observing
+      application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID unless @observing
 
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
@@ -136,7 +136,7 @@ module.exports = class PlayLevelView extends RootView
     loadDuration = @loadEndTime - @loadStartTime
     console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
     unless @observing
-      application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration, ['Google Analytics']
+      application.tracker?.trackEvent 'Finished Level Load', category: 'Play Level', label: @levelID, level: @levelID, loadDuration: loadDuration
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   # CocoView overridden methods ###############################################
@@ -430,7 +430,7 @@ module.exports = class PlayLevelView extends RootView
         label: @level.get('name')
         levelID: @levelID
         ls: @session?.get('_id')
-      application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
+      application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID
 
   showVictory: ->
     @endHighlight()

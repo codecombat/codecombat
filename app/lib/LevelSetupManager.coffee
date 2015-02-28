@@ -98,14 +98,14 @@ module.exports = class LevelSetupManager extends CocoClass
     @inventoryModal.didReappear()
     @inventoryModal.onShown()
     @inventoryModal.setHero(e.hero) if e.hero
-    window.tracker?.trackEvent 'Choose Inventory', category: 'Play Level', ['Google Analytics']
+    window.tracker?.trackEvent 'Choose Inventory', category: 'Play Level'
 
   onChooseHeroClicked: ->
     @options.parent.openModalView(@heroesModal)
     @heroesModal.render()
     @heroesModal.didReappear()
     @inventoryModal.endHighlight()
-    window.tracker?.trackEvent 'Change Hero', category: 'Play Level', ['Google Analytics']
+    window.tracker?.trackEvent 'Change Hero', category: 'Play Level'
 
   onInventoryModalPlayClicked: ->
     @navigatingToPlay = true

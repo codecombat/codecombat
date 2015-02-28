@@ -19,7 +19,7 @@ module.exports = class AccountSettingsView extends CocoView
     'click .profile-photo': 'onEditProfilePhoto'
     'click #upload-photo-button': 'onEditProfilePhoto'
     'click #delete-account-button': 'confirmAccountDeletion'
-    
+
   constructor: (options) ->
     super options
     require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
@@ -36,13 +36,13 @@ module.exports = class AccountSettingsView extends CocoView
     c.subs[sub] = 1 for sub in me.getEnabledEmails()
     c
 
-    
+
   #- Form input callbacks
   onInputChanged: (e) ->
     $(e.target).addClass 'changed'
-    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 
+    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1
       $(e.target).removeClass 'changed'
-    else  
+    else
       @trigger 'input-changed'
 
   toggleEmailSubscriptions: =>
@@ -65,9 +65,9 @@ module.exports = class AccountSettingsView extends CocoView
     @trigger 'inputChanged', e
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
-    
+
   #- Just copied from OptionsView, TODO refactor
-  
+
   confirmAccountDeletion: ->
     forms.clearFormAlerts(@$el)
     myEmail = me.get 'email'
@@ -99,7 +99,7 @@ module.exports = class AccountSettingsView extends CocoView
           layout: 'topCenter'
         _.delay ->
           Backbone.Mediator.publish("auth:logging-out", {})
-          window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
+          window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
           logoutUser($('#login-email').val())
         , 500
       error: (jqXHR, status, error) ->
@@ -136,8 +136,8 @@ module.exports = class AccountSettingsView extends CocoView
   onImageUploaded: (onSaved, uploadingPath) ->
     (e) =>
       onSaved uploadingPath
-    
-    
+
+
   #- Misc
 
   getSubscriptions: ->
@@ -146,9 +146,9 @@ module.exports = class AccountSettingsView extends CocoView
     enableds = (i.prop('checked') for i in inputs)
     _.zipObject emailNames, enableds
 
-    
+
   #- Saving changes
-    
+
   save: ->
     $('#settings-tabs input').removeClass 'changed'
     forms.clearFormAlerts(@$el)
@@ -217,4 +217,3 @@ module.exports = class AccountSettingsView extends CocoView
       permissions.push 'godmode' if godmodeCheckbox.prop('checked')
 
     me.set('permissions', permissions)
-

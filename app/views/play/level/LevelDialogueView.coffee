@@ -38,7 +38,7 @@ module.exports = class LevelDialogueView extends CocoView
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
 
-    window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}, ['Google Analytics']
+    window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}
 
   onDialogueSoundCompleted: ->
     @$el.removeClass 'speaking'

@@ -10,7 +10,7 @@ module.exports = class HomeView extends RootView
 
   constructor: ->
     super()
-    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage', ['Google Analytics']
+    window.tracker?.trackEvent 'Homepage Loaded', category: 'Homepage'
     if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
       @setUpHourOfCode()
     elapsed = (new Date() - new Date(me.get('dateCreated')))
@@ -52,4 +52,4 @@ module.exports = class HomeView extends RootView
       me.patch()
     # We may also insert the tracking pixel for everyone on the CampaignView so as to count directly-linked visitors.
     $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
-    application.tracker?.trackEvent 'Hour of Code Begin', {}
+    application.tracker?.trackEvent 'Hour of Code Begin'
