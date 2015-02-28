@@ -363,7 +363,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     all: "За все время"
     time: "Время"
     damage_taken: "Получено повреждений"
-    damage_dealt: "Насесено повреждений"
+    damage_dealt: "Нанесено повреждений"
     difficulty: "Сложность"
     gold_collected: "Собрано золота"
 
