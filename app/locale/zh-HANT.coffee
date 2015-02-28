@@ -296,6 +296,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "Ctrl+[ 快退; Ctrl+] 快進."
     tip_guide_exists: "點擊頁面上方的指南，可獲得更多有用的訊息."
     tip_open_source: "「CodeCombat」100% 開源!"
+    tip_open_source_contribute: "你可以幫助「CodeCombat」提高！ 讀https://github.com/codecombat/codecombat/wiki/Archmage-Home"
     tip_beta_launch: "「CodeCombat」在2013年10月進入 BETA 測試。"
     tip_think_solution: "思考解決方法而不是問題."
     tip_theory_practice: "理論上, 理論和實作之間是沒有區別. 但是實作上, 這兩者是有區別的. - Yogi Berra"
