@@ -334,7 +334,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_move_forward: "Hagas lo que hagas, siempre sigue hacia delante. - Martin Luther King Jr."
     tip_google: "¿Tienes un problema que no puedes resolver? ¡Googléalo!"
     tip_adding_evil: "Agregando una pizca de maldad."
-    tip_hate_computers: "Eso es la razon sobre la gente que piensa que odia las computadoras. Lo que ellos odian de verdad, es los pesimos programadores. - Larry Niven"
+    tip_hate_computers: "Esa es la razón por la cual la gente piensa que odia las computadoras. Lo que ellos odian de verdad, es los pesimos programadores. - Larry Niven"
 
   game_menu:
     inventory_tab: "Inventario"
