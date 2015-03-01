@@ -6,12 +6,12 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     play: "إلعب" # The big play button that opens up the campaign view.
     old_browser: "اه أوه، متصفحك قديم جدا لتشغيل CodeCombat. آسف!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "يمكنك محاولة على أي حال، لكنه ربما لن يعمل."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "الخبر السيئ: لا يمكنك تشغيل اللعبة في المتصفح على الآيباد ، الخبر الجيد: تطبيق اللعبة للآيباد جاهز و في إنتظار موافقة آبل."
     campaign: "حملة"
     for_beginners: "للمبتدئين"
     multiplayer: "متعدد اللاعبين" # Not currently shown on home page
     for_developers: "للمطوّرين" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "أو حمِّل من أجل الآيباد"
 
   nav:
     play: "إلعب" # The top nav bar entry where players choose which levels to play
@@ -53,35 +53,40 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     players: "لاعبين" # Hover over a level on /play
     hours_played: "ساعات اللّعب" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
-#    owned: "Owned" # For items you own
-#    locked: "Locked"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    unlock: "فتح" # For purchasing items and heroes
+    confirm: "تأكيد"
+    owned: "ممتَلَك" # For items you own
+    locked: "مقفل"
+    purchasable: "للشراء" # For a hero you unlocked but haven't purchased
+    available: "متوفر"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    account: "حساب" # Tooltip on account button from /play
+    settings: "الإعدادات" # Tooltip on settings button from /play
+    next: "التالي" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
-#    subscription_required: "Subscription Required"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    campaign_desert: "حملة في الصحراء"
+    campaign_forest: "حملة في الغابة"
+    campaign_dungeon: "حملة في البرج"
+    subscription_required: "الإشتراك إلزامي"
+    free: "مجاني"
+    subscribed: "مسجَّل"
+    older_campaigns: "حملات أقدم"
+    anonymous: "لاعب مجهول"
     level_difficulty: "الصعوبة:"
     campaign_beginner: "حملة المبتدئين"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "تعديل الصوت"
     choose_your_level: "اختر مستواك" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "يمكنك القفز إلى أي مستوى أدناه، أو مناقشة المستويات على "
     adventurer_forum: "منتدى المغامر"
     adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
+    campaign_old_beginner: "حملات أقدم من أجل المبتدئين"
     campaign_old_beginner_description: "... فيها تتعلم سحر البرمجة."
     campaign_dev: "مستويات أصعب عشوائية"
     campaign_dev_description: "... فيها تتعلم واجهة بينما  تفعل شيئا أصعب قليلا."
