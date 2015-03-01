@@ -335,7 +335,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_google: "Tens um problema que não consegues resolver? Vai ao Google!"
     tip_adding_evil: "A acrescentar uma pitada de mal."
     tip_hate_computers: "É o problema das pessoas que acham que odeiam coputadores. O que elas odeiam mesmo são maus programadores. - Larry Niven"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
+    tip_open_source_contribute: "Podes ajudar a melhorar o CodeCombat!"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -517,15 +517,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   about:
     why_codecombat: "Porquê o CodeCombat?"
-    why_paragraph_1: "Se queres aprender a programar, não precisas de aulas. Precisas sim de escrever muito código e passar um bom bocado enquanto o fazes."
-    why_paragraph_2_prefix: "Afinal, é sobre isso que é a programação. Tem de ser divertida. Não divertida do género"
-    why_paragraph_2_italic: "yay uma medalha"
-    why_paragraph_2_center: "mas sim divertida do género"
-    why_paragraph_2_italic_caps: "NÃO MÃE, TENHO DE ACABAR O NÍVEL!"
-    why_paragraph_2_suffix: "É por isso que o CodeCombat é um jogo multijogador, e não um jogo que não passa de um curso com lições. Nós não vamos parar enquanto não puderes parar--mas desta vez, isso é uma coisa boa."
+    why_paragraph_1: "Se queres aprender a programar, não precisas de aulas. Precisas é de escrever muito código e divertires-te enquanto o fazes."
+    why_paragraph_2_prefix: "É sobre isso que é a programação. Tem de ser divertida. Não divertida do género"
+    why_paragraph_2_italic: "'yay, uma medalha'"
+    why_paragraph_2_center: "mas divertida do género"
+    why_paragraph_2_italic_caps: "'NÃO MÃE, TENHO DE ACABAR O NÍVEL!'"
+    why_paragraph_2_suffix: "É por isso que o CodeCombat é um jogo multijogador e não um jogo que não passa de um curso com lições. Nós não vamos parar enquanto não puderes parar--mas desta vez, isso é uma coisa boa."
     why_paragraph_3: "Se vais ficar viciado em algum jogo, vicia-te neste e torna-te num dos feiticeiros da idade da tecnologia."
     press_title: "Bloggers/Imprensa"
-    press_paragraph_1_prefix: "Queres escrever sobre nós? Sente-te à vontade para descarregar e usar todos os recursos incluídos no nosso"
+    press_paragraph_1_prefix: "Queres escrever sobre nós? Sente-te à vontade para descarregares e usares todos os recursos incluídos no nosso"
     press_paragraph_1_link: "pacote de imprensa"
     press_paragraph_1_suffix: ". Todos os logótipos e imagens podem ser usados sem sermos contactados diretamente."
     team: "Equipa"
@@ -544,7 +544,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     josh_title: "Designer de Jogos"
     josh_blurb: "O Chão é Lava"
     jose_title: "Música"
-    jose_blurb: "A Começar"
+    jose_blurb: "Taking Off"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "RetroStyle Games"
 
@@ -684,12 +684,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   community:
     main_title: "Comunidade do CodeCombat"
-    introduction: "Confere abaixo as formas de te envolveres e decide o que te parece melhor. Estamos ansiosos por trabalhar contigo!"
+    introduction: "Confere abaixo as formas de te envolveres e escolhe a que te parece mais divertida. Estamos ansiosos por trabalhar contigo!"
     level_editor_prefix: "Usa o"
-    level_editor_suffix: "do CodeCombat para criares e editares níveis. Os utilizadores já criaram níveis para aulas, amigos, maratonas hacker, estudantes e familiares. Se criar um nível parece intimidante, podes começar por bifurcar um dos nossos!"
+    level_editor_suffix: "do CodeCombat para criares e editares níveis. Os utilizadores já criaram níveis para aulas, amigos, maratonas hacker, estudantes e familiares. Se criar um nível novo parece intimidante, podes começar por bifurcar um dos nossos!"
     thang_editor_prefix: "Chamamos 'thangs' às unidades do jogo. Usa o"
-    thang_editor_suffix: "para modificares a arte do CodeCombat. Dá permição às unidades para lançarem projéteis, altera a direção de uma animação, altera os pontos de vida de uma unidade ou anexa as tuas próprias unidades."
-    article_editor_prefix: "Vês um erro em alguns dos nossos documentos? Queres escrever algumas instruções para as tuas criações? Confere o"
+    thang_editor_suffix: "para modificares a arte do CodeCombat. Faz as unidades lançarem projéteis, altera a direção de uma animação, altera os pontos de vida de uma unidade ou anexa as tuas próprias unidades."
+    article_editor_prefix: "Vês um erro em alguns dos nossos documentos? Queres escrever algumas instruções para as tuas próprias criações? Confere o"
     article_editor_suffix: "e ajuda os jogadores do CodeCombat a obter o máximo do tempo de jogo deles."
     find_us: "Encontra-nos nestes sítios"
     social_blog: "Lê o blog do CodeCombat no Sett"
