@@ -2,12 +2,12 @@
 
 There are many ways in which to contribute to CodeCombat, these include becoming a(n):
 
- - **[Archmage](https://codecombat.com/contribute/archmage)** (Coder)
- - **[Artisan](https://codecombat.com/contribute/artisan)** (Level Builder) 
- - **[Adventurer](https://codecombat.com/contribute/adventurer)** (Level Playtester)
- - **[Scribe](https://codecombat.com/contribute/scribe)** (Article Editor)
- - **[Diplomat](https://codecombat.com/contribute/diplomat)** (Translator)
- - **[Ambassador](https://codecombat.com/contribute/ambassador)** (Support)
+ - **[Archmage](http://codecombat.com/contribute/archmage)** (Coder)
+ - **[Artisan](http://codecombat.com/contribute/artisan)** (Level Builder) 
+ - **[Adventurer](http://codecombat.com/contribute/adventurer)** (Level Playtester)
+ - **[Scribe](http://codecombat.com/contribute/scribe)** (Article Editor)
+ - **[Diplomat](http://codecombat.com/contribute/diplomat)** (Translator)
+ - **[Ambassador](http://codecombat.com/contribute/ambassador)** (Support)
 
 ###The CLA
 
