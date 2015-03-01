@@ -296,7 +296,6 @@
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
     tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat is 100% open source!"
-    tip_open_source_contribute: "You can help CodeCombat improve! Go to https://github.com/codecombat/codecombat/wiki/Archmage-Home"
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_think_solution: "Think of the solution, not the problem."
     tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
@@ -336,6 +335,7 @@
     tip_google: "Have a problem you can't solve? Google it!"
     tip_adding_evil: "Adding a pinch of evil."
     tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "Inventory"
