@@ -335,7 +335,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_google: "У вас проблема, которую вы не можете решить? Гуглите!"
     tip_adding_evil: "Добавим щепотку зла."
     tip_hate_computers: "Есть одна вещь в людях, которые думают, что они ненавидят компьютеры. Что они на самом деле ненавидят, так это плохих программистов. - Larry Niven"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
+    tip_open_source_contribute: "Вы можете помочь сделать CodeCombat лучше!"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -797,7 +797,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_completion: "Выполнение уровня"
     pop_i18n: "Популяризируйте I18N"
     tasks: "Задачи"
-#    clear_storage: "Clear your local changes"
+    clear_storage: "Очистить ваши локальные изменения"
 
   article:
     edit_btn_preview: "Предпросмотр"
