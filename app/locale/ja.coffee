@@ -335,6 +335,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_google: "解決できない問題がありますか？ググっちゃえ！"
     tip_adding_evil: "悪を少々加える。"
     tip_hate_computers: "コンピュータを憎むと思う人についての事だ。彼らが本当に嫌いなのは下手なプログラマーだ。- ラリー・ニーヴン"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "インベントリー"

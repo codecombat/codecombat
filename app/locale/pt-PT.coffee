@@ -335,6 +335,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_google: "Tens um problema que não consegues resolver? Vai ao Google!"
     tip_adding_evil: "A acrescentar uma pitada de mal."
     tip_hate_computers: "É o problema das pessoas que acham que odeiam coputadores. O que elas odeiam mesmo são maus programadores. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "Inventário"

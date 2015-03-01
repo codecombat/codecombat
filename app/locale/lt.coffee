@@ -335,6 +335,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
 #  game_menu:
 #    inventory_tab: "Inventory"

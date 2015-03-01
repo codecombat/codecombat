@@ -335,6 +335,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tip_google: "Có vấn đề mà bạn không thể giải quyết ? Hãy sử dụng Google để tìm ra phương án!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
 #    inventory_tab: "Inventory"

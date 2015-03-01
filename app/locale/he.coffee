@@ -335,6 +335,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_google: "!יש בעיה שאתה לא מצליח לפתור? תגגל אותה"
     tip_adding_evil: ".מוסיף קמצוץ של רשע"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "תיק"
@@ -671,7 +672,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     run_real_time: ".הרץ קוד בזמן אמת"
     continue_script: ".המשך בתסריט זה"
     skip_scripts: ".דלג על כל התסריטים שניתן לדלג עליהם"
-    toggle_playback: ".הפעל\השהה"
+    toggle_playback: ".הפעלהשהה"
     scrub_playback: ".התקדם אחורה וקדימה בזמן"
     single_scrub_playback: ".התקדם אחורה וקדימה בזמן בפריים אחד"
 #    scrub_execution: "Scrub through current spell execution."

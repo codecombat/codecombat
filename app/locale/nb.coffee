@@ -335,6 +335,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_google: "Har du et problem du ikke kan løse? Google det!"
     tip_adding_evil: "Legger til en klype ondskap!"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "Utstyr"
