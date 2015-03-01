@@ -150,6 +150,7 @@ module.exports.thangNames = thangNames =
     'Thomas'
     'Timothy'
     'Todd'
+    'Tryndamere'
     'Tyrone'
     'Victor'
     'Walter'
@@ -159,6 +160,7 @@ module.exports.thangNames = thangNames =
     'Zachary'
   ]
   'Soldier F': [
+    'Ahri'
     'Alana'
     'Alexandra'
     'Alice'
@@ -669,9 +671,11 @@ module.exports.thangNames = thangNames =
     'Sun Tzu'
   ]
   'Ninja': [
+    'Akali'
     'Amara'
     'Goemon'
     'Itachi'
+    'Kennen'
     'Kosaraju'
     'Madara'
     'Minato'
@@ -679,8 +683,10 @@ module.exports.thangNames = thangNames =
     'Obito'
     'Sakura'
     'Sasuke'
+    'Shen'
     'Shigeru'
     'Takashi'
+    'Zed'
   ]
   'Sorcerer': [
     'Beazer'
@@ -697,6 +703,8 @@ module.exports.thangNames = thangNames =
     'Izotokogawa'
     'Keitaro'
     'Nobunaga'
+    'Yasuo'
+    'Yi'
   ]
   'Sand Yak': [
     'Arngotho'
@@ -821,19 +829,25 @@ module.exports.thangNames = thangNames =
     'Zana'
   ]
   'Assassin': [
+    'Kha\'Zix'
     'Ritic'
+    'Rengar'
     'Shade'
+    'Talon'
     'BlackJack'
+    'Zed'
   ]
   'Necromancer': [
     'Nalfar'
   ]
   'Dark Wizard': [
     'Usara'
+    'Veigar'
   ]
   'Paladin': [
     # TODO: paladin names (female)
     'Celadia'
+    'Taric'
   ]
   'Ogre Witch': [
     # TODO: ogre witch names
