@@ -3,6 +3,8 @@
 
 require('coffee-script');
 require('coffee-script/register');
+_ = require('lodash');
+
 config = require('../../server_config');
 if(config.stripe.secretKey.indexOf('sk_test_')==0) {
   throw new Error('You should not run this on the test data... Get your environment in gear.');
@@ -36,7 +38,7 @@ onInvoicesReceived = function(err, invoices) {
     begin(invoices.data[i].id);
   }
   else {
-    console.log('How many customers paid for a subscription:', customersPaid.length);
+    console.log('How many customers paid for a subscription:', _.unique(customersPaid).length);
     loadNewCustomers();
   }
 }
