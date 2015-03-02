@@ -29,7 +29,7 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
-    if document.location.href.search('codecombat.com') isnt -1
+    if application.isProduction()
       @saveSession = _.debounce(@reallySaveSession, 4000, {maxWait: 10000})  # Save slower on production.
     else
       @saveSession = _.debounce(@reallySaveSession, 1000, {maxWait: 5000})  # Save quickly in development.
