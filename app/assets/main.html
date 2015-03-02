@@ -69,6 +69,10 @@
   <script src="/javascripts/aether.js"></script>
   <script src="/javascripts/app.js"></script>
   <![endif]-->
+  <!-- IE9 cors support breaks analytics logging: http://caniuse.com/#feat=cors -->
+  <!--[if IE 9]>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.2/jquery.xdomainrequest.min.js"></script>
+  <![endif]-->
   <![if (gt IE 9)|(!IE)]>
   <script src="/lib/ace/ace.js" defer></script>
   <script src="/javascripts/vendor.js" defer></script>
