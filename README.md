@@ -69,9 +69,3 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ![Alex Crooks](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Crooks/alex_100.png)
 ![Danny Whittaker](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Danny%20Whittaker/danny_100.png)
 ![Kevin Holland](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Kevin%20Holland/kevin_100.png)
-
-
-
-----------
-
-[![](http://1-ps.googleusercontent.com/x/s.google-melange.appspot.com/www.google-melange.com/soc/content/2-1-20140225/images/gsoc/logo/920x156xbanner-gsoc2014.png.pagespeed.ic.gdr4t3Igca.png)](http://www.google-melange.com/gsoc/homepage/google/gsoc2014)
