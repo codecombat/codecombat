@@ -57,4 +57,4 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
           if (i18n = method.i18n) and (context = method.context)
             for key, value of context
               path = ['thangs', thangIndex, 'components', componentIndex, 'config', 'programmableMethods', methodName]
-              @wrapRow 'Code comment', ['context', key], value, i18n[lang]?.context[key], path
+              @wrapRow 'Code comment', ['context', key], value, i18n[lang]?.context?[key], path

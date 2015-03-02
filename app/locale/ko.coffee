@@ -335,6 +335,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tip_google: "문제가 너무 어렵다구요? 구글로 검색해보세요!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "인벤토리"

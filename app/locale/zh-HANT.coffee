@@ -335,6 +335,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_google: "擁有一個您不能解決的問題? Google 它!"
     tip_adding_evil: "增加一個邪惡之捏."
     tip_hate_computers: "關於自我覺得恨透電腦的那群人. 其實他們真正應該恨的事情是糟糕的程序員. - Larry Niven"
+    tip_open_source_contribute: "你可以幫助「CodeCombat」提高！"
 
   game_menu:
     inventory_tab: "倉庫"

@@ -23,6 +23,9 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
     props.push('official') if req.user?.isAdmin()
     props
 
+  hasAccessToDocument: (req, document, method) ->
+    if req.user?.isArtisan() then true else super req, document, method
+
   get: (req, res) ->
     if req.query.view is 'prop-doc-lookup'
       projection = {}

@@ -335,6 +335,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_google: "Máš problém, který nemůžeš vyřešit? Vygoogluj to!"
     tip_adding_evil: "Přidávání špetky zla."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
+#    tip_open_source_contribute: "You can help CodeCombat improve!"
 
   game_menu:
     inventory_tab: "Inventář"
