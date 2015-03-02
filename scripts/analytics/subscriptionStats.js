@@ -1,5 +1,5 @@
 // To use: set the range you want below, make sure your environment has the stripe key, then run:
-// node scripts/analytics/subscriptions.js 
+// node scripts/analytics/subscriptionStats.js 
 
 require('coffee-script');
 require('coffee-script/register');
@@ -11,8 +11,8 @@ if(config.stripe.secretKey.indexOf('sk_test_')==0) {
 stripe = require('stripe')(config.stripe.secretKey);
 
 var range = {
-  gt: ''+(new Date('2015-01-01').getTime()/1000),
-  lt: ''+(new Date('2015-02-01').getTime()/1000)
+  gt: ''+(new Date('2015-02-01').getTime()/1000),
+  lt: ''+(new Date('2015-03-01').getTime()/1000)
 }; 
 
 begin = function(starting_after) {
