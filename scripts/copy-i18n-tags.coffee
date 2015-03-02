@@ -25,6 +25,7 @@ for section in splitByCategories
 
 dir = fs.readdirSync 'app/locale'
 for file in dir when not (file in ['locale.coffee', 'en.coffee'])
+  fileSource = fs.readFileSync 'app/locale/' + file, encoding='utf8'
   contents = require('../app/locale/' + file)
   categories = contents.translation
   lines = ["module.exports = nativeDescription: \"#{contents.nativeDescription}\", englishDescription: \"#{contents.englishDescription}\", translation:"]
@@ -44,6 +45,13 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
       if commentsMap[enCat]? and commentsMap[enCat][enTag]?
         comment = " \##{commentsMap[enCat][enTag]}"
 
+      if fileSource.search(new RegExp("#?    #{enTag}: \"#{tag}\".*\{change\}.*")) >= 0 and comment.search(/.*\{change\}/) < 0
+        comment = " \#" + comment if comment is "" 
+        comment = comment + " {change}"
+
       lines.push "#{if tagMissing then '#' else ''}    #{enTag}: \"#{tag}\"#{comment}"
   newContents = lines.join('\n') + '\n'
   fs.writeFileSync 'app/locale/' + file, newContents
+
+enSource = enSource.replace /\s?(#\s)?\{change\}/g, ""
+fs.writeFileSync 'app/locale/en.coffee', enSource
