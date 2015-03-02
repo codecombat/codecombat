@@ -121,7 +121,7 @@ module.exports = class CocoView extends Backbone.View
 
   getRenderData: (context) ->
     context ?= {}
-    context.isProduction = document.location.href.search(/codecombat.com/) isnt -1
+    context.isProduction = application.isProduction()
     context.me = me
     context.pathname = document.location.pathname  # like '/play/level'
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
