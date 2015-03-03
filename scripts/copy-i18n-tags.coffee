@@ -45,7 +45,8 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
       if commentsMap[enCat]? and commentsMap[enCat][enTag]?
         comment = " \##{commentsMap[enCat][enTag]}"
 
-      if fileSource.search(new RegExp("#?    #{enTag}: \"#{tag}\".*\{change\}.*")) >= 0 and comment.search(/.*\{change\}/) < 0
+      escapedTag = tag.replace /[-\/\\^$*+?.()|[\]{}]/g, "\\$&"
+      if fileSource.search(new RegExp("#?    #{enTag}: \"#{escapedTag}\".*\{change\}.*")) >= 0 and comment.search(/.*\{change\}/) < 0
         comment = " \#" + comment if comment is "" 
         comment = comment + " {change}"
 
