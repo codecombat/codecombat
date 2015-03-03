@@ -1,8 +1,10 @@
 // To use: set the range you want below, make sure your environment has the stripe key, then run:
-// node scripts/analytics/subscriptions.js 
+// node scripts/analytics/subscriptionStats.js 
 
 require('coffee-script');
 require('coffee-script/register');
+_ = require('lodash');
+
 config = require('../../server_config');
 if(config.stripe.secretKey.indexOf('sk_test_')==0) {
   throw new Error('You should not run this on the test data... Get your environment in gear.');
@@ -11,8 +13,8 @@ if(config.stripe.secretKey.indexOf('sk_test_')==0) {
 stripe = require('stripe')(config.stripe.secretKey);
 
 var range = {
-  gt: ''+(new Date('2015-01-01').getTime()/1000),
-  lt: ''+(new Date('2015-02-01').getTime()/1000)
+  gt: ''+(new Date('2015-02-01').getTime()/1000),
+  lt: ''+(new Date('2015-03-01').getTime()/1000)
 }; 
 
 begin = function(starting_after) {
@@ -36,7 +38,7 @@ onInvoicesReceived = function(err, invoices) {
     begin(invoices.data[i].id);
   }
   else {
-    console.log('How many customers paid for a subscription:', customersPaid.length);
+    console.log('How many customers paid for a subscription:', _.unique(customersPaid).length);
     loadNewCustomers();
   }
 }

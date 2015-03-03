@@ -1,5 +1,481 @@
 module.exports.thangNames = thangNames =
+  'Ogre Munchkin F': [
+    # Female
+    'Dosha'
+    'Gurzunn'
+    'Hoot'
+    'Inski'
+    'Iyert'
+    'Lacos'
+    'Palt'
+    'Shmeal'
+    'Upfish'
+    'Yugark'
+  ]
+  'Ogre Munchkin M': [
+    # Male
+    'Blob'
+    'Brack'
+    'Dobo'
+    'Draff'
+    'Gert'
+    'Godel'
+    'Goreball'
+    'Gort'
+    'Kog'
+    'Kogpole'
+    'Kratt'
+    'Leerer'
+    'Nerph'
+    'Raack'
+    'Ragtime'
+    'Skoggen'
+    'Smerk'
+    'Snortt'
+    'Thabt'
+    'Treg'
+    'Ursa'
+    'Weeb'
+    'Zozo'
+  ]
+  'Ogre Thrower': [
+    # Female
+    'Drumbaa'
+    'Durnath'
+    'Esha'
+    'Gragthar'
+    'Hamedi'
+    'Jinjin'
+    'Kraggan'
+    'Kyrgg'
+    'Makas'
+    'Moza'
+    'Pinakin'
+    'Rakash'
+    'Rasha'
+    'Vujii'
+    'Wuda'
+    'Yetu'
+    'Zara'
+  ]
+  'Griffin Rider': [
+    # Female
+    'Aeoldan'
+    'Bestarius'
+    'Cristofide'
+    'Denestorath'
+    'Letholdus'
+  ]
+  'Paladin': [
+    # Female
+    'Celadia'
+    'Taric'
+  ]
+  'Ogre Witch': [
+    # Female
+    'Vyrryx'
+  ]
+  'Ogre Chieftain': [
+    # Female
+    'Zagra Ux'
+    'Oniko'
+  ]
+  'Ogre Warlock': [
+    # Male
+    'Vyrryx'
+  ]
+  'Ogre Scout M': [
+    # Male
+    'Frandar'
+    'Karnaugh'
+    'Lanthon'
+    'Tarjan'
+    'Yorgalfen'
+  ]
+  'Ogre Scout F': [
+    # Female
+    'Freesa'
+    'Ganju'
+    'Hopper'
+    'Ralthora'
+  ]
+  'Burl': [
+    # Animal
+    'Borlit'
+    'Burlosh'
+    'Dorf'
+  ]
+  'Sand Yak': [
+    # Animal
+    'Arngotho'
+    'Falthror'
+    'Girvan'
+    'Langthok'
+    'Ofgar'
+    'Randall'
+  ]
+  'Raven': [
+    # Animal
+    'Nevermore'
+    'Baltimore'
+  ]
+  'Cougar': [
+    # Animal
+    'Kitty'
+    'Shasta'
+  ]
+  'Frog': [
+    # Animal
+    'Bighead'
+    'Hypnotoad'
+    'Freddy'
+    'Frogger'
+    'Froggy'
+    'Slippy'
+    'Wart'
+    'Bufo'
+    'Bunda'
+    'Dan\'l Webster'
+    'Mr. Toad'
+    'Trevor'
+    'Wei Qi'
+  ]
+  'Horse': [
+    # Animal
+    'Wildsilver'
+    'Fleetfire'
+    'Ed'
+    'Silver'
+    'Hurricane'
+    'Beauty'
+    'Lovelace'
+    'Mirial'
+  ]
+  'Ogre M': [
+    # Male
+    'Axe Ox'
+    'Belch'
+    'Brusentsov'
+    'Dronck'
+    'Gorlog'
+    'Grumus'
+    'Gug'
+    'Gurulax'
+    'Krogg'
+    'Kulgor'
+    'Mak Fod'
+    'Mokrul'
+    'Muthyala'
+    'Oni'
+    'Polifemo'
+    'Saltporker'
+    'Skrungt'
+    'Steve'
+    'Stinker'
+    'Tarlok'
+    'Trogdor'
+    'Trung'
+    'Vargutt'
+  ]
+  'Ogre F': [
+    # Female
+    'Alkaz'
+    'Gar\'ah'
+    'Glonc'
+    'Holkam'
+    'Kriskull'
+    'Mak\'rah'
+    'Marghurk'
+    'Marnag'
+    'Martha'
+    'Morthrug'
+    'Nareng'
+  ]
+  'Ogre Brawler': [
+    # Male
+    'Arelt'
+    'Borgag'
+    'Boz'
+    'Burobb'
+    'Dijkstro'
+    'Grognar'
+    'Grul\'thock'
+    'Grumoll'
+    'Haggar'
+    'Heizenburg'
+    'Ironjaw'
+    'Muul'
+    'Ork\'han'
+    'Roast Beefy'
+    'Trod'
+    'Tuguro'
+    'York'
+    'Zagurk'
+    'Zeredd'
+  ]
+  'Ogre Fangrider': [
+    # Female
+    'Arizard'
+    'Bortrok'
+    'Boruvka'
+    'Doralt'
+    'Dreek'
+    'Flarsho'
+    'Geggret'
+    'Gurzthrot'
+    'Mizzy'
+    'Morzgret'
+    'Murgark'
+    'Muttin'
+    'Secka'
+  ]
+  'Ogre Shaman': [
+    # Female
+    'Ahst\'durante'
+    'Aolian\'Tak'
+    'Drun'
+    'Ghuk'
+    'Gogg'
+    'Gom'
+    'Grek'
+    'Gror'
+    'Il\'Du\'duka'
+    'Makas'
+    'Mogadishu'
+    'Nazgareth'
+    'Poult'
+    'Sham\'uk'
+    'Torluk'
+    'Turann'
+    'Tuzang'
+    'Tuzell'
+    'Ugoki'
+    'Uld\'Mak'
+    'Varreth'
+    'Yamizeb'
+    'Yerong'
+    'Yugargen'
+    'Zo\'Goroth'
+    'Zulabar'
+  ]
+  'Skeleton': [
+    # Both
+    'Bloody Johnny'
+    'Bone Daddy'
+    'Bonejangles'
+    'Bonesworth'
+    'Bonette'
+    'Doornail'
+    'Drybones'
+    'Grim'
+    'Haskell'
+    'Indiana Bones'
+    'James Bone'
+    'Kate'
+    'Palatine'
+    'Ribster'
+    'Rusty'
+    'Sacra'
+    'Scraps'
+    'Shelly'
+    'Shishka-Bob'
+    'Shishka-Larry'
+    'Shishka-Joe'
+    'Skeletor'
+    'Skellington'
+    'Skulldugger'
+    'Skully'
+    'Smitty'
+    'Sphenoid'
+    'Sternum'
+    'Talus'
+    'Ulna'
+    'Yorick'
+  ]
+  'Ogre Headhunter': [
+    # Male
+    'Bob'
+    'Deadtooth'
+    'Ez the Cruel'
+    'Grroq'
+    'Mog'
+    'Mogvar'
+    'Ral\'thuk'
+    'Soth'
+    'Ulxx'
+    'Ur'
+    'Veznyr'
+    'Warlegs'
+    'Xul Gor'
+  ]
+  'Trapper': [
+    # Male
+    'Senick'
+    'John'
+  ]
+  'Forest Archer': [
+    # Female
+    'Naria'
+    'Sylva'
+  ]
+  'Raider': [
+    # Female
+    'Arryn'
+  ]
+  'Goliath': [
+    # Male
+    'Okar'
+  ]
+  'Guardian': [
+    # Female
+    'Illia'
+  ]
+  'Pixie': [
+    # Female
+    'Zana'
+  ]
+  'Assassin': [
+    # Male
+    'Blackjack'
+    'Kha\'Zix'
+    'Ritic'
+    'Rengar'
+    'Shade'
+    'Talon'
+    'Zed'
+  ]
+  'Necromancer': [
+    # Male
+    'Nalfar'
+  ]
+  'Dark Wizard': [
+    # Female
+    'Usara'
+    'Veigar'
+  ]
+  'Archer F': [
+    # Female
+    'Agapi'
+    'Alden'
+    'Alleria'
+    'Atalanta'
+    'Artemis'
+    'Beatrice'
+    'Bachi'
+    'Beverly'
+    'Cairn'
+    'Cecily'
+    'Clare'
+    'Erica'
+    'Gemma'
+    'Ivy'
+    'Jensen'
+    'Katniss'
+    'Keturah'
+    'Kim'
+    'Korra'
+    'Lina'
+    'Luna'
+    'Mercedes'
+    'Mira'
+    'Mirana'
+    'Natalie'
+    'Odette'
+    'Omar'
+    'Orly'
+    'Phoebe'
+    'Prim'
+    'Rosaline'
+    'Rowan'
+    'Tansy'
+    'Tauriel'
+    'Vereesa'
+    'Vesper'
+    'Yilitha'
+  ]
+  'Archer M': [
+    # Male
+    'Arty'
+    'Brian'
+    'Cole'
+    'Denin'
+    'Dev'
+    'Fidsdale'
+    'Gimsley'
+    'Hunter'
+    'Legolas'
+    'Loco'
+    'Logos'
+    'Lycan'
+    'Mars'
+    'Odysseos'
+    'Oliver'
+    'Quinn'
+    'Robin'
+    'Roman'
+    'Simon'
+    'Slyvos'
+    'Vican'
+    'Warshall'
+    'Yue Fei'
+    'Zhou Tong'
+  ]
+  'Peasant M': [
+    # Male
+    'Azgot'
+    'Brom'
+    'Carlton'
+    'Charles'
+    'Durfkor'
+    'Duan'
+    'Fendrel'
+    'Gawain'
+    'Hamming'
+    'Hector'
+    'Hershell'
+    'Hingle'
+    'Hodor'
+    'Jackson'
+    'James'
+    'Lyle'
+    'Merek'
+    'Paps'
+    'Piers'
+    'Shimron'
+    'Thad'
+    'Tybalt'
+    'Victor'
+    'Winkler'
+    'Yorik'
+    'Yusef'
+  ]
+  'Peasant F': [
+    # Female
+    'Alexia'
+    'Alianor'
+    'Anastas'
+    'Bernadette'
+    'Brandy'
+    'Cristiana'
+    'Ellyn'
+    'Giselle'
+    'Gwendolin'
+    'Helena'
+    'Hilda'
+    'Icey'
+    'Katelyn'
+    'Mary'
+    'Matilda'
+    'Mertia'
+    'Millicent'
+    'Regan'
+    'Rose'
+    'Ruth'
+    'Tabitha'
+    'Thea'
+  ]
   'Soldier M': [
+    # Male
     'Aaron'
     'Adam'
     'Addison'
@@ -107,6 +583,7 @@ module.exports.thangNames = thangNames =
     'Mischa'
     'Musashi'
     'Nicholas'
+    'Nick'
     'Noah'
     'Orion'
     'Parker'
@@ -161,6 +638,7 @@ module.exports.thangNames = thangNames =
     'Zachary'
   ]
   'Soldier F': [
+    # Female
     'Ahri'
     'Alana'
     'Alexandra'
@@ -174,7 +652,7 @@ module.exports.thangNames = thangNames =
     'Anna'
     'Anne'
     'Annie'
-    'AnnMaria'
+    'Ann-Maria'
     'Aphrodite'
     'Ashley'
     'Barbara'
@@ -200,6 +678,7 @@ module.exports.thangNames = thangNames =
     'Doris'
     'Dorothy'
     'Elizabeth'
+    'Emma'
     'Emily'
     'Evelyn'
     'Fiora'
@@ -291,162 +770,8 @@ module.exports.thangNames = thangNames =
     'Virginia'
     'Wanda'
   ]
-  'Peasant M': [
-    'Azgot'
-    'Brom'
-    'Carlton'
-    'Charles'
-    'Durfkor'
-    'Duan'
-    'Fendrel'
-    'Gawain'
-    'Hamming'
-    'Hector'
-    'Hershell'
-    'Hingle'
-    'Hodor'
-    'Jackson'
-    'James'
-    'Lyle'
-    'Merek'
-    'Paps'
-    'Piers'
-    'Shimron'
-    'Thad'
-    'Tybalt'
-    'Victor'
-    'Winkler'
-    'Yorik'
-    'Yusef'
-  ]
-  'Peasant F': [
-    'Alexia'
-    'Alianor'
-    'Anastas'
-    'Anastas'
-    'Bernadette'
-    'Brandy'
-    'Cristiana'
-    'Ellyn'
-    'Giselle'
-    'Gwendolin'
-    'Helena'
-    'Hilda'
-    'Icey'
-    'Katelyn'
-    'Mary'
-    'Matilda'
-    'Mertia'
-    'Millicent'
-    'Regan'
-    'Rose'
-    'Ruth'
-    'Tabitha'
-    'Thea'
-  ]
-  'Archer F': [
-    'Agapi'
-    'Alden'
-    'Alleria'
-    'Atalanta'
-    'Artemis'
-    'Beatrice'
-    'Beverly'
-    'Cairn'
-    'Cecily'
-    'Clare'
-    'Erica'
-    'Gemma'
-    'Ivy'
-    'Jensen'
-    'Katniss'
-    'Keturah'
-    'Kim'
-    'Korra'
-    'Lina'
-    'Luna'
-    'Mercedes'
-    'Mira'
-    'Mirana'
-    'Natalie'
-    'Odette'
-    'Omar'
-    'Orly'
-    'Phoebe'
-    'Prim'
-    'Rosaline'
-    'Rowan'
-    'Tansy'
-    'Tauriel'
-    'Vereesa'
-    'Vesper'
-    'Yilitha'
-  ]
-  'Archer M': [
-    'Arty'
-    'Brian'
-    'Cole'
-    'Denin'
-    'Dev'
-    'Fidsdale'
-    'Gimsley'
-    'Hunter'
-    'Legolas'
-    'Loco'
-    'Logos'
-    'Lycan'
-    'Mars'
-    'Odysseos'
-    'Oliver'
-    'Quinn'
-    'Robin'
-    'Roman'
-    'Simon'
-    'Sharp Shooter'
-    'Slyvos'
-    'Vican'
-    'Warshall'
-    'Yue Fei'
-    'Zhou Tong'
-  ]
-  'Ogre Munchkin M': [
-    'Blob'
-    'Brack'
-    'Dobo'
-    'Draff'
-    'Gert'
-    'Godel'
-    'Goreball'
-    'Gort'
-    'Kog'
-    'Kogpole'
-    'Kratt'
-    'Leerer'
-    'Nerph'
-    'Raack'
-    'Ragtime'
-    'Skoggen'
-    'Smerk'
-    'Snortt'
-    'Thabt'
-    'Treg'
-    'Ursa'
-    'Weeb'
-    'Zozo'
-  ]
-  'Ogre Munchkin F': [
-    'Dosha'
-    'Gurzunn'
-    'Hoot'
-    'Inski'
-    'Iyert'
-    'Lacos'
-    'Palt'
-    'Shmeal'
-    'Upfish'
-    'Yugark'
-  ]
   'Ogre Peon M': [
+    # Male
     'Ba Bo'
     'Bubbage'
     'Durbo'
@@ -457,6 +782,7 @@ module.exports.thangNames = thangNames =
     'Zugger'
   ]
   'Ogre Peon F': [
+    # Female
     'Greeke'
     'Iblet'
     'Lorba'
@@ -464,140 +790,8 @@ module.exports.thangNames = thangNames =
     'Yamra'
     'Zzoya'
   ]
-  'Ogre M': [
-    'Axe Ox'
-    'Belch'
-    'Brusentsov'
-    'Dronck'
-    'Gorlog'
-    'Grumus'
-    'Gug'
-    'Gurulax'
-    'Krogg'
-    'Kulgor'
-    'Mak Fod'
-    'Mokrul'
-    'Muthyala'
-    'Oni'
-    'Polifemo'
-    'Saltporker'
-    'Skrungt'
-    'Steve'
-    'Stinker'
-    'Tarlok'
-    'Trogdor'
-    'Trung'
-    'Vargutt'
-  ]
-  'Ogre F': [
-    'Alkaz'
-    'Gar\'ah'
-    'Glonc'
-    'Holkam'
-    'Kriskull'
-    'Mak\'rah'
-    'Marghurk'
-    'Marnag'
-    'Martha'
-    'Morthrug'
-    'Nareng'
-  ]
-  'Ogre Brawler': [
-    'Arelt'
-    'Borgag'
-    'Boz'
-    'Burobb'
-    'Dijkstro'
-    'Grognar'
-    'Grul\'thock'
-    'Grumoll'
-    'Haggar'
-    'Heizenburg'
-    'Ironjaw'
-    'Muul'
-    'Ork\'han'
-    'Roast Beefy'
-    'Trod'
-    'Tuguro'
-    'York'
-    'Zagurk'
-    'Zeredd'
-  ]
-  'Ogre Fangrider': [
-    'Arizard'
-    'Bortrok'
-    'Boruvka'
-    'Doralt'
-    'Dreek'
-    'Flarsho'
-    'Geggret'
-    'Gurzthrot'
-    'Mizzy'
-    'Morzgret'
-    'Murgark'
-    'Muttin'
-    'Secka'
-  ]
-  'Ogre Shaman': [
-    'Ahst\'durante'
-    'Aolian\'Tak'
-    'Drun'
-    'Ghuk'
-    'Gogg'
-    'Gom'
-    'Grek'
-    'Gror'
-    'Il\'Du\'duka'
-    'Makas'
-    'Mogadishu'
-    'Nazgareth'
-    'Poult'
-    'Sham\'uk'
-    'Torluk'
-    'Turann'
-    'Tuzang'
-    'Tuzell'
-    'Ugoki'
-    'Uld\'Mak'
-    'Varreth'
-    'Yamizeb'
-    'Yerong'
-    'Yugargen'
-    'Zo\'Goroth'
-    'Zulabar'
-  ]
-  'Ogre Thrower': [
-    'Drumbaa'
-    'Durnath'
-    'Esha'
-    'Gragthar'
-    'Hamedi'
-    'Jinjin'
-    'Kraggan'
-    'Kyrgg'
-    'Makas'
-    'Moza'
-    'Pinakin'
-    'Rakash'
-    'Rasha'
-    'Vujii'
-    'Wuda'
-    'Yetu'
-    'Zara'
-  ]
-  'Burl': [
-    'Borlit'
-    'Burlosh'
-    'Dorf'
-  ]
-  'Griffin Rider': [
-    'Aeoldan'
-    'Bestarius'
-    'Cristofide'
-    'Denestorath'
-    'Letholdus'
-  ]
   'Potion Master': [
+    # Male
     'Amaranth'
     'Alchemist'
     'Arora'
@@ -614,6 +808,7 @@ module.exports.thangNames = thangNames =
     'Zander'
   ]
   'Librarian': [
+    # Female
     'Agathe'
     'Agnes'
     'Hushbaum'
@@ -623,15 +818,14 @@ module.exports.thangNames = thangNames =
     'Satish'
   ]
   'Equestrian': [
-    'Beauty'
-    'Lovelace'
-    'Mirial'
+    # Male
     'Neely'
     'Reynaldo'
     'Ryder'
     'Thoron'
   ]
   'Knight': [
+    # Male
     'Almeric'
     'Alphonse'
     'Altair'
@@ -654,6 +848,7 @@ module.exports.thangNames = thangNames =
     'Wain'
   ]
   'Captain': [
+    # Female
     'Anya'
     'Brigette'
     'Dimia'
@@ -674,6 +869,7 @@ module.exports.thangNames = thangNames =
     'Sun Tzu'
   ]
   'Ninja': [
+    # Female
     'Akali'
     'Amara'
     'Goemon'
@@ -692,6 +888,7 @@ module.exports.thangNames = thangNames =
     'Zed'
   ]
   'Sorcerer': [
+    # Female
     'Beazer'
     'Claude'
     'Gandalf'
@@ -701,6 +898,7 @@ module.exports.thangNames = thangNames =
     'Jezebel'
   ]
   'Samurai': [
+    # Male
     'Hattori'
     'Ieyasu'
     'Izotokogawa'
@@ -708,160 +906,4 @@ module.exports.thangNames = thangNames =
     'Nobunaga'
     'Yasuo'
     'Yi'
-  ]
-  'Sand Yak': [
-    'Arngotho'
-    'Falthror'
-    'Girvan'
-    'Langthok'
-    'Ofgar'
-    'Randall'
-  ]
-  'Ogre Scout M': [
-    'Frandar'
-    'Karnaugh'
-    'Lanthon'
-    'Tarjan'
-    'Yorgalfen'
-  ]
-  'Ogre Scout F': [
-    'Freesa'
-    'Ganju'
-    'Hopper'
-    'Ralthora'
-  ]
-  'Skeleton': [
-    'Bloody Johnny'
-    'Bone Daddy'
-    'Bonejangles'
-    'Bonesworth'
-    'Bonette'
-    'Doornail'
-    'Drybones'
-    'Grim'
-    'Haskell'
-    'Indiana Bones'
-    'James Bone'
-    'Kate'
-    'Palatine'
-    'Ribster'
-    'Rusty'
-    'Sacra'
-    'Scraps'
-    'Shelly'
-    'Shishka-Bob'
-    'Shishka-Larry'
-    'Shishka-Joe'
-    'Skeletor'
-    'Skellington'
-    'Skulldugger'
-    'Skully'
-    'Smitty'
-    'Sphenoid'
-    'Sternum'
-    'Talus'
-    'Ulna'
-    'Yorick'
-  ]
-  'Ogre Headhunter': [
-    'Bob'
-    'Deadtooth'
-    'Ez the Cruel'
-    'Grroq'
-    'Mog'
-    'Mogvar'
-    'Ral\'thuk'
-    'Soth'
-    'Ulxx'
-    'Ur'
-    'Veznyr'
-    'Warlegs'
-    'Xul Gor'
-  ]
-  'Horse': [
-    # TODO: horse names
-    'Wildsilver'
-    'Fleetfire'
-    'Ed'
-    'Silver'
-    'Hurricane'
-  ]
-  'Trapper': [
-    'Senick'
-    'John'
-  ]
-  'Forest Archer': [
-    'Naria'
-    'Sylvus'
-  ]
-  'Frog': [
-    'Bighead'
-    'Hypnotoad'
-    'Freddy'
-    'Frogger'
-    'Froggy'
-    'Slippy'
-    'Wart'
-    'Bufo'
-    'Bunda'
-    'Dan\'l Webster'
-    'Mr. Toad'
-    'Trevor'
-    'Wei Qi'
-  ]
-  'Raven': [
-    # TODO: raven names
-    'Nevermore'
-    'Baltimore'
-  ]
-  'Cougar': [
-    # TODO: cougar/puma/catamount/mountain lion/jaguar names
-    'Kitty'
-    'Shasta'
-  ]
-  'Raider': [
-    'Arryn'
-  ]
-  'Goliath': [
-    'Okar'
-  ]
-  'Guardian': [
-    'Illia'
-  ]
-  'Pixie': [
-    'Zana'
-  ]
-  'Assassin': [
-    'Kha\'Zix'
-    'Ritic'
-    'Rengar'
-    'Shade'
-    'Talon'
-    'BlackJack'
-    'Zed'
-  ]
-  'Necromancer': [
-    'Nalfar'
-  ]
-  'Dark Wizard': [
-    'Usara'
-    'Veigar'
-  ]
-  'Paladin': [
-    # TODO: paladin names (female)
-    'Celadia'
-    'Taric'
-  ]
-  'Ogre Witch': [
-    # TODO: ogre witch names
-    'Vyrryx'
-  ]
-  'Ogre Chieftain': [
-    # TODO: ogre chieftain names (female)
-    'Zagra Ux'
-    'Oniko'
-  ]
-  'Ogre Warlock': [
-    # TODO: ogre warlock names
-    'Vyrryx'
   ]
