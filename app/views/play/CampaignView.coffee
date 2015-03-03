@@ -143,7 +143,7 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('name') and me.get('lastLevel') is 'forgetful-gemsmith'
+    if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents']
       @openModalView new ShareProgressModal()
 
 
