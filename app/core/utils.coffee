@@ -177,3 +177,10 @@ if document?.createElement
       wrap.appendChild temp.children[1]
       return
   )(document)
+
+module.exports.getQueryVariable = getQueryVariable = (param, defaultValue) ->
+  query = document.location.search.substring 1
+  pairs = (pair.split('=') for pair in query.split '&')
+  for pair in pairs when pair[0] is param
+    return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
+  defaultValue

@@ -397,12 +397,7 @@ module.exports = class CocoView extends Backbone.View
   # Utilities
 
   getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
-  @getQueryVariable: (param, defaultValue) ->
-    query = document.location.search.substring 1
-    pairs = (pair.split('=') for pair in query.split '&')
-    for pair in pairs when pair[0] is param
-      return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
-    defaultValue
+  @getQueryVariable: (param, defaultValue) -> utils.getQueryVariable(param, defaultValue)  # Moved to utils; TODO finish migrating
 
   getRootView: ->
     view = @

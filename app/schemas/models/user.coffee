@@ -290,6 +290,9 @@ _.extend UserSchema.properties,
     free: { type: ['boolean', 'string'], format: 'date-time' }
   }
 
+  siteref: { type: 'string' }
+  referrer: { type: 'string' }
+
 c.extendBasicProperties UserSchema, 'user'
 
 UserSchema.definitions =

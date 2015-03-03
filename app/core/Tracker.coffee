@@ -1,5 +1,6 @@
 {me} = require 'core/auth'
 SuperModel = require 'models/SuperModel'
+utils = require 'core/utils'
 
 debugAnalytics = false
 
@@ -9,8 +10,18 @@ module.exports = class Tracker
       console.error 'Overwrote our Tracker!', window.tracker
     window.tracker = @
     @isProduction = document.location.href.search('codecombat.com') isnt -1
+    @trackReferrers()
     @identify()
     @supermodel = new SuperModel()
+
+  trackReferrers: ->
+    elapsed = new Date() - new Date(me.get('dateCreated'))
+    return unless elapsed < 5 * 60 * 1000
+    return if me.get('siteref') or me.get('referrer')
+    if siteref = utils.getQueryVariable '_r'
+      me.set 'siteref', siteref
+    if referrer = document.referrer
+      me.set 'referrer', referrer
 
   identify: (traits={}) ->
     return unless me
@@ -19,7 +30,7 @@ module.exports = class Tracker
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'wizardColor1', 'testGroupNumber', 'gender', 'lastLevel']
+    for userTrait in ['email', 'anonymous', 'dateCreated', 'name', 'testGroupNumber', 'gender', 'lastLevel', 'siteref']
       traits[userTrait] ?= me.get(userTrait)
     console.log 'Would identify', traits if debugAnalytics
     return unless @isProduction and not me.isAdmin()
