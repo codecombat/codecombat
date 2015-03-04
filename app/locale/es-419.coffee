@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_adding_evil: "Agregando una pizca de maldad."
     tip_hate_computers: "Esa es la razón por la cual la gente piensa que odia las computadoras. Lo que ellos odian de verdad, es los pesimos programadores. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     press_paragraph_1_link: "paquete de prensa"
     press_paragraph_1_suffix: ". Todos los logos e imágenes pueden ser usados sin contactarnos directamente."
     team: "Equipo"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
     george_blurb: "Negociante"
-    scott_title: "Programador"
+    scott_title: "Programador" # {change}
     scott_blurb: "Razonable"
-    nick_title: "Programador"
+    nick_title: "Programador" # {change}
     nick_blurb: "Gurú motivacional"
     michael_title: "Programador"
     michael_blurb: "Sys Admin"
@@ -563,7 +564,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     age_recommended_title: "¿Cuál es la edad recomendada?"
     age_recommended_1: "La edad minima recomendada es 9, aunque niños de 7 años pueden jugar los primeros niveles con la asistencia de un adulto"
     what_cover_title: "¿Qué es lo que cubrimos?"
-    what_cover_1: "Hay 20 niveles en nuestro tutorial Hora del Código que enseña y refuerza 6 conceptos especifico de las ciencias computacionales:"
+    what_cover_1: "Hay 20 niveles en nuestro tutorial Hora del Código que enseña y refuerza 6 conceptos especifico de las ciencias computacionales:" # {change}
     what_cover_notation_1: "Notación Formal"
     what_cover_notation_2: "- construye una comprensión de la importancia de la sintaxis en la programación."
     what_cover_methods_1: "Metodos de llamada"
@@ -581,7 +582,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     what_cover_logic_2: "- cuándo y cómo utilizar if / else para controlar los resultados del juego."
     what_cover_input_1: "Manipulación de eventos de entrada"
     what_cover_input_2: "- responder a eventos de entrada para crear una interfaz de usuario."
-    what_cover_array_1: "Arrays" #se puede traducir matrices, pero la idea es usar la palabra "Arrays"
+    what_cover_array_1: "Arrays"
     what_cover_array_2: "- Permitir al jugador crear y usar bucles a través de arrays."
     sys_requirements_title: "Requerimientos del sistema"
     sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:"
@@ -1099,7 +1100,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     art_music: "Música"
     art_sound: "Sonido"
     art_artwork: "Trabajo Artístico"
-    art_sprites: "Sprites"  # A esta palabra se la llama igual en Español que en Ingles
+    art_sprites: "Sprites"
     art_other: "Cualquier otro trabajo creativo (no necesariamente código) que están disponibles cuando se crean niveles."
 #    art_access: "Currently there is no universal, easy system for fetching these assets. In general, fetch them from the URLs as used by the site, contact us for assistance, or help us in extending the site to make these assets more easily accessible."
 #    art_paragraph_1: "For attribution, please name and link to codecombat.com near where the source is used or where appropriate for the medium. For example:"
@@ -1108,13 +1109,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    art_paragraph_2: "If the content being used is created not by CodeCombat but instead by a user of codecombat.com, attribute them instead, and follow attribution directions provided in that resource's description if there are any."
     rights_title: "Derechos Reservados"
     rights_desc: "Todos los derechos estan reservados para los niveles mismos. Esto incluye."
-    rights_scripts: "Scripts"  # A esta palabra se la llama igual en Español que en Ingles
+    rights_scripts: "Scripts"
     rights_unit: "Configuración de la unidad"
     rights_description: "Descripción"
     rights_writings: "Escritos"
 #    rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
-    nutshell_title: "En una palabra" # no se traduce literalmente, si no que es un dicho
+    nutshell_title: "En una palabra"
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
     canonical: "La versión en ingles de este documento es la definitiva, versión canónica. Si hay alguna discrepancia entre las traducciones, la versión en ingles toma presedencia."
 

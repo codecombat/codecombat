@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Envanter"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    press_paragraph_1_link: "press packet"
     press_paragraph_1_suffix: ". Tüm logolar bizimle iletişime geçilmeden kullanılabilir."
     team: "Takım"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
 #    george_blurb: "Businesser"
-    scott_title: "Programcı"
+    scott_title: "Programcı" # {change}
 #    scott_blurb: "Reasonable One"
-    nick_title: "Programcı"
+    nick_title: "Programcı" # {change}
 #    nick_blurb: "Motivation Guru"
     michael_title: "Programcı"
 #    michael_blurb: "Sys Admin"

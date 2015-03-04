@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     press_paragraph_1_link: "Presse-Paket"
     press_paragraph_1_suffix: ". Alle Logos und Bilder können ohne unsere vorherige Zustimmung verwendet werden."
     team: "Team"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
     george_blurb: "Businesser"
-    scott_title: "Programmierer"
+    scott_title: "Programmierer" # {change}
     scott_blurb: "Der Vernünftige"
-    nick_title: "Programmierer"
+    nick_title: "Programmierer" # {change}
     nick_blurb: "Motivationsguru"
     michael_title: "Programmierer"
     michael_blurb: "Sys Admin"

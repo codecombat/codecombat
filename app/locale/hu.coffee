@@ -336,6 +336,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Raktár"
@@ -358,7 +359,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     leaderboard: "Ranglétra"
     view_other_solutions: "Más Megoldások Megtekintése"
     scores: "Pontok"
-    top_solutions: "Legjobb megoldások"
+#    top_players: "Top Players by"
     day: "Ma"
     week: "A Héten"
     all: "Mindenkori"
@@ -392,6 +393,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_body: "Szeretnél többet?"
     prompt_button: "Lépj be a boltba"
     recovered: "Az előző drágakő vásárlás helyreállt. Kérlek frissítsd az oldalt."
+#    price: "x3500 / mo"
 
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
@@ -528,11 +530,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "Csapat"
-    george_title: "Főigazgató"
+    george_title: "Főigazgató" # {change}
     george_blurb: "Üzletelő"
-    scott_title: "Programozó"
+    scott_title: "Programozó" # {change}
     scott_blurb: "Megfontolt"
-    nick_title: "Programozó"
+    nick_title: "Programozó" # {change}
     nick_blurb: "Motivátor"
     michael_title: "Programozó"
     michael_blurb: "Rendszer Admin"

@@ -145,7 +145,10 @@ class CocoModel extends Backbone.Model
           return
         else
           msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
-          noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          try
+            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          catch notyError
+            console.warn "Couldn't even show noty error for", error, "because", notyError
           return _.delay((f = => @save(attrs, originalOptions)), 3000)
       error(@, res) if error
       return unless @notyErrors
