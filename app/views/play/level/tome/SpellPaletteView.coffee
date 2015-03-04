@@ -210,6 +210,7 @@ module.exports = class SpellPaletteView extends CocoView
           for owner, storages of propStorage
             if props = component.config[storages]
               for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
+                continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
                 propsByItem[item.get('name')] ?= []
                 propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
                 itemsByProp[prop] = item
@@ -220,8 +221,8 @@ module.exports = class SpellPaletteView extends CocoView
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
       for prop in _.reject(@thang[storage] ? [], (prop) -> itemsByProp[prop] or prop[0] is '_')  # no private properties
-        if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
-          continue
+        continue if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
+        continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount

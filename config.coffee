@@ -76,6 +76,7 @@ exports.config =
           regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
           regJoin('^vendor/scripts/string_score.js')
           regJoin('^bower_components/underscore.string')
+          regJoin('^vendor/scripts/coffeescript.js')
         ]
 
         #- vendor.js, all the vendor libraries
