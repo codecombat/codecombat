@@ -336,6 +336,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_adding_evil: "加入万恶的压力。"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "你可以帮助「CodeCombat」提高！"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     press_paragraph_1_link: "成套宣传包"
     press_paragraph_1_suffix: "里的所有材料。 所有商标和图像的使用都不必事先联系我们。"
     team: "团队"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
     george_blurb: "商人"
-    scott_title: "程序员"
+    scott_title: "程序员" # {change}
     scott_blurb: "理性至上"
-    nick_title: "程序员"
+    nick_title: "程序员" # {change}
     nick_blurb: "充满动力的大牛"
     michael_title: "程序员"
     michael_blurb: "系统管理员"
@@ -563,7 +564,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    age_recommended_title: "What age is it recommended at?"
 #    age_recommended_1: "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
     what_cover_title: "我们涵盖了什么？"
-    what_cover_1: "The Hour of Code的教学里有20个关卡主要负责教导和加强六个特点的电脑科学概念："
+    what_cover_1: "The Hour of Code的教学里有20个关卡主要负责教导和加强六个特点的电脑科学概念：" # {change}
     what_cover_notation_1: "正式的表示法"
     what_cover_notation_2: "- 建立对于程序语言文法重要性的了解。"
     what_cover_methods_1: "呼叫的方法"

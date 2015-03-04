@@ -336,6 +336,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_adding_evil: "悪を少々加える。"
     tip_hate_computers: "コンピュータを憎むと思う人についての事だ。彼らが本当に嫌いなのは下手なプログラマーだ。- ラリー・ニーヴン"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     press_paragraph_1_link: "プレスパケット"
     press_paragraph_1_suffix: "。全てのロゴやイメージは、直接私達に連絡することなく使用することができます。"
     team: "開発チーム"
-    george_title: "共同創設者"
+    george_title: "共同創設者" # {change}
     george_blurb: "ビジネスの達人"
-    scott_title: "共同創設者"
+    scott_title: "共同創設者" # {change}
     scott_blurb: "リーズナブルな奴"
-    nick_title: "共同創設者"
+    nick_title: "共同創設者" # {change}
     nick_blurb: "モチベーションの達人"
     michael_title: "プログラマー"
     michael_blurb: "システム管理者"

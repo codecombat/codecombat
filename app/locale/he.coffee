@@ -336,6 +336,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_adding_evil: ".מוסיף קמצוץ של רשע"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "תיק"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "צוות"
-    george_title: "מנכ\"ל"
+    george_title: "מנכ\"ל" # {change}
     george_blurb: "ביזנסר"
-    scott_title: "מתכנת"
+    scott_title: "מתכנת" # {change}
     scott_blurb: "אחד סביר"
-    nick_title: "מתכנת"
+    nick_title: "מתכנת" # {change}
     nick_blurb: "גורו מוטיבציה"
     michael_title: "מתכנת"
     michael_blurb: "מנהל מערכת"

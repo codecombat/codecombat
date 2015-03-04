@@ -336,6 +336,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
 #  game_menu:
 #    inventory_tab: "Inventory"

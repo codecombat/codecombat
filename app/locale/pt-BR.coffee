@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_adding_evil: "Adicionando uma pitada de maldade."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     press_paragraph_1_link: "Midia Kit"
     press_paragraph_1_suffix: ". Todas as logomarcas e imagens podem ser usadas sem nos contactar previamente."
     team: "Time"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
     george_blurb: "Administrador"
-    scott_title: "Programador"
+    scott_title: "Programador" # {change}
     scott_blurb: "O Sensato"
-    nick_title: "Programador"
+    nick_title: "Programador" # {change}
     nick_blurb: "Guru Motivacional"
     michael_title: "Programador"
     michael_blurb: "Administrador de Sistemas"

@@ -336,6 +336,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_adding_evil: "增加一個邪惡之捏."
     tip_hate_computers: "關於自我覺得恨透電腦的那群人. 其實他們真正應該恨的事情是糟糕的程序員. - Larry Niven"
     tip_open_source_contribute: "你可以幫助「CodeCombat」提高！"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "倉庫"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     press_paragraph_1_link: "新聞稿懶人包"
     press_paragraph_1_suffix: "，裡面所有的LOGO和圖片都可以使用，並且不必另外知會我們。"
     team: "製作團隊"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
     george_blurb: "商人"
-    scott_title: "程式員"
+    scott_title: "程式員" # {change}
     scott_blurb: "理性至上"
-    nick_title: "程式員"
+    nick_title: "程式員" # {change}
     nick_blurb: "亢奮的Guru"
     michael_title: "程式員"
     michael_blurb: "系統管理員"
@@ -563,7 +564,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    age_recommended_title: "What age is it recommended at?"
 #    age_recommended_1: "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
     what_cover_title: "我們涵蓋哪些?"
-    what_cover_1: "在Hour of Code的教學裡已放置20道關卡教導並強化6種特定的電腦科學概念:"
+    what_cover_1: "在Hour of Code的教學裡已放置20道關卡教導並強化6種特定的電腦科學概念:" # {change}
     what_cover_notation_1: "正式的表示法"
     what_cover_notation_2: "- 建立重要的'編程文法'理解."
     what_cover_methods_1: "呼叫方法"

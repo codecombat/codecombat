@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     press_paragraph_1_link: "пакет за печат"
     press_paragraph_1_suffix: ". Сите логоа и слики можат да бидат користени без да не контактираш директно."
     team: "Тим"
-    george_title: "(CEO) Извршен директор"
+    george_title: "(CEO) Извршен директор" # {change}
     george_blurb: "Бизнисер"
-    scott_title: "Програмер"
+    scott_title: "Програмер" # {change}
     scott_blurb: "Оној разумниот"
-    nick_title: "Програмер"
+    nick_title: "Програмер" # {change}
     nick_blurb: "Мотивациски гуру"
     michael_title: "Програмер"
     michael_blurb: "Систем администратор"

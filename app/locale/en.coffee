@@ -530,11 +530,11 @@
     press_paragraph_1_link: "press packet"
     press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "Team"
-    george_title: "Cofounder"  # {change}
+    george_title: "Cofounder"
     george_blurb: "Businesser"
-    scott_title: "Cofounder"  # {change}
+    scott_title: "Cofounder"
     scott_blurb: "Reasonable One"
-    nick_title: "Cofounder"  # {change}
+    nick_title: "Cofounder"
     nick_blurb: "Motivation Guru"
     michael_title: "Programmer"
     michael_blurb: "Sys Admin"
@@ -564,7 +564,7 @@
     age_recommended_title: "What age is it recommended at?"
     age_recommended_1: "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
     what_cover_title: "What do we cover?"
-    what_cover_1: "There are 27 levels in the first stage of CodeCombat that teach and reinforce 6 specific computer science concepts:"  # {change}
+    what_cover_1: "There are 27 levels in the first stage of CodeCombat that teach and reinforce 6 specific computer science concepts:"
     what_cover_notation_1: "Formal notation"
     what_cover_notation_2: "- builds an understanding of the importance of syntax in programming."
     what_cover_methods_1: "Calling methods"

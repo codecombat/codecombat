@@ -29,6 +29,14 @@ storage = require 'core/storage'
 require 'vendor/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'vendor/treema'
 
+# Make sure that all of our Aethers are loaded, so that if we try to preview the level, it will work.
+require 'vendor/aether-javascript'
+require 'vendor/aether-python'
+require 'vendor/aether-coffeescript'
+require 'vendor/aether-lua'
+require 'vendor/aether-clojure'
+require 'vendor/aether-io'
+
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
   className: 'editor'

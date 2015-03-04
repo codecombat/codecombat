@@ -336,6 +336,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "인벤토리"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
     team: "팀"
-    george_title: "최고경영자"
+    george_title: "최고경영자" # {change}
 #    george_blurb: "Businesser"
-    scott_title: "프로그래머"
+    scott_title: "프로그래머" # {change}
 #    scott_blurb: "Reasonable One"
-    nick_title: "프로그래머"
+    nick_title: "프로그래머" # {change}
 #    nick_blurb: "Motivation Guru"
     michael_title: "프로그래머"
 #    michael_blurb: "Sys Admin"

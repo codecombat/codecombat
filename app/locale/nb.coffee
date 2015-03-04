@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_adding_evil: "Legger til en klype ondskap!"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Utstyr"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     press_paragraph_1_link: "pressepakke"
     press_paragraph_1_suffix: ". Alle logoer og bilder kan brukes uten å kontakte oss direkte."
     team: "Teamet"
-    george_title: "Adm.dir."
+    george_title: "Adm.dir." # {change}
     george_blurb: "Business-nisse"
-    scott_title: "Programmerer"
+    scott_title: "Programmerer" # {change}
     scott_blurb: "Den fornuftige"
-    nick_title: "Programmerer"
+    nick_title: "Programmerer" # {change}
     nick_blurb: "Motivasjonsguru"
     michael_title: "Programmerer"
     michael_blurb: "Systemadministrator"
@@ -563,7 +564,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    age_recommended_title: "What age is it recommended at?"
 #    age_recommended_1: "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
     what_cover_title: "Hva dekker vi?"
-    what_cover_1: "Det er 20 nivåer i Hour of Code-opplæringen som lærer og forsterker 6 konkrete konsepter innenfor informatikk:"
+    what_cover_1: "Det er 20 nivåer i Hour of Code-opplæringen som lærer og forsterker 6 konkrete konsepter innenfor informatikk:" # {change}
     what_cover_notation_1: "Formell notasjon"
     what_cover_notation_2: "- bygger en forståelse for viktigheten av syntaks i programmering."
     what_cover_methods_1: "Metodekall"

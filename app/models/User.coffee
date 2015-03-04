@@ -117,6 +117,7 @@ module.exports = class User extends CocoModel
     application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
     @announcesActionAudioGroup
 
+  # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   getFourthLevelGroup: ->
     return @fourthLevelGroup if @fourthLevelGroup
     group = me.get('testGroupNumber') % 8

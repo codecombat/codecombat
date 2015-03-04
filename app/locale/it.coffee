@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -531,9 +532,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    team: "Team"
 #    george_title: "Cofounder"
 #    george_blurb: "Businesser"
-    scott_title: "Programmatore"
+    scott_title: "Programmatore" # {change}
 #    scott_blurb: "Reasonable One"
-    nick_title: "Programmatore"
+    nick_title: "Programmatore" # {change}
 #    nick_blurb: "Motivation Guru"
     michael_title: "Programmatore"
     michael_blurb: "Amministratore di sistema"

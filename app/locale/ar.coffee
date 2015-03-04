@@ -68,12 +68,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
-    campaign_desert: "حملة في الصحراء"
-    campaign_forest: "حملة في الغابة"
-    campaign_dungeon: "حملة في البرج"
     subscription_required: "الإشتراك إلزامي"
-    free: "مجاني"
-    subscribed: "مسجَّل"
     older_campaigns: "حملات أقدم"
     anonymous: "لاعب مجهول"
     level_difficulty: "الصعوبة:"
@@ -341,6 +336,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
 #  game_menu:
 #    inventory_tab: "Inventory"

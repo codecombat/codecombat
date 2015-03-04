@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     press_paragraph_1_link: "paquete de prensa"
     press_paragraph_1_suffix: ". Todos os logos e as imaxes poden ser usadas sen necesidade de contactarnos directamente."
     team: "Equipo"
-    george_title: "CEO"
+    george_title: "CEO" # {change}
     george_blurb: "Sección de Negocios"
-    scott_title: "Programador"
+    scott_title: "Programador" # {change}
     scott_blurb: "Razoable"
-    nick_title: "Programador"
+    nick_title: "Programador" # {change}
     nick_blurb: "Gurú Motivacional"
     michael_title: "Programador"
     michael_blurb: "Administrador de Sistemas"

@@ -336,6 +336,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_adding_evil: "Додамо дрібку зла."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Інвентар"
@@ -529,11 +530,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     press_paragraph_1_link: "набору-для-преси"
     press_paragraph_1_suffix: ". Всі логотипи та зображення можна використовувати, не зв'язуючись із нами напряму."
     team: "Команда"
-    george_title: "Виконавчий директор"
+    george_title: "Виконавчий директор" # {change}
     george_blurb: "Бізнесмен"
-    scott_title: "Програміст"
+    scott_title: "Програміст" # {change}
     scott_blurb: "Розумник"
-    nick_title: "Програміст"
+    nick_title: "Програміст" # {change}
     nick_blurb: "Ґуру мотивації"
     michael_title: "Програміст"
     michael_blurb: "Сисадмін"

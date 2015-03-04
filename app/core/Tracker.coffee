@@ -18,10 +18,14 @@ module.exports = class Tracker
     elapsed = new Date() - new Date(me.get('dateCreated'))
     return unless elapsed < 5 * 60 * 1000
     return if me.get('siteref') or me.get('referrer')
+    changed = false
     if siteref = utils.getQueryVariable '_r'
       me.set 'siteref', siteref
+      changed = true
     if referrer = document.referrer
       me.set 'referrer', referrer
+      changed = true
+    me.patch() if changed
 
   identify: (traits={}) ->
     return unless me
