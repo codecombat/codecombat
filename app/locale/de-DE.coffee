@@ -635,7 +635,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     admin: "Admin"
     new_password: "Neues Passwort"
     new_password_verify: "Passwort verifizieren"
-#     "Type in your email to confirm the deletion"
+#   type_in_email: "Type in your email to confirm the deletion"
     email_subscriptions: "Email Abonnements"
     email_subscriptions_none: "Keine Email Abonnements."
     email_announcements: "Ankündigungen"
