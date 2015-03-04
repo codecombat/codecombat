@@ -153,7 +153,7 @@ class Ellipse
     rectangle.intersectsEllipse @
 
   intersectsEllipse: (ellipse) ->
-    @rectangle().intersectsEllipse @  # TODO: actually implement ellipse-ellipse intersection
+    @rectangle().intersectsEllipse ellipse  # TODO: actually implement ellipse-ellipse intersection
     #return true if @containsPoint ellipse.getPos()
 
   intersectsShape: (shape) ->
