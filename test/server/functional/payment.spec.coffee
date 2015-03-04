@@ -7,6 +7,7 @@ describe '/db/payment', ->
   request = require 'request'
   paymentURL = getURL('/db/payment')
   checkChargesURL = getURL('/db/payment/check-stripe-charges')
+  customPaymentURL = getURL('/db/payment/custom')
 
   firstApplePayment = {
     apple: {
@@ -76,7 +77,6 @@ describe '/db/payment', ->
           )
 
   describe 'posting Stripe purchases', ->
-
     stripe = require('stripe')(config.stripe.secretKey)
 
     charge = null
@@ -295,3 +295,143 @@ describe '/db/payment', ->
                   done()
                 )
               )
+
+  describe '/db/payment/custom', ->
+    stripe = require('stripe')(config.stripe.secretKey)
+
+    it 'clears the db', (done) ->
+      clearModels [User, Payment], (err) ->
+        throw err if err
+        done()
+
+    it 'handles a custom purchase with description', (done) ->
+      timestamp = new Date().getTime()
+      amount = 5000
+      description = 'A sweet Coco t-shirt'
+
+      stripe.tokens.create({
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        stripeTokenID = token.id
+        loginJoe (joe) ->
+          joeID = joe.get('_id') + ''
+          data = {
+            amount: amount
+            description: description
+            stripe: {
+              token: token.id
+              timestamp: timestamp
+            }
+          }
+          request.post {uri: customPaymentURL, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe 201
+            expect(body.stripe.chargeID).toBeDefined()
+            expect(body.stripe.timestamp).toBe(timestamp)
+            expect(body.stripe.customerID).toBeDefined()
+            expect(body.description).toEqual(description)
+            expect(body.amount).toEqual(amount)
+            expect(body.productID).toBe('custom')
+            expect(body.service).toBe('stripe')
+            expect(body.recipient).toBe(joeID)
+            expect(body.purchaser).toBe(joeID)
+            User.findById(joe.get('_id'), (err, user) ->
+              expect(user.get('stripe').customerID).toBe(body.stripe.customerID)
+
+              criteria =
+                recipient: user.get('_id')
+                purchaser: user.get('_id')
+                amount: amount
+                description: description
+                service: 'stripe'
+                "stripe.customerID": user.get('stripe').customerID
+              Payment.findOne criteria, (err, payment) ->
+                expect(err).toBeNull()
+                expect(payment).not.toBeNull()
+                done()
+            )
+      )
+
+    it 'handles a custom purchase without description', (done) ->
+      timestamp = new Date().getTime()
+      amount = 73000
+
+      stripe.tokens.create({
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        stripeTokenID = token.id
+        loginJoe (joe) ->
+          joeID = joe.get('_id') + ''
+          data = {
+            amount: amount
+            stripe: {
+              token: token.id
+              timestamp: timestamp
+            }
+          }
+          request.post {uri: customPaymentURL, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe 201
+            expect(body.stripe.chargeID).toBeDefined()
+            expect(body.stripe.timestamp).toBe(timestamp)
+            expect(body.stripe.customerID).toBeDefined()
+            expect(body.amount).toEqual(amount)
+            expect(body.productID).toBe('custom')
+            expect(body.service).toBe('stripe')
+            expect(body.recipient).toBe(joeID)
+            expect(body.purchaser).toBe(joeID)
+            User.findById(joe.get('_id'), (err, user) ->
+              expect(user.get('stripe').customerID).toBe(body.stripe.customerID)
+
+              criteria =
+                recipient: user.get('_id')
+                purchaser: user.get('_id')
+                amount: amount
+                service: 'stripe'
+                "stripe.customerID": user.get('stripe').customerID
+              Payment.findOne criteria, (err, payment) ->
+                expect(err).toBeNull()
+                expect(payment).not.toBeNull()
+                done()
+            )
+      )
+
+    it 'handles a custom purchase with invalid amount', (done) ->
+      timestamp = new Date().getTime()
+      amount = 'free?'
+
+      stripe.tokens.create({
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        stripeTokenID = token.id
+        loginJoe (joe) ->
+          joeID = joe.get('_id') + ''
+          data = {
+            amount: amount
+            stripe: {
+              token: token.id
+              timestamp: timestamp
+            }
+          }
+          request.post {uri: customPaymentURL, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe(400)
+            done()
+      )
+
+    it 'handles a custom purchase with no amount', (done) ->
+      timestamp = new Date().getTime()
+
+      stripe.tokens.create({
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        stripeTokenID = token.id
+        loginJoe (joe) ->
+          joeID = joe.get('_id') + ''
+          data = {
+            stripe: {
+              token: token.id
+              timestamp: timestamp
+            }
+          }
+          request.post {uri: customPaymentURL, json: data }, (err, res, body) ->
+            expect(res.statusCode).toBe(400)
+            done()
+      )

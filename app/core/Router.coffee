@@ -26,6 +26,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/profile': go('EmployersView')  # Show the not-recruiting-now screen
     'account/payments': go('account/PaymentsView')
     'account/subscription': go('account/SubscriptionView')
+    'account/invoices': go('account/InvoicesView')
 
     'admin': go('admin/MainAdminView')
     'admin/candidates': go('admin/CandidatesView')

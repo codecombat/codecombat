@@ -965,6 +965,7 @@
     payments: "Payments"
     purchased: "Purchased"
     subscription: "Subscription"
+    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Paid On"
@@ -980,6 +981,16 @@
     card: "Card"
     status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
     status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+  account_invoices:
+    amount: "Amount in US dollars"
+    declined: "Your card was declined"
+    invalid_amount: "Please enter a US dollar amount."
+    not_logged_in: "Log in or create an account to access invoices."
+    pay: "Pay Invoice"
+    purchasing: "Purchasing..."
+    retrying: "Server error, retrying."
+    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Error loading from server"

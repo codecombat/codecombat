@@ -4,11 +4,12 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
   purchaser: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) # in case of gifts
   recipient: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
 
-  service: { enum: ['stripe', 'ios', 'invoice']}
+  service: { enum: ['stripe', 'ios', 'external']}
   amount: { type: 'integer', description: 'Payment in cents.' }
   created: c.date({title: 'Created', readOnly: true})
   gems: { type: 'integer', description: 'The number of gems acquired.' }
-  productID: { enum: ['gems_5', 'gems_10', 'gems_20']}
+  productID: { enum: ['gems_5', 'gems_10', 'gems_20', 'custom']}
+  description: { type: 'string' }
 
   ios: c.object({title: 'iOS IAP Data'}, {
     transactionID: { type: 'string' }
