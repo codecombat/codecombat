@@ -42,9 +42,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   diplomat_suggestion:
     title: "Ajuda a traduzir o CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Precisamos das tuas habilidades linguísticas."
-    pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores em todo o mundo. Muitos deles querem jogar em Português e não falam Inglês, por isso, se sabes falar ambas, por favor considera registar-te como Diplomata para ajudares a traduzir o website do CodeCombat e todos os níveis para Português."
+    pitch_body: "Desenvolvemos o CodeCombat em Inglês, mas já temos jogadores de todo o mundo. Muitos deles querem jogar em Português, mas não falam Inglês, por isso, se sabes falar ambas, por favor considera registar-te como Diplomata para ajudares a traduzir o sítio do CodeCombat e todos os níveis para Português."
     missing_translations: "Enquanto não conseguirmos traduzir tudo para Português, irás ver em Inglês o que não estiver disponível em Português."
-    learn_more: "Sabe mais sobre ser um Diplomata"
+    learn_more: "Sabe mais sobre seres um Diplomata"
     subscribe_as_diplomat: "Subscreve-te como Diplomata"
 
   play:
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_adding_evil: "A acrescentar uma pitada de mal."
     tip_hate_computers: "É o problema das pessoas que acham que odeiam coputadores. O que elas odeiam mesmo são maus programadores. - Larry Niven"
     tip_open_source_contribute: "Podes ajudar a melhorar o CodeCombat!"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_recurse: "Iterar é humano, recursar é divino. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -530,11 +530,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     press_paragraph_1_link: "pacote de imprensa"
     press_paragraph_1_suffix: ". Todos os logótipos e imagens podem ser usados sem sermos contactados diretamente."
     team: "Equipa"
-    george_title: "Co-fundador" # {change}
+    george_title: "Co-fundador"
     george_blurb: "Homem de Negócios"
-    scott_title: "Co-fundador" # {change}
+    scott_title: "Co-fundador"
     scott_blurb: "O Sensato"
-    nick_title: "Co-fundador" # {change}
+    nick_title: "Co-fundador"
     nick_blurb: "Guru da Motivação"
     michael_title: "Programador"
     michael_blurb: "Administrador do Sistema"
@@ -543,7 +543,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cat_title: "Artesã Chefe"
     cat_blurb: "Mágica"
     josh_title: "Designer de Jogos"
-    josh_blurb: "O Chão é Lava"
+    josh_blurb: "Floor Is Lava"
     jose_title: "Música"
     jose_blurb: "Taking Off"
     retrostyle_title: "Ilustração"
