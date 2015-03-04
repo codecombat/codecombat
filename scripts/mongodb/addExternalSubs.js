@@ -13,7 +13,7 @@ var purchaserID = '54ed0ac0ca7f1c421c025b3d';
 var endDate = '2015-06-01';
 var gems = 10500;
 var amount = 1750;
-var service = 'invoice';
+var service = 'external';
 
 emails = emails.map(function(e) { return e.toLowerCase();});
 

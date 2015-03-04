@@ -28,6 +28,11 @@ products = {
     gems: 25000
     id: 'gems_20'
   }
+
+  'custom': {
+    # amount expected in request body
+    id: 'custom'
+  }
 }
 
 PaymentHandler = class PaymentHandler extends Handler
@@ -68,6 +73,9 @@ PaymentHandler = class PaymentHandler extends Handler
     stripeTimestamp = parseInt(req.body.stripe?.timestamp)
     productID = req.body.productID
 
+    if pathName is 'custom'
+      return @handleStripePaymentPost(req, res, stripeTimestamp, 'custom', stripeToken)
+
     if not (appleReceipt or (stripeTimestamp and productID))
       @logPaymentError(req, "Missing data. Apple? #{!!appleReceipt}. Stripe timestamp? #{!!stripeTimestamp}. Product id? #{!!productID}.")
       return @sendBadInputError(res, 'Need either apple.rawReceipt or stripe.timestamp and productID')
@@ -85,13 +93,8 @@ PaymentHandler = class PaymentHandler extends Handler
         @logPaymentError(req, 'Missing apple transaction id')
         return @sendBadInputError(res, 'Apple purchase? Need to specify which transaction.')
       @handleApplePaymentPost(req, res, appleReceipt, appleTransactionID, appleLocalPrice)
-      @onPostSuccess req
     else
       @handleStripePaymentPost(req, res, stripeTimestamp, productID, stripeToken)
-      @onPostSuccess req
-
-  onPostSuccess: (req) ->
-    req.user?.saveActiveUser 'payment'
 
   #- Apple payments
 
@@ -161,7 +164,6 @@ PaymentHandler = class PaymentHandler extends Handler
         )
       )
     )
-
 
   #- Stripe payments
 
@@ -235,6 +237,8 @@ PaymentHandler = class PaymentHandler extends Handler
           @recordStripeCharge(req, res, charge)
 
         else
+          return @sendSuccess(res, @formatEntity(req, payment)) if product.id is 'custom'
+
           # Charged Stripe and recorded it. Recalculate gems to make sure credited the purchase.
           @recalculateGemsFor(req.user, (err) =>
               if err
@@ -246,10 +250,12 @@ PaymentHandler = class PaymentHandler extends Handler
       )
     )
 
-
   chargeStripe: (req, res, product) ->
+    amount = parseInt product.amount ? req.body.amount
+    return @sendError(res, 400, "Invalid amount.") if isNaN(amount)
+
     stripe.charges.create({
-      amount: product.amount
+      amount: amount
       currency: 'usd'
       customer: req.user.get('stripe')?.customerID
       metadata: {
@@ -257,6 +263,7 @@ PaymentHandler = class PaymentHandler extends Handler
         userID: req.user._id + ''
         gems: product.gems
         timestamp: parseInt(req.body.stripe?.timestamp)
+        description: req.body.description
       }
       receipt_email: req.user.get('email')
     }).then(
@@ -272,14 +279,14 @@ PaymentHandler = class PaymentHandler extends Handler
           @sendDatabaseError(res, 'Error charging card, please retry.'))
     )
 
-
   recordStripeCharge: (req, res, charge) ->
     return @sendError(res, 500, 'Fake db error for testing.') if req.body.breakAfterCharging
     payment = @makeNewInstance(req)
     payment.set 'service', 'stripe'
     payment.set 'productID', charge.metadata.productID
     payment.set 'amount', parseInt(charge.amount)
-    payment.set 'gems', parseInt(charge.metadata.gems)
+    payment.set 'gems', parseInt(charge.metadata.gems) if charge.metadata.gems
+    payment.set 'description', charge.metadata.description if charge.metadata.description
     payment.set 'stripe', {
       customerID: charge.customer
       timestamp: parseInt(charge.metadata.timestamp)
@@ -291,9 +298,10 @@ PaymentHandler = class PaymentHandler extends Handler
       @logPaymentError(req, 'Invalid stripe payment object.')
       return @sendBadInputError(res, validation.errors)
     payment.save((err) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendCreated(res, @formatEntity(req, payment)) if payment.productID is 'custom'
 
       # Credit gems
-      return @sendDatabaseError(res, err) if err
       @incrementGemsFor(req.user, parseInt(charge.metadata.gems), (err) =>
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
@@ -301,7 +309,6 @@ PaymentHandler = class PaymentHandler extends Handler
         @sendCreated(res, @formatEntity(req, payment))
       )
     )
-
 
   #- Confirm all Stripe charges are recorded on our server
 
