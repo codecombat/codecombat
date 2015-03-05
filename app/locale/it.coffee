@@ -6,7 +6,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     play: "Gioca" # The big play button that opens up the campaign view.
     old_browser: "Accidenti, il tuo browser è troppo vecchio per giocare a CodeCombat. Mi spiace!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Puoi provare lo stesso, ma probabilmente non funzionerà."
-#    ipad_browser: "Bad news: CodeCombat non run on iPad nel browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Bad news: CodeCombat non run on iPad nel browser. Good news: our native iPad app is awaiting Apple approval."
     campaign: "Campagna"
     for_beginners: "Per Principianti"
     multiplayer: "Multiplayer" # Not currently shown on home page
@@ -92,14 +92,14 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     campaign_classic_algorithms: "Algoritmi classici"
     campaign_classic_algorithms_description: "... in cui impari i più comuni algoritmi dell'informatica."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Indirizzo Email invalid."
-#    form_blurb: "Enter il suo email below and we’ll show them!"
+    email_invalid: "Indirizzo Email invalid."
+    form_blurb: "Enter il suo email below and we’ll show them!"
     form_label: "Indirizzo Email"
 #    placeholder: "email address"
-#    title: "Excellent Lavoro, Apprentice"
-#    tell_friend: "Tell your Amico"
+    title: "Excellent Lavoro, Apprentice"
+    tell_friend: "Tell your Amico"
 #    tell_parent: "Tell your Parent"
 
   login:
@@ -175,8 +175,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     commit_msg: "Messaggio di commit"
 #    review: "Review"
 #    version_history: "Version History"
-#    version_history_for: "Version History per: "
-#    select_changes: "Select due changes below per vedere la diferenza."
+    version_history_for: "Version History per: "
+    select_changes: "Select due changes below per vedere la diferenza."
     undo_prefix: "Annulla"
     undo_shortcut: "(Ctrl+Z)"
     redo_prefix: "Ripristina"
@@ -253,7 +253,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     victory_sign_up: "Registrati per gli aggiornamenti"
     victory_sign_up_poke: "Vuoi ricevere le ultime novità per email? Crea un account gratuito e ti terremo aggiornato!"
     victory_rate_the_level: "Vota il livello: " # Only in old-style levels.
-#    victory_return_to_ladder: "Ritorna to Ladder"
+    victory_return_to_ladder: "Ritorna to Ladder"
     victory_play_continue: "Continua"
     victory_saving_progress: "Salvataggio progressi"
     victory_go_home: "Torna alla pagina iniziale" # Only in old-style levels.
@@ -277,7 +277,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tome_available_spells: "Incantesimi disponibili"
     tome_your_skills: "Le tue Abilità"
     tome_help: "Aiuto"
-#    tome_current_method: "Metodo Attuale"
+    tome_current_method: "Metodo Attuale"
     hud_continue_short: "Continua"
     code_saved: "Codice salvato"
     skip_tutorial: "Salta (esc)"
@@ -292,9 +292,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     infinite_loop_try_again: "Riprova"
     infinite_loop_reset_level: "Riavvia livello"
     infinite_loop_comment_out: "Commenta il codice"
-#    tip_toggle_play: "Scambia play/paused con Ctrl+P."
+    tip_toggle_play: "Scambia play/paused con Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
-#    tip_guide_exists: "Click la guida, inside menu di gioco (at the top of the page), per informazione useful."
+    tip_guide_exists: "Click la guida, inside menu di gioco (at the top of the page), per informazione useful."
     tip_open_source: "CodeCombat è 100% codigo libero!"
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_think_solution: "Think of the solution, not the problem."
@@ -304,23 +304,23 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tip_forums: "Head over to the forums and tell us what you think!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
 #    tip_morale_improves: "Loading will continue until morale improves."
-#    tip_all_species: "Crediamo in equal opportunities to learn programming for all species."
+    tip_all_species: "Crediamo in equal opportunities to learn programming for all species."
 #    tip_reticulating: "Reticulating spines."
 #    tip_harry: "Yer a Wizard, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
-#    tip_munchkin: "Se you don't eat your vegetables, a munchkin will come after you while you're asleep."
+    tip_munchkin: "Se you don't eat your vegetables, a munchkin will come after you while you're asleep."
 #    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
 #    tip_no_try: "Do. Or do not. There is no try. - Yoda"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
-#    tip_documented_bug: "A documented bug is not a bug; it è una feature."
+    tip_documented_bug: "A documented bug is not a bug; it è una feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
-#    tip_talk_is_cheap: "Parlare è cheap. Mostrami il codigo. - Linus Torvalds"
+    tip_talk_is_cheap: "Parlare è cheap. Mostrami il codigo. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
-#    tip_hardware_problem: "D: Quanti programmers does it take to change a light bulb?  A: None, it's a hardware problem."
+    tip_hardware_problem: "D: Quanti programmers does it take to change a light bulb?  A: None, it's a hardware problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
-#    tip_brute_force: "Quando in doubt, use forza bruta. - Ken Thompson"
+    tip_brute_force: "Quando in doubt, use forza bruta. - Ken Thompson"
     tip_extrapolation: "Ci sono soltanto due tipi di persone: quelli che possono extrapolare da i dati incompleti..."
 #    tip_superpower: "Coding is the closest thing we have to a superpower."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    damage_taken: "Damage Taken"
 #    damage_dealt: "Damage Dealt"
     difficulty: "Difficoltà"
-#    gold_collected: "Oro Collected"
+    gold_collected: "Oro Collected"
 
   inventory:
     choose_inventory: "Equipaggiamento"
@@ -397,9 +397,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "60+ basic livelli across 4 mondi"
+    feature1: "60+ basic livelli across 4 mondi"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "30+ bonus livelli"
+    feature3: "30+ bonus livelli"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
@@ -544,12 +544,12 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    cat_blurb: "Airbender"
 #    josh_title: "Game Designer"
 #    josh_blurb: "Floor Is Lava"
-#    jose_title: "Musico"
+    jose_title: "Musico"
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
 #    title: "CodeCombat for Teachers"
 #    preparation_title: "Preparation"
 #    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
