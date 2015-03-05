@@ -92,14 +92,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_classic_algorithms: "Klassiche Algorithmen"
     campaign_classic_algorithms_description: "... in welchem du die populärsten Algorithmen der Informatik lernst."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Du machst dich gut! Sag jemanden wie viel du mit CodeCombat gelernt hast."
     email_invalid: "Diese Email Adresse ist ungültig."
     form_blurb: "Schreibe hier ihre Emailadresse rein und wir werden es ihnen zeigen."
-    form_label: "Email Adresse" 
-    placeholder: "Email Adresse" 
-    title: "Gute Arbeit, Lehrling" 
-    tell_friend: "Erzähle es einem Freund" 
+    form_label: "Email Adresse"
+    placeholder: "Email Adresse"
+    title: "Gute Arbeit, Lehrling"
+    tell_friend: "Erzähle es einem Freund"
     tell_parent: "Erzähle es deinen Eltern"
 
   login:
@@ -138,8 +138,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     books: "Bücher"
 
   common:
-#    back: "zurrückgehen" # "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "weiter" "Continue" # When used as an action verb, like "Continue forward"
+    back: "zurrückgehen" # When used as an action verb, like "Navigate backward"
+    continue: "weiter" # When used as an action verb, like "Continue forward"
     loading: "Lade..."
     saving: "Speichere..."
     sending: "Übertrage..."
@@ -325,17 +325,18 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_superpower: "Programmieren ist das näheste zu einer Superkraft was wir haben."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
-    tip_code_never_lies: "Der Code lügt nie, Kommentare manchmal schon - Ron Jeffries" # "Code never lies, comments sometimes do. — Ron Jeffries"
-    tip_reusable_software: "Bevor ein Programm wiederverwendbar is muss es erstmal verwendbar sein." "Before software can be reusable it first has to be usable."
+    tip_code_never_lies: "Der Code lügt nie, Kommentare manchmal schon - Ron Jeffries"
+    tip_reusable_software: "Bevor ein Programm wiederverwendbar is muss es erstmal verwendbar sein."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
-    tip_source_code: "Ich will die Welt verändern, aber sie werden mir den Quellcode nicht geben" # "I want to change the world but they would not give me the source code."
+    tip_source_code: "Ich will die Welt verändern, aber sie werden mir den Quellcode nicht geben"
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
-    tip_google: "Hast du ein Problem, das du nicht lösen kannst? Google es!" #  "Have a problem you can't solve? Google it!"
+    tip_google: "Hast du ein Problem, das du nicht lösen kannst? Google es!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-    tip_open_source_contribute: "Du kannst Dabei helfen CodeCombat zu verbessern" 
+    tip_open_source_contribute: "Du kannst Dabei helfen CodeCombat zu verbessern"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventar"
@@ -363,7 +364,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     week: "Diese Woche"
     all: "insgesamt"
     time: "Zeit"
-    damage_taken:  "Erhaltener Schaden"
+    damage_taken: "Erhaltener Schaden"
     damage_dealt: "Ausgeteilter Schaden"
     difficulty: "Schwierigkeit"
     gold_collected: "Gold gesammelt"
@@ -548,7 +549,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-  Lehrer:
+  teachers:
     title: "CodeCombat für Lehrer"
     preparation_title: "Vorbereitung"
 #    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
@@ -561,7 +562,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     for_girls_title: "Ist es etwas für Mädchen ?"
 #    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
     age_recommended_title: "Welches Mindestalter wird empfohlen ?"
-    age_recommended_1: "Das empfohlene Mindestalter liegt bei 9 Jahren, jedoch kann auch ein 7 jähriges Kind die ersten Level mit der Hilfe eines Erwachsenen spielen." # "The recommended minimum age is 9, however children as young as 7 can play the first stages with the assistance of an adult."
+    age_recommended_1: "Das empfohlene Mindestalter liegt bei 9 Jahren, jedoch kann auch ein 7 jähriges Kind die ersten Level mit der Hilfe eines Erwachsenen spielen."
 #    what_cover_title: "What do we cover?"
 #    what_cover_1: "There are 27 levels in the first stage of CodeCombat that teach and reinforce 6 specific computer science concepts:"
 #    what_cover_notation_1: "Formal notation"
@@ -635,7 +636,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     admin: "Admin"
     new_password: "Neues Passwort"
     new_password_verify: "Passwort verifizieren"
-#   type_in_email: "Type in your email to confirm the deletion"
+#    type_in_email: "Type in your email to confirm the deletion"
     email_subscriptions: "Email Abonnements"
     email_subscriptions_none: "Keine Email Abonnements."
     email_announcements: "Ankündigungen"
@@ -731,7 +732,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     revert_models: "Modelle zurücksetzen."
     pick_a_terrain: "Wähle ein Terrain"
     dungeon: "Dungeon"
-#    indoor: "indoor"
+    indoor: "Indoor"
     desert: "Wüste"
     grassy: "Grasig"
     small: "Klein"
