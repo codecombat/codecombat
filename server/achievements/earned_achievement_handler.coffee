@@ -185,7 +185,7 @@ class EarnedAchievementHandler extends Handler
       userStream.on 'data',  (user) ->
         ++usersTotal
         numberRunning += 1
-        #return doneWithUser() if usersTotal / total < 0.96  # If it died, we can skip ahead on restart like this.
+        #return doneWithUser() if usersTotal / total < 0.0217  # If it died, we can skip ahead on restart like this.
         userStream.pause() if numberRunning > 20
 
         # Keep track of a user's already achieved in order to set the notified values correctly
@@ -198,7 +198,7 @@ class EarnedAchievementHandler extends Handler
           previousRewards = heroes: [], items: [], levels: [], gems: 0
           async.each alreadyEarned, ((earned, doneWithEarned) ->
             if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString()) # if already earned
-              alreadyEarnedIDs.push earned.get('achievement')
+              alreadyEarnedIDs.push earned.get('achievement') + ''
               previousPoints += earned.get 'earnedPoints'
               for rewardType in ['heroes', 'items', 'levels']
                 previousRewards[rewardType] = previousRewards[rewardType].concat(earned.get('earnedRewards')?[rewardType] ? [])
@@ -231,7 +231,7 @@ class EarnedAchievementHandler extends Handler
                   user: userID
                   achievement: achievement._id.toHexString()
                   achievementName: achievement.get 'name'
-                  notified: achievement._id in alreadyEarnedIDs
+                  notified: achievement._id.toHexString() in alreadyEarnedIDs
 
                 if isRepeatable
                   earned.achievedAmount = util.getByPath(something.toObject(), achievement.get 'proportionalTo') or 0

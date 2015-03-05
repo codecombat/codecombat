@@ -20,3 +20,4 @@ module.exports.templates =
   greed_tournament_rank: 'tem_c4KYnk2TriEkkZx5NqqGLG'
   generic_email: 'tem_JhRnQ4pvTS4KdQjYoZdbei'
   plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'
+  next_steps_email: 'tem_RDHhTG5inXQi8pthyqWr5D'
