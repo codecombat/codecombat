@@ -9,6 +9,23 @@ if docs.length === 1
   h3(data-i18n="game_menu.guide_tips")
   div
     != docs[0].html
+
+  if (me.get('preferredLanguage') || 'en-US').substr(0, 2) == 'en'
+    hr
+    h3 Want more programming lessons?
+    ul
+      li
+        strong
+          a(class="resource-link", data-resource="one-month", href='http://mbsy.co/bVRtZ') One Month
+        | : Learn any tech skill in 30 days with just 15 minutes a day.
+      li
+        strong
+          a(class="resource-link", data-resource="code-school", href='http://mbsy.co/bVRsR') Code School
+        | : Learn web technologies with video lessons, coding challenges, and screencasts. Get your first month for only $9 ($20 off).
+      li
+        strong
+          a(class="resource-link", data-resource="treehouse", href='http://teamtreehouse.com/') Treehouse
+        | : Learn HTML, CSS, iPhone apps, and more with a comprehensive video library.
 else
   ul.nav.nav-tabs
     for doc in docs

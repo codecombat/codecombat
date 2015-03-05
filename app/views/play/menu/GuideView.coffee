@@ -14,7 +14,8 @@ module.exports = class LevelGuideView extends CocoView
   helpVideoWidth: '471'
 
   events:
-    'click .start-subscription-button': "clickSubscribe"
+    'click .start-subscription-button': 'clickSubscribe'
+    'click .resource-link': 'clickResourceLink'
 
   constructor: (options) ->
     @levelSlug = options.level.get('slug')
@@ -72,10 +73,17 @@ module.exports = class LevelGuideView extends CocoView
       @$el.find('.nav-tabs a').click(@clickTab)
     @playSound 'guide-open'
 
-  clickSubscribe: (e) =>
+  clickSubscribe: (e) ->
     level = @levelSlug # Save ref to level slug
     @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'help video clicked', level: level
+
+  clickResourceLink: (e) ->
+    e.preventDefault()
+    resource = $(e.target).data 'resource'
+    url = $(e.target).attr 'href'
+    window.tracker?.trackEvent 'Click resource', category: 'Resources', source: 'guide', level: @levelSlug, resource: resource
+    window.open url, '_blank'
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
