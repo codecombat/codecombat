@@ -965,6 +965,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     payments: "Платежи"
     purchased: "Куплено"
     subscription: "Подписка"
+    invoices: "Счета"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Оплачено"
@@ -980,6 +981,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     card: "Карта"
     status_unsubscribed_active: "Вы не подписаны, и счет не будет выставлен, однако ваш аккаунт все еще активен."
     status_unsubscribed: "Получите доступ к новым уровням, героям, предметам и бонусным самоцветам с подпиской CodeCombat!"
+
+  account_invoices:
+    amount: "Количество в долларах США"
+    declined: "Ваша карта была отклонена"
+    invalid_amount: "Пожалуйста, введите количество долларов США."
+    not_logged_in: "Для доступа к счетам войдите или создайте аккаунт."
+    pay: "Оплатить счет"
+    purchasing: "Покупка..."
+    retrying: "Ошибка сервера, пробуем еще раз."
+    success: "Оплата прошла успешно. Спасибо!"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"
