@@ -14,5 +14,3 @@ module.exports = class I18NEditCampaignView extends I18NEditModelView
         @wrapRow 'Campaign short name', ['name'], name, i18n[lang]?.name, []
       if fullName = @model.get('fullName')
         @wrapRow 'Campaign full name', ['fullName'], fullName, i18n[lang]?.fullName, []
-
-  # TODO: saves to this don't work since Campaigns don't use versioning. What to do?

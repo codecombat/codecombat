@@ -217,6 +217,12 @@ UserSchema.methods.isPremium = ->
   return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
   return false
 
+UserSchema.methods.level = ->
+  xp = @get('points') or 0
+  a = 5
+  b = c = 100
+  if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + c))) + 1 else 1
+
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   return done?()

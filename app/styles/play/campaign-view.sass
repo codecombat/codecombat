@@ -336,7 +336,7 @@ $gameControlMargin: 30px
       &:hover
         @include box-shadow(0 0 12px #bbf)
 
-      &:active
+      &:active, &.highlighted
         @include box-shadow(0 0 20px white)
 
       &.heroes
@@ -344,11 +344,14 @@ $gameControlMargin: 30px
       &.achievements
         background-position: (-2 * $gameControlSize) 0px
       &.account
-        background-position: (-3 * $gameControlSize) 0px
+        //background-position: (-3 * $gameControlSize) 0px
+        background-position: (-4 * $gameControlSize) 0px
       &.settings
         background-position: (-4 * $gameControlSize) 0px
       &.gems
         background-position: (-5 * $gameControlSize) 0px
+      &.poll
+        background-position: (-3 * $gameControlSize) 0px
 
     .tooltip
       font-size: 24px

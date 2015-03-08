@@ -148,7 +148,6 @@ module.exports = class Spell
       cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
-    aceConfig = me.get('aceConfig') ? {}
     writable = @permissions.readwrite.length > 0
     skipProtectAPI = @skipProtectAPI or not writable
     problemContext = @createProblemContext thang

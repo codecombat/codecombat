@@ -77,7 +77,7 @@ module.exports = class SearchView extends RootView
     @hideLoading()
     @collection.sort()
     documents = @collection.models
-    table = $(@tableTemplate(documents: documents, me: me, page: @page))
+    table = $(@tableTemplate(documents: documents, me: me, page: @page, moment: moment))
     @$el.find('table').replaceWith(table)
     @$el.find('table').i18n()
 

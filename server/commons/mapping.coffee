@@ -21,6 +21,8 @@ module.exports.handlers =
   'mail_sent': 'mail/sent/mail_sent_handler'
   'achievement': 'achievements/achievement_handler'
   'earned_achievement': 'achievements/earned_achievement_handler'
+  'poll': 'polls/poll_handler'
+  'user_polls_record': 'polls/user_polls_record_handler'
 
 module.exports.routes =
   [
