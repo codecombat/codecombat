@@ -61,7 +61,7 @@ _.extend CampaignSchema.properties, {
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
       adminOnly: { type: 'boolean' }
-      disableSpaces: { type: 'boolean' }
+      disableSpaces: { type: ['boolean','number'] }
       hidesSubmitUntilRun: { type: 'boolean' }
       hidesPlayButton: { type: 'boolean' }
       hidesRunShortcut: { type: 'boolean' }
@@ -70,7 +70,7 @@ _.extend CampaignSchema.properties, {
       hidesCodeToolbar: { type: 'boolean' }
       hidesRealTimePlayback: { type: 'boolean' }
       backspaceThrottle: { type: 'boolean' }
-      lockDefaultCode: { type: 'boolean' }
+      lockDefaultCode: { type: ['boolean','number'] }
       moveRightLoopSnippet: { type: 'boolean' }
       realTimeSpeedFactor: { type: 'number' }
       autocompleteFontSizePx: { type: 'number' }

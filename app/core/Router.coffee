@@ -206,6 +206,7 @@ module.exports = class CocoRouter extends Backbone.Router
     if (e.route is document.location.pathname) and not manualView
       return document.location.reload()
     @navigate e.route, {trigger: not manualView}
+    @_trackPageView()
     return unless manualView
     if e.viewClass
       args = e.viewArgs or []

@@ -307,7 +307,7 @@ _.extend LevelSchema.properties,
   adventurer: { type: 'boolean' }
   practice: { type: 'boolean' }
   adminOnly: { type: 'boolean' }
-  disableSpaces: { type: 'boolean' }
+  disableSpaces: { type: ['boolean','integer'] }
   hidesSubmitUntilRun: { type: 'boolean' }
   hidesPlayButton: { type: 'boolean' }
   hidesRunShortcut: { type: 'boolean' }
@@ -316,7 +316,7 @@ _.extend LevelSchema.properties,
   hidesCodeToolbar: { type: 'boolean' }
   hidesRealTimePlayback: { type: 'boolean' }
   backspaceThrottle: { type: 'boolean' }
-  lockDefaultCode: { type: 'boolean' }
+  lockDefaultCode: { type: ['boolean','integer'] }
   moveRightLoopSnippet: { type: 'boolean' }
   realTimeSpeedFactor: { type: 'number' }
   autocompleteFontSizePx: { type: 'number' }

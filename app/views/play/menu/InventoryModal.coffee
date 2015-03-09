@@ -483,7 +483,7 @@ module.exports = class InventoryModal extends ModalView
     @playSound 'menu-button-click'
     @showLoading()
     ua = navigator.userAgent.toLowerCase()
-    unless hasGoneFullScreenOnce or (/safari/.test(ua) and not /chrome/.test(ua)) or $(window).height() >= 658  # Min vertical resolution needed at 1366px wide
+    unless me.isAdmin() or hasGoneFullScreenOnce and (/safari/.test(ua) and not /chrome/.test(ua)) or $(window).height() >= 658  # Min vertical resolution needed at 1366px wide
       @toggleFullscreen()
       hasGoneFullScreenOnce = true
     @updateConfig =>
