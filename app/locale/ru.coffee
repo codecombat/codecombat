@@ -64,6 +64,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     achievements: "Достижения" # Tooltip on achievement list button from /play
     account: "Аккаунт" # Tooltip on account button from /play
     settings: "Настройки" # Tooltip on settings button from /play
+    poll: "Опрос" # Tooltip on poll button from /play
     next: "Выбрать" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     choose_inventory: "Выбрать предметы"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     thang_title: "Редактор объектов"
     level_title: "Редактор уровней"
     achievement_title: "Редактор достижений"
+    poll_title: "Редактор опросов"
     back: "Назад"
     revert: "Откатить"
     revert_models: "Откатить Модели"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new_level_title_login: "Войти, чтобы создать новый уровень"
     new_achievement_title: "Создать новое достижение"
     new_achievement_title_login: "Войти, чтобы создать новое достижение"
+    new_poll_title: "Создать новый опрос"
+    new_poll_title_login: "Войдите, чтобы создать новый опрос"
     article_search_title: "Искать статьи"
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
     achievement_search_title: "Искать достижения"
+    poll_search_title: "Искать опросы"
     read_only_warning2: "Примечание: вы не можете сохранять любые правки здесь, потому что вы не авторизованы."
     no_achievements: "Для этого уровня еще не были добавлены достижения."
     achievement_query_misc: "Ключевое достижение за прочие задачи."
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   article:
     edit_btn_preview: "Предпросмотр"
     edit_article_title: "Редактирование статьи"
+
+  polls:
+    priority: "Приоритет"
 
   contribute:
     page_title: "Сотрудничество"
@@ -1052,6 +1060,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     feedback: "Отзыв"
     payment_info: "Информация о платеже"
     campaigns: "Кампании"
+    poll: "Опрос"
+    user_polls_record: "История опросов"
 
   delta:
     added: "Добавлено"
