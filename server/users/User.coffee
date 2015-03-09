@@ -294,7 +294,7 @@ UserSchema.statics.privateProperties = [
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
   'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
-  'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
+  'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer'

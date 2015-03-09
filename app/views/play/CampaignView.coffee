@@ -573,8 +573,12 @@ module.exports = class CampaignView extends RootView
     onRecordSync = ->
       return if @destroyed
       @userPollsRecord.url = -> '/db/user.polls.record/' + @id
-      # TODO: only load poll if it's been a day
-      @loadPoll()
+      lastVoted = new Date @userPollsRecord.get('changed')
+      interval = new Date() - lastVoted
+      if interval > 22 * 60 * 60 * 1000  # Wait almost a day before showing the next poll
+        @loadPoll()
+      else
+        console.log 'Poll will be ready in', (22 * 60 * 60 * 1000 - interval) / (60 * 60 * 1000), 'hours.'
     @listenToOnce @userPollsRecord, 'sync', onRecordSync
     @userPollsRecord = @supermodel.loadModel(@userPollsRecord, 'user_polls_record', null, 0).model
     onRecordSync.call @ if @userPollsRecord.loaded

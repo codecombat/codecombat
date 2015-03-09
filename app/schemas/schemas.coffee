@@ -17,8 +17,8 @@ me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 
 # Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
-me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
-me.isodate = (ext) -> combine({type: ['object'], format: 'date-time'}, ext)  # use for server-side-only dates?
+me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
+me.stringDate = (ext) -> combine({type: ['string'], format: 'date-time'}, ext)  # new
 me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)  # old
 me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
 

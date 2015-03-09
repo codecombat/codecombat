@@ -13,7 +13,7 @@ _.extend UserPollsRecordSchema.properties,
       random: {type: 'number', minimum: 0, maximum: 1}
       level: {type: 'integer', minimum: 1}
   level: {type: 'integer', minimum: 1, description: 'The player level when last saved.'}
-  changed: c.isodate title: 'Changed', readOnly: true  # Controls when next poll is available
+  changed: c.date title: 'Changed', readOnly: true  # Controls when next poll is available
 
 c.extendBasicProperties UserPollsRecordSchema, 'user-polls-record'
 

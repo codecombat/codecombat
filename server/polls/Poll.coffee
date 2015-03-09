@@ -28,6 +28,7 @@ PollSchema.statics.editableProperties = [
   'i18n'
   'i18nCoverage'
   'priority'
+  'userProperty'
 ]
 PollSchema.statics.jsonSchema = jsonSchema
 

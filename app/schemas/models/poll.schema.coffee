@@ -12,8 +12,9 @@ _.extend PollSchema.properties,
       i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['text']}
       votes: {title: 'Votes', type: 'integer', minimum: 0}
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'description']}
-  created: c.isodate {title: 'Created', readOnly: true}
+  created: c.date {title: 'Created', readOnly: true}
   priority: {title: 'Priority', description: 'Lower numbers will show earlier.', type: 'integer'}
+  userProperty: c.shortString {pattern: c.identifierPattern, description: 'Optional: store the answer inside the User object itself, also, with this property name.'}
 
 c.extendBasicProperties PollSchema, 'poll'
 c.extendSearchableProperties PollSchema

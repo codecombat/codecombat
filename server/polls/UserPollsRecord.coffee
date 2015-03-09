@@ -20,7 +20,7 @@ UserPollsRecordSchema.pre 'save', (next) ->
   gemDelta = 0
   for pollID, answer of @get('polls') ? {}
     previousAnswer = @previousPolls[pollID]
-    updatePollVotes pollID, answer, previousAnswer unless answer is previousAnswer
+    updatePollVotes @get('user'), pollID, answer, previousAnswer unless answer is previousAnswer
     unless rewards[pollID]
       rewards[pollID] = reward = random: Math.random(), level: level
       gemDelta += Math.ceil 2 * reward.random * reward.level
@@ -29,7 +29,7 @@ UserPollsRecordSchema.pre 'save', (next) ->
   updateUserGems @get('user'), gemDelta if gemDelta
   next()
 
-updatePollVotes = (pollID, answer, previousAnswer) ->
+updatePollVotes = (userID, pollID, answer, previousAnswer) ->
   Poll.findById mongoose.Types.ObjectId(pollID), {}, (err, poll) ->
     return log.error err if err
     answers = poll.get 'answers'
@@ -39,9 +39,16 @@ updatePollVotes = (pollID, answer, previousAnswer) ->
     poll.markModified 'answers'
     poll.save (err, newPoll, numberAffected) ->
       return log.error err if err
+    updateUserProperty userID, userProperty, answer if userProperty = poll.get 'userProperty'
+
+updateUserProperty = (userID, userProperty, answer) ->
+  update = $set: {"#{userProperty}": answer}
+  User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, numberAffected) ->
+    return log.error err if err
 
 updateUserGems = (userID, gemDelta) ->
-  User.update {_id: mongoose.Types.ObjectId(userID)}, {$inc: {'earned.gems': gemDelta}}, (err, numberAffected) ->
+  update = $inc: {'earned.gems': gemDelta}
+  User.update {_id: mongoose.Types.ObjectId(userID)}, update, (err, numberAffected) ->
     return log.error err if err
 
 UserPollsRecordSchema.statics.privateProperties = []
