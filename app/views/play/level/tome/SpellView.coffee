@@ -220,9 +220,8 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: =>
-        disableSpacesAttr = @options.level.get 'disableSpaces'
-        if typeof disableSpacesAttr == 'number' and disableSpacesAttr < me.level() or
-           typeof disableSpacesAttr == 'boolean' and disableSpacesAttr is false
+        disableSpaces = @options.level.get('disableSpaces') or false
+        if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
         return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
@@ -262,9 +261,8 @@ module.exports = class SpellView extends CocoView
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
-    lockDefaultCodeAttr = @options.level.get 'lockDefaultCode'
-    if typeof lockDefaultCodeAttr == 'number' and lockDefaultCodeAttr < me.level() or
-       typeof lockDefaultCodeAttr == 'boolean' and lockDefaultCodeAttr is false
+    lockDefaultCode = @options.level.get('lockDefaultCode') or false
+    if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.level())
       return
     return unless @spell.source is @spell.originalSource or force
 
@@ -795,11 +793,11 @@ module.exports = class SpellView extends CocoView
     commentStart = commentStarts[@spell.language] or '//'
     @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
     @_singleLineCommentRegex
-  
+
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
-    
+
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
     oldSource = @spell.source
@@ -1101,7 +1099,7 @@ module.exports = class SpellView extends CocoView
     @zatanna.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
     super()
-    
+
 commentStarts =
   javascript: '//'
   python: '#'
