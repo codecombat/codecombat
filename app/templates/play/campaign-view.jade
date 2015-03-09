@@ -78,6 +78,7 @@ else
               btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
 
 .game-controls.header-font
+  button.btn.poll.hidden(data-i18n="[title]play.poll")
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
   button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
@@ -85,9 +86,9 @@ else
     button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
   if !me.get('anonymous', true)
     button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
-  if me.isAdmin()
-    button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
-  else if me.get('anonymous', true)
+  //if me.isAdmin()
+  //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
+  if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
   
 .user-status.header-font

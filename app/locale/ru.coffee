@@ -336,7 +336,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_adding_evil: "Добавим щепотку зла."
     tip_hate_computers: "Есть одна вещь в людях, которые думают, что они ненавидят компьютеры. Что они на самом деле ненавидят, так это плохих программистов. - Larry Niven"
     tip_open_source_contribute: "Вы можете помочь сделать CodeCombat лучше!"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_recurse: "Итерация свойственна человеку, рекурсия божественна. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -530,11 +530,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     press_paragraph_1_link: "пресс-пакет"
     press_paragraph_1_suffix: ". Все изображения могут быть использованы без предварительного уведомления."
     team: "Команда"
-    george_title: "Сооснователь" # {change}
+    george_title: "Сооснователь"
     george_blurb: "Деловой"
-    scott_title: "Программист" # {change}
+    scott_title: "Сооснователь"
     scott_blurb: "Разумный"
-    nick_title: "Сооснователь" # {change}
+    nick_title: "Сооснователь"
     nick_blurb: "Гуру мотивации"
     michael_title: "Программист"
     michael_blurb: "Сисадмин"
@@ -564,7 +564,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     age_recommended_title: "Какой возраст рекомендуется?"
     age_recommended_1: "Рекомендованный минимальный возраст - 9 лет. Тем не менее, дети с 7 лет могут играть на первых уровнях при поддержке взрослых."
     what_cover_title: "Что мы охватываем?"
-    what_cover_1: "В первом блоке CodeCombat 27 уровней, которые учат и закрепляют 6 специфичных компьютерных принципов:" # {change}
+    what_cover_1: "В первом блоке CodeCombat 27 уровней, которые учат и закрепляют 6 специфичных компьютерных принципов:"
     what_cover_notation_1: "Формальная запись"
     what_cover_notation_2: "- создает понимание важности синтаксиса в программировании."
     what_cover_methods_1: "Вызов методов"
@@ -965,6 +965,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     payments: "Платежи"
     purchased: "Куплено"
     subscription: "Подписка"
+    invoices: "Счета"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Оплачено"
@@ -980,6 +981,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     card: "Карта"
     status_unsubscribed_active: "Вы не подписаны, и счет не будет выставлен, однако ваш аккаунт все еще активен."
     status_unsubscribed: "Получите доступ к новым уровням, героям, предметам и бонусным самоцветам с подпиской CodeCombat!"
+
+  account_invoices:
+    amount: "Количество в долларах США"
+    declined: "Ваша карта была отклонена"
+    invalid_amount: "Пожалуйста, введите количество долларов США."
+    not_logged_in: "Для доступа к счетам войдите или создайте аккаунт."
+    pay: "Оплатить счет"
+    purchasing: "Покупка..."
+    retrying: "Ошибка сервера, пробуем еще раз."
+    success: "Оплата прошла успешно. Спасибо!"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"

@@ -30,8 +30,6 @@ LevelSessionSchema.index({submitted: 1, team: 1, levelID: 1, submitDate: -1}, {n
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
 LevelSessionSchema.plugin(AchievablePlugin)
 
-previous = {}
-
 LevelSessionSchema.post 'init', (doc) ->
   unless doc.previousStateInfo
     doc.previousStateInfo =

@@ -17,6 +17,9 @@ utils = require 'core/utils'
 require 'vendor/three'
 ParticleMan = require 'core/ParticleMan'
 ShareProgressModal = require 'views/play/modal/ShareProgressModal'
+UserPollsRecord = require 'models/UserPollsRecord'
+Poll = require 'models/Poll'
+PollModal = require 'views/play/modal/PollModal'
 
 trackedHourOfCode = false
 
@@ -53,6 +56,7 @@ module.exports = class CampaignView extends RootView
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
+    'click .poll': 'showPoll'
 
   constructor: (options, @terrain) ->
     super options
@@ -95,6 +99,7 @@ module.exports = class CampaignView extends RootView
     @hadEverChosenHero = me.get('heroConfig')?.thangType
     @listenTo me, 'change:purchased', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:spent', -> @renderSelectors('#gems-count')
+    @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
 
@@ -216,7 +221,7 @@ module.exports = class CampaignView extends RootView
     super()
     @onWindowResize()
     unless application.isIPadApp
-      _.defer => @$el?.find('.game-controls .btn').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
+      _.defer => @$el?.find('.game-controls .btn:not(.poll)').addClass('has-tooltip').tooltip()  # Have to defer or i18n doesn't take effect.
       view = @
       @$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each ->
         return unless me.isAdmin() and view.editorMode
@@ -369,6 +374,7 @@ module.exports = class CampaignView extends RootView
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
     @render()
+    @loadUserPollsRecord() unless me.get 'anonymous'
 
   onCampaignsLoaded: (e) ->
     @render()
@@ -560,3 +566,53 @@ module.exports = class CampaignView extends RootView
       route: "/play/#{campaignSlug}"
       viewClass: CampaignView
       viewArgs: [{supermodel: @supermodel}, campaignSlug]
+
+  loadUserPollsRecord: ->
+    url = "/db/user.polls.record/-/user/#{me.id}"
+    @userPollsRecord = new UserPollsRecord().setURL url
+    onRecordSync = ->
+      return if @destroyed
+      @userPollsRecord.url = -> '/db/user.polls.record/' + @id
+      lastVoted = new Date @userPollsRecord.get('changed')
+      interval = new Date() - lastVoted
+      if interval > 22 * 60 * 60 * 1000  # Wait almost a day before showing the next poll
+        @loadPoll()
+      else
+        console.log 'Poll will be ready in', (22 * 60 * 60 * 1000 - interval) / (60 * 60 * 1000), 'hours.'
+    @listenToOnce @userPollsRecord, 'sync', onRecordSync
+    @userPollsRecord = @supermodel.loadModel(@userPollsRecord, 'user_polls_record', null, 0).model
+    onRecordSync.call @ if @userPollsRecord.loaded
+
+  loadPoll: ->
+    lastPollID = _.last _.keys @userPollsRecord.get 'polls'
+    url = "/db/poll/#{lastPollID or '-'}/next"
+    @poll = new Poll().setURL url
+    onPollSync = ->
+      return if @destroyed
+      @poll.url = -> '/db/poll/' + @id
+      _.delay (=> @activatePoll?()), 1000
+    onPollError = (poll, response, request) ->
+      if response.status is 404
+        console.log 'There are no more polls left.'
+      else
+        console.error "Couldn't load poll:", response.status, response.statusText
+      delete @poll
+    @listenToOnce @poll, 'sync', onPollSync
+    @listenToOnce @poll, 'error', onPollError
+    @poll = @supermodel.loadModel(@poll, 'poll', null, 0).model
+    onPollSync.call @ if @poll.loaded
+
+  activatePoll: ->
+    pollTitle = "#{$.i18n.t 'play.poll'}: #{utils.i18n @poll.attributes, 'name'}"
+    $pollButton = @$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr(title: pollTitle).addClass('has-tooltip').tooltip title: pollTitle
+    if me.get('lastLevel') is 'shadow-guard'
+      @showPoll()
+    else
+      $pollButton.tooltip 'show'
+
+  showPoll: ->
+    pollModal = new PollModal supermodel: @supermodel, poll: @poll, userPollsRecord: @userPollsRecord
+    @openModalView pollModal
+    $pollButton = @$el.find 'button.poll'
+    pollModal.on 'vote-updated', ->
+      $pollButton.removeClass('highlighted').tooltip 'hide'

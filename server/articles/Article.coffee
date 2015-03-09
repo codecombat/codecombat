@@ -32,6 +32,7 @@ ArticleSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
 ArticleSchema.plugin(plugins.NamedPlugin)
 ArticleSchema.plugin(plugins.VersionedPlugin)
 ArticleSchema.plugin(plugins.SearchablePlugin, {searchable: ['body', 'name']})
+ArticleSchema.plugin(plugins.TranslationCoveragePlugin)
 ArticleSchema.plugin(plugins.PatchablePlugin)
 
 module.exports = mongoose.model('article', ArticleSchema)

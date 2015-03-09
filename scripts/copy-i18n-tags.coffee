@@ -8,6 +8,7 @@ commentsMap = {}
 categorySplitPattern = /^[\s\n]*(?=[^:\n]+:\s*$)/gm
 categoryCapturePattern = /^([^:\n]+):\s*\n/
 commentPattern = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm    # " for Emacs close quote
+changePattern = /\s?\s?(#\s)?\{change\}/g
 
 splitByCategories = enSource.split(categorySplitPattern)
 
@@ -45,14 +46,17 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
       if commentsMap[enCat]? and commentsMap[enCat][enTag]?
         comment = " \##{commentsMap[enCat][enTag]}"
 
-      escapedTag = tag.replace /[-\/\\^$*+?.()|[\]{}]/g, "\\$&"
-      if fileSource.search(new RegExp("^    #{enTag}: \"#{escapedTag}\".*\{change\}.*", 'm')) >= 0 and comment.search(/.*\{change\}/) < 0
-        comment = " \#" + comment if comment is ""
-        comment = comment + " {change}"
+      if fileSource.search(new RegExp("#    #{enTag}")) >= 0 # current tag is commented
+        comment = comment.replace changePattern, ""
+      else
+        escapedTag = tag.replace /[-\/\\^$*+?.()|[\]{}]/g, "\\$&"
+        if fileSource.search(new RegExp("^    #{enTag}: \"#{escapedTag}\".*\{change\}.*", 'm')) >= 0 and comment.search(/.*\{change\}/) < 0
+          comment = " \#" + comment if comment is ""
+          comment = comment + " {change}"
 
       lines.push "#{if tagMissing then '#' else ''}    #{enTag}: \"#{tag}\"#{comment}"
   newContents = lines.join('\n') + '\n'
   fs.writeFileSync 'app/locale/' + file, newContents
 
-enSource = enSource.replace /\s?\s?(#\s)?\{change\}/g, ""
+enSource = enSource.replace changePattern, ""
 fs.writeFileSync 'app/locale/en.coffee', enSource

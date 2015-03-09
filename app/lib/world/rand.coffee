@@ -41,6 +41,7 @@ class Rand
 
   # shuffle array in place, and also return it
   shuffle: (arr) =>
+    return arr unless arr.length > 2
     for i in [arr.length-1 .. 1]
       j = Math.floor @randf() * (i - 1)
       t = arr[j]

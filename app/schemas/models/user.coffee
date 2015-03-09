@@ -54,6 +54,7 @@ _.extend UserSchema.properties,
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
   gender: {type: 'string', 'enum': ['male', 'female']}
+  ageRange: {type: 'string'}  # 'enum': ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
   passwordReset: {type: 'string'}
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}

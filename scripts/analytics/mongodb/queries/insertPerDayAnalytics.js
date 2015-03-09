@@ -13,6 +13,7 @@
 // TODO: Convert this to a node script so it can use proper libraries (e.g. slugify)
 
 try {
+  logDB = new Mongo("localhost").getDB("analytics")
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 
@@ -151,7 +152,7 @@ function getLevelFunnelData(startDay, eventFunnel) {
 
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
   var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: eventFunnel}}]};
-  var cursor = db['analytics.log.events'].find(queryParams);
+  var cursor = logDB['log'].find(queryParams);
 
   // Map ordering: level, user, event, day
   var userDataMap = {};
@@ -223,7 +224,7 @@ function getLevelDropCounts(startDay, events) {
 
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
   var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: events}}]};
-  var cursor = db['analytics.log.events'].find(queryParams);
+  var cursor = logDB['log'].find(queryParams);
 
   var userProgression = {};
   while (cursor.hasNext()) {
@@ -265,7 +266,7 @@ function getLevelHelpCounts(startDay, events) {
 
   var startObj = objectIdWithTimestamp(ISODate(startDay + "T00:00:00.000Z"));
   var queryParams = {$and: [{_id: {$gte: startObj}},{"event": {$in: events}}]};
-  var cursor = db['analytics.log.events'].find(queryParams);
+  var cursor = logDB['log'].find(queryParams);
 
   // Map ordering: level, user, event, day
   var userDataMap = {};
@@ -319,7 +320,7 @@ function getLevelSubscriptionCounts(startDay) {
       {'event': 'Finished subscription purchase'}]
     }
   ]};
-  var cursor = db['analytics.log.events'].find(queryParams);
+  var cursor = logDB['log'].find(queryParams);
 
   // Map ordering: user, event, level, day
   // Map ordering: user, event, day

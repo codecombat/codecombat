@@ -15,10 +15,13 @@ me.object = (ext, props) -> combine({type: 'object', additionalProperties: false
 me.array = (ext, items) -> combine({type: 'array', items: items or {}}, ext)
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
-me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
-# should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
-me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)
-me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)
+
+# Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
+me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
+me.stringDate = (ext) -> combine({type: ['string'], format: 'date-time'}, ext)  # new
+me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)  # old
+me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
+
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
 me.int = (ext) -> combine {type: 'integer'}, ext
 me.float = (ext) -> combine {type: 'number'}, ext

@@ -69,6 +69,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/thang': go('editor/thang/ThangTypeSearchView')
     'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
     'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
+    'editor/poll': go('editor/poll/PollSearchView')
+    'editor/poll/:articleID': go('editor/poll/PollEditView')
 
     'employers': go('EmployersView')
 
@@ -82,6 +84,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/level/:handle': go('i18n/I18NEditLevelView')
     'i18n/achievement/:handle': go('i18n/I18NEditAchievementView')
     'i18n/campaign/:handle': go('i18n/I18NEditCampaignView')
+    'i18n/poll/:handle': go('i18n/I18NEditPollView')
 
     'legal': go('LegalView')
 
