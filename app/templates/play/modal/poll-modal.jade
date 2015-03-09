@@ -15,7 +15,7 @@ block modal-body-content
   .answers-container-wrapper
     .answers-container
       table.table.table-hover
-        for answer in poll.get("answers")
+        for answer in poll.get("answers") || []
           tr(class="answer", data-answer=answer.key)
             td!= marked(i18n(answer, "text"))
             td.graph-cell
