@@ -335,8 +335,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_google: "¿Tienes un problema que no puedes resolver? ¡Googléalo!"
     tip_adding_evil: "Agregando una pizca de maldad."
     tip_hate_computers: "Esa es la razón por la cual la gente piensa que odia las computadoras. Lo que ellos odian de verdad, es los pesimos programadores. - Larry Niven"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_open_source_contribute: "¡Tú puedes ayudar a CodeCombat a mejorar!"
+    tip_recurse: "Iterar es humano, recursar es divino. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -470,7 +470,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     restricted_to_certain_heroes: "Sólo ciertos héroes pueden jugar este nivel."
 
   skill_docs:
-#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
+    writable: "escribible" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "Sólo Lectura"
     action_name: "nombre"
     action_cooldown: "Toma"
@@ -676,10 +676,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     toggle_playback: "Aplicar ejecutar/pausar."
     scrub_playback: "Devolverse y avanzar en el tiempo."
     single_scrub_playback: "Devolverse y avanzar en el tiempo de a un cuadro."
-#    scrub_execution: "Scrub through current spell execution."
-    toggle_debug: "Mostrar ocultar depuración."
-#    toggle_grid: "Toggle grid overlay."
-#    toggle_pathfinding: "Toggle pathfinding overlay."
+#    scrub_execution: "Scrub through la ejecución del hechizo actual."
+    toggle_debug: "Mostrar/ocultar depuración."
+    toggle_grid: "Mostrar/ocultar rejilla."
+    toggle_pathfinding: "Mostrar/ocultar buscador de rutas."
     beautify: "Hacer bello tu código estandarizando formato."
     maximize_editor: "Maximizar/minimizar editor de código."
 
@@ -795,7 +795,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_achievements: "No hay logros agregados en este nivel por ahora."
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
-#    level_completion: "Level Completion"
+    level_completion: "Nivel Completado"
     pop_i18n: "Poblar I18N"
     tasks: "Tareas"
     clear_storage: "Borrar tus cambios locales"
@@ -822,7 +822,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     join_url_email: "Escríbenos"
     join_url_hipchat: "chat público HipChat"
     archmage_subscribe_desc: "Obten correos de nuevas oportunidades y anuncios."
-#    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
+    artisan_introduction_pref: "¡Debemos construir niveles adicionales! La gente ruega por más contenido, y podemos hacer tanto por nosotros mismos. De momento tu estación de trabajo es nivel 1 ; Nuestro editor de niveles es apenas útil incluso para sus creadores, así que sea cauteloso. Si tuviera visiones de campañas apareciendo para ciclos for"
     artisan_introduction_suf: ", entonces esta lase es ideal para ti."
     artisan_attribute_1: "Cualquier experiencia creando contenido similar estaría bien, como por ejemplo el editor de niveles de Blizzard. ¡Aunque no es necesaria!"
     artisan_attribute_2: "Un anhelo de hacer un montón de pruebas e iteraciones. Para hacer buenos niveles necesitas mostrárselos a otros y mirar como juegan, además de estar preparado para encontrar los fallos a reparar."
@@ -1092,7 +1092,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     code_title: "Código - MIT"
     code_description_prefix: "Todo el código pertenece a CodeCombat u hospedado en codecombat.com, sea en el repositorio GitHub o en la base de datos en codecombat.com, está bajo licencia"
     mit_license_url: "Licencia MIT"
-#    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
+#    code_description_suffix: "Esto incluye todo el código en Systems and Components that are made available by CodeCombat for the purpose of creating levels."
     art_title: "Arte/Música - Comunas Creativas "
     art_description_prefix: "Todo el Contenido Comunal está disponible bajo la"
     cc_license_url: "Licencia Internacional de Atribución Comunas Creativas (CC) 4.0"
@@ -1116,7 +1116,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "En una palabra"
-#    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
+#    nutshell_description: "Cualesquiera recursos que le proveamos en el Editor de Niveles son gratis de usar como te plazca para la creación de Niveles. Sin embargo nos reservamos el derecho de restringir la distribución de los niveles por sí mismos (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
     canonical: "La versión en ingles de este documento es la definitiva, versión canónica. Si hay alguna discrepancia entre las traducciones, la versión en ingles toma presedencia."
 
   ladder_prizes:
