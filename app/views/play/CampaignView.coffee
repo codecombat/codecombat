@@ -573,7 +573,7 @@ module.exports = class CampaignView extends RootView
     onRecordSync = ->
       return if @destroyed
       @userPollsRecord.url = -> '/db/user.polls.record/' + @id
-      lastVoted = new Date @userPollsRecord.get('changed')
+      lastVoted = new Date(@userPollsRecord.get('changed') or 0)
       interval = new Date() - lastVoted
       if interval > 22 * 60 * 60 * 1000  # Wait almost a day before showing the next poll
         @loadPoll()
