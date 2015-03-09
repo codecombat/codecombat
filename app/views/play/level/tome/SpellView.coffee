@@ -220,7 +220,10 @@ module.exports = class SpellView extends CocoView
       name: 'disable-spaces'
       bindKey: 'Space'
       exec: =>
-        return @ace.execCommand 'insertstring', ' ' unless @options.level.get 'disableSpaces'
+        disableSpacesAttr = @options.level.get 'disableSpaces'
+        if typeof disableSpacesAttr == 'number' and disableSpacesAttr < me.level() or
+           typeof disableSpacesAttr == 'boolean' and disableSpacesAttr is false
+          return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
         return @ace.execCommand 'insertstring', ' ' if @singleLineCommentRegex().test line
 
@@ -259,7 +262,10 @@ module.exports = class SpellView extends CocoView
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
-    return unless @options.level.get('lockDefaultCode')
+    lockDefaultCodeAttr = @options.level.get 'lockDefaultCode'
+    if typeof lockDefaultCodeAttr == 'number' and lockDefaultCodeAttr < me.level() or
+       typeof lockDefaultCodeAttr == 'boolean' and lockDefaultCodeAttr is false
+      return
     return unless @spell.source is @spell.originalSource or force
 
     console.info 'Locking down default code.'
