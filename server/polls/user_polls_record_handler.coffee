@@ -11,7 +11,7 @@ UserPollsRecordHandler = class UserPollsRecordHandler extends Handler
     req.user and (req.method in ['GET', 'POST', 'PUT'] or req.user?.isAdmin())
 
   hasAccessToDocument: (req, document, method=null) ->
-    req.user?.isAdmin() or req.user?._id.equals document._id
+    req.user?.isAdmin() or req.user?._id.equals document.get('user')
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
