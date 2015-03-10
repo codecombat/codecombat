@@ -593,7 +593,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sys_requirements_6: "Erlauben sie den Spielern Kopfhörer zu benutzen, um den Sound zu hören."
     sys_requirements_7: "Wir helfen Spielern mit Voiceover und Sound Effekten, die im Klassenzimmer laut und störend wirken können."
 
-
   versions:
     save_version_title: "Neue Version speichern"
     new_major_version: "Neue Hauptversion"
@@ -1052,7 +1051,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     merge_conflict_with: "MERGE KONFLIKT MIT"
     no_changes: "Keine Änderungen"
 
- guide:
+  guide:
     temp: "Temp"
 
   multiplayer:
