@@ -449,7 +449,7 @@
     weapons: "Weapons"
     weapons_warrior: "Swords - Short Range, No Magic"
     weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-    weapons_wizard: "Wands, Staffs - Long Range Staffs, Magic"
+    weapons_wizard: "Wands, Staffs - Long Range, Magic"
     attack: "Damage"  # Can also translate as "Attack"
     health: "Health"
     speed: "Speed"
