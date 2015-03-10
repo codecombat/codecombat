@@ -109,7 +109,7 @@ module.exports = class LevelHUDView extends CocoView
     props.find('.prop').remove()
     #propNames = _.without @thang.hudProperties ? [], 'action'
     propNames = @thang.hudProperties
-    for prop, i in propNames
+    for prop, i in propNames ? []
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
