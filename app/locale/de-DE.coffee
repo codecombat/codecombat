@@ -760,7 +760,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     level_tab_thangs_add: "Thangs hinzufügen"
     add_components: "Kommentar hinzufügen"
     component_configs: "Komponenten Konfiguration"
-   config_thang: "Doppelklicke, um Thang zu konfigurieren"
+    config_thang: "Doppelklicke, um Thang zu konfigurieren"
     delete: "Löschen"
     duplicate: "Duplizieren"
     stop_duplicate: "Stop Duplizieren"
