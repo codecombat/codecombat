@@ -8,6 +8,7 @@ Handler = require '../commons/Handler'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/core/utils'
 LevelSession = require '../levels/sessions/LevelSession'
+UserPollsRecord = require '../polls/UserPollsRecord'
 
 class EarnedAchievementHandler extends Handler
   modelClass: EarnedAchievement
@@ -191,126 +192,134 @@ class EarnedAchievementHandler extends Handler
         # Keep track of a user's already achieved in order to set the notified values correctly
         userID = user.get('_id').toHexString()
 
-        # Fetch all of a user's earned achievements
-        EarnedAchievement.find {user: userID}, (err, alreadyEarned) ->
-          alreadyEarnedIDs = []
-          previousPoints = 0
-          previousRewards = heroes: [], items: [], levels: [], gems: 0
-          async.each alreadyEarned, ((earned, doneWithEarned) ->
-            if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString()) # if already earned
-              alreadyEarnedIDs.push earned.get('achievement') + ''
-              previousPoints += earned.get 'earnedPoints'
-              for rewardType in ['heroes', 'items', 'levels']
-                previousRewards[rewardType] = previousRewards[rewardType].concat(earned.get('earnedRewards')?[rewardType] ? [])
-              previousRewards.gems += earned.get('earnedRewards')?.gems ? 0
-            doneWithEarned()
-          ), (err) -> # After checking already achieved
+        # Fetch a user's poll record so we can get the gems they should have from that.
+        UserPollsRecord.findOne {user: userID}, (err, userPollsRecord) ->
+          log.error err if err
+          pollGems = 0
+          for pollID, reward of userPollsRecord?.get('rewards') or {}
+            pollGems += Math.ceil 2 * reward.random * reward.level
+
+          # Fetch all of a user's earned achievements
+          EarnedAchievement.find {user: userID}, (err, alreadyEarned) ->
             log.error err if err
-            # TODO maybe also delete earned? Make sure you don't delete too many
-
-            newTotalPoints = 0
-            newTotalRewards = heroes: [], items: [], levels: [], gems: 0
-
-            async.each achievements, ((achievement, doneWithAchievement) ->
-              isRepeatable = achievement.get('proportionalTo')?
-              model = mongoose.modelNameByCollection(achievement.get('collection'))
-              return doneWithAchievement new Error "Model with collection '#{achievement.get 'collection'}' doesn't exist." unless model?
-
-              finalQuery = _.clone achievement.get 'query'
-              return doneWithAchievement() if _.isEmpty finalQuery
-              finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hex string IDs
-              finalQuery.$or[0][achievement.userField] = userID
-              finalQuery.$or[1][achievement.userField] = mongoose.Types.ObjectId userID
-
-              model.findOne finalQuery, (err, something) ->
-                return doneWithAchievement() if _.isEmpty something
-
-                #log.debug "Matched an achievement: #{achievement.get 'name'} for #{user.get 'name'}"
-
-                earned =
-                  user: userID
-                  achievement: achievement._id.toHexString()
-                  achievementName: achievement.get 'name'
-                  notified: achievement._id.toHexString() in alreadyEarnedIDs
-
-                if isRepeatable
-                  earned.achievedAmount = util.getByPath(something.toObject(), achievement.get 'proportionalTo') or 0
-                  earned.previouslyAchievedAmount = 0
-
-                  expFunction = achievement.getExpFunction()
-                  newPoints = expFunction(earned.achievedAmount) * achievement.get('worth') ? 10
-                  newGems = expFunction(earned.achievedAmount) * (achievement.get('rewards')?.gems ? 0)
-                else
-                  newPoints = achievement.get('worth') ? 10
-                  newGems = achievement.get('rewards')?.gems ? 0
-
-                earned.earnedPoints = newPoints
-                newTotalPoints += newPoints
-
-                earned.earnedRewards = achievement.get('rewards')
+            alreadyEarnedIDs = []
+            previousPoints = 0
+            previousRewards = heroes: [], items: [], levels: [], gems: 0
+            async.each alreadyEarned, ((earned, doneWithEarned) ->
+              if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString()) # if already earned
+                alreadyEarnedIDs.push earned.get('achievement') + ''
+                previousPoints += earned.get 'earnedPoints'
                 for rewardType in ['heroes', 'items', 'levels']
-                  newTotalRewards[rewardType] = newTotalRewards[rewardType].concat(achievement.get('rewards')?[rewardType] ? [])
-                if isRepeatable and earned.earnedRewards
-                  earned.earnedRewards = _.clone earned.earnedRewards
-                  earned.earnedRewards.gems = newGems
-                newTotalRewards.gems += newGems
-
-                EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
-                  doneWithAchievement err
-            ), (err) -> # Wrap up a user, save points
+                  previousRewards[rewardType] = previousRewards[rewardType].concat(earned.get('earnedRewards')?[rewardType] ? [])
+                previousRewards.gems += earned.get('earnedRewards')?.gems ? 0
+              doneWithEarned()
+            ), (err) -> # After checking already achieved
               log.error err if err
-              #console.log 'User', user.get('name'), 'had newTotalPoints', newTotalPoints, 'and newTotalRewards', newTotalRewards, 'previousRewards', previousRewards
-              return doneWithUser(user) unless newTotalPoints or newTotalRewards.gems or _.some(newTotalRewards, (r) -> r.length)
-              #log.debug "Matched a total of #{newTotalPoints} new points"
-              #log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
-              pointDelta = newTotalPoints - previousPoints
-              pctDone = (100 * usersFinished / total).toFixed(2)
-              console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
-              if recalculatingAll
-                update = {$set: {points: newTotalPoints, 'earned.gems': 0, 'earned.heroes': [], 'earned.items': [], 'earned.levels': []}}
-              else
-                update = {$inc: {points: pointDelta}}
-                secondUpdate = {}  # In case we need to pull, then push.
-              for rewardType, rewards of newTotalRewards
-                updateKey = "earned.#{rewardType}"
-                if rewardType is 'gems'
-                  if recalculatingAll
-                    update.$set[updateKey] = rewards
+              # TODO maybe also delete earned? Make sure you don't delete too many
+
+              newTotalPoints = 0
+              newTotalRewards = heroes: [], items: [], levels: [], gems: 0
+
+              async.each achievements, ((achievement, doneWithAchievement) ->
+                isRepeatable = achievement.get('proportionalTo')?
+                model = mongoose.modelNameByCollection(achievement.get('collection'))
+                return doneWithAchievement new Error "Model with collection '#{achievement.get 'collection'}' doesn't exist." unless model?
+
+                finalQuery = _.clone achievement.get 'query'
+                return doneWithAchievement() if _.isEmpty finalQuery
+                finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hex string IDs
+                finalQuery.$or[0][achievement.userField] = userID
+                finalQuery.$or[1][achievement.userField] = mongoose.Types.ObjectId userID
+
+                model.findOne finalQuery, (err, something) ->
+                  return doneWithAchievement() if _.isEmpty something
+
+                  #log.debug "Matched an achievement: #{achievement.get 'name'} for #{user.get 'name'}"
+
+                  earned =
+                    user: userID
+                    achievement: achievement._id.toHexString()
+                    achievementName: achievement.get 'name'
+                    notified: achievement._id.toHexString() in alreadyEarnedIDs
+
+                  if isRepeatable
+                    earned.achievedAmount = util.getByPath(something.toObject(), achievement.get 'proportionalTo') or 0
+                    earned.previouslyAchievedAmount = 0
+
+                    expFunction = achievement.getExpFunction()
+                    newPoints = expFunction(earned.achievedAmount) * achievement.get('worth') ? 10
+                    newGems = expFunction(earned.achievedAmount) * (achievement.get('rewards')?.gems ? 0)
                   else
-                    update.$inc[updateKey] = rewards - previousRewards.gems
+                    newPoints = achievement.get('worth') ? 10
+                    newGems = achievement.get('rewards')?.gems ? 0
+
+                  earned.earnedPoints = newPoints
+                  newTotalPoints += newPoints
+
+                  earned.earnedRewards = achievement.get('rewards')
+                  for rewardType in ['heroes', 'items', 'levels']
+                    newTotalRewards[rewardType] = newTotalRewards[rewardType].concat(achievement.get('rewards')?[rewardType] ? [])
+                  if isRepeatable and earned.earnedRewards
+                    earned.earnedRewards = _.clone earned.earnedRewards
+                    earned.earnedRewards.gems = newGems
+                  newTotalRewards.gems += newGems
+
+                  EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+                    doneWithAchievement err
+              ), (err) -> # Wrap up a user, save points
+                log.error err if err
+                #console.log 'User', user.get('name'), 'had newTotalPoints', newTotalPoints, 'and newTotalRewards', newTotalRewards, 'previousRewards', previousRewards
+                return doneWithUser(user) unless newTotalPoints or newTotalRewards.gems or _.some(newTotalRewards, (r) -> r.length)
+                #log.debug "Matched a total of #{newTotalPoints} new points"
+                #log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
+                pointDelta = newTotalPoints - previousPoints
+                pctDone = (100 * usersFinished / total).toFixed(2)
+                console.log "Updated points to #{newTotalPoints} (#{if pointDelta < 0 then '' else '+'}#{pointDelta}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
+                if recalculatingAll
+                  update = {$set: {points: newTotalPoints, 'earned.gems': 0, 'earned.heroes': [], 'earned.items': [], 'earned.levels': []}}
                 else
-                  if recalculatingAll
-                    update.$set[updateKey] = _.uniq rewards
+                  update = {$inc: {points: pointDelta}}
+                  secondUpdate = {}  # In case we need to pull, then push.
+                for rewardType, rewards of newTotalRewards
+                  updateKey = "earned.#{rewardType}"
+                  if rewardType is 'gems'
+                    if recalculatingAll
+                      update.$set[updateKey] = rewards + pollGems
+                    else
+                      update.$inc[updateKey] = rewards - previousRewards.gems
                   else
-                    previousCounts = _.countBy previousRewards[rewardType]
-                    newCounts = _.countBy rewards
-                    relevantRewards = _.union _.keys(previousCounts), _.keys(newCounts)
-                    for reward in relevantRewards
-                      [previousCount, newCount] = [previousCounts[reward], newCounts[reward]]
-                      if newCount and not previousCount
-                        update.$addToSet ?= {}
-                        update.$addToSet[updateKey] ?= {$each: []}
-                        update.$addToSet[updateKey].$each.push reward
-                      else if previousCount and not newCount
-                        # Might $pull $each also work here?
-                        update.$pullAll ?= {}
-                        update.$pullAll[updateKey] ?= []
-                        update.$pullAll[updateKey].push reward
-                    if update.$addToSet?[updateKey] and update.$pullAll?[updateKey]
-                      # Perform the update in two calls to avoid "MongoError: Cannot update 'earned.levels' and 'earned.levels' at the same time"
-                      secondUpdate.$addToSet ?= {}
-                      secondUpdate.$addToSet[updateKey] = update.$addToSet[updateKey]
-                      delete update.$addToSet[updateKey]
-                      delete update.$addToSet unless _.size update.$addToSet
-              #console.log 'recalculatingAll?', recalculatingAll, 'so update is', update, 'secondUpdate', secondUpdate
-              User.update {_id: userID}, update, {}, (err) ->
-                log.error err if err?
-                if _.size secondUpdate
-                  User.update {_id: userID}, secondUpdate, {}, (err) ->
-                    log.error err if err?
+                    if recalculatingAll
+                      update.$set[updateKey] = _.uniq rewards
+                    else
+                      previousCounts = _.countBy previousRewards[rewardType]
+                      newCounts = _.countBy rewards
+                      relevantRewards = _.union _.keys(previousCounts), _.keys(newCounts)
+                      for reward in relevantRewards
+                        [previousCount, newCount] = [previousCounts[reward], newCounts[reward]]
+                        if newCount and not previousCount
+                          update.$addToSet ?= {}
+                          update.$addToSet[updateKey] ?= {$each: []}
+                          update.$addToSet[updateKey].$each.push reward
+                        else if previousCount and not newCount
+                          # Might $pull $each also work here?
+                          update.$pullAll ?= {}
+                          update.$pullAll[updateKey] ?= []
+                          update.$pullAll[updateKey].push reward
+                      if update.$addToSet?[updateKey] and update.$pullAll?[updateKey]
+                        # Perform the update in two calls to avoid "MongoError: Cannot update 'earned.levels' and 'earned.levels' at the same time"
+                        secondUpdate.$addToSet ?= {}
+                        secondUpdate.$addToSet[updateKey] = update.$addToSet[updateKey]
+                        delete update.$addToSet[updateKey]
+                        delete update.$addToSet unless _.size update.$addToSet
+                #console.log 'recalculatingAll?', recalculatingAll, 'so update is', update, 'secondUpdate', secondUpdate
+                User.update {_id: userID}, update, {}, (err) ->
+                  log.error err if err?
+                  if _.size secondUpdate
+                    User.update {_id: userID}, secondUpdate, {}, (err) ->
+                      log.error err if err?
+                      doneWithUser user
+                  else
                     doneWithUser user
-                else
-                  doneWithUser user
 
 
 module.exports = new EarnedAchievementHandler()

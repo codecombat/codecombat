@@ -23,6 +23,9 @@ block modal-body-content
                 .progress-bar
             td.votes-cell
               span.badge.vote-percentage
+            if me.isAdmin()
+              td.votes-cell
+                span.badge.vote-count
 
   .random-gems-container-wrapper
     .random-gems-container

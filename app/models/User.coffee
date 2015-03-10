@@ -118,6 +118,7 @@ module.exports = class User extends CocoModel
     @announcesActionAudioGroup
 
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
+  # ... and stopped working well until another update on March 10, so maybe March 11+...
   getFourthLevelGroup: ->
     return @fourthLevelGroup if @fourthLevelGroup
     group = me.get('testGroupNumber') % 8

@@ -118,14 +118,16 @@
 
         .progress-bar
           background-color: rgb(245, 170, 49)
+          border-radius: 10px
+          border: 3px solid rgb(45, 36, 29)
           @include transition(none)
 
       &.votes-cell
         max-width: 34px
 
-        .vote-percentage.badge
+        .badge
           background-color: rgb(245, 170, 49)
-          text-shadow: -1px -1px 0px black, 1px 1px 0px black, -1px 1px 0px black, 1px -1px 0px black
+          color: rgb(45, 36, 29)
 
   table:not(.answered)
     tr
