@@ -29,6 +29,7 @@ UserSchema.index({'nameLower': 1}, {sparse: true, name: 'nameLower_1'})
 UserSchema.index({'simulatedBy': 1})
 UserSchema.index({'slug': 1}, {name: 'slug index', sparse: true, unique: true})
 UserSchema.index({'stripe.subscriptionID': 1}, {unique: true, sparse: true})
+UserSchema.index({'siteref': 1}, {name: 'siteref index', sparse: true})
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
