@@ -64,6 +64,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "帳號" # Tooltip on account button from /play
     settings: "設定" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "更換英雄" # Go back from choose inventory to choose hero
     choose_inventory: "裝備物品"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     thang_title: "物品編輯器"
     level_title: "關卡編輯器"
     achievement_title: "目標編輯器"
+#    poll_title: "Poll Editor"
     back: "後退"
     revert: "還原"
     revert_models: "還原模式"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     new_level_title_login: "登錄以建立新關卡"
     new_achievement_title: "建立新成就"
     new_achievement_title_login: "登錄以建立新成就"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "在這搜尋文件"
     thang_search_title: "在這搜尋物體類型"
     level_search_title: "在這搜尋關卡"
     achievement_search_title: "搜尋成就"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "注意: 您不能在這儲存任何編輯, 因為您尚未登入."
     no_achievements: "尚未有任何成就加入到這關卡中."
     achievement_query_misc: "關閉成就欄的雜項"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   article:
     edit_btn_preview: "預覽"
     edit_article_title: "編輯文章"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "貢獻"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     payments: "付款"
     purchased: "已購買"
     subscription: "訂閱"
+#    invoices: "Invoices"
     service_apple: "設備: Apple"
     service_web: "設備: Web"
     paid_on: "支付"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     card: "信用卡"
     status_unsubscribed_active: "您尚未訂閱並且將不會收到賬單，但是您的帳號現在仍然是有效的."
     status_unsubscribed: "借由訂閱CodeCombat，取得存取新關卡，新英雄，新物品和額外寶石的資格!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "從伺服器載入失敗"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     feedback: "回饋"
     payment_info: "付款訊息"
     campaigns: "征戰"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "已填加"

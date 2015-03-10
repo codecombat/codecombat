@@ -64,6 +64,7 @@ module.exports = nativeDescription: "български език", englishDescri
     achievements: "Постижения" # Tooltip on achievement list button from /play
     account: "Акаунт" # Tooltip on account button from /play
     settings: "Настройки" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Напред" # Go from choose hero to choose inventory before playing a level
     change_hero: "Смени герой" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    thang_title: "Thang Editor"
 #    level_title: "Level Editor"
 #    achievement_title: "Achievement Editor"
+#    poll_title: "Poll Editor"
 #    back: "Back"
 #    revert: "Revert"
 #    revert_models: "Revert Models"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "български език", englishDescri
 #    new_level_title_login: "Log In to Create a New Level"
 #    new_achievement_title: "Create a New Achievement"
 #    new_achievement_title_login: "Log In to Create a New Achievement"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
 #    article_search_title: "Search Articles Here"
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    achievement_search_title: "Search Achievements"
+#    poll_search_title: "Search Polls"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 #    no_achievements: "No achievements have been added for this level yet."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "български език", englishDescri
   article:
     edit_btn_preview: "Преглед"
     edit_article_title: "Промени статията"
+
+#  polls:
+#    priority: "Priority"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    payments: "Payments"
 #    purchased: "Purchased"
 #    subscription: "Subscription"
+#    invoices: "Invoices"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "български език", englishDescri
 #    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
 #    campaigns: "Campaigns"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
 #  delta:
 #    added: "Added"

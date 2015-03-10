@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     achievements: "Conquistas" # Tooltip on achievement list button from /play
     account: "Conta" # Tooltip on account button from /play
     settings: "Definições" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Seguinte" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     thang_title: "Editor de Thangs"
     level_title: "Editor de Níveis"
     achievement_title: "Editor de Conquistas"
+#    poll_title: "Poll Editor"
     back: "Voltar"
     revert: "Reverter"
     revert_models: "Reverter Modelos"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     new_level_title_login: "Inicia Sessão para Criares um Novo Nível"
     new_achievement_title: "Criar uma Nova Conquista"
     new_achievement_title_login: "Inicia Sessão para Criares uma Nova Conquista"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Procurar Artigos Aqui"
     thang_search_title: "Procurar Thangs Aqui"
     level_search_title: "Procurar Níveis Aqui"
     achievement_search_title: "Procurar Conquistas"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Nota: não podes guardar nenhuma edição feita aqui, porque não tens sessão iniciada."
     no_achievements: "Ainda não foram adicionadas conquistas a este nível."
     achievement_query_misc: "Conquista-chave de uma lista de variados"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   article:
     edit_btn_preview: "Pré-visualizar"
     edit_article_title: "Editar Artigo"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Contribuir"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     payments: "Pagamentos"
     purchased: "Adquirido"
     subscription: "Subscrição"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pago Em"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     card: "Cartão"
     status_unsubscribed_active: "Não estás subscrito e não te vamos cobrar, mas a tua conta ainda está ativa, por agora."
     status_unsubscribed: "Ganha acesso a novos níveis, heróis, itens e gemas de bónus com uma subscrição do CodeCombat!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     feedback: "Feedback"
     payment_info: "Informações de Pagamento"
     campaigns: "Campanhas"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Adicionados/as"

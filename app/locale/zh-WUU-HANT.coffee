@@ -64,6 +64,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
 #    account: "Account" # Tooltip on account button from /play
 #    settings: "Settings" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     thang_title: "物事編寫器"
     level_title: "關編寫器"
 #    achievement_title: "Achievement Editor"
+#    poll_title: "Poll Editor"
     back: "倒退"
     revert: "還原"
     revert_models: "還原模式"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    new_level_title_login: "Log In to Create a New Level"
 #    new_achievement_title: "Create a New Achievement"
 #    new_achievement_title_login: "Log In to Create a New Achievement"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "徠箇搭尋物事"
     thang_search_title: "徠箇搭尋物事類型"
     level_search_title: "徠箇搭尋關"
 #    achievement_search_title: "Search Achievements"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "提醒：爾嘸處存編寫，朆登進之故"
 #    no_achievements: "No achievements have been added for this level yet."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
   article:
     edit_btn_preview: "試望"
     edit_article_title: "编辑提示"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "貢獻"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    payments: "Payments"
 #    purchased: "Purchased"
 #    subscription: "Subscription"
+#    invoices: "Invoices"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "讀取失敗"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
 #    campaigns: "Campaigns"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
 #  delta:
 #    added: "Added"

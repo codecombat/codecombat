@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     achievements: "Досягнення" # Tooltip on achievement list button from /play
     account: "Акаунт" # Tooltip on account button from /play
     settings: "Налаштування" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Далі" # Go from choose hero to choose inventory before playing a level
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     choose_inventory: "Одягнути предмети"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     thang_title: "Редактор об'єктів"
     level_title: "Редактор рівнів"
     achievement_title: "Редактор досягнень"
+#    poll_title: "Poll Editor"
     back: "Назад"
     revert: "Повернутись"
     revert_models: "Моделі повернення"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     new_level_title_login: "Увійдіть, щоб створити новий рівень"
     new_achievement_title: "Створити нове досягнення"
     new_achievement_title_login: "Увійдіть, щоб створити нове досягнення"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Шукати статті тут"
     thang_search_title: "Шукати типи об'єктів тут"
     level_search_title: "Шукати рівні тут"
     achievement_search_title: "Шукати досягнення"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Примітка: Ви не можете зберегти ніякі зміни, оскільки Ви не зареєструвались."
     no_achievements: "Для цього рівня ще не додано жодних досягнень."
     achievement_query_misc: "Ключове досягнення випадає з різного"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   article:
     edit_btn_preview: "Перегляд"
     edit_article_title: "Редагувати статтю"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Співпраця"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     payments: "Платежі"
     purchased: "Придбано"
     subscription: "Підписка"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Веб"
     paid_on: "Сплачено"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     card: "Карта"
     status_unsubscribed_active: "У Вас немає передплати і рахунок Вам не прийде, але Ваш акаунт і далі дійсний."
     status_unsubscribed: "Отримайте доступ до новних рівнів, героїв та бонусів з абонементом CodeCombat!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Помилка завантаження з сервера"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     feedback: "Відгук"
     payment_info: "Інформація про платіж"
     campaigns: "Кампаніі"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Додано"

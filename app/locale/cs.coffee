@@ -64,6 +64,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     achievements: "Úspěchy" # Tooltip on achievement list button from /play
     account: "Účet" # Tooltip on account button from /play
     settings: "Nastavení" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Další" # Go from choose hero to choose inventory before playing a level
     change_hero: "Změnit hrdinu" # Go back from choose inventory to choose hero
     choose_inventory: "Vyzbrojit se předměty"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     thang_title: "Editor Thangů - objektů"
     level_title: "Editor úrovní"
     achievement_title: "Editor Úspěchů"
+#    poll_title: "Poll Editor"
     back: "Zpět"
     revert: "Vrátit"
     revert_models: "Vrátit modely"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     new_level_title_login: "Přihlašte se pro vytvoření nové úrovně"
     new_achievement_title: "Vytvořit nový Úspěch"
     new_achievement_title_login: "Přihlašte se pro vytvoření nového Úspěchu"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Vyhledat články"
     thang_search_title: "Vyhledat typy Thangů"
     level_search_title: "Vyhledat úrovně"
     achievement_search_title: "Hledat Úspěchy"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Poznámka: nemůžete ukládat žádné změny, protože nejste přihlášeni."
     no_achievements: "Pro tuto úroveň ještě nebyly přidány úspěchy."
     achievement_query_misc: "Klíčové úspěchy ostatních"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   article:
     edit_btn_preview: "Náhled"
     edit_article_title: "Editovat článek"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Přispívání"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     payments: "Platby"
     purchased: "Zaplaceno"
     subscription: "Předplatné"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Zaplaceno přes"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     card: "Karta"
     status_unsubscribed_active: "Nejste předplatitel a nebude vám nic zaúčtováno, ale váš účet je pořád aktivní."
     status_unsubscribed: "Dostaňte přístup k novým úrovním, hrdinům, předmětům a bonusovým drahokamům s CodeCombat předplatným!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Chyba při načítání ze serveru"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     feedback: "Zpětná vazba"
     payment_info: "Info o platbě"
     campaigns: "Kampaně"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Přidáno"
