@@ -676,7 +676,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     toggle_playback: "Aplicar ejecutar/pausar."
     scrub_playback: "Devolverse y avanzar en el tiempo."
     single_scrub_playback: "Devolverse y avanzar en el tiempo de a un cuadro."
-#    scrub_execution: "Scrub through la ejecución del hechizo actual."
+    scrub_execution: "Scrub through la ejecución del hechizo actual."
     toggle_debug: "Mostrar/ocultar depuración."
     toggle_grid: "Mostrar/ocultar rejilla."
     toggle_pathfinding: "Mostrar/ocultar buscador de rutas."
@@ -1092,7 +1092,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     code_title: "Código - MIT"
     code_description_prefix: "Todo el código pertenece a CodeCombat u hospedado en codecombat.com, sea en el repositorio GitHub o en la base de datos en codecombat.com, está bajo licencia"
     mit_license_url: "Licencia MIT"
-#    code_description_suffix: "Esto incluye todo el código en Systems and Components that are made available by CodeCombat for the purpose of creating levels."
+    code_description_suffix: "Esto incluye todo el código en Systems and Components that are made available by CodeCombat for the purpose of creating levels."
     art_title: "Arte/Música - Comunas Creativas "
     art_description_prefix: "Todo el Contenido Comunal está disponible bajo la"
     cc_license_url: "Licencia Internacional de Atribución Comunas Creativas (CC) 4.0"
@@ -1116,7 +1116,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "En una palabra"
-#    nutshell_description: "Cualesquiera recursos que le proveamos en el Editor de Niveles son gratis de usar como te plazca para la creación de Niveles. Sin embargo nos reservamos el derecho de restringir la distribución de los niveles por sí mismos (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
+    nutshell_description: "Cualesquiera recursos que le proveamos en el Editor de Niveles son gratis de usar como te plazca para la creación de Niveles. Sin embargo nos reservamos el derecho de restringir la distribución de los niveles por sí mismos (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
     canonical: "La versión en ingles de este documento es la definitiva, versión canónica. Si hay alguna discrepancia entre las traducciones, la versión en ingles toma presedencia."
 
   ladder_prizes:
