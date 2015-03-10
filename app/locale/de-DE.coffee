@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     achievements: "Erfolge" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Nächster" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
@@ -356,7 +357,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     auth_caption: "Fortschritt speichern."
 
   leaderboard:
-    leaderboard:  "Bestenliste"
+    leaderboard: "Bestenliste"
     view_other_solutions: "Andere Lösungen"
     scores: "Punktzahl"
     top_players: "Die besten Spieler von"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     thang_title: "Thang Editor"
     level_title: "Level Editor"
     achievement_title: "Achievement Editor"
+#    poll_title: "Poll Editor"
     back: "Zurück"
     revert: "Zurücksetzen"
     revert_models: "Modelle zurücksetzen."
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     new_level_title_login: "Melde dich an um ein neues Level zu erstellen"
     new_achievement_title: "Erstelle ein neues Achievement"
     new_achievement_title_login: "Melde dich an um einen neuen Erfolg zu erstellen"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Durchsuche Artikel hier"
     thang_search_title: "Durchsuche Thang-Typen hier"
     level_search_title: "Durchsuche Levels hier"
     achievement_search_title: "Durchsuche Erfolge"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Warnung: Du kannst hier keine Änderungen speichern, weil du nicht angemeldet bist."
     no_achievements: "Es wurden noch keine Erfolge zu diesem Level hinzugefügt."
     achievement_query_misc: "Sonstige Schlüsselerfolge"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   article:
     edit_btn_preview: "Vorschau"
     edit_article_title: "Artikel bearbeiten"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Mitwirken"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     payments: "Zahlungen"
     purchased: "Gekauft"
     subscription: "Abo"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Gezahlt am"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     card: "Karte"
     status_unsubscribed_active: "Du hast kein Abo, und bekommst keine Rechnung, aber dein Account ist weiterhin aktiv."
     status_unsubscribed: "Erhalte Zugang zu neuen Leveln, Helden, Gegenständen und Bonus Edelsteinen mit einem CodeCombat Abo!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Fehler beim Laden vom Server"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     feedback: "Feedback"
     payment_info: "Zahlungsinfo"
     campaigns: "Kampagne"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "hinzugefügt"
