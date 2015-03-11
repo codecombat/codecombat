@@ -1,5 +1,6 @@
 ###
-This file will simulate games on node.js by emulating the browser environment.  In order to use, followed these steps:
+This file will simulate games on node.js by emulating the browser environment.  
+In order to use, followed these steps:
 1. Setup dev environment as usual
 2. Create a `login.coffee` file in coco which contains:
 module.exports = username: 'email', password: 'password'
