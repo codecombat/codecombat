@@ -1,5 +1,9 @@
 ###
-This file will simulate games on node.js by emulating the browser environment.
+This file will simulate games on node.js by emulating the browser environment.  In order to use, followed these steps:
+1. Setup dev environment as usual
+2. Create a `login.coffee` file in coco which contains:
+module.exports = username: 'email', password: 'password'
+3. Run `coffee ./headless_client.coffee`
 ###
 simulateOneGame = false
 if process.argv[2] is 'one-game'
