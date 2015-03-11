@@ -32,7 +32,7 @@ PollHandler = class PollHandler extends Handler
         @sendSuccess res, @formatEntity(req, poll)
 
   findPollPriority: (lastPollID, callback) ->
-    return callback null, -9001 unless lastPollID
+    return callback null, -9001 unless lastPollID and lastPollID isnt '-'
     Poll.findById mongoose.Types.ObjectId(lastPollID), 'priority', {lean: true}, (err, poll) ->
       callback err, poll?.priority
 
