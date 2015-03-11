@@ -5,6 +5,7 @@ In order to use, followed these steps:
 2. Create a `login.coffee` file in coco which contains:
 module.exports = username: 'email', password: 'password'
 3. Run `coffee ./headless_client.coffee`
+Alternatively, if you wish only to simulate a single game run `coffee ./headless_client.coffee one-game`
 ###
 simulateOneGame = false
 if process.argv[2] is 'one-game'
