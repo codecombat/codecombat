@@ -6,6 +6,7 @@ In order to use, followed these steps:
 module.exports = username: 'email@example.com', password: 'password'
 3. Run `coffee ./headless_client.coffee`
 Alternatively, if you wish only to simulate a single game run `coffee ./headless_client.coffee one-game`
+Or, if you want to always simulate only one game, change the line below this to "true"
 ###
 simulateOneGame = false
 if process.argv[2] is 'one-game'
