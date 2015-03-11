@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Cuenta" # Tooltip on account button from /play
     settings: "Configuración" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objetos"
@@ -676,7 +677,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     toggle_playback: "Aplicar ejecutar/pausar."
     scrub_playback: "Devolverse y avanzar en el tiempo."
     single_scrub_playback: "Devolverse y avanzar en el tiempo de a un cuadro."
-#    scrub_execution: "Scrub through la ejecución del hechizo actual."
+    scrub_execution: "Scrub through la ejecución del hechizo actual."
     toggle_debug: "Mostrar/ocultar depuración."
     toggle_grid: "Mostrar/ocultar rejilla."
     toggle_pathfinding: "Mostrar/ocultar buscador de rutas."
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     thang_title: "Editor de Thangs"
     level_title: "Editor de Nivel"
     achievement_title: "Editor de logros"
+#    poll_title: "Poll Editor"
     back: "Atrás"
     revert: "Revertir"
     revert_models: "Revertir Modelos"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     new_level_title_login: "Ingresa para Crear un Nuevo Nivel"
     new_achievement_title: "Crear un Nuevo Logro"
     new_achievement_title_login: "Ingresa para Crear un Nuevo Logro"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Buscar Artículos aquí"
     thang_search_title: "Buscar tipos de Thang aquí"
     level_search_title: "Buscar Niveles aquí"
     achievement_search_title: "Buscar logros"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Nota: no puedes guardar ediciones aquí, porque no estas logeado."
     no_achievements: "No hay logros agregados en este nivel por ahora."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   article:
     edit_btn_preview: "Vista previa"
     edit_article_title: "Editar Artículo"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Contribuyendo"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payments: "Pagos"
     purchased: "Comprado"
     subscription: "Suscripción"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pagado en"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     card: "Tarjeta"
     status_unsubscribed_active: "No estas suscripto y no se te cobrará, pero tu cuenta está activa por ahora."
     status_unsubscribed: "Obtén acceso a nuevos niveles, heroés, items y gemas extras con la suscripción a CodeCombat!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Error cargando del servidor"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feedback: "Feedback"
     payment_info: "Información de pago"
     campaigns: "Campañas"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Agregado"
@@ -1092,7 +1113,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     code_title: "Código - MIT"
     code_description_prefix: "Todo el código pertenece a CodeCombat u hospedado en codecombat.com, sea en el repositorio GitHub o en la base de datos en codecombat.com, está bajo licencia"
     mit_license_url: "Licencia MIT"
-#    code_description_suffix: "Esto incluye todo el código en Systems and Components that are made available by CodeCombat for the purpose of creating levels."
+    code_description_suffix: "Esto incluye todo el código en Systems and Components that are made available by CodeCombat for the purpose of creating levels."
     art_title: "Arte/Música - Comunas Creativas "
     art_description_prefix: "Todo el Contenido Comunal está disponible bajo la"
     cc_license_url: "Licencia Internacional de Atribución Comunas Creativas (CC) 4.0"
@@ -1116,7 +1137,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "En una palabra"
-#    nutshell_description: "Cualesquiera recursos que le proveamos en el Editor de Niveles son gratis de usar como te plazca para la creación de Niveles. Sin embargo nos reservamos el derecho de restringir la distribución de los niveles por sí mismos (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
+    nutshell_description: "Cualesquiera recursos que le proveamos en el Editor de Niveles son gratis de usar como te plazca para la creación de Niveles. Sin embargo nos reservamos el derecho de restringir la distribución de los niveles por sí mismos (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
     canonical: "La versión en ingles de este documento es la definitiva, versión canónica. Si hay alguna discrepancia entre las traducciones, la versión en ingles toma presedencia."
 
   ladder_prizes:

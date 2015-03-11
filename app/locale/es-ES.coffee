@@ -64,6 +64,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Cuenta" # Tooltip on account button from /play
     settings: "Ajustes" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Objetos"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     thang_title: "Editor de Objetos"
     level_title: "Editor de Niveles"
     achievement_title: "Editor de Logros"
+#    poll_title: "Poll Editor"
     back: "Volver"
     revert: "Revertir"
     revert_models: "Revertir Modelos"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     new_level_title_login: "Inicia sesión para Crear un Nuevo Nivel"
     new_achievement_title: "Crea un nuevo Logro"
     new_achievement_title_login: "Inicia sesión para Crear un Nuevo Logro"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Buscar artículos aquí"
     thang_search_title: "Busca tipos de objetos aquí"
     level_search_title: "Buscar niveles aquí"
     achievement_search_title: "Buscar Logros"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Nota: no puedes guardar nada de lo que edites aqui porque no has iniciado sesión."
     no_achievements: "No se han añadido logros a este nivel."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   article:
     edit_btn_preview: "Vista preliminar"
     edit_article_title: "Editar artículo"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Colaborar"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     payments: "Pagos"
 #    purchased: "Purchased"
 #    subscription: "Subscription"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pagado en"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     card: "Tarjeta"
     status_unsubscribed_active: "No estás suscrito y no seras facturado, pero tu cuenta sigue activa por ahora."
     status_unsubscribed: "¡Obten acceso a nuevos niveles, heroes, artículos, y joyas adicionales con una suscripción a CodeCombat!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Error al cargar desde el servidor."
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     feedback: "Apoyo"
     payment_info: "Información de Pago"
 #    campaigns: "Campaigns"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Añadido"

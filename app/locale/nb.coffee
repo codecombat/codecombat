@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     achievements: "Prestasjoner" # Tooltip on achievement list button from /play
     account: "Konto" # Tooltip on account button from /play
     settings: "Innstillinger" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Neste" # Go from choose hero to choose inventory before playing a level
     change_hero: "Bytt Helt" # Go back from choose inventory to choose hero
     choose_inventory: "Ta i bruk gjenstander"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     thang_title: "Thang Editor"
     level_title: "Brett Editor"
     achievement_title: "Prestasjons Editor"
+#    poll_title: "Poll Editor"
     back: "Tilbake"
     revert: "Tilbakestill"
     revert_models: "Tilbakestill Modeller"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     new_level_title_login: "Logg inn for å lage et nytt Brett"
     new_achievement_title: "Lag en ny Prestasjon"
     new_achievement_title_login: "Logg inn for å lage en ny Prestasjon"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Søk i Artikler her"
     thang_search_title: "Søk i Thang Typer her"
     level_search_title: "Søk i Brett her"
     achievement_search_title: "Søk i Prestasjoner"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Merk: Du kan ikke lagre endringene fordi du ikke er logget inn."
     no_achievements: "Ingen prestasjoner er lagt til på dette brettet ennå."
     achievement_query_misc: "Oppnådde nøkkelmål av diverse"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   article:
     edit_btn_preview: "Forhåndsvis"
     edit_article_title: "Rediger Artikkel"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Bidra"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     payments: "Betalinger"
     purchased: "Kjøpt"
     subscription: "Abonnement"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Betalt den"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     card: "Kort"
     status_unsubscribed_active: "Du har ikke et aktivt abonnement, og vil ikke bli fakturert, men kontoen din er aktiv enn så lenge."
     status_unsubscribed: "Få tilgang til nye nivåer, helter, gjenstander, og bonus gems med et CodeCombat abonnement!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Feil ved lasting fra server"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     feedback: "Tilbakemelding"
     payment_info: "Betalingsinformasjon"
     campaigns: "Kampanjer"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Opprettet"

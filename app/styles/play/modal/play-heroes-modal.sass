@@ -178,7 +178,7 @@ $heroCanvasHeight: 275px
         float: left
         
       .hero-stats
-        width: 384px
+        width: 400px
         height: $heroCanvasHeight
         float: left
 
@@ -198,10 +198,10 @@ $heroCanvasHeight: 275px
           color: white
           
         .hero-description
-          margin-bottom: 7px
+          margin-bottom: 4px
         
         .hero-stat-row
-          margin: 4px 0
+          margin: 3px 0
           
           .stat-label
             float: left
@@ -419,5 +419,9 @@ body.ipad #play-heroes-modal
     display: none
     
 body[lang='ru']
-  #play-heroes-modal #confirm-button
-    font-size: 14px
+  #play-heroes-modal 
+    #hero-carousel .hero-item .hero-stats h2
+      font-size: 24px
+
+    #confirm-button
+      font-size: 14px

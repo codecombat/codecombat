@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     achievements: "Prestaties" # Tooltip on achievement list button from /play
 #    account: "Account" # Tooltip on account button from /play
     settings: "Instellingen" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Volgende" # Go from choose hero to choose inventory before playing a level
     change_hero: "Verander held" # Go back from choose inventory to choose hero
     choose_inventory: "Uitrusting kiezen"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     thang_title: "Thang Editor"
     level_title: "Level Editor"
     achievement_title: "Prestatie Editor"
+#    poll_title: "Poll Editor"
     back: "Terug"
     revert: "Keer wijziging terug"
     revert_models: "keer wijziging model terug"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     new_level_title_login: "Log In om een New Level te maken"
     new_achievement_title: "Maak een Nieuwe Prestatie"
     new_achievement_title_login: "Log In om een Nieuwe Prestatie te maken"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Zoek Artikelen Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
     achievement_search_title: "Zoek Prestaties"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Pas op, je kunt geen aanpassingen opslaan hier, want je bent niet ingelogd."
     no_achievements: "Er zijn nog geen achievements toegevoegd voor dit level"
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   article:
     edit_btn_preview: "Voorbeeld"
     edit_article_title: "Wijzig Artikel"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Bijdragen"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    payments: "Payments"
 #    purchased: "Purchased"
 #    subscription: "Subscription"
+#    invoices: "Invoices"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    feedback: "Feedback"
     payment_info: "Betalings Informatie"
 #    campaigns: "Campaigns"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
 #  delta:
 #    added: "Added"

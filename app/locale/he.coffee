@@ -64,6 +64,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     achievements: "הישגים" # Tooltip on achievement list button from /play
     account: "חשבון" # Tooltip on account button from /play
     settings: "הגדרות" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "הבא" # Go from choose hero to choose inventory before playing a level
     change_hero: "שנה גיבור" # Go back from choose inventory to choose hero
     choose_inventory: "לבש כלים"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     thang_title: "עורך ת'אנג"
     level_title: "עורך שלבים"
     achievement_title: "עורך הישגים"
+#    poll_title: "Poll Editor"
     back: "חזרה"
     revert: "שחזר"
     revert_models: "שחזר מודלים"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     new_level_title_login: "התחבר כדי ליצור שלב חדש"
     new_achievement_title: "צור הישג חדש"
     new_achievement_title_login: "התחבר כדי ליצור הישג חדש"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "חפש כותרות כאן"
     thang_search_title: "חפש סוגי ת'אנגס"
     level_search_title: "חפש שלבים כאן"
     achievement_search_title: "חפש הישגים"
+#    poll_search_title: "Search Polls"
     read_only_warning2: ".הערה: אין באפשרותך לשמור את העריכות שבוצעו כאן, אתה לא מחובר למערכת"
     no_achievements: "אין הישגים שנוספו לשלב זה עד כה"
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   article:
     edit_btn_preview: "צפה בכותרת"
     edit_article_title: "ערוך כותרת"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "תרימה"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     payments: "תשלומים"
     purchased: "קניות"
     subscription: "מנויים"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "רשת"
     paid_on: "שולם על"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     card: "כרטיס"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "אירעה שגיאה בזמן טעינה מהשרת"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     feedback: "פידבק"
     payment_info: "מידע תשלום"
     campaigns: "מסעות"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "נוסף"

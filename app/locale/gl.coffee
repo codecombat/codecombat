@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Conta" # Tooltip on account button from /play
     settings: "Axustes" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Seguinte Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Obxectos"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     thang_title: "Editor de Obxectos"
     level_title: "Editor de Niveis"
     achievement_title: "Editor de Logros"
+#    poll_title: "Poll Editor"
     back: "Voltar"
     revert: "Revertir"
     revert_models: "Revertir Modelos"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     new_level_title_login: "Inicia sesión para crear un novo Nivel"
     new_achievement_title: "Crear un novo Logro"
     new_achievement_title_login: "Inicia sesión para crear un novo Logro"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Buscar artigos aquí"
     thang_search_title: "Busca tipos de obxectos aquí"
     level_search_title: "Buscar niveis aquí"
     achievement_search_title: "Buscar Logros"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Nota: non podes gardar nada do que edites aquí porque non iniciaches sesión."
     no_achievements: "Non se engadiron Logros a este nivel."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
   article:
     edit_btn_preview: "Vista preliminar"
     edit_article_title: "Editar artigo"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Colaborar"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    payments: "Payments"
 #    purchased: "Purchased"
 #    subscription: "Subscription"
+#    invoices: "Invoices"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Erro ao cargar dende o servidor."
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     feedback: "Apoio"
 #    payment_info: "Payment Info"
 #    campaigns: "Campaigns"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Engadido"

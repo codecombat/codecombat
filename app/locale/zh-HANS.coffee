@@ -64,6 +64,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
     settings: "设置" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     thang_title: "物品编辑器"
     level_title: "关卡编辑器"
     achievement_title: "目标编辑器"
+#    poll_title: "Poll Editor"
     back: "后退"
     revert: "还原"
     revert_models: "还原模式"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     new_level_title_login: "登录以创建新关卡"
     new_achievement_title: "创建新目标"
     new_achievement_title_login: "登录以创建新目标"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "在这里搜索物品"
     thang_search_title: "在这里搜索物品类型"
     level_search_title: "在这里搜索关卡"
     achievement_search_title: "搜索目标"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "提示：你不能保存任何编辑，因为你没有登陆"
     no_achievements: "这个关卡还没有被赋予任何目标。"
     achievement_query_misc: "关闭杂项的成就"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   article:
     edit_btn_preview: "预览"
     edit_article_title: "编辑提示"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "贡献"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     payments: "支付方式"
     purchased: "已购买"
     subscription: "订阅"
+#    invoices: "Invoices"
     service_apple: "设备：苹果"
     service_web: "设备：网页"
     paid_on: "支付"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     card: "银行卡"
     status_unsubscribed_active: "你还没有订阅所以不会被收费，但你的帐号还可以正常使用"
     status_unsubscribed: "只要一个CodeCombat订阅，你就可以玩转全部新关卡，用遍全部英雄，物品，以及获得更多的宝石哦！"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "载入失败"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     feedback: "反馈"
     payment_info: "付款信息"
     campaigns: "任务"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "被添加"

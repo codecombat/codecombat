@@ -66,6 +66,7 @@ module.exports = class PollModal extends ModalView
       votePercentage = Math.round(100 * votes / totalVotes) + '%'
       $answer.find('.progress-bar').css('width', '0%').animate({width: widthPercentage}, 'slow')
       $answer.find('.vote-percentage').text votePercentage
+      $answer.find('.vote-count').text votes if me.isAdmin()
 
     @trigger 'vote-updated'
 

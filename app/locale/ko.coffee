@@ -64,6 +64,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
 #    account: "Account" # Tooltip on account button from /play
 #    settings: "Settings" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     thang_title: "Thang 에디터"
     level_title: "레벨 에디터"
     achievement_title: "업적 에디터"
+#    poll_title: "Poll Editor"
     back: "뒤로"
     revert: "되돌리기"
     revert_models: "모델 되돌리기"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     new_level_title_login: "새로운 레벨을 만드시려면 로그인하세요."
 #    new_achievement_title: "Create a New Achievement"
 #    new_achievement_title_login: "Log In to Create a New Achievement"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "기사들은 여기에서 찾으세요"
     thang_search_title: "Thang 타입들은 여기에서 찾으세요"
     level_search_title: "레벨들은 여기에서 찾으세요"
     achievement_search_title: "업적 검색"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "주의: 로그인하지 않으셨기 때문에 내용을 저장할 수 없습니다."
 #    no_achievements: "No achievements have been added for this level yet."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   article:
     edit_btn_preview: "미리보기"
     edit_article_title: "기사 편집하기"
+
+#  polls:
+#    priority: "Priority"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    payments: "Payments"
 #    purchased: "Purchased"
 #    subscription: "Subscription"
+#    invoices: "Invoices"
 #    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    card: "Card"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    feedback: "Feedback"
 #    payment_info: "Payment Info"
 #    campaigns: "Campaigns"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
 #  delta:
 #    added: "Added"

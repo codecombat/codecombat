@@ -64,6 +64,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     achievements: "Succès" # Tooltip on achievement list button from /play
     account: "Compte" # Tooltip on account button from /play
     settings: "Réglages" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
     next: "Suivant" # Go from choose hero to choose inventory before playing a level
     change_hero: "Changer le héros" # Go back from choose inventory to choose hero
     choose_inventory: "Équiper des objets"
@@ -727,6 +728,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     thang_title: "Éditeur Thang"
     level_title: "Éditeur de niveau"
     achievement_title: "Éditeur de succès"
+#    poll_title: "Poll Editor"
     back: "Retour"
     revert: "Annuler"
     revert_models: "Annuler les modèles"
@@ -787,10 +789,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     new_level_title_login: "Identifiez-vous pour créer un nouveau niveau"
     new_achievement_title: "Créer un nouveau succès"
     new_achievement_title_login: "Connectez vous pour créer un nouveau succès"
+#    new_poll_title: "Create a New Poll"
+#    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Rechercher dans les articles"
     thang_search_title: "Rechercher dans les types de Thang"
     level_search_title: "Rechercher dans les niveaux"
     achievement_search_title: "Rechercher des succès"
+#    poll_search_title: "Search Polls"
     read_only_warning2: "Note: vous ne pouvez sauvegarder aucune édition, car vous n'êtes pas identifié."
     no_achievements: "Aucun succès n'a encore été ajouté à ce niveau."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -803,6 +808,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   article:
     edit_btn_preview: "Prévisualiser"
     edit_article_title: "Éditer l'article"
+
+#  polls:
+#    priority: "Priority"
 
   contribute:
     page_title: "Contribution"
@@ -965,6 +973,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     payments: "Paiements"
     purchased: "Acheté"
     subscription: "Souscrit"
+#    invoices: "Invoices"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Payé"
@@ -980,6 +989,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     card: "Carte"
     status_unsubscribed_active: "Vous n'êtes pas inscrit et ne serez pas facturé, mais votre compte est toujours actif."
     status_unsubscribed: "Obtenez l'accès à de nouveaux niveaux, héros, objets et gemmes en bonus avec une inscription à CodeCombat !"
+
+#  account_invoices:
+#    amount: "Amount in US dollars"
+#    declined: "Your card was declined"
+#    invalid_amount: "Please enter a US dollar amount."
+#    not_logged_in: "Log in or create an account to access invoices."
+#    pay: "Pay Invoice"
+#    purchasing: "Purchasing..."
+#    retrying: "Server error, retrying."
+#    success: "Successfully paid. Thanks!"
 
   loading_error:
     could_not_load: "Erreur de chargement du serveur"
@@ -1041,6 +1060,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     feedback: "Réaction"
     payment_info: "Info paiement"
     campaigns: "Campagnes"
+#    poll: "Poll"
+#    user_polls_record: "Poll Voting History"
 
   delta:
     added: "Ajouté"

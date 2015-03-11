@@ -60,7 +60,8 @@ module.exports = class TomeView extends CocoView
     @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
-    @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
+    unless @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+      @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
     @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
@@ -74,7 +75,7 @@ module.exports = class TomeView extends CocoView
     thangs = _.filter e.world.thangs, 'inThangList'
     programmableThangs = _.filter thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, e.world
-    @spellList.adjustSpells @spells
+    @spellList?.adjustSpells @spells
 
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
@@ -170,8 +171,8 @@ module.exports = class TomeView extends CocoView
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: difficulty
 
   onToggleSpellList: (e) ->
-    @spellList.rerenderEntries()
-    @spellList.$el.toggle()
+    @spellList?.rerenderEntries()
+    @spellList?.$el.toggle()
 
   onSpellViewClick: (e) ->
     @spellList?.$el.hide()
@@ -210,7 +211,7 @@ module.exports = class TomeView extends CocoView
       @castButton?.attachTo @spellView
       Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     @updateSpellPalette thang, spell
-    @spellList.setThangAndSpell thang, spell
+    @spellList?.setThangAndSpell thang, spell
     @spellView?.setThang thang
     @spellTabView?.setThang thang
 
