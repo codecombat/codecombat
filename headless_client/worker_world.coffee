@@ -2,7 +2,7 @@
 # This function needs to run inside an environment that has a 'self'.
 # This specific worker is targeted towards the node.js headless_client environment.
 
-JASON = require 'jason'
+JASON = require 'JASON'
 fs = require 'fs'
 GLOBAL.Aether = Aether = require 'aether'
 GLOBAL._ = _ = require 'lodash'
