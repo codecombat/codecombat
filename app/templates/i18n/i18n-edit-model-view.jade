@@ -54,12 +54,14 @@ block outer_content
     
     select.form-control#language-select
 
-    table.table
-      for row in translationList
-        tr(data-format=row.format || '')
+    for row in translationList
+      table.table
+        tr
           th= row.title
+        tr(data-format=row.format || '')
           td.english-value-row
             div= row.enValue
+        tr(data-format=row.format || '')
           td.to-value-row
             if row.format === 'markdown'
               div(data-index=row.index.toString())= row.toValue
