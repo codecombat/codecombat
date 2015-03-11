@@ -150,7 +150,7 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     @fireScriptsRef?.update(e)
     state = @session.get('state')
-    scripts = state.scripts
+    scripts = state.scripts ? {}
     scripts.currentScript = e.currentScript
     scripts.currentScriptOffset = e.currentScriptOffset
     @changedSessionProperties.state = true
