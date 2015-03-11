@@ -55,13 +55,18 @@ module.exports = class I18NEditModelView extends RootView
     editors = []
 
     @$el.find('tr[data-format="markdown"]').each((index, el) =>
-      englishEditor = ace.edit(enEl=$(el).find('.english-value-row div')[0])
-      englishEditor.el = enEl
-      englishEditor.setReadOnly(true)
-      toEditor = ace.edit(toEl=$(el).find('.to-value-row div')[0])
-      toEditor.el = toEl
-      toEditor.on 'change', @onEditorChange
-      editors = editors.concat([englishEditor, toEditor])
+      foundEnEl = enEl=$(el).find('.english-value-row div')[0]
+      if foundEnEl?
+        englishEditor = ace.edit(foundEnEl)
+        englishEditor.el = enEl
+        englishEditor.setReadOnly(true)
+        editors.push englishEditor
+      foundToEl = toEl=$(el).find('.to-value-row div')[0]
+      if foundToEl?
+        toEditor = ace.edit(foundToEl)
+        toEditor.el = toEl
+        toEditor.on 'change', @onEditorChange
+        editors.push toEditor
     )
 
     for editor in editors
