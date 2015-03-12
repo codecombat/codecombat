@@ -722,6 +722,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
         'tealeaf-academy': isAdult and isFast
         'talent-buddy': isAdult
         'coding-campus': isAdult and Math.random() < 0.5  # TODO: geodetect UT and give priority
+        'viking': isAdult and isFast
         #'mv-code-club': isKid  # TODO: geodetect, get landing page URL
       nAdditionalOffers = 4 - _.filter(offers).length
       possibleAdditionalOffers = ['code-school', 'one-month', 'learnable', 'pluralsight']

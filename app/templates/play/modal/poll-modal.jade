@@ -1,8 +1,6 @@
 extends /templates/core/modal-base
 block modal-header-content
   h1
-    span(data-i18n="play.poll") Poll
-    span.spr :
     span= i18n(poll.attributes, "name")
 
 block modal-body-content
