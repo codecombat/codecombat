@@ -9,14 +9,14 @@ module.exports = $ = (input) ->
 
 # Non-standard jQuery stuff. Don't use outside of server.
 $._debug = false
-$._server = 'http://direct.codecombat.com'
+$._server = 'https://direct.codecombat.com'
 $._cookies = request.jar()
 
 $.when = Deferred.when
 $.ajax = (options) ->
   responded = false
   url = options.url
-  if url.indexOf('http')
+  if url.indexOf('https')
     url = '/' + url unless url[0] is '/'
     url = $._server + url
 
@@ -31,7 +31,7 @@ $.ajax = (options) ->
     method: options.type
     body: data
     , (error, response, body) ->
-      console.log 'HTTP Request:' + JSON.stringify options if $._debug and not error
+      console.log 'HTTPS Request:' + JSON.stringify options if $._debug and not error
       if responded
         console.log '\t↳Already returned before.' if $._debug
         return
