@@ -103,7 +103,7 @@ module.exports = class DiplomatView extends ContributeClassView
     fr: ['Xeonarno', 'Elfisen', 'Armaldio', 'MartinDelille', 'pstweb', 'veritable', 'jaybi', 'xavismeh', 'Anon', 'Feugy', 'dc55028', 'ChrisLightman', 'Oaugereau']             # français, French
     ja: ['g1itch', 'kengos', 'treby', 'Coderaulic']             # 日本語, Japanese
     ar: ['ahmed80dz', '5y']             # العربية, Arabic
-    'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso', 'Bia41']        # português do Brasil, Portuguese (Brazil)
+    'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso', 'Bia41', 'jklemm']        # português do Brasil, Portuguese (Brazil)
     'pt-PT': ['Matthew Burt', 'ReiDuKuduro', 'Imperadeiro98', 'batista', 'ProgramadorLucas', 'gutierri']        # Português (Portugal), Portuguese (Portugal)
     pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk']             # język polski, Polish
     it: ['flauta', 'AlessioPaternoster']             # italiano, Italian
