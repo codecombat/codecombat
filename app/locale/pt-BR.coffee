@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     spectate: "Assistir" # Ladder page
     players: "jogadores" # Hover over a level on /play
     hours_played: "Horas jogadas" # Hover over a level on /play
-    items: "Items" # Tooltip on item shop button from /play
+    items: "Itens" # Tooltip on item shop button from /play
     unlock: "Desbloquear" # For purchasing items and heroes
     confirm: "Confirmar"
     owned: "Possui" # For items you own
@@ -67,7 +67,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
-    choose_inventory: "Equipar Items"
+    choose_inventory: "Equipar Itens"
     buy_gems: "Comprar Gems"
     subscription_required: "Requer assinatura"
     older_campaigns: "Campanhas antigas"
