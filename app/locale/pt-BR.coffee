@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Português do Brasil", englishDescription: "Portuguese (Brazil)", translation:
   home:
-    slogan: "Aprenda a programar enquanto se diverte com um jogo."
+    slogan: "Aprenda a programar enquanto se diverte jogando."
     no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that opens up the campaign view.
@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     spectate: "Assistir" # Ladder page
     players: "jogadores" # Hover over a level on /play
     hours_played: "Horas jogadas" # Hover over a level on /play
-    items: "Items" # Tooltip on item shop button from /play
+    items: "Itens" # Tooltip on item shop button from /play
     unlock: "Desbloquear" # For purchasing items and heroes
     confirm: "Confirmar"
     owned: "Possui" # For items you own
@@ -67,7 +67,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
-    choose_inventory: "Equipar Items"
+    choose_inventory: "Equipar Itens"
     buy_gems: "Comprar Gems"
     subscription_required: "Requer assinatura"
     older_campaigns: "Campanhas antigas"
@@ -95,7 +95,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   share_progress_modal:
     blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat."
-    email_invalid: "Endereço de email invalido."
+    email_invalid: "Endereço de email inválido."
     form_blurb: "Informe o e-mail deles abaixo e mostraremos a eles!"
     form_label: "Endereço de Email"
     placeholder: "endereço de email"
