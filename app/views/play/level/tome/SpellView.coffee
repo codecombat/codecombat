@@ -265,6 +265,7 @@ module.exports = class SpellView extends CocoView
     if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.level())
       return
     return unless @spell.source is @spell.originalSource or force
+    return if @isIE()  # Temporary workaround for #2512
 
     console.info 'Locking down default code.'
 
@@ -800,6 +801,7 @@ module.exports = class SpellView extends CocoView
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
+    return if @spell.source.indexOf 'while'  # If they're working with while-loops, it's more likely to be an incomplete infinite loop, so don't preload.
     oldSource = @spell.source
     oldSpellThangAethers = {}
     for thangID, spellThang of @spell.thangs
