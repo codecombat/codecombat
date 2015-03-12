@@ -404,6 +404,8 @@ module.exports = class SpellView extends CocoView
     # tabTrigger: fallback for name field
     return unless @zatanna and @autocomplete
     snippetEntries = []
+    haveFindNearestEnemy = false
+    haveFindNearest = false
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette
@@ -427,9 +429,8 @@ module.exports = class SpellView extends CocoView
             meta: 'press enter'
             name: doc.name
             tabTrigger: doc.snippets[e.language].tab
-          if doc.name is 'findNearestEnemy' or doc.name is 'findNearest'
-            # Remember if we have findNearestEnemy so attack snippet can be updated
-            haveFindNearestEnemy = true
+          haveFindNearestEnemy ||= doc.name is 'findNearestEnemy'
+          haveFindNearest ||= doc.name is 'findNearest'
           if doc.name is 'attack'
             # Postpone this until we know if findNearestEnemy is available
             attackEntry = entry
@@ -439,16 +440,36 @@ module.exports = class SpellView extends CocoView
     # TODO: Generalize this snippet replacement
     # TODO: Where should this logic live, and what format should it be in?
     if attackEntry?
-      unless haveFindNearestEnemy
+      unless haveFindNearestEnemy or haveFindNearest
         # No findNearestEnemy, so update attack snippet to string-based target
         attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
       snippetEntries.push attackEntry
+
+    if haveFindNearest and not haveFindNearestEnemy
+      @translateFindNearest()
 
     # window.zatannaInstance = @zatanna  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
     lang = SpellView.editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
     @editorLang = lang
+
+  translateFindNearest: ->
+    # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
+    oldSource = @getSource()
+    if @spell.language is 'clojure'
+      newSource = oldSource.replace /\(.findNearestEnemy this\)/g, "(.findNearest this (.findEnemies this))"
+      newSource = newSource.replace /\(.findNearestItem this\)/g, "(.findNearest this (.findItems this))"
+    else if @spell.language is 'io'
+      newSource = oldSource.replace /findNearestEnemy/g, "findNearest(findEnemies)"
+      newSource = newSource.replace /findNearestItem/g, "findNearest(findItems)"
+    else
+      newSource = oldSource.replace /(self:|self.|this.|@)findNearestEnemy\(\)/g, "$1findNearest($1findEnemies())"
+      newSource = newSource.replace /(self:|self.|this.|@)findNearestItem\(\)/g, "$1findNearest($1findItems())"
+    return if oldSource is newSource
+    @spell.originalSource = newSource
+    @updateACEText newSource
+    _.delay (=> @recompile?()), 1000
 
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
