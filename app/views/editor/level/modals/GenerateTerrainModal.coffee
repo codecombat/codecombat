@@ -99,6 +99,14 @@ clusters = {
     'thangs': ['Oasis 1', 'Oasis 2', 'Oasis 3']
     'margin': 4
   }
+  'mountain_floor': {
+    'thangs': ['Talus 1', 'Talus 2', 'Talus 3', 'Talus 4', 'Talus 5', 'Talus 6']
+    'margin': -1
+  }
+  'mountain_walls': {
+    'thangs': ['Mountain 1','Mountain 3']
+    'margin': 6
+  }
 }
 
 presets = {
@@ -244,6 +252,25 @@ presets = {
           'oases':[1,1]
           'shrubs':[0,5]
           'rocks':[0,2]
+        }
+      }
+    }
+  },
+  'mountain': {
+    'terrainName': 'Mountain'
+    'type': 'mountain'
+    'floors': 'mountain_floor'
+    'borders': 'mountain_walls'
+    'borderNoise': 1
+    'borderSize': 1
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
         }
       }
     }
