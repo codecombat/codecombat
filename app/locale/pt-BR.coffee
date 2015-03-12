@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Português do Brasil", englishDescription: "Portuguese (Brazil)", translation:
   home:
-    slogan: "Aprenda a programar enquanto se diverte com um jogo."
+    slogan: "Aprenda a programar enquanto se diverte jogando."
     no_ie: "CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat não foi projetado para dispositivos móveis e pode não funcionar!" # Warning that shows up on mobile devices
     play: "Jogar" # The big play button that opens up the campaign view.
@@ -95,7 +95,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   share_progress_modal:
     blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat."
-    email_invalid: "Endereço de email invalido."
+    email_invalid: "Endereço de email inválido."
     form_blurb: "Informe o e-mail deles abaixo e mostraremos a eles!"
     form_label: "Endereço de Email"
     placeholder: "endereço de email"
