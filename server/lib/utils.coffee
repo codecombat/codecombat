@@ -38,6 +38,12 @@ module.exports =
           if userID? and sub.metadata?.id is userID
             unless subscription?.cancel_at_period_end is false
               subscription = sub
+
+          # Check for backwards compatible basic subscription search
+          # Only recipient subscriptions are currently searched for via userID
+          if userID? and not sub.metadata?.id and sub.plan?.id is 'basic'
+            subscription ?= sub
+
           return done(subscription) if subscription?.cancel_at_period_end is false
 
         if subscriptions.has_more
