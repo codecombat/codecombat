@@ -283,12 +283,22 @@ _.extend UserSchema.properties,
 
   stripe: c.object {}, {
     customerID: { type: 'string' }
-    planID: { enum: ['basic'] }
-    subscriptionID: { type: 'string' }
+    planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
+    subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
-    discountID: { type: 'string' }
-    free: { type: ['boolean', 'string'], format: 'date-time' }
+    free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+
+    # Sponsored subscriptions
+    subscribeEmails: c.array { description: 'Input for subscribing other users' }, c.shortString()
+    unsubscribeEmail: { type: 'string', description: 'Input for unsubscribing a sponsored user' }
+    recipients: c.array { title: 'Recipient subscriptions owned by this user' },
+      c.object { required: ['userID', 'subscriptionID'] },
+        userID: c.objectId { description: 'User ID of recipient' }
+        subscriptionID: { type: 'string' }
+        couponID: { type: 'string' }
+    sponsorID: c.objectId { description: "User ID that owns this user's subscription" }
+    sponsorSubscriptionID: { type: 'string', description: 'Sponsor aggregate subscription used to pay for all recipient subs' }
   }
 
   siteref: { type: 'string' }

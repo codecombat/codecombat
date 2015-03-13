@@ -16,6 +16,7 @@ SubscriptionHandler = require '../payments/subscription_handler'
 DiscountHandler = require '../payments/discount_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
+{findStripeSubscription} = require '../lib/utils'
 {isID} = require '../lib/utils'
 hipchat = require '../hipchat'
 sendwithus = require '../sendwithus'
@@ -115,22 +116,35 @@ UserHandler = class UserHandler extends Handler
 
     # Subscription setting
     (req, user, callback) ->
+      # TODO: Make subscribe vs. unsubscribe explicit.  This property dance is confusing.
       return callback(null, req, user) unless req.headers['x-change-plan'] # ensure only saves that are targeted at changing the subscription actually affect the subscription
       return callback(null, req, user) unless req.body.stripe
-      hasPlan = user.get('stripe')?.planID?
-      wantsPlan = req.body.stripe.planID?
-
-      return callback(null, req, user) if hasPlan is wantsPlan
-      if wantsPlan and not hasPlan
+      finishSubscription = (hasPlan, wantsPlan) ->
+        return callback(null, req, user) if hasPlan is wantsPlan
+        if wantsPlan and not hasPlan
+          SubscriptionHandler.subscribeUser(req, user, (err) ->
+            return callback(err) if err
+            return callback(null, req, user)
+          )
+        else if hasPlan and not wantsPlan
+          SubscriptionHandler.unsubscribeUser(req, user, (err) ->
+            return callback(err) if err
+            return callback(null, req, user)
+          )
+      if req.body.stripe.subscribeEmails?
         SubscriptionHandler.subscribeUser(req, user, (err) ->
           return callback(err) if err
           return callback(null, req, user)
         )
-      else if hasPlan and not wantsPlan
+      else if req.body.stripe.unsubscribeEmail?
         SubscriptionHandler.unsubscribeUser(req, user, (err) ->
           return callback(err) if err
           return callback(null, req, user)
         )
+      else
+        wantsPlan = req.body.stripe.planID?
+        hasPlan = user.get('stripe')?.planID?
+        finishSubscription hasPlan, wantsPlan
 
     # Discount setting
     (req, user, callback) ->
@@ -257,6 +271,8 @@ UserHandler = class UserHandler extends Handler
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @searchForUser(req, res) if args[1] is 'admin_search'
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
+    return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
+    return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
     return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
     return @sendNotFoundError(res)
     super(arguments...)
@@ -268,7 +284,67 @@ UserHandler = class UserHandler extends Handler
       return @sendNotFoundError(res) if not customerID = user.get('stripe')?.customerID
       stripe.customers.retrieve customerID, (err, customer) =>
         return @sendDatabaseError(res, err) if err
-        @sendSuccess(res, JSON.stringify(customer, null, '\t'))
+        info = card: customer.sources?.data?[0]
+        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (subscription) =>
+          info.subscription = subscription
+          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (subscription) =>
+            info.sponsorSubscription = subscription
+            @sendSuccess(res, JSON.stringify(info, null, '\t'))
+
+  getSubRecipients: (req, res) ->
+    # Return map of userIDs to name/email/cancel date
+    # TODO: Add test for this API
+
+    return @sendSuccess(res, {}) if _.isEmpty(req.user?.get('stripe')?.recipients ? [])
+    return @sendSuccess(res, {}) unless req.user.get('stripe')?.customerID?
+
+    # Get recipients User info
+    ids = (recipient.userID for recipient in req.user.get('stripe').recipients)
+    User.find({'_id': { $in: ids} }, 'name emailLower').exec (err, users) =>
+      info = {}
+      _.each users, (user) -> info[user.id] = user.toObject()
+      customerID = req.user.get('stripe').customerID
+
+      nextBatch = (starting_after, done) ->
+        options = limit: 100
+        options.starting_after = starting_after if starting_after
+        stripe.customers.listSubscriptions customerID, options, (err, subscriptions) ->
+          return done(err) if err
+          return done() unless subscriptions?.data?.length > 0
+          for sub in subscriptions.data
+            userID = sub.metadata?.id
+            continue unless userID of info
+            if sub.cancel_at_period_end and info[userID]['cancel_at_period_end'] isnt false
+              info[userID]['cancel_at_period_end'] = new Date(sub.current_period_end * 1000)
+            else
+              info[userID]['cancel_at_period_end'] = false
+
+          if subscriptions.has_more
+            return nextBatch(subscriptions.data[subscriptions.data.length - 1].id, done)
+          else
+            return done()
+      nextBatch null, (err) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, info)
+
+  getSubSponsor: (req, res) ->
+    # TODO: Add test for this API
+
+    return @sendSuccess(res, {}) unless req.user?.get('stripe')?.sponsorID?
+
+    # Get sponsor User info
+    User.findById req.user.get('stripe').sponsorID, (err, sponsor) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendDatabaseError(res, 'No sponsor customerID') unless sponsor?.get('stripe')?.customerID?
+      info =
+        email: sponsor.get('emailLower')
+        name: sponsor.get('name')
+
+      # Get recipient subscription info
+      findStripeSubscription sponsor.get('stripe').customerID, userID: req.user.id, (subscription) =>
+        info.subscription = subscription
+        @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
+        @sendSuccess(res, info)
 
   sendOneTimeEmail: (req, res) ->
     # TODO: Should this API be somewhere else?

@@ -4,6 +4,7 @@
 console.log 'IT BEGINS'
 
 require 'jasmine-spec-reporter'
+jasmine.getEnv().defaultTimeoutInterval = 300000
 jasmine.getEnv().reporter.subReporters_ = []
 jasmine.getEnv().addReporter(new jasmine.SpecReporter({
   displaySuccessfulSpec: true,
@@ -21,7 +22,6 @@ mongoose.connect('mongodb://localhost/coco_unittest')
 path = require 'path'
 GLOBAL.testing = true
 GLOBAL.tv4 = require 'tv4' # required for TreemaUtils to work
-# _.str = require 'underscore.string'
 
 models_path = [
   '../../server/analytics/AnalyticsUsersActive'
@@ -113,6 +113,25 @@ wrapUpGetUser = (email, user, done) ->
 GLOBAL.getURL = (path) ->
   return 'http://localhost:3001' + path
 
+newUserCount = 0
+GLOBAL.createNewUser = (done) ->
+  name = password = "user#{newUserCount++}"
+  email = "#{name}@foo.bar"
+  unittest.getUser name, email, password, done, true
+GLOBAL.loginNewUser = (done) ->
+  name = password = "user#{newUserCount++}"
+  email = "#{name}@me.com"
+  request.post getURL('/auth/logout'), ->
+    unittest.getUser name, email, password, (user) ->
+      req = request.post(getURL('/auth/login'), (error, response) ->
+        expect(response.statusCode).toBe(200)
+        done(user)
+      )
+      form = req.form()
+      form.append('username', email)
+      form.append('password', password)
+    , true
+
 GLOBAL.loginJoe = (done) ->
   request.post getURL('/auth/logout'), ->
     unittest.getNormalJoe (user) ->
@@ -146,6 +165,16 @@ GLOBAL.loginAdmin = (done) ->
       form.append('username', 'admin@afc.com')
       form.append('password', '80yqxpb38j')
       # find some other way to make the admin object an admin... maybe directly?
+
+GLOBAL.loginUser = (user, done) ->
+  request.post getURL('/auth/logout'), ->
+    req = request.post(getURL('/auth/login'), (error, response) ->
+      expect(response.statusCode).toBe(200)
+      done(user)
+    )
+    form = req.form()
+    form.append('username', user.get('email'))
+    form.append('password', user.get('name'))
 
 GLOBAL.dropGridFS = (done) ->
   if mongoose.connection.readyState is 2

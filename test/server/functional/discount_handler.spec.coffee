@@ -66,7 +66,7 @@ describe '/db/user, editing stripe.couponID property', ->
       expect(body.stripe.couponID).toBe('500off')
       done()
 
-  it 'applies a discount to the newly created customer when a plan is set', (done) ->
+  it 'applies a discount to the newly created subscription when a plan is set', (done) ->
     stripe.tokens.create {
       card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
     }, (err, token) ->
@@ -77,9 +77,9 @@ describe '/db/user, editing stripe.couponID property', ->
         request.put {uri: userURL, json: joeData, headers: {'X-Change-Plan': 'true'} }, (err, res, body) ->
           joeData = body
           expect(res.statusCode).toBe(200)
-          stripe.customers.retrieve joeData.stripe.customerID, (err, customer) ->
-            expect(customer.discount).toBeDefined()
-            expect(customer.discount?.coupon.id).toBe('500off')
+          stripe.customers.retrieveSubscription joeData.stripe.customerID, joeData.stripe.subscriptionID, (err, subscription) ->
+            expect(subscription.discount).toBeDefined()
+            expect(subscription.discount?.coupon.id).toBe('500off')
             done()
 
 
