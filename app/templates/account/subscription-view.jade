@@ -70,7 +70,7 @@ block content
             if personalSub.nextPaymentDate
               tr
                 th(data-i18n="account.next_payment")
-                td= moment(nextPaymentDate).format('l')
+                td= moment(personalSub.nextPaymentDate).format('l')
             if personalSub.cost
               tr
                 th(data-i18n="account.cost")
