@@ -76,7 +76,7 @@ PurchaseHandler = class PurchaseHandler extends Handler
       user.set('purchased', purchased)
 
       #- deduct the gems from the user
-      spent = hadSpent = user.get('spent') ? 0
+      spent = user.get('spent') ? 0
       spent += item.get('gems')
       user.set('spent', spent)
 

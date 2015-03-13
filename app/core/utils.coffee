@@ -184,3 +184,17 @@ module.exports.getQueryVariable = getQueryVariable = (param, defaultValue) ->
   for pair in pairs when pair[0] is param
     return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
   defaultValue
+
+module.exports.getSponsoredSubsAmount = getSponsoredSubsAmount = (price=999, subCount=0, personalSub=false) ->
+  # 1 100%
+  # 2-11 80%
+  # 12+ 60%
+  # TODO: make this less confusing
+  return 0 unless subCount > 0
+  offset = if personalSub then 1 else 0
+  if subCount <= 1 - offset
+    price
+  else if subCount <= 11 - offset
+    Math.round((1 - offset) * price + (subCount - 1 + offset) * price * 0.8)
+  else
+    Math.round((1 - offset) * price + 10 * price * 0.8 + (subCount - 11 + offset) * price * 0.6)
