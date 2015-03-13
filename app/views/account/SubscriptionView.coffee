@@ -230,6 +230,9 @@ class RecipientSubs
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
   unsubscribe: (email, render) ->
+    delete @state
+    @stateMessage = ''
+    delete @justSubscribed
     @addSubscribing(email)
     render()
     stripeInfo = _.clone(me.get('stripe'))
@@ -262,6 +265,7 @@ class RecipientSubs
         if @recipientEmails? and @justSubscribed? and recipient.emailLower in @recipientEmails
           @justSubscribed.push recipient.emailLower
       @nextPaymentAmount = utils.getSponsoredSubsAmount(basicPlanPrice, count, me.get('stripe')?.subscriptionID?)
+      @recipientEmails = []
       render()
     @supermodel.addRequestResource('sub_recipients', {
       url: '/db/user/-/sub_recipients'
