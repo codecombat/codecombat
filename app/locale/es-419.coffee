@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Cuenta" # Tooltip on account button from /play
     settings: "Configuración" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Encuestas" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar objetos"
@@ -728,7 +728,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     thang_title: "Editor de Thangs"
     level_title: "Editor de Nivel"
     achievement_title: "Editor de logros"
-#    poll_title: "Poll Editor"
+    poll_title: "Editor de Encuesta"
     back: "Atrás"
     revert: "Revertir"
     revert_models: "Revertir Modelos"
@@ -789,13 +789,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     new_level_title_login: "Ingresa para Crear un Nuevo Nivel"
     new_achievement_title: "Crear un Nuevo Logro"
     new_achievement_title_login: "Ingresa para Crear un Nuevo Logro"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "Crear una nueva encuesta"
+    new_poll_title_login: "Ingresa para crear una nueva encuesta"
     article_search_title: "Buscar Artículos aquí"
     thang_search_title: "Buscar tipos de Thang aquí"
     level_search_title: "Buscar Niveles aquí"
     achievement_search_title: "Buscar logros"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "Buscar Encuesta"
     read_only_warning2: "Nota: no puedes guardar ediciones aquí, porque no estas logeado."
     no_achievements: "No hay logros agregados en este nivel por ahora."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -973,7 +973,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payments: "Pagos"
     purchased: "Comprado"
     subscription: "Suscripción"
-#    invoices: "Invoices"
+    invoices: "Facturas"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Pagado en"
@@ -990,15 +990,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     status_unsubscribed_active: "No estas suscripto y no se te cobrará, pero tu cuenta está activa por ahora."
     status_unsubscribed: "Obtén acceso a nuevos niveles, heroés, items y gemas extras con la suscripción a CodeCombat!"
 
-#  account_invoices:
-#    amount: "Amount in US dollars"
-#    declined: "Your card was declined"
-#    invalid_amount: "Please enter a US dollar amount."
-#    not_logged_in: "Log in or create an account to access invoices."
-#    pay: "Pay Invoice"
-#    purchasing: "Purchasing..."
-#    retrying: "Server error, retrying."
-#    success: "Successfully paid. Thanks!"
+  account_invoices:
+    amount: "Cantidad en dólares."
+    declined: "La tarjeta fue rechazada."
+    invalid_amount: "Por favor ingrese cantidad en dólares."
+    not_logged_in: "Ingresate o crea una cuenta para acceder a las facturas."
+    pay: "Pagar Factura"
+    purchasing: "Comprando..."
+    retrying: "Error de Servidor, reintentando..."
+    success: "Listo, fue cobrado. Gracias!"
 
   loading_error:
     could_not_load: "Error cargando del servidor"
@@ -1060,8 +1060,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feedback: "Feedback"
     payment_info: "Información de pago"
     campaigns: "Campañas"
-#    poll: "Poll"
-#    user_polls_record: "Poll Voting History"
+    poll: "Encuesta"
+    user_polls_record: "Historia de Visitas de Encuestas"
 
   delta:
     added: "Agregado"
