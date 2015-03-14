@@ -432,8 +432,7 @@
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
 
-    # Accounts Subscription View
-    personal_sub: "Personal Subscription"
+    personal_sub: "Personal Subscription"  # Accounts Subscription View below
     loading_info: "Loading subscription information..."
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
