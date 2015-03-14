@@ -1,4 +1,5 @@
 Poll = require './Poll'
+UserPollsRecord = require './UserPollsRecord'
 Handler = require '../commons/Handler'
 async = require 'async'
 mongoose = require 'mongoose'
@@ -23,21 +24,18 @@ PollHandler = class PollHandler extends Handler
     return @getNextPoll(req, res, args[0]) if relationship is 'next'
     super arguments...
 
-  getNextPoll: (req, res, lastPollID) ->
-    @findPollPriority lastPollID, (err, lastPriority) =>
+  getNextPoll: (req, res, userPollsRecordID) ->
+    UserPollsRecord.findOne(_id: mongoose.Types.ObjectId(userPollsRecordID)).lean().exec (err, userPollsRecord) =>
       return @sendDatabaseError(res, err) if err
-      @getNextPollAfterPriority lastPriority, (err, poll) =>
+      answeredPolls = _.keys(userPollsRecord?.polls ? {})
+      if answeredPolls.length
+        query = {_id: {$nin: (mongoose.Types.ObjectId(pollID) for pollID in answeredPolls)}}
+      else
+        query = {}
+      Poll.findOne(query).sort('priority').exec (err, poll) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless poll
         @sendSuccess res, @formatEntity(req, poll)
-
-  findPollPriority: (lastPollID, callback) ->
-    return callback null, -9001 unless lastPollID and lastPollID isnt '-'
-    Poll.findById mongoose.Types.ObjectId(lastPollID), 'priority', {lean: true}, (err, poll) ->
-      callback err, poll?.priority
-
-  getNextPollAfterPriority: (priority, callback) ->
-    Poll.findOne({priority: {$gt: priority}}).sort('priority').exec callback
 
   delete: (req, res, slugOrID) ->
     return @sendForbiddenError res unless req.user?.isAdmin()

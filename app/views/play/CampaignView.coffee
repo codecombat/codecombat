@@ -584,8 +584,7 @@ module.exports = class CampaignView extends RootView
     onRecordSync.call @ if @userPollsRecord.loaded
 
   loadPoll: ->
-    lastPollID = _.last _.keys @userPollsRecord.get 'polls'
-    url = "/db/poll/#{lastPollID or '-'}/next"
+    url = "/db/poll/#{@userPollsRecord.id}/next"
     @poll = new Poll().setURL url
     onPollSync = ->
       return if @destroyed
