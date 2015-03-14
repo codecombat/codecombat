@@ -441,7 +441,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     managed_subs: "Управляемые подписки"
     managed_subs_desc: "Добавьте подписки для других игроков (студенты, дети и т.д.)"
     group_discounts: "Группые скидки"
-    group_discounts_1st: "1ая подписка (включая вашу)"
+    group_discounts_1st: "1-я подписка (включая вашу)"
     group_discounts_full: "Полная стоимость"
     group_discounts_2nd: "Подписки со 2-й по 11-ю"
     group_discounts_20: "20% скидка"
