@@ -25,17 +25,23 @@ PollHandler = class PollHandler extends Handler
     super arguments...
 
   getNextPoll: (req, res, userPollsRecordID) ->
-    UserPollsRecord.findOne(_id: mongoose.Types.ObjectId(userPollsRecordID)).lean().exec (err, userPollsRecord) =>
-      return @sendDatabaseError(res, err) if err
-      answeredPolls = _.keys(userPollsRecord?.polls ? {})
-      if answeredPolls.length
-        query = {_id: {$nin: (mongoose.Types.ObjectId(pollID) for pollID in answeredPolls)}}
-      else
-        query = {}
-      Poll.findOne(query).sort('priority').exec (err, poll) =>
+    if userPollsRecordID and userPollsRecordID isnt '-'
+      UserPollsRecord.findOne(_id: mongoose.Types.ObjectId(userPollsRecordID)).lean().exec (err, userPollsRecord) =>
         return @sendDatabaseError(res, err) if err
-        return @sendNotFoundError(res) unless poll
-        @sendSuccess res, @formatEntity(req, poll)
+        answeredPolls = _.keys(userPollsRecord?.polls ? {})
+        @getNextUnansweredPoll req, res, answeredPolls
+    else
+      @getNextUnansweredPoll req, res, []
+
+  getNextUnansweredPoll: (req, res, answeredPolls) ->
+    if answeredPolls.length
+      query = {_id: {$nin: (mongoose.Types.ObjectId(pollID) for pollID in answeredPolls)}}
+    else
+      query = {}
+    Poll.findOne(query).sort('priority').exec (err, poll) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless poll
+      @sendSuccess res, @formatEntity(req, poll)
 
   delete: (req, res, slugOrID) ->
     return @sendForbiddenError res unless req.user?.isAdmin()
