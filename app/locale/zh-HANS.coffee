@@ -990,7 +990,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     status_unsubscribed_active: "你还没有订阅所以不会被收费，但你的帐号还可以正常使用"
     status_unsubscribed: "只要一个CodeCombat订阅，你就可以玩转全部新关卡，用遍全部英雄，物品，以及获得更多的宝石哦！"
 
-#  account_invoices:
+  account_invoices:
     amount: "金额（美元）"
     declined: "您的付款被拒"
     invalid_amount: "请输入美元金额"
