@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     achievements: "Erfolge" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Umfrage" # Tooltip on poll button from /play
     next: "Nächster" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
@@ -206,7 +206,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     player: "Spieler"
     player_level: "Stufe" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Krieger"
-#    ranger: "Ranger"
+    ranger: "Waldläufer"
     wizard: "Magier"
 
   units:
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_button: "Laden betreten"
     recovered: "Vorangegangener Edelsteinkauf rückgängig gemacht. Aktualisiere bitte die Seite."
     price: "x3500 / Monat"
-
+    
   subscribe:
     comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement"
     feature1: "60+ Basislevel in 4 Gebieten"
@@ -431,6 +431,30 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     stripe_description: "Monatsabo"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
+
+    personal_sub: "Persönliches Abonnement"  # Accounts Subscription View below
+    loading_info: "Lade Abonnementinformationen..."
+    managed_by: "Verwaltet durch"
+    will_be_cancelled: "Läuft ab am"
+    currently_free: "Du hast aktuell ein kostenloses Abonnement"
+    currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum"
+    was_free_until: "Du hattest ein kostenloses Abonnement bis zum"
+    managed_subs: "Verwaltete Abonnements"
+    managed_subs_desc: "Abonnements für andere Spieler (Studenten, Kinder, usw.) hinzufügen"
+    group_discounts: "Gruppenrabatt"
+    group_discounts_1st: "Erstes Abonnement (inklusive deinem)"
+    group_discounts_full: "voller Preis"
+    group_discounts_2nd: "Abonnements 2-11"
+    group_discounts_20: "20% Rabatt"
+    group_discounts_12th: "Abonnement 12+"
+    group_discounts_40: "40% Rabatt"
+    subscribing: "Abonniere..."
+    recipient_emails_placeholder: "Gib die E-Mail-Adressen ein, für die du ein Abonnement übernehmen möchtest, eine pro Zeile."
+    subscribe_users: "Abonnement für Spieler übernehmen"
+    users_subscribed: "Abonnement für Spieler übernommen:"
+    no_users_subscribed: "Abonnement für keine Spieler übernommen, bitte prüfe deine E-Mail-Adressen."
+    current_recipients: "Aktuelle Empfänger"
+    unsubscribing: "Abmelden..."
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -579,7 +603,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     what_cover_variables_1: "Variablen"
 #    what_cover_variables_2: "- adds the skill of referencing values that change over time."
 #    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
-#    what_cover_logic_1: "Conditional logic"
+    what_cover_logic_1: "Bedingte Anweisungen"
     what_cover_logic_2: "- Wie und wann if/else benutzt werden können, um das Spielgeschehen zu kontrollieren."
     what_cover_input_1: "Benutzereingaben Behandlung"
     what_cover_input_2: "- Mit Eingaben umgehen, um eine Nutzeroberfläche zu erstellen."
@@ -728,7 +752,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     thang_title: "Thang Editor"
     level_title: "Level Editor"
     achievement_title: "Achievement Editor"
-#    poll_title: "Poll Editor"
+    poll_title: "Umfrage Editor"
     back: "Zurück"
     revert: "Zurücksetzen"
     revert_models: "Modelle zurücksetzen."
@@ -789,13 +813,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     new_level_title_login: "Melde dich an um ein neues Level zu erstellen"
     new_achievement_title: "Erstelle ein neues Achievement"
     new_achievement_title_login: "Melde dich an um einen neuen Erfolg zu erstellen"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "Erstelle eine neue Umfrage"
+    new_poll_title_login: "Melde dich an um eine neue Umfrage zu erstellen"
     article_search_title: "Durchsuche Artikel hier"
     thang_search_title: "Durchsuche Thang-Typen hier"
     level_search_title: "Durchsuche Levels hier"
     achievement_search_title: "Durchsuche Erfolge"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "Durchsuche Umfragen"
     read_only_warning2: "Warnung: Du kannst hier keine Änderungen speichern, weil du nicht angemeldet bist."
     no_achievements: "Es wurden noch keine Erfolge zu diesem Level hinzugefügt."
     achievement_query_misc: "Sonstige Schlüsselerfolge"
@@ -809,8 +833,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     edit_btn_preview: "Vorschau"
     edit_article_title: "Artikel bearbeiten"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Priorität"
 
   contribute:
     page_title: "Mitwirken"
@@ -973,7 +997,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     payments: "Zahlungen"
     purchased: "Gekauft"
     subscription: "Abo"
-#    invoices: "Invoices"
+    invoices: "Rechnungen"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Gezahlt am"
@@ -990,15 +1014,15 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     status_unsubscribed_active: "Du hast kein Abo, und bekommst keine Rechnung, aber dein Account ist weiterhin aktiv."
     status_unsubscribed: "Erhalte Zugang zu neuen Leveln, Helden, Gegenständen und Bonus Edelsteinen mit einem CodeCombat Abo!"
 
-#  account_invoices:
-#    amount: "Amount in US dollars"
-#    declined: "Your card was declined"
-#    invalid_amount: "Please enter a US dollar amount."
-#    not_logged_in: "Log in or create an account to access invoices."
-#    pay: "Pay Invoice"
-#    purchasing: "Purchasing..."
-#    retrying: "Server error, retrying."
-#    success: "Successfully paid. Thanks!"
+  account_invoices:
+    amount: "Betrag in US-Dollar"
+    declined: "Ihre Karte wurde nicht akzeptiert"
+    invalid_amount: "Bitte gib einen US-Dollar Betrag ein."
+    not_logged_in: "Melde dich an oder erstelle einen Account um deine Rechnungen an zu sehen."
+    pay: "Bezahle Rechnung"
+    purchasing: "Kaufe..."
+    retrying: "Serverfehler, versuche es erneut."
+    success: "Erfolgreich bezahlt. Danke!"
 
   loading_error:
     could_not_load: "Fehler beim Laden vom Server"
@@ -1060,8 +1084,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     feedback: "Feedback"
     payment_info: "Zahlungsinfo"
     campaigns: "Kampagne"
-#    poll: "Poll"
-#    user_polls_record: "Poll Voting History"
+    poll: "Umfrage"
+    user_polls_record: "Umfrageergebnisse"
 
   delta:
     added: "hinzugefügt"
