@@ -1,5 +1,12 @@
 ###
-This file will simulate games on node.js by emulating the browser environment.
+This file will simulate games on node.js by emulating the browser environment.  
+In order to use, followed these steps:
+1. Setup dev environment as usual
+2. Create a `login.coffee` file in coco which contains:
+module.exports = username: 'email@example.com', password: 'password'
+3. Run `./node_modules/coffee-script/bin/coffee ./headless_client.coffee`
+Alternatively, if you wish only to simulate a single game run `coffee ./headless_client.coffee one-game`
+Or, if you want to always simulate only one game, change the line below this to "true"
 ###
 simulateOneGame = false
 if process.argv[2] is 'one-game'
@@ -22,7 +29,8 @@ options =
   simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then 'http://127.0.0.1:3000' else 'https://codecombat.com'
+server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
+# Use direct instead of live site because jQlone's requests proxy doesn't do caching properly and CloudFlare gets too aggressive.
 
 # Disabled modules
 disable = [
@@ -42,6 +50,7 @@ Worker::removeEventListener = (what) ->
   if what is 'message'
     @onmessage = -> #This webworker api has only one event listener at a time.
 GLOBAL.tv4 = require('tv4').tv4
+GLOBAL.TreemaUtils = require './bower_components/treema/treema-utils.js'
 GLOBAL.marked = setOptions: ->
 store = {}
 GLOBAL.localStorage =
@@ -61,12 +70,16 @@ hookedLoader = (request, parent, isMain) ->
   if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request if options.debug
     return class fake
+  else if /node_modules[\\\/]aether[\\\/]/.test parent.id
+    null  # Let it through
   else if '/' in request and not (request[0] is '.') or request is 'application'
+    #console.log 'making path', path + '/app/' + request, 'from', path, request, 'with parent', parent
     request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
   console.log 'loading ' + request if options.debug
   originalLoader request, parent, isMain
+
 unhook = () ->
   m._load = originalLoader
 hook = () ->
@@ -89,6 +102,7 @@ GLOBAL.Backbone = require bowerComponentsPath + 'backbone/backbone'
 unhook()
 Backbone.$ = $
 require bowerComponentsPath + 'validated-backbone-mediator/backbone-mediator'
+Backbone.Mediator.setValidationEnabled false
 GLOBAL.Aether = require 'aether'
 # Set up new loader. Again.
 hook()

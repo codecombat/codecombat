@@ -1,4 +1,4 @@
-SearchView = require 'views/kinds/SearchView'
+SearchView = require 'views/common/SearchView'
 
 module.exports = class LevelSearchView extends SearchView
   id: 'editor-level-home-view'
@@ -6,6 +6,7 @@ module.exports = class LevelSearchView extends SearchView
   model: require 'models/Level'
   modelURL: '/db/level'
   tableTemplate: require 'templates/editor/level/table'
+  page: 'level'
 
   getRenderData: ->
     context = super()

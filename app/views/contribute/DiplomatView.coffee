@@ -1,6 +1,57 @@
 ContributeClassView = require './ContributeClassView'
 template = require 'templates/contribute/diplomat'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
+
+require("locale/en")
+require("locale/en-US")
+require("locale/en-GB")
+require("locale/ru")
+require("locale/de-DE")
+require("locale/de-AT")
+require("locale/de-CH")
+require("locale/es-419")
+require("locale/es-ES")
+require("locale/zh-HANS")
+require("locale/zh-HANT")
+require("locale/zh-WUU-HANS")
+require("locale/zh-WUU-HANT")
+require("locale/fr")
+require("locale/ja")
+require("locale/ar")
+require("locale/pt-BR")
+require("locale/pt-PT")
+require("locale/pl")
+require("locale/it")
+require("locale/tr")
+require("locale/nl-BE")
+require("locale/nl-NL")
+require("locale/fa")
+require("locale/cs")
+require("locale/sv")
+require("locale/id")
+require("locale/el")
+require("locale/ro")
+require("locale/vi")
+require("locale/hu")
+require("locale/th")
+require("locale/da")
+require("locale/ko")
+require("locale/sk")
+require("locale/sl")
+require("locale/fi")
+require("locale/bg")
+require("locale/nb")
+require("locale/nn")
+require("locale/he")
+require("locale/lt")
+require("locale/sr")
+require("locale/uk")
+require("locale/hi")
+require("locale/ur")
+require("locale/ms")
+require("locale/ca")
+require("locale/gl")
+require("locale/mk-MK")
 
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
@@ -19,6 +70,7 @@ module.exports = class DiplomatView extends ContributeClassView
     totalStrings = @countStrings @locale.en
     languageStats = {}
     for languageCode, language of @locale
+      continue if languageCode is 'update'
       languageStats[languageCode] =
         githubURL: "https://github.com/codecombat/codecombat/blob/master/app/locale/#{languageCode}.coffee"
         completion: @countStrings(language) / totalStrings
@@ -38,55 +90,50 @@ module.exports = class DiplomatView extends ContributeClassView
     en: []             # English - English
     'en-US': []        # English (US), English (US)
     'en-GB': []        # English (UK), English (UK)
-    'en-AU': []        # English (AU), English (AU)
-    ru: ['fess89', 'ser-storchak', 'Mr A', 'a1ip']             # русский язык, Russian
-    de: ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich']             # Deutsch, German
-    'de-DE': []        # Deutsch (Deutschland), German (Germany)
-    'de-AT': []        # Deutsch (Österreich), German (Austria)
-    'de-CH': []        # Deutsch (Schweiz), German (Switzerland)
-    es: []             # español, Spanish
-    'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza']       # español (América Latina), Spanish (Latin America)
-    'es-ES': ['Matthew Burt', 'DanielRodriguezRivero', 'Anon', 'Pouyio']        # español (ES), Spanish (Spain)
-    zh: ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng']             # 中文, Chinese
-    'zh-HANS': []      # 简体中文, Chinese (Simplified)
-    'zh-HANT': []      # 繁体中文, Chinese (Traditional)
+    ru: ['fess89', 'ser-storchak', 'Mr A', 'a1ip', 'iulianR', 'EagleTA', 'kisik21', 'Shpionus', 'kerradus', 'ImmortalJoker', 'nixel']             # русский язык, Russian
+    'de-DE': ['Dirk', 'faabsen', 'HiroP0', 'Anon', 'bkimminich', 'bahuma20', 'domenukk', 'dkundel', 'djsmith85']        # Deutsch (Deutschland), German (Germany)
+    'de-AT': ['djsmith85']        # Deutsch (Österreich), German (Austria)
+    'de-CH': ['greyhusky']        # Deutsch (Schweiz), German (Switzerland)
+    'es-419': ['Jesús Ruppel', 'Matthew Burt', 'Mariano Luzza', '2xG', 'Federico Tomas']       # español (América Latina), Spanish (Latin America)
+    'es-ES': ['Matthew Burt', 'DanielRodriguezRivero', 'Anon', 'Pouyio', '3rr3s3v3n', 'OviiiOne', 'Vindurrin']        # español (ES), Spanish (Spain)
+    'zh-HANS': ['Adam23', 'spacepope', 'yangxuan8282', 'Cheng Zheng', 'yfdyh000', 'julycoolwind', 'Vic020', 'onion7878', 'BonnieBBS', '1c7', 'ZephyrSails']      # 简体中文, Chinese (Simplified)
+    'zh-HANT': ['gintau', 'Adam23']      # 繁体中文, Chinese (Traditional)
     'zh-WUU-HANS': []  # 吴语, Wuu (Simplified)
-    'zh-WUU-HANT': []  # 吳語, Wuu (Traditional)
-    fr: ['Xeonarno', 'Elfisen', 'Armaldio', 'MartinDelille', 'pstweb', 'veritable', 'jaybi', 'xavismeh', 'Anon', 'Feugy']             # français, French
-    ja: ['g1itch', 'kengos', 'treby']             # 日本語, Japanese
-    ar: []             # العربية, Arabic
-    pt: []             # português, Portuguese
-    'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso']        # português do Brasil, Portuguese (Brazil)
-    'pt-PT': ['Matthew Burt', 'ReiDuKuduro', 'Imperadeiro98']        # Português (Portugal), Portuguese (Portugal)
-    pl: ['Anon', 'Kacper Ciepielewski']             # język polski, Polish
-    it: ['flauta']             # italiano, Italian
-    tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'wakeup']             # Türkçe, Turkish
-    nl: ['Glen De Cauwsemaecker', 'Guido Zuidhof', 'Ruben Vereecken', 'Jasper D\'haene']             # Nederlands, Dutch
-    'nl-BE': []        # Nederlands (België), Dutch (Belgium)
-    'nl-NL': []        # Nederlands (Nederland), Dutch (Netherlands)
+    'zh-WUU-HANT': ['benojan']  # 吳語, Wuu (Traditional)
+    fr: ['Xeonarno', 'Elfisen', 'Armaldio', 'MartinDelille', 'pstweb', 'veritable', 'jaybi', 'xavismeh', 'Anon', 'Feugy', 'dc55028', 'ChrisLightman', 'Oaugereau']             # français, French
+    ja: ['g1itch', 'kengos', 'treby', 'Coderaulic']             # 日本語, Japanese
+    ar: ['ahmed80dz', '5y']             # العربية, Arabic
+    'pt-BR': ['Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso', 'Bia41', 'jklemm']        # português do Brasil, Portuguese (Brazil)
+    'pt-PT': ['Matthew Burt', 'ReiDuKuduro', 'Imperadeiro98', 'batista', 'ProgramadorLucas', 'gutierri']        # Português (Portugal), Portuguese (Portugal)
+    pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk']             # język polski, Polish
+    it: ['flauta', 'AlessioPaternoster']             # italiano, Italian
+    tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'wakeup', 'gediz', 'ilisyus']             # Türkçe, Turkish
+    'nl-BE': ['Glen De Cauwsemaecker', 'Ruben Vereecken']        # Nederlands (België), Dutch (Belgium)
+    'nl-NL': ['Jasper D\'haene', 'Guido Zuidhof']        # Nederlands (Nederland), Dutch (Netherlands)
     fa: ['Reza Habibi (Rehb)']             # فارسی, Persian
-    cs: ['vanous']             # čeština, Czech
-    sv: []             # Svenska, Swedish
-    id: []             # Bahasa Indonesia, Indonesian
+    cs: ['vanous', 'Martin005']             # čeština, Czech
+    sv: ['iamhj']             # Svenska, Swedish
+    id: ['mlewisno-oberlin']             # Bahasa Indonesia, Indonesian
     el: ['Stergios']             # ελληνικά, Greek
     ro: []             # limba română, Romanian
     vi: ['An Nguyen Hoang Thien']             # Tiếng Việt, Vietnamese
-    hu: ['ferpeter', 'csuvsaregal', 'atlantisguru', 'Anon']             # magyar, Hungarian
+    hu: ['ferpeter', 'csuvsaregal', 'atlantisguru', 'Anon', 'kinez', 'bbeasmile', 'divaDseidnA']             # magyar, Hungarian
     th: ['Kamolchanok Jittrepit']             # ไทย, Thai
-    da: ['Einar Rasmussen', 'sorsjen', 'Randi Hillerøe', 'Anon']             # dansk, Danish
-    ko: []             # 한국어, Korean
-    sk: ['Anon']             # slovenčina, Slovak
+    da: ['Einar Rasmussen', 'sorsjen', 'Randi Hillerøe', 'Anon', 'Silwing', 'Rahazan', 'marc-portier']             # dansk, Danish
+    ko: ['Melondonut']             # 한국어, Korean
+    sk: ['Anon', 'Juraj Pecháč']             # slovenčina, Slovak
     sl: []             # slovenščina, Slovene
     fi: []             # suomi, Finnish
     bg: []             # български език, Bulgarian
-    no: ['bardeh']             # Norsk, Norwegian
-    nn: []             # Norwegian (Nynorsk), Norwegian Nynorsk
-    nb: []             # Norsk Bokmål, Norwegian (Bokmål)
-    he: []             # עברית, Hebrew
+    nb: ['bardeh', 'torehaug', 'ebirkenes','mcclane654', 'matifol', 'mogsie']             # Norsk Bokmål, Norwegian (Bokmål)
+    nn: []             # Norsk Nynorsk, Norwegian (Nynorsk)
+    he: ['OverProgram', 'monetita']             # עברית, Hebrew
     lt: []             # lietuvių kalba, Lithuanian
     sr: []             # српски, Serbian
-    uk: ['fess89']             # українська мова, Ukrainian
+    uk: ['fess89', 'ImmortalJoker', 'gorodsb', 'endrilian', 'OlenaGapak', 'probil', 'Rarst']             # українська мова, Ukrainian
     hi: []             # मानक हिन्दी, Hindi
     ur: []             # اُردُو, Urdu
     ms: []             # Bahasa Melayu, Bahasa Malaysia
-    ca: []             # Català, Catalan
+    ca: ['ArniMcFrag']             # Català, Catalan
+    gl: ['mcaeiror']             # Galego, Galician
+    'mk-MK': ['SuperPranx']             # Македонски, Macedonian

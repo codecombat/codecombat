@@ -2,11 +2,12 @@ log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 mongoose = require 'mongoose'
+hipchat = require '../hipchat'
 
 module.exports.setup = (app) ->
   # This is hacky and should probably get moved somewhere else, I dunno
   app.get '/db/cla.submissions', (req, res) ->
-    return errors.unauthorized(res, 'You must be an admin to view that information') unless req.user?.isAdmin()
+    return errors.unauthorized(res, 'You must be an admin to view that information') unless req.user?.isAdmin() or ('github' in (req.user?.get('permissions') ? []))
     res.setHeader('Content-Type', 'application/json')
     collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) ->
       return log.error "Couldn't fetch CLA submissions because #{err}" if err
@@ -25,7 +26,8 @@ module.exports.setup = (app) ->
     parts = module.split('/')
     module = parts[0]
     return getSchema(req, res, module) if parts[1] is 'schema'
-    return errors.unauthorized(res, 'Must have an identity to do anything with the db. Do you have cookies enabled?') unless req.user
+    if (not req.user) and req.route.method isnt 'get'
+      return errors.unauthorized(res, 'Must have an identity to do anything with the db. Do you have cookies enabled?')
 
     try
       moduleName = module.replace new RegExp('\\.', 'g'), '_'
@@ -40,10 +42,17 @@ module.exports.setup = (app) ->
       return handler.patch(req, res, parts[1]) if req.route.method is 'patch' and parts[1]?
       handler[req.route.method](req, res, parts[1..]...)
     catch error
-      log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
+      errorMessage = "Error trying db method #{req?.route?.method} route #{parts} from #{name}: #{error}"
+      if req.user?
+        userInfo = req.user.getUserInfo()
+        errorMessage += "\n-- User Info   Id: #{userInfo.id}  #{if req.user.isAnonymous() then '' else 'Email:'} #{userInfo.email}"
+      log.error(errorMessage)
       log.error(error)
       log.error(error.stack)
-      errors.notFound(res, "Route #{req.path} not found.")
+      # TODO: Generally ignore this error: error: Error trying db method get route analytics.log.event from undefined: Error: Cannot find module '../undefined'
+      unless "#{parts}" in ['analytics.users.active']
+        hipchat.sendHipChatMessage errorMessage, ['tower'], papertrail: true
+      errors.notFound(res, "Route #{req?.path} not found.")
 
 getSchema = (req, res, moduleName) ->
   try

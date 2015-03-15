@@ -3,7 +3,8 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
+GoalManager = require 'lib/world/GoalManager'
 
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
@@ -14,6 +15,7 @@ module.exports = class Angel extends CocoClass
 
   subscriptions:
     'level:flag-updated': 'onFlagEvent'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   constructor: (@shared) ->
     super()
@@ -37,7 +39,12 @@ module.exports = class Angel extends CocoClass
 
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
-  log: (args...) -> console.info "|#{@shared.godNick}'s #{@nick}|", args...
+  log: ->
+    # console.info.apply is undefined in IE9, CofeeScript splats invocation won't work.
+    # http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
+    message = "|#{@shared.godNick}'s #{@nick}|"
+    message += " #{arg}" for arg in arguments
+    console.info message
 
   testWorker: =>
     return if @destroyed
@@ -65,7 +72,11 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates  # Work ends here if we're headless.
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus  # Work ends here if we're headless.
+      when 'end-preload-frames'
+        clearTimeout @condemnTimeout
+        @beholdGoalStates event.data.goalStates, event.data.overallStatus, true
+
 
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
@@ -90,8 +101,8 @@ module.exports = class Angel extends CocoClass
       when 'user-code-problem'
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
       when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
-        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or @shared.firstWorld
+        Backbone.Mediator.publish 'god:world-load-progress-changed', progress: event.data.progress
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 
       # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.
@@ -104,28 +115,27 @@ module.exports = class Angel extends CocoClass
       else
         @log 'Received unsupported message:', event.data
 
-  beholdGoalStates: (goalStates) ->
+  beholdGoalStates: (goalStates, overallStatus, preload=false) ->
     return if @aborting
-    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates
+    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates, preload: preload, overallStatus: overallStatus
     @finishWork() if @shared.headless
 
   beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, streamingWorld
+    @streamingWorld = World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, @work.level, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (goalStates) -> (world) =>
-    return if @aborting
-    @streamingWorld = world
+    return if @aborting or @destroyed
     finished = world.frames.length is world.totalFrames
     firstChangedFrame = world.findFirstChangedFrame @shared.world
     eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'
     if finished
       @shared.world = world
-    Backbone.Mediator.publish eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame
+    Backbone.Mediator.publish eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame, finished: finished
     if finished
       for scriptNote in @shared.world.scriptNotes
         Backbone.Mediator.publish scriptNote.channel, scriptNote.event
@@ -142,6 +152,9 @@ module.exports = class Angel extends CocoClass
     @deserializationQueue = []
     @running = false
     _.remove @shared.busyAngels, @
+    clearTimeout @condemnTimeout
+    clearInterval @purgatoryTimer
+    @condemnTimeout = @purgatoryTimer = null
     @doWork()
 
   finalizePreload: ->
@@ -188,6 +201,7 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'abort'
 
   fireWorker: (rehire=true) =>
+    return if @destroyed
     @aborting = false
     @running = false
     _.remove @shared.busyAngels, @
@@ -199,9 +213,16 @@ module.exports = class Angel extends CocoClass
     @say 'Fired worker.'
     @initialized = false
     @work = null
+    @streamingWorld = null
+    @deserializationQueue = null
     @hireWorker() if rehire
 
   hireWorker: ->
+    unless Worker?
+      unless @initialized
+        @initialized = true
+        @doWork()
+      return null
     return if @worker
     @say 'Hiring worker.'
     @worker = new Worker @shared.workerCode
@@ -212,15 +233,26 @@ module.exports = class Angel extends CocoClass
     return unless @running and @work.realTime
     @worker.postMessage func: 'addFlagEvent', args: e
 
+  onStopRealTimePlayback: (e) ->
+    return unless @running and @work.realTime
+    @work.realTime = false
+    @worker.postMessage func: 'stopRealTimePlayback'
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
     work.testWorld = testWorld = new World work.userCodeMap
+    work.testWorld.levelSessionIDs = work.levelSessionIDs
+    work.testWorld.submissionCount = work.submissionCount
+    work.testWorld.flagHistory = work.flagHistory ? []
+    work.testWorld.difficulty = work.difficulty
     testWorld.loadFromLevel work.level
+    work.testWorld.preloading = work.preload
+    work.testWorld.headless = work.headless
+    work.testWorld.realTime = work.realTime
     if @shared.goalManager
-      testGM = new @shared.goalManager.constructor @testWorld
+      testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
       testGM.setCode work.userCodeMap
       testGM.worldGenerationWillBegin()
@@ -231,11 +263,12 @@ module.exports = class Angel extends CocoClass
 
     # If performance was really a priority in IE9, we would rework things to be able to skip this step.
     goalStates = testGM?.getGoalStates()
-    serialized = testWorld.serialize().serializedWorld
+    work.testWorld.goalManager.worldGenerationEnded() if work.testWorld.ended
+    serialized = testWorld.serialize()
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @angelsShare.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame, work.level
     window.BOX2D_ENABLED = true
-    @shared.lastSerializedWorldFrames = serialized.frames
+    @shared.lastSerializedWorldFrames = serialized.serializedWorld.frames
 
   doSimulateWorld: (work) ->
     work.t1 = now()
@@ -246,6 +279,7 @@ module.exports = class Angel extends CocoClass
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++
+    Backbone.Mediator.publish 'god:world-load-progress-changed', progress: 1
     work.testWorld.ended = true
     system.finish work.testWorld.thangs for system in work.testWorld.systems
     work.t2 = now()

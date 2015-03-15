@@ -1,0 +1,112 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+#leaderboard-modal
+
+  //- Clear modal defaults
+  
+  .modal-dialog
+    width: 820px
+    height: 570px
+    padding: 0
+    background: none
+    position: relative
+    top: 40px
+
+    
+  //- Background
+  
+  #leaderboard-background
+    position: absolute
+    top: -126px
+    left: -3px
+
+
+  //- Header
+  
+  .level-title
+    position: absolute
+    left: 172px
+    top: -46px
+    margin: 0
+    width: 457px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
+
+    
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 616px
+    top: -51px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 17px
+    cursor: pointer
+    z-index: 2
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+    
+  //- Nav bar
+
+  #leaderboard-nav
+    position: absolute
+    top: 53px
+    left: 42px
+    width: 178px
+
+    li
+      background: url(/images/pages/play/modal/menu-tab.png)
+      padding: 5px
+      margin: -5px 0
+      height: 80px
+      padding: 0
+      
+      &.active
+        background: url(/images/pages/play/modal/menu-tab-selected.png)
+        width: 197px
+
+      a
+        font-size: 18px
+        line-height: 25px
+        background: none
+        color: rgb(195,153,124)
+        font-weight: bold
+        padding: 14px 20px
+        font-family: $headings-font-family
+        text-transform: uppercase
+    
+        .timespan
+          margin-left: 20px
+          opacity: 0.75
+
+
+  //- Tab panels
+  
+  .leaderboard-tab-content
+    position: absolute
+    left: 219px
+    top: 55px
+    width: 571px
+    height: 490px
+    padding: 50px
+    overflow-y: scroll
+
+  ::-webkit-scrollbar
+    // So that the scrollbar doesn't go on top of the close button.
+    // Wish we could easily do this for Firefox.
+    display: none
+
+// Font size tweak for languages that don't fit 
+body[lang='ru']
+  #leaderboard-modal #leaderboard-nav a
+    font-size: 13px

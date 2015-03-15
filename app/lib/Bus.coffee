@@ -1,6 +1,6 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 CHAT_SIZE_LIMIT = 500 # no more than 500 messages
 
@@ -19,11 +19,7 @@ module.exports = Bus = class Bus extends CocoClass
     Bus.activeBuses[@docName] = @
 
   subscriptions:
-    'level-bus-echo-states': 'onEchoStates'
-    'me:synced': 'onMeSynced'
-
-  onEchoStates: ->
-    @notifyStateChanges()
+    'auth:me-synced': 'onMeSynced'
 
   connect: ->
     Backbone.Mediator.publish 'bus:connecting', {bus: @}
@@ -39,7 +35,6 @@ module.exports = Bus = class Bus extends CocoClass
     Backbone.Mediator.publish 'bus:connected', {bus: @}
 
   disconnect: ->
-    Firebase.goOffline()
     @fireRef?.off()
     @fireRef = null
     @fireChatRef?.off()
@@ -99,7 +94,7 @@ module.exports = Bus = class Bus extends CocoClass
     @onPlayerJoined(snapshot) if player.connected and not wasConnected
     Backbone.Mediator.publish('bus:player-states-changed', {states: @players, bus: @})
 
-  onMeSynced: =>
+  onMeSynced: ->
     @myConnection?.child('name').set(me.get('name'))
 
   countPlayers: -> _.size(@players)

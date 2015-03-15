@@ -1,9 +1,10 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 defaultScripts = require 'lib/DefaultScripts'
+require 'vendor/treema'
 
 module.exports = class ScriptsTabView extends CocoView
   id: 'editor-level-scripts-tab-view'
@@ -11,12 +12,20 @@ module.exports = class ScriptsTabView extends CocoView
   className: 'tab-pane'
 
   subscriptions:
-    'level-loaded': 'onLevelLoaded'
+    'editor:level-loaded': 'onLevelLoaded'
+    'editor:thangs-edited': 'onThangsEdited'
 
   constructor: (options) ->
     super options
     @world = options.world
     @files = options.files
+    $(window).on 'resize', @onWindowResize
+
+  destroy: ->
+    @scriptTreema?.destroy()
+    @scriptTreemas?.destroy()
+    $(window).off 'resize', @onWindowResize
+    super()
 
   onLoaded: ->
   onLevelLoaded: (e) ->
@@ -53,7 +62,7 @@ module.exports = class ScriptsTabView extends CocoView
       @selectedScriptPath = null
       return
 
-    thangIDs = @getThangIDs()
+    @thangIDs = @getThangIDs()
     treemaOptions =
       world: @world
       filePath: "db/level/#{@level.get('original')}"
@@ -61,7 +70,7 @@ module.exports = class ScriptsTabView extends CocoView
       view: @
       schema: Level.schema.properties.scripts.items
       data: selected.data
-      thangIDs: thangIDs
+      thangIDs: @thangIDs
       dimensions: @dimensions
       supermodel: @supermodel
       readOnly: me.get('anonymous')
@@ -82,13 +91,14 @@ module.exports = class ScriptsTabView extends CocoView
 
     newPath = selected.getPath()
     return if newPath is @selectedScriptPath
+    #@scriptTreema?.destroy() # TODO: get this to work
     @scriptTreema = @$el.find('#script-treema').treema treemaOptions
     @scriptTreema.build()
     @scriptTreema.childrenTreemas?.noteChain?.open()
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
+    (t.id for t in @level.get('thangs') ? [])
 
   onNewScriptAdded: (scriptNode) =>
     return unless scriptNode
@@ -108,7 +118,15 @@ module.exports = class ScriptsTabView extends CocoView
       treema.enableTracking()
 
   onScriptChanged: =>
+    return unless @selectedScriptPath
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
+
+  onThangsEdited: (e) ->
+    # Update in-place so existing Treema nodes refer to the same array.
+    @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
+
+  onWindowResize: (e) =>
+    @$el.find('#scripts-treema').collapse('show') if $('body').width() > 800
 
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'
@@ -121,8 +139,8 @@ class ScriptsNode extends TreemaArrayNode
 class ScriptNode extends TreemaObjectNode
   valueClass: 'treema-script'
   collection: false
-  buildValueForDisplay: (valEl) ->
-    val = @data.id or @data.channel
+  buildValueForDisplay: (valEl, data) ->
+    val = data.id or data.channel
     s = "#{val}"
     @buildValueForDisplaySimply valEl, s
 
@@ -133,7 +151,7 @@ class ScriptNode extends TreemaObjectNode
   onDeletePressed: (e) ->
     returnVal = super(e)
     if @callbacks.removeChild
-      @callbacks.removeChild() 
+      @callbacks.removeChild()
     returnVal
 
   onRightArrowPressed: ->
@@ -141,7 +159,6 @@ class ScriptNode extends TreemaObjectNode
 
   tabToCurrentScript: ->
     @settings.view.scriptTreema?.keepFocus()
-    window.v = @settings.view
     firstRow = @settings.view.scriptTreema?.$el.find('.treema-node:visible').data('instance')
     return unless firstRow?
     firstRow.select()
@@ -152,15 +169,15 @@ class PropertiesNode extends TreemaObjectNode
 class EventPropsNode extends TreemaNode.nodeMap.string
   valueClass: 'treema-event-props'
 
-  arrayToString: -> (@data or []).join('.')
+  arrayToString: -> (@getData() or []).join('.')
 
-  buildValueForDisplay: (valEl) ->
+  buildValueForDisplay: (valEl, data) ->
     joined = @arrayToString()
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-  buildValueForEditing: (valEl) -> 
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
     autocompleteValues = []
@@ -182,13 +199,13 @@ class EventPrereqsNode extends TreemaNode.nodeMap.array
     newTreema.childrenTreemas.eventProps?.edit()
 
 class EventPrereqNode extends TreemaNode.nodeMap.object
-  buildValueForDisplay: (valEl) ->
-    eventProp = (@data.eventProps or []).join('.')
+  buildValueForDisplay: (valEl, data) ->
+    eventProp = (data.eventProps or []).join('.')
     eventProp = '(unset)' unless eventProp.length
     statements = []
-    for key, value of @data
+    for key, value of data
       continue if key is 'eventProps'
-      comparison = @schema.properties[key].title
+      comparison = @workingSchema.properties[key].title
       value = value.toString()
       statements.push("#{comparison} #{value}")
     statements = statements.join(', ')
@@ -196,8 +213,8 @@ class EventPrereqNode extends TreemaNode.nodeMap.object
     @buildValueForDisplaySimply valEl, s
 
 class ChannelNode extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     autocompleteValues = ({label: val?.title or key, value: key} for key, val of Backbone.Mediator.channelSchemas)
     valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true)
     valEl

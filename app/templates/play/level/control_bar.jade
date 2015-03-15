@@ -1,19 +1,46 @@
-h4.home
+.left-cap
+.right-cap
+.center-chain
+.right-chain
+.wood-background
+
+.levels-link-area
+  a.levels-link(href=homeLink || "/")
+    .glyphicon.glyphicon-play
+    span(data-i18n="nav.play").home-text Levels
+
+if isMultiplayerLevel && !observing
+  .multiplayer-area-container
+    .multiplayer-area
+      .multiplayer-label(data-i18n="play_level.control_bar_multiplayer")
+      if multiplayerStatus
+        .multiplayer-status= multiplayerStatus
+      else
+        .multiplayer-status(data-i18n="play_level.control_bar_join_game")
+else
+  .level-name-area-container
+    .level-name-area
+      .level-label(data-i18n="play_level.level")
+      .level-name(title=difficultyTitle || "")
+        span= worldName
+        if levelDifficulty
+          sup.level-difficulty= levelDifficulty
+
+.buttons-area
+
+  if !observing
+    button.btn.btn-inverse#game-menu-button(title="Show game menu")
+      .hamburger
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      span.game-menu-text(data-i18n="play_level.game_menu") Game Menu
   
-  a(href=homeLink || "/") 
-    i.icon-home.icon-white
-    span(data-i18n="play_level.home") Home
+  if spectateGame
+    button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
+  
+  if !observing
+    button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
 
-h4.title
-  | #{worldName}
-  |  - 
-  a(href=editorLink, data-i18n="nav.editor", title="Open " + worldName + " in the Level Editor") Editor
-
-button.btn.btn-xs.btn-inverse.banner#game-menu-button(title="Show game menu", data-i18n="play_level.game_menu") Game Menu
-
-button.btn.btn-xs.btn-success.banner#docs-button(title="Show level instructions", data-i18n="play_level.guide") Guide
-
-if spectateGame
-  button.btn.btn-xs.btn-inverse.banner#next-game-button(title="Next Game", data-i18n="play_level.next-game") Next game!
-
-button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
+  if me.get('anonymous')
+    button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="signup.sign_up")

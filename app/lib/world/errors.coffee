@@ -2,8 +2,8 @@ Vector = require './vector'
 
 module.exports.ArgumentError = class ArgumentError extends Error
   @className: 'ArgumentError'
-  constructor: (@message, @functionName, @argumentName, @intendedType, @actualValue, @numArguments) ->
-    super message
+  constructor: (@message, @functionName, @argumentName, @intendedType, @actualValue, @numArguments, @hint) ->
+    super @message
     @name = 'ArgumentError'
     if Error.captureStackTrace?
       Error.captureStackTrace @, @constructor

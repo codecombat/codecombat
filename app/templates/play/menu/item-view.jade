@@ -1,0 +1,25 @@
+img(src=item.getPortraitURL())
+div.item-info
+  if includes.name
+    h4= item.get('name')
+  if includes.stats || (includes.props && props.length)
+    ul.list-unstyled
+      if includes.stats
+        for stat, prop in stats
+          if stat.display == 'true'
+            li= stat.name
+          else
+            li #{stat.name}: #{stat.display}
+      if includes.props && props.length
+        li Grants:
+          for prop in props
+            |  
+            code= prop
+  span.status-message
+    span.spl.should-equip-message(data-i18n="inventory.should_equip")
+    span.spl.equipped-message(data-i18n="inventory.equipped")
+    span.spl.locked-message(data-i18n="inventory.locked")
+    span.spl.restricted-message(data-i18n="inventory.restricted")
+.clearfix
+
+ 

@@ -1,20 +1,23 @@
-UserView = require 'views/kinds/UserView'
+UserView = require 'views/common/UserView'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
-template = require 'templates/user/user_home'
-{me} = require 'lib/auth'
+template = require 'templates/user/main-user-view'
+{me} = require 'core/auth'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
 class LevelSessionsCollection extends CocoCollection
   model: LevelSession
 
   constructor: (userID) ->
-    @url = "/db/user/#{userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,submittedCodeLanguage,totalScore&order=-1"
+    @url = "/db/user/#{userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,codeLanguage,submittedCodeLanguage,totalScore&order=-1"
     super()
 
 module.exports = class MainUserView extends UserView
   id: 'user-home'
   template: template
+
+  events:
+    'click .more-button': 'onClickMoreButton'
 
   constructor: (userID, options) ->
     super options
@@ -30,7 +33,9 @@ module.exports = class MainUserView extends UserView
           multiPlayerSessions.push levelSession
         else
           singlePlayerSessions.push levelSession
-        languageCounts[levelSession.get 'submittedCodeLanguage'] = (languageCounts[levelSession.get 'submittedCodeLanguage'] or 0) + 1
+        language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
+        if language
+          languageCounts[language] = (languageCounts[language] or 0) + 1
       mostUsedCount = 0
       favoriteLanguage = null
       for language, count of languageCounts
@@ -49,6 +54,11 @@ module.exports = class MainUserView extends UserView
       @supermodel.resetProgress()
       @levelSessions = new LevelSessionsCollection @user.getSlugOrID()
       @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
-      @supermodel.loadCollection @levelSessions, 'levelSessions'
-      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements'
+      @supermodel.loadCollection @levelSessions, 'levelSessions', {cache: false}
+      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements', {cache: false}
     super()
+
+  onClickMoreButton: (e) ->
+    panel = $(e.target).closest('.panel')
+    panel.find('tr.hide').removeClass('hide')
+    panel.find('.panel-footer').remove()

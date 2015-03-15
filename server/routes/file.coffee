@@ -9,24 +9,24 @@ module.exports.setup = (app) ->
   app.all '/file*', (req, res) ->
     return fileGet(req, res) if req.route.method is 'get'
     return filePost(req, res) if req.route.method is 'post'
-    return errors.badMethod(res, ['GET', 'POST'])
+    return fileDelete(req, res) if req.route.method is 'delete'
+    return errors.badMethod(res, ['GET', 'POST', 'DELETE'])
 
+fileDelete = (req, res) ->
+  return errors.forbidden(res) unless req.user
+  query = parsePathIntoQuery(req.path)
+  return errors.badInput(res) if not query.filename
+  Grid.gfs.collection('media').findOne query, (err, filedata) =>
+    return errors.notFound(res) if not filedata
+    return errors.forbidden(res) unless userCanEditFile(req.user, filedata)
+    Grid.gfs.remove {_id: filedata._id, root: 'media'}, (err) ->
+      return errors.serverError(res) if err
+      return res.end()
+    
 fileGet = (req, res) ->
-  path = req.path[6..]
-  path = decodeURI path
-  isFolder = false
-  try
-    objectId = mongoose.Types.ObjectId(path)
-    query = objectId
-  catch e
-    path = path.split('/')
-    filename = path[path.length-1]
-    path = path[...path.length-1].join('/')
-    query =
-      'metadata.path': path
-    if filename then query.filename = filename else isFolder = true
+  query = parsePathIntoQuery(req.path)
 
-  if isFolder
+  if not query.filename # it's a folder, return folder contents
     Grid.gfs.collection('media').find query, (err, cursor) ->
       return errors.serverError(res) if err
       results = cursor.toArray (err, results) ->
@@ -35,7 +35,7 @@ fileGet = (req, res) ->
         res.send(results)
         res.end()
 
-  else
+  else # it's a single file
     Grid.gfs.collection('media').findOne query, (err, filedata) =>
       return errors.notFound(res) if not filedata
       readstream = Grid.gfs.createReadStream({_id: filedata._id, root: 'media'})
@@ -48,6 +48,22 @@ fileGet = (req, res) ->
       res.setHeader('Cache-Control', 'public')
       readstream.pipe(res)
       handleStreamEnd(res, res)
+      
+parsePathIntoQuery = (path) ->
+  path = path[6..]
+  path = decodeURI path
+  try
+    objectId = mongoose.Types.ObjectId(path)
+    query = objectId
+  catch e
+    path = path.split('/')
+    filename = path[path.length-1]
+    path = path[...path.length-1].join('/')
+    query =
+      'metadata.path': path
+    query.filename = filename if filename
+
+  query
 
 postFileSchema =
   type: 'object'

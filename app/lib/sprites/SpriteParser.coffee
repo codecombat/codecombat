@@ -37,17 +37,15 @@ module.exports = class SpriteParser
     blocks = @findBlocks ast, source
     containers = _.filter blocks, {kind: 'Container'}
     movieClips = _.filter blocks, {kind: 'MovieClip'}
-    if movieClips.length
-      # First movie clip is root, so do it last
-      movieClips = movieClips[1 ... movieClips.length].concat([movieClips[0]])
-    else if containers.length
-      # First container is root, so do it last
-      containers = containers[1 ... containers.length].concat([containers[0]])
+
     mainClip = _.last(movieClips) ? _.last(containers)
     @animationName = mainClip.name
-    for container in containers
+    for container, index in containers
+      if index is containers.length - 1 and not movieClips.length and container.bounds?.length
+        container.bounds[0] -= @width / 2
+        container.bounds[1] -= @height / 2
       [shapeKeys, localShapes] = @getShapesFromBlock container, source
-      localContainers = @getContainersFromMovieClip container, source
+      localContainers = @getContainersFromMovieClip container, source, true # Added true because anya attack was breaking, but might break other imports
       addChildArgs = @getAddChildCallArguments container, source
       instructions = []
       for bn in addChildArgs
@@ -62,12 +60,26 @@ module.exports = class SpriteParser
           if c.bn is bn
             instructions.push {t: c.t, gn: c.gn}
             break
+      continue unless container.bounds and instructions.length
       @addContainer {c: instructions, b: container.bounds}, container.name
-    for movieClip in movieClips
+
+    childrenMovieClips = []
+
+    for movieClip, index in movieClips
+      lastBounds = null
+      # fill in bounds which are null...
+      for bounds, boundsIndex in movieClip.frameBounds
+        if not bounds
+          movieClip.frameBounds[boundsIndex] = _.clone(lastBounds)
+        else
+          lastBounds = bounds
+
       localGraphics = @getGraphicsFromBlock(movieClip, source)
       [shapeKeys, localShapes] = @getShapesFromBlock movieClip, source
       localContainers = @getContainersFromMovieClip movieClip, source, true
       localAnimations = @getAnimationsFromMovieClip movieClip, source, true
+      for animation in localAnimations
+        childrenMovieClips.push(animation.gn)
       localTweens = @getTweensFromMovieClip movieClip, source, localShapes, localContainers, localAnimations
       @addAnimation {
         shapes: localShapes
@@ -78,6 +90,14 @@ module.exports = class SpriteParser
         bounds: movieClip.bounds
         frameBounds: movieClip.frameBounds
       }, movieClip.name
+
+    for movieClip in movieClips
+      if movieClip.name not in childrenMovieClips
+        for bounds in movieClip.frameBounds
+          bounds[0] -= @width / 2
+          bounds[1] -= @height / 2
+        movieClip.bounds[0] -= @width / 2
+        movieClip.bounds[1] -= @height / 2
 
     @saveToModel()
     return movieClips[0]?.name
@@ -174,7 +194,7 @@ module.exports = class SpriteParser
             frameBoundsSource = @subSourceFromRange frameBoundsRange, source
             if frameBoundsSource.search(/\[rect/) is -1  # some other statement; we don't have multiframe bounds
               console.log 'Didn\'t have multiframe bounds for this movie clip.'
-              frameBounds = [nominalBounds]
+              frameBounds = [_.clone(nominalBounds)]
             else
               lastRect = nominalBounds
               frameBounds = []
@@ -192,12 +212,7 @@ module.exports = class SpriteParser
                   bounds = [0, 0, 1, 1]  # Let's try this.
                 frameBounds.push _.clone bounds
           else
-            frameBounds = [nominalBounds]
-
-          # Subtract half of width/height parsed from lib.properties
-          for bounds in frameBounds
-            bounds[0] -= @width / 2
-            bounds[1] -= @height / 2
+            frameBounds = [_.clone(nominalBounds)]
 
           functionExpressions.push {name: name, bounds: nominalBounds, frameBounds: frameBounds, expression: node.parent.parent, kind: kind}
     @walk ast, null, gatherFunctionExpressions
@@ -241,9 +256,13 @@ module.exports = class SpriteParser
       if fillCall.callee.property.name is 'lf'
         linearGradientFillSource = @subSourceFromRange fillCall.parent.range, source
         linearGradientFill = @grabFunctionArguments linearGradientFillSource.replace(/.*?lf\(/, 'lf('), true
+      else if fillCall.callee.property.name is 'rf'
+        radialGradientFillSource = @subSourceFromRange fillCall.parent.range, source
+        radialGradientFill = @grabFunctionArguments radialGradientFillSource.replace(/.*?lf\(/, 'lf('), true
       else
         fillColor = fillCall.arguments[0]?.value ? null
-        console.error 'What is this?! Not a fill!' unless fillCall.callee.property.name is 'f'
+        callName = fillCall.callee.property.name
+        console.error 'What is this?! Not a fill!', callName unless callName is 'f'
       strokeCall = node.parent.parent.parent.parent
       if strokeCall.object.callee.property.name is 'ls'
         linearGradientStrokeSource = @subSourceFromRange strokeCall.parent.range, source
@@ -294,6 +313,7 @@ module.exports = class SpriteParser
       shape.ss = strokeStyle if strokeStyle
       shape.fc = fillColor if fillColor
       shape.lf = linearGradientFill if linearGradientFill
+      shape.rf = radialGradientFill if radialGradientFill
       shape.ls = linearGradientStroke if linearGradientStroke
       if name.search('shape') isnt -1 and shape.fc is 'rgba(0,0,0,0.451)' and not shape.ss and not shape.sc
         console.log 'Skipping a shadow', name, shape, 'because we\'re doing shadows separately now.'
@@ -370,7 +390,7 @@ module.exports = class SpriteParser
         name = node.callee.property?.name
         return unless name in ['get', 'to', 'wait']
         return if name is 'get' and callExpressions.length # avoid Ease calls in the tweens
-        flattenedRanges = _.flatten [a.range for a in node.arguments]
+        flattenedRanges = _.flatten [(a.range for a in node.arguments)]
         range = [_.min(flattenedRanges), _.max(flattenedRanges)]
         # Replace 'this.<local>' references with just the 'name'
         argsSource = @subSourceFromRange(range, source)

@@ -9,7 +9,7 @@ module.exports = $ = (input) ->
 
 # Non-standard jQuery stuff. Don't use outside of server.
 $._debug = false
-$._server = 'https://codecombat.com'
+$._server = 'http://direct.codecombat.com'
 $._cookies = request.jar()
 
 $.when = Deferred.when

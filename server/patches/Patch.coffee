@@ -1,5 +1,5 @@
 mongoose = require('mongoose')
-deltas = require '../../app/lib/deltas'
+deltas = require '../../app/core/deltas'
 log = require 'winston'
 {handlers} = require '../commons/mapping'
 

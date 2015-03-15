@@ -1,8 +1,8 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/employer_signup_modal'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 User = require 'models/User'
-auth = require 'lib/auth'
+auth = require 'core/auth'
 me = auth.me
 
 module.exports = class EmployerSignupModal extends ModalView
@@ -11,8 +11,8 @@ module.exports = class EmployerSignupModal extends ModalView
   closeButton: true
 
   subscriptions:
-    'server-error': 'onServerError'
-    'linkedin-loaded': 'onLinkedInLoaded'
+    'errors:server-error': 'onServerError'
+    'auth:linkedin-api-loaded': 'onLinkedInLoaded'
     'created-user-without-reload': 'createdAccount'
 
   events:
@@ -24,6 +24,7 @@ module.exports = class EmployerSignupModal extends ModalView
 
   constructor: (options) ->
     super(options)
+    return  # Removed LinkedIn, so if we want to resurrect the EmployerSignupModal, we'll want to redo it without LinkedIn auth.
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
     window.tracker?.trackEvent 'Started Employer Signup'
     @reloadWhenClosed = false
@@ -57,7 +58,7 @@ module.exports = class EmployerSignupModal extends ModalView
   getRenderData: ->
     context = super()
     context.userIsAuthorized = @authorizedWithLinkedIn
-    context.userHasSignedContract = 'employer' in me.get('permissions')
+    context.userHasSignedContract = 'employer' in me.get('permissions', true)
     context.userIsAnonymous = context.me.get('anonymous')
     context.sentMoreInfoEmail = @sentMoreInfoEmail
     context
@@ -74,7 +75,7 @@ module.exports = class EmployerSignupModal extends ModalView
 
   handleAgreementSuccess: (result) ->
     window.tracker?.trackEvent 'Employer Agreed to Contract'
-    me.fetch()
+    me.fetch cache: false
     window.location.reload()
 
   handleAgreementFailure: (error) ->
@@ -129,7 +130,7 @@ module.exports = class EmployerSignupModal extends ModalView
     @listenTo me, 'sync', =>
       @render()
       IN.parse()
-    me.fetch()
+    me.fetch cache: false
 
   destroy: ->
     reloadWhenClosed = @reloadWhenClosed

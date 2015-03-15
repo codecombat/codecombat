@@ -10,7 +10,7 @@ describe 'Problem', ->
       addMarker: ->
     }
   }
-  aether = { 
+  aether = {
     raw: "this.say('hi');\nthis.sad('bye');"
     language: { id: 'javascript' }
   }
@@ -27,7 +27,8 @@ describe 'Problem', ->
   }
   levelID = 'awesome'
 
-  it 'save user code problem', ->
+  # TODO: Problems are no longer saved when creating Problems; instead it's in SpellView. Update tests?
+  xit 'save user code problem', ->
     new Problem aether, aetherProblem, ace, false, true, levelID
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
@@ -46,7 +47,7 @@ describe 'Problem', ->
     expect(params.language).toEqual(aether.language.id)
     expect(params.levelID).toEqual(levelID)
 
-  it 'save user code problem no range', ->
+  xit 'save user code problem no range', ->
     aetherProblem.range = null
     new Problem aether, aetherProblem, ace, false, true, levelID
     expect(jasmine.Ajax.requests.count()).toBe(1)
@@ -68,7 +69,7 @@ describe 'Problem', ->
     expect(params.codeSnippet).toBeUndefined()
     expect(params.errRange).toBeUndefined()
 
-  it 'save user code problem multi-line snippet', ->
+  xit 'save user code problem multi-line snippet', ->
     aether.raw = "this.say('hi');\nthis.sad\n('bye');"
     aetherProblem.range = [ { row: 1 }, { row: 2 } ]
 

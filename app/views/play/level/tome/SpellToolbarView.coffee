@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell_toolbar'
 
 module.exports = class SpellToolbarView extends CocoView
@@ -7,12 +7,16 @@ module.exports = class SpellToolbarView extends CocoView
   progressHoverDelay: 500
 
   subscriptions:
-    'spell-step-backward': 'onStepBackward'
-    'spell-step-forward': 'onStepForward'
+    'tome:spell-step-backward': 'onStepBackward'
+    'tome:spell-step-forward': 'onStepForward'
 
   events:
-    'mousemove .spell-progress': 'onProgressHover'
-    'mouseout .spell-progress': 'onProgressMouseOut'
+    'mousedown .spell-progress': 'onProgressMouseDown'
+    'mouseup .spell-progress': 'onProgressMouseUp'
+    'mousemove .spell-progress': 'onProgressMouseMove'
+    'tapstart .spell-progress': 'onProgressTapStart'
+    'tapend .spell-progress': 'onProgressTapEnd'
+    'tapmove .spell-progress': 'onProgressTapMove'
     'click .step-backward': 'onStepBackward'
     'click .step-forward': 'onStepForward'
 
@@ -68,25 +72,37 @@ module.exports = class SpellToolbarView extends CocoView
     statementIndex = Math.floor ratio * total
     @setStatementIndex statementIndex unless statementIndex is @statementIndex
 
-  onProgressHover: (e) ->
-    return @onProgressHoverLong(e) if @maintainIndexHover
-    @lastHoverEvent = e
-    @hoverTimeout = _.delay @onProgressHoverLong, @progressHoverDelay unless @hoverTimeout
+  onProgressMouseDown: (e) ->
+    @dragging = true
+    @scrubProgress e
+    Backbone.Mediator.publish 'level:set-playing', playing: false
 
-  onProgressHoverLong: (e) =>
-    e ?= @lastHoverEvent
-    @hoverTimeout = null
-    offsetX = e.offsetX or e.clientX - $(e.target).offset().left
-    @setStatementRatio offsetX / @$el.find('.progress').width()
+  onProgressMouseUp: (e) ->
+    @dragging = false
+
+  onProgressMouseMove: (e) ->
+    return unless @dragging
+    @scrubProgress e
+
+  onProgressTapStart: (e, touchData) ->
+    # Haven't tested tap versions, don't even need them for iPad app, but hey, it worked for the playback scrubber.
+    @dragging = true
+    @scrubProgress e, touchData
+
+  onProgressTapEnd: (e, touchData) ->
+    @dragging = false
+
+  onProgressTapMove: (e, touchData) ->
+    return unless @dragging
+    @scrubProgress e, touchData
+
+  scrubProgress: (e, touchData) ->
+    screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    offsetX = screenOffsetX - @$el.find('.spell-progress').offset().left
+    offsetX = Math.max offsetX, 0
+    @setStatementRatio offsetX / @$el.find('.spell-progress').width()
     @updateTime()
-    @maintainIndexHover = true
     @updateScroll()
-
-  onProgressMouseOut: (e) ->
-    @maintainIndexHover = false
-    if @hoverTimeout
-      clearTimeout @hoverTimeout
-      @hoverTimeout = null
 
   onStepBackward: (e) -> @step -1
   onStepForward: (e) -> @step 1
@@ -95,12 +111,13 @@ module.exports = class SpellToolbarView extends CocoView
     @setStatementIndex @statementIndex + delta
     @updateTime() if @statementTime isnt lastTime
     @updateScroll()
+    Backbone.Mediator.publish 'level:set-playing', playing: false
 
   updateTime: ->
     @maintainIndexScrub = true
     clearTimeout @maintainIndexScrubTimeout if @maintainIndexScrubTimeout
     @maintainIndexScrubTimeout = _.delay (=> @maintainIndexScrub = false), 500
-    Backbone.Mediator.publish 'level-set-time', time: @statementTime, scrubDuration: 500
+    Backbone.Mediator.publish 'level:set-time', time: @statementTime, scrubDuration: 500
 
   updateScroll: ->
     return unless statementStart = @callState?.statements?[@statementIndex]?.range[0]
@@ -112,7 +129,7 @@ module.exports = class SpellToolbarView extends CocoView
     return if callState is @callState and statementIndex is @statementIndex
     return unless @callState = callState
     @suppressMetricsUpdates = true
-    if not @maintainIndexHover and not @maintainIndexScrub and statementIndex? and callState.statements[statementIndex]?.userInfo.time isnt @statementTime
+    if not @maintainIndexScrub and not @dragging and statementIndex? and callState.statements[statementIndex]?.userInfo.time isnt @statementTime
       @setStatementIndex statementIndex
     else
       @setStatementRatio @statementRatio

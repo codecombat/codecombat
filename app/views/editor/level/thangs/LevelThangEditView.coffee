@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
@@ -19,14 +19,17 @@ module.exports = class LevelThangEditView extends CocoView
     'click #thang-type-link span': 'toggleTypeEdit'
     'blur #thang-name-link input': 'toggleNameEdit'
     'blur #thang-type-link input': 'toggleTypeEdit'
+    'keydown #thang-name-link input': 'toggleNameEditIfReturn'
+    'keydown #thang-type-link input': 'toggleTypeEditIfReturn'
 
   constructor: (options) ->
     options ?= {}
     super options
     @world = options.world
-    @thangData = options.thangData ? {}
+    @thangData = $.extend true, {}, options.thangData ? {}
     @level = options.level
-    @oldID = @thangData.id
+    @oldPath = options.oldPath
+    @reportChanges = _.debounce @reportChanges, 1000
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -36,11 +39,14 @@ module.exports = class LevelThangEditView extends CocoView
   onLoaded: -> @render()
   afterRender: ->
     super()
+    thangType = @supermodel.getModelByOriginal(ThangType, @thangData.thangType)
     options =
       components: @thangData.components
       supermodel: @supermodel
       level: @level
       world: @world
+
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -51,18 +57,10 @@ module.exports = class LevelThangEditView extends CocoView
     thangTypeName = thangType?.get('name') or 'None'
     input.val(thangTypeName)
     @$el.find('#thang-type-link span').text(thangTypeName)
-    window.input = input
     @hideLoading()
 
-  saveThang: (e) ->
-    # Make sure it validates first?
-    event =
-      thangData: @thangData
-      id: @oldID
-    Backbone.Mediator.publish 'level-thang-edited', event
-
   navigateToAllThangs: ->
-    Backbone.Mediator.publish 'level-thang-done-editing'
+    Backbone.Mediator.publish 'editor:level-thang-done-editing', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}
 
   toggleNameEdit: ->
     link = @$el.find '#thang-name-link'
@@ -73,7 +71,6 @@ module.exports = class LevelThangEditView extends CocoView
     link.find('span, input').toggle()
     input.select() unless wasEditing
     @thangData.id = span.text()
-    @saveThang()
 
   toggleTypeEdit: ->
     link = @$el.find '#thang-type-link'
@@ -87,8 +84,17 @@ module.exports = class LevelThangEditView extends CocoView
     thangType = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is thangTypeName
     if thangType and wasEditing
       @thangData.thangType = thangType.get('original')
-    @saveThang()
+
+  toggleNameEditIfReturn: (e) ->
+    @$el.find('#thang-name-link input').blur() if e.which is 13
+
+  toggleTypeEditIfReturn: (e) ->
+    @$el.find('#thang-type-link input').blur() if e.which is 13
 
   onComponentsChanged: (components) =>
     @thangData.components = components
-    @saveThang()
+    @reportChanges()
+
+  reportChanges: =>
+    return if @destroyed
+    Backbone.Mediator.publish 'editor:level-thang-edited', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}

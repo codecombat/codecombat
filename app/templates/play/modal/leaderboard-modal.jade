@@ -1,0 +1,27 @@
+.modal-dialog
+  .modal-content
+    img(src="/images/pages/play/modal/leaderboard-background.png", draggable="false")#leaderboard-background
+
+    h1.level-title= levelName
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    ul#leaderboard-nav.nav.nav-pills.nav-stacked
+      - var lastScoreType = null;
+      for submenu, index in submenus
+        if lastScoreType && submenu.scoreType != lastScoreType
+          br
+        li(class=index ? "" : "active")
+          a(href='#' + submenu.scoreType + '-' + submenu.timespan + '-view', data-toggle='tab')
+            if submenu.scoreType != lastScoreType
+              .scoreType(data-i18n='leaderboard.' + submenu.scoreType.replace('-', '_'))= submenu.scoreType
+            else
+              .scoreType &nbsp;
+            .timespan(data-i18n='leaderboard.' + submenu.timespan)
+            - lastScoreType = submenu.scoreType;
+
+    .tab-content.leaderboard-tab-content
+      for submenu, index in submenus
+        .tab-pane(id=submenu.scoreType + '-' + submenu.timespan + '-view')
+          .leaderboard-tab-view

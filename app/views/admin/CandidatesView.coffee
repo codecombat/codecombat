@@ -1,8 +1,8 @@
-RootView = require 'views/kinds/RootView'
+RootView = require 'views/core/RootView'
 template = require 'templates/admin/candidates'
 User = require 'models/User'
 UserRemark = require 'models/UserRemark'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 
@@ -23,7 +23,13 @@ module.exports = class CandidatesView extends RootView
 
   constructor: (options) ->
     super options
-    @getCandidates()
+    #@candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
+    @candidates = models: []  # Disabling, since we got rid of the index that fetches these.
+    @remarks = @supermodel.loadCollection(new UserRemarksCollection(), 'user_remarks').model
+
+  onLoaded: ->
+    super()
+    @setUpScrolling()
 
   afterRender: ->
     super()
@@ -47,21 +53,9 @@ module.exports = class CandidatesView extends RootView
     ctx._ = _
     ctx
 
-  isEmployer: ->
-    userPermissions = me.get('permissions') ? []
-    _.contains userPermissions, "employer"
+  isEmployer: -> 'employer' in me.get('permissions', true)
 
-  getCandidates: ->
-    @candidates = new CandidatesCollection()
-    @candidates.fetch()
-    @remarks = new UserRemarksCollection()
-    @remarks.fetch()
-    # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
-    @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
-    @listenToOnce @remarks, 'all', @renderCandidatesAndSetupScrolling
-
-  renderCandidatesAndSetupScrolling: =>
-    @render()
+  setUpScrolling: ->
     $(".nano").nanoScroller()
     if window.history?.state?.lastViewedCandidateID
       $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
@@ -69,9 +63,9 @@ module.exports = class CandidatesView extends RootView
       $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
+    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get('permissions', true))
       @openModalView new EmployerSignupModal
-      window.location.hash = ""
+      window.location.hash = ''
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html

@@ -1,38 +1,39 @@
-@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
 
 @mixin editor-height($extraHeight)
-  @include box-sizing(border-box)
   width: 98%
   height: 83%
-  height: unquote("-webkit-calc(100% - 60px -")$extraHeight unquote(")")
-  height: unquote("calc(100% - 60px -")$extraHeight unquote(")")
+  height: unquote("-webkit-calc(100% - 100px -")$extraHeight unquote(")")
+  height: unquote("calc(100% - 100px -")$extraHeight unquote(")")
 
 #spell-view
-  position: absolute
-  left: 10px
-  top: 48px
-  bottom: 121px
-  // Bottom relates to .palette height and padding-top
-  right: 10px
-  z-index: 1
-  // Set z-index above palette
+  margin-top: 10px
+  padding-top: 20px
+  padding-left: 30px
+  padding-bottom: 95px
   display: none
+  position: relative
+  z-index: 1
 
   &.shown
     display: block
 
   .code-background
     position: absolute
-    top: 0
+    top: -68px
+    left: 0px
     height: 100%
-    width: 100%
-    
+    right: -10px
+    border: 1px solid transparent
+
   span.code-background
-    border-width: 40px
-    border-image: url(/images/level/code_editor_background.png) 40 fill round
+    border-width: 124px 76px 64px 40px
+    border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill round
 
   img.code-background
     display: none
+    width: 100%
 
   .save-status
     display: none
@@ -43,7 +44,7 @@
   .firepad
     // When Firepad is active, it wraps .ace_editor in .firepad.
     @include editor-height(0px)
-    width: 98%
+    width: 94%
 
     .ace_editor
       width: 100%
@@ -55,55 +56,107 @@
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
     @include editor-height(0px)
-    width: 98%
+    width: 94%
     position: relative
     background-color: transparent
     line-height: 20px
     overflow: visible
-
-    &.user-code-problem.spell-cast
-      @include editor-height(60px)
+    // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
+    font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
     &.disabled
-      @include opacity(80)
-      .ace_cursor
-        @include opacity(20)
+      @include opacity(0.8)
+      .ace_cursor, .executing, .ace_active-line, .ace_gutter-active-line
+        @include opacity(0.1)
 
     .ace_gutter
-      background-color: rgba(255, 255, 255, 0.25)
+      background-color: transparent
+      border-right: 1px solid rgb(195, 178, 156)
+      //background-color: rgba(255, 255, 255, 0.25)
       width: 47px
       margin-left: 4px
-      border-bottom: 1px dotted #2f261d
+      
+    // override ace visible to get the experimental large current line executing arrow visible
+    .ace_gutter
+      overflow: visible
+      
+    .ace_layer
+      overflow: visible
+    // End experiment....
 
     .ace_scroller
       background-color: transparent
-      border-bottom: 1px dotted #2f261d
+      //padding-left: 10px  // Interrupts gutter and line highlighting
+
+    .ace_active-line, .ace_gutter-active-line
+      background-color: rgba(255, 255, 255, 0.4)
 
     .ace_content
-      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
+      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error, .problem-line
         position: absolute
     .executing
       // https://github.com/codecombat/codecombat/issues/6
-      background-color: rgba(50, 255, 80, 0.65)
+      background-color: rgba(255, 255, 255, 0.75)
       @include gradient-striped()
+      outline: 2px outset #0099ff
+      @include box-shadow(1px 1px 4px black)
+    &.playback-ended .executing, &.user-code-problem .executing
+      background-color: rgba(50, 255, 80, 0.65)
+      outline: 0
+      @include box-shadow(0 0 0px black)
     .executed
       background-color: rgba(110, 110, 110, 0.12)
+
+    +keyframes(pulseRedBackground)
+      from
+        background-color: rgba(255, 45, 27, 0.4)
+      50%
+        background-color: rgba(255, 45, 27, 0.2)
+      to
+        background-color: rgba(255, 45, 27, 0.4)
+
+    // problem-marker-#{@aetherProblem.level} set in Problem.coffee
     .problem-marker-info
       background-color: rgba(196, 163, 184, 0.25)
     .problem-marker-warning
       background-color: rgba(100, 65, 20, 0.25)
     .problem-marker-error
-      background-color: rgba(110, 45, 27, 0.25)
+      background-color: rgba(255, 45, 27, 0.5)
+    .problem-line
+      // TODO: Pulses too quickly during playback
+      @include animation(pulseRedBackground 1s infinite)
 
-    .executing:not(.ace_gutter-cell)
-      background-size: 40px 40px
-      text-shadow: 1px 1px 1px #000
-      @include animation(progress-bar-stripes 2s linear infinite)
+    &:not(.playback-ended):not(.user-code-problem)
+      .executing:not(.ace_gutter-cell)
+        background-size: 40px 40px
+        @include animation(progress-bar-stripes 0.5s linear infinite)
 
-    .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
-      margin-left: 1px
-      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
-      background-position: 0px center
+    &:not(.user-code-problem)
+      .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
+        margin-left: 1px
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
+        background-position: 0px center
+
+      // .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info):after
+      // 
+      //   // Experimenting with a larger executing-line-pointer
+      //   content: "\e072"
+      //   position: relative
+      //   left: -39px
+      //   font-family: 'Glyphicons Halflings'
+      //   font-style: normal
+      //   font-weight: normal
+      //   color: white
+      //   text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black
+      //   -webkit-font-smoothing: antialiased
+      //   -moz-osx-font-smoothing: grayscale
+      // 
+      //   // Chrome likes these, but Firefox does not
+      //   // TODO: Figure out how to make the executing gutter arrow big, and compatible
+      //   display: inline-block
+      //   top: -31px
+      //   line-height: 1
+      //   font-size: 39px
 
     .ace_gutter-cell.executed:not(.ace_error):not(.ace_warning):not(.ace_info)
       margin-left: 1px
@@ -119,12 +172,15 @@
         // Override faint gray
         border-color: #BFF
 
+      .locked-code
+        border: 1px dashed rgba(53, 45, 34, 0.5)
+
     // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
     //.ace_identifier
     //  border-bottom: 1px dotted rgba(0, 51, 255, 0.25)
 
     .ace_text-layer .ace_comment
-      color: darken(rgb(103, 164, 200), 5%)
+      color: rgb(78, 38, 226)
 
     .ace_text-layer .ace_variable
       // https://github.com/codecombat/codecombat/issues/6
@@ -141,10 +197,10 @@
       .ace_searchbtn, .ace_replacebtn
         padding: 0px 4px
 
+
 html.no-borderimage
   #spell-view
     span.code-background
       display: none
     img.code-background
       display: block
-

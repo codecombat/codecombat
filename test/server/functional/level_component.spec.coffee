@@ -65,11 +65,9 @@ describe 'LevelComponent', ->
         expect(body.code).toBe(components[0].code)
         expect(body.codeLanguage).toBe(components[0].codeLanguage)
         expect(body.__v).toBe(0)
-        expect(body.official).toBeDefined()
         expect(body.creator).toBeDefined()
         expect(body.original).toBeDefined()
         expect(body.created).toBeDefined()
-        expect(body.configSchema).toBeDefined()
         expect(body.dependencies).toBeDefined()
         expect(body.propertyDocumentation).toBeDefined()
         expect(body.version.isLatestMajor).toBe(true)
@@ -83,7 +81,7 @@ describe 'LevelComponent', ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(components[0]._id)
-        expect(body.official).toBe(false)
+        expect(body.official).toBeUndefined()
         done()
 
   it 'has system ai by default', (done) ->
@@ -100,7 +98,7 @@ describe 'LevelComponent', ->
     loginJoe ->
       request.post {uri: url, json: components[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
-        expect(body.official).toBe(false)
+        expect(body.official).toBeUndefined()
         done()
 
   it 'official property is editable by an admin.', (done) ->
@@ -118,7 +116,7 @@ describe 'LevelComponent', ->
           expect(res.statusCode).toBe(200)
           body = JSON.parse(body)
           expect(body._id).toBe(components[0]._id)
-          expect(body.official).toBe(false)
+          expect(body.official).toBeUndefined()
           expect(body.version.isLatestMinor).toBe(false)
           expect(body.version.isLatestMajor).toBe(false)
           done()

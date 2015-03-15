@@ -48,13 +48,25 @@ block content
   if level.get('name') == 'Criss-Cross'
     .tournament-blurb
       h2
-        span(data-i18n="ladder.tournament_ends") Tournament ends
+        span(data-i18n="ladder.tournament_ended") Tournament ended
         |  #{tournamentTimeLeft}
       p
         span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
         |  
         a(href="http://blog.codecombat.com/6-programming-languages-one-victor-codecombats-newest-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
         | .
+      p
+        strong Tournament ended! 
+        a(href="#winners") Behold the winners
+        | . Thanks for playing! You can 
+        strong still play
+        |  Criss-Cross and all of our other 
+        a(href="/play/ladder") multiplayer arenas
+        | .
+      p
+        | Want to commiserate? Head over to 
+        a(href="http://discourse.codecombat.com/") the forum
+        |  and discuss your strategies, your triumphs, and your turmoils.
           
   div#columns.row
     div.column.col-md-2
@@ -86,7 +98,7 @@ block content
     if level.get('name') == 'Greed'
       li
         a(href="#rules", data-toggle="tab", data-i18n="ladder.rules") Rules
-    if level.get('name') == 'Greed' || (level.get('name') == 'Criss-Cross!!!')
+    if level.get('name') == 'Greed' || (level.get('name') == 'Criss-Cross')
       li
         a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
@@ -725,7 +737,7 @@ block content
           a(href="http://discourse.codecombat.com/") Discourse forum
           | .
   
-    if level.get('name') == 'Greed' || level.get('name') == 'Criss-Cross!!!'
+    if level.get('name') == 'Greed' || level.get('name') == 'Criss-Cross'
       .tab-pane.well#winners
         h1(data-i18n="ladder.winners") Winners
   
@@ -733,31 +745,53 @@ block content
           thead
             tr
               th(data-i18n="ladder_prizes.rank") Rank
+              if level.get('name') == 'Criss-Cross'
+                th
               th Human
-              th Human wins/losses/ties
+              if level.get('name') == 'Greed'
+                th Human wins/losses/ties
+              else
+                th Human score
+              if level.get('name') == 'Criss-Cross'
+                th
               th Ogre
-              th Ogre wins/losses/ties
+              if level.get('name') == 'Greed'
+                th Ogre wins/losses/ties
+              else
+                th Ogre score
               th Spectate
           tbody
             each human, index in winners.humans
               - var ogre = winners.ogres[index]
               tr 
                 td= human.rank
+                if level.get('name') == 'Criss-Cross'
+                  td.code-language-cell(style="background-image: url(/images/common/code_languages/" + human.codeLanguage + "_icon.png)" title=_.string.capitalize(human.codeLanguage))
                 td= human.name
-                td
-                  span.win= human.wins
-                  |  - 
-                  span.loss= human.losses
-                  |  - 
-                  span.tie= 377 - human.wins - human.losses
-                if ogre
-                  td= ogre.name
+                if level.get('name') == 'Greed'
                   td
-                    span.win= ogre.wins
+                    span.win= human.wins
                     |  - 
-                    span.loss= ogre.losses
+                    span.loss= human.losses
                     |  - 
-                    span.tie= 407 - ogre.wins - ogre.losses
+                    span.tie= 377 - human.wins - human.losses
+                else
+                  td
+                    span= Math.round(100 * human.score)
+                if ogre
+                  if level.get('name') == 'Criss-Cross'
+                    td.code-language-cell(style="background-image: url(/images/common/code_languages/" + ogre.codeLanguage + "_icon.png)" title=_.string.capitalize(ogre.codeLanguage))
+                  td= ogre.name
+                  if level.get('name') == 'Greed'
+                    td
+                      span.win= ogre.wins
+                      |  - 
+                      span.loss= ogre.losses
+                      |  - 
+                      span.tie= 407 - ogre.wins - ogre.losses
+                  else
+                    td
+                      span= Math.round(100 * ogre.score)
                   td
                     a(href="/play/spectate/" + level.get('slug') + "?session-one=" + human.sessionID + "&session-two=" + ogre.sessionID) Watch the battle
                 else

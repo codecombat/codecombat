@@ -5,7 +5,7 @@ if cluster.isMaster
         for i in [0...numCPUs]
                 cluster.fork()
         cluster.on 'exit', (worker, code, signal) ->
-                console.log 'worker' + worker.process.id + 'died'
+                console.log 'worker ' + worker.id + ' died'
                 cluster.fork()
 else
         require('coffee-script')

@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class ScriptModule extends CocoClass
 
@@ -8,7 +8,7 @@ module.exports = class ScriptModule extends CocoClass
   constructor: (@noteGroup) ->
     super()
     if not @noteGroup.prepared
-      @analyzeNoteGroup(noteGroup)
+      @analyzeNoteGroup(@noteGroup)
       @noteGroup.notes ?= []
       @noteGroup.prepared = true
 

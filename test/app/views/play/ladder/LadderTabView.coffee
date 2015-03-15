@@ -1,4 +1,4 @@
-LadderTabView = require 'views/play/ladder/LadderTabView'
+LadderTabView = require 'views/ladder/LadderTabView'
 Level = require 'models/Level'
 fixtures = require 'test/app/fixtures/levels'
 
@@ -14,5 +14,5 @@ describe 'LeaderboardData', ->
     request = jasmine.Ajax.requests.mostRecent()
     triggered = false
     leaderboard.once 'sync', -> triggered = true
-    request.response({status: 200, responseText: '{}'})
+    request.respondWith({status: 200, responseText: '{}'})
     expect(triggered).toBe(true)

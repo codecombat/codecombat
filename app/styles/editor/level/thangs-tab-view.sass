@@ -1,0 +1,132 @@
+@import "app/styles/mixins"
+   
+#thangs-tab-view
+  $extantThangsWidth: 250px
+  position: absolute
+  top: 0
+  bottom: 0
+  overflow: hidden
+  left: 0
+  right: 0
+  margin: -15px
+  
+  #thangs-container-toggle, #thangs-palette-toggle
+    top: 5px
+    position: absolute
+    z-index: 12
+    padding: 8px
+
+  #thangs-container-toggle
+    left: 5px
+    box-shadow: 1px 1px 5px black
+  
+  #thangs-palette-toggle
+    right: 5px
+    box-shadow: -1px 1px 5px black
+    
+  .thangs-container
+    background: white
+    width: $extantThangsWidth
+    position: absolute
+    left: 0
+    top: 0
+    bottom: 0
+    z-index: 11
+    padding: 5px
+    border: 1px solid black
+
+    h3
+      text-align: right
+      margin: 0
+      
+    .editor-nano-container
+      height: 90%
+      position: relative
+      top: 20px
+    #thangs-treema
+      position: absolute
+      top: 45px
+      left: 0
+      right: 0
+      bottom: 0
+      overflow: scroll
+      margin: 0
+      outline: thin
+      border: none
+      padding-top: 0
+      
+    .treema-schema-select
+      display: none
+    
+    .treema-children .treema-row *
+      cursor: pointer !important
+      
+    .treema-key
+      display: none
+      
+    h6
+      margin: 0
+      line-height: 20px
+      
+    .treema-thangs-folder
+      margin-top: 2px
+      color: #253341
+      
+    .treema-thang
+      color: #253341
+      position: relative
+      left: -20px
+      
+    .treema-node
+      border: none
+    
+    img
+      float: left
+      width: 18px
+      margin-right: 5px
+      margin-left: 5px
+      position: relative
+      border: 1px solid gray
+      //top: 2px
+      
+  .world-container
+    margin-left: 0
+    margin-right: 0
+    box-sizing: border-box
+
+  .world-container
+    position: relative
+
+    #canvas-wrapper
+      width: 100%
+      position: relative
+      text-align: center
+      
+      .generate-terrain-button
+        position: absolute
+        top: 45%
+        //height: 40px
+  
+    canvas
+      width: 100%
+      display: block
+      border: 1px solid black
+
+    #webgl-surface
+      background-color: #ddd
+      z-index: 1
+      
+    #normal-surface
+      z-index: 2
+      position: absolute
+      left: 0
+      top: 0
+      pointer-events: none
+      
+    #contextmenu
+      text-align: left
+
+  #thang-components-edit-view
+    #thang-component-configs
+      // Get these away from the bottom of the screen so we can have dropdowns.
+      padding-bottom: 400px

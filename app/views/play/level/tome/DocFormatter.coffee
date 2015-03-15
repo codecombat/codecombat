@@ -1,6 +1,7 @@
 popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
+utils = require 'core/utils'
 
 safeJSONStringify = (input, maxDepth) ->
   recursion = (input, path, depth) ->
@@ -37,7 +38,7 @@ safeJSONStringify = (input, maxDepth) ->
 
 module.exports = class DocFormatter
   constructor: (@options) ->
-    @doc = _.cloneDeep options.doc
+    @doc = _.cloneDeep @options.doc
     @fillOutDoc()
 
   fillOutDoc: ->
@@ -83,20 +84,51 @@ module.exports = class DocFormatter
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
-    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}, {obj: @doc, prop: 'returns'}]
+    toTranslate = [{obj: @doc, prop: 'description'}, {obj: @doc, prop: 'example'}]
     for arg in (@doc.args ? [])
       toTranslate.push {obj: arg, prop: 'example'}, {obj: arg, prop: 'description'}
+    if @doc.returns
+      toTranslate.push {obj: @doc.returns, prop: 'example'}, {obj: @doc.returns, prop: 'description'}
     for {obj, prop} in toTranslate
+      # Translate into chosen code language.
       if val = obj[prop]?[@options.language]
         obj[prop] = val
       else unless _.isString obj[prop]
         obj[prop] = null
 
+      # Translate into chosen spoken language.
+      if val = obj[prop]
+        context = @doc.context
+        obj[prop] = val = utils.i18n obj, prop
+        # For multiplexed-by-both-code-and-spoken-language objects, now also get code language again.
+        if _.isObject val
+          obj[prop] = val = obj[prop]?[@options.language]
+        if @doc.i18n
+          spokenLanguage = me.get 'preferredLanguage'
+          while spokenLanguage
+            spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
+            if spokenLanguageContext = @doc.i18n[spokenLanguage]?.context
+              context = _.merge context, spokenLanguageContext
+              break
+            fallingBack = true
+        if context
+          try
+            obj[prop] = _.template val, context
+          catch e
+            console.error "Couldn't create docs template of", val, "\nwith context", context, "\nError:", e
+        obj[prop] = @replaceSpriteName obj[prop]  # Do this before using the template, otherwise marked might get us first.
+
   formatPopover: ->
-    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns()
+    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
-    content = content.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
+    content = @replaceSpriteName content
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+
+  replaceSpriteName: (s) ->
+    # Prefer type, and excluded the quotes we'd get with @formatValue
+    name = @options.thang.type ? @options.thang.spriteName
+    name = 'hero' if /Hero Placeholder/.test @options.thang.id
+    s.replace /#{spriteName}/g, name
 
   formatValue: (v) ->
     return null if @doc.type is 'snippet'
@@ -107,10 +139,14 @@ module.exports = class DocFormatter
         v = @options.thang[@doc.name]
       else
         v = window[@doc.owner][@doc.name]  # grab Math or Vector
-    if @doc.type is 'number' and not isNaN v
-      if v == Math.round v
+    if @doc.type is 'number' and not _.isNaN v
+      if v is Math.round v
         return v
-      return v.toFixed 2
+      if _.isNumber v
+        return v.toFixed 2
+      unless v
+        return 'null'
+      return '' + v
     if _.isString v
       return "\"#{v}\""
     if v?.id
@@ -139,5 +175,7 @@ module.exports = class DocFormatter
     return null unless action
     cooldowns = cooldown: action.cooldown, specificCooldown: action.specificCooldown, name: actionName, type: type
     for prop in ['range', 'radius', 'duration', 'damage']
-      cooldowns[prop] = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      cooldowns[prop] = v = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+      if _.isNumber(v) and v isnt Math.round v
+        cooldowns[prop] = v.toFixed 2
     cooldowns

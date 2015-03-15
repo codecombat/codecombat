@@ -1,12 +1,11 @@
-ModalView = require 'views/kinds/ModalView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/fork-modal'
-forms = require 'lib/forms'
+forms = require 'core/forms'
 
 module.exports = class ForkModal extends ModalView
   id: 'fork-modal'
   template: template
   instant: false
-  modalWidthPercent: 60
 
   events:
     'click #fork-model-confirm-button': 'forkModel'
@@ -31,10 +30,10 @@ module.exports = class ForkModal extends ModalView
     newModel.unset 'parent'
     newModel.set 'commitMessage', "Forked from #{@model.get('name')}"
     newModel.set 'name', @$el.find('#fork-model-name').val()
-    if @model.get 'permissions'
+    if @model.schema().properties.permissions
       newModel.set 'permissions', [access: 'owner', target: me.id]
     newPathPrefix = "editor/#{@editorPath}/"
-    res = newModel.save()
+    res = newModel.save(null, {type: 'POST'})  # Override PUT so we can trigger postFirstVersion logic
     return unless res
     res.error =>
       @hideLoading()

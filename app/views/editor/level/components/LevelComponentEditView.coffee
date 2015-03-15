@@ -1,12 +1,13 @@
-CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/level/component/edit'
+CocoView = require 'views/core/CocoView'
+template = require 'templates/editor/level/component/level-component-edit-view'
 LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
+require 'vendor/treema'
 
 module.exports = class LevelComponentEditView extends CocoView
-  id: 'editor-level-component-edit-view'
+  id: 'level-component-edit-view'
   template: template
   editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
@@ -20,6 +21,7 @@ module.exports = class LevelComponentEditView extends CocoView
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
+    'click #pop-component-i18n-button': 'onPopulateI18N' 
 
   constructor: (options) ->
     super options
@@ -42,6 +44,7 @@ module.exports = class LevelComponentEditView extends CocoView
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelComponent), @$el.find('.patches-view'))
     @$el.find('#component-watch-button').find('> span').toggleClass('secret') if @levelComponent.watching()
+    @updatePatchButton()
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
@@ -49,6 +52,7 @@ module.exports = class LevelComponentEditView extends CocoView
     schema = _.cloneDeep LevelComponent.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
+    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
       supermodel: @supermodel
@@ -64,14 +68,22 @@ module.exports = class LevelComponentEditView extends CocoView
     # Make sure it validates first?
     for key, value of @componentSettingsTreema.data
       @levelComponent.set key, value unless key is 'js' # will compile code if needed
-    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
-    null
+    @updatePatchButton()
 
   buildConfigSchemaTreema: ->
+    configSchema = $.extend true, {}, @levelComponent.get 'configSchema'
+    if configSchema.properties
+      # Alphabetize (#1297)
+      propertyNames = _.keys configSchema.properties
+      propertyNames.sort()
+      orderedProperties = {}
+      for prop in propertyNames
+        orderedProperties[prop] = configSchema.properties[prop]
+      configSchema.properties = orderedProperties
     treemaOptions =
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
-      data: @levelComponent.get 'configSchema'
+      data: configSchema
       readOnly: me.get('anonymous')
       callbacks: {change: @onConfigSchemaEdited}
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
@@ -82,10 +94,10 @@ module.exports = class LevelComponentEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelComponent.set 'configSchema', @configSchemaTreema.data
-    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
+    @updatePatchButton()
 
   buildCodeEditor: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
     editorEl = $('<div></div>').text(@levelComponent.get('code')).addClass('inner-editor')
     @$el.find('#component-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
@@ -100,27 +112,35 @@ module.exports = class LevelComponentEditView extends CocoView
   onEditorChange: =>
     return if @destroyed
     @levelComponent.set 'code', @editor.getValue()
-    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
-    null
+    @updatePatchButton()
+
+  updatePatchButton: ->
+    @$el.find('#patch-component-button').toggle Boolean @levelComponent.hasLocalChanges()
 
   endEditing: (e) ->
-    Backbone.Mediator.publish 'level-component-editing-ended', levelComponent: @levelComponent
+    Backbone.Mediator.publish 'editor:level-component-editing-ended', component: @levelComponent
     null
 
   showVersionHistory: (e) ->
     componentVersionsModal = new ComponentVersionsModal {}, @levelComponent.id
     @openModalView componentVersionsModal
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   startPatchingComponent: (e) ->
     @openModalView new SaveVersionModal({model: @levelComponent})
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   toggleWatchComponent: ->
     button = @$el.find('#component-watch-button')
     @levelComponent.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
 
+  onPopulateI18N: ->
+    @levelComponent.populateI18N()
+    @render()
+
   destroy: ->
-    @editor?.destroy()
+    @destroyAceEditor(@editor)
+    @componentSettingsTreema?.destroy()
+    @configSchemaTreema?.destroy()
     super()

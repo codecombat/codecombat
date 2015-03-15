@@ -10,7 +10,7 @@ ArticleHandler = class ArticleHandler extends Handler
     req.method is 'GET' or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
-    return true if req.method is 'GET' or method is 'get' or req.user?.isAdmin()
+    return true if req.method is 'GET' or method is 'get' or req.user?.isAdmin() or req.user?.isArtisan()
     return false
 
 module.exports = new ArticleHandler()

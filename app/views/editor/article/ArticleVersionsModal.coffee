@@ -1,4 +1,4 @@
-VersionsModal = require 'views/modal/VersionsModal'
+VersionsModal = require 'views/editor/modal/VersionsModal'
 
 module.exports = class ArticleVersionsModal extends VersionsModal
   id: 'editor-article-versions-view'
@@ -6,4 +6,4 @@ module.exports = class ArticleVersionsModal extends VersionsModal
   page: 'article'
 
   constructor: (options, @ID) ->
-    super options, ID, require 'models/Article'
+    super options, @ID, require 'models/Article'

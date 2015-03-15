@@ -6,13 +6,17 @@ module.exports = class CoordinateDisplay extends createjs.Container
     'surface:mouse-over': 'onMouseOver'
     'surface:stage-mouse-down': 'onMouseDown'
     'camera:zoom-updated': 'onZoomUpdated'
+    'level:flag-color-selected': 'onFlagColorSelected'
 
   constructor: (options) ->
     super()
     @initialize()
     @camera = options.camera
-    console.error 'CoordinateDisplay needs camera.' unless @camera
+    @layer = options.layer
+    console.error @toString(), 'needs a camera.' unless @camera
+    console.error @toString(), 'needs a layer.' unless @layer
     @build()
+    @performShow = @show
     @show = _.debounce @show, 125
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
 
@@ -20,6 +24,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
     Backbone.Mediator.unsubscribe(channel, @[func], @) for channel, func of @subscriptions
     @show = null
     @destroyed = true
+
+  toString: -> '<CoordinateDisplay>'
 
   build: ->
     @mouseEnabled = @mouseChildren = false
@@ -30,6 +36,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
     @background.name = 'Coordinate Display Background'
     @pointMarker.name = 'Point Marker'
+    @layer.addChild @
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
@@ -40,6 +47,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     wop.y = Math.round(wop.y)
     return if wop.x is @lastPos?.x and wop.y is @lastPos?.y
     @lastPos = wop
+    @lastScreenPos = x: e.x, y: e.y
     @hide()
     @show()  # debounced
 
@@ -48,11 +56,18 @@ module.exports = class CoordinateDisplay extends createjs.Container
     wop = @camera.screenToWorld x: e.x, y: e.y
     wop.x = Math.round wop.x
     wop.y = Math.round wop.y
+    Backbone.Mediator.publish 'tome:focus-editor', {}
     Backbone.Mediator.publish 'surface:coordinate-selected', wop
 
   onZoomUpdated: (e) ->
-    @hide()
-    @show()
+    return unless @lastPos
+    wop = @camera.screenToWorld @lastScreenPos
+    @lastPos.x = Math.round wop.x
+    @lastPos.y = Math.round wop.y
+    @performShow() if @label.parent
+
+  onFlagColorSelected: (e) ->
+    @placingFlag = Boolean e.color
 
   hide: ->
     return unless @label.parent
@@ -148,6 +163,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @y = sup.y
     @addChild @background
     @addChild @label
-    @addChild @pointMarker
+    @addChild @pointMarker unless @placingFlag
     @updateCache()
     Backbone.Mediator.publish 'surface:coordinates-shown', {}

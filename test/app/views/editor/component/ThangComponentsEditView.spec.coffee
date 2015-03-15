@@ -6,14 +6,14 @@ responses =
   '/db/level.component/B/version/0': {
     system: 'System'
     original: 'B'
-    majorVersion: 0
+    version: {major: 0, minor:0}
     name: 'B (depends on A)'
     dependencies: [{original:'A', majorVersion: 0}]
   }
   '/db/level.component/A/version/0': {
     system: 'System'
     original: 'A'
-    majorVersion: 0
+    version: {major: 0, minor:0}
     name: 'A'
     configSchema: { type: 'object', properties: { propA: { type: 'number' }, propB: { type: 'string' }} }
   }
@@ -21,7 +21,7 @@ responses =
 componentC = new LevelComponent({
   system: 'System'
   original: 'C'
-  majorVersion: 0
+  version: {major: 0, minor:0}
   name: 'C (depends on B)'
   dependencies: [{original:'B', majorVersion: 0}]
 })
@@ -34,7 +34,6 @@ describe 'ThangComponentsEditView', ->
     supermodel = new SuperModel()
     supermodel.registerModel(componentC)
     view = new ThangComponentEditView({ components: [], supermodel: supermodel })
-    jasmine.Ajax.requests.sendResponses { '/db/thang.type': [] }
     _.defer ->
       view.render()
       view.componentsTreema.set('/', [ { original: 'C', majorVersion: 0 }])
@@ -52,14 +51,12 @@ describe 'ThangComponentsEditView', ->
    
   # TODO: Figure out why this is breaking karma but not always
   it 'adds dependencies to its components list', ->
-#    jasmine.Ajax.requests.sendResponses(responses)
     componentOriginals = (c.original for c in view.components)
     expect('A' in componentOriginals).toBeTruthy()
     expect('B' in componentOriginals).toBeTruthy()
     expect('C' in componentOriginals).toBeTruthy()
     
   it 'removes components that are dependent on a removed component', ->
-#    jasmine.Ajax.requests.sendResponses(responses)
     view.components = (c for c in view.components when c.original isnt 'A')
     view.onComponentsChanged()
     expect(view.components.length).toBe(0)

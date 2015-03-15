@@ -4,13 +4,12 @@ block content
 
   div.contribute_class
 
-    include /templates/contribute/contribute_nav
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_scribe.png", alt="")
 
     div.class-main#scribe-main
       
-      .class_image
-          img.img-responsive(src="/images/pages/contribute/scribe.png", alt="")
-
       h2
         span(data-i18n="classes.scribe_title") Scribe
         span  
@@ -37,7 +36,7 @@ block content
       
       h4(data-i18n="contribute.how_to_join") How To Join
       p
-        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="contribute.contact_us_url")
+        a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="contribute.contact_us_url")
           | Contact us
         span , 
         span(data-i18n="contribute.scribe_join_description")

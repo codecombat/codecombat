@@ -18,14 +18,19 @@ LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion'], link
   majorVersion:
     type: 'integer'
     minimum: 0
-    default: 0
 
 LevelSessionSchema = c.object
   title: 'Session'
   description: 'A single session for a given level.'
+  default:
+    codeLanguage: 'python'
+    submittedCodeLanguage: 'python'
+    playtime: 0
 
 _.extend LevelSessionSchema.properties,
   # denormalization
+  browser:
+    type: 'object'
   creatorName:
     type: 'string'
   levelName:
@@ -56,12 +61,7 @@ _.extend LevelSessionSchema.properties,
   screenshot:
     type: 'string'
 
-  heroConfig: c.object {description: 'Which hero the player is using, equipped with what inventory.'},
-    inventory:
-      type: 'object'
-      description: 'The inventory of the hero: slots to item ThangTypes.'
-      additionalProperties: c.objectId(description: 'An item ThangType.')
-    thangType: c.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type')
+  heroConfig: c.HeroConfigSchema
 
   state: c.object {},
     complete:
@@ -85,9 +85,9 @@ _.extend LevelSessionSchema.properties,
         'string'
       ]
     playing:
-      type: 'boolean'
+      type: 'boolean'  # Not tracked any more
     frame:
-      type: 'number'
+      type: 'number'  # Not tracked any more
     thangs:
       type: 'object'
       additionalProperties:
@@ -112,6 +112,35 @@ _.extend LevelSessionSchema.properties,
         type: 'object'
         properties:
           status: enum: ['failure', 'incomplete', 'success']
+    submissionCount:
+      description: 'How many times the session has been submitted for real-time playback (can affect the random seed).'
+      type: 'integer'
+      minimum: 0
+    difficulty:
+      description: 'The highest difficulty level beaten, for use in increasing-difficulty replayable levels.'
+      type: 'integer'
+      minimum: 0
+    lastUnsuccessfulSubmissionTime: c.date
+      description: 'The last time that real-time submission was started without resulting in a win.'
+    flagHistory:
+      description: 'The history of flag events during the last real-time playback submission.'
+      type: 'array'
+      items: c.object {required: ['player', 'color', 'time', 'active']},
+        player: {type: 'string'}
+        team: {type: 'string'}
+        color: {type: 'string', enum: ['green', 'black', 'violet']}
+        time: {type: 'number', minimum: 0}
+        active: {type: 'boolean'}
+        pos: c.object {required: ['x', 'y']},
+          x: {type: 'number'}
+          y: {type: 'number'}
+        source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
+    topScores: c.array {},
+      c.object {},
+        type: c.shortString('enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])
+        date: c.date
+          description: 'When the submission achieving this score happened.'
+        score: {type: 'number'}  # Store 'time' and 'damage-taken' as negative numbers so the index works.
 
   code:
     type: 'object'
@@ -119,7 +148,7 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
-        format: 'javascript'
+        format: 'code'
 
   vcs:
     title: 'Version Control System for User Code'
@@ -175,12 +204,10 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
-    default: 'javascript'
 
   playtime:
     type: 'number'
     title: 'Playtime'
-    default: 0
     description: 'The total playtime on this session'
 
   teamSpells:
@@ -216,10 +243,10 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   submittedCodeLanguage:
     type: 'string'
-    default: 'javascript'
 
   transpiledCode:
     type: 'object'
@@ -227,6 +254,7 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
+        format: 'code'
 
   isRanking:
     type: 'boolean'
@@ -307,8 +335,10 @@ _.extend LevelSessionSchema.properties,
                     description: 'The opponent\'s ranking in a given match'
                     type: 'number'
               codeLanguage:
-                type: 'string'
+                type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
+        simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
+        randomSeed: {description: 'Stores the random seed that was used during this match.'}
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'
