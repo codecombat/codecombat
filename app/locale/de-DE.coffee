@@ -362,7 +362,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     scores: "Punktzahl"
     top_players: "Die besten Spieler von"
     day: "Heute"
-    week: "dieser Woche" #in context of "the best players of the week"
+    week: "dieser Woche"
     all: "insgesamt"
     time: "Zeit"
     damage_taken: "Erhaltener Schaden"
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_button: "Laden betreten"
     recovered: "Vorangegangener Edelsteinkauf rückgängig gemacht. Aktualisiere bitte die Seite."
     price: "x3500 / Monat"
-    
+
   subscribe:
     comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement"
     feature1: "60+ Basislevel in 4 Gebieten"
@@ -431,8 +431,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     stripe_description: "Monatsabo"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
-
-    personal_sub: "Persönliches Abonnement"  # Accounts Subscription View below
+    personal_sub: "Persönliches Abonnement" # Accounts Subscription View below
     loading_info: "Lade Abonnementinformationen..."
     managed_by: "Verwaltet durch"
     will_be_cancelled: "Läuft ab am"

@@ -430,8 +430,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parents_blurb3: "Без риска: 100% гарантия возрата денег, возможность отписаться в 1 клик."
     stripe_description: "Месячная подписка"
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
-    unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео." # Accounts Subscription View
-    personal_sub: "Личная подписка"
+    unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
+    personal_sub: "Личная подписка" # Accounts Subscription View below
     loading_info: "Загружаем информацию о подписке..."
     managed_by: "Управляется"
     will_be_cancelled: "Будет отменена"
