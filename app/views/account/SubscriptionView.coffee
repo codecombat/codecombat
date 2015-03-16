@@ -194,6 +194,9 @@ class RecipientSubs
     options = {
       description: "#{@recipientEmails.length} " + $.i18n.t('subscribe.stripe_description', defaultValue: 'Monthly Subscriptions')
       amount: amount
+      alipay: "auto"
+      locale: "auto"
+      alipayReusable: true
     }
     @state = 'start subscribe'
     @stateMessage = ''

@@ -52,6 +52,9 @@ module.exports = class InvoicesView extends RootView
     stripeHandler.open
       amount: @amount
       description: @description
+      bitcoin: true
+      alipay: "auto"
+      locale: "auto"
 
   onStripeReceivedToken: (e) ->
     data = {
