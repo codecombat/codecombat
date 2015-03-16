@@ -11,7 +11,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     for_beginners: "Für Anfänger"
     multiplayer: "Mehrspieler" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-    or_ipad: "Oder downloade hier für iPad"
+    or_ipad: "Oder downloade es hier fürs iPad"
 
   nav:
     play: "Spielen" # The top nav bar entry where players choose which levels to play
@@ -42,10 +42,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   diplomat_suggestion:
     title: "Hilf CodeCombat zu übersetzen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Wir brauchen Deine Sprachfähigkeiten."
-    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen in Deutsch spielen, sprechen aber kein Englisch. Wenn Du also beide Sprachen beherrscht, melde Dich an um ein Diplomat zu werden und hilf die Website und die Levels zu Deutsch zu übersetzen."
-    missing_translations: "Solange wir nicht alles ins Deutsche übersetzt haben, siehst Du die englische Übersetzung, wo Deutsch leider noch nicht zur Verfügung steht."
-    learn_more: "Finde heraus, wie Du ein Diplomat werden kannst"
-    subscribe_as_diplomat: "Schreibe dich als Diplomat ein"
+    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen auf Deutsch spielen, sprechen aber kein Englisch. Wenn Du also beide Sprachen beherrscht, melde Dich an, um ein Diplomat zu werden und hilf die Website und die Levels ins Deutsche zu übersetzen."
+    missing_translations: "Solange wir nicht alles ins Deutsche übersetzt haben, siehst Du die englische Übersetzung dort, wo Deutsch leider noch nicht zur Verfügung steht."
+    learn_more: "Finde heraus, wie Du ein Diplomat werden kannst."
+    subscribe_as_diplomat: "Schreibe dich als Diplomat ein."
 
   play:
     play_as: "Spiele als " # Ladder page
@@ -53,7 +53,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     players: "Spieler" # Hover over a level on /play
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
-    unlock: "Entsperren" # For purchasing items and heroes
+    unlock: "Freischalten" # For purchasing items and heroes
     confirm: "Bestätigen"
     owned: "im Besitz" # For items you own
     locked: "Gesperrt"
@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     achievements: "Erfolge" # Tooltip on achievement list button from /play
     account: "Account" # Tooltip on account button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Umfrage" # Tooltip on poll button from /play
     next: "Nächster" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     choose_inventory: "Gegenstände ausrüsten"
@@ -177,12 +177,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     review: "Prüfen"
     version_history: "Versionshistorie"
     version_history_for: "Versionsgeschichte für: "
-    select_changes: "Wähle zwei Änderungen unten um den Unterschied sehen zu können."
+    select_changes: "Wähle zwei Änderungen unten, um den Unterschied sehen zu können."
     undo_prefix: "Rückgängig"
     undo_shortcut: "(Strg+Z)"
     redo_prefix: "Wiederholen"
     redo_shortcut: "(Strg+Umschalt+Z)"
-    play_preview: "Spiele eine Vorschau des momentanen Levels"
+    play_preview: "Spiele eine Vorschau des momentanen Levels."
     result: "Ergebnis"
     results: "Ergebnisse"
     description: "Beschreibung"
@@ -206,7 +206,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     player: "Spieler"
     player_level: "Stufe" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Krieger"
-#    ranger: "Ranger"
+    ranger: "Waldläufer"
     wizard: "Magier"
 
   units:
@@ -251,7 +251,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory: "Triumph"
     victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
-    victory_sign_up: "Melde Dich an, um Fortschritte zu speichern"
+    victory_sign_up: "Melde Dich an, um Fortschritte zu speichern."
     victory_sign_up_poke: "Möchtest Du Neuigkeiten per Mail erhalten? Erstelle einen kostenlosen Account und wir halten Dich auf dem Laufenden."
     victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
     victory_return_to_ladder: "Zurück zur Rangliste"
@@ -273,7 +273,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_submit_button: "Senden"
     tome_reload_method: "Original Code für diese Methode neu laden" # Title text for individual method reload button.
     tome_select_method: "Methode auswählen"
-    tome_see_all_methods: "Alle bearbeitbare Methoden anzeigen" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Alle bearbeitbaren Methoden anzeigen" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Wähle jemanden aus, um "
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
@@ -295,12 +295,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     infinite_loop_comment_out: "Meinen Code auskommentieren"
     tip_toggle_play: "Wechsel zwischen Play und Pause mit Strg+P."
     tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]"
-    tip_guide_exists: "Klicke auf die Anleitung am oberen Ende der Seite für nützliche Informationen"
+    tip_guide_exists: "Klicke auf die Anleitung am oberen Ende der Seite für nützliche Informationen."
     tip_open_source: "CodeCombat ist 100% quelloffen!"
     tip_beta_launch: "CodeCombat startete seine Beta im Oktober 2013."
     tip_think_solution: "Denke über die Lösung nach, nicht über das Problem."
     tip_theory_practice: "In der Theorie gibt es keinen Unterschied zwischen Theorie und Praxis. In der Praxis schon. - Yogi Berra"
-    tip_error_free: "Es gibt zwei Wege fehlerfreie Programme zu schreiben; nur der Dritte funktioniert. - Alan Perlis"
+    tip_error_free: "Es gibt zwei Wege fehlerfreie Programme zu schreiben. Nur der Dritte funktioniert. - Alan Perlis"
     tip_debugging_program: "Wenn Debugging der Prozess zum Fehler entfernen ist, dann muss Programmieren der Prozess sein Fehler zu machen. - Edsger W. Dijkstra"
     tip_forums: "Komm ins Forum und sage uns was du denkst!"
     tip_baby_coders: "In der Zukunft werden sogar Babies Erzmagier sein."
@@ -310,23 +310,23 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_harry: "Du bist ein Zauberer, "
     tip_great_responsibility: "Mit großen Programmierfähigkeiten kommt große Verantwortung."
     tip_munchkin: "Wenn du dein Gemüse nicht isst, besucht dich ein Zwerg während du schläfst."
-    tip_binary: "Es gibt auf der Welt nur 10 Arten von Menschen: die die Binär verstehen und die die nicht."
+    tip_binary: "Es gibt auf der Welt nur 10 Arten von Menschen: Die, die Binär verstehen und die, die es nicht tun."
     tip_commitment_yoda: "Ein Programmierer muss die größte Hingabe haben, den ernstesten Verstand. - Yoda"
     tip_no_try: "Tun oder nicht tun. Es gibt kein Versuchen. - Yoda"
     tip_patience: "Geduld du haben musst, junger Padawan. - Yoda"
-    tip_documented_bug: "Ein dokumentierter Fehler ist kein Fehler; er ist ein Besonderheit."
-    tip_impossible: "Es wirkt immer unmöglich bis es vollbracht ist. - Nelson Mandela"
+    tip_documented_bug: "Ein dokumentierter Fehler ist kein Fehler: Er ist ein Besonderheit."
+    tip_impossible: "Es wirkt immer unmöglich, bis es vollbracht ist. - Nelson Mandela"
     tip_talk_is_cheap: "Reden ist billig. Zeig mir den Code. - Linus Torvalds"
     tip_first_language: "Das Schwierigste, das du jemals lernen wirst, ist die erste Programmiersprache. - Alan Kay"
     tip_hardware_problem: "Q: Wie viele Programmierer braucht man um eine Glühbirne auszuwechseln? A: Keine, es ist ein Hardware-Problem."
     tip_hofstadters_law: "Hofstadter's Gesetz: Es dauert immer länger als erwartet, auch wenn du Hofstadter's Gesetz anwendest."
-    tip_premature_optimization: "Vorzeitige Optimierung ist die Wurzel allen Übels (oder mindestens des meisten) bei der Programmierung - Donald Knuth"
+    tip_premature_optimization: "Vorzeitige Optimierung ist die Wurzel allen Übels (oder mindestens des meisten) bei der Programmierung. - Donald Knuth"
     tip_brute_force: "Verwende im Zweifelsfall rohe Gewalt. - Ken Thompson"
     tip_extrapolation: "Es gibt nur zwei Sorten Menschen, diejenigen die aus unvollständigen Informationen Schlüsse ziehen können, ..."
     tip_superpower: "Programmieren ist das nächste an einer Superkraft was wir haben."
     tip_control_destiny: "In wirklichem Open Source hat man das Recht, sein Schicksal selbst zu bestimmen. - Linus Torvalds"
     tip_no_code: "Kein Code ist schneller als kein Code."
-    tip_code_never_lies: "Der Code lügt nie, Kommentare manchmal schon - Ron Jeffries"
+    tip_code_never_lies: "Der Code lügt nie, Kommentare manchmal schon. - Ron Jeffries"
     tip_reusable_software: "Bevor ein Programm wiederverwendbar ist, muss es erst mal verwendbar sein."
     tip_optimization_operator: "Jede Sprache hat einen Optimierungs-Operator. In den meisten Sprachen lautet der Operator ‘//’"
     tip_lines_of_code: "Ein Programm an den Zeilen seines Quellcodes zu messen entspricht dem Messen des Fortschritts eines Flugzeugentwurfsprozesses nach Gewicht. - Bill Gates"
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_google: "Hast du ein Problem, das du nicht lösen kannst? Google es!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-    tip_open_source_contribute: "Du kannst Dabei helfen CodeCombat zu verbessern"
+    tip_open_source_contribute: "Du kannst Dabei helfen, CodeCombat zu verbessern."
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
@@ -362,7 +362,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     scores: "Punktzahl"
     top_players: "Die besten Spieler von"
     day: "Heute"
-    week: "Diese Woche"
+    week: "dieser Woche"
     all: "insgesamt"
     time: "Zeit"
     damage_taken: "Erhaltener Schaden"
@@ -409,11 +409,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     subscribe_title: "Abonnieren"
     unsubscribe: "Abmelden"
     confirm_unsubscribe: "Abmeldung bestätigen"
-    never_mind: "Keine Sorge. Ich hab dich trotzdem lieb"
+    never_mind: "Keine Sorge. Ich hab dich trotzdem lieb."
     thank_you_months_prefix: "Danke für deine Unterstützung in den letzten"
     thank_you_months_suffix: "Monaten."
-    thank_you: "Danke das du CodeCombat unterstützt."
-    sorry_to_see_you_go: "Schade, das du gehst! Bitte teile uns mit, was wir hätten besser machen können."
+    thank_you: "Danke, dass du CodeCombat unterstützt."
+    sorry_to_see_you_go: "Schade, dass du gehst! Bitte teile uns mit, was wir hätten besser machen können."
     unsubscribe_feedback_placeholder: "Oh, was haben wir getan?"
     parent_button: "Frag deine Eltern"
     parent_email_description: "Wir werden ihnen eine Email senden, damit sie dir ein CodeCombat Abo kaufen können."
@@ -429,8 +429,31 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen Email Support von professionellen Programmierern."
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
     stripe_description: "Monatsabo"
-    subscription_required_to_play: "Leider musst du ein Abo haben um dieses Level spielen zu können."
+    subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
+    personal_sub: "Persönliches Abonnement" # Accounts Subscription View below
+    loading_info: "Lade Abonnementinformationen..."
+    managed_by: "Verwaltet durch"
+    will_be_cancelled: "Läuft ab am"
+    currently_free: "Du hast aktuell ein kostenloses Abonnement"
+    currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum"
+    was_free_until: "Du hattest ein kostenloses Abonnement bis zum"
+    managed_subs: "Verwaltete Abonnements"
+    managed_subs_desc: "Abonnements für andere Spieler (Studenten, Kinder, usw.) hinzufügen"
+    group_discounts: "Gruppenrabatt"
+    group_discounts_1st: "Erstes Abonnement (inklusive deinem)"
+    group_discounts_full: "voller Preis"
+    group_discounts_2nd: "Abonnements 2-11"
+    group_discounts_20: "20% Rabatt"
+    group_discounts_12th: "Abonnement 12+"
+    group_discounts_40: "40% Rabatt"
+    subscribing: "Abonniere..."
+    recipient_emails_placeholder: "Gib die E-Mail-Adressen ein, für die du ein Abonnement übernehmen möchtest, eine pro Zeile."
+    subscribe_users: "Abonnement für Spieler übernehmen"
+    users_subscribed: "Abonnement für Spieler übernommen:"
+    no_users_subscribed: "Abonnement für keine Spieler übernommen, bitte prüfe deine E-Mail-Adressen."
+    current_recipients: "Aktuelle Empfänger"
+    unsubscribing: "Abmelden..."
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -460,14 +483,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     skills: "Fähigkeiten"
     attack_1: "Teilt aus"
     attack_2: "des genannten"
-    attack_3: "Waffenschaden."
+    attack_3: "Waffenschadens."
     health_1: "Erhält"
     health_2: "der genannten"
     health_3: "Rüstungspunkte."
     speed_1: "Gehe zu"
     speed_2: "Meter pro Sekunde."
     available_for_purchase: "Zum Kauf verfügbar" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-    level_to_unlock: "Level freizuschalten:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    level_to_unlock: "Level zum Freischalten:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Nur bestimmte Helden können dieses Level spielen."
 
   skill_docs:
@@ -513,13 +536,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     editor_config_invisibles_label: "Zeige unsichtbare Zeichen"
     editor_config_invisibles_description: "Zeigt unsichtbare Zeichen wie Leertasten an."
     editor_config_indentguides_label: "Zeige Einrückhilfe"
-    editor_config_indentguides_description: "Zeigt vertikale Linien an um Einrückungen besser zu sehen."
+    editor_config_indentguides_description: "Zeigt vertikale Linien an, um Einrückungen besser zu sehen."
     editor_config_behaviors_label: "Intelligentes Verhalten"
     editor_config_behaviors_description: "Vervollständigt automatisch Klammern und Anführungszeichen."
 
   about:
     why_codecombat: "Warum CodeCombat?"
-    why_paragraph_1: "Programmieren lernen? Du brauchst keine Unterrichtstunden. Du musst einen Haufen Code schreiben und dabei Spaß haben."
+    why_paragraph_1: "Programmieren lernen? Du brauchst keine Unterrichtsstunden. Du musst einen Haufen Code schreiben und dabei Spaß haben."
     why_paragraph_2_prefix: "Darum geht's beim Programmieren. Es soll Spaß machen. Nicht so einen Spaß wie"
     why_paragraph_2_italic: "jau, 'ne Plakette"
     why_paragraph_2_center: "sondern Spaß wie"
@@ -553,19 +576,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   teachers:
     title: "CodeCombat für Lehrer"
     preparation_title: "Vorbereitung"
-#    preparation_1: "CodeCombat is free to play for the core level progression and does not require students to sign up. We encourage teachers to"
-#    preparation_play_campaign: "play through the campaign"
-#    preparation_2: "to try it out, but the only thing you absolutely need to do to be ready is ensure students have access to a computer."
-#    preparation_3: "It is not necessary for teachers to be comfortable with computer science concepts for students to have fun learning with CodeCombat."
+    preparation_1: "CodeCombat ist für den Fortschritt in den Hauptleveln kostenlos spielbar und erfordert keine Registrierung der Schüler. Wir raten Lehrern dazu,"
+    preparation_play_campaign: "die Kampagne durchzuspielen"
+    preparation_2: "um es auszuprobieren, aber die einzige Sache, die Sie unbedingt absichern müssen ist, dass alle Schüler Zugang zu einem Computer haben."
+    preparation_3: "Es ist für Lehrer nicht notwendig mit Computertechnik-Konzepten vertraut zu sein, damit die Schüler Spaß am Lernen mit CodeCombat haben können."
     violent_title: "Enthält es Gewalt?"
-#    violent_1: "We get this from teachers a lot due to our name. Although CodeCombat does contain cartoon violence, there is nothing graphic in either the visuals or language."
-#    violent_2: "If you are comfortable having your students play Angry Birds, you will be comfortable with CodeCombat."
+    violent_1: "Dies hören wir aufgrund unseres Namens häufig von Lehrern. Auch wenn CodeCombat Cartoon-Gewalt beinhaltet, gibt es keine graphische Gewaltdarstellung in Bildern oder Sprache."
+    violent_2: "Wenn Sie damit einverstanden sind, dass Ihre Schüler Angry Birds spielen, dann werden Sie nichts gegen CodeCombat haben."
     for_girls_title: "Ist es etwas für Mädchen?"
 #    for_girls_1: "There are three game modes in CodeCombat: building, puzzles, and combat. We have intentionally designed each to appeal to both boys and girls and think that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
     age_recommended_title: "Welches Mindestalter wird empfohlen?"
     age_recommended_1: "Das empfohlene Mindestalter liegt bei 9 Jahren, jedoch kann auch ein 7 jähriges Kind die ersten Level mit der Hilfe eines Erwachsenen spielen."
     what_cover_title: "Was wird von uns abgedeckt?"
-#    what_cover_1: "There are 27 levels in the first stage of CodeCombat that teach and reinforce 6 specific computer science concepts:"
+    what_cover_1: "Der erste Abschnitt von CodeCombat enthält 27 Level, welche 6 spezifische Konzepte der Computertechnik vermitteln und verfestigen:"
     what_cover_notation_1: "Formale Notation"
     what_cover_notation_2: "- schafft bei Schülern ein Grundverständnis für die Wichtigkeit der Syntax beim Programmieren."
     what_cover_methods_1: "Methodenaufrufe"
@@ -579,17 +602,17 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     what_cover_variables_1: "Variablen"
 #    what_cover_variables_2: "- adds the skill of referencing values that change over time."
 #    what_cover_2: "Students may continue past level 20, depending on their speed and interest, to learn two additional concepts in later levels:"
-#    what_cover_logic_1: "Conditional logic"
+    what_cover_logic_1: "Bedingte Anweisungen"
     what_cover_logic_2: "- Wie und wann if/else benutzt werden können, um das Spielgeschehen zu kontrollieren."
     what_cover_input_1: "Benutzereingaben Behandlung"
-#    what_cover_input_2: "- responding to input events to create a user interface."
+    what_cover_input_2: "- Mit Eingaben umgehen, um eine Nutzeroberfläche zu erstellen."
     what_cover_array_1: "Arrays/Felder"
     what_cover_array_2: "- erlauben es Spielern, Arrays/Felder zu erstellen und durch diese durch zu laufen."
     sys_requirements_title: "System Voraussetzungen"
 #    sys_requirements_1: "Because CodeCombat is a game, it is more intensive for computers to run smoothly than video or written tutorials. We have optimized it to run quickly on all modern browsers and on older machines so that everyone can play. That said, here are our suggestions for getting the most out of the CodeCombat experience:"
-#    sys_requirements_2: "Use newer versions of Chrome or Firefox."
-#    sys_requirements_3: "Although CodeCombat will work on browsers as old as Internet Explorer 9, the performance is not as good. Chrome is best."
-    sys_requirements_4: "benutzen sie neuere Computer"
+    sys_requirements_2: "Nutzen Sie die neuesten Versionen von Google Chrome oder Firefox."
+    sys_requirements_3: "Obwohl CodeCombat auch in älteren Browsern wie dem Internet Explorer 9 läuft, ist die Performance nicht so gut. Am Besten nutzen Sie Chrome."
+    sys_requirements_4: "Benutzen sie neuere Computer."
     sys_requirements_5: "Ältere Computer, Chromebooks und Netbooks haben meistens eine sehr niedrige Leistungsfähigkeit, was den Spaßfaktor deutlich verringert. Mindestens 2GB RAM Arbeitsspeicher sind erforderlich."
     sys_requirements_6: "Erlauben sie den Spielern Kopfhörer zu benutzen, um den Sound zu hören."
     sys_requirements_7: "Wir helfen Spielern mit Voiceover und Sound Effekten, die im Klassenzimmer laut und störend wirken können."
@@ -686,13 +709,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   community:
     main_title: "CodeCombat Community"
-    introduction: "Schaue dir unten die Möglichkeiten wie du mitwirken kannst und entscheide was dir am meisten Spaß macht. Wir freuen uns auf die Zusammenarbeit mit dir!"
+    introduction: "Schaue dir unten die Möglichkeiten wie du mitwirken kannst an und entscheide, was dir am meisten Spaß macht. Wir freuen uns auf die Zusammenarbeit mit dir!"
     level_editor_prefix: "Benutze den CodeCombat"
     level_editor_suffix: "um Level zu erstellen oder zu bearbeiten. Benutzer haben bereits Level für ihre Klassen, Freunde, Hackathons, Schüler und Geschwister erstellt. Wenn das Neuerstellen eines Levels abschreckend wirkt, dann kannst du erst mal ein bestehendes kopieren!"
     thang_editor_prefix: "Wir nennen Einheiten innerhalb des Spiels 'Thangs'. Benutze den"
     thang_editor_suffix: "um den CodeCombat Grafikquelltext zu ändern. Erlaube Einheiten Geschosse zu werfen, ändere die Richtung einer Animation, ändere die Trefferpunkte einer Einheit, oder lade deine eigenen Vektorsprite hoch."
     article_editor_prefix: "Hast du einen Fehler in unseren Dokus gefunden? Willst du Anleitungen für deine Kreationen erstellen? Schau dir den"
-    article_editor_suffix: "und hilf CodeCombat Spielern das meiste aus ihrer Spielzeit heraus zu bekommen."
+    article_editor_suffix: "und hilf CodeCombat Spielern, das meiste aus ihrer Spielzeit herauszuholen."
     find_us: "Finde uns auf diesen Seiten"
     social_blog: "Lese den CodeCombat Blog auf Sett"
     social_discource: "Schließe dich den Diskussionen in unserem Discourse Forum an"
@@ -711,7 +734,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     artisan_summary: "Erschaffe und teile Level zum spielen für dich und deine Freunde. Werde ein Handwerker, um die Kunst zu erlernen, anderen Programmieren zu lehren."
     adventurer_title: "Abenteurer"
     adventurer_title_description: "(Level Spieltester)"
-    adventurer_summary: "Bekomme unsere neuen Level (sogar unser Abonnement Inhalt) kostenlos eine Woche früher und hilf uns, Fehler vor der Veröffentlichung zu finden."
+    adventurer_summary: "Bekomme unsere neuen Level (sogar unseren Abonnement Inhalt) kostenlos eine Woche früher und hilf uns, Fehler vor der Veröffentlichung zu finden."
     scribe_title: "Schreiber"
     scribe_title_description: "(Artikel Editor)"
     scribe_summary: "Guter Code braucht gute Dokumentation. Schreibe, bearbeite and verbessere die, von weltweit Millionen von Spielern, gelesenen Dokumentationen."
@@ -728,7 +751,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     thang_title: "Thang Editor"
     level_title: "Level Editor"
     achievement_title: "Achievement Editor"
-#    poll_title: "Poll Editor"
+    poll_title: "Umfrage Editor"
     back: "Zurück"
     revert: "Zurücksetzen"
     revert_models: "Modelle zurücksetzen."
@@ -789,13 +812,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     new_level_title_login: "Melde dich an um ein neues Level zu erstellen"
     new_achievement_title: "Erstelle ein neues Achievement"
     new_achievement_title_login: "Melde dich an um einen neuen Erfolg zu erstellen"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "Erstelle eine neue Umfrage"
+    new_poll_title_login: "Melde dich an um eine neue Umfrage zu erstellen"
     article_search_title: "Durchsuche Artikel hier"
     thang_search_title: "Durchsuche Thang-Typen hier"
     level_search_title: "Durchsuche Levels hier"
     achievement_search_title: "Durchsuche Erfolge"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "Durchsuche Umfragen"
     read_only_warning2: "Warnung: Du kannst hier keine Änderungen speichern, weil du nicht angemeldet bist."
     no_achievements: "Es wurden noch keine Erfolge zu diesem Level hinzugefügt."
     achievement_query_misc: "Sonstige Schlüsselerfolge"
@@ -809,8 +832,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     edit_btn_preview: "Vorschau"
     edit_article_title: "Artikel bearbeiten"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Priorität"
 
   contribute:
     page_title: "Mitwirken"
@@ -973,7 +996,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     payments: "Zahlungen"
     purchased: "Gekauft"
     subscription: "Abo"
-#    invoices: "Invoices"
+    invoices: "Rechnungen"
     service_apple: "Apple"
     service_web: "Web"
     paid_on: "Gezahlt am"
@@ -990,15 +1013,15 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     status_unsubscribed_active: "Du hast kein Abo, und bekommst keine Rechnung, aber dein Account ist weiterhin aktiv."
     status_unsubscribed: "Erhalte Zugang zu neuen Leveln, Helden, Gegenständen und Bonus Edelsteinen mit einem CodeCombat Abo!"
 
-#  account_invoices:
-#    amount: "Amount in US dollars"
-#    declined: "Your card was declined"
-#    invalid_amount: "Please enter a US dollar amount."
-#    not_logged_in: "Log in or create an account to access invoices."
-#    pay: "Pay Invoice"
-#    purchasing: "Purchasing..."
-#    retrying: "Server error, retrying."
-#    success: "Successfully paid. Thanks!"
+  account_invoices:
+    amount: "Betrag in US-Dollar"
+    declined: "Ihre Karte wurde nicht akzeptiert"
+    invalid_amount: "Bitte gib einen US-Dollar Betrag ein."
+    not_logged_in: "Melde dich an oder erstelle einen Account um deine Rechnungen an zu sehen."
+    pay: "Bezahle Rechnung"
+    purchasing: "Kaufe..."
+    retrying: "Serverfehler, versuche es erneut."
+    success: "Erfolgreich bezahlt. Danke!"
 
   loading_error:
     could_not_load: "Fehler beim Laden vom Server"
@@ -1060,8 +1083,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     feedback: "Feedback"
     payment_info: "Zahlungsinfo"
     campaigns: "Kampagne"
-#    poll: "Poll"
-#    user_polls_record: "Poll Voting History"
+    poll: "Umfrage"
+    user_polls_record: "Umfrageergebnisse"
 
   delta:
     added: "hinzugefügt"

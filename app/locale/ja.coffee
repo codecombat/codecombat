@@ -336,7 +336,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_google: "解決できない問題がありますか？ググっちゃえ！"
     tip_adding_evil: "悪を少々加える。"
     tip_hate_computers: "コンピュータを憎むと思う人についての事だ。彼らが本当に嫌いなのは下手なプログラマーだ。- ラリー・ニーヴン"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
+    tip_open_source_contribute: "あなたはCodeCombatを向上させることができます！"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
@@ -431,6 +431,29 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
+#    personal_sub: "Personal Subscription" # Accounts Subscription View below
+#    loading_info: "Loading subscription information..."
+#    managed_by: "Managed by"
+#    will_be_cancelled: "Will be cancelled on"
+#    currently_free: "You currently have a free subscription"
+#    currently_free_until: "You currently have a free subscription until"
+#    was_free_until: "You had a free subscription until"
+#    managed_subs: "Managed Subscriptions"
+#    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+#    group_discounts: "Group discounts"
+#    group_discounts_1st: "1st subscription (includes yours)"
+#    group_discounts_full: "Full price"
+#    group_discounts_2nd: "Subscriptions 2-11"
+#    group_discounts_20: "20% off"
+#    group_discounts_12th: "Subscriptions 12+"
+#    group_discounts_40: "40% off"
+#    subscribing: "Subscribing..."
+#    recipient_emails_placeholder: "Enter email address to subscribe, one per line."
+#    subscribe_users: "Subscribe Users"
+#    users_subscribed: "Users subscribed:"
+#    no_users_subscribed: "No users subscribed, please double check your email addresses."
+#    current_recipients: "Current Recipients"
+#    unsubscribing: "Unsubscribing..."
 
   choose_hero:
     choose_hero: "ヒーロー選択"
@@ -609,14 +632,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     forum_prefix: "公開で様々な人と議論したい場合は "
     forum_page: "こちらのフォーラム"
     forum_suffix: " でお願いします。"
-#    faq_prefix: "There's also a"
+    faq_prefix: "他のサポートもあります："
     faq: "よくある質問(FAQ)"
-#    subscribe_prefix: "If you need help figuring out a level, please"
-#    subscribe: "buy a CodeCombat subscription"
-#    subscribe_suffix: "and we'll be happy to help you with your code."
-#    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support."
-#    screenshot_included: "Screenshot included."
-#    where_reply: "Where should we reply?"
+    subscribe_prefix: "レベルをクリアする情報が必要ならば、"
+    subscribe: "CodeCombatのサブスクリプションを購入頂けると"
+    subscribe_suffix: "喜んであなたのコードを手伝います。"
+    subscriber_support: "あなたはCodeCombatにすでに加入しているので、メールは優先サポートされます。"
+    screenshot_included: "スクリーンショットが含まれています。"
+    where_reply: "何処へ返信すれば宜しいですか？"
     send: "フィードバックを送信"
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
@@ -726,16 +749,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     main_title: "CodeCombatエディター"
 #    article_title: "Article Editor"
 #    thang_title: "Thang Editor"
-#    level_title: "Level Editor"
-#    achievement_title: "Achievement Editor"
-#    poll_title: "Poll Editor"
-#    back: "Back"
-#    revert: "Revert"
+    level_title: "レベルエディター"
+    achievement_title: "実績エディター"
+    poll_title: "投票エディター"
+    back: "バック"
+    revert: "戻す"
 #    revert_models: "Revert Models"
 #    pick_a_terrain: "Pick A Terrain"
-#    dungeon: "Dungeon"
+    dungeon: "ダンジョン"
 #    indoor: "Indoor"
-#    desert: "Desert"
+    desert: "砂漠"
 #    grassy: "Grassy"
 #    small: "Small"
 #    large: "Large"
@@ -744,7 +767,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    generate_terrain: "Generate Terrain"
 #    more: "More"
 #    wiki: "Wiki"
-#    live_chat: "Live Chat"
+    live_chat: "ライブチャット"
 #    thang_main: "Main"
 #    thang_spritesheets: "Spritesheets"
 #    thang_colors: "Colors"
@@ -809,8 +832,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "プライオリティ"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -1072,8 +1095,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
 
-#  guide:
-#    temp: "Temp"
+  guide:
+    temp: "テンポラリー"
 
   multiplayer:
     multiplayer_title: "マルチプレイ設定" # We'll be changing this around significantly soon. Until then, it's not important to translate.

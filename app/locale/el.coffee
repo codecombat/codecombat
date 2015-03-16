@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "Ελληνικά", englishDescription: "Greek", translation:
   home:
     slogan: "Μάθε να Προγραμμάτιζεις Παίζοντας ένα Παιχνίδι"
-    no_ie: "Το CodeCombat δεν τρέχει σε Internet Explorer 9 ή παλαιότερη έκδοση. Συγνώμη!" # Warning that only shows up in IE8 and older
+    no_ie: "Το CodeCombat δεν είναι συμβατό με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση. Συγνώμη!" # Warning that only shows up in IE8 and older
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!" # Warning that shows up on mobile devices
     play: "Παίξε" # The big play button that opens up the campaign view.
     old_browser: "Ωχ, ο περιηγητής σας είναι πολύ παλιός για να τρέξει το CodeCombat. Συγνώμη!" # Warning that shows up on really old Firefox/Chrome/Safari
@@ -17,7 +17,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
     editor: "Συγγραφέας"
-    blog: "Μπλόγκ"
+    blog: "Ιστολόγιο"
     forum: "Φόρουμ"
     account: "Λογαριασμός"
     profile: "Προφίλ"
@@ -27,7 +27,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     home: "Αρχική"
     contribute: "Συνεισφέρω"
     legal: "Νομικά"
-    about: "Σχετικά με"
+    about: "Περί"
     contact: "Επικοινωνία"
     twitter_follow: "Ακολούθησε"
     teachers: "Εκπαιδευτικοί"
@@ -42,9 +42,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   diplomat_suggestion:
     title: "Βοηθήστε στην μετάφραση του CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Χρειαζόμαστε τις γλωσσικές σας δεξιότητες."
-    pitch_body: "Αναπτύσσουμε το CodeCombat στα Αγγλικά, αλλά ήδη έχουμε παίκτες από όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα Ελληνικά, αλλά δεν μιλούν Αγγλικά, οπότε αν μπορείτε να μιλήσετε και τις δύο, παρακαλούμε να σκεφτείτε την εγγραφή ως Διπλωμάτης και να βοηθήσετε να μεταφραστεί τόσο η ιστοσελίδα CodeCombat και όλα τα επίπεδα στην Ελληνική."
+    pitch_body: "Αναπτύσσουμε το CodeCombat στα αγγλικά, αλλά ήδη έχουμε παίκτες από όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα ελληνικά, αλλά δεν μιλούν αγγλικά. Εάν έχετε ευχέρεια και στις δύο γλώσσες, αγγλική κι ελληνική, παρακαλούμε να εγγραφείτε ως Διπλωμάτης και να συμβάλετε στην απόδοση της ιστοσελίδας CodeCombat και όλων των επιπέδων στην ελληνική γλώσσα."
     missing_translations: "Μέχρι να μπορούν να μεταφράσουν τα πάντα σε Ελληνικά, θα δείτε την αγγλική γλώσσα όπου τα Ελληνικά  δεν είναι διαθέσιμα."
-    learn_more: "Μάθετε περισσότερα σχετικά με το να είστε ένας Διπλωμάτης"
+    learn_more: "Μάθετε πώς να γίνετε  Διπλωμάτης"
     subscribe_as_diplomat: "Εγγραφή ως Διπλωμάτης"
 
   play:
@@ -83,7 +83,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     adventurer_forum: "Φόρουμ του Adventurer"
     adventurer_suffix: "."
     campaign_old_beginner: "Παλαιότερη Εκστρατεία Αρχαρίων"
-    campaign_old_beginner_description: "... στην οποία μαθαίνετε τη μαγεία του προγραμματισμού."
+    campaign_old_beginner_description: "... στα οποία μπορείτε να εξερευνήσετε τις προγραμματιστικές διεπαφές, ενώ κάνετε κάτι λίγο πιο δύσκολο."
     campaign_dev: "Τυχαία Δυσκολότερα Επίπεδα"
     campaign_dev_description: "... στα οποία μπορείτε να μάθετε το περιβάλλον, ενώ κάνετε κάτι λίγο δυσκολότερο."
     campaign_multiplayer: "Αρένες Πολλαπλών Παικτών"
@@ -106,7 +106,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   login:
     sign_up: "Δημιουργία Λογαριασμού"
     log_in: "Σύνδεση"
-    logging_in: "Σύνδεση"
+    logging_in: "Σύνδεση σε εξέλιξη"
     log_out: "Αποσύνδεση"
     forgot_password: "Ξεχάσατε τον κωδικό σας;"
 #    authenticate_gplus: "Authenticate G+"
@@ -149,16 +149,16 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     save: "Αποθήκευση"
     publish: "Δημοσίευση"
     create: "Δημιουργία"
-#    manual: "Manual"
+    manual: "Οδηγίες"
 #    fork: "Fork"
-#    play: "Play" # When used as an action verb, like "Play next level"
+    play: "Παίξε" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    actions: "Actions"
 #    info: "Info"
 #    help: "Help"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    watch: "Παρακολούθηση"
+    unwatch: "Παύση παρακολούθηση"
+    submit_patch: "Αποστολή Επιδιόρθωσης"
 #    submit_changes: "Submit Changes"
 
   general:
@@ -431,6 +431,29 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
+#    personal_sub: "Personal Subscription" # Accounts Subscription View below
+#    loading_info: "Loading subscription information..."
+#    managed_by: "Managed by"
+#    will_be_cancelled: "Will be cancelled on"
+#    currently_free: "You currently have a free subscription"
+#    currently_free_until: "You currently have a free subscription until"
+#    was_free_until: "You had a free subscription until"
+#    managed_subs: "Managed Subscriptions"
+#    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+#    group_discounts: "Group discounts"
+#    group_discounts_1st: "1st subscription (includes yours)"
+#    group_discounts_full: "Full price"
+#    group_discounts_2nd: "Subscriptions 2-11"
+#    group_discounts_20: "20% off"
+#    group_discounts_12th: "Subscriptions 12+"
+#    group_discounts_40: "40% off"
+#    subscribing: "Subscribing..."
+#    recipient_emails_placeholder: "Enter email address to subscribe, one per line."
+#    subscribe_users: "Subscribe Users"
+#    users_subscribed: "Users subscribed:"
+#    no_users_subscribed: "No users subscribed, please double check your email addresses."
+#    current_recipients: "Current Recipients"
+#    unsubscribing: "Unsubscribing..."
 
   choose_hero:
 #    choose_hero: "Choose Your Hero"
@@ -594,21 +617,21 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    sys_requirements_6: "Allow players to wear headphones/earbuds to hear the audio."
 #    sys_requirements_7: "We help players learn through voiceover and sound effects, which will make classrooms noisy and distracting."
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
+  versions:
+    save_version_title: "Αποθήκευση Νέας Έκδοσης"
+    new_major_version: "Δημιουργία Νέας Έκδοσης"
 #    submitting_patch: "Submitting Patch..."
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+    cla_prefix: "Για να αποθηκευτούν οι αλλαγές, χρειάζεται πρώτα να συμφωνήσεις με την "
+    cla_url: "Άδεια Χρήσης Συντελεστή (CLA)"
+    cla_suffix: "."
+    cla_agree: "ΣΥΜΦΩΝΩ"
 
   contact:
     contact_us: "Επικοινωνήστε μαζί μας"
-    welcome: "Καλό να ακούσω από εσάς! Χρησιμοποιήστε αυτή τη φόρμα για να μας στείλετε email. "
+    welcome: "Καλό είναι να έχουμε νέα από εσάς! Χρησιμοποιήστε αυτή τη φόρμα για να μας στείλετε email. "
     forum_prefix: "Για οτιδήποτε δημόσιο, παρακαλούμε δοκίμαστε "
     forum_page: "το φόρουμ μας"
-    forum_suffix: ""
+    forum_suffix: "."
 #    faq_prefix: "There's also a"
 #    faq: "FAQ"
 #    subscribe_prefix: "If you need help figuring out a level, please"
@@ -618,8 +641,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    screenshot_included: "Screenshot included."
 #    where_reply: "Where should we reply?"
     send: "Αποστολή σχολίων"
-#    contact_candidate: "Contact Candidate" # Deprecated
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
+    contact_candidate: "Επικοινώνησε με τον Υποψήφιο" # Deprecated
+    recruitment_reminder: "Χρησιμοποίησε τη φόρμα αυτή για να επικοινωνήσεις με τους υποψήφιους, από τους οποίους ενδιαφέρεσαι να πάρεις συνέντευξη. Υπενθυμίζουμε πως το CodeCombat χρεώνει το 15% της αμοιβής του πρώτου έτους. Η καταβολή του ποσού γίνεται με την πρόσληψη του εργαζομένου, και μπορεί να επιστραφεί εντός 90 ημερών, στην περίπτωση που ο εργαζόμενος δεν παραμείνει στην εργασία. Οι μερικής απασχόλησης, οι εργαζόμενοι εξ αποστάσεως (τηλε-εργασία), οι μπλοκάκηδες και οι πρακτικάριοι είναι δωρεάν." # Deprecated
 
   account_settings:
     title: "Ρυθμίσεις λογαριασμού"
@@ -650,7 +673,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
     contributor_emails: "Contributor Class Emails"
-    contribute_prefix: "Αναζητούμε για ανθρώπους που θέλουν να  "
+    contribute_prefix: "Αναζητούμε ανθρώπους που θέλουν να  "
     contribute_page: "Σελίδα συνεισφοράς"
     contribute_suffix: " μάθε περισσότερα"
     email_toggle: "Επέλεξα όλα"
@@ -710,7 +733,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     artisan_title_description: "(Δημιουργός επιπέδων)"
 #    artisan_summary: "Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program."
     adventurer_title: "Εξερευνητής"
-    adventurer_title_description: "(Δοκιματής επιπέδων)"
+    adventurer_title_description: "(Δοκιμαστής επιπέδων)"
 #    adventurer_summary: "Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release."
     scribe_title: "Γραφέας"
     scribe_title_description: "(Συντάκτης άρθρων)"
