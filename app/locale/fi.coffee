@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "suomi", englishDescription: "Finnish", translation:
 #  home:
-#    slogan: "Learn to Code by Playing a Game"
+#    slogan: "Opi Koodaamaan Pelaamalla"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
 #    play: "Play" # The big play button that opens up the campaign view.
@@ -8,36 +8,36 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
+#    for_beginners: "Aloittelijoille"
 #    multiplayer: "Multiplayer" # Not currently shown on home page
 #    for_developers: "For Developers" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
 #  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
+#    play: "Tasot" # The top nav bar entry where players choose which levels to play
+#    community: "Yhteisö"
+#    editor: "Editori"
+#    blog: "Blogi"
+#    forum: "Forumi"
+#    account: "Tili"
+#    profile: "Profiili"
+#    stats: "Tilastot"
+#    code: "Koodi"
 #    admin: "Admin" # Only shows up when you are an admin
 #    home: "Home"
-#    contribute: "Contribute"
+#    contribute: "Avusta"
 #    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
+#    about: "Tietoja"
+#    contact: "Ota yhteyttä"
+#    twitter_follow: "Seuraa"
+#    teachers: "Opettajat"
 
 #  modal:
-#    close: "Close"
-#    okay: "Okay"
+#    close: "Sulje"
+#    okay: "Ok"
 
 #  not_found:
-#    page_not_found: "Page not found"
+#    page_not_found: "Sivua ei löydy"
 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
@@ -104,11 +104,11 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tell_parent: "Tell your Parent"
 
 #  login:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    logging_in: "Logging In"
-#    log_out: "Log Out"
-#    forgot_password: "Forgot your password?"
+#    sign_up: "Luo Tili"
+#    log_in: "Kirjaudu"
+#    logging_in: "Kirjaudutaan"
+#    log_out: "Kirjaudu Ulos"
+#    forgot_password: "Unohditko salasanasi?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
@@ -131,16 +131,16 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    recovery_sent: "Recovery email sent."
 
 #  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+#    primary: "Ensisijainen"
+#    secondary: "Toissijainen"
+#    armor: "Suoja"
+#    accessories: "Lisätarvikkeet"
+#    misc: "Sekalaista"
+#    books: "Kirjat"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+#    back: "Takaisin" # When used as an action verb, like "Navigate backward"
+#    continue: "Jatka" # When used as an action verb, like "Continue forward"
     loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
