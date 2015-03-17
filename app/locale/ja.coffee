@@ -42,10 +42,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   diplomat_suggestion:
     title: "CodeCombatを翻訳しましょう！" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "あなたの言語力が必要です。"
-    pitch_body: "CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。もし、あなたが英語が得意であれば、Diplomat（翻訳者）として登録し、CodeCombatのレベルやサイトの翻訳にご協力ください。"
+    pitch_body: "CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。もし、あなたが英語が得意であれば、外交官（翻訳者）として登録し、CodeCombatのレベルやサイトの翻訳にご協力ください。"
     missing_translations: "翻訳が完了していない部分は、英語で表示されます。"
-    learn_more: "Diplomat について情報"
-    subscribe_as_diplomat: "Diplomat登録"
+    learn_more: "外交官について情報"
+    subscribe_as_diplomat: "外交官登録"
 
   play:
     play_as: "としてプレー" # Ladder page
@@ -64,7 +64,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     achievements: "実績" # Tooltip on achievement list button from /play
     account: "アカウント" # Tooltip on account button from /play
     settings: "設定" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "投票" # Tooltip on poll button from /play
     next: "次へ" # Go from choose hero to choose inventory before playing a level
     change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
     choose_inventory: "アイテムを装備"
@@ -309,16 +309,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_reticulating: "網状化する背骨"
     tip_harry: "君はウィザードだ"
     tip_great_responsibility: "偉大なコーディングスキルを持つと、偉大なデバッグ責任も付属してきます。"
-    tip_munchkin: "野菜を食べなければ、眠ってる間、マンチキンに襲われるぞ。"
-    tip_binary: "世界には10種類の人がいる：バイナリを理解する人と、そうでない人。"
-    tip_commitment_yoda: "プログラマは、最も深いコミットメントを持つ必要がある, 最も深刻な心。 - ヨーダ"
+    tip_munchkin: "野菜を食べなければ、眠ってる間にマンチキンに襲われるぞ。"
+    tip_binary: "世界には10種類の人がいる：バイナリーを理解する人と、そうでない人。"
+    tip_commitment_yoda: "プログラマーは、最も深いコミットメントを持つ必要がある, 最も深刻な心。- ヨーダ"
     tip_no_try: "やる。又はやらない。試しはない。- ヨーダ"
-    tip_patience: "持つ必要がある、忍耐を若いパダワンよ。 - ヨーダ"
+    tip_patience: "持つ必要がある、忍耐を若いパダワンよ。- ヨーダ"
     tip_documented_bug: "文書化されたバグはバグではありません。それは機能です。"
     tip_impossible: "何かをやり遂げるまでは、常にそれが不可能に思える。- ネルソン・マンデラ"
     tip_talk_is_cheap: "話合はもう良い。コードを見せろ。- リーナス・トーバルズ"
     tip_first_language: "最初のプログラミング言語を学ぶ時が、最も悲惨な事を学ぶ時だ。- アラン・ケイ"
-    tip_hardware_problem: "Q：電球を変更するのにプログラマが何人必要ですか？ A ：一人もいらない、それはハードウェアの問題だ。"
+    tip_hardware_problem: "Q：電球を変更するのにプログラマが何人必要ですか？ A：一人もいらない、それはハードウェアの問題だ。"
     tip_hofstadters_law: "ホフスタッターの法則：いつでも予測以上の時間がかかるものである — ホフスタッターの法則を計算に入れても。"
     tip_premature_optimization: "早すぎる最適化は諸悪の根源である。-ドナルド・クヌース"
     tip_brute_force: "疑わしい時は、暴力を使え。- ケン・トンプソン"
@@ -509,7 +509,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     default_value: "デフォルト値"
     parameters: "パラメータ"
     returns: "リターン"
-    granted_by: "によって与えられた"
+    granted_by: "スキルを与えてくれるアイテム："
 
   save_load:
     granularity_saved_games: "セーブされました"
@@ -525,20 +525,20 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     editor_config: "エディター設定"
     editor_config_title: "エディターの設定"
     editor_config_level_language_label: "このレベルの言語"
-#    editor_config_level_language_description: "Define the programming language for this particular level."
+    editor_config_level_language_description: "このレベルのプログラミング言語を定義する。"
     editor_config_default_language_label: "デフォルトプログラミング言語"
-#    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
+    editor_config_default_language_description: "新しいレベルの起動時に、コードしたいプログラミング言語を定義する。"
     editor_config_keybindings_label: "キーバインディング"
     editor_config_keybindings_default: "デフォルト(エース)"
-#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
-#    editor_config_livecompletion_label: "Live Autocompletion"
-#    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
-#    editor_config_invisibles_label: "Show Invisibles"
-#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
-#    editor_config_indentguides_label: "Show Indent Guides"
-#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-#    editor_config_behaviors_label: "Smart Behaviors"
-#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+    editor_config_keybindings_description: "一般的なエディターから知られているショートカットを追加する。"
+    editor_config_livecompletion_label: "ライブオートコンプリート"
+    editor_config_livecompletion_description: "コード入力中、オートコンプリートの提案を表示する。"
+    editor_config_invisibles_label: "編集記号の表示"
+    editor_config_invisibles_description: "スペースやタブなどの編集記号を表示する。"
+    editor_config_indentguides_label: "インデントガイドの表示"
+    editor_config_indentguides_description: "より良いインデントを見るために垂直線を表示する。"
+    editor_config_behaviors_label: "スマートビヘイビア"
+    editor_config_behaviors_description: "カッコ、中括弧、および引用符をオートコンプリートする。"
 
   about:
     why_codecombat: "なぜCodeCombat?"
@@ -554,11 +554,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     press_paragraph_1_link: "プレスパケット"
     press_paragraph_1_suffix: "。全てのロゴやイメージは、直接私達に連絡することなく使用することができます。"
     team: "開発チーム"
-    george_title: "共同創設者" # {change}
+    george_title: "コーファウンダー" # {change}
     george_blurb: "ビジネスの達人"
-    scott_title: "共同創設者" # {change}
+    scott_title: "コーファウンダー" # {change}
     scott_blurb: "リーズナブルな奴"
-    nick_title: "共同創設者" # {change}
+    nick_title: "コーファウンダー" # {change}
     nick_blurb: "モチベーションの達人"
     michael_title: "プログラマー"
     michael_blurb: "システム管理者"
@@ -635,8 +635,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     faq_prefix: "他のサポートもあります："
     faq: "よくある質問(FAQ)"
     subscribe_prefix: "レベルをクリアする情報が必要ならば、"
-    subscribe: "CodeCombatのサブスクリプションを購入頂けると"
-    subscribe_suffix: "喜んであなたのコードを手伝います。"
+    subscribe: "CodeCombatのサブスクリプション"
+    subscribe_suffix: "を購入頂けると喜んであなたのコードを手伝います。"
     subscriber_support: "あなたはCodeCombatにすでに加入しているので、メールは優先サポートされます。"
     screenshot_included: "スクリーンショットが含まれています。"
     where_reply: "何処へ返信すれば宜しいですか？"
@@ -697,7 +697,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     run_real_time: "リアルタイムで実行"
 #    continue_script: "Continue past current script."
 #    skip_scripts: "Skip past all skippable scripts."
-    toggle_playback: "トグル プレイ/ポーズ"
+    toggle_playback: "トグル:プレイ/ポーズ"
 #    scrub_playback: "Scrub back and forward through time."
 #    single_scrub_playback: "Scrub back and forward through time by a single frame."
 #    scrub_execution: "Scrub through current spell execution."
@@ -707,8 +707,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  community:
-#    main_title: "CodeCombat Community"
+  community:
+    main_title: "CodeCombatコミュニティー"
 #    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
 #    level_editor_prefix: "Use the CodeCombat"
 #    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
@@ -748,7 +748,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   editor:
     main_title: "CodeCombatエディター"
 #    article_title: "Article Editor"
-#    thang_title: "Thang Editor"
+    thang_title: "サングエディター"
     level_title: "レベルエディター"
     achievement_title: "実績エディター"
     poll_title: "投票エディター"
@@ -1337,9 +1337,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   admin:
 #    av_espionage: "Espionage" # Really not important to translate /admin controls.
 #    av_espionage_placeholder: "Email or username"
-#    av_usersearch: "User Search"
+    av_usersearch: "ユーザーサーチ"
 #    av_usersearch_placeholder: "Email, username, name, whatever"
-#    av_usersearch_search: "Search"
+    av_usersearch_search: "サーチ"
     av_title: "管理画面"
 #    av_entities_sub_title: "Entities"
     av_entities_users_url: "ユーザー"
@@ -1349,7 +1349,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    av_entities_user_code_problems_list_url: "User Code Problems List"
     av_other_sub_title: "その他"
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
-#    u_title: "User List"
+    u_title: "ユーザーリスト"
 #    ucp_title: "User Code Problems"
     lg_title: "最近のゲーム"
     clas: "CLA"
