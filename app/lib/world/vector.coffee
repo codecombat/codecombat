@@ -11,8 +11,8 @@ class Vector
   apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy', 'distanceSquared', 'rotate']
 
   constructor: (x=0, y=0, z=0) ->
-     return new Vector(x,y,z) unless this instanceof Vector
-     [@x, @y, @z] = [x,y,z]
+    return new Vector(x,y,z) unless this instanceof Vector
+    [@x, @y, @z] = [x,y,z]
 
   copy: ->
     new Vector(@x, @y, @z)
