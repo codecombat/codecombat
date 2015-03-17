@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "suomi", englishDescription: "Finnish", translation:
 #  home:
-#    slogan: "Opi Koodaamaan Pelaamalla"
+    slogan: "Opi Koodaamaan Pelaamalla"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
 #    play: "Pelaa" # The big play button that opens up the campaign view.
@@ -8,36 +8,36 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
 #    campaign: "Campaign"
-#    for_beginners: "Aloittelijoille"
-#    multiplayer: "Moninpelaaja" # Not currently shown on home page
-#    for_developers: "Kehittäjille" # Not currently shown on home page.
+    for_beginners: "Aloittelijoille"
+    multiplayer: "Moninpelaaja" # Not currently shown on home page
+    for_developers: "Kehittäjille" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
 #  nav:
-#    play: "Tasot" # The top nav bar entry where players choose which levels to play
-#    community: "Yhteisö"
-#    editor: "Editori"
-#    blog: "Blogi"
-#    forum: "Foorumi"
-#    account: "Tili"
-#    profile: "Profiili"
-#    stats: "Tilastot"
-#    code: "Koodi"
+    play: "Tasot" # The top nav bar entry where players choose which levels to play
+    community: "Yhteisö"
+    editor: "Editori"
+    blog: "Blogi"
+    forum: "Foorumi"
+    account: "Tili"
+    profile: "Profiili"
+    stats: "Tilastot"
+    code: "Koodi"
 #    admin: "Admin" # Only shows up when you are an admin
-#    home: "Koti"
-#    contribute: "Avusta"
-#    legal: "Laillisuus"
-#    about: "Tietoja"
-#    contact: "Ota yhteyttä"
-#    twitter_follow: "Seuraa"
-#    teachers: "Opettajat"
+    home: "Koti"
+    contribute: "Avusta"
+    legal: "Laillisuus"
+    about: "Tietoja"
+    contact: "Ota yhteyttä"
+    twitter_follow: "Seuraa"
+    teachers: "Opettajat"
 
 #  modal:
-#    close: "Sulje"
-#    okay: "Ok"
+    close: "Sulje"
+    okay: "Ok"
 
 #  not_found:
-#    page_not_found: "Sivua ei löydy"
+    page_not_found: "Sivua ei löydy"
 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
@@ -48,32 +48,32 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  play:
-#    play_as: "Pelaa" # Ladder page
+    play_as: "Pelaa" # Ladder page
 #    spectate: "Spectate" # Ladder page
-#    players: "pelaajat" # Hover over a level on /play
-#    hours_played: "pelatut tunnit" # Hover over a level on /play
-#    items: "Esineet" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Varmista"
-#    owned: "Omistettuja" # For items you own
-#    locked: "Lukittu"
+    players: "pelaajat" # Hover over a level on /play
+    hours_played: "pelatut tunnit" # Hover over a level on /play
+    items: "Esineet" # Tooltip on item shop button from /play
+    unlock: "Unlock" # For purchasing items and heroes
+    confirm: "Varmista"
+    owned: "Omistettuja" # For items you own
+    locked: "Lukittu"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Saatavissa"
+    available: "Saatavissa"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Sankarit" # Tooltip on hero shop button from /play
-#    achievements: "Saavutukset" # Tooltip on achievement list button from /play
-#    account: "Tili" # Tooltip on account button from /play
-#    settings: "Asetukset" # Tooltip on settings button from /play
+    heroes: "Sankarit" # Tooltip on hero shop button from /play
+    achievements: "Saavutukset" # Tooltip on achievement list button from /play
+    account: "Tili" # Tooltip on account button from /play
+    settings: "Asetukset" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    next: "Seuraava" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
 #    subscription_required: "Subscription Required"
-#    older_campaigns: "Vanhemmat Kamppanjat"
-#    anonymous: "Nimetön Pelaaja"
-#    level_difficulty: "Vaikeustaso: "
-#    campaign_beginner: "Aloittelijan Kamppanja"
+    older_campaigns: "Vanhemmat Kamppanjat"
+    anonymous: "Nimetön Pelaaja"
+    level_difficulty: "Vaikeustaso: "
+    campaign_beginner: "Aloittelijan Kamppanja"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
@@ -104,11 +104,11 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tell_parent: "Tell your Parent"
 
 #  login:
-#    sign_up: "Luo Tili"
-#    log_in: "Kirjaudu"
-#    logging_in: "Kirjaudutaan"
-#    log_out: "Kirjaudu Ulos"
-#    forgot_password: "Unohditko salasanasi?"
+    sign_up: "Luo Tili"
+    log_in: "Kirjaudu"
+    logging_in: "Kirjaudutaan"
+    log_out: "Kirjaudu Ulos"
+    forgot_password: "Unohditko salasanasi?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
@@ -131,112 +131,112 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    recovery_sent: "Recovery email sent."
 
 #  items:
-#    primary: "Ensisijainen"
-#    secondary: "Toissijainen"
-#    armor: "Suoja"
-#    accessories: "Lisätarvikkeet"
-#    misc: "Sekalaista"
-#    books: "Kirjat"
+    primary: "Ensisijainen"
+    secondary: "Toissijainen"
+    armor: "Suoja"
+    accessories: "Lisätarvikkeet"
+    misc: "Sekalaista"
+    books: "Kirjat"
 
   common:
-#    back: "Takaisin" # When used as an action verb, like "Navigate backward"
-#    continue: "Jatka" # When used as an action verb, like "Continue forward"
+    back: "Takaisin" # When used as an action verb, like "Navigate backward"
+    continue: "Jatka" # When used as an action verb, like "Continue forward"
     loading: "Ladataan..."
-#    saving: "Tallennetaan..."
-#    sending: "Lähetetään..."
-#    send: "Lähetä"
-#    cancel: "Peruuta"
-#    save: "Tallenna"
-#    publish: "Julkaise"
-#    create: "Luo"
-#    manual: "Ohjeet"
-#    fork: "Haarauta"
-#    play: "Pelaa" # When used as an action verb, like "Play next level"
-#    retry: "Kokeile uudestaan"
-#    actions: "Toiminnot"
-#    info: "Tietoa"
-#    help: "Apua"
-#    watch: "Seuraa"
-#    unwatch: "Lopeta Seuraaminen"
+    saving: "Tallennetaan..."
+    sending: "Lähetetään..."
+    send: "Lähetä"
+    cancel: "Peruuta"
+    save: "Tallenna"
+    publish: "Julkaise"
+    create: "Luo"
+    manual: "Ohjeet"
+    fork: "Haarauta"
+    play: "Pelaa" # When used as an action verb, like "Play next level"
+    retry: "Kokeile uudestaan"
+    actions: "Toiminnot"
+    info: "Tietoa"
+    help: "Apua"
+    watch: "Seuraa"
+    unwatch: "Lopeta Seuraaminen"
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
 #  general:
-#    and: "ja"
-#    name: "Nimi"
-#    date: "Päiväys"
-#    body: "Vartalo"
-#    version: "Versio"
-#    pending: "Odotetaan"
-#    accepted: "Hyväksytty"
-#    rejected: "Hylätty"
-#    withdrawn: "Vedetty pois"
-#    submitter: "Lähettäjä"
-#    submitted: "Lähetetty"
+    and: "ja"
+    name: "Nimi"
+    date: "Päiväys"
+    body: "Vartalo"
+    version: "Versio"
+    pending: "Odotetaan"
+    accepted: "Hyväksytty"
+    rejected: "Hylätty"
+    withdrawn: "Vedetty pois"
+    submitter: "Lähettäjä"
+    submitted: "Lähetetty"
 #    commit_msg: "Commit Message"
-#    review: "Review"
-#    version_history: "Version History"
+    review: "Esikatsele"
+    version_history: "Versiohistoria"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Peruuta"
+    undo_prefix: "Peruuta"
 #    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Tee uudelleen"
+    redo_prefix: "Tee uudelleen"
 #    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
 #    result: "Result"
 #    results: "Results"
 #    description: "Description"
-#    or: "tai"
-#    subject: "Subject"
+    or: "tai"
+    subject: "Aihe"
 #    email: "Email"
-#    password: "Password"
-#    message: "Message"
-#    code: "Code"
+    password: "Salasana"
+    message: "Viesti"
+    code: "Koodi"
 #    ladder: "Ladder"
-#    when: "When"
-#    opponent: "Vastustaja"
-#    rank: "Arvo"
-#    score: "Pisteet"
-#    win: "Voitto"
-#    loss: "Tappio"
-#    tie: "Tasapeli"
-#    easy: "Helppo"
-#    medium: "Haastava"
-#    hard: "Vaikea"
-#    player: "Pelaaja"
-#    player_level: "Taso" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Sotilas"
-#    ranger: "Vartija"
-#    wizard: "Velho"
+    when: "Kun"
+    opponent: "Vastustaja"
+    rank: "Arvo"
+    score: "Pisteet"
+    win: "Voitto"
+    loss: "Tappio"
+    tie: "Tasapeli"
+    easy: "Helppo"
+    medium: "Haastava"
+    hard: "Vaikea"
+    player: "Pelaaja"
+    player_level: "Taso" # Like player level 5, not like level: Dungeons of Kithgard
+    warrior: "Sotilas"
+    ranger: "Vartija"
+    wizard: "Velho"
 
 #  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+    second: "sekuntti"
+    seconds: "sekunnit"
+    minute: "minuutti"
+    minutes: "minuutit"
+    hour: "tunti"
+    hours: "tunnit"
+    day: "päivä"
+    days: "päivät"
+    week: "viikko"
+    weeks: "viikot"
+    month: "kuukausi"
+    months: "kuukaudet"
+    year: "vuosi"
+    years: "vuodet"
 
 #  play_level:
-#    done: "Valmis"
+    done: "Valmis"
 #    home: "Home" # Not used any more, will be removed soon.
-#    level: "Taso" # Like "Level: Dungeons of Kithgard"
-#    skip: "Ohita"
-#    game_menu: "Peli Valikko"
-#    guide: "Ohje"
+    level: "Taso" # Like "Level: Dungeons of Kithgard"
+    skip: "Ohita"
+    game_menu: "Peli Valikko"
+    guide: "Ohje"
 #    restart: "Restart"
-#    goals: "Goals"
-#    goal: "Goal"
-#    running: "Running..."
-#    success: "Success!"
+    goals: "Maalit"
+    goal: "Maali"
+    running: "Ajetaan..."
+    success: "Onnistui!"
 #    incomplete: "Incomplete"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
@@ -248,14 +248,14 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
-#    victory: "Voitto"
+    victory: "Voitto"
 #    victory_title_prefix: ""
 #    victory_title_suffix: " Complete"
 #    victory_sign_up: "Sign Up to Save Progress"
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
+    victory_play_continue: "Jatka"
 #    victory_saving_progress: "Saving Progress"
 #    victory_go_home: "Go Home" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
