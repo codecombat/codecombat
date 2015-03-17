@@ -279,12 +279,13 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
 self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
     try {
         var options = userCodeMap[thangID][spellID].originalOptions;
-        if (options.includeFlow === true && options.noSerializationInFlow === true)
+        if (options.includeFlow === true && options.noSerializationInFlow === true && options.noVariablesInFlow === false)
             return;
         else
         {
             options.includeFlow = true;
             options.noSerializationInFlow = true;
+            options.noVariablesInFlow = false;
             var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
             temporaryAether.transpile(temporaryAether.raw);
             userCodeMap[thangID][spellID] = temporaryAether.serialize();

@@ -9,6 +9,8 @@ module.exports.createAetherOptions = (options) ->
     functionName: options.functionName
     protectAPI: not options.skipProtectAPI
     includeFlow: Boolean options.includeFlow
+    noVariablesInFlow: true
+    skipDuplicateUserInfoInFlow: true  # Optimization that won't work if we are stepping with frames
     yieldConditionally: options.functionName is 'plan'
     simpleLoops: true
     globals: ['Vector', '_']

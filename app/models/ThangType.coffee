@@ -234,7 +234,11 @@ module.exports = class ThangType extends CocoModel
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
-    stage = new createjs.Stage(canvas[0])
+    try
+      stage = new createjs.Stage(canvas[0])
+    catch err
+      console.error "Error trying to create #{@get('name')} avatar stage:", err, "with window as", window
+      return null
     return stage unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
