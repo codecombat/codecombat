@@ -8,6 +8,7 @@ module.exports.thangNames = thangNames =
     'Iyert'
     'Lacos'
     'Palt'
+    'Pripp'
     'Shmeal'
     'Upfish'
     'Yugark'
@@ -36,6 +37,7 @@ module.exports.thangNames = thangNames =
     'Treg'
     'Ursa'
     'Weeb'
+    'Yart'
     'Zozo'
   ]
   'Ogre Thrower': [
@@ -44,6 +46,7 @@ module.exports.thangNames = thangNames =
     'Durnath'
     'Esha'
     'Gragthar'
+    'Grel'
     'Hamedi'
     'Jinjin'
     'Kraggan'
@@ -70,6 +73,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Celadia'
     'Taric'
+    'Vaelia'
   ]
   'Ogre Witch': [
     # Female
@@ -346,10 +350,12 @@ module.exports.thangNames = thangNames =
   ]
   'Necromancer': [
     # Male
+    'Morcelu'
     'Nalfar'
   ]
   'Dark Wizard': [
     # Female
+    'Lilith'
     'Usara'
     'Veigar'
   ]
