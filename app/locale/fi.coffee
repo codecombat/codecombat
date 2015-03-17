@@ -1,9 +1,9 @@
 module.exports = nativeDescription: "suomi", englishDescription: "Finnish", translation:
-#  home:
+  home:
     slogan: "Opi Koodaamaan Pelaamalla"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
-#    play: "Pelaa" # The big play button that opens up the campaign view.
+    play: "Pelaa" # The big play button that opens up the campaign view.
 #    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
@@ -13,7 +13,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     for_developers: "Kehittäjille" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
-#  nav:
+  nav:
     play: "Tasot" # The top nav bar entry where players choose which levels to play
     community: "Yhteisö"
     editor: "Editori"
@@ -32,11 +32,11 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     twitter_follow: "Seuraa"
     teachers: "Opettajat"
 
-#  modal:
+  modal:
     close: "Sulje"
     okay: "Ok"
 
-#  not_found:
+  not_found:
     page_not_found: "Sivua ei löydy"
 
   diplomat_suggestion:
@@ -47,7 +47,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  play:
+  play:
     play_as: "Pelaa" # Ladder page
 #    spectate: "Spectate" # Ladder page
     players: "pelaajat" # Hover over a level on /play
@@ -103,7 +103,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tell_friend: "Tell your Friend"
 #    tell_parent: "Tell your Parent"
 
-#  login:
+  login:
     sign_up: "Luo Tili"
     log_in: "Kirjaudu"
     logging_in: "Kirjaudutaan"
@@ -130,7 +130,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    send_password: "Send Recovery Password"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
     primary: "Ensisijainen"
     secondary: "Toissijainen"
     armor: "Suoja"
@@ -161,7 +161,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
-#  general:
+  general:
     and: "ja"
     name: "Nimi"
     date: "Päiväys"
@@ -209,7 +209,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     ranger: "Vartija"
     wizard: "Velho"
 
-#  units:
+  units:
     second: "sekuntti"
     seconds: "sekunnit"
     minute: "minuutti"
@@ -225,7 +225,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     year: "vuosi"
     years: "vuodet"
 
-#  play_level:
+  play_level:
     done: "Valmis"
 #    home: "Home" # Not used any more, will be removed soon.
     level: "Taso" # Like "Level: Dungeons of Kithgard"
