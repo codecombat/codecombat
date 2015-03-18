@@ -78,6 +78,9 @@ else
               h3.campaign-locked(data-i18n="play.locked") Locked
             else if campaign
               btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+            if campaign && campaign.get('description')
+              h3.campaign-description
+                span= i18n(campaign.attributes, 'description')
 
 .game-controls.header-font
   button.btn.poll.hidden(data-i18n="[title]play.poll")

@@ -34,7 +34,7 @@ class LevelSessionsCollection extends CocoCollection
 class CampaignsCollection extends CocoCollection
   url: '/db/campaign'
   model: Campaign
-  project: ['name', 'fullName', 'i18n']
+  project: ['name', 'fullName', 'description', 'i18n']
 
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'

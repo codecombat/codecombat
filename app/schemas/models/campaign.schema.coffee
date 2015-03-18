@@ -4,8 +4,9 @@ CampaignSchema = c.object()
 c.extendNamedProperties CampaignSchema  # name first
 
 _.extend CampaignSchema.properties, {
-  i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName']}
+  i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description']}
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' }
+  description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' }
 
   ambientSound: c.object {},
     mp3: { type: 'string', format: 'sound-file' }
