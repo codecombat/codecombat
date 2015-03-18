@@ -109,9 +109,9 @@ module.exports = class PlayHeroesModal extends ModalView
       @codeLanguageList = [
         {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
         {id: 'javascript', name: 'JavaScript'}
-        {id: 'coffeescript', name: 'CoffeeScript'}
+        {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
         {id: 'clojure', name: "Clojure (#{$.i18n.t('choose_hero.experimental')})"}
-        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'lua', name: 'Lua'}
         {id: 'io', name: "Io (#{$.i18n.t('choose_hero.experimental')})"}
       ]
 

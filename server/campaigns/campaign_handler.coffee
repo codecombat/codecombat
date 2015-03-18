@@ -10,6 +10,7 @@ CampaignHandler = class CampaignHandler extends Handler
   editableProperties: [
     'name'
     'fullName'
+    'description'
     'i18n'
     'i18nCoverage'
     'ambientSound'
@@ -29,7 +30,7 @@ CampaignHandler = class CampaignHandler extends Handler
 
     if @modelClass.schema.uses_coco_translation_coverage and (method or req.method).toLowerCase() in ['post', 'put']
       return true if @isJustFillingTranslations(req, document)
-      
+
     if req.method is 'GET'
       return true
 
