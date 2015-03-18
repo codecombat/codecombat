@@ -30,7 +30,7 @@ module.exports = class I18NHomeView extends RootView
       return 1 if m.generallyCovered
       return 0
 
-    project = ['name', 'components.original', 'i18nCoverage', 'slug']
+    project = ['name', 'components.original', 'i18n', 'i18nCoverage', 'slug']
 
     @thangTypes = new CocoCollection([], { url: '/db/thang.type?view=i18n-coverage', project: project, model: ThangType })
     @components = new CocoCollection([], { url: '/db/level.component?view=i18n-coverage', project: project, model: LevelComponent })
