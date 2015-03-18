@@ -370,7 +370,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
+  inventory:
 #    choose_inventory: "Equip Items"
 #    equipped_item: "Equipped"
 #    required_purchase_title: "Required"
