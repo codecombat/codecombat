@@ -91,9 +91,9 @@ module.exports = class LadderPlayModal extends ModalView
     ctx.languages = [
       {id: 'python', name: 'Python'}
       {id: 'javascript', name: 'JavaScript'}
-      {id: 'coffeescript', name: 'CoffeeScript'}
+      {id: 'coffeescript', name: 'CoffeeScript (Experimental)'}
       {id: 'clojure', name: 'Clojure (Experimental)'}
-      {id: 'lua', name: 'Lua (Experimental)'}
+      {id: 'lua', name: 'Lua'}
       {id: 'io', name: 'Io (Experimental)'}
     ]
     teamsList = teamDataFromLevel @level
