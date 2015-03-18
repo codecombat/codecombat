@@ -261,6 +261,7 @@ module.exports = class CampaignView extends RootView
     level.locked = false if @editorMode
     level.locked = false if @campaign?.get('name') is 'Auditions'
     level.locked = false if me.isInGodMode()
+    level.locked = false if level.slug is 'apocalypse'
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
     level.color = 'rgb(255, 80, 60)'
@@ -294,7 +295,7 @@ module.exports = class CampaignView extends RootView
       unless foundNext
         for nextLevelOriginal in level.nextLevels
           nextLevel = _.find levels, original: nextLevelOriginal
-          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (me.isPremium() or not nextLevel.requiresSubscription)
+          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (me.isPremium() or not nextLevel.requiresSubscription or nextLevel.slug is 'apocalypse')
             nextLevel.next = true
             foundNext = true
             break
@@ -333,12 +334,13 @@ module.exports = class CampaignView extends RootView
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {} when level.hidden
+    for level in @campaign.renderedLevels ? {} when level.hidden or level.slug is 'apocalypse'
       particleKey = ['level', @terrain]
       particleKey.push level.type if level.type and level.type isnt 'hero'
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
+      particleKey.push 'item' if level.slug is 'apocalypse'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 

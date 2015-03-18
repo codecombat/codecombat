@@ -249,6 +249,21 @@ particleKinds['level-forest-hero-ladder'] = ext particleKinds['level-forest-prem
     colorMiddle: hsl 0, 1, 0.5
     colorEnd: hsl 0, 0.75, 0.1
 
+particleKinds['level-forest-premium-item'] = ext particleKinds['level-forest-gate'],
+  emitter:
+    particleCount: 2000
+    radius: 2.5
+    acceleration: vec 0, 8, 1
+    opacityStart: 0
+    opacityMiddle: 0.5
+    opacityEnd: 0.75
+    colorStart: hsl 0.5, 0.75, 0.9
+    colorMiddle: hsl 0.5, 0.75, 0.7
+    colorEnd: hsl 0.5, 0.75, 0.3
+    colorStartSpread: vec 1, 1, 1
+    colorMiddleSpread: vec 1.5, 1.5, 1.5
+    colorEndSpread: vec 2.5, 2.5, 2.5
+
 particleKinds['level-desert-premium-hero'] = ext particleKinds['level-desert-premium'],
   emitter:
     particleCount: 200
