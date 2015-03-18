@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "suomi", englishDescription: "Finnish", translation:
-#  home:
+  home:
     slogan: "Opi Koodaamaan Pelaamalla"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
@@ -13,7 +13,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     for_developers: "Kehittäjille" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
-#  nav:
+  nav:
     play: "Tasot" # The top nav bar entry where players choose which levels to play
     community: "Yhteisö"
     editor: "Editori"
@@ -32,11 +32,11 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     twitter_follow: "Seuraa"
     teachers: "Opettajat"
 
-#  modal:
+  modal:
     close: "Sulje"
     okay: "Ok"
 
-#  not_found:
+  not_found:
     page_not_found: "Sivua ei löydy"
 
   diplomat_suggestion:
@@ -47,7 +47,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     learn_more: "Ota selvää mitä tarkoitta olla Diplomaatti"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  play:
+  play:
     play_as: "Pelaa" # Ladder page
 #    spectate: "Spectate" # Ladder page
     players: "pelaajat" # Hover over a level on /play
@@ -93,7 +93,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Edistyt loistavasti! Kerro ystävillesi mitä olet oppinut CodeCombat:n avulla."
 #    email_invalid: "Email address invalid."
     form_blurb: "Syötä heidän sähköpostiosoitteet ja me kerromme heille!"
@@ -103,7 +103,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     tell_friend: "Kerro ystävilllesi"
 #    tell_parent: "Tell your Parent"
 
-#  login:
+  login:
     sign_up: "Luo Tili"
     log_in: "Kirjaudu"
     logging_in: "Kirjaudutaan"
@@ -116,7 +116,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    sign_in_with_gplus: "Sign in with G+"
 #    signup_switch: "Want to create an account?"
 
-#  signup:
+  signup:
     email_announcements: "Haluatko ilmoituksia sähköpostiisi"
     creating: "Luodaan tili..."
     sign_up: "Ilmoittaudu"
@@ -130,7 +130,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    send_password: "Send Recovery Password"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
     primary: "Ensisijainen"
     secondary: "Toissijainen"
     armor: "Suoja"
@@ -161,7 +161,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
 
-#  general:
+  general:
     and: "ja"
     name: "Nimi"
     date: "Päiväys"
@@ -209,7 +209,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     ranger: "Vartija"
     wizard: "Velho"
 
-#  units:
+  units:
     second: "sekuntti"
     seconds: "sekunnit"
     minute: "minuutti"
@@ -225,7 +225,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     year: "vuosi"
     years: "vuodet"
 
-#  play_level:
+  play_level:
     done: "Valmis"
 #    home: "Home" # Not used any more, will be removed soon.
     level: "Taso" # Like "Level: Dungeons of Kithgard"
@@ -233,13 +233,13 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     game_menu: "Peli Valikko"
     guide: "Ohje"
     restart: "Käynnistä uudelleen"
-    goals: "Maalit"
-    goal: "Maali"
+    goals: "Tavoitteet"
+    goal: "Tavoite"
     running: "Ajetaan..."
     success: "Onnistui!"
     incomplete: "Kesken"
     timed_out: "Aika loppui"
-    failing: "Epäonnistuu"
+    failing: "Epäonnistui"
 #    action_timeline: "Action Timeline"
     click_to_select: "Jos valitset yksikön, klikkaa sitä."
     control_bar_multiplayer: "Moninpelaaja"
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
-#  game_menu:
+  game_menu:
     inventory_tab: "Luettelo"
     save_load_tab: "Tallenna/Lataa"
     options_tab: "Asetukset"
@@ -348,7 +348,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     guide_tips: "Vinkkejä"
     multiplayer_tab: "Moninpelaaja"
     auth_tab: "Kirjaudu"
-    inventory_caption: "Equip your hero"
+    inventory_caption: "Varusta sankari"
     choose_hero_caption: "Valitse sankari ja kieli"
     save_load_caption: "... ja katso historiaa"
     options_caption: "Muuta asetuksia"
@@ -455,10 +455,10 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    current_recipients: "Current Recipients"
 #    unsubscribing: "Unsubscribing..."
 
-#  choose_hero:
+  choose_hero:
     choose_hero: "Valitse Sankarisi"
     programming_language: "Ohjelmointikieli"
-    programming_language_description: "Minkä ohjelmointikieltä haluat käyttää?"
+    programming_language_description: "Mitä ohjelmointikieltä haluat käyttää?"
 #    default: "Default"
 #    experimental: "Experimental"
     python_blurb: "Yksinkertainen mutta voimakas, loistava niin aloittelijoille kuin experteille."
@@ -471,8 +471,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     hero_type: "Tyyppi"
     weapons: "Aseet"
     weapons_warrior: "Miekat - Lyhyt kantama, Ei taikuutta"
-    weapons_ranger: "Joupyssy, Aseet - Pitkä kantama, Ei taikuutta"
-    weapons_wizard: "Sauvat, Kepit - Pitkä kantana, Taikutta"
+    weapons_ranger: "Jousipyssy, Aseet - Pitkä kantama, Ei taikuutta"
+    weapons_wizard: "Sauvat, Kepit - Pitkä kantana, Osaa taikoa"
     attack: "Hyökkays" # Can also translate as "Attack"
     health: "Terveys"
     speed: "Nopeus"
@@ -511,15 +511,15 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Tallennettu"
     granularity_change_history: "Historia"
 
-#  options:
+  options:
     general_options: "Yleiset Asetukset" # Check out the Options tab in the Game Menu while playing a level
-    volume_label: "Äänen voimakkuus"
+    volume_label: "Äänenvoimakkuus"
     music_label: "Musiikki"
-    music_description: "Aseta taustamusiikki päällä/pois päältä."
+    music_description: "Aseta taustamusiikki päälle/pois päältä."
 #    autorun_label: "Autorun"
 #    autorun_description: "Control automatic code execution."
 #    editor_config: "Editor Config"
@@ -644,7 +644,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    contact_candidate: "Contact Candidate" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
-#  account_settings:
+  account_settings:
     title: "Tiliasetukset"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    autosave: "Changes Save Automatically"
@@ -687,7 +687,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Pikanäppäimet"
     space: "Välilyönti"
 #    enter: "Enter"
