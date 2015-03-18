@@ -15,7 +15,9 @@ if campaign
           if level.unlocksHero && (!level.purchasedHero || editorMode)
             img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-          if level.requiresSubscription
+          if level.slug == 'apocalypse'
+            img.star(src="/file/db/thang.type/54ea89112b7506e891ca717d/portrait.png")
+          else if level.requiresSubscription
             img.star(src="/images/pages/play/star.png")
           if levelStatusMap[level.slug] === 'complete'
             img.banner(src="/images/pages/play/level-banner-complete.png")
