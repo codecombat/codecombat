@@ -48,6 +48,7 @@
     "connect": "2.7.x",
     "express": "~3.0.6",
     "express-useragent": "~0.0.9",
+    "geoip-lite": "^1.1.6",
     "graceful-fs": "~2.0.1",
     "gridfs-stream": "0.4.x",
     "jsondiffpatch": "0.1.17",
