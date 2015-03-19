@@ -53,8 +53,7 @@ module.exports = class InvoicesView extends RootView
       amount: @amount
       description: @description
       bitcoin: true
-      alipay: "auto"
-      locale: "auto"
+      alipay: 'auto'
 
   onStripeReceivedToken: (e) ->
     data = {

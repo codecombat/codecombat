@@ -604,7 +604,7 @@ module.exports = class CampaignView extends RootView
     onPollSync.call @ if @poll.loaded
 
   activatePoll: ->
-    pollTitle = "#{$.i18n.t 'play.poll'}: #{utils.i18n @poll.attributes, 'name'}"
+    pollTitle = utils.i18n @poll.attributes, 'name'
     $pollButton = @$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr(title: pollTitle).addClass('has-tooltip').tooltip title: pollTitle
     if me.get('lastLevel') is 'shadow-guard'
       @showPoll()
