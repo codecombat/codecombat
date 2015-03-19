@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Esperanto", englishDescription: "Esperanto", translation:
-#  home:
-#    slogan: "Learn to Code by Playing a Game"
+  home:
+    slogan: "Lernu programi per ludo"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
 #    play: "Play" # The big play button that opens up the campaign view.
@@ -13,31 +13,31 @@ module.exports = nativeDescription: "Esperanto", englishDescription: "Esperanto"
 #    for_developers: "For Developers" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
-#  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
-#    home: "Home"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
+  nav:
+    play: "Niveloj" # The top nav bar entry where players choose which levels to play
+    community: "Komunumo"
+    editor: "Redaktoro"
+    blog: "Blogo"
+    forum: "Forumo"
+    account: "Konto"
+    profile: "Profilo"
+    stats: "Statistiko"
+    code: "Kodo"
+    admin: "Administrado" # Only shows up when you are an admin
+    home: "Hejmo"
+    contribute: "Kontribui"
+    legal: "Leĝa informo"
+    about: "Pri"
+    contact: "Kontakti"
+    twitter_follow: "Sekvu"
+    teachers: "Instruistoj"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "Fermi"
+    okay: "Bone"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "Paĝo ne trovita"
 
   diplomat_suggestion:
     title: "Helpu traduki CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
