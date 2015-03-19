@@ -31,6 +31,7 @@ module.exports =
   'de-AT': { nativeDescription: 'Deutsch (Österreich)', englishDescription: 'German (Austria)' }
   'de-CH': { nativeDescription: 'Deutsch (Schweiz)', englishDescription: 'German (Switzerland)' }
   'el': { nativeDescription: 'Ελληνικά', englishDescription: 'Greek' }
+  'eo': { nativeDescription: 'Esperanto', englishDescription: 'Esperanto' }
   'fa': { nativeDescription: 'فارسی', englishDescription: 'Persian' }
   'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' }
   'ko': { nativeDescription: '한국어', englishDescription: 'Korean' }
