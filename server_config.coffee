@@ -2,6 +2,7 @@ config = {}
 
 config.unittest = process.argv.indexOf('--unittest') > -1
 
+config.tokyo = process.env.TOKYO or false
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =
@@ -16,6 +17,7 @@ config.mongo =
   host: process.env.COCO_MONGO_HOST or 'localhost'
   db: process.env.COCO_MONGO_DATABASE_NAME or 'coco'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
+  mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
 
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'

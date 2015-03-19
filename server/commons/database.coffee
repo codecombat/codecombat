@@ -21,7 +21,9 @@ module.exports.connect = () ->
   mongooseCache.install(mongoose, {max: 200, maxAge: 1 * 60 * 1000, debug: false}, Aggregate)
 
 module.exports.generateMongoConnectionString = ->
-  if not testing and config.mongo.mongoose_replica_string
+  if not testing and config.tokyo
+    address = config.mongo.mongoose_tokyo_replica_string
+  else if not testing and config.mongo.mongoose_replica_string
     address = config.mongo.mongoose_replica_string
   else
     dbName = config.mongo.db
