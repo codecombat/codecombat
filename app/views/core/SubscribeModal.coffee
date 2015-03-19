@@ -112,8 +112,7 @@ module.exports = class SubscribeModal extends ModalView
     options = {
       description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount
-      alipay: "auto"
-      locale: "auto"
+      alipay: 'auto'
       alipayReusable: true
     }
 

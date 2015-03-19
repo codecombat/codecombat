@@ -70,8 +70,7 @@ module.exports = class BuyGemsModal extends ModalView
         description: $.t(product.i18n)
         amount: product.amount
         bitcoin: true
-        alipay: "auto"
-        locale: "auto"
+        alipay: 'auto'
       })
 
     @productBeingPurchased = product
