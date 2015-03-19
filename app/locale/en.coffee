@@ -455,6 +455,8 @@
     no_users_subscribed: "No users subscribed, please double check your email addresses."
     current_recipients: "Current Recipients"
     unsubscribing: "Unsubscribing..."
+    subscribe_prepaid: "Click Subscribe to use prepaid code"
+    using_prepaid: "Using prepaid code for monthly subscription"
 
   choose_hero:
     choose_hero: "Choose Your Hero"

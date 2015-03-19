@@ -154,6 +154,7 @@ module.exports = class SubscribeModal extends ModalView
     stripe = me.get('stripe') ? {}
     delete stripe.token
     delete stripe.planID
+    # TODO: Need me.set('stripe', stripe) here?
     xhr = options.xhr
     if xhr.status is 402
       @state = 'declined'

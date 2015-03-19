@@ -143,7 +143,7 @@ UserHandler = class UserHandler extends Handler
         )
       else
         wantsPlan = req.body.stripe.planID?
-        hasPlan = user.get('stripe')?.planID?
+        hasPlan = user.get('stripe')?.planID? and not req.body.stripe.prepaidCode?
         finishSubscription hasPlan, wantsPlan
 
     # Discount setting
