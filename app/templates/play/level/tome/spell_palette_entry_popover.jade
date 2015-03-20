@@ -73,17 +73,17 @@ if !selectedMethod
         .docs-ace-container
           .docs-ace
             if language == 'javascript'
-              span= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
+              span= doc.owner + '.' + docName + '(' + argumentExamples.join(', ') + ');'
             else if language == 'coffeescript'
-              span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + doc.name + ' ' + argumentExamples.join(', ')
+              span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
             else if language == 'python'
-              span= doc.ownerName + '.' + doc.name + '(' + argumentExamples.join(', ') + ')'
+              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
             else if language == 'clojure'
-              span= '(.' + doc.name + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+              span= '(.' + docName + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
             else if language == 'lua'
-              span= doc.ownerName + ':' + doc.name + '(' + argumentExamples.join(', ') + ')'
+              span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
             else if language == 'io'
-              span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + doc.name + '(' + argumentExamples.join(', ') + ')'
+              span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
 
 if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
   p.value
