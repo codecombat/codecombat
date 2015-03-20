@@ -88,7 +88,7 @@ setupChinaRedirectMiddleware = (app) ->
       isChinese = firstAcceptedLanguage.indexOf? "zh"
       return isChinese? and isChinese isnt -1
     else
-      return true
+      return false #If the user is already redirected, don't redirect them!
 
   app.use (req, res, next) ->
     if isInChina req

@@ -3,7 +3,7 @@ deltas = require '../../app/core/deltas'
 log = require 'winston'
 {handlers} = require '../commons/mapping'
 
-PatchSchema = new mongoose.Schema({status: String}, {strict: false})
+PatchSchema = new mongoose.Schema({status: String}, {strict: false,read:'nearest'})
 
 PatchSchema.pre 'save', (next) ->
   return next() unless @isNew # patch can't be altered after creation, so only need to check data once
