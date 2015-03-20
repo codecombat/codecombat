@@ -23,6 +23,7 @@ module.exports.handlers =
   'earned_achievement': 'achievements/earned_achievement_handler'
   'poll': 'polls/poll_handler'
   'user_polls_record': 'polls/user_polls_record_handler'
+  'prepaid': 'prepaids/prepaid_handler'
 
 module.exports.routes =
   [
