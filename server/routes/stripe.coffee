@@ -108,6 +108,7 @@ module.exports.setup = (app) ->
 
         stripeInfo = _.cloneDeep(user.get('stripe') ? {})
         delete stripeInfo.planID
+        delete stripeInfo.prepaidCode
         delete stripeInfo.subscriptionID
         user.set('stripe', stripeInfo)
         user.save (err) =>

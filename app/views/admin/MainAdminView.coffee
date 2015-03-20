@@ -14,6 +14,12 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-button': 'searchForUser'
     'click #increment-button': 'incrementUserAttribute'
     'click #user-search-result': 'onClickUserSearchResult'
+    'click #create-free-sub-btn': 'onClickFreeSubLink'
+
+  getRenderData: ->
+    context = super()
+    context.freeSubLink = @freeSubLink
+    context
 
   checkForFormSubmissionEnterPress: (e) ->
     if e.which is 13 and @$el.find('#espionage-name-or-email').val() isnt ''
@@ -61,7 +67,25 @@ module.exports = class MainAdminView extends RootView
     val = $('#increment-field').val()
     me.set(val, me.get(val) + 1)
     me.save()
-    
+
   onClickUserSearchResult: (e) ->
     userID = $(e.target).closest('tr').data('user-id')
     @openModalView new AdministerUserModal({}, userID) if userID
+
+  onClickFreeSubLink: (e) =>
+    delete @freeSubLink
+    return unless me.isAdmin()
+    options =
+      url: '/db/prepaid/-/create'
+      data: {type: 'subscription'}
+      method: 'POST'
+    options.success = (model, response, options) =>
+      # TODO: Don't hardcode domain.
+      if application.isProduction()
+        @freeSubLink = "https://codecombat.com/account/subscription?_ppc=#{model.code}"
+      else
+        @freeSubLink = "http://localhost:3000/account/subscription?_ppc=#{model.code}"
+      @render?()
+    options.error = (model, response, options) =>
+      console.error 'Failed to create prepaid', response
+    @supermodel.addRequestResource('create_prepaid', options, 0).load()

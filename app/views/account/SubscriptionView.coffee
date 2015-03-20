@@ -18,9 +18,14 @@ utils = require 'core/utils'
 # TODO: next payment amount incorrect if have an expiring personal sub
 # TODO: consider hiding managed subscription body UI while things are updating to avoid brief legacy data
 # TODO: Next payment info for personal sub displays most recent payment when resubscribing before trial end
+# TODO: PersonalSub and RecipientSubs have similar subscribe APIs
+# TODO: Better recovery from trying to reuse a prepaid
+# TODO: No way to unsubscribe from prepaid subscription
+# TODO: Refactor state machines driving the UI.  They've become a hot mess.
 
 # TODO: Get basic plan price dynamically
 basicPlanPrice = 999
+basicPlanID = 'basic'
 
 module.exports = class SubscriptionView extends RootView
   id: "subscription-view"
@@ -41,7 +46,8 @@ module.exports = class SubscriptionView extends RootView
 
   constructor: (options) ->
     super(options)
-    @personalSub = new PersonalSub(@supermodel)
+    prepaidCode = utils.getQueryVariable '_ppc'
+    @personalSub = new PersonalSub(@supermodel, prepaidCode)
     @recipientSubs = new RecipientSubs(@supermodel)
     @personalSub.update => @render?()
     @recipientSubs.update => @render?()
@@ -55,7 +61,10 @@ module.exports = class SubscriptionView extends RootView
   # Personal Subscriptions
 
   onClickStartSubscription: (e) ->
-    @openModalView new SubscribeModal()
+    if @personalSub.prepaidCode
+      @personalSub.subscribe(=> @render?())
+    else
+      @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'account subscription view'
 
   onSubscribed: ->
@@ -95,7 +104,45 @@ module.exports = class SubscriptionView extends RootView
 # Helper classes for managing subscription actions and updating UI state
 
 class PersonalSub
-  constructor: (@supermodel) ->
+  constructor: (@supermodel, @prepaidCode) ->
+
+  subscribe: (render) ->
+    return unless @prepaidCode
+
+    if @prepaidCode is me.get('stripe')?.prepaidCode
+      delete @prepaidCode
+      return render()
+
+    @state = 'subscribing'
+    @stateMessage = ''
+    render()
+
+    stripeInfo = _.clone(me.get('stripe') ? {})
+    stripeInfo.planID = basicPlanID
+    stripeInfo.prepaidCode = @prepaidCode
+    me.set('stripe', stripeInfo)
+
+    me.once 'sync', =>
+      application.tracker?.trackEvent 'Finished subscription purchase', revenue: 0
+      delete @prepaidCode
+      @update(render)
+    me.once 'error', (user, response, options) =>
+      console.error 'We got an error subscribing with Stripe from our server:', response
+      stripeInfo = me.get('stripe') ? {}
+      delete stripeInfo.planID
+      delete stripeInfo.prepaidCode
+      me.set('stripe', stripeInfo)
+      xhr = options.xhr
+      if xhr.status is 402
+        @state = 'declined'
+        @stateMessage = ''
+      else
+        if xhr.status is 403
+          delete @prepaidCode
+        @state = 'unknown_error'
+        @stateMessage = "#{xhr.status}: #{xhr.responseText}"
+      render()
+    me.patch({headers: {'X-Change-Plan': 'true'}})
 
   unsubscribe: (message) ->
     removeStripe = =>
@@ -133,6 +180,11 @@ class PersonalSub
         success: onSubSponsorSuccess
       }, 0).load()
 
+    else if stripeInfo.prepaidCode
+      @usingPrepaidCode = true
+      delete @state
+      render()
+
     else if stripeInfo.subscriptionID
       @self = true
       @active = me.isPremium()
@@ -146,7 +198,7 @@ class PersonalSub
           periodEnd = new Date((sub.trial_end or sub.current_period_end) * 1000)
           if sub.cancel_at_period_end
             @activeUntil = periodEnd
-          else
+          else if sub.discount?.coupon?.id isnt 'free'
             @nextPaymentDate = periodEnd
             @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
         else
@@ -165,6 +217,7 @@ class PersonalSub
       @free = stripeInfo.free
       delete @state
       render()
+
     else
       delete @state
       render()

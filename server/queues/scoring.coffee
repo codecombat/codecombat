@@ -139,7 +139,7 @@ module.exports.getTwoGames = (req, res) ->
   ogresGameID = req.body.ogresGameID
   return if simulatorIsTooOld req, res
   #ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
-  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland']  #, 'zero-sum']
+  ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum']
   levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
     async.map [{levelID: levelID, team: 'humans'}, {levelID: levelID, team: 'ogres'}], findRandomSession, (err, sessions) ->

@@ -19,9 +19,15 @@ block content
     .panel.panel-default
       .panel-heading
         h3(data-i18n="subscribe.personal_sub")
+        if personalSub.prepaidCode && !personalSub.usingPrepaidCode
+          div 
+            span(data-i18n="subscribe.subscribe_prepaid")
+            span.spl.spr= personalSub.prepaidCode
       .panel-body
         if personalSub.state === 'loading'
           .alert.alert-info(data-i18n="subscribe.loading_info")
+        else if personalSub.state === 'subscribing'
+          .alert.alert-info(data-i18n="subscribe.subscribing")
         else if personalSub.sponsor
           div
             span(data-i18n="subscribe.managed_by")
@@ -30,11 +36,30 @@ block content
             div
               span(data-i18n="subscribe.will_be_cancelled")
               span.spl.spr= moment(personalSub.endDate).format('l')
+
+        else if personalSub.usingPrepaidCode
+          div(data-i18n="subscribe.using_prepaid")
+
         else if personalSub.self
-          if personalSub.subscribed
-            button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
-          else
+          if personalSub.state === 'declined'
+            .alert.alert-danger.alert-dismissible
+              span(data-i18n="buy_gems.declined")
+              button.close(type="button" data-dismiss="alert")
+                span(aria-hidden="true") &times;      
+            br
+          else if personalSub.state === 'unknown_error'
+            .alert.alert-danger.alert-dismissible
+              button.close(type="button" data-dismiss="alert")
+                span(aria-hidden="true") &times;
+              p(data-i18n="loading_error.unknown")
+              p= personalSub.stateMessage
+            br
+
+          if !personalSub.subscribed || personalSub.prepaidCode
             button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
+          else
+            button.end-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.unsubscribe") Unsubscribe
+
           .unsubscribe-feedback.row.secret
             .col-lg-7
               h3
@@ -75,10 +100,10 @@ block content
               tr
                 th(data-i18n="account.cost")
                 td= personalSub.cost
-            if personalSub.card
-              tr
-                th(data-i18n="account.card")
-                td= personalSub.card
+              if personalSub.card
+                tr
+                  th(data-i18n="account.card")
+                  td= personalSub.card
               
         else
           button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
@@ -129,7 +154,7 @@ block content
               button.close(type="button" data-dismiss="alert")
                 span(aria-hidden="true") &times;
               p(data-i18n="loading_error.unknown")
-              p= stateMessage
+              p= recipientSubs.stateMessage
           else if recipientSubs.justSubscribed && recipientSubs.justSubscribed.length > 0
             br
             .alert.alert-success.alert-dismissible

@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Esperanto", englishDescription: "Esperanto", translation:
-#  home:
-#    slogan: "Learn to Code by Playing a Game"
+  home:
+    slogan: "Lernu programi per ludo"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
 #    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
 #    play: "Play" # The big play button that opens up the campaign view.
@@ -13,39 +13,39 @@ module.exports = nativeDescription: "Esperanto", englishDescription: "Esperanto"
 #    for_developers: "For Developers" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
-#  nav:
-#    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    profile: "Profile"
-#    stats: "Stats"
-#    code: "Code"
-#    admin: "Admin" # Only shows up when you are an admin
-#    home: "Home"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    teachers: "Teachers"
+  nav:
+    play: "Niveloj" # The top nav bar entry where players choose which levels to play
+    community: "Komunumo"
+    editor: "Redaktoro"
+    blog: "Blogo"
+    forum: "Forumo"
+    account: "Konto"
+    profile: "Profilo"
+    stats: "Statistiko"
+    code: "Kodo"
+    admin: "Administrado" # Only shows up when you are an admin
+    home: "Hejmo"
+    contribute: "Kontribui"
+    legal: "Leĝa informo"
+    about: "Pri"
+    contact: "Kontakti"
+    twitter_follow: "Sekvu"
+    teachers: "Instruistoj"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "Fermi"
+    okay: "Bone"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "Paĝo ne trovita"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+    title: "Helpu traduki CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Ni bezonas vian lingvokapabloj."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. There's got to be at least one of them who wants to play in Esperanto! So if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Esperanto."
     missing_translations: "Until we can translate everything into Esperanto, you'll see English when Esperanto isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Eksciu pli pri esti Diplomato"
+    subscribe_as_diplomat: "Aboni kiel Diplomato"
 
 #  play:
 #    play_as: "Play As" # Ladder page

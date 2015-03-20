@@ -37,6 +37,7 @@ models_path = [
   '../../server/achievements/Achievement'
   '../../server/achievements/EarnedAchievement'
   '../../server/payments/Payment'
+  '../../server/prepaids/Prepaid'
 ]
 
 for m in models_path
@@ -112,6 +113,11 @@ wrapUpGetUser = (email, user, done) ->
 
 GLOBAL.getURL = (path) ->
   return 'http://localhost:3001' + path
+
+GLOBAL.createPrepaid = (type, done) ->
+  options = uri: GLOBAL.getURL('/db/prepaid/-/create')
+  options.json = type: type if type?
+  request.post options, done
 
 newUserCount = 0
 GLOBAL.createNewUser = (done) ->

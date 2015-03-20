@@ -288,6 +288,7 @@ _.extend UserSchema.properties,
     token: { type: 'string' }
     couponID: { type: 'string' }
     free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+    prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
     # Sponsored subscriptions
     subscribeEmails: c.array { description: 'Input for subscribing other users' }, c.shortString()

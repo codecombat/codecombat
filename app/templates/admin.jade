@@ -47,6 +47,14 @@ block content
       li
         a(href="/admin/growth", data-i18n="admin.growth") Growth
 
+  if me.isAdmin()
+    hr
+    h3 Prepaids
+    a.btn.btn-secondary#create-free-sub-btn Create Free Subscription Link
+    span.spl.spr
+      if freeSubLink
+        input#free-sub-input(type="text", readonly, value="#{freeSubLink}") 
+
   hr
 
   h3 Achievements
