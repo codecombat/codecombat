@@ -7,7 +7,7 @@ PollSchema = new mongoose.Schema {
   created:
     type: Date
     'default': Date.now
-}, {strict: false, minimize: false}
+}, {strict: false, minimize: false,read:'nearest'}
 
 PollSchema.index {priority: 1}
 

@@ -442,7 +442,7 @@
     managed_subs: "Managed Subscriptions"
     managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
     group_discounts: "Group discounts"
-    group_discounts_1st: "1st subscription"
+    group_discounts_1st: "1st subscription" # {change}
     group_discounts_full: "Full price"
     group_discounts_2nd: "Subscriptions 2-11"
     group_discounts_20: "20% off"
@@ -577,7 +577,7 @@
     retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Info for Teachers"
+    title: "CodeCombat: Info for Teachers" # {change}
     intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
     intro_2: "No experience required!"
     free_title: "How much does it cost?"
@@ -606,8 +606,8 @@
     how_much_4: "Additionally, we provide discounts for larger groups:"
     group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "System Requirements"
-    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
-    sys_requirements_2: "CodeCombat is not supported on iPad yet."
+    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later." # {change}
+    sys_requirements_2: "CodeCombat is not supported on iPad yet." # {change}
 
   versions:
     save_version_title: "Save New Version"

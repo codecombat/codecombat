@@ -19,6 +19,7 @@ module.exports = class LadderTabView extends CocoView
     'click .connect-facebook': 'onConnectFacebook'
     'click .connect-google-plus': 'onConnectGPlus'
     'click .name-col-cell': 'onClickPlayerName'
+    'click .spectate-cell': 'onClickSpectateCell'
     'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
   subscriptions:
@@ -276,6 +277,19 @@ module.exports = class LadderTabView extends CocoView
     player = new User _id: row.data 'player-id'
     session = new LevelSession _id: row.data 'session-id'
     @openModalView new ModelModal models: [session, player]
+
+  onClickSpectateCell: (e) ->
+    cell = $(e.target).closest '.spectate-cell'
+    row = cell.parent()
+    table = row.closest('table')
+    wasSelected = cell.hasClass 'selected'
+    table.find('.spectate-cell.selected').removeClass 'selected'
+    cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
+    sessionID = row.data 'session-id'
+    teamID = table.data 'team'
+    @spectateTargets ?= {}
+    @spectateTargets[teamID] = if wasSelected then null else sessionID
+    console.log @spectateTargets, cell, row, table
 
   onLoadMoreLadderEntries: (e) ->
     @ladderLimit ?= 100

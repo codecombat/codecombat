@@ -3,7 +3,7 @@ plugins = require '../../plugins/plugins'
 
 ThangTypeSchema = new mongoose.Schema({
   body: String,
-}, {strict: false})
+}, {strict: false,read:'nearest'})
 
 ThangTypeSchema.index(
   {
