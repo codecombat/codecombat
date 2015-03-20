@@ -33,6 +33,7 @@ module.exports = class LadderView extends RootView
   events:
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
+    'click .spectate-button': 'onClickSpectateButton'
 
   constructor: (options, @levelID) ->
     super(options)
@@ -85,6 +86,16 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
+
+  onClickSpectateButton: (e) ->
+    humanSession = @ladderTab.spectateTargets?.humans
+    ogreSession = @ladderTab.spectateTargets?.ogres
+    console.log humanSession, ogreSession
+    return unless humanSession and ogreSession
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
+    Backbone.Mediator.publish 'router:navigate', route: url
 
   showPlayModal: (teamID) ->
     return @showApologeticSignupModal() if me.get('anonymous')
