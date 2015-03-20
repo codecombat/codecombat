@@ -55,16 +55,17 @@ module.exports = class DocFormatter
         when 'coffeescript' then '@'
         else 'this'
       if @doc.type is 'function'
+        [docName, args] = @getDocNameAndArguments()
         sep = {clojure: ' '}[@options.language] ? ', '
-        argNames = (arg.name for arg in @doc.args ? []).join sep
+        argNames = args.join sep
         argString = if argNames then '__ARGS__' else ''
         @doc.shortName = switch @options.language
-          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}#{if argString then ' ' + argString else '()'}"
-          when 'python' then "#{ownerName}.#{@doc.name}(#{argString})"
-          when 'lua' then "#{ownerName}:#{@doc.name}(#{argString})"
-          when 'clojure' then "(.#{@doc.name} #{ownerName}#{if argNames then ' ' + argString else ''})"
-          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{@doc.name}#{if argNames then '(' + argNames + ')' else ''}"
-          else "#{ownerName}.#{@doc.name}(#{argString});"
+          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{docName}#{if argString then ' ' + argString else '()'}"
+          when 'python' then "#{ownerName}.#{docName}(#{argString})"
+          when 'lua' then "#{ownerName}:#{docName}(#{argString})"
+          when 'clojure' then "(.#{docName} #{ownerName}#{if argNames then ' ' + argString else ''})"
+          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{docName}#{if argNames then '(' + argNames + ')' else ''}"
+          else "#{ownerName}.#{docName}(#{argString});"
       else
         @doc.shortName = switch @options.language
           when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}"
@@ -76,7 +77,7 @@ module.exports = class DocFormatter
       @doc.shorterName = @doc.shortName
       if @doc.type is 'function' and argString
         @doc.shortName = @doc.shorterName.replace argString, argNames
-        @doc.shorterName = @doc.shorterName.replace argString, (if argNames.length > 6 then '...' else argNames)
+        @doc.shorterName = @doc.shorterName.replace argString, (if not /cast[A-Z]/.test(@doc.name) and argNames.length > 6 then '...' else argNames)
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify
@@ -119,7 +120,10 @@ module.exports = class DocFormatter
         obj[prop] = @replaceSpriteName obj[prop]  # Do this before using the template, otherwise marked might get us first.
 
   formatPopover: ->
-    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
+    [docName, args] = @getDocNameAndArguments()
+    argumentExamples = (arg.example or arg.default or arg.name for arg in @doc.args ? [])
+    argumentExamples.unshift args[0] if args.length > argumentExamples.length
+    content = popoverTemplate doc: @doc, docName: docName, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: argumentExamples, writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns(), item: @options.item
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = @replaceSpriteName content
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
@@ -129,6 +133,15 @@ module.exports = class DocFormatter
     name = @options.thang.type ? @options.thang.spriteName
     name = 'hero' if /Hero Placeholder/.test @options.thang.id
     s.replace /#{spriteName}/g, name
+
+  getDocNameAndArguments: ->
+    return [@doc.name, []] unless @doc.type is 'function'
+    docName = @doc.name
+    args = (arg.name for arg in @doc.args ? [])
+    if /cast[A-Z]/.test docName
+      docName = 'cast'
+      args.unshift '"' + _.string.dasherize(@doc.name).replace('cast-', '') + '"'
+    [docName, args]
 
   formatValue: (v) ->
     return null if @doc.type is 'snippet'
