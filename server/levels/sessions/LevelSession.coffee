@@ -8,7 +8,7 @@ LevelSessionSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict: false})
+}, {strict: false,read:'nearest'})
 
 LevelSessionSchema.index({creator: 1})
 LevelSessionSchema.index({level: 1})

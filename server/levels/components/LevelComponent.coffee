@@ -5,7 +5,7 @@ jsonschema = require '../../../app/schemas/models/level_component'
 LevelComponentSchema = new mongoose.Schema {
   description: String
   system: String
-}, {strict: false}
+}, {strict: false, read:'nearest'}
 
 LevelComponentSchema.index(
   {

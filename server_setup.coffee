@@ -5,6 +5,7 @@ useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 log = require 'winston'
 compressible = require 'compressible'
+geoip = require 'geoip-lite'
 
 database = require './server/commons/database'
 baseRoute = require './server/routes/base'
@@ -77,6 +78,25 @@ setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
   app.use(authentication.session())
 
+setupChinaRedirectMiddleware = (app) ->
+  isInChina = (req) ->
+    unless config.tokyo
+      ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+      geo = geoip.lookup(ip)
+      if geo?.country isnt "CN" then return false
+      firstAcceptedLanguage = req.acceptedLanguages[0]
+      isChinese = firstAcceptedLanguage?.indexOf? "zh"
+      return isChinese? and isChinese isnt -1
+    else
+      return false #If the user is already redirected, don't redirect them!
+
+  app.use (req, res, next) ->
+    if isInChina req
+      res.writeHead 302, "Location": config.chinaDomain + req.url
+      res.end()
+    else
+      next()
+
 setupOneSecondDelayMiddleware = (app) ->
   if(config.slow_down)
     app.use((req, res, next) -> setTimeout((-> next()), 1000))
@@ -111,6 +131,7 @@ setupTrailingSlashRemovingMiddleware = (app) ->
     next()
 
 exports.setupMiddleware = (app) ->
+  setupChinaRedirectMiddleware app
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
