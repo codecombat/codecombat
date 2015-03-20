@@ -11,6 +11,9 @@ module.exports.setup = (app) ->
   # Cache customer -> user ID map (increases test perf considerably)
   customerUserMap = {}
 
+  logStripeWebhookError = (msg) ->
+    console.warn "Stripe Webhook Error: #{msg}"
+
   app.post '/stripe/webhook', (req, res) ->
 
     # Subscription renewal events:
@@ -102,6 +105,24 @@ module.exports.setup = (app) ->
 
     subscription = req.body.data.object
 
+    checkUserExists = (done) ->
+      stripe.customers.retrieve subscription.customer, (err, customer) =>
+        if err
+          logStripeWebhookError("Failed to retrieve #{subscription.customer}")
+          return res.send(500, '')
+        unless customer?.metadata?.id
+          logStripeWebhookError("Customer with no metadata.id #{subscription.customer}")
+          return res.send(500, '')
+        User.findById customer.metadata.id, (err, user) =>
+          if err
+            logStripeWebhookError(err)
+            return res.send(500, '')
+          unless user
+            logStripeWebhookError("User not found #{customer.metadata.id}")
+            return res.send(500, '')
+          return res.send(200, '') if user.get('deleted') is true
+          done()
+
     checkNormalSubscription = (done) ->
       User.findOne {'stripe.subscriptionID': subscription.id}, (err, user) ->
         return done() unless user
@@ -112,17 +133,28 @@ module.exports.setup = (app) ->
         delete stripeInfo.subscriptionID
         user.set('stripe', stripeInfo)
         user.save (err) =>
-          return res.send(500, '') if err
+          if err
+            logStripeWebhookError(err)
+            return res.send(500, '')
           return res.send(200, '')
 
     checkRecipientSubscription = (done) ->
       return done() unless subscription.plan.id is 'basic'
+      return done() unless subscription.metadata?.id # Shouldn't be possible
       User.findById subscription.metadata.id, (err, recipient) =>
-        return res.send(500, '') if err
-        return res.send(500, '') unless recipient
+        if err
+          logStripeWebhookError(err)
+          return res.send(500, '')
+        unless recipient
+          logStripeWebhookError("Recipient not found #{subscription.metadata.id}")
+          return res.send(500, '')
         User.findById recipient.get('stripe').sponsorID, (err, sponsor) =>
-          return res.send(500, '') if err
-          return res.send(500, '') unless sponsor
+          if err
+            logStripeWebhookError(err)
+            return res.send(500, '')
+          unless sponsor
+            logStripeWebhookError("Sponsor not found #{recipient.get('stripe').sponsorID}")
+            return res.send(500, '')
 
           # Update sponsor subscription
           stripeInfo = _.cloneDeep(sponsor.get('stripe') ? {})
@@ -130,12 +162,16 @@ module.exports.setup = (app) ->
           options =
             quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
           stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
-            return res.send(500, '') if err
+            if err
+              logStripeWebhookError(err)
+              return res.send(500, '')
 
             # Update sponsor user
             sponsor.set 'stripe', stripeInfo
             sponsor.save (err) =>
-              return res.send(500, '') if err
+              if err
+                logStripeWebhookError(err)
+                return res.send(500, '')
 
               # Update recipient user
               stripeInfo = recipient.get('stripe')
@@ -145,7 +181,9 @@ module.exports.setup = (app) ->
               else
                 recipient.set 'stripe', stripeInfo
               recipient.save (err) =>
-                return res.send(500, '') if err
+                if err
+                  logStripeWebhookError(err)
+                  return res.send(500, '')
                 return res.send(200, '')
 
     checkSponsorSubscription = (done) ->
@@ -165,7 +203,9 @@ module.exports.setup = (app) ->
 
         # Cancel all recipient subscriptions
         async.parallel (createUpdateFn(sub) for sub in stripeInfo.recipients), (err, results) =>
-          return res.send(500, '') if err
+          if err
+            logStripeWebhookError(err)
+            return res.send(500, '')
 
           # Update sponsor user
           delete stripeInfo.sponsorSubscriptionID
@@ -175,11 +215,14 @@ module.exports.setup = (app) ->
           else
             sponsor.set 'stripe', stripeInfo
           sponsor.save (err) =>
-            return res.send(500, '') if err
+            if err
+              logStripeWebhookError(err)
+              return res.send(500, '')
             done()
 
     # TODO: use async.series for this
-    checkNormalSubscription ->
-      checkRecipientSubscription ->
-        checkSponsorSubscription ->
-          res.send(200, '')
+    checkUserExists ->
+      checkNormalSubscription ->
+        checkRecipientSubscription ->
+          checkSponsorSubscription ->
+            res.send(200, '')

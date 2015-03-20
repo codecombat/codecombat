@@ -681,6 +681,30 @@ describe 'Subscriptions', ->
                             expect(stripeInfo.subscriptionID).toBeUndefined()
                             done()
 
+    it 'User subscribes, deletes themselves, subscription ends', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          # Subscribe user
+          subscribeUser user1, token, null, ->
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              customerID = user1.get('stripe').customerID
+              subscriptionID = user1.get('stripe').subscriptionID
+              stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                expect(err).toBeNull()
+                expect(subscription).not.toBeNull()
+                # Delete user
+                request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+                  expect(err).toBeNull()
+                  # Simulate Stripe subscription deleted via webhook
+                  event = _.cloneDeep(customerSubscriptionDeletedSampleEvent)
+                  event.data.object = subscription
+                  request.post {uri: webhookURL, json: event}, (err, res, body) ->
+                    expect(err).toBeNull()
+                    expect(res.statusCode).toEqual(200)
+                    done()
 
   describe 'Sponsored', ->
     it 'Unsubscribed user1 subscribes user2', (done) ->
