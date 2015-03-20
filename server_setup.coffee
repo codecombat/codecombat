@@ -85,7 +85,7 @@ setupChinaRedirectMiddleware = (app) ->
       geo = geoip.lookup(ip)
       if geo?.country isnt "CN" then return false
       firstAcceptedLanguage = req.acceptedLanguages[0]
-      isChinese = firstAcceptedLanguage.indexOf? "zh"
+      isChinese = firstAcceptedLanguage?.indexOf? "zh"
       return isChinese? and isChinese isnt -1
     else
       return false #If the user is already redirected, don't redirect them!
