@@ -25,6 +25,7 @@ UserPollsRecordHandler = class UserPollsRecordHandler extends Handler
       @createAndSaveNewUserPollsRecord userID, req, res
 
   createAndSaveNewUserPollsRecord: (userID, req, res) =>
+    return @sendForbiddenError(res) unless req.user
     initVals = user: userID, polls: {}, level: req.user.level()
     userPollsRecord = new UserPollsRecord initVals
     userPollsRecord.save (err) =>
