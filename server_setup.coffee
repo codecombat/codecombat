@@ -131,7 +131,7 @@ setupTrailingSlashRemovingMiddleware = (app) ->
     next()
 
 exports.setupMiddleware = (app) ->
-  setupChinaRedirectMiddleware app
+  #setupChinaRedirectMiddleware app
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
