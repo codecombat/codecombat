@@ -463,7 +463,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     experimental: "Experimental"
     python_blurb: "Simple pero poderoso."
     javascript_blurb: "El lenguaje de la web."
-    coffeescript_blurb: "Sintaxsis de JavaScript mejorada."
+    coffeescript_blurb: "Sintaxis de JavaScript mejorada."
     clojure_blurb: "Un Lisp moderno."
     lua_blurb: "Lenguaje Script para Juegos."
     io_blurb: "Simple pero oscuro."
