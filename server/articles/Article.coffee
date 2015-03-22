@@ -1,7 +1,8 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
+config = require '../../server_config'
 
-ArticleSchema = new mongoose.Schema(body: String, {strict: false,read:'nearest'})
+ArticleSchema = new mongoose.Schema(body: String, {strict: false,read:config.mongo.readpref})
 
 ArticleSchema.index(
   {

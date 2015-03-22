@@ -1,9 +1,10 @@
 mongoose = require 'mongoose'
 plugins = require '../../plugins/plugins'
+config = require '../../../server_config'
 
 ThangTypeSchema = new mongoose.Schema({
   body: String,
-}, {strict: false,read:'nearest'})
+}, {strict: false,read:config.mongo.readpref})
 
 ThangTypeSchema.index(
   {

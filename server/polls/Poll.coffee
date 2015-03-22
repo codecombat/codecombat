@@ -2,12 +2,12 @@ mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
 jsonSchema = require '../../app/schemas/models/poll.schema'
 log = require 'winston'
-
+config = require '../../server_config'
 PollSchema = new mongoose.Schema {
   created:
     type: Date
     'default': Date.now
-}, {strict: false, minimize: false,read:'nearest'}
+}, {strict: false, minimize: false,read:config.mongo.readpref}
 
 PollSchema.index {priority: 1}
 

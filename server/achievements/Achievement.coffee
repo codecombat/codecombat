@@ -5,6 +5,7 @@ utils = require '../../app/core/utils'
 plugins = require('../plugins/plugins')
 AchievablePlugin = require '../plugins/achievements'
 TreemaUtils = require '../../bower_components/treema/treema-utils.js'
+config = require '../../server_config'
 
 # `pre` and `post` are not called for update operations executed directly on the database,
 # including `Model.update`,`.findByIdAndUpdate`,`.findOneAndUpdate`, `.findOneAndRemove`,and `.findByIdAndRemove`.order
@@ -13,7 +14,7 @@ TreemaUtils = require '../../bower_components/treema/treema-utils.js'
 
 AchievementSchema = new mongoose.Schema({
   userField: String
-}, {strict: false,read:'nearest'})
+}, {strict: false,read: config.mongo.readpref})
 
 AchievementSchema.index(
   {

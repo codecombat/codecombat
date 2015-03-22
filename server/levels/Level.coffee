@@ -1,10 +1,11 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
 jsonschema = require '../../app/schemas/models/level'
+config = require '../../server_config'
 
 LevelSchema = new mongoose.Schema({
   description: String
-}, {strict: false, read:'nearest'})
+}, {strict: false, read:config.mongo.readpref})
 
 LevelSchema.index(
   {
