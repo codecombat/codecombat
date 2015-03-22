@@ -3,12 +3,13 @@
 mongoose = require 'mongoose'
 plugins = require '../../plugins/plugins'
 jsonschema = require '../../../app/schemas/models/level_feedback'
+config = require '../../../server_config'
 
 LevelFeedbackSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict: false,read:'nearest'})
+}, {strict: false,read:config.mongo.readpref})
 
 LevelFeedbackSchema.index({created: 1})
 LevelFeedbackSchema.index({creator: 1})

@@ -3,12 +3,13 @@ plugins = require '../../plugins/plugins'
 AchievablePlugin = require '../../plugins/achievements'
 jsonschema = require '../../../app/schemas/models/level_session'
 log = require 'winston'
+config = require '../../../server_config'
 
 LevelSessionSchema = new mongoose.Schema({
   created:
     type: Date
     'default': Date.now
-}, {strict: false,read:'nearest'})
+}, {strict: false,read:config.mongo.readpref})
 
 LevelSessionSchema.index({creator: 1})
 LevelSessionSchema.index({level: 1})

@@ -1,8 +1,9 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
 log = require 'winston'
+config = require '../../server_config'
 
-CampaignSchema = new mongoose.Schema(body: String, {strict: false,read:'nearest'})
+CampaignSchema = new mongoose.Schema(body: String, {strict: false,read:config.mongo.readpref})
 
 CampaignSchema.index({i18nCoverage: 1}, {name: 'translation coverage index', sparse: true})
 CampaignSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})

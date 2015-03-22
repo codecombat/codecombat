@@ -20,6 +20,11 @@ config.mongo =
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
   mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
 
+if config.tokyo
+  config.mongo.readpref = 'nearest'
+else
+  config.mongo.readpref = 'primary'
+
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
 
