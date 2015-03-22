@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     achievements: "Досягнення" # Tooltip on achievement list button from /play
     account: "Акаунт" # Tooltip on account button from /play
     settings: "Налаштування" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Опитування" # Tooltip on poll button from /play
     next: "Далі" # Go from choose hero to choose inventory before playing a level
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     choose_inventory: "Одягнути предмети"
@@ -321,23 +321,23 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_hardware_problem: "П: Скільки програмістів треба, аби замінити лампочку?  В: Жодного, це апаратна проблема."
     tip_hofstadters_law: "Закон Гофштадтера: Це в будь-якому разі займе більше часу, навіть якщо Ви берете до уваги закон Гофштадтера."
     tip_premature_optimization: "Передчасна оптимізація – корінь усього зла. - Дональд Кнут"
-    tip_brute_force: "Якщо Ви сумніваєтеся, використовуйте перебір - Кен Томсон"
+    tip_brute_force: "Якщо Ви сумніваєтеся, використовуйте перебір. - Кен Томсон"
     tip_extrapolation: "Існує 2 типи людей: які можуть екстраполюватись від неповних даних..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
-#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
-    tip_no_code: "Немає коду скорішого, ніж його відсутність."
+    tip_superpower: "Написання коду - це найближче до суперсили, що у нас є."
+    tip_control_destiny: "Зі справді відкритим кодом у тебе є право контролювати свою власну долю. - Лінус Торвальдс"
+    tip_no_code: "Немає коду швидшого, ніж відсутній код."
     tip_code_never_lies: "Код ніколи не бреше. Коментарі - іноді. — Ron Jeffries"
-#    tip_reusable_software: "Before software can be reusable it first has to be usable."
-#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
-#    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
+    tip_reusable_software: "Щоб програмне забезпечення можна було використовувати повторно, треба, щоб його можна було використовувати."
+    tip_optimization_operator: "У кожній мові є свій оператор оптимізації. У більшості мов це ‘//’"
+    tip_lines_of_code: "Вимірювати прогрес програмування кількістю рядків коду - це як вимірювати прогрес літакобудування вагою. — Білл Ґейтс"
     tip_source_code: "Я хочу змінити світ, але мені не дають первісний код."
-#    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
-    tip_move_forward: "Щоб ви не робили, продовжуйте рухатись вперед. - Martin Luther King Jr."
+    tip_javascript_java: "Java має таке ж відношення до JavaScript'у, як віз до візерунка. - Кріс Гейлманн"
+    tip_move_forward: "Щоб ви не робили, продовжуйте рухатись вперед. - Мартін Лютер Кінг Мол."
     tip_google: "Не можеш вирішити задачу? Загугли її!"
     tip_adding_evil: "Додамо дрібку зла."
-#    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_hate_computers: "Ось правда про людей, які вважають, що ненавидять комп'ютери. Що вони насправді ненавидять, це паршивий програмерів. - Ларрі Нівен"
+    tip_open_source_contribute: "Ви можете допомогти CodeCombat покращитися!"
+    tip_recurse: "Ітерація - від люини, рекурсія - від бога. - Л. Пітер Дойч"
 
   game_menu:
     inventory_tab: "Інвентар"
