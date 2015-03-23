@@ -441,7 +441,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     managed_subs: "Управляемые подписки"
     managed_subs_desc: "Добавьте подписки для других игроков (студенты, дети и т.д.)"
     group_discounts: "Групповые скидки"
-    group_discounts_1st: "1-я подписка"
+    group_discounts_1st: "1-я подписка" # {change}
     group_discounts_full: "Полная стоимость"
     group_discounts_2nd: "Подписки со 2-й по 11-ю"
     group_discounts_20: "20% скидка"
@@ -576,17 +576,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Информация для учителей"
+    title: "CodeCombat: Информация для учителей" # {change}
     intro_1: "CodeCombat - это онлайн игра, которая обучает программированию. Ученики пишут код на реальных языках программирования."
     intro_2: "Опыт не обязателен!"
     free_title: "Сколько это стоит?"
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
     free_1: "CodeCombat (его базовая часть) бесплатен! В наличии более 70 уровней, которые покрывают каждый концепт."
     free_2: "Месячная подписка предоставляет доступ к видео-урокам и дополнительным уровням."
     teacher_subs_title: "Учителя получают бесплатные подписки!"
     teacher_subs_1: "Пожалуйста, напишите на"
     teacher_subs_2: "для получения бесплатной месячной подписки."
     sub_includes_title: "Что включено в подписку?"
-    sub_includes_1: "В дополнение к более чем 70 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:"
+    sub_includes_1: "В дополнение к более чем 70 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:" # {change}
     sub_includes_2: "Более 40 уровней для дополнительной практики"
     sub_includes_3: "Видео-уроки"
     sub_includes_4: "Эксклюзивная поддержка по электронной почте"
@@ -596,7 +597,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     who_for_1: "Мы рекомендуем CodeCombat для учеников старше 9 лет. Какой-либо опыт программирования не требуется."
     who_for_2: "Мы разработали CodeCombat так, чтобы он подходил и мальчикам и девочкам."
     material_title: "Как много здесь материала?"
-    material_1: "Около 8 часов бесплатного контента и 14 часов дополнительного контента для подписчиков."
+#    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
+    material_1: "Около 8 часов бесплатного контента и 14 часов дополнительного контента для подписчиков." # {change}
     concepts_title: "О каких концептах мы рассказываем? What concepts are covered?"
     how_much_title: "How much does a monthly subscription cost?"
     how_much_1: "Цена"
@@ -605,8 +607,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     how_much_4: "Дополнительно мы предоставляем скидки для больших групп:"
     group_discounts_1: "Мы так же предлагаем скидки при групповых подписках."
     sys_requirements_title: "Системные требования"
-    sys_requirements_1: "Современный веб-браузер. Последние версии Chrome, Firefox или Safari. Internet Explorer 9 или новее."
-    sys_requirements_2: "CodeCombat пока не поддерживает iPad."
+    sys_requirements_1: "Современный веб-браузер. Последние версии Chrome, Firefox или Safari. Internet Explorer 9 или новее." # {change}
+    sys_requirements_2: "CodeCombat пока не поддерживает iPad." # {change}
 
   versions:
     save_version_title: "Сохранить новую версию"
