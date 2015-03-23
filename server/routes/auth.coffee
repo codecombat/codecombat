@@ -202,3 +202,5 @@ module.exports.makeNewUser = makeNewUser = (req) ->
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'lastIP', req.connection.remoteAddress
+  user.set 'chinaVersion', true if req.chinaVersion
+  user

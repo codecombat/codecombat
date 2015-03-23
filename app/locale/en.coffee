@@ -442,7 +442,7 @@
     managed_subs: "Managed Subscriptions"
     managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
     group_discounts: "Group discounts"
-    group_discounts_1st: "1st subscription" # {change}
+    group_discounts_1st: "1st subscription"
     group_discounts_full: "Full price"
     group_discounts_2nd: "Subscriptions 2-11"
     group_discounts_20: "20% off"
@@ -577,17 +577,18 @@
     retrostyle_blurb: "RetroStyle Games"
 
   teachers:
-    title: "CodeCombat: Info for Teachers" # {change}
+    title: "CodeCombat: Info for Teachers"
     intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
     intro_2: "No experience required!"
     free_title: "How much does it cost?"
+    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
     free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "Teachers get free subscriptions!"
     teacher_subs_1: "Please contact"
-    teacher_subs_2: "to setup a free monthly subscription."
+    teacher_subs_2: "to set up a free monthly subscription."
     sub_includes_title: "What is included in the subscription?"
-    sub_includes_1: "In additional to the 70+ free levels, students with a monthly subscription get access to these additional features:"
+    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
     sub_includes_2: "40+ practice levels"
     sub_includes_3: "Video tutorials"
     sub_includes_4: "Premium email support"
@@ -597,7 +598,8 @@
     who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
     who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
     material_title: "How much material is there?"
-    material_1: "Approximately 8 hours of free content, and an additional 14 hours of subscriber content."
+    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
+    material_1: "Approximately 8 hours of free content and an additional 14 hours of subscriber content, with 5 new levels every week."
     concepts_title: "What concepts are covered?"
     how_much_title: "How much does a monthly subscription cost?"
     how_much_1: "A"
@@ -606,8 +608,8 @@
     how_much_4: "Additionally, we provide discounts for larger groups:"
     group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "System Requirements"
-    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later." # {change}
-    sys_requirements_2: "CodeCombat is not supported on iPad yet." # {change}
+    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
+    sys_requirements_2: "CodeCombat is not supported on iPad yet."
 
   versions:
     save_version_title: "Save New Version"

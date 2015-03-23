@@ -728,7 +728,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       possibleAdditionalOffers = ['code-school', 'one-month', 'learnable', 'pluralsight']
       for offer in _.sample possibleAdditionalOffers, nAdditionalOffers
         offers[offer] = true
-
+      # TODO: adjust template to not include any offers if user.isPremium()
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.next_steps_email

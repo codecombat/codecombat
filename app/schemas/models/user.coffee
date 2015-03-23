@@ -304,6 +304,7 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
+  chinaVersion: { type: 'boolean' }
 
 c.extendBasicProperties UserSchema, 'user'
 

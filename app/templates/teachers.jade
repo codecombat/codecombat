@@ -11,8 +11,11 @@ block content
       p(data-i18n="teachers.intro_2")
 
       h3(data-i18n="teachers.free_title")
-      p(data-i18n="teachers.free_1")
-      p(data-i18n="teachers.free_2")
+      if me.get('chinaVersion')
+        p(data-i18n="teachers.cost_china")
+      else
+        p(data-i18n="teachers.free_1")
+        p(data-i18n="teachers.free_2")
 
       h3.teachers-title(data-i18n="teachers.teacher_subs_title")
       p 
@@ -35,7 +38,10 @@ block content
       p(data-i18n="teachers.who_for_2")
 
       h3(data-i18n="teachers.material_title")
-      p(data-i18n="teachers.material_1")
+      if me.get('chinaVersion')
+        p(data-i18n="teachers.material_china")
+      else
+        p(data-i18n="teachers.material_1")
 
       h3(data-i18n="teachers.concepts_title")
 

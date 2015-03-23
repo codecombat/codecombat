@@ -32,17 +32,18 @@ block content
         p(data-i18n="classes.artisan_summary")
           | Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.
 
-  a(href="/contribute/adventurer")
-    div.class_tile
-      img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
-
-      div.class_text
-        h3
-          span.spr(data-i18n="classes.adventurer_title") Adventurer
-          span(data-i18n="classes.adventurer_title_description")
-
-        p(data-i18n="classes.adventurer_summary")
-          | Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release.
+  if !me.get('chinaVersion')
+    a(href="/contribute/adventurer")
+      div.class_tile
+        img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
+  
+        div.class_text
+          h3
+            span.spr(data-i18n="classes.adventurer_title") Adventurer
+            span(data-i18n="classes.adventurer_title_description")
+  
+          p(data-i18n="classes.adventurer_summary")
+            | Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release.
 
   a(href="/contribute/scribe")
     div.class_tile

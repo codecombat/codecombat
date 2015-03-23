@@ -79,19 +79,18 @@ setupPassportMiddleware = (app) ->
   app.use(authentication.session())
 
 setupChinaRedirectMiddleware = (app) ->
-  isInChina = (req) ->
+  shouldRedirectToChinaVersion = (req) ->
+    speaksChinese = req.acceptedLanguages[0]?.indexOf('zh') isnt -1
     unless config.tokyo
-      ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+      ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
       geo = geoip.lookup(ip)
-      if geo?.country isnt "CN" then return false
-      firstAcceptedLanguage = req.acceptedLanguages[0]
-      isChinese = firstAcceptedLanguage?.indexOf? "zh"
-      return isChinese? and isChinese isnt -1
+      return geo?.country is "CN" and speaksChinese
     else
-      return false #If the user is already redirected, don't redirect them!
+      req.chinaVersion = true
+      return false  # If the user is already redirected, don't redirect them!
 
   app.use (req, res, next) ->
-    if isInChina req
+    if shouldRedirectToChinaVersion req
       res.writeHead 302, "Location": config.chinaDomain + req.url
       res.end()
     else
