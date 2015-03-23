@@ -10,7 +10,7 @@ if docs.length === 1
   div
     != docs[0].html
 
-  if (me.get('preferredLanguage') || 'en-US').substr(0, 2) == 'en'
+  if (!me.isPremium() || me.isAdmin()) && (me.get('preferredLanguage') || 'en-US').substr(0, 2) == 'en'
     hr
     h3 Want more programming lessons?
     ul

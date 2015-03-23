@@ -78,8 +78,9 @@ block content
         a(href="/contribute/artisan")
           img(src="/images/pages/community/artisan.png")
 
-        a(href="/contribute/adventurer")
-          img(src="/images/pages/community/adventurer.png")
+        if !me.get('chinaVersion')
+          a(href="/contribute/adventurer")
+            img(src="/images/pages/community/adventurer.png")
 
         a(href="/contribute/scribe")
           img(src="/images/pages/community/scribe.png")

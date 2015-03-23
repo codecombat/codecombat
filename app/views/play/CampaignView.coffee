@@ -432,7 +432,9 @@ module.exports = class CampaignView extends RootView
     levelOriginal = levelElement.data('level-original')
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
 
-    if level.requiresSubscription and @requiresSubscription and not @levelStatusMap[level.slug] and not level.adventurer
+    requiresSubscription = level.requiresSubscription or (me.get('chinaVersion') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
+    canPlayAnyway = not @requiresSubscription or level.adventurer
+    if requiresSubscription and not canPlayAnyway
       @openModalView new SubscribeModal()
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
     else

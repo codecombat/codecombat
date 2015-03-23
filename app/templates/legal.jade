@@ -49,10 +49,11 @@ block content
       span.spl(data-i18n="legal.email_description_suffix")
         | or through links in the emails we send, 
         | you can change your preferences and easily unsubscribe at any time.
-    h4(data-i18n="legal.cost_title")
-      | Cost
-    p(data-i18n="legal.cost_description")
-      | CodeCombat is free to play in the dungeon campaign, with a $9.99 USD/mo subscription for access to later campaigns and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.
+    if !me.get('chinaVersion')
+      h4(data-i18n="legal.cost_title")
+        | Cost
+      p(data-i18n="legal.cost_description")
+        | CodeCombat is free to play for all of its core levels, with a $9.99 USD/mo subscription for access to extra level branches and 3500 bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.
     
   h2(data-i18n="legal.copyrights_title")
     | Copyrights and Licenses

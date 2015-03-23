@@ -82,6 +82,7 @@ LevelHandler = class LevelHandler extends Handler
     super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
+    # TODO: this could probably be faster with projections, right?
     @getDocumentForIdOrSlug id, (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
@@ -103,7 +104,9 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
-        return @sendPaymentRequiredError(res, err) if (not req.user.isPremium()) and level.get('requiresSubscription') and not level.get('adventurer')
+        requiresSubscription = level.get('requiresSubscription') or (req.user.get('chinaVersion') and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
+        canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
+        return @sendPaymentRequiredError(res, err) if requiresSubscription and not canPlayAnyway
         @createAndSaveNewSession sessionQuery, req, res
 
   createAndSaveNewSession: (sessionQuery, req, res) =>

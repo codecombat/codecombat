@@ -136,10 +136,11 @@ UserSchema.statics.updateServiceSettings = (doc, callback) ->
     groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]
     'new-email': doc.get('email')
   }
+  #params.merge_vars.chinaVersion = true if doc.get('chinaVersion')  # ???
   params.update_existing = true
 
   onSuccess = (data) ->
-    data.email = doc.get('email')  # Make sure that we don't spam opt-in emails even if MailChimp doesn't udpate the email it gets in this object until they have confirmed.
+    data.email = doc.get('email')  # Make sure that we don't spam opt-in emails even if MailChimp doesn't update the email it gets in this object until they have confirmed.
     doc.set('mailChimp', data)
     doc.updatedMailChimp = true
     doc.save()
@@ -291,7 +292,7 @@ UserSchema.statics.hashPassword = (password) ->
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
-  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID'
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
