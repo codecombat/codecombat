@@ -29,6 +29,7 @@ module.exports = class ForkModal extends ModalView
     newModel.unset 'original'
     newModel.unset 'parent'
     newModel.unset 'i18n'
+    newModel.unset 'i18nCoverage'
     newModel.set 'commitMessage', "Forked from #{@model.get('name')}"
     newModel.set 'name', @$el.find('#fork-model-name').val()
     if @model.schema().properties.permissions
