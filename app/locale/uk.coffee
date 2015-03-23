@@ -584,7 +584,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     violent_1: "Вчителі запитують нас це переважно через нашу назву. Хоча CodeCombat містить жорстокі малюнки, нічого такого немає ні в візуалізаціях, ні в мові."
     violent_2: "Якщо для Вас нормально, що учні грають в Angry Birds, то CodeCombat так само нормальний."
     for_girls_title: "Дівчатам підходить?"
-#    for_girls_1: "У CodeCombat є три режими гри: будування, пазли і битви. Ми розробляли кожен так, щоб підходило і хлопцям, і дівчатам і думаємо, що будування і пазлиhink that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
+    for_girls_1: "У CodeCombat є три режими гри: будування, пазли і битви. Ми розробляли кожен так, щоб підходило і хлопцям, і дівчатам і думаємо, що будування і пазлиhink that the building and puzzle levels especially differentiate the game from violent triple A titles that repel female players."
     age_recommended_title: "Для якого віку це рекомендуєте?"
     age_recommended_1: "Мінімальний рекомендований вік — 9 років, однак перші етапи з допомогою дорослих можуть проходити й діти 7-ми років."
     what_cover_title: "Що ми отримуємо?"
