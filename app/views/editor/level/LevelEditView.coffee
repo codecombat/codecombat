@@ -187,7 +187,7 @@ module.exports = class LevelEditView extends RootView
   onPopulateI18N: ->
     @level.populateI18N()
     f = -> document.location.reload()
-    setTimeout(f, 200)
+    setTimeout(f, 2000)
 
   toggleTab: (e) ->
     @renderScrollbar()
