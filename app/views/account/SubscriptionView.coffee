@@ -123,7 +123,7 @@ class PersonalSub
     me.set('stripe', stripeInfo)
 
     me.once 'sync', =>
-      application.tracker?.trackEvent 'Finished subscription purchase', revenue: 0
+      application.tracker?.trackEvent 'Finished subscription purchase', value: 0
       delete @prepaidCode
       @update(render)
     me.once 'error', (user, response, options) =>

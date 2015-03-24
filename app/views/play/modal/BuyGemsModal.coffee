@@ -89,7 +89,7 @@ module.exports = class BuyGemsModal extends ModalView
     jqxhr.done(=>
       application.tracker?.trackEvent 'Finished gem purchase',
         productID: @productBeingPurchased.id
-        revenue: @productBeingPurchased.amount / 100
+        value: @productBeingPurchased.amount
       document.location.reload()
     )
     jqxhr.fail(=>

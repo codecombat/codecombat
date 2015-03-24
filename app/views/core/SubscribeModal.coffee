@@ -144,7 +144,7 @@ module.exports = class SubscribeModal extends ModalView
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
   onSubscriptionSuccess: ->
-    application.tracker?.trackEvent 'Finished subscription purchase', revenue: @purchasedAmount / 100
+    application.tracker?.trackEvent 'Finished subscription purchase', value: @purchasedAmount
     Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
     @hide()
