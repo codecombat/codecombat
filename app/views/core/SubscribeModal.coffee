@@ -112,7 +112,7 @@ module.exports = class SubscribeModal extends ModalView
     options = {
       description: $.i18n.t('subscribe.stripe_description')
       amount: @product.amount
-      alipay: if me.get('chinaVersion') or me.get('preferredLanguage')[...2] is 'zh' then true else 'auto'
+      alipay: if me.get('chinaVersion') or me.get('preferredLanguage')?[...2] is 'zh' then true else 'auto'
       alipayReusable: true
     }
 
@@ -144,7 +144,7 @@ module.exports = class SubscribeModal extends ModalView
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
   onSubscriptionSuccess: ->
-    application.tracker?.trackEvent 'Finished subscription purchase', revenue: @purchasedAmount / 100
+    application.tracker?.trackEvent 'Finished subscription purchase', value: @purchasedAmount
     Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
     @hide()

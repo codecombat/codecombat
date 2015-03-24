@@ -213,6 +213,7 @@ module.exports = class ThangsTabView extends CocoView
     }
     @surface.playing = false
     @surface.setWorld @world
+    @surface.lankBoss.suppressSelectionSounds = true
     @centerCamera()
 
   centerCamera: ->
