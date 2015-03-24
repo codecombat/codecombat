@@ -86,7 +86,7 @@ setupChinaRedirectMiddleware = (app) ->
       geo = geoip.lookup(ip)
       return geo?.country is "CN" and speaksChinese
     else
-      req.chinaVersion = true
+      req.chinaVersion = true if speaksChinese
       return false  # If the user is already redirected, don't redirect them!
 
   app.use (req, res, next) ->
