@@ -136,7 +136,6 @@ UserSchema.statics.updateServiceSettings = (doc, callback) ->
     groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]
     'new-email': doc.get('email')
   }
-  #params.merge_vars.chinaVersion = true if doc.get('chinaVersion')  # ???
   params.update_existing = true
 
   onSuccess = (data) ->
