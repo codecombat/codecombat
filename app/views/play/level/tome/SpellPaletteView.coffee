@@ -29,6 +29,8 @@ module.exports = class SpellPaletteView extends CocoView
     @session = options.session
     @supermodel = options.supermodel
     @thang = options.thang
+    docs = @options.level.get('documentation') ? {}
+    @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
     $(window).on 'resize', @onResize
 
@@ -39,6 +41,7 @@ module.exports = class SpellPaletteView extends CocoView
     c.entryGroupNames = @entryGroupNames
     c.tabbed = _.size(@entryGroups) > 1
     c.defaultGroupSlug = @defaultGroupSlug
+    c.showsHelp = @showsHelp
     c
 
   afterRender: ->
@@ -72,6 +75,7 @@ module.exports = class SpellPaletteView extends CocoView
           if entryIndex is 0
             entry.$el.addClass 'first-entry'
       @$el.addClass 'hero'
+      @$el.toggleClass 'shortenize', Boolean @shortenize
       @updateMaxHeight() unless application.isIPadApp
 
   afterInsert: ->
@@ -83,18 +87,27 @@ module.exports = class SpellPaletteView extends CocoView
 
   updateMaxHeight: ->
     return unless @isHero
-    nColumns = Math.floor @$el.find('.properties').innerWidth() / 212   # ~212px is a good max entry width; will always have 2 columns
+    # We figure out how many columns we can fit, width-wise, and then guess how many rows will be needed.
+    # We can then assign a height based on the number of rows, and the flex layout will do the rest.
+    columnWidth = if @shortenize then 175 else 212
+    nColumns = Math.floor @$el.find('.properties').innerWidth() / columnWidth   # will always have 2 columns, since at 1024px screen we have 424px .properties
     columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
+    orderedColumns = []
     nRows = 0
-    for group, entries of @entryGroups
+    entryGroupsByLength = _.sortBy _.keys(@entryGroups), (group) => @entryGroups[group].length
+    entryGroupsByLength.reverse()
+    for group in entryGroupsByLength
+      entries = @entryGroups[group]
       continue unless shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
-      shortestColumn.nEntries += Math.max 2, entries.length
+      shortestColumn.nEntries += Math.max 2, entries.length  # Item portrait is two rows tall
       shortestColumn.items.push @entryGroupElements[group]
+      orderedColumns.push shortestColumn unless shortestColumn in orderedColumns
       nRows = Math.max nRows, shortestColumn.nEntries
-    for column in columns
+    for column in orderedColumns
       for item in column.items
         item.detach().appendTo @$el.find('.properties')
-    @$el.find('.properties').css('height', 19 * (nRows + 1))
+    desiredHeight = 19 * (nRows + 1)
+    @$el.find('.properties').css('height', desiredHeight)
 
   onResize: (e) =>
     @updateMaxHeight()
@@ -151,7 +164,7 @@ module.exports = class SpellPaletteView extends CocoView
         count += added.length
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs, language: @options.language
 
-    shortenize = count > 6
+    @shortenize = count > 6
     tabbify = count >= 10
     @entries = []
     for owner, props of propGroups
@@ -163,7 +176,7 @@ module.exports = class SpellPaletteView extends CocoView
           console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups
           doc ?= prop
         if doc
-          @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
+          @entries.push @addEntry(doc, @shortenize, tabbify, owner is 'snippets')
     groupForEntry = (entry) ->
       return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
@@ -229,7 +242,7 @@ module.exports = class SpellPaletteView extends CocoView
 
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propsByItem, allDocs: allDocs, language: @options.language
 
-    shortenize = propCount > 6
+    @shortenize = propCount > 6
     @entries = []
     for itemName, props of propsByItem
       for prop, propIndex in props
@@ -243,7 +256,7 @@ module.exports = class SpellPaletteView extends CocoView
           console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propsByItem, 'with item', item
           doc ?= prop
         if doc
-          @entries.push @addEntry(doc, shortenize, false, owner is 'snippets', item, propIndex > 0)
+          @entries.push @addEntry(doc, @shortenize, false, owner is 'snippets', item, propIndex > 0)
     @entryGroups = _.groupBy @entries, (entry) -> itemsByProp[entry.doc.name]?.get('name') ? 'Hero'
     iOSEntryGroups = {}
     for group, entries of @entryGroups
@@ -264,16 +277,6 @@ module.exports = class SpellPaletteView extends CocoView
     @controlsEnabled = enabled
     @$el.find('*').attr('disabled', not enabled)
     @$el.toggleClass 'controls-disabled', not enabled
-    @toggleBackground()
-
-  toggleBackground: =>
-    # TODO: make the palette background an actual background and do the CSS trick
-    # used in spell_list_entry.sass for disabling
-    background = @$el.find('img.code-palette-background')[0]
-    if background.naturalWidth is 0  # not loaded yet
-      return _.delay @toggleBackground, 100
-    filters.revertImage background, 'span.code-palette-background' if @controlsEnabled
-    filters.darkenImage background, 'span.code-palette-background', 0.8 unless @controlsEnabled
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id

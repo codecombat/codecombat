@@ -568,15 +568,22 @@ module.exports = class SpellView extends CocoView
       @lastScreenLineCount = screenLineCount
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
+      spellPaletteView = $('#spell-palette-view')
       spellListTabEntryHeight = $('#spell-list-tab-entry-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      spellPaletteHeight = $('#spell-palette-view').outerHeight()
-      maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteHeight
+      @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
+      spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
+      maxHeight = tomeHeight - spellListTabEntryHeight - spellToolbarHeight - spellPaletteAllowedHeight
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
       lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
       # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
-      $('#spell-palette-view').css('top', 175 + lineHeight * lines)  # Move spell palette up, slightly overlapping us.
+      # Move spell palette up, slightly overlapping us.
+      newTop = 175 + lineHeight * lines
+      spellPaletteView.css('top', newTop)
+      # Expand it to bottom of tome if too short.
+      newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
+      spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
 
   hideProblemAlert: ->
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
@@ -1035,6 +1042,8 @@ module.exports = class SpellView extends CocoView
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   onWindowResize: (e) =>
+    @spellPaletteHeight = null
+    $('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->

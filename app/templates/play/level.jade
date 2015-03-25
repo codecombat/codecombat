@@ -4,34 +4,36 @@
   #control-bar-view
 
   #fullscreen-editor-background-screen(title="Click to minimize the code editor")
-  
+
   #code-area
     #code-area-gradient.gradient
     #tome-view
-  
-  #canvas-wrapper
-    canvas(width=924, height=589)#webgl-surface
-    canvas(width=924, height=589)#normal-surface
-    #ascii-surface
-    #canvas-left-gradient.gradient
-    #canvas-top-gradient.gradient
-    #goals-view
-  
-  #level-flags-view
 
-  #gold-view
+  #game-area
 
-  #problem-alert-view
+    #canvas-wrapper
+      canvas(width=924, height=589)#webgl-surface
+      canvas(width=924, height=589)#normal-surface
+      #ascii-surface
+      #canvas-left-gradient.gradient
+      #canvas-top-gradient.gradient
+      #goals-view
 
-  #level-chat-view
-  
-  #multiplayer-status-view
-  
-  #playback-view
-  
-  #thang-hud
+    #level-flags-view
 
-  #level-dialogue-view
+    #gold-view
+
+    #problem-alert-view
+
+    #level-chat-view
+
+    #multiplayer-status-view
+
+    #playback-view
+
+    #thang-hud
+
+    #level-dialogue-view
 
   button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback", data-i18n="play_level.skip") Skip
 
