@@ -63,7 +63,6 @@ $level-resize-transition-time: 0.5s
 
   .level-content
     position: relative
-    overflow: hidden
 
   #canvas-wrapper
     top: 50px
@@ -128,6 +127,10 @@ $level-resize-transition-time: 0.5s
     top: 0px
     bottom: 0
     @include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
+    z-index: 2
+
+  #game-area
+    position: relative
     overflow: hidden
     
   // Level Docs

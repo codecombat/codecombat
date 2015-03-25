@@ -141,6 +141,7 @@ module.exports = Lank = class Lank extends CocoClass
   onSurfaceTicked: (e) -> @age += e.dt
 
   playNextAction: =>
+    return if @destroyed
     @playAction(@actionQueue.splice(0, 1)[0]) if @actionQueue.length
 
   playAction: (action) ->

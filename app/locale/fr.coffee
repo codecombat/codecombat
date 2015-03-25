@@ -499,7 +499,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     writable: "éditable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "lecture seulement"
     action_name: "nom"
-    action_cooldown: "Encaisse"
+    action_cooldown: "Durée"
     action_specific_cooldown: "Rechargement"
     action_damage: "Dégât"
     action_range: "Portée"
@@ -878,7 +878,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     diplomat_i18n_page_prefix: "Vous pouvez commencer à traduire nos niveaux en allant sur notre "
     diplomat_i18n_page: "page de traduction"
     diplomat_i18n_page_suffix: ", ou notre interface et le site Web sur GitHub."
-    diplomat_join_pref_github: "Trouvez le fichier de langue souhaité"
+    diplomat_join_pref_github: "Trouvez le fichier de langue souhaité "
     diplomat_github_url: "sur GitHub"
     diplomat_join_suf_github: ", modifiez en ligne, et soumettez des requêtes. Cochez aussi cette case ci-dessous pour vous tenir à jour sur les nouveaux développements d'internationalisation !"
     diplomat_subscribe_desc: "Recevoir un e-mail sur le développement i18n et les niveaux à traduire."
@@ -962,7 +962,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_singleplayer: "Aucune partie jouée pour le moment"
     no_multiplayer: "Aucune partie multijoueur pour le moment"
     no_achievements: "Aucun succès gagné pour le moment."
-    favorite_prefix: "Langage favori :"
+    favorite_prefix: "Langage favori : "
     favorite_postfix: "."
 
   achievements:

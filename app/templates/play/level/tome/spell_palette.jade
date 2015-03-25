@@ -1,4 +1,3 @@
-img(src="/images/level/code_palette_wood_background.png", draggable="false").code-palette-background
 span.code-palette-background
 if entryGroupSlugs
   // Non-hero; group by entry groups, or maybe nothing.
@@ -13,6 +12,9 @@ if entryGroupSlugs
         div(class="properties properties-" + slug + " nano-content")
 else
   // Hero; group by items, no tabs.
-  button.btn.btn-sm.btn-info.banner#spell-palette-help-button(data-i18n="play_level.tome_help")
-  .properties
+  if showsHelp
+    button.btn.btn-sm.btn-info.banner#spell-palette-help-button(data-i18n="play_level.tome_help")
+    .properties
+  else
+    .properties.no-help
 

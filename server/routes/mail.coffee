@@ -706,9 +706,10 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       return log.error "Couldn't find next level for #{user.get('email')}: #{err}" if err
       name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
       name = 'hero' if not name or name is 'Anoner'
-      secretLevel = switch user.get('testGroupNumber') % 8
-        when 0, 1, 2, 3 then name: 'Forgetful Gemsmith', slug: 'forgetful-gemsmith'
-        when 4, 5, 6, 7 then name: 'Signs and Portents', slug: 'signs-and-portents'
+      #secretLevel = switch user.get('testGroupNumber') % 8
+      #  when 0, 1, 2, 3 then name: 'Forgetful Gemsmith', slug: 'forgetful-gemsmith'
+      #  when 4, 5, 6, 7 then name: 'Signs and Portents', slug: 'signs-and-portents'
+      secretLevel = name: 'Signs and Portents', slug: 'signs-and-portents'  # We turned off this test for now and are sending everyone to forgetful-gemsmith
 
       # TODO: make this smarter, actually data-driven, looking at all available sessions
       shadowGuardSession = _.find sessions, levelID: 'shadow-guard'

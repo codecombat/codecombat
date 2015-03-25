@@ -67,9 +67,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "Ďalší" # Go from choose hero to choose inventory before playing a level
     change_hero: "Zmeniť hrdinu" # Go back from choose inventory to choose hero
-    choose_inventory: "Vyzbrojiť sa s predmetmy"
+    choose_inventory: "Vyzbrojiť sa s predmetmi"
     buy_gems: "Zakúpiť drahokamy"
-    subscription_required: "Vyžaduje sa rredplatné"
+    subscription_required: "Vyžaduje sa predplatné"
     older_campaigns: "Staršie kampane"
     anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
@@ -457,16 +457,16 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
-#    programming_language_description: "Which programming language do you want to use?"
-#    default: "Default"
-#    experimental: "Experimental"
-#    python_blurb: "Simple yet powerful, great for beginners and experts."
-#    javascript_blurb: "The language of the web. (Not the same as Java.)"
-#    coffeescript_blurb: "Nicer JavaScript syntax."
-#    clojure_blurb: "A modern Lisp."
+  choose_hero:
+    choose_hero: "Vyber svojho hrdinu"
+    programming_language: "Programovací jazyk"
+    programming_language_description: "Aký programovací jazyk chceš použiť ? "
+    default: "Predvolený"
+    experimental: "Experimentálny"
+    python_blurb: "Jednoduchý ale výkonný, skvelý pre začiatočníkov aj expertov"
+    javascript_blurb: "Jazyk webových stránok. (Nie je to Java)"
+    coffeescript_blurb: "Krajšia syntax pre JavaScript"
+    clojure_blurb: "Moderný Lisp"
 #    lua_blurb: "Game scripting language."
 #    io_blurb: "Simple but obscure."
 #    status: "Status"

@@ -82,6 +82,8 @@ module.exports = class DocFormatter
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify
           @doc.shorterName = @doc.shorterName.replace /^this\./, ''
+      else if (@options.language in ['python', 'lua']) and (@doc.owner is 'this' or @options.tabbify)
+        @doc.shorterName = @doc.shortName.replace /^self[:.]/, ''
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
 
     # Grab the language-specific documentation for some sub-properties, if we have it.
