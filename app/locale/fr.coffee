@@ -744,7 +744,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     thang_title: "Éditeur Thang"
     level_title: "Éditeur de niveau"
     achievement_title: "Éditeur de succès"
-#    poll_title: "Poll Editor"
+    poll_title: "Éditeur de sondage"
     back: "Retour"
     revert: "Annuler"
     revert_models: "Annuler les modèles"
@@ -805,8 +805,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     new_level_title_login: "Identifiez-vous pour créer un nouveau niveau"
     new_achievement_title: "Créer un nouveau succès"
     new_achievement_title_login: "Connectez vous pour créer un nouveau succès"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "Créer un nouveau sondage"
+    new_poll_title_login: "Connectez vous pour créer un nouveau sondage"
     article_search_title: "Rechercher dans les articles"
     thang_search_title: "Rechercher dans les types de Thang"
     level_search_title: "Rechercher dans les niveaux"
@@ -826,7 +826,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     edit_article_title: "Éditer l'article"
 
 #  polls:
-#    priority: "Priority"
+#    priority: "Priorité"
 
   contribute:
     page_title: "Contribution"
