@@ -962,7 +962,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_singleplayer: "Aucune partie jouée pour le moment"
     no_multiplayer: "Aucune partie multijoueur pour le moment"
     no_achievements: "Aucun succès gagné pour le moment."
-    favorite_prefix: "Langage favori :"
+    favorite_prefix: "Langage favori : "
     favorite_postfix: "."
 
   achievements:
