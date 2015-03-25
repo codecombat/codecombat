@@ -499,7 +499,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     writable: "éditable" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "lecture seulement"
     action_name: "nom"
-    action_cooldown: "Encaisse"
+    action_cooldown: "Durée"
     action_specific_cooldown: "Rechargement"
     action_damage: "Dégât"
     action_range: "Portée"
