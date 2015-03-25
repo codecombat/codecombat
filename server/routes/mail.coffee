@@ -718,14 +718,15 @@ sendNextStepsEmail = (user, now, daysAgo) ->
       isKid = not isAdult  # Assume kid if not specified
       offers =
         'app-academy': isAdult and isVeryFast
-        'designlab': isAdult
+        'designlab': isAdult and Math.random() < 0.25
         'tealeaf-academy': isAdult and isFast
-        'talent-buddy': isAdult
-        'coding-campus': isAdult and Math.random() < 0.5  # TODO: geodetect UT and give priority
+        'talent-buddy': isAdult and Math.random() < 0.25
+        'coding-campus': isAdult and Math.random() < 0.25  # TODO: geodetect UT and give priority
         'viking': isAdult and isFast
         'maker-square': isAdult and isFast
+        'the-firehose-project': isAdult and isFast
         #'mv-code-club': isKid  # TODO: geodetect, get landing page URL
-      nAdditionalOffers = 4 - _.filter(offers).length
+      nAdditionalOffers = Math.max 0, 4 - _.filter(offers).length
       possibleAdditionalOffers = ['code-school', 'one-month', 'learnable', 'pluralsight']
       for offer in _.sample possibleAdditionalOffers, nAdditionalOffers
         offers[offer] = true
