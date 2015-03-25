@@ -475,7 +475,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     weapons_warrior: "Epées - Courte portée, pas de magie"
     weapons_ranger: "Arbalètes, pistolets - Longue portée, pas de magie"
     weapons_wizard: "Baguettes, bâtons - Longue portée, Magie"
-    attack: "Dégât" # Can also translate as "Attack"
+    attack: "Dégâts" # Can also translate as "Attack"
     health: "Santé"
     speed: "Vitesse"
     regeneration: "Régénération"
