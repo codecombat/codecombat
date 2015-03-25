@@ -723,12 +723,14 @@ sendNextStepsEmail = (user, now, daysAgo) ->
         'talent-buddy': isAdult
         'coding-campus': isAdult and Math.random() < 0.5  # TODO: geodetect UT and give priority
         'viking': isAdult and isFast
+        'maker-square': isAdult and isFast
         #'mv-code-club': isKid  # TODO: geodetect, get landing page URL
       nAdditionalOffers = 4 - _.filter(offers).length
       possibleAdditionalOffers = ['code-school', 'one-month', 'learnable', 'pluralsight']
       for offer in _.sample possibleAdditionalOffers, nAdditionalOffers
         offers[offer] = true
-      # TODO: adjust template to not include any offers if user.isPremium()
+      if user.isPremium()
+        offers = null
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.next_steps_email
