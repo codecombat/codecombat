@@ -825,8 +825,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     edit_btn_preview: "Prévisualiser"
     edit_article_title: "Éditer l'article"
 
-#  polls:
-#    priority: "Priorité"
+  polls:
+    priority: "Priorité"
 
   contribute:
     page_title: "Contribution"
