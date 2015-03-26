@@ -1,6 +1,11 @@
 // Print out subscription counts bucketed by day and amount
 // NOTE: created is a string and not an ISODate in the database
 
+// Usage:
+// mongo <address>:<port>/coco <script file> -u <username> -p <password>
+
+// TODO: does not differeniate between new and recurring payments
+
 var match={
     "$match" : {
         "stripe.subscriptionID" : { "$exists" : true }
@@ -23,6 +28,11 @@ var group={"$group" : {
 };
 var sort = {$sort: { "_id.d" : -1}};
 //db.payments.aggregate(match, proj0, proj1, proj2, group)
-db.payments.aggregate(match, proj0, group, sort).result.forEach( function (myDoc) { print({day: myDoc._id.d, amount: myDoc._id.m, count: myDoc.count}) })
+var cursor = db.payments.aggregate(match, proj0, group, sort);
+while (cursor.hasNext()) {
+  var myDoc = cursor.next();
+  print(myDoc._id.d, myDoc._id.m, myDoc.count);
+}
+//db.payments.aggregate(match, proj0, group, sort)
 //db.payments.aggregate(match)
 //db.payments.find()
