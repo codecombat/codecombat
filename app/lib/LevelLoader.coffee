@@ -62,6 +62,9 @@ module.exports = class LevelLoader extends CocoClass
   # Session Loading
 
   loadSession: ->
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+      @sessionDependenciesRegistered = {}
+
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
     else
@@ -103,7 +106,6 @@ module.exports = class LevelLoader extends CocoClass
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
     return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-    @sessionDependenciesRegistered ?= {}
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
