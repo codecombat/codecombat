@@ -44,8 +44,12 @@ block content
     li
       a(href="/admin/clas", data-i18n="admin.clas") CLAs
     if me.isAdmin()
-      li
-        a(href="/admin/growth", data-i18n="admin.growth") Growth
+      li Analytics
+        ul
+          li
+            a(href="/admin/analytics/subscriptions") Subscriptions
+          li
+            a(href="/admin/analytics/users") Users (needs updating)
 
   if me.isAdmin()
     hr

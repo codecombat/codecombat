@@ -419,6 +419,8 @@ describe 'Subscriptions', ->
       options = customer: body.stripe.customerID, limit: 100
       stripe.invoices.list options, (err, invoices) ->
         expect(err).toBeNull()
+        expect(invoices).not.toBeNull()
+        return done(updatedUser) unless invoices?
         expect(invoices.has_more).toEqual(false)
         makeWebhookCall = (invoice) ->
           (callback) ->

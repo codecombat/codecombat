@@ -1,0 +1,51 @@
+extends /templates/base
+
+block content
+  
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+  else
+    if total === 0
+      h1 Fetching subscriptions data...
+    else
+      div
+        .big-stat.total-count
+          div.description Total
+          div.count= total
+        .big-stat.remaining-count
+          div.description Remaining
+          div.count= total - cancelled
+        .big-stat.cancelled-count
+          div.description Cancelled
+          div.count= cancelled
+        .big-stat.churn-count
+          div.description Monthly Churn
+          div.count #{monthlyChurn.toFixed(2)}%
+      
+      each graph in analytics.graphs
+        .line-graph-container
+          each line in graph.lines
+            each point in line.points
+              .graph-point-info-container(data-pointid="#{point.pointID}")
+                div(style='font-weight:bold;') #{point.day}
+                each value in point.values
+                  div #{value}
+
+      div *Stripe APIs do not return information about inactive subs.
+
+      br
+        
+      table.table.table-condensed.concepts-table
+        thead
+          tr
+            th Day
+            th Total
+            th Started
+            th Cancelled
+        tbody
+          each sub in subs
+            tr
+              td= sub.day
+              td= sub.total
+              td= sub.started
+              td= sub.cancelled

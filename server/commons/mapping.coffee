@@ -24,6 +24,7 @@ module.exports.handlers =
   'poll': 'polls/poll_handler'
   'user_polls_record': 'polls/user_polls_record_handler'
   'prepaid': 'prepaids/prepaid_handler'
+  'subscription': 'payments/subscription_handler'
 
 module.exports.routes =
   [
