@@ -29,7 +29,7 @@ getSubscriptions(null, function () {
 });
 
 
-function getSubscriptions(starting_after,   done)
+function getSubscriptions(starting_after, done)
 {
   var options = {limit: 100};
   if (starting_after) options.starting_after = starting_after;

@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/growth'
+template = require 'templates/admin/analytics-users'
 RealTimeCollection = require 'collections/RealTimeCollection'
 
 require 'vendor/d3'
@@ -16,8 +16,8 @@ require 'vendor/d3'
 # TODO: aggregate recent data if missing?
 #
 
-module.exports = class GrowthView extends RootView
-  id: 'admin-growth-view'
+module.exports = class AnalyticsUsersView extends RootView
+  id: 'admin-analytics-users-view'
   template: template
   height: 300
   width: 1000
@@ -55,7 +55,7 @@ module.exports = class GrowthView extends RootView
     if me.isAdmin()
       @createPerDayChart()
       @createPerMonthChart()
-    
+
   createPerDayChart: ->
     addedData = []
     totalData = []
@@ -76,7 +76,7 @@ module.exports = class GrowthView extends RootView
 
   createLineChart: (selector, data, guidelineSpacing, sevenDayAverage=false) ->
     return unless data.length > 1
-    
+
     minVal = d3.min(data, (d) -> d.value)
     maxVal = d3.max(data, (d) -> d.value)
 
@@ -129,16 +129,16 @@ module.exports = class GrowthView extends RootView
       .attr("cx", (d) -> d.x )
       .attr("cy", (d) -> d.y )
       .attr("r", "2px")
-      .attr("fill", "black") 
-      
+      .attr("fill", "black")
+
     chart.selectAll(".text")
       .data(points)
       .enter()
       .append("text")
       .attr("dy", ".35em")
       .attr("transform", (d, i) => "translate(" + d.x + "," + @height + ") rotate(270)")
-      .text((d) -> 
-        if d.id.length is 8 
+      .text((d) ->
+        if d.id.length is 8
           return "#{parseInt(d.id[4..5])}/#{parseInt(d.id[6..7])}/#{d.id[0..3]}"
         else
           return "#{parseInt(d.id[4..5])}/#{d.id[0..3]}"
@@ -161,7 +161,7 @@ module.exports = class GrowthView extends RootView
       .attr("cx", (d) -> d.x )
       .attr("cy", (d) -> d.y )
       .attr("r", "2px")
-      .attr("fill", "purple") 
+      .attr("fill", "purple")
 
     chart.selectAll('.line')
       .data(sevenLinks)
@@ -191,4 +191,3 @@ module.exports = class GrowthView extends RootView
       .attr("y", (d) -> d.start.y - 6)
       .attr("dy", ".35em")
       .text((d) -> d.start.id)
-
