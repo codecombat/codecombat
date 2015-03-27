@@ -54,8 +54,10 @@ module.exports = class LadderView extends RootView
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx._ = _
-    if tournamentDate = {greed: 1402444800000, 'criss-cross': 1410912000000}[@levelID]
-      ctx.tournamentTimeLeft = moment(new Date(tournamentDate)).fromNow()
+    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000}[@levelID]
+      ctx.tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
+    if tournamentStartDate = {'zero-sum': 1427472000000}[@levelID]
+      ctx.tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
     ctx.winners = require('./tournament_results')[@levelID]
     ctx
 
@@ -98,21 +100,12 @@ module.exports = class LadderView extends RootView
     Backbone.Mediator.publish 'router:navigate', route: url
 
   showPlayModal: (teamID) ->
-    return @showApologeticSignupModal() if me.get('anonymous')
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
 
-  showApologeticSignupModal: ->
-    AuthModal = require 'views/core/AuthModal'
-    @openModalView(new AuthModal({showRequiredError: true}))
-
   onClickedLink: (e) ->
     link = $(e.target).closest('a').attr('href')
-    if link? and _.string.startsWith(link, '/play/level') and me.get('anonymous')
-      e.stopPropagation()
-      e.preventDefault()
-      @showApologeticSignupModal()
     if link and /#rules$/.test link
       @$el.find('a[href="#rules"]').tab('show')
     if link and /#prizes/.test link

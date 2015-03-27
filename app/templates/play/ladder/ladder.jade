@@ -2,88 +2,101 @@ extends /templates/base
 block content
   - var base = "/images/pages/play/ladder/prize_";
 
-  div#level-column
-    if levelDescription
-      div!= levelDescription
-    else
-      h1= level.get('name')
+  div#ladder-top
 
-  if level.get('name') == 'Greed'
-    .tournament-blurb
-      h2
-        span(data-i18n="ladder.tournament_ended") Tournament ended
-        |  #{tournamentTimeLeft}
-      p
-        span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
-        |  
-        a(href="http://blog.codecombat.com/multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
-        | .
-      p
-        strong Tournament ended! 
-        a(href="#winners") Behold the winners
-        | . Thanks for playing! You can 
-        strong still play
-        |  Greed and all of our other 
-        a(href="/play/ladder") multiplayer arenas
-        | .
-      p
-        | Want to commiserate? Head over to 
-        a(href="http://discourse.codecombat.com/") the forum
-        |  and discuss your strategies, your triumphs, and your turmoils.
+    div#level-column
+      if levelDescription
+        div!= levelDescription
+      else
+        h1= level.get('name')
 
-      .sponsor-logos
-        a(href="https://heapanalytics.com/")
-          img(src=base + "heap.png")
-        a(href="https://www.firebase.com/")
-          img(src=base + "firebase.png")
-        a(href="https://onemonthrails.com/")
-          img(src=base + "one_month.png")
-        a(href="http://www.jetbrains.com/webstorm/")
-          img(src=base + "webstorm.png")
-        a(href="http://shop.oreilly.com/category/ebooks.do")
-          img(src=base + "oreilly.png")
-        a(href="http://aws.amazon.com/")
-          img(src=base + "aws.png")
-
-  if level.get('name') == 'Criss-Cross'
-    .tournament-blurb
-      h2
-        span(data-i18n="ladder.tournament_ended") Tournament ended
-        |  #{tournamentTimeLeft}
-      p
-        span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
-        |  
-        a(href="http://blog.codecombat.com/6-programming-languages-one-victor-codecombats-newest-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
-        | .
-      p
-        strong Tournament ended! 
-        a(href="#winners") Behold the winners
-        | . Thanks for playing! You can 
-        strong still play
-        |  Criss-Cross and all of our other 
-        a(href="/play/ladder") multiplayer arenas
-        | .
-      p
-        | Want to commiserate? Head over to 
-        a(href="http://discourse.codecombat.com/") the forum
-        |  and discuss your strategies, your triumphs, and your turmoils.
-          
-  div#columns.row
-    div.column.col-md-2
-    for team in teams
-      div.column.col-md-4
-        a(style="background-color: #{team.primaryColor}", data-team=team.id).play-button.btn.btn-danger.btn-block.btn-lg
-          span(data-i18n="play.play_as") Play As
+    if level.get('name') == 'Greed'
+      .tournament-blurb
+        h2
+          span(data-i18n="ladder.tournament_ended") Tournament ended
+          |  #{tournamentTimeLeft}
+        p
+          span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
           |  
-          span= team.name
-    div.column.col-md-2
-  
-  .spectate-button-container
-    a(href="/play/spectate/#{level.get('slug')}").spectate-button.btn.btn-primary.center
-      span(data-i18n="play.spectate") Spectate
+          a(href="http://blog.codecombat.com/multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+          | .
+        p
+          strong Tournament ended! 
+          a(href="#winners") Behold the winners
+          | . Thanks for playing! You can 
+          strong still play
+          |  Greed and all of our other 
+          a(href="/play/ladder") multiplayer arenas
+          | .
+        p
+          | Want to commiserate? Head over to 
+          a(href="http://discourse.codecombat.com/") the forum
+          |  and discuss your strategies, your triumphs, and your turmoils.
 
-  hr
-    
+        .sponsor-logos
+          a(href="https://heapanalytics.com/")
+            img(src=base + "heap.png")
+          a(href="https://www.firebase.com/")
+            img(src=base + "firebase.png")
+          a(href="https://onemonthrails.com/")
+            img(src=base + "one_month.png")
+          a(href="http://www.jetbrains.com/webstorm/")
+            img(src=base + "webstorm.png")
+          a(href="http://shop.oreilly.com/category/ebooks.do")
+            img(src=base + "oreilly.png")
+          a(href="http://aws.amazon.com/")
+            img(src=base + "aws.png")
+
+    if level.get('name') == 'Criss-Cross'
+      .tournament-blurb
+        h2
+          span(data-i18n="ladder.tournament_ended") Tournament ended
+          |  #{tournamentTimeLeft}
+        p
+          span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
+          |  
+          a(href="http://blog.codecombat.com/6-programming-languages-one-victor-codecombats-newest-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+          | .
+        p
+          strong Tournament ended! 
+          a(href="#winners") Behold the winners
+          | . Thanks for playing! You can 
+          strong still play
+          |  Criss-Cross and all of our other 
+          a(href="/play/ladder") multiplayer arenas
+          | .
+        p
+          | Want to commiserate? Head over to 
+          a(href="http://discourse.codecombat.com/") the forum
+          |  and discuss your strategies, your triumphs, and your turmoils.
+
+    if level.get('name') == 'Zero Sum'
+      .tournament-blurb
+        h2
+          span(data-i18n="ladder.tournament_ends") Tournament ends
+          |  #{tournamentTimeLeft}
+          span(data-i18n="ladder.tournament_started") , started
+          |  #{tournamentTimeElapsed}
+        p
+          span(data-i18n="ladder.tournament_blurb_zero_sum") Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details
+          |  
+          a(href="http://blog.codecombat.com/zero-sum", data-i18n="ladder.tournament_blurb_blog") on our blog
+          | .
+
+    div#columns.row
+      div.column.col-md-2
+      for team in teams
+        div.column.col-md-4
+          a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
+            span(data-i18n="play.play_as") Play As
+            |  
+            span= team.name
+      div.column.col-md-2
+  
+    .spectate-button-container
+      a(href="/play/spectate/#{level.get('slug')}").spectate-button.btn.btn-illustrated.btn-info.center
+        span(data-i18n="play.spectate") Spectate
+
   ul.nav.nav-pills
     li.active
       a(href="#ladder", data-toggle="tab", data-i18n="general.ladder") Ladder
