@@ -119,6 +119,8 @@ module.exports = class Level extends CocoModel
         else if placeholderConfig.programmableMethods
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig
+          programmableProperties = levelThangComponent.config?.programmableProperties ? []
+          copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
           levelThangComponent.config = _.merge copy, levelThangComponent.config
         else if placeholderConfig.extraHUDProperties
           levelThangComponent.config ?= {}
