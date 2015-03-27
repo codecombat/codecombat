@@ -1,19 +1,50 @@
 #admin-analytics-subscriptions-view
 
-  .total-count
-    width: 33%
+  .big-stat
+    width: 25%
     float: left
+
+  .total-count
     color: green
   .remaining-count
-    width: 33%
-    float: left
     color: blue
   .cancelled-count
-    width: 33%
-    float: left
     color: red
+  .churn-count
+    color: orange
 
   .count
     font-size: 50pt
   .description
     font-size: 8pt
+
+  .line-graph-label
+    font-size: 10pt
+    font-weight: normal
+  .line-graph-container
+    height: 500px
+    width: 100%
+
+    // TODO: figure out why this is necessary
+    margin-bottom: 100px
+
+    .x.axis
+      font-size: 9pt
+      path
+        display: none
+    .y.axis
+      font-size: 9pt
+      path
+        display: none
+    .key-line
+      font-size: 9pt
+    .key-text
+      font-size: 9pt
+    .graph-point-info-container
+      display: none
+      position: absolute
+      padding: 10px
+      border: 1px solid black
+      z-index: 3
+      background-color: blanchedalmond
+      font-size: 10pt

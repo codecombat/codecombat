@@ -37,8 +37,9 @@ class SubscriptionHandler extends Handler
 
     return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
 
-    @subs ?= []
+    # @subs ?= []
     # return @sendSuccess(res, @subs) unless _.isEmpty(@subs)
+    @subs = []
 
     customersProcessed = 0
     nextBatch = (starting_after, done) =>

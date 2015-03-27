@@ -9,16 +9,32 @@ block content
       h1 Fetching subscriptions data...
     else
       div
-        .total-count
+        .big-stat.total-count
           div.description Total
           div.count= total
-        .remaining-count
+        .big-stat.remaining-count
           div.description Remaining
           div.count= total - cancelled
-        .cancelled-count
-          div.description cancelled
+        .big-stat.cancelled-count
+          div.description Cancelled
           div.count= cancelled
+        .big-stat.churn-count
+          div.description Monthly Churn
+          div.count #{monthlyChurn.toFixed(2)}%
       
+      each graph in analytics.graphs
+        .line-graph-container
+          each line in graph.lines
+            each point in line.points
+              .graph-point-info-container(data-pointid="#{point.pointID}")
+                div(style='font-weight:bold;') #{point.day}
+                each value in point.values
+                  div #{value}
+
+      div *Stripe APIs do not return information about inactive subs.
+
+      br
+        
       table.table.table-condensed.concepts-table
         thead
           tr
