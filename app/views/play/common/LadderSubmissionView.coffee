@@ -46,8 +46,13 @@ module.exports = class LadderSubmissionView extends CocoView
     showLastSubmitted = not (spanClass in ['submitting'])
     @$el.find('.last-submitted').toggle(showLastSubmitted)
 
+  showApologeticSignupModal: ->
+    AuthModal = require 'views/core/AuthModal'
+    @openModalView(new AuthModal({showRequiredError: true}))
+
   rankSession: (e) ->
     return unless @session.readyToRank()
+    return @showApologeticSignupModal() if me.get('anonymous')
     @playSound 'menu-button-click'
     @setRankingButtonText 'submitting'
     success = =>
