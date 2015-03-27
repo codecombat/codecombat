@@ -10,7 +10,9 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
   constructor: (options) ->
     super options
-    @refreshData()
+    if me.isAdmin()
+      @refreshData()
+      _.delay (=> @refreshData()), 30 * 60 * 1000
 
   getRenderData: ->
     context = super()
@@ -20,6 +22,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     context
 
   refreshData: ->
+    return unless me.isAdmin()
     @subs = []
     @total = 0
     @cancelled = 0
