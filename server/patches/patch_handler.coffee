@@ -25,6 +25,17 @@ PatchHandler = class PatchHandler extends Handler
     return @setStatus(req, res, args[0]) if req.route.method is 'put' and args[1] is 'status'
     super(arguments...)
 
+  get: (req, res) ->
+    if req.query.view in ['pending']
+      query = status: 'pending'
+      q = Patch.find(query)
+      q.exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+    else
+      super(arguments...)
+
   setStatus: (req, res, id) ->
     newStatus = req.body.status
     unless newStatus in ['rejected', 'accepted', 'withdrawn']
@@ -37,7 +48,7 @@ PatchHandler = class PatchHandler extends Handler
       targetHandler = require('../' + handlers[targetInfo.collection])
       targetModel = targetHandler.modelClass
 
-      query = { 'original': targetInfo.original }
+      query = { $or: [{'original': targetInfo.original}, {'_id': mongoose.Types.ObjectId(targetInfo.original)}] }
       sort = { 'version.major': -1, 'version.minor': -1 }
       targetModel.findOne(query).sort(sort).exec (err, target) =>
         return @sendDatabaseError(res, err) if err

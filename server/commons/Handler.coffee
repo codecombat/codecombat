@@ -228,7 +228,7 @@ module.exports = class Handler
       return @getNamesByOriginals(req, res)
     @getPropertiesFromMultipleDocuments res, User, 'name', ids
 
-  getNamesByOriginals: (req, res) ->
+  getNamesByOriginals: (req, res, nonVersioned=false) ->
     ids = req.query.ids or req.body.ids
     ids = ids.split(',') if _.isString ids
     ids = _.uniq ids
@@ -236,11 +236,12 @@ module.exports = class Handler
     # Hack: levels loading thang types need the components returned as well.
     # Need a way to specify a projection for a query.
     project = {name: 1, original: 1, kind: 1, components: 1}
-    sort = {'version.major':-1, 'version.minor':-1}
+    sort = if nonVersioned then {} else {'version.major': -1, 'version.minor': -1}
 
     makeFunc = (id) =>
       (callback) =>
-        criteria = {original:mongoose.Types.ObjectId(id)}
+        criteria = {}
+        criteria[if nonVersioned then '_id' else 'original'] = mongoose.Types.ObjectId(id)
         @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
           return done(err) if err
           callback(null, document?.toObject() or null)

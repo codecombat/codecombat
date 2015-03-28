@@ -9,11 +9,16 @@ module.exports = class PatchModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 60
+  instant: true
 
   events:
     'click #withdraw-button': 'withdrawPatch'
     'click #reject-button': 'rejectPatch'
     'click #accept-button': 'acceptPatch'
+
+  shortcuts:
+    'a': 'acceptPatch'
+    'r': 'rejectPatch'
 
   constructor: (@patch, @targetModel, options) ->
     super(options)

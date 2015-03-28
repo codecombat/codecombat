@@ -159,18 +159,27 @@ UserSchema.statics.statsMapping =
     'level.component': 'stats.levelComponentEdits'
     'level.system': 'stats.levelSystemEdits'
     'thang.type': 'stats.thangTypeEdits'
+    'Achievement': 'stats.achievementEdits'
+    'campaign': 'stats.campaignEdits'
+    'poll': 'stats.pollEdits'
   translations:
     article: 'stats.articleTranslationPatches'
     level: 'stats.levelTranslationPatches'
     'level.component': 'stats.levelComponentTranslationPatches'
     'level.system': 'stats.levelSystemTranslationPatches'
     'thang.type': 'stats.thangTypeTranslationPatches'
+    'Achievement': 'stats.achievementTranslationPatches'
+    'campaign': 'stats.campaignTranslationPatches'
+    'poll': 'stats.pollTranslationPatches'
   misc:
     article: 'stats.articleMiscPatches'
     level: 'stats.levelMiscPatches'
     'level.component': 'stats.levelComponentMiscPatches'
     'level.system': 'stats.levelSystemMiscPatches'
     'thang.type': 'stats.thangTypeMiscPatches'
+    'Achievement': 'stats.achievementMiscPatches'
+    'campaign': 'stats.campaignMiscPatches'
+    'poll': 'stats.pollMiscPatches'
 
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
   id = mongoose.Types.ObjectId id if _.isString id
@@ -178,7 +187,7 @@ UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
     log.error err if err?
     err = new Error "Could't find user with id '#{id}'" unless user or err
     return done() if err?
-    user.incrementStat statName, done, inc=1
+    user.incrementStat statName, done, inc
 
 UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @set statName, (@get(statName) or 0) + inc

@@ -31,6 +31,7 @@ module.exports = class MyMatchesTabView extends CocoView
           continue
         ids.push id unless @nameMap[id]
 
+    ids = _.uniq ids
     return unless ids.length
 
     success = (nameMap) =>

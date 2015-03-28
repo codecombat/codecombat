@@ -11,6 +11,7 @@ RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollecti
 CampaignAnalyticsModal = require './CampaignAnalyticsModal'
 CampaignLevelView = require './CampaignLevelView'
 SaveCampaignModal = require './SaveCampaignModal'
+PatchesView = require 'views/editor/PatchesView'
 
 achievementProject = ['related', 'rewards', 'name', 'slug']
 thangTypeProject = ['name', 'original']
@@ -23,6 +24,7 @@ module.exports = class CampaignEditorView extends RootView
   events:
     'click #analytics-button': 'onClickAnalyticsButton'
     'click #save-button': 'onClickSaveButton'
+    'click #patches-button': 'onClickPatches'
 
   subscriptions:
     'editor:campaign-analytics-modal-closed' : 'onAnalyticsModalClosed'
@@ -31,6 +33,9 @@ module.exports = class CampaignEditorView extends RootView
     super(options)
     @campaign = new Campaign({_id:@campaignHandle})
     @supermodel.loadModel(@campaign, 'campaign')
+    @listenToOnce @campaign, 'sync', (model, response, jqXHR) ->
+      @campaign.set '_id', response._id
+      @campaign.url = -> '/db/campaign/' + @id
 
     # Save reference to data used by anlytics modal so it persists across modal open/closes.
     @campaignAnalytics = {}
@@ -140,6 +145,11 @@ module.exports = class CampaignEditorView extends RootView
     c.campaign = @campaign
     c
 
+  onClickPatches: (e) ->
+    @patchesView = @insertSubView(new PatchesView(@campaign), @$el.find('.patches-view'))
+    @patchesView.load()
+    @patchesView.$el.removeClass 'hidden'
+
   onClickAnalyticsButton: ->
     @openModalView new CampaignAnalyticsModal {}, @campaignHandle, @campaignAnalytics
 
@@ -183,6 +193,11 @@ module.exports = class CampaignEditorView extends RootView
     @listenTo @campaignView, 'adjacent-campaign-moved', @onAdjacentCampaignMoved
     @listenTo @campaignView, 'level-clicked', @onCampaignLevelClicked
     @listenTo @campaignView, 'level-double-clicked', @onCampaignLevelDoubleClicked
+    @listenTo @campaign, 'change:i18n', =>
+      @campaign.updateI18NCoverage()
+      @treema.set('/i18n', @campaign.get('i18n'))
+      @treema.set('/i18nCoverage', @campaign.get('i18nCoverage'))
+
     @insertSubView @campaignView
 
   onTreemaChanged: (e, nodes) =>
