@@ -100,4 +100,6 @@ CampaignHandler = class CampaignHandler extends Handler
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"
     @sendChangedHipChatMessage creator: req.user, target: doc, docLink: docLink
 
+  getNamesByIDs: (req, res) -> @getNamesByOriginals req, res, true
+
 module.exports = new CampaignHandler()

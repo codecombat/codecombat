@@ -20,11 +20,8 @@ else
       th(data-i18n="general.submitter") Submitter
       th(data-i18n="general.submitted") Submitted
       th(data-i18n="general.commit_msg") Commit Message
-      th(data-i18n="general.review") Review
     for patch in patches
-      tr
+      tr.patch-row(data-patch-id=patch.id)
         td= patch.userName
         td= moment(patch.get('created')).format('llll')
         td= patch.get('commitMessage')
-        td
-          span.glyphicon.glyphicon-wrench(data-patch-id=patch.id).patch-icon

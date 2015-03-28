@@ -52,4 +52,6 @@ PollHandler = class PollHandler extends Handler
         return @sendDatabaseError(res, err) if err
         @sendNoContent res
 
+  getNamesByIDs: (req, res) -> @getNamesByOriginals req, res, true
+
 module.exports = new PollHandler()

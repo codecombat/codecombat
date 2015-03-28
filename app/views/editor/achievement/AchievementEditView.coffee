@@ -28,6 +28,9 @@ module.exports = class AchievementEditView extends RootView
   onLoaded: ->
     super()
     @buildTreema()
+    @listenTo @achievement, 'change', =>
+      @achievement.updateI18NCoverage()
+      @treema.set('/', @achievement.attributes)
 
   buildTreema: ->
     return if @treema? or (not @achievement.loaded)

@@ -40,6 +40,9 @@ module.exports = class PollEditView extends RootView
   onLoaded: ->
     super()
     @buildTreema()
+    @listenTo @poll, 'change', =>
+      @poll.updateI18NCoverage()
+      @treema.set('/', @poll.attributes)
 
   buildTreema: ->
     return if @treema? or (not @poll.loaded)

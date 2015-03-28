@@ -29,6 +29,9 @@ module.exports = class ArticleEditView extends RootView
   onLoaded: ->
     super()
     @buildTreema()
+    @listenTo @article, 'change', =>
+      @article.updateI18NCoverage()
+      @treema.set('/', @article.attributes)
 
   buildTreema: ->
     return if @treema? or (not @article.loaded)

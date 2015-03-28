@@ -11,7 +11,7 @@ module.exports = class PatchesView extends CocoView
 
   events:
     'change .status-buttons': 'onStatusButtonsChanged'
-    'click .patch-icon': 'openPatchModal'
+    'click .patch-row': 'openPatchModal'
 
   constructor: (@model, options) ->
     super(options)
@@ -51,8 +51,8 @@ module.exports = class PatchesView extends CocoView
     @render()
 
   openPatchModal: (e) ->
-    console.log 'open patch modal'
-    patch = _.find @patches.models, {id: $(e.target).data('patch-id')}
+    row = $(e.target).closest '.patch-row'
+    patch = _.find @patches.models, {id: row.data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)
     @listenTo modal, 'accepted-patch', -> @trigger 'accepted-patch'
