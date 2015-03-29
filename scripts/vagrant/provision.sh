@@ -6,6 +6,7 @@ sudo add-apt-repository -y ppa:chris-lea/node.js
 sudo apt-get -y update
 sudo apt-get -y install nodejs
 sudo apt-get -y install g++ make 
+mkdir /vagrant/node_modules
 sudo mkdir /node_modules
 sudo chown vagrant:vagrant /node_modules
 sudo mount -o bind /node_modules /vagrant/node_modules
