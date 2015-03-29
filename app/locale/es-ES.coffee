@@ -356,7 +356,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     multiplayer_caption: "Juega con amigos!"
     auth_caption: "Salvar tu progreso."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
     scores: "Puntuaciones"
@@ -575,7 +575,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
 #    title: "CodeCombat: Info for Teachers"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
