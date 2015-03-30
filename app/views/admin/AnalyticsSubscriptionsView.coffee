@@ -14,13 +14,14 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
   constructor: (options) ->
     super options
+    @resetData()
     if me.isAdmin()
       @refreshData()
       _.delay (=> @refreshData()), 30 * 60 * 1000
 
   getRenderData: ->
     context = super()
-    context.analytics = @analytics
+    context.analytics = @analytics ? graphs: []
     context.subs = @subs ? []
     context.total = @total ? 0
     context.cancelled = @cancelled ? 0
@@ -31,14 +32,26 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     super()
     @updateAnalyticsGraphs()
 
-  refreshData: ->
-    return unless me.isAdmin()
+  resetData: ->
     @analytics = graphs: []
     @subs = []
     @total = 0
     @cancelled = 0
     @monthlyChurn = 0.0
-    onSuccess = (subs) =>
+
+  refreshData: ->
+    return unless me.isAdmin()
+    @resetData()
+
+    options =
+      url: '/db/subscription/-/subscriptions'
+      method: 'GET'
+    options.error = (model, response, options) =>
+      return if @destroyed
+      console.error 'Failed to get subscriptions', response
+    options.success = (subs, response, options) =>
+      return if @destroyed
+      @resetData()
       subDayMap = {}
       for sub in subs
         startDay = sub.start.substring(0, 10)
@@ -63,15 +76,9 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         sub.total = @total
         startedLastMonth += sub.started if @subs.length - i < 31
       @monthlyChurn = @cancelled / startedLastMonth * 100.0
-
       @updateAnalyticsGraphData()
-      @render()
-    @supermodel.addRequestResource('subscriptions', {
-      url: '/db/subscription/-/subscriptions'
-      method: 'GET'
-      success: onSuccess
-    }, 0).load()
-
+      @render?()
+    @supermodel.addRequestResource('get_subscriptions', options, 0).load()
 
   updateAnalyticsGraphData: ->
     # console.log 'updateAnalyticsGraphData'
