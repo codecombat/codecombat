@@ -454,8 +454,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_users_subscribed: "No se suscribieron usuarios, por favor revisa las direcciones de email."
     current_recipients: "Recipientes actuales"
     unsubscribing: "Desuscribiendo..."
-#    subscribe_prepaid: "Click Subscribe to use prepaid code"
-#    using_prepaid: "Using prepaid code for monthly subscription"
+    subscribe_prepaid: "Click en suscribirse para utlizar un código prepago"
+    using_prepaid: "Usar código prepago para una suscribción mensual"
 
   choose_hero:
     choose_hero: "Elige tu héroe"
@@ -577,9 +577,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   teachers:
     title: "CodeCombat para Profesores" # {change}
-#    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
-#    intro_2: "No experience required!"
-#    free_title: "How much does it cost?"
+    intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
+    intro_2: "No se necesita experiencia previa!"
+    free_title: "¿Cuanto cuesta?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
 #    free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
@@ -601,10 +601,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    material_1: "Approximately 8 hours of free content and an additional 14 hours of subscriber content, with 5 new levels every week."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
-#    how_much_1: "A"
-#    how_much_2: "monthly subscription"
-#    how_much_3: "costs $9.99, and can be cancelled anytime."
-#    how_much_4: "Additionally, we provide discounts for larger groups:"
+    how_much_1: "una"
+    how_much_2: "suscribción mensual"
+    how_much_3: "Cuesta u$s9.99, y puede ser cancelada en cualquier momento."
+    how_much_4: "Adicionalmente, nosotros otorgamos descuentos a grupos grandes:"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "Requerimientos del sistema"
     sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:" # {change}
