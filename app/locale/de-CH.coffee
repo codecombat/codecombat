@@ -93,7 +93,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Du machsch grossi Fortschritts! Verzells öperem wieviel du glernt häsch mit CodeCombat."
     email_invalid: "Email Adrässä isch falsch."
 #    form_blurb: "Enter their email below and we’ll show them!"
@@ -130,7 +130,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     send_password: "Recovery Password sende"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
+  items:
 #    primary: "Primary"
 #    secondary: "Secondary"
 #    armor: "Armor"
@@ -154,8 +154,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     play: "Spiele" # When used as an action verb, like "Play next level"
     retry: "nomol versuche"
 #    actions: "Actions"
-     info: "Info"
-     help: "Hilf"
+    info: "Info"
+    help: "Hilf"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
     submit_patch: "Patch ireiche"
