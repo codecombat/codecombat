@@ -11,7 +11,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     for_beginners: "Für Afänger"
     multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Für Entwickler" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Oder lads fürs iPad abä"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
@@ -58,7 +58,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     owned: "Scho gkauft" # For items you own
     locked: "Nonig freischaltbar"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    available: "vorhandä"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Helde" # Tooltip on hero shop button from /play
     achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -94,14 +94,14 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
 #  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
+    blurb: "Du machsch grossi Fortschritts! Verzells öperem wieviel du glernt häsch mit CodeCombat."
+    email_invalid: "Email Adrässä isch falsch."
 #    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
+    form_label: "Email Adrässä"
+    placeholder: "Email Adrässä"
 #    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+    tell_friend: "Sägs dim Kolleg oder dinere Kollegin"
+    tell_parent: "Sägs dinä Elterä"
 
   login:
     sign_up: "Account erstelle"
@@ -135,8 +135,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    secondary: "Secondary"
 #    armor: "Armor"
 #    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+    misc: "Diverses"
+    books: "Büecher"
 
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
@@ -154,8 +154,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     play: "Spiele" # When used as an action verb, like "Play next level"
     retry: "nomol versuche"
 #    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
+     info: "Info"
+     help: "Hilf"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
     submit_patch: "Patch ireiche"
@@ -184,7 +184,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Resultat"
-#    results: "Results"
+    results: "Resultat"
     description: "Beschriibig"
     or: "oder"
 #    subject: "Subject"
@@ -205,9 +205,9 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     hard: "Schwer"
     player: "Spieler"
     player_level: "Stufe" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    warrior: "Krieger"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "Zauberer"
 
   units:
     second: "Sekunde"
@@ -235,15 +235,15 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     restart: "Neu starte"
     goals: "Ziel"
     goal: "Goal"
-#    running: "Running..."
+    running: "s lauft..."
     success: "Erfolg!"
     incomplete: "Unvollständig"
     timed_out: "Ziit abglaufe"
     failing: "Fehler"
     action_timeline: "Aktionsziitleiste"
     click_to_select: "Klick uf e Einheit zum sie uswähle."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
+    control_bar_multiplayer: "Mehrspiiler"
+    control_bar_join_game: "Mitspiilä"
     reload: "Neu lade"
     reload_title: "De ganze Code neu lade?"
     reload_really: "Bisch sicher du willsch level neu lade bis zrugg zum Afang?"
@@ -256,8 +256,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     victory_rate_the_level: "Bewerte das Level: " # Only in old-style levels.
     victory_return_to_ladder: "Zrugg zum letzte Level"
     victory_play_continue: "Wiiter spile"
-#    victory_saving_progress: "Saving Progress"
-#    victory_go_home: "Go Home" # Only in old-style levels.
+    victory_saving_progress: "Fortschritt abspaicherä"
+    victory_go_home: "Goon Hai" # Only in old-style levels.
     victory_review: "Verzell üs meh!" # Only in old-style levels.
     victory_hour_of_code_done: "Bisch fertig?"
     victory_hour_of_code_done_yes: "Jo, ich bin fertig mit mim Hour of Code™!"
@@ -272,21 +272,21 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
-#    tome_select_method: "Select a Method"
+    tome_select_method: "Wähl a Methodä"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
     tome_select_a_thang: "Wähl öpper us für"
     tome_available_spells: "Verfüegbari Zaubersprüch"
-#    tome_your_skills: "Your Skills"
+    tome_your_skills: "Dini Fähigkaitä"
     tome_help: "Hilf"
-#    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    tome_current_method: "Aktuelli Modus"
+    hud_continue_short: "Wiitermache"
     code_saved: "Code gpeicheret"
     skip_tutorial: "Überspringe (esc)"
     keyboard_shortcuts: "Shortcuts"
-#    loading_ready: "Ready!"
+    loading_ready: "Berait!"
     loading_start: "Level starte"
-#    problem_alert_title: "Fix Your Code"
-#    problem_alert_help: "Help"
+    problem_alert_title: "Reparier diin Code"
+    problem_alert_help: "Hilf"
     time_current: "Jetzt:"
     time_total: "Max:"
     time_goto: "Goh zu:"
@@ -341,18 +341,18 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
-#    options_tab: "Options"
+    save_load_tab: "Spaicherä/Ladä"
+    options_tab: "Optionä"
 #    guide_tab: "Guide"
 #    guide_video_tutorial: "Video Tutorial"
-#    guide_tips: "Tips"
+    guide_tips: "Tipps"
     multiplayer_tab: "Multiplayer"
 #    auth_tab: "Sign Up"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
 #    options_caption: "Configure settings"
-#    guide_caption: "Docs and tips"
+    guide_caption: "Doku und Tipps"
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
