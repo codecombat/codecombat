@@ -1,0 +1,42 @@
+extends /templates/base
+
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/")
+        span.glyphicon.glyphicon-home
+    li
+      a(href="/clans") Clans
+
+    li.active= clan.title
+
+  h1= clan.title
+  div
+    span Owner: 
+    a(href="/user/#{clan.ownerID}")= clan.owner
+  div Members: #{clan.memberCount}
+  if clan.owner === 'mrsmith'
+    div
+      button.btn.btn-sm.btn-warning Delete Clan
+
+  h3 Clan Members
+  table.table.table-striped.table-condensed
+    thead
+      tr
+        th Name
+        th Level
+        th  
+    tbody
+      each member in members
+        tr
+          td
+            a(href="/user/#{member.id}")= member.name
+          td= member.level
+          if member.name !== clan.owner && clan.owner === 'mrsmith'
+            td
+              button.btn.btn-sm.btn-warning Remove Member
+          else
+            td
+
+  button.btn.btn-sm Load More
