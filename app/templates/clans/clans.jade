@@ -38,7 +38,7 @@ block content
                   a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
                 td
                   if myClanIDs.indexOf(clan.id) < 0
-                    button.btn.btn-sm.btn-success Join Clan
+                    button.btn.btn-sm.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
                   else if clan.get('ownerID') !== me.id
                     button.btn.btn-sm.btn-warning Leave Clan
 
@@ -57,7 +57,10 @@ block content
             each clan in myClans
               tr
                 td
-                  a(href="/clans/#{clan.id}")= clan.get('name')
+                  if clan.get('ownerID') === me.id
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                  else
+                    a(href="/clans/#{clan.id}")= clan.get('name')
                 td= clan.get('members').length
                 td 
                   a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
