@@ -128,3 +128,38 @@ describe 'Clans', ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 done()
+
+  it 'Leave clan', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        loginNewUser (user2) ->
+          request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toBe(200)
+              Clan.findById clan1.id, (err, clan1) ->
+                expect(err).toBeNull()
+                expect(_.find clan1.get('members'), (m) -> m.id.equals user2.id).toBeUndefined()
+                done()
+
+  it 'Leave clan not member 200', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        loginNewUser (user2) ->
+          request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            Clan.findById clan1.id, (err, clan1) ->
+              expect(err).toBeNull()
+              expect(_.find clan1.get('members'), (m) -> m.id.equals user2.id).toBeUndefined()
+              done()
+
+  it 'Leave owned clan 403', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toBe(403)
+          done()

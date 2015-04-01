@@ -5,6 +5,10 @@ template = require 'templates/clans/clans'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
 
+# TODO: Waiting for async messages
+# TODO: Invalid clan name message
+# TODO: Refresh data instead of page
+
 module.exports = class MainAdminView extends RootView
   id: 'clans-view'
   template: template
@@ -12,6 +16,7 @@ module.exports = class MainAdminView extends RootView
   events:
     'click .create-clan-btn': 'onClickCreateClan'
     'click .join-clan-btn': 'onJoinClan'
+    'click .leave-clan-btn': 'onLeaveClan'
 
   constructor: (options) ->
     super options
@@ -30,7 +35,6 @@ module.exports = class MainAdminView extends RootView
   onClickCreateClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
     if name = $('.create-clan-name').val()
-      # TODO: async creating message
       clan = new Clan()
       clan.set 'type', 'public'
       clan.set 'name', name
@@ -41,7 +45,6 @@ module.exports = class MainAdminView extends RootView
           app.router.navigate "/clans/#{model.id}"
           window.location.reload()
     else
-      # TODO: Invalid name message
       console.log 'Invalid name'
 
   onJoinClan: (e) ->
@@ -53,8 +56,21 @@ module.exports = class MainAdminView extends RootView
         error: (model, response, options) =>
           console.error 'Error joining clan', response
         success: (model, response, options) =>
-          console.log 'Joined clan', clanID
-          @render()
+          app.router.navigate "/clans/#{clanID}"
+          window.location.reload()
       @supermodel.addRequestResource( 'join_clan', options).load()
     else
       console.error "No clan ID attached to join button."
+
+  onLeaveClan: (e) ->
+    if clanID = $(e.target).data('id')
+      options =
+        url: "/db/clan/#{clanID}/leave"
+        method: 'PUT'
+        error: (model, response, options) =>
+          console.error 'Error leaving clan', response
+        success: (model, response, options) =>
+          window.location.reload()
+      @supermodel.addRequestResource( 'leave_clan', options).load()
+    else
+      console.error "No clan ID attached to leave button."

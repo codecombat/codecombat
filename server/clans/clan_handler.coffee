@@ -31,6 +31,7 @@ ClanHandler = class ClanHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @joinClan(req, res, args[0]) if args[1] is 'join'
+    return @leaveClan(req, res, args[0]) if args[1] is 'leave'
     super(arguments...)
 
   joinClan: (req, res, clanID) ->
@@ -42,6 +43,15 @@ ClanHandler = class ClanHandler extends Handler
         name: req.user.get('name') ? 'Anoner'
         level: req.user.level()
       Clan.update {_id: clanID}, {$push: {members: member}}, (err) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res)
+
+  leaveClan: (req, res, clanID) ->
+    return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
+    Clan.findById clanID, (err, clan) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendForbiddenError(res) if clan.get('ownerID')?.equals req.user._id
+      Clan.update {_id: clanID}, {$pull: {members: {id: req.user._id}}}, (err) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res)
 

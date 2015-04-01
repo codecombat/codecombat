@@ -40,7 +40,7 @@ block content
                   if myClanIDs.indexOf(clan.id) < 0
                     button.btn.btn-sm.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
                   else if clan.get('ownerID') !== me.id
-                    button.btn.btn-sm.btn-warning Leave Clan
+                    button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
 
       button.btn.btn-sm Load More
 
@@ -66,6 +66,6 @@ block content
                   a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
                 td
                   if clan.get('ownerID') !== me.id
-                    button.btn.btn-sm.btn-warning Leave Clan
+                    button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
 
       button.btn.btn-sm Load More
