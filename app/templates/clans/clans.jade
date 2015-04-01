@@ -2,16 +2,10 @@ extends /templates/base
 
 block content
 
-  ol.breadcrumb
-    li
-      a(href="/")
-        span.glyphicon.glyphicon-home
-    li.active Clans
-
   div
-    button.btn.btn-sm.btn-success Create New Clan
+    button.btn.btn-sm.btn-success.create-clan-btn Create New Clan
     span.spr.spl
-      input(type='text' placeholder='New clan name')
+      input.create-clan-name(type='text' placeholder='New clan name')
   br
 
   div(role='tabpanel')
@@ -31,21 +25,23 @@ block content
             th Owner
             th  
         tbody
-          each clan in publicClans
-            tr
-              td
-                if clan.owner === 'mrsmith'
-                  a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.title
-                else
-                  a(href="/clans/#{clan.id}")= clan.title
-              td= clan.memberCount
-              td 
-                a(href="/user/#{clan.ownerID}")= clan.owner
-              td
-                if !clan.member
-                  button.btn.btn-sm.btn-success Join Clan
-                else if clan.owner !== 'mrsmith'
-                  button.btn.btn-sm.btn-warning Leave Clan
+          if publicClans.length
+            each clan in publicClans
+              tr
+                td
+                  if clan.get('ownerID') === me.id
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                  else
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                td= clan.get('members').length
+                td 
+                  a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
+                td
+                  if myClanIDs.indexOf(clan.id) < 0
+                    button.btn.btn-sm.btn-success Join Clan
+                  else if clan.get('ownerID') !== me.id
+                    button.btn.btn-sm.btn-warning Leave Clan
+
       button.btn.btn-sm Load More
 
     .tab-pane#my-clans(role='tabpanel')
@@ -57,18 +53,16 @@ block content
             th Owner
             th
         tbody
-          each clan in myClans
-            tr
-              td
-                if clan.owner === 'mrsmith'
-                  a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.title
-                else
-                  a(href="/clans/#{clan.id}")= clan.title
-              td= clan.memberCount
-              td 
-                a(href="/user/#{clan.ownerID}")= clan.owner
-              td
-                if clan.owner !== 'mrsmith'
-                  button.btn.btn-sm.btn-warning Leave Clan
+          if myClans.length
+            each clan in myClans
+              tr
+                td
+                  a(href="/clans/#{clan.id}")= clan.get('name')
+                td= clan.get('members').length
+                td 
+                  a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
+                td
+                  if clan.get('ownerID') !== me.id
+                    button.btn.btn-sm.btn-warning Leave Clan
 
       button.btn.btn-sm Load More

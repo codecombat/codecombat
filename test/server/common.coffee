@@ -27,6 +27,7 @@ models_path = [
   '../../server/analytics/AnalyticsUsersActive'
   '../../server/articles/Article'
   '../../server/campaigns/Campaign'
+  '../../server/clans/Clan'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
@@ -181,6 +182,10 @@ GLOBAL.loginUser = (user, done) ->
     form = req.form()
     form.append('username', user.get('email'))
     form.append('password', user.get('name'))
+
+GLOBAL.logoutUser = (done) ->
+  request.post getURL('/auth/logout'), ->
+    done()
 
 GLOBAL.dropGridFS = (done) ->
   if mongoose.connection.readyState is 2

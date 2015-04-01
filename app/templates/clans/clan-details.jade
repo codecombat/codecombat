@@ -2,41 +2,36 @@ extends /templates/base
 
 block content
 
-  ol.breadcrumb
-    li
-      a(href="/")
-        span.glyphicon.glyphicon-home
-    li
-      a(href="/clans") Clans
-
-    li.active= clan.title
-
-  h1= clan.title
+  h1= clan.get('name')
+    span.spr.spl.small (owner 
+      a(href="/user/#{clan.get('ownerID')}")= clan.get('ownerName')
+      | )
   div
-    span Owner: 
-    a(href="/user/#{clan.ownerID}")= clan.owner
-  div Members: #{clan.memberCount}
-  if clan.owner === 'mrsmith'
-    div
+    if isOwner
       button.btn.btn-sm.btn-warning Delete Clan
+    else if isMember
+      button.btn.btn-sm.btn-warning Leave Clan
+    else
+      button.btn.btn-sm.btn-success Join Clan
 
-  h3 Clan Members
-  table.table.table-striped.table-condensed
-    thead
-      tr
-        th Name
-        th Level
-        th  
-    tbody
-      each member in members
+  if clan.get('members')
+    h3 Clan Members (#{clan.get('members').length})
+    table.table.table-striped.table-condensed
+      thead
         tr
-          td
-            a(href="/user/#{member.id}")= member.name
-          td= member.level
-          if member.name !== clan.owner && clan.owner === 'mrsmith'
+          th Name
+          th Level
+          th  
+      tbody
+        each member in clan.get('members')
+          tr
             td
-              button.btn.btn-sm.btn-warning Remove Member
-          else
-            td
+              a(href="/user/#{member.id}")= member.name
+            td= member.level
+            if member.id !== clan.get('ownerID')
+              td
+                button.btn.btn-sm.btn-warning Remove Member
+            else
+              td
 
-  button.btn.btn-sm Load More
+    button.btn.btn-sm Load More
