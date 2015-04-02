@@ -585,7 +585,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
 #    teacher_subs_1: "Please contact"
-#    teacher_subs_2: "to set up a free monthly subscriptiron."
+    teacher_subs_2: "to set up a free monthly subscriptiron."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:"
     sub_includes_2: "Más de 40 niveles de práctica"
