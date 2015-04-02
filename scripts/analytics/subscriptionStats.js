@@ -13,8 +13,8 @@ if(config.stripe.secretKey.indexOf('sk_test_')==0) {
 stripe = require('stripe')(config.stripe.secretKey);
 
 var range = {
-  gt: ''+(new Date('2015-02-01').getTime()/1000),
-  lt: ''+(new Date('2015-03-01').getTime()/1000)
+  gt: ''+(new Date('2015-03-01').getTime()/1000),
+  lt: ''+(new Date('2015-04-01').getTime()/1000)
 }; 
 
 begin = function(starting_after) {
@@ -25,12 +25,14 @@ begin = function(starting_after) {
   stripe.invoices.list(query, onInvoicesReceived);
 }
 
-customersPaid = []
+customersPaid = [];
 
 onInvoicesReceived = function(err, invoices) {
   for(var i in invoices.data) {
     var invoice = invoices.data[i];
     if(!invoice.paid) { continue; }
+    if(!invoice.total) { continue; } // not paying anything!
+    //console.log(invoice);
     customersPaid.push(invoice.customer);
   }
   if(invoices.has_more) {
@@ -38,10 +40,10 @@ onInvoicesReceived = function(err, invoices) {
     begin(invoices.data[i].id);
   }
   else {
-    console.log('How many customers paid for a subscription:', _.unique(customersPaid).length);
+    console.log('--- Actual active total customers:', _.unique(customersPaid).length);
     loadNewCustomers();
   }
-}
+};
 
 loadNewCustomers = function(starting_after) {
   query = {created: range, limit: 100};
@@ -49,7 +51,7 @@ loadNewCustomers = function(starting_after) {
     query.starting_after = starting_after;
   }
   stripe.customers.list(query, onCustomersReceived);
-}
+};
 
 newCustomersPaid = [];
 
@@ -64,8 +66,8 @@ onCustomersReceived = function(err, customers) {
     loadNewCustomers(customers.data[i].id);
   }
   else {
-    console.log('How many new customers paid for a subscription:', newCustomersPaid.length);
+    console.log('--- Actual new customers:', newCustomersPaid.length);
   }
-}
+};
 
 begin();
