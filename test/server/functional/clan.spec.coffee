@@ -163,3 +163,78 @@ describe 'Clans', ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(403)
           done()
+
+  it 'Remove member', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        loginNewUser (user2) ->
+          request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            loginUser user1, (user1) ->
+              request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user2.id}" }, (err, res, body) ->
+                expect(err).toBeNull()
+                expect(res.statusCode).toBe(200)
+                Clan.findById clan1.id, (err, clan1) ->
+                  expect(err).toBeNull()
+                  expect(clan1.get('members').length).toEqual(1)
+                  expect(clan1.get('members')[0].id).toEqual(user1.get('_id'))
+                  done()
+
+  it 'Remove non-member 200', (done) ->
+    loginNewUser (user2) ->
+      loginNewUser (user1) ->
+        createClan 'public', (clan1) ->
+          request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user2.id}" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            Clan.findById clan1.id, (err, clan1) ->
+              expect(err).toBeNull()
+              expect(clan1.get('members').length).toEqual(1)
+              expect(clan1.get('members')[0].id).toEqual(user1.get('_id'))
+              done()
+
+  it 'Remove invalid memberID 422', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        request.put {uri: "#{clanURL}/#{clan1.id}/remove/123" }, (err, res, body) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toBe(422)
+          done()
+
+  it 'Remove member, not in clan 403', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        loginNewUser (user2) ->
+          request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            loginNewUser (user3) ->
+              request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user2.id}" }, (err, res, body) ->
+                expect(err).toBeNull()
+                expect(res.statusCode).toBe(403)
+                done()
+
+  it 'Remove member, not the owner 403', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        loginNewUser (user2) ->
+          request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(200)
+            loginNewUser (user3) ->
+              request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
+                expect(err).toBeNull()
+                expect(res.statusCode).toBe(200)
+                request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user2.id}" }, (err, res, body) ->
+                  expect(err).toBeNull()
+                  expect(res.statusCode).toBe(403)
+                  done()
+
+  it 'Remove member from owned clan', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan1) ->
+        request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user1.id}" }, (err, res, body) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toBe(403)
+          done()

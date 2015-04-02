@@ -32,6 +32,7 @@ ClanHandler = class ClanHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @joinClan(req, res, args[0]) if args[1] is 'join'
     return @leaveClan(req, res, args[0]) if args[1] is 'leave'
+    return @removeMember(req, res, args[0], args[2]) if args.length is 3 and args[1] is 'remove'
     super(arguments...)
 
   joinClan: (req, res, clanID) ->
@@ -52,6 +53,21 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendForbiddenError(res) if clan.get('ownerID')?.equals req.user._id
       Clan.update {_id: clanID}, {$pull: {members: {id: req.user._id}}}, (err) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res)
+
+  removeMember: (req, res, clanID, memberID) ->
+    return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
+    try
+      clanID = mongoose.Types.ObjectId(clanID)
+      memberID = mongoose.Types.ObjectId(memberID)
+    catch err
+      return @sendBadInputError(res, err)
+    Clan.findById clanID, (err, clan) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendForbiddenError(res) unless clan.get('ownerID')?.equals req.user._id
+      return @sendForbiddenError(res) if clan.get('ownerID').equals memberID
+      Clan.update {_id: clanID}, {$pull: {members: {id: memberID}}}, (err) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res)
 

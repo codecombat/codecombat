@@ -5,7 +5,6 @@ template = require 'templates/clans/clan-details'
 Clan = require 'models/Clan'
 
 # TODO: join/leave mostly duped from clans view
-# TODO: Refresh data instead of page
 
 module.exports = class ClanDetailsView extends RootView
   id: 'clan-details-view'
@@ -14,6 +13,7 @@ module.exports = class ClanDetailsView extends RootView
   events:
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
+    'click .remove-member-btn': 'onRemoveMember'
 
   constructor: (options, @clanID) ->
     super options
@@ -36,7 +36,9 @@ module.exports = class ClanDetailsView extends RootView
         error: (model, response, options) =>
           console.error 'Error joining clan', response
         success: (model, response, options) =>
-          window.location.reload()
+          @listenToOnce @clan, 'sync', =>
+            @render?()
+          @clan.fetch cache: false
       @supermodel.addRequestResource( 'join_clan', options).load()
     else
       console.error "No clan ID attached to join button."
@@ -49,7 +51,24 @@ module.exports = class ClanDetailsView extends RootView
         error: (model, response, options) =>
           console.error 'Error leaving clan', response
         success: (model, response, options) =>
-          window.location.reload()
+          @listenToOnce @clan, 'sync', =>
+            @render?()
+          @clan.fetch cache: false
       @supermodel.addRequestResource( 'leave_clan', options).load()
     else
       console.error "No clan ID attached to leave button."
+
+  onRemoveMember: (e) ->
+    if memberID = $(e.target).data('id')
+      options =
+        url: "/db/clan/#{@clanID}/remove/#{memberID}"
+        method: 'PUT'
+        error: (model, response, options) =>
+          console.error 'Error removing clan member', response
+        success: (model, response, options) =>
+          @listenToOnce @clan, 'sync', =>
+            @render?()
+          @clan.fetch cache: false
+      @supermodel.addRequestResource( 'remove_member', options).load()
+    else
+      console.error "No member ID attached to remove button."

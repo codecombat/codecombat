@@ -30,7 +30,7 @@ block content
             td= member.level
             if isOwner && member.id !== clan.get('ownerID')
               td
-                button.btn.btn-sm.btn-warning Remove Member
+                button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Member
             else
               td
 
