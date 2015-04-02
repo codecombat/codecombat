@@ -194,12 +194,12 @@ describe 'Clans', ->
               expect(clan1.get('members')[0].id).toEqual(user1.get('_id'))
               done()
 
-  it 'Remove invalid memberID 422', (done) ->
+  it 'Remove invalid memberID 404', (done) ->
     loginNewUser (user1) ->
       createClan 'public', (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/remove/123" }, (err, res, body) ->
           expect(err).toBeNull()
-          expect(res.statusCode).toBe(422)
+          expect(res.statusCode).toBe(404)
           done()
 
   it 'Remove member, not in clan 403', (done) ->
@@ -238,3 +238,47 @@ describe 'Clans', ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(403)
           done()
+
+  it 'Delete clan', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan) ->
+        request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toBe(204)
+          done()
+
+  it 'Delete clan anonymous 401', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan) ->
+        logoutUser ->
+          request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(401)
+            done()
+
+  it 'Delete clan not owner 403', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan) ->
+        loginNewUser (user2) ->
+          request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(403)
+            done()
+
+  it 'Delete clan no longer exists 404', (done) ->
+    loginNewUser (user1) ->
+      createClan 'public', (clan) ->
+        request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
+          expect(err).toBeNull()
+          expect(res.statusCode).toBe(204)
+          request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(res.statusCode).toBe(404)
+            done()
+
+  it 'Delete clan invalid ID 404', (done) ->
+    loginNewUser (user1) ->
+      request.del {uri: "#{clanURL}/1234" }, (err, res, body) ->
+        expect(err).toBeNull()
+        expect(res.statusCode).toBe(404)
+        done()

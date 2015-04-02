@@ -8,11 +8,11 @@ block content
       | )
   div
     if isOwner
-      button.btn.btn-sm.btn-warning Delete Clan
+      button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
     else if isMember
-      button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
+      button.btn.btn-sm.btn-warning.leave-clan-btn Leave Clan
     else
-      button.btn.btn-sm.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
+      button.btn.btn-sm.btn-success.join-clan-btn Join Clan
 
   if clan.get('members')
     h3 Clan Members (#{clan.get('members').length})

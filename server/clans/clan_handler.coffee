@@ -17,6 +17,7 @@ ClanHandler = class ClanHandler extends Handler
     method = (method or req.method).toLowerCase()
     return true if req.user?.isAdmin()
     return true if method is 'get'
+    return true if document.get('ownerID')?.equals req.user._id
     false
 
   makeNewInstance: (req) ->
@@ -28,6 +29,15 @@ ClanHandler = class ClanHandler extends Handler
       {id: req.user._id, name: userName, level: req.user.level()}
     ]
     instance
+
+  delete: (req, res, clanID) ->
+    @getDocumentForIdOrSlug clanID, (err, clan) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless clan
+      return @sendForbiddenError res unless @hasAccessToDocument(req, clan)
+      Clan.remove {_id: clan.get('_id')}, (err) =>
+        return @sendDatabaseError res, err if err
+        @sendNoContent(res)
 
   getByRelationship: (req, res, args...) ->
     return @joinClan(req, res, args[0]) if args[1] is 'join'
@@ -62,10 +72,10 @@ ClanHandler = class ClanHandler extends Handler
       clanID = mongoose.Types.ObjectId(clanID)
       memberID = mongoose.Types.ObjectId(memberID)
     catch err
-      return @sendBadInputError(res, err)
+      return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendForbiddenError(res) unless clan.get('ownerID')?.equals req.user._id
+      return @sendForbiddenError res unless @hasAccessToDocument(req, clan)
       return @sendForbiddenError(res) if clan.get('ownerID').equals memberID
       Clan.update {_id: clanID}, {$pull: {members: {id: memberID}}}, (err) =>
         return @sendDatabaseError(res, err) if err
