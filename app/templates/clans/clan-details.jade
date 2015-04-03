@@ -6,7 +6,7 @@ block content
     h1= clan.get('name')
     if owner
       p 
-        span.spr Owner:
+        span.spr Chieftain:
         a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
     if stats.averageLevel
       p Average level: #{stats.averageLevel}
@@ -22,7 +22,7 @@ block content
       button.btn.btn-sm.btn-success.join-clan-btn Join Clan
 
   if members
-    h3 Clan Members (#{members.length})
+    h3 Heroes (#{members.length})
     table.table.table-striped.table-condensed
       thead
         tr
@@ -41,4 +41,4 @@ block content
                 | #{memberAchievementsMap[member.id].length}
             td
               if isOwner && member.id !== clan.get('ownerID')
-                  button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Member
+                  button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero

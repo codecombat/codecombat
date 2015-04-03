@@ -2,11 +2,10 @@ extends /templates/base
 
 block content
 
-  div
+  p
+    input.create-clan-name(type='text' placeholder='New clan name')
+  p
     button.btn.btn-sm.btn-success.create-clan-btn Create New Clan
-    span.spr.spl
-      input.create-clan-name(type='text' placeholder='New clan name')
-  br
 
   div(role='tabpanel')
     ul.nav.nav-tabs(role='tablist')
@@ -21,8 +20,8 @@ block content
         thead
           tr
             th Clan Name
-            th Members
-            th Owner
+            th Heroes
+            th Chieftain
             th  
         tbody
           if publicClans.length
@@ -50,8 +49,8 @@ block content
         thead
           tr
             th Clan Name
-            th Members
-            th Owner
+            th Heroes
+            th Chieftain
             th
         tbody
           if myClans.length
