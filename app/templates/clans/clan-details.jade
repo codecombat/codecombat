@@ -16,6 +16,7 @@ block content
         td
           span.spr Chieftain
         td
+          span.spr.player-hero-icon(data-memberid="#{clan.get('ownerID')}")
           a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
     if stats.averageLevel
       tr
@@ -44,7 +45,7 @@ block content
     table.table.table-striped.table-condensed
       thead
         tr
-          th Name
+          th
           th Level
           th Achievements
           th Favorite Language
@@ -53,6 +54,7 @@ block content
         each member in members
           tr
             td
+              span.spr.player-hero-icon(data-memberid="#{member.id}")
               a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
             td= member.level()
             td

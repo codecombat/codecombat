@@ -6,6 +6,7 @@ CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
 EarnedAchievement = require 'models/EarnedAchievement'
 LevelSession = require 'models/LevelSession'
+ThangType = require 'models/ThangType'
 User = require 'models/User'
 
 # TODO: Message for clan not found
@@ -28,22 +29,6 @@ module.exports = class ClanDetailsView extends RootView
   destroy: ->
     @stopListening?()
 
-  getRenderData: ->
-    context = super()
-    context.clan = @clan
-    if application.isProduction()
-      context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
-    else
-      context.joinClanLink = "http://localhost:3000/clans/#{@clanID}"
-    context.owner = @owner
-    context.memberAchievementsMap = @memberAchievementsMap
-    context.memberLanguageMap = @memberLanguageMap
-    context.members = @members?.models
-    context.isOwner = @clan.get('ownerID') is me.id
-    context.isMember = @clanID in (me.get('clans') ? [])
-    context.stats = @stats
-    context
-
   initData: ->
     @stats = {}
 
@@ -63,10 +48,37 @@ module.exports = class ClanDetailsView extends RootView
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
     @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
 
+  getRenderData: ->
+    context = super()
+    context.clan = @clan
+    if application.isProduction()
+      context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
+    else
+      context.joinClanLink = "http://localhost:3000/clans/#{@clanID}"
+    context.owner = @owner
+    context.memberAchievementsMap = @memberAchievementsMap
+    context.memberLanguageMap = @memberLanguageMap
+    context.members = @members?.models
+    context.isOwner = @clan.get('ownerID') is me.id
+    context.isMember = @clanID in (me.get('clans') ? [])
+    context.stats = @stats
+    context
+
+  afterRender: ->
+    super()
+    @updateHeroIcons()
+
   refreshData: ->
     me.fetch cache: false
     @members.fetch cache: false
     @memberAchievements.fetch cache: false
+
+  updateHeroIcons: ->
+    return unless @members?.models?
+    for member in @members.models
+      continue unless hero = member.get('heroConfig')?.thangType
+      for slug, original of ThangType.heroes when original is hero
+        @$el.find(".player-hero-icon[data-memberID=#{member.id}]").removeClass('.player-hero-icon').addClass('player-hero-icon ' + slug)
 
   onClanSync: ->
     unless @owner?

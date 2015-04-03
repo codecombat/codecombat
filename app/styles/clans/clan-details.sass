@@ -7,5 +7,36 @@
     font-weight: bold
 
   .stats-table
-    width: 200px
+    width: 240px
     background: rgba(0, 0, 0, 0.0)
+
+  $spriteSheetSize: 30px
+
+  .player-hero-icon
+    background: transparent url(/images/pages/play/play-spritesheet.png)
+    background-size: cover
+    background-position: (-2 * $spriteSheetSize) 0
+    display: inline-block
+    width: 30px
+    height: 30px
+    margin: 0px 2px
+
+  .player-hero-icon
+    background-position: (-4 * $spriteSheetSize) 0
+
+    &.knight
+      background-position: (-5 * $spriteSheetSize) 0
+    &.librarian
+      background-position: (-6 * $spriteSheetSize) 0
+    &.ninja
+      background-position: (-7 * $spriteSheetSize) 0
+    &.potion-master
+      background-position: (-8 * $spriteSheetSize) 0
+    &.samurai
+      background-position: (-9 * $spriteSheetSize) 0
+    &.trapper
+      background-position: (-10 * $spriteSheetSize) 0
+    &.forest-archer
+      background-position: (-11 * $spriteSheetSize) 0
+    &.sorcerer
+      background-position: (-12 * $spriteSheetSize) 0
