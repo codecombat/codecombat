@@ -4,6 +4,19 @@ block content
 
   if clan
     h1= clan.get('name')
+    if clan.get('description')
+      .clan-description
+        each line in clan.get('description').split('\n')
+          p= line
+
+    p
+      if isOwner
+        button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
+      else if isMember
+        button.btn.btn-sm.btn-warning.leave-clan-btn Leave Clan
+      else
+        button.btn.btn-sm.btn-success.join-clan-btn Join Clan
+
     if owner
       p 
         span.spr Chieftain:
@@ -13,14 +26,6 @@ block content
     if stats.totalAchievements
       p Total achievements earned: #{stats.totalAchievements}
       
-  div
-    if isOwner
-      button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
-    else if isMember
-      button.btn.btn-sm.btn-warning.leave-clan-btn Leave Clan
-    else
-      button.btn.btn-sm.btn-success.join-clan-btn Join Clan
-
   if members
     h3 Heroes (#{members.length})
     table.table.table-striped.table-condensed

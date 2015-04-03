@@ -38,13 +38,11 @@ module.exports = class MainAdminView extends RootView
 
     sortClanList = (a, b) ->
       if a.get('members').length isnt b.get('members').length
-        a.get('members').length < b.get('members').length
+        if a.get('members').length < b.get('members').length then 1 else -1
       else
         b.id.localeCompare(a.id)
     @publicClans = new CocoCollection([], { url: '/db/clan/-/public', model: Clan, comparator: sortClanList })
     @listenTo @publicClans, 'sync', =>
-      for clan in @publicClans.models
-        console.log clan.get('name')
       @refreshNames @publicClans.models
       @render?()
     @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
@@ -71,6 +69,7 @@ module.exports = class MainAdminView extends RootView
       clan = new Clan()
       clan.set 'type', 'public'
       clan.set 'name', name
+      clan.set 'description', description if description = $('.create-clan-description').val()
       clan.save {},
         error: (model, response, options) =>
           console.error 'Error saving clan', response.status

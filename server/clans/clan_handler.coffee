@@ -17,6 +17,7 @@ ClanHandler = class ClanHandler extends Handler
     false
 
   hasAccessToDocument: (req, document, method=null) ->
+    return false unless document?
     method = (method or req.method).toLowerCase()
     return true if req.user?.isAdmin()
     return true if method is 'get'
@@ -57,13 +58,11 @@ ClanHandler = class ClanHandler extends Handler
       clanID = mongoose.Types.ObjectId(clanID)
     catch err
       return @sendNotFoundError(res, err)
-    Clan.findById clanID, (err, clan) =>
+    Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
       return @sendDatabaseError(res, err) if err
-      Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
+      User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
         return @sendDatabaseError(res, err) if err
-        User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendSuccess(res)
+        @sendSuccess(res)
 
   leaveClan: (req, res, clanID) ->
     return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
@@ -73,6 +72,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
+      return @sendDatabaseError(res, err) unless clan
       return @sendForbiddenError(res) if clan.get('ownerID')?.equals req.user._id
       Clan.update {_id: clanID}, {$pull: {members: req.user._id}}, (err) =>
         return @sendDatabaseError(res, err) if err
@@ -84,6 +84,7 @@ ClanHandler = class ClanHandler extends Handler
     # TODO: add tests
     Clan.findById clanID, (err, clans) =>
       return @sendDatabaseError(res, err) if err
+      return @sendDatabaseError(res, err) unless clans
       memberIDs = _.map clans.get('members') ? [], (memberID) -> memberID.toHexString()
       EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err?
@@ -96,6 +97,7 @@ ClanHandler = class ClanHandler extends Handler
     clanIDs = req.user.get('clans') ? []
     Clan.findById clanID, (err, clans) =>
       return @sendDatabaseError(res, err) if err
+      return @sendDatabaseError(res, err) unless clans
       memberIDs = clans.get('members') ? []
       User.find {_id: {$in: memberIDs}}, (err, users) =>
         return @sendDatabaseError(res, err) if err
@@ -105,11 +107,13 @@ ClanHandler = class ClanHandler extends Handler
   getPublicClans: (req, res) ->
     # Return 100 public clans, sorted by member count, created date
     query = [{ $match : {type : 'public'} }]
-    query.push {$project : {_id: 1, name: 1, slug: 1, type: 1, members: 1, memberCount: {$size: "$members"}, ownerID: 1}}
+    query.push {$project : {_id: 1, name: 1, slug: 1, type: 1, description: 1, members: 1, memberCount: {$size: "$members"}, ownerID: 1}}
     query.push {$sort: { memberCount: -1, _id: -1 }}
     query.push {$limit: 100}
     Clan.aggregate(query).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
+      for doc in documents
+        console.log doc.memberCount, doc.name
       @sendSuccess(res, documents)
 
   removeMember: (req, res, clanID, memberID) ->
@@ -121,6 +125,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
+      return @sendDatabaseError(res, err) unless clan
       return @sendForbiddenError res unless @hasAccessToDocument(req, clan)
       return @sendForbiddenError(res) if clan.get('ownerID').equals memberID
       Clan.update {_id: clanID}, {$pull: {members: memberID}}, (err) =>

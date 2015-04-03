@@ -4,9 +4,10 @@ ClanSchema = c.object {title: 'Clan', required: ['name', 'type']}
 c.extendNamedProperties ClanSchema  # name first
 
 _.extend ClanSchema.properties,
-  type: {type: 'string', 'enum': ['public']}
-  ownerID: c.objectId()
+  description: {type: 'string'}
   members: c.array {title: 'Members'}, c.objectId()
+  ownerID: c.objectId()
+  type: {type: 'string', 'enum': ['public']}
 
 c.extendBasicProperties ClanSchema, 'Clan'
 

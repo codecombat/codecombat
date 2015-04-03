@@ -10,19 +10,24 @@ describe 'Clans', ->
   clanCount = 0
   createClanName = (name) -> name + clanCount++
 
-  createClan = (user, type, done) ->
+  createClan = (user, type, description, done) ->
     name = createClanName 'myclan'
     requestBody =
       type: type
       name: name
+    requestBody.description = description if description?
     request.post {uri: clanURL, json: requestBody }, (err, res, body) ->
       expect(err).toBeNull()
       expect(res.statusCode).toBe(200)
       expect(body.type).toEqual(type)
       expect(body.name).toEqual(name)
+      expect(body.description).toEqual(description) if description?
+      expect(body.members?.length).toEqual(1)
+      expect(body.members?[0]).toEqual(user.id)
       Clan.findById body._id, (err, clan) ->
         expect(clan.get('type')).toEqual(type)
         expect(clan.get('name')).toEqual(name)
+        expect(clan.get('description')).toEqual(description) if description?
         expect(clan.get('members')?.length).toEqual(1)
         expect(clan.get('members')?[0]).toEqual(user._id)
         User.findById user.id, (err, user) ->
@@ -38,7 +43,7 @@ describe 'Clans', ->
 
   it 'Create clan', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan) ->
+      createClan user1, 'public', 'test description', (clan) ->
         done()
 
   it 'Anonymous create clan 401', (done) ->
@@ -71,8 +76,8 @@ describe 'Clans', ->
 
   it 'Get public clans', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
-        createClan user1, 'public', (clan2) ->
+      createClan user1, 'public', null, (clan1) ->
+        createClan user1, 'public', 'the second clan', (clan2) ->
           request.get {uri: "#{clanURL}/-/public" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
@@ -81,8 +86,8 @@ describe 'Clans', ->
 
   it 'Get public clans anonymous', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
-        createClan user1, 'public', (clan2) ->
+      createClan user1, 'public', null, (clan1) ->
+        createClan user1, 'public', null, (clan2) ->
           logoutUser ->
             request.get {uri: "#{clanURL}/-/public" }, (err, res, body) ->
               expect(err).toBeNull()
@@ -92,7 +97,7 @@ describe 'Clans', ->
 
   it 'Join clan', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -109,7 +114,7 @@ describe 'Clans', ->
 
   it 'Join invalid clan 404', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/1234/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -118,7 +123,7 @@ describe 'Clans', ->
 
   it 'Join clan anonymous 401', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         logoutUser ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -127,7 +132,7 @@ describe 'Clans', ->
 
   it 'Join clan twice 200', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -142,7 +147,7 @@ describe 'Clans', ->
 
   it 'Leave clan', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', 'do not stay too long', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -160,7 +165,7 @@ describe 'Clans', ->
 
   it 'Leave clan not member 200', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -172,7 +177,7 @@ describe 'Clans', ->
 
   it 'Leave owned clan 403', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(403)
@@ -180,7 +185,7 @@ describe 'Clans', ->
 
   it 'Remove member', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -201,7 +206,7 @@ describe 'Clans', ->
   it 'Remove non-member 200', (done) ->
     loginNewUser (user2) ->
       loginNewUser (user1) ->
-        createClan user1, 'public', (clan1) ->
+        createClan user1, 'public', null, (clan1) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user2.id}" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
@@ -213,7 +218,7 @@ describe 'Clans', ->
 
   it 'Remove invalid memberID 404', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/remove/123" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(404)
@@ -221,7 +226,7 @@ describe 'Clans', ->
 
   it 'Remove member, not in clan 403', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -234,7 +239,7 @@ describe 'Clans', ->
 
   it 'Remove member, not the owner 403', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -250,7 +255,7 @@ describe 'Clans', ->
 
   it 'Remove member from owned clan 403', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan1) ->
+      createClan user1, 'public', null, (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user1.id}" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(403)
@@ -258,7 +263,7 @@ describe 'Clans', ->
 
   it 'Delete clan', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan) ->
+      createClan user1, 'public', null, (clan) ->
         request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(204)
@@ -269,7 +274,7 @@ describe 'Clans', ->
 
   it 'Delete clan anonymous 401', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan) ->
+      createClan user1, 'public', null, (clan) ->
         logoutUser ->
           request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -278,7 +283,7 @@ describe 'Clans', ->
 
   it 'Delete clan not owner 403', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan) ->
+      createClan user1, 'public', null, (clan) ->
         loginNewUser (user2) ->
           request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -287,7 +292,7 @@ describe 'Clans', ->
 
   it 'Delete clan no longer exists 404', (done) ->
     loginNewUser (user1) ->
-      createClan user1, 'public', (clan) ->
+      createClan user1, 'public', null, (clan) ->
         request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(204)

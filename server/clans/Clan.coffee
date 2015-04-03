@@ -16,13 +16,16 @@ ClanSchema.pre 'save', (next) ->
 
 ClanSchema.statics.privateProperties = []
 ClanSchema.statics.editableProperties = [
-  'type'
-  'name'
+  'description'
   'members'
+  'name'
+  'type'
 ]
 
 ClanSchema.plugin plugins.NamedPlugin
-ClanSchema.plugin plugins.SearchablePlugin, {searchable: ['name']}
+
+# TODO: Do we need this?
+# ClanSchema.plugin plugins.SearchablePlugin, {searchable: ['name']}
 
 ClanSchema.statics.jsonSchema = jsonSchema
 
