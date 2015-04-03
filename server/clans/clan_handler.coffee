@@ -97,8 +97,6 @@ ClanHandler = class ClanHandler extends Handler
 
   getMembers: (req, res, clanID) ->
     # TODO: add tests
-    return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
-    clanIDs = req.user.get('clans') ? []
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendDatabaseError(res, err) unless clan
