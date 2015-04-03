@@ -121,7 +121,7 @@ module.exports = class User extends CocoModel
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
   getFourthLevelGroup: ->
-    return 'signs-and-portents'
+    return 'forgetful-gemsmith'
     return @fourthLevelGroup if @fourthLevelGroup
     group = me.get('testGroupNumber') % 8
     @fourthLevelGroup = switch group
