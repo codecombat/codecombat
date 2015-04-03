@@ -5,6 +5,7 @@ template = require 'templates/clans/clan-details'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
 EarnedAchievement = require 'models/EarnedAchievement'
+LevelSession = require 'models/LevelSession'
 User = require 'models/User'
 
 # TODO: Message for clan not found
@@ -36,6 +37,7 @@ module.exports = class ClanDetailsView extends RootView
       context.joinClanLink = "http://localhost:3000/clans/#{@clanID}"
     context.owner = @owner
     context.memberAchievementsMap = @memberAchievementsMap
+    context.memberLanguageMap = @memberLanguageMap
     context.members = @members?.models
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
@@ -46,36 +48,64 @@ module.exports = class ClanDetailsView extends RootView
     @stats = {}
 
     @clan = new Clan _id: @clanID
-    @listenTo @clan, 'sync', => @render?()
-    @listenToOnce @clan, 'sync', =>
-      @owner = new User _id: @clan.get('ownerID')
-      @listenTo @owner, 'sync', => @render?()
-      @supermodel.loadModel @owner, 'owner', cache: false
-    @supermodel.loadModel @clan, 'clan', cache: false
-
     @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator:'slug' })
-    @listenTo @members, 'sync', =>
-      @stats.averageLevel = Math.round(@members.reduce(((sum, member) -> sum + member.level()), 0) / @members.length)
-      @render?()
-    @supermodel.loadCollection(@members, 'members', {cache: false})
-
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
-    @listenTo @memberAchievements, 'sync', =>
-      @stats.totalAchievements = @memberAchievements.models.length
-      @memberAchievementsMap = {}
-      for achievement in @memberAchievements.models
-        user = achievement.get('user')
-        @memberAchievementsMap[user] ?= []
-        @memberAchievementsMap[user].push achievement
-      @render?()
-    @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
+    @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
 
     @listenTo me, 'sync', => @render?()
+    @listenTo @clan, 'sync', @onClanSync
+    @listenTo @members, 'sync', @onMembersSync
+    @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
+    @listenTo @memberSessions, 'sync', @onMemberSessionsSync
+
+    @supermodel.loadModel @clan, 'clan', cache: false
+    @supermodel.loadCollection(@members, 'members', {cache: false})
+    @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
+    @supermodel.loadCollection(@memberSessions, 'member_sessions', {cache: false})
 
   refreshData: ->
     me.fetch cache: false
     @members.fetch cache: false
     @memberAchievements.fetch cache: false
+
+  onClanSync: ->
+    unless @owner?
+      @owner = new User _id: @clan.get('ownerID')
+      @listenTo @owner, 'sync', => @render?()
+      @supermodel.loadModel @owner, 'owner', cache: false
+    @render?()
+
+  onMembersSync: ->
+    @stats.averageLevel = Math.round(@members.reduce(((sum, member) -> sum + member.level()), 0) / @members.length)
+    @render?()
+
+  onMemberAchievementsSync: ->
+    @stats.totalAchievements = @memberAchievements.models.length
+    @memberAchievementsMap = {}
+    for achievement in @memberAchievements.models
+      user = achievement.get('user')
+      @memberAchievementsMap[user] ?= []
+      @memberAchievementsMap[user].push achievement
+    @render?()
+
+  onMemberSessionsSync: ->
+    @memberSessionMap = {}
+    for levelSession in @memberSessions.models
+      user = levelSession.get('creator')
+      @memberSessionMap[user] ?= []
+      @memberSessionMap[user].push levelSession
+    @memberLanguageMap = {}
+    for user of @memberSessionMap
+      languageCounts = {}
+      for levelSession in @memberSessionMap[user]
+        language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
+        languageCounts[language] = (languageCounts[language] or 0) + 1 if language
+      mostUsedCount = 0
+      for language, count of languageCounts
+        if count > mostUsedCount
+          mostUsedCount = count
+          @memberLanguageMap[user] = language
+    @render?()
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()

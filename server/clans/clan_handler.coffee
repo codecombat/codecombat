@@ -3,6 +3,9 @@ mongoose = require 'mongoose'
 Handler = require '../commons/Handler'
 Clan = require './Clan'
 EarnedAchievement = require '../achievements/EarnedAchievement'
+EarnedAchievementHandler = require '../achievements/earned_achievement_handler'
+LevelSession = require '../levels/sessions/LevelSession'
+LevelSessionHandler = require '../levels/sessions/level_session_handler'
 User = require '../users/User'
 UserHandler = require '../users/user_handler'
 
@@ -48,6 +51,7 @@ ClanHandler = class ClanHandler extends Handler
     return @leaveClan(req, res, args[0]) if args[1] is 'leave'
     return @getMemberAchievements(req, res, args[0]) if args[1] is 'member_achievements'
     return @getMembers(req, res, args[0]) if args[1] is 'members'
+    return @getMemberSessions(req, res, args[0]) if args[1] is 'member_sessions'
     return @getPublicClans(req, res) if args[1] is 'public'
     return @removeMember(req, res, args[0], args[2]) if args.length is 3 and args[1] is 'remove'
     super(arguments...)
@@ -82,26 +86,37 @@ ClanHandler = class ClanHandler extends Handler
 
   getMemberAchievements: (req, res, clanID) ->
     # TODO: add tests
-    Clan.findById clanID, (err, clans) =>
+    Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clans
-      memberIDs = _.map clans.get('members') ? [], (memberID) -> memberID.toHexString()
+      return @sendDatabaseError(res, err) unless clan
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString()
       EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err?
-        cleandocs = (@formatEntity(req, doc) for doc in documents)
+        cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, cleandocs)
 
   getMembers: (req, res, clanID) ->
     # TODO: add tests
     return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
     clanIDs = req.user.get('clans') ? []
-    Clan.findById clanID, (err, clans) =>
+    Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clans
-      memberIDs = clans.get('members') ? []
+      return @sendDatabaseError(res, err) unless clan
+      memberIDs = clan.get('members') ? []
       User.find {_id: {$in: memberIDs}}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
+        @sendSuccess(res, cleandocs)
+
+  getMemberSessions: (req, res, clanID) ->
+    # TODO: add tests
+    Clan.findById clanID, (err, clan) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendDatabaseError(res, err) unless clan
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString()
+      LevelSession.find {creator: {$in: memberIDs}}, (err, documents) =>
+        return @sendDatabaseError(res, err) if err?
+        cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, cleandocs)
 
   getPublicClans: (req, res) ->

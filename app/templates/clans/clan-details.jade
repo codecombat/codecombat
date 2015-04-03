@@ -23,7 +23,7 @@ block content
         td= stats.averageLevel
     if stats.totalAchievements
       tr
-        td Achievements
+        td Total Achievements
         td= stats.totalAchievements
 
   p
@@ -47,6 +47,7 @@ block content
           th Name
           th Level
           th Achievements
+          th Favorite Language
           th  
       tbody
         each member in members
@@ -57,6 +58,9 @@ block content
             td
               if memberAchievementsMap && memberAchievementsMap[member.id]
                 | #{memberAchievementsMap[member.id].length}
+            td
+              if memberLanguageMap && memberLanguageMap[member.id]
+                | #{memberLanguageMap[member.id]}
             td
               if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
