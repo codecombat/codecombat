@@ -4,6 +4,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
+EarnedAchievement = require 'models/EarnedAchievement'
 User = require 'models/User'
 
 # TODO: Message for clan not found
@@ -30,12 +31,16 @@ module.exports = class ClanDetailsView extends RootView
     context = super()
     context.clan = @clan
     context.owner = @owner
-    context.members = @members.models
+    context.memberAchievementsMap = @memberAchievementsMap
+    context.members = @members?.models
     context.isOwner = @clan.get('ownerID') is me.id
-    context.isMember = @clanID in me.get('clans')
+    context.isMember = @clanID in (me.get('clans') ? [])
+    context.stats = @stats
     context
 
   initData: ->
+    @stats = {}
+
     @clan = new Clan _id: @clanID
     @listenTo @clan, 'sync', => @render?()
     @listenToOnce @clan, 'sync', =>
@@ -43,10 +48,30 @@ module.exports = class ClanDetailsView extends RootView
       @listenTo @owner, 'sync', => @render?()
       @supermodel.loadModel @owner, 'owner', cache: false
     @supermodel.loadModel @clan, 'clan', cache: false
-    @members = new CocoCollection([], { url: "/db/clan/#{clanID}/members", model: User, comparator:'_id' })
-    @listenTo @members, 'sync', => @render?()
+
+    @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator:'_id' })
+    @listenTo @members, 'sync', =>
+      @stats.averageLevel = Math.round(@members.reduce(((sum, member) -> sum + member.level()), 0) / @members.length)
+      @render?()
     @supermodel.loadCollection(@members, 'members', {cache: false})
+
+    @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
+    @listenTo @memberAchievements, 'sync', =>
+      @stats.totalAchievements = @memberAchievements.models.length
+      @memberAchievementsMap = {}
+      for achievement in @memberAchievements.models
+        user = achievement.get('user')
+        @memberAchievementsMap[user] ?= []
+        @memberAchievementsMap[user].push achievement
+      @render?()
+    @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
+
     @listenTo me, 'sync', => @render?()
+
+  refreshData: ->
+    me.fetch cache: false
+    @members.fetch cache: false
+    @memberAchievements.fetch cache: false
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
@@ -67,9 +92,7 @@ module.exports = class ClanDetailsView extends RootView
       method: 'PUT'
       error: (model, response, options) =>
         console.error 'Error joining clan', response
-      success: (model, response, options) =>
-        me.fetch cache: false
-        @members.fetch cache: false
+      success: (model, response, options) => @refreshData()
     @supermodel.addRequestResource( 'join_clan', options).load()
 
   onLeaveClan: (e) ->
@@ -78,9 +101,7 @@ module.exports = class ClanDetailsView extends RootView
       method: 'PUT'
       error: (model, response, options) =>
         console.error 'Error leaving clan', response
-      success: (model, response, options) =>
-        me.fetch cache: false
-        @members.fetch cache: false
+      success: (model, response, options) => @refreshData()
     @supermodel.addRequestResource( 'leave_clan', options).load()
 
   onRemoveMember: (e) ->
@@ -90,8 +111,7 @@ module.exports = class ClanDetailsView extends RootView
         method: 'PUT'
         error: (model, response, options) =>
           console.error 'Error removing clan member', response
-        success: (model, response, options) =>
-          @members.fetch cache: false
+        success: (model, response, options) => @refreshData()
       @supermodel.addRequestResource( 'remove_member', options).load()
     else
       console.error "No member ID attached to remove button."

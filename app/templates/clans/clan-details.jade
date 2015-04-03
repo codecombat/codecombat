@@ -4,10 +4,15 @@ block content
 
   if clan
     h1= clan.get('name')
-      if owner
-        span.spr.spl.small (owner 
-          a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
-          | )
+    if owner
+      p 
+        span.spr Owner:
+        a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
+    if stats.averageLevel
+      p Average level: #{stats.averageLevel}
+    if stats.totalAchievements
+      p Total achievements earned: #{stats.totalAchievements}
+      
   div
     if isOwner
       button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
@@ -23,6 +28,7 @@ block content
         tr
           th Name
           th Level
+          th Achievements
           th  
       tbody
         each member in members
@@ -30,10 +36,11 @@ block content
             td
               a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
             td= member.level()
-            if isOwner && member.id !== clan.get('ownerID')
-              td
-                button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Member
-            else
-              td
+            td
+              if memberAchievementsMap && memberAchievementsMap[member.id]
+                | #{memberAchievementsMap[member.id].length}
+            td
+              if isOwner && member.id !== clan.get('ownerID')
+                  button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Member
 
     button.btn.btn-sm Load More

@@ -2,6 +2,7 @@ async = require 'async'
 mongoose = require 'mongoose'
 Handler = require '../commons/Handler'
 Clan = require './Clan'
+EarnedAchievement = require '../achievements/EarnedAchievement'
 User = require '../users/User'
 UserHandler = require '../users/user_handler'
 
@@ -44,6 +45,7 @@ ClanHandler = class ClanHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @joinClan(req, res, args[0]) if args[1] is 'join'
     return @leaveClan(req, res, args[0]) if args[1] is 'leave'
+    return @getMemberAchievements(req, res, args[0]) if args[1] is 'member_achievements'
     return @getMembers(req, res, args[0]) if args[1] is 'members'
     return @removeMember(req, res, args[0], args[2]) if args.length is 3 and args[1] is 'remove'
     super(arguments...)
@@ -77,8 +79,19 @@ ClanHandler = class ClanHandler extends Handler
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res)
 
+  getMemberAchievements: (req, res, clanID) ->
+    # TODO: add tests
+    Clan.findById clanID, (err, clans) =>
+      return @sendDatabaseError(res, err) if err
+      memberIDs = _.map clans.get('members') ? [], (memberID) -> memberID.toHexString()
+      EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
+        return @sendDatabaseError(res, err) if err?
+        cleandocs = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, cleandocs)
+
   getMembers: (req, res, clanID) ->
-    return @sendForbiddenError(res) unless req.user
+    # TODO: add tests
+    return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
     clanIDs = req.user.get('clans') ? []
     Clan.findById clanID, (err, clans) =>
       return @sendDatabaseError(res, err) if err
