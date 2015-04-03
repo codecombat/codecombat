@@ -45,8 +45,6 @@ block content
                   else if clan.get('ownerID') !== me.id
                     button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
 
-      button.btn.btn-sm Load More
-
     .tab-pane#my-clans(role='tabpanel')
       table.table.table-striped.table-condensed
         thead
@@ -73,5 +71,3 @@ block content
                 td
                   if clan.get('ownerID') !== me.id
                     button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
-
-      button.btn.btn-sm Load More

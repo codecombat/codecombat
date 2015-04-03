@@ -69,22 +69,22 @@ describe 'Clans', ->
         expect(res.statusCode).toBe(422)
         done()
 
-  it 'Get clans', (done) ->
+  it 'Get public clans', (done) ->
     loginNewUser (user1) ->
       createClan user1, 'public', (clan1) ->
         createClan user1, 'public', (clan2) ->
-          request.get {uri: clanURL }, (err, res, body) ->
+          request.get {uri: "#{clanURL}/-/public" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
             expect(body.length).toBeGreaterThan(1)
             done()
 
-  it 'Get clans anonymous', (done) ->
+  it 'Get public clans anonymous', (done) ->
     loginNewUser (user1) ->
       createClan user1, 'public', (clan1) ->
         createClan user1, 'public', (clan2) ->
           logoutUser ->
-            request.get {uri: clanURL }, (err, res, body) ->
+            request.get {uri: "#{clanURL}/-/public" }, (err, res, body) ->
               expect(err).toBeNull()
               expect(res.statusCode).toBe(200)
               expect(body.length).toBeGreaterThan(1)

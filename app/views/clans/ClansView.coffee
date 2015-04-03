@@ -35,12 +35,20 @@ module.exports = class MainAdminView extends RootView
 
   initData: ->
     @idNameMap = {}
-    @publicClans = new CocoCollection([], { url: '/db/clan', model: Clan, comparator:'_id' })
+
+    sortClanList = (a, b) ->
+      if a.get('members').length isnt b.get('members').length
+        a.get('members').length < b.get('members').length
+      else
+        b.id.localeCompare(a.id)
+    @publicClans = new CocoCollection([], { url: '/db/clan/-/public', model: Clan, comparator: sortClanList })
     @listenTo @publicClans, 'sync', =>
+      for clan in @publicClans.models
+        console.log clan.get('name')
       @refreshNames @publicClans.models
       @render?()
     @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
-    @myClans = new CocoCollection([], { url: '/db/user/-/clans', model: Clan, comparator:'_id' })
+    @myClans = new CocoCollection([], { url: '/db/user/-/clans', model: Clan, comparator: sortClanList })
     @listenTo @myClans, 'sync', =>
       @refreshNames @myClans.models
       @render?()

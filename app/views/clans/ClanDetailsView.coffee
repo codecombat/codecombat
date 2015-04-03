@@ -49,7 +49,7 @@ module.exports = class ClanDetailsView extends RootView
       @supermodel.loadModel @owner, 'owner', cache: false
     @supermodel.loadModel @clan, 'clan', cache: false
 
-    @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator:'_id' })
+    @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator:'slug' })
     @listenTo @members, 'sync', =>
       @stats.averageLevel = Math.round(@members.reduce(((sum, member) -> sum + member.level()), 0) / @members.length)
       @render?()
