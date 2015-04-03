@@ -64,7 +64,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     achievements: "Logros" # Tooltip on achievement list button from /play
     account: "Cuenta" # Tooltip on account button from /play
     settings: "Ajustes" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Encuesta" # Tooltip on poll button from /play
     next: "Siguiente Heroe" # Go from choose hero to choose inventory before playing a level
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Objetos"
@@ -77,7 +77,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     awaiting_levels_adventurer_prefix: "Liberamos cinco niveles cada semana."
     awaiting_levels_adventurer: "Regístrate como Aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "Ajustar volúmen"
     choose_your_level: "Elige tu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Puedes elegir cualquier pantalla o charlar en "
     adventurer_forum: "el foro del aventurero "
@@ -93,15 +93,15 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_classic_algorithms: "Algoritmos Clasicos"
     campaign_classic_algorithms_description: "... donde aprendes los algoritmos mas populares de la informatica."
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+  share_progress_modal:
+    blurb: "¡Estás teniendo un gran progreso! Cuéntale a alguien que tanto habeis aprendido con CodeCombat."
+    email_invalid: "La dirección de correo electrónico no es válida."
+    form_blurb: "¡Introduzca su correo electrónico y nosotros les mostraremos!"
+    form_label: "Correo Electrónico"
+    placeholder: "correo electrónico"
+    title: "Excelente Trabajo Aprendiz"
+    tell_friend: "Decirle a un amigo"
+    tell_parent: "Decirle a mis padres"
 
   login:
     sign_up: "Crear una cuenta"
@@ -139,8 +139,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     books: "Libros"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Volver" # When used as an action verb, like "Navigate backward"
+    continue: "Continuar" # When used as an action verb, like "Continue forward"
     loading: "Cargando..."
     saving: "Guardando..."
     sending: "Enviando..."
@@ -154,7 +154,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     play: "Jugar" # When used as an action verb, like "Play next level"
     retry: "Reintentar"
     actions: "Acciones"
-#    info: "Info"
+    info: "Información"
     help: "Ayuda"
     watch: "Mirar"
     unwatch: "Pasar"
@@ -172,16 +172,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     rejected: "Rechazado"
 #    withdrawn: "Withdrawn"
 #    submitter: "Submitter"
-#    submitted: "Submitted"
+    submitted: "Enviado"
     commit_msg: "Mensaje de Asignación o Commit"
 #    review: "Review"
     version_history: "Historial de versión"
     version_history_for: "Historial de las versiones de: "
     select_changes: "Selecciona dos cambios más abajo para ver la diferencia."
     undo_prefix: "Deshacer"
-#    undo_shortcut: "(Ctrl+Z)"
+    undo_shortcut: "(Ctrl+Z)"
     redo_prefix: "Rehacer"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    redo_shortcut: "(Ctrl+Shift+Z)" #tal vez sea mejor usar el común Control+Y
     play_preview: "Reproducir una vista previa del nivel actual"
     result: "Resultado"
     results: "Resultados"
@@ -205,8 +205,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     hard: "Difícil"
     player: "Jugador"
     player_level: "Nivel" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
-#    ranger: "Ranger"
+    warrior: "Guerrero"
+#    ranger: "Ranger" #guardabosques?
     wizard: "Mago"
 
   units:
@@ -326,18 +326,18 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_superpower: "Programar es lo más parecido que tenemos a un superpoder."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
-#    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
+    tip_code_never_lies: "El código nunca os miente, los comentarios algunas veces. — Ron Jeffries"
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
-#    tip_google: "Have a problem you can't solve? Google it!"
+    tip_google: "¿Teneis un problema que no podeis resolver? ¡Googleadlo!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_recurse: "Iterar es humano, recursar es divino. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -356,18 +356,18 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     multiplayer_caption: "Juega con amigos!"
     auth_caption: "Salvar tu progreso."
 
-#  leaderboard:
+  leaderboard:
 #    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Other Solutions"
-#    scores: "Scores"
+    scores: "Puntuaciones"
 #    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
+    day: "Hoy"
+    week: "Esta semana"
 #    all: "All-Time"
 #    time: "Time"
 #    damage_taken: "Damage Taken"
 #    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
+    difficulty: "Difficultad"
 #    gold_collected: "Gold Collected"
 
   inventory:
@@ -402,16 +402,16 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
 #    feature3: "30+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
-#    feature5: "Video tutorials"
+    feature5: "Vídeo tutoriales"
 #    feature6: "Premium email support"
-#    free: "Free"
-#    month: "month"
+    free: "Gratis"
+    month: "mes"
     subscribe_title: "Suscríbete"
 #    unsubscribe: "Unsubscribe"
 #    confirm_unsubscribe: "Confirm Unsubscribe"
 #    never_mind: "Never Mind, I Still Love You"
 #    thank_you_months_prefix: "Thank you for supporting us these last"
-#    thank_you_months_suffix: "months."
+    thank_you_months_suffix: "meses."
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
@@ -470,7 +470,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     lua_blurb: "Lenguaje Script para Juegos."
     io_blurb: "Simple pero oscuro."
     status: "Estado"
-#    hero_type: "Type"
+    hero_type: "Tipo"
     weapons: "Armas"
     weapons_warrior: "Espadas - Corto Alcance, Sin Magia"
     weapons_ranger: "Ballestas, Pistolas - Largo Alcance, Sin Magia"
@@ -570,12 +570,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    cat_blurb: "Airbender"
 #    josh_title: "Game Designer"
 #    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
+    jose_title: "Música"
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
 #    title: "CodeCombat: Info for Teachers"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
@@ -602,7 +602,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
-#    how_much_2: "monthly subscription"
+    how_much_2: "suscripción mensual"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
@@ -751,7 +751,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     pick_a_terrain: "Escoge un Terreno"
 #    dungeon: "Dungeon"
 #    indoor: "Indoor"
-#    desert: "Desert"
+    desert: "Desierto" #desert like take a desert in desert? :P
     grassy: "Cubierto de hierba"
     small: "Pequeño"
 #    large: "Large"
@@ -818,7 +818,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    achievement_query_goals: "Key achievement off of level goals"
     level_completion: "Porcentaje de Nivel Completado"
     pop_i18n: "Poblar I18N"
-#    tasks: "Tasks"
+    tasks: "Tareas"
 #    clear_storage: "Clear your local changes"
 
   article:
@@ -998,11 +998,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     service: "Servicio"
     price: "Precio"
     gems: "Joyas"
-#    active: "Active"
+    active: "Activo"
 #    subscribed: "Subscribed"
 #    unsubscribed: "Unsubscribed"
 #    active_until: "Active Until"
-#    cost: "Cost"
+    cost: "Costo"
     next_payment: "Siguiente Pago"
     card: "Tarjeta"
     status_unsubscribed_active: "No estás suscrito y no seras facturado, pero tu cuenta sigue activa por ahora."
@@ -1078,7 +1078,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     feedback: "Apoyo"
     payment_info: "Información de Pago"
 #    campaigns: "Campaigns"
-#    poll: "Poll"
+    poll: "Encuesta"
 #    user_polls_record: "Poll Voting History"
 
   delta:
