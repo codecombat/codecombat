@@ -21,13 +21,7 @@ module.exports = class ClanDetailsView extends RootView
 
   constructor: (options, @clanID) ->
     super options
-    @clan = new Clan _id: @clanID
-    @listenTo @clan, 'sync', => @render?()
-    @supermodel.loadModel @clan, 'clan', cache: false
-    @members = new CocoCollection([], { url: "/db/clan/#{clanID}/members", model: User, comparator:'_id' })
-    @listenTo @members, 'sync', => @render?()
-    @supermodel.loadCollection(@members, 'members', {cache: false})
-    @listenTo me, 'sync', => @render?()
+    @initData()
 
   destroy: ->
     @stopListening?()
@@ -35,10 +29,24 @@ module.exports = class ClanDetailsView extends RootView
   getRenderData: ->
     context = super()
     context.clan = @clan
+    context.owner = @owner
     context.members = @members.models
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in me.get('clans')
     context
+
+  initData: ->
+    @clan = new Clan _id: @clanID
+    @listenTo @clan, 'sync', => @render?()
+    @listenToOnce @clan, 'sync', =>
+      @owner = new User _id: @clan.get('ownerID')
+      @listenTo @owner, 'sync', => @render?()
+      @supermodel.loadModel @owner, 'owner', cache: false
+    @supermodel.loadModel @clan, 'clan', cache: false
+    @members = new CocoCollection([], { url: "/db/clan/#{clanID}/members", model: User, comparator:'_id' })
+    @listenTo @members, 'sync', => @render?()
+    @supermodel.loadCollection(@members, 'members', {cache: false})
+    @listenTo me, 'sync', => @render?()
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()

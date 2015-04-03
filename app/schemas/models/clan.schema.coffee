@@ -7,7 +7,6 @@ _.extend ClanSchema.properties,
   name: c.shortString()
   type: {type: 'string', 'enum': ['public']}
   ownerID: c.objectId()
-  ownerName: c.shortString()
   members: c.array {title: 'Members'}, c.objectId()
 
 c.extendBasicProperties ClanSchema, 'Clan'

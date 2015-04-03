@@ -35,7 +35,10 @@ block content
                     a(href="/clans/#{clan.id}")= clan.get('name')
                 td= clan.get('members').length
                 td 
-                  a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
+                  if idNameMap && idNameMap[clan.get('ownerID')]
+                    a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
+                  else
+                    a(href="/user/#{clan.get('ownerID')}") Anoner
                 td
                   if myClanIDs.indexOf(clan.id) < 0
                     button.btn.btn-sm.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
@@ -63,7 +66,10 @@ block content
                     a(href="/clans/#{clan.id}")= clan.get('name')
                 td= clan.get('members').length
                 td 
-                  a(href="/user/#{clan.ownerID}")= clan.get('ownerName')
+                  if idNameMap && idNameMap[clan.get('ownerID')]
+                    a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
+                  else
+                    a(href="/user/#{clan.get('ownerID')}") Anoner
                 td
                   if clan.get('ownerID') !== me.id
                     button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan

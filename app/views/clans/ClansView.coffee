@@ -20,23 +20,42 @@ module.exports = class MainAdminView extends RootView
 
   constructor: (options) ->
     super options
-    @publicClans = new CocoCollection([], { url: '/db/clan', model: Clan, comparator:'_id' })
-    @listenTo @publicClans, 'sync', => @render?()
-    @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
-    @myClans = new CocoCollection([], { url: '/db/user/-/clans', model: Clan, comparator:'_id' })
-    @listenTo @myClans, 'sync', => @render?()
-    @supermodel.loadCollection(@myClans, 'my_clans', {cache: false})
-    @listenTo me, 'sync', => @render?()
+    @initData()
 
   destroy: ->
     @stopListening?()
 
   getRenderData: ->
     context = super()
+    context.idNameMap = @idNameMap
     context.publicClans = @publicClans.models
     context.myClans = @myClans.models
     context.myClanIDs = me.get('clans') ? []
     context
+
+  initData: ->
+    @idNameMap = {}
+    @publicClans = new CocoCollection([], { url: '/db/clan', model: Clan, comparator:'_id' })
+    @listenTo @publicClans, 'sync', =>
+      @refreshNames @publicClans.models
+      @render?()
+    @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
+    @myClans = new CocoCollection([], { url: '/db/user/-/clans', model: Clan, comparator:'_id' })
+    @listenTo @myClans, 'sync', =>
+      @refreshNames @myClans.models
+      @render?()
+    @supermodel.loadCollection(@myClans, 'my_clans', {cache: false})
+    @listenTo me, 'sync', => @render?()
+
+  refreshNames: (clans) ->
+    options =
+      url: '/db/user/-/names'
+      method: 'POST'
+      data: {ids: _.map(clans, (clan) -> clan.get('ownerID'))}
+      success: (models, response, options) =>
+        @idNameMap[userID] = models[userID].name for userID of models
+        @render?()
+    @supermodel.addRequestResource('user_names', options, 0).load()
 
   onClickCreateClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()

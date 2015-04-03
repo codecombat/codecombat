@@ -2,10 +2,12 @@ extends /templates/base
 
 block content
 
-  h1= clan.get('name')
-    span.spr.spl.small (owner 
-      a(href="/user/#{clan.get('ownerID')}")= clan.get('ownerName')
-      | )
+  if clan
+    h1= clan.get('name')
+      if owner
+        span.spr.spl.small (owner 
+          a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
+          | )
   div
     if isOwner
       button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
@@ -14,8 +16,8 @@ block content
     else
       button.btn.btn-sm.btn-success.join-clan-btn Join Clan
 
-  if clan.get('members')
-    h3 Clan Members (#{clan.get('members').length})
+  if members
+    h3 Clan Members (#{members.length})
     table.table.table-striped.table-condensed
       thead
         tr
