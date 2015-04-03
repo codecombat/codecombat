@@ -2,7 +2,9 @@ app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
+CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
+User = require 'models/User'
 
 # TODO: Message for clan not found
 # TODO: join/leave mostly duped from clans view
@@ -20,13 +22,22 @@ module.exports = class ClanDetailsView extends RootView
   constructor: (options, @clanID) ->
     super options
     @clan = new Clan _id: @clanID
+    @listenTo @clan, 'sync', => @render?()
     @supermodel.loadModel @clan, 'clan', cache: false
+    @members = new CocoCollection([], { url: "/db/clan/#{clanID}/members", model: User, comparator:'_id' })
+    @listenTo @members, 'sync', => @render?()
+    @supermodel.loadCollection(@members, 'members', {cache: false})
+    @listenTo me, 'sync', => @render?()
 
-  getRenderData: =>
+  destroy: ->
+    @stopListening?()
+
+  getRenderData: ->
     context = super()
     context.clan = @clan
+    context.members = @members.models
     context.isOwner = @clan.get('ownerID') is me.id
-    context.isMember = _.find(@clan.get('members'), (m) -> m.id is me.id) ? false
+    context.isMember = @clanID in me.get('clans')
     context
 
   onDeleteClan: (e) ->
@@ -49,9 +60,8 @@ module.exports = class ClanDetailsView extends RootView
       error: (model, response, options) =>
         console.error 'Error joining clan', response
       success: (model, response, options) =>
-        @listenToOnce @clan, 'sync', =>
-          @render?()
-        @clan.fetch cache: false
+        me.fetch cache: false
+        @members.fetch cache: false
     @supermodel.addRequestResource( 'join_clan', options).load()
 
   onLeaveClan: (e) ->
@@ -61,9 +71,8 @@ module.exports = class ClanDetailsView extends RootView
       error: (model, response, options) =>
         console.error 'Error leaving clan', response
       success: (model, response, options) =>
-        @listenToOnce @clan, 'sync', =>
-          @render?()
-        @clan.fetch cache: false
+        me.fetch cache: false
+        @members.fetch cache: false
     @supermodel.addRequestResource( 'leave_clan', options).load()
 
   onRemoveMember: (e) ->
@@ -74,9 +83,7 @@ module.exports = class ClanDetailsView extends RootView
         error: (model, response, options) =>
           console.error 'Error removing clan member', response
         success: (model, response, options) =>
-          @listenToOnce @clan, 'sync', =>
-            @render?()
-          @clan.fetch cache: false
+          @members.fetch cache: false
       @supermodel.addRequestResource( 'remove_member', options).load()
     else
       console.error "No member ID attached to remove button."

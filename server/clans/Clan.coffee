@@ -2,9 +2,17 @@ mongoose = require 'mongoose'
 log = require 'winston'
 config = require '../../server_config'
 plugins = require '../plugins/plugins'
+User = require '../users/User'
 jsonSchema = require '../../app/schemas/models/clan.schema'
 
 ClanSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
+
+ClanSchema.pre 'save', (next) ->
+  User.update {_id: @get('ownerID')}, {$addToSet: {clans: @get('_id')}}, (err) =>
+    if err
+      log.error err
+      return next(err)
+    next()
 
 ClanSchema.statics.privateProperties = []
 ClanSchema.statics.editableProperties = [

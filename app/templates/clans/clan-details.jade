@@ -23,11 +23,11 @@ block content
           th Level
           th  
       tbody
-        each member in clan.get('members')
+        each member in members
           tr
             td
-              a(href="/user/#{member.id}")= member.name
-            td= member.level
+              a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
+            td= member.level()
             if isOwner && member.id !== clan.get('ownerID')
               td
                 button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Member

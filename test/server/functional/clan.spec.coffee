@@ -10,7 +10,7 @@ describe 'Clans', ->
   clanCount = 0
   createClanName = (name) -> name + clanCount++
 
-  createClan = (type, done) ->
+  createClan = (user, type, done) ->
     name = createClanName 'myclan'
     requestBody =
       type: type
@@ -23,7 +23,13 @@ describe 'Clans', ->
       Clan.findById body._id, (err, clan) ->
         expect(clan.get('type')).toEqual(type)
         expect(clan.get('name')).toEqual(name)
-        done(clan)
+        expect(clan.get('members')?.length).toEqual(1)
+        expect(clan.get('members')?[0]).toEqual(user._id)
+        User.findById user.id, (err, user) ->
+          expect(err).toBeNull()
+          expect(user.get('clans')?.length).toBeGreaterThan(0)
+          expect(_.find user.get('clans'), (clanID) -> clan._id.equals clanID).toBeDefined()
+          done(clan)
 
   it 'Clear database users and clans', (done) ->
     clearModels [User, Clan], (err) ->
@@ -32,7 +38,7 @@ describe 'Clans', ->
 
   it 'Create clan', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan) ->
+      createClan user1, 'public', (clan) ->
         done()
 
   it 'Anonymous create clan 401', (done) ->
@@ -65,8 +71,8 @@ describe 'Clans', ->
 
   it 'Get clans', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
-        createClan 'public', (clan2) ->
+      createClan user1, 'public', (clan1) ->
+        createClan user1, 'public', (clan2) ->
           request.get {uri: clanURL }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
@@ -75,8 +81,8 @@ describe 'Clans', ->
 
   it 'Get clans anonymous', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
-        createClan 'public', (clan2) ->
+      createClan user1, 'public', (clan1) ->
+        createClan user1, 'public', (clan2) ->
           logoutUser ->
             request.get {uri: clanURL }, (err, res, body) ->
               expect(err).toBeNull()
@@ -86,19 +92,24 @@ describe 'Clans', ->
 
   it 'Join clan', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
             Clan.findById clan1.id, (err, clan1) ->
               expect(err).toBeNull()
-              expect(_.find clan1.get('members'), (m) -> m.id.equals user2.id).toBeDefined()
-              done()
+              expect(clan1.get('members')?.length).toEqual(2)
+              expect(_.find clan1.get('members'), (memberID) -> user2._id.equals memberID).toBeDefined()
+              User.findById user2.id, (err, user2) ->
+                expect(err).toBeNull()
+                expect(user2.get('clans')?.length).toBeGreaterThan(0)
+                expect(_.find user2.get('clans'), (clanID) -> clan1._id.equals clanID).toBeDefined()
+                done()
 
   it 'Join invalid clan 404', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/1234/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -107,7 +118,7 @@ describe 'Clans', ->
 
   it 'Join clan anonymous 401', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         logoutUser ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -116,14 +127,14 @@ describe 'Clans', ->
 
   it 'Join clan twice 200', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
             Clan.findById clan1.id, (err, clan1) ->
               expect(err).toBeNull()
-              expect(_.find clan1.get('members'), (m) -> m.id.equals user2.id).toBeDefined()
+              expect(_.find clan1.get('members'), (memberID) -> memberID.equals user2.id).toBeDefined()
               request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
@@ -131,7 +142,7 @@ describe 'Clans', ->
 
   it 'Leave clan', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -141,24 +152,27 @@ describe 'Clans', ->
               expect(res.statusCode).toBe(200)
               Clan.findById clan1.id, (err, clan1) ->
                 expect(err).toBeNull()
-                expect(_.find clan1.get('members'), (m) -> m.id.equals user2.id).toBeUndefined()
-                done()
+                expect(_.find clan1.get('members'), (memberID) -> memberID.equals user2.id).toBeUndefined()
+                User.findById user2.id, (err, user2) ->
+                  expect(err).toBeNull()
+                  expect(user2.get('clans').length).toEqual(0)
+                  done()
 
   it 'Leave clan not member 200', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
             Clan.findById clan1.id, (err, clan1) ->
               expect(err).toBeNull()
-              expect(_.find clan1.get('members'), (m) -> m.id.equals user2.id).toBeUndefined()
+              expect(_.find clan1.get('members'), (memberID) -> memberID.equals user2.id).toBeUndefined()
               done()
 
   it 'Leave owned clan 403', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/leave" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(403)
@@ -166,7 +180,7 @@ describe 'Clans', ->
 
   it 'Remove member', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -178,25 +192,28 @@ describe 'Clans', ->
                 Clan.findById clan1.id, (err, clan1) ->
                   expect(err).toBeNull()
                   expect(clan1.get('members').length).toEqual(1)
-                  expect(clan1.get('members')[0].id).toEqual(user1.get('_id'))
-                  done()
+                  expect(clan1.get('members')[0]).toEqual(user1.get('_id'))
+                  User.findById user2.id, (err, user2) ->
+                    expect(err).toBeNull()
+                    expect(user2.get('clans').length).toEqual(0)
+                    done()
 
   it 'Remove non-member 200', (done) ->
     loginNewUser (user2) ->
       loginNewUser (user1) ->
-        createClan 'public', (clan1) ->
+        createClan user1, 'public', (clan1) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user2.id}" }, (err, res, body) ->
             expect(err).toBeNull()
             expect(res.statusCode).toBe(200)
             Clan.findById clan1.id, (err, clan1) ->
               expect(err).toBeNull()
               expect(clan1.get('members').length).toEqual(1)
-              expect(clan1.get('members')[0].id).toEqual(user1.get('_id'))
+              expect(clan1.get('members')[0]).toEqual(user1.get('_id'))
               done()
 
   it 'Remove invalid memberID 404', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/remove/123" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(404)
@@ -204,7 +221,7 @@ describe 'Clans', ->
 
   it 'Remove member, not in clan 403', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -217,7 +234,7 @@ describe 'Clans', ->
 
   it 'Remove member, not the owner 403', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         loginNewUser (user2) ->
           request.put {uri: "#{clanURL}/#{clan1.id}/join" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -231,9 +248,9 @@ describe 'Clans', ->
                   expect(res.statusCode).toBe(403)
                   done()
 
-  it 'Remove member from owned clan', (done) ->
+  it 'Remove member from owned clan 403', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan1) ->
+      createClan user1, 'public', (clan1) ->
         request.put {uri: "#{clanURL}/#{clan1.id}/remove/#{user1.id}" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(403)
@@ -241,15 +258,18 @@ describe 'Clans', ->
 
   it 'Delete clan', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan) ->
+      createClan user1, 'public', (clan) ->
         request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(204)
-          done()
+          User.findById user1.id, (err, user1) ->
+            expect(err).toBeNull()
+            expect(user1.get('clans').length).toEqual(0)
+            done()
 
   it 'Delete clan anonymous 401', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan) ->
+      createClan user1, 'public', (clan) ->
         logoutUser ->
           request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -258,7 +278,7 @@ describe 'Clans', ->
 
   it 'Delete clan not owner 403', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan) ->
+      createClan user1, 'public', (clan) ->
         loginNewUser (user2) ->
           request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
             expect(err).toBeNull()
@@ -267,7 +287,7 @@ describe 'Clans', ->
 
   it 'Delete clan no longer exists 404', (done) ->
     loginNewUser (user1) ->
-      createClan 'public', (clan) ->
+      createClan user1, 'public', (clan) ->
         request.del {uri: "#{clanURL}/#{clan.id}" }, (err, res, body) ->
           expect(err).toBeNull()
           expect(res.statusCode).toBe(204)

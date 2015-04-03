@@ -21,15 +21,21 @@ module.exports = class MainAdminView extends RootView
   constructor: (options) ->
     super options
     @publicClans = new CocoCollection([], { url: '/db/clan', model: Clan, comparator:'_id' })
+    @listenTo @publicClans, 'sync', => @render?()
     @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
+    @myClans = new CocoCollection([], { url: '/db/user/-/clans', model: Clan, comparator:'_id' })
+    @listenTo @myClans, 'sync', => @render?()
+    @supermodel.loadCollection(@myClans, 'my_clans', {cache: false})
+    @listenTo me, 'sync', => @render?()
+
+  destroy: ->
+    @stopListening?()
 
   getRenderData: ->
     context = super()
     context.publicClans = @publicClans.models
-    context.myClans = _.filter @publicClans.models, (c) ->
-      return true if c.ownerID is me.get('_id')
-      return true for member in c.get('members') when me.get('_id') is member.id
-    context.myClanIDs = _.map context.myClans, (c) -> c.id
+    context.myClans = @myClans.models
+    context.myClanIDs = me.get('clans') ? []
     context
 
   onClickCreateClan: (e) ->
@@ -70,7 +76,9 @@ module.exports = class MainAdminView extends RootView
         error: (model, response, options) =>
           console.error 'Error leaving clan', response
         success: (model, response, options) =>
-          window.location.reload()
+          me.fetch cache: false
+          @publicClans.fetch cache: false
+          @myClans.fetch cache: false
       @supermodel.addRequestResource( 'leave_clan', options).load()
     else
       console.error "No clan ID attached to leave button."
