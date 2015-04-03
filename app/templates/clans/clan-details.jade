@@ -9,23 +9,36 @@ block content
         each line in clan.get('description').split('\n')
           p= line
 
-    p
-      if isOwner
-        button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
-      else if isMember
-        button.btn.btn-sm.btn-warning.leave-clan-btn Leave Clan
-      else
-        button.btn.btn-sm.btn-success.join-clan-btn Join Clan
-
+  h5 Summary
+  table.table.table-condensed.stats-table
     if owner
-      p 
-        span.spr Chieftain:
-        a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
+      tr
+        td
+          span.spr Chieftain
+        td
+          a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
     if stats.averageLevel
-      p Average level: #{stats.averageLevel}
+      tr
+        td Average Level
+        td= stats.averageLevel
     if stats.totalAchievements
-      p Total achievements earned: #{stats.totalAchievements}
-      
+      tr
+        td Achievements
+        td= stats.totalAchievements
+
+  p
+    if isOwner
+      button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
+    else if isMember
+      button.btn.btn-sm.btn-warning.leave-clan-btn Leave Clan
+    else
+      button.btn.btn-sm.btn-success.join-clan-btn Join Clan
+
+  div
+    span.spl.spr.join-link-prompt Invite:
+    input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
+  .small *Invite players to this Clan by sending them this link.
+
   if members
     h3 Heroes (#{members.length})
     table.table.table-striped.table-condensed

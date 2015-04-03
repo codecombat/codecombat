@@ -30,6 +30,10 @@ module.exports = class ClanDetailsView extends RootView
   getRenderData: ->
     context = super()
     context.clan = @clan
+    if application.isProduction()
+      context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
+    else
+      context.joinClanLink = "http://localhost:3000/clans/#{@clanID}"
     context.owner = @owner
     context.memberAchievementsMap = @memberAchievementsMap
     context.members = @members?.models
