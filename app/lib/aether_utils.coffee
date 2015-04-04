@@ -24,7 +24,7 @@ module.exports.createAetherOptions = (options) ->
       aether_MissingThis: {level: 'error'}
     problemContext: options.problemContext
     #functionParameters: # TODOOOOO
-    executionLimit: 1 * 1000 * 1000
+    executionLimit: 3 * 1000 * 1000
     language: options.codeLanguage
   parameters = functionParameters[options.functionName]
   unless parameters
