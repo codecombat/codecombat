@@ -53,7 +53,7 @@ _.extend UserSchema.properties,
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
-  gender: {type: 'string', 'enum': ['male', 'female']}
+  gender: {type: 'string', 'enum': ['male', 'female', 'secret', 'trans']}
   ageRange: {type: 'string'}  # 'enum': ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
   passwordReset: {type: 'string'}
