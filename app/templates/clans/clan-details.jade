@@ -46,23 +46,25 @@ block content
       thead
         tr
           th
+          th 
+          td Name
           th Level
           th Achievements
-          th Favorite Language
           th  
       tbody
         each member in members
           tr
-            td
+            td.hero-icon-cell
               span.spr.player-hero-icon(data-memberid="#{member.id}")
+            td.code-language-cell
+              if memberLanguageMap && memberLanguageMap[member.id]
+                span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
+            td  
               a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
             td= member.level()
             td
               if memberAchievementsMap && memberAchievementsMap[member.id]
                 | #{memberAchievementsMap[member.id].length}
-            td
-              if memberLanguageMap && memberLanguageMap[member.id]
-                | #{memberLanguageMap[member.id]}
             td
               if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
