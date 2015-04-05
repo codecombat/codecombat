@@ -356,19 +356,19 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     multiplayer_caption: "Hraj s priateľmi!"
     auth_caption: "Ulož svoj progres."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
-#    scores: "Scores"
-#    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+  leaderboard:
+    leaderboard: "Rebríček"
+    view_other_solutions: "Ukážka iných riešení"
+    scores: "Skóre"
+    top_players: "Najlepší hráči podľa"
+    day: "Dnes"
+    week: "Tento týždeň"
+    all: "Celkovo"
+    time: "Time"
+    damage_taken: "obdržanej újmy"
+    damage_dealt: "spôsobenej újmy"
+    difficulty: "obtiažnosti"
+    gold_collected: "Nazbierané zlato"
 
   inventory:
     choose_inventory: "Použi veci"
@@ -493,7 +493,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    speed_2: "meters per second."
 #    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-#    restricted_to_certain_heroes: "Only certain heroes can play this level."
+    restricted_to_certain_heroes: "Iba niektorí hrdinovia môžu hrať túto úroveň."
 
   skill_docs:
     writable: "zapisovatelné" # Hover over "attack" in Your Skills while playing a level to see most of this
