@@ -170,11 +170,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     pending: "Pendiente"
     accepted: "Aceptado"
     rejected: "Rechazado"
-#    withdrawn: "Withdrawn"
+    withdrawn: "Retirado"
 #    submitter: "Submitter"
     submitted: "Enviado"
     commit_msg: "Mensaje de Asignación o Commit"
-#    review: "Review"
+    review: "Revisión"
     version_history: "Historial de versión"
     version_history_for: "Historial de las versiones de: "
     select_changes: "Selecciona dos cambios más abajo para ver la diferencia."
@@ -206,7 +206,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     player: "Jugador"
     player_level: "Nivel" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Guerrero"
-#    ranger: "Ranger" #guardabosques?
+    ranger: "Unidad de combate a distancia" #ranged combat unit due to lack of translation to ranger
     wizard: "Mago"
 
   units:
@@ -324,15 +324,15 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_brute_force: "Cuando haya dudas, usa la fuerza bruta. - Ken Thompson"
     tip_extrapolation: "Existen solo dos clases de personas: aquellos que pueden extrapolar desde información incompleta..."
     tip_superpower: "Programar es lo más parecido que tenemos a un superpoder."
-#    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
+    tip_control_destiny: "En el verdadero open source, tienes el derecho de controlar tu propio destino. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
     tip_code_never_lies: "El código nunca os miente, los comentarios algunas veces. — Ron Jeffries"
-#    tip_reusable_software: "Before software can be reusable it first has to be usable."
-#    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
+    tip_reusable_software: "Antes de que el software pueda ser reutilizable, primero debe ser utilizable."
+    tip_optimization_operator: "Cada lenguaje tiene un operator para optimización. En la mayoría de los lenguajes dicho operador es ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
-#    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
-#    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
+    tip_javascript_java: "Java es a JavaScript lo que un automóvil es a un móvil. - Chris Heilmann" #Car is to Carpet - auto es a una alfombra
+    tip_move_forward: "Lo que sea que hagas, sigue hacia adelante. - Martin Luther King Jr."
     tip_google: "¿Teneis un problema que no podeis resolver? ¡Googleadlo!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
@@ -358,17 +358,17 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   leaderboard:
 #    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
+    view_other_solutions: "Ver Otras Soluciones"
     scores: "Puntuaciones"
 #    top_players: "Top Players by"
     day: "Hoy"
     week: "Esta semana"
 #    all: "All-Time"
 #    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
+    damage_taken: "Daño recibido"
+    damage_dealt: "Daño causado"
     difficulty: "Difficultad"
-#    gold_collected: "Gold Collected"
+    gold_collected: "Oro colectado"
 
   inventory:
     choose_inventory: "Equipar Objetos"
@@ -475,7 +475,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     weapons_warrior: "Espadas - Corto Alcance, Sin Magia"
     weapons_ranger: "Ballestas, Pistolas - Largo Alcance, Sin Magia"
     weapons_wizard: "Varitas, Bastones - Largo Alcance, Magia"
-    attack: "Daño" # Can also translate as "Attack"
+    attack: "Daño" # Can also translate as " to Attack"
     health: "Salud"
     speed: "Velocidad"
     regeneration: "Regeneración"
@@ -489,8 +489,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    health_1: "Gains"
 #    health_2: "of listed"
 #    health_3: "armor health."
-#    speed_1: "Moves at"
-#    speed_2: "meters per second."
+    speed_1: "Se mueve a"
+    speed_2: "metros por segundo."
     available_for_purchase: "Disponible para Comprar" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "Nivel para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Solo ciertos heroes pueden jugar este nivel."
@@ -568,7 +568,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     matt_blurb: "Ciclista"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
+    josh_title: "Diseñador de Videojuegos"
 #    josh_blurb: "Floor Is Lava"
     jose_title: "Música"
 #    jose_blurb: "Taking Off"
