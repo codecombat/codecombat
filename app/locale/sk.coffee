@@ -93,15 +93,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     campaign_classic_algorithms: "Klasické Algoritmy"
     campaign_classic_algorithms_description: "... v kterých sa naučíte najobľúbenejšie algoritmy v IT"
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter their email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
+  share_progress_modal:
+    blurb: "Postupuješ míľovými krokmi ! Povedz kamarátom, čo si sa už naučil pomocou CodeCombatu."
+    email_invalid: "Neplatná emailová adresa."
+    form_blurb: "Vlož nižšie ich emailové adresy a my sa s nimi spojíme !"
+    form_label: "Emailová adresa"
+    placeholder: "emailová adresa"
+    title: "Výborná práca, nováčik"
+    tell_friend: "Povedz svojím priateľom"
+    tell_parent: "Povedz rodičom"
 
   login:
     sign_up: "Vytvor účet"
@@ -121,14 +121,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     creating: "Vytvára sa účet..."
     sign_up: "Registruj sa"
     log_in: "prihlás sa pomocou hesla"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
-#    required: "You need to log in before you can go that way."
-#    login_switch: "Already have an account?"
+    social_signup: "Môžeš sa zaregistrovať aj cez Facebook alebo Google+:"
+    required: "Najskôr sa musíš prihlásiť."
+    login_switch: "Máš už účet ?"
 
   recover:
     recover_account_title: "Obnov účet"
-    send_password: "Zašli záchranné heslo"
-#    recovery_sent: "Recovery email sent."
+    send_password: "Zašli nové heslo"
+    recovery_sent: "Email s novým heslom odoslaný."
 
   items:
     primary: "Primárny"
@@ -303,7 +303,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_error_free: "Sú dva spôsoby ako písať programy bez chýb; iba ten tretí funguje. - Alan Perlis"
     tip_debugging_program: "Pokiaľ je ladenie proces, pri ktorom sa odstraňujú chyby, programovanie musí potom byť proces, ktorým sa chyby pridávajú. - Edsger W. Dijkstra"
     tip_forums: "Choďte na naše fórum a povedzte nám, čo si myslíte!"
-    tip_baby_coders: "V budúcnosti budoú i bábätká Arcikúzelníci."
+    tip_baby_coders: "V budúcnosti budú i bábätká Arcikúzelníci."
     tip_morale_improves: "Načítánie bude prebiehať, pokiaľ sa nezlepší morálka."
     tip_all_species: "Veríme v rovnaké možnosti učenia sa programovať pre všetky druhy."
     tip_reticulating: "Sieťovanie chrbtíc."
@@ -348,7 +348,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     guide_tips: "Tipy"
     multiplayer_tab: "Multiplayer"
     auth_tab: "Registruj"
-    inventory_caption: "Equip your hero"
+    inventory_caption: "Vystroj svojho hrdinu"
     choose_hero_caption: "Zvoľ hrdinu,jazyk"
     save_load_caption: "... a zobraz históriu"
     options_caption: "Uprav nastavenia"
@@ -379,7 +379,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     should_equip: "(klikni 2x pre použitie)"
     equipped: "(používa sa)"
     locked: "(zamknuté)"
-    restricted: "(obmedzené v tomto levely)"
+    restricted: "(obmedzené v tejto úrovni)"
     equip: "Použi"
     unequip: "Odlož"
 
@@ -394,16 +394,16 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     prompt_body: "Chcete získať viac?"
     prompt_button: "Vstúpiť do obchodu"
     recovered: "Obnovenie už zakúpených drahokamov prebehlo úspěšne. Aktualizujte stránku prosím."
-#    price: "x3500 / mo"
+    price: "x3500 / mesiac"
 
-#  subscribe:
-#    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "60+ basic levels across 4 worlds"
-#    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "30+ bonus levels"
-#    feature4: "<strong>3500 bonus gems</strong> every month!"
-#    feature5: "Video tutorials"
-#    feature6: "Premium email support"
+  subscribe:
+    comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
+    feature1: "60+ základných úrovní v štyroch svetoch"
+    feature2: "7 mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!"
+    feature3: "30+ bonusových úrovní"
+    feature4: "<strong>3500 bonusových diamantov</strong> každý mesiac !"
+    feature5: "Video tutoriály"
+    feature6: "Prémiová emailová podpora"
 #    free: "Free"
 #    month: "month"
 #    subscribe_title: "Subscribe"
