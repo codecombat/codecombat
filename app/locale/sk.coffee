@@ -59,7 +59,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     locked: "Zamknuté"
     purchasable: "Môžeš zakúpiť" # For a hero you unlocked but haven't purchased
     available: "Dostupné"
-    skills_granted: "Získané skúsenosti" # Property documentation details
+    skills_granted: "Získané schopnosti # Property documentation details
     heroes: "Hrdinovia" # Tooltip on hero shop button from /play
     achievements: "Úspechy" # Tooltip on achievement list button from /play
     account: "Účet" # Tooltip on account button from /play
@@ -404,14 +404,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     feature4: "<strong>3500 bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
     feature6: "Prémiová emailová podpora"
-#    free: "Free"
-#    month: "month"
-#    subscribe_title: "Subscribe"
-#    unsubscribe: "Unsubscribe"
-#    confirm_unsubscribe: "Confirm Unsubscribe"
-#    never_mind: "Never Mind, I Still Love You"
-#    thank_you_months_prefix: "Thank you for supporting us these last"
-#    thank_you_months_suffix: "months."
+    free: "Zdarma"
+    month: "mesiac"
+    subscribe_title: "Predplatné"
+    unsubscribe: "Zrušiť predplatné"
+    confirm_unsubscribe: "Potvrdiť zrušenie predplatného"
+    never_mind: "Nevadí, stále ťa máme radi"
+    thank_you_months_prefix: "Ďakujeme za tvoju podporu v posledných"
+    thank_you_months_suffix: "mesiacoch."
 #    thank_you: "Thank you for supporting CodeCombat."
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
@@ -477,22 +477,22 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     weapons_wizard: "Prútiky, Žezlá - Dlhá vzdialenosť, Mágia"
     attack: "Újma" # Can also translate as "Attack"
     health: "Zdravie"
-#    speed: "Speed"
-#    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
-#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-#    skills: "Skills"
-#    attack_1: "Deals"
-#    attack_2: "of listed"
-#    attack_3: "weapon damage."
-#    health_1: "Gains"
-#    health_2: "of listed"
-#    health_3: "armor health."
-#    speed_1: "Moves at"
-#    speed_2: "meters per second."
-#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    speed: "Rýchlosť"
+    regeneration: "Regenerácia"
+    range: "Vzdialenosť" # As in "attack or visual range"
+    blocks: "Blokuje" # As in "this shield blocks this much damage"
+    backstab: "Pichnutie do chrbta" # As in "this dagger does this much backstab damage"
+    skills: "Schopnosti"
+    attack_1: "Upravuje na"
+    attack_2: "hodnotu udávanej"
+    attack_3: "újmy zbraňou."
+    health_1: "Upravuje hodnotu zdravia na"
+    health_2: "hodnoty zaručenej"
+    health_3: "brnením."
+    speed_1: "Pohybuje sa rýchlosťou"
+    speed_2: "metrov za sekundu."
+    available_for_purchase: "Dostupné na zakúpenie" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Úroveň, v ktorej môžeš hrdinu odomknúť:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Iba niektorí hrdinovia môžu hrať túto úroveň."
 
   skill_docs:
