@@ -59,7 +59,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     locked: "Zamknuté"
     purchasable: "Môžeš zakúpiť" # For a hero you unlocked but haven't purchased
     available: "Dostupné"
-    skills_granted: "Získané schopnosti # Property documentation details
+    skills_granted: "Získané schopnosti" # Property documentation details
     heroes: "Hrdinovia" # Tooltip on hero shop button from /play
     achievements: "Úspechy" # Tooltip on achievement list button from /play
     account: "Účet" # Tooltip on account button from /play
