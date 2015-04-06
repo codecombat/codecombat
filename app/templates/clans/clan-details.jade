@@ -50,6 +50,7 @@ block content
           td Name
           th Level
           th Achievements
+          th Latest Achievement
           th  
       tbody
         each member in members
@@ -65,6 +66,9 @@ block content
             td
               if memberAchievementsMap && memberAchievementsMap[member.id]
                 | #{memberAchievementsMap[member.id].length}
+            td
+              if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
+                span= memberAchievementsMap[member.id][0].get('achievementName')
             td
               if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero

@@ -98,6 +98,8 @@ module.exports = class ClanDetailsView extends RootView
       user = achievement.get('user')
       @memberAchievementsMap[user] ?= []
       @memberAchievementsMap[user].push achievement
+    for user of @memberAchievementsMap
+      @memberAchievementsMap[user].sort (a, b) -> b.id.localeCompare(a.id)
     @render?()
 
   onMemberSessionsSync: ->
