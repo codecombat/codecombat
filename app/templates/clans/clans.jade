@@ -7,7 +7,7 @@ block content
   p
     textarea.create-clan-description(rows=2, placeholder='New clan description')
   p
-    button.btn.btn-sm.btn-success.create-clan-btn Create New Clan
+    button.btn.btn-success.create-clan-btn Create New Clan
 
   div(role='tabpanel')
     ul.nav.nav-tabs(role='tablist')
@@ -42,9 +42,9 @@ block content
                     a(href="/user/#{clan.get('ownerID')}") Anoner
                 td
                   if myClanIDs.indexOf(clan.id) < 0
-                    button.btn.btn-sm.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
+                    button.btn.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
                   else if clan.get('ownerID') !== me.id
-                    button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
 
     .tab-pane#my-clans(role='tabpanel')
       table.table.table-striped.table-condensed
@@ -71,4 +71,4 @@ block content
                     a(href="/user/#{clan.get('ownerID')}") Anoner
                 td
                   if clan.get('ownerID') !== me.id
-                    button.btn.btn-sm.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan

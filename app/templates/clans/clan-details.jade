@@ -29,11 +29,11 @@ block content
 
   p
     if isOwner
-      button.btn.btn-sm.btn-warning.delete-clan-btn Delete Clan
+      button.btn.btn-xs.btn-warning.delete-clan-btn Delete Clan
     else if isMember
-      button.btn.btn-sm.btn-warning.leave-clan-btn Leave Clan
+      button.btn.btn-xs.btn-warning.leave-clan-btn Leave Clan
     else
-      button.btn.btn-sm.btn-success.join-clan-btn Join Clan
+      button.btn.btn-lg.btn-success.join-clan-btn Join Clan
 
   div
     span.spl.spr.join-link-prompt Invite:
@@ -67,4 +67,4 @@ block content
                 | #{memberAchievementsMap[member.id].length}
             td
               if isOwner && member.id !== clan.get('ownerID')
-                  button.btn.btn-sm.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
+                  button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero

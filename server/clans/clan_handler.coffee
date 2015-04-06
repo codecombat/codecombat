@@ -125,8 +125,6 @@ ClanHandler = class ClanHandler extends Handler
     query.push {$limit: 100}
     Clan.aggregate(query).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      for doc in documents
-        console.log doc.memberCount, doc.name
       @sendSuccess(res, documents)
 
   removeMember: (req, res, clanID, memberID) ->
