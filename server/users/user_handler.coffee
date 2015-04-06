@@ -263,7 +263,7 @@ UserHandler = class UserHandler extends Handler
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
-    return @getClans(req, res) if args[1] is 'clans'
+    return @getClans(req, res, args[0]) if args[1] is 'clans'
     return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
@@ -541,12 +541,13 @@ UserHandler = class UserHandler extends Handler
       candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
       @sendSuccess(res, candidates)
 
-  getClans: (req, res) ->
-    return @sendForbiddenError(res) unless req.user
-    clanIDs = req.user.get('clans') ? []
-    Clan.find {_id: {$in: clanIDs}}, (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      @sendSuccess(res, documents)
+  getClans: (req, res, userIDOrSlug) ->
+    @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
+      return @sendNotFoundError(res) if not user
+      clanIDs = user.get('clans') ? []
+      Clan.find {_id: {$in: clanIDs}}, (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, documents)
 
   formatCandidate: (authorized, document) ->
     fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']

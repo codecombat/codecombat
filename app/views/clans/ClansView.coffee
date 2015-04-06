@@ -46,7 +46,7 @@ module.exports = class MainAdminView extends RootView
       @refreshNames @publicClans.models
       @render?()
     @supermodel.loadCollection(@publicClans, 'public_clans', {cache: false})
-    @myClans = new CocoCollection([], { url: '/db/user/-/clans', model: Clan, comparator: sortClanList })
+    @myClans = new CocoCollection([], { url: "/db/user/#{me.id}/clans", model: Clan, comparator: sortClanList })
     @listenTo @myClans, 'sync', =>
       @refreshNames @myClans.models
       @render?()
