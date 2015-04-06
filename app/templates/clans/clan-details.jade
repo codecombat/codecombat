@@ -1,0 +1,74 @@
+extends /templates/base
+
+block content
+
+  if clan
+    h1= clan.get('name')
+    if clan.get('description')
+      .clan-description
+        each line in clan.get('description').split('\n')
+          p= line
+
+  h5 Summary
+  table.table.table-condensed.stats-table
+    if owner
+      tr
+        td
+          span.spr Chieftain
+        td
+          span.spr.player-hero-icon(data-memberid="#{clan.get('ownerID')}")
+          a(href="/user/#{clan.get('ownerID')}")= owner.get('name')
+    if stats.averageLevel
+      tr
+        td Average Level
+        td= stats.averageLevel
+    if stats.totalAchievements
+      tr
+        td Total Achievements
+        td= stats.totalAchievements
+
+  p
+    if isOwner
+      button.btn.btn-xs.btn-warning.delete-clan-btn Delete Clan
+    else if isMember
+      button.btn.btn-xs.btn-warning.leave-clan-btn Leave Clan
+    else
+      button.btn.btn-lg.btn-success.join-clan-btn Join Clan
+
+  div
+    span.spl.spr.join-link-prompt Invite:
+    input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
+  .small *Invite players to this Clan by sending them this link.
+
+  if members
+    h3 Heroes (#{members.length})
+    table.table.table-striped.table-condensed
+      thead
+        tr
+          th
+          th 
+          td Name
+          th Level
+          th Achievements
+          th Latest Achievement
+          th  
+      tbody
+        each member in members
+          tr
+            td.hero-icon-cell
+              span.spr.player-hero-icon(data-memberid="#{member.id}")
+            td.code-language-cell
+              if memberLanguageMap && memberLanguageMap[member.id]
+                span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
+            td  
+              a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
+            td= member.level()
+            td
+              if memberAchievementsMap && memberAchievementsMap[member.id]
+                | #{memberAchievementsMap[member.id].length}
+            td
+              if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
+                span= memberAchievementsMap[member.id][0].get('achievementName')
+            td
+              if isOwner && member.id !== clan.get('ownerID')
+                  button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero

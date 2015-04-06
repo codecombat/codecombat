@@ -1,0 +1,74 @@
+extends /templates/base
+
+block content
+
+  p
+    input.create-clan-name(type='text' placeholder='New clan name')
+  p
+    textarea.create-clan-description(rows=2, placeholder='New clan description')
+  p
+    button.btn.btn-success.create-clan-btn Create New Clan
+
+  div(role='tabpanel')
+    ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href='#public-clans' aria-controls='public-clans', role='tab', data-toggle='tab') Public Clans
+      li(role='presentation')
+        a(href='#my-clans' aria-controls='my-clans', role='tab', data-toggle='tab') My Clans
+
+  .tab-content
+    .tab-pane.active#public-clans(role='tabpanel')
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th Clan Name
+            th Heroes
+            th Chieftain
+            th  
+        tbody
+          if publicClans.length
+            each clan in publicClans
+              tr
+                td
+                  if clan.get('ownerID') === me.id
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                  else
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                td= clan.get('members').length
+                td 
+                  if idNameMap && idNameMap[clan.get('ownerID')]
+                    a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
+                  else
+                    a(href="/user/#{clan.get('ownerID')}") Anoner
+                td
+                  if myClanIDs.indexOf(clan.id) < 0
+                    button.btn.btn-success.join-clan-btn(data-id="#{clan.id}") Join Clan
+                  else if clan.get('ownerID') !== me.id
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
+
+    .tab-pane#my-clans(role='tabpanel')
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th Clan Name
+            th Heroes
+            th Chieftain
+            th
+        tbody
+          if myClans.length
+            each clan in myClans
+              tr
+                td
+                  if clan.get('ownerID') === me.id
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                  else
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                td= clan.get('members').length
+                td 
+                  if idNameMap && idNameMap[clan.get('ownerID')]
+                    a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
+                  else
+                    a(href="/user/#{clan.get('ownerID')}") Anoner
+                td
+                  if clan.get('ownerID') !== me.id
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan
