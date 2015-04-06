@@ -6,6 +6,7 @@ JASON = require 'JASON'
 fs = require 'fs'
 GLOBAL.Aether = Aether = require 'aether'
 GLOBAL._ = _ = require 'lodash'
+GLOBAL.CoffeeScript = require 'coffee-script'
 
 betterConsole = () ->
 
