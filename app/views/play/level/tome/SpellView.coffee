@@ -905,7 +905,18 @@ module.exports = class SpellView extends CocoView
 
   onCoordinateSelected: (e) ->
     return unless @ace.isFocused() and e.x? and e.y?
-    @ace.insert "{x: #{e.x}, y: #{e.y}}"
+    if @spell.language is 'python'
+      @ace.insert "{\"x\": #{e.x}, \"y\": #{e.y}}"
+    else if @spell.language is 'clojure'
+      @ace.insert "{:x #{e.x} :y #{e.y}}"
+    else if @spell.language is 'lua'
+      @ace.insert "{x=#{e.x}, y=#{e.y}}"
+    else if @spell.language is 'io'
+      return
+    else
+      @ace.insert "{x: #{e.x}, y: #{e.y}}"
+    
+    
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
