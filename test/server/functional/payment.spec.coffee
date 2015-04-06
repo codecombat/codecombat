@@ -46,7 +46,7 @@ describe '/db/payment', ->
           paymentCreated = body?._id
           expect(res.statusCode).toBe 201
           User.findOne({name:'Joe'}).exec(err, (err, user) ->
-            expect(user.get('purchased').gems).toBe(5000)
+            expect(user.get('purchased')?.gems).toBe(5000)
             done()
           )
 
@@ -56,7 +56,7 @@ describe '/db/payment', ->
           expect(body._id is paymentCreated).toBe(true)
           expect(res.statusCode).toBe 200
           User.findOne({name:'Joe'}).exec(err, (err, user) ->
-            expect(user.get('purchased').gems).toBe(5000)
+            expect(user.get('purchased')?.gems).toBe(5000)
             done()
           )
 
@@ -72,7 +72,7 @@ describe '/db/payment', ->
           expect(body._id is paymentCreated).toBe(false)
           expect(res.statusCode).toBe 201
           User.findOne({name:'Joe'}).exec(err, (err, user) ->
-            expect(user.get('purchased').gems).toBe(16000)
+            expect(user.get('purchased')?.gems).toBe(16000)
             done()
           )
 

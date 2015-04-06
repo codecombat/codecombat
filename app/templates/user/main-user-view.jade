@@ -56,6 +56,33 @@ block append content
                   a(href="/contribute#scribe" data-i18n="classes.scribe_title") Scribe
 
       .right-column
+
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Clans
+          if (!clans)
+            .panel-body
+              p(data-i18n="common.loading")
+          else if (clans.length)
+            table.table
+              tr
+                th.col-xs-4 Name
+                th.col-xs-4 Chieftain
+                th.col-xs-4 Heroes
+              each clan in clans
+                tr
+                  td
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                  td 
+                    if idNameMap && idNameMap[clan.get('ownerID')]
+                      a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
+                    else
+                      a(href="/user/#{clan.get('ownerID')}") Anoner
+                  td= clan.get('members').length
+          else
+            .panel-body
+              p Not a member of any clans yet.
+
         .panel.panel-default
           .panel-heading
             h3.panel-title(data-i18n="user.singleplayer_title") Singleplayer Levels
@@ -141,4 +168,3 @@ block append content
             if earnedAchievements.length > 4
               .panel-footer
                 button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
-

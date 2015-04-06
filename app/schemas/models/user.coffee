@@ -306,6 +306,8 @@ _.extend UserSchema.properties,
   referrer: { type: 'string' }
   chinaVersion: { type: 'boolean' }
 
+  clans: c.array {}, c.objectId()
+
 c.extendBasicProperties UserSchema, 'user'
 
 UserSchema.definitions =
