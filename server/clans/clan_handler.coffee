@@ -1,6 +1,7 @@
 async = require 'async'
 mongoose = require 'mongoose'
 Handler = require '../commons/Handler'
+AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
 Clan = require './Clan'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 EarnedAchievementHandler = require '../achievements/earned_achievement_handler'
@@ -45,6 +46,7 @@ ClanHandler = class ClanHandler extends Handler
         User.update {_id: {$in: memberIDs}}, {$pull: {clans: clan.get('_id')}}, {multi: true}, (err) =>
           return @sendDatabaseError(res, err) if err
           @sendNoContent(res)
+          AnalyticsLogEvent.logEvent req.user, 'Clan deleted', clanID: clanID, type: clan.get('type')
 
   getByRelationship: (req, res, args...) ->
     return @joinClan(req, res, args[0]) if args[1] is 'join'
@@ -67,6 +69,7 @@ ClanHandler = class ClanHandler extends Handler
       User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res)
+        AnalyticsLogEvent.logEvent req.user, 'Clan joined', clanID: clanID, type: 'public'
 
   leaveClan: (req, res, clanID) ->
     return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
@@ -83,6 +86,7 @@ ClanHandler = class ClanHandler extends Handler
         User.update {_id: req.user._id}, {$pull: {clans: clanID}}, (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res)
+          AnalyticsLogEvent.logEvent req.user, 'Clan left', clanID: clanID, type: clan.get('type')
 
   getMemberAchievements: (req, res, clanID) ->
     # TODO: add tests
@@ -144,5 +148,6 @@ ClanHandler = class ClanHandler extends Handler
         User.update {_id: memberID}, {$pull: {clans: clanID}}, (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res)
+          AnalyticsLogEvent.logEvent req.user, 'Clan member removed', clanID: clanID, type: clan.get('type'), memberID: memberID
 
 module.exports = new ClanHandler()
