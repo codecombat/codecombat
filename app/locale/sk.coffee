@@ -339,7 +339,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_open_source_contribute: "Aj ty môžeš zlepšiť CodeCombat !"
     tip_recurse: "Iterácia je ľudská, rekurzia božská.. - L. Peter Deutsch" 
 
-
   game_menu:
     inventory_tab: "Inventár"
     save_load_tab: "Ulož/Nahraj"
