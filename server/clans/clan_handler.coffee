@@ -11,7 +11,7 @@ UserHandler = require '../users/user_handler'
 
 ClanHandler = class ClanHandler extends Handler
   modelClass: Clan
-  jsonSchema: require '../../app/schemas/models/Clan.schema'
+  jsonSchema: require '../../app/schemas/models/clan.schema'
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
 
   hasAccess: (req) ->
