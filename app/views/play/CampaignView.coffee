@@ -334,7 +334,7 @@ module.exports = class CampaignView extends RootView
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {} when level.hidden or level.slug is 'apocalypse'
+    for level in @campaign.renderedLevels ? {} when level.hidden or (level.slug is 'apocalypse' and @levelStatusMap[level.slug] isnt 'complete')
       particleKey = ['level', @terrain]
       particleKey.push level.type if level.type and level.type isnt 'hero'
       particleKey.push 'premium' if level.requiresSubscription

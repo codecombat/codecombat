@@ -154,7 +154,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
         break
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 1 unless $('html').hasClass 'fullscreen-editor'
+      $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
 
 
   destroy: ->
