@@ -26,6 +26,7 @@ module.exports = class HeroVictoryModal extends ModalView
     'click .leaderboard-button': 'onClickLeaderboard'
     'click .return-to-ladder-button': 'onClickReturnToLadder'
     'click .sign-up-button': 'onClickSignupButton'
+    'click .continue-from-offer-button': 'onClickContinueFromOffer'
 
   constructor: (options) ->
     super(options)
@@ -339,7 +340,11 @@ module.exports = class HeroVictoryModal extends ModalView
       justBeatLevel: @level
       supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
     _.merge options, extraOptions if extraOptions
-    Backbone.Mediator.publish 'router:navigate', route: nextLevelLink, viewClass: require('views/play/CampaignView'), viewArgs: [options, @getNextLevelCampaign()]
+    navigationEvent = route: nextLevelLink, viewClass: require('views/play/CampaignView'), viewArgs: [options, @getNextLevelCampaign()]
+    if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])
+      @showOffer navigationEvent
+    else
+      Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickLeaderboard: (e) ->
     @onClickContinue e, showLeaderboard: true
@@ -355,3 +360,14 @@ module.exports = class HeroVictoryModal extends ModalView
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Hero Victory Modal', level: @level.get('slug')
     @openModalView new AuthModal {mode: 'signup'}
+
+  showOffer: (@navigationEventUponCompletion) ->
+    @$el.find('.modal-footer > *').hide()
+    @$el.find(".modal-footer > .offer.#{@level.get('slug')}").show()
+
+  onClickContinueFromOffer: (e) ->
+    url = {
+      'lost-viking': 'http://www.vikingcodeschool.com/?utm_source=codecombat&utm_medium=lost_viking&utm_campaign=affiliate&ref=Code+Combat'
+    }[@level.get('slug')]
+    Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
+    window.open url, '_blank' if url

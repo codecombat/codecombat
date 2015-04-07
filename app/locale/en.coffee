@@ -263,6 +263,7 @@
     victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
     victory_experience_gained: "XP Gained"
     victory_gems_gained: "Gems Gained"
+    victory_become_a_viking: "Become a Viking"
     guide_title: "Guide"
     tome_minion_spells: "Your Minions' Spells"  # Only in old-style levels.
     tome_read_only_spells: "Read-Only Spells"  # Only in old-style levels.
