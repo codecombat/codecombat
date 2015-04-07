@@ -8,20 +8,24 @@ block content
     if total === 0
       h1 Fetching subscriptions data...
     else
-      div
-        .big-stat.total-count
-          div.description Total
-          div.count= total
-        .big-stat.remaining-count
-          div.description Remaining
-          div.count= total - cancelled
-        .big-stat.cancelled-count
-          div.description Cancelled
-          div.count= cancelled
-        .big-stat.churn-count
-          div.description Monthly Churn
-          div.count #{monthlyChurn.toFixed(2)}%
-      
+      .container-fluid
+        .row
+          .col-md-5.big-stat.total-count
+            div.description Total
+            div.count= total
+          .col-md-5.big-stat.remaining-count
+            div.description Remaining
+            div.count= total - cancelled
+          .col-md-5.big-stat.cancelled-count
+            div.description Cancelled
+            div.count= cancelled
+          .col-md-5.big-stat.growth-rate
+            div.description 30 Day Total Growth
+            div.count #{monthlyGrowth.toFixed(1)}%
+          .col-md-5.big-stat.churn-count
+            div.description Monthly Churn
+            div.count #{monthlyChurn.toFixed(1)}%
+
       each graph in analytics.graphs
         .line-graph-container
           each line in graph.lines

@@ -26,6 +26,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     context.total = @total ? 0
     context.cancelled = @cancelled ? 0
     context.monthlyChurn = @monthlyChurn ? 0.0
+    context.monthlyGrowth = @monthlyGrowth ? 0.0
     context
 
   afterRender: ->
@@ -75,7 +76,11 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         @cancelled += sub.cancelled
         sub.total = @total
         startedLastMonth += sub.started if @subs.length - i < 31
-      @monthlyChurn = @cancelled / startedLastMonth * 100.0
+      @monthlyChurn = @cancelled / startedLastMonth * 100.0 if startedLastMonth > 0
+      if @subs.length > 30 and @subs[@subs.length - 31].total > 0
+        lastMonthTotal = @subs[@subs.length - 31].total
+        thisMonthTotal = @subs[@subs.length - 1].total
+        @monthlyGrowth = (thisMonthTotal - lastMonthTotal)  / lastMonthTotal * 100
       @updateAnalyticsGraphData()
       @render?()
     @supermodel.addRequestResource('get_subscriptions', options, 0).load()
