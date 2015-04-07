@@ -399,9 +399,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "60+ basic levels across 4 worlds"
+    feature1: "80+ basic levels across 4 worlds" # {change}
     feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "30+ bonus levels"
+    feature3: "50+ bonus levels" # {change}
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -429,6 +429,10 @@
     parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
     parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+    payment_methods: "Payment Methods"
+    payment_methods_title: "Accepted Payment Methods"
+    payment_methods_blurb1: "We currently accept credit cards, Alipay, and bitcoins."
+    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Monthly Subscription"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
