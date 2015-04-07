@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/analytics-subscriptions'
-RealTimeCollection = require 'collections/RealTimeCollection'
+ThangType = require 'models/ThangType'
+User = require 'models/User'
 
 # TODO: Add last N subscribers table
 # TODO: Add revenue line
@@ -23,6 +24,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     context = super()
     context.analytics = @analytics ? graphs: []
     context.subs = _.cloneDeep(@subs ? []).reverse()
+    context.subscribers = @subscribers ? []
     context.total = @total ? 0
     context.cancelled = @cancelled ? 0
     context.monthlyChurn = @monthlyChurn ? 0.0
@@ -43,7 +45,28 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
   refreshData: ->
     return unless me.isAdmin()
     @resetData()
+    @getSubscribers()
+    @getSubscriptions()
 
+  getSubscribers: ->
+    options =
+      url: '/db/subscription/-/subscribers'
+      method: 'POST'
+      data: {maxCount: 30}
+    options.error = (model, response, options) =>
+      return if @destroyed
+      console.error 'Failed to get subscribers', response
+    options.success = (subscribers, response, options) =>
+      return if @destroyed
+      @subscribers = subscribers
+      for subscriber in @subscribers
+        subscriber.level = User.levelFromExp subscriber.user.points
+        if hero = subscriber.user.heroConfig?.thangType
+          subscriber.hero = slug for slug, original of ThangType.heroes when original is hero
+      @render?()
+    @supermodel.addRequestResource('get_subscribers', options, 0).load()
+
+  getSubscriptions: ->
     options =
       url: '/db/subscription/-/subscriptions'
       method: 'GET'
@@ -66,7 +89,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       for day of subDayMap
         @subs.push
           day: day
-          started: subDayMap[day]['start']
+          started: subDayMap[day]['start'] or 0
           cancelled: subDayMap[day]['cancel'] or 0
 
       @subs.sort (a, b) -> a.day.localeCompare(b.day)
@@ -78,9 +101,9 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         startedLastMonth += sub.started if @subs.length - i < 31
       @monthlyChurn = @cancelled / startedLastMonth * 100.0 if startedLastMonth > 0
       if @subs.length > 30 and @subs[@subs.length - 31].total > 0
-        lastMonthTotal = @subs[@subs.length - 31].total
-        thisMonthTotal = @subs[@subs.length - 1].total
-        @monthlyGrowth = (thisMonthTotal - lastMonthTotal)  / lastMonthTotal * 100
+        startMonthTotal = @subs[@subs.length - 31].total
+        endMonthTotal = @subs[@subs.length - 1].total
+        @monthlyGrowth = (endMonthTotal / startMonthTotal - 1) * 100
       @updateAnalyticsGraphData()
       @render?()
     @supermodel.addRequestResource('get_subscriptions', options, 0).load()
