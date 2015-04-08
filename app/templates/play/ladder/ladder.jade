@@ -775,6 +775,8 @@ block content
                 th Human wins/losses/ties
               else
                 th Human score
+              if level.get('name') == 'Zero Sum'
+                th
               if level.get('name') == 'Criss-Cross' || level.get('name') == 'Zero Sum'
                 th
               th Ogre
@@ -805,6 +807,8 @@ block content
                   td
                     span= Math.round(100 * human.score)
                 if ogre
+                  if level.get('name') == 'Zero Sum'
+                    td= ogre.rank
                   if level.get('name') == 'Criss-Cross' || level.get('name') == 'Zero Sum'
                     td.code-language-cell(style="background-image: url(/images/common/code_languages/" + ogre.codeLanguage + "_icon.png)" title=_.string.capitalize(ogre.codeLanguage))
                   td= ogre.name
