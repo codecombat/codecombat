@@ -27,7 +27,7 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
     for doc, index in @model.get('documentation')?.specificArticles ? []
       if i18n = doc.i18n
         @wrapRow 'Guide article name', ['name'], doc.name, i18n[lang]?.name, ['documentation', 'specificArticles', index]
-        @wrapRow "'#{doc.name}' description", ['description'], doc.description, i18n[lang]?.description, ['documentation', 'specificArticles', index], 'markdown'
+        @wrapRow "'#{doc.name}' body", ['body'], doc.body, i18n[lang]?.body, ['documentation', 'specificArticles', index], 'markdown'
 
     # sprite dialogues
     for script, scriptIndex in @model.get('scripts') ? []
