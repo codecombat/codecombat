@@ -199,6 +199,8 @@ exports.config =
     sass:
       mode: 'ruby'
       allowCache: true
+    bless:
+      cacheBuster: false
 
   modules:
     definition: (path, data) ->

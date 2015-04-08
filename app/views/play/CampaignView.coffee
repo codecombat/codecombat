@@ -198,7 +198,7 @@ module.exports = class CampaignView extends RootView
 
     if @campaigns
       context.campaigns = {}
-      for campaign in @campaigns.models
+      for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
         context.campaigns[campaign.get('slug')] = campaign
         if @sessions.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
@@ -276,10 +276,14 @@ module.exports = class CampaignView extends RootView
 
   countLevels: (levels) ->
     count = total: 0, completed: 0
-    for level in levels
+    for level, levelIndex in levels
       @annotateLevel level unless level.locked?  # Annotate if we haven't already.
       unless level.disabled
-        ++count.total
+        unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
+        for otherLevel in levels when not unlockedInSameCampaign and otherLevel isnt level
+          for reward in (otherLevel.rewards ? []) when reward.level
+            unlockedInSameCampaign ||= reward.level is level.original
+        ++count.total if unlockedInSameCampaign or not level.locked
         ++count.completed if @levelStatusMap[level.slug] is 'complete'
     count
 
@@ -433,7 +437,7 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
 
     requiresSubscription = level.requiresSubscription or (me.get('chinaVersion') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-    canPlayAnyway = not @requiresSubscription or level.adventurer
+    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
       @openModalView new SubscribeModal()
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug
