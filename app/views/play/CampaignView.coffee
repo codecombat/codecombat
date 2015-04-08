@@ -299,7 +299,12 @@ module.exports = class CampaignView extends RootView
       unless foundNext
         for nextLevelOriginal in level.nextLevels
           nextLevel = _.find levels, original: nextLevelOriginal
-          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (me.isPremium() or not nextLevel.requiresSubscription or nextLevel.slug is 'apocalypse')
+          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (
+            me.isPremium() or
+            not nextLevel.requiresSubscription or
+            nextLevel.slug is 'apocalypse' or
+            (nextLevel.slug is 'favorable-odds' and not @levelStatusMap['the-raised-sword'])
+          )
             nextLevel.next = true
             foundNext = true
             break

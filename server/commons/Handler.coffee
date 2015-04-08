@@ -206,10 +206,11 @@ module.exports = class Handler
       return @sendForbiddenError(res)
 
   getById: (req, res, id) ->
-    # return @sendNotFoundError(res) # for testing
     return @sendForbiddenError(res) unless @hasAccess(req)
-
-    @getDocumentForIdOrSlug id, (err, document) =>
+    if req.query.project
+      projection = {}
+      projection[field] = 1 for field in req.query.project.split(',')
+    @getDocumentForIdOrSlug id, projection, (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
       return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
@@ -491,14 +492,18 @@ module.exports = class Handler
 
   @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
-  getDocumentForIdOrSlug: (idOrSlug, done) ->
+  getDocumentForIdOrSlug: (idOrSlug, projection, done) ->
+    unless done
+      done = projection  # projection is optional argument
+      projection = null
     idOrSlug = idOrSlug+''
     if Handler.isID(idOrSlug)
-      @modelClass.findById(idOrSlug).exec (err, document) ->
-        done(err, document)
+      query = @modelClass.findById(idOrSlug)
     else
-      @modelClass.findOne {slug: idOrSlug}, (err, document) ->
-        done(err, document)
+      query = @modelClass.findOne {slug: idOrSlug}
+    query.select projection if projection
+    query.exec (err, document) ->
+      done(err, document)
 
   doWaterfallChecks: (req, document, done) ->
     return done(null, document) unless @waterfallFunctions.length
