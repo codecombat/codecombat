@@ -527,11 +527,11 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
   currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
-  currentMatchObject.simulator = @clientResponseObject.simulator
-  currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)
+  #currentMatchObject.simulator = @clientResponseObject.simulator  # Uncomment when actively debugging simulation mismatches
+  #currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)  # Uncomment when actively debugging simulation mismatches
   LevelSession.findOne {'_id': sessionID}, (err, session) ->
     session = session.toObject()
-    currentMatchObject.playtime = session.playtime ? 0
+    #currentMatchObject.playtime = session.playtime ? 0  # Not useful if we can only see last 200
     sessionUpdateObject =
       $push: {matches: {$each: [currentMatchObject], $slice: -200}}
     #log.info "Updating session #{sessionID}"

@@ -88,7 +88,7 @@ _.extend LevelSessionSchema.properties,
       type: 'boolean'  # Not tracked any more
     frame:
       type: 'number'  # Not tracked any more
-    thangs:
+    thangs:   # ... what is this? Is this used?
       type: 'object'
       additionalProperties:
         title: 'Thang'
@@ -241,7 +241,7 @@ _.extend LevelSessionSchema.properties,
           description: 'The date a match was computed.'
         playtime:
           title: 'Playtime so far'
-          description: 'The total seconds of playtime on this session when the match was computed.'
+          description: 'The total seconds of playtime on this session when the match was computed. Not currently tracked.'
           type: 'number'
         metrics:
           type: 'object'

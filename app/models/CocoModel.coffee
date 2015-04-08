@@ -27,6 +27,7 @@ class CocoModel extends Backbone.Model
     # if fixed, RevertModal will also need the fix
 
   setProjection: (project) ->
+    # TODO: ends up getting done twice, since the URL is modified and the @project is modified. So don't do this, just set project directly... (?)
     return if project is @project
     url = @getURL()
     url += '&project=' unless /project=/.test url
