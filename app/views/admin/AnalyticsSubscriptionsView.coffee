@@ -62,7 +62,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       for subscriber in @subscribers
         subscriber.level = User.levelFromExp subscriber.user.points
         if hero = subscriber.user.heroConfig?.thangType
-          subscriber.hero = slug for slug, original of ThangType.heroes when original is hero
+          subscriber.hero = _.invert(ThangType.heroes)[hero]
       @render?()
     @supermodel.addRequestResource('get_subscribers', options, 0).load()
 

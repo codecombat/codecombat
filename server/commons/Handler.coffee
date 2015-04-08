@@ -213,6 +213,7 @@ module.exports = class Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
       return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
+      res.setHeader 'Cache-Control', 'no-cache' unless Handler.isID(id + '')  # Don't cache if it's a slug instead of an ID
       @sendSuccess(res, @formatEntity(req, document))
 
   getByRelationship: (req, res, args...) ->
