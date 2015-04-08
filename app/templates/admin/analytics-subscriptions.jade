@@ -47,7 +47,10 @@ block content
           tr
             th User Start
             th Sub Start
-            th
+            if subscriberCancelled
+              th Cancelled
+            else
+              th
             th
             //- th Name
             th Email
