@@ -274,6 +274,12 @@ _.extend UserSchema.properties,
     levelSystemMiscPatches: c.int()
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
+    achievementTranslationPatches: c.int()
+    achievementMiscPatches: c.int()
+    pollTranslationPatches: c.int()
+    pollMiscPatches: c.int()
+    campaignTranslationPatches: c.int()
+    campaignMiscPatches: c.int()
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
