@@ -593,8 +593,8 @@
     teacher_subs_1: "Please contact"
     teacher_subs_2: "to set up a free monthly subscription."
     sub_includes_title: "What is included in the subscription?"
-    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-    sub_includes_2: "40+ practice levels"
+    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:" # {change}
+    sub_includes_2: "50+ practice levels" # {change}
     sub_includes_3: "Video tutorials"
     sub_includes_4: "Premium email support"
     sub_includes_5: "7 new heroes with unique skills to master"
