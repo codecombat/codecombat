@@ -361,7 +361,7 @@ UserHandler = class UserHandler extends Handler
 
     # log.warn "sendOneTimeEmail #{type} #{email}"
 
-    unless type in ['subscribe modal parent', 'share progress modal parent', 'share progress modal friend']
+    unless type in ['subscribe modal parent', 'share progress modal parent']
       return @sendBadInputError res, "Unknown one-time email type #{type}"
 
     sendMail = (emailParams) =>
@@ -382,6 +382,7 @@ UserHandler = class UserHandler extends Handler
         name: req.user.get('name') or ''
     if codeLanguage = req.user.get('aceConfig.language')
       codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
+      codeLanguage = codeLanguage.replace 'script', 'Script'
       emailParams['email_data']['codeLanguage'] = codeLanguage
     if senderEmail = req.user.get('email')
       emailParams['email_data']['senderEmail'] = senderEmail
@@ -389,11 +390,8 @@ UserHandler = class UserHandler extends Handler
     # Type-specific email data
     if type is 'subscribe modal parent'
       emailParams['email_id'] = sendwithus.templates.parent_subscribe_email
-    else if type in ['share progress modal parent', 'share progress modal friend']
+    else if type is 'share progress modal parent'
       emailParams['email_id'] = sendwithus.templates.share_progress_email
-      emailParams['email_data']['premium'] = req.user.isPremium()
-      emailParams['email_data']['parent'] = type is 'share progress modal parent'
-      emailParams['email_data']['friend'] =  type is 'share progress modal friend'
 
     sendMail emailParams
 
