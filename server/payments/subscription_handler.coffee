@@ -1,6 +1,7 @@
 # Not paired with a document in the DB, just handles coordinating between
 # the stripe property in the user with what's being stored in Stripe.
 
+mongoose = require 'mongoose'
 async = require 'async'
 config = require '../../server_config'
 Handler = require '../commons/Handler'
@@ -23,8 +24,69 @@ class SubscriptionHandler extends Handler
     console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   getByRelationship: (req, res, args...) ->
+    return @getSubscribers(req, res) if args[1] is 'subscribers'
     return @getSubscriptions(req, res) if args[1] is 'subscriptions'
     super(arguments...)
+
+  getSubscribers: (req, res) ->
+    return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
+
+    maxReturnCount = req.body.maxCount or 20
+
+    # @subscribers ?= []
+    # return @sendSuccess(res, @subscribers) unless _.isEmpty(@subscribers)
+    @subscribers = []
+
+    subscriberIDs = []
+
+    customersProcessed = 0
+    nextBatch = (starting_after, done) =>
+      options = limit: 100
+      options.starting_after = starting_after if starting_after
+      stripe.customers.list options, (err, customers) =>
+        return done(err) if err
+        customersProcessed += customers.data.length
+
+        for customer in customers.data
+          break unless @subscribers.length < maxReturnCount
+          continue unless customer?.subscriptions?.data?.length > 0
+          for subscription in customer.subscriptions.data
+            continue unless subscription.plan.id is 'basic'
+
+            amount = subscription.plan.amount
+            if subscription?.discount?.coupon?
+              if subscription.discount.coupon.percent_off
+                amount = amount *  (100 - subscription.discount.coupon.percent_off) / 100;
+              else if subscription.discount.coupon.amount_off
+                amount -= subscription.discount.coupon.amount_off
+            else if customer.discount?.coupon?
+              if customer.discount.coupon.percent_off
+                amount = amount *  (100 - customer.discount.coupon.percent_off) / 100
+              else if customer.discount.coupon.amount_off
+                amount -= customer.discount.coupon.amount_off
+
+            continue unless amount > 0
+
+            subscriber = start: new Date(subscription.start * 1000)
+            if subscription.metadata?.id?
+              subscriber.userID = subscription.metadata.id
+              subscriberIDs.push subscription.metadata.id
+            if subscription.cancel_at_period_end
+              subscriber.cancel = new Date(subscription.canceled_at * 1000)
+              subscriber.end = new Date(subscription.current_period_end * 1000)
+            @subscribers.push(subscriber)
+
+        if customers.has_more and @subscribers.length < maxReturnCount
+          return nextBatch(customers.data[customers.data.length - 1].id, done)
+        else
+          return done()
+    nextBatch null, (err) =>
+      return @sendDatabaseError(res, err) if err
+      User.find {_id: {$in: subscriberIDs}}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        for user in users
+          subscriber.user = user for subscriber in @subscribers when subscriber.userID is user.id
+        @sendSuccess(res, @subscribers)
 
   getSubscriptions: (req, res) ->
     # Returns a list of active subscriptions
@@ -54,7 +116,6 @@ class SubscriptionHandler extends Handler
           for subscription in customer.subscriptions.data
             continue unless subscription.plan.id is 'basic'
 
-
             amount = subscription.plan.amount
             if subscription?.discount?.coupon?
               if subscription.discount.coupon.percent_off
@@ -72,7 +133,7 @@ class SubscriptionHandler extends Handler
             sub = start: new Date(subscription.start * 1000)
             if subscription.cancel_at_period_end
               sub.cancel = new Date(subscription.canceled_at * 1000)
-              sub.end = new Date(sub.current_period_end * 1000)
+              sub.end = new Date(subscription.current_period_end * 1000)
             @subs.push(sub)
 
         # Can't fetch all the test Stripe data
@@ -83,9 +144,6 @@ class SubscriptionHandler extends Handler
     nextBatch null, (err) =>
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @subs)
-
-
-
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()

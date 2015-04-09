@@ -37,6 +37,7 @@ module.exports = class SubscribeModal extends ModalView
     super()
     @setupParentButtonPopover()
     @setupParentInfoPopover()
+    @setupPaymentMethodsInfoPopover()
 
   setupParentButtonPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parent_email_title'
@@ -84,6 +85,21 @@ module.exports = class SubscribeModal extends ModalView
       container: @$el
     ).on 'shown.bs.popover', =>
       application.tracker?.trackEvent 'Subscription parent hover'
+
+  setupPaymentMethodsInfoPopover: ->
+    popoverTitle = $.i18n.t('subscribe.payment_methods_title')
+    popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1') + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.payment_methods_blurb2') + " <a href='mailto:support@codecombat.com'>support@codecombat.com</a>."
+    @$el.find('#payment-methods-info').popover(
+      animation: true
+      html: true
+      placement: 'top'
+      trigger: 'click'
+      title: popoverTitle
+      content: popoverContent
+      container: @$el
+    ).on 'shown.bs.popover', =>
+      application.tracker?.trackEvent 'Subscription payment methods hover'
 
   onClickParentSendButton: (e) ->
     # TODO: Popover sometimes dismisses immediately after send

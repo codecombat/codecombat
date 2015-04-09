@@ -20,6 +20,7 @@ ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
+storage = require 'core/storage'
 
 trackedHourOfCode = false
 
@@ -148,9 +149,10 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents']
+    if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+      @openModalView new AuthModal supermodel: @supermodel, showSignupRationale: true, mode: 'signup'
+    else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email')
       @openModalView new ShareProgressModal()
-
 
   setCampaign: (@campaign) ->
     @render()
@@ -198,7 +200,7 @@ module.exports = class CampaignView extends RootView
 
     if @campaigns
       context.campaigns = {}
-      for campaign in @campaigns.models
+      for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
         context.campaigns[campaign.get('slug')] = campaign
         if @sessions.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
@@ -276,10 +278,14 @@ module.exports = class CampaignView extends RootView
 
   countLevels: (levels) ->
     count = total: 0, completed: 0
-    for level in levels
+    for level, levelIndex in levels
       @annotateLevel level unless level.locked?  # Annotate if we haven't already.
       unless level.disabled
-        ++count.total
+        unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
+        for otherLevel in levels when not unlockedInSameCampaign and otherLevel isnt level
+          for reward in (otherLevel.rewards ? []) when reward.level
+            unlockedInSameCampaign ||= reward.level is level.original
+        ++count.total if unlockedInSameCampaign or not level.locked
         ++count.completed if @levelStatusMap[level.slug] is 'complete'
     count
 
@@ -295,7 +301,12 @@ module.exports = class CampaignView extends RootView
       unless foundNext
         for nextLevelOriginal in level.nextLevels
           nextLevel = _.find levels, original: nextLevelOriginal
-          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (me.isPremium() or not nextLevel.requiresSubscription or nextLevel.slug is 'apocalypse')
+          if nextLevel and not nextLevel.locked and @levelStatusMap[nextLevel.slug] isnt 'complete' and (
+            me.isPremium() or
+            not nextLevel.requiresSubscription or
+            nextLevel.slug is 'apocalypse' or
+            (nextLevel.slug is 'favorable-odds' and not @levelStatusMap['the-raised-sword'])
+          )
             nextLevel.next = true
             foundNext = true
             break
@@ -334,7 +345,7 @@ module.exports = class CampaignView extends RootView
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {} when level.hidden or level.slug is 'apocalypse'
+    for level in @campaign.renderedLevels ? {} when level.hidden or (level.slug is 'apocalypse' and @levelStatusMap[level.slug] isnt 'complete')
       particleKey = ['level', @terrain]
       particleKey.push level.type if level.type and level.type isnt 'hero'
       particleKey.push 'premium' if level.requiresSubscription
@@ -433,7 +444,7 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
 
     requiresSubscription = level.requiresSubscription or (me.get('chinaVersion') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-    canPlayAnyway = not @requiresSubscription or level.adventurer
+    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
       @openModalView new SubscribeModal()
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug

@@ -48,7 +48,7 @@ module.exports = class SimulateTabView extends CocoView
     @startSimulating()
 
   startSimulating: ->
-    @simulationPageRefreshTimeout = _.delay @refreshAndContinueSimulating, 20 * 60 * 1000
+    @simulationPageRefreshTimeout = _.delay @refreshAndContinueSimulating, 30 * 60 * 1000
     @simulateNextGame()
     $('#simulate-button').prop 'disabled', true
     $('#simulate-button').text 'Simulating...'
@@ -65,7 +65,7 @@ module.exports = class SimulateTabView extends CocoView
       # Work around simulator getting super slow on Chrome
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
       @simulator.fetchAndSimulateTask = =>
-        if @simulator.simulatedByYou >= 5
+        if @simulator.simulatedByYou >= 20
           console.log '------------------- Destroying  Simulator and making a new one -----------------'
           @simulator.destroy()
           @simulator = null

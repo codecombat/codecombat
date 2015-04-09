@@ -1,12 +1,13 @@
 extends /templates/base
 
 block content
-  
+
   if !me.isAdmin()
     div You must be logged in as an admin to view this page.
   else
+
     if total === 0
-      h1 Fetching subscriptions data...
+      h4 Fetching dashboard data...
     else
       .container-fluid
         .row
@@ -37,15 +38,59 @@ block content
 
       div *Stripe APIs do not return information about inactive subs.
 
-      br
-        
-      table.table.table-condensed.concepts-table
+    h2 Recent Subscribers
+    if !subscribers || subscribers.length < 1
+      h4 Fetching recent subscribers...
+    else
+      table.table.table-condensed
+        thead
+          tr
+            th User Start
+            th Sub Start
+            if subscriberCancelled
+              th Cancelled
+            else
+              th
+            th
+            //- th Name
+            th Email
+            th Hero
+            th Level
+            th Last Level
+            th Age
+            th Spoken
+        tbody
+          each subscriber in subscribers
+            tr
+              td= subscriber.user.dateCreated.substring(0, 10)
+              td= subscriber.start.substring(0, 10)
+              td
+                if subscriber.cancel
+                  span= subscriber.cancel.substring(0, 10)
+              td
+                if subscriber.user.stripe.sponsorID
+                  span Sponsored
+              //- td
+              //-   a(href="/user/#{subscriber.user._id}")= subscriber.user.name || 'Anoner'
+              td= subscriber.user.emailLower
+              td= subscriber.hero
+              td= subscriber.level
+              td= subscriber.user.lastLevel
+              td= subscriber.user.ageRange
+              td= subscriber.user.preferredLanguage
+
+    h2 Subscriptions
+    if !subs || subs.length < 1
+      h4 Fetching subscriptions...
+    else
+      table.table.table-condensed
         thead
           tr
             th Day
             th Total
             th Started
             th Cancelled
+            th Net
         tbody
           each sub in subs
             tr
@@ -53,3 +98,4 @@ block content
               td= sub.total
               td= sub.started
               td= sub.cancelled
+              td= sub.started - sub.cancelled

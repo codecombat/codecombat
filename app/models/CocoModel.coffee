@@ -1,5 +1,6 @@
 storage = require 'core/storage'
 deltasLib = require 'core/deltas'
+locale = require 'locale/locale'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -26,6 +27,7 @@ class CocoModel extends Backbone.Model
     # if fixed, RevertModal will also need the fix
 
   setProjection: (project) ->
+    # TODO: ends up getting done twice, since the URL is modified and the @project is modified. So don't do this, just set project directly... (?)
     return if project is @project
     url = @getURL()
     url += '&project=' unless /project=/.test url
@@ -399,12 +401,19 @@ class CocoModel extends Backbone.Model
         # use it to determine what properties actually need to be translated
         props = workingSchema.props or []
         props = (prop for prop in props when parentData[prop])
+        #unless props.length
+        #  console.log 'props is', props, 'path is', path, 'data is', data, 'parentData is', parentData, 'workingSchema is', workingSchema
+        #  langCodeArrays.push _.without _.keys(locale), 'update'  # Every language has covered a path with no properties to be translated.
+        #  return
+
+        return if 'additionalProperties' of i18n  # Workaround for #2630: Programmable is weird
 
         # get a list of lang codes where its object has keys for every prop to be translated
         coverage = _.filter(_.keys(i18n), (langCode) ->
           translations = i18n[langCode]
           _.all((translations[prop] for prop in props))
         )
+        #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
         langCodeArrays.push coverage
     )
 

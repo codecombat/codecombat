@@ -1,5 +1,6 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/share-progress-modal'
+storage = require 'core/storage'
 
 module.exports = class SubscribeModal extends ModalView
   id: 'share-progress-modal'
@@ -8,33 +9,9 @@ module.exports = class SubscribeModal extends ModalView
   closesOnClickOutside: false
 
   events:
-    'click .back-link': 'onBackClick'
     'click .close-btn': 'hide'
     'click .continue-link': 'hide'
     'click .send-btn': 'onClickSend'
-    'click .tell-friend-btn': 'onClickTellFriend'
-    'click .tell-parent-btn': 'onClickTellParent'
-
-  onBackClick: (e) ->
-    $('.email-input').val('')
-    $('.send-container').hide()
-    $('.friend-blurb').hide()
-    $('.parent-blurb').hide()
-    $('.btn-picker-container').show()
-    $('.email-input').parent().removeClass('has-error')
-    $('.email-invalid').hide()
-
-  onClickTellFriend: (e) ->
-    @emailType = 'share progress modal friend'
-    $('.btn-picker-container').hide()
-    $('.friend-blurb').show()
-    $('.send-container').show()
-
-  onClickTellParent: (e) ->
-    @emailType = 'share progress modal parent'
-    $('.btn-picker-container').hide()
-    $('.parent-blurb').show()
-    $('.send-container').show()
 
   onClickSend: (e) ->
     email = $('.email-input').val()
@@ -45,9 +22,10 @@ module.exports = class SubscribeModal extends ModalView
 
     request = @supermodel.addRequestResource 'send_one_time_email', {
       url: '/db/user/-/send_one_time_email'
-      data: {email: email, type: @emailType}
+      data: {email: email, type: 'share progress modal parent'}
       method: 'POST'
     }, 0
     request.load()
 
+    storage.save 'sent-parent-email', true
     @hide()

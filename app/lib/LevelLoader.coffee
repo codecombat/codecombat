@@ -72,10 +72,12 @@ module.exports = class LevelLoader extends CocoClass
       url += "?team=#{@team}" if @team
 
     session = new LevelSession().setURL url
+    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state'] if @headless
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
+      opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
       @opponentSession = @opponentSessionResource.model
 

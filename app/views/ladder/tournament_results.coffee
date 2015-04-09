@@ -1,4 +1,4 @@
-module.exports = results = greed: {}, 'criss-cross': {}
+module.exports = results = greed: {}, 'criss-cross': {}, 'zero-sum': {}
 
 results.greed.humans = [
   {team: 'humans', rank: 1, sessionID: '5381e3537585483905a829c1', name: 'Wizard Dude', playtime: 63184, wins: 363, losses: 0, score: 363}
@@ -745,4 +745,206 @@ results['criss-cross'].ogres = [
   {team: 'ogres', rank: 71, sessionID: '5414d693e4fb6fc61274e974', codeLanguage: 'javascript', name: 'XxDavidxX', score: 11.32103184}
   {team: 'ogres', rank: 72, sessionID: '53f4847afda22e3305bdbea5', codeLanguage: 'javascript', name: 'CodeMinion', score: 9.706964015}
   {team: 'ogres', rank: 73, sessionID: '53fba49c3baef834054b98c6', codeLanguage: 'javascript', name: 'Moises Banales', score: 8.991630973}
+]
+
+results['zero-sum'].humans = [
+  {team: 'humans', rank: 1, userID: '539b571db4c4f9380545317d', sessionID: '55188bcee3ae3a3505f7d1ad', name: 'NoJuice4u', wins: 105, losses: 3, playtime: 46222, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 2, userID: '54ef65eaef838a790598b305', sessionID: '5518349d1f12482609b452ea', name: 'Qenf', wins: 99, losses: 9, playtime: 13554, codeLanguage: 'python'}
+  {team: 'humans', rank: 3, userID: '5308bb6cc326dda10cf62d6d', sessionID: '55172d95e3ae3a3505f7a6ed', name: 'Stofflon', wins: 95, losses: 13, playtime: 22609, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 3, userID: '539bccfb6e1d92310506ffa9', sessionID: '5518d8624c73053505254062', name: 'Driphter', wins: 95, losses: 13, playtime: 32555, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 5, userID: '54d2c6ac3e16915505f0cef3', sessionID: '551f2d159800ae33059c5052', name: 'KingCode', wins: 93, losses: 15, playtime: 13510, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 5, userID: '549ee5208f3c153d0518ff24', sessionID: '55195098d69ccd3305a2ea0c', name: 'wabu', wins: 93, losses: 15, playtime: 3274, codeLanguage: 'python'}
+  {team: 'humans', rank: 5, userID: '5500505220b2567d0514bab9', sessionID: '551582ecf43d375105fbdf00', name: 'Muadibi', wins: 93, losses: 15, playtime: 30381, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 5, userID: '54f015a0df1b7d7d05610870', sessionID: '55172f2ec13fa03205248953', name: 'Andre95', wins: 93, losses: 15, playtime: 53158, codeLanguage: 'python'}
+  {team: 'humans', rank: 9, userID: '54ff548501c724b9072f9f6d', sessionID: '551bd2f91794dc1a112bfc28', name: 'mAsTer_A', wins: 91, losses: 16, playtime: 11860, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 10, userID: '539c13ba6e1d923105072c32', sessionID: '5515a210d792f354050c9339', name: 'rasdasd', wins: 89, losses: 19, playtime: 12710, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 11, userID: '5516520db77a16330597d9a3', sessionID: '55165233de8bc03205975972', name: 'SlamBlasta', wins: 88, losses: 20, playtime: 10063, codeLanguage: 'python'}
+  {team: 'humans', rank: 12, userID: '512ef4805a67a8c507000001', sessionID: '550370aeec31df9c691ab632', name: 'Nick', wins: 87, losses: 20, playtime: 22856, codeLanguage: 'python'}
+  {team: 'humans', rank: 13, userID: '55164512de8bc032059758dc', sessionID: '55184ea8e3ae3a3505f7c811', name: 'Geoboardman', wins: 87, losses: 21, playtime: 11451, codeLanguage: 'python'}
+  {team: 'humans', rank: 13, userID: '551750ca81389437054def79', sessionID: '5517545fe3ae3a3505f7ac1f', name: 'the real Carl Maxwell', wins: 87, losses: 21, playtime: 6242, codeLanguage: 'python'}
+  {team: 'humans', rank: 15, userID: '537d01f484c54c6e05c05989', sessionID: '55164e9f4e83223605e7942a', name: 'Serg', wins: 85, losses: 23, playtime: 8176, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 16, userID: '5478a26cc439b9160865b3b3', sessionID: '550ceb075834237a05acda6e', name: 'Tutor Delphia', wins: 83, losses: 25, playtime: 30978, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 17, userID: '551d78734c73053505267238', sessionID: '551dc7046cc7da101fe5fe52', name: 'Kongou', wins: 79, losses: 29, playtime: 561, codeLanguage: 'python'}
+  {team: 'humans', rank: 18, userID: '53f4cb0cfda22e3305be24e7', sessionID: '5515ecc4b8185a5205e1a304', name: 'Dothgar', wins: 74, losses: 34, playtime: 4129, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 19, userID: '5520a4caabdb444805e85da1', sessionID: '5522f7ae801bea3905cb6fd9', name: 'Bazhan', wins: 73, losses: 34, playtime: 4466, codeLanguage: 'python'}
+  {team: 'humans', rank: 20, userID: '5506e39e84ce5b7905627e41', sessionID: '551bed505afdf532055862e4', name: 'pixx', wins: 73, losses: 35, playtime: 12182, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 21, userID: '5516aa174d24212f05944d19', sessionID: '5517065858852c3405f48e9d', name: 'Haruna', wins: 70, losses: 38, playtime: 19377, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 22, userID: '54a800d3a487d53f056c0bb7', sessionID: '5519bac15cd6bae40951f460', name: 'Mensian', wins: 69, losses: 39, playtime: 17817, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 23, userID: '5519d8885afdf5320557df5c', sessionID: '5519d88e8328b9020debf019', name: 'StabGun', wins: 69, losses: 39, playtime: 3710, codeLanguage: 'python'}
+  {team: 'humans', rank: 23, userID: '55187c2c5afdf532055782df', sessionID: '55187c63d69ccd3305a2c33b', name: 'shakesoda', wins: 69, losses: 39, playtime: 19789, codeLanguage: 'lua'}
+  {team: 'humans', rank: 25, userID: '5429a6d19f9fa2bf2c5a4e4e', sessionID: '55173873d69ccd3305a2918c', name: 'FadingSun32', wins: 65, losses: 43, playtime: 113, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 25, userID: '54f9e344d12cf54d069d92dc', sessionID: '550d0ba29e22dc56056be1dd', name: 'xianjin', wins: 65, losses: 43, playtime: 693, codeLanguage: 'python'}
+  {team: 'humans', rank: 27, userID: '54fd36429ae7221e06728f3b', sessionID: '550d001c9e22dc56056be0d8', name: 'Jasmine49', wins: 59, losses: 49, playtime: 5222, codeLanguage: 'python'}
+  {team: 'humans', rank: 27, userID: '551b205cc13fa03205254f3e', sessionID: '551c04088328b9020dec9ef1', name: 'my98olds', wins: 59, losses: 49, playtime: 22943, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 29, userID: '54bbb1016ef7bdde07101c4e', sessionID: '551807d0c13fa03205249b3d', name: 'PSL', wins: 57, losses: 51, playtime: 2523, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 30, userID: '539ea2ba64edb6fa0bf584f7', sessionID: '5516a002b77a16330597e208', name: 'MarS explorer', wins: 55, losses: 53, playtime: 5966, codeLanguage: 'lua'}
+  {team: 'humans', rank: 30, userID: '548e1d2d24446d3d050281ed', sessionID: '55080c49039bafd50cb92fae', name: 'J_F_B_M', wins: 55, losses: 53, playtime: 7951, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 32, userID: '5489342042443b56076a1ad8', sessionID: '55173465e3ae3a3505f7a7ff', name: 'AnnieHall', wins: 54, losses: 52, playtime: 5576, codeLanguage: 'python'}
+  {team: 'humans', rank: 33, userID: '54f1ddf248724e7d052b75fd', sessionID: '551a7f0e5cd6bae409522148', name: 'TiboW', wins: 54, losses: 54, playtime: 942, codeLanguage: 'python'}
+  {team: 'humans', rank: 34, userID: '55169c96aedec33205e8acfc', sessionID: '55169df0aedec33205e8ad47', name: 'funny_falcon', wins: 51, losses: 57, playtime: 4486, codeLanguage: 'python'}
+  {team: 'humans', rank: 35, userID: '54feee1ae950f7a707ec3461', sessionID: '5515d0933bdee5954e8246df', name: 'Khorrok', wins: 50, losses: 57, playtime: 387, codeLanguage: 'python'}
+  {team: 'humans', rank: 36, userID: '54f7e04e8ec032e705abbcd8', sessionID: '550cc8eba605ba5a05120514', name: 'Tan Chuan Jie', wins: 50, losses: 58, playtime: 4787, codeLanguage: 'python'}
+  {team: 'humans', rank: 36, userID: '551743df079f2833053c723a', sessionID: '5517582bd69ccd3305a29676', name: 'Majestik', wins: 50, losses: 58, playtime: 15118, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 38, userID: '55005eb295a4228105f6bfc3', sessionID: '550d0e699e22dc56056be203', name: '2SHAWN4YOU', wins: 49, losses: 59, playtime: 935, codeLanguage: 'python'}
+  {team: 'humans', rank: 39, userID: '54dcf4ec7b4e13500586e511', sessionID: '5518609b5afdf53205577d82', name: 'Da5id', wins: 46, losses: 61, playtime: 711, codeLanguage: 'python'}
+  {team: 'humans', rank: 40, userID: '550420ad2c5fbf7b056a18a0', sessionID: '550cffa5a605ba5a051205d4', name: 'YuanFeng', wins: 46, losses: 62, playtime: 5471, codeLanguage: 'python'}
+  {team: 'humans', rank: 41, userID: '54f9cad2d12cf54d069d8465', sessionID: '550cc77d9e22dc56056bdfe8', name: 'abcdefguan', wins: 45, losses: 61, playtime: 4873, codeLanguage: 'python'}
+  {team: 'humans', rank: 42, userID: '54f914455cb508f3058b6553', sessionID: '550d00759e22dc56056be0e0', name: 'KaiXFlare', wins: 45, losses: 63, playtime: 5578, codeLanguage: 'python'}
+  {team: 'humans', rank: 42, userID: '5443c3609792f94d06eecbb3', sessionID: '5515afd91c3bb18709e26474', name: 'PiedotTaste', wins: 45, losses: 63, playtime: 503, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 44, userID: '53b9fa0194abf748058ea71a', sessionID: '55160678b77a16330597d2ea', name: 'UMD_Liquidator', wins: 44, losses: 64, playtime: 16710, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 45, userID: '550db4c425b6f688062cb7f5', sessionID: '5515bc21fd67e4b4095aae6e', name: 'coderg0d', wins: 43, losses: 65, playtime: 17150, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 46, userID: '53e5783d6c59f5340504a6e9', sessionID: '55162c77de8bc03205975793', name: 'YodaEater', wins: 42, losses: 66, playtime: 15075, codeLanguage: 'python'}
+  {team: 'humans', rank: 47, userID: '539cec01ab5dfc3a05cbf2d2', sessionID: '55158457b8185a5205e172a7', name: 'matthewd', wins: 41, losses: 67, playtime: 2166, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 48, userID: '535d52e90f77a8470b782df4', sessionID: '551676f64d24212f059446b6', name: 'binarychase', wins: 40, losses: 68, playtime: 13148, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 49, userID: '54f9064ad12cf54d069d54a4', sessionID: '550cc7469e22dc56056bdfe3', name: 'hussain1998', wins: 39, losses: 69, playtime: 5516, codeLanguage: 'python'}
+  {team: 'humans', rank: 49, userID: '539bb5b7ab5dfc3a05cae063', sessionID: '55216e3885fca531055424d6', name: 'DollarAkshay', wins: 39, losses: 69, playtime: 965, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 49, userID: '54cf001ead25d155057ec294', sessionID: '550cc77c9e22dc56056bdfe7', name: 'jasmineseah-17', wins: 39, losses: 69, playtime: 5260, codeLanguage: 'python'}
+  {team: 'humans', rank: 52, userID: '55159c561a93145605a65360', sessionID: '55159cde99d51b55053609b4', name: 'PaulT', wins: 37, losses: 71, playtime: 2635, codeLanguage: 'python'}
+  {team: 'humans', rank: 53, userID: '54ce3426c39305530570368c', sessionID: '5516a6c74d24212f05944ca9', name: 'Zenador', wins: 36, losses: 70, playtime: 6894, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 54, userID: '550493e2836beb81054ad1c2', sessionID: '551822bc81389437054e089d', name: 'MrWooly', wins: 36, losses: 72, playtime: 440, codeLanguage: 'python'}
+  {team: 'humans', rank: 54, userID: '5501d57b3d219b9808c098e9', sessionID: '5517f863079f2833053c8413', name: 'Mouschti', wins: 36, losses: 72, playtime: 532, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 54, userID: '535a3dd5f3c9943f0a4ed434', sessionID: '551f45faed37b43005e2c85d', name: 'Chankorinman', wins: 36, losses: 72, playtime: 581, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 54, userID: '55156d00d792f354050c61ea', sessionID: '5519fe8c5afdf5320557e679', name: 'Pavel87', wins: 36, losses: 72, playtime: 1900, codeLanguage: 'python'}
+  {team: 'humans', rank: 54, userID: '5305df9df269d92647ceb862', sessionID: '551a81c2c13fa03205251429', name: 'TimTam', wins: 36, losses: 72, playtime: 1773, codeLanguage: 'python'}
+  {team: 'humans', rank: 59, userID: '54be1a95cfb4e9ab16128314', sessionID: '5516e7f758852c3405f487d2', name: 'Albertos', wins: 35, losses: 73, playtime: 335, codeLanguage: 'python'}
+  {team: 'humans', rank: 59, userID: '54dddee006024d52057534a0', sessionID: '551a4d835cd6bae409521577', name: 'ryu.dy', wins: 35, losses: 73, playtime: 4247, codeLanguage: 'python'}
+  {team: 'humans', rank: 61, userID: '548cf2d0457ef12c0922ce04', sessionID: '551680efc79ef1fd062b57df', name: 'Lee87', wins: 34, losses: 74, playtime: 243, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 61, userID: '54f00e7cbc22bc830591b375', sessionID: '55222ad6d06c12300505737e', name: 'Fame7', wins: 34, losses: 74, playtime: 880, codeLanguage: 'python'}
+  {team: 'humans', rank: 61, userID: '527ba37865a2cf8339000efd', sessionID: '5516ea7758852c3405f48871', name: 'Elinus', wins: 34, losses: 74, playtime: 75, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 61, userID: '54b87f637755bf5405a600f7', sessionID: '551dfedc4c73053505269424', name: 'Anonymous', wins: 34, losses: 74, playtime: 531, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 61, userID: '55127452ee12f7580524512f', sessionID: '551c83fb4c73053505263a4e', name: 'Oxidis', wins: 34, losses: 74, playtime: 1526, codeLanguage: 'python'}
+  {team: 'humans', rank: 61, userID: '54f94d77802189c30518184c', sessionID: '550cffdfa605ba5a051205d6', name: 'OblivionOverlord', wins: 34, losses: 74, playtime: 4130, codeLanguage: 'python'}
+  {team: 'humans', rank: 67, userID: '5515d99c9f2b9c5305f56d5c', sessionID: '551ac6e24c7305350525bb5b', name: 'Anonymous', wins: 32, losses: 76, playtime: 5641, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 67, userID: '540219a742fb9c380ad1eae3', sessionID: '551618f253665d3005251ae0', name: 'shadowfire', wins: 32, losses: 76, playtime: 1105, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 69, userID: '5477bd26c439b9160865589f', sessionID: '5518a3a74c73053505253acf', name: 'anodinia', wins: 31, losses: 77, playtime: 231, codeLanguage: 'python'}
+  {team: 'humans', rank: 69, userID: '53346ca2523566907564fd53', sessionID: '5522edd6c9e6fd33051496ed', name: 'Ksionc', wins: 31, losses: 77, playtime: 289, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 69, userID: '54f945e463684f2409c7d498', sessionID: '550cffe1a605ba5a051205d7', name: 'ItsBlitz', wins: 31, losses: 77, playtime: 4889, codeLanguage: 'python'}
+  {team: 'humans', rank: 72, userID: '5513153fad27c0b705c2829e', sessionID: '5516bb70b77a16330597e6e0', name: 'iPick', wins: 30, losses: 78, playtime: 1109, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 72, userID: '53049f3350b42adb6e86e046', sessionID: '550cfffba605ba5a051205d8', name: 'gph004', wins: 30, losses: 78, playtime: 4679, codeLanguage: 'python'}
+  {team: 'humans', rank: 74, userID: '536eeed3bf08a63905efdd8a', sessionID: '550c79bca98c9c7f05ab05be', name: 'basicer', wins: 28, losses: 77, playtime: 1199, codeLanguage: 'lua'}
+  {team: 'humans', rank: 75, userID: '54623591da18079109220097', sessionID: '5518e6c01f12482609b47160', name: 'FreeKrad', wins: 29, losses: 79, playtime: 1384, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 75, userID: '54cc2cf2f20cb05105c3d036', sessionID: '551bf5b24c73053505260370', name: 'Mihai2015', wins: 29, losses: 79, playtime: 1415, codeLanguage: 'python'}
+  {team: 'humans', rank: 75, userID: '550fe04ceb13a37c05136498', sessionID: '551ad43f5cd6bae409525096', name: 'FuzzicalLogic', wins: 29, losses: 79, playtime: 88327, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 75, userID: '52d81ab38133efa92e0000d0', sessionID: '5515a7091a93145605a65bd9', name: 'DamienG002', wins: 29, losses: 79, playtime: 1619, codeLanguage: 'python'}
+  {team: 'humans', rank: 75, userID: '550161abf94fb5820504d6d9', sessionID: '551eb864d69ccd3305a4b4bd', name: 'Ien Clack', wins: 29, losses: 79, playtime: 610, codeLanguage: 'python'}
+  {team: 'humans', rank: 75, userID: '55080de2190b7bba08dab219', sessionID: '551f459f9800ae33059c539f', name: 'Anonymous', wins: 29, losses: 79, playtime: 651, codeLanguage: 'python'}
+  {team: 'humans', rank: 81, userID: '550fc1b5e8cfa180057bcf9a', sessionID: '551dbdb95afdf5320559095b', name: 'Jython', wins: 28, losses: 80, playtime: 965, codeLanguage: 'python'}
+  {team: 'humans', rank: 81, userID: '551711f88bdcbad0074fb07e', sessionID: '552189d56a8b7c22069934a6', name: 'GJW1', wins: 28, losses: 80, playtime: 320, codeLanguage: 'python'}
+  {team: 'humans', rank: 81, userID: '5391144f82f0bc470523c8ab', sessionID: '550cc74bca461f5705f3d144', name: 'Polaricicle', wins: 28, losses: 80, playtime: 5801, codeLanguage: 'python'}
+  {team: 'humans', rank: 84, userID: '548ae4ddaed203880bc9d72d', sessionID: '55213f1c85fca53105541f99', name: 'Brizar', wins: 26, losses: 82, playtime: 1827, codeLanguage: 'python'}
+  {team: 'humans', rank: 85, userID: '54fc40f847b0892406d7428c', sessionID: '550d004bca461f5705f3d1ed', name: 'galaxypantz', wins: 25, losses: 82, playtime: 3444, codeLanguage: 'python'}
+  {team: 'humans', rank: 86, userID: '55196a90e3ae3a3505f7fdcd', sessionID: '55196b035afdf5320557b249', name: 'zbx', wins: 24, losses: 84, playtime: 4048, codeLanguage: 'python'}
+  {team: 'humans', rank: 86, userID: '550d599a03cae479055c02bd', sessionID: '5516a33f58852c3405f47767', name: 'Ben0225', wins: 24, losses: 84, playtime: 6580, codeLanguage: 'python'}
+  {team: 'humans', rank: 88, userID: '55158827bf2bea55051d0a0a', sessionID: '551da49c5afdf532055901df', name: 'kpbochenek', wins: 22, losses: 82, playtime: 798, codeLanguage: 'python'}
+  {team: 'humans', rank: 89, userID: '547b41f59325e43e052e02a8', sessionID: '5515c3871a93145605a66b4b', name: 'Tamerlan4', wins: 23, losses: 84, playtime: 196, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 90, userID: '53880299d06c503805fdd57e', sessionID: '5519aeb2c13fa0320524f401', name: 'Дор', wins: 22, losses: 85, playtime: 177, codeLanguage: 'python'}
+  {team: 'humans', rank: 91, userID: '550701ea75c0eb4a10ac7f4a', sessionID: '550d00bb9e22dc56056be0e5', name: 'Loh June Yong', wins: 22, losses: 86, playtime: 5443, codeLanguage: 'python'}
+  {team: 'humans', rank: 92, userID: '52a8f5e7a9fb033114000f08', sessionID: '55158154f43d375105fbdcf8', name: 'Mpgod1234', wins: 21, losses: 86, playtime: 558, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 93, userID: '546e523a047aaa780854a46b', sessionID: '55087d90e810e35a09e335e8', name: 'Popey456963', wins: 21, losses: 87, playtime: 4724, codeLanguage: 'python'}
+  {team: 'humans', rank: 94, userID: '54f114d51022997e054ea52b', sessionID: '551d30c8e3ae3a3505f91191', name: 'F_Deity_Link', wins: 20, losses: 87, playtime: 1324, codeLanguage: 'lua'}
+  {team: 'humans', rank: 94, userID: '5515ffd982ee611b05aeb6f7', sessionID: '5516008aa174c81b05465604', name: 'Anonymous', wins: 20, losses: 87, playtime: 113, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 96, userID: '54fad0665d8ec82806aad9bf', sessionID: '550d00129e22dc56056be0d7', name: 'vanessatan', wins: 19, losses: 89, playtime: 5013, codeLanguage: 'python'}
+  {team: 'humans', rank: 96, userID: '5487a14a4647d2b006cf7edd', sessionID: '551854a1e3ae3a3505f7c904', name: 'Endercore79', wins: 19, losses: 89, playtime: 769, codeLanguage: 'python'}
+  {team: 'humans', rank: 96, userID: '53416ac43a7f7a6358b7029a', sessionID: '55166a794d24212f05944596', name: 'Lylo', wins: 19, losses: 89, playtime: 359, codeLanguage: 'python'}
+  {team: 'humans', rank: 99, userID: '5470e99829e4c0710587df4c', sessionID: '5521b204abdb444805e883bb', name: 'Sthomas', wins: 18, losses: 89, playtime: 396, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 99, userID: '54f240e481f9a6750530ed0c', sessionID: '5516db0153665d3005253b4d', name: 'Bosdet', wins: 18, losses: 89, playtime: 5448, codeLanguage: 'python'}
+  {team: 'humans', rank: 101, userID: '5495c837fcf9386d07d30866', sessionID: '550c73e1a98c9c7f05ab03ac', name: 'awesome3000', wins: 18, losses: 90, playtime: 2586, codeLanguage: 'python'}
+  {team: 'humans', rank: 102, userID: '54c3a0aa83b9575305363fbd', sessionID: '5515f79482ee611b05aeb454', name: 'ninja_star', wins: 17, losses: 90, playtime: 423, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 103, userID: '54cbaa236947cf5405dab7e4', sessionID: '550cd526ca461f5705f3d1a0', name: 'hannie', wins: 16, losses: 90, playtime: 2400, codeLanguage: 'python'}
+  {team: 'humans', rank: 104, userID: '550cc15b0f7e6ece0684a2d4', sessionID: '550cc195fa4ee5e0062ed84d', name: 'The AI', wins: 15, losses: 92, playtime: 385, codeLanguage: 'clojure'}
+  {team: 'humans', rank: 105, userID: '546656d5f5522b9805dfd4ca', sessionID: '551f09a0921f633305d4d7d8', name: '1234526', wins: 15, losses: 93, playtime: 909, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 106, userID: '5500418620b2567d0514b763', sessionID: '550d0037a605ba5a051205da', name: 'luxedlyani', wins: 14, losses: 94, playtime: 5487, codeLanguage: 'python'}
+  {team: 'humans', rank: 106, userID: '532795fcd2a31ed46c63770e', sessionID: '55205354be496e310568fe50', name: 'kevbot', wins: 14, losses: 94, playtime: 2118, codeLanguage: 'python'}
+  {team: 'humans', rank: 108, userID: '53de2603f9fd4335057a50ca', sessionID: '551632595ab8ae3105cad77a', name: 'Sunnyau', wins: 12, losses: 96, playtime: 9882, codeLanguage: 'python'}
+  {team: 'humans', rank: 109, userID: '550aa9c9c731583007335e14', sessionID: '55158850d792f354050c7eb5', name: 'Anonymous', wins: 11, losses: 97, playtime: 137, codeLanguage: 'python'}
+  {team: 'humans', rank: 110, userID: '551095ad3ab45d7d05d0290f', sessionID: '55209eeed06c123005054edf', name: 'The Dark Slayer 365', wins: 10, losses: 98, playtime: 695, codeLanguage: 'python'}
+  {team: 'humans', rank: 111, userID: '5519cb4ae3ae3a3505f828fe', sessionID: '551a570dd69ccd3305a34080', name: 'weiyun', wins: 9, losses: 99, playtime: 2574, codeLanguage: 'python'}
+  {team: 'humans', rank: 112, userID: '551285ff39ac155805f4aa0a', sessionID: '551e83bee311d80c07b35d46', name: 'M. Vincent', wins: 8, losses: 100, playtime: 6127, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 113, userID: '54f62d7d50181a8505f97e1d', sessionID: '551f1f29526d5e3505807c00', name: 'Oscha Esservic', wins: 0, losses: 108, playtime: 386, codeLanguage: 'javascript'}
+  {team: 'humans', rank: 113, userID: '52cfa17ec0e2ea5d17001149', sessionID: '551716f258852c3405f49269', name: 'DarkLynk', wins: 0, losses: 108, playtime: 189, codeLanguage: 'python'}
+  {team: 'humans', rank: 113, userID: '54f1f2f89bc914830528271f', sessionID: '550cc75a9e22dc56056bdfe4', name: 'Reilord', wins: 0, losses: 108, playtime: 4752, codeLanguage: 'python'}
+  {team: 'humans', rank: 113, userID: '54aab1313feb6a3f05f20854', sessionID: '551c82a25cd6bae409530abb', name: 'Flamethowerland', wins: 0, losses: 108, playtime: 506, codeLanguage: 'python'}
+]
+
+results['zero-sum'].ogres = [
+  {team: 'ogres', rank: 1, userID: '532dbc73a622924444b68ed9', sessionID: '551599a499d51b55053606f2', name: 'Wizard Dude', wins: 162, losses: 1, playtime: 43223, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 2, userID: '54ffc9b8a043d19b0a457309', sessionID: '551e1a2ae3ae3a3505f96090', name: 'xxx987654321', wins: 157, losses: 5, playtime: 11649, codeLanguage: 'python'}
+  {team: 'ogres', rank: 3, userID: '531c8c3ccf439d790a23af04', sessionID: '550c2f5c1cd64bb7050fc8e5', name: 'nemoyatpeace', wins: 153, losses: 9, playtime: 4171, codeLanguage: 'python'}
+  {team: 'ogres', rank: 4, userID: '54ccc53ab4fb475505282187', sessionID: '55168b6353665d3005252860', name: 'ImDev', wins: 152, losses: 10, playtime: 4842, codeLanguage: 'python'}
+  {team: 'ogres', rank: 5, userID: '551995ec5cd6bae40951dec9', sessionID: '5519969e5cd6bae40951df59', name: 'wrdctr', wins: 151, losses: 11, playtime: 22070, codeLanguage: 'python'}
+  {team: 'ogres', rank: 5, userID: '54d9a5d2a9bd9f57050fe822', sessionID: '550c48b13045b78405c96775', name: 'Vlevo', wins: 151, losses: 11, playtime: 41246, codeLanguage: 'clojure'}
+  {team: 'ogres', rank: 7, userID: '548b8c556c32e64e1c437957', sessionID: '551625ac5ab8ae3105cad65f', name: 'Nisha Noire', wins: 150, losses: 12, playtime: 6977, codeLanguage: 'python'}
+  {team: 'ogres', rank: 7, userID: '551824a31f12482609b44fad', sessionID: '55185272d69ccd3305a2ba9d', name: 'Ovrmrrw', wins: 150, losses: 12, playtime: 4139, codeLanguage: 'python'}
+  {team: 'ogres', rank: 9, userID: '5503ac1a2c5fbf7b056a0eff', sessionID: '551766524c7305350525145f', name: 'David C Ellis', wins: 147, losses: 14, playtime: 5804, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 10, userID: '5452ed0623ef1e5d089d31e2', sessionID: '55164ac8de8bc0320597591e', name: 'Vivaldi', wins: 146, losses: 15, playtime: 20229, codeLanguage: 'python'}
+  {team: 'ogres', rank: 11, userID: '52debd1b5432dcf11c000164', sessionID: '55162fc358852c3405f468f6', name: 'Agathanar', wins: 144, losses: 18, playtime: 13849, codeLanguage: 'python'}
+  {team: 'ogres', rank: 12, userID: '55169fb1de8bc03205976007', sessionID: '5516bbd7aedec33205e8b3c4', name: 'XN137', wins: 140, losses: 22, playtime: 44494, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 13, userID: '55172d51502e8b37053130b2', sessionID: '551840461f12482609b45518', name: 'Sean653', wins: 140, losses: 23, playtime: 5501, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 14, userID: '5512ef72a4febf5905274f07', sessionID: '551851355afdf53205577ac4', name: 'Vincent Maths', wins: 137, losses: 25, playtime: 2812, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 15, userID: '526a4e91c0a4f3a21f000c50', sessionID: '5516728baedec33205e8a5b9', name: 'spicydog', wins: 133, losses: 28, playtime: 3790, codeLanguage: 'python'}
+  {team: 'ogres', rank: 16, userID: '5511931af72de65605f988b4', sessionID: '5515a3e3bf2bea55051d2225', name: 'Deipablo', wins: 130, losses: 32, playtime: 9331, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 17, userID: '5515b4e1fd67e4b4095aaa5f', sessionID: '5515c034d792f354050ca69e', name: 'i_eet_leefs', wins: 128, losses: 34, playtime: 158, codeLanguage: 'python'}
+  {team: 'ogres', rank: 18, userID: '54ab32c13feb6a3f05f55e94', sessionID: '5515debc64a969570abf9827', name: 'SaladTongs', wins: 125, losses: 37, playtime: 26496, codeLanguage: 'python'}
+  {team: 'ogres', rank: 19, userID: '54cb0fbd0623615605392f74', sessionID: '550cc86d9e22dc56056bdfec', name: 'Dragernix', wins: 124, losses: 38, playtime: 4365, codeLanguage: 'python'}
+  {team: 'ogres', rank: 19, userID: '54f609476b0774880597fdd4', sessionID: '55171a58b77a16330597f89e', name: 'Danylo Dubinin', wins: 124, losses: 38, playtime: 6951, codeLanguage: 'python'}
+  {team: 'ogres', rank: 21, userID: '549aed0eb530133e053a3acc', sessionID: '55159f149f2b9c5305f551a0', name: 'Spencer Tachick', wins: 123, losses: 39, playtime: 12292, codeLanguage: 'python'}
+  {team: 'ogres', rank: 21, userID: '5507e6c8e7d9907b054a61e9', sessionID: '55167b894d24212f05944728', name: 'NormannK', wins: 123, losses: 39, playtime: 9490, codeLanguage: 'python'}
+  {team: 'ogres', rank: 23, userID: '549b8ead1880d5b7065ff57c', sessionID: '55161e90aedec33205e89e2c', name: 'Dymarr', wins: 116, losses: 46, playtime: 281, codeLanguage: 'python'}
+  {team: 'ogres', rank: 24, userID: '53ca0f0aaa30cd860586b24f', sessionID: '5521bf1b32954a32050203ba', name: 'Edgar', wins: 115, losses: 47, playtime: 4999, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 25, userID: '54fdacd0106d15f105fc7d4c', sessionID: '550cfffbca461f5705f3d1ec', name: 'Midhat', wins: 114, losses: 48, playtime: 5557, codeLanguage: 'python'}
+  {team: 'ogres', rank: 26, userID: '54f5d94c9be7567905e95099', sessionID: '551d1124d69ccd3305a43329', name: 's_a_n_d', wins: 114, losses: 49, playtime: 3905, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 27, userID: '5515ff2482ee611b05aeb6c6', sessionID: '5515ff641bfec61c050245ab', name: 'Carl Maxwell', wins: 113, losses: 48, playtime: 10208, codeLanguage: 'python'}
+  {team: 'ogres', rank: 28, userID: '55066eefce02078605ce9126', sessionID: '550d29999e22dc56056be28a', name: 'Koyint', wins: 113, losses: 49, playtime: 524, codeLanguage: 'python'}
+  {team: 'ogres', rank: 29, userID: '5517d8b0e3ae3a3505f7b73d', sessionID: '5517de29079f2833053c8108', name: 'aknopf', wins: 113, losses: 50, playtime: 203, codeLanguage: 'python'}
+  {team: 'ogres', rank: 30, userID: '54ffbe6ee950f7a707ec9577', sessionID: '550cc7bc9e22dc56056bdfe9', name: 'chuayupeng', wins: 112, losses: 50, playtime: 4602, codeLanguage: 'python'}
+  {team: 'ogres', rank: 31, userID: '5506889b127bb387059def67', sessionID: '550d001435dc145905672238', name: 'En Hao', wins: 111, losses: 51, playtime: 5234, codeLanguage: 'python'}
+  {team: 'ogres', rank: 32, userID: '527bdd42dd3c4aea37001500', sessionID: '55159c75b8185a5205e183dc', name: 'Makaze', wins: 109, losses: 53, playtime: 2213, codeLanguage: 'coffeescript'}
+  {team: 'ogres', rank: 33, userID: '55181575e3ae3a3505f7bf46', sessionID: '55191d035afdf532055796d6', name: 'Satellite One', wins: 106, losses: 51, playtime: 16911, codeLanguage: 'python'}
+  {team: 'ogres', rank: 34, userID: '54b1773a75e3055205e5a449', sessionID: '550c3a98535111cc0539a3f9', name: 'Catsync', wins: 107, losses: 54, playtime: 381, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 35, userID: '53a0bc84610a6b3505561811', sessionID: '5516185f53665d3005251ac7', name: 'Fluzzarn', wins: 102, losses: 60, playtime: 1835, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 36, userID: '5516bf048bdcbad0074f9c29', sessionID: '5516d0a258852c3405f481da', name: 'Expote2', wins: 100, losses: 62, playtime: 4576, codeLanguage: 'python'}
+  {team: 'ogres', rank: 37, userID: '54ff5e1a00e4485a07e76bb9', sessionID: '5515ac67fd67e4b4095aa52f', name: 'Twonky', wins: 96, losses: 66, playtime: 6772, codeLanguage: 'python'}
+  {team: 'ogres', rank: 38, userID: '550003910f91fab20b3624e8', sessionID: '550d00439e22dc56056be0de', name: 'CyanLycan', wins: 95, losses: 66, playtime: 5482, codeLanguage: 'python'}
+  {team: 'ogres', rank: 39, userID: '54f2b39381f9a6750530f893', sessionID: '550ccb259e22dc56056be001', name: 'Flamanta', wins: 95, losses: 68, playtime: 4734, codeLanguage: 'python'}
+  {team: 'ogres', rank: 40, userID: '54f0775615cde87c05d6caf4', sessionID: '550cc7ef35dc1459056721be', name: 'Jericho Chua', wins: 93, losses: 69, playtime: 4409, codeLanguage: 'python'}
+  {team: 'ogres', rank: 41, userID: '539bfd0930a67c3b05d93f2a', sessionID: '55158a0bf43d375105fbe4ec', name: 'reezer', wins: 93, losses: 70, playtime: 5116, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 42, userID: '54d2c4024e4a08550556e01c', sessionID: '550cd3269e22dc56056be050', name: 'Alaete', wins: 92, losses: 69, playtime: 1804, codeLanguage: 'python'}
+  {team: 'ogres', rank: 43, userID: '53e2f1046c59f534050411f3', sessionID: '550d000e35dc145905672236', name: 'Live2Deliver', wins: 91, losses: 71, playtime: 5362, codeLanguage: 'python'}
+  {team: 'ogres', rank: 44, userID: '5517858d079f2833053c79a7', sessionID: '551786c7e3ae3a3505f7b0f6', name: 'Kevbot5000', wins: 88, losses: 72, playtime: 93126, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 45, userID: '54f3527fde0f173f14215f40', sessionID: '552210f33ffd333305f2e9b5', name: 'Anonymous', wins: 88, losses: 73, playtime: 346, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 46, userID: '55184fc7c13fa0320524a596', sessionID: '5518516ac13fa0320524a5f1', name: 'Mossan', wins: 85, losses: 77, playtime: 11842, codeLanguage: 'python'}
+  {team: 'ogres', rank: 47, userID: '539bb1d46e1d92310506ec6b', sessionID: '551ab214d69ccd3305a35b6c', name: 'Belackarad', wins: 84, losses: 78, playtime: 2921, codeLanguage: 'python'}
+  {team: 'ogres', rank: 48, userID: '534316e1d9a976607ace1f48', sessionID: '5518c7954c73053505253f23', name: 'Racksickle', wins: 84, losses: 79, playtime: 4118, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 49, userID: '5515b3d599d51b55053619e3', sessionID: '5517f05fe3ae3a3505f7b998', name: 'Crul', wins: 82, losses: 81, playtime: 99, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 50, userID: '548bc8bdcb1a6d754f530ef9', sessionID: '5518c2a0d69ccd3305a2cd93', name: 'MonkeykingZach1', wins: 80, losses: 82, playtime: 2904, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 51, userID: '54ea122b6a05ed9a0803f20b', sessionID: '55181b4de3ae3a3505f7c028', name: 'All3ck', wins: 77, losses: 84, playtime: 16269, codeLanguage: 'python'}
+  {team: 'ogres', rank: 52, userID: '5522bf863ffd333305f30ef5', sessionID: '5522c90cabdb444805e8c0b9', name: 'Fireball42', wins: 73, losses: 87, playtime: 3431, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 53, userID: '5514a8636b06ed1e09bc4c01', sessionID: '55204b8ffe6383360550157d', name: 'Hephaestus2', wins: 73, losses: 89, playtime: 1162, codeLanguage: 'python'}
+  {team: 'ogres', rank: 54, userID: '539189a2ff512d470582a570', sessionID: '550cc7f3a605ba5a0512050f', name: 'Lee Yang Peng', wins: 72, losses: 88, playtime: 5743, codeLanguage: 'python'}
+  {team: 'ogres', rank: 55, userID: '546e31004a0dd3de07f2b3f0', sessionID: '5515a3c3518f4e1409379f15', name: 'Blauelf', wins: 72, losses: 91, playtime: 119, codeLanguage: 'python'}
+  {team: 'ogres', rank: 56, userID: '55125f4ba4febf590526f3ea', sessionID: '551a8d32d69ccd3305a34b40', name: 'Yan4ik', wins: 71, losses: 91, playtime: 7018, codeLanguage: 'python'}
+  {team: 'ogres', rank: 57, userID: '54cba6498a09e554056f7e83', sessionID: '550cce4f9e22dc56056be01a', name: 'Skyhawk5', wins: 70, losses: 92, playtime: 1415, codeLanguage: 'python'}
+  {team: 'ogres', rank: 58, userID: '550126ad9201157c05677836', sessionID: '550d003ba605ba5a051205dc', name: 'ohichimaru', wins: 66, losses: 96, playtime: 5118, codeLanguage: 'python'}
+  {team: 'ogres', rank: 59, userID: '54ea04ede90cfb5005381cae', sessionID: '550d00bc9e22dc56056be0e6', name: 'fafazirah', wins: 65, losses: 98, playtime: 2494, codeLanguage: 'python'}
+  {team: 'ogres', rank: 60, userID: '54fd92b847b0892406d76ee6', sessionID: '550d015d9e22dc56056be0f2', name: 'Soon Wei', wins: 64, losses: 98, playtime: 5270, codeLanguage: 'python'}
+  {team: 'ogres', rank: 61, userID: '537d66783dcf67c40571fce9', sessionID: '550976d42e7f640f07bf7cbc', name: 'ProfBoesch', wins: 61, losses: 101, playtime: 2684, codeLanguage: 'python'}
+  {team: 'ogres', rank: 62, userID: '54ef1ac12fd7dd55052b4bf6', sessionID: '550cc78ea605ba5a0512050d', name: 'ZoppyOS', wins: 60, losses: 101, playtime: 5566, codeLanguage: 'python'}
+  {team: 'ogres', rank: 63, userID: '54f1e0f2d2969f8405ef6e93', sessionID: '550d03639e22dc56056be123', name: 'hongyue1995', wins: 57, losses: 104, playtime: 3402, codeLanguage: 'python'}
+  {team: 'ogres', rank: 64, userID: '53b54cda7e17883a0575767a', sessionID: '5515bde81c3bb18709e26cd3', name: 'JavaCaster1', wins: 55, losses: 106, playtime: 91, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 65, userID: '54e3389fab6f345305701d9d', sessionID: '550d003a35dc145905672239', name: 'Aswin A', wins: 54, losses: 108, playtime: 4830, codeLanguage: 'python'}
+  {team: 'ogres', rank: 66, userID: '53b8f7ab3a63df45051b31d6', sessionID: '551ff648b10646310516d109', name: 'Elizabeth20', wins: 46, losses: 117, playtime: 3329, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 67, userID: '54f82214cebfc7450c16bbe9', sessionID: '550cc7f49e22dc56056bdfeb', name: 'Chaoxide', wins: 45, losses: 118, playtime: 5296, codeLanguage: 'python'}
+  {team: 'ogres', rank: 68, userID: '54fa96ce9ae7221e0672306b', sessionID: '550cc7e29e22dc56056bdfea', name: 'Xyrilyn', wins: 41, losses: 121, playtime: 5516, codeLanguage: 'python'}
+  {team: 'ogres', rank: 69, userID: '54f420d8c43ea77705a27522', sessionID: '550cc78535dc1459056721bd', name: 'WangLu', wins: 40, losses: 122, playtime: 5460, codeLanguage: 'python'}
+  {team: 'ogres', rank: 70, userID: '54a976c1b9a10c3e059a5414', sessionID: '551c623f8328b9020decd431', name: 'germ13', wins: 35, losses: 127, playtime: 4753, codeLanguage: 'python'}
+  {team: 'ogres', rank: 71, userID: '52619a3e99987a8a0900009e', sessionID: '5516d34058852c3405f48284', name: 'iTruth', wins: 35, losses: 128, playtime: 5077, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 72, userID: '55197724e3ae3a3505f80446', sessionID: '551977265cd6bae40951cafb', name: 'Stowned', wins: 30, losses: 133, playtime: 1594, codeLanguage: 'python'}
+  {team: 'ogres', rank: 73, userID: '546e6be7da3c21f30848d235', sessionID: '551c5c0c1794dc1a112c536c', name: 'Jonas5', wins: 28, losses: 135, playtime: 663, codeLanguage: 'python'}
+  {team: 'ogres', rank: 73, userID: '55098a62a2012e800a354350', sessionID: '551dae53e3ae3a3505f94fb9', name: 'coding6', wins: 28, losses: 135, playtime: 66, codeLanguage: 'python'}
+  {team: 'ogres', rank: 73, userID: '54f160550ac4bd7c05458e7e', sessionID: '55166f02aedec33205e8a541', name: 'Dima2006', wins: 28, losses: 135, playtime: 61, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 76, userID: '54f8b3237a5c02820877960e', sessionID: '551aec19e3ae3a3505f87585', name: 'JakeWolt20', wins: 28, losses: 136, playtime: 34, codeLanguage: 'python'}
+  {team: 'ogres', rank: 77, userID: '54c6a197c597612313ca1520', sessionID: '5519a05c4c7305350525799e', name: 'maxx89', wins: 27, losses: 136, playtime: 408, codeLanguage: 'javascript'}
+  {team: 'ogres', rank: 78, userID: '550cc15b0f7e6ece0684a2d4', sessionID: '550cc20735f6fd2807b877ae', name: 'The AI', wins: 24, losses: 135, playtime: 128, codeLanguage: 'clojure'}
+  {team: 'ogres', rank: 79, userID: '54903e1e6f2e23450a4fd7ac', sessionID: '5519e6bc8328b9020debf33f', name: 'kev0', wins: 15, losses: 147, playtime: 3459, codeLanguage: 'python'}
+  {team: 'ogres', rank: 80, userID: '54fe734f834d927905307753', sessionID: '5515cefa1a93145605a66f9e', name: 'Anonymous', wins: 14, losses: 149, playtime: 1002, codeLanguage: 'python'}
 ]

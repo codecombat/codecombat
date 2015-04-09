@@ -158,7 +158,8 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         creator: req.user._id+''
 
-      query = Session.find(sessionQuery).select('-screenshot')
+      query = Session.find(sessionQuery).select('-screenshot -transpiledCode')
+      # TODO: take out "code" as well, since that can get huge containing the transpiled code for the lat hero, and find another way of having the LadderSubmissionViews in the MyMatchesTab determine rankin readiness
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 

@@ -110,6 +110,8 @@ module.exports = class LadderView extends RootView
       @$el.find('a[href="#rules"]').tab('show')
     if link and /#prizes/.test link
       @$el.find('a[href="#prizes"]').tab('show')
+    if link and /#winners/.test link
+      @$el.find('a[href="#winners"]').tab('show')
 
   destroy: ->
     clearInterval @refreshInterval

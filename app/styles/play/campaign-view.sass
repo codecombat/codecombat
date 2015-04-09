@@ -563,14 +563,20 @@ $gameControlMargin: 30px
           width: 100%
           text-align: center
 
-          .campaign-name, .levels-completed, .campaign-locked, .campaign-description
+          .campaign-name, .levels-completed, .campaign-locked
             margin: 0
             color: white
             text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
 
+          .campaign-locked
+            margin: 32px 0
+
           .campaign-description
             margin: 0px 40px
-            font-size: 22px
+            background: transparent url(/images/level/popover_border_background.png) no-repeat
+            background-size: 100% 100%
+            padding: 12px
+            color: black
 
           .levels-completed
             font-size: 22px

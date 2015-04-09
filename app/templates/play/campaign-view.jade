@@ -15,8 +15,8 @@ if campaign
           if level.unlocksHero && (!level.purchasedHero || editorMode)
             img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-          if level.slug == 'apocalypse'
-            img.star(src="/file/db/thang.type/54ea89112b7506e891ca717d/portrait.png")
+          if level.slug == 'lost-viking'
+            img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
           else if level.requiresSubscription
             img.star(src="/images/pages/play/star.png")
           if levelStatusMap[level.slug] === 'complete'
@@ -79,7 +79,7 @@ else
             else if campaign
               btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
             if campaign && campaign.get('description')
-              h3.campaign-description
+              p.campaign-description
                 span= i18n(campaign.attributes, 'description')
 
 .game-controls.header-font
