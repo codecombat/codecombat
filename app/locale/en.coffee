@@ -429,7 +429,7 @@
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     payment_methods: "Payment Methods"
     payment_methods_title: "Accepted Payment Methods"
-    payment_methods_blurb1: "We currently accept credit cards, Alipay, and bitcoins."
+    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Monthly Subscription"
     subscription_required_to_play: "You'll need a subscription to play this level."
