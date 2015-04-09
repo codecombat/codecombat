@@ -94,14 +94,12 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     campaign_classic_algorithms_description: "... ve kterých se naučíte nejoblíbenější algoritmy v IT."
 
   share_progress_modal:
-    blurb: "Děláš velké pokroky!  Řekni někomu, co jsi se už naučil s CodeCombat."
+    blurb: "Děláš velké pokroky!  Řekni někomu, co jsi se už naučil s CodeCombat." # {change}
     email_invalid: "Neplatná e-mailová adresa."
     form_blurb: "Vložte jejich e-mail níže a my už je kontaktujeme!"
     form_label: "E-mailová adresa"
     placeholder: "e-mailová adresa"
     title: "Výborná práce, učni"
-    tell_friend: "Řekni svým přátelům"
-    tell_parent: "Řekni svým rodičům"
 
   login:
     sign_up: "Vytvořit účet"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_hour_of_code_done_yes: "Ano, pro dnešek jsem skončil!"
     victory_experience_gained: "Získáno zkušeností"
     victory_gems_gained: "Získáno drahokamů"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Průvodce"
     tome_minion_spells: "Vaše oblíbená kouzla" # Only in old-style levels.
     tome_read_only_spells: "Kouzla jen pro čtení" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "60+ základních úrovní napříč 4 světy"
+    feature1: "60+ základních úrovní napříč 4 světy" # {change}
     feature2: "7 silných <strong>nových hrdinů</strong> s jedinečnými dovednostmi!"
-    feature3: "30+ bonusových úrovní"
+    feature3: "30+ bonusových úrovní" # {change}
     feature4: "<strong>3500 bonusových drahokamů</strong> každý měsíc!"
     feature5: "Video tutoriály"
     feature6: "Premiová e-mailová podpora"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     parents_blurb1: "Pomocí CodeCombat se vaše dítě učí psaním opravdového kódu. Začínají učením se základním příkazů a postupně se přidávají pokročilejší témata."
     parents_blurb2: "Za $9.99 USD/měsíc, získají nové výzvy každý týden a osobní emailovou podporu od profesionálních programátorů."
     parents_blurb3: "Bez rizika: 100% záruka vrácení peněz, jednoduché zrušení předplatného na 1 kliknutí."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Měsíční předplatné"
     subscription_required_to_play: "Pro hraní této úrovně potřebujete předplatné."
     unlock_help_videos: "Kupte si předplatné pro odemčení všech tutoriálových videí."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "Systemové požadavky"
     sys_requirements_1: "Protože CodeCombat je hra, pro počítače je to více náročnější než přehrávání videa. Optimalizovali jsme CodeCombat, aby běžel rychle na všech moderních prohlížečích a dokonce i na starších mašinách, takže každý může hrát. Takže tady jsou naše návrhy, jak si co nejvíce užít váš Hour of Code zážitek:" # {change}
     sys_requirements_2: "Používejte nejnovější verzi Chromu nebo Firefoxu." # {change}

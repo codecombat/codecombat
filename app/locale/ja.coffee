@@ -100,8 +100,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     form_label: "メールアドレス"
     placeholder: "メールアドレス"
     title: "良くやった、弟子よ"
-    tell_friend: "友達に紹介"
-    tell_parent: "親に紹介"
 
   login:
     sign_up: "アカウント登録"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_hour_of_code_done_yes: "はい、構いません"
     victory_experience_gained: "XP獲得"
     victory_gems_gained: "ジェム獲得"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文" # Only in old-style levels.
     tome_read_only_spells: "読込専用の呪文" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "60+ basic levels across 4 worlds"
+#    feature1: "80+ basic levels across 4 worlds"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "30+ bonus levels"
+#    feature3: "50+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -588,7 +592,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。"
     sub_includes_title: "サブスクリプションの内容について"
     sub_includes_1: "70以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
-    sub_includes_2: "40以上の練習レベル"
+    sub_includes_2: "40以上の練習レベル" # {change}
     sub_includes_3: "ビデオチュートリアル"
     sub_includes_4: "メールによるサポート"
     sub_includes_5: "7人の新しいヒーローとマスターのユニークなスキル"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     how_much_2: "月々のサブスクリプションは"
     how_much_3: "$9.99 で、これはいつでもキャンセルできます。"
     how_much_4: "さらに、私たちは大きなグループにディスカウントを行っています:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "動作環境"
     sys_requirements_1: "モダンなブラウザ。最新の Chrome や FireFox, Safari など。Internet Explorer 9 以上。"
     sys_requirements_2: "CodeCombat はまだ iPad をサポートしていません。"

@@ -94,14 +94,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     campaign_classic_algorithms_description: "...onde você aprende os algoritmos mais conhecidos em Ciência da Computação."
 
   share_progress_modal:
-    blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat."
+    blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat." # {change}
     email_invalid: "Endereço de email inválido."
     form_blurb: "Informe o e-mail deles abaixo e mostraremos a eles!"
     form_label: "Endereço de Email"
     placeholder: "endereço de email"
     title: "Excelente Trabalho, Aprendiz"
-    tell_friend: "Conte a seus amigos"
-    tell_parent: "Conte a seus pais"
 
   login:
     sign_up: "Criar conta"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
     victory_experience_gained: "XP ganho"
     victory_gems_gained: "Gems ganhas"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados" # Only in old-style levels.
     tome_read_only_spells: "Magias não editáveis" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   subscribe:
     comparison_blurb: "Afine suas habilidades com uma assinatura CodeCombat!"
-    feature1: "Mais de 60 níveis básicos entre 4 mundos"
+    feature1: "Mais de 60 níveis básicos entre 4 mundos" # {change}
     feature2: "7 poderosos <strong>novos heróis</strong> com habilidades únicas!"
-    feature3: "Mais de 30 níveis bônus"
+    feature3: "Mais de 30 níveis bônus" # {change}
     feature4: "<strong>3500 gemas bônus</strong> todo mês!"
     feature5: "Vídeo tutorials"
     feature6: "Suporte via e-mail Premium"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     parents_blurb1: "Com o CodeCombat, seus filhos aprendem a programar de verdade. Eles começam a aprender comandos simples, e progridem para tópicos avançados."
     parents_blurb2: "Apenas $9.99 USD/mês, eles recebem novos desafios todo mês e suporte no email pessoal de programadores profissionais."
     parents_blurb3: "Sem risco: 100% devolução do dinheiro garantida, basta um simples clique em desinscrever-se."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Inscrição Mensal"
     subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "Requisitos de Sistema"
     sys_requirements_1: "Pelo motivo de CodeCombat ser um jogo, é mais intenso para ser processado em computadores do que tutoriais em vídeo ou escritos. Estamos otimizando para que rode rapidamente em todos navegadores modernos e também em computadores antigos, assim todos podem jogar. Sendo assim, aqui estão as nossas sugestões para tirar o máximo proveito da experiência de CodeCombat:" # {change}
     sys_requirements_2: "Use versões novas dos navegadores Chrome ou Firefox." # {change}

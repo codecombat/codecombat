@@ -100,8 +100,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     form_label: "Địa chỉ email"
     placeholder: "địa chỉ email"
     title: "Làm tốt lắm, thực tập viên"
-    tell_friend: "Hãy nói với những người bạn của bạn"
-    tell_parent: "Hãy nói với bố mẹ bạn"
 
   login:
     sign_up: "Tạo tài khoản"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_hour_of_code_done_yes: "Đúng vậy, tôi đã hoàn tất thời gian lập trình!"
     victory_experience_gained: "XP nhận được"
     victory_gems_gained: "Ngọc nhận được"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Hướng dẫn"
     tome_minion_spells: "Phép của lính của bạn" # Only in old-style levels.
 #    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "60+ basic levels across 4 worlds"
+#    feature1: "80+ basic levels across 4 worlds"
     feature2: "7 <strong>nhât vật mới</strong> mạnh mẽ với những kĩ năng đặc biệt!"
-#    feature3: "30+ bonus levels"
+#    feature3: "50+ bonus levels"
     feature4: "<strong>Được thưởng thêm 3500 ngọc</strong> mỗi tháng!"
     feature5: "Những video hướng dẫn qua bàn"
     feature6: "Sự hỗ trợ tận tình qua email"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     parents_blurb1: "Với CodeCombat, con của bạn sẽ có thể học lập trình bằng việc viết những dòng code thật sự. Con bạn sẽ bắt đầu bằng việc học những lệnh cơ bản, và sau đó sẽ từ từ tìm hiểu về các vấn đề phức tạp hơn."
     parents_blurb2: "Chỉ với $9.99 USD một tháng, con của bạn sẽ nhận được những thử thách mới mỗi tháng và sẽ nhận được sự hỗ trợ từ các lập trình viên chuyên nghiệp qua email."
     parents_blurb3: "Không hề có rủi ro: Nếu bạn không hài lòng bạn có thể nhận lại 100% số tiền mình bỏ ra chỉ với 1 cú nhấp chuốt."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    sys_requirements_title: "System Requirements"
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
     sys_requirements_2: "Hãy sử dụng phiên bản mới nhất của Chrome hoặc Firefox." # {change}

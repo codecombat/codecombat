@@ -94,14 +94,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_classic_algorithms_description: "... donde aprendes los algoritmos mas populares de la informatica."
 
   share_progress_modal:
-    blurb: "¡Estás teniendo un gran progreso! Cuéntale a alguien que tanto habeis aprendido con CodeCombat."
+    blurb: "¡Estás teniendo un gran progreso! Cuéntale a alguien que tanto habeis aprendido con CodeCombat." # {change}
     email_invalid: "La dirección de correo electrónico no es válida."
     form_blurb: "¡Introduzca su correo electrónico y nosotros les mostraremos!"
     form_label: "Correo Electrónico"
     placeholder: "correo electrónico"
     title: "Excelente Trabajo Aprendiz"
-    tell_friend: "Decirle a un amigo"
-    tell_parent: "Decirle a mis padres"
 
   login:
     sign_up: "Crear una cuenta"
@@ -181,7 +179,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     undo_prefix: "Deshacer"
     undo_shortcut: "(Ctrl+Z)"
     redo_prefix: "Rehacer"
-    redo_shortcut: "(Ctrl+Shift+Z)" #tal vez sea mejor usar el común Control+Y
+    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "Reproducir una vista previa del nivel actual"
     result: "Resultado"
     results: "Resultados"
@@ -206,7 +204,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     player: "Jugador"
     player_level: "Nivel" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Guerrero"
-    ranger: "Unidad de combate a distancia" #ranged combat unit due to lack of translation to ranger
+    ranger: "Unidad de combate a distancia"
     wizard: "Mago"
 
   units:
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_hour_of_code_done_yes: "Si, ¡He terminado con mi hora de código!"
     victory_experience_gained: "XP Conseguida"
     victory_gems_gained: "Gemas Conseguidas"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Guía"
     tome_minion_spells: "Los hechizos de tus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de solo lectura" # Only in old-style levels.
@@ -331,7 +330,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_optimization_operator: "Cada lenguaje tiene un operator para optimización. En la mayoría de los lenguajes dicho operador es ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
 #    tip_source_code: "I want to change the world but they would not give me the source code."
-    tip_javascript_java: "Java es a JavaScript lo que un automóvil es a un móvil. - Chris Heilmann" #Car is to Carpet - auto es a una alfombra
+    tip_javascript_java: "Java es a JavaScript lo que un automóvil es a un móvil. - Chris Heilmann"
     tip_move_forward: "Lo que sea que hagas, sigue hacia adelante. - Martin Luther King Jr."
     tip_google: "¿Teneis un problema que no podeis resolver? ¡Googleadlo!"
 #    tip_adding_evil: "Adding a pinch of evil."
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "60+ basic levels across 4 worlds"
+#    feature1: "80+ basic levels across 4 worlds"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "30+ bonus levels"
+#    feature3: "50+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Vídeo tutoriales"
 #    feature6: "Premium email support"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     parents_blurb1: "Con CodeCombat, tus hijos aprendes a desarrollar código real. Al inicio aprenden comandos simples, y avanzan a temas más avanzados."
     parents_blurb2: "Por $9.99 USD/mes, tienen nuevos desafios cada semana y un correo personal con soporte de nuestros programadores profesionales."
     parents_blurb3: "Sin riesgo: 100% garantía de devoluación de dinero, desuscripción con un simple click."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Suscripción mensual"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -475,7 +479,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     weapons_warrior: "Espadas - Corto Alcance, Sin Magia"
     weapons_ranger: "Ballestas, Pistolas - Largo Alcance, Sin Magia"
     weapons_wizard: "Varitas, Bastones - Largo Alcance, Magia"
-    attack: "Daño" # Can also translate as " to Attack"
+    attack: "Daño" # Can also translate as "Attack"
     health: "Salud"
     speed: "Velocidad"
     regeneration: "Regeneración"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     how_much_2: "suscripción mensual"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    sys_requirements_title: "System Requirements"
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
 #    sys_requirements_2: "CodeCombat is not supported on iPad yet."
@@ -751,7 +754,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     pick_a_terrain: "Escoge un Terreno"
 #    dungeon: "Dungeon"
 #    indoor: "Indoor"
-    desert: "Desierto" #desert like take a desert in desert? :P
+    desert: "Desierto"
     grassy: "Cubierto de hierba"
     small: "Pequeño"
 #    large: "Large"

@@ -94,14 +94,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
 
   share_progress_modal:
-    blurb: "你的进度真快！快告诉其他人你从CodeCombat学到了什么！"
+    blurb: "你的进度真快！快告诉其他人你从CodeCombat学到了什么！" # {change}
     email_invalid: "邮件地址不可用。"
     form_blurb: "输入他们的邮件地址，我们会让他们知道CodeCombat的有趣"
     form_label: "邮件地址"
     placeholder: "邮件地址"
     title: "你做的太好了！"
-    tell_friend: "告诉你的好朋友们"
-    tell_parent: "告诉你亲爱的家人"
 
   login:
     sign_up: "注册"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_hour_of_code_done_yes: "是的, 完成了!"
     victory_experience_gained: "获得经验"
     victory_gems_gained: "获得宝石"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升你的技能！"
-    feature1: "60+ 基本关卡（4个世界）"
+    feature1: "60+ 基本关卡（4个世界）" # {change}
     feature2: "7 个强大 <strong>英雄</strong>以及各式非凡技能!"
-    feature3: "30+ 奖励关卡"
+    feature3: "30+ 奖励关卡" # {change}
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
     parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
     parents_blurb3: "无风险承诺：100%退款，一键退款。"
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "每月订阅"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "系统需求"
     sys_requirements_1: "因为CodeCombat是个游戏，它对于电脑的要求很高以运行的顺畅。我们已经优化过他以便让他能在每一个最新浏览器或是比较旧的电脑跑得顺畅，所以每一个人都能享受CodeCombat带来的乐趣。如上，为了使你顺利的完成Hour of Code的学习，我们建议你：" # {change}
     sys_requirements_2: "使用最新版本的Chrome或是Firefox." # {change}
