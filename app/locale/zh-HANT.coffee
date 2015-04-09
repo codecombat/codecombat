@@ -492,7 +492,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    speed_1: "Moves at"
 #    speed_2: "meters per second."
     available_for_purchase: "可以購買" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-    level_to_unlock: "解鎖等級:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    level_to_unlock: "解鎖關卡:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "特定英雄才可遊玩此關卡。"
 
   skill_docs:
@@ -744,7 +744,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     thang_title: "物品編輯器"
     level_title: "關卡編輯器"
     achievement_title: "目標編輯器"
-#    poll_title: "Poll Editor"
+    poll_title: "投票編輯器"
     back: "後退"
     revert: "還原"
     revert_models: "還原模式"
@@ -805,13 +805,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     new_level_title_login: "登錄以建立新關卡"
     new_achievement_title: "建立新成就"
     new_achievement_title_login: "登錄以建立新成就"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "創建一個新的投票"
+    new_poll_title_login: "登入去創建一個新的投票"
     article_search_title: "在這搜尋文件"
     thang_search_title: "在這搜尋物體類型"
     level_search_title: "在這搜尋關卡"
     achievement_search_title: "搜尋成就"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "搜尋投票"
     read_only_warning2: "注意: 您不能在這儲存任何編輯, 因為您尚未登入."
     no_achievements: "尚未有任何成就加入到這關卡中."
     achievement_query_misc: "關閉成就欄的雜項"
@@ -819,14 +819,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     level_completion: "關卡完成"
     pop_i18n: "填寫 I18N"
     tasks: "任務"
-#    clear_storage: "Clear your local changes"
+    clear_storage: "清除您本機端的變更"
 
   article:
     edit_btn_preview: "預覽"
     edit_article_title: "編輯文章"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "優先順序"
 
   contribute:
     page_title: "貢獻"
