@@ -20,6 +20,9 @@
     if showRequiredError
       .alert.alert-success
         span(data-i18n="signup.required") You need to log in before you can that way.
+    else if mode === 'signup' && showSignupRationale
+      .alert.alert-info
+        span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
 
     form.form
       .form-group

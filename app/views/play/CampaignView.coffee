@@ -20,6 +20,7 @@ ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
+storage = require 'core/storage'
 
 trackedHourOfCode = false
 
@@ -148,9 +149,10 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents']
+    if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+      @openModalView new AuthModal supermodel: @supermodel, showSignupRationale: true, mode: 'signup'
+    else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email')
       @openModalView new ShareProgressModal()
-
 
   setCampaign: (@campaign) ->
     @render()

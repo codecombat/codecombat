@@ -33,6 +33,7 @@ module.exports = class AuthModal extends ModalView
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
+    c.showSignupRationale = @options.showSignupRationale
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
     c.me = me
