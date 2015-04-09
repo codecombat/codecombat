@@ -352,8 +352,7 @@ class CocoModel extends Backbone.Model
     return model
 
   setURL: (url) ->
-    makeURLFunc = (u) -> -> u
-    @url = makeURLFunc(url)
+    @url = -> url #TODO: Is this even needed? -> getURL checks if url is a string anyway.
     @
 
   getURL: ->

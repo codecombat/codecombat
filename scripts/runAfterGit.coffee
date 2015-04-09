@@ -3,9 +3,9 @@ return console.log '------------------------------------------------- \n
 
 Commandline utility written in Coffeescript to run all updates, download latest database and install it after you git pushed. \n
 Params: \n
-\t--skipupdates skips npm and bower update \n
+\t--skipupdates: skips npm and bower update \n
 \t--dldb: download the latest database (Over 300 mb!) \n
-\t--resetdb: to reset the database and load dump from tmp. Will need a downloaded database or --dbdownload specified \n
+\t--resetdb: to reset the database and load dump from tmp. Will need a downloaded database or --dldb specified \n
 \t--mongopath <.path/to/mongo>: to specify mongodb folder if not set in PATH. \n
 \t--help: Yo fund this one already. \n
 \n
@@ -88,12 +88,12 @@ downloadDB = ->
     response.on 'data', (chunk) ->
       cur += chunk.length
       console.log 'DB dump download received chunk ' + currentChunk++ + ', '  + (100.0 * cur / len).toFixed(2) + '% finished of ' + total.toFixed(0) + ' mb'
-    unzip.on('data', -> console.log 'Unpacking zip...')
+    #unzip.on('data', -> console.log 'Unpacking zip...')
     unzip.on('error', (err) -> console.log 'An error occurred while downloading DB Dump: ' + err)
     unzip.on 'end', ->
       console.log 'Finished downloading.'
       deferred.resolve()
-    deferred.promise()
+  deferred.promise()
 
 installUpdates = ->
   deferred = Deferred()
