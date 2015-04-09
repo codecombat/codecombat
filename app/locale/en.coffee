@@ -94,14 +94,12 @@
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
   share_progress_modal:
-    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
+    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat." #{change}
     email_invalid: "Email address invalid."
-    form_blurb: "Enter their email below and we’ll show them!"
+    form_blurb: "Enter your parent's email below and we’ll show them!"
     form_label: "Email Address"
     placeholder: "email address"
     title: "Excellent Work, Apprentice"
-    tell_friend: "Tell your Friend"
-    tell_parent: "Tell your Parent"
 
   login:
     sign_up: "Create Account"
