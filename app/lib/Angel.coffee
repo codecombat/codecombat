@@ -20,8 +20,11 @@ module.exports = class Angel extends CocoClass
   constructor: (@shared) ->
     super()
     @say 'Got my wings.'
-    if window.navigator and (window.navigator.userAgent.search('MSIE') isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
-      @infiniteLoopIntervalDuration *= 10  # since it's so slow to serialize without transferable objects, we can't trust it
+    isIE = window.navigator and (window.navigator.userAgent.search('MSIE') isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
+    if isIE or @shared.headless
+      # Since IE is so slow to serialize without transferable objects, we can't trust it.
+      # We also noticed the headless_client simulator needing more time. (This does both Simulators, though.)
+      @infiniteLoopIntervalDuration *= 10
       @infiniteLoopTimeoutDuration *= 10
       @abortTimeoutDuration *= 10
     @initialized = false
