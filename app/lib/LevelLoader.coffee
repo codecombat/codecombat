@@ -234,7 +234,10 @@ module.exports = class LevelLoader extends CocoClass
         requiredThangTypes.push itemThangType for itemThangType in _.values (component.config.inventory ? {})
       else if component.config.requiredThangTypes
         requiredThangTypes = requiredThangTypes.concat component.config.requiredThangTypes
-    for thangType in requiredThangTypes
+    extantRequiredThangTypes = _.filter requiredThangTypes
+    if extantRequiredThangTypes.length < requiredThangTypes.length
+      console.error "Some Thang had a blank required ThangType in components list:", components
+    for thangType in extantRequiredThangTypes
       url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
