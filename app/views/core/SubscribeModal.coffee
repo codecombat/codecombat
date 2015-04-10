@@ -59,7 +59,9 @@ module.exports = class SubscribeModal extends ModalView
 
   setupParentInfoPopover: ->
     popoverTitle = $.i18n.t 'subscribe.parents_title'
-    popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1') + "</p>"
+    levelsCompleted = me.get('stats')?.gamesCompleted or 'several'
+    popoverContent = "<p>" + $.i18n.t('subscribe.parents_blurb1', nLevels: levelsCompleted) + "</p>"
+    popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb1a') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
     #popoverContent = popoverContent.replace /9[.,]99/g, '3.99'  # Sale
