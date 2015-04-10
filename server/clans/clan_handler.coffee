@@ -17,13 +17,15 @@ ClanHandler = class ClanHandler extends Handler
 
   hasAccess: (req) ->
     return true if req.method in ['GET']
-    return true if req.user? and not req.user.isAnonymous()
+    return false unless req.user?
+    return false if req.user.isAnonymous()
+    return true if req.body.type is 'public' or req.user.isPremium()
     false
 
   hasAccessToDocument: (req, document, method=null) ->
     return false unless document?
-    method = (method or req.method).toLowerCase()
     return true if req.user?.isAdmin()
+    method = (method or req.method).toLowerCase()
     return true if method is 'get'
     return true if document.get('ownerID')?.equals req.user._id
     false
@@ -64,12 +66,17 @@ ClanHandler = class ClanHandler extends Handler
       clanID = mongoose.Types.ObjectId(clanID)
     catch err
       return @sendNotFoundError(res, err)
-    Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
+    Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
+      return @sendDatabaseError(res, err) unless clan
+      return @sendDatabaseError(res, err) unless clanType = clan.get('type')
+      return @sendForbiddenError(res) unless clanType is 'public' or req.user.isPremium()
+      Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
         return @sendDatabaseError(res, err) if err
-        @sendSuccess(res)
-        AnalyticsLogEvent.logEvent req.user, 'Clan joined', clanID: clanID, type: 'public'
+        User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
+          return @sendDatabaseError(res, err) if err
+          @sendSuccess(res)
+          AnalyticsLogEvent.logEvent req.user, 'Clan joined', clanID: clanID, type: clanType
 
   leaveClan: (req, res, clanID) ->
     return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()

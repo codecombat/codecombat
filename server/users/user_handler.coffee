@@ -543,7 +543,9 @@ UserHandler = class UserHandler extends Handler
     @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
       return @sendNotFoundError(res) if not user
       clanIDs = user.get('clans') ? []
-      Clan.find {_id: {$in: clanIDs}}, (err, documents) =>
+      query = {$and: [{_id: {$in: clanIDs}}]}
+      query['$and'].push {type: 'public'} unless req.user.id is user.id
+      Clan.find query, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
 
