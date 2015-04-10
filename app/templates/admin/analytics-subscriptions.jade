@@ -91,6 +91,7 @@ block content
             th Started
             th Cancelled
             th Net
+            th Ended
         tbody
           each sub in subs
             tr
@@ -99,3 +100,4 @@ block content
               td= sub.started
               td= sub.cancelled
               td= sub.started - sub.cancelled
+              td= sub.ended

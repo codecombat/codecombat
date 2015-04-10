@@ -90,60 +90,83 @@ class SubscriptionHandler extends Handler
 
   getSubscriptions: (req, res) ->
     # Returns a list of active subscriptions
-    # TODO: does not handle customers with 11+ active subscriptions
     # TODO: does not track sponsored subs, only basic
     # TODO: does not return free subs
     # TODO: add tests
     # TODO: aggregate this data daily instead of providing it on demand
     # TODO: take date range as input
+    # TODO: are ended counts correct for today?  E.g. retries may complicate things.
 
     return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
 
-    # @subs ?= []
     # return @sendSuccess(res, @subs) unless _.isEmpty(@subs)
-    @subs = []
+    @subMap = {}
 
-    customersProcessed = 0
-    nextBatch = (starting_after, done) =>
+    console.log 'Fetching invoices...'
+
+    processInvoices = (starting_after, done) =>
       options = limit: 100
       options.starting_after = starting_after if starting_after
-      stripe.customers.list options, (err, customers) =>
+      stripe.invoices.list options, (err, invoices) =>
         return done(err) if err
-        customersProcessed += customers.data.length
-
-        for customer in customers.data
-          continue unless customer?.subscriptions?.data?.length > 0
-          for subscription in customer.subscriptions.data
-            continue unless subscription.plan.id is 'basic'
-
-            amount = subscription.plan.amount
-            if subscription?.discount?.coupon?
-              if subscription.discount.coupon.percent_off
-                amount = amount *  (100 - subscription.discount.coupon.percent_off) / 100;
-              else if subscription.discount.coupon.amount_off
-                amount -= subscription.discount.coupon.amount_off
-            else if customer.discount?.coupon?
-              if customer.discount.coupon.percent_off
-                amount = amount *  (100 - customer.discount.coupon.percent_off) / 100
-              else if customer.discount.coupon.amount_off
-                amount -= customer.discount.coupon.amount_off
-
-            continue unless amount > 0
-
-            sub = start: new Date(subscription.start * 1000)
-            if subscription.cancel_at_period_end
-              sub.cancel = new Date(subscription.canceled_at * 1000)
-              sub.end = new Date(subscription.current_period_end * 1000)
-            @subs.push(sub)
-
-        # Can't fetch all the test Stripe data
-        if customers.has_more and (config.isProduction or customersProcessed < 500)
-          return nextBatch(customers.data[customers.data.length - 1].id, done)
+        for invoice in invoices.data
+          continue unless invoice.paid
+          continue unless invoice.subscription
+          continue unless invoice.total > 0
+          continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
+          subID = invoice.subscription
+          invoiceDate = new Date(invoice.date * 1000)
+          if subID of @subMap
+            @subMap[subID].first = invoiceDate
+          else
+            @subMap[subID] =
+              first: invoiceDate
+              last: invoiceDate
+              customerID: invoice.customer
+        if invoices.has_more
+          console.log 'Fetching more invoices', Object.keys(@subMap).length
+          return processInvoices(invoices.data[invoices.data.length - 1].id, done)
         else
           return done()
-    nextBatch null, (err) =>
+
+    processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
-      @sendSuccess(res, @subs)
+
+      console.log 'Checking cancelled subscriptions...'
+
+      createCheckCancelledFn = (customerID, subscriptionID) =>
+        (done) =>
+          stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
+            return done() if err
+            if subscription?.cancel_at_period_end
+              @subMap[subscriptionID].cancel = new Date(subscription.canceled_at * 1000)
+            done()
+
+      tasks = []
+      for subID of @subMap
+        expectedLastPayment = new Date(@subMap[subID].last)
+        expectedLastPayment.setUTCFullYear(new Date().getUTCFullYear())
+        expectedLastPayment.setUTCMonth(new Date().getUTCMonth() - 1)
+        expectedLastPayment.setUTCDate(new Date().getUTCDate() - 8) # In case last payment had some retries
+        if @subMap[subID].last > expectedLastPayment
+          tasks.push createCheckCancelledFn(@subMap[subID].customerID, subID)
+
+      async.parallel tasks, (err, results) =>
+        return @sendDatabaseError(res, err) if err
+        @subs = []
+        for subID of @subMap
+          sub =
+            start: @subMap[subID].first
+            subID: subID
+            customerID: @subMap[subID].customerID
+          sub.cancel = @subMap[subID].cancel if @subMap[subID].cancel
+          oneMonthAgo = new Date()
+          oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
+          if @subMap[subID].last < oneMonthAgo
+            sub.end = new Date(@subMap[subID].last)
+            sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
+          @subs.push sub
+        @sendSuccess(res, @subs)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
