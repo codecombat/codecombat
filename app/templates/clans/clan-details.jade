@@ -3,7 +3,9 @@ extends /templates/base
 block content
 
   if clan
-    h1= clan.get('name')
+    h1 #{clan.get('name')}
+      if clan.get('type') === 'private'
+         small (private)
     if clan.get('description')
       .clan-description
         each line in clan.get('description').split('\n')

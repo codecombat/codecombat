@@ -1,15 +1,16 @@
-app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
+app = require 'core/application'
+AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
 EarnedAchievement = require 'models/EarnedAchievement'
 LevelSession = require 'models/LevelSession'
+SubscribeModal = require 'views/core/SubscribeModal'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
 
-# TODO: Message for clan not found
+# TODO: Add message for clan not found
 # TODO: join/leave mostly duped from clans view
 
 module.exports = class ClanDetailsView extends RootView
@@ -135,6 +136,8 @@ module.exports = class ClanDetailsView extends RootView
 
   onJoinClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
+    return unless @clan.loaded
+    return @openModalView new SubscribeModal() if @clan.get('type') is 'private' and not me.isPremium()
     options =
       url: "/db/clan/#{@clanID}/join"
       method: 'PUT'
