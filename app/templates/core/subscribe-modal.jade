@@ -88,3 +88,16 @@
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
           p= stateMessage
+
+    .parent-button-popover-content.hidden
+      .email-parent-form
+        p(data-i18n="subscribe.parent_email_description")
+        form
+          .form-group
+            label(data-i18n="subscribe.parent_email_input_label")
+            input.parent-input.form-control(type='email', data-i18n="[placeholder]subscribe.parent_email_input_placeholder")
+            .parent-email-validator.email_invalid(data-i18n="subscribe.parent_email_input_invalid")
+          button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
+      .email-parent-complete
+        p(data-i18n="subscribe.parent_email_sent")
+        button.btn(type='button', onclick="$('.parent-button').popover('hide');", data-i18n="modal.close")
