@@ -205,7 +205,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 #    warrior: "Warrior"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+#    wizard: "ساحر"
 
   units:
     second: "ثانيّة"
@@ -226,16 +226,16 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #  play_level:
 #    done: "Done"
 #    home: "Home" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
-#    guide: "Guide"
-#    restart: "Restart"
-#    goals: "Goals"
-#    goal: "Goal"
+#    level: "مستوى" # Like "Level: Dungeons of Kithgard"
+#    skip: "الغاء"
+#    game_menu: "قائمة اللعبة"
+#    guide: "المرشد"
+#    restart: "اعادة التشغيل"
+#    goals: "الاهداف"
+#    goal: "هدف"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
+#    success: "نجاح!"
+#    incomplete: "غير مكتمل"
 #    timed_out: "Ran out of time"
 #    failing: "Failing"
 #    action_timeline: "Action Timeline"
