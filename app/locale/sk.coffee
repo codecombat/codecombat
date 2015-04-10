@@ -259,9 +259,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     victory_review: "Povedz nám viac!" # Only in old-style levels.
     victory_hour_of_code_done: "Skončil si?"
     victory_hour_of_code_done_yes: "Áno, pre dnešok som skončil™!"
-    victory_experience_gained: "Získaných skúseností"
+    victory_experience_gained: "Získaných XP"
     victory_gems_gained: "Získaných kryštálov"
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "Staň sa vikingom!"
     guide_title: "Návod"
     tome_minion_spells: "Vaše obľúbené kúzla" # Only in old-style levels.
     tome_read_only_spells: "Kúzla iba na čítanie" # Only in old-style levels.
