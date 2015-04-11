@@ -71,7 +71,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    buy_gems: "Buy Gems"
 #    subscription_required: "Subscription Required"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "익명 플레이어" #Anonymous Player"
     level_difficulty: "난이도: "
     campaign_beginner: "초보자 캠페인"
 #    awaiting_levels_adventurer_prefix: "We release five levels per week."
@@ -95,7 +95,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   share_progress_modal:
 #    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
+     email_invalid: "이메일 주소가 틀립니다" #"Email address invalid."
 #    form_blurb: "Enter your parent's email below and we’ll show them!"
     form_label: "이메일"
     placeholder: "이메일"
