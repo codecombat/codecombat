@@ -24,9 +24,52 @@ class SubscriptionHandler extends Handler
     console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   getByRelationship: (req, res, args...) ->
+    return @getCancellations(req, res) if args[1] is 'cancellations'
     return @getSubscribers(req, res) if args[1] is 'subscribers'
     return @getSubscriptions(req, res) if args[1] is 'subscriptions'
     super(arguments...)
+
+  getCancellations: (req, res) =>
+    return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
+    @cancellations = []
+    nextBatch = (starting_after, done) =>
+      options = limit: 100
+      options.starting_after = starting_after if starting_after
+      stripe.customers.list options, (err, customers) =>
+        return done(err) if err
+
+        for customer in customers.data
+          continue unless customer?.subscriptions?.data?.length > 0
+          for subscription in customer.subscriptions.data
+            continue unless subscription.plan.id is 'basic'
+
+            amount = subscription.plan.amount
+            if subscription?.discount?.coupon?
+              if subscription.discount.coupon.percent_off
+                amount = amount *  (100 - subscription.discount.coupon.percent_off) / 100;
+              else if subscription.discount.coupon.amount_off
+                amount -= subscription.discount.coupon.amount_off
+            else if customer.discount?.coupon?
+              if customer.discount.coupon.percent_off
+                amount = amount *  (100 - customer.discount.coupon.percent_off) / 100
+              else if customer.discount.coupon.amount_off
+                amount -= customer.discount.coupon.amount_off
+
+            continue unless amount > 0
+
+            if subscription.cancel_at_period_end
+              @cancellations.push
+                cancel: new Date(subscription.canceled_at * 1000)
+                subID: subscription.id
+
+        if customers.has_more
+          # console.log 'Fetching more customers', Object.keys(@cancellations).length
+          return nextBatch(customers.data[customers.data.length - 1].id, done)
+        else
+          return done()
+    nextBatch null, (err) =>
+      return @sendDatabaseError(res, err) if err
+      @sendSuccess(res, @cancellations)
 
   getSubscribers: (req, res) ->
     return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
@@ -102,8 +145,6 @@ class SubscriptionHandler extends Handler
     # return @sendSuccess(res, @subs) unless _.isEmpty(@subs)
     @subMap = {}
 
-    console.log 'Fetching invoices...'
-
     processInvoices = (starting_after, done) =>
       options = limit: 100
       options.starting_after = starting_after if starting_after
@@ -124,49 +165,27 @@ class SubscriptionHandler extends Handler
               last: invoiceDate
               customerID: invoice.customer
         if invoices.has_more
-          console.log 'Fetching more invoices', Object.keys(@subMap).length
+          # console.log 'Fetching more invoices', Object.keys(@subMap).length
           return processInvoices(invoices.data[invoices.data.length - 1].id, done)
         else
           return done()
 
     processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
-
-      console.log 'Checking cancelled subscriptions...'
-
-      createCheckCancelledFn = (customerID, subscriptionID) =>
-        (done) =>
-          stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
-            return done() if err
-            if subscription?.cancel_at_period_end
-              @subMap[subscriptionID].cancel = new Date(subscription.canceled_at * 1000)
-            done()
-
-      tasks = []
+      @subs = []
       for subID of @subMap
-        expectedLastPayment = new Date(@subMap[subID].last)
-        expectedLastPayment.setUTCFullYear(new Date().getUTCFullYear())
-        expectedLastPayment.setUTCMonth(new Date().getUTCMonth() - 1)
-        expectedLastPayment.setUTCDate(new Date().getUTCDate() - 8) # In case last payment had some retries
-        if @subMap[subID].last > expectedLastPayment
-          tasks.push createCheckCancelledFn(@subMap[subID].customerID, subID)
-
-      async.parallel tasks, (err, results) =>
-        return @sendDatabaseError(res, err) if err
-        @subs = []
-        for subID of @subMap
-          sub =
-            start: @subMap[subID].first
-            subID: subID
-            customerID: @subMap[subID].customerID
-          sub.cancel = @subMap[subID].cancel if @subMap[subID].cancel
-          oneMonthAgo = new Date()
-          oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
-          if @subMap[subID].last < oneMonthAgo
-            sub.end = new Date(@subMap[subID].last)
-            sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
-          @subs.push sub
-        @sendSuccess(res, @subs)
+        sub =
+          start: @subMap[subID].first
+          subID: subID
+          customerID: @subMap[subID].customerID
+        sub.cancel = @subMap[subID].cancel if @subMap[subID].cancel
+        oneMonthAgo = new Date()
+        oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
+        if @subMap[subID].last < oneMonthAgo
+          sub.end = new Date(@subMap[subID].last)
+          sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
+        @subs.push sub
+      @sendSuccess(res, @subs)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
