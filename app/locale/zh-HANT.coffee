@@ -94,14 +94,12 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     campaign_classic_algorithms_description: "... 資訊科學中最著名的演算法。"
 
   share_progress_modal:
-    blurb: "您正在建立優秀的進度! 告訴別人您已經從CodeCombat學習到多少東西."
+    blurb: "您正在建立優秀的進度! 告訴別人您已經從CodeCombat學習到多少東西." # {change}
     email_invalid: "郵件地址無效."
     form_blurb: "在底下輸入他們的郵件並且我們將秀給他們!"
     form_label: "郵件地址"
     placeholder: "郵件地址"
     title: "出色的作品, 學徒"
-    tell_friend: "告訴您的朋友"
-    tell_parent: "告訴您的父母"
 
   login:
     sign_up: "註冊"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     victory_hour_of_code_done_yes: "是的，我完成了我的程式碼！"
     victory_experience_gained: "取得經驗值"
     victory_gems_gained: "取得寶石"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "指南"
     tome_minion_spells: "助手的咒語" # Only in old-style levels.
     tome_read_only_spells: "唯讀的咒語" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   subscribe:
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧!"
-    feature1: "60 個以上的基本關卡散佈在4張地圖中"
+    feature1: "60 個以上的基本關卡散佈在4張地圖中" # {change}
     feature2: "7 個強壯的<strong>新英雄</strong>並每隻都有不同技巧!"
-    feature3: "30 個以上的額外關卡"
+    feature3: "30 個以上的額外關卡" # {change}
     feature4: "每個月<strong>3500顆額外寶石</strong>!"
     feature5: "視頻教學"
     feature6: "頂級信箱支援"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     parents_blurb1: "使用 CodeCombat , 您的孩子學習真正的編寫程式. 他們學習從簡單的指令，漸進到更加進階的課題."
     parents_blurb2: "每月支付 $9.99 美金, 他們每週獲得新挑戰以及使用信件取得專業程式員的幫助."
     parents_blurb3: "沒有風險: 保證 100% 退費, 一步取消訂閱."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "每月訂閱"
     subscription_required_to_play: "您將需要訂閱來開啟這關."
     unlock_help_videos: "訂閱來解開所有鎖住得教學影片."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -492,7 +496,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    speed_1: "Moves at"
 #    speed_2: "meters per second."
     available_for_purchase: "可以購買" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-    level_to_unlock: "解鎖等級:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    level_to_unlock: "解鎖關卡:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "特定英雄才可遊玩此關卡。"
 
   skill_docs:
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "系統要求"
     sys_requirements_1: "因為CodeCombat是遊戲, 相比播放影片它讓電腦花費更多資源去順暢的執行. 為了讓所有人都可以接觸，我們已經讓它在現在的瀏覽器和老舊的電腦上執行最佳化. 以下是我們為了讓您順暢體驗Hour of Code所給的系統建議:" # {change}
     sys_requirements_2: "使用較新的Chrome or Firefox版本." # {change}
@@ -643,17 +646,17 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     autosave: "自動保存修改"
     me_tab: "我"
     picture_tab: "頭像"
-#    delete_account_tab: "Delete Your Account"
-#    wrong_email: "Wrong Email"
+    delete_account_tab: "刪除您的帳戶"
+    wrong_email: "錯誤的Email"
     upload_picture: "上傳圖片"
-#    delete_this_account: "Delete this account permanently"
+    delete_this_account: "永久性的刪除帳戶"
     god_mode: "上帝模式"
     password_tab: "密碼"
     emails_tab: "郵件"
     admin: "管理員"
     new_password: "新密碼"
     new_password_verify: "確認密碼"
-#    type_in_email: "Type in your email to confirm the deletion"
+    type_in_email: "輸入您的Email來確認刪除"
     email_subscriptions: "訂閱"
     email_subscriptions_none: "無Email訂閱"
     email_announcements: "通知"
@@ -744,7 +747,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     thang_title: "物品編輯器"
     level_title: "關卡編輯器"
     achievement_title: "目標編輯器"
-#    poll_title: "Poll Editor"
+    poll_title: "投票編輯器"
     back: "後退"
     revert: "還原"
     revert_models: "還原模式"
@@ -805,13 +808,13 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     new_level_title_login: "登錄以建立新關卡"
     new_achievement_title: "建立新成就"
     new_achievement_title_login: "登錄以建立新成就"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "創建一個新的投票"
+    new_poll_title_login: "登入去創建一個新的投票"
     article_search_title: "在這搜尋文件"
     thang_search_title: "在這搜尋物體類型"
     level_search_title: "在這搜尋關卡"
     achievement_search_title: "搜尋成就"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "搜尋投票"
     read_only_warning2: "注意: 您不能在這儲存任何編輯, 因為您尚未登入."
     no_achievements: "尚未有任何成就加入到這關卡中."
     achievement_query_misc: "關閉成就欄的雜項"
@@ -819,14 +822,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     level_completion: "關卡完成"
     pop_i18n: "填寫 I18N"
     tasks: "任務"
-#    clear_storage: "Clear your local changes"
+    clear_storage: "清除您本機端的變更"
 
   article:
     edit_btn_preview: "預覽"
     edit_article_title: "編輯文章"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "優先順序"
 
   contribute:
     page_title: "貢獻"

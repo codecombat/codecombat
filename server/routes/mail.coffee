@@ -615,7 +615,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
 
     urlForMatch = (match) ->
-      "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&session=#{session._id}&opponent=#{match.opponents[0].sessionID}"
+      "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&opponent=#{match.opponents[0].sessionID}"
 
     onFetchedDefeatedOpponent = (err, defeatedOpponent) ->
       if err

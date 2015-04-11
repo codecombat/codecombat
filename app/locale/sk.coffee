@@ -100,8 +100,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     form_label: "Emailová adresa"
     placeholder: "emailová adresa"
     title: "Výborná práca, nováčik"
-    tell_friend: "Povedz svojím priateľom"
-    tell_parent: "Povedz rodičom"
 
   login:
     sign_up: "Vytvor účet"
@@ -261,8 +259,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     victory_review: "Povedz nám viac!" # Only in old-style levels.
     victory_hour_of_code_done: "Skončil si?"
     victory_hour_of_code_done_yes: "Áno, pre dnešok som skončil™!"
-    victory_experience_gained: "Získaných skúseností"
+    victory_experience_gained: "Získaných XP"
     victory_gems_gained: "Získaných kryštálov"
+    victory_become_a_viking: "Staň sa vikingom!"
     guide_title: "Návod"
     tome_minion_spells: "Vaše obľúbené kúzla" # Only in old-style levels.
     tome_read_only_spells: "Kúzla iba na čítanie" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   subscribe:
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
-    feature1: "60+ základných úrovní v štyroch svetoch"
+    feature1: "60+ základných úrovní v štyroch svetoch" # {change}
     feature2: "7 mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!"
-    feature3: "30+ bonusových úrovní"
+    feature3: "30+ bonusových úrovní" # {change}
     feature4: "<strong>3500 bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
     feature6: "Prémiová emailová podpora"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     teacher_subs_1: "Napíšte na"
     teacher_subs_2: "pre zriadenie mesačného predplatného zdarma."
     sub_includes_title: "Čo zahrnuje predplatné ?"
-    sub_includes_1: "Študenti s mesačným predplatným získajú ku 70+ základným úrovniam  aj :"
-    sub_includes_2: "40+ tréningových úrovní"
+    sub_includes_1: "Študenti s mesačným predplatným získajú ku 70+ základným úrovniam  aj :" # {change}
+    sub_includes_2: "40+ tréningových úrovní" # {change}
     sub_includes_3: "Video návody"
     sub_includes_4: "Prémiovú emailovú podporu"
     sub_includes_5: "7 nových hrdinov s jedinečnými schopnosťami"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     how_much_2: "Mesačné predplatné"
     how_much_3: ", ktoré môže byť kedykoľvek zrušené, stojí 9.99$."
     how_much_4: "Zľavy pre väčšie skupiny:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "Systémové požiadavky"
     sys_requirements_1: "Moderný webový prehliadač. Nové verzie prehliadačov Chrome, Firefox alebo Safari. Internet Explorer 9 alebo novší."
     sys_requirements_2: "CodeCombat nie je zatiaľ podprovaný pre iPad."

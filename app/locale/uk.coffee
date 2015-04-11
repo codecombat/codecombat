@@ -94,14 +94,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaign_classic_algorithms_description: "... у яких Ви вивчите найпопулярніші алгоритми комп'ютерних наук."
 
   share_progress_modal:
-    blurb: "Ви робите великі успіхи! Розкажіть кому-небудь, як багато ви вивчили з CodeCombat."
+    blurb: "Ви робите великі успіхи! Розкажіть кому-небудь, як багато ви вивчили з CodeCombat." # {change}
     email_invalid: "Невірна електронна адреса."
     form_blurb: "Введіть їхні електронні адреси, і ми покажемо ім!"
     form_label: "Електронна адреса"
     placeholder: "електронна адреса"
     title: "Досконала робота, Учень"
-    tell_friend: "Розкажи своєму другові"
-    tell_parent: "Розкажи своїм батькам"
 
   login:
     sign_up: "створення акаунту"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_hour_of_code_done_yes: "Так, я закінчив Годину Коду!"
     victory_experience_gained: "Отриманий досвід"
     victory_gems_gained: "Отримані самоцвіти"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Посібник"
     tome_minion_spells: "Заклинання Ваших міньонів" # Only in old-style levels.
     tome_read_only_spells: "Заклинання тільки для читання" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   subscribe:
     comparison_blurb: "Відточіть свої навички завдяки підписці на CodeCombat!"
-    feature1: "Більше 60 основних рівней на просторах 4 світів"
+    feature1: "Більше 60 основних рівней на просторах 4 світів" # {change}
     feature2: "7 могутніх <strong>нових героїв</strong> з унікальними здібностями!"
-    feature3: "Більше 30 бонусних рівнів"
+    feature3: "Більше 30 бонусних рівнів" # {change}
     feature4: "<strong>3500 бонусних самоцвітів</strong> кожного місяця!"
     feature5: "Навчальні відеоролики"
     feature6: "Екслюзивна підтримка по електронній пошті"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем."
     parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів."
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Щомісячний абонемент"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     managed_subs: "Керовані абонементи"
     managed_subs_desc: "Додати абонементи для інших гравців (учнів, дітей тощо)"
     group_discounts: "Групові знижки"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     group_discounts_1st: "1-ий абонемент (включає Ваш)" # {change}
     group_discounts_full: "Повна ціна"
     group_discounts_2nd: "2-11 абонементи"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "Системні вимоги"
     sys_requirements_1: "Оскільки CodeCombat — це гра, для нормальної роботи він вимагає у комп'ютерів більше, ніж відео чи текстові посібники. Ми оптимізували його для швидкої роботи в усіх сучасних браузерах і на старіших машинах, щоб кожен міг грати. І ось наші підказки, як отримати від CodeCombat якнайбільше:" # {change}
     sys_requirements_2: "Використовуйте новіші версії Chrome або Firefox." # {change}

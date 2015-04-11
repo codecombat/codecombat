@@ -94,7 +94,7 @@
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
   share_progress_modal:
-    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat." #{change}
+    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
     email_invalid: "Email address invalid."
     form_blurb: "Enter your parent's email below and we’ll show them!"
     form_label: "Email Address"
@@ -397,9 +397,9 @@
 
   subscribe:
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "80+ basic levels across 4 worlds" # {change}
+    feature1: "80+ basic levels across 4 worlds"
     feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "50+ bonus levels" # {change}
+    feature3: "50+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -423,13 +423,14 @@
     parent_email_sent: "Email sent!"
     parent_email_title: "What's your parent's email?"
     parents: "For Parents"
-    parents_title: "Your child will learn to code."
-    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+    parents_title: "Dear Parent: Your child is learning to code. Will you help them continue?" # {change}
+    parents_blurb1: "Your child has played __nLevels__ levels and learned programming basics. Help cultivate their interest and buy them a subscription so they can keep playing." # {change}
+    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers." # {change}
     parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
     payment_methods: "Payment Methods"
     payment_methods_title: "Accepted Payment Methods"
-    payment_methods_blurb1: "We currently accept credit cards, Alipay, and bitcoins."
+    payment_methods_blurb1: "We currently accept credit cards and Alipay."
     payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Monthly Subscription"
     subscription_required_to_play: "You'll need a subscription to play this level."
@@ -592,8 +593,8 @@
     teacher_subs_1: "Please contact"
     teacher_subs_2: "to set up a free monthly subscription."
     sub_includes_title: "What is included in the subscription?"
-    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:" # {change}
-    sub_includes_2: "50+ practice levels" # {change}
+    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+    sub_includes_2: "50+ practice levels"
     sub_includes_3: "Video tutorials"
     sub_includes_4: "Premium email support"
     sub_includes_5: "7 new heroes with unique skills to master"

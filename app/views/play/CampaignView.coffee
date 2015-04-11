@@ -290,7 +290,6 @@ module.exports = class CampaignView extends RootView
     count
 
   showLeaderboard: (levelSlug) ->
-    #levelSlug ?= 'siege-of-stonehold'  # Testing
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
@@ -463,7 +462,11 @@ module.exports = class CampaignView extends RootView
   onClickViewSolutions: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
-    @showLeaderboard levelSlug
+    level = _.find _.values(@campaign.get('levels')), slug: levelSlug
+    if level.type is 'hero-ladder'
+      Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
+    else
+      @showLeaderboard levelSlug
 
   adjustLevelInfoPosition: (e) ->
     return unless @$levelInfo

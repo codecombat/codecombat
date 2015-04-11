@@ -94,14 +94,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaign_classic_algorithms_description: "... onde aprendes os algoritmos mais populares da Ciência da Computação."
 
   share_progress_modal:
-    blurb: "Estás a fazer grandes progressos! Conta a alguém o quanto aprendeste com o CodeCombat."
+    blurb: "Estás a fazer grandes progressos! Conta ao teu educador o quanto aprendeste com o CodeCombat."
     email_invalid: "Endereço de e-mail inválido."
-    form_blurb: "Introduz o e-mail deles abaixo e nós vamos mostrar-lhes!"
+    form_blurb: "Introduz o e-mail dele abaixo e nós vamos mostrar-lhe!"
     form_label: "Endereço de E-mail"
     placeholder: "endereço de e-mail"
     title: "Excelente Trabalho, Aprendiz"
-    tell_friend: "Conta ao teu Amigo"
-    tell_parent: "Conta ao teu Educador"
 
   login:
     sign_up: "Criar Conta"
@@ -168,7 +166,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     body: "Corpo"
     version: "Versão"
     pending: "Pendentes"
-    accepted: "Aceitadas"
+    accepted: "Aceites"
     rejected: "Rejeitadas"
     withdrawn: "Canceladas"
     submitter: "Submissor"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_hour_of_code_done_yes: "Sim, terminei a minha Hora do Código™!"
     victory_experience_gained: "XP Ganho"
     victory_gems_gained: "Gemas Ganhas"
+    victory_become_a_viking: "Torna-te um Viking"
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions" # Only in old-style levels.
     tome_read_only_spells: "Feitiços Apenas de Leitura" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   subscribe:
     comparison_blurb: "Aperfeiçoa as tuas habilidades com uma subscrição do CodeCombat!"
-    feature1: "60+ níveis básicos dispersos por 4 mundos"
+    feature1: "80+ níveis básicos dispersos por 4 mundos"
     feature2: "7 <strong>heróis novos</strong> e poderosos com habilidades únicas!"
-    feature3: "30+ níveis de bónus"
+    feature3: "50+ níveis de bónus"
     feature4: "<strong>3500 gemas de bónus</strong> por mês!"
     feature5: "Tutoriais em vídeo"
     feature6: "Apoio por e-mail superior"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     parents_blurb1: "Com o CodeCombat, o teu educando aprende ao escrever código real. Começa por aprender comandos simples e progride para tópicos mais avançados."
     parents_blurb2: "Por $9.99 USD/mês, recebe novos desafios todas as semanas e suporte pessoal, via e-mail, de programadores profissionais."
     parents_blurb3: "Sem Risco: 100% de garantia de devolução do dinheiro, com anulação fácil de 1 clique."
+    payment_methods: "Formas de Pagamento"
+    payment_methods_title: "Formas de Pagamento Aceites"
+    payment_methods_blurb1: "Atualmente aceitamos cartões de crédito e Alipay."
+    payment_methods_blurb2: "Se precisares de uma outra forma de pagamento, por favor contacta"
     stripe_description: "Subscrição Mensal"
     subscription_required_to_play: "Precisas de uma subscrição para jogares este nível."
     unlock_help_videos: "Subscreve-te para desbloqueares todos os tutoriais em vídeo."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     managed_subs: "Subscrições Geridas"
     managed_subs_desc: "Adiciona subscrições para outros jogadores (estudantes, crianças, etc.)"
     group_discounts: "Descontos de grupo"
+    group_discounts_1: "Também oferecemos descontos de grupo para subscrições em massa."
     group_discounts_1st: "1ª subscrição"
     group_discounts_full: "Preço total"
     group_discounts_2nd: "2ª-11ª subscrições"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     teacher_subs_1: "Por favor, contacta"
     teacher_subs_2: "para te arranjarmos uma subscrição mensal gratuita."
     sub_includes_title: "O que está incluído na subscrição?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     how_much_2: "subscrição mensal"
     how_much_3: "custa $9.99 e pode ser cancelada a qualquer momento."
     how_much_4: "Adicionalmente, oferecemos descontos para grupos maiores:"
-    group_discounts_1: "Também oferecemos descontos de grupo para subscrições em massa."
     sys_requirements_title: "Requisitos do Sistema"
     sys_requirements_1: "Um navegador moderno. As versões mais recentes do Chrome, Firefox ou Safari. Internet Explorer 9 ou mais recente."
     sys_requirements_2: "O CodeCombat ainda não é suportado em iPad's."

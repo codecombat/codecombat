@@ -94,14 +94,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_classic_algorithms_description: "... amiben megtanulod a legnépszerűbb számítástudományi algoritmusokat."
 
 #  share_progress_modal:
-#    blurb: "You’re making great progress! Tell someone how much you've learned with CodeCombat."
+#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
 #    email_invalid: "Email address invalid."
-#    form_blurb: "Enter their email below and we’ll show them!"
+#    form_blurb: "Enter your parent's email below and we’ll show them!"
 #    form_label: "Email Address"
 #    placeholder: "email address"
 #    title: "Excellent Work, Apprentice"
-#    tell_friend: "Tell your Friend"
-#    tell_parent: "Tell your Parent"
 
   login:
     sign_up: "Regisztráció"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
     victory_experience_gained: "Szerzett tapasztalat"
     victory_gems_gained: "Szerzett Drágakövek"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Útmutató"
     tome_minion_spells: "Egységeid varázslatai" # Only in old-style levels.
     tome_read_only_spells: "Csak olvasható varázslatok" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
-    feature1: "60+ alap pálya, 4 világon át"
+    feature1: "60+ alap pálya, 4 világon át" # {change}
     feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!"
-    feature3: "30+ bónusz pálya"
+    feature3: "30+ bónusz pálya" # {change}
     feature4: "<strong>3500 bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium email támogatás"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak."
     parents_blurb2: "Havonta 9,99 USD-ért, minden héten új kihívások elé állítjuk őket és személyre szóló emailes támogatást nyújtanak enkik profi programozók."
     parents_blurb3: "100%-os pénzvisszafizetés garancia: 1-kattintásossal leiratkozhat."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Havi feliratkozás"
     subscription_required_to_play: "Ehhez a szinthez fel kell iratkoznod."
     unlock_help_videos: "Iratkozz fel, hogy feloldd az összes videó oktatóanyagot."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    sys_requirements_title: "System Requirements"
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
 #    sys_requirements_2: "CodeCombat is not supported on iPad yet."

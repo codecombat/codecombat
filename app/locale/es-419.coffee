@@ -94,14 +94,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares de la Ciencia de la Computación."
 
   share_progress_modal:
-    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat."
+    blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat." # {change}
     email_invalid: "Dirección de Email inválida."
     form_blurb: "¡Ingresa su email debajo y les enseñaremos!"
     form_label: "Dirección de Email"
     placeholder: "dirección de email"
     title: "Excelente Trabajo, Aprendiz"
-    tell_friend: "Cuéntale a un Amigo"
-    tell_parent: "Cuéntale a tus Padres"
 
   login:
     sign_up: "Crear Cuenta"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_hour_of_code_done_yes: "¡Si, he terminado con mi Hora de Código!"
     victory_experience_gained: "XP Ganada"
     victory_gems_gained: "Gemas Ganadas"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de Sólo Lectura" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
-    feature1: "Más de 60 niveles basicos a lo largo de 4 mundos"
+    feature1: "Más de 60 niveles basicos a lo largo de 4 mundos" # {change}
     feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
-    feature3: "Más de 30 niveles extras"
+    feature3: "Más de 30 niveles extras" # {change}
     feature4: "<strong>3500 gemas bonus</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos."
     parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales."
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Suscripción Mensual"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
     unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     managed_subs: "Suscripciones administradas"
     managed_subs_desc: "Agregar suscripciones para otros jugadores (alumnos, hijos, etc.)"
     group_discounts: "Descuentos por grupo"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     group_discounts_1st: "1ra suscripción (incluye la tuya)" # {change}
     group_discounts_full: "Precio regular"
     group_discounts_2nd: "2-11 Suscripciones"
@@ -580,32 +584,31 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuanto cuesta?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
-#    free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
-#    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
+    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 120+ niveles que son exclusivos en nuestros servidores en China."
+    free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto."
+    free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-#    teacher_subs_1: "Please contact"
-#    teacher_subs_2: "to set up a free monthly subscription."
+    teacher_subs_1: "Por favor contacte"
+    teacher_subs_2: "para configurar una suscripción mensual gratis."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
-    sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:"
-    sub_includes_2: "Más de 40 niveles de práctica"
+    sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
+    sub_includes_2: "Más de 40 niveles de práctica" # {change}
     sub_includes_3: "Video tutoriales"
-#    sub_includes_4: "Premium email support"
+    sub_includes_4: "Soporte de correo electronico Premium"
     sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar"
     sub_includes_6: "bonificación de 3500 gemas cada mes"
     who_for_title: "¿Para quienes es CodeCombat?"
-#    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
-#    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
-#    material_title: "How much material is there?"
-#    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
-#    material_1: "Approximately 8 hours of free content and an additional 14 hours of subscriber content, with 5 new levels every week."
+    who_for_1: "Recomendamos CodeCombat para estudiantes de edades 9 y arriba. No se require experiencia en programación."
+    who_for_2: "Hemos diseñado a CodeCombat para atraer a niños y niñas."
+    material_title: "Cuánto material hay?"
+    material_china: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana."
+    material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana."
 #    concepts_title: "What concepts are covered?"
     how_much_title: "¿Cuánto cuesta una subscripción mensual?"
     how_much_1: "una"
     how_much_2: "suscribción mensual"
     how_much_3: "Cuesta u$s9.99, y puede ser cancelada en cualquier momento."
     how_much_4: "Adicionalmente, nosotros otorgamos descuentos a grupos grandes:"
-    group_discounts_1: "También ofrecemos descuentes grupales para suscripciones en masa."
     sys_requirements_title: "Requerimientos del sistema"
     sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:" # {change}
     sys_requirements_2: "Usar una versión actualizada del navegador Chrome o Firefox." # {change}
@@ -947,7 +950,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_rules: "Reglas del Torneo"
     tournament_blurb: "Escribe código, recolecta oro, arma ejercitos, aplasta adversarios, gana premios, y asciende en tu carrera por $40,000 en el Torneo Codicia! Echa un vistazo a los detalles"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
-#    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
+    tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
     tournament_blurb_blog: "en nuestro blog"
     rules: "Reglas"
     winners: "Ganadores"

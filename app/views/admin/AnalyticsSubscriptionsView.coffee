@@ -87,16 +87,24 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
           subDayMap[cancelDay] ?= {}
           subDayMap[cancelDay]['cancel'] ?= 0
           subDayMap[cancelDay]['cancel']++
+        if endDay = sub?.end?.substring(0, 10)
+          subDayMap[endDay] ?= {}
+          subDayMap[endDay]['end'] ?= 0
+          subDayMap[endDay]['end']++
+      today = new Date().toISOString().substring(0, 10)
       for day of subDayMap
+        continue if day > today
         @subs.push
           day: day
           started: subDayMap[day]['start'] or 0
           cancelled: subDayMap[day]['cancel'] or 0
+          ended: subDayMap[day]['end'] or 0
 
       @subs.sort (a, b) -> a.day.localeCompare(b.day)
       startedLastMonth = 0
       for sub, i in @subs
         @total += sub.started
+        @total -= sub.ended
         @cancelled += sub.cancelled
         sub.total = @total
         startedLastMonth += sub.started if @subs.length - i < 31
@@ -229,7 +237,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       lineColor: lineMetadata[startedSubsID].color
       strokeWidth: lineMetadata[startedSubsID].strokeWidth
       min: 0
-      max: d3.max(@subs, (d) -> d.started)
+      max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
 
     ## Total subs target
 
@@ -256,21 +264,29 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       max: @targetSubCount
 
     ## Cancelled
+
+    # TODO: move this average cancelled stuff up the chain
     averageCancelled = 0
 
     # Build line data
     levelPoints = []
     cancelled = []
-    for sub, i in @subs
-      if i >= @subs.length - 30
-        cancelled.push sub.cancelled
+    for sub, i in @subs[@subs.length - 30...]
+      cancelled.push sub.cancelled
       levelPoints.push
-        x: i
+        x: @subs.length - 30 + i
         y: sub.cancelled
+        day: sub.day
+        pointID: "#{cancelledSubsID}#{@subs.length - 30 + i}"
+        values: []
+    averageCancelled = cancelled.reduce((a, b) -> a + b) / cancelled.length
+    for sub, i in @subs[0...-30]
+      levelPoints.splice i, 0,
+        x: i
+        y: averageCancelled
         day: sub.day
         pointID: "#{cancelledSubsID}#{i}"
         values: []
-    averageCancelled = cancelled.reduce((a, b) -> a + b) / cancelled.length
 
     # Ensure points for each day
     for day, i in days
@@ -293,7 +309,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       lineColor: lineMetadata[cancelledSubsID].color
       strokeWidth: lineMetadata[cancelledSubsID].strokeWidth
       min: 0
-      max: d3.max(@subs, (d) -> d.started)
+      max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
 
     ## 7-Day Net Subs
 
@@ -338,8 +354,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       lineColor: lineMetadata[netSubsID].color
       strokeWidth: lineMetadata[netSubsID].strokeWidth
       min: 0
-      max: d3.max(@subs, (d) -> d.started)
-
+      max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
 
   updateAnalyticsGraphs: ->
     # Build d3 graphs

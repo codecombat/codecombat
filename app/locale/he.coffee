@@ -100,8 +100,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     form_label: "כתובת דואר אלקטרוני"
     placeholder: "כתובת המייל"
     title: "עבודה מצויינת, מתלמד"
-    tell_friend: "ספר לחברים"
-    tell_parent: "ספר להורים"
 
   login:
     sign_up: "הירשם"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_hour_of_code_done_yes: "שלי Hour of Code™! כן, סיימתי עם ה"
     victory_experience_gained: "שנצבר XP"
     victory_gems_gained: "אבני חן שנצברו"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "מדריך"
     tome_minion_spells: "הכישופים של המשרתים שלך" # Only in old-style levels.
     tome_read_only_spells: "כישופים לקריאה בלבד" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   subscribe:
     comparison_blurb: ".CodeCombatחדד את כישוריך עם מנוי ל"
-    feature1: "60+ שלבים בסיסיים ב 4 עולמות שונים."
+    feature1: "60+ שלבים בסיסיים ב 4 עולמות שונים." # {change}
     feature2: "!עם כישורים מיוחדים <strong>גיבורים עוצמתיים חדשים</strong> 7"
-    feature3: "30+ שלבי בונוס"
+    feature3: "30+ שלבי בונוס" # {change}
     feature4: "!בחינם כל חודש <strong>3500 אבני חן</strong>"
     feature5: "הדרכות וידאו"
     feature6: "תמיכת מייל בעדיפות ראשונה"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "מנוי חודשי"
     subscription_required_to_play: "יש צורך במנוי כדי לשחק בשלב זה."
     unlock_help_videos: "רכוש מנוי כדי לפתוח את כל הדרכות הוידאו."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    sys_requirements_title: "System Requirements"
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
 #    sys_requirements_2: "CodeCombat is not supported on iPad yet."

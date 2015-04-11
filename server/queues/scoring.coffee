@@ -262,8 +262,6 @@ fetchInitialSessionsToRankAgainst = (levelMajorVersion, levelID, submittedSessio
     'level.original': levelID
     'level.majorVersion': levelMajorVersion
     submitted: true
-    submittedCode:
-      $exists: true
     team: opposingTeam
 
   sortParameters =
@@ -609,8 +607,6 @@ findNearestBetterSessionID = (cb) ->
       'level.original': levelOriginalID
       'level.majorVersion': levelMajorVersion
       submitted: true
-      submittedCode:
-        $exists: true
       team: opposingTeam
 
     if opponentSessionTotalScore < 30

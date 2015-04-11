@@ -94,14 +94,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в компьютерных науках."
 
   share_progress_modal:
-    blurb: "Вы отлично продвигаетесь! Расскажите кому-нибудь, как много вы уже выучили с CodeCombat."
+    blurb: "Вы отлично продвигаетесь! Расскажите кому-нибудь, как много вы уже выучили с CodeCombat." # {change}
     email_invalid: "Email-адрес некорректен."
     form_blurb: "Введите их email-адреса ниже, и мы покажем им!"
     form_label: "Email-адрес"
     placeholder: "email-адрес"
     title: "Прекрасная работа, Ученик"
-    tell_friend: "Расскажите своему другу"
-    tell_parent: "Расскажите своим родителям"
 
   login:
     sign_up: "Создать аккаунт"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_hour_of_code_done_yes: "Да, я закончил мой Час Кода™!"
     victory_experience_gained: "Опыта получено"
     victory_gems_gained: "Самоцветов получено"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
     tome_read_only_spells: "Заклинания только для чтения" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство благодаря подписке на CodeCombat!"
-    feature1: "60+ основных уровней на просторах 4-х миров"
+    feature1: "60+ основных уровней на просторах 4-х миров" # {change}
     feature2: "7 могущественных <strong>новых героев</strong> с уникальными способностями!"
-    feature3: "30+ дополнительных уровней"
+    feature3: "30+ дополнительных уровней" # {change}
     feature4: "<strong>3500 бонусных самоцветов</strong> каждый месяц!"
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parents_blurb1: "С CodeCombat ваш ребенок учится через написание реального кода. Начиная с изучения простых команд, продолжая более продвинутыми темами."
     parents_blurb2: "За $9.99 USD/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
     parents_blurb3: "Без риска: 100% гарантия возврата денег, возможность отписаться в 1 клик."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Месячная подписка"
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     managed_subs: "Управляемые подписки"
     managed_subs_desc: "Добавьте подписки для других игроков (студенты, дети и т.д.)"
     group_discounts: "Групповые скидки"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     group_discounts_1st: "1-я подписка"
     group_discounts_full: "Полная стоимость"
     group_discounts_2nd: "Подписки со 2-й по 11-ю"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teacher_subs_1: "Пожалуйста, напишите на"
     teacher_subs_2: "для получения бесплатной месячной подписки."
     sub_includes_title: "Что включено в подписку?"
-    sub_includes_1: "В дополнение к более чем 70 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:"
-    sub_includes_2: "Более 40 уровней для дополнительной практики"
+    sub_includes_1: "В дополнение к более чем 70 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:" # {change}
+    sub_includes_2: "Более 40 уровней для дополнительной практики" # {change}
     sub_includes_3: "Видео-уроки"
     sub_includes_4: "Эксклюзивная поддержка по электронной почте"
     sub_includes_5: "7 новых героев с уникальными возможностями для оттачивания мастерства"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     how_much_2: "месячной подписки"
     how_much_3: "- $9.99. Подписка может быть отменена в любой момент."
     how_much_4: "Дополнительно мы предоставляем скидки для больших групп:"
-    group_discounts_1: "Мы так же предлагаем скидки при групповых подписках."
     sys_requirements_title: "Системные требования"
     sys_requirements_1: "Современный веб-браузер. Последние версии Chrome, Firefox или Safari. Internet Explorer 9 или новее."
     sys_requirements_2: "CodeCombat пока не доступен на iPad."

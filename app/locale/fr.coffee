@@ -94,14 +94,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_classic_algorithms_description: "... dans lesquels vous apprendrez les algorithmes les plus populaires dans l'informatique."
 
   share_progress_modal:
-    blurb: "Vous faites beaucoup de progrès ! Partagez ce que vous avez appris grâce à CodeCombat avec vos amis."
+    blurb: "Vous faites beaucoup de progrès ! Partagez ce que vous avez appris grâce à CodeCombat avec vos amis." # {change}
     email_invalid: "Adresse e-mail non valide"
     form_blurb: "Entres leur adresse e-mail ci-dessous, on leur montrera !"
     form_label: "Adresse e-mail"
     placeholder: "adresse e-mail"
     title: "Très bon travail apprenti !"
-    tell_friend: "Parles-en à tes amis"
-    tell_parent: "Parles-en à tes parents"
 
   login:
     sign_up: "Créer un compte"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_hour_of_code_done_yes: "Oui, j'ai fini mon heure de code !"
     victory_experience_gained: "XP gagnée"
     victory_gems_gained: "Gemmes gagnées"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Guide"
     tome_minion_spells: "Les sorts de vos soldats" # Only in old-style levels.
     tome_read_only_spells: "Sorts en lecture-seule" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   subscribe:
     comparison_blurb: "Aiguisez vos compétences avec un abonnement CodeCombat !"
-    feature1: "Plus de 60 niveaux au travers de 4 mondes"
+    feature1: "Plus de 60 niveaux au travers de 4 mondes" # {change}
     feature2: "7 puissants <strong>nouveaux héros</strong> avec des compétences uniques !"
-    feature3: "Plus de 30 niveaux bonus"
+    feature3: "Plus de 30 niveaux bonus" # {change}
     feature4: "<strong>3500 gemmes bonus</strong> tous les mois !"
     feature5: "Tutoriels vidéo"
     feature6: "Assitance par e-mail dédiée"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     parents_blurb1: "Avec CodeCombat, votre enfant apprend en écrivant de vrais programmes. Il commence en apprenant des instructions simples, puis progresse sur des thèmes plus complexes."
     parents_blurb2: "Pour $9.99 USD/mois, il obtient de nouveaux défis chaque semaine et le support par e-mail de programmeurs professionnels."
     parents_blurb3: "Pas de risque : garantie 100% remboursé, désinscription facile en 1 clic."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Inscription mensuelle"
     subscription_required_to_play: "Vous avez besoin d'un abonnement pour jouer à ce niveau."
     unlock_help_videos: "Abonnez vous pour débloquer tous les tutoriels vidéo."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -588,7 +592,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_subs_2: "pour obtenir un abonnement mensuel gratuit."
     sub_includes_title: "Qu'y a t-il d'inclus dans cet abonnement ?"
     sub_includes_1: "En plus des 70+ niveaux de base, les élèves avec un abonnement mensuel ont accès à ces fonctionnalités supplémentaires :" # {change}
-    sub_includes_2: "40+ niveaux d'entrainement"
+    sub_includes_2: "40+ niveaux d'entrainement" # {change}
     sub_includes_3: "Des tutoriels vidéo"
     sub_includes_4: "Support email premium"
     sub_includes_5: "7 nouveaux héros avec des capacités uniques à maitriser"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     how_much_2: "abonnement mensuel"
     how_much_3: "coûte $9.99 et peut être annulé à n'importe quel moment."
     how_much_4: "De plus, nous fournissons des remises pour les grands groupes :"
-    group_discounts_1: "Nous offrons aussi des remises de groupes pour les achats en masse."
     sys_requirements_title: "Configuration requise"
     sys_requirements_1: "Un navigateur moderne. La dernière version de Chrome, Firefox, ou de Safari. Internet Explorer 9 ou plus récent."
     sys_requirements_2: "CodeCombat n'est pas encore supporté sur iPad."

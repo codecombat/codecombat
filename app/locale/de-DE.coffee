@@ -94,14 +94,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_classic_algorithms_description: "... in welchem du die populärsten Algorithmen der Informatik lernst."
 
   share_progress_modal:
-    blurb: "Du machst dich gut! Sag jemanden wie viel du mit CodeCombat gelernt hast."
+    blurb: "Du machst dich gut! Sag jemanden wie viel du mit CodeCombat gelernt hast." # {change}
     email_invalid: "Diese Email Adresse ist ungültig."
     form_blurb: "Schreibe hier ihre Emailadresse rein und wir werden es ihnen zeigen."
     form_label: "Email Adresse"
     placeholder: "Email Adresse"
     title: "Gute Arbeit, Lehrling"
-    tell_friend: "Erzähle es einem Freund"
-    tell_parent: "Erzähle es deinen Eltern"
 
   login:
     sign_up: "Registrieren"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
     victory_experience_gained: "Gewonnene XP"
     victory_gems_gained: "Gewonnene Edelsteine"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Anleitung"
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte" # Only in old-style levels.
     tome_read_only_spells: "Nur-lesen Zaubersprüche" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   subscribe:
     comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement"
-    feature1: "60+ Basislevel in 4 Gebieten"
+    feature1: "60+ Basislevel in 4 Gebieten" # {change}
     feature2: "7 mächtige <strong>neue Helden</strong> mit einzigartigen Fertigkeiten"
-    feature3: "30+ Bonuslevel"
+    feature3: "30+ Bonuslevel" # {change}
     feature4: "<strong>3500 Bonusedelsteine</strong> jeden Monat!"
     feature5: "Videoanleitungen"
     feature6: "Premium Emailsupport"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents_blurb1: "Mit CodeCombat, lernt dein Kind richtige Programme zu schreiben. Es fängt mit einfachen Befehlen an, und schreitet ganz unmerklich zu schwierigeren Themen fort."
     parents_blurb2: "Für 9.99 im Monat, bekommt es jede Woche neue Herausforderungen sowie persönlichen Email Support von professionellen Programmierern."
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Monatsabo"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     managed_subs: "Verwaltete Abonnements"
     managed_subs_desc: "Abonnements für andere Spieler (Studenten, Kinder, usw.) hinzufügen"
     group_discounts: "Gruppenrabatt"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     group_discounts_1st: "Erstes Abonnement (inklusive deinem)" # {change}
     group_discounts_full: "voller Preis"
     group_discounts_2nd: "Abonnements 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "System Voraussetzungen"
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
     sys_requirements_2: "Nutzen Sie die neuesten Versionen von Google Chrome oder Firefox." # {change}

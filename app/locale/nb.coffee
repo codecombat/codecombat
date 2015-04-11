@@ -100,8 +100,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     form_label: "E-postadresse"
     placeholder: "E-postadresse"
     title: "Godt jobbet, lærling"
-    tell_friend: "Fortell din venn"
-    tell_parent: "Fortell din forelder"
 
   login:
     sign_up: "Lag konto"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     victory_hour_of_code_done_yes: "Ja, jeg er ferdig med min Kodetime!"
     victory_experience_gained: "XP Opparbeidet"
     victory_gems_gained: "Mottatte juveler"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Guide"
     tome_minion_spells: "Din Minions' Trylleformularer" # Only in old-style levels.
     tome_read_only_spells: "Kun-Lesbare Trylleformularer" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   subscribe:
     comparison_blurb: "Spiss dine kunnskaper med et CodeCombat abonnement!"
-    feature1: "60+ grunnleggende brett fordelt på 4 verdener"
+    feature1: "60+ grunnleggende brett fordelt på 4 verdener" # {change}
     feature2: "7 kraftfulle <strong>nye helter</strong> med unike ferdigheter!"
-    feature3: "30+ bonusbrett"
+    feature3: "30+ bonusbrett" # {change}
     feature4: "<strong>3500 bonusjuveler</strong> hver måned!"
     feature5: "Videoveiledninger"
     feature6: "Premium e-poststøtte"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     parents_blurb1: "Med CodeCombat vil dine barn lære seg å skrive ekte kode. De begynner med enkle kommandoer og går videre til mer avanserte emner."
     parents_blurb2: "For USD 9.99 pr mnd, vil de få nye utfordringer hver uke og personlig e-poststøtte fra profesjonelle programmerere."
     parents_blurb3: "Ingen risiko: 100% pengene tilbake-garanti, kun et klikk for å si opp abonnementet."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Månedlig abonnement"
     subscription_required_to_play: "Du trenger abonnement for å spille dette nivået."
     unlock_help_videos: "Abonnér for å låse opp alle videoveiledningene."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
     sys_requirements_title: "Systemkrav"
     sys_requirements_1: "Siden CodeCombat er et spill, er det mer intensivt for datamaskiner å kjøre jevnt enn opplæringsvideo eller -tekst. Vi har optimert det for å kjøre raskt på alle moderne nettlesere, og på eldre maskiner slik at alle kan spille. Når det er sagt, her følger våre anbefalinger for å gå mest ut av din Hour of Code:" # {change}
     sys_requirements_2: "Bruk nye versjoner av Chrome eller Firefox." # {change}

@@ -94,14 +94,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     campaign_classic_algorithms_description: "... on pots aprendre els algoritmes més populars de l'informàtica."
 
   share_progress_modal:
-    blurb: "Estàs progressant molt! Digues a algú quan n'has après amb CodeCombat."
+    blurb: "Estàs progressant molt! Digues a algú quan n'has après amb CodeCombat." # {change}
     email_invalid: "Correu electrònic invalid."
     form_blurb: "Escriu els seus emails a sota i els hi ensenyarem!"
     form_label: "Correu electrònic"
     placeholder: "adreça de correu electrònic"
     title: "Excelent feina, Aprenent"
-    tell_friend: "Avisa un Amic"
-    tell_parent: "Avisa un Familiar"
 
   login:
     sign_up: "Crear un compte"
@@ -263,6 +261,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     victory_hour_of_code_done_yes: "Sí, He acabat amb la meva Hora de Codi™!"
     victory_experience_gained: "XP Guanyada"
     victory_gems_gained: "Gemmes guanyades"
+#    victory_become_a_viking: "Become a Viking"
     guide_title: "Guia"
     tome_minion_spells: "Els encanteris dels Sequaços" # Only in old-style levels.
     tome_read_only_spells: "Encanteris de Sola-Lectura" # Only in old-style levels.
@@ -398,9 +397,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "60+ nivells bàsics a traves de 4 móns"
+    feature1: "60+ nivells bàsics a traves de 4 móns" # {change}
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "30+ bonus levels"
+#    feature3: "50+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
 #    feature6: "Premium email support"
@@ -428,6 +427,10 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
 #    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
+#    payment_methods: "Payment Methods"
+#    payment_methods_title: "Accepted Payment Methods"
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Subscripció mensual"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -441,6 +444,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
 #    group_discounts: "Group discounts"
+#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
 #    group_discounts_full: "Full price"
 #    group_discounts_2nd: "Subscriptions 2-11"
@@ -587,8 +591,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In additional to the 70+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "40+ practice levels"
+#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "50+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
@@ -605,7 +609,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    how_much_2: "monthly subscription"
 #    how_much_3: "costs $9.99, and can be cancelled anytime."
 #    how_much_4: "Additionally, we provide discounts for larger groups:"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    sys_requirements_title: "System Requirements"
 #    sys_requirements_1: "A modern web browser. Newer versions of Chrome, Firefox, or Safari. Internet Explorer 9 or later."
 #    sys_requirements_2: "CodeCombat is not supported on iPad yet."
