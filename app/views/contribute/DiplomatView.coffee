@@ -112,7 +112,7 @@ module.exports = class DiplomatView extends ContributeClassView
     'nl-BE': ['Glen De Cauwsemaecker', 'Ruben Vereecken']        # Nederlands (België), Dutch (Belgium)
     'nl-NL': ['Guido Zuidhof', "Jasper D\'haene"]        # Nederlands (Nederland), Dutch (Netherlands)
     fa: ['Reza Habibi (Rehb)']             # فارسی, Persian
-    cs: ['Martin005', 'vanous']             # čeština, Czech
+    cs: ['Martin005', 'Gygram', 'vanous']             # čeština, Czech
     sv: ['iamhj']             # Svenska, Swedish
     id: ['mlewisno-oberlin']             # Bahasa Indonesia, Indonesian
     el: ['Stergios']             # ελληνικά, Greek
