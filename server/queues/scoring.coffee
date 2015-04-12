@@ -107,10 +107,9 @@ findEarliestSubmission = (queryParams, callback) ->
     result = earliestSubmissionCache[cacheKey] = earliest?.submitDate
     callback null, result
 
-findRandomSession = (queryParams, callback) ->
+findRecentRandomSession = (queryParams, callback) ->
   # We pick a random submitDate between the first submit date for the level and now, then do a $lt fetch to find a session to simulate.
   # We bias it towards recently submitted sessions.
-  queryParams.submitted = true
   findEarliestSubmission queryParams, (err, startDate) ->
     return callback err, null unless startDate
     now = new Date()
@@ -119,6 +118,24 @@ findRandomSession = (queryParams, callback) ->
     queryParams.submitDate = $gte: startDate, $lt: cutoff
     selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
     LevelSession.findOne(queryParams).sort(submitDate: -1).select(selection).lean().exec (err, session) ->
+      return callback err if err
+      callback null, session
+
+findRandomSession = (queryParams, callback) ->
+  queryParams.submitted = true
+  favorRecent = queryParams.favorRecent
+  delete queryParams.favorRecent
+  if favorRecent
+    return findRecentRandomSession queryParams, callback
+  queryParams.randomSimulationIndex = $lte: Math.random()
+  selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
+  sort = randomSimulationIndex: -1
+  console.log 'trying to find one with qparams', queryParams
+  LevelSession.findOne(queryParams).sort(sort).select(selection).lean().exec (err, session) ->
+    return callback err if err
+    return callback null, session if session
+    delete queryParams.randomSimulationIndex  # Effectively switch to $gt, if our randomSimulationIndex was lower than the lowest one.
+    LevelSession.findOne(queryParams).sort(sort).select(selection).lean().exec (err, session) ->
       return callback err if err
       callback null, session
 
@@ -142,7 +159,8 @@ module.exports.getTwoGames = (req, res) ->
   ladderGameIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum']
   levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
-    async.map [{levelID: levelID, team: 'humans'}, {levelID: levelID, team: 'ogres'}], findRandomSession, (err, sessions) ->
+    recentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
+    async.map [{levelID: levelID, team: 'humans', favorRecent: recentHumans}, {levelID: levelID, team: 'ogres', favorRecent: not recentHumans}], findRandomSession, (err, sessions) ->
       if err then return errors.serverError(res, "Couldn't get two games to simulate for #{levelID}.")
       unless sessions.length is 2
         res.send(204, 'No games to score.')
@@ -252,6 +270,7 @@ updateSessionToSubmit = (transpiledCode, sessionToUpdate, callback) ->
     numberOfWinsAndTies: 0
     numberOfLosses: 0
     isRanking: true
+    randomSimulationIndex: Math.random()
   LevelSession.update {_id: sessionToUpdate._id}, sessionUpdateObject, (err, result) ->
     callback err, sessionToUpdate
 
@@ -485,6 +504,7 @@ updateScoreInSession = (scoreObject, callback) ->
       standardDeviation: scoreObject.standardDeviation
       totalScore: newTotalScore
       $push: {scoreHistory: {$each: [scoreHistoryAddition], $slice: -1000}}
+      randomSimulationIndex: Math.random()
 
     LevelSession.update {'_id': scoreObject.id}, updateObject, callback
     #log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
