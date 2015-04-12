@@ -47,7 +47,20 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     return unless me.isAdmin()
     @resetSubscriptionsData()
     @getSubscribers()
-    @getSubscriptions()
+    @getCancellations (cancellations) =>
+      @getSubscriptions(cancellations)
+
+  getCancellations: (done) ->
+    options =
+      url: '/db/subscription/-/cancellations'
+      method: 'GET'
+    options.error = (model, response, options) =>
+      return if @destroyed
+      console.error 'Failed to get cancellations', response
+    options.success = (cancellations, response, options) =>
+      return if @destroyed
+      done(cancellations)
+    @supermodel.addRequestResource('get_cancellations', options, 0).load()
 
   getSubscribers: ->
     options =
@@ -67,7 +80,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       @render?()
     @supermodel.addRequestResource('get_subscribers', options, 0).load()
 
-  getSubscriptions: ->
+  getSubscriptions: (cancellations=[]) ->
     options =
       url: '/db/subscription/-/subscriptions'
       method: 'GET'
@@ -83,14 +96,18 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         subDayMap[startDay] ?= {}
         subDayMap[startDay]['start'] ?= 0
         subDayMap[startDay]['start']++
-        if cancelDay = sub?.cancel?.substring(0, 10)
-          subDayMap[cancelDay] ?= {}
-          subDayMap[cancelDay]['cancel'] ?= 0
-          subDayMap[cancelDay]['cancel']++
         if endDay = sub?.end?.substring(0, 10)
           subDayMap[endDay] ?= {}
           subDayMap[endDay]['end'] ?= 0
           subDayMap[endDay]['end']++
+        for cancellation in cancellations
+          if cancellation.subID is sub.subID
+            cancelDay = cancellation.cancel.substring(0, 10)
+            subDayMap[cancelDay] ?= {}
+            subDayMap[cancelDay]['cancel'] ?= 0
+            subDayMap[cancelDay]['cancel']++
+            break
+
       today = new Date().toISOString().substring(0, 10)
       for day of subDayMap
         continue if day > today
