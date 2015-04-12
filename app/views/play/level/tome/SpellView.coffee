@@ -221,6 +221,8 @@ module.exports = class SpellView extends CocoView
       bindKey: 'Space'
       exec: =>
         disableSpaces = @options.level.get('disableSpaces') or false
+        aceConfig = me.get('aceConfig') ? {}
+        disableSpaces = false if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Not in vim/emacs mode
         if not disableSpaces or (_.isNumber(disableSpaces) and disableSpaces < me.level())
           return @ace.execCommand 'insertstring', ' '
         line = @aceDoc.getLine @ace.getCursorPosition().row
@@ -266,6 +268,8 @@ module.exports = class SpellView extends CocoView
       return
     return unless @spell.source is @spell.originalSource or force
     return if @isIE()  # Temporary workaround for #2512
+    aceConfig = me.get('aceConfig') ? {}
+    return if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Don't lock in vim/emacs mode
 
     console.info 'Locking down default code.'
 
@@ -915,8 +919,8 @@ module.exports = class SpellView extends CocoView
       return
     else
       @ace.insert "{x: #{e.x}, y: #{e.y}}"
-    
-    
+
+
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
