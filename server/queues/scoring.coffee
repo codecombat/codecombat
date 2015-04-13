@@ -130,7 +130,6 @@ findRandomSession = (queryParams, callback) ->
   queryParams.randomSimulationIndex = $lte: Math.random()
   selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
   sort = randomSimulationIndex: -1
-  console.log 'trying to find one with qparams', queryParams
   LevelSession.findOne(queryParams).sort(sort).select(selection).lean().exec (err, session) ->
     return callback err if err
     return callback null, session if session
