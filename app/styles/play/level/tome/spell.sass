@@ -175,6 +175,22 @@
 
       .locked-code
         border: 1px dashed rgba(53, 45, 34, 0.5)
+        background-color: transparent
+        @include transition(background-color 0.25s ease-in-out)
+
+        &:after
+          content: "Locked"
+          opacity: 0
+          display: block
+          text-align: right
+          @include transition(opacity 4s ease-in-out)
+          font-size: 24px
+
+        &.pulsating
+          background-color: rgba(53, 45, 34, 0.5)
+
+          &:after
+            opacity: 1
 
     // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
     //.ace_identifier

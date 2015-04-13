@@ -295,8 +295,13 @@ module.exports = class SpellView extends CocoView
       return true for range in @readOnlyRanges when rightRange.intersects(range)
       false
 
+    pulseLockedCode = ->
+      $('.locked-code').finish().addClass('pulsating').effect('shake', times: 1, distance: 2, direction: 'down').removeClass('pulsating')
+
     preventReadonly = (next) ->
-      return true if intersects()
+      if intersects()
+        pulseLockedCode()
+        return true
       next?()
 
     interceptCommand = (obj, method, wrapper) ->
@@ -359,16 +364,13 @@ module.exports = class SpellView extends CocoView
     @ace.commands.on 'exec', (e) =>
       e.stopPropagation()
       e.preventDefault()
-      if e.command.name is 'insertstring'and intersects()
+      if (e.command.name is 'insertstring' and intersects()) or
+         (e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()) or
+         (e.command.name is 'del' and intersectsRight())
         @zatanna?.off?()
+        pulseLockedCode()
         return false
-      if e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()
-        @zatanna?.off?()
-        return false
-      if e.command.name is 'del' and intersectsRight()
-        @zatanna?.off?()
-        return false
-      if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
+      else if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
         if intersects()
           e.editor.navigateDown 1
           e.editor.navigateLineStart()
