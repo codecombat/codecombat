@@ -93,7 +93,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_classic_algorithms: "Klasszikus Algoritmus"
     campaign_classic_algorithms_description: "... amiben megtanulod a legnépszerűbb számítástudományi algoritmusokat."
 
-#  share_progress_modal:
+  share_progress_modal:
     blurb: "Nagyon szépen fejlődsz! Mondd el a szüleidnek, mit tanultál a CodeCombat-ban."
     email_invalid: "Érvénytelen email-cím."
     form_blurb: "Írd be valamelyik szülőd email-címét, és mi megmutatjuk neki!"
@@ -579,7 +579,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
     title: "CodeCombat: Információ Tanároknak"
     intro_1: "CodeCombat egy online játék, amelyik programozni tanít. A tanulók valódi programnyelven kódolnak."
     intro_2: "Előzetes tapasztalat nem szükséges!"
@@ -824,7 +824,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tasks: "Tasks"
 #    clear_storage: "Clear your local changes"
 
-#  article:
+  article:
     edit_btn_preview: "Előnézet"
     edit_article_title: "Cikk szerkesztés"
 
@@ -988,14 +988,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     left_xp_infix: " következő szinthez "
 #    left_xp_postfix: ""
 
-#  account:
+  account:
     recently_played: "Utoljára játszott"
     no_recent_games: "Nem játszottál az utóbbi két hétben."
     payments: "Befizetések"
     purchased: "Vásárolt"
     subscription: "Előfizetés"
     invoices: "Számlák"
-#    service_apple: "Alma"
+    service_apple: "Apple"
 #    service_web: "Web"
 #    paid_on: "Paid On"
     service: "Szolgáltatás"
