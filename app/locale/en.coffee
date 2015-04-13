@@ -357,7 +357,7 @@
 
   leaderboard:
     leaderboard: "Leaderboard"
-    view_other_solutions: "View Other Solutions"
+    view_other_solutions: "View Leaderboards" # {change}
     scores: "Scores"
     top_players: "Top Players by"
     day: "Today"
