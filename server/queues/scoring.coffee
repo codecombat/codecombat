@@ -37,7 +37,7 @@ module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions
   addPairwiseTaskToQueue req.body.sessions, (err, success) ->
     if err? then return errors.serverError res, "There was an error adding pairwise tasks: #{err}"
-    sendResponseObject req, res, {'message': 'All task pairs were succesfully sent to the queue'}
+    sendResponseObject req, res, {message: 'All task pairs were succesfully sent to the queue'}
 
 addPairwiseTaskToQueue = (taskPair, cb) ->
   LevelSession.findOne(_id: taskPair[0]).lean().exec (err, firstSession) =>
@@ -75,7 +75,7 @@ module.exports.resimulateAllSessions = (req, res) ->
     result = _.sample result, 10
     async.each result, resimulateSession.bind(@, originalLevelID, levelMajorVersion), (err) ->
       if err? then return errors.serverError res, err
-      sendResponseObject req, res, {'message': 'All task pairs were succesfully sent to the queue'}
+      sendResponseObject req, res, {message: 'All task pairs were succesfully sent to the queue'}
 
 resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
   sessionUpdateObject =
@@ -114,7 +114,7 @@ findRecentRandomSession = (queryParams, callback) ->
     return callback err, null unless startDate
     now = new Date()
     interval = now - startDate
-    cutoff = new Date now - Math.pow(Math.random(), 2) * interval
+    cutoff = new Date now - Math.pow(Math.random(), 4) * interval
     queryParams.submitDate = $gte: startDate, $lt: cutoff
     selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
     LevelSession.findOne(queryParams).sort(submitDate: -1).select(selection).lean().exec (err, session) ->
@@ -184,14 +184,13 @@ module.exports.recordTwoGames = (req, res) ->
 
   yetiGuru = clientResponseObject: req.body, isRandomMatch: true
   async.waterfall [
-    fetchLevelSession.bind(yetiGuru)
-    updateSessions.bind(yetiGuru)
-    indexNewScoreArray.bind(yetiGuru)
-    addMatchToSessions.bind(yetiGuru)
+    calculateSessionScores.bind(yetiGuru)  # Fetches a few small properties from both sessions, prepares @levelSessionUpdates with the score part
+    indexNewScoreArray.bind(yetiGuru)  # Creates and returns @newScoresObject, no query
+    addMatchToSessionsAndUpdate.bind(yetiGuru)  # Adds matches to the session updates and does the writes
     updateUserSimulationCounts.bind(yetiGuru, req.user?._id)
   ], (err, successMessageObject) ->
-    if err? then return errors.serverError res, "There was an error recording the single game:#{err}"
-    sendResponseObject req, res, {'message': 'The single game was submitted successfully!'}
+    if err? then return errors.serverError res, "There was an error recording the single game: #{err}"
+    sendResponseObject req, res, {message: 'The single game was submitted successfully!'}
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
@@ -301,7 +300,7 @@ generateAndSendTaskPairsToTheQueue = (sessionToRankAgainst, submittedSession, ca
     if taskPairError? then return callback taskPairError
     #console.log 'Sent task pairs to the queue!'
     #console.log taskPairs
-    callback null, {'message': 'All task pairs were succesfully sent to the queue'}
+    callback null, {message: 'All task pairs were succesfully sent to the queue'}
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
   yetiGuru = {}
@@ -393,9 +392,9 @@ module.exports.processTaskResult = (req, res) ->
       fetchLevelSession.bind(yetiGuru)
       checkSubmissionDate.bind(yetiGuru)
       logTaskComputation.bind(yetiGuru)
-      updateSessions.bind(yetiGuru)
+      calculateSessionScores.bind(yetiGuru)
       indexNewScoreArray.bind(yetiGuru)
-      addMatchToSessions.bind(yetiGuru)
+      addMatchToSessionsAndUpdate.bind(yetiGuru)
       updateUserSimulationCounts.bind(yetiGuru, req.user?._id)
       determineIfSessionShouldContinueAndUpdateLog.bind(yetiGuru)
       findNearestBetterSessionID.bind(yetiGuru)
@@ -404,15 +403,15 @@ module.exports.processTaskResult = (req, res) ->
       if err is 'shouldn\'t continue'
         markSessionAsDoneRanking originalSessionID, (err) ->
           if err? then return sendResponseObject req, res, {'error': 'There was an error marking the session as done ranking'}
-          sendResponseObject req, res, {'message': 'The scores were updated successfully, person lost so no more games are being inserted!'}
+          sendResponseObject req, res, {message: 'The scores were updated successfully, person lost so no more games are being inserted!'}
       else if err is 'no session was found'
         markSessionAsDoneRanking originalSessionID, (err) ->
           if err? then return sendResponseObject req, res, {'error': 'There was an error marking the session as done ranking'}
-          sendResponseObject req, res, {'message': 'There were no more games to rank (game is at top)!'}
+          sendResponseObject req, res, {message: 'There were no more games to rank (game is at top)!'}
       else if err?
         errors.serverError res, "There was an error:#{err}"
       else
-        sendResponseObject req, res, {'message': 'The scores were updated successfully and more games were sent to the queue!'}
+        sendResponseObject req, res, {message: 'The scores were updated successfully and more games were sent to the queue!'}
   catch e
     errors.serverError res, 'There was an error processing the task result!'
 
@@ -422,39 +421,26 @@ verifyClientResponse = (responseObject, callback) ->
     callback 'The response to that query is required to be a JSON object.'
   else
     @clientResponseObject = responseObject
-
-    #log.info 'Verified client response!'
     callback null, responseObject
 
 fetchTaskLog = (responseObject, callback) ->
-  query = TaskLog.findOne _id: responseObject.taskID
-  query.exec (err, taskLog) =>
+  TaskLog.findOne(_id: responseObject.taskID).lean().exec (err, taskLog) =>
     return callback new Error("Couldn't find TaskLog for _id #{responseObject.taskID}!") unless taskLog
     @taskLog = taskLog
-    #log.info 'Fetched task log!'
-    callback err, taskLog.toObject()
+    callback err, taskLog
 
 checkTaskLog = (taskLog, callback) ->
   if taskLog.calculationTimeMS then return callback 'That computational task has already been performed'
   if hasTaskTimedOut taskLog.sentDate then return callback 'The task has timed out'
-  #log.info 'Checked task log'
   callback null
 
 deleteQueueMessage = (callback) ->
   scoringTaskQueue.deleteMessage @clientResponseObject.receiptHandle, (err) ->
-    #log.info 'Deleted queue message'
     callback err
 
 fetchLevelSession = (callback) ->
-  findParameters =
-    _id: @clientResponseObject.originalSessionID
-
-  query = LevelSession
-  .findOne(findParameters)
-  .lean()
-  query.exec (err, session) =>
+  LevelSession.findOne(_id: @clientResponseObject.originalSessionID).select('submitDate creator level standardDeviation meanStrength totalScore submittedCodeLanguage').lean().exec (err, session) =>
     @levelSession = session
-    #log.info 'Fetched level session'
     callback err
 
 checkSubmissionDate = (callback) ->
@@ -462,58 +448,45 @@ checkSubmissionDate = (callback) ->
   if Number(supposedSubmissionDate) isnt Number(@levelSession.submitDate)
     callback 'The game has been resubmitted. Removing from queue...'
   else
-    #log.info 'Checked submission date'
     callback null
 
 logTaskComputation = (callback) ->
   @taskLog.set('calculationTimeMS', @clientResponseObject.calculationTimeMS)
-  @taskLog.set('sessions')
+  @taskLog.set('sessions')  # Huh?
   @taskLog.calculationTimeMS = @clientResponseObject.calculationTimeMS
   @taskLog.sessions = @clientResponseObject.sessions
   @taskLog.save (err, saved) ->
-    #log.info 'Logged task computation'
     callback err
 
-updateSessions = (callback) ->
+calculateSessionScores = (callback) ->
   sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
-
   async.map sessionIDs, retrieveOldSessionData, (err, oldScores) =>
-    if err? then callback err, {'error': 'There was an error retrieving the old scores'}
+    if err? then callback err, {error: 'There was an error retrieving the old scores'}
     try
       oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject @clientResponseObject, oldScores
       newScoreArray = bayes.updatePlayerSkills oldScoreArray
-      saveNewScoresToDatabase newScoreArray, callback
+      createSessionScoreUpdate.call @, scoreObject for scoreObject in newScoreArray
+      callback err, newScoreArray
     catch e
       callback e
 
-saveNewScoresToDatabase = (newScoreArray, callback) ->
-  async.eachSeries newScoreArray, updateScoreInSession, (err) ->
-    #log.info 'Saved new scores to database'
-    callback err, newScoreArray
-
-updateScoreInSession = (scoreObject, callback) ->
-  LevelSession.findOne {'_id': scoreObject.id}, (err, session) ->
-    if err? then return callback err, null
-
-    session = session.toObject()
-    newTotalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
-    scoreHistoryAddition = [Date.now(), newTotalScore]
-    updateObject =
-      meanStrength: scoreObject.meanStrength
-      standardDeviation: scoreObject.standardDeviation
-      totalScore: newTotalScore
-      $push: {scoreHistory: {$each: [scoreHistoryAddition], $slice: -1000}}
-      randomSimulationIndex: Math.random()
-
-    LevelSession.update {'_id': scoreObject.id}, updateObject, callback
-    #log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
+createSessionScoreUpdate = (scoreObject) ->
+  newTotalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
+  scoreHistoryAddition = [Date.now(), newTotalScore]
+  @levelSessionUpdates ?= {}
+  @levelSessionUpdates[scoreObject.id] =
+    meanStrength: scoreObject.meanStrength
+    standardDeviation: scoreObject.standardDeviation
+    totalScore: newTotalScore
+    $push: {scoreHistory: {$each: [scoreHistoryAddition], $slice: -1000}}
+    randomSimulationIndex: Math.random()
 
 indexNewScoreArray = (newScoreArray, callback) ->
   newScoresObject = _.indexBy newScoreArray, 'id'
   @newScoresObject = newScoresObject
   callback null, newScoresObject
 
-addMatchToSessions = (newScoreObject, callback) ->
+addMatchToSessionsAndUpdate = (newScoreObject, callback) ->
   matchObject = {}
   matchObject.date = new Date()
   matchObject.opponents = {}
@@ -528,7 +501,7 @@ addMatchToSessions = (newScoreObject, callback) ->
     match.metrics.rank = Number(newScoreObject[sessionID]?.gameRanking ? 0)
     match.codeLanguage = newScoreObject[sessionID].submittedCodeLanguage
 
-  #log.info "Match object computed, result: #{matchObject}"
+  #log.info "Match object computed, result: #{JSON.stringify(matchObject, null, 2)}"
   #log.info 'Writing match object to database...'
   #use bind with async to do the writes
   sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
@@ -546,13 +519,10 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
   #currentMatchObject.simulator = @clientResponseObject.simulator  # Uncomment when actively debugging simulation mismatches
   #currentMatchObject.randomSeed = parseInt(@clientResponseObject.randomSeed or 0, 10)  # Uncomment when actively debugging simulation mismatches
-  LevelSession.findOne {'_id': sessionID}, (err, session) ->
-    session = session.toObject()
-    #currentMatchObject.playtime = session.playtime ? 0  # Not useful if we can only see last 200
-    sessionUpdateObject =
-      $push: {matches: {$each: [currentMatchObject], $slice: -200}}
-    #log.info "Updating session #{sessionID}"
-    LevelSession.update {'_id': sessionID}, sessionUpdateObject, callback
+  sessionUpdateObject = @levelSessionUpdates[sessionID]
+  sessionUpdateObject.$push.matches = {$each: [currentMatchObject], $slice: -200}
+  #log.info "Update is #{JSON.stringify(sessionUpdateObject, null, 2)}"
+  LevelSession.update {_id: sessionID}, sessionUpdateObject, callback
 
 updateUserSimulationCounts = (reqUserID, callback) ->
   incrementUserSimulationCount reqUserID, 'simulatedBy', (err) =>
@@ -575,20 +545,16 @@ determineIfSessionShouldContinueAndUpdateLog = (cb) ->
   sessionID = @clientResponseObject.originalSessionID
   sessionRank = parseInt @clientResponseObject.originalSessionRank
 
-  queryParameters =
-    _id: sessionID
-
-  updateParameters =
-    '$inc': {}
+  queryParameters = _id: sessionID
+  updateParameters = '$inc': {}
 
   if sessionRank is 0
     updateParameters['$inc'] = {numberOfWinsAndTies: 1}
   else
     updateParameters['$inc'] = {numberOfLosses: 1}
 
-  LevelSession.findOneAndUpdate queryParameters, updateParameters, {select: 'numberOfWinsAndTies numberOfLosses'}, (err, updatedSession) ->
+  LevelSession.findOneAndUpdate queryParameters, updateParameters, {select: 'numberOfWinsAndTies numberOfLosses', lean: true}, (err, updatedSession) ->
     if err? then return cb err, updatedSession
-    updatedSession = updatedSession.toObject()
 
     totalNumberOfGamesPlayed = updatedSession.numberOfWinsAndTies + updatedSession.numberOfLosses
     if totalNumberOfGamesPlayed < 10
@@ -641,10 +607,10 @@ findNearestBetterSessionID = (cb) ->
     selectString = '_id totalScore'
 
     query = LevelSession.findOne(queryParameters)
-    .sort(sortParameters)
-    .limit(limitNumber)
-    .select(selectString)
-    .lean()
+      .sort(sortParameters)
+      .limit(limitNumber)
+      .select(selectString)
+      .lean()
 
     #console.log "Finding session with score near #{opponentSessionTotalScore}"
     query.exec (err, session) ->
@@ -654,9 +620,9 @@ findNearestBetterSessionID = (cb) ->
       cb err, session._id
 
 retrieveAllOpponentSessionIDs = (sessionID, cb) ->
-  query = LevelSession.findOne({'_id': sessionID})
-  .select('matches.opponents.sessionID matches.date submitDate')
-  .lean()
+  query = LevelSession.findOne({_id: sessionID})
+    .select('matches.opponents.sessionID matches.date submitDate')
+    .lean()
   query.exec (err, session) ->
     if err? then return cb err, null
     opponentSessionIDs = (match.opponents[0].sessionID for match in session.matches when match.date > session.submitDate)
@@ -711,21 +677,24 @@ putRankingFromMetricsIntoScoreObject = (taskObject, scoreObject) ->
   return scoreObject
 
 retrieveOldSessionData = (sessionID, callback) ->
-  LevelSession.findOne {'_id': sessionID}, (err, session) ->
-    return callback err, {'error': 'There was an error retrieving the session.'} if err?
+  formatOldScoreObject = (session) ->
+    standardDeviation: session.standardDeviation ? 25/3
+    meanStrength: session.meanStrength ? 25
+    totalScore: session.totalScore ? (25 - 1.8*(25/3))
+    id: sessionID
+    submittedCodeLanguage: session.submittedCodeLanguage
 
-    session = session.toObject()
-    oldScoreObject =
-      'standardDeviation': session.standardDeviation ? 25/3
-      'meanStrength': session.meanStrength ? 25
-      'totalScore': session.totalScore ? (25 - 1.8*(25/3))
-      'id': sessionID
-      'submittedCodeLanguage': session.submittedCodeLanguage
-    callback err, oldScoreObject
+  return formatOldScoreObject @levelSession if sessionID is @levelSession?._id  # No need to fetch again
+
+  query = _id: sessionID
+  selection = 'standardDeviation meanStrength totalScore submittedCodeLanguage'
+  LevelSession.findOne(query).select(selection).lean().exec (err, session) ->
+    return callback err, {'error': 'There was an error retrieving the session.'} if err?
+    callback err, formatOldScoreObject session
 
 markSessionAsDoneRanking = (sessionID, cb) ->
   #console.log 'Marking session as done ranking...'
-  LevelSession.update {'_id': sessionID}, {'isRanking': false}, cb
+  LevelSession.update {_id: sessionID}, {isRanking: false}, cb
 
 simulatorIsTooOld = (req, res) ->
   clientSimulator = req.body.simulator
