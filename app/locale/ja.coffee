@@ -899,7 +899,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     translating_diplomats: "私たちの翻訳をしてくれる外交官たち:"
     helpful_ambassadors: "私たちの有能な大使たち:"
 
-#  ladder:
+  ladder:
 #    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
@@ -913,10 +913,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
-#    summary_your: "あなたの "
-#    summary_matches: "戦闘数 - "
-#    summary_wins: " 勝利数, "
-#    summary_losses: " 敗北数"
+    summary_your: "あなたの "
+    summary_matches: "戦闘数 - "
+    summary_wins: " 勝利数, "
+    summary_losses: " 敗北数"
 #    rank_no_code: "No New Code to Rank"
 #    rank_my_game: "Rank My Game!"
 #    rank_submitting: "Submitting..."
@@ -955,7 +955,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     rules: "ルール"
     winners: "勝者"
 
-#  user:
+  user:
 #    stats: "Stats"
     singleplayer_title: "シングルプレイヤーレベル"
     multiplayer_title: "マルチプレイヤーレベル"
