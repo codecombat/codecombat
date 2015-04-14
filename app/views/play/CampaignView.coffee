@@ -30,7 +30,7 @@ class LevelSessionsCollection extends CocoCollection
 
   constructor: (model) ->
     super()
-    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty"
 
 class CampaignsCollection extends CocoCollection
   url: '/db/campaign'
@@ -66,6 +66,7 @@ module.exports = class CampaignView extends RootView
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
+    @levelDifficultyMap = {}
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     unless @terrain
@@ -179,6 +180,7 @@ module.exports = class CampaignView extends RootView
     @campaign.renderedLevels = context.levels if @campaign
 
     context.levelStatusMap = @levelStatusMap
+    context.levelDifficultyMap = @levelDifficultyMap
     context.levelPlayCountMap = @levelPlayCountMap
     context.isIPadApp = application.isIPadApp
     context.mapType = _.string.slugify @terrain
@@ -344,14 +346,16 @@ module.exports = class CampaignView extends RootView
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {} when level.hidden or (level.slug is 'apocalypse' and @levelStatusMap[level.slug] isnt 'complete')
+    for level in @campaign.renderedLevels ? {}
       particleKey = ['level', @terrain]
       particleKey.push level.type if level.type and level.type isnt 'hero'
+      particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       particleKey.push 'item' if level.slug is 'apocalypse'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
+      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable']).length
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
@@ -385,6 +389,7 @@ module.exports = class CampaignView extends RootView
     return if @editorMode
     for session in @sessions.models
       @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+      @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
     @render()
     @loadUserPollsRecord() unless me.get 'anonymous'
 
