@@ -85,6 +85,7 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
   addEmitter: (x, y, kind="level-dungeon-premium") ->
     return if @unsupported
     options = $.extend true, {}, particleKinds[kind]
+    return console.error "Couldn't find particle configuration for", kind unless options.group
     options.group.texture = THREE.ImageUtils.loadTexture "/images/common/particles/#{options.group.texture}.png"
     scale = 100
     aspectRatio = @$el
@@ -221,6 +222,12 @@ particleKinds['level-dungeon-hero-ladder'] = ext particleKinds['level-dungeon-pr
     colorMiddle: hsl 0, 0.75, 0.5
     colorEnd: hsl 0, 0.75, 0.3
 
+particleKinds['level-dungeon-replayable'] = particleKinds['level-dungeon-replayable-premium'] = ext particleKinds['level-dungeon-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.17, 0.75, 0.7
+    colorMiddle: hsl 0.17, 0.75, 0.5
+    colorEnd: hsl 0.17, 0.75, 0.3
+
 particleKinds['level-forest-premium-hero'] = ext particleKinds['level-forest-premium'],
   emitter:
     particleCount: 200
@@ -248,6 +255,12 @@ particleKinds['level-forest-hero-ladder'] = ext particleKinds['level-forest-prem
     colorStart: hsl 0, 0.95, 0.3
     colorMiddle: hsl 0, 1, 0.5
     colorEnd: hsl 0, 0.75, 0.1
+
+particleKinds['level-forest-replayable'] = particleKinds['level-forest-replayable-premium'] = ext particleKinds['level-forest-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.17, 0.75, 0.7
+    colorMiddle: hsl 0.17, 0.75, 0.5
+    colorEnd: hsl 0.17, 0.75, 0.3
 
 particleKinds['level-forest-premium-item'] = ext particleKinds['level-forest-gate'],
   emitter:
@@ -292,6 +305,12 @@ particleKinds['level-desert-hero-ladder'] = ext particleKinds['level-desert-prem
     colorMiddle: hsl 0, 1, 0.5
     colorEnd: hsl 0, 0.75, 0.1
 
+particleKinds['level-desert-replayable'] = particleKinds['level-desert-replayable-premium'] = ext particleKinds['level-desert-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.17, 0.75, 0.7
+    colorMiddle: hsl 0.17, 0.75, 0.5
+    colorEnd: hsl 0.17, 0.75, 0.3
+
 particleKinds['level-mountain-premium-hero'] = ext particleKinds['level-mountain-premium'],
   emitter:
     particleCount: 200
@@ -319,3 +338,9 @@ particleKinds['level-mountain-hero-ladder'] = ext particleKinds['level-mountain-
     colorStart: hsl 0, 0.95, 0.3
     colorMiddle: hsl 0, 1, 0.5
     colorEnd: hsl 0, 0.75, 0.1
+
+particleKinds['level-mountain-replayable'] = particleKinds['level-mountain-replayable-premium'] = ext particleKinds['level-mountain-hero-ladder'],
+  emitter:
+    colorStart: hsl 0.17, 0.75, 0.7
+    colorMiddle: hsl 0.17, 0.75, 0.5
+    colorEnd: hsl 0.17, 0.75, 0.3

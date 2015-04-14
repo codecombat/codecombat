@@ -70,9 +70,6 @@ block modal-footer-content
       .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
       button.btn.btn-illustrated.btn-warning.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
 
-  else if !showHourOfCodeDoneButton && showLeaderboard
-    button.btn.btn-illustrated.btn-warning.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
-
   button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
 
   .next-level-buttons
@@ -82,6 +79,9 @@ block modal-footer-content
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.victory_play_continue") Continue
+
+  if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
+    button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
 
   if showHourOfCodeDoneButton
     .hour-of-code-done

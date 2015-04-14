@@ -23,6 +23,8 @@ if campaign
             img.banner(src="/images/pages/play/level-banner-complete.png")
           if levelStatusMap[level.slug] === 'started'
             img.banner(src="/images/pages/play/level-banner-started.png")
+          if levelDifficultyMap[level.slug]
+            .level-difficulty-banner-text= levelDifficultyMap[level.slug]
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + " " + (levelStatusMap[level.slug] || ""))
         .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
