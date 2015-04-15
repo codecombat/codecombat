@@ -483,7 +483,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     health: "Élet"
     speed: "Sebesség"
     regeneration: "Gyógyulás"
-    range: "Hatótávolság" # As in "attack or visual range"
+    range: "Hatótáv" # As in "attack or visual range"
     blocks: "Blokkolás értéke" # As in "this shield blocks this much damage"
     backstab: "Hátbaszúrás" # As in "this dagger does this much backstab damage"
     skills: "Képességek"
