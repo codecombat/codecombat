@@ -2,14 +2,44 @@ extends /templates/base
 
 block content
 
+  .modal#editNameModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Clan Name
+      .modal-body
+        input.edit-name-input(type='text' value="#{clan.get('name')}")
+      .modal-footer
+        button.btn(data-dismiss='modal') Close
+        button.btn.edit-name-save-btn Save changes
+
+  .modal#editDescriptionModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Clan Description
+      .modal-body
+        textarea.edit-description-input(rows=2)= clan.get('description')
+      .modal-footer
+        button.btn(data-dismiss='modal') Close
+        button.btn.edit-description-save-btn Save changes
+
   if clan
     h1 #{clan.get('name')}
       if clan.get('type') === 'private'
-         small (private)
+        small (private)
+      if clan.get('ownerID') === me.id
+        span.spl
+          button.btn.btn-xs.edit-name-btn(data-toggle='modal', data-target='#editNameModal') edit name
+
     if clan.get('description')
       .clan-description
         each line in clan.get('description').split('\n')
           p= line
+    if clan.get('ownerID') === me.id
+      button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal') edit description
 
   h5 Summary
   table.table.table-condensed.stats-table

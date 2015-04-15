@@ -77,6 +77,64 @@ describe 'Clans', ->
           expect(res.statusCode).toBe(422)
           done()
 
+    it 'Edit clan name', (done) ->
+      newName = 'new clan name'
+      loginNewUser (user1) ->
+        createClan user1, 'public', 'test description', (clan) ->
+          requestBody = clan.toObject()
+          requestBody.name = newName
+          request.put {uri: clanURL, json: requestBody }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(body.name).toEqual(newName)
+            Clan.findById clan.id, (err, clan) ->
+              expect(err).toBeNull()
+              expect(clan.get('name')).toEqual(newName)
+              done()
+
+    it 'Edit clan name, not owner 403', (done) ->
+      loginNewUser (user1) ->
+        createClan user1, 'public', 'test description', (clan) ->
+          oldName = clan.get('name')
+          loginNewUser (user2) ->
+            requestBody = clan.toObject()
+            requestBody.name = 'new clan name'
+            request.put {uri: clanURL, json: requestBody }, (err, res, body) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toEqual(403)
+              Clan.findById clan.id, (err, clan) ->
+                expect(err).toBeNull()
+                expect(clan.get('name')).toEqual(oldName)
+                done()
+
+    it 'Edit clan description', (done) ->
+      newDescription = 'new description'
+      loginNewUser (user1) ->
+        createClan user1, 'public', 'test description', (clan) ->
+          requestBody = clan.toObject()
+          requestBody.description = newDescription
+          request.put {uri: clanURL, json: requestBody }, (err, res, body) ->
+            expect(err).toBeNull()
+            expect(body.description).toEqual(newDescription)
+            Clan.findById clan.id, (err, clan) ->
+              expect(err).toBeNull()
+              expect(clan.get('description')).toEqual(newDescription)
+              done()
+
+    it 'Edit clan description, not owner 403', (done) ->
+      loginNewUser (user1) ->
+        createClan user1, 'public', 'test description', (clan) ->
+          oldDescription = clan.get('description')
+          loginNewUser (user2) ->
+            requestBody = clan.toObject()
+            requestBody.description = 'new description'
+            request.put {uri: clanURL, json: requestBody }, (err, res, body) ->
+              expect(err).toBeNull()
+              expect(res.statusCode).toEqual(403)
+              Clan.findById clan.id, (err, clan) ->
+                expect(err).toBeNull()
+                expect(clan.get('description')).toEqual(oldDescription)
+                done()
+
     it 'Get public clans', (done) ->
       loginNewUser (user1) ->
         createClan user1, 'public', null, (clan1) ->

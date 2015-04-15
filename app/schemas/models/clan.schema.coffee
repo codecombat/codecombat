@@ -1,5 +1,7 @@
 c = require './../schemas'
 
+# TODO: Require name to be non-empty
+
 ClanSchema = c.object {title: 'Clan', required: ['name', 'type']}
 c.extendNamedProperties ClanSchema  # name first
 

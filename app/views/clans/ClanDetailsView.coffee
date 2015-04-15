@@ -19,6 +19,8 @@ module.exports = class ClanDetailsView extends RootView
 
   events:
     'click .delete-clan-btn': 'onDeleteClan'
+    'click .edit-description-save-btn': 'onEditDescriptionSave'
+    'click .edit-name-save-btn': 'onEditNameSave'
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
     'click .remove-member-btn': 'onRemoveMember'
@@ -133,6 +135,18 @@ module.exports = class ClanDetailsView extends RootView
         app.router.navigate "/clans"
         window.location.reload()
     @supermodel.addRequestResource( 'delete_clan', options).load()
+
+  onEditDescriptionSave: (e) ->
+    description = $('.edit-description-input').val()
+    @clan.set 'description', description
+    @clan.patch()
+    $('#editDescriptionModal').modal('hide')
+
+  onEditNameSave: (e) ->
+    if name = $('.edit-name-input').val()
+      @clan.set 'name', name
+      @clan.patch()
+    $('#editNameModal').modal('hide')
 
   onJoinClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()

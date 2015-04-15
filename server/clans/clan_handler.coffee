@@ -100,7 +100,7 @@ ClanHandler = class ClanHandler extends Handler
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendDatabaseError(res, err) unless clan
-      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString()
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
       EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
@@ -122,7 +122,7 @@ ClanHandler = class ClanHandler extends Handler
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendDatabaseError(res, err) unless clan
-      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString()
+      memberIDs = _.map   clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
       LevelSession.find {creator: {$in: memberIDs}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
