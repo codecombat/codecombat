@@ -35,6 +35,7 @@ module.exports = class ClanDetailsView extends RootView
     @clan = new Clan _id: @clanID
     @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator:'slug' })
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
+    # MemberSessions: only loads creatorName, levelName, codeLanguage, submittedCodeLanguage for each session
     @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
 
     @listenTo me, 'sync', => @render?()
