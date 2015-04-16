@@ -1,0 +1,1 @@
+module.exports.MAX_COOLDOWN = MAX_COOLDOWN = 9001

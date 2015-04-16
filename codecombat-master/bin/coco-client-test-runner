@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# full script path
+_scriptDir="$(cd "$(dirname "$0")" && pwd -P)"
+
+sleep 5
+cd $_scriptDir
+cd ../
+until node_modules/karma/bin/karma start; do
+    echo "Karma crashed with exit code $?. Respawning..." >&2
+    sleep 1
+done

@@ -1,0 +1,50 @@
+#my-matches-tab-view
+  .axis path, .axis line
+    fill: none
+    stroke: #555
+    shape-rendering: crispEdges
+  .x.axis.path
+    display: none
+
+  .line
+    fill: none
+    stroke: steelblue
+    stroke-width: 1.5px
+    
+  .humans-line
+    fill: none
+    stroke: #bf3f3f
+    stroke-width: 1.5px
+   
+  .ogres-line
+    fill: none
+    stroke: #3f44bf
+    stroke-width: 1.5px
+
+  .axis text
+    stroke: none
+    fill: #555555
+    shape-rendering: crispEdges
+    
+  tr.fresh
+    background-color: #39F
+  tr.stale
+    opacity: 0.5
+  tr.win .state-cell
+    color: #172
+  tr.loss .state-cell
+    color: #712
+
+  td
+    padding: 1px 2px
+
+  .name-cell
+    max-width: 130px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .code-language-cell
+    padding: 0 10px
+    background: transparent url(/images/common/code_languages/javascript_icon.png) no-repeat center center
+    height: 16px

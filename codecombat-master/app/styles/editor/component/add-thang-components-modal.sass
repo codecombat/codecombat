@@ -1,0 +1,24 @@
+#add-thang-components-modal
+  .list-group
+    max-height: 500px
+    overflow: scroll
+    
+  .item-title
+    cursor: pointer
+    .glyphicon-chevron-down
+      display: none
+    &.collapsed
+      .glyphicon-chevron-down
+        display: inline
+      .glyphicon-chevron-up
+        display: none
+      
+
+  .list-group-item
+    padding: 5px
+      
+  .checkbox, .item-title
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+

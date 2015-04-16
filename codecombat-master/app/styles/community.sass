@@ -1,0 +1,35 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+#community-view
+  
+  .community-columns
+    width: 330px
+    float: left
+    padding-left: 10px
+    padding-right: 10px
+  
+  .half-width
+    width: 50%
+    height: 175px
+    float: left
+  
+  .logo-row
+    padding-top: 10px
+    width: 80%
+    margin: 0 auto
+  
+  .logo-row img
+    height: 50px
+    margin: 7px
+  
+  .lower-titles
+    text-align: center
+
+  .logo-row, .community-columns
+    img
+      border-radius: 20px
+      @include transition( (background-color 0.2s linear, box-shadow 0.2s linear) )
+      &:hover
+        background-color: #7abee3
+        box-shadow: 0 0 20px #7abee3

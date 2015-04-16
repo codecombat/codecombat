@@ -1,0 +1,138 @@
+extends /templates/base
+
+block content
+
+  p.row
+
+    .span5
+
+      h2(data-i18n="teachers.title")
+      p(data-i18n="teachers.intro_1")
+      p(data-i18n="teachers.intro_2")
+
+      h3(data-i18n="teachers.free_title")
+      if me.get('chinaVersion')
+        p(data-i18n="teachers.cost_china")
+      else
+        p(data-i18n="teachers.free_1")
+        p(data-i18n="teachers.free_2")
+
+      h3.teachers-title(data-i18n="teachers.teacher_subs_title")
+      p 
+        span(data-i18n="teachers.teacher_subs_1")
+        span.spr.spl
+          a(href='mailto:team@codecombat.com?subject=Free%20Teacher%20Subscription') team@codecombat.com
+        span.spr.spl(data-i18n="teachers.teacher_subs_2")
+
+      h3(data-i18n="teachers.sub_includes_title")
+      p(data-i18n="teachers.sub_includes_1")
+      ul
+        li(data-i18n="teachers.sub_includes_2")
+        li(data-i18n="teachers.sub_includes_3")
+        li(data-i18n="teachers.sub_includes_4")
+        li(data-i18n="teachers.sub_includes_5")
+        li(data-i18n="teachers.sub_includes_6")
+
+      h3(data-i18n="teachers.who_for_title")
+      p(data-i18n="teachers.who_for_1")
+      p(data-i18n="teachers.who_for_2")
+
+      h3 How do I monitor student progress?
+      p 
+        span.spr Student progress can be monitored by creating a
+        a(href='/clans') Clan
+        span.spl for your class.
+      p 
+        span.spr To add a student, send them the invite link for your Clan, which is on the
+        a(href='/clans') Clans
+        span.spl page.
+      p After they join, you will see a summary of the student's progress on your Clan's page.
+
+      h3(data-i18n="teachers.material_title")
+      if me.get('chinaVersion')
+        p(data-i18n="teachers.material_china")
+      else
+        p(data-i18n="teachers.material_1")
+
+      h3(data-i18n="teachers.concepts_title")
+
+      //- TODO: i18n for concepts?
+
+      table.table.table-condensed.concepts-table
+        thead
+          tr
+            th
+              a(href='/play/dungeon') Kithgard Dungeon
+            th
+              a(href='/play/forest') Backwoods Forest
+            th
+              a(href='/play/desert') Sarven Desert
+            th
+              a(href='/play/mountain') Cloudrip Mountain
+        tbody
+          tr
+            td Syntax
+            td If/Else
+            td Arithmetic
+            td Object Literals
+          tr
+            td Methods
+            td Relational Operators
+            td While-loops
+            td Remote Method Invocation
+          tr
+            td Parameters
+            td Object Properties
+            td Break
+            td For-Loops
+          tr
+            td Strings
+            td Input Handling
+            td Arrays
+            td Functions
+          tr
+            td Loops
+            td
+            td String Comparison
+            td Drawing
+          tr
+            td Variables
+            td
+            td Finding Min/Max
+            td Modulo
+
+      h3(data-i18n="teachers.how_much_title")
+      p
+        span(data-i18n="teachers.how_much_1")
+        span.spr.spl
+          a(href='/account/subscription', data-i18n="teachers.how_much_2")
+        span.spr.spl(data-i18n="teachers.how_much_3")
+      p(data-i18n="teachers.how_much_4")
+      h4
+        a(href='/account/subscription', data-i18n="subscribe.group_discounts")
+      p(data-i18n="subscribe.group_discounts_1")
+      table.table.table-condensed.discount-table
+        tr 
+          td(data-i18n="subscribe.group_discounts_1st")
+          td(data-i18n="subscribe.group_discounts_full")
+        tr
+          td(data-i18n="subscribe.group_discounts_2nd")
+          td(data-i18n="subscribe.group_discounts_20")
+        tr
+          td(data-i18n="subscribe.group_discounts_12th")
+          td(data-i18n="subscribe.group_discounts_40")
+
+      h3(data-i18n="teachers.sys_requirements_title")
+      p(data-i18n="teachers.sys_requirements_1")
+      p(data-i18n="teachers.sys_requirements_2")
+
+      if (me.get('preferredLanguage', true) || 'en-US') == 'pl'
+        h3 Fundacja IT Leader Club Polska
+        p
+          | CodeCombat w marcu 2015 roku nawiązał współpracę z Fundacją IT Leader Club Polska celem promowania nauki programowania wśród najmłodszych w Polsce. Język programowania stał się drugim językiem, bez którego bardzo trudno będzie młodym ludziom w przyszłości zaistnieć na konkurencyjnym rynku pracy.
+        p
+          | Poznając podstawy języka programowania z Fundacją IT Leader Club Polska z wykorzystaniem CodeCombat, polskie dzieci będą bardzo szybko potrafiły poznać kluczowe zagadnienia programowania. Poprzez zabawę i interaktywną grę, dzieci szybko przyswoją niezbędną teorię i zaczną czerpać z programowania nie tylko wiedzę ale i pasję na całe życie - czego życzymy wszystkim naszym młodym studentom. W przypadku pytań prosimy o kontakt z Panem Arkadiuszem Lefanowiczem, Przewodniczącym Fundacji IT Leader Club Polska, 
+          a(href="http://www.itleader.org.pl") itleader.org.pl
+          | , 
+          a(href="mailto:arkadiusz.lefanowicz@itleader.org.pl") arkadiusz.lefanowicz@itleader.org.pl
+          | .

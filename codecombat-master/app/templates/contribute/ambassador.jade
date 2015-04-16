@@ -1,0 +1,57 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_ambassador.png", alt="")
+
+    div.class-main#ambassador-main
+
+      h2
+        span(data-i18n="classes.ambassador_title") Ambassador
+        span  
+        span(data-i18n="classes.ambassador_title_description") (Support)
+      p(data-i18n="contribute.ambassador_introduction")
+        | This is a community we're building, and you are the connections.
+        | We've got Olark chats, emails, and social networks with lots of people to talk with
+        | and help get acquainted with the game and learn from.
+        | If you want to help people get involved and have fun, and get a good feel of the pulse of
+        | CodeCombat and where we're going, then this class might be for you.
+  
+      h4(data-i18n="contribute.class_attributes") Class Attributes
+      ul
+        li(data-i18n="contribute.ambassador_attribute_1")
+          | Communication skills. Be able to identify the problems players are having
+          | and help them solve them. Also, keep the rest of us informed about what
+          | players are saying, what they like and don't like and want more of!
+  
+      h4(data-i18n="contribute.how_to_join") How to Join
+      p
+        a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="contribute.contact_us_url")
+          | Contact us
+        span , 
+        span(data-i18n="contribute.ambassador_join_desc")
+          | tell us a little about yourself, what you've done and what you'd
+          | be interested in doing. We'll go from there!
+  
+      p
+        strong(data-i18n="contribute.ambassador_join_note_strong")
+          | Note
+        span : 
+        span(data-i18n="contribute.ambassador_join_note_desc")
+          | One of our top priorities is to build multiplayer where players having difficulty
+          | solving levels can summon higher level wizards to help them.
+          | This will be a great way for ambassadors to do their thing. We'll keep you posted!
+
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="support", data-contributor-class-name="ambassador")
+
+      //h3(data-i18n="contribute.helpful_ambassadors")
+      //  | Our Helpful Ambassadorsd:
+      //
+      //#contributor-list
+
+    div.clearfix
