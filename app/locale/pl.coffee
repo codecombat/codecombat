@@ -14,7 +14,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    or_ipad: "Or download for iPad"
 
   nav:
-    play: "Graj" # The top nav bar entry where players choose which levels to play
+    play: "Poziomy" # The top nav bar entry where players choose which levels to play
     community: "Społeczność"
     editor: "Edytor"
     blog: "Blog"
