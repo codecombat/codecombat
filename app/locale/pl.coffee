@@ -149,7 +149,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     create: "Stwórz"
     manual: "Ręcznie"
     fork: "Fork"
-    play: "Graj" # When used as an action verb, like "Play next level"
+    play: "Zagraj" # When used as an action verb, like "Play next level"
     retry: "Ponów"
     actions: "Akcje"
     info: "Informacje"
