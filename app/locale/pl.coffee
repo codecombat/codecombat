@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "język polski", englishDescription: "Polish", translation:
+module.exports = nativeDescription: "polski", englishDescription: "Polish", translation:
   home:
     slogan: "Naucz się programowania grając"
     no_ie: "CodeCombat nie działa na Internet Explorer 8 lub starszym. Przepraszamy!" # Warning that only shows up in IE8 and older
@@ -14,7 +14,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    or_ipad: "Or download for iPad"
 
   nav:
-    play: "Graj" # The top nav bar entry where players choose which levels to play
+    play: "Poziomy" # The top nav bar entry where players choose which levels to play
     community: "Społeczność"
     editor: "Edytor"
     blog: "Blog"
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     about: "O nas"
     contact: "Kontakt"
     twitter_follow: "Subskrybuj"
-#    teachers: "Teachers"
+    teachers: "Nauczyciele"
 
   modal:
     close: "Zamknij"
@@ -53,31 +53,31 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     players: "graczy" # Hover over a level on /play
     hours_played: "rozegranych godzin" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
-#    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    unlock: "Odblokuj" # For purchasing items and heroes
+    confirm: "Potwierdź"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
+    locked: "Zablokowane"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    available: "Dostępny"
 #    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
+    heroes: "Bohaterowie" # Tooltip on hero shop button from /play
+    achievements: "Osiągnięcia" # Tooltip on achievement list button from /play
+    account: "Konto" # Tooltip on account button from /play
+    settings: "Opcje" # Tooltip on settings button from /play
+    poll: "Ankieta" # Tooltip on poll button from /play
+    next: "Dalej" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Wybierz bohatera" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "Kup klejnoty"
 #    subscription_required: "Subscription Required"
-#    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    older_campaigns: "Starsze kampanie"
+    anonymous: "Anonimowy gracz"
     level_difficulty: "Poziom trudności: "
     campaign_beginner: "Kampania dla początkujących"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    awaiting_levels_adventurer_prefix: "Wydajemy pięć poziomów na tydzień."
+    awaiting_levels_adventurer: "Zapisz się jako Podróżnik"
+    awaiting_levels_adventurer_suffix: "aby jako pierwszy grać nowe poziomy."
+    adjust_volume: "Dopasuj głośność"
     choose_your_level: "Wybierz poziom" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Możesz wybrać jeden z poniższych poziomów lub omówić poziom na "
     adventurer_forum: "forum Podróżników"
@@ -106,7 +106,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     log_in: "Zaloguj się"
     logging_in: "Logowanie..."
     log_out: "Wyloguj się"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "Nie pamiętasz hasła?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
@@ -121,65 +121,65 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     log_in: "zaloguj się używając hasła"
     social_signup: "lub zaloguj się używając konta Facebook lub G+:"
     required: "Musisz się zalogować zanim przejdziesz dalej."
-#    login_switch: "Already have an account?"
+    login_switch: "Masz już konto?"
 
   recover:
     recover_account_title: "Odzyskaj konto"
     send_password: "Wyślij hasło tymczasowe"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Główne"
+    secondary: "Drugorzędne"
+    armor: "Zbroja"
+    accessories: "Akcesoria"
+    misc: "Różne"
+    books: "Książki"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "Wstecz" # When used as an action verb, like "Navigate backward"
+    continue: "Dalej" # When used as an action verb, like "Continue forward"
     loading: "Ładowanie..."
     saving: "Zapisywanie..."
     sending: "Wysyłanie…"
-#    send: "Send"
+    send: "Wyślij"
     cancel: "Anuluj"
     save: "Zapisz"
-#    publish: "Publish"
-#    create: "Create"
+    publish: "Opublikuj"
+    create: "Stwórz"
     manual: "Ręcznie"
     fork: "Fork"
-    play: "Graj" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
-#    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
+    play: "Zagraj" # When used as an action verb, like "Play next level"
+    retry: "Ponów"
+    actions: "Akcje"
+    info: "Informacje"
+    help: "Pomoc"
+    watch: "Obserwuj"
+    unwatch: "Nie obserwuj"
+    submit_patch: "Prześlij łatkę"
+    submit_changes: "Prześlij zmiany"
 
   general:
     and: "i"
     name: "Imię"
-#    date: "Date"
+    date: "Data"
     body: "Zawartość"
     version: "Wersja"
-#    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
-#    withdrawn: "Withdrawn"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
+    pending: "W trakcie"
+    accepted: "Przyjęto"
+    rejected: "Odrzucono"
+    withdrawn: "Wycofano"
+    submitter: "Przesyłający"
+    submitted: "Przesłano"
     commit_msg: "Wiadomość do commitu"
 #    review: "Review"
-#    version_history: "Version History"
+    version_history: "Historia wersji"
     version_history_for: "Historia wersji dla: "
-#    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    select_changes: "Zaznacz dwie zmiany poniżej aby zobaczyć różnice."
+    undo_prefix: "Cofnij"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Ponów"
+    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Wynik"
     results: "Wyniki"
@@ -201,38 +201,38 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     easy: "Łatwy"
     medium: "Średni"
     hard: "Trudny"
-#    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    player: "Gracz"
+    player_level: "Poziom" # Like player level 5, not like level: Dungeons of Kithgard
+    warrior: "Wojownik"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "Czarodziej"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "sekunda"
+    seconds: "sekund"
+    minute: "minuta"
+    minutes: "minut"
+    hour: "godzina"
+    hours: "godzin"
+    day: "dzień"
+    days: "dni"
+    week: "tydzień"
+    weeks: "tygodni"
+    month: "miesiąc"
+    months: "miesięcy"
+    year: "rok"
+    years: "lat"
 
   play_level:
     done: "Zrobione"
     home: "Strona główna" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
+    level: "Poziom" # Like "Level: Dungeons of Kithgard"
+    skip: "Pomiń"
     game_menu: "Menu gry"
     guide: "Przewodnik"
     restart: "Zacznij od nowa"
     goals: "Cele"
-#    goal: "Goal"
+    goal: "Cel"
 #    running: "Running..."
     success: "Sukces!"
     incomplete: "Niekompletne"
