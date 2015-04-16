@@ -68,7 +68,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       return @sendDatabaseError(res, err) unless clanType = clan.get('type')
       return @sendForbiddenError(res) unless clanType is 'public' or req.user.isPremium()
       Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
@@ -86,7 +86,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       return @sendForbiddenError(res) if clan.get('ownerID')?.equals req.user._id
       Clan.update {_id: clanID}, {$pull: {members: req.user._id}}, (err) =>
         return @sendDatabaseError(res, err) if err
@@ -99,7 +99,7 @@ ClanHandler = class ClanHandler extends Handler
     # TODO: add tests
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
       EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err?
@@ -110,7 +110,7 @@ ClanHandler = class ClanHandler extends Handler
     # TODO: add tests
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       memberIDs = clan.get('members') ? []
       User.find {_id: {$in: memberIDs}}, (err, users) =>
         return @sendDatabaseError(res, err) if err
@@ -119,9 +119,10 @@ ClanHandler = class ClanHandler extends Handler
 
   getMemberSessions: (req, res, clanID) ->
     # TODO: add tests
+    # TODO: restrict information returned based on clan type
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       memberIDs = _.map   clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
       LevelSession.find {creator: {$in: memberIDs}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err?
@@ -147,7 +148,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       return @sendForbiddenError res unless @hasAccessToDocument(req, clan)
       return @sendForbiddenError(res) if clan.get('ownerID').equals memberID
       Clan.update {_id: clanID}, {$pull: {members: memberID}}, (err) =>

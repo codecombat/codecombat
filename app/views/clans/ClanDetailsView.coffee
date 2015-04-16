@@ -24,6 +24,8 @@ module.exports = class ClanDetailsView extends RootView
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
     'click .remove-member-btn': 'onRemoveMember'
+    'mouseenter .level-progression-cell': 'onMouseEnterPoint'
+    'mouseleave .level-progression-cell': 'onMouseLeavePoint'
 
   constructor: (options, @clanID) ->
     super options
@@ -61,6 +63,8 @@ module.exports = class ClanDetailsView extends RootView
     context.owner = @owner
     context.memberAchievementsMap = @memberAchievementsMap
     context.memberLanguageMap = @memberLanguageMap
+    context.memberLevelProgression = @memberLevelProgression
+    context.memberMaxLevelCount = @memberMaxLevelCount
     context.members = @members?.models
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
@@ -75,6 +79,7 @@ module.exports = class ClanDetailsView extends RootView
     me.fetch cache: false
     @members.fetch cache: false
     @memberAchievements.fetch cache: false
+    @memberSessions.fetch cache: false
 
   updateHeroIcons: ->
     return unless @members?.models?
@@ -106,23 +111,45 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onMemberSessionsSync: ->
-    @memberSessionMap = {}
+    @memberLevelProgression = {}
+    memberSessions = {}
     for levelSession in @memberSessions.models
       user = levelSession.get('creator')
-      @memberSessionMap[user] ?= []
-      @memberSessionMap[user].push levelSession
+      if not levelSession.isMultiplayer() and levelSession.get('state')?.complete is true
+        memberSessions[user] ?= []
+        memberSessions[user].push levelSession
+        @memberLevelProgression[user] ?= []
+        levelInfo =
+          level: levelSession.get('levelName')
+          changed: new Date(levelSession.get('changed')).toLocaleString()
+          playtime: levelSession.get('playtime')
+        @memberLevelProgression[user].push levelInfo
+    @memberMaxLevelCount = 0
     @memberLanguageMap = {}
-    for user of @memberSessionMap
+    for user of memberSessions
       languageCounts = {}
-      for levelSession in @memberSessionMap[user]
+      for levelSession in memberSessions[user]
         language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
         languageCounts[language] = (languageCounts[language] or 0) + 1 if language
+      @memberMaxLevelCount = memberSessions[user].length if @memberMaxLevelCount < memberSessions[user].length
       mostUsedCount = 0
       for language, count of languageCounts
         if count > mostUsedCount
           mostUsedCount = count
           @memberLanguageMap[user] = language
     @render?()
+
+  onMouseEnterPoint: (e) ->
+    container = $(e.target).find('.level-popup-container').show()
+    margin = 20
+    offset = $(e.target).offset()
+    scrollTop = $(e.target).offsetParent().scrollTop()
+    height = container.outerHeight()
+    container.css('left', offset.left + e.offsetX)
+    container.css('top', offset.top + scrollTop - height - margin)
+
+  onMouseLeavePoint: (e) ->
+    $(e.target).find('.level-popup-container').hide()
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
