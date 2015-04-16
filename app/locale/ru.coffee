@@ -94,7 +94,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в компьютерных науках."
 
   share_progress_modal:
-    blurb: "Вы отлично продвигаетесь! Расскажите кому-нибудь, как много вы уже выучили с CodeCombat." # {change}
+    blurb: "Вы отлично продвигаетесь! Расскажите своим родителям, как много вы уже выучили с CodeCombat."
     email_invalid: "Email-адрес некорректен."
     form_blurb: "Введите их email-адреса ниже, и мы покажем им!"
     form_label: "Email-адрес"
@@ -261,7 +261,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_hour_of_code_done_yes: "Да, я закончил мой Час Кода™!"
     victory_experience_gained: "Опыта получено"
     victory_gems_gained: "Самоцветов получено"
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "Станьте Викингом"
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
     tome_read_only_spells: "Заклинания только для чтения" # Only in old-style levels.
@@ -357,7 +357,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   leaderboard:
     leaderboard: "Таблица лидеров"
-    view_other_solutions: "Посмотреть другие решения"
+    view_other_solutions: "Посмотреть Таблицу лидеров"
     scores: "Рейтинг"
     top_players: "Сортировать игроков по"
     day: "Сегодня"
@@ -397,9 +397,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство благодаря подписке на CodeCombat!"
-    feature1: "60+ основных уровней на просторах 4-х миров" # {change}
+    feature1: "80+ основных уровней на просторах 4-х миров"
     feature2: "7 могущественных <strong>новых героев</strong> с уникальными способностями!"
-    feature3: "30+ дополнительных уровней" # {change}
+    feature3: "50+ дополнительных уровней"
     feature4: "<strong>3500 бонусных самоцветов</strong> каждый месяц!"
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
@@ -423,14 +423,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parent_email_sent: "Письмо отправлено!"
     parent_email_title: "Какой у твоих родителей адрес электронной почты?"
     parents: "Для Родителей"
-    parents_title: "Ваш ребенок научится программировать."
-    parents_blurb1: "С CodeCombat ваш ребенок учится через написание реального кода. Начиная с изучения простых команд, продолжая более продвинутыми темами."
-    parents_blurb2: "За $9.99 USD/месяц они получат новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
+    parents_title: "Дорогой Родитель, ваш ребенок учится программировать. Вы поможете им?"
+    parents_blurb1: "Ваш ребенок прошел уже __nLevels__ уровней и выучил основы программирования. Помогите развить их интерес и купите им подписку, чтобы они могли продолжить играть."
+    parents_blurb1a: "Программирование - это существенный навык, который ваш ребенок несомненно будет использовать, когда станет взрослым. В 2020, базовые навыки работы с программным обеспечением будут необходимы для 77% профессий, а программные инженеры пользуются высоким спросом по всему миру. Вы знали, что компьютерная наука - это наиболее оплачиваемая специальность?"
+    parents_blurb2: "За $9.99 USD/месяц ваш ребенок получит новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
     parents_blurb3: "Без риска: 100% гарантия возврата денег, возможность отписаться в 1 клик."
-#    payment_methods: "Payment Methods"
-#    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
-#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+    payment_methods: "Методы оплаты"
+    payment_methods_title: "Принимаемые методы оплаты"
+    payment_methods_blurb1: "На данный момент мы принимаем кредитные карты и Alipay."
+    payment_methods_blurb2: "Если вам необходим альтернативный способ оплаты, пожалуйста, свяжитесь"
     stripe_description: "Месячная подписка"
     subscription_required_to_play: "Чтобы сыграть этот уровень нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
@@ -444,7 +445,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     managed_subs: "Управляемые подписки"
     managed_subs_desc: "Добавьте подписки для других игроков (студенты, дети и т.д.)"
     group_discounts: "Групповые скидки"
-#    group_discounts_1: "We also offer group discounts for bulk subscriptions."
+    group_discounts_1: "Так же мы предлагаем групповые скидки для нескольких подписок."
     group_discounts_1st: "1-я подписка"
     group_discounts_full: "Полная стоимость"
     group_discounts_2nd: "Подписки со 2-й по 11-ю"
@@ -591,8 +592,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teacher_subs_1: "Пожалуйста, напишите на"
     teacher_subs_2: "для получения бесплатной месячной подписки."
     sub_includes_title: "Что включено в подписку?"
-    sub_includes_1: "В дополнение к более чем 70 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:" # {change}
-    sub_includes_2: "Более 40 уровней для дополнительной практики" # {change}
+    sub_includes_1: "В дополнение к более чем 80 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:"
+    sub_includes_2: "Более 50 уровней для дополнительной практики"
     sub_includes_3: "Видео-уроки"
     sub_includes_4: "Эксклюзивная поддержка по электронной почте"
     sub_includes_5: "7 новых героев с уникальными возможностями для оттачивания мастерства"
@@ -629,7 +630,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     forum_page: "наш форум"
     forum_suffix: "."
     faq_prefix: "Так же у нас есть"
-    faq: "ЧаВо"
+    faq: "FAQ"
     subscribe_prefix: "Если вам нужна помощь в прохождении уровня, пожалуйста,"
     subscribe: "купите подписку CodeCombat,"
     subscribe_suffix: "и мы будем рады помочь вам с вашим кодом."
