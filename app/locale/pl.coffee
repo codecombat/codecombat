@@ -279,7 +279,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tome_help: "Pomoc"
 #    tome_current_method: "Current Method"
 #    hud_continue_short: "Continue"
-    code_saved: "Kod zapisano
+    code_saved: "Kod zapisano"
     skip_tutorial: "Pomiń (esc)"
     keyboard_shortcuts: "Skróty klawiszowe"
     loading_ready: "Gotowy!"
@@ -517,7 +517,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Zapisano"
 #    granularity_change_history: "History"
 
