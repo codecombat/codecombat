@@ -64,7 +64,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
     settings: "设置" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "投票" # Tooltip on poll button from /play
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
@@ -261,7 +261,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_hour_of_code_done_yes: "是的, 完成了!"
     victory_experience_gained: "获得经验"
     victory_gems_gained: "获得宝石"
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "成为一个维京人吧"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -489,7 +489,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skills: "技能"
 #    attack_1: "Deals"
 #    attack_2: "of listed"
-#    attack_3: "weapon damage."
+    attack_3: "武器攻击力"
 #    health_1: "Gains"
 #    health_2: "of listed"
 #    health_3: "armor health."
@@ -570,11 +570,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     michael_blurb: "系统管理员"
     matt_title: "程序员"
     matt_blurb: "自行车爱好者"
-#    cat_title: "Chief Artisan"
+    cat_title: "首席工匠"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
+    josh_title: "游戏设计师"
+    josh_blurb: "地板是熔岩"
+    jose_title: "音乐"
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
