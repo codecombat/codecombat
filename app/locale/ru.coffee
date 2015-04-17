@@ -261,7 +261,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_hour_of_code_done_yes: "Да, я закончил мой Час Кода™!"
     victory_experience_gained: "Опыта получено"
     victory_gems_gained: "Самоцветов получено"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+    victory_viking_code_school: "Ого, это было тяжелый уровень! Если вы еще не разработчик программ, вам стоит им стать. Вы только что ускорири принятие в Школу Викингов, где вы сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Станьте Викингом"
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов" # Only in old-style levels.
@@ -358,7 +358,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   leaderboard:
     leaderboard: "Таблица лидеров"
-    view_other_solutions: "Посмотреть Таблицу лидеров" # {change}
+    view_other_solutions: "Посмотреть Таблицу лидеров"
     scores: "Рейтинг"
     top_players: "Сортировать игроков по"
     day: "Сегодня"
@@ -424,10 +424,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parent_email_sent: "Письмо отправлено!"
     parent_email_title: "Какой у твоих родителей адрес электронной почты?"
     parents: "Для Родителей"
-    parents_title: "Дорогой Родитель, ваш ребенок учится программировать. Вы поможете им?" # {change}
-    parents_blurb1: "Ваш ребенок прошел уже __nLevels__ уровней и выучил основы программирования. Помогите развить их интерес и купите им подписку, чтобы они могли продолжить играть." # {change}
+    parents_title: "Дорогой Родитель, ваш ребенок учится программировать. Вы поможете ему?"
+    parents_blurb1: "Ваш ребенок прошел уже __nLevels__ уровней и выучил основы программирования. Помогите развить их интерес и купите им подписку, чтобы они могли продолжить играть."
     parents_blurb1a: "Программирование - это существенный навык, который ваш ребенок несомненно будет использовать, когда станет взрослым. В 2020, базовые навыки работы с программным обеспечением будут необходимы для 77% профессий, а программные инженеры пользуются высоким спросом по всему миру. Вы знали, что компьютерная наука - это наиболее оплачиваемая специальность?"
-    parents_blurb2: "За $9.99 USD/месяц ваш ребенок получит новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту." # {change}
+    parents_blurb2: "За $9.99 USD/месяц ваш ребенок получит новые испытания каждую неделю и персональную поддержку профессиональных программистов через электронную почту."
     parents_blurb3: "Без риска: 100% гарантия возврата денег, возможность отписаться в 1 клик."
     payment_methods: "Методы оплаты"
     payment_methods_title: "Принимаемые методы оплаты"
