@@ -571,7 +571,7 @@
     nick_blurb: "Motivation Guru"
     michael_title: "Programmer"
     michael_blurb: "Sys Admin"
-    matt_title: "Programmer"
+    matt_title: "Cofounder" # {change}
     matt_blurb: "Bicyclist"
     cat_title: "Chief Artisan"
     cat_blurb: "Airbender"
