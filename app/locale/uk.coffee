@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_hour_of_code_done_yes: "Так, я закінчив Годину Коду!"
     victory_experience_gained: "Отриманий досвід"
     victory_gems_gained: "Отримані самоцвіти"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Посібник"
     tome_minion_spells: "Заклинання Ваших міньонів" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   leaderboard:
     leaderboard: "Таблиця лідерів"
-    view_other_solutions: "Подивитись розв'язки інших"
+    view_other_solutions: "Подивитись розв'язки інших" # {change}
     scores: "Рейтинг"
     top_players: "Сортувати гравців за"
     day: "Сьогодні"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parent_email_sent: "Лист відправлено!"
     parent_email_title: "Яка в твоїх батьків електронна адреса?"
     parents: "Батькам"
-    parents_title: "Ваша дитина вчитиметься програмувати."
-    parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем."
-    parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів."
+    parents_title: "Ваша дитина вчитиметься програмувати." # {change}
+    parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів." # {change}
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Щомісячний абонемент"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."

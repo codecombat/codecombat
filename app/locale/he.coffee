@@ -261,6 +261,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_hour_of_code_done_yes: "שלי Hour of Code™! כן, סיימתי עם ה"
     victory_experience_gained: "שנצבר XP"
     victory_gems_gained: "אבני חן שנצברו"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "מדריך"
     tome_minion_spells: "הכישופים של המשרתים שלך" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   leaderboard:
     leaderboard: "שיאים"
-    view_other_solutions: "צפה בפתרונות אחרים"
+    view_other_solutions: "צפה בפתרונות אחרים" # {change}
     scores: "תוצאות"
     top_players: "סדר שחקנים טובים ביותר לפי"
     day: "היום"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     parent_email_sent: "מייל נשלח"
     parent_email_title: "?מהו המייל של הוריך"
     parents: "להורים"
-    parents_title: "ילדכם ילמד לתכנת."
-#    parents_blurb1: "With CodeCombat, your child learns by writing real code. They start by learning simple commands, and progress to more advanced topics."
-#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+    parents_title: "ילדכם ילמד לתכנת." # {change}
+#    parents_blurb1: "Your child has played __nLevels__ levels and learned programming basics. Help cultivate their interest and buy them a subscription so they can keep playing."
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+#    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "מנוי חודשי"
     subscription_required_to_play: "יש צורך במנוי כדי לשחק בשלב זה."

@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     victory_hour_of_code_done_yes: "Ja, jeg er ferdig med min Kodetime!"
     victory_experience_gained: "XP Opparbeidet"
     victory_gems_gained: "Mottatte juveler"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Guide"
     tome_minion_spells: "Din Minions' Trylleformularer" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 
   leaderboard:
     leaderboard: "Topplisten"
-    view_other_solutions: "Sen andre løsninger"
+    view_other_solutions: "Sen andre løsninger" # {change}
     scores: "Poeng"
 #    top_players: "Top Players by"
     day: "I dag"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     parent_email_sent: "E-post sendt!"
     parent_email_title: "Hva er din forelders e-postadresse?"
     parents: "For foreldre"
-    parents_title: "Barnet ditt vil lære å kode"
-    parents_blurb1: "Med CodeCombat vil dine barn lære seg å skrive ekte kode. De begynner med enkle kommandoer og går videre til mer avanserte emner."
-    parents_blurb2: "For USD 9.99 pr mnd, vil de få nye utfordringer hver uke og personlig e-poststøtte fra profesjonelle programmerere."
+    parents_title: "Barnet ditt vil lære å kode" # {change}
+    parents_blurb1: "Med CodeCombat vil dine barn lære seg å skrive ekte kode. De begynner med enkle kommandoer og går videre til mer avanserte emner." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "For USD 9.99 pr mnd, vil de få nye utfordringer hver uke og personlig e-poststøtte fra profesjonelle programmerere." # {change}
     parents_blurb3: "Ingen risiko: 100% pengene tilbake-garanti, kun et klikk for å si opp abonnementet."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Månedlig abonnement"
     subscription_required_to_play: "Du trenger abonnement for å spille dette nivået."

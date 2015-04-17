@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_hour_of_code_done_yes: "Đúng vậy, tôi đã hoàn tất thời gian lập trình!"
     victory_experience_gained: "XP nhận được"
     victory_gems_gained: "Ngọc nhận được"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Hướng dẫn"
     tome_minion_spells: "Phép của lính của bạn" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   leaderboard:
     leaderboard: "Bảng xếp hạng"
-    view_other_solutions: "Xem bài giải của những người khác"
+    view_other_solutions: "Xem bài giải của những người khác" # {change}
     scores: "Điểm"
 #    top_players: "Top Players by"
     day: "Hôm nay"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     parent_email_sent: "Đã gửi Email!"
     parent_email_title: "Địa chỉ email của bố hoặc mẹ bạn là gì ?"
     parents: "Dành cho cha mẹ"
-    parents_title: "Con của bạn sẽ học cách viết code (lập trình)."
-    parents_blurb1: "Với CodeCombat, con của bạn sẽ có thể học lập trình bằng việc viết những dòng code thật sự. Con bạn sẽ bắt đầu bằng việc học những lệnh cơ bản, và sau đó sẽ từ từ tìm hiểu về các vấn đề phức tạp hơn."
-    parents_blurb2: "Chỉ với $9.99 USD một tháng, con của bạn sẽ nhận được những thử thách mới mỗi tháng và sẽ nhận được sự hỗ trợ từ các lập trình viên chuyên nghiệp qua email."
+    parents_title: "Con của bạn sẽ học cách viết code (lập trình)." # {change}
+    parents_blurb1: "Với CodeCombat, con của bạn sẽ có thể học lập trình bằng việc viết những dòng code thật sự. Con bạn sẽ bắt đầu bằng việc học những lệnh cơ bản, và sau đó sẽ từ từ tìm hiểu về các vấn đề phức tạp hơn." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "Chỉ với $9.99 USD một tháng, con của bạn sẽ nhận được những thử thách mới mỗi tháng và sẽ nhận được sự hỗ trợ từ các lập trình viên chuyên nghiệp qua email." # {change}
     parents_blurb3: "Không hề có rủi ro: Nếu bạn không hài lòng bạn có thể nhận lại 100% số tiền mình bỏ ra chỉ với 1 cú nhấp chuốt."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
