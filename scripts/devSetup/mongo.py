@@ -86,10 +86,10 @@ class LinuxMongoDBDownloader(MongoDBDownloader):
     @property
     def download_url(self):
         if self.dependency.config.mem_width == 64:
-            return u"http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.6.tgz"
+            return u"http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.0.2.tgz"
         else:
             warnings.warn(u"MongoDB *really* doesn't run well on 32 bit systems. You have been warned.")
-            return u"http://fastdl.mongodb.org/linux/mongodb-linux-i686-2.6.6.tgz"
+            return u"http://fastdl.mongodb.org/linux/mongodb-linux-i686-3.0.2.tgz"
 
 class WindowsMongoDBDownloader(MongoDBDownloader):
     @property
@@ -97,11 +97,11 @@ class WindowsMongoDBDownloader(MongoDBDownloader):
         #TODO: Implement Windows Vista detection
         warnings.warn(u"If you have a version of Windows older than 7, MongoDB may not function properly!")
         if self.dependency.config.mem_width == 64:
-            return u"http://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.6.zip"
+            return u"http://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-3.0.2.zip"
         else:
-            return u"http://fastdl.mongodb.org/win32/mongodb-win32-i386-2.6.6.zip"
+            return u"http://fastdl.mongodb.org/win32/mongodb-win32-i386-3.0.2.zip"
 
 class MacMongoDBDownloader(MongoDBDownloader):
     @property
     def download_url(self):
-        return u"http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.6.6.tgz"
+        return u"http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-3.0.2.tgz"
