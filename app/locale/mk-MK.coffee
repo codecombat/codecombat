@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
     victory_experience_gained: "Добиено искуство"
     victory_gems_gained: "Добиени скапоцени камења"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Водич"
 #    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 
 #  leaderboard:
 #    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
+#    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
 #    top_players: "Top Players by"
 #    day: "Today"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    parent_email_sent: "Email sent!"
 #    parent_email_title: "What's your parent's email?"
     parents: "За родители"
-    parents_title: "Вашето дете ќе научи да програмира."
-    parents_blurb1: "Со CodeCombat, вашите деца учат преку пишување на вистински програмски код. Почнуваат со учење на едноставни команди, по што се продолжува на понапредни теми."
-    parents_blurb2: "За $9.99 американски долари месечно, добиваат нови предизвици секоја недела и лична поддршка преку e-mail, од страна на професионални програмери."
+    parents_title: "Вашето дете ќе научи да програмира." # {change}
+    parents_blurb1: "Со CodeCombat, вашите деца учат преку пишување на вистински програмски код. Почнуваат со учење на едноставни команди, по што се продолжува на понапредни теми." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "За $9.99 американски долари месечно, добиваат нови предизвици секоја недела и лична поддршка преку e-mail, од страна на професионални програмери." # {change}
     parents_blurb3: "Без ризик: 100% гаранција за враќање на парите, лесно откажување на членството со еден клик."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Месечна членарина"
     subscription_required_to_play: "Треба да бидеш зачленет за да го играш ова ниво."

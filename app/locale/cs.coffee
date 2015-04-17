@@ -261,6 +261,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_hour_of_code_done_yes: "Ano, pro dnešek jsem skončil!"
     victory_experience_gained: "Získáno zkušeností"
     victory_gems_gained: "Získáno drahokamů"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Průvodce"
     tome_minion_spells: "Vaše oblíbená kouzla" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   leaderboard:
     leaderboard: "Žebříčky"
-    view_other_solutions: "Zobrazit jiné řešení"
+    view_other_solutions: "Zobrazit jiné řešení" # {change}
     scores: "Skóre"
 #    top_players: "Top Players by"
     day: "Dnes"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     parent_email_sent: "E-mail odeslán!"
     parent_email_title: "Jaký je e-mail tvých rodičů?"
     parents: "Pro rodiče"
-    parents_title: "Vaše dítě se naučí programovat."
-    parents_blurb1: "Pomocí CodeCombat se vaše dítě učí psaním opravdového kódu. Začínají učením se základním příkazů a postupně se přidávají pokročilejší témata."
-    parents_blurb2: "Za $9.99 USD/měsíc, získají nové výzvy každý týden a osobní emailovou podporu od profesionálních programátorů."
+    parents_title: "Vaše dítě se naučí programovat." # {change}
+    parents_blurb1: "Pomocí CodeCombat se vaše dítě učí psaním opravdového kódu. Začínají učením se základním příkazů a postupně se přidávají pokročilejší témata." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "Za $9.99 USD/měsíc, získají nové výzvy každý týden a osobní emailovou podporu od profesionálních programátorů." # {change}
     parents_blurb3: "Bez rizika: 100% záruka vrácení peněz, jednoduché zrušení předplatného na 1 kliknutí."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Měsíční předplatné"
     subscription_required_to_play: "Pro hraní této úrovně potřebujete předplatné."

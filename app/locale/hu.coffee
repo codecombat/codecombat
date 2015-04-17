@@ -261,6 +261,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
     victory_experience_gained: "Szerzett tapasztalat"
     victory_gems_gained: "Szerzett Drágakövek"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Útmutató"
     tome_minion_spells: "Egységeid varázslatai" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   leaderboard:
     leaderboard: "Ranglétra"
-    view_other_solutions: "Más Megoldások Megtekintése"
+    view_other_solutions: "Más Megoldások Megtekintése" # {change}
     scores: "Pontok"
 #    top_players: "Top Players by"
     day: "Ma"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     parent_email_sent: "Email elküldve!"
     parent_email_title: "Mi a szülőd email címe?"
     parents: "Szülőknek"
-    parents_title: "A gyereke programozni tanul majd."
-    parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak."
-    parents_blurb2: "Havonta 9,99 USD-ért, minden héten új kihívások elé állítjuk őket és személyre szóló emailes támogatást nyújtanak enkik profi programozók."
+    parents_title: "A gyereke programozni tanul majd." # {change}
+    parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "Havonta 9,99 USD-ért, minden héten új kihívások elé állítjuk őket és személyre szóló emailes támogatást nyújtanak enkik profi programozók." # {change}
     parents_blurb3: "100%-os pénzvisszafizetés garancia: 1-kattintásossal leiratkozhat."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "Havi előfizetés"
     subscription_required_to_play: "Ehhez a szinthez elő kell fizetnek."
@@ -483,8 +485,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     health: "Élet"
     speed: "Sebesség"
     regeneration: "Gyógyulás"
-    blocks: "Blokkolás" # As in "this shield blocks this much damage"
     range: "Hatótáv" # As in "attack or visual range"
+    blocks: "Blokkolás" # As in "this shield blocks this much damage"
     backstab: "Hátbaszúrás" # As in "this dagger does this much backstab damage"
     skills: "Képességek"
     attack_1: "Sebez"

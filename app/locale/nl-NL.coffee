@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
     victory_experience_gained: "XP verdient"
     victory_gems_gained: "Edelstenen verdient"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  leaderboard:
 #    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Other Solutions"
+#    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
 #    top_players: "Top Players by"
 #    day: "Today"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    parent_email_sent: "Email sent!"
 #    parent_email_title: "What's your parent's email?"
     parents: "Voor ouders"
-    parents_title: "Uw kind leert programmeren."
-    parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
-#    parents_blurb2: "For $9.99 USD/mo, they get new challenges every week and personal email support from professional programmers."
+    parents_title: "Uw kind leert programmeren." # {change}
+    parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+#    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers."
 #    parents_blurb3: "No Risk: 100% money back guarantee, easy 1-click unsubscribe."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
