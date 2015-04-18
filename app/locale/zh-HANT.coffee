@@ -261,6 +261,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     victory_hour_of_code_done_yes: "是的，我完成了我的程式碼！"
     victory_experience_gained: "取得經驗值"
     victory_gems_gained: "取得寶石"
+#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "指南"
     tome_minion_spells: "助手的咒語" # Only in old-style levels.
@@ -357,7 +358,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   leaderboard:
     leaderboard: "排行榜"
-    view_other_solutions: "查看其他解法"
+    view_other_solutions: "查看其他解法" # {change}
     scores: "分數"
     top_players: "頂級玩家由"
     day: "今天"
@@ -423,13 +424,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     parent_email_sent: "已寄信!"
     parent_email_title: "您父母信箱是?"
     parents: "致家長"
-    parents_title: "您的孩子將學習編寫程式."
-    parents_blurb1: "使用 CodeCombat , 您的孩子學習真正的編寫程式. 他們學習從簡單的指令，漸進到更加進階的課題."
-    parents_blurb2: "每月支付 $9.99 美金, 他們每週獲得新挑戰以及使用信件取得專業程式員的幫助."
+    parents_title: "您的孩子將學習編寫程式." # {change}
+    parents_blurb1: "使用 CodeCombat , 您的孩子學習真正的編寫程式. 他們學習從簡單的指令，漸進到更加進階的課題." # {change}
+#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb2: "每月支付 $9.99 美金, 他們每週獲得新挑戰以及使用信件取得專業程式員的幫助." # {change}
     parents_blurb3: "沒有風險: 保證 100% 退費, 一步取消訂閱."
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "每月訂閱"
     subscription_required_to_play: "您將需要訂閱來開啟這關."
