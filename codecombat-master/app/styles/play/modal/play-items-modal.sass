@@ -1,0 +1,379 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+#play-items-modal
+
+  .big-font
+    text-transform: uppercase
+    font-family: $headings-font-family
+    font-weight: bold
+
+  .one-line
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  //- Clear modal defaults
+  .modal-dialog
+    padding: 0
+    width: 1230px
+    height: 660px
+    background: none
+
+  //- Background
+  #play-items-modal-bg, #play-items-modal-narrow-bg
+    position: absolute
+    top: -69px
+    left: -8px
+
+  #play-items-modal-narrow-bg
+    display: none
+
+  //- Header
+  h1
+    position: absolute
+    left: 200px
+    top: 25px
+    color: rgb(254,195,70)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
+    margin: 0
+
+  //- Gems count
+  #gems-count-container
+    position: absolute
+    left: 425px
+    top: 10px
+    width: 160px
+    height: 66px
+    @include rotate(5deg)
+
+    #gems-count
+      position: absolute
+      left: 75px
+      top: 17px
+      font-size: 25px
+      color: rgb(1,64,91)
+
+  //- Close modal button
+  #close-modal
+    position: absolute
+    left: 602px
+    top: 23px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 7px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  //- Nav bar
+  .nav
+    position: absolute
+    top: 125px
+    left: -31px
+    width: 178px
+
+    li
+      background: url(/images/pages/play/modal/menu-tab.png)
+      padding: 5px
+      margin: -5px 0
+      height: 80px
+      padding: 0
+
+      a
+        font-size: 18px
+        line-height: 50px
+        background: none
+        color: rgb(195,153,124)
+        font-weight: bold
+        padding: 10px 7px
+
+    li.active
+      background: url(/images/pages/play/modal/menu-tab-selected.png)
+      width: 197px
+
+      a
+        color: white
+
+  //- Hero Type Select
+  #hero-type-select
+    position: absolute
+    top: 102px
+    left: 177px
+    background: rgb(26,21,17)
+    padding: 2px 0
+    z-index: 3
+    border-radius: 2px
+
+    label
+      background: rgb(58,47,38)
+      color: rgb(195,153,124)
+      border: 2px solid rgb(85,70,57)
+      margin: 0 2px
+
+      &.active
+        background: rgb(33,28,21)
+        border: 2px solid rgb(64,53,41)
+        color: white
+
+  //- Item List
+  .tab-content
+    position: absolute
+    top: 116px
+    left: 148px
+    width: 669px
+    height: 507px
+    overflow: hidden
+
+    &.filter-warrior
+      .item.Ranger, .item.Wizard
+        display: none
+
+    &.filter-ranger
+      .item.Warrior, .item.Wizard
+        display: none
+
+    &.filter-wizard
+      .item.Ranger, .item.Warrior
+        display: none
+
+  .tab-pane
+    height: 100%
+
+    .nano-content
+      padding: 26px 51px 26px 26px
+
+  //- Item box
+  .item
+    cursor: pointer
+    width: 187px
+    padding: 10px
+    height: 195px
+    float: left
+    background: url(/images/pages/play/modal/item-box-background.png)
+    margin: 4px
+    text-align: center
+    position: relative
+
+    &.silhouetted
+      cursor: default
+
+    strong
+      position: absolute
+      top: 7px
+      padding: 2px
+      left: 0
+      right: 0
+      font-size: 18px
+      z-index: 2
+      line-height: 18px
+      color: rgb(22,16,5)
+
+    img
+      width: 90px
+      height: 90px
+      &.item-img
+        top: 45px
+      &.item-shadow
+        top: 55px
+      &.item-silhouette
+        top: 25px
+        width: 110px
+        height: 110px
+
+    .glyphicon-lock
+      font-size: 60px
+      position: absolute
+      top: 50px
+      color: rgb(149,141,123)
+      z-index: 1
+      left: 0
+      right: 0
+      margin-left: auto
+      margin-right: auto
+
+      &.bolder
+        font-weight: bolder
+        color: rgb(211,200,175)
+
+    .unlock-button, .unequippable
+      right: 1px
+      bottom: 0
+      width: 93px
+      height: 41px
+      font-size: 16px
+
+    .unequippable
+      position: absolute
+      line-height: 41px
+      display: inline-block
+
+    .cost
+      position: absolute
+      height: 41px
+      left: 0
+      bottom: 0
+      width: 95px
+      line-height: 38px
+      font-size: 16px
+      color: rgb(22,61,73)
+      font-weight: bold
+
+      img
+        width: 22px
+        height: 22px
+        margin-right: 8px
+        position: relative
+        top: -2px
+
+    .owned, .locked
+      position: absolute
+      left: 0
+      right: 0
+      bottom: 0
+      height: 41px
+      color: rgb(22,61,73)
+      line-height: 38px
+      font-size: 16px
+
+    &.selected
+      background: url(/images/pages/play/modal/item-box-background-selected.png)
+
+  //- Item details. Non-specific item-details-view styling is in item-details-view.sass.
+  #item-details-view
+
+    #item-title
+      left: 910px
+      top: 60px
+
+    #item-details-body
+      left: 860px
+
+    #selected-item-unlock-button
+      left: 856px
+
+#play-items-modal, #inventory-modal
+
+  //- Item list scrollbar
+  .nano-pane
+    width: 16px
+    background: black
+    border: 3px solid rgb(97,76,58)
+
+  .nano-slider
+    background: rgb(244,170,66)
+    border: 3px solid black
+    border-radius: 10px
+    margin-left: -3px
+    margin-right: -3px
+
+  //- Item icons w/shadows (both in list and details areas)
+  .item-img, .item-shadow, .item-silhouette
+    position: absolute
+    margin-left: auto
+    margin-right: auto
+    left: 0
+    right: 0
+    bottom: 0
+
+  .item-img
+    z-index: 1
+
+  // Not performant, takes too much memory with filter.
+  //.item-shadow
+  //  left: 5px
+  //  @include filter(contrast(0%) brightness(0%))
+  //  opacity: 0.2
+
+  .item-silhouette
+    opacity: 0.2
+    //@include filter(contrast(0%) brightness(0%))
+
+  .required-level
+    position: absolute
+    left: 0
+    right: 5px
+    top: 70px
+    font-size: 20px
+    line-height: 20px
+    font-family: $headings-font-family
+    text-transform: uppercase
+    font-weight: bold
+    z-index: 2
+
+  //- Unlock buttons (both in list and details areas)
+  .unlock-button
+    position: absolute
+    border: 3px solid rgb(7,65,83)
+    background: rgb(0,119,168)
+    color: white
+    font-size: 16px
+    border-radius: 0
+
+    &:disabled
+      background: rgb(72, 106, 113)
+      opacity: 1
+      color: rgba(255,255,255, 0.4)
+
+// Make sure this shows up above our modals.
+.popover.buy-gems-prompt
+  z-index: 1050
+  text-align: center
+
+  button
+    margin-top: 20px
+
+//- Use the two-column layout and background image if we are on a narrow screen.
+@media only screen and (max-width: 1300px)
+  #play-items-modal
+    overflow-x: hidden
+
+    .tab-content
+      width: 469px
+
+    #play-items-modal-bg
+      display: none
+
+    #play-items-modal-narrow-bg
+      display: block
+
+    .modal-dialog
+      width: 1024px
+      left: 25px
+
+    h1
+      display: none
+
+    #gems-count-container
+      left: 213px
+
+    #close-modal
+      left: 390px
+
+    .nano-content
+      padding-left: 20px
+
+    #item-details-view
+
+      #item-title
+        left: 698px
+
+      #item-details-body
+        left: 648px
+
+      #selected-item-unlock-button, .unequippable
+        left: 645px
+
+body[lang='pt-PT'], body[lang^='pt-BR']
+  #play-items-modal .unlock-button
+    font-size: 13px
+
+body[lang='ru']
+  #play-items-modal .unlock-button
+    font-size: 10px

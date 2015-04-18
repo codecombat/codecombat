@@ -1,0 +1,80 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#goals-view
+  position: absolute
+  left: -15px
+  top: -100px
+  @include transition(0.5s ease-in-out)
+  border-style: solid
+  border-image: url(/images/level/goals_background.png) 15 20 51 15 fill stretch
+  border-width: 8px 10px 25px 8px
+  margin: -8px -10px -25px -8px
+  padding: 19px 0px 2px 25px
+  z-index: 3
+  font-size: 14px
+  min-width: 230px
+
+  &.brighter
+    font-size: 18px
+    font-size: 1.4vw
+    border-width: 0.91vw 1.22vw 3.10vw 0.91vw
+    min-width: 23vw
+
+  .goals-status
+    margin: 5px 0 0 0
+    position: absolute
+    color: white
+    text-transform: uppercase
+
+    .success
+      color: lightgreen
+      text-shadow: 1px 1px 0px black
+    .timed-out
+      color: rgb(230, 230, 230)
+    .failure
+      color: rgb(239, 61, 71)
+      text-shadow: 1px 1px 0px black
+    .incomplete
+      color: rgb(245, 170, 49)
+    .running
+      color: rgb(200, 200, 200)
+    
+  ul
+    padding-left: 0
+    margin-bottom: 0
+    color: black
+    
+  li
+    list-style: none
+    margin-right: 5px
+    i
+      margin-right: 5px
+      
+  li.status-incomplete
+    color: #333
+    
+  li.status-failure
+    color: darkred
+    
+  li.status-success
+    color: darkgreen
+    
+#goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
+  display: none
+
+#goals-view.collapsed ul
+  display: none
+    
+html.no-borderimage
+  #goals-view
+    background: transparent url(/images/level/goals_background.png)
+    background-size: 100% 100%
+    border: 0
+
+    &.brighter
+      border: 0
+
+    .goals-status
+      position: static
+      margin-top: 10px

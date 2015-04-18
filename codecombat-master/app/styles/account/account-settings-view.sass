@@ -1,0 +1,49 @@
+#account-settings-root-view
+
+  //- Fixed save button
+  #site-content-area
+    padding-bottom: 44px
+
+  #save-button-container
+    position: fixed
+    bottom: 0
+    left: 0
+    right: 0
+    z-index: 10
+    background: gray
+    padding: 5px
+
+    #save-button
+      width: 100%
+
+      &.btn-info, &.btn-danger
+        opacity: 1.0
+
+#account-settings-view
+
+  .row
+    padding-top: 20px
+
+  //- Panels
+  .panel-heading
+    font-family: Open Sans Condensed
+    font-weight: bold
+
+    .panel-title
+      font-size: 20px
+
+    #delete-account-panel-title
+      color: #F00
+
+  //- Panel specific stuff
+  .profile-photo
+    max-width: 100%
+    max-height: 200px
+    display: block
+    margin-bottom: 10px
+
+  #email-panel
+    #specific-notification-settings
+      padding-left: 20px
+      margin-left: 20px
+      border-left: 1px solid gray

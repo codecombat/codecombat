@@ -1,0 +1,77 @@
+@import "app/styles/mixins"
+
+#add-thangs-view
+  $addPaletteIconColumns: 6
+  $addPaletteIconWidth: 40px
+  $addPaletteIconPadding: 0px
+  $addPaletteIconMargin: 4px
+  $addPaletteWidth: ($addPaletteIconWidth + 2 * $addPaletteIconPadding + 2 * $addPaletteIconMargin) * $addPaletteIconColumns + 26
+
+  width: $addPaletteWidth
+  background: white
+  box-sizing: border-box
+  position: absolute
+  right: 0
+  top: 0
+  bottom: 0
+  padding: 5px
+  border: 1px solid
+  z-index: 3
+
+  input
+    width: 100%
+    margin-top: 5px
+
+  #thangs-list
+    position: absolute
+    left: 8px
+    top: 80px
+    bottom: 0px
+    overflow: scroll
+    margin: 0
+
+  h3
+    margin: 0 0 10px
+    width: 100%
+
+  h4
+    margin: 0 0 10px
+    clear: both
+    padding: 5px
+    background: rgba(150, 150, 150, 0.5)
+    width: $addPaletteWidth - 20px
+    box-sizing: border-box
+
+  .clearfix
+    margin-bottom: 20px
+
+  .add-thang-palette-icon
+    position: relative
+    float: left
+    background: white
+    padding: $addPaletteIconPadding
+    margin: $addPaletteIconMargin
+    cursor: pointer
+    width: $addPaletteIconWidth
+    height: $addPaletteIconWidth
+
+    img
+      position: absolute
+      width: $addPaletteIconWidth
+      height: $addPaletteIconWidth
+      transition: box-shadow 0.25s ease-out
+
+    &:hover
+      $hoverScaleIncreaseFactor: 0.2
+      outline: 1px dotted blue
+      img
+        left: -($hoverScaleIncreaseFactor / 2) * $addPaletteIconWidth
+        top: -($hoverScaleIncreaseFactor / 2) * $addPaletteIconWidth
+        width: (1 + $hoverScaleIncreaseFactor) * $addPaletteIconWidth
+        height: (1 + $hoverScaleIncreaseFactor) * $addPaletteIconWidth
+
+    &.selected
+      outline: 1px solid blue
+      @include box-shadow(0px 5px 25px rgba(79, 79, 213, 0.6))
+      background: #add8e6
+

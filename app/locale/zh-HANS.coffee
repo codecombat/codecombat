@@ -64,7 +64,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
     settings: "设置" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "投票" # Tooltip on poll button from /play
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
@@ -261,8 +261,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_hour_of_code_done_yes: "是的, 完成了!"
     victory_experience_gained: "获得经验"
     victory_gems_gained: "获得宝石"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "成为一个维京人吧"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -358,7 +357,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   leaderboard:
     leaderboard: "排行榜"
-    view_other_solutions: "查看其它解答" # {change}
+    view_other_solutions: "查看其它解答"
     scores: "分数"
     top_players: "顶尖玩家是"
     day: "今天"
@@ -424,14 +423,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parent_email_sent: "邮件已发送!"
     parent_email_title: "什么是你父母的邮件地址？"
     parents: "致家长"
-    parents_title: "您的孩子将要学习编写程序。" # {change}
-    parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。" # {change}
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
-    parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
+    parents_title: "您的孩子将要学习编写程序。"
+    parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
+    parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
     parents_blurb3: "无风险承诺：100%退款，一键退款。"
 #    payment_methods: "Payment Methods"
 #    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
+#    payment_methods_blurb1: "We currently accept credit cards and Alipay." # {change}
 #    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
     stripe_description: "每月订阅"
     subscription_required_to_play: "订阅后才可开始本关"
@@ -491,7 +489,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skills: "技能"
 #    attack_1: "Deals"
 #    attack_2: "of listed"
-#    attack_3: "weapon damage."
+    attack_3: "武器攻击力"
 #    health_1: "Gains"
 #    health_2: "of listed"
 #    health_3: "armor health."
@@ -572,11 +570,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     michael_blurb: "系统管理员"
     matt_title: "程序员"
     matt_blurb: "自行车爱好者"
-#    cat_title: "Chief Artisan"
+    cat_title: "首席工匠"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
+    josh_title: "游戏设计师"
+    josh_blurb: "地板是熔岩"
+    jose_title: "音乐"
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
