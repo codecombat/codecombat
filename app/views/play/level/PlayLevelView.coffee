@@ -352,6 +352,7 @@ module.exports = class PlayLevelView extends RootView
       @realTimeMultiplayerContinueGame @options.realTimeMultiplayerSessionID
     # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
     application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id') unless @observing
+    $(window).trigger 'resize'
 
   playAmbientSound: ->
     return if @destroyed
