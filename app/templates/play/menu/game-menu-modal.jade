@@ -6,10 +6,11 @@
       span.glyphicon.glyphicon-remove
 
     ul#game-menu-nav.nav.nav-pills.nav-stacked
-      li
-        a#change-hero-tab
-          span.glyphicon.glyphicon-user
-          span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero')
+      if showsChooseHero
+        li
+          a#change-hero-tab
+            span.glyphicon.glyphicon-user
+            span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero')
 
       for submenu, index in submenus
         li(class=submenu === showTab ? "active" : "")

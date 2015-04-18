@@ -37,6 +37,9 @@ module.exports = class LadderPlayModal extends ModalView
     aceConfig.language = @$el.find('#tome-language').val()
     me.set 'aceConfig', aceConfig
     me.patch()
+    if @session
+      @session.set 'codeLanguage', aceConfig.language
+      @session.patch()
 
   # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->
@@ -88,6 +91,7 @@ module.exports = class LadderPlayModal extends ModalView
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
     ctx.tutorialLevelExists = @tutorialLevelExists
+    ctx.language = @session?.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
     ctx.languages = [
       {id: 'python', name: 'Python'}
       {id: 'javascript', name: 'JavaScript'}
