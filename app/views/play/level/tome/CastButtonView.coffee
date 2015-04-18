@@ -47,10 +47,7 @@ module.exports = class CastButtonView extends CocoView
   afterRender: ->
     super()
     @castButton = $('.cast-button', @$el)
-    @castOptions = $('.autocast-delays', @$el)
-    #delay = me.get('autocastDelay')  # No more autocast
-    delay = 90019001
-    @setAutocastDelay delay
+    spell.view?.createOnCodeChangeHandlers() for spellKey, spell of @spells
     if @options.level.get('hidesSubmitUntilRun') or @options.level.get('hidesRealTimePlayback')
       @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
     if @options.session.get('state')?.complete and @options.level.get 'hidesRealTimePlayback'
@@ -149,17 +146,6 @@ module.exports = class CastButtonView extends CocoView
     if disabled
       waitTime = moment().add(timeUntilResubmit, 'ms').fromNow()
       submitAgainLabel.text waitTime
-
-  setAutocastDelay: (delay) ->
-    #console.log 'Set autocast delay to', delay
-    return unless delay
-    delay = 90019001  # No more autocast
-    @autocastDelay = delay = parseInt delay
-    me.set('autocastDelay', delay)
-    me.patch()
-    spell.view?.setAutocastDelay delay for spellKey, spell of @spells
-    @castOptions.find('a').each ->
-      $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
 
   onJoinedRealTimeMultiplayerGame: (e) ->
     @inRealTimeMultiplayerSession = true
