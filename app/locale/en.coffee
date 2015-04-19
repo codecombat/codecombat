@@ -529,8 +529,6 @@
     volume_label: "Volume"
     music_label: "Music"
     music_description: "Turn background music on/off."
-    autorun_label: "Autorun"
-    autorun_description: "Control automatic code execution."
     editor_config: "Editor Config"
     editor_config_title: "Editor Configuration"
     editor_config_level_language_label: "Language for This Level"

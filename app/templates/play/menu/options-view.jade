@@ -22,16 +22,6 @@
       span(data-i18n="options.music_label") Music
     span.help-block(data-i18n="options.music_description") Turn background music on/off.
 
-  .form-group.select-group
-    label.control-label(for="option-autorun-delay", data-i18n="options.autorun_label") Autorun
-    select#option-autorun-delay.form-control(name="autorunDelay")
-      option(value=1000, selected=(autorunDelay === 1000), data-i18n="common.delay_1_sec") 1 second
-      option(value=3000, selected=(autorunDelay === 3000), data-i18n="common.delay_3_sec") 3 seconds
-      option(value=5000, selected=(autorunDelay === 5000), data-i18n="common.delay_5_sec") 5 seconds
-      option(value=90019001, selected=(autorunDelay === 90019001), data-i18n="common.manual") Manual
-    span.help-block(data-i18n="options.autorun_description") Control automatic code execution.
-  
-
   img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
 
   h3(data-i18n="options.editor_config_title") Editor Configuration

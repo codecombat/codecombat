@@ -76,6 +76,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @fillACE()
+    @createOnCodeChangeHandlers()
     @lockDefaultCode()
     if @session.get('multiplayer')
       @createFirepad()
@@ -613,11 +614,7 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @updateLines()
 
-  recompileIfNeeded: =>
-    @recompile() if @recompileNeeded
-
   recompile: (cast=true, realTime=false) ->
-    @setRecompileNeeded false
     hasChanged = @spell.source isnt @getSource()
     if hasChanged
       @spell.transpile @getSource()
@@ -640,17 +637,9 @@ module.exports = class SpellView extends CocoView
     catch error
       console.warn 'Error resizing ACE after an update:', error
 
-  # Called from CastButtonView initially and whenever the delay is changed
-  setAutocastDelay: (@autocastDelay) ->
-    @createOnCodeChangeHandlers()
-
   createOnCodeChangeHandlers: ->
     @aceDoc.removeListener 'change', @onCodeChangeMetaHandler if @onCodeChangeMetaHandler
-    autocastDelay = @autocastDelay ? 3000
-    onSignificantChange = [
-      _.debounce @setRecompileNeeded, autocastDelay - 100
-      @currentAutocastHandler = _.debounce @recompileIfNeeded, autocastDelay
-    ]
+    onSignificantChange = []
     onAnyChange = [
       _.debounce @updateAether, 500
       _.debounce @notifyEditingEnded, 1000
@@ -671,10 +660,7 @@ module.exports = class SpellView extends CocoView
           callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
-  setRecompileNeeded: (@recompileNeeded) =>
-
-  onCursorActivity: =>
-    @currentAutocastHandler?()
+  onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
 
   # Design for a simpler system?
   # * Keep Aether linting, debounced, on any significant change
@@ -801,7 +787,7 @@ module.exports = class SpellView extends CocoView
     @userCodeProblem.save()
     null
 
-  # Autocast:
+  # Autocast (preload the world in the background):
   # Goes immediately if the code is a) changed and b) complete/valid and c) the cursor is at beginning or end of a line
   # We originally thought it would:
   # - Go after specified delay if a) and b) but not c)
@@ -815,12 +801,9 @@ module.exports = class SpellView extends CocoView
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     incompleteThis = /^(s|se|sel|self|t|th|thi|this)$/.test currentLine.trim()
-    # console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
+    #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if valid and (endOfLine or beginningOfLine) and not incompleteThis
-      if @autocastDelay > 60000
-        @preload()
-      else
-        @recompile()
+      @preload()
 
   singleLineCommentRegex: ->
     if @_singleLineCommentRegex
@@ -836,7 +819,10 @@ module.exports = class SpellView extends CocoView
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
-    return if @spell.source.indexOf 'while'  # If they're working with while-loops, it's more likely to be an incomplete infinite loop, so don't preload.
+    #console.log 'preload?', @spell.source.indexOf('while'), @spell.source.length, @spellThang?.castAether?.metrics?.statementsExecuted
+    return if @spell.source.indexOf('while') isnt -1  # If they're working with while-loops, it's more likely to be an incomplete infinite loop, so don't preload.
+    return if @spell.source.length > 500  # Only preload on really short methods
+    return if @spellThang?.castAether?.metrics?.statementsExecuted > 2000  # Don't preload if they are running significant amounts of user code
     oldSource = @spell.source
     oldSpellThangAethers = {}
     for thangID, spellThang of @spell.thangs

@@ -43,6 +43,7 @@ module.exports = class GameMenuModal extends ModalView
       'guide': 'list'
       'save-load': 'floppy-disk'
       'multiplayer': 'globe'
+    context.showsChooseHero = @options.levelID not in ['zero-sum']
     context
 
   afterRender: ->

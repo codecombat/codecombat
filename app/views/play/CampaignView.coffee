@@ -108,7 +108,7 @@ module.exports = class CampaignView extends RootView
     # If it's a new player who didn't appear to come from Hour of Code, we register her here without setting the hourOfCode property.
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if not trackedHourOfCode and not me.get('hourOfCode') and elapsed < 5 * 60 * 1000
-      $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
+      $('body').append($('<img src="https://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
       trackedHourOfCode = true
 
     @requiresSubscription = not me.isPremium()
