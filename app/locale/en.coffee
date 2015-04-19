@@ -261,6 +261,7 @@
     victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
     victory_experience_gained: "XP Gained"
     victory_gems_gained: "Gems Gained"
+    victory_new_item: "New Item"
     victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Become a Viking"
     guide_title: "Guide"
