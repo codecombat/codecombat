@@ -16,6 +16,7 @@ module.exports = class Angel extends CocoClass
   subscriptions:
     'level:flag-updated': 'onFlagEvent'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
+    'level:escape-pressed': 'onEscapePressed'
 
   constructor: (@shared) ->
     super()
@@ -165,10 +166,11 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'finalizePreload'
     @work.preload = false
 
-  infinitelyLooped: =>
+  infinitelyLooped: (escaped=false) =>
     @say 'On infinitely looped! Aborting?', @aborting
     return if @aborting
     problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
+    problem.message = 'Escape pressed; code aborted.' if escaped
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
     Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld
     @fireWorker()
@@ -239,7 +241,13 @@ module.exports = class Angel extends CocoClass
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime
     @work.realTime = false
+    @lastRealTimeWork = new Date()
     @worker.postMessage func: 'stopRealTimePlayback'
+
+  onEscapePressed: (e) ->
+    return unless @running and not @work.realTime
+    return if (new Date() - @lastRealTimeWork) < 1000  # Fires right after onStopRealTimePlayback
+    @infinitelyLooped true
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>
