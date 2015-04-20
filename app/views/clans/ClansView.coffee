@@ -74,11 +74,11 @@ module.exports = class MainAdminView extends RootView
     popoverTitle = 'Private Clans'
     popoverContent = "<p>Additional features:"
     popoverContent += "<ul>"
-    popoverContent += "<li>Detailed progress reporting"
-    popoverContent += "<li>Not visible in Public Clans list below"
-    popoverContent += "<li>Only students with the invite link will be able to join"
+    popoverContent += "<li>Not visible in Public Clans list"
+    popoverContent += "<li>Invite link required to join"
+    popoverContent += "<li>Premium dashboard:"
     popoverContent += "</ul>"
-    popoverContent += "<p><img src='/images/loading_image.png'></p>"
+    popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png'></p>"
     popoverContent += "<p>*A CodeCombat subscription is required to create or join private Clans.</p>"
     @$el.find('.private-more-info').popover(
       animation: true
