@@ -178,7 +178,10 @@ module.exports = class ClanDetailsView extends RootView
   onJoinClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
     return unless @clan.loaded
-    return @openModalView new SubscribeModal() if @clan.get('type') is 'private' and not me.isPremium()
+    if @clan.get('type') is 'private' and not me.isPremium()
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'join clan'
+      return
     options =
       url: "/db/clan/#{@clanID}/join"
       method: 'PUT'

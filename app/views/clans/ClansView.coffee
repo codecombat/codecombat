@@ -91,9 +91,12 @@ module.exports = class MainAdminView extends RootView
     )
 
   onClickCreateClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView new AuthModal() if me.isAnonymous()
     clanType = if $('.private-clan-checkbox').prop('checked') then 'private' else 'public'
-    return @openModalView new SubscribeModal() if clanType is 'private' and not me.isPremium()
+    if clanType is 'private' and not me.isPremium()
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'create clan'
+      return
     if name = $('.create-clan-name').val()
       clan = new Clan()
       clan.set 'type', clanType
