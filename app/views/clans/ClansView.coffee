@@ -4,6 +4,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/clans/clans'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 # TODO: Waiting for async messages
 # TODO: Invalid clan name message
@@ -28,10 +29,14 @@ module.exports = class MainAdminView extends RootView
   getRenderData: ->
     context = super()
     context.idNameMap = @idNameMap
-    context.publicClans = @publicClans.models
+    context.publicClans = _.filter(@publicClans.models, (clan) -> clan.get('type') is 'public')
     context.myClans = @myClans.models
     context.myClanIDs = me.get('clans') ? []
     context
+
+  afterRender: ->
+    super()
+    @setupPrivateInfoPopover()
 
   initData: ->
     @idNameMap = {}
@@ -54,20 +59,47 @@ module.exports = class MainAdminView extends RootView
     @listenTo me, 'sync', => @render?()
 
   refreshNames: (clans) ->
+    clanIDs = _.filter(clans, (clan) -> clan.get('type') is 'public')
+    clanIDs = _.map(clans, (clan) -> clan.get('ownerID'))
     options =
       url: '/db/user/-/names'
       method: 'POST'
-      data: {ids: _.map(clans, (clan) -> clan.get('ownerID'))}
+      data: {ids: clanIDs}
       success: (models, response, options) =>
         @idNameMap[userID] = models[userID].name for userID of models
         @render?()
     @supermodel.addRequestResource('user_names', options, 0).load()
 
+  setupPrivateInfoPopover: ->
+    popoverTitle = 'Private Clans'
+    popoverContent = "<p>Additional features:"
+    popoverContent += "<ul>"
+    popoverContent += "<li>Not visible in Public Clans list"
+    popoverContent += "<li>Invite link required to join"
+    popoverContent += "<li>Premium dashboard:"
+    popoverContent += "</ul>"
+    popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png'></p>"
+    popoverContent += "<p>*A CodeCombat subscription is required to create or join private Clans.</p>"
+    @$el.find('.private-more-info').popover(
+      animation: true
+      html: true
+      placement: 'right'
+      trigger: 'hover'
+      title: popoverTitle
+      content: popoverContent
+      container: @$el
+    )
+
   onClickCreateClan: (e) ->
-    return @openModalView(new AuthModal()) if me.isAnonymous()
+    return @openModalView new AuthModal() if me.isAnonymous()
+    clanType = if $('.private-clan-checkbox').prop('checked') then 'private' else 'public'
+    if clanType is 'private' and not me.isPremium()
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'create clan'
+      return
     if name = $('.create-clan-name').val()
       clan = new Clan()
-      clan.set 'type', 'public'
+      clan.set 'type', clanType
       clan.set 'name', name
       clan.set 'description', description if description = $('.create-clan-description').val()
       clan.save {},

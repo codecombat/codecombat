@@ -10,10 +10,53 @@
     width: 240px
     background: rgba(0, 0, 0, 0.0)
 
+  #editDescriptionModal .modal-dialog
+    background-color: white
+
+  #editNameModal .modal-dialog
+    background-color: white
+    max-width: 400px
+
+  .edit-description-input
+    width: 100%
+
+  .edit-name-input
+    width: 100%
+
   $spriteSheetSize: 30px
 
-  td.hero-icon-cell
+
+  .remove-hero-cell
+    width: 100px
+
+  .hero-icon-cell
     width: 30px
+
+  .level-cell
+    width: 50px
+    text-align: center
+
+  .name-cell
+    width: 100px
+
+  .level-progression-cell
+    background-color: lightblue
+    border: 1px solid gray
+    // cursor: pointer
+    padding: 4px
+
+    .level-popup-container
+      display: none
+      position: absolute
+      padding: 10px
+      border: 1px solid black
+      z-index: 3
+      background-color: blanchedalmond
+      font-size: 10pt
+
+  .level-progression-cell-name
+    background-color: lightblue
+    border: 1px solid gray
 
   .player-hero-icon
     background: transparent url(/images/pages/play/play-spritesheet.png)
