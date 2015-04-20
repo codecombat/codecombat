@@ -75,7 +75,7 @@ block content
 
   if members
     h3 Heroes (#{members.length})
-    if clan.get('type') === 'private'
+    if clan.get('dashboardType') === 'premium'
       table.table.table-condensed
         thead
           tr

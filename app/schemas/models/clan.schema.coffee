@@ -9,7 +9,8 @@ _.extend ClanSchema.properties,
   description: {type: 'string'}
   members: c.array {title: 'Members'}, c.objectId()
   ownerID: c.objectId()
-  type: {type: 'string', 'enum': ['public', 'private']}
+  type: {type: 'string', 'enum': ['public', 'private'], description: 'Controls clan general visibility.'}
+  dashboardType: {type: 'string', 'enum': ['basic', 'premium']}
 
 c.extendBasicProperties ClanSchema, 'Clan'
 

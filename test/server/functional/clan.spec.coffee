@@ -23,12 +23,14 @@ describe 'Clans', ->
       expect(body.type).toEqual(type)
       expect(body.name).toEqual(name)
       expect(body.description).toEqual(description) if description?
+      expect(body.dashboardType).toEqual('premium') if type is 'private'
       expect(body.members?.length).toEqual(1)
       expect(body.members?[0]).toEqual(user.id)
       Clan.findById body._id, (err, clan) ->
         expect(clan.get('type')).toEqual(type)
         expect(clan.get('name')).toEqual(name)
         expect(clan.get('description')).toEqual(description) if description?
+        expect(clan.get('dashboardType')).toEqual('premium') if type is 'private'
         expect(clan.get('members')?.length).toEqual(1)
         expect(clan.get('members')?[0]).toEqual(user._id)
         User.findById user.id, (err, user) ->

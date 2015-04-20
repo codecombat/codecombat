@@ -35,6 +35,7 @@ ClanHandler = class ClanHandler extends Handler
     instance = super(req)
     instance.set 'ownerID', req.user._id
     instance.set 'members', [req.user._id]
+    instance.set 'dashboardType', 'premium' if req.body?.type is 'private'
     instance
 
   delete: (req, res, clanID) ->
