@@ -610,5 +610,5 @@ module.exports = class World
     time: @age
     'damage-taken': @getSystem('Combat')?.damageTakenForTeam 'humans'
     'damage-dealt': @getSystem('Combat')?.damageDealtForTeam 'humans'
-    'gold-collected': @getSystem('Inventory')?.teamGold.humans?.earned
+    'gold-collected': @getSystem('Inventory')?.teamGold.humans?.collected
     'difficulty': @difficulty
