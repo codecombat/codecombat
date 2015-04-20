@@ -161,7 +161,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   general:
     and: "i"
-    name: "Imię"
+    name: "Nazwa"
     date: "Data"
     body: "Zawartość"
     version: "Wersja"
