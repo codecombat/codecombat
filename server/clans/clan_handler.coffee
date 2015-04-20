@@ -79,7 +79,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       return @sendForbiddenError(res) if clan.get('ownerID')?.equals req.user._id
       Clan.update {_id: clanID}, {$pull: {members: req.user._id}}, (err) =>
         return @sendDatabaseError(res, err) if err

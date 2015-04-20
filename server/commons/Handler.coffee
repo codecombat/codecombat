@@ -81,7 +81,7 @@ module.exports = class Handler
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendPaymentRequiredError: (res, message) -> errors.paymentRequired(res, message)
   sendDatabaseError: (res, err) ->
-    return @sendError(res, err.code, err.response) if err.response and err.code
+    return @sendError(res, err.code, err.response) if err?.response and err?.code
     log.error "Database error, #{err}"
     errors.serverError(res, 'Database error, ' + err)
 
