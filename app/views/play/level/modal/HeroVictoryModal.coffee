@@ -68,7 +68,7 @@ module.exports = class HeroVictoryModal extends ModalView
     for thangTypeOriginal in thangTypeOriginals
       thangType = new ThangType()
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
-      thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers']
+      thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers', 'i18n']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
 
     @newEarnedAchievements = []
@@ -134,6 +134,7 @@ module.exports = class HeroVictoryModal extends ModalView
     c.me = me
     c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
     c.level = @level
+    c.i18n = utils.i18n
 
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     isHourOfCode = me.get('hourOfCode') or elapsed < 120 * 60 * 1000
@@ -229,6 +230,8 @@ module.exports = class HeroVictoryModal extends ModalView
         @updateXPBars(totalXP)
         xpTrigger = 'xp-' + (totalXP % 6)  # 6 xp sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: xpTrigger, volume: 0.5 + ratio / 2
+        @XPEl.addClass 'four-digits' if totalXP >= 1000 and @lastTotalXP < 1000
+        @XPEl.addClass 'five-digits' if totalXP >= 10000 and @lastTotalXP < 10000
         @lastTotalXP = totalXP
     else if panel.unit is 'gem'
       newGems = Math.floor(panel.previousNumber + ratio * (panel.number - panel.previousNumber))
@@ -238,10 +241,12 @@ module.exports = class HeroVictoryModal extends ModalView
         @gemEl.text(totalGems)
         gemTrigger = 'gem-' + (parseInt(panel.number * ratio) % 4)  # 4 gem sounds
         Backbone.Mediator.publish 'audio-player:play-sound', trigger: gemTrigger, volume: 0.5 + ratio / 2
+        @gemEl.addClass 'four-digits' if totalGems >= 1000 and @lastTotalGems < 1000
+        @gemEl.addClass 'five-digits' if totalGems >= 10000 and @lastTotalGems < 10000
         @lastTotalGems = totalGems
     else if panel.item
       thangType = @thangTypes[panel.item]
-      panel.textEl.text(thangType.get('name'))
+      panel.textEl.text utils.i18n(thangType.attributes, 'name')
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'item-unlocked', volume: 1 if 0.5 < ratio < 0.6
     else if panel.hero
       thangType = @thangTypes[panel.hero]

@@ -42,8 +42,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   diplomat_suggestion:
     title: "Pomôžte preložiť CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Potrebujeme tvoje jazykové zručnosti."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Slovak but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Slovak."
-    missing_translations: "Until we can translate everything into Slovak, you'll see English when Slovak isn't available."
+    #pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Slovak but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Slovak."
+    #missing_translations: "Until we can translate everything into Slovak, you'll see English when Slovak isn't available."
     learn_more: "Zisti viac, ako byť Diplomat"
     subscribe_as_diplomat: "Prihlásiť sa ako Diplomat"
 

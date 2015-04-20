@@ -153,7 +153,6 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Escape', mac: 'Escape'}
       readOnly: true
       exec: ->
-        console.log 'esc pressed'
         Backbone.Mediator.publish 'level:escape-pressed', {}
     addCommand
       name: 'toggle-grid'
