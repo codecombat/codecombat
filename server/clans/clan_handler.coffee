@@ -102,7 +102,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
+      EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, cleandocs)
@@ -113,7 +113,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = clan.get('members') ? []
-      User.find {_id: {$in: memberIDs}}, (err, users) =>
+      User.find {_id: {$in: memberIDs}}, 'name', (err, users) =>
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
@@ -125,7 +125,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map   clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      LevelSession.find {creator: {$in: memberIDs}}, 'creatorName levelName codeLanguage submittedCodeLanguage', (err, documents) =>
+      LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelName playtime state submittedCodeLanguage', (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, cleandocs)
