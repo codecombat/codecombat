@@ -98,10 +98,12 @@ ClanHandler = class ClanHandler extends Handler
 
   getMemberAchievements: (req, res, clanID) ->
     # TODO: add tests
+    memberLimit = 200
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      memberIDs = memberIDs.slice 0, memberLimit
       EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
@@ -121,10 +123,12 @@ ClanHandler = class ClanHandler extends Handler
   getMemberSessions: (req, res, clanID) ->
     # TODO: add tests
     # TODO: restrict information returned based on clan type
+    memberLimit = 200
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
-      memberIDs = _.map   clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      memberIDs = memberIDs.slice 0, memberLimit
       LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelName playtime state submittedCodeLanguage', (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)

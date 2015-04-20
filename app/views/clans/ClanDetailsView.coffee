@@ -67,6 +67,15 @@ module.exports = class ClanDetailsView extends RootView
     context.memberLevelProgression = @memberLevelProgression
     context.memberMaxLevelCount = @memberMaxLevelCount
     context.members = @members?.models
+    # Give preference to members with more data
+    if @memberLevelProgression? and @memberLanguageMap?
+      context.members.sort (a, b) =>
+        if a.id of @memberLevelProgression and a.id of @memberLanguageMap
+          -1
+        else if b.id of @memberLevelProgression and b.id of @memberLanguageMap
+          1
+        else
+          0
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
     context.stats = @stats
@@ -101,7 +110,6 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onMemberAchievementsSync: ->
-    @stats.totalAchievements = @memberAchievements.models.length
     @memberAchievementsMap = {}
     for achievement in @memberAchievements.models
       user = achievement.get('user')
@@ -109,6 +117,7 @@ module.exports = class ClanDetailsView extends RootView
       @memberAchievementsMap[user].push achievement
     for user of @memberAchievementsMap
       @memberAchievementsMap[user].sort (a, b) -> b.id.localeCompare(a.id)
+    @stats.averageAchievements = Math.round(@memberAchievements.models.length / Object.keys(@memberAchievementsMap).length)
     @render?()
 
   onMemberSessionsSync: ->

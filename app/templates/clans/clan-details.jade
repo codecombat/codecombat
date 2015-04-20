@@ -54,10 +54,10 @@ block content
       tr
         td Average Level
         td= stats.averageLevel
-    if stats.totalAchievements && clan.get('type') === 'public'
+    if stats.averageAchievements && clan.get('type') === 'public'
       tr
-        td Total Achievements
-        td= stats.totalAchievements
+        td Average Achievements
+        td= stats.averageAchievements
 
   p
     if isOwner
@@ -83,8 +83,8 @@ block content
               th
             th
             th
-            th Level
-            th Name
+            th.level-cell Level
+            th.name-cell Name
             th(colspan="#{memberMaxLevelCount + 1}") Last Level Completed
         tbody
           each member in members
@@ -108,7 +108,7 @@ block content
                       div Level: #{levelInfo.level}
                       div Playtime: #{levelInfo.playtime}
                       div Last played: #{levelInfo.changed}
-                td(colspan="#{memberMaxLevelCount - memberLevelProgression[member.id].length + 1}")= memberLevelProgression[member.id][memberLevelProgression[member.id].length - 1].level
+                td.level-progression-cell-name(colspan="#{memberMaxLevelCount - memberLevelProgression[member.id].length + 1}")= memberLevelProgression[member.id][memberLevelProgression[member.id].length - 1].level
               else
                 td(colspan="#{memberMaxLevelCount + 1}")
     else
@@ -117,10 +117,10 @@ block content
           tr
             th
             th 
-            td Name
-            th Level
-            th Achievements
-            th Latest Achievement
+            td.name-cell Name
+            th.level-cell Level
+            th.achievements-cell Achievements
+            th.latest-achievement-cell Latest Achievement
             th  
         tbody
           each member in members
@@ -130,13 +130,13 @@ block content
               td.code-language-cell
                 if memberLanguageMap && memberLanguageMap[member.id]
                   span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
-              td  
+              td.name-cell
                 a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
-              td= member.level()
-              td
+              td.level-cell= member.level()
+              td.achievements-cell
                 if memberAchievementsMap && memberAchievementsMap[member.id]
                   | #{memberAchievementsMap[member.id].length}
-              td
+              td.latest-achievement-cell
                 if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
                   span= memberAchievementsMap[member.id][0].get('achievementName')
               td
