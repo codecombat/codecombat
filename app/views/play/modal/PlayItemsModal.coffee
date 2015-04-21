@@ -129,6 +129,7 @@ module.exports = class PlayItemsModal extends ModalView
     earnedLevels = me.get('earned')?.levels or []
     if Level.levels['defense-of-plainswood'] not in earnedLevels
       @$el.find('#misc-tab').hide()
+      @$el.find('#hero-type-select #warrior').click()  # Start on warrior tab, if low level.
 
   onHidden: ->
     super()

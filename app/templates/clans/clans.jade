@@ -7,6 +7,12 @@ block content
   p
     textarea.create-clan-description(rows=2, placeholder='New clan description')
   p
+    input(type='checkbox').private-clan-checkbox
+    span.spl Private
+    span.spl (
+    a.private-more-info more info
+    span )
+  p
     button.btn.btn-success.create-clan-btn Create New Clan
 
   div(role='tabpanel')
@@ -53,6 +59,7 @@ block content
             th Clan Name
             th Heroes
             th Chieftain
+            th Type
             th
         tbody
           if myClans.length
@@ -69,6 +76,7 @@ block content
                     a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
                   else
                     a(href="/user/#{clan.get('ownerID')}") Anoner
+                td= clan.get('type')
                 td
                   if clan.get('ownerID') !== me.id
                     button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}") Leave Clan

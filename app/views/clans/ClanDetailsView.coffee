@@ -1,15 +1,16 @@
-app = require 'core/application'
-AuthModal = require 'views/core/AuthModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
+app = require 'core/application'
+AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
 EarnedAchievement = require 'models/EarnedAchievement'
 LevelSession = require 'models/LevelSession'
+SubscribeModal = require 'views/core/SubscribeModal'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
 
-# TODO: Message for clan not found
+# TODO: Add message for clan not found
 # TODO: join/leave mostly duped from clans view
 
 module.exports = class ClanDetailsView extends RootView
@@ -18,9 +19,13 @@ module.exports = class ClanDetailsView extends RootView
 
   events:
     'click .delete-clan-btn': 'onDeleteClan'
+    'click .edit-description-save-btn': 'onEditDescriptionSave'
+    'click .edit-name-save-btn': 'onEditNameSave'
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
     'click .remove-member-btn': 'onRemoveMember'
+    'mouseenter .level-progression-cell': 'onMouseEnterPoint'
+    'mouseleave .level-progression-cell': 'onMouseLeavePoint'
 
   constructor: (options, @clanID) ->
     super options
@@ -59,7 +64,18 @@ module.exports = class ClanDetailsView extends RootView
     context.owner = @owner
     context.memberAchievementsMap = @memberAchievementsMap
     context.memberLanguageMap = @memberLanguageMap
+    context.memberLevelProgression = @memberLevelProgression
+    context.memberMaxLevelCount = @memberMaxLevelCount
     context.members = @members?.models
+    # Give preference to members with more data
+    if @memberLevelProgression? and @memberLanguageMap?
+      context.members.sort (a, b) =>
+        if a.id of @memberLevelProgression and a.id of @memberLanguageMap
+          -1
+        else if b.id of @memberLevelProgression and b.id of @memberLanguageMap
+          1
+        else
+          0
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
     context.stats = @stats
@@ -73,6 +89,7 @@ module.exports = class ClanDetailsView extends RootView
     me.fetch cache: false
     @members.fetch cache: false
     @memberAchievements.fetch cache: false
+    @memberSessions.fetch cache: false
 
   updateHeroIcons: ->
     return unless @members?.models?
@@ -93,7 +110,6 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onMemberAchievementsSync: ->
-    @stats.totalAchievements = @memberAchievements.models.length
     @memberAchievementsMap = {}
     for achievement in @memberAchievements.models
       user = achievement.get('user')
@@ -101,26 +117,49 @@ module.exports = class ClanDetailsView extends RootView
       @memberAchievementsMap[user].push achievement
     for user of @memberAchievementsMap
       @memberAchievementsMap[user].sort (a, b) -> b.id.localeCompare(a.id)
+    @stats.averageAchievements = Math.round(@memberAchievements.models.length / Object.keys(@memberAchievementsMap).length)
     @render?()
 
   onMemberSessionsSync: ->
-    @memberSessionMap = {}
+    @memberLevelProgression = {}
+    memberSessions = {}
     for levelSession in @memberSessions.models
       user = levelSession.get('creator')
-      @memberSessionMap[user] ?= []
-      @memberSessionMap[user].push levelSession
+      if not levelSession.isMultiplayer() and levelSession.get('state')?.complete is true
+        memberSessions[user] ?= []
+        memberSessions[user].push levelSession
+        @memberLevelProgression[user] ?= []
+        levelInfo =
+          level: levelSession.get('levelName')
+          changed: new Date(levelSession.get('changed')).toLocaleString()
+          playtime: levelSession.get('playtime')
+        @memberLevelProgression[user].push levelInfo
+    @memberMaxLevelCount = 0
     @memberLanguageMap = {}
-    for user of @memberSessionMap
+    for user of memberSessions
       languageCounts = {}
-      for levelSession in @memberSessionMap[user]
+      for levelSession in memberSessions[user]
         language = levelSession.get('codeLanguage') or levelSession.get('submittedCodeLanguage')
         languageCounts[language] = (languageCounts[language] or 0) + 1 if language
+      @memberMaxLevelCount = memberSessions[user].length if @memberMaxLevelCount < memberSessions[user].length
       mostUsedCount = 0
       for language, count of languageCounts
         if count > mostUsedCount
           mostUsedCount = count
           @memberLanguageMap[user] = language
     @render?()
+
+  onMouseEnterPoint: (e) ->
+    container = $(e.target).find('.level-popup-container').show()
+    margin = 20
+    offset = $(e.target).offset()
+    scrollTop = $(e.target).offsetParent().scrollTop()
+    height = container.outerHeight()
+    container.css('left', offset.left + e.offsetX)
+    container.css('top', offset.top + scrollTop - height - margin)
+
+  onMouseLeavePoint: (e) ->
+    $(e.target).find('.level-popup-container').hide()
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
@@ -134,8 +173,25 @@ module.exports = class ClanDetailsView extends RootView
         window.location.reload()
     @supermodel.addRequestResource( 'delete_clan', options).load()
 
+  onEditDescriptionSave: (e) ->
+    description = $('.edit-description-input').val()
+    @clan.set 'description', description
+    @clan.patch()
+    $('#editDescriptionModal').modal('hide')
+
+  onEditNameSave: (e) ->
+    if name = $('.edit-name-input').val()
+      @clan.set 'name', name
+      @clan.patch()
+    $('#editNameModal').modal('hide')
+
   onJoinClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
+    return unless @clan.loaded
+    if @clan.get('type') is 'private' and not me.isPremium()
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'join clan'
+      return
     options =
       url: "/db/clan/#{@clanID}/join"
       method: 'PUT'

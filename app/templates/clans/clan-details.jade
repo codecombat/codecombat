@@ -2,12 +2,44 @@ extends /templates/base
 
 block content
 
+  .modal#editNameModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Clan Name
+      .modal-body
+        input.edit-name-input(type='text' value="#{clan.get('name')}")
+      .modal-footer
+        button.btn(data-dismiss='modal') Close
+        button.btn.edit-name-save-btn Save changes
+
+  .modal#editDescriptionModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Clan Description
+      .modal-body
+        textarea.edit-description-input(rows=2)= clan.get('description')
+      .modal-footer
+        button.btn(data-dismiss='modal') Close
+        button.btn.edit-description-save-btn Save changes
+
   if clan
-    h1= clan.get('name')
+    h1 #{clan.get('name')}
+      if clan.get('type') === 'private'
+        small (private)
+      if clan.get('ownerID') === me.id
+        span.spl
+          button.btn.btn-xs.edit-name-btn(data-toggle='modal', data-target='#editNameModal') edit name
+
     if clan.get('description')
       .clan-description
         each line in clan.get('description').split('\n')
           p= line
+    if clan.get('ownerID') === me.id
+      button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal') edit description
 
   h5 Summary
   table.table.table-condensed.stats-table
@@ -22,10 +54,10 @@ block content
       tr
         td Average Level
         td= stats.averageLevel
-    if stats.totalAchievements
+    if stats.averageAchievements && clan.get('type') === 'public'
       tr
-        td Total Achievements
-        td= stats.totalAchievements
+        td Average Achievements
+        td= stats.averageAchievements
 
   p
     if isOwner
@@ -35,40 +67,78 @@ block content
     else
       button.btn.btn-lg.btn-success.join-clan-btn Join Clan
 
-  div
-    span.spl.spr.join-link-prompt Invite:
-    input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
-  .small *Invite players to this Clan by sending them this link.
+  if clan.get('ownerID') === me.id || clan.get('type') === 'public'
+    div
+      span.spl.spr.join-link-prompt Invite:
+      input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
+    .small *Invite players to this Clan by sending them this link.
 
   if members
     h3 Heroes (#{members.length})
-    table.table.table-striped.table-condensed
-      thead
-        tr
-          th
-          th 
-          td Name
-          th Level
-          th Achievements
-          th Latest Achievement
-          th  
-      tbody
-        each member in members
+    if clan.get('dashboardType') === 'premium'
+      table.table.table-condensed
+        thead
           tr
-            td.hero-icon-cell
-              span.spr.player-hero-icon(data-memberid="#{member.id}")
-            td.code-language-cell
-              if memberLanguageMap && memberLanguageMap[member.id]
-                span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
-            td  
-              a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
-            td= member.level()
-            td
-              if memberAchievementsMap && memberAchievementsMap[member.id]
-                | #{memberAchievementsMap[member.id].length}
-            td
-              if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
-                span= memberAchievementsMap[member.id][0].get('achievementName')
-            td
-              if isOwner && member.id !== clan.get('ownerID')
-                  button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
+            if isOwner
+              th
+            th
+            th
+            th.level-cell Level
+            th.name-cell Name
+            th(colspan="#{memberMaxLevelCount + 1}") Last Level Completed
+        tbody
+          each member in members
+            tr
+              if isOwner
+                td.remove-hero-cell
+                  if member.id !== clan.get('ownerID')
+                    button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
+              td.hero-icon-cell
+                span.spr.player-hero-icon(data-memberid="#{member.id}")
+              td.code-language-cell
+                if memberLanguageMap && memberLanguageMap[member.id]
+                  span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
+              td.level-cell= member.level()
+              td.name-cell
+                a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
+              if memberLevelProgression && memberLevelProgression[member.id]
+                each levelInfo in memberLevelProgression[member.id]
+                  td.level-progression-cell
+                    .level-popup-container
+                      div Level: #{levelInfo.level}
+                      div Playtime: #{levelInfo.playtime}
+                      div Last played: #{levelInfo.changed}
+                td.level-progression-cell-name(colspan="#{memberMaxLevelCount - memberLevelProgression[member.id].length + 1}")= memberLevelProgression[member.id][memberLevelProgression[member.id].length - 1].level
+              else
+                td(colspan="#{memberMaxLevelCount + 1}")
+    else
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th
+            th 
+            td.name-cell Name
+            th.level-cell Level
+            th.achievements-cell Achievements
+            th.latest-achievement-cell Latest Achievement
+            th  
+        tbody
+          each member in members
+            tr
+              td.hero-icon-cell
+                span.spr.player-hero-icon(data-memberid="#{member.id}")
+              td.code-language-cell
+                if memberLanguageMap && memberLanguageMap[member.id]
+                  span.code-language-cell(style="background-image: url(/images/common/code_languages/#{memberLanguageMap[member.id]}_small.png)", title=memberLanguageMap[member.id])
+              td.name-cell
+                a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
+              td.level-cell= member.level()
+              td.achievements-cell
+                if memberAchievementsMap && memberAchievementsMap[member.id]
+                  | #{memberAchievementsMap[member.id].length}
+              td.latest-achievement-cell
+                if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
+                  span= memberAchievementsMap[member.id][0].get('achievementName')
+              td
+                if isOwner && member.id !== clan.get('ownerID')
+                    button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero

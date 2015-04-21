@@ -30,6 +30,7 @@ class SubscriptionHandler extends Handler
     super(arguments...)
 
   getCancellations: (req, res) =>
+    # console.log 'subscription_handler getCancellations'
     return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
     @cancellations = []
     nextBatch = (starting_after, done) =>
@@ -72,6 +73,7 @@ class SubscriptionHandler extends Handler
       @sendSuccess(res, @cancellations)
 
   getSubscribers: (req, res) ->
+    # console.log 'subscription_handler getSubscribers'
     return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
 
     maxReturnCount = req.body.maxCount or 20
@@ -132,6 +134,7 @@ class SubscriptionHandler extends Handler
         @sendSuccess(res, @subscribers)
 
   getSubscriptions: (req, res) ->
+    # console.log 'subscription_handler getSubscriptions'
     # Returns a list of active subscriptions
     # TODO: does not track sponsored subs, only basic
     # TODO: does not return free subs
@@ -142,8 +145,8 @@ class SubscriptionHandler extends Handler
 
     return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
 
-    # return @sendSuccess(res, @subs) unless _.isEmpty(@subs)
-    @subMap = {}
+    @invoices ?= [] # Keep sorted newest to oldest
+    newInvoices = []
 
     processInvoices = (starting_after, done) =>
       options = limit: 100
@@ -151,41 +154,49 @@ class SubscriptionHandler extends Handler
       stripe.invoices.list options, (err, invoices) =>
         return done(err) if err
         for invoice in invoices.data
+          return done() if invoice.id is @invoices[0]?.invoiceID
           continue unless invoice.paid
           continue unless invoice.subscription
           continue unless invoice.total > 0
           continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
-          subID = invoice.subscription
-          invoiceDate = new Date(invoice.date * 1000)
-          if subID of @subMap
-            @subMap[subID].first = invoiceDate
-          else
-            @subMap[subID] =
-              first: invoiceDate
-              last: invoiceDate
-              customerID: invoice.customer
+          newInvoices.push
+            customerID: invoice.customer
+            invoiceID: invoice.id
+            subscriptionID: invoice.subscription
+            date: new Date(invoice.date * 1000)
         if invoices.has_more
-          # console.log 'Fetching more invoices', Object.keys(@subMap).length
+          # console.log 'Fetching more invoices', @invoices.length, newInvoices.length
           return processInvoices(invoices.data[invoices.data.length - 1].id, done)
         else
           return done()
 
     processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
-      @subs = []
-      for subID of @subMap
+      @invoices = newInvoices.concat(@invoices)
+      subMap = {}
+      for invoice in @invoices
+        subID = invoice.subscriptionID
+        if subID of subMap
+          subMap[subID].first = invoice.date
+        else
+          subMap[subID] =
+            first: invoice.date
+            last: invoice.date
+            customerID: invoice.customerID
+      subs = []
+      for subID of subMap
         sub =
-          start: @subMap[subID].first
+          start: subMap[subID].first
           subID: subID
-          customerID: @subMap[subID].customerID
-        sub.cancel = @subMap[subID].cancel if @subMap[subID].cancel
+          customerID: subMap[subID].customerID
+        sub.cancel = subMap[subID].cancel if subMap[subID].cancel
         oneMonthAgo = new Date()
         oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
-        if @subMap[subID].last < oneMonthAgo
-          sub.end = new Date(@subMap[subID].last)
+        if subMap[subID].last < oneMonthAgo
+          sub.end = new Date(subMap[subID].last)
           sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
-        @subs.push sub
-      @sendSuccess(res, @subs)
+        subs.push sub
+      @sendSuccess(res, subs)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
