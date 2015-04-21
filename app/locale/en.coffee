@@ -405,6 +405,7 @@
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
+    feature7: "Private <strong>Clans</strong>"
     free: "Free"
     month: "month"
     subscribe_title: "Subscribe"
