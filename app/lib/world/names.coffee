@@ -356,6 +356,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Morcelu'
     'Nalfar'
+    'Drezhul'
   ]
   'Dark Wizard': [
     # Female
