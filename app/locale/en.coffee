@@ -597,6 +597,7 @@
     sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
     sub_includes_2: "50+ practice levels"
     sub_includes_3: "Video tutorials"
+    sub_includes_7: "Private Clans"
     sub_includes_4: "Premium email support"
     sub_includes_5: "7 new heroes with unique skills to master"
     sub_includes_6: "3500 bonus gems every month"
