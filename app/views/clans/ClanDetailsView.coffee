@@ -163,6 +163,7 @@ module.exports = class ClanDetailsView extends RootView
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
+    return unless window.confirm("Delete Clan?")
     options =
       url: "/db/clan/#{@clanID}"
       method: 'DELETE'

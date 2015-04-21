@@ -61,13 +61,13 @@ describe 'Clans', ->
           expect(res.statusCode).toBe(401)
           done()
 
-    it 'Create clan missing type 403', (done) ->
+    it 'Create clan missing type 422', (done) ->
       loginNewUser (user1) ->
         requestBody =
           name: createClanName 'myclan'
         request.post {uri: clanURL, json: requestBody }, (err, res, body) ->
           expect(err).toBeNull()
-          expect(res.statusCode).toBe(403)
+          expect(res.statusCode).toBe(422)
           done()
 
     it 'Create clan missing name 422', (done) ->
@@ -384,6 +384,7 @@ describe 'Clans', ->
 
     it 'Create clan when not premium 403', (done) ->
       loginNewUser (user1) ->
+        expect(user1.isPremium()).toEqual(false)
         requestBody =
           type: 'private'
           name: createClanName 'myclan'
