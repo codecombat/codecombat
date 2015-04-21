@@ -42,9 +42,10 @@ block content
     if !subscribers || subscribers.length < 1
       h4 Fetching recent subscribers...
     else
-      table.table.table-condensed
+      table.table.table-striped.table-condensed
         thead
           tr
+            th Sub ID
             th User Start
             th Sub Start
             if subscriberCancelled
@@ -59,9 +60,11 @@ block content
             th Last Level
             th Age
             th Spoken
-        tbody
+        tbody.subscribers-tbody
           each subscriber in subscribers
             tr
+              td
+                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
               td= subscriber.user.dateCreated.substring(0, 10)
               td= subscriber.start.substring(0, 10)
               td

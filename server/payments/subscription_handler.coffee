@@ -31,50 +31,57 @@ class SubscriptionHandler extends Handler
 
   getCancellations: (req, res) =>
     # console.log 'subscription_handler getCancellations'
-    return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
-    @cancellations = []
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+
+    earliestEventDate = new Date()
+    earliestEventDate.setUTCMonth(earliestEventDate.getUTCMonth() - 1)
+    earliestEventDate.setUTCDate(earliestEventDate.getUTCDate() - 8)
+
+    cancellationEvents = []
     nextBatch = (starting_after, done) =>
       options = limit: 100
       options.starting_after = starting_after if starting_after
-      stripe.customers.list options, (err, customers) =>
+      options.type = 'customer.subscription.updated'
+      options.created = gte: Math.floor(earliestEventDate.getTime() / 1000)
+      stripe.events.list options, (err, events) =>
         return done(err) if err
-
-        for customer in customers.data
-          continue unless customer?.subscriptions?.data?.length > 0
-          for subscription in customer.subscriptions.data
-            continue unless subscription.plan.id is 'basic'
-
-            amount = subscription.plan.amount
-            if subscription?.discount?.coupon?
-              if subscription.discount.coupon.percent_off
-                amount = amount *  (100 - subscription.discount.coupon.percent_off) / 100;
-              else if subscription.discount.coupon.amount_off
-                amount -= subscription.discount.coupon.amount_off
-            else if customer.discount?.coupon?
-              if customer.discount.coupon.percent_off
-                amount = amount *  (100 - customer.discount.coupon.percent_off) / 100
-              else if customer.discount.coupon.amount_off
-                amount -= customer.discount.coupon.amount_off
-
-            continue unless amount > 0
-
-            if subscription.cancel_at_period_end
-              @cancellations.push
-                cancel: new Date(subscription.canceled_at * 1000)
-                subID: subscription.id
-
-        if customers.has_more
-          # console.log 'Fetching more customers', Object.keys(@cancellations).length
-          return nextBatch(customers.data[customers.data.length - 1].id, done)
+        for event in events.data
+          continue unless event.data?.object?.cancel_at_period_end is true and event.data?.previous_attributes.cancel_at_period_end is false
+          continue if event.data?.object?.discount?
+          continue unless event.data?.object?.plan?.id is 'basic'
+          continue unless event.data?.object?.id?
+          cancellationEvents.push
+            subscriptionID: event.data.object.id
+            customerID: event.data.object.customer
+        if events.has_more
+          # console.log 'Fetching more cancellation events', cancellationEvents.length
+          return nextBatch(events.data[events.data.length - 1].id, done)
         else
           return done()
+
     nextBatch null, (err) =>
       return @sendDatabaseError(res, err) if err
-      @sendSuccess(res, @cancellations)
+
+      cancellations = []
+      createCheckSubFn = (customerID, subscriptionID) =>
+        (done) =>
+          stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
+            return done() if err
+            return unless subscription?.cancel_at_period_end
+            cancellations.push
+              cancel: new Date(subscription.canceled_at * 1000)
+              subID: subscription.id
+            done()
+      tasks = []
+      for cancellationEvent in cancellationEvents
+        tasks.push createCheckSubFn(cancellationEvent.customerID, cancellationEvent.subscriptionID)
+      async.parallel tasks, (err, results) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, cancellations)
 
   getSubscribers: (req, res) ->
     # console.log 'subscription_handler getSubscribers'
-    return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
 
     maxReturnCount = req.body.maxCount or 20
 
@@ -112,7 +119,10 @@ class SubscriptionHandler extends Handler
 
             continue unless amount > 0
 
-            subscriber = start: new Date(subscription.start * 1000)
+            subscriber =
+              customerID: customer.id
+              start: new Date(subscription.start * 1000)
+              subscriptionID: subscription.id
             if subscription.metadata?.id?
               subscriber.userID = subscription.metadata.id
               subscriberIDs.push subscription.metadata.id
@@ -143,7 +153,7 @@ class SubscriptionHandler extends Handler
     # TODO: take date range as input
     # TODO: are ended counts correct for today?  E.g. retries may complicate things.
 
-    return @sendForbiddenError(res) unless req.user and req.user.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
 
     @invoices ?= [] # Keep sorted newest to oldest
     newInvoices = []
@@ -423,7 +433,7 @@ class SubscriptionHandler extends Handler
         continue if recipient.get('stripe')?.sponsorID? and recipient.get('stripe')?.sponsorID isnt user.id
         tasks.push createUpdateFn(recipient)
 
-      # NOTE: async.parellel yields this error:
+      # NOTE: async.parallel yields this error:
       # Subscription Error: user23 (54fe3c8fea98978efa469f3b): 'Stripe new subscription error. Error: Request rate limit exceeded'
       async.series tasks, (err, results) =>
         return done(err) if err
