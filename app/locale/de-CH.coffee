@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     confirm: "Bestätige"
     owned: "Scho gkauft" # For items you own
     locked: "Nonig freischaltbar"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "kaufen" # For a hero you unlocked but haven't purchased
     available: "vorhandä"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Helde" # Tooltip on hero shop button from /play
@@ -67,17 +67,17 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "Wiiter" # Go from choose hero to choose inventory before playing a level
     change_hero: "Held wächsle" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    choose_inventory: "Items uusrüschte"
+    buy_gems: "Edelstei chaufä"
 #    subscription_required: "Subscription Required"
     older_campaigns: "Älteri Kampagne"
     anonymous: "Anonyme Spieler"
     level_difficulty: "Schwierigkeit: "
     campaign_beginner: "Afängerkampagne"
-#    awaiting_levels_adventurer_prefix: "We release five levels per week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "Adjust volume"
+    awaiting_levels_adventurer_prefix: "Mier möched 5 Levels pro Wuche"
+    awaiting_levels_adventurer: "Mäld dich a as en Abendtüürer"
+    awaiting_levels_adventurer_suffix: "um de erscht zii vo die neue Levels spiilt"
+    adjust_volume: "Luutsterchi apasse"
     choose_your_level: "Wähl dis Level us" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du chasch zu de untere Level zrugg goh oder die kommende Level diskutiere im "
     adventurer_forum: "Abentürer-Forum"
@@ -96,10 +96,10 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
   share_progress_modal:
     blurb: "Du machsch grossi Fortschritts! Verzells öperem wieviel du glernt häsch mit CodeCombat."
     email_invalid: "Email Adrässä isch falsch."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
+    form_blurb: "Gib bitte dEmail Adrässe vo dine Eltere aa"
     form_label: "Email Adrässä"
     placeholder: "Email Adrässä"
-#    title: "Excellent Work, Apprentice"
+    title: "Gueti Arbeit!"
 
   login:
     sign_up: "Account erstelle"
@@ -108,7 +108,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     log_out: "Uslogge"
     forgot_password: "Passwort vergässe?"
 #    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
+    load_profile: "G+ Profil ladä"
     finishing: "Fertigstelle"
     sign_in_with_facebook: "Mit Facebook aamelde"
     sign_in_with_gplus: "Mit G+ aamelde"
@@ -125,14 +125,14 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 
   recover:
     recover_account_title: "Account wiederherstelle"
-    send_password: "Recovery Password sende"
-#    recovery_sent: "Recovery email sent."
+    send_password: "Widerherstelligs Passwort sende"
+    recovery_sent: "Widerherstelligs Passwort isch gsendet"
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
+    primary: "Primär"
+    secondary: "Sekundär"
+    armor: "Rüschtig"
+    accessories: "Accessories"
     misc: "Diverses"
     books: "Büecher"
 
@@ -157,7 +157,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    watch: "Watch"
 #    unwatch: "Unwatch"
     submit_patch: "Patch ireiche"
-#    submit_changes: "Submit Changes"
+    submit_changes: "Wechsel ireiche"
 
   general:
     and: "und"
@@ -165,7 +165,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     date: "Datum"
 #    body: "Body"
     version: "Version"
-#    pending: "Pending"
+    pending: "in Bearbeitig"
 #    accepted: "Accepted"
 #    rejected: "Rejected"
 #    withdrawn: "Withdrawn"
@@ -259,10 +259,10 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     victory_review: "Verzell üs meh!" # Only in old-style levels.
     victory_hour_of_code_done: "Bisch fertig?"
     victory_hour_of_code_done_yes: "Jo, ich bin fertig mit mim Hour of Code™!"
-#    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_experience_gained: "Erfarig bechoo"
+    victory_gems_gained: "Edelstei bechoo"
+    victory_viking_code_school: "Oh mein Gott, dass isch aber es stregs Level gsi und du heschs gschafft! Also wen du nu kei Software-Entwickler bisch, sötsch eine sii! Du hesch en Iiladig becho um at Viking Code Schuel zgha wodu dini Fähigkeite chasch wiiterentwickle und en professionele Entwickel in nur 14 Täg werde!"
+    victory_become_a_viking: "Werd en Vikinger!"
     guide_title: "Handbuech"
     tome_minion_spells: "Zaubersprüch vo dine Minions" # Only in old-style levels.
     tome_read_only_spells: "Read-Only Zaubersprüch" # Only in old-style levels.
@@ -270,7 +270,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
+    tome_submit_button: "Abschicke"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
     tome_select_method: "Wähl a Methodä"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methdos).
@@ -323,76 +323,76 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
 #    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
-#    tip_superpower: "Coding is the closest thing we have to a superpower."
+    tip_superpower: "Coding isch snöchte wo mier hend was ane SUperchraaft ane chund!"
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
-#    tip_no_code: "No code is faster than no code."
+    tip_no_code: "Kei Code isch schneller als kei Code!"
 #    tip_code_never_lies: "Code never lies, comments sometimes do. — Ron Jeffries"
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
-#    tip_source_code: "I want to change the world but they would not give me the source code."
+    tip_source_code: "Ich wet dWält verändere aber die wend mier de Source Code nid gää."
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
-#    tip_google: "Have a problem you can't solve? Google it!"
+    tip_google: "Hesch es Problem und chunsch nüm wiiter? Googles doch mal!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-#    tip_open_source_contribute: "You can help CodeCombat improve!"
+    tip_open_source_contribute: "Du chasch helfe CodeCombat zverbessere!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
-#    inventory_tab: "Inventory"
+    inventory_tab: "Inventar"
     save_load_tab: "Spaicherä/Ladä"
     options_tab: "Optionä"
-#    guide_tab: "Guide"
-#    guide_video_tutorial: "Video Tutorial"
+    guide_tab: "Guide"
+    guide_video_tutorial: "Vidio Tutorial"
     guide_tips: "Tipps"
     multiplayer_tab: "Multiplayer"
-#    auth_tab: "Sign Up"
-#    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
-#    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
+    auth_tab: "Regischtriere"
+    inventory_caption: "Rüscht din Held uus"
+    choose_hero_caption: "Wähl din Held und dini Sprach"
+    save_load_caption: "... und lueg dini Gschicht aa."
+    options_caption: "Iistellige apasse"
     guide_caption: "Doku und Tipps"
-#    multiplayer_caption: "Play with friends!"
-#    auth_caption: "Save your progress."
+    multiplayer_caption: "Spil mid dini Fründe!"
+    auth_caption: "Speichere din Fortschritt."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
-#    view_other_solutions: "View Leaderboards"
-#    scores: "Scores"
-#    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
-#    time: "Time"
-#    damage_taken: "Damage Taken"
-#    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
-#    gold_collected: "Gold Collected"
+  Ranglischte:
+    leaderboard: "Ranglischte"
+    view_other_solutions: "Lueg der dRanglischte aa!"
+    scores: "Pünkt"
+    top_players: "Beschti Speiler"
+    day: "Hüt"
+    week: "Die Wuuche"
+    all: "Vo immer"
+    time: "Ziit"
+    damage_taken: "Schade gnoo"
+    damage_dealt: "Schade uusteilt"
+    difficulty: "Schwirigkeitsgrad"
+    gold_collected: "Gold gsammlet"
 
-#  inventory:
-#    choose_inventory: "Equip Items"
-#    equipped_item: "Equipped"
-#    required_purchase_title: "Required"
-#    available_item: "Available"
+  Inventar:
+    choose_inventory: "Items uusrüschte"
+    equipped_item: "Uusgrüschteti Items"
+    required_purchase_title: "Benötigt"
+    available_item: "Verfüegbar"
 #    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
-#    locked: "(locked)"
+    should_equip: "(2mal Klicke zum uusrüschte)"
+    equipped: "(usgrüschtet)"
+    locked: "(geschperrt)"
 #    restricted: "(restricted in this level)"
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
+  Chauf Edelstei:
+    few_gems: "Es paar Edelstei"
+    pile_gems: "En hufe vo Edelstei"
+    chest_gems: "En ganzi True voll Edelstei"
+    purchasing: "Kaufen..."
 #    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
+    retrying: "Server Fehler, probiere nochmals."
+    prompt_title: "Nid gnug Edelstei!"
+    prompt_body: "Wetsch mee chaufe?"
+    prompt_button: "zum Shop"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x3500 / mo"
 
@@ -482,8 +482,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
-#    health: "Health"
-#    speed: "Speed"
+    health: "Läbä"
+    speed: "Schnelligkeit"
 #    regeneration: "Regeneration"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
@@ -507,7 +507,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    action_name: "name"
 #    action_cooldown: "Takes"
 #    action_specific_cooldown: "Cooldown"
-#    action_damage: "Damage"
+    action_damage: "Schade"
 #    action_range: "Range"
 #    action_radius: "Radius"
 #    action_duration: "Duration"
@@ -520,8 +520,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    granted_by: "Granted by"
 
 #  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+    granularity_saved_games: "Gschpeicheret"
+    granularity_change_history: "Verlauf"
 
   options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
@@ -618,11 +618,11 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
   versions:
     save_version_title: "Neui Version speichere"
     new_major_version: "Neui Hauptversion"
-#    submitting_patch: "Submitting Patch..."
+    submitting_patch: "Patch am abgee"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+    cla_agree: "Ich bi iverstandee"
 
   contact:
     contact_us: "CodeCombat kontaktiere"
@@ -1289,7 +1289,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    player_code: "Player Code"
 
   employers:
-#    deprecation_warning_title: "Sorry, CodeCombat is not recruiting right now."
+    deprecation_warning_title: "Sorry, CodeCombat rekrutiert grad nid."
 #    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
     hire_developers_not_credentials: "Stell Entwickler ah, nid Zügnis." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
 #    get_started: "Get Started"
