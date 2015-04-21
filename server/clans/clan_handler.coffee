@@ -13,21 +13,18 @@ UserHandler = require '../users/user_handler'
 ClanHandler = class ClanHandler extends Handler
   modelClass: Clan
   jsonSchema: require '../../app/schemas/models/clan.schema'
-  allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  allowedMethods: ['GET', 'POST', 'PUT', 'DELETE']
 
   hasAccess: (req) ->
-    return true if req.method in ['GET']
-    return false unless req.user?
-    return false if req.user.isAnonymous()
-    return true if req.body.type is 'public' or req.user.isPremium()
-    false
+    return true if req.method is 'GET'
+    return false if req.method is 'POST' and req.body?.type is 'private' and not req.user?.isPremium()
+    req.method in @allowedMethods or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
     return false unless document?
     return true if req.user?.isAdmin()
-    method = (method or req.method).toLowerCase()
-    return true if method is 'get'
-    return true if document.get('ownerID')?.equals req.user._id
+    return true if (method or req.method).toLowerCase() is 'get'
+    return true if document.get('ownerID')?.equals req.user?._id
     false
 
   makeNewInstance: (req) ->
