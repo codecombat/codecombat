@@ -358,7 +358,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   leaderboard:
     leaderboard: "リーダーボード"
-    view_other_solutions: "リーダーボードを見る"}
+    view_other_solutions: "リーダーボードを見る"
     scores: "スコア"
     top_players: "上位プレイヤー順"
     day: "今日"
