@@ -356,7 +356,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     multiplayer_caption: "Spil mid dini Fründe!"
     auth_caption: "Speichere din Fortschritt."
 
-  Ranglischte:
+  leaderboard:
     leaderboard: "Ranglischte"
     view_other_solutions: "Lueg der dRanglischte aa!"
     scores: "Pünkt"
@@ -370,7 +370,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     difficulty: "Schwirigkeitsgrad"
     gold_collected: "Gold gsammlet"
 
-  Inventar:
+  inventory:
     choose_inventory: "Items uusrüschte"
     equipped_item: "Uusgrüschteti Items"
     required_purchase_title: "Benötigt"
@@ -383,7 +383,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     equip: "Uusrüschte"
     unequip: "Nüm Uusrüschte"
 
-  Chauf Edelstei:
+  buy_gems:
     few_gems: "Es paar Edelstei"
     pile_gems: "En hufe vo Edelstei"
     chest_gems: "En ganzi True voll Edelstei"
@@ -396,7 +396,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     recovered: "Früenere Ichauf zruggerstatet. Bitte dSite neu lade!"
 #    price: "x3500 / mo"
 
-#  subscribe:
+  subscribe:
     comparison_blurb: "Verschärf dins Chönne midme CodeCombat Abonement."
     feature1: "80+ basis levels in 4 Weltete!"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
@@ -467,7 +467,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     choose_hero: "Wähl din Held"
     programming_language: "Programmiersprach"
     programming_language_description: "Weli Programmiersprach wetsch benutze?"
-#    default: "Standard"
+    default: "Standard"
 #    experimental: "Experimental"
     python_blurb: "Eifach und doch mächtig."
     javascript_blurb: "D Internetsproch."
@@ -501,7 +501,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  skill_docs:
+  skill_docs:
 #    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
     action_name: "name"
@@ -519,7 +519,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
-#  save_load:
+  save_load:
     granularity_saved_games: "Gschpeicheret"
     granularity_change_history: "Verlauf"
 
@@ -581,7 +581,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 
-#  teachers:
+  teachers:
     title: "CodeCombat: Info für Lehrer"
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
