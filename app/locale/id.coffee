@@ -15,12 +15,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
-    community: "Community"
+    community: "Komunitas"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Akun"
-    profile: "Profile"
+    profile: "Profil"
     stats: "Mulai"
     code: "Code"
     admin: "Admin" # Only shows up when you are an admin
@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    teachers: "Teachers"
 
   modal:
-    close: "Close"
+    close: "Tutup"
     okay: "Okay"
 
   not_found:
@@ -42,8 +42,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Indonesian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Indonesian."
-    missing_translations: "Until we can translate everything into Indonesian, you'll see English when Indonesian isn't available."
+    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat berbicara, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia."
+    missing_translations: "Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika Indonesia belum tersedia."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -58,12 +58,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    owned: "Owned" # For items you own
     locked: "Terkunci"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-    available: "Trsedia"
+    available: "Tersedia"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
     account: "Akun" # Tooltip on account button from /play
-    settings: "Settings" # Tooltip on settings button from /play
+    settings: "Pengaturan" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
