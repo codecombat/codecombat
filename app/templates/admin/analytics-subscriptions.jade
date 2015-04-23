@@ -36,14 +36,12 @@ block content
                 each value in point.values
                   div #{value}
 
-      div *Stripe APIs do not return information about inactive subs.
-
     h2 Recent Subscribers
     if !subscribers || subscribers.length < 1
       h4 Fetching recent subscribers...
     else
       table.table.table-striped.table-condensed
-        thead
+        thead.subscribers-thead
           tr
             th Sub ID
             th User Start
@@ -52,19 +50,22 @@ block content
               th Cancelled
             else
               th
-            th
-            //- th Name
+            if subscriberSponsored
+              th Sponsored
+            else
+              th
             th Email
             th Hero
             th Level
             th Last Level
             th Age
             th Spoken
+            th Clans
         tbody.subscribers-tbody
           each subscriber in subscribers
             tr
               td
-                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
+                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subID
               td= subscriber.user.dateCreated.substring(0, 10)
               td= subscriber.start.substring(0, 10)
               td
@@ -72,15 +73,17 @@ block content
                   span= subscriber.cancel.substring(0, 10)
               td
                 if subscriber.user.stripe.sponsorID
-                  span Sponsored
-              //- td
-              //-   a(href="/user/#{subscriber.user._id}")= subscriber.user.name || 'Anoner'
+                  span Yes
               td= subscriber.user.emailLower
               td= subscriber.hero
               td= subscriber.level
               td= subscriber.user.lastLevel
               td= subscriber.user.ageRange
               td= subscriber.user.preferredLanguage
+              if subscriber.user.clans
+                td= subscriber.user.clans.length
+              else
+                td
 
     h2 Subscriptions
     if !subs || subs.length < 1
@@ -93,8 +96,9 @@ block content
             th Total
             th Started
             th Cancelled
-            th Net
+            th Net (cancelled)
             th Ended
+            th Net (ended)
         tbody
           each sub in subs
             tr
@@ -104,3 +108,4 @@ block content
               td= sub.cancelled
               td= sub.started - sub.cancelled
               td= sub.ended
+              td= sub.started - sub.ended
