@@ -103,11 +103,14 @@ block content
                 a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
               if memberLevelProgression && memberLevelProgression[member.id]
                 each levelInfo in memberLevelProgression[member.id]
-                  td.level-progression-cell
+                  td.level-progression-cell(data-level-info=levelInfo)
                     .level-popup-container
-                      div Level: #{levelInfo.level}
-                      div Playtime: #{levelInfo.playtime}
-                      div Last played: #{levelInfo.changed}
+                      h3 #{levelInfo.level}
+                      p
+                        div Playtime: #{levelInfo.playtime}s
+                        div Last played: #{levelInfo.changed}
+                      if isOwner || me.isAdmin()
+                        strong Click to view solution.
                 td.level-progression-cell-name(colspan="#{memberMaxLevelCount - memberLevelProgression[member.id].length + 1}")= memberLevelProgression[member.id][memberLevelProgression[member.id].length - 1].level
               else
                 td(colspan="#{memberMaxLevelCount + 1}")

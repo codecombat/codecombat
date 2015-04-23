@@ -126,7 +126,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
       memberIDs = memberIDs.slice 0, memberLimit
-      LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelName playtime state submittedCodeLanguage', (err, documents) =>
+      LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelID levelName playtime state submittedCodeLanguage', (err, documents) =>
         return @sendDatabaseError(res, err) if err?
         cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, cleandocs)

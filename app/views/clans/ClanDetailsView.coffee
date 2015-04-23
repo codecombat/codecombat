@@ -23,6 +23,7 @@ module.exports = class ClanDetailsView extends RootView
     'click .edit-name-save-btn': 'onEditNameSave'
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
+    'click .level-progression-cell': 'onClickLevel'
     'click .remove-member-btn': 'onRemoveMember'
     'mouseenter .level-progression-cell': 'onMouseEnterPoint'
     'mouseleave .level-progression-cell': 'onMouseLeavePoint'
@@ -131,8 +132,10 @@ module.exports = class ClanDetailsView extends RootView
         @memberLevelProgression[user] ?= []
         levelInfo =
           level: levelSession.get('levelName')
+          levelID: levelSession.get('levelID')
           changed: new Date(levelSession.get('changed')).toLocaleString()
           playtime: levelSession.get('playtime')
+          sessionID: levelSession.id
         @memberLevelProgression[user].push levelInfo
     @memberMaxLevelCount = 0
     @memberLanguageMap = {}
@@ -160,6 +163,12 @@ module.exports = class ClanDetailsView extends RootView
 
   onMouseLeavePoint: (e) ->
     $(e.target).find('.level-popup-container').hide()
+
+  onClickLevel: (e) ->
+    levelInfo = $(e.target).data 'level-info'
+    return unless levelInfo?.levelID? and levelInfo?.sessionID?
+    url = "/play/level/#{levelInfo.levelID}?session=#{levelInfo.sessionID}&observing=true"
+    window.open url, '_blank'
 
   onDeleteClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
