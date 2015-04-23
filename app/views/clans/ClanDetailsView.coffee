@@ -220,6 +220,7 @@ module.exports = class ClanDetailsView extends RootView
     @supermodel.addRequestResource( 'leave_clan', options).load()
 
   onRemoveMember: (e) ->
+    return unless window.confirm("Remove Hero?")
     if memberID = $(e.target).data('id')
       options =
         url: "/db/clan/#{@clanID}/remove/#{memberID}"
