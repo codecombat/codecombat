@@ -74,7 +74,7 @@
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     campaign_beginner: "Beginner Campaign"
-    awaiting_levels_adventurer_prefix: "We release new levels every week." # {change}
+    awaiting_levels_adventurer_prefix: "We release new levels every week."
     awaiting_levels_adventurer: "Sign up as an Adventurer"
     awaiting_levels_adventurer_suffix: "to be the first to play new levels."
     adjust_volume: "Adjust volume"
@@ -401,7 +401,7 @@
     comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
     feature1: "80+ basic levels across 4 worlds"
     feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "60+ bonus levels" # {change}
+    feature3: "60+ bonus levels"
     feature4: "<strong>3500 bonus gems</strong> every month!"
     feature5: "Video tutorials"
     feature6: "Premium email support"
@@ -571,7 +571,7 @@
     nick_blurb: "Motivation Guru"
     michael_title: "Programmer"
     michael_blurb: "Sys Admin"
-    matt_title: "Cofounder" # {change}
+    matt_title: "Cofounder"
     matt_blurb: "Bicyclist"
     cat_title: "Chief Artisan"
     cat_blurb: "Airbender"
@@ -587,15 +587,15 @@
     intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
     intro_2: "No experience required!"
     free_title: "How much does it cost?"
-    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers." # {change}
-    free_1: "CodeCombat Basic is FREE! There are 80+ free levels which cover every concept." # {change}
+    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+    free_1: "CodeCombat Basic is FREE! There are 80+ free levels which cover every concept."
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "Teachers get free subscriptions!"
     teacher_subs_1: "Please contact"
     teacher_subs_2: "to set up a free monthly subscription."
     sub_includes_title: "What is included in the subscription?"
     sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-    sub_includes_2: "60+ practice levels" # {change}
+    sub_includes_2: "60+ practice levels"
     sub_includes_3: "Video tutorials"
     sub_includes_7: "Private Clans"
     sub_includes_4: "Premium email support"
@@ -605,8 +605,8 @@
     who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
     who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
     material_title: "How much material is there?"
-    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week." # {change}
-    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week." # {change}
+    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
+    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
     concepts_title: "What concepts are covered?"
     how_much_title: "How much does a monthly subscription cost?"
     how_much_1: "A"

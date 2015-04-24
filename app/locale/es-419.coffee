@@ -74,7 +74,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     campaign_beginner: "Campaña para principiantes"
-    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana"
+    awaiting_levels_adventurer_prefix: "Nosotros creamos 5 nuevos niveles cada semana" # {change}
     awaiting_levels_adventurer: "Registrate como un aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
     adjust_volume: "Ajustar el volumen"
@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_hour_of_code_done_yes: "¡Si, he terminado con mi Hora de Código!"
     victory_experience_gained: "XP Ganada"
     victory_gems_gained: "Gemas Ganadas"
+#    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Guía"
@@ -404,6 +405,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature4: "<strong>3500 gemas bonus</strong> cada mes!"
     feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
+#    feature7: "Private <strong>Clans</strong>"
     free: "Gratis"
     month: "mes"
     subscribe_title: "Suscribirse"
@@ -425,7 +427,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     parent_email_title: "Cuál es el email de tus padres?"
     parents: "Para padres"
     parents_title: "Su hijo aprenderá a programar." # {change}
-    parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos." # {change}
+    parents_blurb1: "Con CodeCombat, su hijo aprenderá a escribiendo código real. Empezaran aprendiendo comandos simples avanzando a temas más complejos."
 #    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
     parents_blurb2: "Por $9.99 USD/mes, recibirán nuevos desafíos todas las semanas y soporte personal por email de programadores profesionales." # {change}
     parents_blurb3: "Sin Riesgo: Garantía de 100% de devolución, fácil 1-click y des- suscribirse."
@@ -528,8 +530,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     volume_label: "Volumen"
     music_label: "Música"
     music_description: "Música encendida/apagada."
-    autorun_label: "Auto ejecutar"
-    autorun_description: "Controlar ejecución automática de código."
     editor_config: "Config. de Editor"
     editor_config_title: "Configuración del Editor"
     editor_config_level_language_label: "Lenguaje para este Nivel"
@@ -570,7 +570,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     nick_blurb: "Gurú motivacional"
     michael_title: "Programador"
     michael_blurb: "Sys Admin"
-    matt_title: "Programador"
+    matt_title: "Programador" # {change}
     matt_blurb: "Bicicletero"
     cat_title: "Jefe Artesano"
     cat_blurb: "Maestro del Aire"
@@ -586,8 +586,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     intro_1: "CodeCombat es un juego online que enseña a programar.Los estudiantes escriben código en idiomas de programación real."
     intro_2: "No se necesita experiencia previa!"
     free_title: "¿Cuanto cuesta?"
-    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 120+ niveles que son exclusivos en nuestros servidores en China."
-    free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto."
+    cost_china: "CodeCombat es gratis en China por los primeros cinco niveles, despues cuesta $9.99(dólares) por mes para tener acceso a 120+ niveles que son exclusivos en nuestros servidores en China." # {change}
+    free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
     teacher_subs_1: "Por favor contacte"
@@ -596,6 +596,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
     sub_includes_2: "Más de 40 niveles de práctica" # {change}
     sub_includes_3: "Video tutoriales"
+#    sub_includes_7: "Private Clans"
     sub_includes_4: "Soporte de correo electronico Premium"
     sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar"
     sub_includes_6: "bonificación de 3500 gemas cada mes"
@@ -603,8 +604,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     who_for_1: "Recomendamos CodeCombat para estudiantes de edades 9 y arriba. No se require experiencia en programación."
     who_for_2: "Hemos diseñado a CodeCombat para atraer a niños y niñas."
     material_title: "Cuánto material hay?"
-    material_china: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana."
-    material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana."
+    material_china: "Aproximadamente 22 horas de juego repartidas en más de 120 niveles sólo para suscriptores, con cinco nueveos niveles cada semana." # {change}
+    material_1: "Aproximadamente 8 horas de contenido gratis y un adicional de 14 horas de contenido de suscriptores, con cinco nueveos niveles cada semana." # {change}
 #    concepts_title: "What concepts are covered?"
     how_much_title: "¿Cuánto cuesta una subscripción mensual?"
     how_much_1: "una"
