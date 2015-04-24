@@ -100,11 +100,16 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      memberIDs = memberIDs.slice 0, memberLimit
-      EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
-        return @sendDatabaseError(res, err) if err?
-        cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
-        @sendSuccess(res, cleandocs)
+      User.find {_id: {$in: memberIDs}}, 'nameLower', {sort: {nameLower: 1}}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        memberIDs = []
+        for user in users
+          memberIDs.push user.id
+          break unless memberIDs.length < memberLimit
+        EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
+          return @sendDatabaseError(res, err) if err?
+          cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
+          @sendSuccess(res, cleandocs)
 
   getMembers: (req, res, clanID) ->
     # TODO: add tests
@@ -112,7 +117,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = clan.get('members') ? []
-      User.find {_id: {$in: memberIDs}}, 'name points', (err, users) =>
+      User.find {_id: {$in: memberIDs}}, 'name nameLower points', {sort: {nameLower: 1}}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
@@ -125,11 +130,16 @@ ClanHandler = class ClanHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless clan
       memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
-      memberIDs = memberIDs.slice 0, memberLimit
-      LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelID levelName playtime state submittedCodeLanguage', (err, documents) =>
-        return @sendDatabaseError(res, err) if err?
-        cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-        @sendSuccess(res, cleandocs)
+      User.find {_id: {$in: memberIDs}}, 'name', {sort: {name: 1}}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        memberIDs = []
+        for user in users
+          memberIDs.push user.id
+          break unless memberIDs.length < memberLimit
+        LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelID levelName playtime state submittedCodeLanguage', (err, documents) =>
+          return @sendDatabaseError(res, err) if err?
+          cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+          @sendSuccess(res, cleandocs)
 
   getPublicClans: (req, res) ->
     # Return 100 public clans, sorted by member count, created date

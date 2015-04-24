@@ -39,7 +39,7 @@ module.exports = class ClanDetailsView extends RootView
     @stats = {}
 
     @clan = new Clan _id: @clanID
-    @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator:'slug' })
+    @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator: 'nameLower' })
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
     # MemberSessions: only loads creatorName, levelName, codeLanguage, submittedCodeLanguage for each session
     @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
@@ -68,15 +68,6 @@ module.exports = class ClanDetailsView extends RootView
     context.memberLevelProgression = @memberLevelProgression
     context.memberMaxLevelCount = @memberMaxLevelCount
     context.members = @members?.models
-    # Give preference to members with more data
-    if @memberLevelProgression? and @memberLanguageMap?
-      context.members.sort (a, b) =>
-        if a.id of @memberLevelProgression and a.id of @memberLanguageMap
-          -1
-        else if b.id of @memberLevelProgression and b.id of @memberLanguageMap
-          1
-        else
-          0
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
     context.stats = @stats
