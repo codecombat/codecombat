@@ -10,7 +10,7 @@ require 'vendor/d3'
 module.exports = class AnalyticsSubscriptionsView extends RootView
   id: 'admin-analytics-subscriptions-view'
   template: template
-  targetSubCount: 2000
+  targetSubCount: 1200
 
   constructor: (options) ->
     super options
@@ -25,6 +25,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     context.subs = _.cloneDeep(@subs ? []).reverse()
     context.subscribers = @subscribers ? []
     context.subscriberCancelled = _.find context.subscribers, (subscriber) -> subscriber.cancel
+    context.subscriberSponsored = _.find context.subscribers, (subscriber) -> subscriber.user?.stripe?.sponsorID
     context.total = @total ? 0
     context.cancelled = @cancelled ? 0
     context.monthlyChurn = @monthlyChurn ? 0.0
@@ -46,9 +47,9 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
   refreshData: ->
     return unless me.isAdmin()
     @resetSubscriptionsData()
-    @getSubscribers()
     @getCancellations (cancellations) =>
-      @getSubscriptions(cancellations)
+      @getSubscriptions cancellations, (subscriptions) =>
+        @getSubscribers(subscriptions)
 
   getCancellations: (done) ->
     options =
@@ -62,25 +63,34 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       done(cancellations)
     @supermodel.addRequestResource('get_cancellations', options, 0).load()
 
-  getSubscribers: ->
+  getSubscribers: (subscriptions) ->
+    maxSubscribers = 40
+
+    subscribers = _.filter subscriptions, (a) -> a.userID?
+    subscribers.sort (a, b) -> b.start.localeCompare(a.start)
+    subscribers = subscribers.slice(0, maxSubscribers)
+    subscriberUserIDs = _.map subscribers, (a) -> a.userID
+
     options =
       url: '/db/subscription/-/subscribers'
       method: 'POST'
-      data: {maxCount: 30}
+      data: {ids: subscriberUserIDs}
     options.error = (model, response, options) =>
       return if @destroyed
       console.error 'Failed to get subscribers', response
-    options.success = (subscribers, response, options) =>
+    options.success = (userMap, response, options) =>
       return if @destroyed
-      @subscribers = subscribers
-      for subscriber in @subscribers
+      for subscriber in subscribers
+        continue unless subscriber.userID of userMap
+        subscriber.user = userMap[subscriber.userID]
         subscriber.level = User.levelFromExp subscriber.user.points
         if hero = subscriber.user.heroConfig?.thangType
           subscriber.hero = _.invert(ThangType.heroes)[hero]
+      @subscribers = subscribers
       @render?()
     @supermodel.addRequestResource('get_subscribers', options, 0).load()
 
-  getSubscriptions: (cancellations=[]) ->
+  getSubscriptions: (cancellations=[], done) ->
     options =
       url: '/db/subscription/-/subscriptions'
       method: 'GET'
@@ -102,6 +112,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
           subDayMap[endDay]['end']++
         for cancellation in cancellations
           if cancellation.subID is sub.subID
+            sub.cancel = cancellation.cancel
             cancelDay = cancellation.cancel.substring(0, 10)
             subDayMap[cancelDay] ?= {}
             subDayMap[cancelDay]['cancel'] ?= 0
@@ -132,6 +143,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         @monthlyGrowth = (endMonthTotal / startMonthTotal - 1) * 100
       @updateAnalyticsGraphData()
       @render?()
+      done(subs)
     @supermodel.addRequestResource('get_subscriptions', options, 0).load()
 
   updateAnalyticsGraphData: ->
@@ -170,7 +182,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       color: 'red'
       strokeWidth: 1
     lineMetadata[netSubsID] =
-      description: '7-day Average Net Subscriptions'
+      description: '7-day Average Net Subscriptions (started - ended)'
       color: 'black'
       strokeWidth: 4
 

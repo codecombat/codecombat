@@ -67,7 +67,7 @@ class SubscriptionHandler extends Handler
         (done) =>
           stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
             return done() if err
-            return unless subscription?.cancel_at_period_end
+            return done() unless subscription?.cancel_at_period_end
             cancellations.push
               cancel: new Date(subscription.canceled_at * 1000)
               subID: subscription.id
@@ -82,74 +82,18 @@ class SubscriptionHandler extends Handler
   getSubscribers: (req, res) ->
     # console.log 'subscription_handler getSubscribers'
     return @sendForbiddenError(res) unless req.user?.isAdmin()
-
-    maxReturnCount = req.body.maxCount or 20
-
-    # @subscribers ?= []
-    # return @sendSuccess(res, @subscribers) unless _.isEmpty(@subscribers)
-    @subscribers = []
-
-    subscriberIDs = []
-
-    customersProcessed = 0
-    nextBatch = (starting_after, done) =>
-      options = limit: 100
-      options.starting_after = starting_after if starting_after
-      stripe.customers.list options, (err, customers) =>
-        return done(err) if err
-        customersProcessed += customers.data.length
-
-        for customer in customers.data
-          break unless @subscribers.length < maxReturnCount
-          continue unless customer?.subscriptions?.data?.length > 0
-          for subscription in customer.subscriptions.data
-            continue unless subscription.plan.id is 'basic'
-
-            amount = subscription.plan.amount
-            if subscription?.discount?.coupon?
-              if subscription.discount.coupon.percent_off
-                amount = amount *  (100 - subscription.discount.coupon.percent_off) / 100;
-              else if subscription.discount.coupon.amount_off
-                amount -= subscription.discount.coupon.amount_off
-            else if customer.discount?.coupon?
-              if customer.discount.coupon.percent_off
-                amount = amount *  (100 - customer.discount.coupon.percent_off) / 100
-              else if customer.discount.coupon.amount_off
-                amount -= customer.discount.coupon.amount_off
-
-            continue unless amount > 0
-
-            subscriber =
-              customerID: customer.id
-              start: new Date(subscription.start * 1000)
-              subscriptionID: subscription.id
-            if subscription.metadata?.id?
-              subscriber.userID = subscription.metadata.id
-              subscriberIDs.push subscription.metadata.id
-            if subscription.cancel_at_period_end
-              subscriber.cancel = new Date(subscription.canceled_at * 1000)
-              subscriber.end = new Date(subscription.current_period_end * 1000)
-            @subscribers.push(subscriber)
-
-        if customers.has_more and @subscribers.length < maxReturnCount
-          return nextBatch(customers.data[customers.data.length - 1].id, done)
-        else
-          return done()
-    nextBatch null, (err) =>
+    subscriberUserIDs = req.body.ids or []
+    User.find {_id: {$in: subscriberUserIDs}}, (err, users) =>
       return @sendDatabaseError(res, err) if err
-      User.find {_id: {$in: subscriberIDs}}, (err, users) =>
-        return @sendDatabaseError(res, err) if err
-        for user in users
-          subscriber.user = user for subscriber in @subscribers when subscriber.userID is user.id
-        @sendSuccess(res, @subscribers)
+      userMap = {}
+      userMap[user.id] = user for user in users
+      @sendSuccess(res, userMap)
 
   getSubscriptions: (req, res) ->
     # console.log 'subscription_handler getSubscriptions'
     # Returns a list of active subscriptions
-    # TODO: does not track sponsored subs, only basic
     # TODO: does not return free subs
     # TODO: add tests
-    # TODO: aggregate this data daily instead of providing it on demand
     # TODO: take date range as input
     # TODO: are ended counts correct for today?  E.g. retries may complicate things.
 
@@ -169,11 +113,13 @@ class SubscriptionHandler extends Handler
           continue unless invoice.subscription
           continue unless invoice.total > 0
           continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
-          newInvoices.push
+          newInvoice =
             customerID: invoice.customer
             invoiceID: invoice.id
             subscriptionID: invoice.subscription
             date: new Date(invoice.date * 1000)
+          newInvoice.userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
+          newInvoices.push newInvoice
         if invoices.has_more
           # console.log 'Fetching more invoices', @invoices.length, newInvoices.length
           return processInvoices(invoices.data[invoices.data.length - 1].id, done)
@@ -193,20 +139,49 @@ class SubscriptionHandler extends Handler
             first: invoice.date
             last: invoice.date
             customerID: invoice.customerID
-      subs = []
-      for subID of subMap
-        sub =
-          start: subMap[subID].first
-          subID: subID
-          customerID: subMap[subID].customerID
-        sub.cancel = subMap[subID].cancel if subMap[subID].cancel
-        oneMonthAgo = new Date()
-        oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
-        if subMap[subID].last < oneMonthAgo
-          sub.end = new Date(subMap[subID].last)
-          sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
-        subs.push sub
-      @sendSuccess(res, subs)
+        subMap[subID].userID = invoice.userID if invoice.userID
+
+      # Check sponsored subscriptions
+      User.find {"stripe.sponsorSubscriptionID": {$exists: true}}, (err, sponsors) =>
+        return @sendDatabaseError(res, err) if err
+
+        createCheckSubFn = (customerID, subscriptionID) =>
+          (done) =>
+            stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
+              return done() if err
+              return done() unless subscription?
+              subMap[subscription.id] =
+                first: new Date(subscription.start * 1000)
+              subMap[subscription.id].userID = subscription.metadata.id if subscription.metadata?.id?
+              if subscription.cancel_at_period_end
+                subMap[subscription.id].cancel = new Date(subscription.canceled_at * 1000)
+                subMap[subscription.id].end = new Date(subscription.current_period_end * 1000)
+              done()
+
+        tasks = []
+        for user in sponsors
+          for recipient in user.get("stripe")?.recipients
+            tasks.push createCheckSubFn(user.get('stripe')?.customerID, recipient.subscriptionID)
+        async.parallel tasks, (err, results) =>
+          return @sendDatabaseError(res, err) if err
+
+          subs = []
+          for subID of subMap
+            sub =
+              start: subMap[subID].first
+              subID: subID
+              customerID: subMap[subID].customerID
+            sub.cancel = subMap[subID].cancel if subMap[subID].cancel
+            oneMonthAgo = new Date()
+            oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
+            if subMap[subID].end?
+              sub.end = subMap[subID].end
+            else if subMap[subID].last < oneMonthAgo
+              sub.end = new Date(subMap[subID].last)
+              sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
+            sub.userID = subMap[subID].userID if subMap[subID].userID
+            subs.push sub
+          @sendSuccess(res, subs)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()

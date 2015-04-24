@@ -14,7 +14,8 @@ block content
       th Translated Name
       th Type
       th Specifically Covered
-      th Generally Covered
+      if showGeneralCoverage
+        th Generally Covered
 
     if selectedLanguage
       for model in collection.models
@@ -29,4 +30,5 @@ block content
           td= translatedName
           td= model.constructor.className
           td(class=model.specificallyCovered ? 'success' : 'danger')= model.specificallyCovered ? 'Yes' : 'No'
-          td(class=model.generallyCovered ? 'success' : 'danger')= model.generallyCovered ? 'Yes' : 'No'
+          if showGeneralCoverage
+            td(class=model.generallyCovered ? 'success' : 'danger')= model.generallyCovered ? 'Yes' : 'No'

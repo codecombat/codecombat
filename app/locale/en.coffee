@@ -588,7 +588,7 @@
     intro_2: "No experience required!"
     free_title: "How much does it cost?"
     cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
-    free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
+    free_1: "CodeCombat Basic is FREE! There are 80+ free levels which cover every concept." # {change}
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "Teachers get free subscriptions!"
     teacher_subs_1: "Please contact"
