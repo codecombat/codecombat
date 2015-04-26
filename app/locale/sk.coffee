@@ -42,8 +42,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   diplomat_suggestion:
     title: "Pomôžte preložiť CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Potrebujeme tvoje jazykové zručnosti."
-    #pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Slovak but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Slovak."
-    #missing_translations: "Until we can translate everything into Slovak, you'll see English when Slovak isn't available."
+#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
+#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
     learn_more: "Zisti viac, ako byť Diplomat"
     subscribe_as_diplomat: "Prihlásiť sa ako Diplomat"
 
@@ -74,7 +74,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
     campaign_beginner: "Kampaň pre začiatočníkov"
-    awaiting_levels_adventurer_prefix: "Každy týždeň 5 nových levelov."
+    awaiting_levels_adventurer_prefix: "Každy týždeň 5 nových levelov." # {change}
     awaiting_levels_adventurer: "Prihlás sa ako Dobrodruh"
     awaiting_levels_adventurer_suffix: "budeš ako prvý hrať nové levely."
     adjust_volume: "Zmeniť hlasitosť"
@@ -261,6 +261,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     victory_hour_of_code_done_yes: "Áno, pre dnešok som skončil™!"
     victory_experience_gained: "Získaných XP"
     victory_gems_gained: "Získaných kryštálov"
+#    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Staň sa vikingom!"
     guide_title: "Návod"
@@ -404,6 +405,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     feature4: "<strong>3500 bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
     feature6: "Prémiová emailová podpora"
+#    feature7: "Private <strong>Clans</strong>"
     free: "Zdarma"
     month: "mesiac"
     subscribe_title: "Predplatné"
@@ -528,8 +530,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     volume_label: "Halsitosť"
     music_label: "Hudba"
     music_description: "Vypnúť/zapnúť hudbu na pozadí."
-    autorun_label: "Autospustenie"
-    autorun_description: "Ovládanie automatického spustenie kódu."
     editor_config: "Konfigurácia editora"
     editor_config_title: "Konfigurácia editora"
     editor_config_level_language_label: "Jazyk pre túto úroveň"
@@ -570,7 +570,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     nick_blurb: "Motivačný Guru"
     michael_title: "Programátor"
     michael_blurb: "Systémový administrátor"
-    matt_title: "Programátor"
+    matt_title: "Programátor" # {change}
     matt_blurb: "Bicyklista"
     cat_title: "Najvyššia remeselníčka"
     cat_blurb: "Ohýbačka vzduchu"
@@ -586,8 +586,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     intro_1: "CodeCombat je online hra, ktorá učí programovať. Študenti píšu kód v skutočných programovacích jazykoch."
     intro_2: "Nie sú nutné žiadne predchádzajúce skúsenosti !"
     free_title: "Koľko to stojí ?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
-    free_1: "CodeCombat Basic is ZDARMA ! K dispozícii je 70+ úrovní pokrývajúcich každý koncept."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+    free_1: "CodeCombat Basic is ZDARMA ! K dispozícii je 70+ úrovní pokrývajúcich každý koncept." # {change}
     free_2: "Mesačné predplatné poskytuje prístup k videonávodom a k úrovniam na precvičenie navyše."
     teacher_subs_title: "Pre učiteľov je predplatné zdarma !"
     teacher_subs_1: "Napíšte na"
@@ -596,6 +596,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sub_includes_1: "Študenti s mesačným predplatným získajú ku 70+ základným úrovniam  aj :" # {change}
     sub_includes_2: "40+ tréningových úrovní" # {change}
     sub_includes_3: "Video návody"
+#    sub_includes_7: "Private Clans"
     sub_includes_4: "Prémiovú emailovú podporu"
     sub_includes_5: "7 nových hrdinov s jedinečnými schopnosťami"
     sub_includes_6: "3500 bonusových diamantov každý mesiac"
@@ -603,8 +604,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     who_for_1: "CodeCombat odporúčame pre žiakov od 9 rokov. Nie sú nutné žiadne predchádzajúce skúsenosti s programovaním."
     who_for_2: "CodeCombat sme navrhli tak, aby oslovil chlapcov aj dievčatá."
     material_title: "Aký je objem učebnej látky ?"
-#    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
-    material_1: "Asi 8 hodín bezplatného obsahu a ďalších 14 hodín pre predplatiteľov. 5 nových úrovní každý týždeň."
+#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
+    material_1: "Asi 8 hodín bezplatného obsahu a ďalších 14 hodín pre predplatiteľov. 5 nových úrovní každý týždeň." # {change}
     concepts_title: "Aké pojmy sú pokryté ?"
     how_much_title: "Koľko stojí mesačné predplatné ?"
     how_much_1: ""
