@@ -11,7 +11,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     for_beginners: "För nybörjare"
     multiplayer: "Flera spelare" # Not currently shown on home page
     for_developers: "För utvecklare" # Not currently shown on home page.
-#    or_ipad: "Eller ladda ner till iPad"
+    or_ipad: "Eller ladda ner till iPad"
 
   nav:
     play: "Spela" # The top nav bar entry where players choose which levels to play
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     about: "Om oss"
     contact: "Kontakt"
     twitter_follow: "Följ oss på Twitter"
-#    teachers: "Lärare"
+    teachers: "Lärare"
 
   modal:
     close: "Stäng"
@@ -75,9 +75,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     level_difficulty: "Svårighetsgrad: "
     campaign_beginner: "Nybörjarkampanj"
     awaiting_levels_adventurer_prefix: "Vi släpper fem nya nivåer varje vecka." # {change}
-#    awaiting_levels_adventurer: "Registrera dig som äventyrare"
+    awaiting_levels_adventurer: "Registrera dig som äventyrare"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
-#    adjust_volume: "justera volymen"
+    adjust_volume: "justera volymen"
     choose_your_level: "Välj din nivå" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "Du kan hoppa till vilken nivå som helst här under, eller diskutera nivåer på "
     adventurer_forum: "Äventyrarforumet"
@@ -93,12 +93,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 
-#  share_progress_modal:
+  share_progress_modal:
 #    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "ogiltig e-postadress."
-#    form_blurb: "Ange en förälders e-postadress så visar vi dem!
-#    form_label: "E-postaddress"
-#    placeholder: "e-postaddress"
+    email_invalid: "ogiltig e-postadress."
+    form_blurb: "Ange en förälders e-postadress så visar vi dem!"
+    form_label: "E-postaddress"
+    placeholder: "e-postaddress"
 #    title: "Excellent Work, Apprentice"
 
   login:
@@ -106,13 +106,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     log_in: "Logga in"
     logging_in: "Loggar In"
     log_out: "Logga ut"
-#    forgot_password: "Glömt ditt lössenord?"
+    forgot_password: "Glömt ditt lössenord?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Logga in med Facebook"
-#    sign_in_with_gplus: "Logga in med G+"
-#    signup_switch: "Vill du skapa ett konto?"
+    sign_in_with_facebook: "Logga in med Facebook"
+    sign_in_with_gplus: "Logga in med G+"
+    signup_switch: "Vill du skapa ett konto?"
 
   signup:
     email_announcements: "Mottag nyheter via e-post"
@@ -120,25 +120,25 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     sign_up: "Skapa konto"
     log_in: "logga in med lösenord"
     social_signup: "Eller så kan du logga in genom facebook eller g+:"
-#    required: "Du måste logga in innan du kan gå dit"
-#    login_switch: "Har du redan ett konto?"
+    required: "Du måste logga in innan du kan gå dit"
+    login_switch: "Har du redan ett konto?"
 
   recover:
     recover_account_title: "Återskapa ditt konto"
     send_password: "Skicka återskapningslösenord"
     recovery_sent: "Återskapningslösenord skickat."
 
-#  items:
-#    primary: "Primär"
-#    secondary: "Sekundär"
+  items:
+    primary: "Primär"
+    secondary: "Sekundär"
 #    armor: "Armor"
-#    accessories: "Tillbehör"
+    accessories: "Tillbehör"
 #    misc: "Misc"
-#    books: "Böcker"
+    books: "Böcker"
 
   common:
-#    back: "Tillbaka" # When used as an action verb, like "Navigate backward"
-#    continue: "Fortsätt" # When used as an action verb, like "Continue forward"
+    back: "Tillbaka" # When used as an action verb, like "Navigate backward"
+    continue: "Fortsätt" # When used as an action verb, like "Continue forward"
     loading: "Laddar..."
     saving: "Sparar..."
     sending: "Skickar..."
@@ -153,11 +153,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     retry: "Försök igen"
 #    actions: "Actions"
 #    info: "Info"
-#    help: "Hjälp"
+    help: "Hjälp"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
-#    submit_changes: "Spara Ändringar"
+    submit_changes: "Spara Ändringar"
 
   general:
     and: "och"
@@ -173,13 +173,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    submitted: "Submitted"
     commit_msg: "Förbindelsemeddelande"
 #    review: "Review"
-#    version_history: "Ändringshistorik"
+    version_history: "Ändringshistorik"
     version_history_for: "Ändringshistorik för: "
-#    select_changes: "Välj två ändringar nedan för att se skillnaden."
-#    undo_prefix: "Ångra"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "gör om"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    select_changes: "Välj två ändringar nedan för att se skillnaden."
+    undo_prefix: "Ångra"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "gör om"
+    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
     result: "Resultat"
     results: "Resultat"
@@ -203,9 +203,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     hard: "Svår"
     player: "Spelare"
 #    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Krigare"
+    warrior: "Krigare"
 #    ranger: "Ranger"
-#    wizard: "Trollkarl"
+    wizard: "Trollkarl"
 
   units:
     second: "sekund"
@@ -262,13 +262,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    victory_experience_gained: "XP Gained"
 #    victory_gems_gained: "Gems Gained"
 #    victory_new_item: "New Item"
-#    victory_viking_code_school: "Jösses vilken svår nivå du just klarade! Om du inte redan är en mjukvaruutvecklare så borde du vara det. Du bev precis fast-tracked för antagning vid Viking Code School, där du kan ta dina kunskaper till en ny nivå och bli en professionell webbutvecklare på 14 veckor.
-#    victory_become_a_viking: "Bli en Viking"
+    victory_viking_code_school: "Jösses vilken svår nivå du just klarade! Om du inte redan är en mjukvaruutvecklare så borde du vara det. Du bev precis fast-tracked för antagning vid Viking Code School, där du kan ta dina kunskaper till en ny nivå och bli en professionell webbutvecklare på 14 veckor."
+    victory_become_a_viking: "Bli en Viking"
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor" # Only in old-style levels.
     tome_read_only_spells: "Skrivskyddade förmågor" # Only in old-style levels.
     tome_other_units: "Andra enheter" # Only in old-style levels.
-#    tome_cast_button_run: "Kör"
+    tome_cast_button_run: "Kör"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
@@ -280,19 +280,19 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tome_your_skills: "Your Skills"
 #    tome_help: "Help"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Fortsätt"
-#    code_saved: "Kod sparad"
+    hud_continue_short: "Fortsätt"
+    code_saved: "Kod sparad"
     skip_tutorial: "Hoppa över (esc)"
 #    keyboard_shortcuts: "Key Shortcuts"
-#    loading_ready: "Redo!"
-#    loading_start: "Starta Nivå"
-#    problem_alert_title: "Fixa din kod"
-#    problem_alert_help: "Hjälp"
-#    time_current: "Nu:"
+    loading_ready: "Redo!"
+    loading_start: "Starta Nivå"
+    problem_alert_title: "Fixa din kod"
+    problem_alert_help: "Hjälp"
+    time_current: "Nu:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
-#    infinite_loop_try_again: "Försök igen"
-#    infinite_loop_reset_level: "Återställ Nivå"
+    infinite_loop_try_again: "Försök igen"
+    infinite_loop_reset_level: "Återställ Nivå"
 #    infinite_loop_comment_out: "Comment Out My Code"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
@@ -300,8 +300,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tip_open_source: "CodeCombat is 100% open source!"
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_think_solution: "Think of the solution, not the problem."
-#    tip_theory_practice: "Teoretiskt sett så är det ingen skillnad mellan teori och praktik. Men i praktiken så är det. - Yogi Berra"
-#    tip_error_free: "Det finns två sätt att skriva fel-fria program; endast det tredje fungerar. - Alan Perlis"
+    tip_theory_practice: "Teoretiskt sett så är det ingen skillnad mellan teori och praktik. Men i praktiken så är det. - Yogi Berra"
+    tip_error_free: "Det finns två sätt att skriva fel-fria program; endast det tredje fungerar. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
 #    tip_forums: "Head over to the forums and tell us what you think!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
@@ -311,7 +311,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tip_harry: "Yer a Wizard, "
 #    tip_great_responsibility: "With great coding skill comes great debug responsibility."
 #    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
-#    tip_binary: "Det finns 10 sorters människor på jorden, de som försår binära tal och de som inte gör det."
+    tip_binary: "Det finns 10 sorters människor på jorden, de som försår binära tal och de som inte gör det."
 #    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
 #    tip_no_try: "Do. Or do not. There is no try. - Yoda"
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
