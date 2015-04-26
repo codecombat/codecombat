@@ -331,14 +331,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_reusable_software: "Avant qu'un logiciel soit réutilisable, il doit être utilisable"
     tip_optimization_operator: "Tout les langages ont un opérateur d'optimisation. Dans la plupart des langages, cet opérateur est ‘//’"
     tip_lines_of_code: "Mesurer l'avancé d'un programme par le nombre de lignes de code, c'est comme mesurer l'avancé d'un avion par son poid. - Bill Gates"
-    tip_source_code: "Je voudrais changer le monde, mais ils ne veulent pas me donner le code source"
-    tip_javascript_java: "le Java est au Javascript ce que le tapis est à la tapisserie" # Its not a direct translation, its an adaptation :p
+    tip_source_code: "Je voudrais changer le monde, mais ils ne veulent pas me donner le code source."
+    tip_javascript_java: "le Java est au Javascript ce que le tapis est à la tapisserie"
     tip_move_forward: "Quoi que vous fassiez, continuez d'avancer. - Martin Luther King Jr."
     tip_google: "*Vous avez un problème que vous n'arrivez pas à résoudre ? Googlez le !"
     tip_adding_evil: "Ajout d'une pincée de méchanceté"
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-     tip_open_source_contribute: "Vous pouvez aider CodeCombat à s'améliorer !"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch" #I cant find a good adaptation :(
+    tip_open_source_contribute: "Vous pouvez aider CodeCombat à s'améliorer !"
+#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -405,7 +405,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     feature4: "<strong>3500 gemmes bonus</strong> tous les mois !"
     feature5: "Tutoriels vidéo"
     feature6: "Assitance par e-mail dédiée"
-    feature7: "<strong>Clans</strong> Clans privés"
+    feature7: "<strong>Clans</strong> privés"
     free: "Gratuit"
     month: "mois"
     subscribe_title: "Abonnement"
