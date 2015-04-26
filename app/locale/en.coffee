@@ -274,7 +274,7 @@
     tome_submit_button: "Submit"
     tome_reload_method: "Reload original code for this method"  # Title text for individual method reload button.
     tome_select_method: "Select a Method"
-    tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
@@ -1168,7 +1168,7 @@
     rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "In a Nutshell"
     nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
-    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
+    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
 
   ladder_prizes:
     title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.
