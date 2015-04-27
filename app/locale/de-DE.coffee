@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription: "German (Germany)", translation:
   home:
     slogan: "Lerne spielend Programmieren"
-    no_ie: "CodeCombat läuft nicht im IE 8 oder älteren Browsern. Tut uns Leid!" # Warning that only shows up in IE8 and older
+    no_ie: "CodeCombat läuft nicht im IE 8 oder älteren Browsern. Tut uns leid!" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht." # Warning that shows up on mobile devices
     play: "Spielen" # The big play button that opens up the campaign view.
     old_browser: "Oh! Dein Browser ist zu alt für CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
@@ -90,7 +90,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_multiplayer_description: "... in der Du Kopf-an-Kopf gegen andere Spieler programmierst."
     campaign_player_created: "Von Spielern erstellt"
     campaign_player_created_description: "... in welchem Du gegen die Kreativität eines <a href=\"/contribute#artisan\">Artisan Zauberers</a> kämpfst."
-    campaign_classic_algorithms: "Klassiche Algorithmen"
+    campaign_classic_algorithms: "Klassische Algorithmen"
     campaign_classic_algorithms_description: "... in welchem du die populärsten Algorithmen der Informatik lernst."
 
   share_progress_modal:
@@ -337,7 +337,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tip_google: "Hast du ein Problem, das du nicht lösen kannst? Google es!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
-    tip_open_source_contribute: "Du kannst Dabei helfen, CodeCombat zu verbessern."
+    tip_open_source_contribute: "Du kannst dabei helfen, CodeCombat zu verbessern."
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 
   game_menu:
@@ -736,7 +736,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     adventurer_summary: "Bekomme unsere neuen Level (sogar unseren Abonnement Inhalt) kostenlos eine Woche früher und hilf uns, Fehler vor der Veröffentlichung zu finden."
     scribe_title: "Schreiber"
     scribe_title_description: "(Artikel Editor)"
-    scribe_summary: "Guter Code braucht gute Dokumentation. Schreibe, bearbeite and verbessere die, von weltweit Millionen von Spielern, gelesenen Dokumentationen."
+    scribe_summary: "Guter Code braucht gute Dokumentation. Schreibe, bearbeite und verbessere die, von weltweit Millionen von Spielern, gelesenen Dokumentationen."
     diplomat_title: "Diplomat"
     diplomat_title_description: "(Übersetzer)"
     diplomat_summary: "CodeCombat wird in 45+ Sprachen von unseren Diplomaten übersetzt. Hilf uns und steuere Übersetzungen bei."
@@ -836,7 +836,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   contribute:
     page_title: "Mitwirken"
-    intro_blurb: "CodeCombat ist zu 100% Open Source! Hunderte hingebungsvolle Spieler haben uns geholfen das Spiel zu dem zu machen was es heute ist. Trete uns bei und schreibe das nächste Kapitel in CodeCombat' Aufgabe, der Welt das Programmieren zu lehren!"
+    intro_blurb: "CodeCombat ist zu 100% Open Source! Hunderte hingebungsvolle Spieler haben uns geholfen das Spiel zu dem zu machen was es heute ist. Tritt uns bei und schreibe das nächste Kapitel in CodeCombat' Aufgabe, der Welt das Programmieren zu lehren!"
     alert_account_message_intro: "Hey du!"
     alert_account_message: "Um Klassen-Emails abonnieren zu können, musst du dich zuerst anmelden."
     archmage_introduction: "Einer der größten Vorteile daran ein Spiel aufzubauen, ist es, dass so viele verschiedene Aspekte eine Rolle spielen. Grafiken, Sound, Echtzeit Networking, Social Networking und natürlich viele der gewöhnlichen Aspekte des Programmierens, von low-level Datenbankmanagement und Server Administration bis hin zum Aufbau von Design und Interface. Es gibt viel zu tun und wenn du ein erfahrener Programmierer bist, mit einer Veranlagung dazu, wirklich knallhart bei CodeCombat einzutauchen, dann könnte diese Klasse etwas für dich sein. Wir würden uns wahnsinnig  über deine Hilfe dabei freuen, das beste Programmierspiel der Welt aufzubauen."
