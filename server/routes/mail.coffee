@@ -542,7 +542,8 @@ handleLadderUpdate = (req, res) ->
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
-  emailDays = [1, 2, 4, 7, 14, 30]
+  #emailDays = [1, 2, 4, 7, 14, 30]
+  emailDays = [1, 3, 7]  # Reduced to keep smaller monthly recipient footprint
   now = new Date()
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.
