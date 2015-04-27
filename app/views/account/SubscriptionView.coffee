@@ -10,7 +10,7 @@ utils = require 'core/utils'
 # TODO: Link to sponsor id /user/userID instead of plain text name
 # TODO: Link to sponsor email instead of plain text email
 # TODO: Conslidate the multiple class for personal and recipient subscription info into 2 simple server API calls
-# TODO: Track purchase amoun tbased on actual users subscribed for a recipient subscribe event
+# TODO: Track purchase amount based on actual users subscribed for a recipient subscribe event
 # TODO: Validate email address formatting
 # TODO: i18n pluralization for Stripe dialog description
 # TODO: Don't prompt for new card if we have one already, just confirm purchase
