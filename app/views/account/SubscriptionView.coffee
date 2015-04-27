@@ -114,9 +114,6 @@ module.exports = class SubscriptionView extends RootView
 class PersonalSub
   constructor: (@supermodel, @prepaidCode) ->
 
-  startSubscribe: ->
-
-
   subscribe: (render) ->
     return unless @prepaidCode
 
