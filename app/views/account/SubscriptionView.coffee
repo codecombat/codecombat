@@ -10,7 +10,7 @@ utils = require 'core/utils'
 # TODO: Link to sponsor id /user/userID instead of plain text name
 # TODO: Link to sponsor email instead of plain text email
 # TODO: Conslidate the multiple class for personal and recipient subscription info into 2 simple server API calls
-# TODO: Track purchase amount based on actual users subscribed for a recipient subscribe event
+# TODO: Track purchase amoun tbased on actual users subscribed for a recipient subscribe event
 # TODO: Validate email address formatting
 # TODO: i18n pluralization for Stripe dialog description
 # TODO: Don't prompt for new card if we have one already, just confirm purchase
@@ -60,12 +60,15 @@ module.exports = class SubscriptionView extends RootView
 
   # Personal Subscriptions
 
-  onClickStartSubscription: (e) ->
+  startPersonalSubscription: ->
     if @personalSub.prepaidCode
       @personalSub.subscribe(=> @render?())
     else
       @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'account subscription view'
+
+  onClickStartSubscription: (e) ->
+    @startPersonalSubscription()
 
   onSubscribed: ->
     document.location.reload()
@@ -87,8 +90,13 @@ module.exports = class SubscriptionView extends RootView
   # Sponsored subscriptions
 
   onClickRecipientsSubscribe: (e) ->
-    emails = @$el.find('.recipient-emails').val().split('\n')
-    @recipientSubs.startSubscribe(emails)
+    emails = (email.trim().toLowerCase() for email in @$el.find('.recipient-emails').val().split('\n'))
+    _.remove(emails, (email) -> _.isEmpty(email))
+    return if emails.length < 1
+    if (emails.length == 1) and (emails[0] == me.get("email").toLowerCase())
+      @startPersonalSubscription()
+    else
+      @recipientSubs.startSubscribe(emails)
 
   onClickRecipientUnsubscribe: (e) ->
     $(e.target).addClass('hide')
@@ -105,6 +113,9 @@ module.exports = class SubscriptionView extends RootView
 
 class PersonalSub
   constructor: (@supermodel, @prepaidCode) ->
+
+  startSubscribe: ->
+
 
   subscribe: (render) ->
     return unless @prepaidCode
@@ -234,10 +245,7 @@ class RecipientSubs
     _.remove(@unsubscribingRecipients, (recipientEmail) -> recipientEmail is email)
 
   startSubscribe: (emails) ->
-    @recipientEmails = (email.trim().toLowerCase() for email in emails)
-    _.remove(@recipientEmails, (email) -> _.isEmpty(email))
-    return if @recipientEmails.length < 1
-
+    @recipientEmails = emails
     window.tracker?.trackEvent 'Start sponsored subscription'
 
     # TODO: this sometimes shows a rounded amount (e.g. $8.00)
