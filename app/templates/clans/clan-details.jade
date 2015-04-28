@@ -83,8 +83,12 @@ block content
           tr
             th Hero
             th 
-              span.spr Progress
-              small (gray=completed, green=started, white=not started)
+              span.progress-header Progress
+              span.progress-key not started
+              span.progress-key.progress-key-started started
+              span.progress-key.progress-key-complete complete
+              input.expand-progress-checkbox(type='checkbox')
+              span.spl.expand-progress-label Expand levels
         tbody
           each member in members
             tr

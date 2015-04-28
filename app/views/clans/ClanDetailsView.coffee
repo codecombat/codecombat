@@ -21,6 +21,7 @@ module.exports = class ClanDetailsView extends RootView
   template: template
 
   events:
+    'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
     'click .delete-clan-btn': 'onDeleteClan'
     'click .edit-description-save-btn': 'onEditDescriptionSave'
     'click .edit-name-save-btn': 'onEditNameSave'
@@ -39,6 +40,7 @@ module.exports = class ClanDetailsView extends RootView
     @stopListening?()
 
   initData: ->
+    @showExpandedProgress = false
     @stats = {}
 
     @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
@@ -99,7 +101,7 @@ module.exports = class ClanDetailsView extends RootView
           lastLevelIndex++
 
     context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
-    context.showExpandedProgress = maxLastUserCampaignLevel <= 30
+    context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
     context
 
   afterRender: ->
@@ -246,6 +248,12 @@ module.exports = class ClanDetailsView extends RootView
       @clan.set 'name', name
       @clan.patch()
     $('#editNameModal').modal('hide')
+
+  onExpandedProgressCheckbox: (e) ->
+    @showExpandedProgress = $('.expand-progress-checkbox').prop('checked')
+    # TODO: why does render reset the checkbox to be unchecked?
+    @render?()
+    $('.expand-progress-checkbox').attr('checked', @showExpandedProgress)
 
   onJoinClan: (e) ->
     return @openModalView(new AuthModal()) if me.isAnonymous()
