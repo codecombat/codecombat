@@ -25,12 +25,15 @@
 
   $spriteSheetSize: 30px
 
-
   .remove-hero-cell
     width: 100px
 
   .hero-icon-cell
+    display: inline-block
     width: 30px
+    height: 50px
+    margin: 0px 2px
+    vertical-align: middle
 
   .level-cell
     width: 50px
@@ -48,11 +51,9 @@
   .latest-achievement-cell
     vertical-align: middle
 
-  .level-progression-cell
-    background-color: lightblue
-    border: 1px solid gray
-    cursor: pointer
-    padding: 4px
+  .progress-cell
+    padding: 2px
+    padding-bottom: 10px
 
     .level-popup-container
       display: none
@@ -63,8 +64,27 @@
       background-color: blanchedalmond
       font-size: 10pt
 
-  .level-progression-cell-name
-    vertical-align: middle
+  .level-progression-campaign
+    font-size: 12pt
+    font-weight: bold
+    margin-top: 4px
+
+  .progress-level-cell
+    display: inline-block
+    white-space: nowrap
+    font-size: 9pt
+    border: 1px solid gray
+    border-radius: 5px
+    margin: 0px
+    padding: 2px
+
+  .progress-level-cell-started
+    cursor: pointer
+    background-color: lightgreen
+
+  .progress-level-cell-complete
+    cursor: pointer
+    background-color: lightgray
 
   .player-hero-icon
     background: transparent url(/images/pages/play/play-spritesheet.png)

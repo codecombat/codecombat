@@ -18,6 +18,7 @@ module.exports = class MainAdminView extends RootView
     'click .create-clan-btn': 'onClickCreateClan'
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
+    'click .private-clan-checkbox': 'onClickPrivateCheckbox'
 
   constructor: (options) ->
     super options
@@ -71,15 +72,10 @@ module.exports = class MainAdminView extends RootView
     @supermodel.addRequestResource('user_names', options, 0).load()
 
   setupPrivateInfoPopover: ->
-    popoverTitle = 'Private Clans'
-    popoverContent = "<p>Additional features:"
-    popoverContent += "<ul>"
-    popoverContent += "<li>Not visible in Public Clans list"
-    popoverContent += "<li>Invite link required to join"
-    popoverContent += "<li>Premium dashboard:"
-    popoverContent += "</ul>"
-    popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png'></p>"
-    popoverContent += "<p>*A CodeCombat subscription is required to create or join private Clans.</p>"
+    popoverTitle = "<h3>Private Clans</h3>"
+    popoverContent = "<p>Invite only</p>"
+    popoverContent += "<p>Detailed dashboard:</p>"
+    popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png' width='700'></p>"
     @$el.find('.private-more-info').popover(
       animation: true
       html: true
@@ -140,3 +136,10 @@ module.exports = class MainAdminView extends RootView
       @supermodel.addRequestResource( 'leave_clan', options).load()
     else
       console.error "No clan ID attached to leave button."
+
+  onClickPrivateCheckbox: (e) ->
+    return @openModalView new AuthModal() if me.isAnonymous()
+    if $('.private-clan-checkbox').prop('checked') and not me.isPremium()
+      $('.private-clan-checkbox').attr('checked', false)
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'check private clan'

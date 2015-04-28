@@ -3,6 +3,7 @@ template = require 'templates/clans/clan-details'
 app = require 'core/application'
 AuthModal = require 'views/core/AuthModal'
 CocoCollection = require 'collections/CocoCollection'
+Campaign = require 'models/Campaign'
 Clan = require 'models/Clan'
 EarnedAchievement = require 'models/EarnedAchievement'
 LevelSession = require 'models/LevelSession'
@@ -11,7 +12,9 @@ ThangType = require 'models/ThangType'
 User = require 'models/User'
 
 # TODO: Add message for clan not found
-# TODO: join/leave mostly duped from clans view
+# TODO: Progress visual for premium levels?
+# TODO: Add expanded level names toggle
+# TODO: Only need campaign data if clan is private
 
 module.exports = class ClanDetailsView extends RootView
   id: 'clan-details-view'
@@ -23,10 +26,10 @@ module.exports = class ClanDetailsView extends RootView
     'click .edit-name-save-btn': 'onEditNameSave'
     'click .join-clan-btn': 'onJoinClan'
     'click .leave-clan-btn': 'onLeaveClan'
-    'click .level-progression-cell': 'onClickLevel'
+    'click .progress-level-cell': 'onClickLevel'
     'click .remove-member-btn': 'onRemoveMember'
-    'mouseenter .level-progression-cell': 'onMouseEnterPoint'
-    'mouseleave .level-progression-cell': 'onMouseLeavePoint'
+    'mouseenter .progress-level-cell': 'onMouseEnterPoint'
+    'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
   constructor: (options, @clanID) ->
     super options
@@ -38,6 +41,7 @@ module.exports = class ClanDetailsView extends RootView
   initData: ->
     @stats = {}
 
+    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
     @clan = new Clan _id: @clanID
     @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator: 'nameLower' })
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
@@ -45,11 +49,13 @@ module.exports = class ClanDetailsView extends RootView
     @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
 
     @listenTo me, 'sync', => @render?()
+    @listenTo @campaigns, 'sync', @onCampaignSync
     @listenTo @clan, 'sync', @onClanSync
     @listenTo @members, 'sync', @onMembersSync
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
 
+    @supermodel.loadModel @campaigns, 'clan', cache: false
     @supermodel.loadModel @clan, 'clan', cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
@@ -57,6 +63,7 @@ module.exports = class ClanDetailsView extends RootView
 
   getRenderData: ->
     context = super()
+    context.campaignLevelProgressions = @campaignLevelProgressions ? []
     context.clan = @clan
     if application.isProduction()
       context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
@@ -65,12 +72,34 @@ module.exports = class ClanDetailsView extends RootView
     context.owner = @owner
     context.memberAchievementsMap = @memberAchievementsMap
     context.memberLanguageMap = @memberLanguageMap
-    context.memberLevelProgression = @memberLevelProgression
+    context.memberLevelStateMap = @memberLevelMap ? {}
     context.memberMaxLevelCount = @memberMaxLevelCount
     context.members = @members?.models
     context.isOwner = @clan.get('ownerID') is me.id
     context.isMember = @clanID in (me.get('clans') ? [])
     context.stats = @stats
+
+    # Find last campaign level for each user
+    lastUserCampaignLevelMap = {}
+    maxLastUserCampaignLevel = 0
+    if @campaigns.loaded
+      for campaign in @campaigns.models
+        campaignID = campaign.id
+        lastLevelIndex = 0
+        for levelID, level of campaign.get('levels')
+          levelSlug = level.slug
+          for member in context.members
+            if context.memberLevelStateMap[member.id]?[levelSlug]
+              lastUserCampaignLevelMap[member.id] ?= {}
+              lastUserCampaignLevelMap[member.id][campaignID] ?= {}
+              lastUserCampaignLevelMap[member.id][campaignID] =
+                levelSlug: levelSlug
+                index: lastLevelIndex
+              maxLastUserCampaignLevel = lastLevelIndex if lastLevelIndex > maxLastUserCampaignLevel
+          lastLevelIndex++
+
+    context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
+    context.showExpandedProgress = maxLastUserCampaignLevel <= 30
     context
 
   afterRender: ->
@@ -89,6 +118,31 @@ module.exports = class ClanDetailsView extends RootView
       continue unless hero = member.get('heroConfig')?.thangType
       for slug, original of ThangType.heroes when original is hero
         @$el.find(".player-hero-icon[data-memberID=#{member.id}]").removeClass('.player-hero-icon').addClass('player-hero-icon ' + slug)
+
+  onCampaignSync: ->
+    return unless @campaigns.loaded
+    @campaignLevelProgressions = []
+    for campaign in @campaigns.models
+      continue if campaign.get('slug') is 'auditions'
+      campaignLevelProgression =
+        ID: campaign.id
+        slug: campaign.get('slug')
+        name: campaign.get('name')
+        levels: []
+      # TODO: Where do these proper names come from?
+      campaignLevelProgression.name = switch
+        when campaignLevelProgression.slug is 'dungeon' then 'Kithgard Dungeon'
+        when campaignLevelProgression.slug is 'forest' then 'Backwoods Forest'
+        when campaignLevelProgression.slug is 'desert' then 'Sarven Desert'
+        when campaignLevelProgression.slug is 'mountain' then 'Cloudrip Mountain'
+        else campaignLevelProgression.name
+      for levelID, level of campaign.get('levels')
+        campaignLevelProgression.levels.push
+          ID: levelID
+          slug: level.slug
+          name: level.name
+      @campaignLevelProgressions.push campaignLevelProgression
+    @render?()
 
   onClanSync: ->
     unless @owner?
@@ -113,21 +167,27 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onMemberSessionsSync: ->
-    @memberLevelProgression = {}
+    @memberLevelMap = {}
     memberSessions = {}
     for levelSession in @memberSessions.models
+      continue if levelSession.isMultiplayer()
       user = levelSession.get('creator')
-      if not levelSession.isMultiplayer() and levelSession.get('state')?.complete is true
+      levelSlug = levelSession.get('levelID')
+      @memberLevelMap[user] ?= {}
+      @memberLevelMap[user][levelSlug] ?= {}
+      levelInfo =
+        level: levelSession.get('levelName')
+        levelID: levelSession.get('levelID')
+        changed: new Date(levelSession.get('changed')).toLocaleString()
+        playtime: levelSession.get('playtime')
+        sessionID: levelSession.id
+      @memberLevelMap[user][levelSlug].levelInfo = levelInfo
+      if levelSession.get('state')?.complete is true
+        @memberLevelMap[user][levelSlug].state = 'complete'
         memberSessions[user] ?= []
         memberSessions[user].push levelSession
-        @memberLevelProgression[user] ?= []
-        levelInfo =
-          level: levelSession.get('levelName')
-          levelID: levelSession.get('levelID')
-          changed: new Date(levelSession.get('changed')).toLocaleString()
-          playtime: levelSession.get('playtime')
-          sessionID: levelSession.id
-        @memberLevelProgression[user].push levelInfo
+      else
+        @memberLevelMap[user][levelSlug].state = 'started'
     @memberMaxLevelCount = 0
     @memberLanguageMap = {}
     for user of memberSessions
@@ -144,6 +204,7 @@ module.exports = class ClanDetailsView extends RootView
     @render?()
 
   onMouseEnterPoint: (e) ->
+    $('.level-popup-container').hide()
     container = $(e.target).find('.level-popup-container').show()
     margin = 20
     offset = $(e.target).offset()
