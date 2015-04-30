@@ -479,7 +479,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     io_blurb: "بسيطة ولكنها غامضة."
 #    status: "Status"
 #    hero_type: "Type"
-#    weapons: "Weapons"
+    weapons: "اسلحة"
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
