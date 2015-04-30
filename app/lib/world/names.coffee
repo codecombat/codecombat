@@ -78,6 +78,7 @@ module.exports.thangNames = thangNames =
     'Celadia'
     'Taric'
     'Vaelia'
+    'Antary'
   ]
   'Ogre Witch': [
     # Female
