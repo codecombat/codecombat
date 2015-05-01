@@ -101,7 +101,9 @@ class SubscriptionHandler extends Handler
             return @sendDatabaseError(res, err)
           log.debug 'Analytics established connection to analytics server.'
           userEventMap = {}
-          db.collection('log').find({user: {$in: subscriberUserIDs}}).sort({_id: -1}).each (err, doc) =>
+          events = ['Finished subscription purchase', 'Show subscription modal']
+          query = {$and: [{user: {$in: subscriberUserIDs}}, {event: {$in: events}}]}
+          db.collection('log').find(query).sort({_id: -1}).each (err, doc) =>
             if err
               db.close()
               return @sendDatabaseError(res, err)
