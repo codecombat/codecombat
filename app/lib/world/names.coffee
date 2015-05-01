@@ -132,6 +132,7 @@ module.exports.thangNames = thangNames =
     # Animal
     'Kitty'
     'Shasta'
+    'Simbia'
   ]
   'Frog': [
     # Animal
@@ -148,6 +149,7 @@ module.exports.thangNames = thangNames =
     'Mr. Toad'
     'Trevor'
     'Wei Qi'
+    'Toada'
   ]
   'Horse': [
     # Animal
@@ -159,6 +161,8 @@ module.exports.thangNames = thangNames =
     'Beauty'
     'Lovelace'
     'Mirial'
+    'Miracle'
+    'Codasus'
   ]
   'Ogre M': [
     # Male
@@ -185,6 +189,7 @@ module.exports.thangNames = thangNames =
     'Trogdor'
     'Trung'
     'Vargutt'
+    'Demonik'
   ]
   'Ogre F': [
     # Female
@@ -199,6 +204,7 @@ module.exports.thangNames = thangNames =
     'Martha'
     'Morthrug'
     'Nareng'
+    'Maleda'
   ]
   'Ogre Brawler': [
     # Male
@@ -300,6 +306,7 @@ module.exports.thangNames = thangNames =
     'Talus'
     'Ulna'
     'Yorick'
+    'Boneus'
   ]
   'Ogre Headhunter': [
     # Male
@@ -326,6 +333,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Naria'
     'Sylva'
+    'Archia'
   ]
   'Raider': [
     # Female
@@ -338,10 +346,12 @@ module.exports.thangNames = thangNames =
   'Guardian': [
     # Female
     'Illia'
+    'Gaia'
   ]
   'Pixie': [
     # Female
     'Zana'
+    'Eika'
   ]
   'Assassin': [
     # Male
@@ -352,6 +362,7 @@ module.exports.thangNames = thangNames =
     'Shade'
     'Talon'
     'Zed'
+    'Sherkey'
   ]
   'Necromancer': [
     # Male
