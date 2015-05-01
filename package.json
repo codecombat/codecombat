@@ -22,6 +22,10 @@
     {
       "name": "George Saines",
       "email": "george@codecombat.com"
+    },
+    {
+      "name": "Matt Lott",
+      "email": "matt@codecombat.com"
     }
   ],
   "scripts": {
@@ -55,6 +59,7 @@
     "lodash": "~2.4.1",
     "mailchimp-api": "2.0.x",
     "moment": "~2.5.0",
+    "mongodb": "^2.0.28",
     "mongoose": "3.8.x",
     "mongoose-cache": "https://github.com/nwinter/mongoose-cache/tarball/master",
     "node-force-domain": "~0.1.0",
