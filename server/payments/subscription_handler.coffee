@@ -1,6 +1,7 @@
 # Not paired with a document in the DB, just handles coordinating between
 # the stripe property in the user with what's being stored in Stripe.
 
+log = require 'winston'
 MongoClient = require('mongodb').MongoClient
 mongoose = require 'mongoose'
 async = require 'async'
@@ -90,32 +91,41 @@ class SubscriptionHandler extends Handler
       userMap = {}
       userMap[user.id] = user.toObject() for user in users
 
-      # Get conversion data directly from analytics database and add it to results
-      url = "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}"
-      MongoClient.connect url, (err, db) =>
-        return @sendDatabaseError(res, err) if err
-        userEventMap = {}
-        db.collection('log').find({user: {$in: subscriberUserIDs}}).sort({_id: -1}).each (err, doc) =>
+      try
+        # Get conversion data directly from analytics database and add it to results
+        url = "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}"
+        log.debug "Analytics url: #{url}"
+        MongoClient.connect url, (err, db) =>
           if err
-            db.close()
+            log.debug 'Analytics connect error: ' + err
             return @sendDatabaseError(res, err)
-          if (doc)
-            userEventMap[doc.user] ?= []
-            userEventMap[doc.user].push doc
-          else
-            db.close()
-            for userID, eventList of userEventMap
-              finishedPurchase = false
-              for event in eventList
-                finishedPurchase = true if event.event is 'Finished subscription purchase'
-                if finishedPurchase
-                  if event.event is 'Show subscription modal' and event.properties?.level?
-                    userMap[userID].conversion = event.properties.level
-                    break
-                  else if event.event is 'Show subscription modal' and event.properties?.label is 'buy gems modal'
-                    userMap[userID].conversion = event.properties.label
-                    break
-            @sendSuccess(res, userMap)
+          log.debug 'Analytics established connection to analytics server.'
+          userEventMap = {}
+          db.collection('log').find({user: {$in: subscriberUserIDs}}).sort({_id: -1}).each (err, doc) =>
+            if err
+              db.close()
+              return @sendDatabaseError(res, err)
+            if (doc)
+              userEventMap[doc.user] ?= []
+              userEventMap[doc.user].push doc
+            else
+              log.debug 'Analytics finished received docs, closing db connection. ' + Object.keys(userEventMap).length
+              db.close()
+              for userID, eventList of userEventMap
+                finishedPurchase = false
+                for event in eventList
+                  finishedPurchase = true if event.event is 'Finished subscription purchase'
+                  if finishedPurchase
+                    if event.event is 'Show subscription modal' and event.properties?.level?
+                      userMap[userID].conversion = event.properties.level
+                      break
+                    else if event.event is 'Show subscription modal' and event.properties?.label is 'buy gems modal'
+                      userMap[userID].conversion = event.properties.label
+                      break
+              @sendSuccess(res, userMap)
+      catch err
+        log.debug 'Analytics error:\n' + err
+        @sendSuccess(res, userMap)
 
   getSubscriptions: (req, res) ->
     # console.log 'subscription_handler getSubscriptions'
