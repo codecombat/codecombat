@@ -50,14 +50,10 @@ block content
               th Cancelled
             else
               th
-            if subscriberSponsored
-              th Sponsored
-            else
-              th
+            th Conversion
             th Email
             th Hero
             th Level
-            th Last Level
             th Age
             th Spoken
             th Clans
@@ -73,11 +69,12 @@ block content
                   span= subscriber.cancel.substring(0, 10)
               td
                 if subscriber.user.stripe.sponsorID
-                  span Yes
+                  span *sponsored*
+                else if subscriber.user.conversion
+                  span= subscriber.user.conversion
               td= subscriber.user.emailLower
               td= subscriber.hero
               td= subscriber.level
-              td= subscriber.user.lastLevel
               td= subscriber.user.ageRange
               td= subscriber.user.preferredLanguage
               if subscriber.user.clans
