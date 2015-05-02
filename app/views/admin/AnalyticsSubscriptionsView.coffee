@@ -129,14 +129,14 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
           ended: subDayMap[day]['end'] or 0
 
       @subs.sort (a, b) -> a.day.localeCompare(b.day)
-      startedLastMonth = 0
+      totalLastMonth = 0
       for sub, i in @subs
         @total += sub.started
         @total -= sub.ended
         @cancelled += sub.cancelled
         sub.total = @total
-        startedLastMonth += sub.started if @subs.length - i < 31
-      @monthlyChurn = @cancelled / startedLastMonth * 100.0 if startedLastMonth > 0
+        totalLastMonth = @total if @subs.length - i is 31
+      @monthlyChurn = @cancelled / totalLastMonth * 100.0 if totalLastMonth > 0
       if @subs.length > 30 and @subs[@subs.length - 31].total > 0
         startMonthTotal = @subs[@subs.length - 31].total
         endMonthTotal = @subs[@subs.length - 1].total
