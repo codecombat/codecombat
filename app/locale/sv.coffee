@@ -371,7 +371,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    difficulty: "Difficulty"
 #    gold_collected: "Gold Collected"
 
-#  inventory:
+  inventory:
     choose_inventory: "Använd föremål"
     equipped_item: "Används"
     required_purchase_title: "Krävs"
@@ -465,7 +465,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
+  choose_hero:
     choose_hero: "Välj hjälte"
     programming_language: "Programspråk"
     programming_language_description: "Vilket programspråk vill du använda?"
@@ -1087,7 +1087,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
 
-#  delta:
+  delta:
 #    added: "Added"
 #    modified: "Modified"
 #    deleted: "Deleted"
