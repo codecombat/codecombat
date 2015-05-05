@@ -121,7 +121,7 @@ class SubscriptionHandler extends Handler
                     if event.event is 'Show subscription modal' and event.properties?.level?
                       userMap[userID].conversion = event.properties.level
                       break
-                    else if event.event is 'Show subscription modal' and event.properties?.label is 'buy gems modal'
+                    else if event.event is 'Show subscription modal' and event.properties?.label in ['buy gems modal', 'check private clan', 'create clan']
                       userMap[userID].conversion = event.properties.label
                       break
               @sendSuccess(res, userMap)
