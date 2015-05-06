@@ -453,6 +453,7 @@
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
     managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
     group_discounts: "Group discounts"
     group_discounts_1: "We also offer group discounts for bulk subscriptions."
     group_discounts_1st: "1st subscription"
