@@ -94,12 +94,10 @@ class SubscriptionHandler extends Handler
       try
         # Get conversion data directly from analytics database and add it to results
         url = "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}"
-        log.debug "Analytics url: #{url}"
         MongoClient.connect url, (err, db) =>
           if err
             log.debug 'Analytics connect error: ' + err
             return @sendDatabaseError(res, err)
-          log.debug 'Analytics established connection to analytics server.'
           userEventMap = {}
           events = ['Finished subscription purchase', 'Show subscription modal']
           query = {$and: [{user: {$in: subscriberUserIDs}}, {event: {$in: events}}]}
@@ -111,7 +109,6 @@ class SubscriptionHandler extends Handler
               userEventMap[doc.user] ?= []
               userEventMap[doc.user].push doc
             else
-              log.debug 'Analytics finished received docs, closing db connection. ' + Object.keys(userEventMap).length
               db.close()
               for userID, eventList of userEventMap
                 finishedPurchase = false
@@ -174,7 +171,7 @@ class SubscriptionHandler extends Handler
       debugInvoiceCount = @invoices.length
       @invoices = _.uniq @invoices, false, 'invoiceID'
       if debugInvoiceCount isnt @invoices.length
-        log.debug "Analytics cached @invoices hadd duplicates: #{debugInvoiceCount} #{@invoices.length}"
+        log.debug "Analytics cached @invoices had duplicates: #{debugInvoiceCount} #{@invoices.length}"
 
       subMap = {}
       for invoice in @invoices
