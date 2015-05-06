@@ -22,6 +22,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
   getRenderData: ->
     context = super()
     context.analytics = @analytics ? graphs: []
+    context.cancellations = @cancellations ? []
     context.subs = _.cloneDeep(@subs ? []).reverse()
     context.subscribers = @subscribers ? []
     context.subscriberCancelled = _.find context.subscribers, (subscriber) -> subscriber.cancel
@@ -60,6 +61,10 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       console.error 'Failed to get cancellations', response
     options.success = (cancellations, response, options) =>
       return if @destroyed
+      @cancellations = cancellations
+      @cancellations.sort (a, b) -> b.cancel.localeCompare(a.cancel)
+      for cancellation in @cancellations when cancellation.user?
+        cancellation.level = User.levelFromExp cancellation.user.points
       done(cancellations)
     @supermodel.addRequestResource('get_cancellations', options, 0).load()
 
@@ -111,7 +116,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
           subDayMap[endDay]['end'] ?= 0
           subDayMap[endDay]['end']++
         for cancellation in cancellations
-          if cancellation.subID is sub.subID
+          if cancellation.subscriptionID is sub.subscriptionID
             sub.cancel = cancellation.cancel
             cancelDay = cancellation.cancel.substring(0, 10)
             subDayMap[cancelDay] ?= {}

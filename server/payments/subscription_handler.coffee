@@ -28,7 +28,7 @@ class SubscriptionHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @getCancellations(req, res) if args[1] is 'cancellations'
     return @getRecentSubscribers(req, res) if args[1] is 'subscribers'
-    return @getSubscriptions(req, res) if args[1] is 'subscriptions'
+    return @getActiveSubscriptions(req, res) if args[1] is 'subscriptions'
     super(arguments...)
 
   getCancellations: (req, res) =>
@@ -72,14 +72,26 @@ class SubscriptionHandler extends Handler
             return done() unless subscription?.cancel_at_period_end
             cancellations.push
               cancel: new Date(subscription.canceled_at * 1000)
-              subID: subscription.id
+              customerID: customerID
+              start: new Date(subscription.start * 1000)
+              subscriptionID: subscriptionID
+              userID: subscription.metadata?.id
             done()
       tasks = []
       for cancellationEvent in cancellationEvents
         tasks.push createCheckSubFn(cancellationEvent.customerID, cancellationEvent.subscriptionID)
       async.parallel tasks, (err, results) =>
         return @sendDatabaseError(res, err) if err
-        @sendSuccess(res, cancellations)
+
+        # TODO: Lookup userID via customer object, for cancellations that are missing them
+        userIDs = _.map cancellations, (a) -> a.userID
+        User.find {_id: {$in: userIDs}}, (err, users) =>
+          return @sendDatabaseError(res, err) if err
+          userMap = {}
+          userMap[user.id] = user.toObject() for user in users
+          for cancellation in cancellations
+            cancellation.user = userMap[cancellation.userID] if cancellation.userID of userMap
+          @sendSuccess(res, cancellations)
 
   getRecentSubscribers: (req, res) ->
     # console.log 'subscription_handler getRecentSubscribers'
@@ -126,9 +138,8 @@ class SubscriptionHandler extends Handler
         log.debug 'Analytics error:\n' + err
         @sendSuccess(res, userMap)
 
-  getSubscriptions: (req, res) ->
-    # console.log 'subscription_handler getSubscriptions'
-    # Returns a list of active subscriptions
+  getActiveSubscriptions: (req, res) ->
+    # console.log 'subscription_handler getActiveSubscriptions'
     # TODO: does not return free subs
     # TODO: add tests
     # TODO: take date range as input
@@ -212,9 +223,9 @@ class SubscriptionHandler extends Handler
           subs = []
           for subID of subMap
             sub =
-              start: subMap[subID].first
-              subID: subID
               customerID: subMap[subID].customerID
+              start: subMap[subID].first
+              subscriptionID: subID
             sub.cancel = subMap[subID].cancel if subMap[subID].cancel
             oneMonthAgo = new Date()
             oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
