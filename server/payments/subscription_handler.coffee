@@ -169,6 +169,13 @@ class SubscriptionHandler extends Handler
     processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
       @invoices = newInvoices.concat(@invoices)
+
+      # TODO: Temporarily debugging elevated sub end counts in production over time
+      debugInvoiceCount = @invoices.length
+      @invoices = _.uniq @invoices, false, 'invoiceID'
+      if debugInvoiceCount isnt @invoices.length
+        log.debug "Analytics cached @invoices hadd duplicates: #{debugInvoiceCount} #{@invoices.length}"
+
       subMap = {}
       for invoice in @invoices
         subID = invoice.subscriptionID
