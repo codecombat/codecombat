@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
   home:
     slogan: "通过游戏学习编程"
-    no_ie: "抱歉！ Internet Explorer 8 等旧式预览器无法使用本网站。" # Warning that only shows up in IE8 and older
+    no_ie: "抱歉！ Internet Explorer 8 等老式浏览器无法使用本网站。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat不是针对手机设备设计的，所以可能无法达到最好的体验！" # Warning that shows up on mobile devices
     play: "开始游戏" # The big play button that opens up the campaign view.
     old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
@@ -96,8 +96,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   share_progress_modal:
     blurb: "你的进度真快！快告诉其他人你从CodeCombat学到了什么！" # {change}
     email_invalid: "邮件地址不可用。"
-    form_blurb: "输入他们的邮件地址，我们会让他们知道CodeCombat的有趣"
-    form_label: "邮件地址"
+    form_blurb: "输入他们的邮件地址，让他们知道CodeCombat的有趣"
+    form_label: "您的邮件地址"
     placeholder: "邮件地址"
     title: "你做的太好了！"
 
@@ -338,7 +338,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_adding_evil: "加入万恶的压力。"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "你可以帮助「CodeCombat」提高！"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -405,7 +405,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
-#    feature7: "Private <strong>Clans</strong>"
+    feature7: "私人 <strong>氏族</strong>"
     free: "免费"
     month: "月"
     subscribe_title: "订阅"
@@ -428,17 +428,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parents: "致家长"
     parents_title: "您的孩子将要学习编写程序。" # {change}
     parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb1a: "不用怀疑计算机编程能力将是你的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。你知道吗，计算机科学是收入最高的大学学位？"
     parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
     parents_blurb3: "无风险承诺：100%退款，一键退款。"
     payment_methods: "付费方式"
-#    payment_methods_title: "Accepted Payment Methods"
+    payment_methods_title: "可接受的付款方式"
     payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
     payment_methods_blurb2: "如果你想用其他付费方式,请联系我们"
     stripe_description: "每月订阅"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
-#    personal_sub: "Personal Subscription" # Accounts Subscription View below
+    personal_sub: "个人订阅" # Accounts Subscription View below
     loading_info: "正在读入订阅内容..."
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"

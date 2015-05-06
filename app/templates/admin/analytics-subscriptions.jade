@@ -61,7 +61,7 @@ block content
           each subscriber in subscribers
             tr
               td
-                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subID
+                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
               td= subscriber.user.dateCreated.substring(0, 10)
               td= subscriber.start.substring(0, 10)
               td
@@ -80,6 +80,54 @@ block content
               if subscriber.user.clans
                 td= subscriber.user.clans.length
               else
+                td
+
+    h2 Recent Cancellations
+    if !cancellations || cancellations.length < 1
+      h4 Fetching recent cancellations...
+    else
+      table.table.table-striped.table-condensed
+        thead.subscribers-thead
+          tr
+            th Sub ID
+            th User ID
+            th User Start
+            th Sub Start
+            th Sub Cancel
+            th Length
+            th Level
+            th Age
+            th Spoken
+            th Clans
+        tbody.subscribers-tbody
+          each cancellation in cancellations
+            tr
+              td
+                a(href="https://dashboard.stripe.com/customers/#{cancellation.customerID}", target="_blank")= cancellation.subscriptionID
+              if cancellation.userID
+                td
+                  a(href="/user/#{cancellation.userID}")= cancellation.userID
+              else
+                td
+              if cancellation.user
+                td= cancellation.user.dateCreated.substring(0, 10)
+              else
+                td
+              td= cancellation.start.substring(0, 10)
+              td= cancellation.cancel.substring(0, 10)
+              td= moment.duration(new Date(cancellation.cancel) - new Date(cancellation.start)).humanize()
+              td= cancellation.level
+              if cancellation.user
+                td= cancellation.user.ageRange
+                td= cancellation.user.preferredLanguage
+                if cancellation.user.clans
+                  td= cancellation.user.clans.length
+                else
+                  td
+              else
+                td
+                td
+                td
                 td
 
     h2 Subscriptions
