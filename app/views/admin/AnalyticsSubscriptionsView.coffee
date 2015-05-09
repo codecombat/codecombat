@@ -28,7 +28,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     context.subscriberCancelled = _.find context.subscribers, (subscriber) -> subscriber.cancel
     context.subscriberSponsored = _.find context.subscribers, (subscriber) -> subscriber.user?.stripe?.sponsorID
     context.total = @total ? 0
-    context.cancelled = @cancelled ? 0
+    context.cancelled = @cancellations?.length ? @cancelled ? 0
     context.monthlyChurn = @monthlyChurn ? 0.0
     context.monthlyGrowth = @monthlyGrowth ? 0.0
     context

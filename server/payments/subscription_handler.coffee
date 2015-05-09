@@ -49,7 +49,6 @@ class SubscriptionHandler extends Handler
         return done(err) if err
         for event in events.data
           continue unless event.data?.object?.cancel_at_period_end is true and event.data?.previous_attributes.cancel_at_period_end is false
-          continue if event.data?.object?.discount?
           continue unless event.data?.object?.plan?.id is 'basic'
           continue unless event.data?.object?.id?
           cancellationEvents.push
