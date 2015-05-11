@@ -146,7 +146,9 @@ class SubscriptionHandler extends Handler
 
     return @sendForbiddenError(res) unless req.user?.isAdmin()
 
-    @invoices ?= [] # Keep sorted newest to oldest
+    # TODO: disabling caching to investigate sub end counts bug
+    # @invoices ?= [] # Keep sorted newest to oldest
+    @invoices = []
     newInvoices = []
 
     processInvoices = (starting_after, done) =>
@@ -176,13 +178,7 @@ class SubscriptionHandler extends Handler
     processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
       @invoices = newInvoices.concat(@invoices)
-
-      # TODO: Temporarily debugging elevated sub end counts in production over time
-      debugInvoiceCount = @invoices.length
       @invoices = _.uniq @invoices, false, 'invoiceID'
-      if debugInvoiceCount isnt @invoices.length
-        log.debug "Analytics cached @invoices had duplicates: #{debugInvoiceCount} #{@invoices.length}"
-
       subMap = {}
       for invoice in @invoices
         subID = invoice.subscriptionID

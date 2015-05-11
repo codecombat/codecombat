@@ -68,11 +68,14 @@ block content
                 if subscriber.cancel
                   span= subscriber.cancel.substring(0, 10)
               td
-                if subscriber.user.stripe.sponsorID
+                if subscriber.user.stripe && subscriber.user.stripe.sponsorID
                   span *sponsored*
                 else if subscriber.user.conversion
                   span= subscriber.user.conversion
-              td= subscriber.user.emailLower
+              if subscriber.user.deleted
+                td DELETED
+              else
+                td= subscriber.user.emailLower
               td= subscriber.hero
               td= subscriber.level
               td= subscriber.user.ageRange
