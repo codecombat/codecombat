@@ -515,54 +515,54 @@ describe 'Subscriptions', ->
       throw err if err
       done()
 
-  describe 'Personal', ->
-    it 'Subscribe user with new token', (done) ->
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        loginNewUser (user1) ->
-          subscribeUser user1, token, null, done
+  unless TRAVIS
+    describe 'Personal', ->
+      it 'Subscribe user with new token', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          loginNewUser (user1) ->
+            subscribeUser user1, token, null, done
 
-    it 'Admin subscribes self with valid prepaid', (done) ->
-      loginNewUser (user1) ->
-        user1.set('permissions', ['admin'])
-        user1.save (err, user1) ->
-          expect(err).toBeNull()
-          expect(user1.isAdmin()).toEqual(true)
-          createPrepaid 'subscription', (err, res, prepaid) ->
+      it 'Admin subscribes self with valid prepaid', (done) ->
+        loginNewUser (user1) ->
+          user1.set('permissions', ['admin'])
+          user1.save (err, user1) ->
             expect(err).toBeNull()
-            subscribeUser user1, null, prepaid.code, ->
-              Prepaid.findById prepaid._id, (err, prepaid) ->
-                expect(err).toBeNull()
-                expect(prepaid.get('status')).toEqual('used')
-                done()
-
-    it 'User subscribes, deletes themselves, subscription ends', (done) ->
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        loginNewUser (user1) ->
-          # Subscribe user
-          subscribeUser user1, token, null, ->
-            User.findById user1.id, (err, user1) ->
+            expect(user1.isAdmin()).toEqual(true)
+            createPrepaid 'subscription', (err, res, prepaid) ->
               expect(err).toBeNull()
-              customerID = user1.get('stripe').customerID
-              subscriptionID = user1.get('stripe').subscriptionID
-              stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
-                expect(err).toBeNull()
-                expect(subscription).not.toBeNull()
-                # Delete user
-                request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+              subscribeUser user1, null, prepaid.code, ->
+                Prepaid.findById prepaid._id, (err, prepaid) ->
                   expect(err).toBeNull()
-                  # Simulate Stripe subscription deleted via webhook
-                  event = _.cloneDeep(customerSubscriptionDeletedSampleEvent)
-                  event.data.object = subscription
-                  request.post {uri: webhookURL, json: event}, (err, res, body) ->
-                    expect(err).toBeNull()
-                    expect(res.statusCode).toEqual(200)
-                    done()
+                  expect(prepaid.get('status')).toEqual('used')
+                  done()
 
-    unless TRAVIS
+      it 'User subscribes, deletes themselves, subscription ends', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          loginNewUser (user1) ->
+            # Subscribe user
+            subscribeUser user1, token, null, ->
+              User.findById user1.id, (err, user1) ->
+                expect(err).toBeNull()
+                customerID = user1.get('stripe').customerID
+                subscriptionID = user1.get('stripe').subscriptionID
+                stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                  expect(err).toBeNull()
+                  expect(subscription).not.toBeNull()
+                  # Delete user
+                  request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+                    expect(err).toBeNull()
+                    # Simulate Stripe subscription deleted via webhook
+                    event = _.cloneDeep(customerSubscriptionDeletedSampleEvent)
+                    event.data.object = subscription
+                    request.post {uri: webhookURL, json: event}, (err, res, body) ->
+                      expect(err).toBeNull()
+                      expect(res.statusCode).toEqual(200)
+                      done()
+
       it 'Admin subscribes self with invalid prepaid', (done) ->
         loginNewUser (user1) ->
           user1.set('permissions', ['admin'])
@@ -710,41 +710,57 @@ describe 'Subscriptions', ->
                               expect(stripeInfo.subscriptionID).toBeUndefined()
                               done()
 
-  describe 'Sponsored', ->
-    it 'Unsubscribed user1 subscribes user2', (done) ->
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        createNewUser (user2) ->
-          loginNewUser (user1) ->
-            subscribeRecipients user1, [user2], token, (updatedUser) ->
-              verifySponsorship user1.id, user2.id, done
+  unless TRAVIS
+    describe 'Sponsored', ->
+      it 'Unsubscribed user1 subscribes user2', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          createNewUser (user2) ->
+            loginNewUser (user1) ->
+              subscribeRecipients user1, [user2], token, (updatedUser) ->
+                verifySponsorship user1.id, user2.id, done
 
-    it 'Unsubscribed user1 unsubscribes user2 and their sub ends', (done) ->
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        createNewUser (user2) ->
-          loginNewUser (user1) ->
-            subscribeRecipients user1, [user2], token, (updatedUser) ->
-              User.findById user1.id, (err, user1) ->
-                unsubscribeRecipient user1, user2, true, ->
-                  verifyNotSponsoring user1.id, user2.id, ->
-                    verifyNotRecipient user2.id, done
-
-    it 'Unsubscribed user1 immediately resubscribes user2, one token', (done) ->
-      stripe.tokens.create {
-        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-      }, (err, token) ->
-        createNewUser (user2) ->
-          loginNewUser (user1) ->
-            subscribeRecipients user1, [user2], token, (updatedUser) ->
-              User.findById user1.id, (err, user1) ->
-                unsubscribeRecipient user1, user2, false, ->
+      it 'Subscribed user1 subscribes user2, one token', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          createNewUser (user2) ->
+            loginNewUser (user1) ->
+              subscribeUser user1, token, null, (updatedUser) ->
+                User.findById user1.id, (err, user1) ->
+                  expect(err).toBeNull()
                   subscribeRecipients user1, [user2], null, (updatedUser) ->
-                    verifySponsorship user1.id, user2.id, done
+                    User.findById user1.id, (err, user1) ->
+                      expect(err).toBeNull()
+                      expect(user1.get('stripe').subscriptionID).toBeDefined()
+                      expect(user1.isPremium()).toEqual(true)
+                      verifySponsorship user1.id, user2.id, done
 
-    unless TRAVIS
+      it 'Unsubscribed user1 unsubscribes user2 and their sub ends', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          createNewUser (user2) ->
+            loginNewUser (user1) ->
+              subscribeRecipients user1, [user2], token, (updatedUser) ->
+                User.findById user1.id, (err, user1) ->
+                  unsubscribeRecipient user1, user2, true, ->
+                    verifyNotSponsoring user1.id, user2.id, ->
+                      verifyNotRecipient user2.id, done
+
+      it 'Unsubscribed user1 immediately resubscribes user2, one token', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          createNewUser (user2) ->
+            loginNewUser (user1) ->
+              subscribeRecipients user1, [user2], token, (updatedUser) ->
+                User.findById user1.id, (err, user1) ->
+                  unsubscribeRecipient user1, user2, false, ->
+                    subscribeRecipients user1, [user2], null, (updatedUser) ->
+                      verifySponsorship user1.id, user2.id, done
+
       it 'Sponsored user2 subscribes their sponsor user1', (done) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -782,22 +798,6 @@ describe 'Subscriptions', ->
                 expect(stripeInfo.subscriptionID).toBeUndefined()
                 expect(stripeInfo.recipients.length).toEqual(0)
                 done()
-
-      it 'Subscribed user1 subscribes user2, one token', (done) ->
-        stripe.tokens.create {
-          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-        }, (err, token) ->
-          createNewUser (user2) ->
-            loginNewUser (user1) ->
-              subscribeUser user1, token, null, (updatedUser) ->
-                User.findById user1.id, (err, user1) ->
-                  expect(err).toBeNull()
-                  subscribeRecipients user1, [user2], null, (updatedUser) ->
-                    User.findById user1.id, (err, user1) ->
-                      expect(err).toBeNull()
-                      expect(user1.get('stripe').subscriptionID).toBeDefined()
-                      expect(user1.isPremium()).toEqual(true)
-                      verifySponsorship user1.id, user2.id, done
 
       it 'Subscribed user1 unsubscribes user2', (done) ->
         stripe.tokens.create {

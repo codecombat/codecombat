@@ -39,6 +39,8 @@ describe '/db/user, editing stripe.couponID property', ->
   it 'sets the couponID on a user without an existing stripe object', (done) ->
     joeData.stripe = { couponID: '20pct' }
     request.put {uri: userURL, json: joeData }, (err, res, body) ->
+      expect(err).toBeNull()
+      return done() if err
       joeData = body
       expect(res.statusCode).toBe(200)
       expect(body.stripe.couponID).toBe('20pct')
