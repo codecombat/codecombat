@@ -142,14 +142,14 @@ class SubscriptionHandler extends Handler
     # TODO: does not return free subs
     # TODO: add tests
     # TODO: take date range as input
-    # TODO: are ended counts correct for today?  E.g. retries may complicate things.
 
     return @sendForbiddenError(res) unless req.user?.isAdmin()
 
-    # TODO: disabling caching to investigate sub end counts bug
-    # @invoices ?= [] # Keep sorted newest to oldest
-    @invoices = []
+    @invoices ?= {}
     newInvoices = []
+
+    oldInvoiceDate = new Date()
+    oldInvoiceDate.setUTCDate(oldInvoiceDate.getUTCDate() - 20)
 
     processInvoices = (starting_after, done) =>
       options = limit: 100
@@ -157,30 +157,27 @@ class SubscriptionHandler extends Handler
       stripe.invoices.list options, (err, invoices) =>
         return done(err) if err
         for invoice in invoices.data
-          return done() if invoice.id is @invoices[0]?.invoiceID
+          invoiceDate = new Date(invoice.date * 1000)
+          # Assume we've cached all older invoices if we find a cached one that's old enough
+          return done() if invoice.id of @invoices and invoiceDate < oldInvoiceDate
           continue unless invoice.paid
           continue unless invoice.subscription
           continue unless invoice.total > 0
           continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
-          newInvoice =
+          @invoices[invoice.id] =
             customerID: invoice.customer
-            invoiceID: invoice.id
             subscriptionID: invoice.subscription
-            date: new Date(invoice.date * 1000)
-          newInvoice.userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
-          newInvoices.push newInvoice
+            date: invoiceDate
+          @invoices[invoice.id].userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
         if invoices.has_more
-          # console.log 'Fetching more invoices', @invoices.length, newInvoices.length
           return processInvoices(invoices.data[invoices.data.length - 1].id, done)
         else
           return done()
 
     processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
-      @invoices = newInvoices.concat(@invoices)
-      @invoices = _.uniq @invoices, false, 'invoiceID'
       subMap = {}
-      for invoice in @invoices
+      for invoiceID, invoice of @invoices
         subID = invoice.subscriptionID
         if subID of subMap
           subMap[subID].first = invoice.date
