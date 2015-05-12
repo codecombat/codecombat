@@ -101,7 +101,7 @@ module.exports = class LevelHUDView extends CocoView
 
   createProperties: ->
     if @thang.id in ['Hero Placeholder', 'Hero Placeholder 1']
-      name = {knight: 'Tharin', captain: 'Anya', librarian: 'Hushbaum', sorcerer: 'Pender', 'potion-master': 'Omarn', samurai: 'Hattori', ninja: 'Amara'}[@thang.type] ? 'Hero'
+      name = {knight: 'Tharin', captain: 'Anya', librarian: 'Hushbaum', sorcerer: 'Pender', 'potion-master': 'Omarn', samurai: 'Hattori', ninja: 'Amara', raider: 'Arryn', goliath: 'Okar', guardian: 'Illia', pixie: 'Zana', assassin: 'Ritic', necromancer: 'Nalfar', 'dark-wizard': 'Usara'}[@thang.type] ? 'Hero'
     else
       name = @thang.hudName or (if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
     utils.replaceText @$el.find('.thang-name'), name
