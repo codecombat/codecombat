@@ -66,9 +66,10 @@ createMailContext = (req, done) ->
         context.email_data.content += "\n<img src='#{req.body.screenshotURL}' />"
       done context
 
-  if /Level Load Error/.test context.email_data.subject
-    message = "#{user.get('name') or user.get('email')} saw #{context.email_data.subject} <a href=\"http://direct.codecombat.com/editor/level/#{req.body.levelSlug}\">(level editor)</a>"
-    hipchat.sendHipChatMessage message, ['tower'], color: 'red'
+  # I'll try having it just send the emails instead of spamming the chat.
+  #if /Level Load Error/.test context.email_data.subject
+  #  message = "#{user.get('name') or user.get('email')} saw #{context.email_data.subject} <a href=\"http://direct.codecombat.com/editor/level/#{req.body.levelSlug}\">(level editor)</a>"
+  #  hipchat.sendHipChatMessage message, ['tower'], color: 'red'
 
 
 fetchRecentSessions = (user, context, callback) ->

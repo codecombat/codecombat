@@ -83,6 +83,7 @@ module.exports.thangNames = thangNames =
   'Ogre Witch': [
     # Female
     'Vyrryx'
+    'Yzzrith'
   ]
   'Ogre Chieftain': [
     # Female
@@ -91,6 +92,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Warlock': [
     # Male
+    'Vax'
     'Vyrryx'
   ]
   'Ogre Scout M': [
