@@ -7,6 +7,8 @@ CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
 
+reportedLoadErrorAlready = false
+
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
 
@@ -180,6 +182,8 @@ module.exports = class Angel extends CocoClass
     @fireWorker()
 
   reportLoadError: ->
+    return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
+    reportedLoadErrorAlready = true
     context = email: me.get('email')
     context.message = "Automatic Report - Unable to Load Level\nLogs:\n" + @allLogs.join('\n')
     if $.browser
@@ -187,7 +191,7 @@ module.exports = class Angel extends CocoClass
     context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
     context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
     context.levelSlug = @work?.level?.slug
-    sendContactMessage context unless me.isAdmin()
+    sendContactMessage context
 
   doWork: ->
     return if @aborting
