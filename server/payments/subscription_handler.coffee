@@ -177,7 +177,9 @@ class SubscriptionHandler extends Handler
     processInvoices null, (err) =>
       return @sendDatabaseError(res, err) if err
       subMap = {}
-      for invoiceID, invoice of @invoices
+      invoices = (invoice for invoiceID, invoice of @invoices)
+      invoices.sort (a, b) -> if a.date > b.date then -1 else 1
+      for invoice in invoices
         subID = invoice.subscriptionID
         if subID of subMap
           subMap[subID].first = invoice.date
