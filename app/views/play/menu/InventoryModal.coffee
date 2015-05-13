@@ -659,8 +659,8 @@ module.exports = class InventoryModal extends ModalView
 
 
 heroGenders =
-  male: ['knight', 'samurai', 'trapper', 'potion-master']
-  female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer']
+  male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer']
+  female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'dark-wizard']
 
 gear =
   'simple-boots': '53e237bf53457600003e3f05'
