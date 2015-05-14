@@ -344,6 +344,9 @@
     tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
     tip_open_source_contribute: "You can help CodeCombat improve!"
     tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+    
 
   game_menu:
     inventory_tab: "Inventory"
