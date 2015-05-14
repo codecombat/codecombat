@@ -74,7 +74,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     anonymous: "Anonímusz Játékos"
     level_difficulty: "Nehézség: "
     campaign_beginner: "Kezdő Kampány"
-    awaiting_levels_adventurer_prefix: "Minden héten öt új pályát teszünk elérhetővé."
+    awaiting_levels_adventurer_prefix: "Minden héten öt új pályát teszünk elérhetővé." # {change}
     awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új pályákon játszik."
     adjust_volume: "Hangerő beállítása"
@@ -261,6 +261,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
     victory_experience_gained: "Szerzett tapasztalat"
     victory_gems_gained: "Szerzett Drágakövek"
+#    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Útmutató"
@@ -404,6 +405,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     feature4: "<strong>3500 bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
     feature6: "Prémium email támogatás"
+#    feature7: "Private <strong>Clans</strong>"
     free: "Ingyenes"
     month: "hónap"
     subscribe_title: "Feliratkozás"
@@ -425,7 +427,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     parent_email_title: "Mi a szülőd email címe?"
     parents: "Szülőknek"
     parents_title: "A gyereke programozni tanul majd." # {change}
-    parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak." # {change}
+    parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak."
 #    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
     parents_blurb2: "Havonta 9,99 USD-ért, minden héten új kihívások elé állítjuk őket és személyre szóló emailes támogatást nyújtanak enkik profi programozók." # {change}
     parents_blurb3: "100%-os pénzvisszafizetés garancia: 1-kattintásossal leiratkozhat."
@@ -528,8 +530,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     volume_label: "Hangerő"
     music_label: "Zene"
     music_description: "Háttérzene ki/bekapcsolása"
-    autorun_label: "Lefuttat"
-    autorun_description: "A kód szabályozott futtatása."
     editor_config: "Szerkesztő Config"
     editor_config_title: "Szerkesztő Beállítások"
     editor_config_level_language_label: "Nyelv a szinthez"
@@ -570,7 +570,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     nick_blurb: "Motivátor"
     michael_title: "Programozó"
     michael_blurb: "Rendszer Admin"
-    matt_title: "Programozó"
+    matt_title: "Programozó" # {change}
     matt_blurb: "Bringás"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
@@ -586,16 +586,17 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     intro_1: "CodeCombat egy online játék, amelyik programozni tanít. A tanulók valódi programnyelven kódolnak."
     intro_2: "Előzetes tapasztalat nem szükséges!"
     free_title: "Mennyibe kerül?"
-    cost_china: "CodeCombat Kínában ingyenes az első 5 pályára, aztán $9.99 /hó, hogy elérhető legyen 120+ pálya az exkluzív kínai szervereken."
-    free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad."
+    cost_china: "CodeCombat Kínában ingyenes az első 5 pályára, aztán $9.99 /hó, hogy elérhető legyen 120+ pálya az exkluzív kínai szervereken." # {change}
+    free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad." # {change}
     free_2: "A havidíjas előfizetés hozzáférést biztosít az oktató videókhoz és az extra gyakoroló pályákhoz."
     teacher_subs_title: "Tanárok ingyenes előfizetést kapnak!"
     teacher_subs_1: "Lépjen kapcsolatba velünk,"
     teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést."
     sub_includes_title: "Mit tartalmaz az előfizetés?"
     sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:"
-    sub_includes_2: "50+ gyakorló pálya"
+    sub_includes_2: "50+ gyakorló pálya" # {change}
     sub_includes_3: "Oktató videók"
+#    sub_includes_7: "Private Clans"
     sub_includes_4: "Prémium támogatás emailen"
     sub_includes_5: "7 új hős egyedi képességekkel"
     sub_includes_6: "3500 bónusz drágakő minden hónapban"
@@ -603,8 +604,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     who_for_1: "A CodeCombat-ot 9 évesnél idősebb tanulóknak ajánljuk. Semmilyen programozási előismeret vagy tapasztalat nem szükséges."
     who_for_2: "Úgy terveztük meg a CodeCombat-ot, hogy fiúk és lányok számára is élvezetes legyen."
     material_title: "Mennyi anyagot tartalmaz?"
-    material_china: "Körülbelül 22 órányi játékidő a 120+ előfizetőknek járó pályákon, minden héten további 5 új pályával."
-    material_1: "Körülbelül 8 órányi ingyenes tartalom kiegészítve 14 órányi előfizetőknek járó tartalommal, minden héten további 5 új pályával."
+    material_china: "Körülbelül 22 órányi játékidő a 120+ előfizetőknek járó pályákon, minden héten további 5 új pályával." # {change}
+    material_1: "Körülbelül 8 órányi ingyenes tartalom kiegészítve 14 órányi előfizetőknek járó tartalommal, minden héten további 5 új pályával." # {change}
 #    concepts_title: "What concepts are covered?"
     how_much_title: "Mennyibe kerül a havi előfizetés?"
 #    how_much_1: "A"

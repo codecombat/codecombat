@@ -1,7 +1,7 @@
 # There's one TomeView per Level. It has:
 # - a CastButtonView, which has
 #   - a cast button
-#   - an autocast settings options button
+#   - a submit/done button
 # - for each spell (programmableMethod):
 #   - a Spell, which has
 #     - a list of Thangs that share that Spell, with one aether per Thang per Spell

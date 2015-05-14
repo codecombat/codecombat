@@ -29,6 +29,7 @@ block content
       ul
         li(data-i18n="teachers.sub_includes_2")
         li(data-i18n="teachers.sub_includes_3")
+        li(data-i18n="teachers.sub_includes_7")
         li(data-i18n="teachers.sub_includes_4")
         li(data-i18n="teachers.sub_includes_5")
         li(data-i18n="teachers.sub_includes_6")
@@ -47,6 +48,12 @@ block content
         a(href='/clans') Clans
         span.spl page.
       p After they join, you will see a summary of the student's progress on your Clan's page.
+      h4 Private Clans
+      p Private Clans provide increased privacy and detailed progress information for each student.
+      p
+        span.spr To create a private Clan, check the 'Make clan private' checkbox when creating a
+        a(href='/clans') Clan
+        span= "."
 
       h3(data-i18n="teachers.material_title")
       if me.get('chinaVersion')
@@ -107,6 +114,10 @@ block content
         span.spr.spl
           a(href='/account/subscription', data-i18n="teachers.how_much_2")
         span.spr.spl(data-i18n="teachers.how_much_3")
+      p 
+        span.spr We accept discounted one-time purchases and yearly subscription purchases for groups, such as a class or school.  Please contact
+        a(href='mailto:team@codecombat.com') team@codecombat.com
+        span.spl for more details.
       p(data-i18n="teachers.how_much_4")
       h4
         a(href='/account/subscription', data-i18n="subscribe.group_discounts")
@@ -121,6 +132,13 @@ block content
         tr
           td(data-i18n="subscribe.group_discounts_12th")
           td(data-i18n="subscribe.group_discounts_40")
+
+      h3 Where can I find more information?
+      p
+        span Our
+        span.spr.spl
+          a(href='http://discourse.codecombat.com/c/teachers') teachers forum
+        span.spr.spl is a good place to connect with fellow educators who are using CodeCombat.
 
       h3(data-i18n="teachers.sys_requirements_title")
       p(data-i18n="teachers.sys_requirements_1")

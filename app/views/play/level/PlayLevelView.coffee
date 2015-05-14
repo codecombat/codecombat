@@ -352,6 +352,7 @@ module.exports = class PlayLevelView extends RootView
       @realTimeMultiplayerContinueGame @options.realTimeMultiplayerSessionID
     # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
     application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id') unless @observing
+    $(window).trigger 'resize'
 
   playAmbientSound: ->
     return if @destroyed
@@ -454,7 +455,7 @@ module.exports = class PlayLevelView extends RootView
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
-    @openModalView new InfiniteLoopModal()
+    @openModalView new InfiniteLoopModal nonUserCodeProblem: e.nonUserCodeProblem
     application.tracker?.trackEvent 'Saw Initial Infinite Loop', category: 'Play Level', level: @level.get('name'), label: @level.get('name') unless @observing
 
   onHighlightDOM: (e) -> @highlightElement e.selector, delay: e.delay, sides: e.sides, offset: e.offset, rotation: e.rotation

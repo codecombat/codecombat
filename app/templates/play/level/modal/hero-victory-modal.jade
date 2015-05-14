@@ -47,7 +47,10 @@ block modal-body-content
             .reward-panel.item(data-item-thang-type=item.get('original'))
               .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                 img(src=item.getPortraitURL())
-              .reward-text= animate ? 'New Item' : item.get('name')
+              if animate
+                .reward-text(data-i18n="play_level.victory_new_item") New Item
+              else
+                .reward-text= i18n(item.attributes, 'name')
 
 block modal-footer-content
   #totals

@@ -5,6 +5,7 @@ sendwithus = require '../sendwithus'
 async = require 'async'
 LevelSession = require '../levels/sessions/LevelSession'
 moment = require 'moment'
+hipchat = require '../hipchat'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
@@ -64,6 +65,12 @@ createMailContext = (req, done) ->
       if req.body.screenshotURL
         context.email_data.content += "\n<img src='#{req.body.screenshotURL}' />"
       done context
+
+  # I'll try having it just send the emails instead of spamming the chat.
+  #if /Level Load Error/.test context.email_data.subject
+  #  message = "#{user.get('name') or user.get('email')} saw #{context.email_data.subject} <a href=\"http://direct.codecombat.com/editor/level/#{req.body.levelSlug}\">(level editor)</a>"
+  #  hipchat.sendHipChatMessage message, ['tower'], color: 'red'
+
 
 fetchRecentSessions = (user, context, callback) ->
   query = creator: user.get('_id') + ''

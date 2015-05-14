@@ -189,7 +189,7 @@ UserHandler = class UserHandler extends Handler
     leaderboardQuery = User.find(queryParameters.query).select('name simulatedBy simulatedFor').sort({'simulatedBy': queryParameters.sortOrder}).limit(queryParameters.limit)
     leaderboardQuery.cache() if req.query.scoreOffset is -1
     leaderboardQuery.exec (err, otherUsers) ->
-      otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+      otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1 and req.user
       otherUsers ?= []
       res.send(otherUsers)
       res.end()
@@ -541,9 +541,11 @@ UserHandler = class UserHandler extends Handler
 
   getClans: (req, res, userIDOrSlug) ->
     @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
-      return @sendNotFoundError(res) if not user
+      return @sendNotFoundError(res) unless user
       clanIDs = user.get('clans') ? []
-      Clan.find {_id: {$in: clanIDs}}, (err, documents) =>
+      query = {$and: [{_id: {$in: clanIDs}}]}
+      query['$and'].push {type: 'public'} unless req.user?.id is user.id
+      Clan.find query, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
 

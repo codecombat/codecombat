@@ -1,6 +1,7 @@
 module.exports.thangNames = thangNames =
   'Ogre Munchkin F': [
     # Female
+    'Anabel'
     'Dosha'
     'Gurzunn'
     'Hoot'
@@ -8,6 +9,7 @@ module.exports.thangNames = thangNames =
     'Iyert'
     'Lacos'
     'Palt'
+    'Paulark'
     'Pripp'
     'Shmeal'
     'Upfish'
@@ -19,9 +21,11 @@ module.exports.thangNames = thangNames =
     'Brack'
     'Dobo'
     'Draff'
+    'Eugen'
     'Gert'
     'Godel'
     'Goreball'
+    'Toremon'
     'Gort'
     'Kog'
     'Kogpole'
@@ -74,10 +78,12 @@ module.exports.thangNames = thangNames =
     'Celadia'
     'Taric'
     'Vaelia'
+    'Antary'
   ]
   'Ogre Witch': [
     # Female
     'Vyrryx'
+    'Yzzrith'
   ]
   'Ogre Chieftain': [
     # Female
@@ -86,6 +92,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Warlock': [
     # Male
+    'Vax'
     'Vyrryx'
   ]
   'Ogre Scout M': [
@@ -127,6 +134,7 @@ module.exports.thangNames = thangNames =
     # Animal
     'Kitty'
     'Shasta'
+    'Simbia'
   ]
   'Frog': [
     # Animal
@@ -143,6 +151,7 @@ module.exports.thangNames = thangNames =
     'Mr. Toad'
     'Trevor'
     'Wei Qi'
+    'Toada'
   ]
   'Horse': [
     # Animal
@@ -154,6 +163,8 @@ module.exports.thangNames = thangNames =
     'Beauty'
     'Lovelace'
     'Mirial'
+    'Miracle'
+    'Codasus'
   ]
   'Ogre M': [
     # Male
@@ -180,6 +191,7 @@ module.exports.thangNames = thangNames =
     'Trogdor'
     'Trung'
     'Vargutt'
+    'Demonik'
   ]
   'Ogre F': [
     # Female
@@ -194,6 +206,7 @@ module.exports.thangNames = thangNames =
     'Martha'
     'Morthrug'
     'Nareng'
+    'Maleda'
   ]
   'Ogre Brawler': [
     # Male
@@ -295,6 +308,7 @@ module.exports.thangNames = thangNames =
     'Talus'
     'Ulna'
     'Yorick'
+    'Boneus'
   ]
   'Ogre Headhunter': [
     # Male
@@ -321,6 +335,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Naria'
     'Sylva'
+    'Archia'
   ]
   'Raider': [
     # Female
@@ -333,10 +348,12 @@ module.exports.thangNames = thangNames =
   'Guardian': [
     # Female
     'Illia'
+    'Gaia'
   ]
   'Pixie': [
     # Female
     'Zana'
+    'Eika'
   ]
   'Assassin': [
     # Male
@@ -347,11 +364,13 @@ module.exports.thangNames = thangNames =
     'Shade'
     'Talon'
     'Zed'
+    'Sherkey'
   ]
   'Necromancer': [
     # Male
     'Morcelu'
     'Nalfar'
+    'Drezhul'
   ]
   'Dark Wizard': [
     # Female
@@ -837,6 +856,7 @@ module.exports.thangNames = thangNames =
     'Altair'
     'Arthur'
     'Bertrand'
+    'Bronn'
     'Bruce'
     'Drake'
     'Duran'
@@ -845,6 +865,7 @@ module.exports.thangNames = thangNames =
     'Hank'
     'Hunfray'
     'Jeph'
+    'Jorah'
     'Lancelot'
     'Mace'
     'Neville'

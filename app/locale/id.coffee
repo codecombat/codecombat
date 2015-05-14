@@ -15,12 +15,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
-    community: "Community"
+    community: "Komunitas"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Akun"
-    profile: "Profile"
+    profile: "Profil"
     stats: "Mulai"
     code: "Code"
     admin: "Admin" # Only shows up when you are an admin
@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    teachers: "Teachers"
 
   modal:
-    close: "Close"
+    close: "Tutup"
     okay: "Okay"
 
   not_found:
@@ -42,8 +42,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Indonesian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Indonesian."
-    missing_translations: "Until we can translate everything into Indonesian, you'll see English when Indonesian isn't available."
+    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat berbicara, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia."
+    missing_translations: "Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika Indonesia belum tersedia."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -58,12 +58,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    owned: "Owned" # For items you own
     locked: "Terkunci"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-    available: "Trsedia"
+    available: "Tersedia"
 #    skills_granted: "Skills Granted" # Property documentation details
     heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
     account: "Akun" # Tooltip on account button from /play
-    settings: "Settings" # Tooltip on settings button from /play
+    settings: "Pengaturan" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
 #    next: "Next" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
@@ -74,7 +74,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    anonymous: "Anonymous Player"
 #    level_difficulty: "Difficulty: "
 #    campaign_beginner: "Beginner Campaign"
-    awaiting_levels_adventurer_prefix: "Kami meliris lima level per minggu"
+    awaiting_levels_adventurer_prefix: "Kami meliris lima level per minggu" # {change}
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
 #    adjust_volume: "Adjust volume"
@@ -261,6 +261,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
 #    victory_experience_gained: "XP Gained"
 #    victory_gems_gained: "Gems Gained"
+#    victory_new_item: "New Item"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
 #    guide_title: "Guide"
@@ -400,10 +401,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "80+ basic levels across 4 worlds"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "50+ bonus levels"
+#    feature3: "60+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
+#    feature7: "Private <strong>Clans</strong>"
 #    free: "Free"
 #    month: "month"
 #    subscribe_title: "Subscribe"
@@ -528,8 +530,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
-#    autorun_label: "Autorun"
-#    autorun_description: "Control automatic code execution."
 #    editor_config: "Editor Config"
 #    editor_config_title: "Editor Configuration"
 #    editor_config_level_language_label: "Language for This Level"
@@ -570,7 +570,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    nick_blurb: "Motivation Guru"
 #    michael_title: "Programmer"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Programmer"
+#    matt_title: "Cofounder"
 #    matt_blurb: "Bicyclist"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
@@ -586,16 +586,17 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
-#    free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+#    free_1: "CodeCombat Basic is FREE! There are 80+ free levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "50+ practice levels"
+#    sub_includes_2: "60+ practice levels"
 #    sub_includes_3: "Video tutorials"
+#    sub_includes_7: "Private Clans"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
@@ -603,8 +604,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
-#    material_1: "Approximately 8 hours of free content and an additional 14 hours of subscriber content, with 5 new levels every week."
+#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
+#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"

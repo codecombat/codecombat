@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
   home:
     slogan: "通过游戏学习编程"
-    no_ie: "抱歉！ Internet Explorer 8 等旧式预览器无法使用本网站。" # Warning that only shows up in IE8 and older
+    no_ie: "抱歉！ Internet Explorer 8 等老式浏览器无法使用本网站。" # Warning that only shows up in IE8 and older
     no_mobile: "CodeCombat不是针对手机设备设计的，所以可能无法达到最好的体验！" # Warning that shows up on mobile devices
     play: "开始游戏" # The big play button that opens up the campaign view.
     old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!" # Warning that shows up on really old Firefox/Chrome/Safari
@@ -64,7 +64,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     achievements: "成就" # Tooltip on achievement list button from /play
     account: "账户" # Tooltip on account button from /play
     settings: "设置" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "投票" # Tooltip on poll button from /play
     next: "下一步" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     choose_inventory: "装备道具"
@@ -74,7 +74,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
-    awaiting_levels_adventurer_prefix: "我们每周开放五个关卡"
+    awaiting_levels_adventurer_prefix: "我们每周开放五个关卡" # {change}
     awaiting_levels_adventurer: "注册成为冒险家"
     awaiting_levels_adventurer_suffix: "来优先尝试新关卡"
     adjust_volume: "音量调节"
@@ -96,8 +96,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   share_progress_modal:
     blurb: "你的进度真快！快告诉其他人你从CodeCombat学到了什么！" # {change}
     email_invalid: "邮件地址不可用。"
-    form_blurb: "输入他们的邮件地址，我们会让他们知道CodeCombat的有趣"
-    form_label: "邮件地址"
+    form_blurb: "输入他们的邮件地址，让他们知道CodeCombat的有趣"
+    form_label: "您的邮件地址"
     placeholder: "邮件地址"
     title: "你做的太好了！"
 
@@ -261,8 +261,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_hour_of_code_done_yes: "是的, 完成了!"
     victory_experience_gained: "获得经验"
     victory_gems_gained: "获得宝石"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_new_item: "新的物品"
+    victory_viking_code_school: "这关真的超难! 如果你想成为一个软件开发人员，你就应该去试一下Viking Code School。在这里你可以把你的知识增长到另一个台阶。只需要14周你就能成为一个专业的网页开发人员。"
+    victory_become_a_viking: "成为一个维京人吧"
     guide_title: "指南"
     tome_minion_spells: "助手的咒语" # Only in old-style levels.
     tome_read_only_spells: "只读的咒语" # Only in old-style levels.
@@ -337,7 +338,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_adding_evil: "加入万恶的压力。"
     tip_hate_computers: "那些认为他们讨厌电脑的人，其实他们讨厌的是垃圾程序编写员。- Larry Niven"
     tip_open_source_contribute: "你可以帮助「CodeCombat」提高！"
-#    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+    tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -404,6 +405,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
     feature6: "专业邮件支援"
+    feature7: "私人 <strong>氏族</strong>"
     free: "免费"
     month: "月"
     subscribe_title: "订阅"
@@ -425,19 +427,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parent_email_title: "什么是你父母的邮件地址？"
     parents: "致家长"
     parents_title: "您的孩子将要学习编写程序。" # {change}
-    parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。" # {change}
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb1: "通过使用CodeCombat，您的孩子将学习编写真正的程序代码。他们将学到简单指令，进而处理更复杂的问题。"
+    parents_blurb1a: "不用怀疑计算机编程能力将是你的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。你知道吗，计算机科学是收入最高的大学学位？"
     parents_blurb2: "每月支付9.9美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。" # {change}
     parents_blurb3: "无风险承诺：100%退款，一键退款。"
-#    payment_methods: "Payment Methods"
-#    payment_methods_title: "Accepted Payment Methods"
-#    payment_methods_blurb1: "We currently accept credit cards and Alipay."
-#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+    payment_methods: "付费方式"
+    payment_methods_title: "可接受的付款方式"
+    payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝"
+    payment_methods_blurb2: "如果你想用其他付费方式,请联系我们"
     stripe_description: "每月订阅"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
-#    personal_sub: "Personal Subscription" # Accounts Subscription View below
-#    loading_info: "Loading subscription information..."
+    personal_sub: "个人订阅" # Accounts Subscription View below
+    loading_info: "正在读入订阅内容..."
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
 #    currently_free: "You currently have a free subscription"
@@ -491,7 +493,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     skills: "技能"
 #    attack_1: "Deals"
 #    attack_2: "of listed"
-#    attack_3: "weapon damage."
+    attack_3: "武器攻击力."
 #    health_1: "Gains"
 #    health_2: "of listed"
 #    health_3: "armor health."
@@ -528,8 +530,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     volume_label: "音量"
     music_label: "音乐"
     music_description: "开/关背景音乐"
-    autorun_label: "自动运行"
-    autorun_description: "控制是否自动运行代码"
     editor_config: "编辑器配置"
     editor_config_title: "编辑器配置"
     editor_config_level_language_label: "本关卡编程语言"
@@ -570,13 +570,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     nick_blurb: "充满动力的大牛"
     michael_title: "程序员"
     michael_blurb: "系统管理员"
-    matt_title: "程序员"
+    matt_title: "程序员" # {change}
     matt_blurb: "自行车爱好者"
-#    cat_title: "Chief Artisan"
+    cat_title: "首席关卡设计师"
 #    cat_blurb: "Airbender"
-#    josh_title: "Game Designer"
-#    josh_blurb: "Floor Is Lava"
-#    jose_title: "Music"
+    josh_title: "游戏设计师"
+    josh_blurb: "地面是熔岩"
+    jose_title: "音乐"
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
@@ -586,16 +586,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
-#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 per month for access to our other 120+ levels on our exclusive China servers."
-#    free_1: "CodeCombat Basic is FREE! There are 70+ free levels which cover every concept."
+#    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
+#    free_1: "CodeCombat Basic is FREE! There are 80+ free levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
 #    teacher_subs_1: "Please contact"
 #    teacher_subs_2: "to set up a free monthly subscription."
 #    sub_includes_title: "What is included in the subscription?"
 #    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "50+ practice levels"
+#    sub_includes_2: "60+ practice levels"
 #    sub_includes_3: "Video tutorials"
+#    sub_includes_7: "Private Clans"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
@@ -603,8 +604,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 22 hours of gameplay spread over 120+ subscriber-only levels so far, with 5 new levels every week."
-#    material_1: "Approximately 8 hours of free content and an additional 14 hours of subscriber content, with 5 new levels every week."
+#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
+#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
@@ -946,7 +947,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     fight: "战斗！"
     watch_victory: "观看你的胜利"
     defeat_the: "击败了"
-#    tournament_started: ", started"
+    tournament_started: "，锦标赛已开始"
     tournament_ends: "锦标赛结束"
     tournament_ended: "Tournament ended"
     tournament_rules: "锦标赛规则"

@@ -13,19 +13,18 @@ UserHandler = require '../users/user_handler'
 ClanHandler = class ClanHandler extends Handler
   modelClass: Clan
   jsonSchema: require '../../app/schemas/models/clan.schema'
-  allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  allowedMethods: ['GET', 'POST', 'PUT', 'DELETE']
 
   hasAccess: (req) ->
-    return true if req.method in ['GET']
-    return true if req.user? and not req.user.isAnonymous()
-    false
+    return true if req.method is 'GET'
+    return false if req.method is 'POST' and req.body?.type is 'private' and not req.user?.isPremium()
+    req.method in @allowedMethods or req.user?.isAdmin()
 
   hasAccessToDocument: (req, document, method=null) ->
     return false unless document?
-    method = (method or req.method).toLowerCase()
     return true if req.user?.isAdmin()
-    return true if method is 'get'
-    return true if document.get('ownerID')?.equals req.user._id
+    return true if (method or req.method).toLowerCase() is 'get'
+    return true if document.get('ownerID')?.equals req.user?._id
     false
 
   makeNewInstance: (req) ->
@@ -33,6 +32,7 @@ ClanHandler = class ClanHandler extends Handler
     instance = super(req)
     instance.set 'ownerID', req.user._id
     instance.set 'members', [req.user._id]
+    instance.set 'dashboardType', 'premium' if req.body?.type is 'private'
     instance
 
   delete: (req, res, clanID) ->
@@ -64,12 +64,17 @@ ClanHandler = class ClanHandler extends Handler
       clanID = mongoose.Types.ObjectId(clanID)
     catch err
       return @sendNotFoundError(res, err)
-    Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
+    Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
+      return @sendNotFoundError(res) unless clan
+      return @sendDatabaseError(res, err) unless clanType = clan.get('type')
+      return @sendForbiddenError(res) unless clanType is 'public' or req.user.isPremium()
+      Clan.update {_id: clanID}, {$addToSet: {members: req.user._id}}, (err) =>
         return @sendDatabaseError(res, err) if err
-        @sendSuccess(res)
-        AnalyticsLogEvent.logEvent req.user, 'Clan joined', clanID: clanID, type: 'public'
+        User.update {_id: req.user._id}, {$addToSet: {clans: clanID}}, (err) =>
+          return @sendDatabaseError(res, err) if err
+          @sendSuccess(res)
+          AnalyticsLogEvent.logEvent req.user, 'Clan joined', clanID: clanID, type: clanType
 
   leaveClan: (req, res, clanID) ->
     return @sendForbiddenError(res) unless req.user? and not req.user.isAnonymous()
@@ -79,7 +84,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       return @sendForbiddenError(res) if clan.get('ownerID')?.equals req.user._id
       Clan.update {_id: clanID}, {$pull: {members: req.user._id}}, (err) =>
         return @sendDatabaseError(res, err) if err
@@ -90,36 +95,51 @@ ClanHandler = class ClanHandler extends Handler
 
   getMemberAchievements: (req, res, clanID) ->
     # TODO: add tests
+    memberLimit = 200
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
-      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString()
-      EarnedAchievement.find {user: {$in: memberIDs}}, (err, documents) =>
-        return @sendDatabaseError(res, err) if err?
-        cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
-        @sendSuccess(res, cleandocs)
+      return @sendNotFoundError(res) unless clan
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      User.find {_id: {$in: memberIDs}}, 'nameLower', {sort: {nameLower: 1}}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        memberIDs = []
+        for user in users
+          memberIDs.push user.id
+          break unless memberIDs.length < memberLimit
+        EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
+          return @sendDatabaseError(res, err) if err?
+          cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
+          @sendSuccess(res, cleandocs)
 
   getMembers: (req, res, clanID) ->
     # TODO: add tests
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       memberIDs = clan.get('members') ? []
-      User.find {_id: {$in: memberIDs}}, (err, users) =>
+      User.find {_id: {$in: memberIDs}}, 'name nameLower points', {sort: {nameLower: 1}}, (err, users) =>
         return @sendDatabaseError(res, err) if err
         cleandocs = (UserHandler.formatEntity(req, doc) for doc in users)
         @sendSuccess(res, cleandocs)
 
   getMemberSessions: (req, res, clanID) ->
     # TODO: add tests
+    # TODO: restrict information returned based on clan type
+    memberLimit = 200
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
-      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString()
-      LevelSession.find {creator: {$in: memberIDs}}, 'creatorName levelName codeLanguage submittedCodeLanguage', (err, documents) =>
-        return @sendDatabaseError(res, err) if err?
-        cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-        @sendSuccess(res, cleandocs)
+      return @sendNotFoundError(res) unless clan
+      memberIDs = _.map clan.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+      User.find {_id: {$in: memberIDs}}, 'name', {sort: {name: 1}}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        memberIDs = []
+        for user in users
+          memberIDs.push user.id
+          break unless memberIDs.length < memberLimit
+        LevelSession.find {creator: {$in: memberIDs}}, 'changed codeLanguage creator creatorName levelID levelName playtime state submittedCodeLanguage', (err, documents) =>
+          return @sendDatabaseError(res, err) if err?
+          cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+          @sendSuccess(res, cleandocs)
 
   getPublicClans: (req, res) ->
     # Return 100 public clans, sorted by member count, created date
@@ -140,7 +160,7 @@ ClanHandler = class ClanHandler extends Handler
       return @sendNotFoundError(res, err)
     Clan.findById clanID, (err, clan) =>
       return @sendDatabaseError(res, err) if err
-      return @sendDatabaseError(res, err) unless clan
+      return @sendNotFoundError(res) unless clan
       return @sendForbiddenError res unless @hasAccessToDocument(req, clan)
       return @sendForbiddenError(res) if clan.get('ownerID').equals memberID
       Clan.update {_id: clanID}, {$pull: {members: memberID}}, (err) =>

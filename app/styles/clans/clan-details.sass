@@ -1,5 +1,8 @@
 #clan-details-view
 
+  th
+    font-size: 16px
+
   .join-clan-link
     width: 390px
 
@@ -7,13 +10,112 @@
     font-weight: bold
 
   .stats-table
-    width: 240px
+    width: 400px
     background: rgba(0, 0, 0, 0.0)
+
+  #editDescriptionModal .modal-dialog
+    background-color: white
+
+  #editNameModal .modal-dialog
+    background-color: white
+    max-width: 400px
+
+  .edit-description-input
+    width: 100%
+
+  .edit-name-input
+    width: 100%
 
   $spriteSheetSize: 30px
 
-  td.hero-icon-cell
+  .remove-hero-cell
+    width: 100px
+
+  .hero-icon-cell
+    display: inline-block
     width: 30px
+    height: 50px
+    margin: 0px 2px
+    vertical-align: middle
+
+  .level-cell
+    width: 50px
+    text-align: center
+    vertical-align: middle
+
+  .name-cell
+    width: 100px
+    vertical-align: middle
+
+  .achievements-cell
+    text-align: center
+    vertical-align: middle
+
+  .latest-achievement-cell
+    vertical-align: middle
+
+
+  .progress-header
+    margin-right: 14px
+
+  .progress-key
+    cursor: default
+    display: inline-block
+    white-space: nowrap
+    font-size: 9pt
+    font-weight: normal
+    border: 1px solid gray
+    border-radius: 5px
+    margin: 0px
+    padding: 2px
+
+  .progress-key-started
+    background-color: lightgreen
+
+  .progress-key-complete
+    background-color: lightgray
+
+  .expand-progress-checkbox
+    margin-left: 14px
+
+  .expand-progress-label
+    font-weight: normal
+    font-size: 14px
+
+  .progress-cell
+    padding: 2px
+    padding-bottom: 10px
+
+    .level-popup-container
+      display: none
+      position: absolute
+      padding: 10px
+      border: 1px solid black
+      z-index: 3
+      background-color: blanchedalmond
+      font-size: 10pt
+
+  .level-progression-campaign
+    font-size: 12pt
+    font-weight: bold
+    margin-top: 4px
+
+  .progress-level-cell
+    display: inline-block
+    white-space: nowrap
+    font-size: 9pt
+    border: 1px solid gray
+    border-radius: 5px
+    margin: 0px
+    padding: 2px
+
+  .progress-level-cell-started
+    cursor: pointer
+    background-color: lightgreen
+
+  .progress-level-cell-complete
+    cursor: pointer
+    background-color: lightgray
 
   .player-hero-icon
     background: transparent url(/images/pages/play/play-spritesheet.png)
@@ -23,6 +125,7 @@
     width: 30px
     height: 30px
     margin: 0px 2px
+    vertical-align: middle
 
   .player-hero-icon
     background-position: (-4 * $spriteSheetSize) 0

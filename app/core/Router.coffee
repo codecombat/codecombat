@@ -92,6 +92,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/campaign/:handle': go('i18n/I18NEditCampaignView')
     'i18n/poll/:handle': go('i18n/I18NEditPollView')
 
+    'identify': go('user/IdentifyView')
+
     'legal': go('LegalView')
 
     'multiplayer': go('MultiplayerView')

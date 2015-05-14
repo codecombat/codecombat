@@ -209,13 +209,14 @@ UserSchema.methods.register = (done) ->
       @set 'name', uniqueName
       done()
   else done()
-  data =
-    email_id: sendwithus.templates.welcome_email
-    recipient:
-      address: @get 'email'
-  sendwithus.api.send data, (err, result) ->
-    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-  delighted.addDelightedUser @
+  if @isEmailSubscriptionEnabled 'generalNews'
+    data =
+      email_id: sendwithus.templates.welcome_email
+      recipient:
+        address: @get 'email'
+    sendwithus.api.send data, (err, result) ->
+      log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+    delighted.addDelightedUser @
   @saveActiveUser 'register'
 
 UserSchema.methods.isPremium = ->

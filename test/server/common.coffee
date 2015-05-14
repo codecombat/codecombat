@@ -7,8 +7,10 @@ require 'jasmine-spec-reporter'
 jasmine.getEnv().defaultTimeoutInterval = 300000
 jasmine.getEnv().reporter.subReporters_ = []
 jasmine.getEnv().addReporter(new jasmine.SpecReporter({
-  displaySuccessfulSpec: true,
   displayFailedSpec: true
+  displayPendingSpec: true
+  displaySpecDuration: true
+  displaySuccessfulSpec: true
   }))
 
 rep = new jasmine.JsApiReporter()

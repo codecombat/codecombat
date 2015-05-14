@@ -5,6 +5,9 @@
 World = require 'lib/world/world'
 CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
+{sendContactMessage} = require 'core/contact'
+
+reportedLoadErrorAlready = false
 
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
@@ -16,6 +19,7 @@ module.exports = class Angel extends CocoClass
   subscriptions:
     'level:flag-updated': 'onFlagEvent'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
+    'level:escape-pressed': 'onEscapePressed'
 
   constructor: (@shared) ->
     super()
@@ -29,6 +33,7 @@ module.exports = class Angel extends CocoClass
       @abortTimeoutDuration *= 10
     @initialized = false
     @running = false
+    @allLogs = []
     @hireWorker()
     @shared.angels.push @
 
@@ -43,11 +48,12 @@ module.exports = class Angel extends CocoClass
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
   log: ->
-    # console.info.apply is undefined in IE9, CofeeScript splats invocation won't work.
+    # console.info.apply is undefined in IE9, CoffeeScript splats invocation won't work.
     # http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
     message = "|#{@shared.godNick}'s #{@nick}|"
     message += " #{arg}" for arg in arguments
     console.info message
+    @allLogs.push message
 
   testWorker: =>
     return if @destroyed
@@ -85,7 +91,7 @@ module.exports = class Angel extends CocoClass
       when 'non-user-code-problem'
         Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
         if @shared.firstWorld
-          @infinitelyLooped()  # For now, this should do roughly the right thing if it happens during load.
+          @infinitelyLooped(false, true)  # For now, this should do roughly the right thing if it happens during load.
         else
           @fireWorker()
 
@@ -165,13 +171,27 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'finalizePreload'
     @work.preload = false
 
-  infinitelyLooped: =>
+  infinitelyLooped: (escaped=false, nonUserCodeProblem=false) =>
     @say 'On infinitely looped! Aborting?', @aborting
     return if @aborting
     problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
+    problem.message = 'Escape pressed; code aborted.' if escaped
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
-    Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld
+    Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem
+    @reportLoadError() if nonUserCodeProblem
     @fireWorker()
+
+  reportLoadError: ->
+    return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
+    reportedLoadErrorAlready = true
+    context = email: me.get('email')
+    context.message = "Automatic Report - Unable to Load Level\nLogs:\n" + @allLogs.join('\n')
+    if $.browser
+      context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
+    context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
+    context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
+    context.levelSlug = @work?.level?.slug
+    sendContactMessage context
 
   doWork: ->
     return if @aborting
@@ -239,7 +259,13 @@ module.exports = class Angel extends CocoClass
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime
     @work.realTime = false
+    @lastRealTimeWork = new Date()
     @worker.postMessage func: 'stopRealTimePlayback'
+
+  onEscapePressed: (e) ->
+    return unless @running and not @work.realTime
+    return if (new Date() - @lastRealTimeWork) < 1000  # Fires right after onStopRealTimePlayback
+    @infinitelyLooped true
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>

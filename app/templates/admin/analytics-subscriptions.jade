@@ -24,7 +24,7 @@ block content
             div.description 30 Day Total Growth
             div.count #{monthlyGrowth.toFixed(1)}%
           .col-md-5.big-stat.churn-count
-            div.description Monthly Churn
+            div.description Monthly Churn (cancelled / total)
             div.count #{monthlyChurn.toFixed(1)}%
 
       each graph in analytics.graphs
@@ -36,48 +36,102 @@ block content
                 each value in point.values
                   div #{value}
 
-      div *Stripe APIs do not return information about inactive subs.
-
     h2 Recent Subscribers
     if !subscribers || subscribers.length < 1
       h4 Fetching recent subscribers...
     else
-      table.table.table-condensed
-        thead
+      table.table.table-striped.table-condensed
+        thead.subscribers-thead
           tr
+            th Sub ID
             th User Start
             th Sub Start
             if subscriberCancelled
               th Cancelled
             else
               th
-            th
-            //- th Name
+            th Conversion
             th Email
             th Hero
             th Level
-            th Last Level
             th Age
             th Spoken
-        tbody
+            th Clans
+        tbody.subscribers-tbody
           each subscriber in subscribers
             tr
+              td
+                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
               td= subscriber.user.dateCreated.substring(0, 10)
               td= subscriber.start.substring(0, 10)
               td
                 if subscriber.cancel
                   span= subscriber.cancel.substring(0, 10)
               td
-                if subscriber.user.stripe.sponsorID
-                  span Sponsored
-              //- td
-              //-   a(href="/user/#{subscriber.user._id}")= subscriber.user.name || 'Anoner'
-              td= subscriber.user.emailLower
+                if subscriber.user.stripe && subscriber.user.stripe.sponsorID
+                  span *sponsored*
+                else if subscriber.user.conversion
+                  span= subscriber.user.conversion
+              if subscriber.user.deleted
+                td DELETED
+              else
+                td= subscriber.user.emailLower
               td= subscriber.hero
               td= subscriber.level
-              td= subscriber.user.lastLevel
               td= subscriber.user.ageRange
               td= subscriber.user.preferredLanguage
+              if subscriber.user.clans
+                td= subscriber.user.clans.length
+              else
+                td
+
+    h2 Recent Cancellations
+    if !cancellations || cancellations.length < 1
+      h4 Fetching recent cancellations...
+    else
+      table.table.table-striped.table-condensed
+        thead.subscribers-thead
+          tr
+            th Sub ID
+            th User ID
+            th User Start
+            th Sub Start
+            th Sub Cancel
+            th Length
+            th Level
+            th Age
+            th Spoken
+            th Clans
+        tbody.subscribers-tbody
+          each cancellation in cancellations
+            tr
+              td
+                a(href="https://dashboard.stripe.com/customers/#{cancellation.customerID}", target="_blank")= cancellation.subscriptionID
+              if cancellation.userID
+                td
+                  a(href="/user/#{cancellation.userID}")= cancellation.userID
+              else
+                td
+              if cancellation.user
+                td= cancellation.user.dateCreated.substring(0, 10)
+              else
+                td
+              td= cancellation.start.substring(0, 10)
+              td= cancellation.cancel.substring(0, 10)
+              td= moment.duration(new Date(cancellation.cancel) - new Date(cancellation.start)).humanize()
+              td= cancellation.level
+              if cancellation.user
+                td= cancellation.user.ageRange
+                td= cancellation.user.preferredLanguage
+                if cancellation.user.clans
+                  td= cancellation.user.clans.length
+                else
+                  td
+              else
+                td
+                td
+                td
+                td
 
     h2 Subscriptions
     if !subs || subs.length < 1
@@ -90,8 +144,9 @@ block content
             th Total
             th Started
             th Cancelled
-            th Net
+            th Net (cancelled)
             th Ended
+            th Net (ended)
         tbody
           each sub in subs
             tr
@@ -101,3 +156,4 @@ block content
               td= sub.cancelled
               td= sub.started - sub.cancelled
               td= sub.ended
+              td= sub.started - sub.ended

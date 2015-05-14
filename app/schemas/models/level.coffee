@@ -77,7 +77,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   optional: {title: 'Optional', description: 'Optional goals do not need to be completed for overallStatus to be success.', type: 'boolean'}
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: 'Kill Thangs', description: 'A list of Thang IDs the player should kill, or team names.', uniqueItems: true, minItems: 1, 'default': ['ogres']}, thang
-  saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
+  saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['Hero Placeholder']}, thang
   getToLocations: c.object {title: 'Get To Locations', description: 'Will be set off when any of the \"who\" touch any of the \"targets\"', required: ['who', 'targets']},
     who: c.array {title: 'Who', description: 'The Thangs who must get to the target locations.', minItems: 1}, thang
     targets: c.array {title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1}, thang
@@ -261,7 +261,7 @@ LevelSchema = c.object {
     type: 'hero'
     goals: [
       {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
-      {id: 'humans-survive', name: 'Humans must survive.', saveThangs: ['humans'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
+      {id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
     ]
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property

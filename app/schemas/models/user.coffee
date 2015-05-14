@@ -63,10 +63,10 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
 
-  wizardColor1: c.pct({title: 'Wizard Clothes Color'})
+  wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
-  autocastDelay: { type: 'integer' }
+  autocastDelay: { type: 'integer' }  # No longer used
   lastLevel: { type: 'string' }
   heroConfig: c.HeroConfigSchema
 
