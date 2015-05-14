@@ -187,7 +187,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       color: 'red'
       strokeWidth: 1
     lineMetadata[netSubsID] =
-      description: '7-day Average Net Subscriptions (started - ended)'
+      description: '7-day Average Net Subscriptions (started - cancelled)'
       color: 'black'
       strokeWidth: 4
 
