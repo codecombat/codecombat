@@ -274,7 +274,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tome_submit_button: "Enviar"
     tome_reload_method: "Recarregar o código original para este método" # Title text for individual method reload button.
     tome_select_method: "Selecione um Método"
-    tome_see_all_methods: "Visualizar todos os métodos que você pode editar" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Visualizar todos os métodos que você pode editar" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "Suas habilidades"
@@ -291,6 +291,11 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     time_current: "Agora:"
     time_total: "Máximo:"
     time_goto: "Ir para:"
+#    non_user_code_problem_title: "Unable to Load Level"
+#    infinite_loop_title: "Infinite Loop Detected"
+#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+#    check_dev_console: "You can also open the developer console to see what might be going wrong."
+#    check_dev_console_link: "(instructions)"
     infinite_loop_try_again: "Tentar novamente"
     infinite_loop_reset_level: "Resetar nível"
     infinite_loop_comment_out: "Comentar Meu Código"
@@ -339,6 +344,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_hate_computers: "As pessoas realmente pensam porque odeiam computadores. O que eles realmente odeiam são programadores ruins. - Larry Niven"
     tip_open_source_contribute: "Você pode ajudar CodeCombat a melhorar!"
     tip_recurse: "Para iterar é humano, para recursão, é divino. - L. Peter Deutsch"
+#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -447,6 +454,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
 #    group_discounts: "Group discounts"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
@@ -596,10 +604,10 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "60+ practice levels"
 #    sub_includes_3: "Video tutorials"
-#    sub_includes_7: "Private Clans"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
+#    sub_includes_7: "Private Clans"
 #    who_for_title: "Who is CodeCombat for?"
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."

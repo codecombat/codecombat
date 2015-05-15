@@ -274,7 +274,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_submit_button: "Lämna in"
     tome_reload_method: "Ladda om den ursprungliga koden för den här metoden" # Title text for individual method reload button.
     tome_select_method: "Välj en metod"
-    tome_see_all_methods: "Se alla metoder som du kan editera" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Se alla metoder som du kan editera" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Välj någon för "
     tome_available_spells: "Tillgängliga förmågor"
     tome_your_skills: "Dina färdigheter"
@@ -291,6 +291,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     time_current: "Nu:"
     time_total: "Max:"
     time_goto: "Gå till:"
+#    non_user_code_problem_title: "Unable to Load Level"
+#    infinite_loop_title: "Infinite Loop Detected"
+#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+#    check_dev_console: "You can also open the developer console to see what might be going wrong."
+#    check_dev_console_link: "(instructions)"
     infinite_loop_try_again: "Försök igen"
     infinite_loop_reset_level: "Återställ Nivå"
 #    infinite_loop_comment_out: "Comment Out My Code"
@@ -339,6 +344,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tip_hate_computers: "Det är det som är grejen med folk som tror att de hatar datorer. Det de egentligen hatar är dåliga programmerare. - Larry Niven"
     tip_open_source_contribute: "Du kan få CodeCombat att bli ännu bättre!"
     tip_recurse: "Iteration är mänskligt, rekursion är gudomligt. - L. Peter Deutsch"
+#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Utrustning"
@@ -447,6 +454,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
 #    group_discounts: "Group discounts"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
@@ -596,10 +604,10 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
 #    sub_includes_2: "60+ practice levels"
 #    sub_includes_3: "Video tutorials"
-#    sub_includes_7: "Private Clans"
 #    sub_includes_4: "Premium email support"
 #    sub_includes_5: "7 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
+#    sub_includes_7: "Private Clans"
 #    who_for_title: "Who is CodeCombat for?"
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
