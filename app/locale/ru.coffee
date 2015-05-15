@@ -344,6 +344,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_hate_computers: "Есть одна вещь в людях, которые думают, что они ненавидят компьютеры. Что они на самом деле ненавидят, так это плохих программистов. - Larry Niven"
     tip_open_source_contribute: "Вы можете помочь сделать CodeCombat лучше!"
     tip_recurse: "Итерация свойственна человеку, рекурсия божественна. - L. Peter Deutsch"
+#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Инвентарь"

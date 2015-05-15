@@ -274,7 +274,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tome_submit_button: "Odoslať"
     tome_reload_method: "Znovu načítať pôvodný kód pre túto metódu" # Title text for individual method reload button.
     tome_select_method: "Vybrať metódu"
-    tome_see_all_methods: "Vybrať všetky metódy, ktoré môžu byť upravené" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Vybrať všetky metódy, ktoré môžu byť upravené" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Zvoľte niekoho pre "
     tome_available_spells: "Dostupné kúzla"
     tome_your_skills: "Tvoje schopnosti"
@@ -291,6 +291,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     time_current: "Teraz:"
     time_total: "Max:"
     time_goto: "Choď na:"
+#    non_user_code_problem_title: "Unable to Load Level"
+#    infinite_loop_title: "Infinite Loop Detected"
+#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+#    check_dev_console: "You can also open the developer console to see what might be going wrong."
+#    check_dev_console_link: "(instructions)"
     infinite_loop_try_again: "Skús znova"
     infinite_loop_reset_level: "Reštartuj level"
     infinite_loop_comment_out: "Zakomentovať môj kód"
@@ -339,6 +344,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_hate_computers: "Ľudia, ktorí si myslia, že nenávidia počítače, v skutočnosti nenávidia mizerných programátorov. - Larry Niven"
     tip_open_source_contribute: "Aj ty môžeš zlepšiť CodeCombat !"
     tip_recurse: "Iterácia je ľudská, rekurzia božská.. - L. Peter Deutsch"
+#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Inventár"
@@ -447,6 +454,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
 #    group_discounts: "Group discounts"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
@@ -596,10 +604,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sub_includes_1: "Študenti s mesačným predplatným získajú ku 70+ základným úrovniam  aj :" # {change}
     sub_includes_2: "40+ tréningových úrovní" # {change}
     sub_includes_3: "Video návody"
-#    sub_includes_7: "Private Clans"
     sub_includes_4: "Prémiovú emailovú podporu"
     sub_includes_5: "7 nových hrdinov s jedinečnými schopnosťami"
     sub_includes_6: "3500 bonusových diamantov každý mesiac"
+#    sub_includes_7: "Private Clans"
     who_for_title: "Pre koho je určený CodeComabt ?"
     who_for_1: "CodeCombat odporúčame pre žiakov od 9 rokov. Nie sú nutné žiadne predchádzajúce skúsenosti s programovaním."
     who_for_2: "CodeCombat sme navrhli tak, aby oslovil chlapcov aj dievčatá."
@@ -1162,7 +1170,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
 #    nutshell_title: "In a Nutshell"
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
-#    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
+#    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
 
 #  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.

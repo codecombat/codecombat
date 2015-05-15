@@ -274,7 +274,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_submit_button: "Beküldés"
     tome_reload_method: "Eredeti Eljárás újratöltése" # Title text for individual method reload button.
     tome_select_method: "Válassz Eljárást"
-    tome_see_all_methods: "Nézd meg az összes szerkeszthető Eljárást" # Title text for method list selector (shown when there are multiple programmable methdos).
+    tome_see_all_methods: "Nézd meg az összes szerkeszthető Eljárást" # Title text for method list selector (shown when there are multiple programmable methods).
     tome_select_a_thang: "Válassz egy dolgot "
     tome_available_spells: "Elérhető varázslatok"
     tome_your_skills: "Képességeid"
@@ -291,6 +291,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     time_current: "Most:"
     time_total: "Maximum:"
     time_goto: "Menj"
+#    non_user_code_problem_title: "Unable to Load Level"
+#    infinite_loop_title: "Infinite Loop Detected"
+#    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
+#    check_dev_console: "You can also open the developer console to see what might be going wrong."
+#    check_dev_console_link: "(instructions)"
     infinite_loop_try_again: "Próbáld meg újra!"
     infinite_loop_reset_level: "Pálya újrakezdés"
     infinite_loop_comment_out: "Tegye a kódom kommentárba"
@@ -339,6 +344,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
+#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Raktár"
@@ -447,6 +454,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    was_free_until: "You had a free subscription until"
 #    managed_subs: "Managed Subscriptions"
 #    managed_subs_desc: "Add subscriptions for other players (students, children, etc.)"
+#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
 #    group_discounts: "Group discounts"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
 #    group_discounts_1st: "1st subscription"
@@ -596,10 +604,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:"
     sub_includes_2: "50+ gyakorló pálya" # {change}
     sub_includes_3: "Oktató videók"
-#    sub_includes_7: "Private Clans"
     sub_includes_4: "Prémium támogatás emailen"
     sub_includes_5: "7 új hős egyedi képességekkel"
     sub_includes_6: "3500 bónusz drágakő minden hónapban"
+#    sub_includes_7: "Private Clans"
     who_for_title: "Kinek való a CodeCombat?"
     who_for_1: "A CodeCombat-ot 9 évesnél idősebb tanulóknak ajánljuk. Semmilyen programozási előismeret vagy tapasztalat nem szükséges."
     who_for_2: "Úgy terveztük meg a CodeCombat-ot, hogy fiúk és lányok számára is élvezetes legyen."
@@ -1162,7 +1170,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
 #    nutshell_title: "In a Nutshell"
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
-#    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
+#    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
 
 #  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
