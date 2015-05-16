@@ -291,11 +291,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
-#    non_user_code_problem_title: "Unable to Load Level"
-#    infinite_loop_title: "Infinite Loop Detected"
+    non_user_code_problem_title: "不能读入关卡"
+    infinite_loop_title: "有无限循环"
 #    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
-#    check_dev_console: "You can also open the developer console to see what might be going wrong."
-#    check_dev_console_link: "(instructions)"
+    check_dev_console: "你也可以打开开发者界面看一下有什么可能出错了。"
+    check_dev_console_link: "(说明)"
     infinite_loop_try_again: "请重试"
     infinite_loop_reset_level: "重置等级"
     infinite_loop_comment_out: "为我的代码添加注释"
@@ -345,7 +345,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_open_source_contribute: "你可以帮助「CodeCombat」提高！"
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+    tip_strong_opponents: "即使是最强大的对手也是有弱点的. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -504,9 +504,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     attack_3: "武器攻击力."
 #    health_1: "Gains"
 #    health_2: "of listed"
-#    health_3: "armor health."
+    health_3: "装备血量."
 #    speed_1: "Moves at"
-#    speed_2: "meters per second."
+    speed_2: "米每秒."
     available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
     level_to_unlock: "未解锁关卡：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "只有特定的英雄可以进入本关。"
@@ -581,7 +581,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     matt_title: "程序员" # {change}
     matt_blurb: "自行车爱好者"
     cat_title: "首席关卡设计师"
-#    cat_blurb: "Airbender"
+    cat_blurb: "气宗"
     josh_title: "游戏设计师"
     josh_blurb: "地面是熔岩"
     jose_title: "音乐"
@@ -591,9 +591,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   teachers:
     title: "CodeCombat给教师的说明" # {change}
-#    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
-#    intro_2: "No experience required!"
-#    free_title: "How much does it cost?"
+    intro_1: "CodeCombat 是一个教编程的网上游戏。学生会用编程语言写代码。"
+    intro_2: "无需经验!"
+    free_title: "要多少钱?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
 #    free_1: "CodeCombat Basic is FREE! There are 80+ free levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
