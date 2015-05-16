@@ -9,7 +9,7 @@ block content
           span &times;
         h3.modal-title(data-i18n="clans.edit_clan_name") Edit Clan Name
       .modal-body
-        input.edit-name-input(type='text' value="#{clan.get('name')}")
+        input.edit-name-input(type='text', value="#{clan.get('name')}")
       .modal-footer
         button.btn(data-dismiss='modal', data-i18n="modal.close") Close
         button.btn.edit-name-save-btn(data-i18n="common.save_changes") Save changes
@@ -74,7 +74,9 @@ block content
     .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
 
   if members
-    h3 Members (#{members.length})
+    h3
+      span.spr(data-i18n="clans.members") Members
+      span (#{members.length})
 
     //- Premium dashboard
     if clan.get('dashboardType') === 'premium'
@@ -83,12 +85,12 @@ block content
           tr
             th(data-i18n="resources.hero") Hero
             th
-              span.progress-header Progress
-              span.progress-key not started
-              span.progress-key.progress-key-started started
-              span.progress-key.progress-key-complete complete
+              span.progress-header(data-i18n="clans.progress") Progress
+              span.progress-key(data-i18n="clans.not_started") not started
+              span.progress-key.progress-key-started(data-i18n="clans.started") started
+              span.progress-key.progress-key-complete(data-i18n="clans.complete") complete
               input.expand-progress-checkbox(type='checkbox')
-              span.spl.expand-progress-label Expand levels
+              span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
         tbody
           each member in members
             tr
@@ -103,7 +105,7 @@ block content
                 a(href="/user/#{member.id}")= member.get('name') || 'Anoner'
               div Level #{member.level()}
               if isOwner && member.id !== clan.get('ownerID')
-                button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
+                button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero
             td.progress-cell
 
               each campaign in campaignLevelProgressions
@@ -124,11 +126,18 @@ block content
                         .level-popup-container
                           h3 #{i}. #{levelInfo.level}
                           p
-                            div Status: Complete
-                            div Playtime: #{levelInfo.playtime}s
-                            div Last played: #{levelInfo.changed}
+                            div
+                              span(data-i18n="choose_hero.status") Status
+                              span.spr :
+                              span(data-i18n="clans.complete") Complete
+                            div
+                              span(data-i18n="clans.playtime") Playtime
+                              span : #{levelInfo.playtime}s
+                            div
+                              span(data-i18n="clans.last_played") Last played
+                              span : #{levelInfo.changed}
                           if isOwner || me.isAdmin()
-                            strong Click to view solution.
+                            strong(data-i18n="clans.view_solution") Click to view solution.
                     else if state === 'started'
                       span.progress-level-cell.progress-level-cell-started(data-level-info=levelInfo) #{i}
                         if showExpandedProgress || i === 1 || i === lastUserCampaignLevelMap[member.id][campaign.ID].index + 1
@@ -136,18 +145,28 @@ block content
                         .level-popup-container
                           h3 #{i}. #{level.name}
                           p
-                            div Status: Started
-                            div Playtime: #{levelInfo.playtime}s
-                            div Last played: #{levelInfo.changed}
+                            div
+                              span(data-i18n="choose_hero.status") Status
+                              span.spr :
+                              span(data-i18n="clans.started") Started
+                            div
+                              span(data-i18n="clans.playtime") Playtime
+                              span : #{levelInfo.playtime}s
+                            div
+                              span(data-i18n="clans.last_played") Last played
+                              span : #{levelInfo.changed}
                           if isOwner || me.isAdmin()
-                            strong Click to view solution.
+                            strong(data-i18n="clans.view_solution") Click to view solution.
                     else
                       span.progress-level-cell.level-progression-level-not-started #{i}
                         if showExpandedProgress || i === 1 || i === lastUserCampaignLevelMap[member.id][campaign.ID].index + 1
                           span.spl #{level.name}
                         .level-popup-container
                           h3 #{i}. #{level.name}
-                          div Status: Not Started
+                          div
+                            span(data-i18n="choose_hero.status") Status
+                              span.spr :
+                              span(data-i18n="clans.not_started") Not Started
                     if lastUserCampaignLevelMap[member.id][campaign.ID].levelSlug === level.slug
                       - break
 
@@ -158,10 +177,10 @@ block content
           tr
             th
             th 
-            td.name-cell Name
-            th.level-cell Level
-            th.achievements-cell Achievements
-            th.latest-achievement-cell Latest Achievement
+            td.name-cell(data-i18n="clans.name") Name
+            th.level-cell(data-i18n="resources.level") Level
+            th.achievements-cell(data-i18n="play.achievements") Achievements
+            th.latest-achievement-cell(data-i18n="clans.latest_achievement") Latest Achievement
             th  
         tbody
           each member in members
@@ -182,4 +201,4 @@ block content
                   span= memberAchievementsMap[member.id][0].get('achievementName')
               td
                 if isOwner && member.id !== clan.get('ownerID')
-                    button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}") Remove Hero
+                    button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero
