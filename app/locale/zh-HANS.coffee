@@ -504,7 +504,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     attack_3: "武器攻击力."
 #    health_1: "Gains"
 #    health_2: "of listed"
-    health_3: "装甲血量."
+    health_3: "装备血量."
 #    speed_1: "Moves at"
     speed_2: "米每秒."
     available_for_purchase: "可以购买" # Shows up when you have unlocked, but not purchased, a hero in the hero store
