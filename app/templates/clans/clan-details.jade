@@ -86,9 +86,9 @@ block content
             th(data-i18n="resources.hero") Hero
             th
               span.progress-header(data-i18n="clans.progress") Progress
-              span.progress-key(data-i18n="clans.not_started") not started
-              span.progress-key.progress-key-started(data-i18n="clans.started") started
-              span.progress-key.progress-key-complete(data-i18n="clans.complete") complete
+              span.progress-key(data-i18n="clans.not_started_1") not started
+              span.progress-key.progress-key-started(data-i18n="clans.started_1") started
+              span.progress-key.progress-key-complete(data-i18n="clans.complete_1") complete
               input.expand-progress-checkbox(type='checkbox')
               span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
         tbody
@@ -129,7 +129,7 @@ block content
                             div
                               span(data-i18n="choose_hero.status") Status
                               span.spr :
-                              span(data-i18n="clans.complete") Complete
+                              span(data-i18n="clans.complete_2") Complete
                             div
                               span(data-i18n="clans.playtime") Playtime
                               span : #{levelInfo.playtime}s
@@ -148,7 +148,7 @@ block content
                             div
                               span(data-i18n="choose_hero.status") Status
                               span.spr :
-                              span(data-i18n="clans.started") Started
+                              span(data-i18n="clans.started_2") Started
                             div
                               span(data-i18n="clans.playtime") Playtime
                               span : #{levelInfo.playtime}s
@@ -166,7 +166,7 @@ block content
                           div
                             span(data-i18n="choose_hero.status") Status
                               span.spr :
-                              span(data-i18n="clans.not_started") Not Started
+                              span(data-i18n="clans.not_started_2") Not Started
                     if lastUserCampaignLevelMap[member.id][campaign.ID].levelSlug === level.slug
                       - break
 
