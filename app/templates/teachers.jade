@@ -18,7 +18,7 @@ block content
         p(data-i18n="teachers.free_2")
 
       h3.teachers-title(data-i18n="teachers.teacher_subs_title")
-      p 
+      p
         span(data-i18n="teachers.teacher_subs_1")
         span.spr.spl
           a(href='mailto:team@codecombat.com?subject=Free%20Teacher%20Subscription') team@codecombat.com
@@ -29,31 +29,31 @@ block content
       ul
         li(data-i18n="teachers.sub_includes_2")
         li(data-i18n="teachers.sub_includes_3")
-        li(data-i18n="teachers.sub_includes_7")
         li(data-i18n="teachers.sub_includes_4")
         li(data-i18n="teachers.sub_includes_5")
         li(data-i18n="teachers.sub_includes_6")
+        li(data-i18n="teachers.sub_includes_7")
 
       h3(data-i18n="teachers.who_for_title")
       p(data-i18n="teachers.who_for_1")
       p(data-i18n="teachers.who_for_2")
 
-      h3 How do I monitor student progress?
-      p 
-        span.spr Student progress can be monitored by creating a
-        a(href='/clans') Clan
-        span.spl for your class.
-      p 
-        span.spr To add a student, send them the invite link for your Clan, which is on the
-        a(href='/clans') Clans
-        span.spl page.
-      p After they join, you will see a summary of the student's progress on your Clan's page.
-      h4 Private Clans
-      p Private Clans provide increased privacy and detailed progress information for each student.
+      h3(data-i18n="teachers.monitor_progress_title")
       p
-        span.spr To create a private Clan, check the 'Make clan private' checkbox when creating a
-        a(href='/clans') Clan
-        span= "."
+        span.spr(data-i18n="teachers.monitor_progress_1")
+        a(href='/clans', data-i18n="clans.clan")
+        span.spl(data-i18n="teachers.monitor_progress_2")
+      p
+        span.spr(data-i18n="teachers.monitor_progress_3")
+        a(href='/clans', data-i18n="clans.clans")
+        span.spl(data-i18n="teachers.monitor_progress_4")
+      p(data-i18n="teachers.monitor_progress_5")
+      h4(data-i18n="teachers.sub_includes_7") Private Clans
+      p(data-i18n="teachers.private_clans_1")
+      p
+        span.spr(data-i18n="teachers.private_clans_2")
+        a(href='/clans', data-i18n="clans.clan") Clan
+        span(data-i18n="teachers.private_clans_3")
 
       h3(data-i18n="teachers.material_title")
       if me.get('chinaVersion')
@@ -115,9 +115,9 @@ block content
           a(href='/account/subscription', data-i18n="teachers.how_much_2")
         span.spr.spl(data-i18n="teachers.how_much_3")
       p 
-        span.spr We accept discounted one-time purchases and yearly subscription purchases for groups, such as a class or school.  Please contact
+        span.spr(data-i18n="teachers.how_much_5")
         a(href='mailto:team@codecombat.com') team@codecombat.com
-        span.spl for more details.
+        span.spl(data-i18n="teachers.how_much_6")
       p(data-i18n="teachers.how_much_4")
       h4
         a(href='/account/subscription', data-i18n="subscribe.group_discounts")
@@ -133,12 +133,12 @@ block content
           td(data-i18n="subscribe.group_discounts_12th")
           td(data-i18n="subscribe.group_discounts_40")
 
-      h3 Where can I find more information?
+      h3(data-i18n="teachers.more_info_title")
       p
-        span Our
+        span(data-i18n="teachers.more_info_1")
         span.spr.spl
-          a(href='http://discourse.codecombat.com/c/teachers') teachers forum
-        span.spr.spl is a good place to connect with fellow educators who are using CodeCombat.
+          a(href='http://discourse.codecombat.com/c/teachers', data-i18n="teachers.more_info_2")
+        span.spr.spl(data-i18n="teachers.more_info_3")
 
       h3(data-i18n="teachers.sys_requirements_title")
       p(data-i18n="teachers.sys_requirements_1")

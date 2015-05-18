@@ -90,7 +90,8 @@ PatchHandler = class PatchHandler extends Handler
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"
     @sendPatchCreatedHipChatMessage creator: req.user, patch: doc, target: doc.targetLoaded, docLink: docLink
     watchers = doc.targetLoaded.get('watchers') or []
-    watchers = (w for w in watchers when not w.equals(req.user.get('_id')))
+    # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
+    watchers = (w for w in watchers when not w.equals(req.user.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001'])
     return unless watchers?.length
     User.find({_id: {$in: watchers}}).select({email: 1, name: 1}).exec (err, watchers) =>
       for watcher in watchers

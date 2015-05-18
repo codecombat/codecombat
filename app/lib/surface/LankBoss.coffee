@@ -276,6 +276,8 @@ module.exports = class LankBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
+    # Clear obstacle cache for this level, since we are spawning walls dynamically
+    @cachedObstacles = false if e.finished and /kithgard-mastery/.test window.location.href
 
   play: ->
     lank.play() for lank in @lankArray
