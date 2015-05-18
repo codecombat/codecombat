@@ -405,7 +405,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x3500 / mo"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "80+ basic levels across 4 worlds"
 #    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
