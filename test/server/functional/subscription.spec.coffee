@@ -284,7 +284,7 @@ describe 'Subscriptions', ->
       expect(user).not.toBeNull()
       sponsorStripe = user.get('stripe')
       sponsorCustomerID = sponsorStripe.customerID
-      numSponsored = sponsorStripe.recipients.length
+      numSponsored = sponsorStripe.recipients?.length
       expect(sponsorCustomerID).toBeDefined()
       expect(sponsorStripe.sponsorSubscriptionID).toBeDefined()
       expect(sponsorStripe.token).toBeUndefined()
@@ -368,6 +368,7 @@ describe 'Subscriptions', ->
     requestBody.stripe.prepaidCode = prepaidCode if prepaidCode?
     request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, body) ->
       expect(err).toBeNull()
+      return done() if err
       expect(res.statusCode).toBe(200)
       expect(body.stripe.customerID).toBeDefined()
       expect(body.stripe.planID).toBe('basic')
@@ -412,6 +413,7 @@ describe 'Subscriptions', ->
     requestBody.stripe.token = token.id if token?
     request.put {uri: userURL, json: requestBody, headers: headers }, (err, res, body) ->
       expect(err).toBeNull()
+      return done() if err
       expect(res.statusCode).toBe(200)
       expect(body.stripe.customerID).toBeDefined()
       updatedUser = body

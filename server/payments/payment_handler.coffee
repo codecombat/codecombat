@@ -337,6 +337,7 @@ PaymentHandler = class PaymentHandler extends Handler
         [payments, charges] = results
         recordedChargeIDs = (p.get('stripe').chargeID for p in payments)
         for charge in charges
+          continue unless charge.paid
           continue if charge.invoice # filter out subscription charges
           if charge.id not in recordedChargeIDs
             return @recordStripeCharge(req, res, charge)
