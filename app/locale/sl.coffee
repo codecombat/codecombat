@@ -101,8 +101,8 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    placeholder: "email address"
 #    title: "Excellent Work, Apprentice"
 
-#  login:
-#    sign_up: "Ustvari račun"
+  login:
+    sign_up: "Ustvari račun"
 #    log_in: "Log In"
 #    logging_in: "Logging In"
 #    log_out: "Log Out"
