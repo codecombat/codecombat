@@ -900,7 +900,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   polls:
     priority: "Priorità"
-    
+
   contribute:
     page_title: "Contribuire"
 #    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
@@ -981,7 +981,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    games_simulated: "Games simulated"
 #    games_played: "Games played"
 #    ratio: "Ratio"
-     leaderboard: "Classifica"
+    leaderboard: "Classifica"
 #    battle_as: "Battle as "
     summary_your: "Le tue "
     summary_matches: "Partite - "
