@@ -36,16 +36,16 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    close: "Close"
 #    okay: "Okay"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "Stran ne obstaja"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+    title: "Pomagajte prevesti CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Potrebujemo vaše znanje jezikov."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Slovene but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Slovene."
     missing_translations: "Until we can translate everything into Slovene, you'll see English when Slovene isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    learn_more: "Več o tem kako postati Diplomat"
+    subscribe_as_diplomat: "Naročite se kot Diplomat"
 
 #  play:
 #    play_as: "Play As" # Ladder page
@@ -101,8 +101,8 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    placeholder: "email address"
 #    title: "Excellent Work, Apprentice"
 
-#  login:
-#    sign_up: "Create Account"
+  login:
+    sign_up: "Ustvari račun"
 #    log_in: "Log In"
 #    logging_in: "Logging In"
 #    log_out: "Log Out"
@@ -137,28 +137,28 @@ module.exports = nativeDescription: "slovenščina", englishDescription: "Sloven
 #    books: "Books"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
-#    send: "Send"
-#    cancel: "Cancel"
-#    save: "Save"
-#    publish: "Publish"
-#    create: "Create"
-#    manual: "Manual"
-#    fork: "Fork"
-#    play: "Play" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
-#    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
-#    submit_changes: "Submit Changes"
-#    save_changes: "Save Changes"
+    back: "Nazaj" # When used as an action verb, like "Navigate backward"
+    continue: "Nadaljuj" # When used as an action verb, like "Continue forward"
+    loading: "Nalaganje ..."
+    saving: "Shranjevanje ..."
+    sending: "Pošiljanje ..."
+    send: "Pošlji"
+    cancel: "Prekliči"
+    save: "Shrani"
+    publish: "Objavi"
+    create: "Ustvari"
+    manual: "Priročnik"
+    fork: "Razveji"
+    play: "Poženi" # When used as an action verb, like "Play next level"
+    retry: "Ponovni poskus"
+    actions: "Dejanja"
+    info: "Info"
+    help: "Pomoč"
+    watch: "Opazuj"
+    unwatch: "Nehaj opazovati"
+    submit_patch: "Pošlji popravek"
+    submit_changes: "Pošlji spremembe"
+    save_changes: "Shrani spremembe"
 
 #  general:
 #    and: "and"
