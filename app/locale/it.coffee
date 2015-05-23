@@ -973,7 +973,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     please_login: "Per favore accedi prima di giocare una partita classificata."
     my_matches: "Le mie partite"
     simulate: "Simula"
-    simulation_explanation: "Simulando le partite, la tua partita potrà classificata più velocemente!"
+    simulation_explanation: "Simulando le partite, la tua partita potrà essere classificata più velocemente!"
     simulate_games: "Simula partite!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
     games_simulated_by: "Partite simulate da te:"
