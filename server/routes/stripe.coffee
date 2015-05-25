@@ -161,7 +161,10 @@ module.exports.setup = (app) ->
           _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
           options =
             quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
-          console.log 'Updating sponsored subscription', stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, 'from stripeInfo', stripeInfo, 'and subscription', subscription, 'for user', recipient.id, 'with sponsor', sponsor.id
+          unless stripeInfo.sponsorSubscriptionID
+            # TODO: fix #2786 error for a particular customer which doesn't have this
+            console.error "Couldn't find sponsorSubscriptionID from stripeInfo", stripeInfo, 'for customer', stripeInfo.customerID, 'with options', options, 'and subscription', subscription, 'for user', recipient.id, 'with sponsor', sponsor.id
+            return res.send(500, '')
           stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
             if err
               logStripeWebhookError(err)
