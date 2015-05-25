@@ -40,7 +40,7 @@ deaths = [
   'Went to heaven prematurely.'
   'Teleported out of the dungeon and fell to its death.'
   'Panic.'
-  'Killed by a minotuar, while dressing up.'
+  'Killed by a minotaur, while dressing up.'
   'Petrified by trying to help a cockatrice out of a pit.'
   'Killed by a luckstone.'
   'Killed by a panther, while taking off clothes.'
