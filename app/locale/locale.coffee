@@ -48,6 +48,7 @@ module.exports =
   'ja': { nativeDescription: '日本語', englishDescription: 'Japanese' }
   'nb': { nativeDescription: 'Norsk Bokmål', englishDescription: 'Norwegian (Bokmål)' }
   'nn': { nativeDescription: 'Norsk Nynorsk', englishDescription: 'Norwegian (Nynorsk)' }
+  'uz': { nativeDescription: "O'zbekcha", englishDescription: 'Uzbek' }
   'pl': { nativeDescription: 'język polski', englishDescription: 'Polish' }
   'pt-PT': { nativeDescription: 'Português (Portugal)', englishDescription: 'Portuguese (Portugal)' }
   'pt-BR': { nativeDescription: 'português do Brasil', englishDescription: 'Portuguese (Brazil)' }
