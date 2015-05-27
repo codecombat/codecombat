@@ -1178,7 +1178,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    multiplayer_coming_soon: "More multiplayer features to come!"
 #    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
-#  legal:
+  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is completely open source."
 #    opensource_description_prefix: "Check out "
@@ -1233,7 +1233,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
 
-#  ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
