@@ -164,7 +164,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     and: "と"
     name: "名前"
     date: "日付"
-    body: "Body"
+    body: "体"
     version: "バージョン"
     pending: "ペンディング"
     accepted: "容認された"
