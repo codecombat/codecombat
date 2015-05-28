@@ -109,7 +109,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     forgot_password: "Glömt ditt lösenord?"
     authenticate_gplus: "Autentisera G+"
     load_profile: "Ladda G+ Profil"
-    finishing: "Färdigställer""
+    finishing: "Färdigställer"
     sign_in_with_facebook: "Logga in med Facebook"
     sign_in_with_gplus: "Logga in med G+"
     signup_switch: "Vill du skapa ett konto?"
