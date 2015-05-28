@@ -291,6 +291,7 @@ describe 'Subscriptions', ->
       expect(numSponsored).toBeGreaterThan(0)
 
       # Verify Stripe sponsor subscription data
+      return done() unless sponsorCustomerID and sponsorStripe.sponsorSubscriptionID
       stripe.customers.retrieveSubscription sponsorCustomerID, sponsorStripe.sponsorSubscriptionID, (err, subscription) ->
         expect(err).toBeNull()
         expect(subscription.plan.amount).toEqual(1)
@@ -328,6 +329,7 @@ describe 'Subscriptions', ->
           expect(recipientInfo.couponID).toEqual('free')
 
           # Verify Stripe recipient subscription data
+          return done() unless sponsorCustomerID and recipientInfo.subscriptionID
           stripe.customers.retrieveSubscription sponsorCustomerID, recipientInfo.subscriptionID, (err, subscription) ->
             expect(err).toBeNull()
             expect(subscription.plan.amount).toEqual(subPrice)
@@ -445,6 +447,8 @@ describe 'Subscriptions', ->
     # console.log 'unsubscribeRecipient', sponsor.id, recipient.id
     stripeInfo = sponsor.get('stripe')
     customerID = stripeInfo.customerID
+    expect(stripeInfo.recipients).toBeDefined()
+    return done() unless stripeInfo.recipients
     for r in stripeInfo.recipients
       if r.userID is recipient.id
         subscriptionID = r.subscriptionID
@@ -738,6 +742,38 @@ describe 'Subscriptions', ->
                       expect(user1.get('stripe').subscriptionID).toBeDefined()
                       expect(user1.isPremium()).toEqual(true)
                       verifySponsorship user1.id, user2.id, done
+
+      it 'Clean up sponsorships upon sub cancel after setup sponsor sub fails', (done) ->
+        stripe.tokens.create {
+          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+        }, (err, token) ->
+          createNewUser (user2) ->
+            loginNewUser (user1) ->
+              subscribeUser user1, token, null, (updatedUser) ->
+                User.findById user1.id, (err, user1) ->
+                  expect(err).toBeNull()
+                  subscribeRecipients user1, [user2], null, (updatedUser) ->
+
+                    # Delete user1 sponsorSubscriptionID to simulate failed sponsor sub
+                    User.findById user1.id, (err, user1) ->
+                      expect(err).toBeNull()
+                      stripeInfo = _.cloneDeep(user1.get('stripe') ? {})
+                      delete stripeInfo.sponsorSubscriptionID
+                      user1.set 'stripe', stripeInfo
+                      user1.save (err, user1) ->
+                        expect(err).toBeNull()
+
+                        User.findById user1.id, (err, user1) ->
+                          unsubscribeRecipient user1, user2, true, ->
+                            User.findById user1.id, (err, user1) ->
+                              expect(err).toBeNull()
+                              expect(user1.get('stripe').subscriptionID).toBeDefined()
+                              expect(user1.get('stripe').recipients).toBeUndefined()
+                              expect(user1.isPremium()).toEqual(true)
+                              User.findById user2.id, (err, user2) ->
+                                verifyNotSponsoring user1.id, user2.id, ->
+                                  verifyNotRecipient user2.id, done
+
 
       it 'Unsubscribed user1 unsubscribes user2 and their sub ends', (done) ->
         stripe.tokens.create {

@@ -141,6 +141,15 @@ module.exports.setup = (app) ->
     checkRecipientSubscription = (done) ->
       return done() unless subscription.plan.id is 'basic'
       return done() unless subscription.metadata?.id # Shouldn't be possible
+
+      deleteUserStripeProp = (user, propName) ->
+        stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+        delete stripeInfo[propName]
+        if _.isEmpty stripeInfo
+          user.set 'stripe', undefined
+        else
+          user.set 'stripe', stripeInfo
+
       User.findById subscription.metadata.id, (err, recipient) =>
         if err
           logStripeWebhookError(err)
@@ -158,33 +167,55 @@ module.exports.setup = (app) ->
 
           # Update sponsor subscription
           stripeInfo = _.cloneDeep(sponsor.get('stripe') ? {})
-          _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
-          options =
-            quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
-          unless stripeInfo.sponsorSubscriptionID
-            # TODO: fix #2786 error for a particular customer which doesn't have this
-            console.error "Couldn't find sponsorSubscriptionID from stripeInfo", stripeInfo, 'for customer', stripeInfo.customerID, 'with options', options, 'and subscription', subscription, 'for user', recipient.id, 'with sponsor', sponsor.id
-            return res.send(500, '')
-          stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
-            if err
-              logStripeWebhookError(err)
-              return res.send(500, '')
+          stripeInfo.recipients ?= []
 
-            # Update sponsor user
-            sponsor.set 'stripe', stripeInfo
-            sponsor.save (err) =>
+          if stripeInfo.sponsorSubscriptionID
+            _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
+            options =
+              quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
+            stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
               if err
                 logStripeWebhookError(err)
                 return res.send(500, '')
 
-              # Update recipient user
-              stripeInfo = recipient.get('stripe')
-              delete stripeInfo.sponsorID
-              if _.isEmpty stripeInfo
-                recipient.set 'stripe', undefined
-              else
-                recipient.set 'stripe', stripeInfo
-              recipient.save (err) =>
+              # Update sponsor user
+              sponsor.set 'stripe', stripeInfo
+              sponsor.save (err) =>
+                if err
+                  logStripeWebhookError(err)
+                  return res.send(500, '')
+
+                # Update recipient user
+                deleteUserStripeProp recipient, 'sponsorID'
+                recipient.save (err) =>
+                  if err
+                    logStripeWebhookError(err)
+                    return res.send(500, '')
+                  return res.send(200, '')
+          else
+            # Remove sponsorships from sponsor and recipients
+            console.error "Couldn't find sponsorSubscriptionID from stripeInfo", stripeInfo, 'for customer', stripeInfo.customerID, 'with options', options, 'and subscription', subscription, 'for user', recipient.id, 'with sponsor', sponsor.id
+
+            # Update recipients
+            createUpdateFn = (recipientID) ->
+              (callback) ->
+                User.findById recipientID, (err, recipient) =>
+                  if err
+                    logStripeWebhookError(err)
+                    return callback(err)
+
+                  deleteUserStripeProp recipient, 'sponsorID'
+                  recipient.save (err) =>
+                    logStripeWebhookError(err) if err
+                    callback(err)
+            async.parallel (createUpdateFn(recipient.userID) for recipient in stripeInfo.recipients), (err, results) =>
+              if err
+                logStripeWebhookError(err)
+                return res.send(500, '')
+
+              # Update sponsor
+              deleteUserStripeProp sponsor, 'recipients'
+              sponsor.save (err) =>
                 if err
                   logStripeWebhookError(err)
                   return res.send(500, '')
