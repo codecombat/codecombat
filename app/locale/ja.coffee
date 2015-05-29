@@ -158,7 +158,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     unwatch: "見ない"
     submit_patch: "パッチを送信"
     submit_changes: "変更を送信"
-#    save_changes: "Save Changes"
+    save_changes: "変更を保存"
 
   general:
     and: "と"
