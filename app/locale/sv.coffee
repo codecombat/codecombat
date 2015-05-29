@@ -627,7 +627,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     concepts_title: "Vilka koncept täcks?"
     how_much_title: "Hur mycket kostar en månadsprenumeration?"
     how_much_1: "En"
-    how_much_2: "månadsprenumeration""
+    how_much_2: "månadsprenumeration"
     how_much_3: "kostar $9.99 och kan avbrytas när som helst."
     how_much_4: "Dessutom ger vi rabatt till större grupper:"
     how_much_5: "Vi gör engångsköp med avdrag och årliga prenumerationer för grupper, som en klass eller skola. Kontakta"
