@@ -301,7 +301,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     infinite_loop_reset_level: "Pálya újrakezdés"
     infinite_loop_comment_out: "Tegye a kódom kommentárba"
     tip_toggle_play: "Játék/Szünet kapcsoló Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ és Ctrl+] visszatekerés és gyors-előre."
+    tip_scrub_shortcut: "Ctrl+[ és Ctrl+] visszatekerés és gyors-előre." # {change}
     tip_guide_exists: "Hasznos információkért kattints az oldal tetején az útmutatóra.."
     tip_open_source: "A CodeCombat 100%-osan nyitott forráskódú."
     tip_beta_launch: "CodeCombat Béta teszt 2013 Októberétől elérhető."

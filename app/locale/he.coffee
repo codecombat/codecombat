@@ -301,7 +301,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     infinite_loop_reset_level: "התחל שלב מחדש"
     infinite_loop_comment_out: ".הפוך את הקוד שלי להערה"
     tip_toggle_play: "Ctrl+P הדלק הפעל/השהה בעזרת"
-    tip_scrub_shortcut: "Ctrl+[ ו Ctrl+] האץ אחורה וקדימה באמצעות"
+    tip_scrub_shortcut: "Ctrl+[ ו Ctrl+] האץ אחורה וקדימה באמצעות" # {change}
     tip_guide_exists: ".לחץ על המדריך, בתוך תפריט המשחק (למעלה בקצה העמוד), למידע שימושי"
     tip_open_source: "!הוא 100% קוד פתוח CodeCombat"
     tip_beta_launch: ".הפיץ את גרסת הבטא באוקטובר, 2013 CodeCombat"

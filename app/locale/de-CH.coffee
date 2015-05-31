@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     infinite_loop_reset_level: "Level zrugsetze"
     infinite_loop_comment_out: "Min Code uskommentiere"
     tip_toggle_play: "Play/Pausiert mit Ctrl+P ischalte."
-#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
     tip_guide_exists: "Klick ufs Handbuech im obere Teil vo de Siite zum nützlichi Infos becho."
     tip_open_source: "CodeCombat isch 100% Open Source!"
     tip_beta_launch: "D CodeCombat Beta isch im Oktober 2013 online gange."

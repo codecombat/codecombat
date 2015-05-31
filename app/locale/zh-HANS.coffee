@@ -301,7 +301,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     infinite_loop_reset_level: "重置等级"
     infinite_loop_comment_out: "为我的代码添加注释"
     tip_toggle_play: "用 Ctrl+P 来暂停或继续"
-    tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。"
+    tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。" # {change}
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」是100%开源的！"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"

@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     infinite_loop_reset_level: "Återställ Nivå"
 #    infinite_loop_comment_out: "Comment Out My Code"
     tip_toggle_play: "Spela/pausa med Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+] och Ctrl+[ spolar framåt och bakåt."
+    tip_scrub_shortcut: "Ctrl+] och Ctrl+[ spolar framåt och bakåt." # {change}
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat är 100% öppen källkod!"
     tip_beta_launch: "CodeCombat startade sin beta i oktober 2013."

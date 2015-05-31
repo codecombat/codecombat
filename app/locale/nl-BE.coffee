@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     infinite_loop_reset_level: "Level resetten"
     infinite_loop_comment_out: "Mijn code weg commentariëren"
     tip_toggle_play: "Verwissel speel/pauze met Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ en Ctrl+] om terug te spoelen en vooruit te spoelen."
+    tip_scrub_shortcut: "Ctrl+[ en Ctrl+] om terug te spoelen en vooruit te spoelen." # {change}
     tip_guide_exists: "Klik op de handleiding bovenaan het scherm voor nuttige informatie."
     tip_open_source: "CodeCombat is 100% open source!"
     tip_beta_launch: "CodeCombat lanceerde zijn beta versie in Oktober, 2013."
