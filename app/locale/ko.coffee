@@ -301,7 +301,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     infinite_loop_reset_level: "레벨 리셋"
     infinite_loop_comment_out: "내 코드를 일시적 주석처리하기"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
-#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
     tip_guide_exists: "화면 상단의 가이드를 클릭해보세요. 유용한 정보를 얻을 수 있습니다."
     tip_open_source: "코드 컴뱃은 100% 오픈 소스 기반입니다!"
     tip_beta_launch: "코드 컴뱃은 2013년 10월에 베타 서비스를 출시했습니다."

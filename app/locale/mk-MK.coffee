@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     infinite_loop_reset_level: "Ресетирај ниво"
     infinite_loop_comment_out: "Искоментирај го мојот код"
     tip_toggle_play: "Пушти/Паузирај со Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ и Ctrl+] премотуваат назад и напред."
+    tip_scrub_shortcut: "Ctrl+[ и Ctrl+] премотуваат назад и напред." # {change}
     tip_guide_exists: "Кликни на водичот, во менито (на врвот на страната), за корисни информации."
     tip_open_source: "CodeCombat е 100% open source!"
     tip_beta_launch: "CodeCombat ја пушти својата бета верзија во октомври, 2013."

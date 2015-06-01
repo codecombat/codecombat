@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     infinite_loop_reset_level: "Почати рівень спочатку"
     infinite_loop_comment_out: "Прокоментуй мій код"
     tip_toggle_play: "Перемикай між грою та паузою командою Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ і Ctrl+] для перемотування та швидкого перемотування вперед."
+    tip_scrub_shortcut: "Ctrl+[ і Ctrl+] для перемотування та швидкого перемотування вперед." # {change}
     tip_guide_exists: "Натисніть на Інструкцію вгорі сторінки, аби отримати корисну інформацію."
     tip_open_source: "CodeCombat є абсолютно відкритим програмним забезпеченням!"
     tip_beta_launch: "Бета-версія CodeCombat вийшла в жовтні 2013."

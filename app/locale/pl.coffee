@@ -301,7 +301,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     infinite_loop_reset_level: "Resetuj poziom"
     infinite_loop_comment_out: "Comment Out My Code"
     tip_toggle_play: "Włącz/zatrzymaj grę naciskając Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ i Ctrl+] przesuwają czas."
+    tip_scrub_shortcut: "Ctrl+[ i Ctrl+] przesuwają czas." # {change}
     tip_guide_exists: "Klikając Przewodnik u góry strony uzyskasz przydatne informacje."
     tip_open_source: "CodeCombat ma w 100% otwarty kod!"
     tip_beta_launch: "CodeCombat uruchomił fazę beta w październiku 2013."

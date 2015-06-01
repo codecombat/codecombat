@@ -301,7 +301,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     infinite_loop_reset_level: "レベルをリセット"
     infinite_loop_comment_out: "マイコードをコメントアウト"
     tip_toggle_play: "Ctrl+Pで、プレイ／ポーズをトグルする"
-    tip_scrub_shortcut: "Ctrl+[ と Ctrl+] で巻き戻し、早送りする"
+    tip_scrub_shortcut: "Ctrl+[ と Ctrl+] で巻き戻し、早送りする" # {change}
     tip_guide_exists: "ゲームメニュー内のガイド（ページの上部）をクリックし、便利な情報 を見よう。"
     tip_open_source: "CodeCombatは、100％オープンソースです！"
     tip_beta_launch: "CodeCombatは、2013年10月にベータ版を開始しました。"

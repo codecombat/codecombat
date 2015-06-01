@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     infinite_loop_reset_level: "Tilbakestill Brett"
     infinite_loop_comment_out: "Kommenter ut koden min"
     tip_toggle_play: "Ctrl+P er play/pause"
-    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] spoler bakover og fremover på tidslinjen."
+    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] spoler bakover og fremover på tidslinjen." # {change}
     tip_guide_exists: "Sjekk Guiden i spillmenyen på toppen av siden for nyttig informasjon."
     tip_open_source: "CodeCombat er 100% åpen kildekode!"
     tip_beta_launch: "CodeCombat ble lansert i betautgave i oktober 2013."

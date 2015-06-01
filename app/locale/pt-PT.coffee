@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     infinite_loop_reset_level: "Reiniciar Nível"
     infinite_loop_comment_out: "Comentar o Meu Código"
     tip_toggle_play: "Alterna entre Jogar e Pausar com Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ rebobina e Ctrl+] avança."
+    tip_scrub_shortcut: "Ctrl+[ rebobina e Ctrl+] avança." # {change}
     tip_guide_exists: "Clica no guia, dentro do menu do jogo (no topo da página), para informações úteis."
     tip_open_source: "O CodeCombat é 100% open source!"
     tip_beta_launch: "O CodeCombat lançou o seu beta em outubro de 2013."
