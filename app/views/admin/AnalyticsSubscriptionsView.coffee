@@ -295,7 +295,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       lineColor: lineMetadata[targetSubsID].color
       strokeWidth: lineMetadata[targetSubsID].strokeWidth
       min: 0
-      max: @targetSubCount
+      max: Math.max(@targetSubCount, d3.max(@subs, (d) -> d.total))
 
     ## Cancelled
 
