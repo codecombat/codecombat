@@ -1,4 +1,4 @@
-set "mongo_db_location=MONGO_DB_PATH_HERE"
+set "mongo_db_location=C:\Users\Kevin\Documents\codecombat\db"
 call npm update
 call bower update
 start cmd.exe cmd /c call nodemon -w server -w server_config.js
