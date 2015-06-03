@@ -345,7 +345,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_hate_computers: "C'est ça le problème avec les gens qui pensent qu'ils détestent les ordinateur. Ce qu'ils détestent vraiment, c'est des piètres programmeurs. - Larry Niven"
     tip_open_source_contribute: "Vous pouvez aider CodeCombat à s'améliorer !"
     tip_recurse: "Itérer c'est humain, mais faire des récursion, c'est divin. - L. Peter Deutsch"
-    tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. -Morpheus""You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
+    tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. -Morpheus"
     tip_strong_opponents: "Même les ennemis les plus puissant ont une faiblesse. - Itachi Uchiha"
 
   game_menu:
