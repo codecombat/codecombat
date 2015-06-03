@@ -314,7 +314,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_morale_improves: "Le chargement se poursuivra jusqu'à ce que la morale s'améliore."
     tip_all_species: "Nous croyons en l'égalité des chances d'apprendre la programmation pour toutes les espèces."
     tip_reticulating: "Réticulation des spines."
-   tip_harry: "T'es un magicien, "
+    tip_harry: "T'es un magicien, "
     tip_great_responsibility: "Avec de grandes compétences en programmation vient une grande responsabilité de débogage."
     tip_munchkin: "Si vous ne mangez pas vos légumes, un munchkin viendra après vous pendant que vous dormirez."
     tip_binary: "Il ya seulement 10 types de personnes dans le monde: ceux qui comprennent le binaire, et ceux qui ne le comprennent pas."
