@@ -29,7 +29,7 @@ TrialRequestSchema.pre 'save', (next) ->
 
 TrialRequestSchema.post 'save', (doc) ->
   if doc.get('status') is 'submitted'
-    msg = "http://codecombat.com/admin/trial-requests #{doc.get('type')} request submitted by #{doc.get('properties').email}"
+    msg = "<a href=\"http://codecombat.com/admin/trial-requests\">Trial Request</a> submitted by #{doc.get('properties').email}"
     hipchat.sendHipChatMessage msg, ['tower']
   else if doc.get('status') is 'approved'
     ppc = doc.get('prepaidCode')
