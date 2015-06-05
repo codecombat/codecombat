@@ -5,7 +5,7 @@ block content
   h2(data-i18n="teachers_survey.title") Teacher Survey
 
   if me.isAnonymous()
-    p(data-i18n="teachers_survey.must_be_logged") You must be logged in to apply. Please create an account or log in from the menu above.
+    p(data-i18n="teachers_survey.must_be_logged") You must be logged in first. Please create an account or log in from the menu above.
   else if fetchingData
     h4(data-i18n="teachers_survey.retrieving") Retrieving information...
   else if existingRequests.length > 0
