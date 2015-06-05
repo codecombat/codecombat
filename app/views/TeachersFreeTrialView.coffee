@@ -47,8 +47,7 @@ module.exports = class TeachersFreeTrialView extends RootView
     $('.container-num-students').removeClass('has-error')
     $('.container-heard-about').removeClass('has-error')
     $('.error-message').hide()
-    emailPattern = /^([\w.-]+)@([\w.-]+)\.([a-zA-Z.]{2,6})$/i
-    unless email?.match(emailPattern)
+    unless email
       $('.container-email-address').addClass('has-error')
       $('.error-message').show()
       return

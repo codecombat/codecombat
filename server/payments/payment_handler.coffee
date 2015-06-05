@@ -266,6 +266,7 @@ PaymentHandler = class PaymentHandler extends Handler
         description: req.body.description
       }
       receipt_email: req.user.get('email')
+      statement_descriptor: 'CODECOMBAT.COM'
     }).then(
       # success case
       ((charge) => @recordStripeCharge(req, res, charge)),
