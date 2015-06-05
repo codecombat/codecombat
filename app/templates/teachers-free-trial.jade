@@ -1,0 +1,71 @@
+extends /templates/base
+
+block content
+
+  h2 Teacher Survey
+
+  if me.isAnonymous()
+    p You must be logged in to apply. Please create an account or log in from the menu above.
+  else if fetchingData
+    h4 Retrieving information...
+  else if existingRequests.length > 0
+    if existingRequests[0].get('status') === 'submitted'
+      p 
+        span.spr Your application for a free trial subscription is being
+        strong reviewed
+    else if existingRequests[0].get('status') === 'approved'
+      p 
+       span.spr Your application for a free trial subscription was
+       strong.spr approved
+       span.spr . Further instructions have been sent to 
+       strong= existingRequests[0].get('properties').email
+    else
+      p 
+        span.spr Your application for a free trial subscription has been
+        strong.spr denied
+    p
+      span.spr Please contact
+      span.spr
+        a(href='mailto:team@codecombat.com') team@codecombat.com
+      span if you have further questions.
+  else
+    p 
+      span.spr We offer free subscriptions to teachers for evaluation purposes. You can find more information on our
+      a.spr(href='/teachers') teachers
+      span page.
+    p Please fill out this quick survey and we’ll email you setup instructions.
+    p.container-email-address
+      label.control-label Email Address
+      br
+      input.control-label.input-email-address(type='text', value=email)
+    p.container-location
+      label.control-label Name of School, City
+      br
+      input.control-label.input-location(type='text')
+    p.container-age
+      label.control-label How old are your students?
+      div
+        input(type="radio", name="age", value="Under 14")
+        span.spl Under 14
+      div
+        input(type="radio", name="age", value="14-17")
+        span.spl 14-17
+      div
+        input(type="radio", name="age", value="18+")
+        span.spl 18+
+      div
+        input(type="radio", name="age", value='other')
+        span.spl.spr Other:
+        input.spr.input-age-other(type='text')
+    p.container-num-students
+      label.control-label How many students do you teach?
+      br
+      input.control-label.input-num-students(type='text')
+    p.container-heard-about
+      label.control-label How did you hear about CodeCombat?
+      br
+      textarea.control-label.input-heard-about(rows=4)
+    p.error-message Please fill out all fields.
+    p
+      button.btn.btn-default.submit-button Submit
+    p.thanks-submit Thanks!  We'll send you setup instructions shortly.

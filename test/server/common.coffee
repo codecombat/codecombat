@@ -41,6 +41,7 @@ models_path = [
   '../../server/achievements/EarnedAchievement'
   '../../server/payments/Payment'
   '../../server/prepaids/Prepaid'
+  '../../server/trial_requests/TrialRequest'
 ]
 
 for m in models_path
