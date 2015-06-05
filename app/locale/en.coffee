@@ -644,7 +644,7 @@
 
   teachers_survey:
     title: "Teacher Survey"
-    must_be_logged: "You must be logged in to apply. Please create an account or log in from the menu above."
+    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
     being_reviewed_1: "Your application for a free trial subscription is being"
     being_reviewed_2: "reviewed"
