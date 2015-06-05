@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     infinite_loop_reset_level: "Chơi Lại"
 #    infinite_loop_comment_out: "Comment Out My Code"
     tip_toggle_play: "Bật/tắt chơi/dừng với Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ và Ctrl+] quay lại và chạy nhanh."
+    tip_scrub_shortcut: "Ctrl+[ và Ctrl+] quay lại và chạy nhanh." # {change}
     tip_guide_exists: "Chọn bảng hướng dẫn, bên trong game menu (Trên cùng của trang), cho những thông tin hữu ích."
     tip_open_source: "CodeCombat là một sản phẩm mã nguồn mở 100% !"
     tip_beta_launch: "Bản thử nghiệm của CodeCombat được ra mắt vào tháng 10 năm 2013."

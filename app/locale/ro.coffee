@@ -301,7 +301,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
     tip_toggle_play: "Pune sau scoate pauza cu Ctrl+P."
-    tip_scrub_shortcut: "Înapoi și derulare rapidă cu Ctrl+[ and Ctrl+]."
+    tip_scrub_shortcut: "Înapoi și derulare rapidă cu Ctrl+[ and Ctrl+]." # {change}
     tip_guide_exists: "Apasă pe ghidul din partea de sus a pagini pentru informații utile."
     tip_open_source: "CodeCombat este 100% open source!"
     tip_beta_launch: "CodeCombat a fost lansat beta in Octombrie 2013."

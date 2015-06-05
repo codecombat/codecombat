@@ -301,7 +301,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     infinite_loop_reset_level: "Resetovat úroveň"
     infinite_loop_comment_out: "Zakomentovat můj kód"
     tip_toggle_play: "Přepněte přehrávání/pauzu pomocí Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pro přetočení a rychlý přesun."
+    tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pro přetočení a rychlý přesun." # {change}
     tip_guide_exists: "Klikněte na průvode uvnitř herního menu (nahoře na stránce), pro užitečné informace."
     tip_open_source: "CodeCombat je 100% open source!"
     tip_beta_launch: "CodeCombat spustil svoji beta verzi v Říjnu, 2013."

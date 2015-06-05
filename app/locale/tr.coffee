@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     infinite_loop_reset_level: "Bölümü Sıfırla"
     infinite_loop_comment_out: "Kodumu Yorum Yap"
     tip_toggle_play: "Ctrl+P ile oynat/beklet."
-#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat %100 açık kaynaktır!"
     tip_beta_launch: "CodeCombat ilk beta sürümünü Ekim 2013'te başlattı."

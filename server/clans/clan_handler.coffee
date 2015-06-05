@@ -28,7 +28,6 @@ ClanHandler = class ClanHandler extends Handler
     false
 
   makeNewInstance: (req) ->
-    userName = req.user.get('name') ? 'Anoner'
     instance = super(req)
     instance.set 'ownerID', req.user._id
     instance.set 'members', [req.user._id]

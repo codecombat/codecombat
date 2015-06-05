@@ -4,7 +4,6 @@ utils = require '../../../app/core/utils' # Must come after require /common
 mongoose = require 'mongoose'
 
 describe 'Clans', ->
-  stripe = require('stripe')(config.stripe.secretKey)
   clanURL = getURL('/db/clan')
   userURL = getURL('/db/user')
 

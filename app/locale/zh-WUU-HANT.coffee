@@ -301,7 +301,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     infinite_loop_reset_level: "轉定等級"
     infinite_loop_comment_out: "爲我個代碼加註解"
     tip_toggle_play: "用 Ctrl+P 暫停/繼續"
-    tip_scrub_shortcut: "用 Ctrl+[ 搭 Ctrl+] 倒退搭快進。"
+    tip_scrub_shortcut: "用 Ctrl+[ 搭 Ctrl+] 倒退搭快進。" # {change}
     tip_guide_exists: "點頁面上向個指南，望無數有用個訊息。"
     tip_open_source: "CodeCombat 是 百分百 開源個!"
     tip_beta_launch: "CodeCombat 從 2013年10月起。"

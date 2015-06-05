@@ -98,7 +98,7 @@ module.exports.setup = (app) ->
 
     User.findOne({emailLower: req.body.email.toLowerCase()}).exec((err, user) ->
       if not user
-        return errors.notFound(res, [{message: 'not found.', property: 'email'}])
+        return errors.notFound(res, [{message: 'not found', property: 'email'}])
 
       user.set('passwordReset', Math.random().toString(36).slice(2, 7).toUpperCase())
       user.save (err) =>

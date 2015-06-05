@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lithuanian", translation:
+module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", translation:
 #  home:
 #    slogan: "Learn to Code by Playing a Game"
 #    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
@@ -42,8 +42,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Lithuanian but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Lithuanian."
-    missing_translations: "Until we can translate everything into Lithuanian, you'll see English when Lithuanian isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Uzbek but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Uzbek."
+    missing_translations: "Until we can translate everything into Uzbek, you'll see English when Uzbek isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -136,10 +136,10 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    misc: "Misc"
 #    books: "Books"
 
-  common:
+#  common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
 #    continue: "Continue" # When used as an action verb, like "Continue forward"
-    loading: "Loading..."
+#    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
 #    send: "Send"

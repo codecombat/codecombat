@@ -301,7 +301,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     infinite_loop_reset_level: "Level zurücksetzen"
     infinite_loop_comment_out: "Meinen Code auskommentieren"
     tip_toggle_play: "Wechsel zwischen Play und Pause mit Strg+P."
-    tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]"
+    tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]" # {change}
     tip_guide_exists: "Klicke auf die Anleitung am oberen Ende der Seite für nützliche Informationen"
     tip_open_source: "CodeCombat ist 100% quelloffen!"
     tip_beta_launch: "CodeCombat startete seine Beta im Oktober 2013."
