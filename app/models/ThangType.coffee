@@ -24,7 +24,7 @@ module.exports = class ThangType extends CocoModel
     librarian: '52fbf74b7e01835453bd8d8e'
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
-    necromancer: ''
+    necromancer: '55652fb3b9effa46a1f775fd'
     'dark-wizard': ''
   @heroClasses:
     Warrior: ['captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']

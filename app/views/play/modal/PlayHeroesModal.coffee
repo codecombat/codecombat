@@ -178,7 +178,7 @@ module.exports = class PlayHeroesModal extends ModalView
         layer.container.children[0].y = 250/m
         if fullHero.get('slug') in ['forest-archer', 'librarian', 'sorcerer', 'potion-master', 'necromancer']
           layer.container.children[0].y -= 3
-        if fullHero.get('slug') in ['librarian', 'sorcerer', 'potion-master']
+        if fullHero.get('slug') in ['librarian', 'sorcerer', 'potion-master', 'necromancer']
           layer.container.children[0].x -= 3
 
       stage = new createjs.SpriteStage(canvas[0])

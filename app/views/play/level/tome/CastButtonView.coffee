@@ -72,6 +72,7 @@ module.exports = class CastButtonView extends CocoView
     @updateReplayability()
 
   onDoneButtonClick: (e) ->
+    return if @getQueryVariable('dev') and @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @options.session.recordScores @world.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', showModal: true
 
