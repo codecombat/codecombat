@@ -599,8 +599,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     free_1: "CodeCombat Basic es GRATIS! Hay 70+ niveles gratis que cubren cada concepto." # {change}
     free_2: "Una suscripción mensual le da acceso a tutoriales en vídeo y niveles extra para practicar."
     teacher_subs_title: "¡Los amestros obtienen subscripciones gratuitas!"
-    teacher_subs_1: "Por favor contacte"
-    teacher_subs_2: "para configurar una suscripción mensual gratis."
+    teacher_subs_1: "Por favor contacte" # {change}
+    teacher_subs_2: "para configurar una suscripción mensual gratis." # {change}
+#    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "¿Qué se incluye en la suscripción?"
     sub_includes_1: "Adicionalmente a los más de 70 niveles básicos, los estudiantes con una suscripción mensual obtienen acceso a estas características adicionales:" # {change}
     sub_includes_2: "Más de 40 niveles de práctica" # {change}
@@ -639,6 +640,33 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sys_requirements_title: "Requerimientos del sistema"
     sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:" # {change}
     sys_requirements_2: "Usar una versión actualizada del navegador Chrome o Firefox." # {change}
+
+#  teachers_survey:
+#    title: "Teacher Survey"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+#    retrieving: "Retrieving information..."
+#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_2: "reviewed"
+#    approved_1: "Your application for a free trial subscription was"
+#    approved_2: "approved."
+#    approved_3: "Further instructions have been sent to"
+#    denied_1: "Your application for a free trial subscription has been"
+#    denied_2: "denied"
+#    contact_1: "Please contact"
+#    contact_2: "if you have further questions."
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_2: "teachers"
+#    description_3: "page."
+#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+#    email: "Email Address"
+#    school_city: "Name of School, City"
+#    age_students: "How old are your students?"
+#    under: "Under"
+#    other: "Other:"
+#    amount_students: "How many students do you teach?"
+#    hear_about: "How did you hear about CodeCombat?"
+#    fill_fields: "Please fill out all fields."
+#    thanks: "Thanks! We'll send you setup instructions shortly."
 
   versions:
     save_version_title: "Guardar nueva versión"

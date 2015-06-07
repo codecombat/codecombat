@@ -599,8 +599,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     free_1: "La version de base de CodeCombat est gratuite ! Il y a 70+ niveaux gratuits qui couvrent chaque concepts." # {change}
     free_2: "Un abonnement mensuel fournit l'accès à des vidéos de tutoriels ainsi qu'à des niveaux d'entraînement supplémentaires."
     teacher_subs_title: "Les enseignants reçoivent un abonnement gratuit !"
-    teacher_subs_1: "Merci de nous contacter"
-    teacher_subs_2: "pour obtenir un abonnement mensuel gratuit."
+    teacher_subs_1: "Merci de nous contacter" # {change}
+    teacher_subs_2: "pour obtenir un abonnement mensuel gratuit." # {change}
+#    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "Qu'y a t-il d'inclus dans cet abonnement ?"
     sub_includes_1: "En plus des 70+ niveaux de base, les élèves avec un abonnement mensuel ont accès à ces fonctionnalités supplémentaires :" # {change}
     sub_includes_2: "40+ niveaux d'entrainement" # {change}
@@ -639,6 +640,33 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sys_requirements_title: "Configuration requise"
     sys_requirements_1: "Un navigateur moderne. La dernière version de Chrome, Firefox, ou de Safari. Internet Explorer 9 ou plus récent."
     sys_requirements_2: "CodeCombat n'est pas encore supporté sur iPad."
+
+#  teachers_survey:
+#    title: "Teacher Survey"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+#    retrieving: "Retrieving information..."
+#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_2: "reviewed"
+#    approved_1: "Your application for a free trial subscription was"
+#    approved_2: "approved."
+#    approved_3: "Further instructions have been sent to"
+#    denied_1: "Your application for a free trial subscription has been"
+#    denied_2: "denied"
+#    contact_1: "Please contact"
+#    contact_2: "if you have further questions."
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_2: "teachers"
+#    description_3: "page."
+#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+#    email: "Email Address"
+#    school_city: "Name of School, City"
+#    age_students: "How old are your students?"
+#    under: "Under"
+#    other: "Other:"
+#    amount_students: "How many students do you teach?"
+#    hear_about: "How did you hear about CodeCombat?"
+#    fill_fields: "Please fill out all fields."
+#    thanks: "Thanks! We'll send you setup instructions shortly."
 
   versions:
     save_version_title: "Enregistrer une nouvelle version"
@@ -1381,7 +1409,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     filter_results: "Résultats"
     start_hiring: "Commencer à embaucher."
     reasons: "Trois raisons pour lesquelles vous devriez employer vos prochains employés avec nous."
-    everyone_looking:"Toutes les personnes ici sont en quête de leur nouvel emploi."
+    everyone_looking: "Toutes les personnes ici sont en quête de leur nouvel emploi."
     everyone_looking_blurb: "Oubliez environ 20% du taux de réponse de courriels Linkedin. Toutes les personnes que nous avons listé sur ce site veulent être trouvé pour un nouvel emploi et répondront à votre requête pour qu'ils puissent s'introduire."
     weeding: "Soyez tranquille, nous avons effectué une première sélection pour vous."
     weeding_blurb: "Tous les joueurs que nous avons listés ont été sélectionné pour leurs abilités techniques. Nous allons également effectuer des entrevues techniques au téléphone pour sélectionner les candidats et ajouter des notes à leurs profiles afin de vous sauver du temps."

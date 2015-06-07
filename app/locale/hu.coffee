@@ -599,8 +599,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     free_1: "CodeCombat Basic INGYENES! 70-nél is több pálya, amely minden tudást megad." # {change}
     free_2: "A havidíjas előfizetés hozzáférést biztosít az oktató videókhoz és az extra gyakoroló pályákhoz."
     teacher_subs_title: "Tanárok ingyenes előfizetést kapnak!"
-    teacher_subs_1: "Lépjen kapcsolatba velünk,"
-    teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést."
+    teacher_subs_1: "Lépjen kapcsolatba velünk," # {change}
+    teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést." # {change}
+#    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "Mit tartalmaz az előfizetés?"
     sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:"
     sub_includes_2: "50+ gyakorló pálya" # {change}
@@ -639,6 +640,33 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sys_requirements_title: "Rendszer-követelmények"
     sys_requirements_1: "Egy modern web-böngésző. Újabb verziójú Chrome, Firefox, vagy Safari, illetve Internet Explorer 9 vagy újabb."
     sys_requirements_2: "CodeCombat még nem támogatott iPad-en."
+
+#  teachers_survey:
+#    title: "Teacher Survey"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+#    retrieving: "Retrieving information..."
+#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_2: "reviewed"
+#    approved_1: "Your application for a free trial subscription was"
+#    approved_2: "approved."
+#    approved_3: "Further instructions have been sent to"
+#    denied_1: "Your application for a free trial subscription has been"
+#    denied_2: "denied"
+#    contact_1: "Please contact"
+#    contact_2: "if you have further questions."
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_2: "teachers"
+#    description_3: "page."
+#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+#    email: "Email Address"
+#    school_city: "Name of School, City"
+#    age_students: "How old are your students?"
+#    under: "Under"
+#    other: "Other:"
+#    amount_students: "How many students do you teach?"
+#    hear_about: "How did you hear about CodeCombat?"
+#    fill_fields: "Please fill out all fields."
+#    thanks: "Thanks! We'll send you setup instructions shortly."
 
   versions:
     save_version_title: "Új verzió mentése"

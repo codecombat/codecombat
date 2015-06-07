@@ -596,11 +596,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     intro_2: "プログラミングの経験は必要ありません！"
     free_title: "価格について"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-    free_1: "CodeCombat は基本的に無料です！80以上のレベルが無料です。"
+    free_1: "CodeCombat は基本的に無料です！80以上のレベルが無料です。" # {change}
     free_2: "月々の課金をするとビデオのチュートリアルにアクセスでき、また追加のレベルが楽しめます。"
     teacher_subs_title: "教育関係者は無料のサブスクリプションを得ることができます！"
-    teacher_subs_1: ""
-    teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。"
+    teacher_subs_1: "" # {change}
+    teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。" # {change}
+#    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "サブスクリプションの内容について"
     sub_includes_1: "70以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
     sub_includes_2: "40以上の練習レベル" # {change}
@@ -639,6 +640,33 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     sys_requirements_title: "動作環境"
     sys_requirements_1: "モダンなブラウザ。最新の Chrome や FireFox, Safari など。Internet Explorer 9 以上。"
     sys_requirements_2: "CodeCombat はまだ iPad をサポートしていません。"
+
+#  teachers_survey:
+#    title: "Teacher Survey"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+#    retrieving: "Retrieving information..."
+#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_2: "reviewed"
+#    approved_1: "Your application for a free trial subscription was"
+#    approved_2: "approved."
+#    approved_3: "Further instructions have been sent to"
+#    denied_1: "Your application for a free trial subscription has been"
+#    denied_2: "denied"
+#    contact_1: "Please contact"
+#    contact_2: "if you have further questions."
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_2: "teachers"
+#    description_3: "page."
+#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+#    email: "Email Address"
+#    school_city: "Name of School, City"
+#    age_students: "How old are your students?"
+#    under: "Under"
+#    other: "Other:"
+#    amount_students: "How many students do you teach?"
+#    hear_about: "How did you hear about CodeCombat?"
+#    fill_fields: "Please fill out all fields."
+#    thanks: "Thanks! We'll send you setup instructions shortly."
 
   versions:
     save_version_title: "新しいバージョンをセーブ"
