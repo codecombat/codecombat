@@ -263,7 +263,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_experience_gained: "Отриманий досвід"
     victory_gems_gained: "Отримані самоцвіти"
     victory_new_item: "Новий предмет"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
+    victory_viking_code_school: "Оце так! Це був важкий рівень, але Ви справились! Якщо Ви ще не розробник програмного забезпечення, Вам слід вже бути. Ви щойно пройшли швидку процедуру прийняття у Viking Code School, де Ви матимете змогу удосконалити Ваші навички до наступного рівня та стати професійним веб-розробником за 14 тижнів."
     victory_become_a_viking: "Стати вікінгом"
     guide_title: "Посібник"
     tome_minion_spells: "Заклинання Ваших міньонів" # Only in old-style levels.
@@ -1011,7 +1011,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     log_in_for_friends: "Увійдіть та грайте за своїх друзів!"
     social_connect_blurb: "Приєднайтесь та грайте проти Ваших друзів!"
     invite_friends_to_battle: "Запросіть своїх друзів приєднатися до Вас у бою!"
-    fight: "В бій!"
+    fight: "У бій!"
     watch_victory: "Подивитись Вашу перемогу"
     defeat_the: "Перемогти"
 #    tournament_started: ", started"
