@@ -129,15 +129,8 @@ module.exports = class ClanDetailsView extends RootView
       campaignLevelProgression =
         ID: campaign.id
         slug: campaign.get('slug')
-        name: campaign.get('name')
+        name: campaign.get('fullName') or campaign.get('name')
         levels: []
-      # TODO: Where do these proper names come from?
-      campaignLevelProgression.name = switch
-        when campaignLevelProgression.slug is 'dungeon' then 'Kithgard Dungeon'
-        when campaignLevelProgression.slug is 'forest' then 'Backwoods Forest'
-        when campaignLevelProgression.slug is 'desert' then 'Sarven Desert'
-        when campaignLevelProgression.slug is 'mountain' then 'Cloudrip Mountain'
-        else campaignLevelProgression.name
       for levelID, level of campaign.get('levels')
         campaignLevelProgression.levels.push
           ID: levelID
