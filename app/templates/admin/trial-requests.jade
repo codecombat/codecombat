@@ -42,8 +42,8 @@ block content
               td= trialRequest.get('properties').heardAbout
               td.status-cell
                 if trialRequest.get('status') === 'submitted'
-                  button.btn.btn-xs.btn-success.btn-approve(data-trial-request=trialRequest) Approve
-                  button.btn.btn-xs.btn-danger.btn-deny(data-trial-request=trialRequest) Deny
+                  button.btn.btn-xs.btn-success.btn-approve(data-trial-request-id=trialRequest.id) Approve
+                  button.btn.btn-xs.btn-danger.btn-deny(data-trial-request-id=trialRequest.id) Deny
                 else if trialRequest.get('prepaidCode')
                   span= trialRequest.get('prepaidCode')
                 else
