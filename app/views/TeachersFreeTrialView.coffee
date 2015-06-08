@@ -34,6 +34,7 @@ module.exports = class TeachersFreeTrialView extends RootView
 
   onClickSubmit: (e) ->
     email = $('.input-email-address').val()
+    school = $('.input-school').val()
     location = $('.input-location').val()
     age = $('input[name=age]:checked').val()
     age = $('.input-age-other').val() if age is 'other'
@@ -42,6 +43,7 @@ module.exports = class TeachersFreeTrialView extends RootView
 
     # Validate input
     $('.container-email-address').removeClass('has-error')
+    $('.container-school').removeClass('has-error')
     $('.container-location').removeClass('has-error')
     $('.container-age').removeClass('has-error')
     $('.container-num-students').removeClass('has-error')
@@ -49,6 +51,10 @@ module.exports = class TeachersFreeTrialView extends RootView
     $('.error-message').hide()
     unless email
       $('.container-email-address').addClass('has-error')
+      $('.error-message').show()
+      return
+    unless school
+      $('.container-school').addClass('has-error')
       $('.error-message').show()
       return
     unless location
@@ -73,6 +79,7 @@ module.exports = class TeachersFreeTrialView extends RootView
       type: 'subscription'
       properties:
         email: email
+        school: school
         location: location
         age: age
         numStudents: numStudents

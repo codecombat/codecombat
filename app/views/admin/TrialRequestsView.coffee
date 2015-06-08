@@ -39,8 +39,8 @@ module.exports = class TrialRequestsView extends RootView
     context
 
   onClickApprove: (e) ->
-    trialRequestData = $(e.target).data('trial-request')
-    trialRequest = _.find @trialRequests.models, (a) -> a.get('_id') is trialRequestData._id
+    trialRequestID = $(e.target).data('trial-request-id')
+    trialRequest = _.find @trialRequests.models, (a) -> a.id is trialRequestID
     unless trialRequest
       console.error 'Could not find trial request model for', trialRequestData
       return
@@ -52,8 +52,8 @@ module.exports = class TrialRequestsView extends RootView
         @render?()
 
   onClickDeny: (e) ->
-    trialRequestData = $(e.target).data('trial-request')
-    trialRequest = _.find @trialRequests.models, (a) -> a.get('_id') is trialRequestData._id
+    trialRequestID = $(e.target).data('trial-request-id')
+    trialRequest = _.find @trialRequests.models, (a) -> a.id is trialRequestID
     unless trialRequest
       console.error 'Could not find trial request model for', trialRequestData
       return

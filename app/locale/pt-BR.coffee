@@ -596,11 +596,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     intro_2: "Não é necessário ter experiência!"
     free_title: "Quanto custa?"
     cost_china: "CodeCombat na China é gratuito para os primeiros cinco níveis, depois disso o valor mensal para ter acesso a mais de 140 níveis nos nossos servidores exclusivos na China é de $9.99 dólares americanos."
-    free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos."
+    free_1: "CodeCombat Basic é gratuito! Há mais de 80 níveis gratuitos que cobrem todos os conceitos." # {change}
     free_2: "Uma assinatura mensal dá acesso aos vídeos tutoriais e mais níveis para praticar."
     teacher_subs_title: "Professores recebem assinaturas gratuitas!"
-    teacher_subs_1: "Por favor contate"
-    teacher_subs_2: "para organizar uma assinatura mensal."
+    teacher_subs_1: "Por favor contate" # {change}
+    teacher_subs_2: "para organizar uma assinatura mensal." # {change}
+#    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "O que está incluído na assinatura?"
     sub_includes_1: "Além dos mais de 80 níveis básicos, estudantes com uma assinatura mensal têm acesso aos seguintes recursos:"
     sub_includes_2: "Mais de 60 níveis para praticar"
@@ -639,6 +640,33 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     sys_requirements_title: "Requisitos de Sistema"
     sys_requirements_1: "Pelo motivo de CodeCombat ser um jogo, é mais intenso para ser processado em computadores do que tutoriais em vídeo ou escritos. Estamos otimizando para que rode rapidamente em todos navegadores modernos e também em computadores antigos, assim todos podem jogar. Sendo assim, aqui estão as nossas sugestões para tirar o máximo proveito da experiência de CodeCombat:" # {change}
     sys_requirements_2: "Use versões novas dos navegadores Chrome ou Firefox." # {change}
+
+#  teachers_survey:
+#    title: "Teacher Survey"
+#    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
+#    retrieving: "Retrieving information..."
+#    being_reviewed_1: "Your application for a free trial subscription is being"
+#    being_reviewed_2: "reviewed"
+#    approved_1: "Your application for a free trial subscription was"
+#    approved_2: "approved."
+#    approved_3: "Further instructions have been sent to"
+#    denied_1: "Your application for a free trial subscription has been"
+#    denied_2: "denied"
+#    contact_1: "Please contact"
+#    contact_2: "if you have further questions."
+#    description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
+#    description_2: "teachers"
+#    description_3: "page."
+#    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
+#    email: "Email Address"
+#    school_city: "Name of School, City"
+#    age_students: "How old are your students?"
+#    under: "Under"
+#    other: "Other:"
+#    amount_students: "How many students do you teach?"
+#    hear_about: "How did you hear about CodeCombat?"
+#    fill_fields: "Please fill out all fields."
+#    thanks: "Thanks! We'll send you setup instructions shortly."
 
   versions:
     save_version_title: "Salvar nova versão"

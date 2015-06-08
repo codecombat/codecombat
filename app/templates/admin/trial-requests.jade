@@ -16,6 +16,7 @@ block content
             th Created
             th Reviewed
             th Applicant
+            th School
             th Location
             th Age
             th Students
@@ -36,14 +37,15 @@ block content
                   span= trialRequest.get('reviewDate').substring(0, 10)
               td 
                 a(href="/user/#{trialRequest.get('applicant')}")= trialRequest.get('properties').email
+              td= trialRequest.get('properties').school
               td= trialRequest.get('properties').location
               td= trialRequest.get('properties').age
               td= trialRequest.get('properties').numStudents
               td= trialRequest.get('properties').heardAbout
               td.status-cell
                 if trialRequest.get('status') === 'submitted'
-                  button.btn.btn-xs.btn-success.btn-approve(data-trial-request=trialRequest) Approve
-                  button.btn.btn-xs.btn-danger.btn-deny(data-trial-request=trialRequest) Deny
+                  button.btn.btn-xs.btn-success.btn-approve(data-trial-request-id=trialRequest.id) Approve
+                  button.btn.btn-xs.btn-danger.btn-deny(data-trial-request-id=trialRequest.id) Deny
                 else if trialRequest.get('prepaidCode')
                   span= trialRequest.get('prepaidCode')
                 else

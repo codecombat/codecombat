@@ -597,11 +597,11 @@
     intro_2: "No experience required!"
     free_title: "How much does it cost?"
     cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-    free_1: "There are 80+ FREE levels which cover every concept." # {change}
+    free_1: "There are 80+ FREE levels which cover every concept."
     free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "Teachers get free subscriptions!"
-    teacher_subs_1: "Please fill out our" # {change}
-    teacher_subs_2: "Teacher Survey" # {change}
+    teacher_subs_1: "Please fill out our"
+    teacher_subs_2: "Teacher Survey"
     teacher_subs_3: "to set up your subscription."
     sub_includes_title: "What is included in the subscription?"
     sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
@@ -647,12 +647,12 @@
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
     being_reviewed_1: "Your application for a free trial subscription is being"
-    being_reviewed_2: "reviewed"
+    being_reviewed_2: "reviewed." # {change}
     approved_1: "Your application for a free trial subscription was"
-    approved_2: "approved."
+    approved_2: "approved." # {change}
     approved_3: "Further instructions have been sent to"
     denied_1: "Your application for a free trial subscription has been"
-    denied_2: "denied"
+    denied_2: "denied." # {change}
     contact_1: "Please contact"
     contact_2: "if you have further questions."
     description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
@@ -660,7 +660,8 @@
     description_3: "page."
     description_4: "Please fill out this quick survey and we’ll email you setup instructions."
     email: "Email Address"
-    school_city: "Name of School, City"
+    school: "Name of School"
+    location: "Name of City"
     age_students: "How old are your students?"
     under: "Under"
     other: "Other:"
