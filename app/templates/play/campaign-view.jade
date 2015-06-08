@@ -61,7 +61,7 @@ if campaign
 else
   .portal
     .portals
-      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'ice', 'volcano']
+      for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
         - var campaign = campaigns[campaignSlug];
         - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
         div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
