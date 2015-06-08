@@ -16,6 +16,7 @@ block content
             th Created
             th Reviewed
             th Applicant
+            th School
             th Location
             th Age
             th Students
@@ -36,6 +37,7 @@ block content
                   span= trialRequest.get('reviewDate').substring(0, 10)
               td 
                 a(href="/user/#{trialRequest.get('applicant')}")= trialRequest.get('properties').email
+              td= trialRequest.get('properties').school
               td= trialRequest.get('properties').location
               td= trialRequest.get('properties').age
               td= trialRequest.get('properties').numStudents
