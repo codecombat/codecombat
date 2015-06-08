@@ -649,7 +649,7 @@
     being_reviewed_1: "Your application for a free trial subscription is being"
     being_reviewed_2: "reviewed"
     approved_1: "Your application for a free trial subscription was"
-    approved_2: "approved"
+    approved_2: "approved." #{change}
     approved_3: "Further instructions have been sent to"
     denied_1: "Your application for a free trial subscription has been"
     denied_2: "denied"
