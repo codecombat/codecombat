@@ -647,12 +647,12 @@
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
     being_reviewed_1: "Your application for a free trial subscription is being"
-    being_reviewed_2: "reviewed"
+    being_reviewed_2: "reviewed." # {change}
     approved_1: "Your application for a free trial subscription was"
-    approved_2: "approved." #{change}
+    approved_2: "approved." # {change}
     approved_3: "Further instructions have been sent to"
     denied_1: "Your application for a free trial subscription has been"
-    denied_2: "denied"
+    denied_2: "denied." # {change}
     contact_1: "Please contact"
     contact_2: "if you have further questions."
     description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
