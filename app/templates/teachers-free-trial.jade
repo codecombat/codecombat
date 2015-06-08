@@ -2,50 +2,50 @@ extends /templates/base
 
 block content
 
-  h2(data-i18n="teachers_survey.title") Teacher Survey
+  h2(data-i18n="teachers_survey.title")
 
   if me.isAnonymous()
-    p(data-i18n="teachers_survey.must_be_logged") You must be logged in first. Please create an account or log in from the menu above.
+    p(data-i18n="teachers_survey.must_be_logged")
   else if fetchingData
-    h4(data-i18n="teachers_survey.retrieving") Retrieving information...
+    h4(data-i18n="teachers_survey.retrieving")
   else if existingRequests.length > 0
     if existingRequests[0].get('status') === 'submitted'
       p
-        span.spr(data-i18n="teachers_survey.being_reviewed_1") Your application for a free trial subscription is being
-        strong(data-i18n="teachers_survey.being_reviewed_2") reviewed
+        span.spr(data-i18n="teachers_survey.being_reviewed_1")
+        strong(data-i18n="teachers_survey.being_reviewed_2")
     else if existingRequests[0].get('status') === 'approved'
       p
-       span.spr(data-i18n="teachers_survey.approved_1") Your application for a free trial subscription was
-       strong.spr(data-i18n="teachers_survey.approved_2") approved.
-       span.spr(data-i18n="teachers_survey.approved_3") Further instructions have been sent to
+       span.spr(data-i18n="teachers_survey.approved_1")
+       strong.spr(data-i18n="teachers_survey.approved_2")
+       span.spr(data-i18n="teachers_survey.approved_3")
        strong= existingRequests[0].get('properties').email
     else
       p
-        span.spr(data-i18n="teachers_survey.denied_1") Your application for a free trial subscription has been
-        strong(data-i18n="teachers_survey.denied_2") denied
+        span.spr(data-i18n="teachers_survey.denied_1")
+        strong(data-i18n="teachers_survey.denied_2")
     p
-      span.spr(data-i18n="teachers_survey.contact_1") Please contact
+      span.spr(data-i18n="teachers_survey.contact_1")
       a(href='mailto:team@codecombat.com') team@codecombat.com
-      span.spl(data-i18n="teachers_survey.contact_2") if you have further questions.
+      span.spl(data-i18n="teachers_survey.contact_2")
   else
     p
-      span.spr(data-i18n="teachers_survey.description_1") We offer free subscriptions to teachers for evaluation purposes. You can find more information on our
-      a(href='/teachers', data-i18n="teachers_survey.description_2") teachers
-      span.spl(data-i18n="teachers_survey.description_3") page.
-    p(data-i18n="teachers_survey.description_4") Please fill out this quick survey and we’ll email you setup instructions.
+      span.spr(data-i18n="teachers_survey.description_1")
+      a(href='/teachers', data-i18n="teachers_survey.description_2")
+      span.spl(data-i18n="teachers_survey.description_3")
+    p(data-i18n="teachers_survey.description_4")
     p.container-email-address
-      label.control-label(data-i18n="teachers_survey.email") Email Address
+      label.control-label(data-i18n="teachers_survey.email")
       br
       input.control-label.input-email-address(type='text', value=email)
     p.container-location
-      label.control-label(data-i18n="teachers_survey.school_city") Name of School, City
+      label.control-label(data-i18n="teachers_survey.school_city")
       br
       input.control-label.input-location(type='text')
     p.container-age
-      label.control-label(data-i18n="teachers_survey.age_students") How old are your students?
+      label.control-label(data-i18n="teachers_survey.age_students")
       div
         input(type="radio", name="age", value="Under 14")
-        span.spl(data-i18n="teachers_survey.under") Under
+        span.spl(data-i18n="teachers_survey.under")
         span.spl 14
       div
         input(type="radio", name="age", value="14-17")
@@ -55,17 +55,17 @@ block content
         span.spl 18+
       div
         input(type="radio", name="age", value='other')
-        span.spl.spr(data-i18n="teachers_survey.other") Other:
+        span.spl.spr(data-i18n="teachers_survey.other")
         input.spr.input-age-other(type='text')
     p.container-num-students
-      label.control-label(data-i18n="teachers_survey.amount_students") How many students do you teach?
+      label.control-label(data-i18n="teachers_survey.amount_students")
       br
       input.control-label.input-num-students(type='text')
     p.container-heard-about
-      label.control-label(data-i18n="teachers_survey.hear_about") How did you hear about CodeCombat?
+      label.control-label(data-i18n="teachers_survey.hear_about")
       br
       textarea.control-label.input-heard-about(rows=4)
-    p.error-message(data-i18n="teachers_survey.fill_fields") Please fill out all fields.
+    p.error-message(data-i18n="teachers_survey.fill_fields")
     p
-      button.btn.btn-default.submit-button(data-i18n="play_level.tome_submit_button") Submit
-    p.thanks-submit(data-i18n="teachers_survey.thanks") Thanks! We'll send you setup instructions shortly.
+      button.btn.btn-default.submit-button(data-i18n="play_level.tome_submit_button")
+    p.thanks-submit(data-i18n="teachers_survey.thanks")
