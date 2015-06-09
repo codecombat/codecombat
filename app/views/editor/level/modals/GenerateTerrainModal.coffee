@@ -107,6 +107,14 @@ clusters = {
     'thangs': ['Mountain 1','Mountain 3']
     'margin': 6
   }
+  'ice_floor': {
+    'thangs': ['Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6']
+    'margin': -1
+  }
+  'ice_walls': {
+    'thangs': ['Ice Wall']
+    'margin': 6
+  }
 }
 
 presets = {
@@ -261,6 +269,25 @@ presets = {
     'type': 'mountain'
     'floors': 'mountain_floor'
     'borders': 'mountain_walls'
+    'borderNoise': 1
+    'borderSize': 1
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+    }
+  },
+  'ice': {
+    'terrainName': 'Ice'
+    'type': 'ice'
+    'floors': 'ice_floor'
+    'borders': 'ice_walls'
     'borderNoise': 1
     'borderSize': 1
     'borderThickness': 1
