@@ -107,13 +107,13 @@ clusters = {
     'thangs': ['Mountain 1','Mountain 3']
     'margin': 6
   }
-  'ice_floor': {
+  'glacier_floor': {
     'thangs': ['Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6']
     'margin': -1
   }
-  'ice_walls': {
+  'glacier_walls': {
     'thangs': ['Ice Wall']
-    'margin': 6
+    'margin': 2
   }
 }
 
@@ -283,13 +283,13 @@ presets = {
       }
     }
   },
-  'ice': {
-    'terrainName': 'Ice'
-    'type': 'ice'
-    'floors': 'ice_floor'
-    'borders': 'ice_walls'
-    'borderNoise': 1
-    'borderSize': 1
+  'glacier': {
+    'terrainName': 'Glacier'
+    'type': 'glacier'
+    'floors': 'glacier_floor'
+    'borders': 'glacier_walls'
+    'borderNoise': 0
+    'borderSize': 4
     'borderThickness': 1
     'decorations': {
       'hero': {
@@ -299,6 +299,13 @@ presets = {
         'clusters': {
           'hero': [1, 1]
         }
+      }
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'glacier_walls'
       }
     }
   }
