@@ -436,7 +436,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parents: "Батькам"
     parents_title: "Ваша дитина вчитиметься програмувати." # {change}
     parents_blurb1: "Разом з CodeCombat Ваша дитина писатиме реальний код. Почне з простих команд та поступово буде розвиватись до складніших тем."
-#    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
+    parents_blurb1a: "Коп'ютерне програмування є необхідними вмінням, що ваша дитина беззаперечно використовуватиме у дорослому віці. До 2020 року 77% професій потребуватимуть базових навичок у програмному забезпечені, а програмісти надзвичайно потрібні у всьому світі. Чи знали ви, що Комп'ютерні Науки - це найбільш високооплачувана університетьська спеціальність?"
     parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів." # {change}
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
     payment_methods: "Платіжні методи"
@@ -802,7 +802,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     leave_clan: "Покинути клан"
     join_clan: "Приєднатись до клану"
     invite_1: "Запрошення:"
-#    invite_2: "*Invite players to this Clan by sending them this link."
+    invite_2: "*Запросіть гравців до цього Клану виславши дане посилання."
     members: "Учасники"
     progress: "Поступ"
     not_started_1: "не розпочато"
