@@ -40,6 +40,7 @@ module.exports.thangNames = thangNames =
     'Thabt'
     'Treg'
     'Ursa'
+    'Vorobun'
     'Weeb'
     'Yart'
     'Zozo'
@@ -72,6 +73,7 @@ module.exports.thangNames = thangNames =
     'Cristofide'
     'Denestorath'
     'Letholdus'
+    'Loretha'
   ]
   'Paladin': [
     # Female
@@ -359,6 +361,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Blackjack'
     'Kha\'Zix'
+    'Kikarii'
     'Ritic'
     'Rengar'
     'Shade'
@@ -393,6 +396,7 @@ module.exports.thangNames = thangNames =
     'Clare'
     'Erica'
     'Gemma'
+    'In-sha'
     'Ivy'
     'Jensen'
     'Katniss'
