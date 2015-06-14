@@ -352,7 +352,7 @@ module.exports = class CampaignView extends RootView
       particleKey.push level.type if level.type and level.type isnt 'hero'
       particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription
-      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones']
+      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       particleKey.push 'item' if level.slug is 'apocalypse'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
