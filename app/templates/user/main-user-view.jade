@@ -73,7 +73,7 @@ block append content
                 tr
                   td
                     a(href="/clans/#{clan.id}")= clan.get('name')
-                  td 
+                  td
                     if idNameMap && idNameMap[clan.get('ownerID')]
                       a(href="/user/#{clan.get('ownerID')}")= idNameMap[clan.get('ownerID')]
                     else
@@ -160,7 +160,7 @@ block append content
               each achievement, index in earnedAchievements.models
                 tr(class=index > 4 ? 'hide' : '')
                   td= achievement.get('achievementName')
-                  td= moment().format("MMMM Do YYYY", achievement.get('changed'))
+                  td= moment(achievement.get('changed')).format("MMMM Do YYYY")
                   if achievement.get('achievedAmount')
                     td= achievement.get('achievedAmount')
                   else
