@@ -440,9 +440,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parents_blurb2: "За 9.99$ на місяць, вона отримуватиме нові завдання щотижня та персональні листи підтримки від професійних програмістів." # {change}
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
     payment_methods: "Платіжні методи"
-#    payment_methods_title: "Accepted Payment Methods"
+    payment_methods_title: "Платіжні методи, що приймаються"
     payment_methods_blurb1: "Наразі ми приймаємо кредитні картник та Alpiay."
-#    payment_methods_blurb2: "If you require an alternate form of payment, please contact"
+    payment_methods_blurb2: "Якщо Вам необхідно використати інший спосіб оплати, будь ласка, зв'яжіться з нами."
     stripe_description: "Щомісячний абонемент"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
@@ -455,7 +455,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     was_free_until: "У Вас був безкоштовний абонемент до "
     managed_subs: "Керовані абонементи"
     managed_subs_desc: "Додати абонементи для інших гравців (учнів, дітей тощо)"
-#    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
+    managed_subs_desc_2: "Одержувачі повинні мати обліковий запис CodeCombat, пов'язаний з вказаною Вами адресою електронної пошти."
     group_discounts: "Групові знижки"
     group_discounts_1: "Ми також пропонуємо знижки для пакетних передплат."
     group_discounts_1st: "1-ий абонемент (включає Ваш)" # {change}
@@ -592,8 +592,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   teachers:
     title: "CodeCombat для вчителів" # {change}
-#    intro_1: "CodeCombat is an online game that teaches programming. Students write code in real programming languages."
-#    intro_2: "No experience required!"
+    intro_1: "CodeCombat - це онлайн гра, що вчить програмуванню. Студенти пишуть код на реальних мовах програмування."
+    intro_2: "Досвід не потрібен!"
     free_title: "Скільки це коштує?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
 #    free_1: "There are 80+ FREE levels which cover every concept."
