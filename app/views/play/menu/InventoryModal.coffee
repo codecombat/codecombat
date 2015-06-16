@@ -616,7 +616,7 @@ module.exports = class InventoryModal extends ModalView
     for slot, original of equipment
       item = _.find @items.models, (item) -> item.get('original') is original
       continue unless dollImages = item?.get('dollImages')
-      didAdd = @addDollImage slot, dollImages, heroClass, gender
+      didAdd = @addDollImage slot, dollImages, heroClass, gender, item
       slotsWithImages.push slot if didAdd if item.get('original') isnt '54ea39342b7506e891ca70f2'  # Circlet of the Magi needs hair under it
     @$el.find('#hero-image-hair').toggle not ('head' in slotsWithImages)
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
@@ -626,7 +626,7 @@ module.exports = class InventoryModal extends ModalView
   removeDollImages: ->
     @$el.find('.doll-image').remove()
 
-  addDollImage: (slot, dollImages, heroClass, gender) ->
+  addDollImage: (slot, dollImages, heroClass, gender, item) ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     didAdd = false
@@ -637,6 +637,9 @@ module.exports = class InventoryModal extends ModalView
         imageKeys = ["#{gender}", "#{gender}Thumb"]
     else if heroClass is 'Wizard' and slot is 'torso'
       imageKeys = [gender, "#{gender}Back"]
+    else if heroClass is 'Ranger' and slot is 'head' and item.get('original') in ['5441c2be4e9aeb727cc97105', '5441c3144e9aeb727cc97111']
+      # All-class headgear like faux fur hat, viking helmet is abusing ranger glove slot
+      imageKeys = ["#{gender}Ranger"]
     else
       imageKeys = [gender]
     for imageKey in imageKeys
