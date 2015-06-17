@@ -157,6 +157,10 @@ module.exports.setup = (app) ->
         unless recipient
           logStripeWebhookError("Recipient not found #{subscription.metadata.id}")
           return res.send(500, '')
+
+        # Recipient cancellations are immediate, no work to perform if recipient's sponsorID is already gone
+        return res.send(200, '') unless recipient.get('stripe')?.sponsorID?
+
         User.findById recipient.get('stripe').sponsorID, (err, sponsor) =>
           if err
             logStripeWebhookError(err)
