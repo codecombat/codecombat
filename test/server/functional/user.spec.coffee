@@ -328,6 +328,23 @@ describe 'GET /db/user', ->
 
   xit 'can fetch another user with restricted fields'
 
+describe 'DELETE /db/user', ->
+  it 'can delete a user', (done) ->
+    loginNewUser (user1) ->
+      request.del {uri: "#{getURL(urlUser)}/#{user1.id}"}, (err, res) ->
+        expect(err).toBeNull()
+        return done() if err
+        User.findById user1.id, (err, user1) ->
+          expect(err).toBeNull()
+          return done() if err
+          expect(user1.get('deleted')).toBe(true)
+          for key, value of user1.toObject()
+            if key is 'deleted'
+              expect(value).toEqual(true)
+            else if key isnt '_id'
+              expect(_.isEmpty(value)).toEqual(true)
+          done()
+
 describe 'Statistics', ->
   LevelSession = require '../../../server/levels/sessions/LevelSession'
   Article = require '../../../server/articles/Article'

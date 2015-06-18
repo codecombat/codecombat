@@ -601,7 +601,7 @@ class SubscriptionHandler extends Handler
       # Check recipient is currently sponsored
       stripeRecipient = recipient.get 'stripe' ? {}
       if stripeRecipient?.sponsorID isnt user.id
-        @logSubscriptionError(user, "Recipient #{req.body.stripe.recipient} not found. ")
+        @logSubscriptionError(user, "Recipient #{recipient.id} not sponsored by #{user.id}. ")
         return done({res: 'Can only unsubscribe sponsored subscriptions.', code: 403})
 
       # Find recipient subscription
