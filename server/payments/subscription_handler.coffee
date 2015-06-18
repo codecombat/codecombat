@@ -645,7 +645,7 @@ class SubscriptionHandler extends Handler
             stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
               if err
                 logStripeWebhookError(err)
-                return res.send(500, '')
+                return done({res: 'Database error.', code: 500})
               done()
 
 module.exports = new SubscriptionHandler()
