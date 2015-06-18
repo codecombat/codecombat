@@ -69,3 +69,10 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ![Alex Crooks](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Alex%20Crooks/alex_100.png)
 ![Danny Whittaker](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Danny%20Whittaker/danny_100.png)
 ![Kevin Holland](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Kevin%20Holland/kevin_100.png)
+![Joachim Brehmer](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Joachim%20Brehmer/joachim_100.png)
+![Jose Antonini](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Jose%20Antonini/jose_antonini_100.png)
+![Oleg Ulyanicky](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Oleg%20Ulyanickiy/oleg_100.png)
+![Pavel Konstantynov](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Pavel%20Konstantinov/pavel_100.png)
+![Popey Gilbert](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Popey%20Gilbert/popey_100.png)
+![Rob Blanckaert](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Rob%20Blanckaert/rob_blanckaert_100.png)
+

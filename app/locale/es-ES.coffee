@@ -170,7 +170,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     accepted: "Aceptado"
     rejected: "Rechazado"
     withdrawn: "Retirado"
-#    submitter: "Submitter"
+    submitter: "Submitter"
     submitted: "Enviado"
     commit_msg: "Mensaje de Asignación o Commit"
     review: "Revisión"
@@ -262,9 +262,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_hour_of_code_done_yes: "Si, ¡He terminado con mi hora de código!"
     victory_experience_gained: "XP Conseguida"
     victory_gems_gained: "Gemas Conseguidas"
-#    victory_new_item: "New Item"
+    victory_new_item: "Nuevo artículo"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "Convertirse en un vikingo"
     guide_title: "Guía"
     tome_minion_spells: "Los hechizos de tus súbditos" # Only in old-style levels.
     tome_read_only_spells: "Hechizos de solo lectura" # Only in old-style levels.
@@ -292,8 +292,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     time_current: "Ahora:"
     time_total: "Máx:"
     time_goto: "Ir a:"
-#    non_user_code_problem_title: "Unable to Load Level"
-#    infinite_loop_title: "Infinite Loop Detected"
+    non_user_code_problem_title: "No puede cargar un nivel"
+    infinite_loop_title: "Bucle infinito detectado"
 #    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
 #    check_dev_console: "You can also open the developer console to see what might be going wrong."
 #    check_dev_console_link: "(instructions)"
@@ -332,7 +332,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tip_extrapolation: "Existen solo dos clases de personas: aquellos que pueden extrapolar desde información incompleta..."
     tip_superpower: "Programar es lo más parecido que tenemos a un superpoder."
     tip_control_destiny: "En el verdadero open source, tienes el derecho de controlar tu propio destino. - Linus Torvalds"
-#    tip_no_code: "No code is faster than no code."
+    tip_no_code: "Ningún código es más rápido que ningún código"
     tip_code_never_lies: "El código nunca os miente, los comentarios algunas veces. — Ron Jeffries"
     tip_reusable_software: "Antes de que el software pueda ser reutilizable, primero debe ser utilizable."
     tip_optimization_operator: "Cada lenguaje tiene un operator para optimización. En la mayoría de los lenguajes dicho operador es ‘//’"
@@ -346,7 +346,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
     tip_recurse: "Iterar es humano, recursar es divino. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+    tip_strong_opponents: "Incluso el más fuerte de los opositores oculta debilidad. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -366,14 +366,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     auth_caption: "Salvar tu progreso."
 
   leaderboard:
-#    leaderboard: "Leaderboard"
+    leaderboard: "Jefe de la liga"
     view_other_solutions: "Ver Otras Soluciones" # {change}
     scores: "Puntuaciones"
 #    top_players: "Top Players by"
     day: "Hoy"
     week: "Esta semana"
 #    all: "All-Time"
-#    time: "Time"
+    time: "Tiempo"
     damage_taken: "Daño recibido"
     damage_dealt: "Daño causado"
     difficulty: "Difficultad"

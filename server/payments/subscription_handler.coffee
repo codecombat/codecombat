@@ -582,18 +582,26 @@ class SubscriptionHandler extends Handler
     email = req.body.stripe.unsubscribeEmail.trim().toLowerCase()
     return done({res: 'Database error.', code: 500}) if _.isEmpty(email)
 
+    deleteUserStripeProp = (user, propName) ->
+      stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+      delete stripeInfo[propName]
+      if _.isEmpty stripeInfo
+        user.set 'stripe', undefined
+      else
+        user.set 'stripe', stripeInfo
+
     User.findOne {emailLower: email}, (err, recipient) =>
       if err
         @logSubscriptionError(user, "User lookup error. " + err)
         return done({res: 'Database error.', code: 500})
       unless recipient
-        @logSubscriptionError(user, "Recipient #{req.body.stripe.recipient} not found. " + err)
+        @logSubscriptionError(user, "Recipient #{email} not found.")
         return done({res: 'Database error.', code: 500})
 
       # Check recipient is currently sponsored
       stripeRecipient = recipient.get 'stripe' ? {}
       if stripeRecipient?.sponsorID isnt user.id
-        @logSubscriptionError(user, "Recipient #{req.body.stripe.recipient} not found. " + err)
+        @logSubscriptionError(user, "Recipient #{req.body.stripe.recipient} not found. ")
         return done({res: 'Can only unsubscribe sponsored subscriptions.', code: 403})
 
       # Find recipient subscription
@@ -603,22 +611,41 @@ class SubscriptionHandler extends Handler
           sponsoredEntry = sponsored
           break
       unless sponsoredEntry?
-        @logSubscriptionError(user, 'Unable to find sponsored subscription. ' + err)
+        @logSubscriptionError(user, 'Unable to find recipient subscription. ')
         return done({res: 'Database error.', code: 500})
 
-      # Cancel Stripe subscription
-      stripe.customers.cancelSubscription stripeInfo.customerID, sponsoredEntry.subscriptionID, { at_period_end: true }, (err) =>
-        if err or not recipient
-          @logSubscriptionError(user, "Stripe cancel sponsored subscription failed. " + err)
+      # Update recipient user
+      deleteUserStripeProp(recipient, 'sponsorID')
+      recipient.save (err) =>
+        if err
+          @logSubscriptionError(user, 'Recipient user save unsubscribe error. ' + err)
           return done({res: 'Database error.', code: 500})
 
-        delete stripeInfo.unsubscribeEmail
-        user.set('stripe', stripeInfo)
-        req.body.stripe = stripeInfo
-        user.save (err) =>
+        # Cancel Stripe subscription
+        stripe.customers.cancelSubscription stripeInfo.customerID, sponsoredEntry.subscriptionID, (err) =>
           if err
-            @logSubscriptionError(user, 'User save unsubscribe error. ' + err)
+            @logSubscriptionError(user, "Stripe cancel sponsored subscription failed. " + err)
             return done({res: 'Database error.', code: 500})
-          done()
+
+          # Update sponsor user
+          _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
+          delete stripeInfo.unsubscribeEmail
+          user.set('stripe', stripeInfo)
+          req.body.stripe = stripeInfo
+          user.save (err) =>
+            if err
+              @logSubscriptionError(user, 'Sponsor user save unsubscribe error. ' + err)
+              return done({res: 'Database error.', code: 500})
+
+            return done() unless stripeInfo.sponsorSubscriptionID?
+
+            # Update sponsored subscription quantity
+            options =
+              quantity: getSponsoredSubsAmount(subscriptions.basic.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
+            stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
+              if err
+                logStripeWebhookError(err)
+                return res.send(500, '')
+              done()
 
 module.exports = new SubscriptionHandler()

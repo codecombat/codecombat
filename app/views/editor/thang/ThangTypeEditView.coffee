@@ -70,6 +70,7 @@ defaultTasks =
     'Add other Components like Shoots or Casts if needed.'
     'Configure other Components, like Moves, Attackable, Attacks, etc.'
     'Override the HasAPI type if it will not be correctly inferred.'
+    'Add to Existence System power table.'
   ]
   Hero: commonTasks.concat animatedThangTypeTasks.concat purchasableTasks.concat [
     'Set the hero class.'
