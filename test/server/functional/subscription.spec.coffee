@@ -519,6 +519,23 @@ describe 'Subscriptions', ->
         loginNewUser (user1) ->
           subscribeUser user1, token, null, done
 
+    it 'User delete unsubscribes', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        loginNewUser (user1) ->
+          subscribeUser user1, token, null, ->
+            User.findById user1.id, (err, user1) ->
+              expect(err).toBeNull()
+              customerID = user1.get('stripe').customerID
+              subscriptionID = user1.get('stripe').subscriptionID
+              request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+                expect(err).toBeNull()
+                stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                  expect(err).toBeNull()
+                  expect(subscription?.cancel_at_period_end).toEqual(true)
+                  done()
+
     it 'Admin subscribes self with valid prepaid', (done) ->
       loginNewUser (user1) ->
         user1.set('permissions', ['admin'])
@@ -714,6 +731,29 @@ describe 'Subscriptions', ->
           loginNewUser (user1) ->
             subscribeRecipients user1, [user2], token, (updatedUser) ->
               verifySponsorship user1.id, user2.id, done
+
+    it 'Recipient user delete unsubscribes', (done) ->
+      stripe.tokens.create {
+        card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
+      }, (err, token) ->
+        createNewUser (user2) ->
+          loginNewUser (user1) ->
+            subscribeRecipients user1, [user2], token, (updatedUser) ->
+              customerID = updatedUser.stripe.customerID
+              subscriptionID = updatedUser.stripe.recipients[0].subscriptionID
+              loginUser user2, (user2) ->
+                request.del {uri: "#{userURL}/#{user2.id}"}, (err, res) ->
+                  expect(err).toBeNull()
+                  stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                    expect(err).not.toBeNull()
+                    expect(subscription).toBeNull()
+                    User.findById user1.id, (err, user1) ->
+                      expect(err).toBeNull()
+                      expect(_.isEmpty(user1.get('stripe').recipients))
+                      stripe.customers.retrieveSubscription customerID, user1.get('stripe').sponsorSubscriptionID, (err, subscription) ->
+                        expect(err).toBeNull()
+                        expect(subscription.quantity).toEqual(0)
+                        done()
 
     it 'Subscribed user1 subscribes user2, one token', (done) ->
       stripe.tokens.create {
@@ -1220,7 +1260,9 @@ describe 'Subscriptions', ->
                                                               expect(subscription.quantity).toEqual(getSubscribedQuantity(recipientCount - 3))
                                                               done()
 
-        it 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->
+        xit 'Unsubscribed user1 subscribes 13 users, unsubcribes 2', (done) ->
+          # TODO: Hits the Stripe error 'Request rate limit exceeded'.
+          # TODO: Need a better test for 12+ bulk discounts. Or, we could update the bulk disount logic.
           # TODO: verify interim invoices?
           recipientCount = 13
           recipientsToVerify = [0, 1, 10, 11, 12]
