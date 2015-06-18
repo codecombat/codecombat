@@ -279,6 +279,7 @@ UserHandler = class UserHandler extends Handler
         obj = user.toObject()
         for prop, val of obj
           user.set(prop, undefined) unless prop is '_id'
+        user.set('dateDeleted', new Date())
         user.set('deleted', true)
 
         # Hack to get saving of Users to work. Probably should replace these props with strings
