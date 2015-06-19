@@ -748,6 +748,7 @@
     keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Space"
     enter: "Enter"
+    press_enter: "press enter"
     escape: "Escape"
     shift: "Shift"
     run_code: "Run current code."
