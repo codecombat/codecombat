@@ -1,4 +1,4 @@
-// ShaderParticleUtils 0.7.8
+// ShaderParticleUtils 0.7.9
 //
 // (c) 2014 Luke Moody (http://www.github.com/squarefeet)
 //     & Lee Stemkoski (http://www.adelphi.edu/~stemkoski/)
@@ -300,7 +300,7 @@ SPE.utils = {
     }
 };;
 
-// ShaderParticleGroup 0.7.8
+// ShaderParticleGroup 0.7.9
 //
 // (c) 2014 Luke Moody (http://www.github.com/squarefeet)
 //     & Lee Stemkoski (http://www.adelphi.edu/~stemkoski/)
@@ -325,10 +325,10 @@ SPE.Group = function( options ) {
 
     // Material properties
     that.blending               = typeof options.blending === 'number' ? options.blending : THREE.AdditiveBlending;
-    that.transparent            = typeof options.transparent === 'number' ? options.transparent : 1;
+    that.transparent            = typeof options.transparent === 'boolean' ? options.transparent : true;
     that.alphaTest              = typeof options.alphaTest === 'number' ? options.alphaTest : 0.5;
-    that.depthWrite             = options.depthWrite || false;
-    that.depthTest              = options.depthTest || true;
+    that.depthWrite             = typeof options.depthWrite === 'boolean' ? options.depthWrite : false;
+    that.depthTest              = typeof options.depthTest === 'boolean' ? options.depthTest : true;
 
     // Create uniforms
     that.uniforms = {
@@ -845,7 +845,7 @@ SPE.shaders = {
 };
 ;
 
-// ShaderParticleEmitter 0.7.8
+// ShaderParticleEmitter 0.7.9
 //
 // (c) 2014 Luke Moody (http://www.github.com/squarefeet)
 //     & Lee Stemkoski (http://www.adelphi.edu/~stemkoski/)
@@ -957,6 +957,10 @@ SPE.Emitter = function( options ) {
     that.alive                  = parseFloat( typeof options.alive === 'number' ? options.alive : 1.0 );
     that.isStatic               = typeof options.isStatic === 'number' ? options.isStatic : 0;
 
+    // Particle spawn callback function.
+    that.onParticleSpawn = typeof options.onParticleSpawn === 'function' ? options.onParticleSpawn : null;
+
+
     // The following properties are used internally, and mostly set when this emitter
     // is added to a particle group.
     that.particlesPerSecond     = 0;
@@ -1022,6 +1026,10 @@ SPE.Emitter.prototype = {
         else if( type === 'disk') {
             that._randomizeExistingVector3OnDisk( particlePosition, that.position, that.radius, that.radiusSpread, that.radiusScale, that.radiusSpreadClamp );
             that._randomizeExistingVelocityVector3OnSphere( particleVelocity, that.position, particlePosition, that.speed, that.speedSpread );
+        }
+
+        if( typeof that.onParticleSpawn === 'function' ) {
+            that.onParticleSpawn( a, i );
         }
     },
 
