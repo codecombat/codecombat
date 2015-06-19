@@ -155,11 +155,15 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     # console.log 'updateAnalyticsGraphData'
     # Build graphs based on available @analytics data
     # Currently only one graph
-    @analytics.graphs = [graphID: 'total-subs', lines: []]
-
-    timeframeDays = 60
+    @analytics.graphs = []
 
     return unless @subs?.length > 0
+
+    @addGraphData(60)
+    @addGraphData(180, true)
+
+  addGraphData: (timeframeDays, skipCancelled=false) ->
+    graph = {graphID: 'total-subs', lines: []}
 
     # TODO: Where should this metadata live?
     # TODO: lineIDs assumed to be unique across graphs
@@ -168,6 +172,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     startedSubsID = 'started-subs'
     cancelledSubsID = 'cancelled-subs'
     netSubsID = 'net-subs'
+    averageNewID = 'average-new'
     lineMetadata = {}
     lineMetadata[totalSubsID] =
       description: 'Total Active Subscriptions'
@@ -188,6 +193,10 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       strokeWidth: 1
     lineMetadata[netSubsID] =
       description: '7-day Average Net Subscriptions (started - cancelled)'
+      color: 'black'
+      strokeWidth: 4
+    lineMetadata[averageNewID] =
+      description: '7-day Average New Subscriptions'
       color: 'black'
       strokeWidth: 4
 
@@ -228,7 +237,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
     levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
 
-    @analytics.graphs[0].lines.push
+    graph.lines.push
       lineID: totalSubsID
       enabled: true
       points: levelPoints
@@ -263,7 +272,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
     levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
 
-    @analytics.graphs[0].lines.push
+    graph.lines.push
       lineID: startedSubsID
       enabled: true
       points: levelPoints
@@ -273,122 +282,170 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       min: 0
       max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
 
-    ## Total subs target
+    if skipCancelled
 
-    # Build line data
-    levelPoints = []
-    for sub, i in @subs
-      levelPoints.push
-        x: i
-        y: @targetSubCount
-        day: sub.day
-        pointID: "#{targetSubsID}#{i}"
-        values: []
+      ## 7-Day average started
 
-    levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
-
-    @analytics.graphs[0].lines.push
-      lineID: targetSubsID
-      enabled: true
-      points: levelPoints
-      description: lineMetadata[targetSubsID].description
-      lineColor: lineMetadata[targetSubsID].color
-      strokeWidth: lineMetadata[targetSubsID].strokeWidth
-      min: 0
-      max: Math.max(@targetSubCount, d3.max(@subs, (d) -> d.total))
-
-    ## Cancelled
-
-    # TODO: move this average cancelled stuff up the chain
-    averageCancelled = 0
-
-    # Build line data
-    levelPoints = []
-    cancelled = []
-    for sub, i in @subs[@subs.length - 30...]
-      cancelled.push sub.cancelled
-      levelPoints.push
-        x: @subs.length - 30 + i
-        y: sub.cancelled
-        day: sub.day
-        pointID: "#{cancelledSubsID}#{@subs.length - 30 + i}"
-        values: []
-    averageCancelled = cancelled.reduce((a, b) -> a + b) / cancelled.length
-    for sub, i in @subs[0...-30]
-      levelPoints.splice i, 0,
-        x: i
-        y: averageCancelled
-        day: sub.day
-        pointID: "#{cancelledSubsID}#{i}"
-        values: []
-
-    # Ensure points for each day
-    for day, i in days
-      if levelPoints.length <= i or levelPoints[i].day isnt day
-        prevY = if i > 0 then levelPoints[i - 1].y else 0.0
-        levelPoints.splice i, 0,
-          y: prevY
-          day: day
+      # Build line data
+      levelPoints = []
+      sevenStarts = []
+      for sub, i in @subs
+        average = 0
+        sevenStarts.push sub.started
+        if sevenStarts.length > 7
+          sevenStarts.shift()
+        if sevenStarts.length is 7
+          average = sevenStarts.reduce((a, b) -> a + b) / sevenStarts.length
+        levelPoints.push
+          x: i
+          y: average
+          day: sub.day
+          pointID: "#{averageNewID}#{i}"
           values: []
-      levelPoints[i].x = i
-      levelPoints[i].pointID = "#{cancelledSubsID}#{i}"
 
-    levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
+      # Ensure points for each day
+      for day, i in days
+        if levelPoints.length <= i or levelPoints[i].day isnt day
+          prevY = if i > 0 then levelPoints[i - 1].y else 0.0
+          levelPoints.splice i, 0,
+            y: prevY
+            day: day
+            values: []
+        levelPoints[i].x = i
+        levelPoints[i].pointID = "#{averageNewID}#{i}"
 
-    @analytics.graphs[0].lines.push
-      lineID: cancelledSubsID
-      enabled: true
-      points: levelPoints
-      description: lineMetadata[cancelledSubsID].description
-      lineColor: lineMetadata[cancelledSubsID].color
-      strokeWidth: lineMetadata[cancelledSubsID].strokeWidth
-      min: 0
-      max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
+      levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
 
-    ## 7-Day Net Subs
+      graph.lines.push
+        lineID: averageNewID
+        enabled: true
+        points: levelPoints
+        description: lineMetadata[averageNewID].description
+        lineColor: lineMetadata[averageNewID].color
+        strokeWidth: lineMetadata[averageNewID].strokeWidth
+        min: 0
+        max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
 
-    # Build line data
-    levelPoints = []
-    sevenNets = []
-    for sub, i in @subs
-      net = 0
-      if i >= @subs.length - 30
-        sevenNets.push sub.started - sub.cancelled
-      else
-        sevenNets.push sub.started - averageCancelled
-      if sevenNets.length > 7
-        sevenNets.shift()
-      if sevenNets.length is 7
-        net = sevenNets.reduce((a, b) -> a + b) / 7
-      levelPoints.push
-        x: i
-        y: net
-        day: sub.day
-        pointID: "#{netSubsID}#{i}"
-        values: []
+    else
 
-    # Ensure points for each day
-    for day, i in days
-      if levelPoints.length <= i or levelPoints[i].day isnt day
-        prevY = if i > 0 then levelPoints[i - 1].y else 0.0
-        levelPoints.splice i, 0,
-          y: prevY
-          day: day
+      ## Total subs target
+
+      # Build line data
+      levelPoints = []
+      for sub, i in @subs
+        levelPoints.push
+          x: i
+          y: @targetSubCount
+          day: sub.day
+          pointID: "#{targetSubsID}#{i}"
           values: []
-      levelPoints[i].x = i
-      levelPoints[i].pointID = "#{netSubsID}#{i}"
 
-    levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
+      levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
 
-    @analytics.graphs[0].lines.push
-      lineID: netSubsID
-      enabled: true
-      points: levelPoints
-      description: lineMetadata[netSubsID].description
-      lineColor: lineMetadata[netSubsID].color
-      strokeWidth: lineMetadata[netSubsID].strokeWidth
-      min: 0
-      max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
+      graph.lines.push
+        lineID: targetSubsID
+        enabled: true
+        points: levelPoints
+        description: lineMetadata[targetSubsID].description
+        lineColor: lineMetadata[targetSubsID].color
+        strokeWidth: lineMetadata[targetSubsID].strokeWidth
+        min: 0
+        max: Math.max(@targetSubCount, d3.max(@subs, (d) -> d.total))
+
+      ## Cancelled
+
+      # TODO: move this average cancelled stuff up the chain
+      averageCancelled = 0
+
+      # Build line data
+      levelPoints = []
+      cancelled = []
+      for sub, i in @subs[@subs.length - 30...]
+        cancelled.push sub.cancelled
+        levelPoints.push
+          x: @subs.length - 30 + i
+          y: sub.cancelled
+          day: sub.day
+          pointID: "#{cancelledSubsID}#{@subs.length - 30 + i}"
+          values: []
+      averageCancelled = cancelled.reduce((a, b) -> a + b) / cancelled.length
+      for sub, i in @subs[0...-30]
+        levelPoints.splice i, 0,
+          x: i
+          y: averageCancelled
+          day: sub.day
+          pointID: "#{cancelledSubsID}#{i}"
+          values: []
+
+      # Ensure points for each day
+      for day, i in days
+        if levelPoints.length <= i or levelPoints[i].day isnt day
+          prevY = if i > 0 then levelPoints[i - 1].y else 0.0
+          levelPoints.splice i, 0,
+            y: prevY
+            day: day
+            values: []
+        levelPoints[i].x = i
+        levelPoints[i].pointID = "#{cancelledSubsID}#{i}"
+
+      levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
+
+      graph.lines.push
+        lineID: cancelledSubsID
+        enabled: true
+        points: levelPoints
+        description: lineMetadata[cancelledSubsID].description
+        lineColor: lineMetadata[cancelledSubsID].color
+        strokeWidth: lineMetadata[cancelledSubsID].strokeWidth
+        min: 0
+        max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
+
+      ## 7-Day Net Subs
+
+      # Build line data
+      levelPoints = []
+      sevenNets = []
+      for sub, i in @subs
+        net = 0
+        if i >= @subs.length - 30
+          sevenNets.push sub.started - sub.cancelled
+        else
+          sevenNets.push sub.started - averageCancelled
+        if sevenNets.length > 7
+          sevenNets.shift()
+        if sevenNets.length is 7
+          net = sevenNets.reduce((a, b) -> a + b) / 7
+        levelPoints.push
+          x: i
+          y: net
+          day: sub.day
+          pointID: "#{netSubsID}#{i}"
+          values: []
+
+      # Ensure points for each day
+      for day, i in days
+        if levelPoints.length <= i or levelPoints[i].day isnt day
+          prevY = if i > 0 then levelPoints[i - 1].y else 0.0
+          levelPoints.splice i, 0,
+            y: prevY
+            day: day
+            values: []
+        levelPoints[i].x = i
+        levelPoints[i].pointID = "#{netSubsID}#{i}"
+
+      levelPoints.splice(0, levelPoints.length - timeframeDays) if levelPoints.length > timeframeDays
+
+      graph.lines.push
+        lineID: netSubsID
+        enabled: true
+        points: levelPoints
+        description: lineMetadata[netSubsID].description
+        lineColor: lineMetadata[netSubsID].color
+        strokeWidth: lineMetadata[netSubsID].strokeWidth
+        min: 0
+        max: d3.max(@subs[-timeframeDays..], (d) -> d.started + 2)
+
+    @analytics.graphs.push(graph)
 
   updateAnalyticsGraphs: ->
     # Build d3 graphs
