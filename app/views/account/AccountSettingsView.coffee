@@ -92,9 +92,9 @@ module.exports = class AccountSettingsView extends CocoView
           unless jqXHR.status is 200
             return
           isPasswordCorrect = true
-      callback = (tempThis) ->
+      callback = =>
         if toBeDelayed
-          setTimeout callback, 100, tempThis
+          setTimeout callback, 100
         else
           if isPasswordCorrect
             renderData =
@@ -103,14 +103,14 @@ module.exports = class AccountSettingsView extends CocoView
               'confirmDecline': 'Not really'
               'confirmConfirm': 'Definitely'
             confirmModal = new ConfirmModal renderData
-            confirmModal.on 'confirm', tempThis.deleteAccount
-            tempThis.openModalView confirmModal
+            confirmModal.on 'confirm', @deleteAccount
+            @openModalView confirmModal
           else
             message = $.i18n.t('account_settings.wrong_password', defaultValue: 'Wrong Password.')
             err = [message: message, property: 'password1', formatted: true]
-            forms.applyErrorsToForm(tempThis.$el, err)
-            $('.nano').nanoScroller({scrollTo: tempThis.$el.find('.has-error')})      
-      setTimeout callback, 100, this
+            forms.applyErrorsToForm(@$el, err)
+            $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})      
+      setTimeout callback, 100
     else
       message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
       err = [message: message, property: 'email1', formatted: true]
