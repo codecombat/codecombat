@@ -415,7 +415,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     feature6: "Premium Emailsupport"
 #    feature7: "Private <strong>Clans</strong>"
     free: "Kostenlos"
-    month: "Monate"
+    month: "Monat"
     subscribe_title: "Abonnieren"
     unsubscribe: "Abmelden"
     confirm_unsubscribe: "Abmeldung bestätigen"
