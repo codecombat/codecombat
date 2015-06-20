@@ -56,7 +56,10 @@ else
             .form-group
               label.control-label(for="email1", data-i18n="account_settings.type_in_email") Type in your email to confirm the deletion
               input#email1.form-control(name="email1", type="text")
-            button#delete-account-button.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
+            .form-group  
+              label.control-label(for="password1", data-i18n="account_settings.type_in_password") Type in your password also
+              input#password1.form-control(name="password1", type="password")  
+          button#delete-account-button.btn.form-control.btn-primary(data-i18n="account_settings.delete_this_account")
 
     .col-md-6
           

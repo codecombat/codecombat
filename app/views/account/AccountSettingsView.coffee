@@ -40,7 +40,7 @@ module.exports = class AccountSettingsView extends CocoView
   #- Form input callbacks
   onInputChanged: (e) ->
     $(e.target).addClass 'changed'
-    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1
+    if (JSON.stringify(document.getElementById('email1').className)).indexOf("changed") > -1 or (JSON.stringify(document.getElementById('password1').className)).indexOf("changed") > -1 
       $(e.target).removeClass 'changed'
     else
       @trigger 'input-changed'
@@ -67,25 +67,56 @@ module.exports = class AccountSettingsView extends CocoView
 
 
   #- Just copied from OptionsView, TODO refactor
-
   confirmAccountDeletion: ->
     forms.clearFormAlerts(@$el)
-    myEmail = me.get 'email'
+    myEmail = me.get 'email'   
     email1 = document.getElementById('email1').value
+    password1 = document.getElementById('password1').value
     if Boolean(email1) and email1 is myEmail
-      renderData =
-        'confirmTitle': 'Are you really sure?'
-        'confirmBody': 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
-        'confirmDecline': 'Not really'
-        'confirmConfirm': 'Definitely'
-      confirmModal = new ConfirmModal renderData
-      confirmModal.on 'confirm', @deleteAccount
-      @openModalView confirmModal
+      isPasswordCorrect = false
+      toBeDelayed = true
+      $.ajax
+        url: '/auth/login'
+        type: 'POST'
+        data:
+          {
+            username: email1,
+            password: password1
+          }
+        parse: true
+        error: (error) ->
+          toBeDelayed = false
+          'Bad Error. Can\'t connect to server or something. ' + error
+        success: (response, textStatus, jqXHR) ->
+          toBeDelayed = false
+          unless jqXHR.status is 200
+            return
+          isPasswordCorrect = true
+      callback = (tempThis) ->
+        if toBeDelayed
+          setTimeout callback, 100, tempThis
+        else
+          if isPasswordCorrect
+            renderData =
+              'confirmTitle': 'Are you really sure?'
+              'confirmBody': 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?'
+              'confirmDecline': 'Not really'
+              'confirmConfirm': 'Definitely'
+            confirmModal = new ConfirmModal renderData
+            confirmModal.on 'confirm', tempThis.deleteAccount
+            tempThis.openModalView confirmModal
+          else
+            message = $.i18n.t('account_settings.wrong_password', defaultValue: 'Wrong Password.')
+            err = [message: message, property: 'password1', formatted: true]
+            forms.applyErrorsToForm(tempThis.$el, err)
+            $('.nano').nanoScroller({scrollTo: tempThis.$el.find('.has-error')})      
+      setTimeout callback, 100, this
     else
       message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
       err = [message: message, property: 'email1', formatted: true]
       forms.applyErrorsToForm(@$el, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
+
 
   deleteAccount: ->
     myID = me.id
