@@ -10,7 +10,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 # TODO: Invalid clan name message
 # TODO: Refresh data instead of page
 
-module.exports = class MainAdminView extends RootView
+module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
 
