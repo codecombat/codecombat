@@ -714,8 +714,8 @@
     admin: "Admin"
     new_password: "New Password"
     new_password_verify: "Verify"
-    type_in_email: "Type in your email to confirm account deletion."
-    type_in_password: "Also, type in your password."
+    type_in_email: "Type in your email to confirm account deletion." # {change}
+    type_in_password: "Also, type in your password." # {change}
     email_subscriptions: "Email Subscriptions"
     email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Announcements"
