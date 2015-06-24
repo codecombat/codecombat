@@ -44,6 +44,7 @@
   "dependencies": {
     "JASON": "~0.1.3",
     "JQDeferred": "~2.1.0",
+    "aether": "~0.3.0",
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
     "bayesian-battle": "0.0.x",
