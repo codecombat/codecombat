@@ -730,7 +730,7 @@ sendNextStepsEmail = (user, now, daysAgo) ->
         #'mv-code-club': isKid  # TODO: geodetect, get landing page URL
         'breakout-mentors': isKid
       nAdditionalOffers = Math.max 0, 4 - _.filter(offers).length
-      possibleAdditionalOffers = ['ostraining', 'code-school', 'one-month', 'learnable', 'pluralsight']
+      possibleAdditionalOffers = ['ostraining', 'code-school', 'one-month', 'pluralsight']
       for offer in _.sample possibleAdditionalOffers, nAdditionalOffers
         offers[offer] = true
       if user.isPremium()
