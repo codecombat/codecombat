@@ -11,6 +11,7 @@ module.exports = class TeachersFreeTrialView extends RootView
 
   events:
     'click .submit-button': 'onClickSubmit'
+    'click .input-age-other': 'onClickTextBox'
 
   constructor: (options) ->
     super options
@@ -31,6 +32,9 @@ module.exports = class TeachersFreeTrialView extends RootView
       @fetchingData = false
       @render?()
     @supermodel.loadCollection(@existingRequests, 'own_trial_requests', {cache: false})
+
+  onClickTextBox: (e) ->
+    $('.radio-other').prop("checked", true)
 
   onClickSubmit: (e) ->
     email = $('.input-email-address').val()
