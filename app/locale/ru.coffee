@@ -713,7 +713,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     admin: "Админ"
     new_password: "Новый пароль"
     new_password_verify: "Подтверждение пароля"
-    type_in_email: "Введите ваш email для подтверждения удаления"
+    type_in_email: "Введите ваш email для подтверждения удаления аккаунта"
     type_in_password: "Так же введите ваш пароль"
     email_subscriptions: "Email-подписки"
     email_subscriptions_none: "Нет активных подписок."
