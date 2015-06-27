@@ -678,6 +678,7 @@
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "I AGREE"
+    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contact CodeCombat"
