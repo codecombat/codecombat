@@ -927,6 +927,8 @@
     pop_i18n: "Populate I18N"
     tasks: "Tasks"
     clear_storage: "Clear your local changes"
+    add_system_title: "Add Systems to Level"
+    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Preview"
