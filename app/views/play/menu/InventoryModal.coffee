@@ -430,10 +430,20 @@ module.exports = class InventoryModal extends ModalView
   updateLevelRequiredItems: (equipment) ->
     return unless requiredGear = @options.level.get 'requiredGear'
     return unless heroClass = @selectedHero?.get 'heroClass'
+
+    ringSlots = ['left-ring', 'right-ring']
+
     for slot, items of requiredGear when items.length
-      equipped = equipment[slot]
-      continue if equipped in items
-      continue if equipped  # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
+      if slot in ringSlots
+        validSlots = ringSlots
+      else
+        validSlots = [slot]
+
+      continue if validSlots.some (slot) ->
+        equipped = equipment[slot]
+        equipped in items
+
+      continue if equipment[slot]  # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
       items = (item for item in items when heroClass in (@items.findWhere(original: item)?.classes ? []))
       continue unless items.length  # If the required items are for another class, then let's not be finicky.
 
