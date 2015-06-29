@@ -678,6 +678,7 @@
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "I AGREE"
+    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -714,8 +715,8 @@
     admin: "Admin"
     new_password: "New Password"
     new_password_verify: "Verify"
-    type_in_email: "Type in your email to confirm account deletion."
-    type_in_password: "Also, type in your password."
+    type_in_email: "Type in your email to confirm account deletion." # {change}
+    type_in_password: "Also, type in your password." # {change}
     email_subscriptions: "Email Subscriptions"
     email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Announcements"
@@ -926,6 +927,8 @@
     pop_i18n: "Populate I18N"
     tasks: "Tasks"
     clear_storage: "Clear your local changes"
+    add_system_title: "Add Systems to Level"
+    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Preview"
