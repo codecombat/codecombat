@@ -1,0 +1,73 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  div
+    span *UNDER CONSTRUCTION, send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+  div TODO: figure out correct terminology.  Someone should probably purchase a course, and then enroll their students.
+  div TODO: move details off button and into clear 'this is what you are purchasing' blurb
+  div TODO: individual teacher trial option
+  div(style='border-bottom: 1px solid black')
+
+  .well.well-lg.enroll-container
+    h1.center Enroll
+    h3 1. Course
+    p Select 'All Courses' to recieve up to a 70% discount!
+    .form-group
+      select.form-control.course-select
+        each course in courses
+          if course.title !== 'Introduction to Computer Science'
+            option(value="#{course.title}")= course.title
+        option(value="All Courses") All Courses
+    h3 2. Number of students
+    .quantity-container(style="width:50%;")
+      .radio
+        label
+          if quantity === 20
+            input(type='radio', name='quantity', data-quantity=20, checked=true)
+          else
+            input(type='radio', name='quantity', data-quantity=20)
+          if selectedCourseTitle === 'All Courses'
+            span Up to 20 students $499
+          else
+            span Up to 20 students $99
+      .radio
+        label
+          if quantity === 50
+            input(type='radio', name='quantity', data-quantity=50, checked=true)
+          else
+            input(type='radio', name='quantity', data-quantity=50)
+          if selectedCourseTitle === 'All Courses'
+            span Up to 50 students $999
+          else
+            span Up to 50 students $199
+      .radio
+        label
+          if quantity === 100
+            input(type='radio', name='quantity', data-quantity=100, checked=true)
+          else
+            input(type='radio', name='quantity', data-quantity=100)
+          if selectedCourseTitle === 'All Courses'
+            span Up to 100 students $1499
+          else
+            span Up to 100 students $349
+      .radio
+        label
+          if quantity === 500
+            input(type='radio', name='quantity', data-quantity=500, checked=true)
+          else
+            input(type='radio', name='quantity', data-quantity=500)
+          if selectedCourseTitle === 'All Courses'
+            span Up to 500 students $2999
+          else
+            span Up to 500 students $799
+    h3 3. Finish Purchase
+    p After purchase you will be able to invite your students to enroll in the selected course.
+    p.center
+      button.btn.btn-info.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
+    p.center
+      span For any questions, please contact
+      a.spl(href='mailto:team@codecombat.com') team@codecombat.com

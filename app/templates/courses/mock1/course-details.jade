@@ -1,0 +1,77 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  div
+    span *UNDER CONSTRUCTION, send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+  div
+    input(type='checkbox')
+    span.spl Student view
+  div TODO: edit button for class name
+  div TODO: description field
+  div TODO: fix ugly tabs
+  div TODO: add student progress monitoring
+  div TODO: level concepts, status, working play button
+  div TODO: select course session
+  div TODO: no unlock code or capacity limit for first course
+  div TODO: student view
+  div(style='border-bottom: 1px solid black')
+
+  h1= course.title
+  p Class name: #{instance.name}
+
+  p Select programming languages available to students.
+  .form-group
+    select.form-control.select-language
+      option(value="Python") Python
+      option(value="JavaScript") JavaScript
+      option(value="All Languages") All Languages
+
+  div(role='tabpanel')
+    ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Students
+      li(role='presentation')
+        a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
+      li(role='presentation')
+        a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab') Levels
+
+  .tab-content
+    .tab-pane.active#progress(role='tabpanel')
+      if instance.students
+        table.table.table-condensed
+          thead
+            tr
+              th Name
+              th Progress
+          tbody
+            each student in instance.students
+              tr
+              td
+                a= student
+              td TODO: level progress
+
+    .tab-pane#invite(role='tabpanel')
+      p Invite students to join this class.
+      p Student unlock code: #{instance.code}
+      p Class capacity: 34/50
+
+      textarea.textarea-emails(rows=3, placeholder="Enter student emails to invite, one per line")
+      div
+        button.btn.btn-success.btn-invite Send Invites
+    .tab-pane#levels(role='tabpanel')
+      table.table.table-condensed
+        thead
+          tr
+            th Level
+            th
+        tbody
+          each level in course.levels
+            tr
+              td
+                spa= level
+              td
+                button.btn.btn-success Play
