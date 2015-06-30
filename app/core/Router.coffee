@@ -1,8 +1,6 @@
 gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 # TODO: Move to GPlusHandler
 
-NotFoundView = require('views/core/NotFoundView')
-
 go = (path) -> -> @routeDirectly path, arguments
 
 module.exports = class CocoRouter extends Backbone.Router
@@ -58,6 +56,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/artisan': go('contribute/ArtisanView')
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
+
+    'courses': -> @navigate('courses/mock1')
+    'courses/mock1': go('courses/mock1/CoursesView')
+    'courses/mock1/:courseID': go('courses/mock1/CourseDetailsView')
+    'courses/mock1/:courseID/info': go('courses/mock1/CourseInfoView')
+    'courses/mock1/:courseID/enroll': go('courses/mock1/CourseEnrollView')
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -118,7 +122,7 @@ module.exports = class CocoRouter extends Backbone.Router
     #'user/:slugOrID/profile': go('user/JobProfileView')
     'user/:slugOrID/profile': go('EmployersView')  # Show the not-recruiting-now screen
 
-    '*name': 'showNotFoundView'
+    '*name': go('NotFoundView')
 
   routeToServer: (e) ->
     window.location.href = window.location.href
@@ -141,13 +145,6 @@ module.exports = class CocoRouter extends Backbone.Router
     catch error
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
-
-  showNotFoundView: ->
-    @openView @notFoundView()
-
-  notFoundView: ->
-    view = new NotFoundView()
-    view.render()
 
   openView: (view) ->
     @closeCurrentView()

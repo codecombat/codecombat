@@ -60,6 +60,7 @@ LevelHandler = class LevelHandler extends Handler
     'replayable'
     'buildTime'
     'scoreTypes'
+    'concepts'
   ]
 
   postEditableProperties: ['name']

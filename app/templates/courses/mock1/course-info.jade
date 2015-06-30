@@ -1,0 +1,46 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  div
+    span *UNDER CONSTRUCTION, send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+  div TODO: update images, add captions
+  div TODO: Add real marketing copy.
+  div(style='border-bottom: 1px solid black; margin-bottom: 20px')
+
+
+  .well.info-container
+    h1.center= course.title
+
+    p.center.gameplay-img-container
+      img(src='/images/pages/about/coco_comic.jpg' width='700')
+    p= course.description
+    p
+      span There is approximately
+      strong.spl 5 hours
+      span.spl of content.
+
+    h3 Topics
+    ul
+      each topic in course.topics
+        li= topic
+
+    p
+      div.praise-quote "#{praise.quote}"
+      div.praise-source - #{praise.source}
+
+    h3 Extras
+    p There are help videos and premium email support
+    p.center.monitoring-img-container
+      img(src='/images/pages/clans/dashboard_preview.png' width='700')
+    p There is detailed student progress monitoring.
+
+    p.center
+      button.btn.btn-info.btn-lg.btn-enroll(data-course-id="#{courseID}") Enroll
+
+    p.contact-container
+      span For more information, please contact
+      a.spl(href='mailto:team@codecombat.com') team@codecombat.com

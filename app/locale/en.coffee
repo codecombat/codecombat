@@ -568,10 +568,6 @@
     why_paragraph_2_suffix: "That's why CodeCombat is a multiplayer game, not a gamified lesson course. We won't stop until you can't stop--but this time, that's a good thing."
     why_paragraph_3: "If you're going to get addicted to some game, get addicted to this one and become one of the wizards of the tech age."
     press_title: "Bloggers/Press"
-    contact_title: "Contact"
-    codecombat_inc: "CodeCombat, Inc."
-    address_part_1: "188 King St #507"
-    address_part_2: "San Francisco, CA 94107"
     press_paragraph_1_prefix: "Want to write about us? Feel free to download and use all of the resources included in our"
     press_paragraph_1_link: "press packet"
     press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
@@ -651,12 +647,12 @@
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
     retrieving: "Retrieving information..."
     being_reviewed_1: "Your application for a free trial subscription is being"
-    being_reviewed_2: "reviewed." # {change}
+    being_reviewed_2: "reviewed."
     approved_1: "Your application for a free trial subscription was"
-    approved_2: "approved." # {change}
+    approved_2: "approved."
     approved_3: "Further instructions have been sent to"
     denied_1: "Your application for a free trial subscription has been"
-    denied_2: "denied." # {change}
+    denied_2: "denied."
     contact_1: "Please contact"
     contact_2: "if you have further questions."
     description_1: "We offer free subscriptions to teachers for evaluation purposes. You can find more information on our"
@@ -682,6 +678,7 @@
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "I AGREE"
+    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -709,6 +706,7 @@
     picture_tab: "Picture"
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email"
+    wrong_password: "Wrong Password"
     upload_picture: "Upload a picture"
     delete_this_account: "Delete this account permanently"
     god_mode: "God Mode"
@@ -717,7 +715,8 @@
     admin: "Admin"
     new_password: "New Password"
     new_password_verify: "Verify"
-    type_in_email: "Type in your email to confirm the deletion"
+    type_in_email: "Type in your email to confirm account deletion." # {change}
+    type_in_password: "Also, type in your password." # {change}
     email_subscriptions: "Email Subscriptions"
     email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Announcements"
@@ -748,6 +747,7 @@
     keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Space"
     enter: "Enter"
+    press_enter: "press enter"
     escape: "Escape"
     shift: "Shift"
     run_code: "Run current code."
@@ -927,6 +927,8 @@
     pop_i18n: "Populate I18N"
     tasks: "Tasks"
     clear_storage: "Clear your local changes"
+    add_system_title: "Add Systems to Level"
+    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Preview"
@@ -1189,6 +1191,26 @@
     campaigns: "Campaigns"
     poll: "Poll"
     user_polls_record: "Poll Voting History"
+
+  concepts:
+    advanced_strings: "Advanced Strings"
+    algorithms: "Algorithms"
+    arithmetic: "Arithmetic"
+    arrays: "Arrays"
+    basic_syntax: "Basic Syntax"
+    boolean_logic: "Boolean Logic"
+    break_statements: "Break Statements"
+    classes: "Classes"
+    for_loops: "For Loops"
+    functions: "Functions"
+    if_statements: "If Statements"
+    input_handling: "Input Handling"
+    math_operations: "Math Operations"
+    object_literals: "Object Literals"
+    strings: "Strings"
+    variables: "Variables"
+    vectors: "Vectors"
+    while_loops: "While Loops"
 
   delta:
     added: "Added"
