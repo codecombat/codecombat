@@ -882,6 +882,7 @@
     level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Starting Conditions"
     level_tab_thangs_add: "Add Thangs"
+    level_tab_thangs_search: "Search thangs"
     add_components: "Add Components"
     component_configs: "Component Configurations"
     config_thang: "Double click to configure a thang"
