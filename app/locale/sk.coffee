@@ -677,6 +677,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     cla_url: "licencia"
     cla_suffix: "."
     cla_agree: "SÚHLASÍM"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Kontaktujte nás"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     admin: "Spravovať"
     new_password: "Nové heslo"
     new_password_verify: "Overenie"
-    type_in_email: "Zadaj email na potvrdenie zrušenia účtu"
+    type_in_email: "Zadaj email na potvrdenie zrušenia účtu" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Odoberať emailom"
     email_subscriptions_none: "Žiadne odoberanie emailom."
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    pop_i18n: "Populate I18N"
 #    tasks: "Tasks"
 #    clear_storage: "Clear your local changes"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Náhľad"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    campaigns: "Campaigns"
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
 #  delta:
 #    added: "Added"

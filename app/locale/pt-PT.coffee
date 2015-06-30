@@ -677,6 +677,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "EU CONCORDO"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contacta o CodeCombat"
@@ -713,8 +714,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     admin: "Administrador"
     new_password: "Nova Palavra-passe"
     new_password_verify: "Verificar"
-    type_in_email: "Escreve o teu e-mail para confirmares a eliminação"
-    type_in_password: "Escreve também a tua palavra-passe."
+    type_in_email: "Escreve o teu e-mail para confirmares a eliminação" # {change}
+    type_in_password: "Escreve também a tua palavra-passe." # {change}
     email_subscriptions: "Subscrições de E-mail"
     email_subscriptions_none: "Sem Subscições de E-mail."
     email_announcements: "Anúncios"
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     pop_i18n: "Propagar I18N"
     tasks: "Tarefas"
     clear_storage: "Limpa as tuas alterações locais"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Pré-visualizar"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     campaigns: "Campanhas"
     poll: "Votações"
     user_polls_record: "Histórico das Votações"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "Adicionados/as"

@@ -677,6 +677,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "Я погоджуюсь"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Зв'язатися з CodeCombat"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     admin: "Aдмін"
     new_password: "Новий пароль"
     new_password_verify: "Підтвердження паролю"
-    type_in_email: "Введіть свій email, щоб підтвердити вилучення"
+    type_in_email: "Введіть свій email, щоб підтвердити вилучення" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Email-підписки"
     email_subscriptions_none: "Жодних підписок."
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     pop_i18n: "Додати I18N"
     tasks: "Завдання"
     clear_storage: "Очистити свої локальні зміни"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Перегляд"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaigns: "Кампаніі"
     poll: "Опитування"
     user_polls_record: "Історія голосування в опитуваннях"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "Додано"

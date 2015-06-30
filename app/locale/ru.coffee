@@ -677,6 +677,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     cla_url: "лицензионным соглашением соавторов"
     cla_suffix: "."
     cla_agree: "Я СОГЛАСЕН"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -713,8 +714,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     admin: "Админ"
     new_password: "Новый пароль"
     new_password_verify: "Подтверждение пароля"
-    type_in_email: "Введите ваш email для подтверждения удаления аккаунта"
-    type_in_password: "Так же введите ваш пароль"
+    type_in_email: "Введите ваш email для подтверждения удаления аккаунта" # {change}
+    type_in_password: "Так же введите ваш пароль" # {change}
     email_subscriptions: "Email-подписки"
     email_subscriptions_none: "Нет активных подписок."
     email_announcements: "Оповещения"
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pop_i18n: "Популяризируйте I18N"
     tasks: "Задачи"
     clear_storage: "Очистить ваши локальные изменения"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Предпросмотр"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaigns: "Кампании"
     poll: "Опрос"
     user_polls_record: "История опросов"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "Добавлено"

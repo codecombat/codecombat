@@ -677,6 +677,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     cla_url: "Copyright"
     cla_suffix: "."
     cla_agree: "J'accepte"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Contacter CodeCombat"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     admin: "Admin"
     new_password: "Nouveau mot de passe"
     new_password_verify: "Vérifier"
-    type_in_email: "Entrez votre adresse e-mail pour confirmer la supression de votre compte"
+    type_in_email: "Entrez votre adresse e-mail pour confirmer la supression de votre compte" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Abonnements"
     email_subscriptions_none: "Aucun e-mail d'abonnement."
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     pop_i18n: "Renseigner I18N"
     tasks: "Tâches"
     clear_storage: "Vider vos changements locaux"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Prévisualiser"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaigns: "Campagnes"
     poll: "Sondage"
     user_polls_record: "Historique de sondage des utilisateurs"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "Ajouté"

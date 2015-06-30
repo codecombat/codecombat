@@ -677,6 +677,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     cla_url: "umowę licencyjną dla współtwórców (CLA)"
     cla_suffix: "."
     cla_agree: "AKCEPTUJĘ"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Kontakt z CodeCombat"
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    pop_i18n: "Populate I18N"
     tasks: "Zadania"
 #    clear_storage: "Clear your local changes"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Podgląd"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     campaigns: "Kampanie"
     poll: "Ankieta"
     user_polls_record: "Historia oddanych głosów"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "Dodano"
