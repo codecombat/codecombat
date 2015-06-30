@@ -1192,6 +1192,26 @@
     poll: "Poll"
     user_polls_record: "Poll Voting History"
 
+  concepts:
+    advanced_strings: "Advanced Strings"
+    algorithms: "Algorithms"
+    arithmetic: "Arithmetic"
+    arrays: "Arrays"
+    basic_syntax: "Basic Syntax"
+    boolean_logic: "Boolean Logic"
+    break_statements: "Break Statements"
+    classes: "Classes"
+    for_loops: "For Loops"
+    functions: "Functions"
+    if_statements: "If Statements"
+    input_handling: "Input Handling"
+    math_operations: "Math Operations"
+    object_literals: "Object Literals"
+    strings: "Strings"
+    variables: "Variables"
+    vectors: "Vectors"
+    while_loops: "While Loops"
+
   delta:
     added: "Added"
     modified: "Modified"

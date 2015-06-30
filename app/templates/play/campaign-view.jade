@@ -39,6 +39,10 @@ if campaign
                 a.spr(href="/contribute/adventurer")
                   strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
                 span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
+            if level.concepts && level.concepts.length
+              p
+                for concept in level.concepts
+                  kbd(data-i18n="concepts." + concept)
 
             if !level.disabled && !level.locked
               if playCount && playCount.sessions
