@@ -677,7 +677,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "EU CONCORDO"
-#    owner_approve: "An owner will need to approve it before your changes will become visible."
+    owner_approve: "Um administrador terá de aprová-la antes de as tuas alterações ficarem visíveis."
 
   contact:
     contact_us: "Contacta o CodeCombat"
@@ -714,8 +714,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     admin: "Administrador"
     new_password: "Nova Palavra-passe"
     new_password_verify: "Verificar"
-    type_in_email: "Escreve o teu e-mail para confirmares a eliminação" # {change}
-    type_in_password: "Escreve também a tua palavra-passe." # {change}
+    type_in_email: "Escreve o teu e-mail para confirmares a eliminação."
+    type_in_password: "Escreve também a tua palavra-passe."
     email_subscriptions: "Subscrições de E-mail"
     email_subscriptions_none: "Sem Subscições de E-mail."
     email_announcements: "Anúncios"
@@ -926,8 +926,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     pop_i18n: "Propagar I18N"
     tasks: "Tarefas"
     clear_storage: "Limpa as tuas alterações locais"
-#    add_system_title: "Add Systems to Level"
-#    done_adding: "Done Adding"
+    add_system_title: "Adicionar Sistemas ao Nível"
+    done_adding: "Adição Concluída"
 
   article:
     edit_btn_preview: "Pré-visualizar"
