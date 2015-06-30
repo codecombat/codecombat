@@ -18,6 +18,7 @@ module.exports = class InventoryModal extends ModalView
   className: 'modal fade play-modal'
   template: template
   slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag']  #, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
+  ringSlots: ['left-ring', 'right-ring']
   closesOnClickOutside: false # because draggable somehow triggers hide when you don't drag onto a draggable
 
   events:
@@ -104,7 +105,7 @@ module.exports = class InventoryModal extends ModalView
       unless gearSlugs[item.get('original')] is 'tarnished-bronze-breastplate' and inCampaignView and @options.level.get('slug') is 'the-raised-sword'
         for slot in item.getAllowedSlots()
           continue unless requiredItems = requiredGear[slot]
-          continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear
+          continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear and slot not in @ringSlots
           # Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
           if item.get('original') is requiredItems[0] and not _.find(requiredItems, (requiredItem) -> me.ownsItem requiredItem)
             requiredToPurchase = true
@@ -431,11 +432,9 @@ module.exports = class InventoryModal extends ModalView
     return unless requiredGear = @options.level.get 'requiredGear'
     return unless heroClass = @selectedHero?.get 'heroClass'
 
-    ringSlots = ['left-ring', 'right-ring']
-
     for slot, items of requiredGear when items.length
-      if slot in ringSlots
-        validSlots = ringSlots
+      if slot in @ringSlots
+        validSlots = @ringSlots
       else
         validSlots = [slot]
 
@@ -443,7 +442,10 @@ module.exports = class InventoryModal extends ModalView
         equipped = equipment[slot]
         equipped in items
 
-      continue if equipment[slot]  # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
+      # Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
+      # Rings often have unique effects, so this rule does not apply to them (they are still required even if there is a non-restricted ring equipped in the slot).
+      continue if equipment[slot] and slot not in @ringSlots
+
       items = (item for item in items when heroClass in (@items.findWhere(original: item)?.classes ? []))
       continue unless items.length  # If the required items are for another class, then let's not be finicky.
 
