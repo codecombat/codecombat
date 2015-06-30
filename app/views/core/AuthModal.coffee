@@ -76,7 +76,17 @@ module.exports = class AuthModal extends ModalView
     @enableModalInProgress(@$el) # TODO: part of forms
     loginUser userObject, null, window.nextURL
 
+  emailCheck = ->
+    email = $('#email', @$el).val()
+    filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+    unless filter.test(email)
+      forms.setErrorToProperty @$el, 'email', "Please enter a valid email address", true
+      return false
+    return true
+
   createAccount: ->
+    unless emailCheck() is true
+      return
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     delete userObject.subscribe
