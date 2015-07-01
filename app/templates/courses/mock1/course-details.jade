@@ -8,24 +8,43 @@ block content
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div
-    input(type='checkbox')
+    input.student-view-checkbox(type='checkbox')
     span.spl Student view
-  div TODO: edit button for class name
-  div TODO: description field
   div TODO: fix ugly tabs
   div TODO: add student progress monitoring
   div TODO: level concepts, status, working play button
-  div TODO: select course session
-  div TODO: no unlock code or capacity limit for first course
   div TODO: student view
-  div(style='border-bottom: 1px solid black')
+  div(style='border-bottom: 1px solid black;')
 
   h1= course.title
-  p Class name: #{instance.name}
+  p= course.description
+  p
+    strong Concepts:
+    ul
+      each topic in course.topics
+        li= topic
+  strong= course.duration
 
-  p Select programming languages available to students.
+  h3 Your Class
   .form-group
-    select.form-control.select-language
+    select.form-control.select-session
+      each instance in instances
+        option= instance.name
+    span.spl
+      button.btn.btn-xs.edit-class-name-btn edit class name
+
+  p
+    if instance.description
+      span= instance.description
+      span.spl
+        button.btn.btn-xs.edit-description-btn edit class description
+    else
+      div
+        button.btn.btn-xs.edit-description-btn add class description
+
+  .form-group
+    span Class programming language:
+    select.spl.form-control.select-language
       option(value="Python") Python
       option(value="JavaScript") JavaScript
       option(value="All Languages") All Languages
@@ -56,8 +75,9 @@ block content
 
     .tab-pane#invite(role='tabpanel')
       p Invite students to join this class.
-      p Student unlock code: #{instance.code}
-      p Class capacity: 34/50
+      if course.title !== 'Introduction to Computer Science'
+        p Student unlock code: #{instance.code}
+        p Class capacity: 34/50
 
       textarea.textarea-emails(rows=3, placeholder="Enter student emails to invite, one per line")
       div

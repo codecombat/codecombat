@@ -34,6 +34,7 @@ defaultTasks = [
   'Write the guide.'
   'Write a loading tip, if needed.'
   'Click the Populate i18n button.'
+  'Add programming concepts covered.'
 
   'Mark whether it requires a subscription.'
   'Release to everyone via MailChimp.'

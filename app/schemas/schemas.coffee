@@ -255,4 +255,5 @@ me.concept = me.shortString enum: [
     'variables'
     'vectors'
     'while_loops'
+    'recursion'
   ]
