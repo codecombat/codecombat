@@ -78,6 +78,7 @@ module.exports = class SubscribeModal extends ModalView
 
   setupPaymentMethodsInfoPopover: ->
     popoverTitle = $.i18n.t('subscribe.payment_methods_title')
+    popoverTitle += '<button type="button" class="close" onclick="$(&#39;#payment-methods-info&#39;).popover(&#39;hide&#39;);">&times;</button>'
     popoverContent = "<p>" + $.i18n.t('subscribe.payment_methods_blurb1') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.payment_methods_blurb2') + " <a href='mailto:support@codecombat.com'>support@codecombat.com</a>."
     @$el.find('#payment-methods-info').popover(
