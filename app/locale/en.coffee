@@ -1212,6 +1212,7 @@
     variables: "Variables"
     vectors: "Vectors"
     while_loops: "While Loops"
+    recursion: "Recursion"
 
   delta:
     added: "Added"
