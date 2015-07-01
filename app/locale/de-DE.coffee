@@ -677,6 +677,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cla_url: "CLA"
     cla_suffix: ") akzeptieren."
     cla_agree: "Ich stimme zu"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "Kontaktiere CodeCombat"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     admin: "Admin"
     new_password: "Neues Passwort"
     new_password_verify: "Passwort verifizieren"
-    type_in_email: "Email eingeben, um Löschung zu bestätigen"
+    type_in_email: "Email eingeben, um Löschung zu bestätigen" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "Email Abonnements"
     email_subscriptions_none: "Keine Email Abonnements."
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     pop_i18n: "Bevölkere I18N"
     tasks: "Aufgaben"
     clear_storage: "Lösche Deine lokalen Änderungen"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "Vorschau"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaigns: "Kampagne"
     poll: "Umfrage"
     user_polls_record: "Umfrageergebnisse"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "hinzugefügt"

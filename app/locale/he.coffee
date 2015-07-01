@@ -677,6 +677,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "אני מסכים"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "צור קשר"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     admin: "אדמין"
     new_password: "סיסמה חדשה"
     new_password_verify: "חזור על הסיסמה שנית"
-    type_in_email: "הזן את כתובת המייל שלך על מנת לבצע את המחיקה"
+    type_in_email: "הזן את כתובת המייל שלך על מנת לבצע את המחיקה" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "הרשמויות אימייל"
     email_subscriptions_none: ".אין מנויי מייל"
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     pop_i18n: "I18N אכלס"
     tasks: "מטלות"
     clear_storage: "נקה את השינויים המקומיים"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "צפה בכותרת"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     campaigns: "מסעות"
     poll: "סקר"
     user_polls_record: "היסטוריית הצבעות בסקרים"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "נוסף"

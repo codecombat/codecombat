@@ -677,6 +677,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     cla_url: "貢獻者許可協議"
     cla_suffix: "。"
     cla_agree: "我同意"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "聯繫我們"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     admin: "管理員"
     new_password: "新密碼"
     new_password_verify: "確認密碼"
-    type_in_email: "輸入您的Email來確認刪除"
+    type_in_email: "輸入您的Email來確認刪除" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "訂閱"
     email_subscriptions_none: "無Email訂閱"
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     pop_i18n: "填寫 I18N"
     tasks: "任務"
     clear_storage: "清除您本機端的變更"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
   article:
     edit_btn_preview: "預覽"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     campaigns: "征戰"
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
   delta:
     added: "已填加"

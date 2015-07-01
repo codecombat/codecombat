@@ -677,6 +677,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     cla_url: "CLA"
 #    cla_suffix: "."
     cla_agree: "同意する"
+#    owner_approve: "An owner will need to approve it before your changes will become visible."
 
   contact:
     contact_us: "お問い合わせ"
@@ -713,7 +714,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     admin: "管理者"
     new_password: "新パスワード"
     new_password_verify: "新パスワードを再入力"
-    type_in_email: "削除を確認するため、メールを入力して下さい"
+    type_in_email: "削除を確認するため、メールを入力して下さい" # {change}
 #    type_in_password: "Also, type in your password."
     email_subscriptions: "ニュースレターの購読"
     email_subscriptions_none: "No Email Subscriptions."
@@ -925,6 +926,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    pop_i18n: "Populate I18N"
 #    tasks: "Tasks"
 #    clear_storage: "Clear your local changes"
+#    add_system_title: "Add Systems to Level"
+#    done_adding: "Done Adding"
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -1187,6 +1190,26 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    campaigns: "Campaigns"
 #    poll: "Poll"
 #    user_polls_record: "Poll Voting History"
+
+#  concepts:
+#    advanced_strings: "Advanced Strings"
+#    algorithms: "Algorithms"
+#    arithmetic: "Arithmetic"
+#    arrays: "Arrays"
+#    basic_syntax: "Basic Syntax"
+#    boolean_logic: "Boolean Logic"
+#    break_statements: "Break Statements"
+#    classes: "Classes"
+#    for_loops: "For Loops"
+#    functions: "Functions"
+#    if_statements: "If Statements"
+#    input_handling: "Input Handling"
+#    math_operations: "Math Operations"
+#    object_literals: "Object Literals"
+#    strings: "Strings"
+#    variables: "Variables"
+#    vectors: "Vectors"
+#    while_loops: "While Loops"
 
 #  delta:
 #    added: "Added"

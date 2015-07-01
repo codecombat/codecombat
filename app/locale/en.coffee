@@ -715,8 +715,8 @@
     admin: "Admin"
     new_password: "New Password"
     new_password_verify: "Verify"
-    type_in_email: "Type in your email to confirm account deletion." # {change}
-    type_in_password: "Also, type in your password." # {change}
+    type_in_email: "Type in your email to confirm account deletion."
+    type_in_password: "Also, type in your password."
     email_subscriptions: "Email Subscriptions"
     email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Announcements"
@@ -882,6 +882,7 @@
     level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Starting Conditions"
     level_tab_thangs_add: "Add Thangs"
+    level_tab_thangs_search: "Search thangs"
     add_components: "Add Components"
     component_configs: "Component Configurations"
     config_thang: "Double click to configure a thang"
@@ -1211,6 +1212,7 @@
     variables: "Variables"
     vectors: "Vectors"
     while_loops: "While Loops"
+    recursion: "Recursion"
 
   delta:
     added: "Added"
