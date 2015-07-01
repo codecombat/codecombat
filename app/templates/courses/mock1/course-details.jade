@@ -85,7 +85,7 @@ block content
                   each level in course.levels
                     if i <= userLevelStateMap[student].lastCompletedIndex
                       span.progress-level-cell.progress-level-cell-complete #{i + 1}
-                        if showExpandedProgress || i === 0 || i === userLevelStateMap[student].lastStartedIndex
+                        if showExpandedProgress || i === 0 || i === course.levels.length - 1
                           span.spl #{level}
                     else if i <= userLevelStateMap[student].lastStartedIndex
                       span.progress-level-cell.progress-level-cell-started #{i + 1}

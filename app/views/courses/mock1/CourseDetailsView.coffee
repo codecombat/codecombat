@@ -21,8 +21,6 @@ module.exports = class CourseDetailsView extends RootView
     context.course = @course ? {}
     context.instance = @instances?[@currentInstanceIndex] ? {}
     context.instances = @instances ? []
-    context.lastUserLevelMap = @lastUserLevelMap ? {}
-    context.levelProgression = @levelProgression ? []
     context.maxLastStartedIndex = @maxLastStartedIndex ? 0
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.showExpandedProgress = @maxLastStartedIndex <= 30 or @showExpandedProgress
@@ -33,7 +31,9 @@ module.exports = class CourseDetailsView extends RootView
     @course = mockData.courses[@courseID]
     @currentInstanceIndex = 0
     @instances = mockData.instances
+    @updateLevelMaps()
 
+  updateLevelMaps: ->
     @userLevelStateMap = {}
     @maxLastStartedIndex = -1
     for student in @instances?[@currentInstanceIndex].students
@@ -45,9 +45,10 @@ module.exports = class CourseDetailsView extends RootView
       @maxLastStartedIndex = lastStartedIndex if lastStartedIndex > @maxLastStartedIndex
 
   onChangeSession: (e) ->
+    @showExpandedProgress = false
     newSessionValue = $(e.target).val()
-    for val, index in @instances when val.name is newSessionValue
-      @currentInstanceIndex = index
+    @currentInstanceIndex = index for val, index in @instances when val.name is newSessionValue
+    @updateLevelMaps()
     @render?()
 
   onExpandedProgressCheckbox: (e) ->
