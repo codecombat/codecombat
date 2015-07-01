@@ -11,9 +11,11 @@ block content
     input.student-view-checkbox(type='checkbox')
     span.spl Student view
   div TODO: fix ugly tabs
-  div TODO: add student progress monitoring
   div TODO: level concepts, status, working play button
   div TODO: student view
+  div TODO: aggregate student progress
+  div TODO: student level progress popups
+  div TODO: student concept progress
   div(style='border-bottom: 1px solid black;')
 
   h1= course.title
@@ -64,24 +66,48 @@ block content
         table.table.table-condensed
           thead
             tr
-              th Name
-              th Progress
+              th
+              th
+                span.progress-header Progress
+                span.progress-key.progress-key-complete complete
+                span.progress-key.progress-key-started started
+                span.progress-key not started
+                if maxLastStartedIndex > 30
+                  input.expand-progress-checkbox(type='checkbox')
+                  span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
           tbody
             each student in instance.students
               tr
-              td
-                a= student
-              td TODO: level progress
+                td
+                  a= student
+                td.progress-cell
+                  - var i = 0
+                  each level in course.levels
+                    if i <= userLevelStateMap[student].lastCompletedIndex
+                      span.progress-level-cell.progress-level-cell-complete #{i + 1}
+                        if showExpandedProgress || i === 0 || i === userLevelStateMap[student].lastStartedIndex
+                          span.spl #{level}
+                    else if i <= userLevelStateMap[student].lastStartedIndex
+                      span.progress-level-cell.progress-level-cell-started #{i + 1}
+                        if showExpandedProgress || i === 1 || i === userLevelStateMap[student].lastStartedIndex
+                          span.spl #{level}
+                    else
+                      span.progress-level-cell.level-progression-level-not-started #{i + 1}
+                        if showExpandedProgress || i === 1 || i === userLevelStateMap[student].lastStartedIndex
+                          span.spl #{level}
+                    if i === maxLastStartedIndex
+                      - break
+                    - i++
 
     .tab-pane#invite(role='tabpanel')
       p Invite students to join this class.
       if course.title !== 'Introduction to Computer Science'
         p Student unlock code: #{instance.code}
         p Class capacity: 34/50
-
       textarea.textarea-emails(rows=3, placeholder="Enter student emails to invite, one per line")
       div
         button.btn.btn-success.btn-invite Send Invites
+    
     .tab-pane#levels(role='tabpanel')
       table.table.table-condensed
         thead
