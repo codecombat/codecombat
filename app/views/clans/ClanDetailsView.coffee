@@ -67,6 +67,7 @@ module.exports = class ClanDetailsView extends RootView
     context = super()
     context.campaignLevelProgressions = @campaignLevelProgressions ? []
     context.clan = @clan
+    context.conceptsProgression = @conceptsProgression ? []
     if application.isProduction()
       context.joinClanLink = "https://codecombat.com/clans/#{@clanID}"
     else
@@ -84,6 +85,7 @@ module.exports = class ClanDetailsView extends RootView
     # Find last campaign level for each user
     lastUserCampaignLevelMap = {}
     maxLastUserCampaignLevel = 0
+    userConceptsMap = {}
     if @campaigns.loaded
       for campaign in @campaigns.models
         campaignID = campaign.id
@@ -98,10 +100,16 @@ module.exports = class ClanDetailsView extends RootView
                 levelSlug: levelSlug
                 index: lastLevelIndex
               maxLastUserCampaignLevel = lastLevelIndex if lastLevelIndex > maxLastUserCampaignLevel
+              if level.concepts?
+                userConceptsMap[member.id] ?= {}
+                for concept in level.concepts
+                  continue if userConceptsMap[member.id][concept] is 'complete'
+                  userConceptsMap[member.id][concept] = context.memberLevelStateMap[member.id][levelSlug].state
           lastLevelIndex++
 
     context.lastUserCampaignLevelMap = lastUserCampaignLevelMap
     context.showExpandedProgress = maxLastUserCampaignLevel <= 30 or @showExpandedProgress
+    context.userConceptsMap = userConceptsMap
     context
 
   afterRender: ->
@@ -124,6 +132,7 @@ module.exports = class ClanDetailsView extends RootView
   onCampaignSync: ->
     return unless @campaigns.loaded
     @campaignLevelProgressions = []
+    @conceptsProgression = []
     for campaign in @campaigns.models
       continue if campaign.get('slug') is 'auditions'
       campaignLevelProgression =
@@ -136,6 +145,9 @@ module.exports = class ClanDetailsView extends RootView
           ID: levelID
           slug: level.slug
           name: level.name
+        if level.concepts?
+          for concept in level.concepts
+            @conceptsProgression.push concept unless concept in @conceptsProgression
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()
 

@@ -107,7 +107,15 @@ block content
                 if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero
               td.progress-cell
-
+                p
+                  div.level-progression-campaign(style='color:#317EAC;') Concepts
+                  each concept in conceptsProgression
+                    if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'complete'
+                      span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
+                    else if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'started'
+                      span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
+                    else
+                      span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
                 each campaign in campaignLevelProgressions
                   if lastUserCampaignLevelMap[member.id] && lastUserCampaignLevelMap[member.id][campaign.ID]
                     div.level-progression-campaign= campaign.name
@@ -164,7 +172,7 @@ block content
                           .level-popup-container
                             h3 #{i}. #{level.name}
                             div
-                              span(data-i18n="choose_hero.status") Status
+                              span(data-i18n="clans.status") Status
                                 span.spr :
                                 span(data-i18n="clans.not_started_2") Not Started
                       if lastUserCampaignLevelMap[member.id][campaign.ID].levelSlug === level.slug
