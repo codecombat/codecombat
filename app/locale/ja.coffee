@@ -641,7 +641,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     sys_requirements_1: "モダンなブラウザ。最新の Chrome や FireFox, Safari など。Internet Explorer 9 以上。"
     sys_requirements_2: "CodeCombat はまだ iPad をサポートしていません。"
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
@@ -659,8 +659,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    description_3: "page."
 #    description_4: "Please fill out this quick survey and we’ll email you setup instructions."
 #    email: "Email Address"
-#    school: "学校名"
-#    location: "市町村"
+    school: "学校名"
+    location: "市町村"
 #    age_students: "How old are your students?"
 #    under: "Under"
 #    other: "Other:"
