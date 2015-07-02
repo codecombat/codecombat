@@ -635,13 +635,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    how_much_6: "for more details."
 #    more_info_title: "Where can I find more information?"
 #    more_info_1: "Our"
-   more_info_2: "el foro de profesores"
+    more_info_2: "el foro de profesores"
     more_info_3: "es un buen lugar para connectarse con los educadores que estan usando CodeCombat."
     sys_requirements_title: "Requerimientos del sistema"
     sys_requirements_1: "Debido que CodeCombat es un juego, es más difícil para las computadoras correrlo en relación a un tutorial escrito o un video. Para que todos puedan jugar, hemos optimizado la web para correr rápidamente en todos los navegadores modernos y en maquinas antiguas. Dicho esto, aquí están nuestras sugerencias para sacar el máximo provecho de su experiencia en la Hora del Código:" # {change}
     sys_requirements_2: "Usar una versión actualizada del navegador Chrome o Firefox." # {change}
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
@@ -781,7 +781,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     social_hipchat: "Chatea con nosotros en el chat público de CodeCombat en la sala HipChat"
     contribute_to_the_project: "Contribuir al proyecto"
 
-#  clans:
+  clans:
     clan: "Clan"
     clans: "Clanes"
     new_name: "Nuevo nombre de clan"
