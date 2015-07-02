@@ -47,7 +47,8 @@ module.exports = class CourseDetailsView extends RootView
   onChangeSession: (e) ->
     @showExpandedProgress = false
     newSessionValue = $(e.target).val()
-    @currentInstanceIndex = index for val, index in @instances when val.name is newSessionValue
+    for val, index in @instances when val.name is newSessionValue
+      @currentInstanceIndex = index
     @updateLevelMaps()
     @render?()
 
