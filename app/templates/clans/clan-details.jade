@@ -83,10 +83,21 @@ block content
       table.table.table-condensed
         thead
           tr
-            th(data-i18n="resources.hero") Hero
             th
-              span.progress-header(data-i18n="clans.progress") Progress
-              span.progress-key.progress-key-complete(data-i18n="clans.complete_1") complete
+              span.member-header.spr(data-i18n="resources.hero") Hero
+              if memberSort === 'nameAsc'
+                span.member-header.glyphicon.glyphicon-chevron-up
+              else if memberSort === 'nameDesc'
+                span.member-header.glyphicon.glyphicon-chevron-down
+            th
+              span.progress-header.spr(data-i18n="clans.progress") Progress
+              if memberSort === 'progressAsc'
+                span.progress-header.glyphicon.glyphicon-chevron-up
+              else if memberSort === 'progressDesc'
+                span.progress-header.glyphicon.glyphicon-chevron-down
+              else
+                span(style='padding-left:16px;')
+              span.spl.progress-key.progress-key-complete(data-i18n="clans.complete_1") complete
               span.progress-key.progress-key-started(data-i18n="clans.started_1") started
               span.progress-key(data-i18n="clans.not_started_1") not started
               input.expand-progress-checkbox(type='checkbox')
