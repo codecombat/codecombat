@@ -790,6 +790,7 @@
     make_private: "Make clan private"
     subs_only: "subscribers only"
     create_clan: "Create New Clan"
+    private_preview: "Preview"
     public_clans: "Public Clans"
     my_clans: "My Clans"
     clan_name: "Clan Name"

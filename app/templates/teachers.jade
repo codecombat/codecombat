@@ -48,11 +48,25 @@ block content
         span.spl(data-i18n="teachers.monitor_progress_4")
       p(data-i18n="teachers.monitor_progress_5")
       h4(data-i18n="teachers.sub_includes_7")
-      p(data-i18n="teachers.private_clans_1")
+      ul
+        li 
+          strong Track concepts
+          span.spl learned by each student
+        li Track levels completed for each student
+        li 
+          span See your students'
+          strong.spl solutions
+        li Sort students by name or progress
+        li 
+          strong Requires invitation
+          span.spl to join
+      p
+        img(src='/images/pages/clans/dashboard_preview.png' height='400')
       p
         span.spr(data-i18n="teachers.private_clans_2")
         a(href='/clans', data-i18n="clans.clan")
         span(data-i18n="teachers.private_clans_3")
+      p Private clans require a subscription to create or join.
 
       h3(data-i18n="teachers.material_title")
       if me.get('chinaVersion')
@@ -78,19 +92,19 @@ block content
         tbody
           tr
             td Syntax
-            td If/Else
+            td If Statements
             td Arithmetic
             td Object Literals
           tr
             td Methods
             td Relational Operators
-            td While-loops
+            td While Loops
             td Remote Method Invocation
           tr
             td Parameters
             td Object Properties
-            td Break
-            td For-Loops
+            td Break Statements
+            td For Loops
           tr
             td Strings
             td Input Handling

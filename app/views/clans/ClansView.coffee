@@ -73,9 +73,15 @@ module.exports = class ClansView extends RootView
 
   setupPrivateInfoPopover: ->
     popoverTitle = "<h3>Private Clans</h3>"
-    popoverContent = "<p>Invite only</p>"
-    popoverContent += "<p>Detailed dashboard:</p>"
-    popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png' width='700'></p>"
+    popoverContent = "<ul>"
+    popoverContent += "<li><span style='font-weight:bold;'>Track concepts</span> learned by each member"
+    popoverContent += "<li>Track levels completed for each member"
+    popoverContent += "<li>See your members' <span style='font-weight:bold;'>solutions</span>"
+    popoverContent += "<li>Sort members by name or progress"
+    popoverContent += "<li><span style='font-weight:bold;'>Requires invitation</span> to join"
+    popoverContent += "</ul>"
+    popoverContent += "<p><img src='/images/pages/clans/dashboard_preview.png' height='400'></p>"
+    popoverContent += "<p>Private clans require a subscription to create or join.</p>"
     @$el.find('.private-more-info').popover(
       animation: true
       html: true
