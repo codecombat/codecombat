@@ -133,22 +133,34 @@ module.exports = class ClanDetailsView extends RootView
     @memberSessions.fetch cache: false
 
   sortMembers: (highestUserLevelCountMap, userConceptsMap) ->
-    # Progress sort precedence: most concepts, most levels, name sort
+    # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
     return unless @members? and @memberSort?
     switch @memberSort
       when "nameDesc"
         @members.comparator = (a, b) -> return (b.get('name') or 'Anoner').localeCompare(a.get('name') or 'Anoner')
       when "progressAsc"
         @members.comparator = (a, b) ->
-          if Object.keys(userConceptsMap[a.id]).length < Object.keys(userConceptsMap[b.id]).length then return -1
-          else if Object.keys(userConceptsMap[a.id]).length > Object.keys(userConceptsMap[b.id]).length then return 1
+          aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
+          bComplete = (concept for concept, state of userConceptsMap[b.id] when state is 'complete')
+          aStarted = (concept for concept, state of userConceptsMap[a.id] when state is 'started')
+          bStarted = (concept for concept, state of userConceptsMap[b.id] when state is 'started')
+          if aComplete < bComplete then return -1
+          else if aComplete > bComplete then return 1
+          else if aStarted < bStarted then return -1
+          else if aStarted > bStarted then return 1
           if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return -1
           else if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return 1
           (a.get('name') or 'Anoner').localeCompare(b.get('name') or 'Anoner')
       when "progressDesc"
         @members.comparator = (a, b) ->
-          if Object.keys(userConceptsMap[a.id]).length > Object.keys(userConceptsMap[b.id]).length then return -1
-          else if Object.keys(userConceptsMap[a.id]).length < Object.keys(userConceptsMap[b.id]).length then return 1
+          aComplete = (concept for concept, state of userConceptsMap[a.id] when state is 'complete')
+          bComplete = (concept for concept, state of userConceptsMap[b.id] when state is 'complete')
+          aStarted = (concept for concept, state of userConceptsMap[a.id] when state is 'started')
+          bStarted = (concept for concept, state of userConceptsMap[b.id] when state is 'started')
+          if aComplete > bComplete then return -1
+          else if aComplete < bComplete then return 1
+          else if aStarted > bStarted then return -1
+          else if aStarted < bStarted then return 1
           if highestUserLevelCountMap[a.id] > highestUserLevelCountMap[b.id] then return -1
           else if highestUserLevelCountMap[a.id] < highestUserLevelCountMap[b.id] then return 1
           (b.get('name') or 'Anoner').localeCompare(a.get('name') or 'Anoner')

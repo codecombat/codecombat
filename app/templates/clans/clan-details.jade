@@ -118,15 +118,15 @@ block content
                 if isOwner && member.id !== clan.get('ownerID')
                   button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero
               td.progress-cell
-                p
-                  div.level-progression-campaign(style='color:#317EAC;') Concepts
-                  each concept in conceptsProgression
-                    if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'complete'
-                      span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
-                    else if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'started'
-                      span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
-                    else
-                      span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                .level-progression-concepts Concepts
+                each concept in conceptsProgression
+                  if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'complete'
+                    span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
+                  else if userConceptsMap[member.id] && userConceptsMap[member.id][concept] === 'started'
+                    span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
+                  else
+                    span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                .level-progression-levels Levels
                 each campaign in campaignLevelProgressions
                   if lastUserCampaignLevelMap[member.id] && lastUserCampaignLevelMap[member.id][campaign.ID]
                     div.level-progression-campaign= campaign.name
