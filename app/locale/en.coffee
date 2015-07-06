@@ -1197,6 +1197,7 @@
   concepts:
     advanced_strings: "Advanced Strings"
     algorithms: "Algorithms"
+    arguments: "Arguments"
     arithmetic: "Arithmetic"
     arrays: "Arrays"
     basic_syntax: "Basic Syntax"
@@ -1212,7 +1213,7 @@
     strings: "Strings"
     variables: "Variables"
     vectors: "Vectors"
-    while_loops: "While Loops"
+    while_loops: "Loops"
     recursion: "Recursion"
 
   delta:
