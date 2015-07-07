@@ -239,6 +239,7 @@ me.task = me.object {title: 'Task', description: 'A task to be completed', forma
 me.concept = me.shortString enum: [
     'advanced_strings'
     'algorithms'
+    'arguments'
     'arithmetic'
     'arrays'
     'basic_syntax'
