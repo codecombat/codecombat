@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     campaign_player_created_description: "... nei quali affronterai la creatività dei tuoi compagni <a href=\"/contribute#artisan\">Stregoni Artigiani</a>."
     campaign_classic_algorithms: "Algoritmi classici"
     campaign_classic_algorithms_description: "... in cui impari i più comuni algoritmi dell'informatica."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Stai facendo grandi progressi! Dì ai tuoi genitori quanto hai imparato con CodeCombat."
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
   subscribe:
     comparison_blurb: "Aumenta le tue competenze con un abbonamento a CodeCombat!"
     feature1: "80+ livelli base in 4 mondi" # {change}
-    feature2: "7 potenti <strong>nuovi eroi</strong> con capacità uniche!"
+    feature2: "7 potenti <strong>nuovi eroi</strong> con capacità uniche!" # {change}
     feature3: "50+ livelli bonus" # {change}
     feature4: "<strong>3500 gemme bonus</strong> ogni mese!"
     feature5: "Video tutorial"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-#    free_1: "There are 80+ FREE levels which cover every concept."
+#    free_1: "There are 100+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "60+ practice levels"
+#    sub_includes_1: "In addition to the 100+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "70+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
-#    sub_includes_5: "7 new heroes with unique skills to master"
+#    sub_includes_5: "10 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
-#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     make_private: "Rendi clan privato"
     subs_only: "solo per abbonati"
     create_clan: "Crea nuovo clan"
+#    private_preview: "Preview"
     public_clans: "Clan pubblici"
     my_clans: "I miei clan"
     clan_name: "Nome clan"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     level_tab_thangs_all: "Tutti"
     level_tab_thangs_conditions: "Condizioni iniziali"
     level_tab_thangs_add: "Aggiungi thang"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Aggiungi Componenti"
     component_configs: "Configurazioni componenti"
     config_thang: "Doppio click per configurare un thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
 #  delta:
 #    added: "Added"

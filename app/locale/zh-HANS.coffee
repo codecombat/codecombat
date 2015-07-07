@@ -92,6 +92,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>。"
     campaign_classic_algorithms: "经典算法"
     campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "你的进度真快！快告诉其他人你从CodeCombat学到了什么！" # {change}
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   subscribe:
     comparison_blurb: "亲，订阅CodeCombat，大力的提升你的技能！"
     feature1: "60+ 基本关卡（4个世界）" # {change}
-    feature2: "7 个强大 <strong>英雄</strong>以及各式非凡技能!"
+    feature2: "7 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
     feature3: "30+ 奖励关卡" # {change}
     feature4: "每月享有3500额外宝石"
     feature5: "视频教学"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     intro_2: "无需经验!"
     free_title: "要多少钱?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-#    free_1: "There are 80+ FREE levels which cover every concept."
+#    free_1: "There are 100+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
     teacher_subs_title: "教师可免费订阅!"
     teacher_subs_1: "请联系" # {change}
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-    sub_includes_2: "超过60个练习关卡"
+#    sub_includes_1: "In addition to the 100+ basic levels, students with a monthly subscription get access to these additional features:"
+    sub_includes_2: "超过60个练习关卡" # {change}
     sub_includes_3: "视频教学"
 #    sub_includes_4: "Premium email support"
-#    sub_includes_5: "7 new heroes with unique skills to master"
+#    sub_includes_5: "10 new heroes with unique skills to master"
     sub_includes_6: "每月享有3500额外宝石"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
-#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
     how_much_title: "每月的订阅费用是多少?"
     how_much_1: ""
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_tab_thangs_all: "所有"
     level_tab_thangs_conditions: "启动条件"
     level_tab_thangs_add: "增加物体"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "添加组件"
     component_configs: "组件配置"
     config_thang: "双击配置一个thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "被添加"

@@ -92,6 +92,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     campaign_player_created_description: "...挑戰同伴的創意 <a href=\"/contribute#artisan\">技術指導</a>."
     campaign_classic_algorithms: "經典演算法"
     campaign_classic_algorithms_description: "... 資訊科學中最著名的演算法。"
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "您正在建立優秀的進度! 告訴別人您已經從CodeCombat學習到多少東西." # {change}
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   subscribe:
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧!"
     feature1: "60 個以上的基本關卡散佈在4張地圖中" # {change}
-    feature2: "7 個強壯的<strong>新英雄</strong>並每隻都有不同技巧!"
+    feature2: "7 個強壯的<strong>新英雄</strong>並每隻都有不同技巧!" # {change}
     feature3: "30 個以上的額外關卡" # {change}
     feature4: "每個月<strong>3500顆額外寶石</strong>!"
     feature5: "視頻教學"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-#    free_1: "There are 80+ FREE levels which cover every concept."
+#    free_1: "There are 100+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "60+ practice levels"
+#    sub_includes_1: "In addition to the 100+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "70+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
-#    sub_includes_5: "7 new heroes with unique skills to master"
+#    sub_includes_5: "10 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
-#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     level_tab_thangs_all: "所有的"
     level_tab_thangs_conditions: "啟動條件"
     level_tab_thangs_add: "增加物體"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "增加組件"
     component_configs: "組件組態"
     config_thang: "雙擊來構建物體"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "已填加"

@@ -92,6 +92,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_player_created_description: "...melyekben <a href=\"/contribute#artisan\">Művészi Varázsló</a> társaid ellen kűzdhetsz."
     campaign_classic_algorithms: "Klasszikus Algoritmus"
     campaign_classic_algorithms_description: "... amiben megtanulod a legnépszerűbb számítástudományi algoritmusokat."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Nagyon szépen fejlődsz! Mondd el a szüleidnek, mit tanultál a CodeCombat-ban."
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   subscribe:
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
     feature1: "60+ alap pálya, 4 világon át" # {change}
-    feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!"
+    feature2: "7 erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
     feature3: "30+ bónusz pálya" # {change}
     feature4: "<strong>3500 bónusz drágakő</strong> minden hónapban!"
     feature5: "Videó oktatóanyagok"
@@ -603,11 +605,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     teacher_subs_2: "hogy megkapja az ingyenes havi előfizetést." # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "Mit tartalmaz az előfizetés?"
-    sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:"
+    sub_includes_1: "A 80+ alap pályán kívül az előfizetéssel rendelkező tanulók az alábbi extrákhoz férnek hozzá:" # {change}
     sub_includes_2: "50+ gyakorló pálya" # {change}
     sub_includes_3: "Oktató videók"
     sub_includes_4: "Prémium támogatás emailen"
-    sub_includes_5: "7 új hős egyedi képességekkel"
+    sub_includes_5: "7 új hős egyedi képességekkel" # {change}
     sub_includes_6: "3500 bónusz drágakő minden hónapban"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     level_tab_thangs_all: "Mind"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    level_tab_thangs_search: "Search thangs"
 #    add_components: "Add Components"
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
 #  delta:
 #    added: "Added"

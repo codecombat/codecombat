@@ -92,6 +92,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
     campaign_classic_algorithms: "Классические принципы"
     campaign_classic_algorithms_description: "... которые чаще всего встречаются в компьютерных науках."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Вы отлично продвигаетесь! Расскажите своим родителям, как много вы уже выучили с CodeCombat."
@@ -407,9 +409,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   subscribe:
     comparison_blurb: "Отточите свое мастерство благодаря подписке на CodeCombat!"
-    feature1: "80+ основных уровней на просторах 4-х миров"
-    feature2: "7 могущественных <strong>новых героев</strong> с уникальными способностями!"
-    feature3: "60+ дополнительных уровней"
+    feature1: "80+ основных уровней на просторах 4-х миров" # {change}
+    feature2: "7 могущественных <strong>новых героев</strong> с уникальными способностями!" # {change}
+    feature3: "60+ дополнительных уровней" # {change}
     feature4: "<strong>3500 бонусных самоцветов</strong> каждый месяц!"
     feature5: "Обучающие видеоролики"
     feature6: "Эксклюзивная поддержка по электронной почте"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     intro_2: "Опыт не обязателен!"
     free_title: "Сколько это стоит?"
     cost_china: "Первые 5 уровней CodeCombat бесплатны в Китае. При оплате $9.99 в месяц вы получите доступ к последующим более чем 140 уровням на наших эксклюзивных серверах в Китае."
-    free_1: "В наличии более 80 БЕСПЛАТНЫХ уровней, которые покрывают каждый концепт."
+    free_1: "В наличии более 80 БЕСПЛАТНЫХ уровней, которые покрывают каждый концепт." # {change}
     free_2: "Месячная подписка предоставляет доступ к видео-урокам и дополнительным уровням."
     teacher_subs_title: "Учителя получают бесплатные подписки!"
     teacher_subs_1: "Пожалуйста, заполните нашу"
     teacher_subs_2: "Анкету учителя"
     teacher_subs_3: "для настройки вашей подписки."
     sub_includes_title: "Что включено в подписку?"
-    sub_includes_1: "В дополнение к более чем 80 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:"
-    sub_includes_2: "Более 60 уровней для дополнительной практики"
+    sub_includes_1: "В дополнение к более чем 80 бесплатным уровням ученики с месячной подпиской получат доступ к дополнительным возможностям:" # {change}
+    sub_includes_2: "Более 60 уровней для дополнительной практики" # {change}
     sub_includes_3: "Видео-уроки"
     sub_includes_4: "Эксклюзивная поддержка по электронной почте"
-    sub_includes_5: "7 новых героев с уникальными возможностями для оттачивания мастерства"
+    sub_includes_5: "7 новых героев с уникальными возможностями для оттачивания мастерства" # {change}
     sub_includes_6: "3500 бонусных самоцветов каждый месяц"
     sub_includes_7: "Частные Кланы"
     monitor_progress_title: "Как мне следить за прогрессом студентов?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     who_for_1: "Мы рекомендуем CodeCombat для учеников старше 9 лет. Какой-либо опыт программирования не требуется."
     who_for_2: "Мы разработали CodeCombat так, чтобы он подходил и мальчикам и девочкам."
     material_title: "Как много здесь материала?"
-    material_china: "Около 30 часов игрового процесса, распределенного более чем на 140 уровней для подписчиков с добавлением новых уровней каждую неделю."
-    material_1: "Около 10 часов бесплатного контента и 20 часов дополнительного контента для подписчиков с добавлением новых уровней каждую неделю."
+    material_china: "Около 30 часов игрового процесса, распределенного более чем на 140 уровней для подписчиков с добавлением новых уровней каждую неделю." # {change}
+    material_1: "Около 10 часов бесплатного контента и 20 часов дополнительного контента для подписчиков с добавлением новых уровней каждую неделю." # {change}
     concepts_title: "О каких концептах мы рассказываем?"
     how_much_title: "Сколько стоит месячная подписка?"
     how_much_1: "Цена"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     make_private: "Сделать клан частным"
     subs_only: "только для подписчиков"
     create_clan: "Создать новый клан"
+#    private_preview: "Preview"
     public_clans: "Публичные кланы"
     my_clans: "Мои кланы"
     clan_name: "Имя клана"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_tab_thangs_all: "Все"
     level_tab_thangs_conditions: "Начальные условия"
     level_tab_thangs_add: "Добавить объект"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Добавить компоненты"
     component_configs: "Конфигурации компонентов"
     config_thang: "Двойной клик для конфигурирования объектов"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Добавлено"

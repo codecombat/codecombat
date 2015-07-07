@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     campaign_player_created_description: "... nos quais você batalhará contra a criatividade dos seus companheiros <a href=\"/contribute#artisan\">feiticeiros Artesãos</a>."
     campaign_classic_algorithms: "Algoritmos Clássicos"
     campaign_classic_algorithms_description: "...onde você aprende os algoritmos mais conhecidos em Ciência da Computação."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Você está fazendo um grande progresso! Diga a alguém o quão você aprendeu com o CodeCombat." # {change}
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   subscribe:
     comparison_blurb: "Afine suas habilidades com uma assinatura CodeCombat!"
     feature1: "Mais de 60 níveis básicos entre 4 mundos" # {change}
-    feature2: "7 poderosos <strong>novos heróis</strong> com habilidades únicas!"
+    feature2: "7 poderosos <strong>novos heróis</strong> com habilidades únicas!" # {change}
     feature3: "Mais de 30 níveis bônus" # {change}
     feature4: "<strong>3500 gemas bônus</strong> todo mês!"
     feature5: "Vídeo tutorials"
@@ -603,11 +605,11 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     teacher_subs_2: "para organizar uma assinatura mensal." # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "O que está incluído na assinatura?"
-    sub_includes_1: "Além dos mais de 80 níveis básicos, estudantes com uma assinatura mensal têm acesso aos seguintes recursos:"
-    sub_includes_2: "Mais de 60 níveis para praticar"
+    sub_includes_1: "Além dos mais de 80 níveis básicos, estudantes com uma assinatura mensal têm acesso aos seguintes recursos:" # {change}
+    sub_includes_2: "Mais de 60 níveis para praticar" # {change}
     sub_includes_3: "Vídeos tutoriais"
     sub_includes_4: "Suporte premium por email"
-    sub_includes_5: "7 novos heróis com habilidades únicas a serem aprendidas"
+    sub_includes_5: "7 novos heróis com habilidades únicas a serem aprendidas" # {change}
     sub_includes_6: "3500 gemas bônus todos os meses"
     sub_includes_7: "Clãs Privados"
     monitor_progress_title: "Como monitoro o progresso dos estudantes?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
-#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     make_private: "Tornar o clã privado"
     subs_only: "Apenas para assinantes"
     create_clan: "Criar novo clã"
+#    private_preview: "Preview"
     public_clans: "Clãs Públicos"
     my_clans: "Meus Clãs"
     clan_name: "Nome do Clã"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     level_tab_thangs_all: "Tudo"
     level_tab_thangs_conditions: "Condições de Início"
     level_tab_thangs_add: "Adicionar Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Adicionar componentes"
     component_configs: "Configurações de componente"
     config_thang: "Duplo-clique para configurar uma thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Adicionado"

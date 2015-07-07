@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     campaign_player_created_description: "... hvor du kjemper mot kreativiteten til en av dine medspillende <a href=\"/contribute#artisan\">Artisan Trollmenn</a>."
     campaign_classic_algorithms: "Klassiske algoritmer"
     campaign_classic_algorithms_description: "... hvor du lærer noen av de mest populære algoritmene innen programmering"
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Du gjør fantastisk fremgang! Fortell noen hvor mye du har lært gjennom CodeCombat."
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   subscribe:
     comparison_blurb: "Spiss dine kunnskaper med et CodeCombat abonnement!"
     feature1: "60+ grunnleggende brett fordelt på 4 verdener" # {change}
-    feature2: "7 kraftfulle <strong>nye helter</strong> med unike ferdigheter!"
+    feature2: "7 kraftfulle <strong>nye helter</strong> med unike ferdigheter!" # {change}
     feature3: "30+ bonusbrett" # {change}
     feature4: "<strong>3500 bonusjuveler</strong> hver måned!"
     feature5: "Videoveiledninger"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    intro_2: "No experience required!"
 #    free_title: "How much does it cost?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-#    free_1: "There are 80+ FREE levels which cover every concept."
+#    free_1: "There are 100+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "60+ practice levels"
+#    sub_includes_1: "In addition to the 100+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "70+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
-#    sub_includes_5: "7 new heroes with unique skills to master"
+#    sub_includes_5: "10 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
-#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
 #    how_much_title: "How much does a monthly subscription cost?"
 #    how_much_1: "A"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     level_tab_thangs_all: "Alle"
     level_tab_thangs_conditions: "Utgangsforhold"
     level_tab_thangs_add: "Legg til Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Legg til komponenter"
     component_configs: "Komponentoppsett"
     config_thang: "Dobbeltklikk for å konfigurere en thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Opprettet"

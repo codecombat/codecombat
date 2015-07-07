@@ -92,6 +92,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     campaign_player_created_description: "... v ktorých sa popasuješ s kreativitou svojich <a href=\"/contribute#artisan\">kúzelníckych súdruhov</a>."
     campaign_classic_algorithms: "Klasické Algoritmy"
     campaign_classic_algorithms_description: "... v kterých sa naučíte najobľúbenejšie algoritmy v IT"
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Postupuješ míľovými krokmi ! Povedz kamarátom, čo si sa už naučil pomocou CodeCombatu."
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   subscribe:
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
     feature1: "60+ základných úrovní v štyroch svetoch" # {change}
-    feature2: "7 mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!"
+    feature2: "7 mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!" # {change}
     feature3: "30+ bonusových úrovní" # {change}
     feature4: "<strong>3500 bonusových diamantov</strong> každý mesiac !"
     feature5: "Video tutoriály"
@@ -607,7 +609,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sub_includes_2: "40+ tréningových úrovní" # {change}
     sub_includes_3: "Video návody"
     sub_includes_4: "Prémiovú emailovú podporu"
-    sub_includes_5: "7 nových hrdinov s jedinečnými schopnosťami"
+    sub_includes_5: "7 nových hrdinov s jedinečnými schopnosťami" # {change}
     sub_includes_6: "3500 bonusových diamantov každý mesiac"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,7 +625,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     who_for_1: "CodeCombat odporúčame pre žiakov od 9 rokov. Nie sú nutné žiadne predchádzajúce skúsenosti s programovaním."
     who_for_2: "CodeCombat sme navrhli tak, aby oslovil chlapcov aj dievčatá."
     material_title: "Aký je objem učebnej látky ?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
     material_1: "Asi 8 hodín bezplatného obsahu a ďalších 14 hodín pre predplatiteľov. 5 nových úrovní každý týždeň." # {change}
     concepts_title: "Aké pojmy sú pokryté ?"
     how_much_title: "Koľko stojí mesačné predplatné ?"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    level_tab_thangs_search: "Search thangs"
 #    add_components: "Add Components"
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
 #  delta:
 #    added: "Added"

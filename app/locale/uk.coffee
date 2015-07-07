@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaign_player_created_description: "... у яких Ви змагаєтесь у креативності із Вашими друзями-<a href=\"/contribute#artisan\">Архітекторами</a>."
     campaign_classic_algorithms: "Класичні алгоритми"
     campaign_classic_algorithms_description: "... у яких Ви вивчите найпопулярніші алгоритми комп'ютерних наук."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Ви робите великі успіхи! Розкажіть кому-небудь, як багато ви вивчили з CodeCombat." # {change}
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   subscribe:
     comparison_blurb: "Відточіть свої навички завдяки підписці на CodeCombat!"
     feature1: "Більше 60 основних рівней на просторах 4 світів" # {change}
-    feature2: "7 могутніх <strong>нових героїв</strong> з унікальними здібностями!"
+    feature2: "7 могутніх <strong>нових героїв</strong> з унікальними здібностями!" # {change}
     feature3: "Більше 30 бонусних рівнів" # {change}
     feature4: "<strong>3500 бонусних самоцвітів</strong> кожного місяця!"
     feature5: "Навчальні відеоролики"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     intro_2: "Досвід не потрібен!"
     free_title: "Скільки це коштує?"
 #    cost_china: "CodeCombat in China is free for the first five levels, after which it costs $9.99 USD per month for access to our other 140+ levels on our exclusive China servers."
-#    free_1: "There are 80+ FREE levels which cover every concept."
+#    free_1: "There are 100+ FREE levels which cover every concept."
 #    free_2: "A monthly subscription provides access to video tutorials and extra practice levels."
 #    teacher_subs_title: "Teachers get free subscriptions!"
 #    teacher_subs_1: "Please fill out our"
 #    teacher_subs_2: "Teacher Survey"
 #    teacher_subs_3: "to set up your subscription."
 #    sub_includes_title: "What is included in the subscription?"
-#    sub_includes_1: "In addition to the 80+ basic levels, students with a monthly subscription get access to these additional features:"
-#    sub_includes_2: "60+ practice levels"
+#    sub_includes_1: "In addition to the 100+ basic levels, students with a monthly subscription get access to these additional features:"
+#    sub_includes_2: "70+ practice levels"
 #    sub_includes_3: "Video tutorials"
 #    sub_includes_4: "Premium email support"
-#    sub_includes_5: "7 new heroes with unique skills to master"
+#    sub_includes_5: "10 new heroes with unique skills to master"
 #    sub_includes_6: "3500 bonus gems every month"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
-#    material_1: "Approximately 10 hours of free content and an additional 20 hours of subscriber content, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
+#    material_1: "Approximately 25 hours of free content and an additional 15 hours of subscriber content."
 #    concepts_title: "What concepts are covered?"
     how_much_title: "Скільки коштує місячна передплата?"
     how_much_1: ""
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     make_private: "Зробити клан приватним"
     subs_only: "лише для підписчиків"
     create_clan: "Створити новий клан"
+#    private_preview: "Preview"
     public_clans: "Публічні клани"
     my_clans: "Мої клани"
     clan_name: "Назва клану"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     level_tab_thangs_all: "Усі"
     level_tab_thangs_conditions: "Початковий статус"
     level_tab_thangs_add: "Додати об'єкти"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Додати коментарі"
     component_configs: "Налаштування компонента"
     config_thang: "Подвійний клік для конфігуровання об'єктів"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Додано"

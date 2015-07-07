@@ -92,6 +92,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     campaign_player_created_description: "... în care ai ocazia să testezi creativitatea colegilor tai <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Algoritmi clasici"
     campaign_classic_algorithms_description: "... în care înveți cei mai populari algoritmi în informatică."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Faci progrese mari! Spune-le părinților cât de mult ai învățat cu CodeCombat."
@@ -407,9 +409,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   subscribe:
     comparison_blurb: "Îmbunătățeșteți abilitățile cu abonamentul CodeCombat"
-    feature1: "80+ de nivele de bază în 4 lumi diferite!"
-    feature2: "7 <strong>Eroi Noi</strong> puternici, cu skilluri unice!"
-    feature3: "60+ nivele bonus"
+    feature1: "80+ de nivele de bază în 4 lumi diferite!" # {change}
+    feature2: "7 <strong>Eroi Noi</strong> puternici, cu skilluri unice!" # {change}
+    feature3: "60+ nivele bonus" # {change}
     feature4: "<strong>3500 de Pietre Prețioase bonus</strong> în fiecare lună!"
     feature5: "Tutoriale Video"
     feature6: "Suport e-mail premium"
@@ -596,18 +598,18 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     intro_2: "Nu este nevoie de experiența în domeniu!"
     free_title: "Cât de mult costă?"
     cost_china: "CodeCombat în China este gratis pentru primele 5 nivele, după care costă $9.99 USD pe lună pentru a accesa celelalte 140+ nivele pe serverele noaste exlusive din China."
-    free_1: "Sunt 80+ de nivele GRATIS ce parcurg fiecare concept în programare."
+    free_1: "Sunt 80+ de nivele GRATIS ce parcurg fiecare concept în programare." # {change}
     free_2: "Un abonament lunar oferă acces la tutoriale video si nivele extra pentru practică."
     teacher_subs_title: "Educatori primesc abonamente gratuite!"
     teacher_subs_1: "Te rugăm sa completezi"
     teacher_subs_2: "Chestionarul Educatorului"
     teacher_subs_3: "pentru a configura abonamentul."
     sub_includes_title: "Ce e inclus în abonament?"
-    sub_includes_1: "Pe langă 80+ de nivele de bază, studenții cu un abonament lunar au acces la aceste servicii suplimentare:"
-    sub_includes_2: "60+ nivele pentru practică"
+    sub_includes_1: "Pe langă 80+ de nivele de bază, studenții cu un abonament lunar au acces la aceste servicii suplimentare:" # {change}
+    sub_includes_2: "60+ nivele pentru practică" # {change}
     sub_includes_3: "Tutoriale Video"
     sub_includes_4: "Suport pe e-mail premium"
-    sub_includes_5: "7 eroi noi cu abilități unice de stăpânit"
+    sub_includes_5: "7 eroi noi cu abilități unice de stăpânit" # {change}
     sub_includes_6: "3500 de Pietre Prețioase bonus in fiecare lună"
     sub_includes_7: "Clanuri Private"
     monitor_progress_title: "Cum monitorizez progresul unui student?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     who_for_1: "Recomandăm CodeCombat pentru studenți cu vârsta de la 9 ani în sus. Nu este nevoie de experiență de programare."
     who_for_2: "Am proiectat CodeCombat pentru a atrage atât băieți cat si fete."
     material_title: "Cât de mult material conține?"
-    material_china: "Aproximativ 30 de ore de gameplay răspândite peste 140+ de nivele pentru abonați, si nivele noi în fiecare săptămână."
-    material_1: "Aproximativ 10 ore de material gratis si adițional 20 de ore în plus pentru abonați, cu nivele noi în fiecare săptămână."
+    material_china: "Aproximativ 30 de ore de gameplay răspândite peste 140+ de nivele pentru abonați, si nivele noi în fiecare săptămână." # {change}
+    material_1: "Aproximativ 10 ore de material gratis si adițional 20 de ore în plus pentru abonați, cu nivele noi în fiecare săptămână." # {change}
     concepts_title: "Ce concepte sunt parcurse?"
     how_much_title: "Cât de mult costă un abonament lunar?"
     how_much_1: "Un"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     make_private: "Fă clanul privat"
     subs_only: "numai abonați"
     create_clan: "Creează un clan Nou"
+#    private_preview: "Preview"
     public_clans: "Clanuri Publice"
     my_clans: "Clanurile mele"
     clan_name: "Numele Clanului"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     level_tab_thangs_all: "Toate"
     level_tab_thangs_conditions: "Condiți inițiale"
     level_tab_thangs_add: "Adaugă Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Adaugă Componente"
     component_configs: "Configurarea Componentelor"
     config_thang: "Dublu click pentru a configura un thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Adăugat"

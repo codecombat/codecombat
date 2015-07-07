@@ -92,6 +92,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_player_created_description: "... dans lesquels vous serez confronté à la créativité des vôtres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Algorithmes classiques"
     campaign_classic_algorithms_description: "... dans lesquels vous apprendrez les algorithmes les plus populaires dans l'informatique."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "Vous faites beaucoup de progrès ! Partagez ce que vous avez appris grâce à CodeCombat avec vos amis." # {change}
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   subscribe:
     comparison_blurb: "Aiguisez vos compétences avec un abonnement CodeCombat !"
     feature1: "Plus de 60 niveaux au travers de 4 mondes" # {change}
-    feature2: "7 puissants <strong>nouveaux héros</strong> avec des compétences uniques !"
+    feature2: "7 puissants <strong>nouveaux héros</strong> avec des compétences uniques !" # {change}
     feature3: "Plus de 30 niveaux bonus" # {change}
     feature4: "<strong>3500 gemmes bonus</strong> tous les mois !"
     feature5: "Tutoriels vidéo"
@@ -607,7 +609,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sub_includes_2: "40+ niveaux d'entrainement" # {change}
     sub_includes_3: "Des tutoriels vidéo"
     sub_includes_4: "Support email premium"
-    sub_includes_5: "7 nouveaux héros avec des capacités uniques à maitriser"
+    sub_includes_5: "7 nouveaux héros avec des capacités uniques à maitriser" # {change}
     sub_includes_6: "3500 gemmes bonus chaque mois"
     sub_includes_7: "Clans Privées"
     monitor_progress_title: "Comment puis-je faire pour surveiller les progrès des étudiants?"
@@ -623,7 +625,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     who_for_1: "Nous recommandons CodeCombat pour les élèves âgés de 9 ans ou plus. Aucune expérience préalable de programmation n'est requise."
     who_for_2: "Nous avons conçu CodeCombat pour plaire à la fois aux garçons et aux filles."
     material_title: "Quelle quantité de contenu y a t-il ?"
-    material_china: "Il y a en moyenne une trentaine d'heures de temps de jeu distribué sur plus de 140 abonnés jusqu'à maintenant avec des nouveaux niveaux qui s'ajoutent à chaque semaine."
+    material_china: "Il y a en moyenne une trentaine d'heures de temps de jeu distribué sur plus de 140 abonnés jusqu'à maintenant avec des nouveaux niveaux qui s'ajoutent à chaque semaine." # {change}
     material_1: "Environ 8 heures de contenu gratuit et 14 heures de contenu supplémentaire reservé aux abonnés, avec 5 nouveaux niveaux chaque semaines." # {change}
     concepts_title: "Quels concepts sont couverts ?"
     how_much_title: "Combien coûte un abonnement mensuel ?"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     make_private: "Rendre le clan privé"
     subs_only: "Abonnés seulement"
     create_clan: "Créer un nouveau clan"
+#    private_preview: "Preview"
     public_clans: "Clans publiques"
     my_clans: "Mes clans"
     clan_name: "Nom du clan"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_tab_thangs_all: "Tout"
     level_tab_thangs_conditions: "Conditions de départ"
     level_tab_thangs_add: "Ajouter des Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Ajouter des composants"
     component_configs: "Configuration des composants"
     config_thang: "Double-cliquez pour configurer un Thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Ajouté"

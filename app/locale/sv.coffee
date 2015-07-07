@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     campaign_player_created_description: "... i vilken du tävlar mot kreativiteten hos  andra <a href=\"/contribute#artisan\">Hantverkare</a>."
 #    campaign_classic_algorithms: "Classic Algorithms"
 #    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
 #    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
@@ -407,9 +409,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
 #  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-#    feature1: "80+ basic levels across 4 worlds"
-#    feature2: "7 powerful <strong>new heroes</strong> with unique skills!"
-#    feature3: "60+ bonus levels"
+#    feature1: "100+ basic levels across 4 worlds"
+#    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
+#    feature3: "70+ bonus levels"
 #    feature4: "<strong>3500 bonus gems</strong> every month!"
 #    feature5: "Video tutorials"
 #    feature6: "Premium email support"
@@ -603,11 +605,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     teacher_subs_2: "för att sätta upp en gratis månadsprenumeration." # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "Vad ingår i prenumerationen?"
-    sub_includes_1: "Förutom de 80+ grundläggande nivåerna får elever med en månadsprenumeration tillgång till följande:"
-    sub_includes_2: "60+ övningsnivåer"
+    sub_includes_1: "Förutom de 80+ grundläggande nivåerna får elever med en månadsprenumeration tillgång till följande:" # {change}
+    sub_includes_2: "60+ övningsnivåer" # {change}
     sub_includes_3: "Videogenomgångar"
     sub_includes_4: "Premium mejlsupport"
-    sub_includes_5: "7 nya hjältar med unika färdigheter att bemästra"
+    sub_includes_5: "7 nya hjältar med unika färdigheter att bemästra" # {change}
     sub_includes_6: "3500 bonusädelstenar varje månad"
     sub_includes_7: "Privata klaner"
     monitor_progress_title: "Hur kan jag se elevernas framsteg?"
@@ -623,8 +625,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     who_for_1: "Vi rekommenderar CodeCombat till elever som är minst 9 år. Inga programmeringskunskaper krävs."
     who_for_2: "Vi har skapat CodeCombat för att locka både pojkar och flickor."
     material_title: "Hur mycket material finns det?"
-    material_china: "Ungefär 30 timmars speltid över 140+ prenumerantnivåer - än så länge - med nya nivåer varje vecka."
-    material_1: "Ungefär 10 timmar fritt innehåll och ytterligare 20 timmar prenumerantinnehåll med nya nivåer varje vecka."
+    material_china: "Ungefär 30 timmars speltid över 140+ prenumerantnivåer - än så länge - med nya nivåer varje vecka." # {change}
+    material_1: "Ungefär 10 timmar fritt innehåll och ytterligare 20 timmar prenumerantinnehåll med nya nivåer varje vecka." # {change}
     concepts_title: "Vilka koncept täcks?"
     how_much_title: "Hur mycket kostar en månadsprenumeration?"
     how_much_1: "En"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Startvillkor"
     level_tab_thangs_add: "Lägg till enheter"
+#    level_tab_thangs_search: "Search thangs"
 #    add_components: "Add Components"
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
 #    added: "Added"
