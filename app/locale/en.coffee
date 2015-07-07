@@ -1221,6 +1221,7 @@
   delta:
     added: "Added"
     modified: "Modified"
+    not_modified: "Not Modified"
     deleted: "Deleted"
     moved_index: "Moved Index"
     text_diff: "Text Diff"
