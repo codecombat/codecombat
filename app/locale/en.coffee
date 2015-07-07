@@ -92,6 +92,8 @@
     campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute/artisan\">Artisan Wizards</a>."
     campaign_classic_algorithms: "Classic Algorithms"
     campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
+    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
