@@ -863,6 +863,8 @@
     indoor: "Indoor"
     desert: "Desert"
     grassy: "Grassy"
+    mountain: "Mountain"
+    glacier: "Glacier"
     small: "Small"
     large: "Large"
     fork_title: "Fork New Version"
