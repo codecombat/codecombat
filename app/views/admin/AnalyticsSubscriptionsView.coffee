@@ -31,6 +31,8 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     context.cancelled = @cancellations?.length ? @cancelled ? 0
     context.monthlyChurn = @monthlyChurn ? 0.0
     context.monthlyGrowth = @monthlyGrowth ? 0.0
+    context.outstandingCancels = @outstandingCancels ? []
+    context.refreshDataState = @refreshDataState
     context
 
   afterRender: ->
@@ -44,35 +46,117 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     @cancelled = 0
     @monthlyChurn = 0.0
     @monthlyGrowth = 0.0
+    @refreshDataState = 'Fetching dashboard data...'
 
   refreshData: ->
     return unless me.isAdmin()
     @resetSubscriptionsData()
     @getCancellations (cancellations) =>
-      @getSubscriptions cancellations, (subscriptions) =>
-        @getSubscribers(subscriptions)
+      @cancellations = cancellations
+      @render?()
+      @getOutstandingCancelledSubscriptions cancellations, (outstandingCancels) =>
+        @outstandingCancels = outstandingCancels
+        @getSubscriptions cancellations, (subscriptions) =>
+          @updateAnalyticsGraphData()
+          @render?()
+          @getSubscribers subscriptions, =>
+            @render?()
+
+  updateFetchDataState: (msg) ->
+    @refreshDataState = msg
+    @render?()
 
   getCancellations: (done) ->
+    cancellations = []
+    @getCancellationEvents (cancelledSubscriptions) =>
+      # Get user objects for cancelled subscriptions
+      userIDs = _.map cancelledSubscriptions, (a) -> a.userID
+      options =
+        url: '/db/user/-/users'
+        method: 'POST'
+        data: {ids: userIDs}
+      options.error = (model, response, options) =>
+        return if @destroyed
+        console.error 'Failed to get cancelled users', response
+      options.success = (cancelledUsers, response, options) =>
+        return if @destroyed
+        userMap = {}
+        userMap[user._id] = user for user in cancelledUsers
+        for cancellation in cancelledSubscriptions when cancellation.userID of userMap
+          cancellation.user = userMap[cancellation.userID]
+          cancellation.level = User.levelFromExp(cancellation.user.points)
+        cancelledSubscriptions.sort (a, b) -> if a.cancel > b.cancel then -1 else 1
+        done(cancelledSubscriptions)
+      @updateFetchDataState 'Fetching cancellations...'
+      @supermodel.addRequestResource('get_cancelled_users', options, 0).load()
+
+  getCancellationEvents: (done) ->
+    cancellationEvents = []
+    earliestEventDate = new Date()
+    earliestEventDate.setUTCMonth(earliestEventDate.getUTCMonth() - 1)
+    earliestEventDate.setUTCDate(earliestEventDate.getUTCDate() - 8)
+    nextBatch = (starting_after, done) =>
+      @updateFetchDataState "Fetching cancellations #{cancellationEvents.length}..."
+      options =
+        url: '/db/subscription/-/stripe_events'
+        method: 'POST'
+        data: {options: {limit: 100}}
+      options.data.options.starting_after = starting_after if starting_after
+      options.data.options.type = 'customer.subscription.updated'
+      options.data.options.created = gte: Math.floor(earliestEventDate.getTime() / 1000)
+      options.error = (model, response, options) =>
+        return if @destroyed
+        console.error 'Failed to get cancelled events', response
+      options.success = (events, response, options) =>
+        return if @destroyed
+        for event in events.data
+          continue unless event.data?.object?.cancel_at_period_end is true and event.data?.previous_attributes.cancel_at_period_end is false
+          continue unless event.data?.object?.plan?.id is 'basic'
+          continue unless event.data?.object?.id?
+          cancellationEvents.push
+            cancel: new Date(event.created * 1000)
+            customerID: event.data.object.customer
+            start: new Date(event.data.object.start * 1000)
+            subscriptionID: event.data.object.id
+            userID: event.data.object.metadata?.id
+
+        if events.has_more
+          return nextBatch(events.data[events.data.length - 1].id, done)
+        done(cancellationEvents)
+      @supermodel.addRequestResource('get_cancellation_events', options, 0).load()
+    nextBatch null, done
+
+  getOutstandingCancelledSubscriptions: (cancellations, done) ->
+    @updateFetchDataState "Fetching oustanding cancellations..."
     options =
-      url: '/db/subscription/-/cancellations'
-      method: 'GET'
+      url: '/db/subscription/-/stripe_subscriptions'
+      method: 'POST'
+      data: {subscriptions: cancellations}
     options.error = (model, response, options) =>
       return if @destroyed
-      console.error 'Failed to get cancellations', response
-    options.success = (cancellations, response, options) =>
+      console.error 'Failed to get outstanding cancellations', response
+    options.success = (subscriptions, response, options) =>
       return if @destroyed
-      @cancellations = cancellations
-      @cancellations.sort (a, b) -> b.cancel.localeCompare(a.cancel)
-      for cancellation in @cancellations when cancellation.user?
-        cancellation.level = User.levelFromExp cancellation.user.points
-      done(cancellations)
-    @supermodel.addRequestResource('get_cancellations', options, 0).load()
+      outstandingCancelledSubscriptions = []
+      for subscription in subscriptions
+        continue unless subscription?.cancel_at_period_end
+        outstandingCancelledSubscriptions.push
+          cancel: new Date(subscription.canceled_at * 1000)
+          customerID: subscription.customerID
+          start: new Date(subscription.start * 1000)
+          subscriptionID: subscription.id
+          userID: subscription.metadata?.id
+      done(outstandingCancelledSubscriptions)
+    @supermodel.addRequestResource('get_outstanding_cancelled_subscriptions', options, 0).load()
 
-  getSubscribers: (subscriptions) ->
+  getSubscribers: (subscriptions, done) ->
+    # console.log 'getSubscribers', subscriptions.length
+    @updateFetchDataState "Fetching recipient subscriptions..."
+    @render?()
     maxSubscribers = 40
 
     subscribers = _.filter subscriptions, (a) -> a.userID?
-    subscribers.sort (a, b) -> b.start.localeCompare(a.start)
+    subscribers.sort (a, b) -> if a.start > b.start then -1 else 1
     subscribers = subscribers.slice(0, maxSubscribers)
     subscriberUserIDs = _.map subscribers, (a) -> a.userID
 
@@ -92,64 +176,159 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         if hero = subscriber.user.heroConfig?.thangType
           subscriber.hero = _.invert(ThangType.heroes)[hero]
       @subscribers = subscribers
-      @render?()
+      done()
     @supermodel.addRequestResource('get_subscribers', options, 0).load()
 
   getSubscriptions: (cancellations=[], done) ->
+    @getInvoices (invoices) =>
+      subMap = {}
+      for invoice in invoices
+        subID = invoice.subscriptionID
+        if subID of subMap
+          subMap[subID].first = new Date(invoice.date)
+        else
+          subMap[subID] =
+            first: new Date(invoice.date)
+            last: new Date(invoice.date)
+            customerID: invoice.customerID
+        subMap[subID].userID = invoice.userID if invoice.userID
+
+      @getSponsors (sponsors) =>
+        @getRecipientSubscriptions sponsors, (recipientSubscriptions) =>
+          @updateFetchDataState "Fetching recipient subscriptions..."
+          for subscription in recipientSubscriptions
+            subMap[subscription.id] =
+              first: new Date(subscription.start * 1000)
+            subMap[subscription.id].userID = subscription.metadata.id if subscription.metadata?.id?
+            if subscription.cancel_at_period_end
+              subMap[subscription.id].cancel = new Date(subscription.canceled_at * 1000)
+              subMap[subscription.id].end = new Date(subscription.current_period_end * 1000)
+
+          subs = []
+          for subID of subMap
+            sub =
+              customerID: subMap[subID].customerID
+              start: subMap[subID].first
+              subscriptionID: subID
+            sub.cancel = subMap[subID].cancel if subMap[subID].cancel
+            oneMonthAgo = new Date()
+            oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
+            if subMap[subID].end?
+              sub.end = subMap[subID].end
+            else if subMap[subID].last < oneMonthAgo
+              sub.end = subMap[subID].last
+              sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
+            sub.userID = subMap[subID].userID if subMap[subID].userID
+            subs.push sub
+
+          subDayMap = {}
+          for sub in subs
+            startDay = sub.start.toISOString().substring(0, 10)
+            subDayMap[startDay] ?= {}
+            subDayMap[startDay]['start'] ?= 0
+            subDayMap[startDay]['start']++
+            if endDay = sub?.end?.toISOString().substring(0, 10)
+              subDayMap[endDay] ?= {}
+              subDayMap[endDay]['end'] ?= 0
+              subDayMap[endDay]['end']++
+            for cancellation in cancellations
+              if cancellation.subscriptionID is sub.subscriptionID
+                sub.cancel = cancellation.cancel
+                cancelDay = cancellation.cancel.toISOString().substring(0, 10)
+                subDayMap[cancelDay] ?= {}
+                subDayMap[cancelDay]['cancel'] ?= 0
+                subDayMap[cancelDay]['cancel']++
+                break
+
+          today = new Date().toISOString().substring(0, 10)
+          for day of subDayMap
+            continue if day > today
+            @subs.push
+              day: day
+              started: subDayMap[day]['start'] or 0
+              cancelled: subDayMap[day]['cancel'] or 0
+              ended: subDayMap[day]['end'] or 0
+
+          @subs.sort (a, b) -> a.day.localeCompare(b.day)
+          totalLastMonth = 0
+          for sub, i in @subs
+            @total += sub.started
+            @total -= sub.ended
+            @cancelled += sub.cancelled
+            sub.total = @total
+            totalLastMonth = @total if @subs.length - i is 31
+          @monthlyChurn = @cancelled / totalLastMonth * 100.0 if totalLastMonth > 0
+          if @subs.length > 30 and @subs[@subs.length - 31].total > 0
+            startMonthTotal = @subs[@subs.length - 31].total
+            endMonthTotal = @subs[@subs.length - 1].total
+            @monthlyGrowth = (endMonthTotal / startMonthTotal - 1) * 100
+          done(subs)
+
+  getInvoices: (done) ->
+    invoices = {}
+    nextBatch = (starting_after, done) =>
+      @updateFetchDataState "Fetching invoices #{Object.keys(invoices).length}..."
+      options =
+        url: '/db/subscription/-/stripe_invoices'
+        method: 'POST'
+        data: {options: {limit: 100}}
+      options.data.options.starting_after = starting_after if starting_after
+      options.error = (model, response, options) =>
+        return if @destroyed
+        console.error 'Failed to get invoices', response
+      options.success = (invoiceData, response, options) =>
+        return if @destroyed
+        for invoice in invoiceData.data
+          continue unless invoice.paid
+          continue unless invoice.subscription
+          continue unless invoice.total > 0
+          continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
+          invoices[invoice.id] =
+            customerID: invoice.customer
+            subscriptionID: invoice.subscription
+            date: new Date(invoice.date * 1000)
+          invoices[invoice.id].userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
+        if invoiceData.has_more
+          return nextBatch(invoiceData.data[invoiceData.data.length - 1].id, done)
+        else
+          invoices = (invoice for invoiceID, invoice of invoices)
+          invoices.sort (a, b) -> if a.date > b.date then -1 else 1
+          return done(invoices)
+      @supermodel.addRequestResource('get_invoices', options, 0).load()
+    nextBatch null, done
+
+  getRecipientSubscriptions: (sponsors, done) ->
+    @updateFetchDataState "Fetching recipient subscriptions..."
+    subscriptionsToFetch = []
+    for user in sponsors
+      for recipient in user.stripe?.recipients
+        subscriptionsToFetch.push
+          customerID: user.stripe.customerID
+          subscriptionID: recipient.subscriptionID
     options =
-      url: '/db/subscription/-/subscriptions'
-      method: 'GET'
+      url: '/db/subscription/-/stripe_subscriptions'
+      method: 'POST'
+      data: {subscriptions: subscriptionsToFetch}
     options.error = (model, response, options) =>
       return if @destroyed
-      console.error 'Failed to get subscriptions', response
-    options.success = (subs, response, options) =>
+      console.error 'Failed to get recipient subscriptions', response
+    options.success = (subscriptions, response, options) =>
       return if @destroyed
-      @resetSubscriptionsData()
-      subDayMap = {}
-      for sub in subs
-        startDay = sub.start.substring(0, 10)
-        subDayMap[startDay] ?= {}
-        subDayMap[startDay]['start'] ?= 0
-        subDayMap[startDay]['start']++
-        if endDay = sub?.end?.substring(0, 10)
-          subDayMap[endDay] ?= {}
-          subDayMap[endDay]['end'] ?= 0
-          subDayMap[endDay]['end']++
-        for cancellation in cancellations
-          if cancellation.subscriptionID is sub.subscriptionID
-            sub.cancel = cancellation.cancel
-            cancelDay = cancellation.cancel.substring(0, 10)
-            subDayMap[cancelDay] ?= {}
-            subDayMap[cancelDay]['cancel'] ?= 0
-            subDayMap[cancelDay]['cancel']++
-            break
+      done(subscriptions)
+    @supermodel.addRequestResource('get_recipient_subscriptions', options, 0).load()
 
-      today = new Date().toISOString().substring(0, 10)
-      for day of subDayMap
-        continue if day > today
-        @subs.push
-          day: day
-          started: subDayMap[day]['start'] or 0
-          cancelled: subDayMap[day]['cancel'] or 0
-          ended: subDayMap[day]['end'] or 0
-
-      @subs.sort (a, b) -> a.day.localeCompare(b.day)
-      totalLastMonth = 0
-      for sub, i in @subs
-        @total += sub.started
-        @total -= sub.ended
-        @cancelled += sub.cancelled
-        sub.total = @total
-        totalLastMonth = @total if @subs.length - i is 31
-      @monthlyChurn = @cancelled / totalLastMonth * 100.0 if totalLastMonth > 0
-      if @subs.length > 30 and @subs[@subs.length - 31].total > 0
-        startMonthTotal = @subs[@subs.length - 31].total
-        endMonthTotal = @subs[@subs.length - 1].total
-        @monthlyGrowth = (endMonthTotal / startMonthTotal - 1) * 100
-      @updateAnalyticsGraphData()
-      @render?()
-      done(subs)
-    @supermodel.addRequestResource('get_subscriptions', options, 0).load()
+  getSponsors: (done) ->
+    @updateFetchDataState "Fetching sponsors..."
+    options =
+      url: '/db/user/-/sub_sponsors'
+      method: 'POST'
+    options.error = (model, response, options) =>
+      return if @destroyed
+      console.error 'Failed to get sponsors', response
+    options.success = (sponsors, response, options) =>
+      return if @destroyed
+      done(sponsors)
+    @supermodel.addRequestResource('get_sponsors', options, 0).load()
 
   updateAnalyticsGraphData: ->
     # console.log 'updateAnalyticsGraphData'

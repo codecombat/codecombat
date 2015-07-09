@@ -26,74 +26,67 @@ class SubscriptionHandler extends Handler
     console.warn "Subscription Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
   getByRelationship: (req, res, args...) ->
-    return @getCancellations(req, res) if args[1] is 'cancellations'
-    return @getRecentSubscribers(req, res) if args[1] is 'subscribers'
-    return @getActiveSubscriptions(req, res) if args[1] is 'subscriptions'
+    return @getStripeEvents(req, res) if args[1] is 'stripe_events'
+    return @getStripeInvoices(req, res) if args[1] is 'stripe_invoices'
+    return @getStripeSubscriptions(req, res) if args[1] is 'stripe_subscriptions'
+    return @getSubscribers(req, res) if args[1] is 'subscribers'
     super(arguments...)
 
-  getCancellations: (req, res) =>
-    # console.log 'subscription_handler getCancellations'
+  getStripeEvents: (req, res) ->
+    # console.log 'subscription_handler getStripeEvents', req.body?.options
     return @sendForbiddenError(res) unless req.user?.isAdmin()
+    stripe.events.list req.body.options, (err, events) =>
+      return done(err) if err
+      @sendSuccess(res, events)
 
-    earliestEventDate = new Date()
-    earliestEventDate.setUTCMonth(earliestEventDate.getUTCMonth() - 1)
-    earliestEventDate.setUTCDate(earliestEventDate.getUTCDate() - 8)
-
-    cancellationEvents = []
-    nextBatch = (starting_after, done) =>
-      options = limit: 100
-      options.starting_after = starting_after if starting_after
-      options.type = 'customer.subscription.updated'
-      options.created = gte: Math.floor(earliestEventDate.getTime() / 1000)
-      stripe.events.list options, (err, events) =>
-        return done(err) if err
-        for event in events.data
-          continue unless event.data?.object?.cancel_at_period_end is true and event.data?.previous_attributes.cancel_at_period_end is false
-          continue unless event.data?.object?.plan?.id is 'basic'
-          continue unless event.data?.object?.id?
-          cancellationEvents.push
-            subscriptionID: event.data.object.id
-            customerID: event.data.object.customer
-        if events.has_more
-          # console.log 'Fetching more cancellation events', cancellationEvents.length
-          return nextBatch(events.data[events.data.length - 1].id, done)
-        else
-          return done()
-
-    nextBatch null, (err) =>
+  getStripeInvoices: (req, res) ->
+    # console.log 'subscription_handler getStripeInvoices'
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    @oldInvoices ?= {}
+    buildInvoicesFromCache = (newInvoices) =>
+      data = (invoice for invoiceID, invoice of @oldInvoices)
+      data = data.concat(newInvoices)
+      data.sort (a, b) -> if a.date > b.date then -1 else 1
+      {has_more: false, data: data}
+    oldInvoiceCutoffDays = 16 # Dependent on Stripe subscription payment retries
+    oldInvoiceCutoffDate = new Date()
+    oldInvoiceCutoffDate.setUTCDate(oldInvoiceCutoffDate.getUTCDate() - oldInvoiceCutoffDays)
+    stripe.invoices.list req.body.options, (err, invoices) =>
       return @sendDatabaseError(res, err) if err
+      newInvoices = []
+      for invoice, i in invoices.data
+        if new Date(invoice.date * 1000) < oldInvoiceCutoffDate
+          if invoice.id of @oldInvoices
+            # Rest of the invoices should be cached, return from cache
+            cachedInvoices = buildInvoicesFromCache(newInvoices)
+            return @sendSuccess(res, cachedInvoices)
+          else
+            # Cache older invoices
+            @oldInvoices[invoice.id] = invoice
+        else
+          # Keep track of new invoices for this page of invoices
+          newInvoices.push(invoice)
+      @sendSuccess(res, invoices)
 
-      cancellations = []
-      createCheckSubFn = (customerID, subscriptionID) =>
-        (done) =>
-          stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
-            return done() if err
-            return done() unless subscription?.cancel_at_period_end
-            cancellations.push
-              cancel: new Date(subscription.canceled_at * 1000)
-              customerID: customerID
-              start: new Date(subscription.start * 1000)
-              subscriptionID: subscriptionID
-              userID: subscription.metadata?.id
-            done()
-      tasks = []
-      for cancellationEvent in cancellationEvents
-        tasks.push createCheckSubFn(cancellationEvent.customerID, cancellationEvent.subscriptionID)
-      async.parallel tasks, (err, results) =>
-        return @sendDatabaseError(res, err) if err
+  getStripeSubscriptions: (req, res) ->
+    # console.log 'subscription_handler getStripeSubscriptions'
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    subscriptions = []
+    createGetSubFn = (customerID, subscriptionID) =>
+      (done) =>
+        stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
+          # TODO: return error instead of ignore?
+          subscriptions.push(subscription) unless err
+          done()
+    tasks = []
+    for subscription in req.body.subscriptions
+      tasks.push createGetSubFn(subscription.customerID, subscription.subscriptionID)
+    async.parallel tasks, (err, results) =>
+      return @sendDatabaseError(res, err) if err
+      @sendSuccess(res, subscriptions)
 
-        # TODO: Lookup userID via customer object, for cancellations that are missing them
-        userIDs = _.map cancellations, (a) -> a.userID
-        User.find {_id: {$in: userIDs}}, (err, users) =>
-          return @sendDatabaseError(res, err) if err
-          userMap = {}
-          userMap[user.id] = user.toObject() for user in users
-          for cancellation in cancellations
-            cancellation.user = userMap[cancellation.userID] if cancellation.userID of userMap
-          @sendSuccess(res, cancellations)
-
-  getRecentSubscribers: (req, res) ->
-    # console.log 'subscription_handler getRecentSubscribers'
+  getSubscribers: (req, res) ->
+    # console.log 'subscription_handler getSubscribers'
     return @sendForbiddenError(res) unless req.user?.isAdmin()
     subscriberUserIDs = req.body.ids or []
 
@@ -136,101 +129,6 @@ class SubscriptionHandler extends Handler
       catch err
         log.debug 'Analytics error:\n' + err
         @sendSuccess(res, userMap)
-
-  getActiveSubscriptions: (req, res) ->
-    # console.log 'subscription_handler getActiveSubscriptions'
-    # TODO: does not return free subs
-    # TODO: add tests
-    # TODO: take date range as input
-
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-
-    @invoices ?= {}
-    newInvoices = []
-
-    oldInvoiceDate = new Date()
-    oldInvoiceDate.setUTCDate(oldInvoiceDate.getUTCDate() - 20)
-
-    processInvoices = (starting_after, done) =>
-      options = limit: 100
-      options.starting_after = starting_after if starting_after
-      stripe.invoices.list options, (err, invoices) =>
-        return done(err) if err
-        for invoice in invoices.data
-          invoiceDate = new Date(invoice.date * 1000)
-          # Assume we've cached all older invoices if we find a cached one that's old enough
-          return done() if invoice.id of @invoices and invoiceDate < oldInvoiceDate
-          continue unless invoice.paid
-          continue unless invoice.subscription
-          continue unless invoice.total > 0
-          continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
-          @invoices[invoice.id] =
-            customerID: invoice.customer
-            subscriptionID: invoice.subscription
-            date: invoiceDate
-          @invoices[invoice.id].userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
-        if invoices.has_more
-          return processInvoices(invoices.data[invoices.data.length - 1].id, done)
-        else
-          return done()
-
-    processInvoices null, (err) =>
-      return @sendDatabaseError(res, err) if err
-      subMap = {}
-      invoices = (invoice for invoiceID, invoice of @invoices)
-      invoices.sort (a, b) -> if a.date > b.date then -1 else 1
-      for invoice in invoices
-        subID = invoice.subscriptionID
-        if subID of subMap
-          subMap[subID].first = invoice.date
-        else
-          subMap[subID] =
-            first: invoice.date
-            last: invoice.date
-            customerID: invoice.customerID
-        subMap[subID].userID = invoice.userID if invoice.userID
-
-      # Check sponsored subscriptions
-      User.find {"stripe.sponsorSubscriptionID": {$exists: true}}, (err, sponsors) =>
-        return @sendDatabaseError(res, err) if err
-
-        createCheckSubFn = (customerID, subscriptionID) =>
-          (done) =>
-            stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
-              return done() if err
-              return done() unless subscription?
-              subMap[subscription.id] =
-                first: new Date(subscription.start * 1000)
-              subMap[subscription.id].userID = subscription.metadata.id if subscription.metadata?.id?
-              if subscription.cancel_at_period_end
-                subMap[subscription.id].cancel = new Date(subscription.canceled_at * 1000)
-                subMap[subscription.id].end = new Date(subscription.current_period_end * 1000)
-              done()
-
-        tasks = []
-        for user in sponsors
-          for recipient in user.get("stripe")?.recipients
-            tasks.push createCheckSubFn(user.get('stripe')?.customerID, recipient.subscriptionID)
-        async.parallel tasks, (err, results) =>
-          return @sendDatabaseError(res, err) if err
-
-          subs = []
-          for subID of subMap
-            sub =
-              customerID: subMap[subID].customerID
-              start: subMap[subID].first
-              subscriptionID: subID
-            sub.cancel = subMap[subID].cancel if subMap[subID].cancel
-            oneMonthAgo = new Date()
-            oneMonthAgo.setUTCMonth(oneMonthAgo.getUTCMonth() - 1)
-            if subMap[subID].end?
-              sub.end = subMap[subID].end
-            else if subMap[subID].last < oneMonthAgo
-              sub.end = new Date(subMap[subID].last)
-              sub.end.setUTCMonth(sub.end.getUTCMonth() + 1)
-            sub.userID = subMap[subID].userID if subMap[subID].userID
-            subs.push sub
-          @sendSuccess(res, subs)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()

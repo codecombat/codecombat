@@ -173,6 +173,13 @@ UserHandler = class UserHandler extends Handler
       return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
+  getByIDs: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    User.find {_id: {$in: req.body.ids}}, (err, users) =>
+      return @sendDatabaseError(res, err) if err
+      cleandocs = (@formatEntity(req, doc) for doc in users)
+      @sendSuccess(res, cleandocs)
+
   getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
     returnWizard = req.query.wizard or req.body.wizard
@@ -294,6 +301,7 @@ UserHandler = class UserHandler extends Handler
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
+    return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
@@ -311,6 +319,7 @@ UserHandler = class UserHandler extends Handler
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
+    return @getSubSponsors(req, res) if args[1] is 'sub_sponsors'
     return @sendOneTimeEmail(req, res, args[0]) if args[1] is 'send_one_time_email'
     return @sendNotFoundError(res)
     super(arguments...)
@@ -383,6 +392,13 @@ UserHandler = class UserHandler extends Handler
         info.subscription = subscription
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)
+
+  getSubSponsors: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    User.find {"stripe.sponsorSubscriptionID": {$exists: true}}, (err, sponsors) =>
+      return @sendDatabaseError(res, err) if err
+      cleandocs = (@formatEntity(req, doc) for doc in sponsors)
+      @sendSuccess(res, cleandocs)
 
   sendOneTimeEmail: (req, res) ->
     # TODO: Should this API be somewhere else?
