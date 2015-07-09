@@ -395,7 +395,10 @@ UserHandler = class UserHandler extends Handler
 
   getSubSponsors: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
-    User.find {"stripe.sponsorSubscriptionID": {$exists: true}}, (err, sponsors) =>
+    # TODO: fix perf on this query
+    sponsoredSubsAddDate = new Date('2015-03-12')
+    query = {$and: [{dateCreated: {$gte: sponsoredSubsAddDate}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}
+    User.find query, (err, sponsors) =>
       return @sendDatabaseError(res, err) if err
       cleandocs = (@formatEntity(req, doc) for doc in sponsors)
       @sendSuccess(res, cleandocs)
