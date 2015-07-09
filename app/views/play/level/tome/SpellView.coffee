@@ -1002,6 +1002,10 @@ module.exports = class SpellView extends CocoView
     null
 
   highlightEntryPoints: ->
+    # Put a yellow arrow in the gutter pointing to each place we expect them to put in code.
+    # Usually, this is indicated by a blank line after a comment line, except for the first comment lines.
+    # If we need to indicate an entry point on a line that has code, we use ∆ in a comment on that line.
+    # If the entry point line has been changed (beyond the most basic shifted lines), we don't point it out.
     lines = @aceDoc.$lines
     originalLines = @spell.originalSource.split '\n'
     session = @aceSession
@@ -1026,6 +1030,8 @@ module.exports = class SpellView extends CocoView
 
       isEntryPoint = lineIsBlank and previousLineHadComment and not previousLineHadCode and pastIntroComments
       if isEntryPoint and lineHasChanged
+        # It might just be that the line was shifted around by the player inserting more code.
+        # We also look for the unchanged comment line in a new position to find what line we're really on.
         movedIndex = originalLines.indexOf previousLine
         if movedIndex isnt -1 and line is originalLines[movedIndex + 1]
           lineHasChanged = false
@@ -1041,8 +1047,8 @@ module.exports = class SpellView extends CocoView
           isEntryPoint = true
 
       if isEntryPoint
-        session.addGutterDecoration index, "entry-point"
-        if not seenAnEntryPoint
+        session.addGutterDecoration index, 'entry-point'
+        unless seenAnEntryPoint
           session.addGutterDecoration index, 'next-entry-point'
           seenAnEntryPoint = true
 
