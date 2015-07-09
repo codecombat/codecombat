@@ -14,6 +14,8 @@ User = require '../users/User'
 {getSponsoredSubsAmount} = require '../../app/core/utils'
 
 recipientCouponID = 'free'
+
+# TODO: rename this to avoid collisions with 'subscriptions' variables
 subscriptions = {
   basic: {
     gems: 3500
@@ -71,19 +73,19 @@ class SubscriptionHandler extends Handler
   getStripeSubscriptions: (req, res) ->
     # console.log 'subscription_handler getStripeSubscriptions'
     return @sendForbiddenError(res) unless req.user?.isAdmin()
-    subscriptions = []
+    stripeSubscriptions = []
     createGetSubFn = (customerID, subscriptionID) =>
       (done) =>
         stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
           # TODO: return error instead of ignore?
-          subscriptions.push(subscription) unless err
+          stripeSubscriptions.push(subscription) unless err
           done()
     tasks = []
     for subscription in req.body.subscriptions
       tasks.push createGetSubFn(subscription.customerID, subscription.subscriptionID)
     async.parallel tasks, (err, results) =>
       return @sendDatabaseError(res, err) if err
-      @sendSuccess(res, subscriptions)
+      @sendSuccess(res, stripeSubscriptions)
 
   getSubscribers: (req, res) ->
     # console.log 'subscription_handler getSubscribers'
