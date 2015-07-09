@@ -812,6 +812,14 @@ module.exports = class SpellView extends CocoView
     @_singleLineCommentRegex = new RegExp "[ \t]*#{commentStart}[^\"'\n]*", 'g'
     @_singleLineCommentRegex
 
+  lineWithCodeRegex: ->
+    if @_lineWithCodeRegex
+      @_lineWithCodeRegex.lastIndex = 0
+      return @_lineWithCodeRegex
+    commentStart = commentStarts[@spell.language] or '//'
+    @_lineWithCodeRegex = new RegExp "^[ \t]*(?!( |]t|#{commentStart}))+", 'g'
+    @_lineWithCodeRegex
+
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
@@ -995,25 +1003,54 @@ module.exports = class SpellView extends CocoView
 
   highlightEntryPoints: ->
     lines = @aceDoc.$lines
+    originalLines = @spell.originalSource.split '\n'
     session = @aceSession
-    top = Math.floor @ace.renderer.getScrollTopRow()
-    seenOne = false
-    entryPointLines = []
+    commentStart = commentStarts[@spell.language] or '//'
+    seenAnEntryPoint = false
+    previousLine = null
+    previousLineHadComment = false
+    previousLineHadCode = false
+    previousLineWasBlank = false
+    pastIntroComments = false
     for line, index in lines
       session.removeGutterDecoration index, 'entry-point'
       session.removeGutterDecoration index, 'next-entry-point'
-      if line.indexOf('if') isnt -1
+
+      lineHasComment = @singleLineCommentRegex().test line
+      lineHasCode = line.trim()[0] and not _.string.startsWith line.trim(), commentStart
+      lineIsBlank = /^[ \t]*$/.test line
+      lineHasExplicitMarker = line.indexOf('∆') isnt -1
+
+      originalLine = originalLines[index]
+      lineHasChanged = line isnt originalLine
+
+      isEntryPoint = lineIsBlank and previousLineHadComment and not previousLineHadCode and pastIntroComments
+      if isEntryPoint and lineHasChanged
+        movedIndex = originalLines.indexOf previousLine
+        if movedIndex isnt -1 and line is originalLines[movedIndex + 1]
+          lineHasChanged = false
+        else
+          isEntryPoint = false
+
+      if lineHasExplicitMarker
+        if lineHasChanged
+          if originalLines.indexOf(line) isnt -1
+            lineHasChanged = false
+            isEntryPoint = true
+        else
+          isEntryPoint = true
+
+      if isEntryPoint
         session.addGutterDecoration index, "entry-point"
-        if not seenOne
+        if not seenAnEntryPoint
           session.addGutterDecoration index, 'next-entry-point'
-          seenOne = true
-        entryPointLines.push index
-    scrolledAwayLines = 0
-    #while entryPointLines.length and entryPointLines[0] < top
-    #  entryPointLines.shift()
-    #  ++scrolledAwayLines
-    $(@ace.container).find('.ace_gutter-cell.entry-point').each (index, el) ->
-      $(el).attr('data-content', scrolledAwayLines + index + 1)
+          seenAnEntryPoint = true
+
+      previousLine = line
+      previousLineHadComment = lineHasComment
+      previousLineHadCode = lineHasCode
+      previousLineWasBlank = lineIsBlank
+      pastIntroComments ||= lineHasCode or previousLineWasBlank
 
   onAnnotationClick: ->
     # @ is the gutter element
