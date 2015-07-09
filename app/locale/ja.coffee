@@ -92,6 +92,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     campaign_player_created_description: "仲間のウィザード達の創造力との戦いに立ち向かいます"
     campaign_classic_algorithms: "クラシックアルゴリズム"
     campaign_classic_algorithms_description: "コンピュータサイエンスで最も人気のあるアルゴリズムを学ぼう"
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "あなたは進歩している！ CodeCombatでどんなに学んだかについて、誰かに伝えてください。"
@@ -407,9 +409,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   subscribe:
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！"
-    feature1: "80以上の基本レベルが４つの世界に"
-    feature2: "７人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!"
-    feature3: "60以上のボーナスレベル"
+    feature1: "80以上の基本レベルが４つの世界に" # {change}
+    feature2: "７人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
+    feature3: "60以上のボーナスレベル" # {change}
     feature4: "<strong>3500のジェム</strong>が毎月ボーナス!"
     feature5: "ビデオチュートリアル"
     feature6: "プレミアムメールサポート"
@@ -603,11 +605,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     teacher_subs_2: "に連絡して無料の月々のサブスクリプションを得ましょう。" # {change}
 #    teacher_subs_3: "to set up your subscription."
     sub_includes_title: "サブスクリプションの内容について"
-    sub_includes_1: "80以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:"
-    sub_includes_2: "60以上の練習レベル"
+    sub_includes_1: "80以上の基本レベルに加えて、生徒は月々のサブスクリプションを得て次の機能が使えます:" # {change}
+    sub_includes_2: "60以上の練習レベル" # {change}
     sub_includes_3: "ビデオチュートリアル"
     sub_includes_4: "メールによるサポート"
-    sub_includes_5: "7人の新しいヒーローとマスターのユニークなスキル"
+    sub_includes_5: "7人の新しいヒーローとマスターのユニークなスキル" # {change}
     sub_includes_6: "3500のジェムが月々支給されます"
 #    sub_includes_7: "Private Clans"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -623,7 +625,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     who_for_1: "私たちは CodeCombat を9歳以上の生徒にオススメしています。プログラミングの経験は必要ありません。"
     who_for_2: "私たちは男女問わず遊べるように CodeCombat をデザインしました。"
     material_title: "どのぐらいコンテンツがありますか？"
-#    material_china: "Approximately 30 hours of gameplay spread over 140+ subscriber-only levels so far, with new levels every week."
+#    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
     material_1: "8時間ほどの無料のコンテンツに加え、サブスクリプションによってさらに14時間ほどプレイすることができ、毎週5つの新しいレベルが追加されています。" # {change}
     concepts_title: "どのような概念がカバーされているかについて"
     how_much_title: "月々のサブスクリプションはいくらですか？"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    make_private: "Make clan private"
 #    subs_only: "subscribers only"
 #    create_clan: "Create New Clan"
+#    private_preview: "Preview"
 #    public_clans: "Public Clans"
 #    my_clans: "My Clans"
 #    clan_name: "Clan Name"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    level_tab_thangs_all: "All"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
+#    level_tab_thangs_search: "Search thangs"
 #    add_components: "Add Components"
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
 #  delta:
 #    added: "Added"

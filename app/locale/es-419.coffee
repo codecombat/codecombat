@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     campaign_classic_algorithms: "Algorítmos Clásicos"
     campaign_classic_algorithms_description: "... en la cual aprendes los algorítmos más populares de la Ciencia de la Computación."
+#    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
+#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   share_progress_modal:
     blurb: "¡Estás haciendo un gran progreso! Cuéntale a alguien cuánto has aprendido con CodeCombat." # {change}
@@ -408,7 +410,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   subscribe:
     comparison_blurb: "Agudiza tus habilidades con la suscripción a CodeCombat!"
     feature1: "Más de 60 niveles basicos a lo largo de 4 mundos" # {change}
-    feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!"
+    feature2: "7 poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
     feature3: "Más de 30 niveles extras" # {change}
     feature4: "<strong>3500 gemas bonus</strong> cada mes!"
     feature5: "Video tutoriales"
@@ -607,7 +609,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sub_includes_2: "Más de 40 niveles de práctica" # {change}
     sub_includes_3: "Video tutoriales"
     sub_includes_4: "Soporte de correo electronico Premium"
-    sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar"
+    sub_includes_5: "7 heroes nuevos con habilidades unicas que dominar" # {change}
     sub_includes_6: "bonificación de 3500 gemas cada mes"
     sub_includes_7: "Clanes privados"
 #    monitor_progress_title: "How do I monitor student progress?"
@@ -789,6 +791,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     make_private: "Hacer clan privado"
     subs_only: "solo suscriptores"
     create_clan: "Crear nuevo clan"
+#    private_preview: "Preview"
     public_clans: "Clanes publicos"
     my_clans: "Mis Clanes"
     clan_name: "Nombre del clan"
@@ -881,6 +884,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     level_tab_thangs_all: "Todo"
     level_tab_thangs_conditions: "Condiciones Iniciales"
     level_tab_thangs_add: "Agregar Thangs"
+#    level_tab_thangs_search: "Search thangs"
     add_components: "Agregar Componentes"
     component_configs: "Configuraciones del Componente"
     config_thang: "Doble clic para configurar un thang"
@@ -1194,6 +1198,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #  concepts:
 #    advanced_strings: "Advanced Strings"
 #    algorithms: "Algorithms"
+#    arguments: "Arguments"
 #    arithmetic: "Arithmetic"
 #    arrays: "Arrays"
 #    basic_syntax: "Basic Syntax"
@@ -1209,7 +1214,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    strings: "Strings"
 #    variables: "Variables"
 #    vectors: "Vectors"
-#    while_loops: "While Loops"
+#    while_loops: "Loops"
+#    recursion: "Recursion"
 
   delta:
     added: "Agregado"

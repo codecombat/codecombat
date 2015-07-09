@@ -54,8 +54,45 @@ module.exports = class LadderHomeView extends RootView
     context.campaigns = campaigns
     context
 
+heroArenas = [
+  {
+    name: 'Zero Sum'
+    difficulty: 3
+    id: 'zero-sum'
+    image: '/file/db/level/550363b4ec31df9c691ab629/MAR26-Banner_Zero%20Sum.png'
+    description: 'Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer.'
+  }
+  {
+    name: 'Cavern Survival'
+    difficulty: 1
+    id: 'cavern-survival'
+    image: ''
+    description: 'Stay alive longer than your multiplayer opponent amidst hordes of ogres!'
+  }
+  {
+    name: 'Dueling Grounds'
+    difficulty: 1
+    id: 'dueling-grounds'
+    image: ''
+    description: 'Battle head-to-head against another hero in this basic beginner combat arena.'
+  }
+  {
+    name: 'Multiplayer Treasure Grove'
+    difficulty: 2
+    id: 'multiplayer-treasure-grove'
+    image: ''
+    description: 'Mix collection, flags, and combat in this multiplayer coin-gathering arena.'
+  }
+  {
+    name: 'Harrowland'
+    difficulty: 2
+    id: 'harrowland'
+    image: ''
+    description: 'Go head-to-head against another player in this dueling arena--but watch out for their friends!'
+  }
+]
 
-arenas = [
+oldArenas = [
   {
     name: 'Criss-Cross'
     difficulty: 5
@@ -101,5 +138,6 @@ arenas = [
 ]
 
 campaigns = [
-  {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: arenas}
+  {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: heroArenas}
+  {id: 'old_multiplayer', name: '(Deprecated) Old Multiplayer Arenas', description: 'Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas.', levels: oldArenas}
 ]
