@@ -917,7 +917,7 @@ module.exports = class SpellView extends CocoView
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
-    @highlightComments() unless @destroyed
+    @highlightEntryPoints() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow and @thang
     executed = []
@@ -985,7 +985,7 @@ module.exports = class SpellView extends CocoView
       markerRange.end = @aceDoc.createAnchor markerRange.end
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
-      if executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
+      if false and executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
         @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter[start.row] isnt ''
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
@@ -993,17 +993,27 @@ module.exports = class SpellView extends CocoView
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 
-  highlightComments: ->
-    return  # Slightly buggy and not that great, so let's not do it.
-    lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
+  highlightEntryPoints: ->
+    lines = @aceDoc.$lines
     session = @aceSession
     top = Math.floor @ace.renderer.getScrollTopRow()
-    $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
-      line = $(lines[index])
-      index = index - top
-      session.removeGutterDecoration index, 'comment-line'
-      if line.find('.ace_comment').length
-        session.addGutterDecoration index, 'comment-line'
+    seenOne = false
+    entryPointLines = []
+    for line, index in lines
+      session.removeGutterDecoration index, 'entry-point'
+      session.removeGutterDecoration index, 'next-entry-point'
+      if line.indexOf('if') isnt -1
+        session.addGutterDecoration index, "entry-point"
+        if not seenOne
+          session.addGutterDecoration index, 'next-entry-point'
+          seenOne = true
+        entryPointLines.push index
+    scrolledAwayLines = 0
+    #while entryPointLines.length and entryPointLines[0] < top
+    #  entryPointLines.shift()
+    #  ++scrolledAwayLines
+    $(@ace.container).find('.ace_gutter-cell.entry-point').each (index, el) ->
+      $(el).attr('data-content', scrolledAwayLines + index + 1)
 
   onAnnotationClick: ->
     # @ is the gutter element
