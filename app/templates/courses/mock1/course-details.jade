@@ -4,134 +4,145 @@ block content
 
   //- DO NOT localize / i18n
 
+  div TODO: fix ugly tabs
+  div TODO: aggregate student progress
+  div TODO: student level progress popups
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div
-    input.student-view-checkbox(type='checkbox')
+    input.student-mode-checkbox(type='checkbox')
     span.spl Student view
-  div TODO: fix ugly tabs
-  div TODO: student view
-  div TODO: aggregate student progress
-  div TODO: student level progress popups
   div(style='border-bottom: 1px solid black;')
 
   h1= course.title
   p= course.description
-  p
-    strong Concepts:
-    ul
-      each concept in courseConcepts
-        li(data-i18n="concepts." + concept)
-  strong= course.duration
+  //- p
+  //-   strong Concepts:
+  //-   ul
+  //-     each concept in courseConcepts
+  //-       li(data-i18n="concepts." + concept)
+  //- strong= course.duration
 
-  p
-    .form-group
-      span.spr Select your class
-      select.form-control.select-session
-        each instance in instances
-          option= instance.name
+  if !studentMode
+    p
+      .form-group
+        span.spr Select your class
+        select.form-control.select-session
+          each instance in instances
+            option= instance.name
 
   h3= instance.name
-    span.spl
-      button.btn.btn-xs.edit-class-name-btn edit class name
+    if !studentMode
+      span.spl
+        button.btn.btn-xs.edit-class-name-btn edit class name
 
   p
     if instance.description
       span= instance.description
-      span.spl
-        button.btn.btn-xs.edit-description-btn edit class description
-    else
+      if !studentMode
+        span.spl
+          button.btn.btn-xs.edit-description-btn edit class description
+    else if !studentMode
       div
         button.btn.btn-xs.edit-description-btn add class description
 
-  .form-group
-    span.spr Select language
-    select.form-control.select-language
-      option(value="Python") Python
-      option(value="JavaScript") JavaScript
-      option(value="All Languages") All Languages
+  if !studentMode
+    .form-group
+      span.spr Select language
+      select.form-control.select-language
+        option(value="Python") Python
+        option(value="JavaScript") JavaScript
+        option(value="All Languages") All Languages
 
   div(role='tabpanel')
     ul.nav.nav-tabs(role='tablist')
-      li.active(role='presentation')
-        a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Students
-      li(role='presentation')
-        a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
+      if !studentMode
+        li.active(role='presentation')
+          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Students
+        li(role='presentation')
+          a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
       li(role='presentation')
         a(href='#levels', aria-controls='levels', role='tab', data-toggle='tab') Levels
 
   .tab-content
-    .tab-pane.active#progress(role='tabpanel')
-      if instance.students
-        table.table.table-condensed
-          thead
-            tr
-              th
-              th
-                span.progress-header Progress
-                span.progress-key.progress-key-complete complete
-                span.progress-key.progress-key-started started
-                span.progress-key not started
-                if maxLastStartedIndex > 30
-                  input.expand-progress-checkbox(type='checkbox')
-                  span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
-          tbody
-            each student in instance.students
+    if !studentMode
+      .tab-pane.active#progress(role='tabpanel')
+        if instance.students
+          table.table.table-condensed
+            thead
               tr
-                td
-                  a= student
-                td.progress-cell
-                  .level-progression-concepts Concepts
-                  each concept in courseConcepts
-                    if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
-                      span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
-                    else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
-                      span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
-                    else
-                      span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                th
+                th
+                  span.progress-header Progress
+                  span.progress-key.progress-key-complete complete
+                  span.progress-key.progress-key-started started
+                  span.progress-key not started
+                  if maxLastStartedIndex > 30
+                    input.expand-progress-checkbox(type='checkbox')
+                    span.spl.expand-progress-label(data-i18n="clans.exp_levels") Expand levels
+            tbody
+              each student in instance.students
+                tr
+                  td
+                    a= student
+                  td.progress-cell
+                    .level-progression-concepts Concepts
+                    each concept in courseConcepts
+                      if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
+                        span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
+                      else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
+                        span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
+                      else
+                        span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
 
-                  .level-progression-levels Levels
-                  - var i = 0
-                  each level in course.levels
-                    if userLevelStateMap[student][level] === 'complete'
-                      span.progress-level-cell.progress-level-cell-complete #{i + 1}
-                        if showExpandedProgress || i === 0 || i === course.levels.length - 1
-                          span.spl #{level}
-                    else if userLevelStateMap[student][level] === 'started'
-                      span.progress-level-cell.progress-level-cell-started #{i + 1} #{level}
-                    else
-                      span.progress-level-cell.level-progression-level-not-started #{i + 1}
-                        if showExpandedProgress || i === 0
-                          span.spl #{level}
-                    - i++
+                    .level-progression-levels Levels
+                    - var i = 0
+                    each level in course.levels
+                      if userLevelStateMap[student][level] === 'complete'
+                        span.progress-level-cell.progress-level-cell-complete #{i + 1}
+                          if showExpandedProgress || i === 0 || i === course.levels.length - 1
+                            span.spl #{level}
+                      else if userLevelStateMap[student][level] === 'started'
+                        span.progress-level-cell.progress-level-cell-started #{i + 1} #{level}
+                      else
+                        span.progress-level-cell.level-progression-level-not-started #{i + 1}
+                          if showExpandedProgress || i === 0
+                            span.spl #{level}
+                      - i++
 
-    .tab-pane#invite(role='tabpanel')
-      p Invite students to join this class.
-      if course.title !== 'Introduction to Computer Science'
-        p Student unlock code: #{instance.code}
-        p Class capacity: 34/50
-      textarea.textarea-emails(rows=3, placeholder="Enter student emails to invite, one per line")
-      div
-        button.btn.btn-success.btn-invite Send Invites
-    
-    .tab-pane#levels(role='tabpanel')
-      table.table.table-striped.table-condensed
-        thead
-          tr
-            th
-            th Status
-            th Level
-            th Concepts
-        tbody
-          - var student = instance.students[0]
-          each level in course.levels
-            tr
-              td
-                button.btn.btn-success.btn-play-level(data-level=level) Play
-              td= userLevelStateMap[student][level]
-              td= level
-              td
-                each concept in courseConcepts
-                  if levelConceptsMap[level] && levelConceptsMap[level][concept]
-                    span.spr.progress-level-cell.level-progression-level-not-started(data-i18n="concepts." + concept)
+      .tab-pane#invite(role='tabpanel')
+        p Invite students to join this class.
+        if course.title !== 'Introduction to Computer Science'
+          p Student unlock code: #{instance.code}
+          p Class capacity: 34/50
+        textarea.textarea-emails(rows=3, placeholder="Enter student emails to invite, one per line")
+        div
+          button.btn.btn-success.btn-invite Send Invites
+
+      .tab-pane#levels(role='tabpanel')
+        +levels-tab
+    else
+      .tab-pane.active#levels(role='tabpanel')
+        +levels-tab
+
+mixin levels-tab
+  table.table.table-striped.table-condensed
+    thead
+      tr
+        th
+        th Status
+        th Level
+        th Concepts
+    tbody
+      - var student = instance.students[0]
+      each level in course.levels
+        tr
+          td
+            button.btn.btn-success.btn-play-level(data-level=level) Play
+          td= userLevelStateMap[student][level]
+          td= level
+          td
+            each concept in courseConcepts
+              if levelConceptsMap[level] && levelConceptsMap[level][concept]
+                span.spr.progress-level-cell.level-progression-level-not-started(data-i18n="concepts." + concept)
