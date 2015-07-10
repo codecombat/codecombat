@@ -993,7 +993,7 @@ module.exports = class SpellView extends CocoView
       markerRange.end = @aceDoc.createAnchor markerRange.end
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
-      if false and executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
+      if executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
         @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter[start.row] isnt ''
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
