@@ -11,6 +11,7 @@ module.exports = class CourseDetailsView extends RootView
   events:
     'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
     'change .select-session': 'onChangeSession'
+    'change .student-mode-checkbox': 'onChangeStudent'
     'click .edit-class-name-btn': 'onClickEditClassName'
     'click .edit-description-btn': 'onClickEditClassDescription'
     'click .btn-play-level': 'onClickPlayLevel'
@@ -34,6 +35,7 @@ module.exports = class CourseDetailsView extends RootView
     context.userConceptsMap = @userConceptsMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.showExpandedProgress = @course.levels.length <= 30 or @showExpandedProgress
+    context.studentMode = @studentMode ? false
     context
 
   initData: ->
@@ -88,6 +90,10 @@ module.exports = class CourseDetailsView extends RootView
     @courseConcepts.sort (a, b) => if @conceptsProgression.indexOf(a) < @conceptsProgression.indexOf(b) then -1 else 1
     @render?()
 
+  onChangeStudent: (e) ->
+    @studentMode = $('.student-mode-checkbox').prop('checked')
+    @render?()
+    $('.student-mode-checkbox').attr('checked', @studentMode)
 
   onChangeSession: (e) ->
     @showExpandedProgress = false
