@@ -73,8 +73,19 @@ block content
             thead
               tr
                 th
+                  span.member-header.spr Name
+                  if memberSort === 'nameAsc'
+                    span.member-header.glyphicon.glyphicon-chevron-up
+                  else if memberSort === 'nameDesc'
+                    span.member-header.glyphicon.glyphicon-chevron-down
                 th
-                  span.progress-header Progress
+                  span.progress-header.spr Progress
+                  if memberSort === 'progressAsc'
+                    span.progress-header.glyphicon.glyphicon-chevron-up
+                  else if memberSort === 'progressDesc'
+                    span.progress-header.glyphicon.glyphicon-chevron-down
+                  else
+                    span(style='padding-left:16px;')
                   span.progress-key.progress-key-complete complete
                   span.progress-key.progress-key-started started
                   span.progress-key not started
