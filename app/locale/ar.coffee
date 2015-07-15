@@ -52,7 +52,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     spectate: "مشاهد" # Ladder page
     players: "لاعبين" # Hover over a level on /play
     hours_played: "ساعات اللّعب" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    items: "العناصر" # Tooltip on item shop button from /play
     unlock: "فتح" # For purchasing items and heroes
     confirm: "تأكيد"
     owned: "ممتَلَك" # For items you own
@@ -93,10 +93,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     campaign_classic_algorithms: "الخوارزميات التقليديّة"
     campaign_classic_algorithms_description: "... فيها تتعلّم خوارزميّات الأكثر شعبيّة في علوم الحاسب الآلي."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
-
+    campaign_old_multiplayer_description: "قطع اثرية من العصر أكثر تحضرا. يتم تشغيل أي محاكاة لهذه السن، الساحات متعددة البطل أقل."
   share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
+    blurb: "كنت تقدما كبيرا! أخبر والديك وكم كنت قد تعلمت مع CodeCombat."
     email_invalid: "البريد الاكتروني غير صالح."
     form_blurb: "ادخل بريد اولياء امرك الالكتروني لكي نريهم!"
     form_label: "عنوان البريد الالكتروني"
@@ -109,9 +108,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     logging_in: "جاري تسجيل الدخول"
     log_out: "تسجيل الخروج"
     forgot_password: "نسيت رمز الدخول?"
-#    authenticate_gplus: "Authenticate G+"
+#    authenticate_gplus: "مصادقة G+"
     load_profile: "تحميل صفحة غوغل بلس"
-#    finishing: "Finishing"
+    finishing: "الانتهاء"
     sign_in_with_facebook: "سجل الدخول بواسطة فيسبوك"
     sign_in_with_gplus: "سجل الدخول بواسطة غوغل بلس"
     signup_switch: "تريد انشاء حساب?"
@@ -134,8 +133,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     primary: "الأولي"
     secondary: "ثانوي"
     armor: "درع"
-#    accessories: "Accessories"
-#    misc: "Misc"
+    accessories: "إكسسوارات"
+    misc: "متفرقات"
     books: "كتب"
 
   common:
@@ -160,7 +159,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     unwatch: "إنهاء المشاهدة"
     submit_patch: "تقديم التصحيح"
     submit_changes: "تقديم التغييرات"
-#    save_changes: "Save Changes"
+    save_changes: "حفظ التغيرات"
 
   general:
     and: "و"
