@@ -152,7 +152,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     fork: "إنسخ"
     play: "إلعب" # When used as an action verb, like "Play next level"
     retry: "إعادة"
-#    actions: "Actions"
+    actions: "Actions"
     info: "معلومات"
     help: "مساعدة"
     watch: "مشاهدة"
@@ -260,19 +260,19 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     victory_go_home: "اذهب للمنزل" # Only in old-style levels.
     victory_review: "إخبرنا المزيد!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"
-#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+    victory_hour_of_code_done_yes: "نعم، أنا مع الانتهاء من ساعتي من قانون ™!"
 #    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
-#    victory_new_item: "New Item"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
-#    guide_title: "Guide"
-#    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
-#    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
-#    tome_other_units: "Other Units" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+#    victory_gems_gained: "الأحجار الكريمة المكتسبة"
+    victory_new_item: "عنصر جديد"
+    victory_viking_code_school: "يدخن المقدسة، وكان ذلك على مستوى الثابت الذي فاز فقط! إذا لم تكن بالفعل مطور برامج، يجب أن تكون. كنت فقط حصلت على المسار السريع لقبوله مع مدرسة فايكنغ المدونة، حيث يمكنك أن تأخذ المهارات الخاصة بك إلى المستوى التالي وتصبح مطور ويب محترف في 14 أسبوعا."
+    victory_become_a_viking: "تصبح فايكنغ"
+    guide_title: "دليل"
+    tome_minion_spells: "نوبات التوابع الخاصة بك" # Only in old-style levels.
+    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
+    tome_other_units: "وحدات أخرى" # Only in old-style levels.
+    tome_cast_button_run: "Run"
+    tome_cast_button_running: "تشغيل"
+    tome_cast_button_ran: "ران"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
@@ -394,16 +394,16 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    unequip: "Unequip"
 
 #  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
+    few_gems: " عدد قليل من الأحجار الكريمة"
+    pile_gems: "كومة من الأحجار الكريمة"
+    chest_gems: "الصدر من الأحجار الكريمة"
+    purchasing: "شراء ..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
-#    recovered: "Previous gems purchase recovered. Please refresh the page."
+    prompt_button: "أدخل متجر"
+    recovered: "الأحجار الكريمة السابقة أون استردادها. يرجى تحديث الصفحة."
 #    price: "x3500 / mo"
 
 #  subscribe:
@@ -687,7 +687,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     forum_page: "منتدانا"
     forum_suffix: "بدلا من ذلك."
 #    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq: "FAQ"
 #    subscribe_prefix: "If you need help figuring out a level, please"
 #    subscribe: "buy a CodeCombat subscription"
 #    subscribe_suffix: "and we'll be happy to help you with your code."
