@@ -6,12 +6,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     play: "Graj" # The big play button that opens up the campaign view.
     old_browser: "Wygląda na to, że twoja przeglądarka jest zbyt stara, by obsłużyć CodeCombat. Wybacz!" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Możesz spróbowac mimo tego, ale prawdopodobnie gra nie będzie działać."
-#    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
+    ipad_browser: "Złe wieści: CodeCombat nie działa na przeglądarce w iPadzie. Dobre wieści: nasza aplikacja na iPada czeka na akceptację od Apple."
     campaign: "Kampania"
     for_beginners: "Dla początkujących"
-#    multiplayer: "Multiplayer" # Not currently shown on home page
+    multiplayer: "Multiplayer" # Not currently shown on home page
     for_developers: "Dla developerów" # Not currently shown on home page.
-#    or_ipad: "Or download for iPad"
+    or_ipad: "Albo ściągnij na swojego iPada"
 
   nav:
     play: "Poziomy" # The top nav bar entry where players choose which levels to play
@@ -52,14 +52,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     spectate: "Oglądaj" # Ladder page
     players: "graczy" # Hover over a level on /play
     hours_played: "rozegranych godzin" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    items: "Przedmioty" # Tooltip on item shop button from /play
     unlock: "Odblokuj" # For purchasing items and heroes
     confirm: "Potwierdź"
-#    owned: "Owned" # For items you own
+    owned: "Posiadane" # For items you own
     locked: "Zablokowane"
-#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
+    purchasable: "Można kupić" # For a hero you unlocked but haven't purchased
     available: "Dostępny"
-#    skills_granted: "Skills Granted" # Property documentation details
+    skills_granted: "Zdobyte umiejętności" # Property documentation details
     heroes: "Bohaterowie" # Tooltip on hero shop button from /play
     achievements: "Osiągnięcia" # Tooltip on achievement list button from /play
     account: "Konto" # Tooltip on account button from /play
@@ -67,9 +67,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     poll: "Ankieta" # Tooltip on poll button from /play
     next: "Dalej" # Go from choose hero to choose inventory before playing a level
     change_hero: "Wybierz bohatera" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
+    choose_inventory: "Załóż przedmioty"
     buy_gems: "Kup klejnoty"
-#    subscription_required: "Subscription Required"
+    subscription_required: "Wymagana subskrypcja"
     older_campaigns: "Starsze kampanie"
     anonymous: "Anonimowy gracz"
     level_difficulty: "Poziom trudności: "
@@ -109,12 +109,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     logging_in: "Logowanie..."
     log_out: "Wyloguj się"
     forgot_password: "Nie pamiętasz hasła?"
-#    authenticate_gplus: "Authenticate G+"
-#    load_profile: "Load G+ Profile"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    authenticate_gplus: "Autoryzuj G+"
+    load_profile: "Wczytaj Profil G+"
+    finishing: "Kończenie"
+    sign_in_with_facebook: "Saloguj się używając Facebooka"
+    sign_in_with_gplus: "Zaloguj się używając G+"
+    signup_switch: "Chcesz stworzyć konto?"
 
   signup:
     email_announcements: "Otrzymuj powiadomienia na e-mail"
@@ -128,7 +128,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   recover:
     recover_account_title: "Odzyskaj konto"
     send_password: "Wyślij hasło tymczasowe"
-#    recovery_sent: "Recovery email sent."
+    recovery_sent: "Email do dozyskania hasła został wysłany."
 
   items:
     primary: "Główne"
@@ -160,7 +160,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unwatch: "Nie obserwuj"
     submit_patch: "Prześlij łatkę"
     submit_changes: "Prześlij zmiany"
-#    save_changes: "Save Changes"
+    save_changes: "Zapisz zmiany"
 
   general:
     and: "i"
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     submitter: "Przesyłający"
     submitted: "Przesłano"
     commit_msg: "Wiadomość do commitu"
-#    review: "Review"
+    review: "Recenzja"
     version_history: "Historia wersji"
     version_history_for: "Historia wersji dla: "
     select_changes: "Zaznacz dwie zmiany poniżej aby zobaczyć różnice."
@@ -183,7 +183,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     undo_shortcut: "(Ctrl+Z)"
     redo_prefix: "Ponów"
     redo_shortcut: "(Ctrl+Shift+Z)"
-#    play_preview: "Play preview of current level"
+    play_preview: "Odtwórz podgląd obecnego poziomu"
     result: "Wynik"
     results: "Wyniki"
     description: "Opis"
@@ -243,9 +243,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     failing: "Niepowodzenie"
     action_timeline: "Oś czasu"
     click_to_select: "Kliknij jednostkę, by ją zaznaczyć."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "Multiplayer"
+    control_bar_join_game: "Dołącz do gry"
+    reload: "Wczytaj ponownie"
     reload_title: "Przywrócić cały kod?"
     reload_really: "Czy jesteś pewien, że chcesz przywrócić kod startowy tego poziomu?"
     reload_confirm: "Przywróć cały kod"
@@ -256,15 +256,15 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     victory_sign_up_poke: "Chcesz zapisać swój kod? Stwórz bezpłatne konto!"
     victory_rate_the_level: "Oceń poziom: " # Only in old-style levels.
     victory_return_to_ladder: "Powrót do drabinki"
-    victory_play_continue: "Kontynuuj"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_continue: "Dalej"
+    victory_saving_progress: "Zapisywanie postępów"
     victory_go_home: "Powrót do strony głównej" # Only in old-style levels.
     victory_review: "Powiedz nam coś więcej!" # Only in old-style levels.
     victory_hour_of_code_done: "Skończyłeś już?"
     victory_hour_of_code_done_yes: "Tak, skończyłem moją Godzinę Kodu."
     victory_experience_gained: "Doświadczenie zdobyte"
     victory_gems_gained: "Klejnoty zdobyte"
-#    victory_new_item: "New Item"
+    victory_new_item: "Nowy przedmiot"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
     guide_title: "Przewodnik"
@@ -283,7 +283,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tome_your_skills: "Twoje umiejętności"
     tome_help: "Pomoc"
 #    tome_current_method: "Current Method"
-#    hud_continue_short: "Continue"
+    hud_continue_short: "Kontynuuj"
     code_saved: "Kod zapisano"
     skip_tutorial: "Pomiń (esc)"
     keyboard_shortcuts: "Skróty klawiszowe"
@@ -378,21 +378,21 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     time: "Czas"
     damage_taken: "Obrażenia otrzymane"
     damage_dealt: "Obrażenia zadane"
-#    difficulty: "Difficulty"
+    difficulty: "Trudność"
     gold_collected: "Złoto zebrane"
 
   inventory:
-#    choose_inventory: "Equip Items"
-#    equipped_item: "Equipped"
+    choose_inventory: "Załóż przedmioty"
+    equipped_item: "Założone"
     required_purchase_title: "Wymagane"
     available_item: "Dostępne"
-#    restricted_title: "Restricted"
-#    should_equip: "(double-click to equip)"
-#    equipped: "(equipped)"
+    restricted_title: "Zabronione"
+    should_equip: "(kliknij podwójnie, aby założyć)"
+    equipped: "(założone)"
     locked: "(zablokowane)"
     restricted: "(niedostępne na tym poziomie)"
-#    equip: "Equip"
-#    unequip: "Unequip"
+    equip: "Załóż"
+    unequip: "Zdejmij"
 
 #  buy_gems:
 #    few_gems: "A few gems"
@@ -481,35 +481,35 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     programming_language: "Język programowania"
     programming_language_description: "Którego języka programowania chcesz używać?"
     default: "domyślny"
-#    experimental: "Experimental"
+    experimental: "Eksperymentalny"
     python_blurb: "Prosty ale potężny."
     javascript_blurb: "Język internetu."
     coffeescript_blurb: "Przyjemniejsza składnia JavaScript."
     clojure_blurb: "Nowoczesny Lisp."
     lua_blurb: "Język skryptowy gier."
     io_blurb: "Prosty lecz nieznany."
-#    status: "Status"
+    status: "Status"
     hero_type: "Typ"
-#    weapons: "Weapons"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
-#    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage" # Can also translate as "Attack"
-#    health: "Health"
+    weapons: "Bronie"
+    weapons_warrior: "Miecze - Krótki zasięg, Brak magii"
+    weapons_ranger: "Kusze, Pistolety - Daleki zasięg, Brak magii"
+    weapons_wizard: "Różdżki, Laski - Daleki zasięg, Magia"
+    attack: "Obrażenia" # Can also translate as "Attack"
+    health: "Życie"
     speed: "Szybkość"
-#    regeneration: "Regeneration"
+    regeneration: "Regenaracja"
     range: "Zasięg" # As in "attack or visual range"
-#    blocks: "Blocks" # As in "this shield blocks this much damage"
+    blocks: "Blok" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
     skills: "Umiejętności"
     attack_1: "Zadaje"
 #    attack_2: "of listed"
 #    attack_3: "weapon damage."
-#    health_1: "Gains"
+    health_1: "Zdobywa"
 #    health_2: "of listed"
 #    health_3: "armor health."
-#    speed_1: "Moves at"
-#    speed_2: "meters per second."
+    speed_1: "Idzie do"
+    speed_2: "metrów na sekundę."
 #    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
@@ -530,11 +530,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     default_value: "Domyślna wartość"
 #    parameters: "Parameters"
 #    returns: "Returns"
-#    granted_by: "Granted by"
+    granted_by: "Zdobyte dzięki"
 
   save_load:
     granularity_saved_games: "Zapisano"
-#    granularity_change_history: "History"
+    granularity_change_history: "Historia"
 
   options:
     general_options: "Opcje ogólne" # Check out the Options tab in the Game Menu while playing a level
@@ -582,12 +582,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     michael_title: "Programista"
 #    michael_blurb: "Sys Admin"
     matt_title: "Programista" # {change}
-#    matt_blurb: "Bicyclist"
+    matt_blurb: "Rowerzysta"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
 #    josh_title: "Game Designer"
     josh_blurb: "Podłoga to lawa"
-#    jose_title: "Music"
+    jose_title: "Muzyka"
 #    jose_blurb: "Taking Off"
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
@@ -679,7 +679,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     cla_url: "umowę licencyjną dla współtwórców (CLA)"
     cla_suffix: "."
     cla_agree: "AKCEPTUJĘ"
-#    owner_approve: "An owner will need to approve it before your changes will become visible."
+    owner_approve: "Przed pojawieniem się zmian, właściciel musi je zatwierdzić."
 
   contact:
     contact_us: "Kontakt z CodeCombat"
@@ -687,7 +687,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     forum_prefix: "W sprawach ogólnych, skorzystaj z "
     forum_page: "naszego forum"
     forum_suffix: "."
-#    faq_prefix: "There's also a"
+    faq_prefix: "Jest też"
     faq: "FAQ"
 #    subscribe_prefix: "If you need help figuring out a level, please"
 #    subscribe: "buy a CodeCombat subscription"
@@ -707,7 +707,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     picture_tab: "Zdjęcie"
     delete_account_tab: "Usuń swoje konto"
     wrong_email: "Błędny e-mail"
-#    wrong_password: "Wrong Password"
+    wrong_password: "Błędne zdjęcie"
     upload_picture: "Wgraj zdjęcie"
     delete_this_account: "Usuń to konto całkowicie"
 #    god_mode: "God Mode"
@@ -748,10 +748,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     keyboard_shortcuts: "Skróty klawiszowe"
     space: "Spacja"
     enter: "Enter"
-#    press_enter: "press enter"
-#    escape: "Escape"
+    press_enter: "naciśnij enter"
+    escape: "Escape"
     shift: "Shift"
-#    run_code: "Run current code."
+    run_code: "Uruchom obecny kod."
     run_real_time: "Uruchom \"na żywo\"."
     continue_script: "Kontynuuj ostatni skrypt."
 #    skip_scripts: "Skip past all skippable scripts."
@@ -857,9 +857,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     back: "Wstecz"
     revert: "Przywróć"
     revert_models: "Przywróć wersję"
-#    pick_a_terrain: "Pick A Terrain"
+    pick_a_terrain: "Wybierz teren"
     dungeon: "Loch"
-#    indoor: "Indoor"
+    indoor: "Wnętrze"
     desert: "Pustynia"
     grassy: "Trawa"
     small: "Mały"
@@ -889,8 +889,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    component_configs: "Component Configurations"
 #    config_thang: "Double click to configure a thang"
     delete: "Usuń"
-#    duplicate: "Duplicate"
-#    stop_duplicate: "Stop Duplicate"
+    duplicate: "Powiel"
+    stop_duplicate: "Przestań powielać"
     rotate: "Obróć"
     level_settings_title: "Ustawienia"
     level_component_tab_title: "Aktualne komponenty"
@@ -1019,7 +1019,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     games_simulated_for: "Gry symulowane dla Ciebie:"
     games_simulated: "Gier zasymulowanych"
     games_played: "Gier rozegranych"
-#    ratio: "Ratio"
+    ratio: "Proporcje"
     leaderboard: "Tabela rankingowa"
     battle_as: "Walcz jako "
     summary_your: "Twój "
@@ -1066,8 +1066,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   user:
     stats: "Statystyki"
-#    singleplayer_title: "Singleplayer Levels"
-#    multiplayer_title: "Multiplayer Levels"
+    singleplayer_title: "Poziomy jednoosobowe"
+    multiplayer_title: "Poziomy multiplayer"
     achievements_title: "Osiągnięcia"
 #    last_played: "Last Played"
     status: "Status"
@@ -1077,7 +1077,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    no_multiplayer: "No Multiplayer games played yet."
 #    no_achievements: "No Achievements earned yet."
     favorite_prefix: "Ulubiony język to "
-#    favorite_postfix: "."
+    favorite_postfix: "."
 #    not_member_of_clans: "Not a member of any clans yet."
 
 #  achievements:
@@ -1184,7 +1184,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    user_remarks: "User Remarks"
     versions: "Wersje"
     items: "Przedmioty"
-#    hero: "Hero"
+    hero: "Bohater"
     heroes: "Bohaterowie"
     achievement: "Osiągnięcie"
 #    clas: "CLAs"
@@ -1195,27 +1195,27 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     poll: "Ankieta"
     user_polls_record: "Historia oddanych głosów"
 
-#  concepts:
+  concepts:
 #    advanced_strings: "Advanced Strings"
-#    algorithms: "Algorithms"
-#    arguments: "Arguments"
-#    arithmetic: "Arithmetic"
-#    arrays: "Arrays"
-#    basic_syntax: "Basic Syntax"
-#    boolean_logic: "Boolean Logic"
+    algorithms: "Algorytmy"
+    arguments: "Argumenty"
+    arithmetic: "Arytmetyka"
+    arrays: "Tablice"
+    basic_syntax: "Podstawy składni"
+    boolean_logic: "Algebra Boole'a"
 #    break_statements: "Break Statements"
-#    classes: "Classes"
-#    for_loops: "For Loops"
-#    functions: "Functions"
-#    if_statements: "If Statements"
+    classes: "Klasy"
+    for_loops: "Pętle for"
+    functions: "Funkcje"
+    if_statements: "Wyrażenia warunkowe"
 #    input_handling: "Input Handling"
 #    math_operations: "Math Operations"
 #    object_literals: "Object Literals"
-#    strings: "Strings"
-#    variables: "Variables"
-#    vectors: "Vectors"
-#    while_loops: "Loops"
-#    recursion: "Recursion"
+    strings: "Ciągi znaków"
+    variables: "Zmienne"
+    vectors: "Wektory"
+    while_loops: "Pętle"
+    recursion: "Rekurencja"
 
   delta:
     added: "Dodano"
