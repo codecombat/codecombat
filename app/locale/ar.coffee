@@ -59,24 +59,24 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     locked: "مقفل"
     purchasable: "للشراء" # For a hero you unlocked but haven't purchased
     available: "متوفر"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
+    skills_granted: "مهارات الممنوحة" # Property documentation details
+    heroes: "الأبطال" # Tooltip on hero shop button from /play
+    achievements: "الإنجازات" # Tooltip on achievement list button from /play
     account: "حساب" # Tooltip on account button from /play
     settings: "الإعدادات" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "التالي" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    change_hero: "تغيير البطل" # Go back from choose inventory to choose hero
+    choose_inventory: "فريق الأصناف"
+    buy_gems: "شراء الأحجار الكريمة"
     subscription_required: "الإشتراك إلزامي"
     older_campaigns: "حملات أقدم"
     anonymous: "لاعب مجهول"
     level_difficulty: "الصعوبة:"
     campaign_beginner: "حملة المبتدئين"
-#    awaiting_levels_adventurer_prefix: "We release new levels every week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "نحن الافراج عن مستويات جديدة كل أسبوع."
+    awaiting_levels_adventurer: "التوقيع على النحو المغامر"
+    awaiting_levels_adventurer_suffix: "أن تكون أول للعب مستويات جديدة."
     adjust_volume: "تعديل الصوت"
     choose_your_level: "اختر مستواك" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "يمكنك القفز إلى أي مستوى أدناه، أو مناقشة المستويات على "
