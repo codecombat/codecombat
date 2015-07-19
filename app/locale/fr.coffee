@@ -643,7 +643,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sys_requirements_1: "Un navigateur moderne. La dernière version de Chrome, Firefox, ou de Safari. Internet Explorer 9 ou plus récent."
     sys_requirements_2: "CodeCombat n'est pas encore supporté sur iPad."
 
-#  teachers_survey:
+  teachers_survey:
 #    title: "Teacher Survey"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    retrieving: "Retrieving information..."
