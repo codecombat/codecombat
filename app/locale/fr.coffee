@@ -617,7 +617,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     monitor_progress_2: "pour votre classe"
     monitor_progress_3: "Pour ajouter un étudiant, envoyer leur le lien contenant une invitation pour votre Clan"
     monitor_progress_4: "page."
-    monitor_progress_5: "After they join, you will see a summary of the student's progress on your Clan's page."
+    monitor_progress_5: "Après leur adhésion, vous verrez un résumé des progrès de l'élève sur la page de votre clan."
     private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
     private_clans_2: "Pour créer un Clan privé, veuillez vous référer à la boîte à cocher 'Faire un clan privé' pendant la création du"
     private_clans_3: "."
