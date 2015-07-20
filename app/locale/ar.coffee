@@ -94,6 +94,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     campaign_classic_algorithms_description: "... فيها تتعلّم خوارزميّات الأكثر شعبيّة في علوم الحاسب الآلي."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
     campaign_old_multiplayer_description: "قطع اثرية من العصر أكثر تحضرا. يتم تشغيل أي محاكاة لهذه السن، الساحات متعددة البطل أقل."
+
   share_progress_modal:
     blurb: "كنت تقدما كبيرا! أخبر والديك وكم كنت قد تعلمت مع CodeCombat."
     email_invalid: "البريد الاكتروني غير صالح."
@@ -262,7 +263,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    victory_hour_of_code_done: "Are You Done?"
     victory_hour_of_code_done_yes: "نعم، أنا مع الانتهاء من ساعتي من قانون ™!"
 #    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "الأحجار الكريمة المكتسبة"
+    victory_gems_gained: "الأحجار الكريمة المكتسبة"
     victory_new_item: "عنصر جديد"
     victory_viking_code_school: "يدخن المقدسة، وكان ذلك على مستوى الثابت الذي فاز فقط! إذا لم تكن بالفعل مطور برامج، يجب أن تكون. كنت فقط حصلت على المسار السريع لقبوله مع مدرسة فايكنغ المدونة، حيث يمكنك أن تأخذ المهارات الخاصة بك إلى المستوى التالي وتصبح مطور ويب محترف في 14 أسبوعا."
     victory_become_a_viking: "تصبح فايكنغ"
@@ -393,7 +394,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
+  buy_gems:
     few_gems: " عدد قليل من الأحجار الكريمة"
     pile_gems: "كومة من الأحجار الكريمة"
     chest_gems: "الصدر من الأحجار الكريمة"
@@ -698,7 +699,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     contact_candidate: "الاتصال المرشح" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
-#  account_settings:
+  account_settings:
     title: "إعدادات الحساب"
     not_logged_in: "تسجيل الدخول أو إنشاء حساب لتغيير الإعدادات الخاصة بك."
     autosave: "تغييرات حفظ تلقائيا"
@@ -717,7 +718,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     new_password_verify: "تحقق من"
     type_in_email: "اكتب في البريد الإلكتروني الخاص بك لتأكيد الحساب الحذف."
     type_in_password: "أيضا، اكتب كلمة المرور الخاصة بك."
-#    email_subscriptions: "الاشتراكات البريد الإلكتروني"
+    email_subscriptions: "الاشتراكات البريد الإلكتروني"
 #    email_subscriptions_none: "No Email Subscriptions."
 #    email_announcements: "Announcements"
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."
