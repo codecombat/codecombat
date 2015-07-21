@@ -85,6 +85,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Witch': [
     # Female
+    'Sonka'
     'Vyrryx'
     'Yzzrith'
   ]
@@ -98,6 +99,7 @@ module.exports.thangNames = thangNames =
     'Vax'
     'Vyrryx'
     'Vyjj'
+    'Okorii'
   ]
   'Ogre Scout M': [
     # Male
@@ -336,30 +338,38 @@ module.exports.thangNames = thangNames =
     # Male
     'Senick'
     'John'
+    'So\'tet'
   ]
   'Forest Archer': [
     # Female
     'Naria'
     'Sylva'
     'Archia'
+    'Kanyiree'
   ]
   'Raider': [
     # Female
     'Arryn'
+    'Nihy'
+    'Fajta'
   ]
   'Goliath': [
     # Male
     'Okar'
+    'Konyok'
+    'Gorbul'
   ]
   'Guardian': [
     # Female
     'Illia'
     'Gaia'
+    'Egesza'
   ]
   'Pixie': [
     # Female
     'Zana'
     'Eika'
+    'Forma'
   ]
   'Assassin': [
     # Male
@@ -383,6 +393,7 @@ module.exports.thangNames = thangNames =
     'Lilith'
     'Usara'
     'Veigar'
+    'Hirtilen'
   ]
   'Archer F': [
     # Female
