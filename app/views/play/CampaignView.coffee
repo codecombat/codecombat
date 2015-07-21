@@ -275,6 +275,11 @@ module.exports = class CampaignView extends RootView
     if level.unlocksHero
       level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
     level.hidden = level.locked
+    if level.concepts?.length
+      level.displayConcepts = level.concepts
+      maxConcepts = 6
+      if level.displayConcepts.length > maxConcepts
+        level.displayConcepts = level.displayConcepts.slice -maxConcepts
     level
 
   countLevels: (levels) ->
