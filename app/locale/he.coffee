@@ -739,7 +739,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     password_mismatch: "סיסמאות לא זהות"
     password_repeat: ".אנא חזור על הסיסמא"
     job_profile: "פרופיל עבודה" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
-    job_profile_approved: "פרופיל העבודה שלך אושר על ידי CodeCombat. מעסיקים יוכלו לראות את הפרופיל עד שאתה או מסמן אותו כ "לא פעיל" או אם הוא לא השתנה במשך ארבעה שבועות."
+    job_profile_approved: "פרופיל העבודה שלך אושר על ידי CodeCombat. מעסיקים יוכלו לראות את הפרופיל עד שאתה או מסמן אותו כ 'לא פעיל' או אם הוא לא השתנה במשך ארבעה שבועות."
     job_profile_explanation: "היי! מלא את זה, ואנו ניצור איתך קשר על מציאת עבודה כמפתח תוכנה."
     sample_profile: "פרופיל לדוגמה"
     view_profile: "צפה בפרופיל שלך"
