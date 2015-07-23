@@ -266,6 +266,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     victory_gems_gained: "Gemme guadagnate"
     victory_new_item: "Nuovo oggetto"
     victory_viking_code_school: "Fumi sacri, era un livello duro quello che hai passato! Se non sei già uno sviluppatore, dovresti esserlo. Sei appena stato raccomandato per entrare nella Viking Code School, dove potrai raggiungere il prossimo livello di conoscenza e diventare uno sviluppatore web professionale in 14 settimane."
+    victory_become_a_viking: "Diventa un Vichingo"
     guide_title: "Guida"
     tome_minion_spells: "Incantesimi dei tuoi seguaci" # Only in old-style levels.
     tome_read_only_spells: "Incantesimi in sola lettura" # Only in old-style levels.
