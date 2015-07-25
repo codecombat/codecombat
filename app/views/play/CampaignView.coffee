@@ -264,6 +264,7 @@ module.exports = class CampaignView extends RootView
     level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
     level.locked = false if @editorMode
     level.locked = false if @campaign?.get('name') is 'Auditions'
+    level.locked = false if @campaign?.get('name') is 'Intro'
     level.locked = false if me.isInGodMode()
     level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
     level.disabled = false if me.isInGodMode()
@@ -353,7 +354,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
       particleKey = ['level', @terrain]
-      particleKey.push level.type if level.type and level.type isnt 'hero'
+      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])
       particleKey.push 'replayable' if level.replayable
       particleKey.push 'premium' if level.requiresSubscription
       particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
@@ -473,7 +474,7 @@ module.exports = class CampaignView extends RootView
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
-    if level.type is 'hero-ladder'
+    if level.type in ['hero-ladder', 'course-ladder']
       Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
     else
       @showLeaderboard levelSlug

@@ -119,19 +119,6 @@ module.exports = class SpectateLevelView extends RootView
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
-      if me.id isnt @session.get 'creator'
-        @surface.createOpponentWizard
-          id: @session.get('creator')
-          name: @session.get('creatorName')
-          team: @session.get('team')
-          levelSlug: @level.get('slug')
-
-      @surface.createOpponentWizard
-        id: @otherSession.get('creator')
-        name: @otherSession.get('creatorName')
-        team: @otherSession.get('team')
-        levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -207,7 +194,7 @@ module.exports = class SpectateLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, wizards: @level.get('type', true) is 'ladder', playerNames: @findPlayerNames()
+    @surface = new Surface @world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true, playerNames: @findPlayerNames()
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)

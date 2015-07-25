@@ -57,7 +57,7 @@ _.extend CampaignSchema.properties, {
       i18n: { type: 'object', format: 'hidden' }
       requiresSubscription: { type: 'boolean' }
       replayable: { type: 'boolean' }
-      type: {'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop']}
+      type: {'enum': ['ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']}
       slug: { type: 'string', format: 'hidden' }
       original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }

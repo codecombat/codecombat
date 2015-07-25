@@ -180,7 +180,7 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
-    @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    @$el.addClass 'hero' if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
@@ -280,7 +280,7 @@ module.exports = class PlayLevelView extends RootView
       @setupManager = new LevelSetupManager({supermodel: @supermodel, levelID: @levelID, parent: @, session: @session})
       @setupManager.open()
 
-    @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['hero-ladder']
+    @onRealTimeMultiplayerLevelLoaded e.session if e.level.get('type') in ['hero-ladder', 'course-ladder']
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
@@ -310,7 +310,7 @@ module.exports = class PlayLevelView extends RootView
   initSurface: ->
     webGLSurface = $('canvas#webgl-surface', @$el)
     normalSurface = $('canvas#normal-surface', @$el)
-    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, wizards: not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']), observing: @observing, playerNames: @findPlayerNames())
+    @surface = new Surface(@world, normalSurface, webGLSurface, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, observing: @observing, playerNames: @findPlayerNames())
     worldBounds = @world.getBounds()
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -332,9 +332,6 @@ module.exports = class PlayLevelView extends RootView
     if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
-    if @otherSession and not (@level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'])
-      # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
     if @isEditorPreview or @observing
       @loadingView.startUnveiling()
       @loadingView.unveil()
@@ -370,7 +367,7 @@ module.exports = class PlayLevelView extends RootView
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if not @level or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if not @level or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: true
       Backbone.Mediator.publish 'tome:select-primary-sprite', {}
       Backbone.Mediator.publish 'level:suppress-selection-sounds', suppress: false
@@ -424,7 +421,7 @@ module.exports = class PlayLevelView extends RootView
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    $('#level-done-button').show() unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
     @showVictory() if e.showModal
     return if @victorySeen
     @victorySeen = true
@@ -442,7 +439,7 @@ module.exports = class PlayLevelView extends RootView
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning}
-    ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop'] then HeroVictoryModal else VictoryModal
+    ModalClass = if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'] then HeroVictoryModal else VictoryModal
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     if me.get('anonymous')

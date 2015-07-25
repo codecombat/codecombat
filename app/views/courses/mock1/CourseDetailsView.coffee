@@ -38,7 +38,7 @@ module.exports = class CourseDetailsView extends RootView
     context.userConceptsMap = @userConceptsMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.showExpandedProgress = @course.levels.length <= 30 or @showExpandedProgress
-    context.studentMode = @studentMode ? false
+    context.studentMode = @options.studentMode ? false
     context
 
   initData: ->
@@ -122,9 +122,9 @@ module.exports = class CourseDetailsView extends RootView
     @render?()
 
   onChangeStudent: (e) ->
-    @studentMode = $('.student-mode-checkbox').prop('checked')
+    @options.studentMode = $('.student-mode-checkbox').prop('checked')
     @render?()
-    $('.student-mode-checkbox').attr('checked', @studentMode)
+    $('.student-mode-checkbox').attr('checked', @options.studentMode)
 
   onChangeSession: (e) ->
     @showExpandedProgress = false
