@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     achievements: "Conquistas" # Tooltip on achievement list button from /play
     account: "Conta" # Tooltip on account button from /play
     settings: "Configurações" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Enquete" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     choose_inventory: "Equipar Itens"
@@ -347,8 +347,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_hate_computers: "As pessoas realmente pensam porque odeiam computadores. O que eles realmente odeiam são programadores ruins. - Larry Niven"
     tip_open_source_contribute: "Você pode ajudar CodeCombat a melhorar!"
     tip_recurse: "Para iterar é humano, para recursão, é divino. - L. Peter Deutsch"
-#    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+    tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
+    tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -621,8 +621,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    private_clans_1: "Private Clans provide increased privacy and detailed progress information for each student."
 #    private_clans_2: "To create a private Clan, check the 'Make clan private' checkbox when creating a"
 #    private_clans_3: "."
-#    who_for_title: "Who is CodeCombat for?"
-#    who_for_1: "We recommend CodeCombat for students aged 9 and up. No prior programming experience is needed."
+    who_for_title: "Para quem é indicado o CodeCombat?"
+    who_for_1: "Nós recomendamos CodeCombat para estudantes a partir de 9 anos de idade. Nenhuma experiência anterior em programação é necessária."
 #    who_for_2: "We've designed CodeCombat to appeal to both boys and girls."
 #    material_title: "How much material is there?"
 #    material_china: "Approximately 40 hours of gameplay spread over 170+ subscriber-only levels so far."
@@ -707,7 +707,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     picture_tab: "Foto"
     delete_account_tab: "Excluir sua conta"
     wrong_email: "E-mail incorreto"
-#    wrong_password: "Wrong Password"
+    wrong_password: "Senha Incorreta"
     upload_picture: "Enviar uma foto"
     delete_this_account: "Excluir essa conta definitivamente"
     god_mode: "Modo Deus"
@@ -717,7 +717,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     new_password: "Nova Senha"
     new_password_verify: "Confirmação"
     type_in_email: "Digite seu e-mail para confirmar a exclusão" # {change}
-#    type_in_password: "Also, type in your password."
+    type_in_password: "Digite sua senha."
     email_subscriptions: "Assinaturas para Notícias por Email"
     email_subscriptions_none: "Sem Assinaturas de Email"
     email_announcements: "Notícias"
@@ -748,7 +748,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     keyboard_shortcuts: "Atalhos do Teclado"
     space: "Espaço"
     enter: "Enter"
-#    press_enter: "press enter"
+    press_enter: "pressione enter"
     escape: "Esc"
     shift: "Shift"
     run_code: "Rodar código atual."
@@ -853,7 +853,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     thang_title: "Editor de Thang"
     level_title: "Editor de Nível"
     achievement_title: "Editor de Conquistas"
-#    poll_title: "Poll Editor"
+    poll_title: "Editor de Enquete"
     back: "Voltar"
     revert: "Reverter"
     revert_models: "Reverter Modelos"
@@ -884,7 +884,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     level_tab_thangs_all: "Tudo"
     level_tab_thangs_conditions: "Condições de Início"
     level_tab_thangs_add: "Adicionar Thangs"
-#    level_tab_thangs_search: "Search thangs"
+    level_tab_thangs_search: "Buscar thangs"
     add_components: "Adicionar componentes"
     component_configs: "Configurações de componente"
     config_thang: "Duplo-clique para configurar uma thang"
@@ -915,13 +915,13 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     new_level_title_login: "Faça login para Criar um Novo Nível"
     new_achievement_title: "Criar Nova Conquista"
     new_achievement_title_login: "Faça login para Criar uma Nova Conquista"
-#    new_poll_title: "Create a New Poll"
-#    new_poll_title_login: "Log In to Create a New Poll"
+    new_poll_title: "Criar uma nova enquete"
+    new_poll_title_login: "Faça login para criar uma nova enquete"
     article_search_title: "Procurar Artigos Aqui"
     thang_search_title: "Procurar Tipos de Thang Aqui"
     level_search_title: "Procurar Níveis Aqui"
     achievement_search_title: "Buscar Conquistas"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "Buscar enquetes"
     read_only_warning2: "Nota: você não pode salvar suas edições aqui pois não está logado."
     no_achievements: "Nenhuma conquista foi adicionada para esse nível ainda."
     achievement_query_misc: "Conquista chave desligada dos variados"

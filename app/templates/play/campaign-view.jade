@@ -1,6 +1,6 @@
 a(href="/")
   img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-      
+
 if campaign
   .map
     .gradient.horizontal-gradient.top-gradient
@@ -39,9 +39,9 @@ if campaign
                 a.spr(href="/contribute/adventurer")
                   strong(data-i18n="play.awaiting_levels_adventurer") Sign up as an Adventurer
                 span.spl(data-i18n="play.awaiting_levels_adventurer_suffix") to be the first to play new levels.
-            if level.concepts && level.concepts.length
+            if level.displayConcepts && level.displayConcepts.length
               p
-                for concept in level.concepts
+                for concept in level.displayConcepts
                   kbd(data-i18n="concepts." + concept)
 
             if !level.disabled && !level.locked
@@ -101,7 +101,7 @@ else
   //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
   if me.get('anonymous', true)
     button.btn.settings(data-toggle='coco-modal', data-target='core/AuthModal', data-i18n="[title]play.settings")
-  
+
 .user-status.header-font
   .user-status-line
     span.gem.gem-30

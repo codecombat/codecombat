@@ -10,8 +10,6 @@ module.exports = class LevelBus extends Bus
     return Bus.getFromCache(docName) or new LevelBus docName
 
   subscriptions:
-    'self-wizard:target-changed': 'onSelfWizardTargetChanged'
-    'self-wizard:created': 'onSelfWizardCreated'
     'tome:editing-began': 'onEditingBegan'
     'tome:editing-ended': 'onEditingEnded'
     'script:state-changed': 'onScriptStateChanged'
@@ -55,27 +53,13 @@ module.exports = class LevelBus extends Bus
     return true unless @session?.get('multiplayer')
     super()
 
-  onSelfWizardCreated: (e) ->
-    @selfWizardLank = e.sprite
-
-  onSelfWizardTargetChanged: (e) ->
-    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
-
   onMeSynced: =>
     super()
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   join: ->
     super()
-    @wizardRef = @myConnection.child('wizard')
-    @wizardRef?.child('targetPos').set(@selfWizardLank?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(@selfWizardLank?.targetSprite?.thang.id or null)
-    @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   disconnect: ->
-    @wizardRef?.off()
-    @wizardRef = null
     @fireScriptsRef?.off()
     @fireScriptsRef = null
     super()
@@ -88,8 +72,8 @@ module.exports = class LevelBus extends Bus
 
   # UPDATING FIREBASE AND SESSION
 
-  onEditingBegan: -> @wizardRef?.child('editing').set(true)
-  onEditingEnded: -> @wizardRef?.child('editing').set(false)
+  onEditingBegan: -> #@wizardRef?.child('editing').set(true)  # no more wizards
+  onEditingEnded: -> #@wizardRef?.child('editing').set(false)  # no more wizards
 
   # HACK: Backbone does not work with nested documents, but we want to
   #   patch only those props that have changed. Look into plugins to

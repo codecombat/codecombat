@@ -259,7 +259,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
-    Backbone.Mediator.publish 'playback:real-time-playback-ended', {} unless @session.get('heroConfig')  # Only old levels need this, to stop interfering with old victory coolcams.
     Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES

@@ -11,6 +11,7 @@ LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 AudioPlayer = require 'lib/AudioPlayer'
 User = require 'models/User'
 utils = require 'core/utils'
+Level = require 'models/Level'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -44,6 +45,9 @@ module.exports = class HeroVictoryModal extends ModalView
     @previousXP = me.get 'points', true
     @previousLevel = me.level()
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
+    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
+      @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
+      @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
@@ -68,7 +72,8 @@ module.exports = class HeroVictoryModal extends ModalView
     for thangTypeOriginal in thangTypeOriginals
       thangType = new ThangType()
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
-      thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers', 'i18n']
+      #thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers', 'i18n']  # This is what we need, but the PlayHeroesModal needs more, and so we load more to fill up the supermodel.
+      thangType.project = ['original', 'rasterIcon', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'unlockLevelName', 'i18n']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType, 'thang').model
 
     @newEarnedAchievements = []
@@ -132,7 +137,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.thangTypes = @thangTypes
     c.me = me
-    c.readyToRank = @level.get('type', true) is 'hero-ladder' and @session.readyToRank()
+    c.readyToRank = @level.get('type', true) in ['hero-ladder', 'course-ladder'] and @session.readyToRank()
     c.level = @level
     c.i18n = utils.i18n
 
@@ -152,7 +157,7 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = me.get('hourOfCode') and showDone
 
-    c.showLeaderboard = @level.get('scoreTypes')?.length > 0
+    c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and @level.get('type', true) isnt 'course'
 
     return c
 
@@ -187,7 +192,7 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.queue(-> complete())
     @animationComplete = not @animatedPanels.length
     complete() if @animationComplete
-    if @level.get('type', true) is 'hero-ladder'
+    if @level.get('type', true) in ['hero-ladder', 'course-ladder']
       @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
@@ -332,6 +337,13 @@ module.exports = class HeroVictoryModal extends ModalView
     {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
 
   getNextLevelLink: ->
+    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
+      # need to do something more complicated to load its slug
+      console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
+      return "/play/level/#{@nextLevel.get('slug')}"
+    else if @level.get('type', true) is 'course'
+      # TODO: figure out which course it is
+      return '/courses/mock1/0'
     link = '/play'
     nextCampaign = @getNextLevelCampaign()
     link += '/' + nextCampaign
@@ -345,7 +357,17 @@ module.exports = class HeroVictoryModal extends ModalView
       justBeatLevel: @level
       supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
     _.merge options, extraOptions if extraOptions
-    navigationEvent = route: nextLevelLink, viewClass: require('views/play/CampaignView'), viewArgs: [options, @getNextLevelCampaign()]
+    if @level.get('type', true) is 'course' and @nextLevel
+      viewClass = require 'views/play/level/PlayLevelView'
+      viewArgs = [options, @nextLevel.get('slug')]
+    else if @level.get('type', true) is 'course'
+      options.studentMode = true
+      viewClass = require 'views/courses/mock1/CourseDetailsView'
+      viewArgs = [options, '0']
+    else
+      viewClass = require 'views/play/CampaignView'
+      viewArgs = [options, @getNextLevelCampaign()]
+    navigationEvent = route: nextLevelLink, viewClass: viewClass, viewArgs: viewArgs
     if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])
       @showOffer navigationEvent
     else

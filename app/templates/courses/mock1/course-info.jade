@@ -4,42 +4,77 @@ block content
 
   //- DO NOT localize / i18n
 
+  div TODO: course-specific gameplay screenshots
+  div TODO: update images, add captions
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
-  div TODO: update images, add captions
-  div TODO: Add real marketing copy.
   div(style='border-bottom: 1px solid black; margin-bottom: 20px')
 
 
-  .well.info-container
+  .info-container
     h1.center= course.title
-
     p.center.gameplay-img-container
-      img(src='/images/pages/about/coco_comic.jpg' width='700')
+      img(src='/images/pages/courses/102_info.png' width='800')
+      div.center.caption-text TODO: Add caption
     p= course.description
+
+    h1.center Learn More in Less Time
+    p 
+      span.spr Your students will learn
+      strong.spr more computer science
+      span.spr material in
+      strong.spr less time
+      span with CodeCombat!
+    p 
+      span.spr In about
+      strong.spr #{course.duration} hours
+      span.spr your students will work through
+      strong.spr #{course.levels.length} lessons
+      span and cover these high-level topics:
     p
-      span There is approximately
-      strong.spl 5 hours
-      span.spl of content.
+      ul
+        each topic in course.topics
+          li= topic
 
-    h3 Topics
-    ul
-      each topic in course.topics
-        li= topic
-
+    h1.center No Experience Necesssary
     p
-      div.praise-quote "#{praise.quote}"
-      div.praise-source - #{praise.source}
+      strong.spr No outside experience
+      span is needed for students to complete this course.  They will pick up where the left off from the previous CodeCombat course.
+    p
+      strong.spr Teachers do not need programming experience
+      span to administer this course.  Your students will learn on their own. 
+    p
+      span.spr There are built-in 
+      strong.spr help videos, level guides, tool tips
+      span to explain everything to your students.
+    p
+      span.spr Use
+      strong.spr student progress monitoring
+      span to match up stronger students with those that need a little extra help!
 
-    h3 Extras
-    p There are help videos and premium email support
+    h1.center Monitor Student Progress
     p.center.monitoring-img-container
       img(src='/images/pages/clans/dashboard_preview.png' width='700')
-    p There is detailed student progress monitoring.
+      div.center.caption-text TODO: Add caption
+    p.progress-container
+      ul
+        li 
+          strong Track concepts
+          span.spl learned by each student
+        li Track levels completed for each student
+        li 
+          span See your students'
+          strong.spl solutions
+        li Sort students by name or progress
+
+    h1.center Teachers Love CodeCombat!
+    p
+      div.praise-quote "#{praise.quote}"
+      div.caption-text - #{praise.source}
 
     p.center
-      button.btn.btn-info.btn-lg.btn-enroll(data-course-id="#{courseID}") Enroll
+      button.btn.btn-info.btn-lg.btn-enroll(data-course-id="#{courseID}") Enroll Now
 
     p.contact-container
       span For more information, please contact

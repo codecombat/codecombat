@@ -52,31 +52,31 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     spectate: "مشاهد" # Ladder page
     players: "لاعبين" # Hover over a level on /play
     hours_played: "ساعات اللّعب" # Hover over a level on /play
-#    items: "Items" # Tooltip on item shop button from /play
+    items: "العناصر" # Tooltip on item shop button from /play
     unlock: "فتح" # For purchasing items and heroes
     confirm: "تأكيد"
     owned: "ممتَلَك" # For items you own
     locked: "مقفل"
     purchasable: "للشراء" # For a hero you unlocked but haven't purchased
     available: "متوفر"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
+    skills_granted: "مهارات الممنوحة" # Property documentation details
+    heroes: "الأبطال" # Tooltip on hero shop button from /play
+    achievements: "الإنجازات" # Tooltip on achievement list button from /play
     account: "حساب" # Tooltip on account button from /play
     settings: "الإعدادات" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
     next: "التالي" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    change_hero: "تغيير البطل" # Go back from choose inventory to choose hero
+    choose_inventory: "فريق الأصناف"
+    buy_gems: "شراء الأحجار الكريمة"
     subscription_required: "الإشتراك إلزامي"
     older_campaigns: "حملات أقدم"
     anonymous: "لاعب مجهول"
     level_difficulty: "الصعوبة:"
     campaign_beginner: "حملة المبتدئين"
-#    awaiting_levels_adventurer_prefix: "We release new levels every week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
-#    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
+    awaiting_levels_adventurer_prefix: "نحن الافراج عن مستويات جديدة كل أسبوع."
+    awaiting_levels_adventurer: "التوقيع على النحو المغامر"
+    awaiting_levels_adventurer_suffix: "أن تكون أول للعب مستويات جديدة."
     adjust_volume: "تعديل الصوت"
     choose_your_level: "اختر مستواك" # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "يمكنك القفز إلى أي مستوى أدناه، أو مناقشة المستويات على "
@@ -93,10 +93,10 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     campaign_classic_algorithms: "الخوارزميات التقليديّة"
     campaign_classic_algorithms_description: "... فيها تتعلّم خوارزميّات الأكثر شعبيّة في علوم الحاسب الآلي."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-#    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
+    campaign_old_multiplayer_description: "قطع اثرية من العصر أكثر تحضرا. يتم تشغيل أي محاكاة لهذه السن، الساحات متعددة البطل أقل."
 
   share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
+    blurb: "كنت تقدما كبيرا! أخبر والديك وكم كنت قد تعلمت مع CodeCombat."
     email_invalid: "البريد الاكتروني غير صالح."
     form_blurb: "ادخل بريد اولياء امرك الالكتروني لكي نريهم!"
     form_label: "عنوان البريد الالكتروني"
@@ -109,9 +109,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     logging_in: "جاري تسجيل الدخول"
     log_out: "تسجيل الخروج"
     forgot_password: "نسيت رمز الدخول?"
-#    authenticate_gplus: "Authenticate G+"
+    authenticate_gplus: "مصادقة G+"
     load_profile: "تحميل صفحة غوغل بلس"
-#    finishing: "Finishing"
+    finishing: "الانتهاء"
     sign_in_with_facebook: "سجل الدخول بواسطة فيسبوك"
     sign_in_with_gplus: "سجل الدخول بواسطة غوغل بلس"
     signup_switch: "تريد انشاء حساب?"
@@ -134,8 +134,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     primary: "الأولي"
     secondary: "ثانوي"
     armor: "درع"
-#    accessories: "Accessories"
-#    misc: "Misc"
+    accessories: "إكسسوارات"
+    misc: "متفرقات"
     books: "كتب"
 
   common:
@@ -153,14 +153,14 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     fork: "إنسخ"
     play: "إلعب" # When used as an action verb, like "Play next level"
     retry: "إعادة"
-#    actions: "Actions"
+    actions: "Actions"
     info: "معلومات"
     help: "مساعدة"
     watch: "مشاهدة"
     unwatch: "إنهاء المشاهدة"
     submit_patch: "تقديم التصحيح"
     submit_changes: "تقديم التغييرات"
-#    save_changes: "Save Changes"
+    save_changes: "حفظ التغيرات"
 
   general:
     and: "و"
@@ -179,10 +179,10 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     version_history: "تاريخ النسخة"
     version_history_for: "تاريخ النسخة لل: "
     select_changes: "اختر تغيريين."
-#    undo_prefix: "Undo"
-#    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
-#    redo_shortcut: "(Ctrl+Shift+Z)"
+    undo_prefix: "فك"
+    undo_shortcut: "(Ctrl+Z)"
+    redo_prefix: "Redo"
+    redo_shortcut: "(Ctrl+Shift+Z)"
     play_preview: "شاهد مقطع فيديو عن المستوى الحالي"
     result: "نتيجة"
     results: "نتائج"
@@ -228,7 +228,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 
   play_level:
     done: "انتهاء"
-#    home: "Home" # Not used any more, will be removed soon.
+    home: "Home" # Not used any more, will be removed soon.
     level: "مستوى" # Like "Level: Dungeons of Kithgard"
     skip: "الغاء"
     game_menu: "قائمة اللعبة"
@@ -241,39 +241,39 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     incomplete: "غير مكتمل"
     timed_out: "تم انتهاء الوقت"
     failing: "فشل"
-#    action_timeline: "Action Timeline"
-#    click_to_select: "Click on a unit to select it."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
-#    reload_title: "Reload All Code?"
-#    reload_really: "Are you sure you want to reload this level back to the beginning?"
-#    reload_confirm: "Reload All"
-#    victory: "Victory"
-#    victory_title_prefix: ""
-#    victory_title_suffix: " Complete"
-#    victory_sign_up: "Sign Up to Save Progress"
-#    victory_sign_up_poke: "Want to save your code? Create a free account!"
-#    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
-#    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
-#    victory_go_home: "Go Home" # Only in old-style levels.
-#    victory_review: "Tell us more!" # Only in old-style levels.
+    action_timeline: "عمل الجدول الزمني"
+    click_to_select: "انقر على وحدة لتحديده."
+    control_bar_multiplayer: "متعددة"
+    control_bar_join_game: "تاريخ لعبة"
+    reload: "تحديث"
+    reload_title: "تحديث الصفحة كل رمز؟"
+    reload_really: "هل أنت متأكد أنك تريد تحميل هذا المستوى مرة أخرى إلى البداية؟"
+    reload_confirm: "تحديث جميع"
+    victory: "فوز"
+    victory_title_prefix: ""
+    victory_title_suffix: " كامل"
+    victory_sign_up: "اشترك لإنقاذ التقدم"
+    victory_sign_up_poke: "تريد حفظ التعليمات البرمجية الخاصة بك؟ إنشاء حساب مجاني!"
+    victory_rate_the_level: "معدل المستوى: " # Only in old-style levels.
+    victory_return_to_ladder: "العودة إلى سلم"
+    victory_play_continue: "استمر"
+    victory_saving_progress: "توفير التقدم"
+    victory_go_home: "اذهب للمنزل" # Only in old-style levels.
+    victory_review: "إخبرنا المزيد!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"
-#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
+    victory_hour_of_code_done_yes: "نعم، أنا مع الانتهاء من ساعتي من قانون ™!"
 #    victory_experience_gained: "XP Gained"
-#    victory_gems_gained: "Gems Gained"
-#    victory_new_item: "New Item"
-#    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
-#    guide_title: "Guide"
-#    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
-#    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
-#    tome_other_units: "Other Units" # Only in old-style levels.
-#    tome_cast_button_run: "Run"
-#    tome_cast_button_running: "Running"
-#    tome_cast_button_ran: "Ran"
+    victory_gems_gained: "الأحجار الكريمة المكتسبة"
+    victory_new_item: "عنصر جديد"
+    victory_viking_code_school: "يدخن المقدسة، وكان ذلك على مستوى الثابت الذي فاز فقط! إذا لم تكن بالفعل مطور برامج، يجب أن تكون. كنت فقط حصلت على المسار السريع لقبوله مع مدرسة فايكنغ المدونة، حيث يمكنك أن تأخذ المهارات الخاصة بك إلى المستوى التالي وتصبح مطور ويب محترف في 14 أسبوعا."
+    victory_become_a_viking: "تصبح فايكنغ"
+    guide_title: "دليل"
+    tome_minion_spells: "نوبات التوابع الخاصة بك" # Only in old-style levels.
+    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
+    tome_other_units: "وحدات أخرى" # Only in old-style levels.
+    tome_cast_button_run: "Run"
+    tome_cast_button_running: "تشغيل"
+    tome_cast_button_ran: "ران"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
@@ -394,17 +394,17 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
-#    few_gems: "A few gems"
-#    pile_gems: "Pile of gems"
-#    chest_gems: "Chest of gems"
-#    purchasing: "Purchasing..."
+  buy_gems:
+    few_gems: " عدد قليل من الأحجار الكريمة"
+    pile_gems: "كومة من الأحجار الكريمة"
+    chest_gems: "الصدر من الأحجار الكريمة"
+    purchasing: "شراء ..."
 #    declined: "Your card was declined"
 #    retrying: "Server error, retrying."
 #    prompt_title: "Not Enough Gems"
 #    prompt_body: "Do you want to get more?"
-#    prompt_button: "Enter Shop"
-#    recovered: "Previous gems purchase recovered. Please refresh the page."
+    prompt_button: "أدخل متجر"
+    recovered: "الأحجار الكريمة السابقة أون استردادها. يرجى تحديث الصفحة."
 #    price: "x3500 / mo"
 
 #  subscribe:
@@ -477,11 +477,11 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
   choose_hero:
-#    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
+    choose_hero: "اختر بطلك"
+    programming_language: "لغة البرمجة"
 #    programming_language_description: "Which programming language do you want to use?"
 #    default: "Default"
-#    experimental: "Experimental"
+    experimental: "تجريبي"
     python_blurb: "بسيطة لكنها قوية، بيثون هي لغة برمجة عظيمة للأغراض العامة."
     javascript_blurb: "لغة الويب. عظيم للكتابة المواقع، تطبيقات الويب، ألعاب HTML5، والخوادم."
     coffeescript_blurb: "Nicer JavaScript syntax."
@@ -495,13 +495,13 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
-#    health: "Health"
-#    speed: "Speed"
-#    regeneration: "Regeneration"
+    health: "الصحة"
+    speed: "سرعة"
+    regeneration: "تجديد"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
-#    skills: "Skills"
+    skills: "المهارات"
 #    attack_1: "Deals"
 #    attack_2: "of listed"
 #    attack_3: "weapon damage."
@@ -688,7 +688,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     forum_page: "منتدانا"
     forum_suffix: "بدلا من ذلك."
 #    faq_prefix: "There's also a"
-#    faq: "FAQ"
+    faq: "FAQ"
 #    subscribe_prefix: "If you need help figuring out a level, please"
 #    subscribe: "buy a CodeCombat subscription"
 #    subscribe_suffix: "and we'll be happy to help you with your code."
@@ -699,26 +699,26 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     contact_candidate: "الاتصال المرشح" # Deprecated
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
-#  account_settings:
-#    title: "Account Settings"
-#    not_logged_in: "Log in or create an account to change your settings."
-#    autosave: "Changes Save Automatically"
-#    me_tab: "Me"
-#    picture_tab: "Picture"
-#    delete_account_tab: "Delete Your Account"
-#    wrong_email: "Wrong Email"
-#    wrong_password: "Wrong Password"
+  account_settings:
+    title: "إعدادات الحساب"
+    not_logged_in: "تسجيل الدخول أو إنشاء حساب لتغيير الإعدادات الخاصة بك."
+    autosave: "تغييرات حفظ تلقائيا"
+    me_tab: "أنا"
+    picture_tab: "صورة"
+    delete_account_tab: "حذف حسابك الخاص"
+    wrong_email: "Email خاطئ"
+    wrong_password: "كلمة مرور خاطئة"
 #    upload_picture: "Upload a picture"
-#    delete_this_account: "Delete this account permanently"
+    delete_this_account: "حذف هذا الحساب بشكل دائم"
 #    god_mode: "God Mode"
 #    password_tab: "Password"
 #    emails_tab: "Emails"
 #    admin: "Admin"
-#    new_password: "New Password"
-#    new_password_verify: "Verify"
-#    type_in_email: "Type in your email to confirm account deletion."
-#    type_in_password: "Also, type in your password."
-#    email_subscriptions: "Email Subscriptions"
+    new_password: "كلمة سر جديدة"
+    new_password_verify: "تحقق من"
+    type_in_email: "اكتب في البريد الإلكتروني الخاص بك لتأكيد الحساب الحذف."
+    type_in_password: "أيضا، اكتب كلمة المرور الخاصة بك."
+    email_subscriptions: "الاشتراكات البريد الإلكتروني"
 #    email_subscriptions_none: "No Email Subscriptions."
 #    email_announcements: "Announcements"
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."

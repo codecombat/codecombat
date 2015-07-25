@@ -10,30 +10,6 @@ if docs.length === 1
   div
     != docs[0].html
 
-  if (!me.isPremium() || me.isAdmin()) && (me.get('preferredLanguage') || 'en-US').substr(0, 2) == 'en'
-    hr
-    h3 Want more programming lessons?
-    ul
-      li
-        strong
-          a(class="resource-link", data-resource="breakout-mentors", href='http://breakoutmentors.com/?referral=codecombat') Breakout Mentors
-        | : Personalized code mentoring for kids from Stanford and UC Berkeley mentors, online or in person.
-      li
-        strong
-          a(class="resource-link", data-resource="ostraining", href='https://www.ostraining.com/codecombat/') OSTraining
-        | : Watch over 2600 videos on how to make great websites with Wordpress, Drupal, Joomla, and more.
-      li
-        strong
-          a(class="resource-link", data-resource="one-month", href='http://mbsy.co/bVRtZ') One Month
-        | : Learn any tech skill in 30 days with just 15 minutes a day.
-      li
-        strong
-          a(class="resource-link", data-resource="code-school", href='http://mbsy.co/bVRsR') Code School
-        | : Learn web technologies with video lessons, coding challenges, and screencasts.
-      li
-        strong
-          a(class="resource-link", data-resource="pluralsight", href='http://shrsl.com/?~81i5') Pluralsight
-        | : Unlock new tech skills with over 3000 online courses.
 else
   ul.nav.nav-tabs
     for doc in docs

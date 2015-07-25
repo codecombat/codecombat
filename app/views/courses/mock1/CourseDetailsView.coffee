@@ -1,6 +1,8 @@
 app = require 'core/application'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/mock1/course-details'
+CocoCollection = require 'collections/CocoCollection'
+Campaign = require 'models/Campaign'
 
 module.exports = class CourseDetailsView extends RootView
   id: 'course-details-view'
@@ -9,40 +11,120 @@ module.exports = class CourseDetailsView extends RootView
   events:
     'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
     'change .select-session': 'onChangeSession'
+    'change .student-mode-checkbox': 'onChangeStudent'
+    'click .btn-play-level': 'onClickPlayLevel'
     'click .edit-class-name-btn': 'onClickEditClassName'
     'click .edit-description-btn': 'onClickEditClassDescription'
+    'click .member-header': 'onClickMemberHeader'
+    'click .progress-header': 'onClickProgressHeader'
 
   constructor: (options, @courseID) ->
     super options
     @initData()
 
+  destroy: ->
+    @stopListening?()
+
   getRenderData: ->
     context = super()
+    context.conceptsProgression = @conceptsProgression ? []
     context.course = @course ? {}
+    context.courseConcepts = @courseConcepts ? []
     context.instance = @instances?[@currentInstanceIndex] ? {}
     context.instances = @instances ? []
+    context.levelConceptsMap = @levelConceptsMap ? {}
     context.maxLastStartedIndex = @maxLastStartedIndex ? 0
+    context.memberSort = @memberSort
+    context.userConceptsMap = @userConceptsMap ? {}
     context.userLevelStateMap = @userLevelStateMap ? {}
-    context.showExpandedProgress = @maxLastStartedIndex <= 30 or @showExpandedProgress
+    context.showExpandedProgress = @course.levels.length <= 30 or @showExpandedProgress
+    context.studentMode = @options.studentMode ? false
     context
 
   initData: ->
+    @memberSort = 'nameAsc'
     mockData = require 'views/courses/mock1/CoursesMockData'
     @course = mockData.courses[@courseID]
     @currentInstanceIndex = 0
     @instances = mockData.instances
     @updateLevelMaps()
 
+    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
+    @listenTo @campaigns, 'sync', @onCampaignSync
+    @supermodel.loadModel @campaigns, 'clan', cache: false
+
   updateLevelMaps: ->
+    @levelMap = {}
+    @levelMap[level] = true for level in @course.levels
     @userLevelStateMap = {}
     @maxLastStartedIndex = -1
     for student in @instances?[@currentInstanceIndex].students
+      @userLevelStateMap[student] = {}
       lastCompletedIndex = _.random(0, @course.levels.length)
+      for i in [0..lastCompletedIndex]
+        @userLevelStateMap[student][@course.levels[i]] = 'complete'
       lastStartedIndex = lastCompletedIndex + 1
-      @userLevelStateMap[student] =
-        lastCompletedIndex: lastCompletedIndex
-        lastStartedIndex: lastStartedIndex
+      @userLevelStateMap[student][@course.levels[lastStartedIndex]] = 'started'
       @maxLastStartedIndex = lastStartedIndex if lastStartedIndex > @maxLastStartedIndex
+    @sortMembers()
+
+  sortMembers: ->
+    # Progress sort precedence: most completed concepts, most started concepts, most levels, name sort
+    instance = @instances?[@currentInstanceIndex] ? {}
+    return if _.isEmpty(instance)
+    switch @memberSort
+      when "nameDesc"
+        instance.students.sort (a, b) -> b.localeCompare(a)
+      when "progressAsc"
+        instance.students.sort (a, b) =>
+          for level in @course.levels
+            if @userLevelStateMap[a][level] isnt 'complete' and @userLevelStateMap[b][level] is 'complete'
+              return -1
+            else if @userLevelStateMap[a][level] is 'complete' and @userLevelStateMap[b][level] isnt 'complete'
+              return 1
+          0
+      when "progressDesc"
+        instance.students.sort (a, b) =>
+          for level in @course.levels
+            if @userLevelStateMap[a][level] isnt 'complete' and @userLevelStateMap[b][level] is 'complete'
+              return 1
+            else if @userLevelStateMap[a][level] is 'complete' and @userLevelStateMap[b][level] isnt 'complete'
+              return -1
+          0
+      else
+        instance.students.sort (a, b) -> a.localeCompare(b)
+
+  onCampaignSync: ->
+    return unless @campaigns.loaded
+    @conceptsProgression = []
+    @courseConcepts = []
+    @levelConceptsMap = {}
+    @levelNameSlugMap = {}
+    @userConceptsMap = {}
+    for campaign in @campaigns.models
+      continue if campaign.get('slug') is 'auditions'
+      for levelID, level of campaign.get('levels')
+        @levelNameSlugMap[level.name] = level.slug
+        if level.concepts?
+          for concept in level.concepts
+            @conceptsProgression.push concept unless concept in @conceptsProgression
+            continue unless @levelMap[level.name]
+            @courseConcepts.push concept unless concept in @courseConcepts
+            @levelConceptsMap[level.name] ?= {}
+            @levelConceptsMap[level.name][concept] = true
+            for student in @instances?[@currentInstanceIndex].students
+              @userConceptsMap[student] ?= {}
+              if @userLevelStateMap[student][level.name] is 'complete'
+                @userConceptsMap[student][concept] = 'complete'
+              else if @userLevelStateMap[student][level.name] is 'started'
+                @userConceptsMap[student][concept] ?= 'started'
+    @courseConcepts.sort (a, b) => if @conceptsProgression.indexOf(a) < @conceptsProgression.indexOf(b) then -1 else 1
+    @render?()
+
+  onChangeStudent: (e) ->
+    @options.studentMode = $('.student-mode-checkbox').prop('checked')
+    @render?()
+    $('.student-mode-checkbox').attr('checked', @options.studentMode)
 
   onChangeSession: (e) ->
     @showExpandedProgress = false
@@ -50,6 +132,7 @@ module.exports = class CourseDetailsView extends RootView
     for val, index in @instances when val.name is newSessionValue
       @currentInstanceIndex = index
     @updateLevelMaps()
+    @onCampaignSync()
     @render?()
 
   onExpandedProgressCheckbox: (e) ->
@@ -63,3 +146,22 @@ module.exports = class CourseDetailsView extends RootView
 
   onClickEditClassDescription: (e) ->
     alert 'TODO: Popup for editing description for this course session'
+
+  onClickMemberHeader: (e) ->
+    @memberSort = if @memberSort is 'nameAsc' then 'nameDesc' else 'nameAsc'
+    @sortMembers()
+    @render?()
+
+  onClickProgressHeader: (e) ->
+    @memberSort = if @memberSort is 'progressAsc' then 'progressDesc' else 'progressAsc'
+    @sortMembers()
+    @render?()
+
+  onClickPlayLevel: (e) ->
+    levelName = $(e.target).data('level')
+    levelSlug = @levelNameSlugMap[levelName]
+    Backbone.Mediator.publish 'router:navigate', {
+      route: "/play/level/#{levelSlug}"
+      viewClass: 'views/play/level/PlayLevelView'
+      viewArgs: [{}, levelSlug]
+    }

@@ -34,7 +34,7 @@ module.exports = class GameMenuModal extends ModalView
     submenus = ['guide', 'options', 'save-load', 'multiplayer']
     submenus = _.without submenus, 'guide' unless docs.specificArticles?.length or docs.generalArticles?.length
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
-    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or @level?.get('type') in ['ladder', 'hero-ladder']
+    submenus = _.without submenus, 'multiplayer' unless me.isAdmin() or @level?.get('type') in ['ladder', 'hero-ladder', 'course-ladder']
     @includedSubmenus = submenus
     context.showTab = @options.showTab ? submenus[0]
     context.submenus = submenus
@@ -43,7 +43,7 @@ module.exports = class GameMenuModal extends ModalView
       'guide': 'list'
       'save-load': 'floppy-disk'
       'multiplayer': 'globe'
-    context.showsChooseHero = @options.levelID not in ['zero-sum']
+    context.showsChooseHero = (@level?.get('type') not in ['course', 'course-ladder']) and (@options.levelID not in ['zero-sum'])
     context
 
   afterRender: ->

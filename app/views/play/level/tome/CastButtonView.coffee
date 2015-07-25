@@ -48,7 +48,7 @@ module.exports = class CastButtonView extends CocoView
     super()
     @castButton = $('.cast-button', @$el)
     spell.view?.createOnCodeChangeHandlers() for spellKey, spell of @spells
-    if @options.level.get('hidesSubmitUntilRun') or @options.level.get('hidesRealTimePlayback')
+    if @options.level.get('hidesSubmitUntilRun') or @options.level.get 'hidesRealTimePlayback'
       @$el.find('.submit-button').hide()  # Hide Submit for the first few until they run it once.
     if @options.session.get('state')?.complete and @options.level.get 'hidesRealTimePlayback'
       @$el.find('.done-button').show()
@@ -72,7 +72,7 @@ module.exports = class CastButtonView extends CocoView
     @updateReplayability()
 
   onDoneButtonClick: (e) ->
-    return if @getQueryVariable('dev') and @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
+    return if @options.level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
     @options.session.recordScores @world.scores, @options.level
     Backbone.Mediator.publish 'level:show-victory', showModal: true
 

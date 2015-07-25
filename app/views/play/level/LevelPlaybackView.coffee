@@ -109,7 +109,6 @@ module.exports = class LevelPlaybackView extends CocoView
     @togglePlaybackControls false
     Backbone.Mediator.publish 'playback:real-time-playback-started', {}
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'real-time-playback-start', volume: 1
-    Backbone.Mediator.publish 'level:set-letterbox', on: true if @options.level.get('type', true) is ['hero']  # not with flags...?
 
   onRealTimeMultiplayerCast: (e) ->
     @realTime = true

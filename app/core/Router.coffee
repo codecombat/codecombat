@@ -57,7 +57,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': -> @navigate('courses/mock1')
+    'courses': go('courses/mock1/CoursesView')
     'courses/mock1': go('courses/mock1/CoursesView')
     'courses/mock1/:courseID': go('courses/mock1/CourseDetailsView')
     'courses/mock1/:courseID/info': go('courses/mock1/CourseInfoView')
@@ -103,7 +103,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'multiplayer': go('MultiplayerView')
 
-    'play-old': go('play/MainPlayView')  # This used to be 'play'.
     'play': go('play/CampaignView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')

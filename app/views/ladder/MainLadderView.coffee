@@ -139,5 +139,5 @@ oldArenas = [
 
 campaigns = [
   {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: heroArenas}
-  {id: 'old_multiplayer', name: '(Deprecated) Old Multiplayer Arenas', description: 'Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas.', levels: oldArenas}
+  #{id: 'old_multiplayer', name: '(Deprecated) Old Multiplayer Arenas', description: 'Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas.', levels: oldArenas}
 ]
