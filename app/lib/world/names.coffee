@@ -336,6 +336,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Senick'
     'John'
+    'Kyle'
   ]
   'Forest Archer': [
     # Female
@@ -402,6 +403,7 @@ module.exports.thangNames = thangNames =
     'Ivy'
     'Jensen'
     'Katniss'
+    'Katreena'
     'Keturah'
     'Kim'
     'Korra'
@@ -832,6 +834,7 @@ module.exports.thangNames = thangNames =
     'Clause'
     'Curie'
     'Fluvius'
+    'Javin'
     'Kanada'
     'Omar'
     'Paracelsus'
@@ -892,6 +895,7 @@ module.exports.thangNames = thangNames =
     'Hardcastle'
     'Helena'
     'Isa'
+    'Jan'
     'Jane'
     'Jarin'
     'Karp'
