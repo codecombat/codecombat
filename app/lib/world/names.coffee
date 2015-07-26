@@ -1,6 +1,7 @@
 module.exports.thangNames = thangNames =
   'Ogre Munchkin F': [
     # Female
+    'Alali'
     'Anabel'
     'Dosha'
     'Gurzunn'
@@ -32,6 +33,7 @@ module.exports.thangNames = thangNames =
     'Kratt'
     'Leerer'
     'Nerph'
+    'Oogre'
     'Raack'
     'Ragtime'
     'Skoggen'
@@ -48,6 +50,7 @@ module.exports.thangNames = thangNames =
   'Ogre Thrower': [
     # Female
     'Beebatha'
+    'Dross'
     'Drumbaa'
     'Durnath'
     'Esha'
@@ -78,6 +81,7 @@ module.exports.thangNames = thangNames =
   ]
   'Paladin': [
     # Female
+    'Illumina'
     'Celadia'
     'Taric'
     'Vaelia'
