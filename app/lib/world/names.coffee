@@ -26,6 +26,7 @@ module.exports.thangNames = thangNames =
     'Gert'
     'Godel'
     'Goreball'
+    'Gordok'
     'Toremon'
     'Gort'
     'Kog'
@@ -36,6 +37,7 @@ module.exports.thangNames = thangNames =
     'Oogre'
     'Raack'
     'Ragtime'
+    'Rexxar'
     'Skoggen'
     'Smerk'
     'Snortt'
@@ -140,6 +142,7 @@ module.exports.thangNames = thangNames =
   ]
   'Cougar': [
     # Animal
+    'Guenhwyvar'
     'Kitty'
     'Shasta'
     'Simbia'
@@ -163,6 +166,7 @@ module.exports.thangNames = thangNames =
   ]
   'Horse': [
     # Animal
+    'Abby'
     'Wildsilver'
     'Fleetfire'
     'Ed'
@@ -351,6 +355,7 @@ module.exports.thangNames = thangNames =
   'Raider': [
     # Female
     'Arryn'
+    'Thrat'
   ]
   'Goliath': [
     # Male
@@ -379,6 +384,8 @@ module.exports.thangNames = thangNames =
   ]
   'Necromancer': [
     # Male
+    'Krekai'
+    'Kethum'
     'Morcelu'
     'Nalfar'
     'Drezhul'
@@ -388,6 +395,7 @@ module.exports.thangNames = thangNames =
     'Lilith'
     'Usara'
     'Veigar'
+    'Voldemort'
   ]
   'Archer F': [
     # Female
@@ -948,6 +956,7 @@ module.exports.thangNames = thangNames =
     'Ieyasu'
     'Izotokogawa'
     'Keitaro'
+    'Miyoshi'
     'Nobunaga'
     'Yasuo'
     'Yi'
