@@ -7,6 +7,7 @@ config = require '../../server_config'
 errors = require '../commons/errors'
 languages = require '../routes/languages'
 sendwithus = require '../sendwithus'
+log = require 'winston'
 
 module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
@@ -198,9 +199,10 @@ module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
 
 module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous: true})
-  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
+  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'lastIP', req.connection.remoteAddress
   user.set 'chinaVersion', true if req.chinaVersion
+  log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and chinaVersion #{req.chinaVersion} on #{if config.tokyo then 'Tokyo' else 'US'} server and lastIP #{req.connection.remoteAddress}."
   user
