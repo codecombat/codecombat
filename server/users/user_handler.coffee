@@ -13,6 +13,7 @@ AnalyticsLogEvent = require '../analytics/AnalyticsLogEvent'
 Clan = require '../clans/Clan'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
+Payment = require '../payments/Payment'
 SubscriptionHandler = require '../payments/subscription_handler'
 DiscountHandler = require '../payments/discount_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
@@ -395,13 +396,13 @@ UserHandler = class UserHandler extends Handler
 
   getSubSponsors: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
-    # TODO: fix perf on this query
-    sponsoredSubsAddDate = new Date('2015-03-12')
-    query = {$and: [{dateCreated: {$gte: sponsoredSubsAddDate}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}
-    User.find query, (err, sponsors) =>
+    Payment.find {$where: 'this.purchaser.valueOf() != this.recipient.valueOf()'}, (err, payments) =>
       return @sendDatabaseError(res, err) if err
-      cleandocs = (@formatEntity(req, doc) for doc in sponsors)
-      @sendSuccess(res, cleandocs)
+      sponsorIDs = (payment.get('purchaser') for payment in payments)
+      User.find {$and: [{_id: {$in: sponsorIDs}}, {"stripe.sponsorSubscriptionID": {$exists: true}}]}, (err, users) =>
+        return @sendDatabaseError(res, err) if err
+        sponsors = (@formatEntity(req, doc) for doc in users when doc.get('stripe').recipients?.length > 0)
+        @sendSuccess(res, sponsors)
 
   sendOneTimeEmail: (req, res) ->
     # TODO: Should this API be somewhere else?
