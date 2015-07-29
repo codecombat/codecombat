@@ -4,8 +4,6 @@ block content
 
   //- DO NOT localize / i18n
 
-  div TODO: course-specific gameplay screenshots
-  div TODO: update images, add captions
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -15,8 +13,7 @@ block content
   .info-container
     h1.center= course.title
     p.center.gameplay-img-container
-      img(src='/images/pages/courses/102_info.png' width='800')
-      div.center.caption-text TODO: Add caption
+      img(src="#{course.image}" width='800')
     p= course.description
 
     h1.center Learn More in Less Time

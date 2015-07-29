@@ -29,6 +29,7 @@ data.courses = [
     duration: 1
     levels: ['Dungeons of Kithgard', 'Gems in the Deep', 'Shadow Guard', 'Kounter Kithwise', 'Crawlways of Kithgard', 'Enemy Mine', 'Illusory Interruption', 'Forgetful Gemsmith', 'Signs and Portents', 'Favorable Odds', 'True Names', 'The Prisoner', 'Banefire', 'The Raised Sword', 'Haunted Kithmaze', 'Riddling Kithmaze', 'Descending Further', 'The Second Kithmaze', 'Dread Door', 'Cupboards of Kithgard', 'Hack and Dash']
     campaign: 'intro'
+    image: '/images/pages/courses/101_info.png'
   },
   {
     title: 'Computer Science 102'
@@ -36,6 +37,7 @@ data.courses = [
     topics: ['Arguments', 'Variables', 'If Statements', 'Arithmetic']
     duration: 5
     levels: ['Known Enemy', 'Master of Names', 'Lowly Kithmen', 'Closing the Distance', 'Tactical Strike', 'The Final Kithmaze', 'The Gauntlet', 'Radiant Aura', 'Kithgard Gates', 'Destroying Angel', 'Deadly Dungeon Rescue', 'Kithgard Brawl', 'Cavern Survival', 'Breakout', 'Attack Wisely!', 'Kithgard Mastery', 'Kithgard Apprentice', 'Long Kithmaze', 'Boom! and Bust', 'Defense of Plainswood', 'Winding Trail', 'Thumb Biter', 'Gems or Death', 'Backwoods Ambush', 'Patrol Buster', 'Endangered Burl', 'Village Guard', 'Thornbush Farm', 'Back to Back', 'Ogre Encampment', 'Woodland Cleaver', 'Shield Rush', 'Peasant Protection', 'Munchkin Swarm']
+    image: '/images/pages/courses/102_info.png'
   },
   {
     title: 'Computer Science 103'
@@ -43,6 +45,7 @@ data.courses = [
     topics: ['If Statements', 'Arithmetic', 'Input Handling']
     duration: 5
     levels: ['Munchkin Harvest', 'Swift Dagger', 'Shrapnel', 'Arcane Ally', 'Touch of Death', 'Bonemender', 'Coinucopia', 'Copper Meadows', 'Drop the Flag', 'Deadly Pursuit', 'Rich Forager', 'Siege of Stonehold', 'Multiplayer Treasure Grove', 'Dueling Grounds', 'Backwoods Brawl', 'Backwoods Treasure', 'Range Finder', 'Stillness in Motion', 'The Agrippa Defense', 'Storming the Towers of Areth', 'Hold the Forest Pass', 'Hold for Reinforcements', 'Storming the Farmhouse', 'Wild Horses', 'Boulder Woods', 'Unfair Support', 'Tactical Timing', 'Apocalypse', 'Doom Glade', 'Defend the Garrison', 'Lost Viking', 'Forest Flower Grove', 'The Dunes', 'The Mighty Sand Yak', 'Oasis', 'Sarven Road', 'Sarven Gaps', 'Thunderhooves', 'Medical Attention', 'The Great Yak Stampede', 'Minesweeper', 'Sarven Sentry', 'Keeping Time']
+    image: '/images/pages/courses/103_info.png'
   },
   {
     title: 'Computer Science 104'
@@ -50,6 +53,7 @@ data.courses = [
     topics: ['Loops', 'Break Statements', 'Arrays']
     duration: 5
     levels: ['Hoarding Gold', 'Decoy Drill', 'Yakstraction', 'Sarven Brawl', 'Desert Combat', 'Dust', 'Sarven Rescue', 'Sacred Statue', 'Mirage Maker', 'Sarven Savior', 'Odd Sandstorm', 'Lurkers', 'Preferential Treatment', 'Sarven Shepherd', 'Shine Getter', 'The Trials', 'Mad Maxer', 'Mad Maxer Strikes Back', 'Mad Maxer Sells Out', 'Mad Maxer Gets Greedy', 'Mad Maxer: Redemption', 'Sarven Treasure', 'Harrowland', 'Sarven Siege', 'Clash of Clones', 'Sand Snakes', 'Crag Tag']
+    image: '/images/pages/courses/104_info.png'
   },
   {
     title: 'Computer Science 105'
@@ -57,6 +61,7 @@ data.courses = [
     topics: ['Break Statements', 'Arrays', 'Object Literals']
     duration: 5
     levels: ['Slalom', 'Black Diamond', 'Treasure Cave', 'Ogre Gorge Gouger', 'Dance-Off', 'Alpine Rally', 'Cloudrip Commander', 'Mountain Mercenaries']
+    image: '/images/pages/courses/105_info.png'
   },
   {
     title: 'Computer Science 106'
@@ -64,6 +69,7 @@ data.courses = [
     topics: ['Break Statements', 'Object Literals', 'For loops']
     duration: 5
     levels: ['Timber Guard', 'Hunting Party', 'Zoo Keeper', 'Cloudrip Brawl', 'Cloudrip Treasure', 'Cloudrip Siege', 'Noble Sacrifice', 'Zero Sum', 'Borrowed Sword', 'Protect and Serve']
+    image: '/images/pages/courses/106_info.png'
   },
   {
     title: 'Computer Science 107'
@@ -71,6 +77,7 @@ data.courses = [
     topics: ['Object Literals', 'For loops', 'Functions']
     duration: 5
     levels: ['Vital Powers', 'Timber Turncoat', 'Restless Dead', 'Ring Bearer', 'The Two Flowers', 'The Geometry of Flowers', 'Mountain Flower Grove', 'Hunters and Prey', 'Library Tactician']
+    image: '/images/pages/courses/107_info.png'
   },
   {
     title: 'Computer Science 108'
@@ -78,6 +85,7 @@ data.courses = [
     topics: ['For loops', 'Functions', 'Math Operations']
     duration: 5
     levels: ['Steelclaw Gap', 'Pesky Yaks', 'Mixed Unit Tactics', 'Sowing Fire', 'Reaping Fire', 'Toil and Trouble', 'What in Carnation', 'Misty Island Mine', 'Raiders of the Long Dark', 'Grim Determination', 'Deadly Discs', "Summit's Gate"]
+    image: '/images/pages/courses/107_info.png'
   },
   {
     title: 'Computer Science 109'
@@ -85,6 +93,7 @@ data.courses = [
     topics: ['Vectors', 'Advanced Strings']
     duration: 5
     levels: ['Circle Walking', 'Skating Away', 'Kelvintaph Crusader', 'Kelvintaph Burgler', 'Ice Soccer', 'Razorfray']
+    image: '/images/pages/courses/107_info.png'
   }
 ]
 
