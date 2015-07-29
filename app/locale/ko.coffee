@@ -29,7 +29,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     legal: "법"
     about: "소개"
     contact: "문의"
-    twitter_follow: "Follow"
+    twitter_follow: "팔로우"
     teachers: "선생님들"
 
   modal:
@@ -59,25 +59,25 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     locked: "잠김"
     purchasable: "구매 가능" # For a hero you unlocked but haven't purchased
     available: "가능"
-#    skills_granted: "Skills Granted" # Property documentation details
-#    heroes: "Heroes" # Tooltip on hero shop button from /play
-#    achievements: "Achievements" # Tooltip on achievement list button from /play
-#    account: "Account" # Tooltip on account button from /play
-#    settings: "Settings" # Tooltip on settings button from /play
+    skills_granted: "부여된 스킬" # Property documentation details
+    heroes: "영웅들" # Tooltip on hero shop button from /play
+    achievements: "성취한 목표" # Tooltip on achievement list button from /play
+    account: "계정" # Tooltip on account button from /play
+    settings: "설정" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
-#    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    next: "다음" # Go from choose hero to choose inventory before playing a level
+    change_hero: "영웅 교체" # Go back from choose inventory to choose hero
+    choose_inventory: "장착된 아이템"
+    buy_gems: "젬 구매"
 #    subscription_required: "Subscription Required"
 #    older_campaigns: "Older Campaigns"
-#    anonymous: "Anonymous Player"
+    anonymous: "이름없는 플레이어"
     level_difficulty: "난이도: "
     campaign_beginner: "초보자 캠페인"
-#    awaiting_levels_adventurer_prefix: "We release new levels every week."
-#    awaiting_levels_adventurer: "Sign up as an Adventurer"
+    awaiting_levels_adventurer_prefix: "매주 마다 새로운 레벨이 생깁니다."
+    awaiting_levels_adventurer: "모험자로 등록 하세요!"
     awaiting_levels_adventurer_suffix: "새로운 레벨을 가장 먼저 체험하세요!"
-#    adjust_volume: "Adjust volume"
+    adjust_volume: "소리 조절"
     choose_your_level: "레벨을 선택하세요." # The rest of this section is the old play view at /play-old and isn't very important.
     adventurer_prefix: "아래에 있는 아무 레벨이나 바로 시작하실 수 있습니다. 또는 포럼에서 레벨에 관해 토론하세요 :"
     adventurer_forum: "모험가들의 포럼"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   share_progress_modal:
 #    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
+    email_invalid: "이메일 주소가 올바르지 않습니다."
 #    form_blurb: "Enter your parent's email below and we’ll show them!"
     form_label: "이메일"
     placeholder: "이메일"
@@ -111,10 +111,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     forgot_password: "비밀번호를 잊으셨나요?"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
-#    signup_switch: "Want to create an account?"
+    finishing: "완료중.."
+    sign_in_with_facebook: "Facebook으로 로그인"
+    sign_in_with_gplus: "G+로 로그인"
+    signup_switch: "새로운 계정을 만드세요."
 
   signup:
     email_announcements: "안내 사항을 메일로 받겠습니다"
@@ -131,16 +131,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     recovery_sent: "메일 전송 완료"
 
   items:
-#    primary: "Primary"
-#    secondary: "Secondary"
+    primary: "주 장비"
+    secondary: "보조 장비"
     armor: "갑옷"
-#    accessories: "Accessories"
-#    misc: "Misc"
+    accessories: "액세서리"
+    misc: "잡동사니"
     books: "책"
 
   common:
-#    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue" # When used as an action verb, like "Continue forward"
+    back: "뒤로가기" # When used as an action verb, like "Navigate backward"
+    continue: "계속" # When used as an action verb, like "Continue forward"
     loading: "로딩중입니다..."
     saving: "저장중입니다..."
     sending: "보내는 중입니다..."
@@ -153,14 +153,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     fork: "Fork"
     play: "시작" # When used as an action verb, like "Play next level"
     retry: "재시도"
-#    actions: "Actions"
-#    info: "Info"
+    actions: "행동"
+    info: "정보"
     help: "도움말"
     watch: "보기"
     unwatch: "보기 해제"
     submit_patch: "패치 제출"
-#    submit_changes: "Submit Changes"
-#    save_changes: "Save Changes"
+    submit_changes: "변경사항 제출"
+    save_changes: "변경사항 저장"
 
   general:
     and: "그리고"
@@ -168,14 +168,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     date: "날짜"
     body: "구성"
     version: "버전"
-#    pending: "Pending"
-#    accepted: "Accepted"
-#    rejected: "Rejected"
-#    withdrawn: "Withdrawn"
-#    submitter: "Submitter"
-#    submitted: "Submitted"
+    pending: "적용중"
+    accepted: "적용됨"
+    rejected: "거부됨"
+    withdrawn: "취소됨"
+    submitter: "제출자"
+    submitted: "제출됨"
     commit_msg: "커밋 메세지"
-#    review: "Review"
+    review: "리뷰"
     version_history: "버전 히스토리"
     version_history_for: "버전 히스토리 : "
 #    select_changes: "Select two changes below to see the difference."
@@ -205,7 +205,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     medium: "중급"
     hard: "상급"
     player: "플레이어"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "플레이어 레벨" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "전사"
     ranger: "레인저"
     wizard: "마법사"
@@ -229,27 +229,27 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   play_level:
     done: "완료"
     home: "홈" # Not used any more, will be removed soon.
-#    level: "Level" # Like "Level: Dungeons of Kithgard"
-    skip: "Skip"
+    level: "레벨" # Like "Level: Dungeons of Kithgard"
+    skip: "넘어가기"
     game_menu: "게임 메뉴"
     guide: "가이드"
     restart: "재시작"
-    goals: "목표"
-#    goal: "Goal"
-#    running: "Running..."
+    goals: "목표들"
+    goal: "목표"
+    running: "실행중..."
     success: "성공!"
     incomplete: "목표 미완료"
     timed_out: "제한 시간 초과"
     failing: "다시 한번 더 도전해보세요."
     action_timeline: "액션 타임라인"
     click_to_select: "유닛을 선택하기 위해서 유닛을 마우스로 클릭하세요."
-#    control_bar_multiplayer: "Multiplayer"
-#    control_bar_join_game: "Join Game"
-#    reload: "Reload"
+    control_bar_multiplayer: "멀티플레이어"
+    control_bar_join_game: "게임입장"
+    reload: "새로고침"
     reload_title: "모든 코드가 다시 로딩 되었나요?"
     reload_really: "모든 레벨 초기화합니다. 확실한가요?"
     reload_confirm: "모두 초기화"
-#    victory: "Victory"
+    victory: "승리"
     victory_title_prefix: ""
     victory_title_suffix: " 완료"
     victory_sign_up: "진행사항 저장을 위해 등록하세요"
@@ -257,16 +257,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_rate_the_level: "이번 레벨 평가: " # Only in old-style levels.
     victory_return_to_ladder: "레더로 돌아가기"
     victory_play_continue: "계속하기"
-#    victory_saving_progress: "Saving Progress"
+    victory_saving_progress: "저장하기"
     victory_go_home: "홈으로" # Only in old-style levels.
     victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
     victory_experience_gained: "획득한 경험치"
-#    victory_gems_gained: "Gems Gained"
-#    victory_new_item: "New Item"
+    victory_gems_gained: "획득한 젬"
+    victory_new_item: "새로운 아이템"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
-#    victory_become_a_viking: "Become a Viking"
+    victory_become_a_viking: "바이킹이 되세요"
     guide_title: "가이드"
     tome_minion_spells: "미니언의 마법" # Only in old-style levels.
     tome_read_only_spells: "읽기 전용 마법" # Only in old-style levels.
@@ -289,10 +289,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     keyboard_shortcuts: "단축키"
     loading_ready: "준비!"
 #    loading_start: "Start Level"
-#    problem_alert_title: "Fix Your Code"
-#    problem_alert_help: "Help"
-#    time_current: "Now:"
-#    time_total: "Max:"
+    problem_alert_title: "코드를 수정하세요"
+    problem_alert_help: "도와주세요"
+    time_current: "현재:"
+    time_total: "최대:"
 #    time_goto: "Go to:"
 #    non_user_code_problem_title: "Unable to Load Level"
 #    infinite_loop_title: "Infinite Loop Detected"
@@ -302,8 +302,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     infinite_loop_try_again: "다시 시도해보세요."
     infinite_loop_reset_level: "레벨 리셋"
     infinite_loop_comment_out: "내 코드를 일시적 주석처리하기"
-#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
-#    tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
+    tip_toggle_play: "Ctrl+P로 실행을 계속하거나 멈출수 있어요"
+    tip_scrub_shortcut: "Ctrl+[, Ctrl+] 를 이용해 실행 속도를 빠르게 할 수 있어요"
     tip_guide_exists: "화면 상단의 가이드를 클릭해보세요. 유용한 정보를 얻을 수 있습니다."
     tip_open_source: "코드 컴뱃은 100% 오픈 소스 기반입니다!"
     tip_beta_launch: "코드 컴뱃은 2013년 10월에 베타 서비스를 출시했습니다."
@@ -356,16 +356,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     options_tab: "옵션"
     guide_tab: "가이드"
     guide_video_tutorial: "영상 튜토리얼"
-#    guide_tips: "Tips"
+    guide_tips: "팁들"
     multiplayer_tab: "멀티 플레이"
-#    auth_tab: "Sign Up"
-#    inventory_caption: "Equip your hero"
-#    choose_hero_caption: "Choose hero, language"
+    auth_tab: "가입하기"
+    inventory_caption: "장비 장착"
+    choose_hero_caption: "영웅 및 언어 선택 "
 #    save_load_caption: "... and view history"
-#    options_caption: "Configure settings"
-#    guide_caption: "Docs and tips"
-#    multiplayer_caption: "Play with friends!"
-#    auth_caption: "Save your progress."
+    options_caption: "설정들을 바꾸기"
+    guide_caption: "문서들과 팁들"
+    multiplayer_caption: "친구들과 플레이 하세요!"
+    auth_caption: "진행사항을 저장하세요"
 
   leaderboard:
 #    leaderboard: "Leaderboard"
