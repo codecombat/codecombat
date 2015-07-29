@@ -13,8 +13,8 @@ module.exports = class CourseDetailsView extends RootView
     'change .select-session': 'onChangeSession'
     'change .student-mode-checkbox': 'onChangeStudent'
     'click .btn-play-level': 'onClickPlayLevel'
-    'click .edit-class-name-btn': 'onClickEditClassName'
-    'click .edit-description-btn': 'onClickEditClassDescription'
+    'click .edit-description-save-btn': 'onEditDescriptionSave'
+    'click .edit-name-save-btn': 'onEditNameSave'
     'click .member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
 
@@ -141,7 +141,6 @@ module.exports = class CourseDetailsView extends RootView
       @currentInstanceIndex = index
     @updateLevelMaps()
     @onCampaignSync()
-    @render?()
 
   onExpandedProgressCheckbox: (e) ->
     @showExpandedProgress = $('.expand-progress-checkbox').prop('checked')
@@ -173,3 +172,15 @@ module.exports = class CourseDetailsView extends RootView
       viewClass: 'views/play/level/PlayLevelView'
       viewArgs: [{}, levelSlug]
     }
+
+  onEditDescriptionSave: (e) ->
+    description = $('.edit-description-input').val()
+    @instances[@currentInstanceIndex].description = description
+    $('#editDescriptionModal').modal('hide')
+    @render?()
+
+  onEditNameSave: (e) ->
+    if name = $('.edit-name-input').val()
+      @instances[@currentInstanceIndex].name = name
+    $('#editNameModal').modal('hide')
+    @render?()

@@ -7,7 +7,6 @@ block content
   div TODO: fix ugly tabs
   div TODO: aggregate student progress
   div TODO: student level progress popups
-  div TODO: edit popup dialogs
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -16,34 +15,56 @@ block content
     span.spl Student view
   div(style='border-bottom: 1px solid black;')
 
+  .modal#editNameModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Class Name
+      .modal-body
+        p This title will be displayed to everyone enrolled in this class.
+        input.edit-name-input(type='text', value="#{instance.name}")
+      .modal-footer
+        button.btn.edit-name-save-btn(data-i18n="common.save_changes")
+
+  .modal#editDescriptionModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Class Description
+      .modal-body
+        p This description will be displayed to everyone enrolled in this class.
+        textarea.edit-description-input(rows=2)= instance.description
+      .modal-footer
+        button.btn.edit-description-save-btn(data-i18n="common.save_changes")
+
   h1= course.title
   p= course.description
-  //- p
-  //-   strong Concepts:
-  //-   ul
-  //-     each concept in courseConcepts
-  //-       li(data-i18n="concepts." + concept)
-  //- strong= course.duration
 
   if !studentMode
     p
       .form-group
         span.spr Select your class
         select.form-control.select-session
-          each instance in instances
-            option= instance.name
+          each inst in instances
+            if instance.name === inst.name
+              option(selected)= inst.name
+            else
+              option= inst.name
 
   h3= instance.name
     if !studentMode
       span.spl
-        button.btn.btn-xs.edit-class-name-btn edit class name
+        button.btn.btn-xs.edit-class-name-btn(data-toggle='modal', data-target='#editNameModal') edit class name
 
   p
     if instance.description
-      span= instance.description
-      if !studentMode
-        span.spl
-          button.btn.btn-xs.edit-description-btn edit class description
+      each line in instance.description.split('\n')
+        div= line
+    if !studentMode
+      span.spl
+        button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal') edit class description
     else if !studentMode
       div
         button.btn.btn-xs.edit-description-btn add class description
