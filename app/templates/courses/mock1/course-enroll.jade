@@ -19,8 +19,7 @@ block content
     .form-group
       select.form-control.course-select
         each course in courses
-          if course.title !== 'Introduction to Computer Science'
-            option(value="#{course.title}")= course.title
+          option(value="#{course.title}")= course.title
         option(value="All Courses") All Courses
     h3 2. Number of students
     .quantity-container(style="width:50%;")
@@ -32,6 +31,8 @@ block content
             input(type='radio', name='quantity', data-quantity=20)
           if selectedCourseTitle === 'All Courses'
             span Up to 20 students $499
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 20 students $99
       .radio
@@ -42,6 +43,8 @@ block content
             input(type='radio', name='quantity', data-quantity=50)
           if selectedCourseTitle === 'All Courses'
             span Up to 50 students $999
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 50 students $199
       .radio
@@ -52,6 +55,8 @@ block content
             input(type='radio', name='quantity', data-quantity=100)
           if selectedCourseTitle === 'All Courses'
             span Up to 100 students $1499
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 100 students $349
       .radio
@@ -62,15 +67,20 @@ block content
             input(type='radio', name='quantity', data-quantity=500)
           if selectedCourseTitle === 'All Courses'
             span Up to 500 students $2999
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 500 students $799
     h3 3. Pick a name for your class
     p Displayed on the course page for you and your students.
     input.session-name(type='text', placeholder="Mrs. Smith's 4th Period")
     h3 4. Finish Purchase
-    p After purchase you will be able to invite your students to enroll in the selected course.
+    p After purchase you will be given an course unlock code to distribute to your students.
     p.center
-      button.btn.btn-info.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
+      if price > 0
+        button.btn.btn-info.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
+      else
+        button.btn.btn-info.btn-lg.btn-buy Get for #{selectedCourseTitle} for FREE
     p.center
       span For any questions, please contact
       a.spl(href='mailto:team@codecombat.com') team@codecombat.com

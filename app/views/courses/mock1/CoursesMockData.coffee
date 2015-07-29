@@ -28,6 +28,7 @@ data.courses = [
     topics: ['Basic Syntax', 'Strings', 'Loops']
     duration: 1
     levels: ['Dungeons of Kithgard', 'Gems in the Deep', 'Shadow Guard', 'Kounter Kithwise', 'Crawlways of Kithgard', 'Enemy Mine', 'Illusory Interruption', 'Forgetful Gemsmith', 'Signs and Portents', 'Favorable Odds', 'True Names', 'The Prisoner', 'Banefire', 'The Raised Sword', 'Haunted Kithmaze', 'Riddling Kithmaze', 'Descending Further', 'The Second Kithmaze', 'Dread Door', 'Cupboards of Kithgard', 'Hack and Dash']
+    campaign: 'intro'
   },
   {
     title: 'Computer Science 102'

@@ -61,6 +61,8 @@ module.exports = class CourseEnrollView extends RootView
         when @quantity is 50 then 999
         when @quantity is 100 then 1499
         else 2999
+    else if @selectedCourseTitle is 'Introduction to Computer Science'
+      @price = 0
     else
       @price = switch
         when @quantity is 20 then 99

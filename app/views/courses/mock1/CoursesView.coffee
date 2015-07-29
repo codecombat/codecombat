@@ -24,7 +24,7 @@ module.exports = class CoursesView extends RootView
     mockData = require 'views/courses/mock1/CoursesMockData'
     @courses = mockData.courses
     for course, i in @courses
-      if i is 0 or _.random(0, 2) is 0
+      if _.random(0, 3) is 0
         course.unlocked = true
       else
         break

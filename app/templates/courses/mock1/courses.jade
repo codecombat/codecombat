@@ -3,7 +3,8 @@ extends /templates/base
 block content
 
   //- DO NOT localize / i18n
-
+  
+  div TODO: enter a code popup dialog
   div(style='border-bottom: 1px solid black')
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -29,16 +30,13 @@ mixin course-block(course, courseID)
         ul
           each topic in course.topics
             li= topic
-        strong= course.duration
+        strong Hours of content: #{course.duration}
         .container-fluid
           .row.button-row
             .col-md-4
-              //- Always show code unlock, because you can have multiple course instances
-              if courseID > 0
-                button.btn.btn-warning.btn-have-code(data-course-id="#{courseID}") I have a code
+              button.btn.btn-warning.btn-have-code(data-course-id="#{courseID}") I have a code
             .col-md-4
               if course.unlocked
                 button.btn.btn-success.btn-enter(data-course-id="#{courseID}") Enter
             .col-md-4
-              if courseID > 0
-                button.btn.btn-info.btn-more-info(data-course-id="#{courseID}") More details
+              button.btn.btn-info.btn-more-info(data-course-id="#{courseID}") More details

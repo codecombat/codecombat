@@ -60,7 +60,7 @@ module.exports = class CourseDetailsView extends RootView
     @maxLastStartedIndex = -1
     for student in @instances?[@currentInstanceIndex].students
       @userLevelStateMap[student] = {}
-      lastCompletedIndex = _.random(0, @course.levels.length)
+      lastCompletedIndex = _.random(-1, @course.levels.length)
       for i in [0..lastCompletedIndex]
         @userLevelStateMap[student][@course.levels[i]] = 'complete'
       lastStartedIndex = lastCompletedIndex + 1
@@ -101,6 +101,14 @@ module.exports = class CourseDetailsView extends RootView
     @levelConceptsMap = {}
     @levelNameSlugMap = {}
     @userConceptsMap = {}
+    # Update course levels if course has a specific campaign
+    for campaign in @campaigns.models when campaign.get('slug') is @course.campaign
+      @course.levels = []
+      for levelID, level of campaign.get('levels')
+        if campaign.get('slug') is @course.campaign
+          @course.levels.push level.name
+      @updateLevelMaps()
+
     for campaign in @campaigns.models
       continue if campaign.get('slug') is 'auditions'
       for levelID, level of campaign.get('levels')
