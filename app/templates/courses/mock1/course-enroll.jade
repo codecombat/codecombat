@@ -9,11 +9,10 @@ block content
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div TODO: figure out correct terminology.  Someone should probably purchase a course, and then enroll their students.
   div TODO: move details off button and into clear 'this is what you are purchasing' blurb
-  div TODO: individual teacher trial option
   div(style='border-bottom: 1px solid black')
 
   .well.well-lg.enroll-container
-    h1.center Enroll
+    h1.center Purchase Course
     h3 1. Course
     p Select 'All Courses' to recieve up to a 70% discount!
     .form-group
@@ -74,13 +73,19 @@ block content
     h3 3. Pick a name for your class
     p Displayed on the course page for you and your students.
     input.session-name(type='text', placeholder="Mrs. Smith's 4th Period")
-    h3 4. Finish Purchase
+    h3 4. Purchase
     p After purchase you will be given an course unlock code to distribute to your students.
     p.center
       if price > 0
-        button.btn.btn-info.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
+        button.btn.btn-success.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
       else
-        button.btn.btn-info.btn-lg.btn-buy Get for #{selectedCourseTitle} for FREE
-    p.center
-      span For any questions, please contact
+        button.btn.btn-success.btn-lg.btn-buy Get for #{selectedCourseTitle} for FREE
+    h3 Free trial for teachers!
+    p
+      span.spr Please fill out our
+      a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
+      span.spl to get individual access to all courses for evalutaion purposes.
+    h3 Questions?
+    p
+      span Please contact
       a.spl(href='mailto:team@codecombat.com') team@codecombat.com
