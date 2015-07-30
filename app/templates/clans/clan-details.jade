@@ -195,12 +195,12 @@ block content
         thead
           tr
             th
-            th 
-            td.name-cell(data-i18n="clans.name") Name
+            th
+            th.name-cell(data-i18n="clans.name") Name
             th.level-cell(data-i18n="resources.level") Level
             th.achievements-cell(data-i18n="play.achievements") Achievements
             th.latest-achievement-cell(data-i18n="clans.latest_achievement") Latest Achievement
-            th  
+            th.remove-member-cell
         tbody
           each member in members
             tr
@@ -218,6 +218,6 @@ block content
               td.latest-achievement-cell
                 if memberAchievementsMap && memberAchievementsMap[member.id] && memberAchievementsMap[member.id].length
                   span= memberAchievementsMap[member.id][0].get('achievementName')
-              td
+              td.remove-member-cell
                 if isOwner && member.id !== clan.get('ownerID')
                     button.btn.btn-xs.btn-warning.remove-member-btn(data-id="#{member.id}", data-i18n="clans.rem_hero") Remove Hero

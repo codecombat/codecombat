@@ -5,8 +5,6 @@ block content
   //- DO NOT localize / i18n
 
   div TODO: fix ugly tabs
-  div TODO: aggregate student progress
-  div TODO: student level progress popups
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -15,34 +13,56 @@ block content
     span.spl Student view
   div(style='border-bottom: 1px solid black;')
 
+  .modal#editNameModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Class Name
+      .modal-body
+        p This title will be displayed to everyone enrolled in this class.
+        input.edit-name-input(type='text', value="#{instance.name}")
+      .modal-footer
+        button.btn.edit-name-save-btn(data-i18n="common.save_changes")
+
+  .modal#editDescriptionModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Edit Class Description
+      .modal-body
+        p This description will be displayed to everyone enrolled in this class.
+        textarea.edit-description-input(rows=2)= instance.description
+      .modal-footer
+        button.btn.edit-description-save-btn(data-i18n="common.save_changes")
+
   h1= course.title
   p= course.description
-  //- p
-  //-   strong Concepts:
-  //-   ul
-  //-     each concept in courseConcepts
-  //-       li(data-i18n="concepts." + concept)
-  //- strong= course.duration
 
   if !studentMode
     p
       .form-group
         span.spr Select your class
         select.form-control.select-session
-          each instance in instances
-            option= instance.name
+          each inst in instances
+            if instance.name === inst.name
+              option(selected)= inst.name
+            else
+              option= inst.name
 
   h3= instance.name
     if !studentMode
       span.spl
-        button.btn.btn-xs.edit-class-name-btn edit class name
+        button.btn.btn-xs.edit-class-name-btn(data-toggle='modal', data-target='#editNameModal') edit class name
 
   p
     if instance.description
-      span= instance.description
-      if !studentMode
-        span.spl
-          button.btn.btn-xs.edit-description-btn edit class description
+      each line in instance.description.split('\n')
+        div= line
+    if !studentMode
+      span.spl
+        button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal') edit class description
     else if !studentMode
       div
         button.btn.btn-xs.edit-description-btn add class description
@@ -59,7 +79,7 @@ block content
     ul.nav.nav-tabs(role='tablist')
       if !studentMode
         li.active(role='presentation')
-          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Students
+          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Class
         li(role='presentation')
           a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
       li(role='presentation')
@@ -69,6 +89,24 @@ block content
     if !studentMode
       .tab-pane.active#progress(role='tabpanel')
         if instance.students
+          h3 Summary
+          - var averagePlaytime = Math.round(Math.random() * 30) + 30
+          p
+            strong(style='font-size:12pt;') Average Play Time
+          p #{averagePlaytime} minutes
+          p
+            strong(style='font-size:12pt;') Concepts Covered
+          table.table.table-condensed
+            each concept in courseConcepts
+              - var conceptCompletion = Math.round(parseFloat(conceptsCompleted[concept]) / instance.students.length * 100)
+              if isNaN(conceptCompletion)
+                - conceptCompletion = 0
+              tr
+                td.concept-completion-container
+                    span.concept-completed-foreground(data-i18n="concepts." + concept)
+                    span.spl - #{conceptCompletion}%
+                    span.concept-completion-background(style="width:#{conceptCompletion}%;")
+          h3 Students
           table.table.table-condensed
             thead
               tr
@@ -101,11 +139,11 @@ block content
                     .level-progression-concepts Concepts
                     each concept in courseConcepts
                       if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
-                        span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
+                        span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
                       else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
-                        span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
+                        span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
                       else
-                        span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                        span.spr.progress-concept-cell.progress-concept-cell-not-started(data-i18n="concepts." + concept)
 
                     .level-progression-levels Levels
                     - var i = 0
@@ -114,6 +152,19 @@ block content
                         span.progress-level-cell.progress-level-cell-complete #{i + 1}
                           if showExpandedProgress || i === 0 || i === course.levels.length - 1
                             span.spl #{level}
+                          .level-popup-container
+                            h3 #{i + 1}. #{level}
+                            p
+                              div
+                                - var playTime = Math.round(Math.random() * 600)
+                                span Time to solve
+                                span : #{playTime} seconds
+                              div
+                                - var completionDate = new Date()
+                                - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
+                                span Completed on
+                                span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
+                            strong(data-i18n="clans.view_solution") Click to view solution.
                       else if userLevelStateMap[student][level] === 'started'
                         span.progress-level-cell.progress-level-cell-started #{i + 1} #{level}
                       else

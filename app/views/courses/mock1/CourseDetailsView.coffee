@@ -13,10 +13,12 @@ module.exports = class CourseDetailsView extends RootView
     'change .select-session': 'onChangeSession'
     'change .student-mode-checkbox': 'onChangeStudent'
     'click .btn-play-level': 'onClickPlayLevel'
-    'click .edit-class-name-btn': 'onClickEditClassName'
-    'click .edit-description-btn': 'onClickEditClassDescription'
+    'click .edit-description-save-btn': 'onEditDescriptionSave'
+    'click .edit-name-save-btn': 'onEditNameSave'
     'click .member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
+    'mouseenter .progress-level-cell': 'onMouseEnterPoint'
+    'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
   constructor: (options, @courseID) ->
     super options
@@ -39,6 +41,14 @@ module.exports = class CourseDetailsView extends RootView
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.showExpandedProgress = @course.levels.length <= 30 or @showExpandedProgress
     context.studentMode = @options.studentMode ? false
+
+    conceptsCompleted = {}
+    for user of context.userConceptsMap
+      for concept of context.userConceptsMap[user]
+        conceptsCompleted[concept] ?= 0
+        conceptsCompleted[concept]++
+    context.conceptsCompleted = conceptsCompleted
+
     context
 
   initData: ->
@@ -60,7 +70,7 @@ module.exports = class CourseDetailsView extends RootView
     @maxLastStartedIndex = -1
     for student in @instances?[@currentInstanceIndex].students
       @userLevelStateMap[student] = {}
-      lastCompletedIndex = _.random(0, @course.levels.length)
+      lastCompletedIndex = _.random(-1, @course.levels.length)
       for i in [0..lastCompletedIndex]
         @userLevelStateMap[student][@course.levels[i]] = 'complete'
       lastStartedIndex = lastCompletedIndex + 1
@@ -101,6 +111,14 @@ module.exports = class CourseDetailsView extends RootView
     @levelConceptsMap = {}
     @levelNameSlugMap = {}
     @userConceptsMap = {}
+    # Update course levels if course has a specific campaign
+    for campaign in @campaigns.models when campaign.get('slug') is @course.campaign
+      @course.levels = []
+      for levelID, level of campaign.get('levels')
+        if campaign.get('slug') is @course.campaign
+          @course.levels.push level.name
+      @updateLevelMaps()
+
     for campaign in @campaigns.models
       continue if campaign.get('slug') is 'auditions'
       for levelID, level of campaign.get('levels')
@@ -133,7 +151,6 @@ module.exports = class CourseDetailsView extends RootView
       @currentInstanceIndex = index
     @updateLevelMaps()
     @onCampaignSync()
-    @render?()
 
   onExpandedProgressCheckbox: (e) ->
     @showExpandedProgress = $('.expand-progress-checkbox').prop('checked')
@@ -165,3 +182,28 @@ module.exports = class CourseDetailsView extends RootView
       viewClass: 'views/play/level/PlayLevelView'
       viewArgs: [{}, levelSlug]
     }
+
+  onEditDescriptionSave: (e) ->
+    description = $('.edit-description-input').val()
+    @instances[@currentInstanceIndex].description = description
+    $('#editDescriptionModal').modal('hide')
+    @render?()
+
+  onEditNameSave: (e) ->
+    if name = $('.edit-name-input').val()
+      @instances[@currentInstanceIndex].name = name
+    $('#editNameModal').modal('hide')
+    @render?()
+
+  onMouseEnterPoint: (e) ->
+    $('.level-popup-container').hide()
+    container = $(e.target).find('.level-popup-container').show()
+    margin = 20
+    offset = $(e.target).offset()
+    scrollTop = $(e.target).offsetParent().scrollTop()
+    height = container.outerHeight()
+    container.css('left', offset.left + e.offsetX)
+    container.css('top', offset.top + scrollTop - height - margin)
+
+  onMouseLeavePoint: (e) ->
+    $(e.target).find('.level-popup-container').hide()

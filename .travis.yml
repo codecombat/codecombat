@@ -23,4 +23,4 @@ before_script:
 
 script:
   - "./node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --captureExceptions"
-  - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters progress"
+  # - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters progress"

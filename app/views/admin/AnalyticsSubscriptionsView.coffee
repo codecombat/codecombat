@@ -151,7 +151,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
   getSubscribers: (subscriptions, done) ->
     # console.log 'getSubscribers', subscriptions.length
-    @updateFetchDataState "Fetching recipient subscriptions..."
+    @updateFetchDataState "Fetching recent subscribers..."
     @render?()
     maxSubscribers = 40
 
@@ -195,7 +195,6 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
       @getSponsors (sponsors) =>
         @getRecipientSubscriptions sponsors, (recipientSubscriptions) =>
-          @updateFetchDataState "Fetching recipient subscriptions..."
           for subscription in recipientSubscriptions
             subMap[subscription.id] =
               first: new Date(subscription.start * 1000)

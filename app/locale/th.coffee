@@ -29,8 +29,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     legal: "Legal"
     about: "เกี่ยวกับเรา"
     contact: "ติดต่อเรา"
-    twitter_follow: "Follow me!"
-#    teachers: "Teachers"
+    twitter_follow: "ติดตามพวกเรา!"
+    teachers: "สำหรับครู"
 
   modal:
     close: "ปิด"
@@ -40,21 +40,21 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     page_not_found: "ขออภัย ไม่พบหน้าเว็บที่คุณต้องการ"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    title: "ช่วยเหลือการแปล CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "พวกเราต้องการทักษะภาษาของคุณ"
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Thai but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Thai."
     missing_translations: "Until we can translate everything into Thai, you'll see English when Thai isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  play:
+  play:
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
+    players: "ผู้เล่น" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    confirm: "ยืนยัน"
 #    owned: "Owned" # For items you own
 #    locked: "Locked"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
@@ -65,10 +65,10 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    account: "Account" # Tooltip on account button from /play
 #    settings: "Settings" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    next: "ต่อไป" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
-#    buy_gems: "Buy Gems"
+    buy_gems: "ซื้อ Gems"
 #    subscription_required: "Subscription Required"
 #    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
@@ -108,12 +108,12 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     log_in: "ลงชื่อเข้าใช้"
     logging_in: "กำลังเข้าสู่ระบบ"
     log_out: "ลงชื่อออก"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "ลืมรหัสผ่าน"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
+    sign_in_with_facebook: "ลงชื่อเข้าใช้ด้วย Facebook"
+    sign_in_with_gplus: "ลงชื่อเข้าใช้ด้วย G+"
 #    signup_switch: "Want to create an account?"
 
   signup:
@@ -130,13 +130,13 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    send_password: "Send Recovery Password"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "ไอเทมหลัก"
+    secondary: "ไอเทมรอง"
+    armor: "ชุดเกราะ"
+    accessories: "เครื่องประดับ"
+    misc: "อื่นๆ"
+    books: "หนังสือ"
 
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
@@ -162,12 +162,12 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    submit_changes: "Submit Changes"
 #    save_changes: "Save Changes"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Name"
-#    date: "Date"
+    name: "ชื่อ"
+    date: "วันที่"
 #    body: "Body"
-#    version: "Version"
+    version: "เวอร์ชั่น"
 #    pending: "Pending"
 #    accepted: "Accepted"
 #    rejected: "Rejected"
@@ -179,36 +179,36 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    version_history: "Version History"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Undo"
+    undo_prefix: "Undo"
 #    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
+    redo_prefix: "Redo"
 #    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
 #    result: "Result"
 #    results: "Results"
 #    description: "Description"
-#    or: "or"
+    or: "หรือ"
 #    subject: "Subject"
-#    email: "Email"
-#    password: "Password"
+    email: "อีเมล"
+    password: "รหัสผ่าน"
 #    message: "Message"
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
 #    opponent: "Opponent"
 #    rank: "Rank"
-#    score: "Score"
-#    win: "Win"
-#    loss: "Loss"
-#    tie: "Tie"
-#    easy: "Easy"
-#    medium: "Medium"
-#    hard: "Hard"
+    score: "คะแนน"
+    win: "ชนะ"
+    loss: "แพ้"
+    tie: "เสมอ"
+    easy: "ง่าย"
+    medium: "ปานกลาง"
+    hard: "ยาก"
 #    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    player_level: "เลเวล" # Like player level 5, not like level: Dungeons of Kithgard
+    warrior: "นักรบ"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "พ่อมด"
 
   units:
     second: "วินาที"
@@ -230,16 +230,16 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     done: "เสร็จสิ้น"
     home: "หน้าแรก" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
-#    skip: "Skip"
-#    game_menu: "Game Menu"
+    skip: "ข้าม"
+    game_menu: "เมนูเกม"
     guide: "คู่มือ"
     restart: "เริ่มเล่นใหม่"
     goals: "เป้าหมาย"
 #    goal: "Goal"
 #    running: "Running..."
-#    success: "Success!"
-#    incomplete: "Incomplete"
-#    timed_out: "Ran out of time"
+    success: "สำเร็จ!"
+    incomplete: "ไม่สมบูรณ์"
+    timed_out: "หมดเวลา"
 #    failing: "Failing"
 #    action_timeline: "Action Timeline"
 #    click_to_select: "Click on a unit to select it."
@@ -249,22 +249,22 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    reload_title: "Reload All Code?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
-#    victory: "Victory"
+    victory: "ชนะ"
 #    victory_title_prefix: ""
     victory_title_suffix: "เสร็จสิ้น"
     victory_sign_up: "สมัครสมาชิกเพื่ออัพเดท"
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_continue: "เล่นต่อ"
+    victory_saving_progress: "บันทึก"
     victory_go_home: "ไปหน้าแรก" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
     victory_hour_of_code_done: "เสร็จหรือยัง?"
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
 #    victory_experience_gained: "XP Gained"
 #    victory_gems_gained: "Gems Gained"
-#    victory_new_item: "New Item"
+    victory_new_item: "ไอเทมใหม่"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
 #    guide_title: "Guide"
@@ -274,7 +274,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
-#    tome_submit_button: "Submit"
+    tome_submit_button: "ส่ง"
 #    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
 #    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methods).
@@ -291,7 +291,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    loading_start: "Start Level"
 #    problem_alert_title: "Fix Your Code"
 #    problem_alert_help: "Help"
-#    time_current: "Now:"
+    time_current: "เวลาตอนนี้:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
 #    non_user_code_problem_title: "Unable to Load Level"
@@ -299,9 +299,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know."
 #    check_dev_console: "You can also open the developer console to see what might be going wrong."
 #    check_dev_console_link: "(instructions)"
-#    infinite_loop_try_again: "Try Again"
+    infinite_loop_try_again: "ลองใหม่"
 #    infinite_loop_reset_level: "Reset Level"
-#    infinite_loop_comment_out: "Comment Out My Code"
+    infinite_loop_comment_out: "เปลี่ยนโค้ดทั้งหมดเป็นคอมเม้นท์"
 #    tip_toggle_play: "Toggle play/paused with Ctrl+P."
 #    tip_scrub_shortcut: "Use Ctrl+[ and Ctrl+] to rewind and fast-forward."
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
@@ -325,13 +325,13 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
-#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+    tip_talk_is_cheap: "อย่าเสียเวลาพูดเลย ให้ผมดูโมค้ดของคุณดีกว่า - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
 #    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law."
 #    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth"
 #    tip_brute_force: "When in doubt, use brute force. - Ken Thompson"
-#    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data..."
+    tip_extrapolation: "ในโลกนี้มีคนอยู่สองประเภท คือคนที่เดาจากข้อมูลที่ไม่ครบถ้วนได้...."
 #    tip_superpower: "Coding is the closest thing we have to a superpower."
 #    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds"
 #    tip_no_code: "No code is faster than no code."
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    tip_reusable_software: "Before software can be reusable it first has to be usable."
 #    tip_optimization_operator: "Every language has an optimization operator. In most languages that operator is ‘//’"
 #    tip_lines_of_code: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight. — Bill Gates"
-#    tip_source_code: "I want to change the world but they would not give me the source code."
+    tip_source_code: "เราอยากจะเปลี่ยนโลกนี้ แต่เขาไม่ให้ Source Code ผม"
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
 #    tip_google: "Have a problem you can't solve? Google it!"
@@ -348,11 +348,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
-#    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+    tip_strong_opponents: "ศัตรูที่แข็งแกร่งที่สุด ก็ยังมีจุดอ่อน - อุจิวะ อิทาจิ"
 
   game_menu:
 #    inventory_tab: "Inventory"
-#    save_load_tab: "Save/Load"
+    save_load_tab: "เซฟ/โหลด"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
 #    guide_video_tutorial: "Video Tutorial"
@@ -367,18 +367,18 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
-#    leaderboard: "Leaderboard"
+  leaderboard:
+    leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
 #    top_players: "Top Players by"
-#    day: "Today"
-#    week: "This Week"
-#    all: "All-Time"
+    day: "วันนี้"
+    week: "สัปดาห์นี้"
+    all: "ตลอดกาล"
 #    time: "Time"
 #    damage_taken: "Damage Taken"
 #    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
+    difficulty: "ระดับความยาก"
 #    gold_collected: "Gold Collected"
 
 #  inventory:
@@ -394,20 +394,20 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
+  buy_gems:
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
-#    retrying: "Server error, retrying."
-#    prompt_title: "Not Enough Gems"
+    retrying: "เซิร์ฟเวอร์ไม่ตอบสนอง กำลังลองอีกครั้ง"
+    prompt_title: "Gems ไม่พอ"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x3500 / mo"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "100+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
@@ -435,8 +435,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    parent_email_send: "Send Email"
 #    parent_email_sent: "Email sent!"
 #    parent_email_title: "What's your parent's email?"
-#    parents: "For Parents"
-#    parents_title: "Dear Parent: Your child is learning to code. Will you help them continue?"
+    parents: "สำหรับผู้ปกครอง"
+    parents_title: "ถึงผู้ปกครอง : ลูกของคนกำลังฝึกเขียนโปรแกรมอยู่ คุณจะช่วยให้เขาเขียนต่อไหม"
 #    parents_blurb1: "Your child has played __nLevels__ levels and learned programming basics. Help cultivate their interest and buy them a subscription so they can keep playing."
 #    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
 #    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers."
@@ -460,12 +460,12 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    managed_subs_desc_2: "Recipients must have a CodeCombat account associated with the email address you provide."
 #    group_discounts: "Group discounts"
 #    group_discounts_1: "We also offer group discounts for bulk subscriptions."
-#    group_discounts_1st: "1st subscription"
-#    group_discounts_full: "Full price"
+    group_discounts_1st: "สมัคร 1 คน"
+    group_discounts_full: "ราคาเต็ม"
 #    group_discounts_2nd: "Subscriptions 2-11"
 #    group_discounts_20: "20% off"
-#    group_discounts_12th: "Subscriptions 12+"
-#    group_discounts_40: "40% off"
+    group_discounts_12th: "สมัคร 12 คนขึ้นไป"
+    group_discounts_40: "ลด 40%"
 #    subscribing: "Subscribing..."
 #    recipient_emails_placeholder: "Enter email address to subscribe, one per line."
 #    subscribe_users: "Subscribe Users"
@@ -476,9 +476,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
-#    programming_language: "Programming Language"
+    programming_language: "ภาษาโปรแกรม"
 #    programming_language_description: "Which programming language do you want to use?"
 #    default: "Default"
 #    experimental: "Experimental"
@@ -486,19 +486,19 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    javascript_blurb: "The language of the web. (Not the same as Java.)"
 #    coffeescript_blurb: "Nicer JavaScript syntax."
 #    clojure_blurb: "A modern Lisp."
-#    lua_blurb: "Game scripting language."
+    lua_blurb: "ภาษาเขียนเกม"
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    hero_type: "Type"
-#    weapons: "Weapons"
-#    weapons_warrior: "Swords - Short Range, No Magic"
-#    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
+    weapons: "อาวุธ"
+    weapons_warrior: "ดาบ - ระยะใกล้, ไม่ใช้เวทย์"
+    weapons_ranger: "หน้าไม้, ปืน - ระยะไกล, ไม่ใช้เวทย์"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
 #    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
+    range: "ระยะ" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
 #    skills: "Skills"
@@ -536,10 +536,10 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    granularity_saved_games: "Saved"
 #    granularity_change_history: "History"
 
-#  options:
+  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
-#    music_label: "Music"
+    music_label: "ดนตรี"
 #    music_description: "Turn background music on/off."
 #    editor_config: "Editor Config"
 #    editor_config_title: "Editor Configuration"
@@ -559,8 +559,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-#  about:
-#    why_codecombat: "Why CodeCombat?"
+  about:
+    why_codecombat: "ทำไมต้องเล่น CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
 #    why_paragraph_2_italic: "yay a badge"
@@ -573,15 +573,15 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
 #    team: "Team"
-#    george_title: "Cofounder"
+    george_title: "ผู้ร่วมก่อตั้ง"
 #    george_blurb: "Businesser"
-#    scott_title: "Cofounder"
+    scott_title: "ผู้ร่วมก่อตั้ง"
 #    scott_blurb: "Reasonable One"
-#    nick_title: "Cofounder"
+    nick_title: "ผู้ร่วมก่อตั้ง"
 #    nick_blurb: "Motivation Guru"
 #    michael_title: "Programmer"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Cofounder"
+    matt_title: "ผู้ร่วมก่อตั้งผู้ร่วมก่อตั้ง"
 #    matt_blurb: "Bicyclist"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
@@ -705,9 +705,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     autosave: "บันทึกการเปลี่ยนแปลงอัตโนมัติ"
 #    me_tab: "Me"
     picture_tab: "รูปภาพ"
-#    delete_account_tab: "Delete Your Account"
+    delete_account_tab: "ลบบัญชีผู้ใช้"
 #    wrong_email: "Wrong Email"
-#    wrong_password: "Wrong Password"
+    wrong_password: "รหัสผ่านผิด"
 #    upload_picture: "Upload a picture"
 #    delete_this_account: "Delete this account permanently"
 #    god_mode: "God Mode"
@@ -737,19 +737,19 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     error_saving: "บันทึกผิดพลาด"
     saved: "เปลี่ยนรหัสผ่าน"
     password_mismatch: "รหัสผ่านไม่ถูกต้อง"
-#    password_repeat: "Please repeat your password."
+    password_repeat: "จงใส่รหัสผ่านอีกครั้ง"
 #    job_profile: "Job Profile" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
-#    space: "Space"
-#    enter: "Enter"
-#    press_enter: "press enter"
-#    escape: "Escape"
+    space: "Space"
+    enter: "Enter"
+    press_enter: "กด enter"
+    escape: "Esc" # Most Thai grow up call the button E-S-C. Calling it Escape with some Thai and you will see confusing look on his/her face  
 #    shift: "Shift"
 #    run_code: "Run current code."
 #    run_real_time: "Run in real time."
@@ -783,9 +783,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
 #    contribute_to_the_project: "Contribute to the project"
 
-#  clans:
-#    clan: "Clan"
-#    clans: "Clans"
+  clans:
+    clan: "แคลน"
+    clans: "แคลน"
 #    new_name: "New clan name"
 #    new_description: "New clan description"
 #    make_private: "Make clan private"
@@ -940,10 +940,10 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #  polls:
 #    priority: "Priority"
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
-#    alert_account_message_intro: "Hey there!"
+    alert_account_message_intro: "หวัดดี!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"

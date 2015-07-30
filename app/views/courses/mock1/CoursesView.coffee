@@ -10,6 +10,7 @@ module.exports = class CoursesView extends RootView
     'click .btn-enter': 'onClickEnter'
     'click .btn-have-code': 'onClickHaveCode'
     'click .btn-more-info': 'onClickMoreInfo'
+    'click .btn-redeem-code': 'onClickRedeemCode'
 
   constructor: (options) ->
     super options
@@ -24,7 +25,7 @@ module.exports = class CoursesView extends RootView
     mockData = require 'views/courses/mock1/CoursesMockData'
     @courses = mockData.courses
     for course, i in @courses
-      if i is 0 or _.random(0, 2) is 0
+      if _.random(0, 2) > 0
         course.unlocked = true
       else
         break
@@ -36,15 +37,19 @@ module.exports = class CoursesView extends RootView
 
   onClickHaveCode: (e) ->
     courseID = $(e.target).data('course-id')
-    alert 'TODO: Popup for entering prepaid code to unlock this course'
-
-    # TODO: would just navigate instead of rendering unlock here in practice
-    @courses[courseID].unlocked = true
-    @render?()
-    # app.router.navigate "/courses/mock1/#{courseID}"
-    # window.location.reload()
+    courseTitle = $(e.target).data('course-title')
+    $('#redeemCodeModal').find('.modal-title').text(courseTitle)
+    $('#redeemCodeModal').find('.btn-redeem-code').data('course-id', courseID)
 
   onClickMoreInfo: (e) ->
     courseID = $(e.target).data('course-id')
     app.router.navigate "/courses/mock1/#{courseID}/info"
     window.location.reload()
+
+  onClickRedeemCode: (e) ->
+    $('#redeemCodeModal').modal('hide')
+    courseID = $(e.target).data('course-id')
+
+    # TODO: would just navigate instead of rendering unlock here in practice
+    @courses[courseID].unlocked = true
+    @render?()

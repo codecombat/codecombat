@@ -1,5 +1,30 @@
 #course-details-view
 
+  .concept-completion-container
+    position: relative
+    .concept-completion-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: blue
+      opacity: 0.25
+    .concept-completed-foreground
+      font-size: 12pt
+
+  #editDescriptionModal .modal-dialog
+    background-color: white
+
+  #editNameModal .modal-dialog
+    background-color: white
+    max-width: 400px
+
+  .edit-description-input
+    width: 100%
+
+  .edit-name-input
+    width: 100%
+
   .member-header
     cursor: pointer
     display: inline-block
@@ -85,4 +110,19 @@
 
   .progress-level-cell-complete
     cursor: pointer
+    background-color: lightgray
+
+  .progress-concept-cell
+    display: inline-block
+    white-space: nowrap
+    font-size: 9pt
+    border: 1px solid gray
+    border-radius: 5px
+    margin: 0px
+    padding: 2px
+
+  .progress-concept-cell-started
+    background-color: lightgreen
+
+  .progress-concept-cell-complete
     background-color: lightgray

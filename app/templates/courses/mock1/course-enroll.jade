@@ -8,19 +8,16 @@ block content
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div TODO: figure out correct terminology.  Someone should probably purchase a course, and then enroll their students.
-  div TODO: move details off button and into clear 'this is what you are purchasing' blurb
-  div TODO: individual teacher trial option
   div(style='border-bottom: 1px solid black')
 
   .well.well-lg.enroll-container
-    h1.center Enroll
+    h1.center Purchase Course
     h3 1. Course
     p Select 'All Courses' to recieve up to a 70% discount!
     .form-group
       select.form-control.course-select
         each course in courses
-          if course.title !== 'Introduction to Computer Science'
-            option(value="#{course.title}")= course.title
+          option(value="#{course.title}")= course.title
         option(value="All Courses") All Courses
     h3 2. Number of students
     .quantity-container(style="width:50%;")
@@ -32,6 +29,8 @@ block content
             input(type='radio', name='quantity', data-quantity=20)
           if selectedCourseTitle === 'All Courses'
             span Up to 20 students $499
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 20 students $99
       .radio
@@ -42,6 +41,8 @@ block content
             input(type='radio', name='quantity', data-quantity=50)
           if selectedCourseTitle === 'All Courses'
             span Up to 50 students $999
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 50 students $199
       .radio
@@ -52,6 +53,8 @@ block content
             input(type='radio', name='quantity', data-quantity=100)
           if selectedCourseTitle === 'All Courses'
             span Up to 100 students $1499
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 100 students $349
       .radio
@@ -62,15 +65,32 @@ block content
             input(type='radio', name='quantity', data-quantity=500)
           if selectedCourseTitle === 'All Courses'
             span Up to 500 students $2999
+          else if selectedCourseTitle === 'Introduction to Computer Science'
+            span Up to 20 students $0
           else
             span Up to 500 students $799
     h3 3. Pick a name for your class
-    p Displayed on the course page for you and your students.
+    p This will be displayed on the course page for you and your studentsm, and it can be changed later.
     input.session-name(type='text', placeholder="Mrs. Smith's 4th Period")
-    h3 4. Finish Purchase
-    p After purchase you will be able to invite your students to enroll in the selected course.
+    h3 4. Purchase
+    p
+      span.spr You are purchasing a license for
+      strong.spr up to #{quantity} students
+      span.spr for
+      strong #{selectedCourseTitle}
+      | .
+    p After purchase you will receive an unlock code to distribute to your students, which they can use to enroll.
     p.center
-      button.btn.btn-info.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
-    p.center
-      span For any questions, please contact
+      if price > 0
+        button.btn.btn-success.btn-lg.btn-buy $#{price}
+      else
+        button.btn.btn-success.btn-lg.btn-buy FREE
+    h3 Free trial for teachers!
+    p
+      span.spr Please fill out our
+      a(href='/teachers/freetrial', data-i18n="teachers.teacher_subs_2")
+      span.spl to get individual access to all courses for evalutaion purposes.
+    h3 Questions?
+    p
+      span Please contact
       a.spl(href='mailto:team@codecombat.com') team@codecombat.com
