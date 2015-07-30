@@ -40,7 +40,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     page_not_found: "ขออภัย ไม่พบหน้าเว็บที่คุณต้องการ"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    title: "ช่วยเหลือการแปล CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "พวกเราต้องการทักษะภาษาของคุณ"
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Thai but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Thai."
     missing_translations: "Until we can translate everything into Thai, you'll see English when Thai isn't available."
@@ -50,7 +50,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
   play:
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
-#    players: "players" # Hover over a level on /play
+    players: "ผู้เล่น" # Hover over a level on /play
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
@@ -65,7 +65,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    account: "Account" # Tooltip on account button from /play
 #    settings: "Settings" # Tooltip on settings button from /play
 #    poll: "Poll" # Tooltip on poll button from /play
-#    next: "Next" # Go from choose hero to choose inventory before playing a level
+    next: "ต่อไป" # Go from choose hero to choose inventory before playing a level
 #    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
     buy_gems: "ซื้อ Gems"
@@ -108,12 +108,12 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     log_in: "ลงชื่อเข้าใช้"
     logging_in: "กำลังเข้าสู่ระบบ"
     log_out: "ลงชื่อออก"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "ลืมรหัสผ่าน"
 #    authenticate_gplus: "Authenticate G+"
 #    load_profile: "Load G+ Profile"
 #    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with G+"
+    sign_in_with_facebook: "ลงชื่อเข้าใช้ด้วย Facebook"
+    sign_in_with_gplus: "ลงชื่อเข้าใช้ด้วย G+"
 #    signup_switch: "Want to create an account?"
 
   signup:
@@ -130,13 +130,13 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    send_password: "Send Recovery Password"
 #    recovery_sent: "Recovery email sent."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "ไอเทมหลัก"
+    secondary: "ไอเทมรอง"
+    armor: "ชุดเกราะ"
+    accessories: "เครื่องประดับ"
+    misc: "อื่นๆ"
+    books: "หนังสือ"
 
   common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
@@ -167,7 +167,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     name: "ชื่อ"
     date: "วันที่"
 #    body: "Body"
-#    version: "Version"
+    version: "เวอร์ชั่น"
 #    pending: "Pending"
 #    accepted: "Accepted"
 #    rejected: "Rejected"
@@ -179,36 +179,36 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    version_history: "Version History"
 #    version_history_for: "Version History for: "
 #    select_changes: "Select two changes below to see the difference."
-#    undo_prefix: "Undo"
+    undo_prefix: "Undo"
 #    undo_shortcut: "(Ctrl+Z)"
-#    redo_prefix: "Redo"
+    redo_prefix: "Redo"
 #    redo_shortcut: "(Ctrl+Shift+Z)"
 #    play_preview: "Play preview of current level"
 #    result: "Result"
 #    results: "Results"
 #    description: "Description"
-#    or: "or"
+    or: "หรือ"
 #    subject: "Subject"
     email: "อีเมล"
-#    password: "Password"
+    password: "รหัสผ่าน"
 #    message: "Message"
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
 #    opponent: "Opponent"
 #    rank: "Rank"
-#    score: "Score"
+    score: "คะแนน"
     win: "ชนะ"
     loss: "แพ้"
     tie: "เสมอ"
     easy: "ง่าย"
     medium: "ปานกลาง"
-#    hard: "Hard"
+    hard: "ยาก"
 #    player: "Player"
-#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
-#    warrior: "Warrior"
+    player_level: "เลเวล" # Like player level 5, not like level: Dungeons of Kithgard
+    warrior: "นักรบ"
 #    ranger: "Ranger"
-#    wizard: "Wizard"
+    wizard: "พ่อมด"
 
   units:
     second: "วินาที"
@@ -231,13 +231,13 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     home: "หน้าแรก" # Not used any more, will be removed soon.
 #    level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "ข้าม"
-#    game_menu: "Game Menu"
+    game_menu: "เมนูเกม"
     guide: "คู่มือ"
     restart: "เริ่มเล่นใหม่"
     goals: "เป้าหมาย"
 #    goal: "Goal"
 #    running: "Running..."
-#    success: "Success!"
+    success: "สำเร็จ!"
     incomplete: "ไม่สมบูรณ์"
     timed_out: "หมดเวลา"
 #    failing: "Failing"
@@ -256,8 +256,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
 #    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
-#    victory_play_continue: "Continue"
-#    victory_saving_progress: "Saving Progress"
+    victory_play_continue: "เล่นต่อ"
+    victory_saving_progress: "บันทึก"
     victory_go_home: "ไปหน้าแรก" # Only in old-style levels.
 #    victory_review: "Tell us more!" # Only in old-style levels.
     victory_hour_of_code_done: "เสร็จหรือยัง?"
@@ -378,7 +378,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    time: "Time"
 #    damage_taken: "Damage Taken"
 #    damage_dealt: "Damage Dealt"
-#    difficulty: "Difficulty"
+    difficulty: "ระดับความยาก"
 #    gold_collected: "Gold Collected"
 
 #  inventory:
@@ -401,7 +401,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    purchasing: "Purchasing..."
 #    declined: "Your card was declined"
     retrying: "เซิร์ฟเวอร์ไม่ตอบสนอง กำลังลองอีกครั้ง"
-#    prompt_title: "Not Enough Gems"
+    prompt_title: "Gems ไม่พอ"
 #    prompt_body: "Do you want to get more?"
 #    prompt_button: "Enter Shop"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
@@ -436,7 +436,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    parent_email_sent: "Email sent!"
 #    parent_email_title: "What's your parent's email?"
     parents: "สำหรับผู้ปกครอง"
-#    parents_title: "Dear Parent: Your child is learning to code. Will you help them continue?"
+    parents_title: "ถึงผู้ปกครอง : ลูกของคนกำลังฝึกเขียนโปรแกรมอยู่ คุณจะช่วยให้เขาเขียนต่อไหม"
 #    parents_blurb1: "Your child has played __nLevels__ levels and learned programming basics. Help cultivate their interest and buy them a subscription so they can keep playing."
 #    parents_blurb1a: "Computer programming is an essential skill that your child will undoubtedly use as an adult. By 2020, basic software skills will be needed by 77% of jobs, and software engineers are in high demand across the world. Did you know that Computer Science is the highest-paid university degree?"
 #    parents_blurb2: "For $9.99 USD/mo, your child will get new challenges every week and personal email support from professional programmers."
@@ -490,7 +490,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    io_blurb: "Simple but obscure."
 #    status: "Status"
 #    hero_type: "Type"
-#    weapons: "Weapons"
+    weapons: "อาวุธ"
     weapons_warrior: "ดาบ - ระยะใกล้, ไม่ใช้เวทย์"
     weapons_ranger: "หน้าไม้, ปืน - ระยะไกล, ไม่ใช้เวทย์"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
@@ -498,7 +498,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    health: "Health"
 #    speed: "Speed"
 #    regeneration: "Regeneration"
-#    range: "Range" # As in "attack or visual range"
+    range: "ระยะ" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
 #    skills: "Skills"
@@ -539,7 +539,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
-#    music_label: "Music"
+    music_label: "ดนตรี"
 #    music_description: "Turn background music on/off."
 #    editor_config: "Editor Config"
 #    editor_config_title: "Editor Configuration"
@@ -560,7 +560,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
 #  about:
-#    why_codecombat: "Why CodeCombat?"
+    why_codecombat: "ทำไมต้องเล่น CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
 #    why_paragraph_2_italic: "yay a badge"
@@ -573,15 +573,15 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    press_paragraph_1_link: "press packet"
 #    press_paragraph_1_suffix: ". All logos and images may be used without contacting us directly."
 #    team: "Team"
-#    george_title: "Cofounder"
+    george_title: "ผู้ร่วมก่อตั้ง"
 #    george_blurb: "Businesser"
-#    scott_title: "Cofounder"
+    scott_title: "ผู้ร่วมก่อตั้ง"
 #    scott_blurb: "Reasonable One"
-#    nick_title: "Cofounder"
+    nick_title: "ผู้ร่วมก่อตั้ง"
 #    nick_blurb: "Motivation Guru"
 #    michael_title: "Programmer"
 #    michael_blurb: "Sys Admin"
-#    matt_title: "Cofounder"
+   matt_title: "ผู้ร่วมก่อตั้งผู้ร่วมก่อตั้ง"
 #    matt_blurb: "Bicyclist"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
@@ -705,9 +705,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     autosave: "บันทึกการเปลี่ยนแปลงอัตโนมัติ"
 #    me_tab: "Me"
     picture_tab: "รูปภาพ"
-#    delete_account_tab: "Delete Your Account"
+    delete_account_tab: "ลบบัญชีผู้ใช้"
 #    wrong_email: "Wrong Email"
-#    wrong_password: "Wrong Password"
+    wrong_password: "รหัสผ่านผิด"
 #    upload_picture: "Upload a picture"
 #    delete_this_account: "Delete this account permanently"
 #    god_mode: "God Mode"
@@ -746,10 +746,10 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
-#    space: "Space"
-#    enter: "Enter"
-#    press_enter: "press enter"
-#    escape: "Escape"
+    space: "Space"
+    enter: "Enter"
+    press_enter: "กด enter"
+    escape: "Esc" # Most Thai grow up call the button E-S-C. Calling it Escape with some Thai and you will see confusing look on his/her face  
 #    shift: "Shift"
 #    run_code: "Run current code."
 #    run_real_time: "Run in real time."
@@ -784,8 +784,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    contribute_to_the_project: "Contribute to the project"
 
 #  clans:
-#    clan: "Clan"
-#    clans: "Clans"
+    clan: "แคลน"
+   clans: "แคลน"
 #    new_name: "New clan name"
 #    new_description: "New clan description"
 #    make_private: "Make clan private"
