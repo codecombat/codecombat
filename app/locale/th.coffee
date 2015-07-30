@@ -47,7 +47,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  play:
+  play:
 #    play_as: "Play As" # Ladder page
 #    spectate: "Spectate" # Ladder page
 #    players: "players" # Hover over a level on /play
@@ -162,7 +162,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    submit_changes: "Submit Changes"
 #    save_changes: "Save Changes"
 
-#  general:
+  general:
 #    and: "and"
     name: "ชื่อ"
     date: "วันที่"
@@ -342,7 +342,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     tip_source_code: "เราอยากจะเปลี่ยนโลกนี้ แต่เขาไม่ให้ Source Code ผม"
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
-#ล    tip_google: "Have a problem you can't solve? Google it!"
+#    tip_google: "Have a problem you can't solve? Google it!"
 #    tip_adding_evil: "Adding a pinch of evil."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
 #    tip_open_source_contribute: "You can help CodeCombat improve!"
@@ -367,7 +367,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    multiplayer_caption: "Play with friends!"
 #    auth_caption: "Save your progress."
 
-#  leaderboard:
+  leaderboard:
     leaderboard: "Leaderboard"
 #    view_other_solutions: "View Leaderboards"
 #    scores: "Scores"
@@ -394,7 +394,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    equip: "Equip"
 #    unequip: "Unequip"
 
-#  buy_gems:
+  buy_gems:
 #    few_gems: "A few gems"
 #    pile_gems: "Pile of gems"
 #    chest_gems: "Chest of gems"
@@ -407,7 +407,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x3500 / mo"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "100+ basic levels across 4 worlds"
 #    feature2: "10 powerful <strong>new heroes</strong> with unique skills!"
@@ -476,7 +476,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 
-#  choose_hero:
+  choose_hero:
 #    choose_hero: "Choose Your Hero"
     programming_language: "ภาษาโปรแกรม"
 #    programming_language_description: "Which programming language do you want to use?"
@@ -940,7 +940,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #  polls:
 #    priority: "Priority"
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    intro_blurb: "CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
     alert_account_message_intro: "หวัดดี!"
