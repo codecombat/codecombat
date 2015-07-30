@@ -39,7 +39,7 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     courseTitle = $(e.target).data('course-title')
     $('#redeemCodeModal').find('.modal-title').text(courseTitle)
-    $('#redeemCodeModal').find('.redeem-code-btn').data('course-id', courseID)
+    $('#redeemCodeModal').find('.btn-redeem-code').data('course-id', courseID)
 
   onClickMoreInfo: (e) ->
     courseID = $(e.target).data('course-id')
