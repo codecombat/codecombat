@@ -52,7 +52,7 @@ module.exports = class CourseEnrollView extends RootView
   onQuantityChange: (e) ->
     @quantity = $(e.target).data('quantity')
     @updatePrice()
-    @$el.find('.btn-buy').text("Buy #{@selectedCourseTitle} for $#{@price}")
+    @render?()
 
   updatePrice: ->
     if @selectedCourseTitle is 'All Courses'

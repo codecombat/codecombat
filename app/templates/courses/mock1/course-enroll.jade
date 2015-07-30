@@ -8,7 +8,6 @@ block content
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
   div TODO: figure out correct terminology.  Someone should probably purchase a course, and then enroll their students.
-  div TODO: move details off button and into clear 'this is what you are purchasing' blurb
   div(style='border-bottom: 1px solid black')
 
   .well.well-lg.enroll-container
@@ -71,15 +70,21 @@ block content
           else
             span Up to 500 students $799
     h3 3. Pick a name for your class
-    p Displayed on the course page for you and your students.
+    p This will be displayed on the course page for you and your studentsm, and it can be changed later.
     input.session-name(type='text', placeholder="Mrs. Smith's 4th Period")
     h3 4. Purchase
-    p After purchase you will be given an course unlock code to distribute to your students.
+    p
+      span.spr You are purchasing a license for
+      strong.spr up to #{quantity} students
+      span.spr for
+      strong #{selectedCourseTitle}
+      | .
+    p After purchase you will receive an unlock code to distribute to your students, which they can use to enroll.
     p.center
       if price > 0
-        button.btn.btn-success.btn-lg.btn-buy Buy #{selectedCourseTitle} for $#{price}
+        button.btn.btn-success.btn-lg.btn-buy $#{price}
       else
-        button.btn.btn-success.btn-lg.btn-buy Get for #{selectedCourseTitle} for FREE
+        button.btn.btn-success.btn-lg.btn-buy FREE
     h3 Free trial for teachers!
     p
       span.spr Please fill out our
