@@ -5,7 +5,6 @@ block content
   //- DO NOT localize / i18n
 
   div TODO: fix ugly tabs
-  div TODO: aggregate student progress
   div TODO: student level progress popups
   div
     span *UNDER CONSTRUCTION, send feedback to
@@ -91,6 +90,18 @@ block content
     if !studentMode
       .tab-pane.active#progress(role='tabpanel')
         if instance.students
+          h3 % Completed by Class
+          table.table.table-condensed
+            each concept in courseConcepts
+              - var conceptCompletion = Math.round(parseFloat(conceptsCompleted[concept]) / instance.students.length * 100)
+              if isNaN(conceptCompletion)
+                - conceptCompletion = 0
+              tr
+                td.concept-completion-container
+                    span.concept-completed-foreground(data-i18n="concepts." + concept)
+                    span.spl - #{conceptCompletion}%
+                    span.concept-completion-background(style="width:#{conceptCompletion}%;")
+          br
           table.table.table-condensed
             thead
               tr

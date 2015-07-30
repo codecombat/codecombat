@@ -39,6 +39,14 @@ module.exports = class CourseDetailsView extends RootView
     context.userLevelStateMap = @userLevelStateMap ? {}
     context.showExpandedProgress = @course.levels.length <= 30 or @showExpandedProgress
     context.studentMode = @options.studentMode ? false
+
+    conceptsCompleted = {}
+    for user of context.userConceptsMap
+      for concept of context.userConceptsMap[user]
+        conceptsCompleted[concept] ?= 0
+        conceptsCompleted[concept]++
+    context.conceptsCompleted = conceptsCompleted
+
     context
 
   initData: ->
