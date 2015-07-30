@@ -536,7 +536,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    granularity_saved_games: "Saved"
 #    granularity_change_history: "History"
 
-#  options:
+  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
     music_label: "ดนตรี"
@@ -559,7 +559,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
-#  about:
+  about:
     why_codecombat: "ทำไมต้องเล่น CodeCombat?"
 #    why_paragraph_1: "If you want to learn to program, you don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_2_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
@@ -581,7 +581,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    nick_blurb: "Motivation Guru"
 #    michael_title: "Programmer"
 #    michael_blurb: "Sys Admin"
-   matt_title: "ผู้ร่วมก่อตั้งผู้ร่วมก่อตั้ง"
+    matt_title: "ผู้ร่วมก่อตั้งผู้ร่วมก่อตั้ง"
 #    matt_blurb: "Bicyclist"
 #    cat_title: "Chief Artisan"
 #    cat_blurb: "Airbender"
@@ -744,7 +744,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    sample_profile: "See a sample profile"
 #    view_profile: "View Your Profile"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Space"
     enter: "Enter"
@@ -783,9 +783,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    social_hipchat: "Chat with us in the public CodeCombat HipChat room"
 #    contribute_to_the_project: "Contribute to the project"
 
-#  clans:
+  clans:
     clan: "แคลน"
-   clans: "แคลน"
+    clans: "แคลน"
 #    new_name: "New clan name"
 #    new_description: "New clan description"
 #    make_private: "Make clan private"
