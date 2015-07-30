@@ -17,6 +17,8 @@ module.exports = class CourseDetailsView extends RootView
     'click .edit-name-save-btn': 'onEditNameSave'
     'click .member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
+    'mouseenter .progress-level-cell': 'onMouseEnterPoint'
+    'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
   constructor: (options, @courseID) ->
     super options
@@ -192,3 +194,16 @@ module.exports = class CourseDetailsView extends RootView
       @instances[@currentInstanceIndex].name = name
     $('#editNameModal').modal('hide')
     @render?()
+
+  onMouseEnterPoint: (e) ->
+    $('.level-popup-container').hide()
+    container = $(e.target).find('.level-popup-container').show()
+    margin = 20
+    offset = $(e.target).offset()
+    scrollTop = $(e.target).offsetParent().scrollTop()
+    height = container.outerHeight()
+    container.css('left', offset.left + e.offsetX)
+    container.css('top', offset.top + scrollTop - height - margin)
+
+  onMouseLeavePoint: (e) ->
+    $(e.target).find('.level-popup-container').hide()

@@ -5,7 +5,6 @@ block content
   //- DO NOT localize / i18n
 
   div TODO: fix ugly tabs
-  div TODO: student level progress popups
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -80,7 +79,7 @@ block content
     ul.nav.nav-tabs(role='tablist')
       if !studentMode
         li.active(role='presentation')
-          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Students
+          a(href='#progress', aria-controls='progress', role='tab', data-toggle='tab') Class
         li(role='presentation')
           a(href='#invite', aria-controls='invite', role='tab', data-toggle='tab') Add Students
       li(role='presentation')
@@ -90,7 +89,13 @@ block content
     if !studentMode
       .tab-pane.active#progress(role='tabpanel')
         if instance.students
-          h3 % Completed by Class
+          h3 Summary
+          - var averagePlaytime = Math.round(Math.random() * 30) + 30
+          p
+            strong(style='font-size:12pt;') Average Play Time
+          p #{averagePlaytime} minutes
+          p
+            strong(style='font-size:12pt;') Concepts Covered
           table.table.table-condensed
             each concept in courseConcepts
               - var conceptCompletion = Math.round(parseFloat(conceptsCompleted[concept]) / instance.students.length * 100)
@@ -101,7 +106,7 @@ block content
                     span.concept-completed-foreground(data-i18n="concepts." + concept)
                     span.spl - #{conceptCompletion}%
                     span.concept-completion-background(style="width:#{conceptCompletion}%;")
-          br
+          h3 Students
           table.table.table-condensed
             thead
               tr
@@ -134,11 +139,11 @@ block content
                     .level-progression-concepts Concepts
                     each concept in courseConcepts
                       if userConceptsMap[student] && userConceptsMap[student][concept] === 'complete'
-                        span.spr.progress-level-cell.progress-level-cell-complete(data-i18n="concepts." + concept)
+                        span.spr.progress-concept-cell.progress-concept-cell-complete(data-i18n="concepts." + concept)
                       else if userConceptsMap[student] && userConceptsMap[student][concept] === 'started'
-                        span.spr.progress-level-cell.progress-level-cell-started(data-i18n="concepts." + concept)
+                        span.spr.progress-concept-cell.progress-concept-cell-started(data-i18n="concepts." + concept)
                       else
-                        span.spr.progress-level-cell.progress-level-cell-not-started(data-i18n="concepts." + concept)
+                        span.spr.progress-concept-cell.progress-concept-cell-not-started(data-i18n="concepts." + concept)
 
                     .level-progression-levels Levels
                     - var i = 0
@@ -147,6 +152,19 @@ block content
                         span.progress-level-cell.progress-level-cell-complete #{i + 1}
                           if showExpandedProgress || i === 0 || i === course.levels.length - 1
                             span.spl #{level}
+                          .level-popup-container
+                            h3 #{i + 1}. #{level}
+                            p
+                              div
+                                - var playTime = Math.round(Math.random() * 600)
+                                span Time to solve
+                                span : #{playTime} seconds
+                              div
+                                - var completionDate = new Date()
+                                - completionDate.setUTCDate(completionDate.getUTCDate() - Math.round(Math.random() * 60))
+                                span Completed on
+                                span : #{moment(completionDate).format('MMMM Do YYYY, h:mm:ss a')}
+                            strong(data-i18n="clans.view_solution") Click to view solution.
                       else if userLevelStateMap[student][level] === 'started'
                         span.progress-level-cell.progress-level-cell-started #{i + 1} #{level}
                       else
