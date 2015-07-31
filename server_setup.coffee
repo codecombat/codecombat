@@ -80,12 +80,14 @@ setupPassportMiddleware = (app) ->
 
 setupChinaRedirectMiddleware = (app) ->
   shouldRedirectToChinaVersion = (req) ->
-    speaksChinese = req.acceptedLanguages[0]?.indexOf('zh') isnt -1
+    firstLanguage = req.acceptedLanguages[0]
+    speaksChinese = firstLanguage and firstLanguage.indexOf('zh') isnt -1
     unless config.tokyo
       ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
+      ip = ip?.split(' ')[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
       if speaksChinese or geo?.country is "CN"
-        log.info("Should we redirect to Tokyo server? speaksChinese: #{speaksChinese}, acceptedLanguages: #{req.acceptedLanguages[0]}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksChinese}")
+        log.info("Should we redirect to Tokyo server? speaksChinese: #{speaksChinese}, firstLanguage: #{firstLanguage}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksChinese}")
       return geo?.country is "CN" and speaksChinese
     else
       log.info("We are on Tokyo server. speaksChinese: #{speaksChinese}, acceptedLanguages: #{req.acceptedLanguages[0]}")

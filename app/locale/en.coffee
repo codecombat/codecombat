@@ -337,6 +337,7 @@
     tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
     tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
     tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventory"
