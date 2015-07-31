@@ -265,36 +265,58 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
   getInvoices: (done) ->
     invoices = {}
-    nextBatch = (starting_after, done) =>
+
+    addInvoice = (invoice) =>
+      return unless invoice.paid
+      return unless invoice.subscription
+      return unless invoice.total > 0
+      return unless invoice.lines?.data?[0]?.plan?.id is 'basic'
+      invoices[invoice.id] =
+        customerID: invoice.customer
+        subscriptionID: invoice.subscription
+        date: new Date(invoice.date * 1000)
+      invoices[invoice.id].userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
+
+    getLiveInvoices = (ending_before, done) =>
+
+      nextBatch = (ending_before, done) =>
+        @updateFetchDataState "Fetching invoices #{Object.keys(invoices).length}..."
+        options =
+          url: '/db/subscription/-/stripe_invoices'
+          method: 'POST'
+          data: {options: {ending_before: ending_before, limit: 100}}
+        options.error = (model, response, options) =>
+          return if @destroyed
+          console.error 'Failed to get live invoices', response
+        options.success = (invoiceData, response, options) =>
+          return if @destroyed
+          addInvoice(invoice) for invoice in invoiceData.data
+          if invoiceData.has_more
+            return nextBatch(invoiceData.data[0].id, done)
+          else
+            invoices = (invoice for invoiceID, invoice of invoices)
+            invoices.sort (a, b) -> if a.date > b.date then -1 else 1
+            return done(invoices)
+        @supermodel.addRequestResource('get_live_invoices', options, 0).load()
+
+      nextBatch ending_before, done
+
+    getAnalyticsInvoices = (done) =>
       @updateFetchDataState "Fetching invoices #{Object.keys(invoices).length}..."
       options =
-        url: '/db/subscription/-/stripe_invoices'
-        method: 'POST'
-        data: {options: {limit: 100}}
-      options.data.options.starting_after = starting_after if starting_after
+        url: '/db/analytics_stripe_invoice/-/all'
+        method: 'GET'
       options.error = (model, response, options) =>
         return if @destroyed
-        console.error 'Failed to get invoices', response
-      options.success = (invoiceData, response, options) =>
+        console.error 'Failed to get analytics stripe invoices', response
+      options.success = (docs, response, options) =>
         return if @destroyed
-        for invoice in invoiceData.data
-          continue unless invoice.paid
-          continue unless invoice.subscription
-          continue unless invoice.total > 0
-          continue unless invoice.lines?.data?[0]?.plan?.id is 'basic'
-          invoices[invoice.id] =
-            customerID: invoice.customer
-            subscriptionID: invoice.subscription
-            date: new Date(invoice.date * 1000)
-          invoices[invoice.id].userID = invoice.lines.data[0].metadata.id if invoice.lines?.data?[0]?.metadata?.id
-        if invoiceData.has_more
-          return nextBatch(invoiceData.data[invoiceData.data.length - 1].id, done)
-        else
-          invoices = (invoice for invoiceID, invoice of invoices)
-          invoices.sort (a, b) -> if a.date > b.date then -1 else 1
-          return done(invoices)
-      @supermodel.addRequestResource('get_invoices', options, 0).load()
-    nextBatch null, done
+        docs.sort (a, b) -> b.date - a.date
+        addInvoice(doc.properties) for doc in docs
+        getLiveInvoices(docs[0]._id, done)
+      @supermodel.addRequestResource('get_analytics_invoices', options, 0).load()
+
+    getAnalyticsInvoices(done)
 
   getRecipientSubscriptions: (sponsors, done) ->
     @updateFetchDataState "Fetching recipient subscriptions..."
@@ -304,6 +326,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
         subscriptionsToFetch.push
           customerID: user.stripe.customerID
           subscriptionID: recipient.subscriptionID
+    return done([]) if _.isEmpty subscriptionsToFetch
     options =
       url: '/db/subscription/-/stripe_subscriptions'
       method: 'POST'
