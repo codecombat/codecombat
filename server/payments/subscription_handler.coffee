@@ -45,32 +45,8 @@ class SubscriptionHandler extends Handler
     # console.log 'subscription_handler getStripeInvoices'
     return @sendForbiddenError(res) unless req.user?.isAdmin()
 
-    # TODO: this caching mechanism doesn't work in production (multiple calls or app servers?)
-    # TODO: cache older invoices in the analytics database instead
-    # @oldInvoices ?= {}
-    # buildInvoicesFromCache = (newInvoices) =>
-    #   data = (invoice for invoiceID, invoice of @oldInvoices)
-    #   data = data.concat(newInvoices)
-    #   data.sort (a, b) -> if a.date > b.date then -1 else 1
-    #   {has_more: false, data: data}
-    # oldInvoiceCutoffDays = 16 # Dependent on Stripe subscription payment retries
-    # oldInvoiceCutoffDate = new Date()
-    # oldInvoiceCutoffDate.setUTCDate(oldInvoiceCutoffDate.getUTCDate() - oldInvoiceCutoffDays)
     stripe.invoices.list req.body.options, (err, invoices) =>
       return @sendDatabaseError(res, err) if err
-      # newInvoices = []
-      # for invoice, i in invoices.data
-      #   if new Date(invoice.date * 1000) < oldInvoiceCutoffDate
-      #     if invoice.id of @oldInvoices
-      #       # Rest of the invoices should be cached, return from cache
-      #       cachedInvoices = buildInvoicesFromCache(newInvoices)
-      #       return @sendSuccess(res, cachedInvoices)
-      #     else
-      #       # Cache older invoices
-      #       @oldInvoices[invoice.id] = invoice
-      #   else
-      #     # Keep track of new invoices for this page of invoices
-      #     newInvoices.push(invoice)
       @sendSuccess(res, invoices)
 
   getStripeSubscriptions: (req, res) ->
