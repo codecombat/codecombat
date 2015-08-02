@@ -1,20 +1,20 @@
 module.exports = nativeDescription: "မြန်မာစကား", englishDescription: "Myanmar language", translation:
 #  home:
 #    slogan: "Learn to Code by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"  # Warning that shows up on mobile devices
-#    play: "Play"  # The big play button that opens up the campaign view.
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"  # Warning that shows up on really old Firefox/Chrome/Safari
+#    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!" # Warning that only shows up in IE8 and older
+#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!" # Warning that shows up on mobile devices
+#    play: "Play" # The big play button that opens up the campaign view.
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
 #    campaign: "Campaign"
 #    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"  # Not currently shown on home page
-#    for_developers: "For Developers"  # Not currently shown on home page.
+#    multiplayer: "Multiplayer" # Not currently shown on home page
+#    for_developers: "For Developers" # Not currently shown on home page.
 #    or_ipad: "Or download for iPad"
 
 #  nav:
-#    play: "Levels"  # The top nav bar entry where players choose which levels to play
+#    play: "Levels" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
 #    editor: "Editor"
 #    blog: "Blog"
@@ -23,7 +23,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    profile: "Profile"
 #    stats: "Stats"
 #    code: "Code"
-#    admin: "Admin"  # Only shows up when you are an admin
+#    admin: "Admin" # Only shows up when you are an admin
 #    home: "Home"
 #    contribute: "Contribute"
 #    legal: "Legal"
@@ -40,33 +40,33 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    page_not_found: "Page not found"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!"  # This shows up when a player switches to a non-English language using the language selector.
+#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
 #    sub_heading: "We need your language skills."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Myanmar language but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Myanmar language."
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
+    missing_translations: "Until we can translate everything into Myanmar language, you'll see English when Myanmar language isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  play:
-#    play_as: "Play As"  # Ladder page
-#    spectate: "Spectate"  # Ladder page
-#    players: "players"  # Hover over a level on /play
-#    hours_played: "hours played"  # Hover over a level on /play
-#    items: "Items"  # Tooltip on item shop button from /play
-#    unlock: "Unlock"  # For purchasing items and heroes
+#    play_as: "Play As" # Ladder page
+#    spectate: "Spectate" # Ladder page
+#    players: "players" # Hover over a level on /play
+#    hours_played: "hours played" # Hover over a level on /play
+#    items: "Items" # Tooltip on item shop button from /play
+#    unlock: "Unlock" # For purchasing items and heroes
 #    confirm: "Confirm"
-#    owned: "Owned"  # For items you own
+#    owned: "Owned" # For items you own
 #    locked: "Locked"
-#    purchasable: "Purchasable"  # For a hero you unlocked but haven't purchased
+#    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
 #    available: "Available"
-#    skills_granted: "Skills Granted"  # Property documentation details
-#    heroes: "Heroes"  # Tooltip on hero shop button from /play
-#    achievements: "Achievements"  # Tooltip on achievement list button from /play
-#    account: "Account"  # Tooltip on account button from /play
-#    settings: "Settings"  # Tooltip on settings button from /play
-#    poll: "Poll"  # Tooltip on poll button from /play
-#    next: "Next"  # Go from choose hero to choose inventory before playing a level
-#    change_hero: "Change Hero"  # Go back from choose inventory to choose hero
+#    skills_granted: "Skills Granted" # Property documentation details
+#    heroes: "Heroes" # Tooltip on hero shop button from /play
+#    achievements: "Achievements" # Tooltip on achievement list button from /play
+#    account: "Account" # Tooltip on account button from /play
+#    settings: "Settings" # Tooltip on settings button from /play
+#    poll: "Poll" # Tooltip on poll button from /play
+#    next: "Next" # Go from choose hero to choose inventory before playing a level
+#    change_hero: "Change Hero" # Go back from choose inventory to choose hero
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
 #    subscription_required: "Subscription Required"
@@ -127,7 +127,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 
 #  common:
 #    back: "Back" # When used as an action verb, like "Navigate backward"
-#    continue: "Continue"  # When used as an action verb, like "Continue forward"
+#    continue: "Continue" # When used as an action verb, like "Continue forward"
 #    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    create: "Create"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Play"  # When used as an action verb, like "Play next level"
+#    play: "Play" # When used as an action verb, like "Play next level"
 #    retry: "Retry"
 #    actions: "Actions"
 #    info: "Info"
@@ -192,7 +192,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    medium: "Medium"
 #    hard: "Hard"
 #    player: "Player"
-#    player_level: "Level"  # Like player level 5, not like level: Dungeons of Kithgard
+#    player_level: "Level" # Like player level 5, not like level: Dungeons of Kithgard
 #    warrior: "Warrior"
 #    ranger: "Ranger"
 #    wizard: "Wizard"
@@ -215,8 +215,8 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 
 #  play_level:
 #    done: "Done"
-#    home: "Home"  # Not used any more, will be removed soon.
-#    level: "Level"  # Like "Level: Dungeons of Kithgard"
+#    home: "Home" # Not used any more, will be removed soon.
+#    level: "Level" # Like "Level: Dungeons of Kithgard"
 #    skip: "Skip"
 #    game_menu: "Game Menu"
 #    guide: "Guide"
@@ -241,12 +241,12 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    victory_title_suffix: " Complete"
 #    victory_sign_up: "Sign Up to Save Progress"
 #    victory_sign_up_poke: "Want to save your code? Create a free account!"
-#    victory_rate_the_level: "Rate the level: "  # Only in old-style levels.
+#    victory_rate_the_level: "Rate the level: " # Only in old-style levels.
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_continue: "Continue"
 #    victory_saving_progress: "Saving Progress"
-#    victory_go_home: "Go Home"  # Only in old-style levels.
-#    victory_review: "Tell us more!"  # Only in old-style levels.
+#    victory_go_home: "Go Home" # Only in old-style levels.
+#    victory_review: "Tell us more!" # Only in old-style levels.
 #    victory_hour_of_code_done: "Are You Done?"
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
 #    victory_experience_gained: "XP Gained"
@@ -255,16 +255,16 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
 #    guide_title: "Guide"
-#    tome_minion_spells: "Your Minions' Spells"  # Only in old-style levels.
-#    tome_read_only_spells: "Read-Only Spells"  # Only in old-style levels.
-#    tome_other_units: "Other Units"  # Only in old-style levels.
+#    tome_minion_spells: "Your Minions' Spells" # Only in old-style levels.
+#    tome_read_only_spells: "Read-Only Spells" # Only in old-style levels.
+#    tome_other_units: "Other Units" # Only in old-style levels.
 #    tome_cast_button_run: "Run"
 #    tome_cast_button_running: "Running"
 #    tome_cast_button_ran: "Ran"
 #    tome_submit_button: "Submit"
-#    tome_reload_method: "Reload original code for this method"  # Title text for individual method reload button.
+#    tome_reload_method: "Reload original code for this method" # Title text for individual method reload button.
 #    tome_select_method: "Select a Method"
-#    tome_see_all_methods: "See all methods you can edit"  # Title text for method list selector (shown when there are multiple programmable methods).
+#    tome_see_all_methods: "See all methods you can edit" # Title text for method list selector (shown when there are multiple programmable methods).
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    tome_your_skills: "Your Skills"
@@ -437,8 +437,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    stripe_description: "Monthly Subscription"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
-
-#    personal_sub: "Personal Subscription"  # Accounts Subscription View below
+#    personal_sub: "Personal Subscription" # Accounts Subscription View below
 #    loading_info: "Loading subscription information..."
 #    managed_by: "Managed by"
 #    will_be_cancelled: "Will be cancelled on"
@@ -484,13 +483,13 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    weapons_warrior: "Swords - Short Range, No Magic"
 #    weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
 #    weapons_wizard: "Wands, Staffs - Long Range, Magic"
-#    attack: "Damage"  # Can also translate as "Attack"
+#    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
 #    regeneration: "Regeneration"
-#    range: "Range"  # As in "attack or visual range"
-#    blocks: "Blocks"  # As in "this shield blocks this much damage"
-#    backstab: "Backstab"  # As in "this dagger does this much backstab damage"
+#    range: "Range" # As in "attack or visual range"
+#    blocks: "Blocks" # As in "this shield blocks this much damage"
+#    backstab: "Backstab" # As in "this dagger does this much backstab damage"
 #    skills: "Skills"
 #    attack_1: "Deals"
 #    attack_2: "of listed"
@@ -500,12 +499,12 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    health_3: "armor health."
 #    speed_1: "Moves at"
 #    speed_2: "meters per second."
-#    available_for_purchase: "Available for Purchase"  # Shows up when you have unlocked, but not purchased, a hero in the hero store
-#    level_to_unlock: "Level to unlock:"  # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+#    available_for_purchase: "Available for Purchase" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+#    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
 #  skill_docs:
-#    writable: "writable"  # Hover over "attack" in Your Skills while playing a level to see most of this
+#    writable: "writable" # Hover over "attack" in Your Skills while playing a level to see most of this
 #    read_only: "read-only"
 #    action_name: "name"
 #    action_cooldown: "Takes"
@@ -515,7 +514,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    action_radius: "Radius"
 #    action_duration: "Duration"
 #    example: "Example"
-#    ex: "ex"  # Abbreviation of "example"
+#    ex: "ex" # Abbreviation of "example"
 #    current_value: "Current Value"
 #    default_value: "Default value"
 #    parameters: "Parameters"
@@ -527,7 +526,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    granularity_change_history: "History"
 
 #  options:
-#    general_options: "General Options"  # Check out the Options tab in the Game Menu while playing a level
+#    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
 #    volume_label: "Volume"
 #    music_label: "Music"
 #    music_description: "Turn background music on/off."
@@ -686,8 +685,8 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    screenshot_included: "Screenshot included."
 #    where_reply: "Where should we reply?"
 #    send: "Send Feedback"
-#    contact_candidate: "Contact Candidate"  # Deprecated
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."  # Deprecated
+#    contact_candidate: "Contact Candidate" # Deprecated
+#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns." # Deprecated
 
 #  account_settings:
 #    title: "Account Settings"
@@ -728,7 +727,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    saved: "Changes Saved"
 #    password_mismatch: "Password does not match."
 #    password_repeat: "Please repeat your password."
-#    job_profile: "Job Profile"  # Rest of this section (the job profile stuff and wizard stuff) is deprecated
+#    job_profile: "Job Profile" # Rest of this section (the job profile stuff and wizard stuff) is deprecated
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 #    sample_profile: "See a sample profile"
@@ -1223,7 +1222,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    temp: "Temp"
 
 #  multiplayer:
-#    multiplayer_title: "Multiplayer Settings"  # We'll be changing this around significantly soon. Until then, it's not important to translate.
+#    multiplayer_title: "Multiplayer Settings" # We'll be changing this around significantly soon. Until then, it's not important to translate.
 #    multiplayer_toggle: "Enable multiplayer"
 #    multiplayer_toggle_description: "Allow others to join your game."
 #    multiplayer_link_description: "Give this link to anyone to have them join you."
@@ -1288,7 +1287,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
 
 #  ladder_prizes:
-#    title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.
+#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
 #    blurb_3: "to the top human and ogre players."
@@ -1308,7 +1307,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    oreilly: "ebook of your choice"
 
 #  account_profile:
-#    settings: "Settings"  # We are not actively recruiting right now, so there's no need to add new translations for this section.
+#    settings: "Settings" # We are not actively recruiting right now, so there's no need to add new translations for this section.
 #    edit_profile: "Edit Profile"
 #    done_editing: "Done Editing"
 #    profile_for_prefix: "Profile for "
@@ -1415,7 +1414,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #  employers:
 #    deprecation_warning_title: "Sorry, CodeCombat is not recruiting right now."
 #    deprecation_warning: "We are focusing on beginner levels instead of finding expert developers for the time being."
-#    hire_developers_not_credentials: "Hire developers, not credentials."  # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
+#    hire_developers_not_credentials: "Hire developers, not credentials." # We are not actively recruiting right now, so there's no need to add new translations for the rest of this section.
 #    get_started: "Get Started"
 #    already_screened: "We've already technically screened all our candidates"
 #    filter_further: ", but you can also filter further:"
@@ -1459,7 +1458,7 @@ module.exports = nativeDescription: "မြန်မာစကား", englishDes
 #    inactive_developers: "Inactive Developers"
 
 #  admin:
-#    av_espionage: "Espionage"  # Really not important to translate /admin controls.
+#    av_espionage: "Espionage" # Really not important to translate /admin controls.
 #    av_espionage_placeholder: "Email or username"
 #    av_usersearch: "User Search"
 #    av_usersearch_placeholder: "Email, username, name, whatever"

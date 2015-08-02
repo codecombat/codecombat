@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     choose_inventory: "Đeo Thiết Bị"
     buy_gems: "Mua ngọc"
     subscription_required: "Cần đăng kí"
-    older_campaigns: "Các chiến dịch cũ hơn"
     anonymous: "Người chơi vô danh"
     level_difficulty: "Khó: "
     campaign_beginner: "Chiến dịch chế độ đơn giản"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     awaiting_levels_adventurer: "Đăng kí với tư cách là nhà thám hiểm"
     awaiting_levels_adventurer_suffix: "để trở thành những người đầu tiên chơi những bàn mới."
     adjust_volume: "Tùy chỉnh âm lượng"
-    choose_your_level: "Chọn Trình của bạn" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Bạn có thể nhảy đến bất kỳ cấp độ dưới đây, hoặc nâng dần cấp độ "
-    adventurer_forum: "diễn đàn Adventurer"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Chiến dịch cũ chế độ đơn giản"
-    campaign_old_beginner_description: "... nơi bạn học được phép màu của lập trình"
-    campaign_dev: "Các cấp độ khó hơn ngẫu nhiên"
-    campaign_dev_description: "... nơi vừa giúp bạn làm quen với giao diện trong lúc bạn làm 1 công việc khó hơn ."
     campaign_multiplayer: "Khu vực đa người chơi"
     campaign_multiplayer_description: "... nơi mà bạn thử thách với một người chơi khác."
-    campaign_player_created: "Những bàn do các người chơi tạo ra"
-    campaign_player_created_description: "... nơi bạn thử thách trí sáng tạo đối với <a href=\"/contribute/artisan\">Pháp Sư Tối Cao</a>."
-    campaign_classic_algorithms: "Các thuật toán kinh điển"
-    campaign_classic_algorithms_description: "... Nơi mà bạn có thể học được những thuật toán phổ biến trong ngành khoa học máy tính ."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tip_scrub_shortcut: "Ctrl+[ và Ctrl+] quay lại và chạy nhanh." # {change}
     tip_guide_exists: "Chọn bảng hướng dẫn, bên trong game menu (Trên cùng của trang), cho những thông tin hữu ích."
     tip_open_source: "CodeCombat là một sản phẩm mã nguồn mở 100% !"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "Bản thử nghiệm của CodeCombat được ra mắt vào tháng 10 năm 2013."
     tip_think_solution: "Nghĩ về cách giải, chứ không phải câu hỏi."
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Hành Trang"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     indoor: "Trong nhà"
     desert: "Sa mạc"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Bé"
     large: "Lớn"
 #    fork_title: "Fork New Version"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

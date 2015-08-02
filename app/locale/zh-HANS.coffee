@@ -70,7 +70,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     choose_inventory: "装备道具"
     buy_gems: "购买宝石"
     subscription_required: "需订阅"
-    older_campaigns: "旧的战役"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     campaign_beginner: "新手作战"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     awaiting_levels_adventurer: "注册成为冒险家"
     awaiting_levels_adventurer_suffix: "来优先尝试新关卡"
     adjust_volume: "音量调节"
-    choose_your_level: "选择关卡" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "你可以选择以下任意关卡，或者讨论以上的关卡。到"
-    adventurer_forum: "冒险者论坛"
-    adventurer_suffix: "。"
-    campaign_old_beginner: "旧的新手战役"
-    campaign_old_beginner_description: "……在这里你可以学习到编程技巧。"
-    campaign_dev: "随机困难关卡"
-    campaign_dev_description: "……在这里你可以学到做一些复杂功能的接口。"
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里你可以与其他玩家进行代码肉搏战。"
-    campaign_player_created: "创建玩家"
-    campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>。"
-    campaign_classic_algorithms: "经典算法"
-    campaign_classic_algorithms_description: "... 你可以在此学习到计算机科学中最常用的算法"
     campaign_old_multiplayer: "（过时的）旧的多人竞技场"
     campaign_old_multiplayer_description: "一个文明时代的遗迹。没有模拟运行这些老的、英雄少的多人竞技场。"
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。" # {change}
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」是100%开源的！"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"
     tip_think_solution: "思考如何解决, 而不是思考问题。"
     tip_theory_practice: "在理论上，理论和实践之间是没有区别的。但在实践上，它们是有区别的。 - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_recurse: "迭代为人，递归为神 - L. Peter Deutsch"
     tip_free_your_mind: "丢掉一切私心杂念,丢掉害怕、疑问和拒信,解放你的思想。 - Morpheus"
     tip_strong_opponents: "即使是最强大的对手也是有弱点的. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "道具箱"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     indoor: "室内"
     desert: "沙漠"
     grassy: "草地"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "小的"
     large: "大的"
     fork_title: "派生新版本"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   delta:
     added: "被添加"
     modified: "被修改"
+#    not_modified: "Not Modified"
     deleted: "被删除"
     moved_index: "被移动的索引"
     text_diff: "文本变化"

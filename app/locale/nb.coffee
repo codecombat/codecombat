@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     choose_inventory: "Ta i bruk gjenstander"
     buy_gems: "Kjøp Juveler"
     subscription_required: "Krever abonnement"
-    older_campaigns: "Gamle felttog"
     anonymous: "Anonym Spiller"
     level_difficulty: "Vanskelighetsgrad: "
     campaign_beginner: "Begynner Felttog"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     awaiting_levels_adventurer: "Registrer deg som Eventyrer"
     awaiting_levels_adventurer_suffix: "for å få spille nye brett før alle andre."
     adjust_volume: "Juster lydnivå"
-    choose_your_level: "Velg ditt brett" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Du kan hoppe til hvilket som helst brett under, eller diskutere brettene på "
-    adventurer_forum: "Eventyrer-forumet"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Gammel Nybegynnerkampanje"
-    campaign_old_beginner_description: "... hvor du lærer magien bak programmering."
-    campaign_dev: "Noen litt vanskeligere"
-    campaign_dev_description: "... hvor du lærer grensesnittet mens du gjør litt vanskeligere oppgaver."
     campaign_multiplayer: "Flerspillerarenaer"
     campaign_multiplayer_description: "... hvor du spiller direkte mot andre spillere."
-    campaign_player_created: "Laget av spillere"
-    campaign_player_created_description: "... hvor du kjemper mot kreativiteten til en av dine medspillende <a href=\"/contribute#artisan\">Artisan Trollmenn</a>."
-    campaign_classic_algorithms: "Klassiske algoritmer"
-    campaign_classic_algorithms_description: "... hvor du lærer noen av de mest populære algoritmene innen programmering"
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] spoler bakover og fremover på tidslinjen." # {change}
     tip_guide_exists: "Sjekk Guiden i spillmenyen på toppen av siden for nyttig informasjon."
     tip_open_source: "CodeCombat er 100% åpen kildekode!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat ble lansert i betautgave i oktober 2013."
     tip_think_solution: "Tenk på løsningen, ikke på problemet."
     tip_theory_practice: "I teorien er det ikke forskjell på teori og praksis, men i praksis er det. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Utstyr"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     indoor: "Innendørs"
     desert: "Ørken"
     grassy: "Gresset"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Liten"
     large: "Stor"
     fork_title: "Lag ny forgrening"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
   delta:
     added: "Opprettet"
     modified: "Endret"
+#    not_modified: "Not Modified"
     deleted: "Slettet"
     moved_index: "Endret Index"
     text_diff: "Tekst Diff"

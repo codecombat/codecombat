@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     choose_inventory: "Uitrusting kiezen"
     buy_gems: "Edelstenen kopen"
     subscription_required: "Abonnement nodig"
-    older_campaigns: "Oudere Campaigns"
     anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
     campaign_beginner: "Beginnercampagne"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     awaiting_levels_adventurer: "Schrijf je in als Avonturier"
     awaiting_levels_adventurer_suffix: "om de eerste te zijn die nieuwe levels speelt."
     adjust_volume: "Volume aanpassen"
-    choose_your_level: "Kies Je Level" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Je kunt meteen naar een van de levels hieronder springen, of de levels bespreken op "
-    adventurer_forum: "het Avonturiersforum"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Oude Beginner Campaign"
-    campaign_old_beginner_description: "... waarin je de toverkunst van het programmeren leert."
-    campaign_dev: "Willekeurige moeilijkere levels"
-    campaign_dev_description: "... waarin je de interface leert kennen terwijl je wat moeilijkers doet."
     campaign_multiplayer: "Multiplayer Arena's"
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
-    campaign_player_created: "Door-spelers-gemaakt"
-    campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
-    campaign_classic_algorithms: "Klassieke Algorithmes"
-    campaign_classic_algorithms_description: "... Waarin je de meest populaire algorithmes van de informatica leert."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_scrub_shortcut: "Ctrl+[ en Ctrl+] om terug te spoelen en vooruit te spoelen." # {change}
     tip_guide_exists: "Klik op de handleiding bovenaan het scherm voor nuttige informatie."
     tip_open_source: "CodeCombat is 100% open source!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat lanceerde zijn beta versie in Oktober, 2013."
     tip_think_solution: "Denk aan de oplossing, niet aan het probleem."
     tip_theory_practice: "In theorie is er geen verschil tussen de theorie en de praktijk; in de praktijk is er wel een verschil. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     indoor: "Binnen"
     desert: "Woestijn"
     grassy: "Grassig"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Klein"
     large: "Groot"
     fork_title: "Kloon naar nieuwe versie"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

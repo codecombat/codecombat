@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     choose_inventory: "Equipar Itens"
     buy_gems: "Comprar Gems"
     subscription_required: "Requer assinatura"
-    older_campaigns: "Campanhas antigas"
     anonymous: "Jogador Anônimo"
     level_difficulty: "Dificuldade: "
     campaign_beginner: "Campanha Iniciante"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     awaiting_levels_adventurer: "Cadastre-se como um aventureiro"
     awaiting_levels_adventurer_suffix: "para ser o primeiro a jogar as novas fases."
     adjust_volume: "Ajuste o volume"
-    choose_your_level: "Escolha seu estágio" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Você pode ir para qualquer um dos estágios abaixo, ou discutir sobre eles no "
-    adventurer_forum: "Fórum do Aventureiro"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Campanha antiga para Iniciantes"
-    campaign_old_beginner_description: "... na qual você aprenderá a magia da programação."
-    campaign_dev: "Fases Difíceis Aleatórias"
-    campaign_dev_description: "... nas quais você aprenderá a interface enquanto faz algo um pouco mais difícil."
     campaign_multiplayer: "Arenas Multijogador"
     campaign_multiplayer_description: "... nas quais você programará cara-a-cara contra outros jogadores."
-    campaign_player_created: "Criados por Jogadores"
-    campaign_player_created_description: "... nos quais você batalhará contra a criatividade dos seus companheiros <a href=\"/contribute#artisan\">feiticeiros Artesãos</a>."
-    campaign_classic_algorithms: "Algoritmos Clássicos"
-    campaign_classic_algorithms_description: "...onde você aprende os algoritmos mais conhecidos em Ciência da Computação."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_scrub_shortcut: "Ctrl+[ e Ctrl+] rebobina e avança." # {change}
     tip_guide_exists: "Clique no guia no topo da página para informações úteis."
     tip_open_source: "CodeCombat é 100% código aberto!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat lançou sua versão beta em outubro de 2013."
     tip_think_solution: "Pense na solução, não no problema."
     tip_theory_practice: "Na teoria, não existe diferença entre teoria e prática. Mas, na prática, há. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     tip_recurse: "Para iterar é humano, para recursão, é divino. - L. Peter Deutsch"
     tip_free_your_mind: "Você tem que deixar isso tudo passar, Neo. O medo, a dúvida e a descrença. Liberte sua mente - Morpheus"
     tip_strong_opponents: "Mesmo o mais forte dos adversários tem sua fraqueza. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     indoor: "Interior"
     desert: "Deserto"
     grassy: "Gramado"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Pequeno"
     large: "Grande"
     fork_title: "Realizar um Novo Fork"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
   delta:
     added: "Adicionado"
     modified: "Modificado"
+#    not_modified: "Not Modified"
     deleted: "Removido"
     moved_index: "Índice Movido"
     text_diff: "Diff do Texto"

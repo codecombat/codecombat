@@ -70,7 +70,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     choose_inventory: "לבש כלים"
     buy_gems: "רכש אבני חן"
     subscription_required: "יש צורך במנוי"
-    older_campaigns: "מסעות ישנים יותר"
     anonymous: "משתמש אנונימי"
     level_difficulty: "רמת קושי: "
     campaign_beginner: "מסע המתחילים"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     awaiting_levels_adventurer: "הירשם כהרפתקן"
     awaiting_levels_adventurer_suffix: ".כדי להיות הראשון שישחק בשלבים חדשים"
     adjust_volume: "שנה ווליום"
-    choose_your_level: "בחר את השלב" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "אתה יכול לבחור איזה שלב שאתה רוצה למטה, או לדון על שלבים ב"
-    adventurer_forum: "פורום ההרפתקנים"
-    adventurer_suffix: "."
-    campaign_old_beginner: "מסע מתחילים ישן"
-    campaign_old_beginner_description: "...שבו תלמד את קסם התכנות."
-    campaign_dev: "שלבים אקראים קשים יותר"
-    campaign_dev_description: "...שבהם תלמד על הממשק בזמן שתעשה משהו קצת קשה יותר."
     campaign_multiplayer: "זירות רב-המשתתפים"
     campaign_multiplayer_description: "..."
-    campaign_player_created: "תוצרי השחקנים"
-    campaign_player_created_description: "... שבהם תילחם נגד היצירתיות של <a href=\"/contribute#artisan\">בעלי-המלאכה</a>."
-    campaign_classic_algorithms: "אלגוריתמים קלאסיים"
-    campaign_classic_algorithms_description: ".שבהם תלמד את האלגוריתמים הפופולאריים ביותר בתחום מדעי המחשב..."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_scrub_shortcut: "Ctrl+[ ו Ctrl+] האץ אחורה וקדימה באמצעות" # {change}
     tip_guide_exists: ".לחץ על המדריך, בתוך תפריט המשחק (למעלה בקצה העמוד), למידע שימושי"
     tip_open_source: "!הוא 100% קוד פתוח CodeCombat"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: ".הפיץ את גרסת הבטא באוקטובר, 2013 CodeCombat"
     tip_think_solution: ".תחשוב על הפתרון, לא על הבעיה"
     tip_theory_practice: "תיאורטית, אין הבדל בין התאוריה לאימון. אבל באימון, יש. - יוגי ברה"
@@ -323,7 +311,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_commitment_yoda: "מתכנת חייב להיות עם המחויבות העמוקה ביותר, עם המחשבה הרצינית ביותר. ~ יודה"
     tip_no_try: "תעשה. או אל תעשה. אין לנסות - יודה"
     tip_patience: "עליך להיות סבלני, פאדאוואן צעיר - יודה"
-    tip_documented_bug: "באג מתועד הוא לא באג; הוא בונוס שבא עם התוכנה." #My personal translation
+    tip_documented_bug: "באג מתועד הוא לא באג; הוא בונוס שבא עם התוכנה."
     tip_impossible: "זה תמיד נראה בלתי אפשרי עד שזה נעשה. - נלסון מנדלה"
     tip_talk_is_cheap: "דיבור זה זול. תראה לי את הקוד - לינוס טורבאלדס"
     tip_first_language: "הדבר ההרסני ביותר שאי פעם תלמד הוא שפת התכנות הראשונה שלך. - אלן קיי"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "תיק"
@@ -784,15 +773,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     contribute_to_the_project: "תרום לפרוייקט"
 
   clans:
-    clan: "שבט" #NOTE: "clans" translation in hebrew (חמולה) sounds rude and has a lot of negative meanings associated to it. use of the word "tribe" ("שבט") is preferred.
+    clan: "שבט"
     clans: "שבטים"
     new_name: "שם שבט חדש"
     new_description: "תיאור שבט חדש"
     make_private: "הפוך שבט לפרטי"
     subs_only: "מנויים בלבד"
     create_clan: "צור שבט חדש"
-    private_preview: "צפה" #"Preview" translted as "watch"
-    public_clans: "שבטים פתוחים" #"public clans" translation sounds unnatural when translated literally "open clans" is a preferred translation
+    private_preview: "צפה"
+    public_clans: "שבטים פתוחים"
     my_clans: "השבטים שלי"
     clan_name: "שם השבט"
     name: "שם"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     indoor: "בפנים"
     desert: "מדבר"
     grassy: "עשבי"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "קטן"
     large: "רחב"
     fork_title: "פצל גירסה חדשה"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   delta:
     added: "נוסף"
     modified: "שונה"
+#    not_modified: "Not Modified"
     deleted: "נמחק"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

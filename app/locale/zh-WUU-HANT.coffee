@@ -70,7 +70,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    choose_inventory: "Equip Items"
 #    buy_gems: "Buy Gems"
 #    subscription_required: "Subscription Required"
-#    older_campaigns: "Older Campaigns"
 #    anonymous: "Anonymous Player"
     level_difficulty: "難度："
     campaign_beginner: "新手打仗"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
 #    adjust_volume: "Adjust volume"
-    choose_your_level: "揀關數" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "下底個關數候爾揀，要勿聊聊上頭箇許關數。到"
-    adventurer_forum: "冒險者論壇"
-    adventurer_suffix: "。"
-#    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_old_beginner_description: "……徠箇裏爾學得到編程手法。"
-    campaign_dev: "照摸難關"
-    campaign_dev_description: "……徠箇搭爾學得到做一許囉唆功能個接口。"
     campaign_multiplayer: "多人競賽場"
     campaign_multiplayer_description: "……徠箇搭爾好搭別人代碼捉跤。"
-    campaign_player_created: "造玩家"
-    campaign_player_created_description: "……徠箇搭爾好搭爾夥計造起來個賭打 <a href=\"/contribute#artisan\">技術相幫</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tip_scrub_shortcut: "用 Ctrl+[ 搭 Ctrl+] 倒退搭快進。" # {change}
     tip_guide_exists: "點頁面上向個指南，望無數有用個訊息。"
     tip_open_source: "CodeCombat 是 百分百 開源個!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat 從 2013年10月起。"
     tip_think_solution: "思考解決方法，勿是問題。"
     tip_theory_practice: "來理論研究裏向，理論搭實踐弗分個。不過徠實踐裏頭，渠裏是有分個。 - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    indoor: "Indoor"
 #    desert: "Desert"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
 #    small: "Small"
 #    large: "Large"
     fork_title: "派生新版本"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

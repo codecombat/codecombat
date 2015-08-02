@@ -70,7 +70,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     choose_inventory: "裝備物品"
     buy_gems: "購買鑽石"
     subscription_required: "需要訂購"
-    older_campaigns: "舊戰役"
     anonymous: "匿名玩家"
     level_difficulty: "難度"
     campaign_beginner: "新手指南"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     awaiting_levels_adventurer: "註冊成為冒險家"
     awaiting_levels_adventurer_suffix: "成為第一個挑戰新關卡的冒險家吧!"
     adjust_volume: "調整音量"
-    choose_your_level: "選取關卡" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "您可以選擇以下任意關卡，或者討論以上的關卡 "
-    adventurer_forum: "冒險家論壇"
-    adventurer_suffix: "."
-    campaign_old_beginner: "舊的新手關卡"
-    campaign_old_beginner_description: "...在這裡可以學到基礎程式技巧。"
-    campaign_dev: "隨機關卡"
-    campaign_dev_description: "...在這裡您可以學到做一些較複雜的程式技巧。"
     campaign_multiplayer: "多人競技場"
     campaign_multiplayer_description: "...在這裡您可以和其他玩家進行對戰。"
-    campaign_player_created: "玩家建立的關卡"
-    campaign_player_created_description: "...挑戰同伴的創意 <a href=\"/contribute#artisan\">技術指導</a>."
-    campaign_classic_algorithms: "經典演算法"
-    campaign_classic_algorithms_description: "... 資訊科學中最著名的演算法。"
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "Ctrl+[ 快退; Ctrl+] 快進." # {change}
     tip_guide_exists: "點擊頁面上方的指南，可獲得更多有用的訊息."
     tip_open_source: "「CodeCombat」100% 開源!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "「CodeCombat」在2013年10月進入 BETA 測試。"
     tip_think_solution: "思考解決方法而不是問題."
     tip_theory_practice: "理論上, 理論和實作之間是沒有區別. 但是實作上, 這兩者是有區別的. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "倉庫"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     indoor: "室內"
     desert: "沙漠"
     grassy: "草地"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "小的"
     large: "大的"
     fork_title: "產生新分支"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
   delta:
     added: "已填加"
     modified: "已修改"
+#    not_modified: "Not Modified"
     deleted: "已刪除"
     moved_index: "已移動的索引"
     text_diff: "文本變化"

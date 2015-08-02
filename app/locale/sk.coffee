@@ -70,7 +70,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     choose_inventory: "Vyzbrojiť sa s predmetmi"
     buy_gems: "Zakúpiť drahokamy"
     subscription_required: "Vyžaduje sa predplatné"
-    older_campaigns: "Staršie kampane"
     anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
     campaign_beginner: "Kampaň pre začiatočníkov"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     awaiting_levels_adventurer: "Prihlás sa ako Dobrodruh"
     awaiting_levels_adventurer_suffix: "budeš ako prvý hrať nové levely."
     adjust_volume: "Zmeniť hlasitosť"
-    choose_your_level: "Vyber si úroveň" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Môže si vybrať ktorúkoľvek z úrovní alebo ich prediskutovať na "
-    adventurer_forum: "fóre pre dobrodruhov"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Staré kampane pre začiatočníkov"
-    campaign_old_beginner_description: "... v ktorom sa naučíš mágiu programovania."
-    campaign_dev: "Náhodné ťažšie úrovne"
-    campaign_dev_description: "... v ktorych sa naučíš používať rozhranie a čeliť väčším výzvam."
     campaign_multiplayer: "Aréna pre viacerých hráčov"
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
-    campaign_player_created: "Hráčmi vytvorené úrovne"
-    campaign_player_created_description: "... v ktorých sa popasuješ s kreativitou svojich <a href=\"/contribute#artisan\">kúzelníckych súdruhov</a>."
-    campaign_classic_algorithms: "Klasické Algoritmy"
-    campaign_classic_algorithms_description: "... v kterých sa naučíte najobľúbenejšie algoritmy v IT"
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pre pretočenie a rychlý presun." # {change}
     tip_guide_exists: "Kliknite na sprievodcu v hernom menu (hore na stránke), pre užitočné informácie."
     tip_open_source: "CodeCombat je 100% open source!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat spustil svoju beta verziu v Októbri, 2013."
     tip_think_solution: "Myslite na riešenie, nie na problém."
     tip_theory_practice: "Teoreticky nie je žiaden rozdiel medzi teoriou a praxou. Ale v praxi ten rozdiel je. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_recurse: "Iterácia je ľudská, rekurzia božská.. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventár"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    indoor: "Indoor"
 #    desert: "Desert"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
 #    small: "Small"
 #    large: "Large"
 #    fork_title: "Fork New Version"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

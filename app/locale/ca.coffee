@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     choose_inventory: "Equipar objectes"
     buy_gems: "Comprar Gemes"
     subscription_required: "Subscripció necessària"
-    older_campaigns: "Campanyes antigues"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
     campaign_beginner: "Campanya del principiant"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     awaiting_levels_adventurer: "Inicia sessió com aventurer"
     awaiting_levels_adventurer_suffix: "sigues el primer en jugar els nous nivells"
     adjust_volume: "Ajustar volum"
-    choose_your_level: "Escull el teu nivell" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Pots saltar a qualsevols dels nivells de més abaix, o discutir els nivells de més amunt."
-    adventurer_forum: "El fòrum de l'aventurer"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Antiga campanya del principiant"
-    campaign_old_beginner_description: "... on aprens la bruixeria de la programació."
-    campaign_dev: "Nivells difícils aleatoris"
-    campaign_dev_description: "... on aprens a interactuar amb la interfície tot fent coses un pèl més difícils."
     campaign_multiplayer: "Arenes Multijugador"
     campaign_multiplayer_description: "... on programes cara a cara contra altres jugadors."
-    campaign_player_created: "Creats pel Jugador"
-    campaign_player_created_description: "... on lluites contra la creativitat dels teus companys <a href=\"/contribute#artisan\">Artisan Wizards</a>."
-    campaign_classic_algorithms: "Algoritmes classics"
-    campaign_classic_algorithms_description: "... on pots aprendre els algoritmes més populars de l'informàtica."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tip_scrub_shortcut: "Ctrl+[ i Ctrl+] per rebobinar i avançar" # {change}
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat és 100% codi lliure!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat va llançar la seva beta l'octubre de 2013."
     tip_think_solution: "Pensa en la solució,no en el problema."
     tip_theory_practice: "En teoria no hi ha diferència entre la teoria i la pràctica. Però a la pràctica si que n'hi ha. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventari"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     indoor: "Interior"
     desert: "Desert"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Petit"
 #    large: "Large"
 #    fork_title: "Fork New Version"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   delta:
     added: "Afegit"
     modified: "Modificat"
+#    not_modified: "Not Modified"
     deleted: "Eliminat"
     moved_index: "Índex desplaçat"
 #    text_diff: "Text Diff"
