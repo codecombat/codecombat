@@ -3,6 +3,7 @@ SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 
 debugAnalytics = false
+targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker
   constructor: ->
@@ -13,6 +14,41 @@ module.exports = class Tracker
     @trackReferrers()
     @identify()
     @supermodel = new SuperModel()
+
+  enableInspectletJS: (levelSlug) ->
+    # InspectletJS loading is delayed and targeting specific levels for more focused investigations
+    return @disableInspectletJS() unless levelSlug in targetInspectJSLevelSlugs
+
+    # Start embed code
+    window.__insp = window.__insp or []
+    __insp.push [
+      'wid'
+      2102699786
+    ]
+    do ->
+      __ldinsp = ->
+        insp = document.createElement('script')
+        insp.type = 'text/javascript'
+        insp.async = true
+        insp.id = 'inspsync'
+        insp.src = (if 'https:' == document.location.protocol then 'https' else 'http') + '://cdn.inspectlet.com/inspectlet.js'
+        x = document.getElementsByTagName('script')[0]
+        x.parentNode.insertBefore insp, x
+        return
+
+      if window.attachEvent
+        window.attachEvent 'onload', __ldinsp
+      else
+        window.addEventListener 'load', __ldinsp, false
+    # End embed code
+
+    # Identify and track pageview here, because inspectlet is loaded too late for standard Tracker calls
+    @identify()
+    # http://www.inspectlet.com/docs#virtual_pageviews
+    __insp?.push ['virtualPage']
+
+  disableInspectletJS: ->
+    delete window.__insp
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -56,10 +92,6 @@ module.exports = class Tracker
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', "/#{name}"
-
-    # Inspectlet
-    # http://www.inspectlet.com/docs#virtual_pageviews
-    __insp?.push ['virtualPage']
 
   trackEvent: (action, properties={}) =>
     @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction

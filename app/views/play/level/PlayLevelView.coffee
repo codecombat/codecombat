@@ -103,6 +103,8 @@ module.exports = class PlayLevelView extends RootView
     $(window).on 'resize', @onWindowResize
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
+    application.tracker?.enableInspectletJS(@levelID)
+
     if @isEditorPreview
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -562,6 +564,7 @@ module.exports = class PlayLevelView extends RootView
     delete window.nextURL
     console.profileEnd?() if PROFILE_ME
     @onRealTimeMultiplayerLevelUnloaded()
+    application.tracker?.disableInspectletJS()
     super()
 
   onIPadMemoryWarning: (e) ->
