@@ -55,8 +55,7 @@ module.exports = class CoursesView extends RootView
   onClickEnroll: (e) ->
     $('#continueModal').modal('hide')
     courseID = $(e.target).data('course-id')
-    instanceName = $('.select-session').val()
-    instanceID = index for val, index in @instances when val.name is instanceName
+    instanceID = _.random(0, @instances.length - 1)
     viewClass = require 'views/courses/mock1/CourseDetailsView'
     viewArgs = [{}, courseID, instanceID]
     navigationEvent = route: "/courses/mock1/#{courseID}", viewClass: viewClass, viewArgs: viewArgs
@@ -65,7 +64,8 @@ module.exports = class CoursesView extends RootView
   onClickEnter: (e) ->
     $('#continueModal').modal('hide')
     courseID = $(e.target).data('course-id')
-    instanceID = _.random(0, @instances.length - 1)
+    instanceName = $('.select-session').val()
+    instanceID = index for val, index in @instances when val.name is instanceName
     viewClass = require 'views/courses/mock1/CourseDetailsView'
     viewArgs = [{}, courseID, instanceID]
     navigationEvent = route: "/courses/mock1/#{courseID}", viewClass: viewClass, viewArgs: viewArgs

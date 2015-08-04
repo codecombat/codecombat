@@ -20,7 +20,7 @@ module.exports = class CourseDetailsView extends RootView
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
     'mouseleave .progress-level-cell': 'onMouseLeavePoint'
 
-  constructor: (options, @courseID) ->
+  constructor: (options, @courseID=0, @instanceID=0) ->
     super options
     @initData()
 
@@ -55,7 +55,7 @@ module.exports = class CourseDetailsView extends RootView
     @memberSort = 'nameAsc'
     mockData = require 'views/courses/mock1/CoursesMockData'
     @course = mockData.courses[@courseID]
-    @currentInstanceIndex = 0
+    @currentInstanceIndex = @instanceID
     @instances = mockData.instances
     @updateLevelMaps()
 
