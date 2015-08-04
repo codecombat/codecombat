@@ -12,6 +12,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 User = require 'models/User'
 utils = require 'core/utils'
 Level = require 'models/Level'
+LevelFeedback = require 'models/LevelFeedback'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -25,37 +26,75 @@ module.exports = class HeroVictoryModal extends ModalView
   events:
     'click #continue-button': 'onClickContinue'
     'click .leaderboard-button': 'onClickLeaderboard'
+    'click .return-to-course-button': 'onClickReturnToCourse'
     'click .return-to-ladder-button': 'onClickReturnToLadder'
     'click .sign-up-button': 'onClickSignupButton'
     'click .continue-from-offer-button': 'onClickContinueFromOffer'
+
+    # Feedback events
+    'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
+    'mouseout .rating i': -> @showStars()
+    'click .rating i': (e) ->
+      @setStars(@starNum($(e.target)))
+      @$el.find('.review, .review-label').show()
+    'keypress .review textarea': -> @saveReviewEventually()
 
   constructor: (options) ->
     super(options)
     @session = options.session
     @level = options.level
-    achievements = new CocoCollection([], {
-      url: "/db/achievement?related=#{@session.get('level').original}"
-      model: Achievement
-    })
     @thangTypes = {}
-    @achievements = @supermodel.loadCollection(achievements, 'achievements').model
-    @listenToOnce @achievements, 'sync', @onAchievementsLoaded
-    @readyToContinue = false
-    @waitingToContinueSince = new Date()
-    @previousXP = me.get 'points', true
-    @previousLevel = me.level()
+    if @level.get('type', true) is 'hero'
+      achievements = new CocoCollection([], {
+        url: "/db/achievement?related=#{@session.get('level').original}"
+        model: Achievement
+      })
+      @achievements = @supermodel.loadCollection(achievements, 'achievements').model
+      @listenToOnce @achievements, 'sync', @onAchievementsLoaded
+      @readyToContinue = false
+      @waitingToContinueSince = new Date()
+      @previousXP = me.get 'points', true
+      @previousLevel = me.level()
+    else
+      @readyToContinue = true
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory'
     if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
       @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
       @nextLevel = @supermodel.loadModel(@nextLevel, 'level').model
+    if @level.get('type', true) in ['course', 'course-ladder']
+      @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
+      @loadExistingFeedback()
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
+    @saveReview() if @$el.find('.review textarea').val()
+    @feedback.off()
     super()
 
   onHidden: ->
     Backbone.Mediator.publish 'music-player:exit-menu', {}
     super()
+
+  loadExistingFeedback: ->
+    url = "/db/level/#{@level.id}/feedback"
+    @feedback = new LevelFeedback()
+    @feedback.setURL url
+    @feedback.fetch cache: false
+    @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
+    @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
+
+  onFeedbackLoaded: ->
+    @feedback.url = -> '/db/level.feedback/' + @id
+    @$el.find('.review textarea').val(@feedback.get('review'))
+    @$el.find('.review, .review-label').show()
+    @showStars()
+
+  onFeedbackNotFound: ->
+    @feedback = new LevelFeedback()
+    @feedback.set('levelID', @level.get('slug') or @level.id)
+    @feedback.set('levelName', @level.get('name') or '')
+    @feedback.set('level', {majorVersion: @level.get('version').major, original: @level.get('original')})
+    @showStars()
 
   onAchievementsLoaded: ->
     @$el.toggleClass 'full-achievements', @achievements.models.length is 3
@@ -102,14 +141,15 @@ module.exports = class HeroVictoryModal extends ModalView
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
+    c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
-    for achievement in @achievements.models
+    for achievement in (@achievements?.models or [])
       earnedAchievement = earnedAchievementMap[achievement.id]
       if earnedAchievement
         achievement.completedAWhileAgo = new Date().getTime() - Date.parse(earnedAchievement.get('created')) > 30 * 1000
       achievement.worth = achievement.get 'worth', true
       achievement.gems = achievement.get('rewards')?.gems
-    c.achievements = @achievements.models.slice()
+    c.achievements = @achievements?.models.slice() or []
     for achievement in c.achievements
       achievement.description = utils.i18n achievement.attributes, 'description'
       continue unless @supermodel.finished() and proportionalTo = achievement.get 'proportionalTo'
@@ -159,14 +199,24 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and @level.get('type', true) isnt 'course'
 
+    c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.get('type', true) in ['course', 'course-ladder']
+
     return c
 
   afterRender: ->
     super()
+    @$el.toggleClass 'show-achievements', @level.get('type', true) is 'hero'
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
-    @updateXPBars 0
+    @initializeAnimations()
+    if @level.get('type', true) in ['hero-ladder', 'course-ladder']
+      @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
+      @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
+
+  initializeAnimations: ->
+    if @level.get('type', true) is 'hero'
+      @updateXPBars 0
     @$el.find('#victory-header').delay(250).queue(->
       $(@).removeClass('out').dequeue()
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'victory-title-appear'  # TODO: actually add this
@@ -192,12 +242,10 @@ module.exports = class HeroVictoryModal extends ModalView
       panel.queue(-> complete())
     @animationComplete = not @animatedPanels.length
     complete() if @animationComplete
-    if @level.get('type', true) in ['hero-ladder', 'course-ladder']
-      @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
-      @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   beginSequentialAnimations: ->
     return if @destroyed
+    return unless @level.get('type', true) is 'hero'
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')
@@ -336,8 +384,8 @@ module.exports = class HeroVictoryModal extends ModalView
   getNextLevelCampaign: ->
     {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
 
-  getNextLevelLink: ->
-    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel')
+  getNextLevelLink: (returnToCourse=false) ->
+    if @level.get('type', true) is 'course' and nextLevel = @level.get('nextLevel') and not returnToCourse
       # need to do something more complicated to load its slug
       console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
       return "/play/level/#{@nextLevel.get('slug')}"
@@ -351,13 +399,13 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onClickContinue: (e, extraOptions=null) ->
     @playSound 'menu-button-click'
-    nextLevelLink = @getNextLevelLink()
+    nextLevelLink = @getNextLevelLink extraOptions?.returnToCourse
     # Preserve the supermodel as we navigate back to the world map.
     options =
       justBeatLevel: @level
       supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
     _.merge options, extraOptions if extraOptions
-    if @level.get('type', true) is 'course' and @nextLevel
+    if @level.get('type', true) is 'course' and @nextLevel and not options.returnToCourse
       viewClass = require 'views/play/level/PlayLevelView'
       viewArgs = [options, @nextLevel.get('slug')]
     else if @level.get('type', true) is 'course'
@@ -375,6 +423,9 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onClickLeaderboard: (e) ->
     @onClickContinue e, showLeaderboard: true
+
+  onClickReturnToCourse: (e) ->
+    @onClickContinue e, returnToCourse: true
 
   onClickReturnToLadder: (e) ->
     @playSound 'menu-button-click'
@@ -398,3 +449,25 @@ module.exports = class HeroVictoryModal extends ModalView
     }[@level.get('slug')]
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
     window.open url, '_blank' if url
+
+  # Ratings and reviews
+
+  starNum: (starEl) -> starEl.prevAll('i').length + 1
+
+  showStars: (num) ->
+    @$el.find('.rating').show()
+    num ?= @feedback?.get('rating') or 0
+    stars = @$el.find('.rating i')
+    stars.removeClass('glyphicon-star').addClass('glyphicon-star-empty')
+    stars.slice(0, num).removeClass('glyphicon-star-empty').addClass('glyphicon-star')
+
+  setStars: (num) ->
+    @feedback.set('rating', num)
+    @feedback.save()
+
+  saveReviewEventually: ->
+    @saveReview()
+
+  saveReview: ->
+    @feedback.set('review', @$el.find('.review textarea').val())
+    @feedback.save()

@@ -245,8 +245,9 @@
     victory_return_to_ladder: "Return to Ladder"
     victory_play_continue: "Continue"
     victory_saving_progress: "Saving Progress"
-    victory_go_home: "Go Home"  # Only in old-style levels.
-    victory_review: "Tell us more!"  # Only in old-style levels.
+    victory_go_home: "Go Home"
+    victory_review: "Tell us more!"
+    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Are You Done?"
     victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
     victory_experience_gained: "XP Gained"
