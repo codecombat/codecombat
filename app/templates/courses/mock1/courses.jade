@@ -5,7 +5,6 @@ block content
   //- DO NOT localize / i18n
 
   div TODO: Add already enrolled view checkbox
-  div TODO: Add sales copy at beginning
   div(style='border-bottom: 1px solid black')
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -53,6 +52,31 @@ block content
               button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{courseID}") Buy this course
 
   h1.center Courses
+
+  .info-container
+    //- p.center.gameplay-img-container
+    //-   img(src="/images/pages/courses/101_info.png" width='800')
+
+    .container-fluid
+      .row
+        .col-md-6
+          div With CodeCombat courses, you and your students will:
+          ul
+            li Learn more in less time
+            li With no experience necesssary
+            li Monitor student progress
+          br
+        .col-md-6
+          p
+            div.praise-quote "#{praise.quote}"
+            div.caption-text - #{praise.source}
+      //- .row
+      //-   .col-md-12
+      //-     div.center
+      //-       button.btn.btn-success.btn-lg.btn-buy Enroll Now!
+
+  //- h2.center Available Courses
+
   .container-fluid
     - var i = 0
     while i < courses.length

@@ -21,6 +21,7 @@ module.exports = class CoursesView extends RootView
     context = super()
     context.courses = @courses ? []
     context.instances = @instances ? []
+    context.praise = @praise
     context
 
   initData: ->
@@ -32,11 +33,15 @@ module.exports = class CoursesView extends RootView
       else
         break
     @instances = mockData.instances
+    @praise = mockData.praise[_.random(0, mockData.praise.length - 1)]
 
   onClickBuy: (e) ->
-    courseID = $(e.target).data('course-id')
-    app.router.navigate "/courses/mock1/#{courseID}/enroll"
-    window.location.reload()
+    $('#continueModal').modal('hide')
+    courseID = $(e.target).data('course-id') ? 0
+    viewClass = require 'views/courses/mock1/CourseEnrollView'
+    viewArgs = [{}, courseID]
+    navigationEvent = route: "/courses/mock1/enroll", viewClass: viewClass, viewArgs: viewArgs
+    Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickContinue: (e) ->
     courseID = $(e.target).data('course-id')
