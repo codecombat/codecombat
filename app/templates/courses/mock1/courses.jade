@@ -3,21 +3,54 @@ extends /templates/base
 block content
 
   //- DO NOT localize / i18n
-  
+
+  div TODO: Add already enrolled view checkbox
+  div TODO: Add sales copy at beginning
   div(style='border-bottom: 1px solid black')
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
 
-  .modal#redeemCodeModal
+  .modal#continueModal
     .modal-dialog
       .modal-header
         button.close(data-dismiss='modal')
           span &times;
         h3.modal-title Loading...
       .modal-body
-        input.code-input(type='text', placeholder="Enter unlock code")
-      .modal-footer
-        button.btn.btn-success.btn-redeem-code Enroll
+        .container-fluid
+          .row.button-row.row-pick-class
+            .col-md-12
+              .well.well-sm
+                p
+                  div.instruction-label Pick your class
+                .container-fluid
+                  .row
+                    .col-md-8
+                      select.form-control.select-session
+                        each inst in instances
+                          option= inst.name
+                    .col-md-4
+                      button.btn.btn-success.btn-enter(data-course-id="#{courseID}") Enter
+          .row.button-row.center.row-pick-class
+            .col-md-12
+              div.or Or
+          .row.button-row
+            .col-md-12
+              .well.well-sm
+                p
+                  div.instruction-label Enter an unlock code
+                .container-fluid
+                  .row
+                    .col-md-8
+                      input.code-input(type='text', placeholder="Enter unlock code")
+                    .col-md-4
+                      button.btn.btn-success.btn-enroll(data-course-id="#{courseID}") Enroll
+          .row.button-row.center
+            .col-md-12
+              div.or Or
+          .row.button-row.center
+            .col-md-12
+              button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{courseID}") Buy this course
 
   h1.center Courses
   .container-fluid
@@ -42,11 +75,7 @@ mixin course-block(course, courseID)
             li= topic
         strong Hours of content: #{course.duration}
         .container-fluid
-          .row.button-row
-            .col-md-4
-              button.btn.btn-warning.btn-have-code(data-toggle='modal', data-target="#redeemCodeModal", data-course-title="#{course.title}", data-course-id="#{courseID}") I have a code
-            .col-md-4
-              if course.unlocked
-                button.btn.btn-success.btn-enter(data-course-id="#{courseID}") Enter
-            .col-md-4
-              button.btn.btn-info.btn-more-info(data-course-id="#{courseID}") More details
+          .row.button-row.center
+            .col-md-12
+              br
+              button.btn.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") Continue
