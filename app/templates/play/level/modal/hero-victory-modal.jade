@@ -8,7 +8,24 @@ block modal-header-content
         h1(data-i18n="play_level.victory") Victory
 
 block modal-body-content
-  
+  if victoryText
+    #victory-text= victoryText
+
+  #level-feedback
+    div.rating.secret
+      div.rating-label(data-i18n="play_level.victory_rate_the_level") Rate the level:
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+      i.glyphicon.glyphicon-star-empty
+    if !me.get('anonymous')
+      span.review-label.secret(data-i18n="play_level.victory_review") Tell us more!
+      .review.secret
+        br
+        textarea(data-i18n="[placeholder]play_level.victory_review_placeholder")
+    .clearfix
+
   for achievement in achievements
     - var animate = achievement.completed && !achievement.completedAWhileAgo
     .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
@@ -85,6 +102,8 @@ block modal-footer-content
 
   if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
+  else if showReturnToCourse
+    button.btn.btn-illustrated.btn-warning.return-to-course-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
 
   if showHourOfCodeDoneButton
     .hour-of-code-done

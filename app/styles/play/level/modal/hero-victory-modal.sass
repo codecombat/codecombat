@@ -329,11 +329,15 @@
       margin: 0
       float: left
     
-  .leaderboard-button
+  .leaderboard-button, .courses-button
     height: 60px
     line-height: 30px
     margin: 0 10px
     float: right
+
+  .return-to-course-button
+    width: 258px
+    float: left
 
   .next-level-buttons
     float: right
@@ -383,6 +387,69 @@
 
     p
       color: white
+
+  #victory-text
+    z-index: 1
+    text-align: center
+    padding: 30px 13px 0 13px
+    margin-bottom: 35px
+    font-size: 24px
+    color: white
+    font-weight: bold
+    text-transform: uppercase
+    font-family: $headings-font-family
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+  #level-feedback
+    color: $hero-yellow-text
+    font-weight: bold
+    text-transform: uppercase
+    font-size: 20px
+    font-family: $headings-font-family
+    padding: 0 13px 20px 13px
+    text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+
+    .rating
+      position: relative
+      margin-top: 5px
+      text-align: center
+      float: left
+      width: 50%
+
+      .rating-label
+        margin-bottom: 8px
+
+      i
+        cursor: pointer
+        padding: 5px
+        font-size: 48px
+        text-shadow: black 3px 3px 0, black -3px -3px 0, black 3px -3px 0, black -3px 3px 0, black 3px 0px 0, black 0px -3px 0, black -3px 0px 0, black 0px 3px 0
+
+    .review-label
+      margin-top: 5px
+      text-align: center
+      float: right
+      width: 50%
+
+    .review
+      width: 100%
+      text-align: center
+
+      textarea
+        float: right
+        width: 50%
+        height: 80px
+        box-sizing: border-box
+        background-color: rgba(255, 255, 255, 0.7)
+        font-size: 16px
+
+  &:not(.with-achievements)
+    #totals
+      display: none
+
+  &.with-achievements
+    #victory-text
+      display: none
 
 html.no-borderimage
   #hero-victory-modal

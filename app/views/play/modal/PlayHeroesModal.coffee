@@ -172,7 +172,7 @@ module.exports = class PlayHeroesModal extends ModalView
       layer.on 'new-spritesheet', ->
         #- maybe put some more normalization here?
         m = multiplier
-        m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian', 'sorcerer', 'necromancer'] # these heroes are larger for some reason, shrink 'em
+        m *= 0.75 if fullHero.get('slug') in ['knight', 'samurai', 'librarian', 'sorcerer', 'necromancer']  # These heroes are larger for some reason. Shrink 'em.
         layer.container.scaleX = layer.container.scaleY = m
         layer.container.children[0].x = 160/m
         layer.container.children[0].y = 250/m

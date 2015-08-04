@@ -9,9 +9,9 @@ module.exports = class CourseEnrollView extends RootView
   events:
     'click .btn-buy': 'onClickBuy'
     'change .course-select': 'onChangeCourse'
-    'change input:radio': 'onQuantityChange'
+    'change .input-quantity': 'onQuantityChange'
 
-  constructor: (options, @courseID) ->
+  constructor: (options, @courseID=0) ->
     super options
     @initData()
 
@@ -50,22 +50,14 @@ module.exports = class CourseEnrollView extends RootView
     @render?()
 
   onQuantityChange: (e) ->
-    @quantity = $(e.target).data('quantity')
+    @quantity = $(e.target).val() ? 20
     @updatePrice()
     @render?()
 
   updatePrice: ->
     if @selectedCourseTitle is 'All Courses'
-      @price = switch
-        when @quantity is 20 then 499
-        when @quantity is 50 then 999
-        when @quantity is 100 then 1499
-        else 2999
+      @price = (@courses.length - 1) * @quantity * 2
     else if @selectedCourseTitle is 'Introduction to Computer Science'
       @price = 0
     else
-      @price = switch
-        when @quantity is 20 then 99
-        when @quantity is 50 then 199
-        when @quantity is 100 then 349
-        else 799
+      @price = @quantity * 4

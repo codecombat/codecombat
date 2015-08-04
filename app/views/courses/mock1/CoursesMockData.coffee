@@ -32,15 +32,15 @@ data.courses = [
     image: '/images/pages/courses/101_info.png'
   },
   {
-    title: 'Computer Science 102'
-    description: 'Computer Science 102 introduces Arguments, Variables, If Statements, and Arithmetic.'
+    title: 'Computer Science 2'
+    description: 'Introduce Arguments, Variables, If Statements, and Arithmetic.'
     topics: ['Arguments', 'Variables', 'If Statements', 'Arithmetic']
     duration: 5
     levels: ['Known Enemy', 'Master of Names', 'Lowly Kithmen', 'Closing the Distance', 'Tactical Strike', 'The Final Kithmaze', 'The Gauntlet', 'Radiant Aura', 'Kithgard Gates', 'Destroying Angel', 'Deadly Dungeon Rescue', 'Kithgard Brawl', 'Cavern Survival', 'Breakout', 'Attack Wisely!', 'Kithgard Mastery', 'Kithgard Apprentice', 'Long Kithmaze', 'Boom! and Bust', 'Defense of Plainswood', 'Winding Trail', 'Thumb Biter', 'Gems or Death', 'Backwoods Ambush', 'Patrol Buster', 'Endangered Burl', 'Village Guard', 'Thornbush Farm', 'Back to Back', 'Ogre Encampment', 'Woodland Cleaver', 'Shield Rush', 'Peasant Protection', 'Munchkin Swarm']
     image: '/images/pages/courses/102_info.png'
   },
   {
-    title: 'Computer Science 103'
+    title: 'CS Course 3'
     description: 'Learn how to handle input.'
     topics: ['If Statements', 'Arithmetic', 'Input Handling']
     duration: 5
@@ -48,7 +48,7 @@ data.courses = [
     image: '/images/pages/courses/103_info.png'
   },
   {
-    title: 'Computer Science 104'
+    title: 'CS 4'
     description: 'Time to tackle arrays and some pvp stuff.'
     topics: ['Loops', 'Break Statements', 'Arrays']
     duration: 5
@@ -56,7 +56,7 @@ data.courses = [
     image: '/images/pages/courses/104_info.png'
   },
   {
-    title: 'Computer Science 105'
+    title: 'Course 5'
     description: 'Time to tackle arrays and some PVP.'
     topics: ['Break Statements', 'Arrays', 'Object Literals']
     duration: 5
@@ -64,7 +64,7 @@ data.courses = [
     image: '/images/pages/courses/105_info.png'
   },
   {
-    title: 'Computer Science 106'
+    title: 'Course 6'
     description: 'For loops!'
     topics: ['Break Statements', 'Object Literals', 'For loops']
     duration: 5
@@ -72,7 +72,7 @@ data.courses = [
     image: '/images/pages/courses/106_info.png'
   },
   {
-    title: 'Computer Science 107'
+    title: 'Course 7'
     description: 'Functions!'
     topics: ['Object Literals', 'For loops', 'Functions']
     duration: 5
@@ -80,7 +80,7 @@ data.courses = [
     image: '/images/pages/courses/107_info.png'
   },
   {
-    title: 'Computer Science 108'
+    title: 'CS 108'
     description: 'Maths.'
     topics: ['For loops', 'Functions', 'Math Operations']
     duration: 5

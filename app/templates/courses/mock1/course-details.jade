@@ -5,6 +5,7 @@ block content
   //- DO NOT localize / i18n
 
   div TODO: fix ugly tabs
+  div TODO: not enrolled yet
   div
     span *UNDER CONSTRUCTION, send feedback to
     a.spl(href='mailto:team@codecombat.com') team@codecombat.com
@@ -39,17 +40,6 @@ block content
 
   h1= course.title
   p= course.description
-
-  if !studentMode
-    p
-      .form-group
-        span.spr Select your class
-        select.form-control.select-session
-          each inst in instances
-            if instance.name === inst.name
-              option(selected)= inst.name
-            else
-              option= inst.name
 
   h3= instance.name
     if !studentMode
