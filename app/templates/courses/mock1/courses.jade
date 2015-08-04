@@ -104,4 +104,4 @@ mixin course-block(course, courseID)
           .row.button-row.center
             .col-md-12
               br
-              button.btn.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") Continue
+              button.btn.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") #{course.unlocked ? 'Continue' : 'Enter'}
