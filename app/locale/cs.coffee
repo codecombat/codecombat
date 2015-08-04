@@ -70,7 +70,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     choose_inventory: "Vyzbrojit se předměty"
     buy_gems: "Zakoupit drahokamy"
     subscription_required: "Předplatné vyžadováno"
-    older_campaigns: "Starší kampaně"
     anonymous: "Anonymní hráč"
     level_difficulty: "Obtížnost: "
     campaign_beginner: "Začátečnická kampaň"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     awaiting_levels_adventurer: "Přihlašte se jako Dobrodruh"
     awaiting_levels_adventurer_suffix: "abyste jako první hráli nejnovější úrovně."
     adjust_volume: "Nastavení hlasitosti"
-    choose_your_level: "Zvolte si úroveň" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Můžete přejít do dalších úrovní, nebo debatovat o úrovních na "
-    adventurer_forum: "fóru Dobrodruhů"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Starší začátečnická kampaň"
-    campaign_old_beginner_description: "...ve které se naučíte kouzla programování."
-    campaign_dev: "Náhodné težší úrovně"
-    campaign_dev_description: "...ve kterých se dozvíte více o prostředí při plnění těžších úkolů."
     campaign_multiplayer: "Multiplayer Aréna"
     campaign_multiplayer_description: "...ve které programujete proti jiným hráčům."
-    campaign_player_created: "Uživatelsky vytvořené úrovně"
-    campaign_player_created_description: "...ve kterých bojujete proti kreativitě ostatních <a href=\"/contribute#artisan\">Zdatných Kouzelníků</a>."
-    campaign_classic_algorithms: "Klasické algoritmy"
-    campaign_classic_algorithms_description: "... ve kterých se naučíte nejoblíbenější algoritmy v IT."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pro přetočení a rychlý přesun." # {change}
     tip_guide_exists: "Klikněte na průvode uvnitř herního menu (nahoře na stránce), pro užitečné informace."
     tip_open_source: "CodeCombat je 100% open source!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat spustil svoji beta verzi v Říjnu, 2013."
     tip_think_solution: "Myslete na řešení, ne na problém."
     tip_theory_practice: "Teoreticky není žádný rozdíl mezi teorií a praxí. Ale v praxi ten rozdíl je. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventář"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     indoor: "Úkryt"
     desert: "Poušť"
     grassy: "Travnatý"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Malý"
     large: "Velký"
     fork_title: "Forkovat novou verzi"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   delta:
     added: "Přidáno"
     modified: "Změněno"
+#    not_modified: "Not Modified"
     deleted: "Smazáno"
     moved_index: "Index přemístěn"
     text_diff: "Rozdíl textu"

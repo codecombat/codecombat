@@ -70,7 +70,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     choose_inventory: "Felszerelés"
     buy_gems: "Vásárolj Drágköveket"
     subscription_required: "Előfizetést igényel"
-    older_campaigns: "Régebbi Kampányok"
     anonymous: "Anonímusz Játékos"
     level_difficulty: "Nehézség: "
     campaign_beginner: "Kezdő Kampány"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új pályákon játszik."
     adjust_volume: "Hangerő beállítása"
-    choose_your_level: "Válaszd ki a pályát!" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Továbbugorhatsz bármelyik pályára, amit lent látsz. Vagy megbeszélheted a pályát a többiekkel "
-    adventurer_forum: "a Kalandozók Fórumán"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Régi Kezdő Kampány"
-    campaign_old_beginner_description: "... amelyben megtanulhatod a programozás varázslatait."
-    campaign_dev: "Véletlenszerű Nehezebb Pályák"
-    campaign_dev_description: "... amelyekben kicsit nehezebb dolgokkal nézhetsz szembe."
     campaign_multiplayer: "Multiplayer Arénák"
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
-    campaign_player_created: "Játékosok pályái"
-    campaign_player_created_description: "...melyekben <a href=\"/contribute#artisan\">Művészi Varázsló</a> társaid ellen kűzdhetsz."
-    campaign_classic_algorithms: "Klasszikus Algoritmus"
-    campaign_classic_algorithms_description: "... amiben megtanulod a legnépszerűbb számítástudományi algoritmusokat."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_scrub_shortcut: "Ctrl+[ és Ctrl+] visszatekerés és gyors-előre." # {change}
     tip_guide_exists: "Hasznos információkért kattints az oldal tetején az útmutatóra.."
     tip_open_source: "A CodeCombat 100%-osan nyitott forráskódú."
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat Béta teszt 2013 Októberétől elérhető."
     tip_think_solution: "A megoldásra gondolj, ne a problémára!"
     tip_theory_practice: "Elméletben nincs különbség elmélet és gyakorlat között. A gyakorlatban viszont van. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Raktár"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    indoor: "Indoor"
     desert: "Sivatag"
     grassy: "Füves"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Kicsi"
     large: "Nagy"
     fork_title: "Új Verzió villára vétele"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

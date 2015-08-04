@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    choose_inventory: "Equip Items"
     buy_gems: "Köp ädelstenar"
     subscription_required: "Kräver prenumeration"
-    older_campaigns: "Gamla kampanjer"
     anonymous: "Anonym Spelare"
     level_difficulty: "Svårighetsgrad: "
     campaign_beginner: "Nybörjarkampanj"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     awaiting_levels_adventurer: "Registrera dig som äventyrare"
     awaiting_levels_adventurer_suffix: "för att vara först att spela nya nivåer."
     adjust_volume: "justera volymen"
-    choose_your_level: "Välj din nivå" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Du kan hoppa till vilken nivå som helst här under, eller diskutera nivåer på "
-    adventurer_forum: "Äventyrarforumet"
-    adventurer_suffix: "."
-#    campaign_old_beginner: "Old Beginner Campaign"
-    campaign_old_beginner_description: "... i vilken du lär dig programmerandets magi."
-    campaign_dev: "Slumpad svårare nivå"
-    campaign_dev_description: "... där du lär dig att hantera gränssnittet medan du gör något lite svårare."
     campaign_multiplayer: "Flerspelararenor"
     campaign_multiplayer_description: "... i vilken du tävlar i kodande mot andra spelare"
-    campaign_player_created: "Spelarskapade"
-    campaign_player_created_description: "... i vilken du tävlar mot kreativiteten hos  andra <a href=\"/contribute#artisan\">Hantverkare</a>."
-#    campaign_classic_algorithms: "Classic Algorithms"
-#    campaign_classic_algorithms_description: "... in which you learn the most popular algorithms in Computer Science."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tip_scrub_shortcut: "Ctrl+] och Ctrl+[ spolar framåt och bakåt." # {change}
 #    tip_guide_exists: "Click the guide, inside game menu (at the top of the page), for useful info."
     tip_open_source: "CodeCombat är 100% öppen källkod!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat startade sin beta i oktober 2013."
     tip_think_solution: "Tänk på lösningen, inte problemet."
     tip_theory_practice: "Teoretiskt sett så är det ingen skillnad mellan teori och praktik. Men i praktiken så är det. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tip_recurse: "Iteration är mänskligt, rekursion är gudomligt. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Utrustning"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    indoor: "Indoor"
 #    desert: "Desert"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
 #    small: "Small"
 #    large: "Large"
 #    fork_title: "Fork New Version"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

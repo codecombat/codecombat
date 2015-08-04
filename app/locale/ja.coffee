@@ -70,7 +70,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     choose_inventory: "アイテムを装備"
     buy_gems: "ジェムを購入"
     subscription_required: "サブスクリプション必須"
-    older_campaigns: "古いキャンペーン"
     anonymous: "名無しのプレイヤー"
     level_difficulty: "難易度: "
     campaign_beginner: "初心者のキャンペーン"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     awaiting_levels_adventurer: "冒険者として登録すると、"
     awaiting_levels_adventurer_suffix: "新たなレベルを最初に遊ぶ事ができます"
     adjust_volume: "音量を調整する"
-    choose_your_level: "レベル選択" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
-    adventurer_forum: "冒険者の掲示板"
-    adventurer_suffix: ""
-    campaign_old_beginner: "旧初級キャンペーン"
-    campaign_old_beginner_description: "プログラミングの魔法を学びましょう"
-    campaign_dev: "ランダムな難しいレベル"
-    campaign_dev_description: "遊びながらインタフェースを学ぼう"
     campaign_multiplayer: "マルチプレイ・アリーナ"
     campaign_multiplayer_description: "コーディングで他のプレイヤーに対して格闘しましょう"
-    campaign_player_created: "プレイヤー作成レベル"
-    campaign_player_created_description: "仲間のウィザード達の創造力との戦いに立ち向かいます"
-    campaign_classic_algorithms: "クラシックアルゴリズム"
-    campaign_classic_algorithms_description: "コンピュータサイエンスで最も人気のあるアルゴリズムを学ぼう"
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_scrub_shortcut: "Ctrl+[ と Ctrl+] で巻き戻し、早送りする" # {change}
     tip_guide_exists: "ゲームメニュー内のガイド（ページの上部）をクリックし、便利な情報 を見よう。"
     tip_open_source: "CodeCombatは、100％オープンソースです！"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombatは、2013年10月にベータ版を開始しました。"
     tip_think_solution: "問題より、解決策を考えろ。"
     tip_theory_practice: "理論的には、理論と実践の間には違いはない。でも実際には、ある。- ヨギ・ベラ"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_recurse: "繰り返しは人間、再帰は神。 - L・ピーター・ドイツ"
     tip_free_your_mind: "全ての雑念を捨てろ、恐怖、疑いも不信も 心を解き放つんだ - モーフィアス"
     tip_strong_opponents: "どんな強者にも弱点というものはあるんだ… - うちは　イタチ"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     indoor: "屋内"
     desert: "砂漠"
     grassy: "草原"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "小さい"
     large: "大きい"
     fork_title: "新しいバージョンをフォークする"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

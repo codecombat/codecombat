@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     choose_inventory: "Опреми се"
     buy_gems: "Купи скапоцени камења"
     subscription_required: "Потребно е зачленување"
-    older_campaigns: "Постари кампањи"
     anonymous: "Анонимен играч"
     level_difficulty: "Тешкотија: "
     campaign_beginner: "Почетничка кампања"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     awaiting_levels_adventurer: "Зачлени се како Авантурист"
     awaiting_levels_adventurer_suffix: "за да бидеш првиот кој ќе ги игра новите нивоа."
 #    adjust_volume: "Adjust volume"
-    choose_your_level: "Избери го твоето ниво" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Можеш да отидеш на било кое од подолните нивоа, или да дискутираш за нивоата на "
-    adventurer_forum: "форумот на Авантуристите"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Стара почетничка кампања"
-    campaign_old_beginner_description: "... во која учиш за волшепството на програмирањето."
-    campaign_dev: "Призволни потешки нивоа"
-    campaign_dev_description: "... во кои го учиш интерфејсот додека правиш нешто малку потешко."
     campaign_multiplayer: "Арени за повеќе играчи"
     campaign_multiplayer_description: "... во кои кодираш лице-во-лице против други играчи."
-    campaign_player_created: "Направено од играчи"
-    campaign_player_created_description: "... се бориш наспроти креативноста на останатите играчи од <a href=\"/contribute/artisan\">Волшебничкиот занает</a>."
-    campaign_classic_algorithms: "Класични алгоритми"
-    campaign_classic_algorithms_description: "... во кои ги учиш најпопуларните алгоритми во компјутерската наука."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     tip_scrub_shortcut: "Ctrl+[ и Ctrl+] премотуваат назад и напред." # {change}
     tip_guide_exists: "Кликни на водичот, во менито (на врвот на страната), за корисни информации."
     tip_open_source: "CodeCombat е 100% open source!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat ја пушти својата бета верзија во октомври, 2013."
     tip_think_solution: "Мисли на решението, не на проблемот."
     tip_theory_practice: "Теоретски, не постои разлика помеѓу теорија и пракса. Но, во пракса, постои. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     tip_recurse: "Да работиш итеративно е човечки, а да работич рекурзивно е божествено. - L. Peter Deutsch"
     tip_free_your_mind: "Мораш да го оставиш сето тоа, Нео. Стравот, сомнежот, и невербата. Ослободи го твојот ум. - Morpheus"
     tip_strong_opponents: "Дури и најсилниот противник има некоја слаба точка. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
 #    inventory_tab: "Inventory"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    indoor: "Indoor"
 #    desert: "Desert"
 #    grassy: "Grassy"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
 #    small: "Small"
 #    large: "Large"
 #    fork_title: "Fork New Version"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #  delta:
 #    added: "Added"
 #    modified: "Modified"
+#    not_modified: "Not Modified"
 #    deleted: "Deleted"
 #    moved_index: "Moved Index"
 #    text_diff: "Text Diff"

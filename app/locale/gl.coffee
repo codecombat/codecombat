@@ -70,7 +70,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     choose_inventory: "Equipar Obxectos"
 #    buy_gems: "Buy Gems"
 #    subscription_required: "Subscription Required"
-    older_campaigns: "Campañas Anteriores"
     anonymous: "Xogador Anónimo"
     level_difficulty: "Dificultade: "
     campaign_beginner: "Campaña de Principiante"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    awaiting_levels_adventurer: "Sign up as an Adventurer"
 #    awaiting_levels_adventurer_suffix: "to be the first to play new levels."
 #    adjust_volume: "Adjust volume"
-    choose_your_level: "Escolle o teu nivel" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Podes escoller calqueira pantalla ou falar no "
-    adventurer_forum: " foro do aventureiro "
-    adventurer_suffix: "sobre iso."
-    campaign_old_beginner: "Antiga Campaña de Principiante"
-    campaign_old_beginner_description: "... na que aprenderás a maxia da programación."
-    campaign_dev: "Niveis aleatorios máis dificiles"
-    campaign_dev_description: "... nos que aprenderás sobre a interface mentres fas algo máis difícil."
     campaign_multiplayer: "Areas Multixogador"
     campaign_multiplayer_description: "... nas que o teu código se enfrentará ao de outros xogadores."
-    campaign_player_created: "Creacións dos Xogadores"
-    campaign_player_created_description: "... nas que loitas contra a creatividade dos teus compañeiros <a href=\"/contribute#artisa\">Magos Artesáns</a>."
-    campaign_classic_algorithms: "Algoritmos Clásicos"
-    campaign_classic_algorithms_description: "... donde aprendes os algoritmos máis populares da informática."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     tip_scrub_shortcut: "Ctrl+[ y Ctrl+] rebobina e avanza cara adiante." # {change}
     tip_guide_exists: "Preme na guía arriba da páxina para máis información útil."
     tip_open_source: "CodeCombat é 100% código aberto!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat lanzou a súa beta en Outubro de 2014."
     tip_think_solution: "Pensa na solución, non no problema."
     tip_theory_practice: "En teoría, non hai diferenza entre a teoría e a práctica. Pero na práctica, si que a hai. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
 #    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus"
 #    tip_strong_opponents: "Even the strongest of opponents always has a weakness. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventario"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    indoor: "Indoor"
 #    desert: "Desert"
     grassy: "Cuberto de herba"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Pequeno"
 #    large: "Large"
     fork_title: "Bifurcar nova versión"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
   delta:
     added: "Engadido"
     modified: "Modificado"
+#    not_modified: "Not Modified"
     deleted: "Eliminado"
     moved_index: "Índice movido"
 #    text_diff: "Text Diff"

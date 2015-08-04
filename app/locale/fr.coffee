@@ -70,7 +70,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     choose_inventory: "Équiper des objets"
     buy_gems: "Acheter des gemmes"
     subscription_required: "Enregistrement nécessaire"
-    older_campaigns: "Anciennes Campagnes"
     anonymous: "Joueur anonyme"
     level_difficulty: "Difficulté : "
     campaign_beginner: "Campagne du Débutant"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     awaiting_levels_adventurer: "S'inscrire comme aventurier"
     awaiting_levels_adventurer_suffix: "afin d'être le premier à jouer de nouveaux niveaux."
     adjust_volume: "Ajuster le volume"
-    choose_your_level: "Choisissez votre niveau" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
-    adventurer_forum: "le forum de l'Aventurier"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Anciennes campagnes pour débutant"
-    campaign_old_beginner_description: "... dans lesquelles vous apprendrez la magie de la programmation."
-    campaign_dev: "Niveaux aléatoires plus difficiles"
-    campaign_dev_description: "... dans lesquels vous apprendrez à utiliser l'interface en faisant quelque chose d'un petit peu plus dur."
     campaign_multiplayer: "Campagne multi-joueurs"
     campaign_multiplayer_description: "... dans laquelle vous coderez en face-à-face contre d'autres joueurs."
-    campaign_player_created: "Niveaux créés par les joueurs"
-    campaign_player_created_description: "... dans lesquels vous serez confronté à la créativité des vôtres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
-    campaign_classic_algorithms: "Algorithmes classiques"
-    campaign_classic_algorithms_description: "... dans lesquels vous apprendrez les algorithmes les plus populaires dans l'informatique."
     campaign_old_multiplayer: "(Obsolète) Ancienne arènes multijoueurs"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_scrub_shortcut: "Ctrl+[ and Ctrl+] : rembobinage et avance rapide." # {change}
     tip_guide_exists: "Cliquez sur le guide en haut de la page pour des informations utiles."
     tip_open_source: "CodeCombat est 100% open source !"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "La beta de CodeCombat a été lancée en Octobre 2013"
     tip_think_solution: "Reflechissez à propos de la solution et non du problème."
     tip_theory_practice: "En théorie, il n'y a pas de différence entre la théorie et la pratique. Mais en pratique, il y en a. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_recurse: "Itérer c'est humain, mais faire des récursion, c'est divin. - L. Peter Deutsch"
     tip_free_your_mind: "Vous devez laisser aller , Neo . La peur , le doute et l'incrédulité . Libère ton esprit. - Morpheus"
     tip_strong_opponents: "Même les ennemis les plus puissant ont une faiblesse. - Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventaire"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     indoor: "Intérieur"
     desert: "Desert"
     grassy: "Herbeux"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Petit"
     large: "Large"
     fork_title: "Fork une nouvelle version"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   delta:
     added: "Ajouté"
     modified: "Modifié"
+#    not_modified: "Not Modified"
     deleted: "Supprimé"
     moved_index: "Index changé"
     text_diff: "Différence de texte"

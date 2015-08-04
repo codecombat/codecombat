@@ -70,7 +70,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     choose_inventory: "Foloseste Itemele"
     buy_gems: "Cumpără Pietre Prețioase"
     subscription_required: "Abonament Necesar"
-    older_campaigns: "Campanii mai vechi"
     anonymous: "Jucător Anonim"
     level_difficulty: "Dificultate: "
     campaign_beginner: "Campanie pentru Începători"
@@ -78,20 +77,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     awaiting_levels_adventurer: "Înscrie-te ca un aventurier "
     awaiting_levels_adventurer_suffix: "pentru a fi primul care joacă nivele noi."
     adjust_volume: "Reglează volumul"
-    choose_your_level: "Alege nivelul" # The rest of this section is the old play view at /play-old and isn't very important.
-    adventurer_prefix: "Poți să sari la orice nivel de mai jos"
-    adventurer_forum: "forumul Aventurierului"
-    adventurer_suffix: "."
-    campaign_old_beginner: "Vechea campanie a începătorului"
-    campaign_old_beginner_description: "... în care se învață tainele programării."
-    campaign_dev: "Nivele aleatoare mai grele"
-    campaign_dev_description: "... în care se învață interfața, cu o dificultate puțin mai mare."
     campaign_multiplayer: "Arene Multiplayer"
     campaign_multiplayer_description: "... în care te lupți cap-la-cap contra alți jucători."
-    campaign_player_created: "Create de jucători"
-    campaign_player_created_description: "... în care ai ocazia să testezi creativitatea colegilor tai <a href=\"/contribute#artisan\">Artisan Wizards</a>."
-    campaign_classic_algorithms: "Algoritmi clasici"
-    campaign_classic_algorithms_description: "... în care înveți cei mai populari algoritmi în informatică."
 #    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
 #    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
@@ -306,6 +293,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_scrub_shortcut: "Înapoi și derulare rapidă cu Ctrl+[ and Ctrl+]." # {change}
     tip_guide_exists: "Apasă pe ghidul din partea de sus a pagini pentru informații utile."
     tip_open_source: "CodeCombat este 100% open source!"
+#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
     tip_beta_launch: "CodeCombat a fost lansat beta in Octombrie 2013."
     tip_think_solution: "Gândește-te la soluție, nu la problemă."
     tip_theory_practice: "Teoretic nu este nici o diferență înte teorie și practică. Dar practic este. - Yogi Berra"
@@ -349,6 +337,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_recurse: "A itera este uman, recursiv este divin. ~L. Peter Deutsch"
     tip_free_your_mind: "Trebuie sa lași totul, Neo. Frica, Îndoiala și necredința. Eliberează-ți mintea. ~Morpheus"
     tip_strong_opponents: "Și cei mai puternici dintre oponenți întodeauna au o slăbiciune. ~Itachi Uchiha"
+#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
 
   game_menu:
     inventory_tab: "Inventar"
@@ -862,6 +851,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     indoor: "Interior"
     desert: "Deșert"
     grassy: "Ierbos"
+#    mountain: "Mountain"
+#    glacier: "Glacier"
     small: "Mic"
     large: "Mare"
     fork_title: "Fork Versiune Nouă"
@@ -1220,6 +1211,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   delta:
     added: "Adăugat"
     modified: "Modificat"
+#    not_modified: "Not Modified"
     deleted: "Șters"
     moved_index: "Index Mutat"
     text_diff: "Diff Text"
