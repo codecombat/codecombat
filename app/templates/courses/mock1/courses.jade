@@ -67,7 +67,9 @@ mixin course-block(course, courseID)
   .col-md-6
     .well.panel.course-panel(class=course.unlocked ? 'panel-success' : 'panel-info')
       .panel-heading
-        .panel-title #{course.title} #{course.unlocked ? '(enrolled)' : ''}
+        .panel-title 
+          span.spr #{course.title}
+          strong #{course.unlocked ? '[ enrolled ]' : ''}
       .panel-body
         strong Topics
         ul
