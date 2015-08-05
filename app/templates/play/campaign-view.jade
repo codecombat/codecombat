@@ -90,6 +90,7 @@ else
 
 .game-controls.header-font
   button.btn.poll.hidden(data-i18n="[title]play.poll")
+  button.btn.clans(href="/clans", data-i18n="[title]clans.clans")
   button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
   button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
   button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
@@ -118,9 +119,6 @@ else
       button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
       if me.isPremium()
         button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
-    span.spl
-      a.btn.btn-illustrated(href='/clans', data-i18n="clans.clans") Clans
-
 
 button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
   .glyphicon.glyphicon-volume-off

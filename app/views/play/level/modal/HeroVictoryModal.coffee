@@ -141,7 +141,8 @@ module.exports = class HeroVictoryModal extends ModalView
   getRenderData: ->
     c = super()
     c.levelName = utils.i18n @level.attributes, 'name'
-    c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
+    if @level.get('type', true) isnt 'hero'
+      c.victoryText = utils.i18n @level.get('victory') ? {}, 'body'
     earnedAchievementMap = _.indexBy(@newEarnedAchievements or [], (ea) -> ea.get('achievement'))
     for achievement in (@achievements?.models or [])
       earnedAchievement = earnedAchievementMap[achievement.id]
