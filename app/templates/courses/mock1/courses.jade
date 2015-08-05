@@ -51,31 +51,26 @@ block content
             .col-md-12
               button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{courseID}") Buy this course
 
-  h1.center Courses
+  h1.center Courses on CodeCombat
 
   .info-container
-    //- p.center.gameplay-img-container
-    //-   img(src="/images/pages/courses/101_info.png" width='800')
-    p A course is a selection of CodeCombat levels designed to introduce computer science concepts in a fun and engaging environment.
+    p Courses are designed to introduce computer science concepts using CodeCombat's fun and engaging environment. CodeCombat levels are organized around key topics to encourage progressive learning, over the course of 5 hours.
+
     .container-fluid
       .row
-        .col-md-12
-          p.center
-            button.btn.btn-success.btn-lg.btn-buy Enroll Now!
-      .row
         .col-md-6
-          div With CodeCombat courses, you and your students will:
           ul
             li Learn more in less time
-            li With no experience necesssary
-            li Monitor student progress
-          br
+            li No coding experience necesssary
+            li Easily monitor student progress
+            
+          div Purchase a course for your entire class. It's easy to sign up your students!
         .col-md-6
-          p
+          .well.well-sm
             div.praise-quote "#{praise.quote}"
             div.caption-text - #{praise.source}
 
-  //- h2.center Available Courses
+  h2.center Choose Your Course:
 
   .container-fluid
     - var i = 0
@@ -95,13 +90,13 @@ mixin course-block(course, courseID)
           span.spr #{course.title}
           strong #{course.unlocked ? '[ enrolled ]' : ''}
       .panel-body
-        strong Topics
-        ul
-          each topic in course.topics
-            li= topic
-        strong Hours of content: #{course.duration}
         .container-fluid
-          .row.button-row.center
-            .col-md-12
-              br
-              button.btn.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") #{course.unlocked ? 'Continue' : 'Enter'}
+          .row.button-row
+            .col-md-6
+              strong Topics
+              ul
+                each topic in course.topics
+                  li= topic
+              strong Hours of content: #{course.duration}
+            .col-md-6.center
+              button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") #{course.unlocked ? 'Continue' : 'Enter'}
