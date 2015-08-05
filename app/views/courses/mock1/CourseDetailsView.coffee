@@ -47,6 +47,14 @@ module.exports = class CourseDetailsView extends RootView
         conceptsCompleted[concept]++
     context.conceptsCompleted = conceptsCompleted
 
+    stats =
+      averageLevelPlaytime: _.random(30, 240)
+      averageLevelsCompleted: _.random(1, @course.levels.length)
+    stats.totalPlayTime = context.instance.students?.length * stats.averageLevelPlaytime ? 0
+    stats.totalLevelsCompleted = context.instance.students?.length * stats.averageLevelsCompleted ? 0
+    stats.lastLevelCompleted = @course.levels[@maxLastStartedIndex] ? @course.levels[@course.levels.length - 1]
+    context.stats = stats
+
     context
 
   initData: ->
