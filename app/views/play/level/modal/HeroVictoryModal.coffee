@@ -68,7 +68,7 @@ module.exports = class HeroVictoryModal extends ModalView
   destroy: ->
     clearInterval @sequentialAnimationInterval
     @saveReview() if @$el.find('.review textarea').val()
-    @feedback.off()
+    @feedback?.off()
     super()
 
   onHidden: ->
