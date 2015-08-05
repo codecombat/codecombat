@@ -10,11 +10,9 @@ module.exports = class CourseDetailsView extends RootView
 
   events:
     'change .expand-progress-checkbox': 'onExpandedProgressCheckbox'
-    'change .select-session': 'onChangeSession'
     'change .student-mode-checkbox': 'onChangeStudent'
     'click .btn-play-level': 'onClickPlayLevel'
-    'click .edit-description-save-btn': 'onEditDescriptionSave'
-    'click .edit-name-save-btn': 'onEditNameSave'
+    'click .btn-save-settings': 'onClickSaveSettings'
     'click .member-header': 'onClickMemberHeader'
     'click .progress-header': 'onClickProgressHeader'
     'mouseenter .progress-level-cell': 'onMouseEnterPoint'
@@ -144,25 +142,11 @@ module.exports = class CourseDetailsView extends RootView
     @render?()
     $('.student-mode-checkbox').attr('checked', @options.studentMode)
 
-  onChangeSession: (e) ->
-    @showExpandedProgress = false
-    newSessionValue = $(e.target).val()
-    for val, index in @instances when val.name is newSessionValue
-      @currentInstanceIndex = index
-    @updateLevelMaps()
-    @onCampaignSync()
-
   onExpandedProgressCheckbox: (e) ->
     @showExpandedProgress = $('.expand-progress-checkbox').prop('checked')
     # TODO: why does render reset the checkbox to be unchecked?
     @render?()
     $('.expand-progress-checkbox').attr('checked', @showExpandedProgress)
-
-  onClickEditClassName: (e) ->
-    alert 'TODO: Popup for editing name for this course session'
-
-  onClickEditClassDescription: (e) ->
-    alert 'TODO: Popup for editing description for this course session'
 
   onClickMemberHeader: (e) ->
     @memberSort = if @memberSort is 'nameAsc' then 'nameDesc' else 'nameAsc'
@@ -183,16 +167,12 @@ module.exports = class CourseDetailsView extends RootView
       viewArgs: [{}, levelSlug]
     }
 
-  onEditDescriptionSave: (e) ->
-    description = $('.edit-description-input').val()
-    @instances[@currentInstanceIndex].description = description
-    $('#editDescriptionModal').modal('hide')
-    @render?()
-
-  onEditNameSave: (e) ->
+  onClickSaveSettings:  (e) ->
     if name = $('.edit-name-input').val()
       @instances[@currentInstanceIndex].name = name
-    $('#editNameModal').modal('hide')
+    description = $('.edit-description-input').val()
+    @instances[@currentInstanceIndex].description = description
+    $('#editSettingsModal').modal('hide')
     @render?()
 
   onMouseEnterPoint: (e) ->

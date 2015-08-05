@@ -14,56 +14,44 @@ block content
     span.spl Student view
   div(style='border-bottom: 1px solid black;')
 
-  .modal#editNameModal
+  .modal#editSettingsModal
     .modal-dialog
       .modal-header
         button.close(data-dismiss='modal')
           span &times;
-        h3.modal-title Edit Class Name
+        h3.modal-title Edit Class Settings
       .modal-body
-        p This title will be displayed to everyone enrolled in this class.
-        input.edit-name-input(type='text', value="#{instance.name}")
+        p This title will be displayed to everyone in the class.
+        p 
+          input.edit-name-input(type='text', value="#{instance.name}")
+        p This description will be displayed to everyone in the class.
+        p 
+          textarea.edit-description-input(rows=2)= instance.description
+        p Select programming languages available to the class:
+        p 
+          select.form-control.select-language
+            option(value="Python") Python
+            option(value="JavaScript") JavaScript
+            option(value="All Languages") All Languages
+        p
+          input(type='checkbox', checked)
+          span.spl Show student progress to everyone in the class
       .modal-footer
-        button.btn.edit-name-save-btn(data-i18n="common.save_changes")
-
-  .modal#editDescriptionModal
-    .modal-dialog
-      .modal-header
-        button.close(data-dismiss='modal')
-          span &times;
-        h3.modal-title Edit Class Description
-      .modal-body
-        p This description will be displayed to everyone enrolled in this class.
-        textarea.edit-description-input(rows=2)= instance.description
-      .modal-footer
-        button.btn.edit-description-save-btn(data-i18n="common.save_changes")
+        button.btn.btn-save-settings(data-i18n="common.save_changes")
 
   h1= course.title
   p= course.description
 
   h3= instance.name
-    if !studentMode
-      span.spl
-        button.btn.btn-xs.edit-class-name-btn(data-toggle='modal', data-target='#editNameModal') edit class name
 
   p
     if instance.description
       each line in instance.description.split('\n')
         div= line
-    if !studentMode
-      span.spl
-        button.btn.btn-xs.edit-description-btn(data-toggle='modal', data-target='#editDescriptionModal') edit class description
-    else if !studentMode
-      div
-        button.btn.btn-xs.edit-description-btn add class description
 
   if !studentMode
-    .form-group
-      span.spr Select language
-      select.form-control.select-language
-        option(value="Python") Python
-        option(value="JavaScript") JavaScript
-        option(value="All Languages") All Languages
+    p
+      button.btn.btn-xs.btn-edit-settings(data-toggle='modal', data-target='#editSettingsModal') edit class settings
 
   div(role='tabpanel')
     ul.nav.nav-tabs(role='tablist')
