@@ -38,10 +38,8 @@ block content
       .modal-footer
         button.btn.btn-save-settings(data-i18n="common.save_changes")
 
-  h1= course.title
-  p= course.description
-
-  h3= instance.name
+  h1= instance.name
+   small.spl (#{course.title})
 
   p
     if instance.description
@@ -77,12 +75,13 @@ block content
       .tab-pane.active#progress(role='tabpanel')
         +progress-tab
       .tab-pane#invite(role='tabpanel')
+        br
         p Invite students to join this class.
         if course.title !== 'Introduction to Computer Science'
           p Student unlock code: #{instance.code}
           p Class capacity: 34/50
         textarea.textarea-emails(rows=3, placeholder="Enter student emails to invite, one per line")
-        div
+        div(style='margin-top:10px;')
           button.btn.btn-success.btn-invite Send Invites
       .tab-pane#levels(role='tabpanel')
         +levels-tab
