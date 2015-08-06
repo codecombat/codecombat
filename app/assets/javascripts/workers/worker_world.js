@@ -43,7 +43,7 @@ var console = {
       var args = [].slice.call(arguments);
       for(var i = 0; i < args.length; ++i) {
         if(args[i] && args[i].constructor) {
-          if(args[i].constructor.className === "Thang" || args[i].isComponent)
+          if(args[i].constructor.className === "Thang" || args[i].isComponent || args[i].isVector || args[i].isRectangle || args[i].isEllipse)
             args[i] = args[i].toString();
         }
       }
@@ -64,6 +64,24 @@ console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+var myImportScripts = importScripts;
+
+var languagesImported = {};
+var ensureLanguageImported = function(language) {
+  if (languagesImported[language]) return;
+  if (language === 'javascript') return;  // Only has JSHint, but we don't need to lint here.
+  myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  languagesImported[language] = true;
+};
+
+var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
+  for (var thangID in userCodeMap)
+    for (var spellName in userCodeMap[thangID]) {
+      var language = userCodeMap[thangID][spellName].originalOptions.language;
+      ensureLanguageImported(language);
+    }
+};
+
 
 var restricted = ["XMLHttpRequest", "Worker"];
 if (!self.navigator || !(self.navigator.userAgent.indexOf('MSIE') > 0) && 
@@ -261,12 +279,13 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
 self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
     try {
         var options = userCodeMap[thangID][spellID].originalOptions;
-        if (options.includeFlow === true && options.noSerializationInFlow === true)
+        if (options.includeFlow === true && options.noSerializationInFlow === true && options.noVariablesInFlow === false)
             return;
         else
         {
             options.includeFlow = true;
             options.noSerializationInFlow = true;
+            options.noVariablesInFlow = false;
             var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
             temporaryAether.transpile(temporaryAether.raw);
             userCodeMap[thangID][spellID] = temporaryAether.serialize();
@@ -283,6 +302,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     self.debugt0 = new Date();
     self.logsLogged = 0;
 
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
@@ -292,6 +312,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             self.debugWorld.levelSessionIDs = args.levelSessionIDs;
             self.debugWorld.submissionCount = args.submissionCount;
             self.debugWorld.flagHistory = args.flagHistory;
+            self.debugWorld.difficulty = args.difficulty;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
             self.debugWorld.debugging = true;
@@ -347,10 +368,12 @@ self.runWorld = function runWorld(args) {
   self.logsLogged = 0;
 
   try {
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     self.world = new World(args.userCodeMap);
     self.world.levelSessionIDs = args.levelSessionIDs;
     self.world.submissionCount = args.submissionCount;
     self.world.flagHistory = args.flagHistory || [];
+    self.world.difficulty = args.difficulty || 0;
     if(args.level)
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
@@ -456,6 +479,7 @@ self.onWorldError = function onWorldError(error) {
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
+    return false;
   }
   /*  We don't actually have the recoverable property any more; hmm
   if(!error.recoverable) {

@@ -50,50 +50,18 @@ class Ellipse
     if shape.isEllipse then @distanceSquaredToEllipse shape else @distanceSquaredToRectangle shape
 
   containsPoint: (p, withRotation=true) ->
-    [a, b] = [@width / 2, @height / 2]
-    [h, k] = [@x, @y]
-    [x, y] = [p.x, p.y]
-    x2 = Math.pow(x, 2)
-    a2 = Math.pow(a, 2)
-    a4 = Math.pow(a, 4)
-    b2 = Math.pow(b, 2)
-    b4 = Math.pow(b, 4)
-    h2 = Math.pow(h, 2)
-    k2 = Math.pow(k, 2)
-    if withRotation and @rotation
-      sint = Math.sin(@rotation)
-      sin2t = Math.sin(2 * @rotation)
-      cost = Math.cos(@rotation)
-      cos2t = Math.cos(2 * @rotation)
-      numeratorLeft = (-a2 * h * sin2t) + (a2 * k * cos2t) + (a2 * k) + (a2 * x * sin2t)
-      numeratorMiddle = Math.SQRT2 * Math.sqrt((a4 * b2 * cos2t) + (a4 * b2) - (a2 * b4 * cos2t) + (a2 * b4) - (2 * a2 * b2 * h2) + (4 * a2 * b2 * h * x) - (2 * a2 * b2 * x2))
-      numeratorRight = (b2 * h * sin2t) - (b2 * k * cos2t) + (b2 * k) - (b2 * x * sin2t)
-      denominator = (a2 * cos2t) + a2 - (b2 * cos2t) + b2
-      solution1 = (numeratorLeft - numeratorMiddle + numeratorRight) / denominator
-      solution2 = (numeratorLeft + numeratorMiddle + numeratorRight) / denominator
-      if (not isNaN solution1) and (not isNaN solution2)
-        [bigSolution, littleSolution] = if solution1 > solution2 then [solution1, solution2] else [solution2, solution1]
-        if y > littleSolution and y < bigSolution
-          return true
-        else
-          return false
-      else
-        return false
-    else
-      numeratorLeft = a2 * k
-      numeratorRight = Math.sqrt((a4 * b2) - (a2 * b2 * h2) + (2 * a2 * b2 * h * x) - (a2 * b2 * x2))
-      denominator = a2
-      solution1 = (numeratorLeft + numeratorRight) / denominator
-      solution2 = (numeratorLeft - numeratorRight) / denominator
-      if (not isNaN solution1) and (not isNaN solution2)
-        [bigSolution, littleSolution] = if solution1 > solution2 then [solution1, solution2] else [solution2, solution1]
-        if y > littleSolution and y < bigSolution
-          return true
-        else
-          return false
-      else
-        return false
-    false
+    # "ellipse space" is the cartesian space
+    # where the ellipse becomes the unit
+    # circle centered at (0, 0)
+    [x, y] = [p.x - @x, p.y - @y] # translate point into ellipse space
+    if withRotation and @rotation # optionally rotate point into ellipse space
+      c = Math.cos(@rotation)
+      s = Math.sin(@rotation)
+      [x, y] = [x*c + y*s, y*c - x*s]
+    x = x / @width * 2 # scale point into ellipse space
+    y = y / @height * 2
+    x*x + y*y <= 1 #if the resulting point falls on/in the unit circle at 0, 0
+
 
   intersectsLineSegment: (p1, p2) ->
     [px1, py1, px2, py2] = [p1.x, p1.y, p2.x, p2.y]
@@ -153,7 +121,7 @@ class Ellipse
     rectangle.intersectsEllipse @
 
   intersectsEllipse: (ellipse) ->
-    @rectangle().intersectsEllipse @  # TODO: actually implement ellipse-ellipse intersection
+    @rectangle().intersectsEllipse ellipse  # TODO: actually implement ellipse-ellipse intersection
     #return true if @containsPoint ellipse.getPos()
 
   intersectsShape: (shape) ->

@@ -36,35 +36,41 @@ module.exports = class RootView extends CocoView
     'modal:open-modal-view': 'onOpenModalView'
 
   showNewAchievement: (achievement, earnedAchievement) ->
+    earnedAchievement.set('notified', true)
+    earnedAchievement.patch()
     return if achievement.get('collection') is 'level.sessions'
-    popup = new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
+    #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
+    new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (e) ->
     _.each e.earnedAchievements.models, (earnedAchievement) =>
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       achievement.fetch
-        success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
+        success: (achievement) => @showNewAchievement?(achievement, earnedAchievement)
+        cache: false
 
   logoutAccount: ->
-    Backbone.Mediator.publish("auth:logging-out")
+    Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
 
-  showWizardSettingsModal: ->
-    WizardSettingsModal = require('views/modal/WizardSettingsModal')
-    subview = new WizardSettingsModal {}
-    @openModalView subview
-
   onClickSignupButton: ->
     AuthModal = require 'views/core/AuthModal'
-    window.tracker?.trackEvent 'Sign Up', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
+    switch @id
+      when 'home-view'
+        window.tracker?.trackEvent 'Started Signup', category: 'Homepage', label: 'Homepage'
+      when 'world-map-view'
+        # TODO: add campaign data
+        window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
+      else
+        window.tracker?.trackEvent 'Started Signup', label: @id
     @openModalView new AuthModal {mode: 'signup'}
-    
+
   onClickLoginButton: ->
     AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal {mode: 'login'}
-    
+
   onClickAnchor: (e) ->
     return if @destroyed
     anchorText = e?.currentTarget?.text
@@ -98,7 +104,7 @@ module.exports = class RootView extends CocoView
       @$el.addClass('site-chrome')
       if @showBackground
         @$el.addClass('show-background')
-      
+
     super(arguments...)
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
@@ -130,22 +136,25 @@ module.exports = class RootView extends CocoView
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when not (code in genericCodes) or code is initialVal
+    for code, localeInfo of locale when code isnt 'update' and (not (code in genericCodes) or code is initialVal)
       $select.append(
         $('<option></option>').val(code).text(localeInfo.nativeDescription))
+      if code is 'fr'
+        $select.append(
+          $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
     $select.val(initialVal)
 
   onLanguageChanged: ->
     newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
-    
+
     loading = application.moduleLoader.loadLanguage(me.get('preferredLanguage', true))
     if loading
       @listenToOnce application.moduleLoader, 'load-complete', @onLanguageLoaded
     else
       @onLanguageLoaded()
-    
+
   onLanguageLoaded: ->
     @render()
     unless me.get('preferredLanguage').split('-')[0] is 'en'

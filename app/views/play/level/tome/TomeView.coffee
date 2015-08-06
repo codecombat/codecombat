@@ -1,7 +1,7 @@
 # There's one TomeView per Level. It has:
 # - a CastButtonView, which has
 #   - a cast button
-#   - an autocast settings options button
+#   - a submit/done button
 # - for each spell (programmableMethod):
 #   - a Spell, which has
 #     - a list of Thangs that share that Spell, with one aether per Thang per Spell
@@ -58,11 +58,11 @@ module.exports = class TomeView extends CocoView
   afterRender: ->
     super()
     @worker = @createWorker()
-    #programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.spriteName isnt 'Hero Placeholder'
-    programmableThangs = _.filter @options.thangs, 'isProgrammable'
+    programmableThangs = _.filter @options.thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
-    @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
-    @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID, session: @options.session
+    unless @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
+      @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel, level: @options.level
+    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
       @cast()
@@ -73,14 +73,14 @@ module.exports = class TomeView extends CocoView
 
   onNewWorld: (e) ->
     thangs = _.filter e.world.thangs, 'inThangList'
-    programmableThangs = _.filter thangs, 'isProgrammable'
+    programmableThangs = _.filter thangs, (t) -> t.isProgrammable and t.programmableMethods
     @createSpells programmableThangs, e.world
-    @spellList.adjustSpells @spells
+    @spellList?.adjustSpells @spells
 
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
       console.log 'Commenting out', spellKey
-      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
@@ -133,6 +133,7 @@ module.exports = class TomeView extends CocoView
             language: language
             spectateView: @options.spectateView
             spectateOpponentCodeLanguage: @options.spectateOpponentCodeLanguage
+            observing: @options.observing
             levelID: @options.levelID
             level: @options.level
 
@@ -162,15 +163,19 @@ module.exports = class TomeView extends CocoView
     if realTime
       sessionState.submissionCount = (sessionState.submissionCount ? 0) + 1
       sessionState.flagHistory = _.filter sessionState.flagHistory ? [], (event) => event.team isnt (@options.session.get('team') ? 'humans')
+      sessionState.lastUnsuccessfulSubmissionTime = new Date() if @options.level.get 'replayable'
       @options.session.set 'state', sessionState
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? []
+    difficulty = sessionState.difficulty ? 0
+    if @options.observing
+      difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime, submissionCount: sessionState.submissionCount ? 0, flagHistory: sessionState.flagHistory ? [], difficulty: difficulty
 
   onToggleSpellList: (e) ->
-    @spellList.rerenderEntries()
-    @spellList.$el.toggle()
+    @spellList?.rerenderEntries()
+    @spellList?.$el.toggle()
 
   onSpellViewClick: (e) ->
-    @spellList.$el.hide()
+    @spellList?.$el.hide()
 
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length
@@ -187,7 +192,7 @@ module.exports = class TomeView extends CocoView
     @castButton?.$el.hide()
 
   onSpriteSelected: (e) ->
-    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']  # Never deselect the hero in the Tome.
+    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']  # Never deselect the hero in the Tome.
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
@@ -203,10 +208,10 @@ module.exports = class TomeView extends CocoView
       @spellTabView = spell.tabView
       @$el.find('#' + @spellView.id).after(@spellView.el).remove()
       @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
-      @castButton.attachTo @spellView
+      @castButton?.attachTo @spellView
       Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     @updateSpellPalette thang, spell
-    @spellList.setThangAndSpell thang, spell
+    @spellList?.setThangAndSpell thang, spell
     @spellView?.setThang thang
     @spellTabView?.setThang thang
 

@@ -1,17 +1,14 @@
 CocoClass = require 'core/CocoClass'
 {me} = require 'core/auth'
 LayerAdapter = require './LayerAdapter'
-IndieLank = require 'lib/surface/IndieLank'
-WizardLank = require 'lib/surface/WizardLank'
 FlagLank = require 'lib/surface/FlagLank'
 Lank = require 'lib/surface/Lank'
 Mark = require './Mark'
 Grid = require 'lib/world/Grid'
+utils = require 'core/utils'
 
 module.exports = class LankBoss extends CocoClass
   subscriptions:
-    'bus:player-joined': 'onPlayerJoined'
-    'bus:player-left': 'onPlayerLeft'
     'level:set-debug': 'onSetDebug'
     'sprite:highlight-sprites': 'onHighlightSprites'
     'surface:stage-mouse-down': 'onStageMouseDown'
@@ -35,11 +32,10 @@ module.exports = class LankBoss extends CocoClass
     @camera = @options.camera
     @webGLStage = @options.webGLStage
     @surfaceTextLayer = @options.surfaceTextLayer
-    @world = options.world
+    @world = @options.world
     @options.thangTypes ?= []
     @lanks = {}
     @lankArray = []  # Mirror @lanks, but faster for when we just need to iterate
-    @selfWizardLank = null
     @createLayers()
     @pendingFlags = []
 
@@ -86,7 +82,7 @@ module.exports = class LankBoss extends CocoClass
     console.error 'Lank collision! Already have:', id if @lanks[id]
     @lanks[id] = lank
     @lankArray.push lank
-    layer ?= @layerAdapters['Obstacle'] if lank.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
+    layer ?= @layerAdapters['Obstacle'] if lank.thang?.spriteName.search(/(dungeon|indoor|ice).wall/i) isnt -1
     layer ?= @layerForChild lank.sprite, lank
     layer.addLank lank
     layer.updateLayerOrder()
@@ -98,49 +94,6 @@ module.exports = class LankBoss extends CocoClass
 
   createLankOptions: (options) ->
     _.extend options, camera: @camera, resolutionFactor: SPRITE_RESOLUTION_FACTOR, groundLayer: @layerAdapters['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @layerAdapters['Floating'], showInvisible: @options.showInvisible
-
-  createIndieLanks: (indieLanks, withWizards) ->
-    unless @indieLanks
-      @indieLanks = []
-      @indieLanks = (@createIndieLank indieLank for indieLank in indieLanks) if indieLanks
-    if withWizards and not @selfWizardLank
-      @selfWizardLank = @createWizardLank thangID: 'My Wizard', isSelf: true, lanks: @lanks
-
-  createIndieLank: (indieLank) ->
-    unless thangType = @thangTypeFor indieLank.thangType
-      console.warn "Need to convert #{indieLank.id}'s ThangType #{indieLank.thangType} to a ThangType reference. Until then, #{indieLank.id} won't show up."
-      return
-    lank = new IndieLank thangType, @createLankOptions {thangID: indieLank.id, pos: indieLank.pos, lanks: @lanks, team: indieLank.team, teamColors: @world.getTeamColors()}
-    @addLank lank, lank.thang.id
-
-  createOpponentWizard: (opponent) ->
-    # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
-    lank = @createWizardLank thangID: opponent.id, name: opponent.name, codeLanguage: opponent.codeLanguage
-    if not opponent.levelSlug or opponent.levelSlug is 'brawlwood'
-      lank.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
-    else if opponent.levelSlug in ['dungeon-arena', 'sky-span']
-      lank.targetPos = if opponent.team is 'ogres' then {x: 72, y: 39} else {x: 9, y: 39}
-    else if opponent.levelSlug is 'criss-cross'
-      lank.targetPos = if opponent.team is 'ogres' then {x: 50, y: 12} else {x: 0, y: 40}
-    else
-      lank.targetPos = if opponent.team is 'ogres' then {x: 52, y: 28} else {x: 20, y: 28}
-
-  createWizardLank: (options) ->
-    lank = new WizardLank @thangTypeFor('Wizard'), @createLankOptions(options)
-    @addLank lank, lank.thang.id, @layerAdapters['Floating']
-
-  onPlayerJoined: (e) ->
-    # Create another WizardLank, unless this player is just me
-    pid = e.player.id
-    return if pid is me.id
-    wiz = @createWizardLank thangID: pid, lanks: @lanks
-    wiz.animateIn()
-    state = e.player.wizard or {}
-    wiz.setInitialState(state.targetPos, @lanks[state.targetLank])
-
-  onPlayerLeft: (e) ->
-    pid = e.player.id
-    @lanks[pid]?.animateOut => @removeLank @lanks[pid]
 
   onSetDebug: (e) ->
     return if e.debug is @debug
@@ -162,6 +115,8 @@ module.exports = class LankBoss extends CocoClass
 
     options = @createLankOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
+    if @options.playerNames and /Hero Placeholder/.test thang.id
+      options.playerName = @options.playerNames[thang.team]
     lank = new Lank thangType, options
     @listenTo lank, 'sprite:mouse-up', @onLankMouseUp
     @addLank lank, null, layer
@@ -192,7 +147,7 @@ module.exports = class LankBoss extends CocoClass
     updatedObstacles = []
     itemsJustEquipped = []
     for thang in @world.thangs when thang.exists and thang.pos
-      itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang
+      itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang if thang.equip
       if lank = @lanks[thang.id]
         lank.setThang thang  # make sure Lank has latest Thang
       else
@@ -213,6 +168,24 @@ module.exports = class LankBoss extends CocoClass
     if @willSelectThang and @lanks[@willSelectThang[0]]
       @selectThang @willSelectThang...
 
+    @updateScreenReader()
+
+  updateScreenReader: ->
+    # Testing ASCII map for screen readers
+    return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
+    ascii = $('#ascii-surface')
+    thangs = (lank.thang for lank in @lankArray)
+    grid = new Grid thangs, @world.width, @world.height, 0, 0, 0, true
+    utils.replaceText ascii, grid.toString true
+    ascii.css 'transform', 'initial'
+    fullWidth = ascii.innerWidth()
+    fullHeight = ascii.innerHeight()
+    availableWidth = ascii.parent().innerWidth()
+    availableHeight = ascii.parent().innerHeight()
+    scale = availableWidth / fullWidth
+    scale = Math.min scale, availableHeight / fullHeight
+    ascii.css 'transform', "scale(#{scale})"
+
   equipNewItems: (thang) ->
     itemsJustEquipped = []
     if thang.equip and not thang.equipped
@@ -231,7 +204,7 @@ module.exports = class LankBoss extends CocoClass
   cacheObstacles: (updatedObstacles=null) ->
     return if @cachedObstacles and not updatedObstacles
     lankArray = @lankArray
-    wallLanks = (lank for lank in lankArray when lank.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    wallLanks = (lank for lank in lankArray when lank.thangType?.get('name').search(/(dungeon|indoor|ice).wall/i) isnt -1)
     return if _.any (s.stillLoading for s in wallLanks)
     walls = (lank.thang for lank in wallLanks)
     @world.calculateBounds()
@@ -255,6 +228,8 @@ module.exports = class LankBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
+    # Clear obstacle cache for this level, since we are spawning walls dynamically
+    @cachedObstacles = false if e.finished and /kithgard-mastery/.test window.location.href
 
   play: ->
     lank.play() for lank in @lankArray

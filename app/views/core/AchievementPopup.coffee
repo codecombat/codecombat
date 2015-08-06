@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/achievements/achievement-popup'
+template = require 'templates/core/achievement-popup'
 User = require '../../models/User'
 Achievement = require '../../models/Achievement'
 
@@ -85,4 +85,4 @@ module.exports = class AchievementPopup extends CocoView
     _.delay @initializeTooltips, 1000 # TODO this could be smoother
 
   initializeTooltips: ->
-    $('.progress-bar').tooltip()
+    $('.progress-bar').addClass('has-tooltip').tooltip()

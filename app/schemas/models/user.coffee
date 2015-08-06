@@ -53,7 +53,8 @@ _.extend UserSchema.properties,
   iosIdentifierForVendor: c.shortString({format: 'hidden'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
-  gender: {type: 'string', 'enum': ['male', 'female']}
+  gender: {type: 'string', 'enum': ['male', 'female', 'secret', 'trans']}
+  ageRange: {type: 'string'}  # 'enum': ['0-13', '14-17', '18-24', '25-34', '35-44', '45-100']
   password: {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
   passwordReset: {type: 'string'}
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
@@ -62,10 +63,10 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
 
-  wizardColor1: c.pct({title: 'Wizard Clothes Color'})
+  wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
-  autocastDelay: { type: 'integer' }
+  autocastDelay: { type: 'integer' }  # No longer used
   lastLevel: { type: 'string' }
   heroConfig: c.HeroConfigSchema
 
@@ -85,6 +86,12 @@ _.extend UserSchema.properties,
     recruitNotes: {$ref: '#/definitions/emailSubscription'}
     employerNotes: {$ref: '#/definitions/emailSubscription'}
 
+    oneTimes: c.array {title: 'One-time emails'},
+      c.object {title: 'One-time email', required: ['type', 'email']},
+        type: c.shortString() # E.g 'subscribe modal parent'
+        email: c.shortString()
+        sent: c.date() # Set when sent
+
   # server controlled
   permissions: c.array {}, c.shortString()
   dateCreated: c.date({title: 'Date Joined'})
@@ -103,7 +110,7 @@ _.extend UserSchema.properties,
   emailHash: {type: 'string'}
 
   #Internationalization stuff
-  preferredLanguage: {type: 'string', 'enum': c.getLanguageCodeArray()}
+  preferredLanguage: {'enum': [null].concat(c.getLanguageCodeArray())}
 
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
@@ -267,11 +274,46 @@ _.extend UserSchema.properties,
     levelSystemMiscPatches: c.int()
     thangTypeTranslationPatches: c.int()
     thangTypeMiscPatches: c.int()
+    achievementTranslationPatches: c.int()
+    achievementMiscPatches: c.int()
+    pollTranslationPatches: c.int()
+    pollMiscPatches: c.int()
+    campaignTranslationPatches: c.int()
+    campaignMiscPatches: c.int()
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
+  deleted: {type: 'boolean'}
+  dateDeleted: c.date()
   spent: {type: 'number'}
-  stripeCustomerID: { type: 'string' }
+  stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
+
+  stripe: c.object {}, {
+    customerID: { type: 'string' }
+    planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
+    subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
+    token: { type: 'string' }
+    couponID: { type: 'string' }
+    free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+    prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
+
+    # Sponsored subscriptions
+    subscribeEmails: c.array { description: 'Input for subscribing other users' }, c.shortString()
+    unsubscribeEmail: { type: 'string', description: 'Input for unsubscribing a sponsored user' }
+    recipients: c.array { title: 'Recipient subscriptions owned by this user' },
+      c.object { required: ['userID', 'subscriptionID'] },
+        userID: c.objectId { description: 'User ID of recipient' }
+        subscriptionID: { type: 'string' }
+        couponID: { type: 'string' }
+    sponsorID: c.objectId { description: "User ID that owns this user's subscription" }
+    sponsorSubscriptionID: { type: 'string', description: 'Sponsor aggregate subscription used to pay for all recipient subs' }
+  }
+
+  siteref: { type: 'string' }
+  referrer: { type: 'string' }
+  chinaVersion: { type: 'boolean' }
+
+  clans: c.array {}, c.objectId()
 
 c.extendBasicProperties UserSchema, 'user'
 

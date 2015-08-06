@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
 utils = require 'core/utils'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -9,9 +10,12 @@ module.exports = class LevelLoadingView extends CocoView
   events:
     'mousedown .start-level-button': 'startUnveiling'  # Split into two for animation smoothness.
     'click .start-level-button': 'onClickStartLevel'
+    'click .start-subscription-button': 'onClickStartSubscription'
 
   subscriptions:
     'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
+    'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription to start playing.
+    'subscribe-modal:subscribed': 'onSubscribed'
 
   shortcuts:
     'enter': 'onEnterPressed'
@@ -42,9 +46,9 @@ module.exports = class LevelLoadingView extends CocoView
     goalContainer = @$el.find('.level-loading-goals')
     goalList = goalContainer.find('ul')
     goalCount = 0
-    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is e.team) and not goal.hiddenGoal
+    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is (e.team or 'humans')) and not goal.hiddenGoal
       name = utils.i18n goal, 'name'
-      goalList.append $('<li class="list-group-item">' + name + '</li>')
+      goalList.append $('<li>' + name + '</li>')
       ++goalCount
     if goalCount
       goalContainer.removeClass('secret')
@@ -68,8 +72,8 @@ module.exports = class LevelLoadingView extends CocoView
       @unveil()
     else
       Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
-      @$el.find('.progress').addClass 'active progress-striped'
-      @$el.find('.start-level-button').removeClass 'secret'
+      @$el.find('.progress').hide()
+      @$el.find('.start-level-button').show()
 
   startUnveiling: (e) ->
     @playSound 'menu-button-click'
@@ -95,7 +99,19 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'loading-view-unveil', volume: 0.5
     _.delay @onUnveilEnded, duration * 1000
+    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration * 1000)
 
   onUnveilEnded: =>
     return if @destroyed
     Backbone.Mediator.publish 'level:loading-view-unveiled', view: @
+
+  onSubscriptionRequired: (e) ->
+    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.subscription-required').show()
+
+  onClickStartSubscription: (e) ->
+    @openModalView new SubscribeModal()
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading', level: @level?.get('slug') or @options.level?.get('slug')
+
+  onSubscribed: ->
+    document.location.reload()

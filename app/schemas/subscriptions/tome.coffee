@@ -7,15 +7,19 @@ module.exports =
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
 
-  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory']},
+  'tome:cast-spells': c.object {title: 'Cast Spells', description: 'Published when spells are cast', required: ['spells', 'preload', 'realTime', 'submissionCount', 'flagHistory', 'difficulty']},
     spells: [type: 'object']
     preload: [type: 'boolean']
     realTime: [type: 'boolean']
     submissionCount: [type: 'integer']
     flagHistory: [type: 'array']
+    difficulty: [type: 'integer']
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
+
+  'tome:manual-cast-denied': c.object {title: 'Manual Cast Denied', description: 'Published when player attempts to submit for real-time playback, but must wait after a replayable level failure.', required: ['timeUntilResubmit']},
+    timeUntilResubmit: {type: 'number'}
 
   'tome:spell-created': c.object {title: 'Spell Created', description: 'Published after a new spell has been created', required: ['spell']},
     spell: {type: 'object'}

@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/account/unsubscribe'
+template = require 'templates/account/unsubscribe-view'
 {me} = require 'core/auth'
 
 module.exports = class UnsubscribeView extends RootView
@@ -25,11 +25,11 @@ module.exports = class UnsubscribeView extends RootView
     success = =>
       @$el.find('.progress').hide()
       @$el.find('#success-alert').show()
-      me.fetch()
+      me.fetch cache: false
 
     error = =>
       @$el.find('.progress').hide()
       @$el.find('#fail-alert').show()
       @$el.find('#unsubscribe-button').show()
 
-    $.ajax { url: url, success: success, error: error }
+    $.ajax { url: url, success: success, error: error, cache: false }

@@ -23,7 +23,8 @@ module.exports = class CandidatesView extends RootView
 
   constructor: (options) ->
     super options
-    @candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
+    #@candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
+    @candidates = models: []  # Disabling, since we got rid of the index that fetches these.
     @remarks = @supermodel.loadCollection(new UserRemarksCollection(), 'user_remarks').model
 
   onLoaded: ->

@@ -73,7 +73,7 @@ module.exports = class Thang
     for [prop, type] in props
       unless type in ThangState.trackedPropertyTypes
         # How should errors for busted Components work? We can't recover from this and run the world.
-        throw new Error "Type #{type} for property #{prop} is not a trackable property type: #{trackedPropertyTypes}"
+        throw new Error "Type #{type} for property #{prop} is not a trackable property type: #{ThangState.trackedPropertyTypes}"
       oldPropIndex = @trackedPropertiesKeys.indexOf prop
       if oldPropIndex is -1
         @trackedPropertiesKeys.push prop
@@ -179,6 +179,8 @@ module.exports = class Thang
       options.colorConfig.team = teamColor
     if @color and color = @grabColorConfig @color
       options.colorConfig.color = color
+    if @colors
+      options.colorConfig[colorType] = colorValue for colorType, colorValue of @colors
     options
 
   grabColorConfig: (color) ->

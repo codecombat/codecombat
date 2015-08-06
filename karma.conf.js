@@ -1,5 +1,3 @@
-// Testacular configuration
-// Generated on Fri Feb 15 2013 18:38:33 GMT-0500 (EST)
 
 module.exports = function(config) {
 
@@ -11,18 +9,19 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files : [
-      'public/javascripts/vendor.js',
+      'public/javascripts/vendor.js', // need for jade definition...
+      'public/javascripts/whole-vendor.js',
       'public/lib/ace/ace.js',
       'public/javascripts/aether.js',
-      'public/javascripts/app.js',
-      'public/javascripts/mock-ajax.js',
-      'public/javascripts/test-app.js',
+      'public/javascripts/whole-app.js',
+      'public/javascripts/app/vendor/jasmine-mock-ajax.js',
+      'public/javascripts/app/tests.js',
       'public/javascripts/run-tests.js'
     ],
 
     preprocessors : {
       '**/*.coffee': 'coffee',
-      '**/javascripts/app.js': 'coverage'
+      '**/javascripts/whole-app.js': 'coverage'
     },
 
     // list of files to exclude

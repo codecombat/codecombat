@@ -4,6 +4,7 @@ Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 defaultScripts = require 'lib/DefaultScripts'
+require 'vendor/treema'
 
 module.exports = class ScriptsTabView extends CocoView
   id: 'editor-level-scripts-tab-view'
@@ -90,7 +91,7 @@ module.exports = class ScriptsTabView extends CocoView
 
     newPath = selected.getPath()
     return if newPath is @selectedScriptPath
-    #@scriptTreema?.destroy() # TODO: get this to work 
+    #@scriptTreema?.destroy() # TODO: get this to work
     @scriptTreema = @$el.find('#script-treema').treema treemaOptions
     @scriptTreema.build()
     @scriptTreema.childrenTreemas?.noteChain?.open()
@@ -117,12 +118,13 @@ module.exports = class ScriptsTabView extends CocoView
       treema.enableTracking()
 
   onScriptChanged: =>
+    return unless @selectedScriptPath
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
 
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
-    
+
   onWindowResize: (e) =>
     @$el.find('#scripts-treema').collapse('show') if $('body').width() > 800
 
@@ -157,7 +159,6 @@ class ScriptNode extends TreemaObjectNode
 
   tabToCurrentScript: ->
     @settings.view.scriptTreema?.keepFocus()
-    window.v = @settings.view
     firstRow = @settings.view.scriptTreema?.$el.find('.treema-node:visible').data('instance')
     return unless firstRow?
     firstRow.select()

@@ -37,6 +37,7 @@ module.exports = class FilesView extends RootView
     $.ajax
       url: "/file/#{@currentFolder()}/"
       success: @onLoadedFiles
+      cache: false
 
   onLoadedFiles: (res) =>
     table = tableTemplate({files:res})

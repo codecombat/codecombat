@@ -76,6 +76,14 @@ class AudioPlayer extends CocoClass
     return sound if sound = say[message]
     if _.string.startsWith message, 'attack'
       return sound if sound = say.attack
+    if message.indexOf("i-dont-see-anyone") isnt -1
+      return sound if sound = say['i-dont-see-anyone']
+    if message.indexOf("i-see-you") isnt -1
+      return sound if sound = say['i-see-you']
+    if message.indexOf("repeating-loop") isnt -1
+      return sound if sound = say['repeating-loop']
+    if /move(up|down|left|right)/.test message
+      return sound if sound = say["move-#{message[4...]}"]
     defaults = say.defaultSimlish
     if say.swearingSimlish?.length and _.find(swears, (s) -> message.search(s) isnt -1)
       defaults = say.swearingSimlish
@@ -103,9 +111,6 @@ class AudioPlayer extends CocoClass
       @soundsToPlayWhenLoaded[name] = audioOptions.volume
     audioOptions = @applyPanning audioOptions, pos if @camera and not @camera.destroyed and pos
     instance = createjs.Sound.play name, audioOptions
-    # For some reason, individual sound volume control doesn't work any more.
-    # I tried updating to SoundJS NEXT on 2014-09-10, but couldn't get any sounds to play with that one.
-    #console.log 'got instance with volume', instance.volume, instance._volume, instance.gainNode?.gain.value
     instance
 
   hasLoadedSound: (filename, name) ->

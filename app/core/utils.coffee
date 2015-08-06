@@ -97,10 +97,15 @@ createQuadraticFunc = (params) ->
 createLogFunc = (params) ->
   (x) -> if x > 0 then (params.a or 1) * Math.log((params.b or 1) * (x + (params.c or 0))) + (params.d or 0) else 0
 
+# f(x) = ax^b + c
+createPowFunc = (params) ->
+  (x) -> (params.a or 1) * Math.pow(x, params.b or 1) + (params.c or 0)
+
 module.exports.functionCreators =
   linear: positify(createLinearFunc)
   quadratic: positify(createQuadraticFunc)
   logarithmic: positify(createLogFunc)
+  pow: positify(createPowFunc)
 
 # Call done with true to satisfy the 'until' goal and stop repeating func
 module.exports.keepDoingUntil = (func, wait=100, totalWait=5000) ->
@@ -130,3 +135,66 @@ module.exports.kindaEqual = compare = (l, r) ->
     return true
   else
     return false
+
+# Return UTC string "YYYYMMDD" for today + offset
+module.exports.getUTCDay = (offset=0) ->
+  day = new Date()
+  day.setDate(day.getUTCDate() + offset)
+  partYear = day.getUTCFullYear()
+  partMonth = (day.getUTCMonth() + 1)
+  partMonth = "0" + partMonth if partMonth < 10
+  partDay = day.getUTCDate()
+  partDay = "0" + partDay if partDay < 10
+  "#{partYear}#{partMonth}#{partDay}"
+
+# Fast, basic way to replace text in an element when you don't need much.
+# http://stackoverflow.com/a/4962398/540620
+if document?.createElement
+  dummy = document.createElement 'div'
+  dummy.innerHTML = 'text'
+  TEXT = if dummy.textContent is 'text' then 'textContent' else 'innerText'
+  module.exports.replaceText = (elems, text) ->
+    elem[TEXT] = text for elem in elems
+    null
+
+# Add a stylesheet rule
+# http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript/26230472#26230472
+# Don't use wantonly, or we'll have to implement a simple mechanism for clearing out old rules.
+if document?.createElement
+  module.exports.injectCSS = ((doc) ->
+    # wrapper for all injected styles and temp el to create them
+    wrap = doc.createElement("div")
+    temp = doc.createElement("div")
+    # rules like "a {color: red}" etc.
+    return (cssRules) ->
+      # append wrapper to the body on the first call
+      unless wrap.id
+        wrap.id = "injected-css"
+        wrap.style.display = "none"
+        doc.body.appendChild wrap
+      # <br> for IE: http://goo.gl/vLY4x7
+      temp.innerHTML = "<br><style>" + cssRules + "</style>"
+      wrap.appendChild temp.children[1]
+      return
+  )(document)
+
+module.exports.getQueryVariable = getQueryVariable = (param, defaultValue) ->
+  query = document.location.search.substring 1
+  pairs = (pair.split('=') for pair in query.split '&')
+  for pair in pairs when pair[0] is param
+    return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
+  defaultValue
+
+module.exports.getSponsoredSubsAmount = getSponsoredSubsAmount = (price=999, subCount=0, personalSub=false) ->
+  # 1 100%
+  # 2-11 80%
+  # 12+ 60%
+  # TODO: make this less confusing
+  return 0 unless subCount > 0
+  offset = if personalSub then 1 else 0
+  if subCount <= 1 - offset
+    price
+  else if subCount <= 11 - offset
+    Math.round((1 - offset) * price + (subCount - 1 + offset) * price * 0.8)
+  else
+    Math.round((1 - offset) * price + 10 * price * 0.8 + (subCount - 11 + offset) * price * 0.6)

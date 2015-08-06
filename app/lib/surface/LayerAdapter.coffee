@@ -199,7 +199,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @upsertActionToRender(lank.thangType)
     else
       for action in _.values(lank.thangType.getActions())
-        continue unless _.any @defaultActions, (prefix) -> action.name.startsWith(prefix)
+        continue unless _.any @defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
@@ -500,6 +500,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     lank.setSprite(sprite)
     lank.update(true)
     @container.addChild(sprite)
+    lank.updateScale true if lank.thangType.get 'matchWorldDimensions'  # Otherwise it's at the wrong scale for some reason.
 
   renderGroupingKey: (thangType, grouping, colorConfig) ->
     key = thangType.get('slug')

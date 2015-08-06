@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/account/job_profile'
+template = require 'templates/account/job-profile-treema-view'
 {me} = require 'core/auth'
+require 'vendor/treema'
 
 module.exports = class JobProfileTreemaView extends CocoView
   id: 'job-profile-view'

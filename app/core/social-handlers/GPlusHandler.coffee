@@ -15,11 +15,11 @@ fieldsToFetch = 'displayName,gender,image,name(familyName,givenName),id'
 plusURL = '/plus/v1/people/me?fields='+fieldsToFetch
 revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token='
 clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
-scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+scope = 'https://www.googleapis.com/auth/plus.login email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
-    @accessToken = storage.load GPLUS_TOKEN_KEY
+    @accessToken = storage.load GPLUS_TOKEN_KEY, false
     super()
 
   subscriptions:
@@ -52,57 +52,43 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     @loggedIn = true
     try
       # Without removing this, we sometimes get a cross-domain error
-      d = JSON.stringify(_.omit(e, 'g-oauth-window'))
-      storage.save(GPLUS_TOKEN_KEY, d)
+      d = _.omit(e, 'g-oauth-window')
+      storage.save(GPLUS_TOKEN_KEY, d, 0)
     catch e
       console.error 'Unable to save G+ token key', e
     @accessToken = e
     @trigger 'logged-in'
-    
+
   loginCodeCombat: ->
     # email and profile data loaded separately
-    gapi.client.request(path: plusURL, callback: @onPersonEntityReceived)
-    gapi.client.load('oauth2', 'v2', =>
-      gapi.client.oauth2.userinfo.get().execute(@onEmailReceived))
+    gapi.client.load('plus', 'v1', =>
+      gapi.client.plus.people.get({userId: 'me'}).execute(@onPersonReceived))
 
-  shouldSave: false
-
-  onPersonEntityReceived: (r) =>
+  onPersonReceived: (r) =>
     for gpProp, userProp of userPropsToSave
       keys = gpProp.split('.')
       value = r
-      value = value[key] for key in keys
+      for key in keys
+        value = value[key]
       if value and not me.get(userProp)
-        @shouldSave = true
         me.set(userProp, value)
 
-    @responsesComplete += 1
-    @personLoaded = true
-    @trigger 'person-loaded'
-    @saveIfAllDone()
-
-  onEmailReceived: (r) =>
-    newEmail = r.email and r.email isnt me.get('email')
+    newEmail = r.emails?.length and r.emails[0] isnt me.get('email')
     return unless newEmail or me.get('anonymous', true)
-    me.set('email', r.email)
-    @shouldSave = true
-    @emailLoaded = true
-    @trigger 'email-loaded'
-    @saveIfAllDone()
+    me.set('email', r.emails[0].value)
+    @trigger 'person-loaded'
+    @save()
 
-  saveIfAllDone: =>
-    console.debug 'Save if all done. Person loaded:', @personLoaded, 'and email loaded:', @emailLoaded
-    return unless @personLoaded and @emailLoaded
+  save: =>
     console.debug 'Email, gplusID:', me.get('email'), me.get('gplusID')
     return unless me.get('email') and me.get('gplusID')
 
     Backbone.Mediator.publish 'auth:logging-in-with-gplus', {}
     gplusID = me.get('gplusID')
-    window.tracker?.trackEvent 'Google Login'
     window.tracker?.identify()
     patch = {}
     patch[key] = me.get(key) for gplusKey, key of userPropsToSave
-    patch._id = me.id
+    patch._id = beforeID = me.id
     patch.email = me.get('email')
     wasAnonymous = me.get('anonymous')
     @trigger 'logging-into-codecombat'
@@ -111,11 +97,14 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       patch: true
       type: 'PUT'
       error: ->
-        console.debug('Logging into GPlus fail.', arguments)
+        console.warn('Logging into GPlus fail.', arguments)
         backboneFailure(arguments...)
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
       success: (model) ->
-        console.debug('GPLus login success!')
+        console.info('GPLus login success!')
+        window.tracker?.trackEvent 'Google Login', category: "Signup"
+        if model.id is beforeID
+          window.tracker?.trackEvent 'Finished Signup', label: 'GPlus'
         window.location.reload() if wasAnonymous and not model.get('anonymous')
     })
 

@@ -27,7 +27,7 @@ module.exports = class MusicPlayer extends CocoClass
   onPlayMusic: (e) ->
     return if application.isIPadApp  # Hard to measure, but just guessing this will save memory.
     src = e.file
-    src = "/file#{e.file}#{AudioPlayer.ext}"
+    src = "/file#{src}#{AudioPlayer.ext}"
     if (not e.file) or src is @currentMusic?.src
       if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
       return
@@ -86,8 +86,7 @@ module.exports = class MusicPlayer extends CocoClass
     return if @inMenu
     @inMenu = true
     @previousMusic = @currentMusic
-    terrain = (e.terrain ? 'Dungeon').toLowerCase()
-    file = "/music/music-menu-#{terrain}"
+    file = "/music/music-menu"
     Backbone.Mediator.publish 'music-player:play-music', file: file, play: true, delay: 1000
 
   onExitMenu: (e) ->

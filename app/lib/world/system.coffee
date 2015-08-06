@@ -46,7 +46,8 @@ module.exports = class System
   hashString: (s) ->
     return @hashes[s] if s of @hashes
     hash = 0
-    hash = hash * 31 + s.charCodeAt(i) for i in [0 ... Math.min(s.length, 100)]
+    for i in [0 ... Math.min(s.length, 100)]
+      hash = hash * 31 + s.charCodeAt(i)
     hash = @hashes[s] = hash % 3.141592653589793
     hash
 

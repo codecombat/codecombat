@@ -4,6 +4,7 @@ Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 {me} = require 'core/auth'
+require 'vendor/treema'
 
 module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'
@@ -13,7 +14,8 @@ module.exports = class SettingsTabView extends CocoView
   # not thangs or scripts or the backend stuff
   editableSettings: [
     'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
-    'type', 'terrain', 'showsGuide', 'banner', 'employerDescription', 'loadingTip'
+    'type', 'terrain', 'showsGuide', 'banner', 'employerDescription', 'loadingTip', 'requiresSubscription',
+    'tasks', 'helpVideos', 'replayable', 'scoreTypes', 'concepts'
   ]
 
   subscriptions:

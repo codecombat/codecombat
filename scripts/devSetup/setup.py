@@ -40,9 +40,7 @@ def check_if_root():
         raise errors.CoCoError(u"You need to be root. Run as sudo.")
 
 if __name__ == u"__main__":
-    print("Code Combat Development Environment Setup Script")
+    print("CodeCombat Development Environment Setup Script")
     check_if_root()
     setup = factories.constructSetup()
     setup.setup()
-
-

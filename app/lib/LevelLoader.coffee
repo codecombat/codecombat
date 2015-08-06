@@ -31,7 +31,9 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @sessionless = options.sessionless
     @spectateMode = options.spectateMode ? false
+    @observing = options.observing
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -54,12 +56,15 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
-    @loadSession()
+    @loadSession() unless @sessionless
     @populateLevel()
 
   # Session Loading
 
   loadSession: ->
+    if @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+      @sessionDependenciesRegistered = {}
+
     if @sessionID
       url = "/db/level.session/#{@sessionID}"
     else
@@ -67,10 +72,12 @@ module.exports = class LevelLoader extends CocoClass
       url += "?team=#{@team}" if @team
 
     session = new LevelSession().setURL url
+    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state'] if @headless
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level.session/#{@opponentSessionID}"
+      opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
       @opponentSession = @opponentSessionResource.model
 
@@ -88,7 +95,11 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    if me.id isnt session.get 'creator'
+      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    @loadCodeLanguagesForSession session
     if session is @session
+      @addSessionBrowserInfo session
       # hero-ladder games require the correct session team in level:loaded
       team = @team ? @session.get('team')
       Backbone.Mediator.publish 'level:loaded', level: @level, team: team
@@ -97,7 +108,6 @@ module.exports = class LevelLoader extends CocoClass
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
     return unless @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-    @sessionDependenciesRegistered ?= {}
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
@@ -123,6 +133,30 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDependenciesRegistered[session.id] = true
     if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
       @onWorldNecessitiesLoaded()
+
+  loadCodeLanguagesForSession: (session) ->
+    codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
+    for codeLanguage in codeLanguages
+      do (codeLanguage) =>
+        modulePath = "vendor/aether-#{codeLanguage}"
+        return unless application.moduleLoader?.load modulePath
+        languageModuleResource = @supermodel.addSomethingResource 'language_module'
+        onModuleLoaded = (e) ->
+          return unless e.id is modulePath
+          languageModuleResource.markLoaded()
+          @stopListening application.moduleLoader, 'loaded', onModuleLoaded  # listenToOnce might work here instead, haven't tried
+        @listenTo application.moduleLoader, 'loaded', onModuleLoaded
+
+  addSessionBrowserInfo: (session) ->
+    return unless me.id is session.get 'creator'
+    return unless $.browser?
+    browser = {}
+    browser['desktop'] = $.browser.desktop if $.browser.desktop
+    browser['name'] = $.browser.name if $.browser.name
+    browser['platform'] = $.browser.platform if $.browser.platform
+    browser['version'] = $.browser.version if $.browser.version
+    session.set 'browser', browser
+    session.patch()
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
@@ -176,13 +210,9 @@ module.exports = class LevelLoader extends CocoClass
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Article, 'article'
-    if obj = @level.get 'nextLevel'
+    if obj = @level.get 'nextLevel'  # TODO: update to get next level from campaigns, not this old property
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
-
-    unless @headless or @level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
-      wizard = ThangType.loadUniversalWizard()
-      @supermodel.loadModel wizard, 'thang'
 
     @worldNecessities = @worldNecessities.concat worldNecessities
 
@@ -200,7 +230,10 @@ module.exports = class LevelLoader extends CocoClass
         requiredThangTypes.push itemThangType for itemThangType in _.values (component.config.inventory ? {})
       else if component.config.requiredThangTypes
         requiredThangTypes = requiredThangTypes.concat component.config.requiredThangTypes
-    for thangType in requiredThangTypes
+    extantRequiredThangTypes = _.filter requiredThangTypes
+    if extantRequiredThangTypes.length < requiredThangTypes.length
+      console.error "Some Thang had a blank required ThangType in components list:", components
+    for thangType in extantRequiredThangTypes
       url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
@@ -231,8 +264,8 @@ module.exports = class LevelLoader extends CocoClass
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     return false unless _.filter(@worldNecessities).length is 0
     return false unless @thangNamesLoaded
-    return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id]
-    return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id]
+    return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
+    return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
     true
 
   onWorldNecessitiesLoaded: ->
@@ -293,7 +326,7 @@ module.exports = class LevelLoader extends CocoClass
     resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
-    return if @headless or @sessionDenormalized or @spectateMode
+    return if @headless or @sessionDenormalized or @spectateMode or @sessionless
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
@@ -332,7 +365,7 @@ module.exports = class LevelLoader extends CocoClass
     @grabTeamConfigs()
     @thangTypeTeams = {}
     for thang in @level.get('thangs')
-      if @level.get('type', true) is 'hero' and thang.id is 'Hero Placeholder'
+      if @level.get('type', true) in ['hero', 'course'] and thang.id is 'Hero Placeholder'
         continue  # No team colors for heroes on single-player levels
       for component in thang.components
         if team = component.config?.team
@@ -364,6 +397,9 @@ module.exports = class LevelLoader extends CocoClass
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
     @world.submissionCount = @session?.get('state')?.submissionCount ? 0
     @world.flagHistory = @session?.get('state')?.flagHistory ? []
+    @world.difficulty = @session?.get('state')?.difficulty ? 0
+    if @observing
+      @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize(@supermodel, @session, @opponentSession)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'

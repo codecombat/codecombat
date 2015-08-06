@@ -14,7 +14,7 @@ block content
               img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
             else
               img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
-            //h3= level.name + (level.disabled ? " (Coming soon!)" : "")
+              h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
             .overlay-text.level-difficulty
               span(data-i18n="play.level_difficulty") Difficulty: 
               each i in Array(level.difficulty)
@@ -24,4 +24,4 @@ block content
                 span.spl.spr - #{playCount.sessions}
                 span(data-i18n="play.players") players
             .play-text-container
-              .overlay-text.play-text(data-i18n="home.play") Play
+              .overlay-text.play-text(data-i18n="common.play") Play

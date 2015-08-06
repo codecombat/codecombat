@@ -1,4 +1,17 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
 #item-details-view
+
+  .big-font
+    text-transform: uppercase
+    font-family: $headings-font-family
+    font-weight: bold
+
+  .one-line
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
 
   .nano-content
     padding: 10px
@@ -42,6 +55,9 @@
 
     .item-shadow
       top: 25px
+      left: 5px
+      @include filter(contrast(0%) brightness(0%))
+      opacity: 0.2
 
     img.hr
       width: 80%
@@ -55,7 +71,7 @@
       position: relative
       font-size: 20px
       font-weight: bold
-      
+
       .stat-label
         position: absolute
         left: 54px
@@ -65,6 +81,16 @@
         position: absolute
         left: 150px
         color: rgb(42,38,28)
+
+      &:not(.short-name)
+        text-align: center
+
+        .stat-label, .stat
+          position: static
+          display: inline-block
+
+        .stat-label
+          margin-right: 8px
 
     .item-description
       margin: 15px 15px 0 25px
@@ -90,4 +116,3 @@
 
   .unequippable
     position: absolute
-

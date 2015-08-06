@@ -6,7 +6,11 @@ ThangType = require './ThangType'
 module.exports = class Level extends CocoModel
   @className: 'Level'
   @schema: require 'schemas/models/level'
+  @levels:
+    'dungeons-of-kithgard': '5411cb3769152f1707be029c'
+    'defense-of-plainswood': '541b67f71ccc8eaae19f3c62'
   urlRoot: '/db/level'
+  editableByArtisans: true
 
   serialize: (supermodel, session, otherSession, cached=false) ->
     o = @denormalize supermodel, session, otherSession # hot spot to optimize
@@ -46,14 +50,14 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
+    if o.thangs and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']
       for levelThang in o.thangs
         @denormalizeThang(levelThang, supermodel, session, otherSession)
     o
 
   denormalizeThang: (levelThang, supermodel, session, otherSession) ->
     levelThang.components ?= []
-    isHero = /Hero Placeholder/.test levelThang.id
+    isHero = /Hero Placeholder/.test(levelThang.id) and @get('type', true) in ['hero', 'hero-ladder', 'hero-coop']
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.
@@ -115,10 +119,16 @@ module.exports = class Level extends CocoModel
         else if placeholderConfig.programmableMethods
           # Take the ThangType default Programmable and merge level-specific Component config into it
           copy = $.extend true, {}, placeholderConfig
+          programmableProperties = levelThangComponent.config?.programmableProperties ? []
+          copy.programmableProperties = _.union programmableProperties, copy.programmableProperties ? []
           levelThangComponent.config = _.merge copy, levelThangComponent.config
         else if placeholderConfig.extraHUDProperties
           levelThangComponent.config ?= {}
           levelThangComponent.config.extraHUDProperties = _.union(levelThangComponent.config.extraHUDProperties ? [], placeholderConfig.extraHUDProperties)
+        else if placeholderConfig.voiceRange  # Pull in voiceRange
+          levelThangComponent.config ?= {}
+          levelThangComponent.config.voiceRange = placeholderConfig.voiceRange
+          levelThangComponent.config.cooldown = placeholderConfig.cooldown
 
     if isHero
       if equips = _.find levelThang.components, {original: LevelComponent.EquipsID}

@@ -6,6 +6,8 @@ Feedback = require './feedbacks/LevelFeedback'
 Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 async = require 'async'
+utils = require '../lib/utils'
+log = require 'winston'
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
@@ -30,6 +32,35 @@ LevelHandler = class LevelHandler extends Handler
     'terrain'
     'i18nCoverage'
     'loadingTip'
+    'requiresSubscription'
+    'adventurer'
+    'practice'
+    'adminOnly'
+    'disableSpaces'
+    'hidesSubmitUntilRun'
+    'hidesPlayButton'
+    'hidesRunShortcut'
+    'hidesHUD'
+    'hidesSay'
+    'hidesCodeToolbar'
+    'hidesRealTimePlayback'
+    'backspaceThrottle'
+    'lockDefaultCode'
+    'moveRightLoopSnippet'
+    'realTimeSpeedFactor'
+    'autocompleteFontSizePx'
+    'requiredCode'
+    'suspectCode'
+    'requiredGear'
+    'restrictedGear'
+    'allowedHeroes'
+    'tasks'
+    'helpVideos'
+    'campaign'
+    'replayable'
+    'buildTime'
+    'scoreTypes'
+    'concepts'
   ]
 
   postEditableProperties: ['name']
@@ -47,9 +78,12 @@ LevelHandler = class LevelHandler extends Handler
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
     return @checkExistence(req, res, args[0]) if args[1] is 'exists'
     return @getPlayCountsBySlugs(req, res) if args[1] is 'play_counts'
+    return @getLevelPlaytimesBySlugs(req, res) if args[1] is 'playtime_averages'
+    return @getTopScores(req, res, args[0], args[2], args[3]) if args[1] is 'top_scores'
     super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
+    # TODO: this could probably be faster with projections, right?
     @getDocumentForIdOrSlug id, (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
@@ -71,6 +105,9 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
+        requiresSubscription = level.get('requiresSubscription') or (req.user.get('chinaVersion') and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
+        canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
+        return @sendPaymentRequiredError(res, err) if requiresSubscription and not canPlayAnyway
         @createAndSaveNewSession sessionQuery, req, res
 
   createAndSaveNewSession: (sessionQuery, req, res) =>
@@ -122,17 +159,19 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         creator: req.user._id+''
 
-      query = Session.find(sessionQuery).select('-screenshot')
+      query = Session.find(sessionQuery).select('-screenshot -transpiledCode')
+      # TODO: take out "code" as well, since that can get huge containing the transpiled code for the lat hero, and find another way of having the LadderSubmissionViews in the MyMatchesTab determine rankin readiness
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
   getHistogramData: (req, res, slug) ->
-    query = Session.aggregate [
+    aggregate = Session.aggregate [
       {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
       {$project: {totalScore: 1, _id: 0}}
     ]
+    aggregate.cache()
 
-    query.exec (err, data) =>
+    aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
       valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
@@ -159,13 +198,14 @@ LevelHandler = class LevelHandler extends Handler
 
     sortParameters =
       'totalScore': req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage']
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage', 'heroConfig']
 
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
       .sort(sortParameters)
       .select(selectProperties.join ' ')
+    query.cache() if sessionsQueryParameters.totalScore.$lt is 1000000
 
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
@@ -236,6 +276,7 @@ LevelHandler = class LevelHandler extends Handler
     query = Level.findOne(findParameters)
     .select(selectString)
     .lean()
+    .cache()
 
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
@@ -247,17 +288,19 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         submitted: true
 
-      query = Session.find(sessionsQueryParameters).distinct('team')
+      query = Session.find(sessionsQueryParameters).distinct('team').cache()
       query.exec (err, teams) =>
         return @sendDatabaseError res, err if err? or not teams
         findTop20Players = (sessionQueryParams, team, cb) ->
           sessionQueryParams['team'] = team
-          Session.aggregate [
+          aggregate = Session.aggregate [
             {$match: sessionQueryParams}
-            {$project: {'totalScore': 1}}
             {$sort: {'totalScore': -1}}
             {$limit: 20}
-          ], cb
+            {$project: {'totalScore': 1}}
+          ]
+          aggregate.cache()
+          aggregate.exec cb
 
         async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
           if err? then return @sendDatabaseError(res, err)
@@ -291,11 +334,13 @@ LevelHandler = class LevelHandler extends Handler
     # This is hella slow (4s on my box), so relying on some dumb caching for it.
     # If we can't make this faster with indexing or something, we might want to maintain the counts another way.
     levelIDs = req.query.ids or req.body.ids
+    return @sendSuccess res, [] unless levelIDs?
+
     @playCountCache ?= {}
     @playCountCachedSince ?= new Date()
     if (new Date()) - @playCountCachedSince > 86400 * 1000  # Dumb cache expiration
       @playCountCache = {}
-      @playCountCacheSince = new Date()
+      @playCountCachedSince = new Date()
     cacheKey = levelIDs.join ','
     if playCounts = @playCountCache[cacheKey]
       return @sendSuccess res, playCounts
@@ -310,8 +355,90 @@ LevelHandler = class LevelHandler extends Handler
       @sendSuccess res, data
 
   hasAccessToDocument: (req, document, method=null) ->
+    return true if req.user?.isArtisan()
     method ?= req.method
     return true if method is null or method is 'get'
     super(req, document, method)
+
+  getLevelPlaytimesBySlugs: (req, res) ->
+    # Returns an array of per-day level average playtimes
+    # Parameters:
+    # slugs - array of level slugs
+    # startDay - Inclusive, optional, e.g. '2014-12-14'
+    # endDay - Exclusive, optional, e.g. '2014-12-16'
+
+    # TODO: An uncached call takes about 5s for dungeons-of-kithgard locally
+    # TODO: This is very similar to getLevelCompletionsBySlugs(), time to generalize analytics APIs?
+
+    # TODO: exclude admin data
+
+    levelSlugs = req.query.slugs or req.body.slugs
+    startDay = req.query.startDay or req.body.startDay
+    endDay = req.query.endDay or req.body.endDay
+
+    return @sendSuccess res, [] unless levelSlugs?
+
+    # log.warn "playtime_averages levelSlugs='#{levelSlugs}' startDay=#{startDay} endDay=#{endDay}"
+
+    # Cache results for 1 day
+    @levelPlaytimesCache ?= {}
+    @levelPlaytimesCachedSince ?= new Date()
+    if (new Date()) - @levelPlaytimesCachedSince > 86400 * 1000  # Dumb cache expiration
+      @levelPlaytimesCache = {}
+      @levelPlaytimesCachedSince = new Date()
+    cacheKey = levelSlugs.join(',')
+    cacheKey += 's' + startDay if startDay?
+    cacheKey += 'e' + endDay if endDay?
+    return @sendSuccess res, levelPlaytimes if levelPlaytimes = @levelPlaytimesCache[cacheKey]
+
+    # Build query
+    match = {$match: {$and: [{"state.complete": true}, {"playtime": {$gt: 0}}, {levelID: {$in: levelSlugs}}]}}
+    match["$match"]["$and"].push _id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")} if startDay?
+    match["$match"]["$and"].push _id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")} if endDay?
+    project = {"$project": {"_id": 0, "levelID": 1, "playtime": 1, "created": {"$concat": [{"$substr":  ["$created", 0, 10]}]}}}
+    group = {"$group": {"_id": {"created": "$created", "level": "$levelID"}, "average": {"$avg": "$playtime"}}}
+    query = Session.aggregate match, project, group
+
+    query.exec (err, data) =>
+      if err? then return @sendDatabaseError res, err
+
+      # Build list of level average playtimes
+      playtimes = []
+      for item in data
+        playtimes.push
+          level: item._id.level
+          created: item._id.created
+          average: item.average
+      @levelPlaytimesCache[cacheKey] = playtimes
+      @sendSuccess res, playtimes
+
+  getTopScores: (req, res, levelOriginal, scoreType, timespan) ->
+    query =
+      'level.original': levelOriginal
+      'state.topScores.type': scoreType
+    now = new Date()
+    if timespan is 'day'
+      since = new Date now - 1 * 86400 * 1000
+    else if timespan is 'week'
+      since = new Date now - 7 * 86400 * 1000
+    if since
+      query['state.topScores.date'] = $gt: since.toISOString()
+
+    sort =
+      'state.topScores.score': -1
+
+    select = ['state.topScores', 'creatorName', 'creator', 'codeLanguage', 'heroConfig']
+
+    query = Session
+      .find(query)
+      .limit(20)
+      .sort(sort)
+      .select(select.join ' ')
+
+    query.exec (err, resultSessions) =>
+      return @sendDatabaseError(res, err) if err
+      resultSessions ?= []
+      @sendSuccess res, resultSessions
+
 
 module.exports = new LevelHandler()

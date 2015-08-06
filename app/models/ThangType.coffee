@@ -12,21 +12,29 @@ module.exports = class ThangType extends CocoModel
   @heroes:
     captain: '529ec584c423d4e83b000014'
     knight: '529ffbf1cf1818f2be000001'
-    'samurai': '53e12be0d042f23505c3023b'
-    'ninja': '52fc0ed77e01835453bd8f6c'
+    samurai: '53e12be0d042f23505c3023b'
+    raider: '55527eb0b8abf4ba1fe9a107'
+    goliath: ''
+    guardian: ''
+    ninja: '52fc0ed77e01835453bd8f6c'
     'forest-archer': '5466d4f2417c8b48a9811e87'
     trapper: '5466d449417c8b48a9811e83'
+    pixie: ''
+    assassin: ''
     librarian: '52fbf74b7e01835453bd8d8e'
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
+    necromancer: '55652fb3b9effa46a1f775fd'
+    'dark-wizard': ''
   @heroClasses:
-    Warrior: ['captain', 'knight', 'samurai']
-    Ranger: ['ninja', 'forest-archer', 'trapper']
-    Wizard: ['librarian', 'potion-master', 'sorcerer']
+    Warrior: ['captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
+    Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
+    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'dark-wizard']
   @items:
     'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
   building: {}
+  editableByArtisans: true
 
   initialize: ->
     super()
@@ -233,7 +241,11 @@ module.exports = class ThangType extends CocoModel
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
-    stage = new createjs.Stage(canvas[0])
+    try
+      stage = new createjs.Stage(canvas[0])
+    catch err
+      console.error "Error trying to create #{@get('name')} avatar stage:", err, "with window as", window
+      return null
     return stage unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
@@ -282,8 +294,8 @@ module.exports = class ThangType extends CocoModel
       sprite = vectorParser.buildContainerFromStore(portrait.container)
 
     pt = portrait.positions?.registration
-    sprite.regX = pt?.x or 0
-    sprite.regY = pt?.y or 0
+    sprite.regX = pt?.x / scale or 0
+    sprite.regY = pt?.y / scale or 0
     sprite.scaleX = sprite.scaleY = scale * size / 100
     stage.addChild(sprite)
     stage.update()
@@ -291,7 +303,7 @@ module.exports = class ThangType extends CocoModel
 
   uploadGenericPortrait: (callback, src) ->
     src ?= @getPortraitSource()
-    return callback?() unless src and src.startsWith 'data:'
+    return callback?() unless src and _.string.startsWith src, 'data:'
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'
@@ -355,13 +367,22 @@ module.exports = class ThangType extends CocoModel
       else
         classSpecificScore = stat * 5
       classAverage = @classStatAverages[prop][@get('heroClass')]
-      stats[prop] = Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+      stats[prop] =
+        relative: Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+        absolute: stat
+      pieces = ($.i18n.t "choose_hero.#{prop}_#{num}" for num in [1 .. 3])
+      percent = Math.round(stat * 100) + '%'
+      className = $.i18n.t "general.#{_.string.slugify @get('heroClass')}"
+      stats[prop].description = [pieces[0], percent, pieces[1], className, pieces[2]].join ' '
 
     minSpeed = 4
     maxSpeed = 16
     speedRange = maxSpeed - minSpeed
     speedPoints = rawNumbers.speed - minSpeed
-    stats.speed = Math.round(20 * speedPoints / speedRange) / 2 / 10
+    stats.speed =
+      relative: Math.round(20 * speedPoints / speedRange) / 2 / 10
+      absolute: rawNumbers.speed
+      description: "#{$.i18n.t 'choose_hero.speed_1'} #{rawNumbers.speed} #{$.i18n.t 'choose_hero.speed_2'}"
 
     stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say')
 
@@ -412,12 +433,15 @@ module.exports = class ThangType extends CocoModel
       throwDamage: 'attack'
       throwRange: 'range'
       bashDamage: 'attack'
+      backstabDamage: 'backstab'
     }[name]
 
     if i18nKey
       name = $.i18n.t 'choose_hero.' + i18nKey
+      matchedShortName = true
     else
       name = _.string.humanize name
+      matchedShortName = false
 
     format = ''
     format = 'm' if /(range|radius|distance|vision)$/i.test name
@@ -436,7 +460,7 @@ module.exports = class ThangType extends CocoModel
     display.push "x#{modifiers.factor}" if modifiers.factor? and modifiers.factor isnt 1
     display = display.join ', '
     display = display.replace /9001m?/, 'Infinity'
-    name: name, display: display
+    name: name, display: display, matchedShortName: matchedShortName
 
   isSilhouettedItem: ->
     return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems') or @get('tier')

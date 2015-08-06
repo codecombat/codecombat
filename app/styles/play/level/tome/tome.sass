@@ -4,6 +4,7 @@
 #tome-view
   height: 100%
   margin-bottom: -20px
+  overflow: hidden
 
   > .popover
     // Only those popovers which are our direct children (spell documentation)
@@ -37,8 +38,9 @@
 
   .popover
     padding: 10px 10px 30px 10px
-    border-image: url(/images/level/popover_background.png) 18 fill round
-    border-width: 15px
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+    border-width: 16px 12px
     @include box-shadow(0 0 0 #000)
 
     h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)

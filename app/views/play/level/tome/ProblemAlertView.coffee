@@ -1,4 +1,5 @@
 CocoView = require 'views/core/CocoView'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 template = require 'templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 
@@ -17,9 +18,13 @@ module.exports = class ProblemAlertView extends CocoView
 
   events:
     'click .close': 'onRemoveClicked'
+    'click #problem-alert-help-button': 'onClickProblemAlertHelp'
 
   constructor: (options) ->
     super options
+    @level = options.level
+    @session = options.session
+    @supermodel = options.supermodel
     if options.problem?
       @problem = options.problem
       @onWindowResize()
@@ -69,6 +74,7 @@ module.exports = class ProblemAlertView extends CocoView
     @onWindowResize()
     @render()
     @onJiggleProblemAlert()
+    application.tracker?.trackEvent 'Show problem alert', {levelID: @level.get('slug'), ls: @session?.get('_id')}
 
   onJiggleProblemAlert: ->
     return unless @problem?
@@ -80,7 +86,12 @@ module.exports = class ProblemAlertView extends CocoView
     _.delay pauseJiggle, 1000
 
   onHideProblemAlert: ->
+    return unless @$el.is(':visible')
     @onRemoveClicked()
+
+  onClickProblemAlertHelp: ->
+    application.tracker?.trackEvent 'Problem alert help clicked', {levelID: @level.get('slug'), ls: @session?.get('_id')}
+    @openModalView new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
 
   onRemoveClicked: ->
     @playSound 'menu-button-click'

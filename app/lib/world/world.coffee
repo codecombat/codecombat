@@ -70,9 +70,9 @@ module.exports = class World
   setThang: (thang) ->
     thang.stateChanged = true
     for old, i in @thangs
-      console.error 'world trying to set', thang, 'over', old unless old? and thang?
       if old.id is thang.id
         @thangs[i] = thang
+        break
     @thangMap[thang.id] = thang
 
   thangDialogueSounds: (startFrame=0) ->
@@ -102,7 +102,9 @@ module.exports = class World
     if @realTime and not @countdownFinished
       @realTimeSpeedFactor = 1
       unless @showsCountdown
-        if @levelID in ['thornbush-farm', 'back-to-back', 'ogre-encampment', 'woodland-cleaver', 'shield-rush', 'peasant-protection', 'munchkin-swarm']
+        if @levelID in ['woodland-cleaver', 'village-guard', 'shield-rush']
+          @realTimeSpeedFactor = 2
+        else if @levelID in ['thornbush-farm', 'back-to-back', 'ogre-encampment', 'peasant-protection', 'munchkin-swarm', 'munchkin-harvest', 'swift-dagger', 'shrapnel', 'arcane-ally', 'touch-of-death', 'bonemender']
           @realTimeSpeedFactor = 3
       if @showsCountdown
         return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
@@ -360,7 +362,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     delete flag.processed for flag in @flagHistory
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: @flagHistory}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: @flagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -467,7 +469,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()
@@ -603,3 +605,10 @@ module.exports = class World
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
     playableTeams[n % playableTeams.length]
+
+  getScores: ->
+    time: @age
+    'damage-taken': @getSystem('Combat')?.damageTakenForTeam 'humans'
+    'damage-dealt': @getSystem('Combat')?.damageDealtForTeam 'humans'
+    'gold-collected': @getSystem('Inventory')?.teamGold.humans?.collected
+    'difficulty': @difficulty

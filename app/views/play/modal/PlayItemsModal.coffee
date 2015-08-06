@@ -3,10 +3,12 @@ template = require 'templates/play/modal/play-items-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
+AuthModal = require 'views/core/AuthModal'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
+Level = require 'models/Level'
 Purchase = require 'models/Purchase'
 
 utils = require 'core/utils'
@@ -51,8 +53,11 @@ module.exports = class PlayItemsModal extends ModalView
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
+    'update .tab-pane .nano': 'onScrollItemPane'
+    'click #hero-type-select label': 'onClickHeroTypeSelect'
 
   constructor: (options) ->
+    @onScrollItemPane = _.throttle(_.bind(@onScrollItemPane, @), 200)
     super options
     @items = new Backbone.Collection()
     @itemCategoryCollections = {}
@@ -97,6 +102,10 @@ module.exports = class PlayItemsModal extends ModalView
       model.comingSoon = not model.getFrontFacingStats().props.length and not _.size(model.getFrontFacingStats().stats) and not model.owned  # Temp: while there are placeholder items
       @idToItem[model.id] = model
 
+    if itemFetcher.skip isnt 0
+      # Make sure we render the newly fetched items, except the first time (when it happens automatically).
+      @render()
+
     if needMore
       itemFetcher.skip += PAGE_SIZE
       itemFetcher.fetch({data: {skip: itemFetcher.skip, limit: PAGE_SIZE}})
@@ -117,6 +126,10 @@ module.exports = class PlayItemsModal extends ModalView
     @itemDetailsView = new ItemDetailsView()
     @insertSubView(@itemDetailsView)
     @$el.find("a[href='#item-category-armor']").click()  # Start on armor tab, if it's there.
+    earnedLevels = me.get('earned')?.levels or []
+    if Level.levels['defense-of-plainswood'] not in earnedLevels
+      @$el.find('#misc-tab').hide()
+      @$el.find('#hero-type-select #warrior').click()  # Start on warrior tab, if low level.
 
   onHidden: ->
     super()
@@ -143,7 +156,28 @@ module.exports = class PlayItemsModal extends ModalView
 
   onTabClicked: (e) ->
     @playSound 'game-menu-tab-switch'
-    $($(e.target).attr('href')).find('.nano').nanoScroller({alwaysVisible: true})
+    nano = $($(e.target).attr('href')).find('.nano')
+    nano.nanoScroller({alwaysVisible: true})
+    @paneNanoContent = nano.find('.nano-content')
+    @onScrollItemPane()
+
+  onScrollItemPane: ->
+    # dynamically load visible items when the user scrolls enough to see them
+    return console.error "Couldn't update scroll, since paneNanoContent wasn't initialized." unless @paneNanoContent
+    items = @paneNanoContent.find('.item:not(.loaded)')
+    threshold = @paneNanoContent.height() + 100
+    for itemEl in items
+      itemEl = $(itemEl)
+      if itemEl.position().top < threshold
+        $(itemEl).addClass('loaded')
+        item = @idToItem[itemEl.data('item-id')]
+        itemEl.find('.item-silhouette, .item-img').attr('src', item.getPortraitURL())
+
+  onClickHeroTypeSelect: (e) ->
+    value = $(e.target).closest('label').attr('id')
+    tabContent = @$el.find('.tab-content')
+    tabContent.removeClass('filter-wizard filter-ranger filter-warrior')
+    tabContent.addClass("filter-#{value}") if value isnt 'all'
 
   onUnlockButtonClicked: (e) ->
     e.stopPropagation()
@@ -177,14 +211,18 @@ module.exports = class PlayItemsModal extends ModalView
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
 
+  askToSignUp: ->
+    authModal = new AuthModal supermodel: @supermodel
+    authModal.mode = 'signup'
+    return @openModalView authModal
+
   askToBuyGems: (unlockButton) ->
-    if me.getGemPromptGroup() is 'no-prompt'
-      return @openModalView new BuyGemsModal()
     @$el.find('.unlock-button').popover 'destroy'
     popoverTemplate = buyGemsPromptTemplate {}
     unlockButton.popover(
       animation: true
       trigger: 'manual'
+      placement: 'top'
       content: ' '  # template has it
       container: @$el
       template: popoverTemplate
@@ -194,6 +232,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onBuyGemsPromptButtonClicked: (e) ->
     @playSound 'menu-button-click'
+    return @askToSignUp() if me.get('anonymous')
     @openModalView new BuyGemsModal()
 
   onClickedSomewhere: (e) ->

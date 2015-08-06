@@ -10,4 +10,3 @@ class Dependency(object):
         raise NotImplementedError
     def install_dependencies(self):
         raise NotImplementedError
-

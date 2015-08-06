@@ -5,6 +5,7 @@ ModuleLoader = require 'core/ModuleLoader'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 Tracker = require 'core/Tracker'
+CocoModel = require 'models/CocoModel'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -29,14 +30,22 @@ elementAcceptsKeystrokes = (el) ->
   # not radio, checkbox, range, or color
   return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
 
-COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/code_palette_wood_background.png', '/images/level/popover_background.png', '/images/level/code_editor_background.png']
+COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
 preload = (arrayOfImages) ->
   $(arrayOfImages).each ->
     $('<img/>')[0].src = @
 
+# IE9 doesn't expose console object unless debugger tools are loaded
+window.console ?=
+  info: ->
+  log: ->
+  error: ->
+  debug: ->
+console.debug ?= console.log  # Needed for IE10 and earlier
+
 Application = initialize: ->
   Router = require('core/Router')
-  @isProduction = -> document.location.href.search('codecombat.com') isnt -1
+  @isProduction = -> document.location.href.search('https?://localhost:3000') is -1
   @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('iPad') isnt -1
   $('body').addClass 'ipad' if @isIPadApp
   @tracker = new Tracker()
@@ -47,6 +56,7 @@ Application = initialize: ->
   @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
   $(document).bind 'keydown', preventBackspace
   preload(COMMON_FILES)
+  CocoModel.pollAchievements()
   $.i18n.init {
     lng: me.get('preferredLanguage', true)
     fallbackLng: 'en'

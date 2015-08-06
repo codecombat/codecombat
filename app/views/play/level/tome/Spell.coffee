@@ -15,6 +15,7 @@ module.exports = class Spell
     @otherSession = options.otherSession
     @spectateView = options.spectateView
     @spectateOpponentCodeLanguage = options.spectateOpponentCodeLanguage
+    @observing = options.observing
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
@@ -61,7 +62,7 @@ module.exports = class Spell
 
   setLanguage: (@language) ->
     #console.log 'setting language to', @language, 'so using original source', @languages[language] ? @languages.javascript
-    @originalSource = @languages[language] ? @languages.javascript
+    @originalSource = @languages[@language] ? @languages.javascript
     # Translate comments chosen spoken language.
     return unless @commentContext
     context = $.extend true, {}, @commentContext
@@ -147,11 +148,11 @@ module.exports = class Spell
       cb(aether.hasChangedSignificantly((newSource ? @originalSource), (currentSource ? @source), true, true))
 
   createAether: (thang) ->
-    aceConfig = me.get('aceConfig') ? {}
     writable = @permissions.readwrite.length > 0
     skipProtectAPI = @skipProtectAPI or not writable
     problemContext = @createProblemContext thang
-    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: @levelType in ['hero', 'hero-ladder', 'hero-coop'], problemContext: problemContext
+    includeFlow = (@levelType in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder']) and not skipProtectAPI
+    aetherOptions = createAetherOptions functionName: @name, codeLanguage: @language, functionParameters: @parameters, skipProtectAPI: skipProtectAPI, includeFlow: includeFlow, problemContext: problemContext
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
@@ -188,6 +189,7 @@ module.exports = class Spell
     return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
+    return false if @observing and @levelType in ['hero', 'course']
     return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions', true))
     false
 
@@ -203,7 +205,7 @@ module.exports = class Spell
 
     @problemContext = { stringReferences: [], thisMethods: [], thisProperties: [] }
     # TODO: These should be read from the database
-    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'getFriends', 'addFlag', 'getFlag', 'removeFlag', 'getFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
+    @problemContext.commonThisMethods = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'findNearestEnemy', 'buildXY', 'moveXY', 'say', 'move', 'distance', 'findEnemies', 'findFriends', 'addFlag', 'findFlag', 'removeFlag', 'findFlags', 'attackRange', 'cast', 'buildTypes', 'jump', 'jumpTo', 'attackXY']
     return @problemContext unless thang?
 
     # Populate stringReferences

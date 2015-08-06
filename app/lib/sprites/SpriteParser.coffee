@@ -37,14 +37,7 @@ module.exports = class SpriteParser
     blocks = @findBlocks ast, source
     containers = _.filter blocks, {kind: 'Container'}
     movieClips = _.filter blocks, {kind: 'MovieClip'}
-    if movieClips.length
-      # First movie clip is root, so do it last
-      movieClips = movieClips[1 ... movieClips.length].concat([movieClips[0]])
-    
-    # first container isn't necessarily root... actually the last one is root in blue-cart
-#    else if containers.length
-#      # First container is root, so do it last
-#      containers = containers[1 ... containers.length].concat([containers[0]])
+
     mainClip = _.last(movieClips) ? _.last(containers)
     @animationName = mainClip.name
     for container, index in containers
@@ -69,17 +62,24 @@ module.exports = class SpriteParser
             break
       continue unless container.bounds and instructions.length
       @addContainer {c: instructions, b: container.bounds}, container.name
+
+    childrenMovieClips = []
+
     for movieClip, index in movieClips
-      if index is 0
-        for bounds in movieClip.frameBounds
-          bounds[0] -= @width / 2
-          bounds[1] -= @height / 2
-        movieClip.bounds[0] -= @width / 2
-        movieClip.bounds[1] -= @height / 2
+      lastBounds = null
+      # fill in bounds which are null...
+      for bounds, boundsIndex in movieClip.frameBounds
+        if not bounds
+          movieClip.frameBounds[boundsIndex] = _.clone(lastBounds)
+        else
+          lastBounds = bounds
+
       localGraphics = @getGraphicsFromBlock(movieClip, source)
       [shapeKeys, localShapes] = @getShapesFromBlock movieClip, source
       localContainers = @getContainersFromMovieClip movieClip, source, true
       localAnimations = @getAnimationsFromMovieClip movieClip, source, true
+      for animation in localAnimations
+        childrenMovieClips.push(animation.gn)
       localTweens = @getTweensFromMovieClip movieClip, source, localShapes, localContainers, localAnimations
       @addAnimation {
         shapes: localShapes
@@ -90,6 +90,14 @@ module.exports = class SpriteParser
         bounds: movieClip.bounds
         frameBounds: movieClip.frameBounds
       }, movieClip.name
+
+    for movieClip in movieClips
+      if movieClip.name not in childrenMovieClips
+        for bounds in movieClip.frameBounds
+          bounds[0] -= @width / 2
+          bounds[1] -= @height / 2
+        movieClip.bounds[0] -= @width / 2
+        movieClip.bounds[1] -= @height / 2
 
     @saveToModel()
     return movieClips[0]?.name
@@ -382,7 +390,7 @@ module.exports = class SpriteParser
         name = node.callee.property?.name
         return unless name in ['get', 'to', 'wait']
         return if name is 'get' and callExpressions.length # avoid Ease calls in the tweens
-        flattenedRanges = _.flatten [a.range for a in node.arguments]
+        flattenedRanges = _.flatten [(a.range for a in node.arguments)]
         range = [_.min(flattenedRanges), _.max(flattenedRanges)]
         # Replace 'this.<local>' references with just the 'name'
         argsSource = @subSourceFromRange(range, source)

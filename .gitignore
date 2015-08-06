@@ -35,6 +35,9 @@ Thumbs.db
 node_modules/
 bower_components/
 
+# Vagrant
+.vagrant/
+
 # Some other random stuff
 always-ignore extensions
 *.diff

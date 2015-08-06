@@ -50,13 +50,15 @@ body:not(.dialogue-view-active)
   .spell-palette-popover.popover
     right: 45%
     min-width: 500px
+    margin-top: -17%
 
 .spell-palette-popover.popover
   // Only those popovers which are our direct children (spell documentation)
   max-width: 600px
   padding: 0
-  border-image: url(/images/level/popover_background.png) 29 39 fill stretch
-  border-width: 15px 20px
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
 
   // Jiggle animation

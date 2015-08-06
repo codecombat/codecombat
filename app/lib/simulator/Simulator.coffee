@@ -5,12 +5,26 @@ GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
 
+SIMULATOR_VERSION = 3
+
+simulatorInfo = {}
+if $.browser
+  simulatorInfo['desktop'] = $.browser.desktop if $.browser.desktop
+  simulatorInfo['name'] = $.browser.name if $.browser.name
+  simulatorInfo['platform'] = $.browser.platform if $.browser.platform
+  simulatorInfo['version'] = $.browser.versionNumber if $.browser.versionNumber
+
 module.exports = class Simulator extends CocoClass
   constructor: (@options) ->
     @options ?= {}
+    simulatorType = if @options.headlessClient then 'headless' else 'browser'
+    @simulator =
+      type: simulatorType
+      version: SIMULATOR_VERSION
+      info: simulatorInfo
     _.extend @, Backbone.Events
     @trigger 'statusUpdate', 'Starting simulation!'
-    @retryDelayInSeconds = 10
+    @retryDelayInSeconds = 2
     @taskURL = '/queue/scoring'
     @simulatedByYou = 0
     @god = new God maxAngels: 1, workerCode: @options.workerCode, headless: true  # Start loading worker.
@@ -28,10 +42,17 @@ module.exports = class Simulator extends CocoClass
       type: 'POST'
       parse: true
       data:
-        'humansGameID': humanGameID
-        'ogresGameID': ogresGameID
+        humansGameID: humanGameID
+        ogresGameID: ogresGameID
+        simulator: @simulator
       error: (errorData) ->
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
+        if errorData?.responseText?.indexOf("Old simulator") isnt -1
+          noty {
+            text: errorData.responseText
+            layout: 'center'
+            type: 'error'
+          }
       success: (taskData) =>
         return if @destroyed
         unless taskData
@@ -85,7 +106,11 @@ module.exports = class Simulator extends CocoClass
 
   processSingleGameResults: (simulationResults) ->
     return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
-    taskResults = @formTaskResultsObject simulationResults
+    try
+      taskResults = @formTaskResultsObject simulationResults
+    catch error
+      console.log "Failed to form task results:", error
+      return @cleanupAndSimulateAnotherTask()
     console.log 'Processing results:', taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
     ogreSessionRank = taskResults.sessions[1].metrics.rank
@@ -132,6 +157,7 @@ module.exports = class Simulator extends CocoClass
       parse: true
       error: @handleFetchTaskError
       success: @setupSimulationAndLoadLevel
+      cache: false
 
   handleFetchTaskError: (errorData) =>
     console.error "There was a horrible Error: #{JSON.stringify errorData}"
@@ -143,7 +169,6 @@ module.exports = class Simulator extends CocoClass
     console.log info
     @trigger 'statusUpdate', info
     @fetchAndSimulateOneGame()
-    application.tracker?.trackEvent 'Simulator Result', label: 'No Games', ['Google Analytics']
 
   simulateAnotherTaskAfterDelay: =>
     console.log "Retrying in #{@retryDelayInSeconds}"
@@ -199,6 +224,12 @@ module.exports = class Simulator extends CocoClass
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
+    humanFlagHistory = _.filter @session.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@session.get('team') ? 'humans')
+    ogreFlagHistory = _.filter @otherSession.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@otherSession.get('team') ? 'ogres')
+    @god.lastFlagHistory = humanFlagHistory.concat ogreFlagHistory
+    #console.log 'got flag history', @god.lastFlagHistory, 'from', humanFlagHistory, ogreFlagHistory, @session.get('state'), @otherSession.get('state')
+    @god.lastSubmissionCount = 0  # TODO: figure out how to combine submissionCounts from both players so we can use submissionCount random seeds again.
+    @god.lastDifficulty = 0
 
   commenceSimulationAndSetupCallback: ->
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
@@ -237,7 +268,11 @@ module.exports = class Simulator extends CocoClass
 
   processResults: (simulationResults) ->
     return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
-    taskResults = @formTaskResultsObject simulationResults
+    try
+      taskResults = @formTaskResultsObject simulationResults
+    catch error
+      console.log "Failed to form task results:", error
+      return @cleanupAndSimulateAnotherTask()
     unless taskResults.taskID
       console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults
       @cleanupAndSimulateAnotherTask()
@@ -269,12 +304,10 @@ module.exports = class Simulator extends CocoClass
     return if @destroyed
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
-    console.log 'Simulated by you:', @simulatedByYou
     @simulatedByYou++
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
       $('#simulated-by-you').text(simulatedBy)
-    application.tracker?.trackEvent 'Simulator Result', label: 'Success', ['Google Analytics']
 
   handleTaskResultsTransferError: (error) =>
     return if @destroyed
@@ -298,6 +331,8 @@ module.exports = class Simulator extends CocoClass
       originalSessionRank: -1
       calculationTime: 500
       sessions: []
+      simulator: @simulator
+      randomSeed: @task.world.randomSeed
 
     for session in @task.getSessions()
       sessionResult =

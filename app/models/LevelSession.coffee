@@ -38,7 +38,7 @@ module.exports = class LevelSession extends CocoModel
     false
 
   isMultiplayer: ->
-    @get('team')? # Only multiplayer level sessions have teams defined
+    @get('submittedCodeLanguage')? and @get('team')?
 
   completed: ->
     @get('state')?.complete || false
@@ -53,3 +53,37 @@ module.exports = class LevelSession extends CocoModel
   save: (attrs, options) ->
     return if @shouldAvoidCorruptData attrs
     super attrs, options
+
+  increaseDifficulty: (callback) ->
+    state = @get('state') ? {}
+    state.difficulty = (state.difficulty ? 0) + 1
+    delete state.lastUnsuccessfulSubmissionTime
+    @set 'state', state
+    @trigger 'change-difficulty'
+    @save null, success: callback
+
+  timeUntilResubmit: ->
+    state = @get('state') ? {}
+    return 0 unless last = state.lastUnsuccessfulSubmissionTime
+    last = new Date(last) if _.isString last
+    # Wait at least this long before allowing submit button active again.
+    (last - new Date()) + 22 * 60 * 60 * 1000
+
+  recordScores: (scores, level) ->
+    state = @get 'state'
+    oldTopScores = state.topScores ? []
+    newTopScores = []
+    now = new Date()
+    for scoreType in level.get('scoreTypes') ? []
+      oldTopScore = _.find oldTopScores, type: scoreType
+      newScore = scores[scoreType]
+      unless newScore?
+        newTopScores.push oldTopScore
+        continue
+      newScore *= -1 if scoreType in ['time', 'damage-taken']  # Make it so that higher is better
+      if not oldTopScore? or newScore > oldTopScore.score
+        newTopScores.push type: scoreType, date: now, score: newScore
+      else
+        newTopScores.push oldTopScore
+    state.topScores = newTopScores
+    @set 'state', state

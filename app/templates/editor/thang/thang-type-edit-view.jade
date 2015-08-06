@@ -15,13 +15,13 @@ block header
             span.glyphicon-home.glyphicon
       ul.nav.navbar-nav.nav-tabs
         li.active
-          a(href="#editor-thang-main-tab-view", data-toggle="tab") Main
+          a(href="#editor-thang-main-tab-view", data-toggle="tab", data-i18n="editor.thang_main") Main
         li
-          a(href="#editor-thang-components-tab-view", data-toggle="tab") Components
+          a(href="#editor-thang-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components") Components
         li
-          a(href="#editor-thang-spritesheets-view", data-toggle="tab") Spritesheets
+          a(href="#editor-thang-spritesheets-view", data-toggle="tab", data-i18n="editor.thang_spritesheets") Spritesheets
         li
-          a(href="#editor-thang-colors-tab-view", data-toggle="tab")#color-tab Colors
+          a(href="#editor-thang-colors-tab-view", data-toggle="tab", data-i18n="editor.thang_colors")#color-tab Colors
         li
           a(href="#editor-thang-patches-view", data-toggle="tab")#patches-tab
             span(data-i18n="resources.patches").spr Patches
@@ -51,19 +51,19 @@ block header
           a(data-toggle='dropdown')
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
-            li.dropdown-header Actions
-            li(class=anonymous ? "disabled": "")
+            li.dropdown-header(data-i18n="common.actions") Actions
+            li(class=!me.isAdmin() && !me.isArtisan() ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
-            li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
-            li(class=anonymous ? "disabled": "")
+            li(class=!authorized ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=!authorized)#revert-button Revert
+            li(class=!authorized ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
-            li.dropdown-header Info
+            li.dropdown-header(data-i18n="common.info") Info
             li#history-button
               a(href='#', data-i18n="general.version_history") Version History
             li.divider
-            li.dropdown-header Help
+            li.dropdown-header(data-i18n="common.help") Help
             li
               a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki", target="_blank") Wiki
             li

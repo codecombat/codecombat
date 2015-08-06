@@ -87,6 +87,34 @@ clusters = {
     'thangs': ['Bookshelf', 'Chair', 'Table', 'Candle', 'Treasure Chest']
     'margin': -1
     }
+  'desert_walls': {
+    'thangs': ['Desert Wall 1', 'Desert Wall 2', 'Desert Wall 3', 'Desert Wall 4', 'Desert Wall 5', 'Desert Wall 6', 'Desert Wall 7', 'Desert Wall 8']
+    'margin': 6
+  }
+  'desert_floor': {
+    'thangs': ['Sand 01', 'Sand 02', 'Sand 03', 'Sand 04', 'Sand 05', 'Sand 06']
+    'margin': -1
+  }
+  'oases': {
+    'thangs': ['Oasis 1', 'Oasis 2', 'Oasis 3']
+    'margin': 4
+  }
+  'mountain_floor': {
+    'thangs': ['Talus 1', 'Talus 2', 'Talus 3', 'Talus 4', 'Talus 5', 'Talus 6']
+    'margin': -1
+  }
+  'mountain_walls': {
+    'thangs': ['Mountain 1','Mountain 3']
+    'margin': 6
+  }
+  'glacier_floor': {
+    'thangs': ['Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6']
+    'margin': -1
+  }
+  'glacier_walls': {
+    'thangs': ['Ice Wall']
+    'margin': 2
+  }
 }
 
 presets = {
@@ -204,6 +232,80 @@ presets = {
           'wood':[2,4]
           'animals':[2,3]
         }
+      }
+    }
+  }
+  'desert': {
+    'terrainName': 'Desert'
+    'type':'desert'
+    'borders':'desert_walls'
+    'borderNoise':2
+    'borderSize':4
+    'borderThickness':4
+    'floors':'desert_floor'
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+      'oasis': {
+        'num':[1,2] #min-max
+        'width': 10
+        'height': 10
+        'clusters': {
+          'oases':[1,1]
+          'shrubs':[0,5]
+          'rocks':[0,2]
+        }
+      }
+    }
+  },
+  'mountain': {
+    'terrainName': 'Mountain'
+    'type': 'mountain'
+    'floors': 'mountain_floor'
+    'borders': 'mountain_walls'
+    'borderNoise': 1
+    'borderSize': 1
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+    }
+  },
+  'glacier': {
+    'terrainName': 'Glacier'
+    'type': 'glacier'
+    'floors': 'glacier_floor'
+    'borders': 'glacier_walls'
+    'borderNoise': 0
+    'borderSize': 4
+    'borderThickness': 1
+    'decorations': {
+      'hero': {
+        'num': [1, 1]
+        'width': 2
+        'height': 2
+        'clusters': {
+          'hero': [1, 1]
+        }
+      }
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'glacier_walls'
       }
     }
   }

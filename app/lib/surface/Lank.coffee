@@ -30,6 +30,7 @@ module.exports = Lank = class Lank extends CocoClass
     thang: null
     camera: null
     showInvisible: false
+    preloadSounds: true
 
   possessed: false
   flipped: false
@@ -84,8 +85,9 @@ module.exports = Lank = class Lank extends CocoClass
 
   onThangTypeLoaded: ->
     @stillLoading = false
-    for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
-      AudioPlayer.preloadSoundReference sound for sound in sounds when sound
+    if @options.preloadSounds
+      for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
+        AudioPlayer.preloadSoundReference sound for sound in sounds when sound
     if @thangType.get('raster')
       @actions = {}
       @isRaster = true
@@ -101,6 +103,7 @@ module.exports = Lank = class Lank extends CocoClass
 
   setSprite: (newSprite) ->
     if @sprite
+      @sprite.off 'animationend', @playNextAction
       @sprite.destroy?()
       if parent = @sprite.parent
         parent.removeChild @sprite
@@ -138,6 +141,7 @@ module.exports = Lank = class Lank extends CocoClass
   onSurfaceTicked: (e) -> @age += e.dt
 
   playNextAction: =>
+    return if @destroyed
     @playAction(@actionQueue.splice(0, 1)[0]) if @actionQueue.length
 
   playAction: (action) ->
@@ -197,50 +201,56 @@ module.exports = Lank = class Lank extends CocoClass
   showAreaOfEffects: ->
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
-      continue unless event.startsWith 'aoe-'
+      continue unless _.string.startsWith event, 'aoe-'
       continue if @handledDisplayEvents[event]
       @handledDisplayEvents[event] = true
       args = JSON.parse(event[4...])
       key = 'aoe-' + JSON.stringify(args[2..])
+      layerName = args[6] ? 'ground'  # Can also specify 'floating'.
+      unless layer = @options[layerName + 'Layer']
+        console.error "#{@thang.id} couldn't find layer #{layerName}Layer for AOE effect #{key}; using ground layer."
+        layer = @options.groundLayer
 
-      unless key in @options.groundLayer.spriteSheet.getAnimations()
-        args = JSON.parse(event[4...])
+      unless key in layer.spriteSheet.getAnimations()
         circle = new createjs.Shape()
         radius = args[2] * Camera.PPM
         if args.length is 4
           circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
         else
-          startAngle = args[4]
-          endAngle = args[5]
+          startAngle = args[4] or 0
+          endAngle = args[5] or 2 * Math.PI
+          if startAngle is endAngle
+            startAngle = 0
+            endAngle = 2 * Math.PI
           circle.graphics.beginFill(args[3])
             .lineTo(0, 0)
             .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
             .arc(0, 0, radius, startAngle, endAngle)
             .lineTo(0, 0)
-        @options.groundLayer.addCustomGraphic(key, circle, [-radius, -radius, radius*2, radius*2])
+        layer.addCustomGraphic(key, circle, [-radius, -radius, radius*2, radius*2])
 
-      circle = new createjs.Sprite(@options.groundLayer.spriteSheet)
+      circle = new createjs.Sprite(layer.spriteSheet)
       circle.gotoAndStop(key)
       pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
       circle.x = pos.x
       circle.y = pos.y
-      resFactor = @options.groundLayer.resolutionFactor
+      resFactor = layer.resolutionFactor
       circle.scaleY = @options.camera.y2x * 0.7 / resFactor
       circle.scaleX = 0.7 / resFactor
       circle.alpha = 0.2
-      @options.groundLayer.addChild circle
+      layer.addChild circle
       createjs.Tween.get(circle)
         .to({alpha: 0.6, scaleY: @options.camera.y2x / resFactor, scaleX: 1 / resFactor}, 100, createjs.Ease.circOut)
         .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
         .call =>
           return if @destroyed
-          @options.groundLayer.removeChild circle
+          layer.removeChild circle
           delete @handledDisplayEvents[event]
 
   showTextEvents: ->
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
-      continue unless event.startsWith 'text-'
+      continue unless _.string.startsWith event, 'text-'
       continue if @handledDisplayEvents[event]
       @handledDisplayEvents[event] = true
       options = JSON.parse(event[5...])
@@ -287,21 +297,21 @@ module.exports = Lank = class Lank extends CocoClass
       # Let the pending flags know we're here (but not this call stack, they need to delete themselves, and we may be iterating sprites).
       _.defer => Backbone.Mediator.publish 'surface:flag-appeared', sprite: @
 
-  updateScale: ->
+  updateScale: (force) ->
     return unless @sprite
-    if @thangType.get('matchWorldDimensions') and @thang
-      if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
+    if @thangType.get('matchWorldDimensions') and @thang and @options.camera
+      if force or @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight or @thang.rotation isnt @lastThangRotation
         bounds = @sprite.getBounds()
         return unless bounds
-        @sprite.scaleX = @thang.width * Camera.PPM / bounds.width
-        @sprite.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
-        @sprite.regX = bounds.width / 2
-        @sprite.regY = bounds.height / 2
+        @sprite.scaleX = @thang.width  * Camera.PPM / bounds.width  * (@options.camera.y2x + (1 - @options.camera.y2x) * Math.abs Math.cos @thang.rotation)
+        @sprite.scaleY = @thang.height * Camera.PPM / bounds.height * (@options.camera.y2x + (1 - @options.camera.y2x) * Math.abs Math.sin @thang.rotation)
+        @sprite.regX = bounds.width  * 3 / 4  # Why not / 2? I don't know.
+        @sprite.regY = bounds.height * 3 / 4  # Why not / 2? I don't know.
 
         unless @thang.spriteName is 'Beam'
           @sprite.scaleX *= @thangType.get('scale') ? 1
           @sprite.scaleY *= @thangType.get('scale') ? 1
-        [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
+        [@lastThangWidth, @lastThangHeight, @lastThangRotation] = [@thang.width, @thang.height, @thang.rotation]
       return
 
     scaleX = scaleY = 1
@@ -326,7 +336,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @thang?.spriteName is 'Beam'
+    if @layer?.name is 'Land' or @thang?.spriteName is 'Beam'
       @scaleFactorX = newScaleFactorX
       @scaleFactorY = newScaleFactorY
     else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
@@ -466,6 +476,8 @@ module.exports = Lank = class Lank extends CocoClass
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
+    else if @options.playerName
+      @setNameLabel @options.playerName
 
   configureMouse: ->
     @sprite.cursor = 'pointer' if @thang?.isSelectable
@@ -560,8 +572,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   updateMarks: ->
     return unless @options.camera
-    @addMark 'repair', null, 'repair' if @thang?.errorsOut
-    @marks.repair?.toggle @thang?.errorsOut
+    @addMark 'repair', null, 'repair' if @thang?.erroredOut
+    @marks.repair?.toggle @thang?.erroredOut
 
     if @selected
       @marks[range['name']].toggle true for range in @ranges
@@ -691,10 +703,13 @@ module.exports = Lank = class Lank extends CocoClass
     Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned ? 0)}
 
   shouldMuteMessage: (m) ->
-    return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
-    return true if /^attack /.test m
-    return true if /^Repeating loop/.test m
-    return true if /^findNearestEnemy/.test m
+    if me.getAnnouncesActionAudioGroup() in ['no-audio', 'just-take-damage']
+      return true if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
+      return true if /^attack /.test m
+      return true if /^Repeating loop/.test m
+      return true if /^findNearestEnemy/.test m
+
+    return false if m in ['moveRight', 'moveUp', 'moveDown', 'moveLeft']
     @previouslySaidMessages ?= {}
     t0 = @previouslySaidMessages[m] ? 0
     t1 = new Date()
@@ -704,7 +719,10 @@ module.exports = Lank = class Lank extends CocoClass
 
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
-      @playSound event, withDelay, volume
+      if event is 'take-damage' and me.getAnnouncesActionAudioGroup() in ['no-audio', 'without-take-damage']
+        null  # Skip playing it
+      else
+        @playSound event, withDelay, volume
       if event is 'pay-bounty-gold' and @thang.bountyGold > 25 and @thang.team isnt me.team
         AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
@@ -805,4 +823,5 @@ module.exports = Lank = class Lank extends CocoClass
     p.removeChild @healthBar if p = @healthBar?.parent
     @sprite?.off 'animationend', @playNextAction
     clearInterval @effectInterval if @effectInterval
+    @dialogueSoundInstance?.removeAllEventListeners()
     super()

@@ -1,0 +1,102 @@
+extends /templates/base
+
+block content
+
+  //- DO NOT localize / i18n
+
+  div TODO: Add already enrolled view checkbox
+  div(style='border-bottom: 1px solid black')
+    span *UNDER CONSTRUCTION, send feedback to
+    a.spl(href='mailto:team@codecombat.com') team@codecombat.com
+
+  .modal#continueModal
+    .modal-dialog
+      .modal-header
+        button.close(data-dismiss='modal')
+          span &times;
+        h3.modal-title Loading...
+      .modal-body
+        .container-fluid
+          .row.button-row.row-pick-class
+            .col-md-12
+              .well.well-sm
+                p
+                  div.instruction-label Pick your class
+                .container-fluid
+                  .row
+                    .col-md-8
+                      select.form-control.select-session
+                        each inst in instances
+                          option= inst.name
+                    .col-md-4
+                      button.btn.btn-success.btn-enter(data-course-id="#{courseID}") Enter
+          .row.button-row.center.row-pick-class
+            .col-md-12
+              div.or Or
+          .row.button-row
+            .col-md-12
+              .well.well-sm
+                p
+                  div.instruction-label Enter an unlock code
+                .container-fluid
+                  .row
+                    .col-md-8
+                      input.code-input(type='text', placeholder="Enter unlock code")
+                    .col-md-4
+                      button.btn.btn-success.btn-enroll(data-course-id="#{courseID}") Enroll
+          .row.button-row.center
+            .col-md-12
+              div.or Or
+          .row.button-row.center
+            .col-md-12
+              button.btn.btn-success.btn-lg.btn-buy(data-course-id="#{courseID}") Buy this course
+
+  h1.center Courses on CodeCombat
+
+  .info-container
+    p Courses are designed to introduce computer science concepts using CodeCombat's fun and engaging environment. CodeCombat levels are organized around key topics to encourage progressive learning, over the course of 5 hours.
+
+    .container-fluid
+      .row
+        .col-md-6
+          ul
+            li Learn more in less time
+            li No coding experience necesssary
+            li Easily monitor student progress
+            
+          div Purchase a course for your entire class. It's easy to sign up your students!
+        .col-md-6
+          .well.well-sm
+            div.praise-quote "#{praise.quote}"
+            div.caption-text - #{praise.source}
+
+  h2.center Choose Your Course:
+
+  .container-fluid
+    - var i = 0
+    while i < courses.length
+      .row
+        +course-block(courses[i], i)
+        - i++
+        if i < courses.length
+          +course-block(courses[i], i)
+          - i++
+
+mixin course-block(course, courseID)
+  .col-md-6
+    .well.panel.course-panel(class=course.unlocked ? 'panel-success' : 'panel-info')
+      .panel-heading
+        .panel-title 
+          span.spr #{course.title}
+          strong #{course.unlocked ? '[ enrolled ]' : ''}
+      .panel-body
+        .container-fluid
+          .row.button-row
+            .col-md-6
+              strong Topics
+              ul
+                each topic in course.topics
+                  li= topic
+              strong Hours of content: #{course.duration}
+            .col-md-6.center
+              button.btn.btn-lg.btn-success.btn-continue(data-toggle='modal', data-target="#continueModal", data-course-title="#{course.title}", data-course-id="#{courseID}") #{course.unlocked ? 'Continue' : 'Enter'}

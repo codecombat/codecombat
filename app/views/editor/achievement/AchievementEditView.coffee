@@ -2,7 +2,8 @@ RootView = require 'views/core/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
-ConfirmModal = require 'views/modal/ConfirmModal'
+ConfirmModal = require 'views/editor/modal/ConfirmModal'
+PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
@@ -16,7 +17,7 @@ module.exports = class AchievementEditView extends RootView
     'click #recalculate-button': 'confirmRecalculation'
     'click #recalculate-all-button': 'confirmAllRecalculation'
     'click #delete-button': 'confirmDeletion'
- 
+
   constructor: (options, @achievementID) ->
     super options
     @achievement = new Achievement(_id: @achievementID)
@@ -27,6 +28,9 @@ module.exports = class AchievementEditView extends RootView
   onLoaded: ->
     super()
     @buildTreema()
+    @listenTo @achievement, 'change', =>
+      @achievement.updateI18NCoverage()
+      @treema.set('/', @achievement.attributes)
 
   buildTreema: ->
     return if @treema? or (not @achievement.loaded)
@@ -50,20 +54,22 @@ module.exports = class AchievementEditView extends RootView
   getRenderData: (context={}) ->
     context = super(context)
     context.achievement = @achievement
-    context.authorized = me.isAdmin()
+    context.authorized = me.isAdmin() or me.isArtisan()
     context
 
   afterRender: ->
     super()
     return unless @supermodel.finished()
     @pushChangesToPreview()
+    @patchesView = @insertSubView(new PatchesView(@achievement), @$el.find('.patches-view'))
+    @patchesView.load()
 
   pushChangesToPreview: =>
     return unless @treema
     @$el.find('#achievement-view').empty()
     for key, value of @treema.data
       @achievement.set key, value
-    earned = earnedPoints: @achievement.get 'worth'
+    earned = get: (key) => {earnedPoints: @achievement.get('worth'), previouslyAchievedAmount: 0}[key]
     popup = new AchievementPopup achievement: @achievement, earnedAchievement: earned, popup: false, container: $('#achievement-view')
 
   openSaveModal: ->

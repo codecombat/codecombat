@@ -1,4 +1,4 @@
-extends /templates/modal/modal_base
+extends /templates/core/modal-base
 
 block modal-header-content
   h3(data-i18n="keyboard_shortcuts.keyboard_shortcuts") Keyboard Shortcuts
@@ -74,16 +74,6 @@ block modal-body-content
     dt(title=ctrlName + " " + shift + " M")
       kbd #{ctrl} ⇧ M
     dd(data-i18n="keyboard_shortcuts.maximize_editor") Maximize/minimize code editor.
-  dl.dl-horizontal
-    dt(title="Arrow keys")
-      kbd ←
-      | , 
-      kbd →
-      | , 
-      kbd ↑
-      | , 
-      kbd ↓
-    dd(data-i18n="keyboard_shortcuts.move_wizard") Move your Wizard around the level.
 
 block modal-footer-content
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close

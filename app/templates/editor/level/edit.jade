@@ -44,10 +44,10 @@ block header
         span.navbar-brand #{level.attributes.name}
 
       ul.nav.navbar-nav.navbar-right
-        li#undo-button(title="Undo (Ctrl+Z)")
+        li#undo-button
           a
             span.glyphicon-arrow-left.glyphicon
-        li#redo-button(title="Redo (Ctrl+Shift+Z)")
+        li#redo-button
             a
               span.glyphicon-arrow-right.glyphicon
         if authorized
@@ -72,14 +72,14 @@ block header
                   a.play-with-team-button(data-team=match.yourTeam, data-opponent=match.opponentSessionID)= match.yourTeam + ' vs. ' + match.opponentName
         
         else
-          li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button
+          li(data-i18n="[title]general.play_preview", title="Play preview of current level")#play-button
             a
               span.glyphicon-play.glyphicon
         li.dropdown
           a(data-toggle='dropdown')
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
-            li.dropdown-header Actions
+            li.dropdown-header(data-i18n="common.actions") Actions
             li
               a#level-watch-button
                 span.watch
@@ -92,17 +92,17 @@ block header
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
             li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=anonymous)#revert-button Revert
             li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain").generate-terrain-button Generate Terrain
+              a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", disabled=anonymous).generate-terrain-button Generate Terrain
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
-            li.dropdown-header Info
+            li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button
               a(href='#', data-i18n="general.version_history") Version History
             li.divider
-            li.dropdown-header Help
+            li.dropdown-header(data-i18n="common.help") Help
             li
               a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki", target="_blank") Wiki
             li

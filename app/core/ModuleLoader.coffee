@@ -9,7 +9,6 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
   @WADS = [
     'lib'
     'views/play'
-    'views/game-menu'
     'views/editor'
   ]
 
@@ -18,10 +17,20 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     @loaded = {}
     @queue = new createjs.LoadQueue()
     @queue.on('fileload', @onFileLoad, @)
+    wrapped = _.wrap window.require, (func, name, loaderPath) ->
+      # vendor libraries aren't actually wrapped with common.js, so short circuit those requires
+      return {} if _.string.startsWith(name, 'vendor/')
+      return {} if name is 'tests'
+      name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
+      return func(name, loaderPath)
+    _.extend wrapped, window.require # for functions like 'list'
+    window.require = wrapped
+    @updateProgress = _.throttle _.bind(@updateProgress, @), 700
+    @lastShownProgress = 0
 
   load: (path, first=true) ->
+    $('#module-load-progress').css('opacity', 1)
     if first
-      $('#module-loading-list ul').empty()
       @recentPaths = []
       @recentLoadedBytes = 0
       
@@ -29,14 +38,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     wad = _.find ModuleLoader.WADS, (wad) -> _.string.startsWith(path, wad)
     path = wad if wad
     return false if @loaded[path]
-    $('#module-loading-list').modal('show') if first
     @loaded[path] = true
     @recentPaths.push(path)
-    li = $("<li class='list-group-item loading' data-path='#{path}'>#{path}</li>")
-      .prepend($("<span class='glyphicon glyphicon-minus'></span>"))
-      .prepend($("<span class='glyphicon glyphicon-ok'></span>"))
-    ul = $('#module-loading-list ul')
-    ul.append(li).scrollTop(ul[0].scrollHeight)
     console.debug 'Loading js file:', "/javascripts/app/#{path}.js" if LOG
     @queue.loadFile({
       id: path
@@ -45,7 +48,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     })
     return true
 
-  loadLanguage: (langCode) ->  
+  loadLanguage: (langCode='en-US') ->  
     loading = @load("locale/#{langCode}")
     firstBit = langCode[...2]
     return loading if firstBit is langCode
@@ -53,23 +56,45 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     return @load("locale/#{firstBit}", false) or loading
 
   onFileLoad: (e) =>
-    $("#module-loading-list li[data-path='#{e.item.id}']").removeClass('loading').addClass('success')
-    have = window.require.list()
-    console.group('Dependencies', e.item.id) if LOG
-    @recentLoadedBytes += e.rawResult.length
-    dependencies = @parseDependencies(e.rawResult)
-    console.groupEnd() if LOG
-    missing = _.difference dependencies, have
-    @load(module, false) for module in missing
-    locale.update() if _.string.startsWith(e.item.id, 'locale')
+    # load dependencies if it's not a vendor library
+    if not _.string.startsWith(e.item.id, 'vendor')
+      have = window.require.list()
+      console.group('Dependencies', e.item.id) if LOG
+      @recentLoadedBytes += e.rawResult.length
+      dependencies = @parseDependencies(e.rawResult)
+      console.groupEnd() if LOG
+      missing = _.difference dependencies, have
+      @load(module, false) for module in missing
+
+    # update locale data
+    if _.string.startsWith(e.item.id, 'locale')
+      locale.update()
+      
+    # just a bit of cleanup to get the script objects out of the body element
     $(e.result).remove()
+
+    # get treema set up only when the library loads, if it loads
+    if e.item.id is 'vendor/treema'
+      treemaExt = require 'core/treema-ext'
+      treemaExt.setup()
+
+    # a module and its dependencies have loaded!
     if @queue.progress is 1
-      $('#module-loading-list').modal('hide')
       @recentPaths.sort()
       console.debug @recentPaths.join('\n')
       console.debug 'loaded', @recentPaths.length, 'files,', parseInt(@recentLoadedBytes/1024), 'KB'
       @trigger 'load-complete'
       
+    @trigger 'loaded', e.item
+    
+    @updateProgress()
+    
+  updateProgress: ->
+    return if @queue.progress < @lastShownProgress
+    $('#module-load-progress .progress-bar').css('width', (100*@queue.progress)+'%')
+    if @queue.progress is 1 
+      $('#module-load-progress').css('opacity', 0)
+
   parseDependencies: (raw) ->
     bits = raw.match(/(require\(['"](.+?)['"])|(register\(['"].+?['"])/g) or []
     rootFolder = null
@@ -91,6 +116,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     console.groupEnd() if LOG
     return dependencies
 
+  # basically ripped out of commonjs definition
   expand: (root, name) ->
     results = []
     if /^\.\.?(\/|$)/.test(name)

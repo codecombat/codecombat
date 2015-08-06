@@ -25,6 +25,17 @@ PatchHandler = class PatchHandler extends Handler
     return @setStatus(req, res, args[0]) if req.route.method is 'put' and args[1] is 'status'
     super(arguments...)
 
+  get: (req, res) ->
+    if req.query.view in ['pending']
+      query = status: 'pending'
+      q = Patch.find(query)
+      q.exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+    else
+      super(arguments...)
+
   setStatus: (req, res, id) ->
     newStatus = req.body.status
     unless newStatus in ['rejected', 'accepted', 'withdrawn']
@@ -37,7 +48,7 @@ PatchHandler = class PatchHandler extends Handler
       targetHandler = require('../' + handlers[targetInfo.collection])
       targetModel = targetHandler.modelClass
 
-      query = { 'original': targetInfo.original }
+      query = { $or: [{'original': targetInfo.original}, {'_id': mongoose.Types.ObjectId(targetInfo.original)}] }
       sort = { 'version.major': -1, 'version.minor': -1 }
       targetModel.findOne(query).sort(sort).exec (err, target) =>
         return @sendDatabaseError(res, err) if err
@@ -79,7 +90,8 @@ PatchHandler = class PatchHandler extends Handler
     docLink = "http://codecombat.com#{req.headers['x-current-path']}"
     @sendPatchCreatedHipChatMessage creator: req.user, patch: doc, target: doc.targetLoaded, docLink: docLink
     watchers = doc.targetLoaded.get('watchers') or []
-    watchers = (w for w in watchers when not w.equals(req.user.get('_id')))
+    # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
+    watchers = (w for w in watchers when not w.equals(req.user.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
     return unless watchers?.length
     User.find({_id: {$in: watchers}}).select({email: 1, name: 1}).exec (err, watchers) =>
       for watcher in watchers
@@ -101,6 +113,6 @@ PatchHandler = class PatchHandler extends Handler
 
   sendPatchCreatedHipChatMessage: (options) ->
     message = "#{options.creator.get('name')} submitted a patch to <a href=\"#{options.docLink}\">#{options.target.get('name')}</a>: #{options.patch.get('commitMessage')}"
-    hipchat.sendHipChatMessage message
+    hipchat.sendHipChatMessage message, ['main']
 
 module.exports = new PatchHandler()

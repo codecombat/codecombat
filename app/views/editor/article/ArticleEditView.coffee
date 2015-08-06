@@ -2,9 +2,10 @@ RootView = require 'views/core/RootView'
 VersionHistoryView = require './ArticleVersionsModal'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 require 'views/modal/RevertModal'
+require 'vendor/treema'
 
 module.exports = class ArticleEditView extends RootView
   id: 'editor-article-edit-view'
@@ -28,6 +29,9 @@ module.exports = class ArticleEditView extends RootView
   onLoaded: ->
     super()
     @buildTreema()
+    @listenTo @article, 'change', =>
+      @article.updateI18NCoverage()
+      @treema.set('/', @article.attributes)
 
   buildTreema: ->
     return if @treema? or (not @article.loaded)
@@ -82,7 +86,7 @@ module.exports = class ArticleEditView extends RootView
 
     newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
     newArticle.set('commitMessage', e.commitMessage)
-    res = newArticle.save()
+    res = newArticle.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
     return unless res
     modal = @$el.find('#save-version-modal')
     @enableModalInProgress(modal)

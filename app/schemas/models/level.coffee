@@ -1,6 +1,50 @@
 c = require './../schemas'
 ThangComponentSchema = require './thang_component'
 
+defaultTasks = [
+  'Name the level.'
+  'Create a Referee stub, if needed.'
+  'Build the level.'
+  'Set up goals.'
+  'Choose the Existence System lifespan and frame rate.'
+  'Choose the UI System paths and coordinate hover if needed.'
+  'Choose the AI System pathfinding and Vision System line of sight.'
+  'Write the sample code.'
+
+  'Do basic set decoration.'
+  'Adjust script camera bounds.'
+  'Choose music file in Introduction script.'
+
+  'Add to a campaign.'
+  'Publish.'
+  'Choose level options like required/restricted gear.'
+  'Create achievements, including unlocking next level.'
+  'Choose leaderboard score types.'
+
+  'Playtest with a slow/tough hero.'
+  'Playtest with a fast/weak hero.'
+  'Playtest with a couple random seeds.'
+  'Make sure the level ends promptly on success and failure.'
+  'Remove/simplify unnecessary doodad collision.'
+  'Release to adventurers via MailChimp.'
+
+  'Write the description.'
+  'Translate the sample code comments.'
+  'Add Io/Clojure/Lua/CoffeeScript.'
+  'Write the guide.'
+  'Write a loading tip, if needed.'
+  'Click the Populate i18n button.'
+  'Add programming concepts covered.'
+
+  'Mark whether it requires a subscription.'
+  'Release to everyone via MailChimp.'
+
+  'Check completion/engagement/problem analytics.'
+  'Do any custom scripting, if needed.'
+  'Do thorough set decoration.'
+  'Add a walkthrough video.'
+]
+
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
@@ -34,7 +78,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   optional: {title: 'Optional', description: 'Optional goals do not need to be completed for overallStatus to be success.', type: 'boolean'}
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: 'Kill Thangs', description: 'A list of Thang IDs the player should kill, or team names.', uniqueItems: true, minItems: 1, 'default': ['ogres']}, thang
-  saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
+  saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['Hero Placeholder']}, thang
   getToLocations: c.object {title: 'Get To Locations', description: 'Will be set off when any of the \"who\" touch any of the \"targets\"', required: ['who', 'targets']},
     who: c.array {title: 'Who', description: 'The Thangs who must get to the target locations.', minItems: 1}, thang
     targets: c.array {title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1}, thang
@@ -218,8 +262,9 @@ LevelSchema = c.object {
     type: 'hero'
     goals: [
       {id: 'ogres-die', name: 'Ogres must die.', killThangs: ['ogres'], worldEndsAfter: 3}
-      {id: 'humans-survive', name: 'Humans must survive.', saveThangs: ['humans'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
+      {id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true}
     ]
+    concepts: ['basic_syntax']
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
@@ -248,9 +293,61 @@ _.extend LevelSchema.properties,
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop'])
+  type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder'])
   terrain: c.terrainString
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])
+  requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
+  helpVideos: c.array {title: 'Help Videos'}, c.object {default: {style: 'eccentric', url: '', free: false}},
+    style: c.shortString title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.'
+    free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
+    url: c.url {title: 'URL', description: 'Link to the video on Vimeo.'}
+  replayable: {type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.'}
+  buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
+
+  # Admin flags
+  adventurer: { type: 'boolean' }
+  practice: { type: 'boolean' }
+  adminOnly: { type: 'boolean' }
+  disableSpaces: { type: ['boolean','integer'] }
+  hidesSubmitUntilRun: { type: 'boolean' }
+  hidesPlayButton: { type: 'boolean' }
+  hidesRunShortcut: { type: 'boolean' }
+  hidesHUD: { type: 'boolean' }
+  hidesSay: { type: 'boolean' }
+  hidesCodeToolbar: { type: 'boolean' }
+  hidesRealTimePlayback: { type: 'boolean' }
+  backspaceThrottle: { type: 'boolean' }
+  lockDefaultCode: { type: ['boolean','integer'] }
+  moveRightLoopSnippet: { type: 'boolean' }
+  realTimeSpeedFactor: { type: 'number' }
+  autocompleteFontSizePx: { type: 'number' }
+  requiredCode: c.array {}, {
+    type: 'string'
+  }
+  suspectCode: c.array {}, {
+    type: 'object'
+    properties: {
+      name: { type: 'string' }
+      pattern: { type: 'string' }
+    }
+  }
+  requiredGear: { type: 'object', additionalProperties: {
+    type: 'array'
+    items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
+  }}
+  restrictedGear: { type: 'object', additionalProperties: {
+    type: 'array'
+    items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
+  }}
+  allowedHeroes: { type: 'array', items: {
+    type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
+  }}
+  campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for.', uniqueItems: true},
+     c.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])  # TODO: good version of LoC; total gear value.
+  concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true}, c.concept
+
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

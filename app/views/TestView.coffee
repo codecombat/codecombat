@@ -1,11 +1,14 @@
-CocoView = require 'views/core/CocoView'
-template = require 'templates/test'
+RootView = require 'views/core/RootView'
+template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
+
+require 'vendor/jasmine-bundle'
+require 'tests'
 
 TEST_REQUIRE_PREFIX = 'test/app/'
 TEST_URL_PREFIX = '/test/'
 
-module.exports = TestView = class TestView extends CocoView
+module.exports = TestView = class TestView extends RootView
   id: 'test-view'
   template: template
   reloadOnClose: true
@@ -16,24 +19,8 @@ module.exports = TestView = class TestView extends CocoView
   constructor: (options, @subPath='') ->
     super(options)
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    @loadTestingLibs()
-
-  loadTestingLibs: ->
-    @queue = new createjs.LoadQueue() unless @queue
-    @queue.on('complete', @scriptsLoaded, @)
-    @queue.on('fileload', @onFileLoad, @)
-    for f in ['jasmine', 'jasmine-html', 'boot', 'mock-ajax', 'test-app']
-      if f not in @loadedFileIDs
-        @queue.loadFile({
-          id: f
-          src: "/javascripts/#{f}.js"
-          type: createjs.LoadQueue.JAVASCRIPT
-        })
-
-  onFileLoad: (e) ->
-    @loadedFileIDs.push e.item.id if e.item.id
-
-  scriptsLoaded: ->
+    
+  afterInsert: ->
     @initSpecFiles()
     @render()
     TestView.runTests(@specFiles)
@@ -55,7 +42,7 @@ module.exports = TestView = class TestView extends CocoView
     @specFiles = TestView.getAllSpecFiles()
     if @subPath
       prefix = TEST_REQUIRE_PREFIX + @subPath
-      @specFiles = (f for f in @specFiles when f.startsWith prefix)
+      @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
   @runTests: (specFiles) ->
     specFiles ?= @getAllSpecFiles()

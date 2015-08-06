@@ -14,11 +14,11 @@ module.exports = class AuthModal extends ModalView
     # login buttons
     'click #switch-to-signup-button': 'onSignupInstead'
     'click #switch-to-login-button': 'onLoginInstead'
-    'click #confirm-age': 'checkAge'
     'click #github-login-button': 'onGitHubLoginClicked'
     'submit': 'onSubmitForm' # handles both submit buttons
     'keyup #name': 'onNameChange'
     'click #gplus-login-button': 'onClickGPlusLogin'
+    'click #close-modal': 'hide'
 
   subscriptions:
     'errors:server-error': 'onServerError'
@@ -33,16 +33,15 @@ module.exports = class AuthModal extends ModalView
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
-    c.title = {0: 'short', 1: 'long'}[me.get('testGroupNumber') % 2]
-    c.descriptionOn = {0: 'yes', 1: 'no'}[Math.floor(me.get('testGroupNumber')/2) % 2]
-    if @mode is 'signup'
-      application.tracker.identify authModalTitle: c.title
-      application.tracker.trackEvent 'Started Signup', authModalTitle: c.title, descriptionOn: c.descriptionOn
+    c.showSignupRationale = @options.showSignupRationale
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
-    c.onEmployersPage = Backbone.history.fragment is "employers"
     c.me = me
     c
+
+  afterRender: ->
+    super()
+    @$el.toggleClass('signup', @mode is 'signup').toggleClass('login', @mode is 'login')
 
   afterInsert: ->
     super()
@@ -69,23 +68,27 @@ module.exports = class AuthModal extends ModalView
     if @mode is 'login' then @loginAccount() else @createAccount()
     false
 
-  checkAge: (e) ->
-    @playSound 'menu-button-click'
-    $('#signup-button', @$el).prop 'disabled', not $(e.target).prop('checked')
-
   loginAccount: ->
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     @enableModalInProgress(@$el) # TODO: part of forms
-    loginUser(userObject)
+    loginUser userObject, null, window.nextURL
+
+  emailCheck: ->
+    email = $('#email', @$el).val()
+    filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i  # https://news.ycombinator.com/item?id=5763990
+    unless filter.test(email)
+      forms.setErrorToProperty @$el, 'email', 'Please enter a valid email address', true
+      return false
+    return true
 
   createAccount: ->
     forms.clearFormAlerts(@$el)
+    return unless @emailCheck()
     userObject = forms.formToObject @$el
     delete userObject.subscribe
-    delete userObject['confirm-age']
     delete userObject.name if userObject.name is ''
     userObject.name = @suggestedName if @suggestedName
     for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
@@ -97,9 +100,9 @@ module.exports = class AuthModal extends ModalView
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     Backbone.Mediator.publish "auth:signed-up", {}
-    window.tracker?.trackEvent 'Finished Signup'
+    window.tracker?.trackEvent 'Finished Signup', label: 'CodeCombat'
     @enableModalInProgress(@$el)
-    createUser userObject, null, window.nextLevelURL
+    createUser userObject, null, window.nextURL
 
   onLoggingInWithFacebook: (e) ->
     modal = $('.modal:visible', @$el)
@@ -126,7 +129,6 @@ module.exports = class AuthModal extends ModalView
   gplusAuthSteps: [
     { i18n: 'login.authenticate_gplus', done: false }
     { i18n: 'login.load_profile', done: false }
-    { i18n: 'login.load_email', done: false }
     { i18n: 'login.finishing', done: false }
   ]
 
@@ -143,16 +145,12 @@ module.exports = class AuthModal extends ModalView
         @gplusAuthSteps[1].done = true
         @renderGPlusAuthChecklist()
 
-      @listenToOnce handler, 'email-loaded', ->
+      @listenToOnce handler, 'logging-into-codecombat', ->
         @gplusAuthSteps[2].done = true
         @renderGPlusAuthChecklist()
 
-      @listenToOnce handler, 'logging-into-codecombat', ->
-        @gplusAuthSteps[3].done = true
-        @renderGPlusAuthChecklist()
-
   renderGPlusAuthChecklist: ->
-    template = require 'templates/modal/auth-modal-gplus-checklist'
+    template = require 'templates/core/auth-modal-gplus-checklist'
     el = $(template({steps: @gplusAuthSteps}))
     el.i18n()
     @$el.find('.modal-body:visible').empty().append(el)

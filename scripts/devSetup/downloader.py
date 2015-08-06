@@ -38,4 +38,3 @@ class Downloader:
         else:
             stringToDisplay = '\r File size unknown. Read {0} bytes.'.format(amount_of_data_downloaded_so_far)
             print(stringToDisplay,end=' ')
-

@@ -15,10 +15,13 @@ me.object = (ext, props) -> combine({type: 'object', additionalProperties: false
 me.array = (ext, items) -> combine({type: 'array', items: items or {}}, ext)
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
-me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
-# should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
-me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)
-me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)
+
+# Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
+me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
+me.stringDate = (ext) -> combine({type: ['string'], format: 'date-time'}, ext)  # new
+me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)  # old
+me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
+
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
 me.int = (ext) -> combine {type: 'integer'}, ext
 me.float = (ext) -> combine {type: 'number'}, ext
@@ -143,7 +146,7 @@ me.getLanguageCodeArray = ->
   return Language.languageCodes
 
 me.getLanguagesObject = -> return Language
-  
+
 me.extendTranslationCoverageProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   schema.properties.i18nCoverage = { title: 'i18n Coverage', type: 'array', items: { type: 'string' }}
@@ -207,7 +210,7 @@ me.activity = me.object {description: 'Stats on an activity'},
   last: me.date()
   count: {type: 'integer', minimum: 0}
 
-me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor'], title: 'Terrain', description: 'Which terrain type this is.'}
+me.terrainString = me.shortString {enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano'], title: 'Terrain', description: 'Which terrain type this is.'}
 
 me.HeroConfigSchema = me.object {description: 'Which hero the player is using, equipped with what inventory.'},
   inventory:
@@ -227,4 +230,31 @@ me.RewardSchema = (descriptionFragment='earned by achievements') ->
       me.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type')
     levels: me.array {uniqueItems: true, description: "Levels #{descriptionFragment}."},
       me.stringID(links: [{rel: 'db', href: '/db/level/{($)}/version'}], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference')
-    gems: me.int {description: "Gems #{descriptionFragment}."}
+    gems: me.float {description: "Gems #{descriptionFragment}."}
+
+me.task = me.object {title: 'Task', description: 'A task to be completed', format: 'task', default: {name: 'TODO', complete: false}},
+  name: {title: 'Name', description: 'What must be done?', type: 'string'}
+  complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}
+
+me.concept = me.shortString enum: [
+    'advanced_strings'
+    'algorithms'
+    'arguments'
+    'arithmetic'
+    'arrays'
+    'basic_syntax'
+    'boolean_logic'
+    'break_statements'
+    'classes'
+    'for_loops'
+    'functions'
+    'if_statements'
+    'input_handling'
+    'math_operations'
+    'object_literals'
+    'strings'
+    'variables'
+    'vectors'
+    'while_loops'
+    'recursion'
+  ]

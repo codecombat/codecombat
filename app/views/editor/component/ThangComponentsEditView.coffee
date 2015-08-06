@@ -8,14 +8,15 @@ ComponentsCollection = require 'collections/ComponentsCollection'
 ThangComponentConfigView = require './ThangComponentConfigView'
 AddThangComponentsModal = require './AddThangComponentsModal'
 nodes = require '../level/treema_nodes'
+require 'vendor/treema'
 
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 
 LC = (componentName, config) -> original: LevelComponent[componentName + 'ID'], majorVersion: 0, config: config
 DEFAULT_COMPONENTS =
-  Unit: [LC('Equips')]
-  Hero: [LC('Equips')]
+  Unit: [LC('Equips'), LC('FindsPaths')]
+  Hero: [LC('Equips'), LC('FindsPaths')]
   Floor: [
     LC('Exists', stateless: true)
     LC('Physical', width: 20, height: 17, depth: 2, shape: 'sheet', pos: {x: 10, y: 8.5, z: 1})
@@ -34,10 +35,7 @@ DEFAULT_COMPONENTS =
   Misc: [LC('Exists'), LC('Physical')]
   Mark: []
   Item: [LC('Item')]
-
-class ItemThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type?view=items&project=original,name,version,slug,kind,components'
-  model: ThangType
+  Missile: [LC('Missile')]
 
 module.exports = class ThangComponentsEditView extends CocoView
   id: 'thang-components-edit-view'
@@ -345,7 +343,7 @@ module.exports = class ThangComponentsEditView extends CocoView
     componentSystems = (c.get('system') for c in componentModels when c)
 
     for system in componentSystems
-      if system not in extantSystems
+      if system isnt 'misc' and system not in extantSystems
         s = "Component requires system <strong>#{system}</strong> which is currently not included in this level."
         noty({
           text: s,

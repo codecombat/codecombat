@@ -28,14 +28,13 @@
     "lodash": "~2.4.1",
     "backbone": "1.1.0",
     "jquery-mousewheel": "~3.1.9",
-    "i18next": "git://github.com/nwinter/i18next.git",
+    "i18next": "https://github.com/nwinter/i18next.git",
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.2.39",
+    "aether": "~0.3.0",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
-    "catiline": "~2.9.3",
     "d3": "~3.4.4",
     "jsondiffpatch": "0.1.8",
     "nanoscroller": "~0.8.0",
@@ -47,7 +46,9 @@
     "zatanna": "https://github.com/differentmatt/zatanna.git#master",
     "modernizr": "~2.8.3",
     "backfire": "~0.3.0",
-    "fastclick": "~1.0.3"
+    "fastclick": "~1.0.3",
+    "three.js": "~0.71.0",
+    "lscache": "~1.0.5"
   },
   "overrides": {
     "backbone": {
@@ -72,6 +73,13 @@
         "src/formatters/html.css"
       ]
     },
+    "treema": {
+      "main": [
+        "treema.js",
+        "treema.css",
+        "treema-utils.js"
+      ]
+    },
     "jquery.tablesorter": {
       "main": [
         "js/jquery.tablesorter.js",
@@ -90,6 +98,17 @@
     },
     "modernizr": {
       "main": "modernizr.js"
+    },
+    "aether": {
+      "main": [
+        "build/aether.js",
+        "build/clojure.js",
+        "build/coffeescript.js",
+        "build/io.js",
+        "build/javascript.js",
+        "build/lua.js",
+        "build/python.js"
+      ]
     }
   },
   "devDependencies": {

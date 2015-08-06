@@ -14,6 +14,6 @@ module.exports = class AchievementSearchView extends SearchView
     context.currentNew = 'editor.new_achievement_title'
     context.currentNewSignup = 'editor.new_achievement_title_login'
     context.currentSearch = 'editor.achievement_search_title'
-    context.unauthorized = true unless me.isAdmin()
-    @$el.i18n()
+    context.newModelsAdminOnly = true
+    context.unauthorized = true unless me.isAdmin() or me.isArtisan()
     context

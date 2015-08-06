@@ -75,7 +75,7 @@ module.exports = class EmployerSignupModal extends ModalView
 
   handleAgreementSuccess: (result) ->
     window.tracker?.trackEvent 'Employer Agreed to Contract'
-    me.fetch()
+    me.fetch cache: false
     window.location.reload()
 
   handleAgreementFailure: (error) ->
@@ -130,7 +130,7 @@ module.exports = class EmployerSignupModal extends ModalView
     @listenTo me, 'sync', =>
       @render()
       IN.parse()
-    me.fetch()
+    me.fetch cache: false
 
   destroy: ->
     reloadWhenClosed = @reloadWhenClosed

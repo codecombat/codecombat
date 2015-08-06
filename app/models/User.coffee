@@ -3,6 +3,7 @@ cache = {}
 CocoModel = require './CocoModel'
 util = require 'core/utils'
 ThangType = require './ThangType'
+Level = require './Level'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -10,11 +11,9 @@ module.exports = class User extends CocoModel
   urlRoot: '/db/user'
   notyErrors: false
 
-  onLoaded:  ->
-    CocoModel.pollAchievements() # Check for achievements on login
-    super arguments...
-
   isAdmin: -> 'admin' in @get('permissions', true)
+  isArtisan: -> 'artisan' in @get('permissions', true)
+  isInGodMode: -> 'godmode' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
 
@@ -36,6 +35,7 @@ module.exports = class User extends CocoModel
 
   @getUnconflictedName: (name, done) ->
     $.ajax "/auth/name/#{name}",
+      cache: false
       success: (data) -> done data.name
       statusCode: 409: (data) ->
         response = JSON.parse data.responseText
@@ -74,24 +74,27 @@ module.exports = class User extends CocoModel
       return level if tierThreshold >= tier
 
   level: ->
-    User.levelFromExp(@get('points'))
+    totalPoint = @get('points')
+    totalPoint = totalPoint + 1000000 if me.isInGodMode()
+    User.levelFromExp(totalPoint)
 
   tier: ->
     User.tierFromLevel @level()
 
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
+    gemsEarned = gemsEarned + 100000 if me.isInGodMode()
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
-    gemsEarned + gemsPurchased - gemsSpent
+    Math.floor gemsEarned + gemsPurchased - gemsSpent
 
   heroes: ->
     heroes = (me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight])
     #heroes = _.values ThangType.heroes if me.isAdmin()
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
-  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? [])
-  ownsHero: (heroOriginal) -> heroOriginal in @heroes()
+  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(Level.levels['dungeons-of-kithgard'])
+  ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
@@ -102,27 +105,47 @@ module.exports = class User extends CocoModel
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangType.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
 
-  getBranchingGroup: ->
-    return @branchingGroup if @branchingGroup
+  getAnnouncesActionAudioGroup: ->
+    return @announcesActionAudioGroup if @announcesActionAudioGroup
     group = me.get('testGroupNumber') % 4
-    @branchingGroup = switch group
-      when 0 then 'no-practice'
-      when 1 then 'all-practice'
-      when 2 then 'choice-explicit'
-      when 3 then 'choice-implicit'
-    @branchingGroup = 'choice-explicit' if me.isAdmin()
-    application.tracker.identify branchingGroup: @branchingGroup unless me.isAdmin()
-    @branchingGroup
+    @announcesActionAudioGroup = switch group
+      when 0 then 'all-audio'
+      when 1 then 'no-audio'
+      when 2 then 'just-take-damage'
+      when 3 then 'without-take-damage'
+    @announcesActionAudioGroup = 'all-audio' if me.isAdmin()
+    application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
+    @announcesActionAudioGroup
 
-  getGemPromptGroup: ->
-    return @gemPromptGroup if @gemPromptGroup
+  # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
+  # ... and stopped working well until another update on March 10, so maybe March 11+...
+  # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
+  getFourthLevelGroup: ->
+    return 'forgetful-gemsmith'
+    return @fourthLevelGroup if @fourthLevelGroup
     group = me.get('testGroupNumber') % 8
-    @gemPromptGroup = switch group
-      when 0, 1, 2, 3 then 'prompt'
-      when 4, 5, 6, 7 then 'no-prompt'
-    @gemPromptGroup = 'prompt' if me.isAdmin()
-    application.tracker.identify gemPromptGroup: @gemPromptGroup unless me.isAdmin()
-    @gemPromptGroup
+    @fourthLevelGroup = switch group
+      when 0, 1, 2, 3 then 'signs-and-portents'
+      when 4, 5, 6, 7 then 'forgetful-gemsmith'
+    @fourthLevelGroup = 'signs-and-portents' if me.isAdmin()
+    application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
+    @fourthLevelGroup
+
+  getVideoTutorialStylesIndex: (numVideos=0)->
+    # A/B Testing video tutorial styles
+    # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
+    return 0 unless numVideos > 0
+    return me.get('testGroupNumber') % numVideos
+
+  isPremium: ->
+    return true if me.isInGodMode()
+    return true if me.isAdmin()
+    return false unless stripe = @get('stripe')
+    return true if stripe.sponsorID
+    return true if stripe.subscriptionID
+    return true if stripe.free is true
+    return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+    return false
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15

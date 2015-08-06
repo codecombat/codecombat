@@ -1,5 +1,5 @@
 Backbone.Mediator.setValidationEnabled false
-app = require 'core/application'
+app = null
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -21,20 +21,27 @@ definitionSchemas =
   'misc': require 'schemas/definitions/misc'
 
 init = ->
+  return if app
+  if not window.userObject._id
+    $.ajax '/auth/whoami', cache: false, success: (res) ->
+      window.userObject = res
+      init()
+    return
+
+  app = require 'core/application'
   setupConsoleLogging()
   watchForErrors()
   setUpIOSLogging()
   path = document.location.pathname
-  app.testing = path.startsWith '/test'
-  app.demoing = path.startsWith '/demo'
-  initializeUtilityServices() unless app.testing or app.demoing
+  app.testing = _.string.startsWith path, '/test'
+  app.demoing = _.string.startsWith path, '/demo'
   setUpBackboneMediator()
   app.initialize()
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
-  treemaExt = require 'core/treema-ext'
-  treemaExt.setup()
+
+module.exports.init = init
 
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
@@ -75,10 +82,14 @@ setUpMoment = ->
   me.on 'change:preferredLanguage', (me) ->
     moment.lang me.get('preferredLanguage', true), {}
 
-initializeUtilityServices = ->
-  require('core/services/segmentio')()
-
 setupConsoleLogging = ->
+  # IE9 doesn't expose console object unless debugger tools are loaded
+  unless console?
+    window.console =
+      info: ->
+      log: ->
+      error: ->
+      debug: ->
   unless console.debug
     # Needed for IE10 and earlier
     console.debug = console.log

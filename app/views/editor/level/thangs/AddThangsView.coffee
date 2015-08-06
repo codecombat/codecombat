@@ -33,7 +33,7 @@ module.exports = class AddThangsView extends CocoView
       models = @supermodel.getModels(ThangType)
 
     thangTypes = _.uniq models, false, (thangType) -> thangType.get('original')
-    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') in ['Mark', 'Item']
+    thangTypes = _.reject thangTypes, (thangType) -> thangType.get('kind') in ['Mark', 'Item', undefined]
     groupMap = {}
     for thangType in thangTypes
       kind = thangType.get('kind')
@@ -62,7 +62,7 @@ module.exports = class AddThangsView extends CocoView
     @buildAddThangPopovers()
 
   buildAddThangPopovers: ->
-    @$el.find('#thangs-list .add-thang-palette-icon').tooltip(container: 'body', animation: false)
+    @$el.find('#thangs-list .add-thang-palette-icon').addClass('has-tooltip').tooltip(container: 'body', animation: false)
 
   runSearch: (e) =>
     if e?.which is 27

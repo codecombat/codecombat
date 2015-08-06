@@ -22,18 +22,18 @@ class AchievementHandler extends Handler
     'i18n'
     'i18nCoverage'
   ]
-  
+
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
   jsonSchema = require '../../app/schemas/models/achievement.coffee'
 
 
   hasAccess: (req) ->
-    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
+    req.method in ['GET', 'PUT'] or req.user?.isAdmin() or req.user?.isArtisan()
 
   hasAccessToDocument: (req, document, method=null) ->
     method = (method or req.method).toLowerCase()
     return true if method is 'get'
-    return true if req.user?.isAdmin()
+    return true if req.user?.isAdmin() or req.user?.isArtisan()
     return true if method is 'put' and @isJustFillingTranslations(req, document)
     return
 
@@ -49,12 +49,14 @@ class AchievementHandler extends Handler
       super req, res
 
   delete: (req, res, slugOrID) ->
-    return @sendForbiddenError res unless req.user?.isAdmin()
+    return @sendForbiddenError res unless req.user?.isAdmin() or req.user?.isArtisan()
     @getDocumentForIdOrSlug slugOrID, (err, document) => # Check first
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
       document.remove (err, document) =>
         return @sendDatabaseError(res, err) if err
         @sendNoContent res
+
+  getNamesByIDs: (req, res) -> @getNamesByOriginals req, res, true
 
 module.exports = new AchievementHandler()

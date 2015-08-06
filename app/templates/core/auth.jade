@@ -1,84 +1,96 @@
-extends /templates/modal/modal_base
-
-block modal-header-content
-  if mode === 'login'
-    h3(data-i18n="login.log_in") Log In
-  if mode === 'signup'
-    if title === 'short'
-      h3(data-i18n="login.sign_up") Create Account
-    else
-      h3(data-i18n="signup.create_account_title") Create Account to Save Progress
-
-block modal-body-content
-
-  if showRequiredError
-    .alert.alert-success
-      span(data-i18n="signup.required") You need to log in before you can that way.
-
-  else if mode === 'signup' && descriptionOn === "yes"
-        p(data-i18n="signup.description") It's free. Just need a couple things and you'll be good to go:
-
-  form.form
-    if onEmployersPage
-      .form-group
-        input#email.input-large.form-control(name="email", type="email", value=formValues.email, placeholder="Email")
-      .form-group
-        input#password.input-large.form-control(name="password", type="password", value=formValues.password, placeholder="Password")
-    
-    else
-      .form-group
-        label.control-label(for="email", data-i18n="general.email") Email
-        input#email.input-large.form-control(name="email", type="email", value=formValues.email)
-      .form-group
-        label.control-label(for="password", data-i18n="general.password") Password
-        input#password.input-large.form-control(name="password", type="password", value=formValues.password)
-
-    if mode === 'signup'
-      .form-group
-        label.control-label(for="name", data-i18n="general.name") Name
-        if me.get('name')
-          input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
-        else
-          input#name.input-large.form-control(name="name", type="text", value="", placeholder="Anoner")
-      .form-group.checkbox
-        label.control-label(for="subscribe")
-          input#subscribe(name="subscribe", type="checkbox", checked='checked')
-          span(data-i18n="signup.email_announcements") Receive announcements by email
-      .form-group.checkbox
-        label.control-label(for="confirm-age")
-          input#confirm-age(name="confirm-age", type="checkbox", checked='checked')
-          span(data-i18n="signup.coppa") 13+ or non-USA 
-          a(href="https://en.wikipedia.org/wiki/Children's_Online_Privacy_Protection_Act", data-i18n="signup.coppa_why", target="_blank") (Why?)
+.modal-dialog
+  .modal-content
 
     if mode === 'login'
-      if onEmployersPage
-        input.btn.btn-info.btn-large#login-button(value=translate("login.log_in"), type="submit")
-      else
-        input.btn.btn-info.btn-large#login-button(value=translate("login.log_in"), type="submit")
-        .btn.btn-default.btn-large#switch-to-signup-button(data-i18n="login.sign_up") Create Account
-    else if mode === 'signup'
-      input.btn.btn-info.btn-large#signup-button(value=translate("signup.sign_up"), type="submit")
-      .btn.btn-default.btn-large#switch-to-login-button(data-i18n="login.log_in")
+      img(src="/images/pages/modal/auth/login-background.png", draggable="false").auth-modal-background
+    else
+      img(src="/images/pages/modal/auth/signup-background.png", draggable="false").auth-modal-background
+
+    if mode === 'login'
+      h1(data-i18n="login.log_in") Log In
+    if mode === 'signup'
+      h1(data-i18n="login.sign_up") Create Account
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
 
 
-block modal-body-wait-content
-  
-  if mode === 'login'
-    h3(data-i18n="login.logging_in") Logging In
-  if mode === 'signup'
-    h3(data-i18n="signup.creating") Creating Account...
+  .auth-form-content
 
-block modal-footer
-  .modal-footer
-    div.network-login
-      btn.btn.btn-sm.github-login-button#github-login-button
-        img(src="/images/pages/modal/auth/github_icon.png")
-        | GitHub
-    div.network-login
-      .fb-login-button(data-show-faces="false", data-width="200", data-max-rows="1", data-scope="email")
-    // Google+ login causing script errors on IE10
-    if !isIE
-      div.network-login
+    if showRequiredError
+      .alert.alert-success
+        span(data-i18n="signup.required") You need to log in before you can that way.
+    else if mode === 'signup' && showSignupRationale
+      .alert.alert-info
+        span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
+
+    form.form
+      .form-group
+        label.control-label(for="email")
+          span(data-i18n="general.email") Email
+          | :
+        .input-border
+          input#email.input-large.form-control(name="email", type="email", value=formValues.email)
+      .form-group
+        if mode === 'login'
+          div#recover-account-wrapper
+            a(data-toggle="coco-modal", data-target="core/RecoverModal", data-i18n="login.forgot_password")#link-to-recover Forgot your password?
+        label.control-label(for="password")
+          span(data-i18n="general.password") Password
+          | :
+        .input-border
+          input#password.input-large.form-control(name="password", type="password", value=formValues.password)
+
+      if mode === 'signup'
+        .form-group
+          label.control-label(for="name")
+            span(data-i18n="general.name") Name
+            | :
+          .input-border
+            if me.get('name')
+              input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
+            else
+              input#name.input-large.form-control(name="name", type="text", value="", placeholder="Anoner")
+        .form-group.checkbox
+          label.control-label(for="subscribe")
+            .input-border
+              input#subscribe(name="subscribe", type="checkbox", checked='checked')
+              span.custom-checkbox
+                .glyphicon.glyphicon-ok
+            span(data-i18n="signup.email_announcements") Receive announcements by email
+
+      if mode === 'login'
+        input.btn.btn-lg.btn-illustrated.btn-block#login-button(value=translate("login.log_in"), type="submit")
+      else if mode === 'signup'
+        input.btn.btn-lg.btn-illustrated.btn-block#signup-button(value=translate("signup.sign_up"), type="submit")
+
+    .wait.secret
+      if mode === 'login'
+        h3(data-i18n="login.logging_in") Logging In
+      if mode === 'signup'
+        h3(data-i18n="signup.creating") Creating Account...
+
+  .auth-network-logins
+    // GitHub login too buggy to survive
+    //div.network-login
+    //  btn.btn.btn-sm.github-login-button#github-login-button
+    //    img(src="/images/pages/modal/auth/github_icon.png")
+    //    | GitHub
+    .btn.btn-primary.btn-lg.btn-illustrated.network-login
+      img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
+      span.sign-in-blurb(data-i18n="login.sign_in_with_facebook") Sign in with Facebook
+      .facebook-login-wrapper
+        .fb-login-button(data-show-faces="false", data-width="200", data-max-rows="1", data-scope="email")
+    .btn.btn-danger.btn-lg.btn-illustrated.network-login
+      img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
+      span.sign-in-blurb(data-i18n="login.sign_in_with_gplus") Sign in with G+
+      .gplus-login-wrapper
         .gplus-login-button#gplus-login-button
-    div#recover-account-wrapper
-      a(data-toggle="coco-modal", data-target="modal/RecoverModal", data-i18n="login.recover")#link-to-recover recover account
+
+  .extra-pane
+    if mode === 'login'
+      .switch-explanation(data-i18n="login.signup_switch") Want to create an account?
+      .btn.btn-default.btn-lg.btn-illustrated#switch-to-signup-button(data-i18n="login.sign_up") Create Account
+    else if mode === 'signup'
+      .switch-explanation(data-i18n="signup.login_switch") Already have an account?
+      .btn.btn-default.btn-lg.btn-illustrated#switch-to-login-button(data-i18n="login.log_in")

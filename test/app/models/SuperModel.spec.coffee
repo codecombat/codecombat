@@ -46,7 +46,7 @@ describe 'SuperModel', ->
       s.once 'loaded-all', -> triggered = true
       s.loadModel(m, 'user')
       request = jasmine.Ajax.requests.mostRecent()
-      request.response({status: 200, responseText: '{}'})
+      request.respondWith({status: 200, responseText: '{}'})
       _.defer ->
         expect(triggered).toBe(true)
         done()

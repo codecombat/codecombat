@@ -8,11 +8,12 @@ block header
       a(href="/")
         span.glyphicon.glyphicon-home
       a(href="/about", data-i18n="nav.about")
-      a(href='/play/ladder', data-i18n="home.multiplayer")
-      a(href='/community', data-i18n="nav.community")
-      a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
+      a(href='/teachers', data-i18n="nav.teachers") Teachers
+      a(href='/clans', data-i18n="clans.clans") Clans
       a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
-  
+      a(href='/community', data-i18n="nav.community")
+      //a(href='/play/ladder', data-i18n="home.multiplayer").multiplayer-nav-link
+
       if me.get('anonymous') === false
         span.dropdown
           button.btn.btn-sm.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
@@ -26,7 +27,7 @@ block header
             li.user-dropdown-header
               span.user-level= me.level()
               a(href="/user/#{me.getSlugOrID()}")
-                img.img-circle(src="#{me.getPhotoURL()}" alt="")
+                div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
               h3=me.displayName()
             li
               a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
@@ -34,6 +35,8 @@ block header
               a(href="/account/settings", data-i18n="play.settings")
             li
               a(href="/account/payments", data-i18n="account.payments")
+            li
+              a(href="/account/subscription", data-i18n="account.subscription")
             li
               a#logout-button(data-i18n="login.log_out")
   
@@ -55,11 +58,10 @@ block footer
     img#footer-background(src="/images/pages/base/nav_background.png")
 
     #footer-links
+      a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
+      a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
       a(href='/contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
       a(href='/legal', tabindex=-1, data-i18n="nav.legal") Legal
-      a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Contact
-      a(href='/teachers', data-i18n="nav.teachers") Teachers
-      a(href="/play-old", data-i18n="play.older_campaigns") Older Campaigns
       if me.isAdmin()
         a(href='/admin', data-i18n="nav.admin") Admin
 
@@ -70,21 +72,19 @@ block footer
           .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
           if !isIE
             a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
-            iframe.github-star-button(src="http://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
+            iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
     
     #footer-credits
-      a.mixpanel-badge(href="https://mixpanel.com/f/partner")
-        img(src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png", alt="Mobile Analytics")
       span 
         span © All Rights Reserved
         br
-        span CodeCombat 2014
+        span CodeCombat 2015
       img#footer-logo(src="/images/pages/base/logo.png", alt="CodeCombat")
       span 
         span Site Design by 
         br
         a(href="http://www.fullyillustrated.com/") Fully Illustrated
-      a.firebase-bade(href="https://www.firebase.com/")
-        img(src="/images/pages/base/firebase.png", alt="Powered by Firebase")
+      //a.firebase-bade(href="https://www.firebase.com/")  // Not using right now
+      //  img(src="/images/pages/base/firebase.png", alt="Powered by Firebase")
 
     block extra_footer_content

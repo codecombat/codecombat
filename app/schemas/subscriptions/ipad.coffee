@@ -6,7 +6,10 @@ module.exports =
       c.object {},
         price: { type: 'string' }
         id: { type: 'string' }
-
+        
+  'ipad:language-chosen': c.object {},
+    language: { type: 'string' }
+    
   'ipad:iap-complete': c.object {},
     productID: { type: 'string' }
 

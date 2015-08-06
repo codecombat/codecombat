@@ -6,6 +6,7 @@ LevelSystemEditView = require './LevelSystemEditView'
 NewLevelSystemModal = require './NewLevelSystemModal'
 AddLevelSystemModal = require './AddLevelSystemModal'
 nodes = require '../treema_nodes'
+require 'vendor/treema'
 
 module.exports = class SystemsTabView extends CocoView
   id: 'systems-tab-view'
@@ -127,7 +128,7 @@ module.exports = class SystemsTabView extends CocoView
     @levelSystemEditView = null
 
   onTerrainChanged: (e) ->
-    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor']
+    defaultPathfinding = e.terrain in ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano']
     changed = false
     if AI = @systemsTreema.get 'original=528110f30268d018e3000001'
       unless AI.config?.findsPaths is defaultPathfinding

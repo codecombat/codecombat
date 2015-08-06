@@ -26,15 +26,17 @@ block content
   
   ul
     li
-      a(href="/admin/users", data-i18n="admin.av_entities_users_url") Users
-    li
       a(href="/admin/level-sessions", data-i18n="admin.av_entities_active_instances_url") Active Instances
-    li
-      a(href="/admin/employers", data-i18n="admin.av_entities_employer_list_url") Employer List
     li
       a(href="/admin/candidates", data-i18n="admin.av_entities_candidates_list_url") Candidate List
     li
+      a(href="/admin/employers", data-i18n="admin.av_entities_employer_list_url") Employer List
+    li
+      a(href="/admin/trial-requests") Trial Requests
+    li
       a(href="/admin/user-code-problems", data-i18n="admin.av_entities_user_code_problems_list_url") User Code Problems List
+    li
+      a(href="/admin/users", data-i18n="admin.av_entities_users_url") Users
 
   h4(data-i18n="admin.av_other_sub_title") Other
 
@@ -43,9 +45,23 @@ block content
       a(href="/admin/base", data-i18n="admin.av_other_debug_base_url") Base (for debugging base.jade)
     li
       a(href="/admin/clas", data-i18n="admin.clas") CLAs
+    li
+      a(href="/admin/pending-patches", data-i18n="resources.patches") Patches
     if me.isAdmin()
-      li
-        a(href="/admin/growth", data-i18n="admin.growth") Growth
+      li Analytics
+        ul
+          li
+            a(href="/admin/analytics/subscriptions") Subscriptions
+          li
+            a(href="/admin/analytics/users") Users (needs updating)
+
+  if me.isAdmin()
+    hr
+    h3 Prepaids
+    a.btn.btn-secondary#create-free-sub-btn Create Free Subscription Link
+    span.spl.spr
+      if freeSubLink
+        input#free-sub-input(type="text", readonly, value="#{freeSubLink}") 
 
   hr
 

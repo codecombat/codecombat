@@ -137,6 +137,7 @@ _.extend ThangTypeSchema.properties,
     head: { type: 'string', format: 'image-file', title: 'Head' }
     hair: { type: 'string', format: 'image-file', title: 'Hair' }
     thumb: { type: 'string', format: 'image-file', title: 'Thumb' }
+    wizardHand: { type: 'string', format: 'image-file', title: 'Wizard Hand' }
   dollImages: c.object { title: 'Paper Doll Images' },
     male: { type: 'string', format: 'image-file', title: ' Male' }
     female: { type: 'string', format: 'image-file', title: ' Female' }
@@ -145,7 +146,9 @@ _.extend ThangTypeSchema.properties,
     maleRanger: { type: 'string', format: 'image-file', title: 'Glove (Male Ranger)' }
     maleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male Ranger)' }
     femaleRanger: { type: 'string', format: 'image-file', title: 'Glove (Female Ranger)' }
-    femaleRangeThumbr: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
+    femaleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
+    maleBack: { type: 'string', format: 'image-file', title: ' Male Back' }
+    femaleBack: { type: 'string', format: 'image-file', title: ' Female Back' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:
@@ -165,6 +168,8 @@ _.extend ThangTypeSchema.properties,
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'extendedName', 'unlockLevelName'], description: 'Help translate this ThangType\'s name and description.'}
   extendedName: {type: 'string', title: 'Extended Hero Name', description: 'The long form of the hero\'s name. Ex.: "Captain Anya Weston".'}
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
+
 
 ThangTypeSchema.required = []
 

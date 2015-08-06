@@ -13,7 +13,7 @@
         img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
 
         for stat in stats
-          div.stat-row.big-font
+          div(class="stat-row big-font" + (/^en/.test(me.get('preferredLanguage')) && stat.matchedShortName ? " short-name" : ""))
             div.stat-label= stat.name
             div.stat= stat.display
           img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
@@ -37,7 +37,6 @@
 
 if item && !item.owned
   if item.unequippable
-    // Temp, while we only have Warriors: prevent them from buying non-Warrior stuff
     button.btn.big-font.disabled.unequippable #{item.get('heroClass')} Only
   else
     button#selected-item-unlock-button.btn.big-font.unlock-button(data-item-id=item.id)

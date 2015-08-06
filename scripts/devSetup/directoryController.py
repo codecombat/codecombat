@@ -50,6 +50,3 @@ class DirectoryController(object):
         shutil.rmtree(self.bin_directory + os.sep + "mongo",ignore_errors=True)
     def remove_tmp_directory(self):
         shutil.rmtree(self.tmp_directory)
-
-
-

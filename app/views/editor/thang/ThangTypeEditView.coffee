@@ -5,6 +5,7 @@ Lank = require 'lib/surface/Lank'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
+require 'vendor/treema'
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -16,11 +17,113 @@ ThangTypeColorsTabView = require './ThangTypeColorsTabView'
 PatchesView = require 'views/editor/PatchesView'
 ForkModal = require 'views/editor/ForkModal'
 VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
-SaveVersionModal = require 'views/modal/SaveVersionModal'
+SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 
-CENTER = {x: 200, y: 300}
+CENTER = {x: 200, y: 400}
+
+commonTasks = [
+  'Upload the art.'
+  'Set up the vector icon.'
+]
+
+displayedThangTypeTasks = [
+  'Configure the idle action.'
+  'Configure the positions (registration point, etc.).'
+  'Set shadow diameter to 0 if needed.'
+  'Set scale to 0.3, 0.5, or whatever is appropriate.'
+  'Set rotation to isometric if needed.'
+  'Set accurate Physical size, shape, and default z.'
+  'Set accurate Collides collision information if needed.'
+  'Double-check that fixedRotation is accurate, if it collides.'
+]
+
+animatedThangTypeTasks = displayedThangTypeTasks.concat [
+  'Configure the non-idle actions.'
+  'Configure any per-action registration points needed.'
+  'Add flipX per action if needed to face to the right.'
+  'Make sure any death and attack actions do not loop.'
+  'Add defaultSimlish if needed.'
+  'Add selection sounds if needed.'
+  'Add per-action sound triggers.'
+  'Add team color groups.'
+]
+
+containerTasks = displayedThangTypeTasks.concat [
+  'Select viable terrains if not universal.'
+  'Set Exists stateless: true if needed.'
+]
+
+purchasableTasks = [
+  'Add a tier, or 10 + desired tier if not ready yet.'
+  'Add a gem cost.'
+  'Write a description.'
+  'Click the Populate i18n button.'
+]
+
+defaultTasks =
+  Unit: commonTasks.concat animatedThangTypeTasks.concat [
+    'Start a new name category in names.coffee if needed.'
+    'Set to Allied to correct team (ogres, humans, or neutral).'
+    'Add AutoTargetsNearest or FightsBack if needed.'
+    'Add other Components like Shoots or Casts if needed.'
+    'Configure other Components, like Moves, Attackable, Attacks, etc.'
+    'Override the HasAPI type if it will not be correctly inferred.'
+    'Add to Existence System power table.'
+  ]
+  Hero: commonTasks.concat animatedThangTypeTasks.concat purchasableTasks.concat [
+    'Set the hero class.'
+    'Add Extended Hero Name.'
+    'Upload Hero Doll Images.'
+    'Start a new name category in names.coffee.'
+    'Set up hero stats in Equips, Attackable, Moves.'
+    'Set Collects collectRange to 2, Sees visualRange to 60.'
+    'Add any custom hero abilities.'
+    'Add to ThangType model hard-coded hero ids/classes list.'
+    'Add to LevelHUDView hard-coded hero short names list.'
+    'Add to InventoryView hard-coded hero gender list.'
+    'Add to PlayHeroesModal hard-coded hero positioning logic.'
+    'Add as unlock to a level and add unlockLevelName here.'
+  ]
+  Floor: commonTasks.concat containerTasks.concat [
+    'Add 10 x 8.5 snapping.'
+    'Set fixed rotation.'
+    'Make sure everything is scaled to tile perfectly.'
+    'Adjust SingularSprite floor scale list if necessary.'
+  ]
+  Wall: commonTasks.concat containerTasks.concat [
+    'Add 4x4 snapping.'
+    'Set fixed rotation.'
+    'Set up and tune complicated wall-face actions.'
+    'Make sure everything is scaled to tile perfectly.'
+  ]
+  Doodad: commonTasks.concat containerTasks.concat [
+    'Add to GenerateTerrainModal logic if needed.'
+  ]
+  Misc: commonTasks.concat [
+    'Add any misc tasks for this misc ThangType.'
+  ]
+  Mark: commonTasks.concat [
+    'Check the animation framerate.'
+    'Double-check that bottom of mark is just touching registration point.'
+  ]
+  Item: commonTasks.concat purchasableTasks.concat [
+    'Set the hero class if class-specific.'
+    'Upload Paper Doll Images.'
+    'Configure item stats and abilities.'
+  ]
+  Missile: commonTasks.concat animatedThangTypeTasks.concat [
+    'Make sure there is a launch sound trigger.'
+    'Make sure there is a hit sound trigger.'
+    'Make sure there is a die animation.'
+    'Add Arrow, Shell, Beam, or other missile Component.'
+    'Choose Missile.leadsShots and Missile.shootsAtGround.'
+    'Choose Moves.maxSpeed and other config.'
+    'Choose Expires.lifespan config if needed.'
+    'Set spriteType: singular if needed for proper rendering.'
+    'Add HasAPI if the missile should show up in findEnemyMissiles.'
+  ]
 
 module.exports = class ThangTypeEditView extends RootView
   id: 'thang-type-edit-view'
@@ -44,14 +147,16 @@ module.exports = class ThangTypeEditView extends RootView
     'click #stop-button': 'stopAnimation'
     'click #play-button': 'playAnimation'
     'click #history-button': 'showVersionHistory'
-    'click #fork-start-button': 'startForking'
+    'click li:not(.disabled) > #fork-start-button': 'startForking'
     'click #save-button': 'openSaveModal'
     'click #patches-tab': -> @patchesView.load()
     'click .play-with-level-button': 'onPlayLevel'
     'click .play-with-level-parent': 'onPlayLevelSelect'
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
-    'click #pop-level-i18n-button': 'onPopulateLevelI18N'
-
+    'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateLevelI18N'
+    'mousedown #canvas': 'onCanvasMouseDown'
+    'mouseup #canvas': 'onCanvasMouseUp'
+    'mousemove #canvas': 'onCanvasMouseMove'
 
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
@@ -88,7 +193,9 @@ module.exports = class ThangTypeEditView extends RootView
     context.fileSizeString = @fileSizeString
     context
 
-  getAnimationNames: -> _.keys(@thangType.get('actions') or {})
+  getAnimationNames: ->
+    _.sortBy _.keys(@thangType.get('actions') or {}), (a) ->
+      {move: 1, cast: 2, attack: 3, idle: 4, portrait: 6}[a] or 5
 
   afterRender: ->
     super()
@@ -286,7 +393,7 @@ module.exports = class ThangTypeEditView extends RootView
       movieClip.scaleX = movieClip.scaleY = scale
     @showSprite(movieClip)
 
-  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang}
+  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang, preloadSounds: false}
 
   showAction: (actionName) ->
     options = @getLankOptions()
@@ -308,6 +415,7 @@ module.exports = class ThangTypeEditView extends RootView
     @layerAdapter.resetSpriteSheet()
     @layerAdapter.addLank(lank)
     @currentLank = lank
+    @currentLankOffset = null
 
   showSprite: (sprite) ->
     @clearDisplayObject()
@@ -366,7 +474,7 @@ module.exports = class ThangTypeEditView extends RootView
     newThangType.set('commitMessage', e.commitMessage)
     newThangType.updateI18NCoverage() if newThangType.get('i18nCoverage')
 
-    res = newThangType.save()
+    res = newThangType.save(null, {type: 'POST'})  # Override PUT so we can trigger postNewVersion logic
     return unless res
     modal = $('#save-version-modal')
     @enableModalInProgress(modal)
@@ -433,7 +541,9 @@ module.exports = class ThangTypeEditView extends RootView
       @lastKind = kind
       Backbone.Mediator.publish 'editor:thang-type-kind-changed', kind: kind
       if kind in ['Doodad', 'Floor', 'Wall'] and not @treema.data.terrains
-        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor']  # So editors know to set them.
+        @treema.set '/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano']  # So editors know to set them.
+      if not @treema.data.tasks
+        @treema.set '/tasks', (name: t for t in defaultTasks[kind])
 
   onSelectNode: (e, selected) =>
     selected = selected[0]
@@ -441,7 +551,7 @@ module.exports = class ThangTypeEditView extends RootView
     return @stopShowingSelectedNode() if not selected
     path = selected.getPath()
     parts = path.split('/')
-    return @stopShowingSelectedNode() unless parts.length >= 4 and path.startsWith '/raw/'
+    return @stopShowingSelectedNode() unless parts.length >= 4 and _.string.startsWith path, '/raw/'
     key = parts[3]
     type = parts[2]
     vectorParser = new SpriteBuilder(@thangType)
@@ -515,6 +625,31 @@ module.exports = class ThangTypeEditView extends RootView
       else
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
     @childWindow.focus()
+
+  # Canvas mouse drag handlers
+
+  onCanvasMouseMove: (e) ->
+    return unless p1 = @canvasDragStart
+    p2 = x: e.offsetX, y: e.offsetY
+    offset = x: p2.x - p1.x, y: p2.y - p1.y
+    @currentLank.sprite.x = @currentLankOffset.x + offset.x / @scale
+    @currentLank.sprite.y = @currentLankOffset.y + offset.y / @scale
+    @canvasDragOffset = offset
+
+  onCanvasMouseDown: (e) ->
+    return unless @currentLank
+    @canvasDragStart = x: e.offsetX, y: e.offsetY
+    @currentLankOffset ?= x: @currentLank.sprite.x, y: @currentLank.sprite.y
+
+  onCanvasMouseUp: (e) ->
+    @canvasDragStart = null
+    return unless @canvasDragOffset
+    return unless node = @treema.getLastSelectedTreema()
+    offset = node.get '/'
+    offset.x += Math.round @canvasDragOffset.x
+    offset.y += Math.round @canvasDragOffset.y
+    @canvasDragOffset = null
+    node.set '/', offset
 
   destroy: ->
     @camera?.destroy()

@@ -68,7 +68,7 @@ module.exports = DemoView = class DemoView extends RootView
     @demoFiles = @getAllDemoFiles()
     if @subPath
       prefix = DEMO_REQUIRE_PREFIX + @subPath
-      @demoFiles = (f for f in @demoFiles when f.startsWith prefix)
+      @demoFiles = (f for f in @demoFiles when _.string.startsWith f, prefix)
 
   runDemo: ->
     # TODO: Maybe have an option to run all demos in this folder at the same time?

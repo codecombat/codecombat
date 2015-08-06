@@ -1,7 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'core/auth'
-LevelOptions = require 'lib/LevelOptions'
 
 module.exports = class LevelPlaybackView extends CocoView
   id: 'playback-view'
@@ -67,7 +66,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @goto = t 'play_level.time_goto'
     @current = t 'play_level.time_current'
     @total = t 'play_level.time_total'
-    @$el.find('#play-button').css('visibility', 'hidden') if LevelOptions[@options.levelID]?.hidesPlayButton  # Don't show for first few levels, confuses new players.
+    @$el.find('#play-button').css('visibility', 'hidden') if @options.level.get 'hidesPlayButton'  # Don't show for first few levels, confuses new players.
 
   updatePopupContent: ->
     @timePopup?.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
@@ -110,7 +109,6 @@ module.exports = class LevelPlaybackView extends CocoView
     @togglePlaybackControls false
     Backbone.Mediator.publish 'playback:real-time-playback-started', {}
     Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'real-time-playback-start', volume: 1
-    Backbone.Mediator.publish 'level:set-letterbox', on: true if @options.level.get('type', true) is ['hero']  # not with flags...?
 
   onRealTimeMultiplayerCast: (e) ->
     @realTime = true
@@ -391,7 +389,7 @@ class HoverPopup extends $.fn.popover.Constructor
     calculatedOffset =
       top: pos.top - actualHeight
       left: pos.left + pos.width / 2 - actualWidth / 2
-    this.applyPlacement(calculatedOffset, 'top')
+    @applyPlacement(calculatedOffset, 'top')
 
   getPosition: ->
     top: @$element.offset().top

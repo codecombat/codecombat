@@ -105,8 +105,6 @@ module.exports =
   'playback:ended-changed': c.object {required: ['ended']},
     ended: {type: 'boolean'}
 
-  'level:play-next-level': c.object {}
-
   'level:toggle-playing': c.object {}
 
   'level:toggle-grid': c.object {}
@@ -167,9 +165,9 @@ module.exports =
       ]
     timedOut: {type: 'boolean'}
 
-  'level:edit-wizard-settings': c.object {}
-
   'level:hero-config-changed': c.object {}
 
   'level:hero-selection-updated': c.object {required: ['hero']},
     hero: {type: 'object'}
+
+  'level:subscription-required': c.object {}

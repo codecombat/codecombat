@@ -1,5 +1,5 @@
 UserView = require 'views/common/UserView'
-template = require 'templates/account/profile'
+template = require 'templates/account/job-profile-view'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
@@ -10,6 +10,7 @@ UserRemark = require 'models/UserRemark'
 forms = require 'core/forms'
 ModelModal = require 'views/modal/ModelModal'
 JobProfileCodeModal = require './JobProfileCodeModal'
+require 'vendor/treema'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
@@ -84,7 +85,7 @@ module.exports = class JobProfileView extends UserView
       # Mimicking how the VictoryModal fetches LevelFeedback
       @remark = new UserRemark()
       @remark.setURL "/db/user/#{@userID}/remark"
-      @remark.fetch()
+      @remark.fetch cache: false
       @listenToOnce @remark, 'sync', @onRemarkLoaded
       @listenToOnce @remark, 'error', @onRemarkNotFound
 

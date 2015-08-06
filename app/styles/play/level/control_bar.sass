@@ -12,7 +12,7 @@
   position: absolute
   z-index: 6
   text-transform: uppercase
-  font-family: Open Sans Condensed
+  font-family: $headings-font-family
   font-weight: bold
 
   &.controls-disabled
@@ -100,6 +100,7 @@
       height: 60px
       margin: 0 auto
       padding: 8px
+      border-style: solid
       border-image: url(/images/level/control_bar_level_name_background.png) 30 fill round
       border-width: 0 15px 15px 15px
       text-align: center
@@ -116,6 +117,13 @@
         color: white
         font-size: 18px
 
+      .level-difficulty
+        font-size: 28px
+        color: $control-yellow-highlight
+        display: inline-block
+        @include rotate(-15deg)
+        vertical-align: middle
+
   .multiplayer-area-container
     position: relative
     width: 100%
@@ -128,6 +136,7 @@
       height: 60px
       margin: 0 auto
       padding: 8px
+      border-style: solid
       border-image: url(/images/level/control_bar_level_name_background.png) 30 fill round
       border-width: 0 15px 15px 15px
       text-align: center

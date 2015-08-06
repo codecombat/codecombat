@@ -32,7 +32,11 @@
     
     @media screen and ( max-height: 800px )
       top: -80px
-      
+
+    @media screen and ( max-width: 1024px )
+      .multiplayer-nav-link
+        display: none
+
     #nav-logo
       position: absolute
       margin-right: auto
@@ -64,9 +68,9 @@
       & > a, button, select
         font-size: 18px
         text-transform: uppercase
-        font-family: Open Sans Condensed
+        font-family: $headings-font-family
         margin: 0 7px
-      
+
     button, select
       position: relative
       top: -3px
@@ -83,6 +87,7 @@
 
     .language-dropdown
       width: auto
+      padding: 0px 10px
       display: inline-block
       
     #site-nav-smooth-edge
@@ -106,15 +111,20 @@
   
         .user-dropdown-header
           background: #E4CF8C
-          height: 160px
+          height: auto
           padding: 10px
           text-align: center
           color: black
           border-bottom: #32281e 1px solid
           
-          img
+          .img-circle
+            background-position: center
+            background-size: cover
             border: #e3be7a 8px solid
+            width: 98px
             height: 98px // Includes the border
+            display: inline-block
+            vertical-align: middle
             &:hover
               box-shadow: 0 0 20px #e3be7a
           

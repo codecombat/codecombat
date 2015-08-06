@@ -5,17 +5,23 @@
   position: absolute
   left: 10px
   right: 10px
-  padding: 0 4px 10px 40px
+  padding: 0 4px 10px 3%
   background-color: transparent
   background-size: 100% 100%
   z-index: 2
-  //overflow-y: auto
+  @include transition(top 0.25s ease-in-out, height 0.25s ease-in-out)
+  box-shadow: 10px 4px 4px black
+  overflow-y: hidden
 
   .code-palette-background
     width: 100%
+    height: 592px
     position: absolute
     left: 0px
     z-index: -1
+    background: transparent url(/images/level/code_palette_wood_background.png)
+    background-size: 100% 592px
+    overflow: visible
 
   &.controls-disabled
     .code-palette-background
@@ -37,7 +43,7 @@
     margin-bottom: 3px
 
   ul.nav.nav-pills
-    margin-top: 15px
+    margin-top: 3%
 
     h4
       margin-top: 2px
@@ -48,11 +54,12 @@
     &.multiple-tabs li:not(.active) a
       cursor: pointer
 
-  .tab-content
-    height: 80px
-    .nano-pane
-      width: 7px
-      right: 5px
+  &:not(.hero)
+    .tab-content
+      height: 80px
+      .nano-pane
+        width: 7px
+        right: 5px
 
   //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
   //  background-color: lighten(rgb(230, 212, 146), 10%)
@@ -61,12 +68,18 @@
     display: inline-block
     margin-right: 3px
     vertical-align: top
+    
+  #spell-palette-help-button
+    margin: 3% 0px 4px
 
   &.hero .properties
     @include flexbox()
     @include flex-wrap()
     @include flex-column()
     @include flex-align-content-start()
+
+    &.no-help
+      margin-top: 3%
 
     .property-entry-item-group
       display: inline-block
@@ -91,6 +104,15 @@
       .spell-palette-entry-view
         margin-left: 38px
         width: 174px
+        width: -webkit-calc(100% - 38px)
+        width: calc(100% - 38px)
+
+  &.shortenize.hero .properties
+    .property-entry-item-group
+      width: 175px
+
+      .spell-palette-entry-view
+        width: 137px
         width: -webkit-calc(100% - 38px)
         width: calc(100% - 38px)
 
