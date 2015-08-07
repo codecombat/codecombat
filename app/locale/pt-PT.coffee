@@ -293,7 +293,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_scrub_shortcut: "Usa Ctrl+[ para rebobinar e Ctrl+] para avançar."
     tip_guide_exists: "Clica no guia, dentro do menu do jogo (no topo da página), para informações úteis."
     tip_open_source: "O CodeCombat é 100% open source!"
-#    tip_tell_friends: "Enjoying CodeCombat? Tell your friends about us!"
+    tip_tell_friends: "Estás a gostar do CodeCombat? Fala de nós aos teus amigos!"
     tip_beta_launch: "O CodeCombat lançou o seu beta em outubro de 2013."
     tip_think_solution: "Pensa na solução, não no problema."
     tip_theory_practice: "Teoricamente, não há diferença entre a teoria e a prática. Mas na prática, há. - Yogi Berra"
@@ -337,7 +337,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_recurse: "Iterar é humano, recursar é divino. - L. Peter Deutsch"
     tip_free_your_mind: "Tens de libertar tudo, Neo. Medo, dúvida e descrença. Liberta a tua mente. - Morpheus"
     tip_strong_opponents: "Até o mais forte dos adversários tem uma fraqueza. - Itachi Uchiha"
-#    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen."
+    tip_paper_and_pen: "Antes de começares a programar, podes sempre planear com uma folha de papel e uma caneta."
 
   game_menu:
     inventory_tab: "Inventário"
@@ -851,8 +851,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     indoor: "Interior"
     desert: "Deserto"
     grassy: "Relvado"
-#    mountain: "Mountain"
-#    glacier: "Glacier"
+    mountain: "Montanha"
+    glacier: "Glaciar"
     small: "Pequeno"
     large: "Grande"
     fork_title: "Bifurcar Nova Versão"
@@ -1211,7 +1211,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   delta:
     added: "Adicionado"
     modified: "Modificado"
-#    not_modified: "Not Modified"
+    not_modified: "Não Modificado"
     deleted: "Eliminado"
     moved_index: "Índice Movido"
     text_diff: "Diferença de Texto"
