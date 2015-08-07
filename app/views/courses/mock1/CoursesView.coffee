@@ -69,7 +69,8 @@ module.exports = class CoursesView extends RootView
     $('#continueModal').modal('hide')
     courseID = $(e.target).data('course-id')
     instanceName = $('.select-session').val()
-    instanceID = index for val, index in @instances when val.name is instanceName
+    for val, index in @instances when val.name is instanceName
+      instanceID = index
     viewClass = require 'views/courses/mock1/CourseDetailsView'
     viewArgs = [{}, courseID, instanceID]
     navigationEvent = route: "/courses/mock1/#{courseID}", viewClass: viewClass, viewArgs: viewArgs
