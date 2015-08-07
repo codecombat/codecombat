@@ -51,6 +51,10 @@ module.exports = class CoursesView extends RootView
     $('#continueModal').find('.btn-enroll').data('course-id', courseID)
     $('#continueModal').find('.btn-enter').data('course-id', courseID)
     $('#continueModal .row-pick-class').show() if @courses[courseID]?.unlocked
+    if courseTitle is 'Introduction to Computer Science'
+      $('#continueModal .btn-buy').prop('innerText', 'Get this FREE course!')
+    else
+      $('#continueModal .btn-buy').prop('innerText', 'Buy this course')
 
   onClickEnroll: (e) ->
     $('#continueModal').modal('hide')
