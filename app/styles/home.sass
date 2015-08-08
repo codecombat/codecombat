@@ -2,7 +2,29 @@
 @import "app/styles/bootstrap/variables"
 
 #home-view
-  
+
+  #kids-coding-container
+    $coding-image-size: 272px
+    position: relative
+    width: 1000px + $coding-image-size
+    margin: 0px auto
+
+    @media screen and ( max-width: 1400px )
+      display: none
+
+    .kid-coding
+      position: absolute
+      z-index: 1
+      top: -57px
+      @media screen and ( max-height: 800px )
+        top: 50px
+
+      &#boy-coding
+        left: -$coding-image-size / 2
+
+      &#girl-coding
+        right: -$coding-image-size / 2
+
   #spacer
     height: 626px
     @media screen and ( max-height: 800px )

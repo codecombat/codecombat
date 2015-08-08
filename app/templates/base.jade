@@ -1,49 +1,50 @@
 block header
   #site-nav
-    a(href="/")
-      img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-    div#site-nav-links
+    block site_nav
       a(href="/")
-        img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-      a(href="/")
-        span.glyphicon.glyphicon-home
-      a(href="/about", data-i18n="nav.about")
-      a(href='/teachers', data-i18n="nav.teachers") Teachers
-      a(href='/clans', data-i18n="clans.clans") Clans
-      a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
-      a(href='/community', data-i18n="nav.community")
-      //a(href='/play/ladder', data-i18n="home.multiplayer").multiplayer-nav-link
+        img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+      div#site-nav-links
+        a(href="/")
+          img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+        a(href="/")
+          span.glyphicon.glyphicon-home
+        a(href="/about", data-i18n="nav.about")
+        a(href='/teachers', data-i18n="nav.teachers") Teachers
+        a(href='/clans', data-i18n="clans.clans") Clans
+        a(href='http://discourse.codecombat.com/', data-i18n="nav.forum")
+        a(href='/community', data-i18n="nav.community")
+        //a(href='/play/ladder', data-i18n="home.multiplayer").multiplayer-nav-link
 
-      if me.get('anonymous') === false
-        span.dropdown
-          button.btn.btn-sm.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
-            if me.get('photoURL')
-              img.account-settings-image(src=me.getPhotoURL(18), alt="")
-            else
-              i.glyphicon.glyphicon-user
-            span.spl.spr(data-i18n="nav.account" href="/account")
-            span.caret
-          ul.dropdown-menu(role="menu")
-            li.user-dropdown-header
-              span.user-level= me.level()
-              a(href="/user/#{me.getSlugOrID()}")
-                div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
-              h3=me.displayName()
-            li
-              a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
-            li
-              a(href="/account/settings", data-i18n="play.settings")
-            li
-              a(href="/account/payments", data-i18n="account.payments")
-            li
-              a(href="/account/subscription", data-i18n="account.subscription")
-            li
-              a#logout-button(data-i18n="login.log_out")
-  
-      else
-        button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
-        button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
-      select.language-dropdown.form-control
+        if me.get('anonymous') === false
+          span.dropdown
+            button.btn.btn-sm.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
+              if me.get('photoURL')
+                img.account-settings-image(src=me.getPhotoURL(18), alt="")
+              else
+                i.glyphicon.glyphicon-user
+              span.spl.spr(data-i18n="nav.account" href="/account")
+              span.caret
+            ul.dropdown-menu(role="menu")
+              li.user-dropdown-header
+                span.user-level= me.level()
+                a(href="/user/#{me.getSlugOrID()}")
+                  div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
+                h3=me.displayName()
+              li
+                a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile")
+              li
+                a(href="/account/settings", data-i18n="play.settings")
+              li
+                a(href="/account/payments", data-i18n="account.payments")
+              li
+                a(href="/account/subscription", data-i18n="account.subscription")
+              li
+                a#logout-button(data-i18n="login.log_out")
+
+        else
+          button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
+          button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
+        select.language-dropdown.form-control
   
 
 block outer_content

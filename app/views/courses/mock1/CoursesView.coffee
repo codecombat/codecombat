@@ -51,6 +51,10 @@ module.exports = class CoursesView extends RootView
     $('#continueModal').find('.btn-enroll').data('course-id', courseID)
     $('#continueModal').find('.btn-enter').data('course-id', courseID)
     $('#continueModal .row-pick-class').show() if @courses[courseID]?.unlocked
+    if courseTitle is 'Introduction to Computer Science'
+      $('#continueModal .btn-buy').prop('innerText', 'Get this FREE course!')
+    else
+      $('#continueModal .btn-buy').prop('innerText', 'Buy this course')
 
   onClickEnroll: (e) ->
     $('#continueModal').modal('hide')
@@ -65,7 +69,8 @@ module.exports = class CoursesView extends RootView
     $('#continueModal').modal('hide')
     courseID = $(e.target).data('course-id')
     instanceName = $('.select-session').val()
-    instanceID = index for val, index in @instances when val.name is instanceName
+    for val, index in @instances when val.name is instanceName
+      instanceID = index
     viewClass = require 'views/courses/mock1/CourseDetailsView'
     viewArgs = [{}, courseID, instanceID]
     navigationEvent = route: "/courses/mock1/#{courseID}", viewClass: viewClass, viewArgs: viewArgs

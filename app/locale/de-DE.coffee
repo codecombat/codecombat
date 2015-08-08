@@ -933,7 +933,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   contribute:
     page_title: "Mitwirken"
-    intro_blurb: "CodeCombat ist zu 100% Open Source! Hunderte hingebungsvolle Spieler haben uns geholfen das Spiel zu dem zu machen was es heute ist. Tritt uns bei und schreibe das nächste Kapitel in CodeCombat' Aufgabe, der Welt das Programmieren zu lehren!"
+    intro_blurb: "CodeCombat ist zu 100% Open Source! Hunderte hingebungsvolle Spieler haben uns geholfen das Spiel zu dem zu machen, was es heute ist. Tritt uns bei und schreibe das nächste Kapitel in CodeCombats Mission, der Welt das Programmieren zu lehren!"
     alert_account_message_intro: "Hey du!"
     alert_account_message: "Um Klassen-Emails abonnieren zu können, musst du dich zuerst anmelden."
     archmage_introduction: "Einer der größten Vorteile daran ein Spiel aufzubauen, ist es, dass so viele verschiedene Aspekte eine Rolle spielen. Grafiken, Sound, Echtzeit Networking, Social Networking und natürlich viele der gewöhnlichen Aspekte des Programmierens, von low-level Datenbankmanagement und Server Administration bis hin zum Aufbau von Design und Interface. Es gibt viel zu tun und wenn du ein erfahrener Programmierer bist, mit einer Veranlagung dazu, wirklich knallhart bei CodeCombat einzutauchen, dann könnte diese Klasse etwas für dich sein. Wir würden uns wahnsinnig  über deine Hilfe dabei freuen, das beste Programmierspiel der Welt aufzubauen."

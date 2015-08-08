@@ -40,7 +40,7 @@ data.courses = [
     image: '/images/pages/courses/102_info.png'
   },
   {
-    title: 'CS Course 3'
+    title: 'Computer Science 3'
     description: 'Learn how to handle input.'
     topics: ['If Statements', 'Arithmetic', 'Input Handling']
     duration: 5
@@ -48,7 +48,7 @@ data.courses = [
     image: '/images/pages/courses/103_info.png'
   },
   {
-    title: 'CS 4'
+    title: 'Computer Science 4'
     description: 'Time to tackle arrays and some pvp stuff.'
     topics: ['Loops', 'Break Statements', 'Arrays']
     duration: 5
@@ -56,7 +56,7 @@ data.courses = [
     image: '/images/pages/courses/104_info.png'
   },
   {
-    title: 'Course 5'
+    title: 'Computer Science 5'
     description: 'Time to tackle arrays and some PVP.'
     topics: ['Break Statements', 'Arrays', 'Object Literals']
     duration: 5
@@ -64,7 +64,7 @@ data.courses = [
     image: '/images/pages/courses/105_info.png'
   },
   {
-    title: 'Course 6'
+    title: 'Computer Science 6'
     description: 'For loops!'
     topics: ['Break Statements', 'Object Literals', 'For loops']
     duration: 5
@@ -72,7 +72,7 @@ data.courses = [
     image: '/images/pages/courses/106_info.png'
   },
   {
-    title: 'Course 7'
+    title: 'Computer Science 7'
     description: 'Functions!'
     topics: ['Object Literals', 'For loops', 'Functions']
     duration: 5
@@ -80,7 +80,7 @@ data.courses = [
     image: '/images/pages/courses/107_info.png'
   },
   {
-    title: 'CS 108'
+    title: 'Computer Science 8'
     description: 'Maths.'
     topics: ['For loops', 'Functions', 'Math Operations']
     duration: 5
@@ -88,7 +88,7 @@ data.courses = [
     image: '/images/pages/courses/107_info.png'
   },
   {
-    title: 'Computer Science 109'
+    title: 'Computer Science 9'
     description: 'Vectors and strings.'
     topics: ['Vectors', 'Advanced Strings']
     duration: 5
