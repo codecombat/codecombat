@@ -2,6 +2,8 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle', 'Sand 01', 'Sand 02', 'Sand 03', 'Sand 04', 'Sand 05', 'Sand 06', 'Talus 1', 'Talus 2', 'Talus 3', 'Talus 4', 'Talus 5', 'Talus 6', 'Firn 1', 'Firn 2', 'Firn 3', 'Firn 4', 'Firn 5', 'Firn 6', 'Ice Rink 1', 'Ice Rink 2', 'Ice Rink 3', 'Firn Cliff']
 
+cliffs = ['Dungeon Pit', 'Grass Cliffs']
+
 module.exports = class SingularSprite extends createjs.Sprite
   childMovieClips: null
 
@@ -71,6 +73,13 @@ module.exports = class SingularSprite extends createjs.Sprite
     @baseScaleY = @scaleY
     if @camera and @thangType.get('name') in floors
       @baseScaleY *= @camera.y2x
+    else if @camera and @thangType.get('name') in cliffs
+      if actionName is 'idle_side'
+        @baseScaleX *= @camera.x2y# / 0.85
+        @baseScaleY *= @camera.y2x * 0.85
+      else
+        @baseScaleY *= @camera.y2x / 0.85
+      console.log 'it is a cliff!', actionName, @baseScaleX, @baseScaleY
     @currentAnimation = actionName
     return
 
