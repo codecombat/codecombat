@@ -766,6 +766,7 @@
     article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
     article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
     find_us: "Find us on these sites"
+    social_github: "Check out all our code on GitHub"
     social_blog: "Read the CodeCombat blog on Sett"
     social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Like CodeCombat on Facebook"
