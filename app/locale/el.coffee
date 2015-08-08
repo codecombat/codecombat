@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    victory_return_to_ladder: "Return to Ladder"
 #    victory_play_continue: "Continue"
 #    victory_saving_progress: "Saving Progress"
-    victory_go_home: "Πηγαίνετε στην Αρχική" # Only in old-style levels.
-    victory_review: "Πείτε μας περισσότερα!" # Only in old-style levels.
+    victory_go_home: "Πηγαίνετε στην Αρχική"
+    victory_review: "Πείτε μας περισσότερα!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Τελείωσες;"
     victory_hour_of_code_done_yes: "Ναι, έχω τελειώσει με την Hour of Code!"
 #    victory_experience_gained: "XP Gained"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

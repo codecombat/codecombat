@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     victory_return_to_ladder: "Врати се кај ранг листата"
     victory_play_continue: "Продолжи"
     victory_saving_progress: "Напредокот се зачувува"
-    victory_go_home: "Оди дома" # Only in old-style levels.
-    victory_review: "Кажи ни повеќе!" # Only in old-style levels.
+    victory_go_home: "Оди дома"
+    victory_review: "Кажи ни повеќе!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Дали си готов?"
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
     victory_experience_gained: "Добиено искуство"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

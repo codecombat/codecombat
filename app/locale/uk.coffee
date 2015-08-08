@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_return_to_ladder: "Повернутися до таблиці рівнів"
     victory_play_continue: "Продовжити"
     victory_saving_progress: "Триває збереження прогресу"
-    victory_go_home: "На головну" # Only in old-style levels.
-    victory_review: "Розкажіть нам більше!" # Only in old-style levels.
+    victory_go_home: "На головну"
+    victory_review: "Розкажіть нам більше!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Ви закінчили?"
     victory_hour_of_code_done_yes: "Так, я закінчив Годину Коду!"
     victory_experience_gained: "Отриманий досвід"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     article_editor_prefix: "Бачили помилку у якомусь з наших доків? Хочете зробити якісь інструкції до своїх творінь? Огляньте "
     article_editor_suffix: "і допоможіть гравцям CodeCombat отримати максимум зі свого ігрового часу."
     find_us: "Шукайте нас на цих сайтах"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Читайте наш блоґ на Sett"
     social_discource: "Приєднайтеся до обговорення на форумі"
     social_facebook: "Вподобайте CodeCombat на Facebook"

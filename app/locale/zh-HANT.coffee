@@ -245,8 +245,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     victory_return_to_ladder: "返回升級比賽模式"
     victory_play_continue: "繼續"
     victory_saving_progress: "儲存進度"
-    victory_go_home: "返回首頁" # Only in old-style levels.
-    victory_review: "給我們回饋！" # Only in old-style levels.
+    victory_go_home: "返回首頁"
+    victory_review: "給我們回饋！"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "您完成了嗎？"
     victory_hour_of_code_done_yes: "是的，我完成了我的程式碼！"
     victory_experience_gained: "取得經驗值"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     article_editor_prefix: "看到有錯誤在我們的文件中嗎? 想要自己設計指令嗎? 查看我們的"
     article_editor_suffix: "以及幫助CodeCombat玩家獲得更多知識在遊戲中."
     find_us: "通過這些網站連繫我們"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "閱讀CodeCombat在Sett上的部落格"
     social_discource: "加入我們在Discourse論壇上的討論"
     social_facebook: "關注CodeCombat的Facebook"

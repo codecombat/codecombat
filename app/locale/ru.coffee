@@ -245,8 +245,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_return_to_ladder: "Вернуться к ладдеру"
     victory_play_continue: "Продолжить"
     victory_saving_progress: "Процесс сохранения"
-    victory_go_home: "На главную" # Only in old-style levels.
-    victory_review: "Расскажите нам больше!" # Only in old-style levels.
+    victory_go_home: "На главную"
+    victory_review: "Расскажите нам больше!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Вы закончили?"
     victory_hour_of_code_done_yes: "Да, я закончил мой Час Кода™!"
     victory_experience_gained: "Опыта получено"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     article_editor_prefix: "Увидели ошибку в нашей документации? Хотите сделать инструкции к вашим творениям? Посмотрите"
     article_editor_suffix: "и помогите игрокам CodeCombat получить максимум от их времяпрепровождения."
     find_us: "Найдите нас на этих сайтах"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Читайте блог CodeCombat на Sett"
     social_discource: "Присоединяйтесь к обсуждению на нашем форуме"
     social_facebook: "Оцените CodeCombat на Facebook"

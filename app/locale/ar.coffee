@@ -245,8 +245,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     victory_return_to_ladder: "العودة إلى سلم"
     victory_play_continue: "استمر"
     victory_saving_progress: "توفير التقدم"
-    victory_go_home: "اذهب للمنزل" # Only in old-style levels.
-    victory_review: "إخبرنا المزيد!" # Only in old-style levels.
+    victory_go_home: "اذهب للمنزل"
+    victory_review: "إخبرنا المزيد!"
+#    victory_review_placeholder: "How was the level?"
 #    victory_hour_of_code_done: "Are You Done?"
     victory_hour_of_code_done_yes: "نعم، أنا مع الانتهاء من ساعتي من قانون ™!"
 #    victory_experience_gained: "XP Gained"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

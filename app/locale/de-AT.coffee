@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     victory_return_to_ladder: "Zurück zur Rangliste"
     victory_play_continue: "Weiter"
     victory_saving_progress: "Speichere Fortschritt"
-    victory_go_home: "Geh auf die Startseite" # Only in old-style levels.
-    victory_review: "Erzähl uns davon!" # Only in old-style levels.
+    victory_go_home: "Geh auf die Startseite"
+    victory_review: "Erzähl uns davon!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Bist Du fertig?"
     victory_hour_of_code_done_yes: "Ja, ich bin mit meiner Code-Stunde fertig!"
     victory_experience_gained: "EP erhalten"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     article_editor_prefix: "Hast du einen Fehler in unseren Dokus gefunden? Willst du Anleitungen für deine Kreationen erstellen? Schau dir den"
     article_editor_suffix: "und hilf CodeCombat Spielern das meiste aus ihrer Spielzeit heraus zu bekommen."
     find_us: "Finde uns auf diesen Seiten"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Lese den CodeCombat Blog auf Sett"
     social_discource: "Schließe dich den Diskussionen in unserem Discourse Forum an"
     social_facebook: "Like CodeCombat auf Facebook"

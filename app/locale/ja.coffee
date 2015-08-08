@@ -245,8 +245,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_return_to_ladder: "ラダーに戻る"
     victory_play_continue: "コンテニュー"
     victory_saving_progress: "セーブ中"
-    victory_go_home: "ホームに戻る" # Only in old-style levels.
-    victory_review: "フィードバック" # Only in old-style levels.
+    victory_go_home: "ホームに戻る"
+    victory_review: "フィードバック"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "完了してよろしいですか?"
     victory_hour_of_code_done_yes: "はい、構いません"
     victory_experience_gained: "XP獲得"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     article_editor_prefix: "私たちのドキュメントにミスを見つけましたか？自分の作品のチュートリアルを作りたいですか？"
     article_editor_suffix: "を使って CodeCombat のプレイヤーを助けて彼らのプレイタイムを最大限に活用できるようにしましょう。"
     find_us: "各サイトで私たちを見る"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Sett の CodeCombat ブログを読む"
     social_discource: "Discourse のフォーラムで議論しよう"
     social_facebook: "Facebook で CodeCombat にいいね！する"

@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_return_to_ladder: "Keer terug naar de ladder"
     victory_play_continue: "Ga door"
     victory_saving_progress: "Voortgang opslaan"
-    victory_go_home: "Ga naar Home" # Only in old-style levels.
-    victory_review: "Vertel ons meer!" # Only in old-style levels.
+    victory_go_home: "Ga naar Home"
+    victory_review: "Vertel ons meer!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
     victory_experience_gained: "XP verdient"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

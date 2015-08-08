@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_return_to_ladder: "Quay lại bảng điểm"
     victory_play_continue: "Tiếp tục"
     victory_saving_progress: "Đang lưu tiến trình"
-    victory_go_home: "Quay về màn hình chính" # Only in old-style levels.
-    victory_review: "Hãy cho chúng tôi biết thêm" # Only in old-style levels.
+    victory_go_home: "Quay về màn hình chính"
+    victory_review: "Hãy cho chúng tôi biết thêm"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Bạn xong chưa?"
     victory_hour_of_code_done_yes: "Đúng vậy, tôi đã hoàn tất thời gian lập trình!"
     victory_experience_gained: "XP nhận được"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Hãy thích trang Facebook của CodeCombat"

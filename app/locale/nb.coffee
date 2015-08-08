@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     victory_return_to_ladder: "Tilbake til stige"
     victory_play_continue: "Fortsett"
     victory_saving_progress: "Lagrer framskritt"
-    victory_go_home: "Gå Hjem" # Only in old-style levels.
-    victory_review: "Fortell oss mer!" # Only in old-style levels.
+    victory_go_home: "Gå Hjem"
+    victory_review: "Fortell oss mer!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Er du ferdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er ferdig med min Kodetime!"
     victory_experience_gained: "XP Opparbeidet"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     article_editor_prefix: "Funnet en feil i dokumentasjonen? Vil du skrive instruksjoner til noe du har laget selv? Sjekk ut vår"
     article_editor_suffix: "og hjelp CodeCombat spillere til å få mest mulig ut av spillet."
     find_us: "Finn oss på disse tjenestene"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Les CodeCombat bloggen på Sett"
     social_discource: "Diskuter CodeCombat i forumet vårt på Discourse"
     social_facebook: "Lik CodeCombat på Facebook"

@@ -245,8 +245,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     victory_return_to_ladder: "Rebríčky"
     victory_play_continue: "Pokračovať"
     victory_saving_progress: "Stav ukladania"
-    victory_go_home: "Návrat Domov" # Only in old-style levels.
-    victory_review: "Povedz nám viac!" # Only in old-style levels.
+    victory_go_home: "Návrat Domov"
+    victory_review: "Povedz nám viac!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Skončil si?"
     victory_hour_of_code_done_yes: "Áno, pre dnešok som skončil™!"
     victory_experience_gained: "Získaných XP"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     article_editor_prefix: "Vidíš chybu v našich dokumentoch ? Chceš pridať inštrukcie k vlastným výtvorom ? Pozri sa na"
     article_editor_suffix: "a pomôž hráčom, aby získali, čo najviac z hrania na CodeCombat."
     find_us: "Nájdeš nás na týchto stránkach"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Prečítaj si blog na Sette"
     social_discource: "Pridaj sa k diskusii na fóre Discourse"
     social_facebook: "Daj Like CodeCombatu na Facebooku"

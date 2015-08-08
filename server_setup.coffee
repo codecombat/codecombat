@@ -86,11 +86,11 @@ setupChinaRedirectMiddleware = (app) ->
       ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
-      if speaksChinese or geo?.country is "CN"
-        log.info("Should we redirect to Tokyo server? speaksChinese: #{speaksChinese}, firstLanguage: #{firstLanguage}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksChinese}")
+      #if speaksChinese or geo?.country is "CN"
+      #  log.info("Should we redirect to Tokyo server? speaksChinese: #{speaksChinese}, firstLanguage: #{firstLanguage}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksChinese}")
       return geo?.country is "CN" and speaksChinese
     else
-      log.info("We are on Tokyo server. speaksChinese: #{speaksChinese}, acceptedLanguages: #{req.acceptedLanguages[0]}")
+      #log.info("We are on Tokyo server. speaksChinese: #{speaksChinese}, acceptedLanguages: #{req.acceptedLanguages[0]}")
       req.chinaVersion = true if speaksChinese
       return false  # If the user is already redirected, don't redirect them!
 

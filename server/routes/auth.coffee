@@ -202,7 +202,7 @@ module.exports.makeNewUser = makeNewUser = (req) ->
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
-  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(' ')[0]
+  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
   user.set 'chinaVersion', true if req.chinaVersion
-  log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and chinaVersion #{req.chinaVersion} on #{if config.tokyo then 'Tokyo' else 'US'} server and lastIP #{req.connection.remoteAddress}."
+  #log.info "making new user #{user.get('_id')} with language #{user.get('preferredLanguage')} of #{req.acceptedLanguages} and chinaVersion #{req.chinaVersion} on #{if config.tokyo then 'Tokyo' else 'US'} server and lastIP #{req.connection.remoteAddress}."
   user
