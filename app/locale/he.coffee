@@ -245,8 +245,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_return_to_ladder: "חזור לסולם"
     victory_play_continue: "המשך"
     victory_saving_progress: "שומר התקדמות"
-    victory_go_home: "חזור הביתה" # Only in old-style levels.
-    victory_review: "!ספר לנו עוד" # Only in old-style levels.
+    victory_go_home: "חזור הביתה"
+    victory_review: "!ספר לנו עוד"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "?סיימת"
     victory_hour_of_code_done_yes: "שלי Hour of Code™! כן, סיימתי עם ה"
     victory_experience_gained: "שנצבר XP"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
     find_us: ":מצא אותנו באתרים האלה"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Sett ב CodeCombat קרא את הבלוג של"
     social_discource: "שלנו Discourse forum הצטרף לדיון ב"
     social_facebook: "Facebook ב CodeCombat תן לייק ל"

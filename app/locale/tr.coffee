@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     victory_return_to_ladder: "Merdivene Dön"
     victory_play_continue: "Devam Et"
     victory_saving_progress: "İlerlemeyi Kaydediliyor"
-    victory_go_home: "Anasayfaya Git" # Only in old-style levels.
-    victory_review: "Daha fazla söyleyin!" # Only in old-style levels.
+    victory_go_home: "Anasayfaya Git"
+    victory_review: "Daha fazla söyleyin!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Bitirdiniz mi?"
     victory_hour_of_code_done_yes: "Evet, Kod Saatimi (Hour of Code) bitirdim!"
     victory_experience_gained: "Kazanılan XP"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

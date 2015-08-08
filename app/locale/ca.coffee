@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     victory_return_to_ladder: "Retorna a les Escales"
     victory_play_continue: "Continuar"
     victory_saving_progress: "Desa progrés"
-    victory_go_home: "Tornar a l'inici" # Only in old-style levels.
-    victory_review: "Diguens més!" # Only in old-style levels.
+    victory_go_home: "Tornar a l'inici"
+    victory_review: "Diguens més!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Has acabat?"
     victory_hour_of_code_done_yes: "Sí, He acabat amb la meva Hora de Codi™!"
     victory_experience_gained: "XP Guanyada"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

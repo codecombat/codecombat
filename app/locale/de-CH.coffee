@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     victory_return_to_ladder: "Zrugg zum letzte Level"
     victory_play_continue: "Wiiter spile"
     victory_saving_progress: "Fortschritt abspaicherä"
-    victory_go_home: "Goon Hai" # Only in old-style levels.
-    victory_review: "Verzell üs meh!" # Only in old-style levels.
+    victory_go_home: "Goon Hai"
+    victory_review: "Verzell üs meh!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Bisch fertig?"
     victory_hour_of_code_done_yes: "Jo, ich bin fertig mit mim Hour of Code™!"
     victory_experience_gained: "Erfarig bechoo"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

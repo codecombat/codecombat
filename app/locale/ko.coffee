@@ -245,8 +245,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_return_to_ladder: "레더로 돌아가기"
     victory_play_continue: "계속하기"
     victory_saving_progress: "저장하기"
-    victory_go_home: "홈으로" # Only in old-style levels.
-    victory_review: "리뷰를 남겨주세요" # Only in old-style levels.
+    victory_go_home: "홈으로"
+    victory_review: "리뷰를 남겨주세요"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
     victory_experience_gained: "획득한 경험치"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

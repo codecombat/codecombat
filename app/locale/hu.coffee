@@ -245,8 +245,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     victory_return_to_ladder: "Vissza a ranglétrához"
     victory_play_continue: "Tovább"
     victory_saving_progress: "Folyamat mentése"
-    victory_go_home: "Vissza a kezdőoldalra" # Only in old-style levels.
-    victory_review: "Mondd el a véleményedet!" # Only in old-style levels.
+    victory_go_home: "Vissza a kezdőoldalra"
+    victory_review: "Mondd el a véleményedet!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Készen vagy?"
     victory_hour_of_code_done_yes: "Igen, ez volt életem kódja!"
     victory_experience_gained: "Szerzett tapasztalat"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     article_editor_prefix: "Hibát találtál valamelyik dokumentumunkban? Szeretnél útmutatót adni valamelyik alkotásodhoz? Próbáld ki a"
     article_editor_suffix: "-t és segíts a CodeCombat játékosoknak, hogy a legtöbbet hozhassák ki a játékkal töltött idejükből."
     find_us: "Ezeken az oldalakon is megtalálhatsz minket"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Olvasd a CodeCombat blogot a Sett-en"
     social_discource: "Csatlakozz a beszélgetéshez a Discourse forumon"
     social_facebook: "Like-old a CodeCombat-et a Facebookon"

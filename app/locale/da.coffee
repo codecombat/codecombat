@@ -245,8 +245,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_return_to_ladder: "Returner til rangstige"
     victory_play_continue: "Fortsæt"
     victory_saving_progress: "Gemmer fremskridt"
-    victory_go_home: "Gå hjem" # Only in old-style levels.
-    victory_review: "Fortæl os mere!" # Only in old-style levels.
+    victory_go_home: "Gå hjem"
+    victory_review: "Fortæl os mere!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Er du færdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er færdig med min Kodetime!"
     victory_experience_gained: "XP tjent"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"

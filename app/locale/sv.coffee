@@ -245,8 +245,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_return_to_ladder: "Gå tillbaka till stegen"
     victory_play_continue: "Fortsätt"
     victory_saving_progress: "Sparar framsteg"
-    victory_go_home: "Gå hem" # Only in old-style levels.
-    victory_review: "Berätta mer!" # Only in old-style levels.
+    victory_go_home: "Gå hem"
+    victory_review: "Berätta mer!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Är du klar?"
     victory_hour_of_code_done_yes: "Ja, jag är klar med min Hour of Code!"
     victory_experience_gained: "XP mottaget"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     article_editor_prefix: "Sett ett misstag i något av våra dokument? Vill du göra instruktioner till dina egna skapelser? Ta en titt på"
     article_editor_suffix: "och hjälp CodeCombatspelare att få så mycket ut från sin speltid som möjligt."
     find_us: "Här hittar du oss"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Läs CodeCombatbloggen på Sett"
     social_discource: "Gå med i diskussionerna i vårt forum"
     social_facebook: "Gilla CodeCombat på Facebook"

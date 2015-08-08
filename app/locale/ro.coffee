@@ -245,8 +245,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
     victory_play_continue: "Continuă"
     victory_saving_progress: "Salvează Progresul"
-    victory_go_home: "Acasă" # Only in old-style levels.
-    victory_review: "Spune-ne mai multe!" # Only in old-style levels.
+    victory_go_home: "Acasă"
+    victory_review: "Spune-ne mai multe!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Ai terminat?"
     victory_hour_of_code_done_yes: "Da, am terminat Hour of Code™!"
     victory_experience_gained: "Ai câștigat XP"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     article_editor_prefix: "Vezi o greșală in documentația noastă? Vrei să documentezi instrucțiuni pentru propiile creații? Vezi"
     article_editor_suffix: "si ajută jucători CodeCombat să obțină căt mai multe din playtime-ul lor."
     find_us: "Ne găsești pe aceste site-uri"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Citește blogul CodeCombat pe Sett"
     social_discource: "Alăturăte discuțiilor pe forumul Discourse"
     social_facebook: "Lasă un Like pentru CodeCombat pe facebook"

@@ -245,8 +245,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     victory_return_to_ladder: "Vrátit se na Žebříček"
     victory_play_continue: "Pokračovat"
     victory_saving_progress: "Ukládání postupu"
-    victory_go_home: "Přejít domů" # Only in old-style levels.
-    victory_review: "Připomínky!" # Only in old-style levels.
+    victory_go_home: "Přejít domů"
+    victory_review: "Připomínky!"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "Skončili jste?"
     victory_hour_of_code_done_yes: "Ano, pro dnešek jsem skončil!"
     victory_experience_gained: "Získáno zkušeností"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     article_editor_prefix: "Vidíš nějakou chybu v naší dokumentaci? Chcete vytvořit instrukce pro vlastní tvorbu? Podívejte se na"
     article_editor_suffix: "a pomožte CodeCombat hráčům dostat co nejvíce z jejich stráveného času."
     find_us: "Najdete nás na těchto stránkách"
+#    social_github: "Check out all our code on GitHub"
     social_blog: "Přečtěte si CodeCombat blog na Sett"
     social_discource: "Vstupte do diskuze na našem Discourse fóru"
     social_facebook: "Dejte Like CodeCombat na Facebooku"

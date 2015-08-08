@@ -245,8 +245,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_return_to_ladder: "走轉"
 #    victory_play_continue: "Continue"
 #    victory_saving_progress: "Saving Progress"
-    victory_go_home: "轉到主頁" # Only in old-style levels.
-    victory_review: "搭我裏反應！" # Only in old-style levels.
+    victory_go_home: "轉到主頁"
+    victory_review: "搭我裏反應！"
+#    victory_review_placeholder: "How was the level?"
     victory_hour_of_code_done: "爾妝下落爻噃？"
     victory_hour_of_code_done_yes: "正是, 妝下落爻！"
 #    victory_experience_gained: "XP Gained"
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
+#    social_github: "Check out all our code on GitHub"
 #    social_blog: "Read the CodeCombat blog on Sett"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"
